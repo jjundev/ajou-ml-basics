@@ -129,16 +129,321 @@
     </div>
 
     <section id="s0"><h2>0. 오리엔테이션</h2>
-      <article class="topic" id="s0-course"><h3>과목 한눈에 보기</h3><div class="tags"><span class="tag date">📅 0902</span><span class="tag slide">L00</span></div></article>
+      <article class="topic" id="s0-course"><h3>과목 한눈에 보기</h3><div class="tags"><span class="tag date">📅 0902</span><span class="tag slide">L00</span></div>
+        <p>2026년 2학기 <b>머신러닝기초 (Introduction to Machine Learning)</b>. 첫 시간(0902)에 소개된 과목 정보를 한 장에 모았어요.</p>
+        <div class="table-wrap"><table>
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>교수</td><td>정방철 교수님 (원천관 406)</td></tr>
+          <tr><td>조교 (TA)</td><td>이영석 (원천관 432)</td></tr>
+          <tr><td>수업 시간</td><td>월 · 수 12:00–13:15, 원천관 539호</td></tr>
+          <tr><td>교재</td><td>A. Géron, <i>Hands-on Machine Learning</i>, 3판 (O'Reilly, 2022)<br>M. Deisenroth, A. Faisal, C. Ong, <i>Mathematics for Machine Learning (MML)</i> (Cambridge, 2020)</td></tr>
+          <tr><td>평가</td><td>중간고사 35% · 기말고사 35% · 과제 및 퀴즈 20% · 출석 10%</td></tr>
+          <tr><td>전제 과목</td><td>미적분 · 다변수미적분, 확률 및 랜덤변수, 머신러닝 수학, 선형대수 등</td></tr>
+        </table></div>
+        <h4>머신러닝(ML)이란?</h4>
+        <p>사람·사물 인식, 사람 말 알아듣기처럼 <b>규칙을 손으로 짜기 어려운 문제</b>가 많아요. ML은 선형대수 · 확률 · 수치최적화 · 통계를 써서, <b>데이터(경험)로부터 자동으로 배우는 프로그램</b>을 만드는 방법이에요.</p>
+        <div class="table-wrap"><table>
+          <tr><th>종류</th><th>무엇이 주어지나</th><th>하는 일</th></tr>
+          <tr><td>지도학습 (supervised learning)</td><td>정답(라벨)이 달린 예시</td><td>정답을 맞히는 규칙을 배운다</td></tr>
+          <tr><td>비지도학습 (unsupervised learning)</td><td>라벨 없는 데이터</td><td>데이터 속 "흥미로운 패턴"을 찾는다 (예: 비슷한 것끼리 묶기)</td></tr>
+          <tr><td>강화학습 (reinforcement learning)</td><td>환경(world)과 상호작용하는 agent</td><td>scalar reward(점수 신호)를 최대화하도록 배운다</td></tr>
+        </table></div>
+        <p>요즘 AI ≈ DNN(Deep Neural Network) ≈ Deep Learning이라고 할 만큼 신경망이 중심이에요. <b>Universal Approximation Theorem</b>: 신경망은 (충분히 크면) 일반적인 함수를 원하는 만큼 가깝게 흉내 낼 수 있는 "일반 함수 근사기"라는 정리예요.</p>
+        <h4>학기 로드맵</h4>
+        <ol class="steps">
+          <li>When Models Meet Data: 머신러닝 패러다임 ← <b>지금 여기 (0909~0916)</b></li>
+          <li>Linear Regression · Logistic Regression (분류)</li>
+          <li>SVM, Ensemble Learning, Clustering</li>
+          <li>PCA로 차원 축소</li>
+          <li>GMM(Gaussian Mixture Model)으로 밀도 추정: EM 알고리즘</li>
+        </ol>
+        <p><b>왜 기초를 배우나?</b> 기술은 빨리 바뀌어요. 새 도구가 나왔을 때 빨리 적응하려면 <b>기초가 탄탄해야</b> 해요. 이 수업의 기법들은 새 ML 문제를 만났을 때 가장 먼저 시도해 보는 것들이기도 해요.</p>
+      </article>
     </section>
 
     <section id="s1"><h2>1. 데이터 · 모델 · 러닝</h2>
-      <article class="topic" id="s1-components"><h3>머신러닝의 3요소: 데이터 · 모델 · 러닝</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s5</span></div></article>
-      <article class="topic" id="s1-induction"><h3>오늘의 메인 레슨: 머신러닝은 귀납이다</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s5</span></div></article>
-      <article class="topic" id="s1-data"><h3>데이터 = 벡터</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s6</span></div></article>
-      <article class="topic" id="s1-model"><h3>모델 = 수식 (정답은 없다)</h3><div class="tags"><span class="tag date">📅 0909 · 0914</span><span class="tag slide">L01 s5–7</span></div></article>
-      <article class="topic" id="s1-prob-model"><h3>함수 모델 vs 확률 모델</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s7</span></div></article>
-      <article class="topic" id="s1-learning"><h3>러닝의 3단계와 하이퍼파라미터</h3><div class="tags"><span class="tag date">📅 0909 · 0914</span><span class="tag slide">L01 s8</span></div></article>
+      <article class="topic" id="s1-components"><h3>머신러닝의 3요소: 데이터 · 모델 · 러닝</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s5</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">머신러닝은 요리 배우기예요. 재료(데이터), 레시피(모델), 연습(러닝) 세 가지가 있어야 해요.</p>
+          <p>연습을 잘 했는지는 <b>처음 오는 손님</b>에게 요리를 내 봐야 알아요. 이 손님이 바로 한 번도 못 본 데이터(unseen data)예요.</p>
+          <figure class="figure"><svg id="fig-pipeline" viewBox="0 0 540 150" role="img" aria-label="데이터에서 모델, 러닝을 거쳐 처음 보는 데이터를 예측하는 흐름">
+            <rect x="10" y="30" width="100" height="60" rx="10" class="fig-ink"/>
+            <text x="60" y="56" text-anchor="middle" class="fig-text">🥕 데이터</text><text x="60" y="76" text-anchor="middle" class="fig-muted">재료</text>
+            <line x1="112" y1="60" x2="146" y2="60" class="fig-ink"/><polyline points="139,55 146,60 139,65" class="fig-ink"/>
+            <rect x="150" y="30" width="100" height="60" rx="10" class="fig-ink"/>
+            <text x="200" y="56" text-anchor="middle" class="fig-text">📜 모델</text><text x="200" y="76" text-anchor="middle" class="fig-muted">레시피 (수식)</text>
+            <line x1="252" y1="60" x2="286" y2="60" class="fig-ink"/><polyline points="279,55 286,60 279,65" class="fig-ink"/>
+            <rect x="290" y="30" width="100" height="60" rx="10" class="fig-ink"/>
+            <text x="340" y="56" text-anchor="middle" class="fig-text">🍳 러닝</text><text x="340" y="76" text-anchor="middle" class="fig-muted">연습</text>
+            <line x1="392" y1="60" x2="426" y2="60" class="fig-ink"/><polyline points="419,55 426,60 419,65" class="fig-ink"/>
+            <rect x="430" y="30" width="100" height="60" rx="10" class="fig-accent"/>
+            <text x="480" y="56" text-anchor="middle" class="fig-text">🍽️ 예측</text><text x="480" y="76" text-anchor="middle" class="fig-muted">새 손님</text>
+            <text x="60" y="114" text-anchor="middle" class="fig-muted">(x, y) 쌍 N개</text>
+            <text x="200" y="114" text-anchor="middle" class="fig-muted">f(x) 꼴 정하기</text>
+            <text x="340" y="114" text-anchor="middle" class="fig-muted">파라미터 맞추기</text>
+            <text x="480" y="114" text-anchor="middle" class="fig-muted">처음 보는 x → ŷ</text>
+            <text x="270" y="140" text-anchor="middle" class="fig-muted">좋은 모델 = 마지막 칸(처음 보는 데이터)에서 잘 맞히는 모델</text>
+          </svg><figcaption>데이터 → 모델 → 러닝 → 예측. 시험은 언제나 "처음 보는 데이터"로 봐요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p>머신러닝 시스템의 세 가지 주요 구성요소 (three major components, L01 s5):</p>
+          <ol class="steps">
+            <li><b>데이터 (Data)</b>: $\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}$ — 입력 벡터와 출력(라벨)의 쌍 N개.</li>
+            <li><b>모델 (Models)</b>: deterministic function(함수) 또는 probabilistic model(확률 모델).</li>
+            <li><b>러닝 (Learning)</b>: training(학습)과 prediction/inference(예측·추론).</li>
+          </ol>
+          <p><b>좋은 머신러닝 모델</b> = unseen(학습에 쓰지 않은) data에서 잘 동작하는 모델. ML 알고리즘 = training을 잘 해서 prediction을 잘 하는 것.</p>
+          <p>ML이 요즘 "임계점"을 넘은 세 요인: ① 인터넷·모바일이 만든 방대한 데이터, ② 그걸 처리하는 GPU·NPU 컴퓨팅 파워, ③ 최적화(학습 파라미터 튜닝) 기술. 데이터가 적으면 inference(추론)의 정확도가 크게 떨어진다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>교수님 수업을 여러 번 들은 학생은 데이터가 많아서 "저 교수님은 저런 식으로 수업해"라고 예측할 수 있어요. 처음 듣는 학생은 오늘만 재밌는 건지 내일도 그런지 몰라요. 데이터가 없으면 불확실성이 커요. (0909 04:26–05:01)</p>
+          <p>인생도 ML도 직선으로 크지 않고 계단처럼 한 번에 올라선다는 "임계점" 이야기와 함께 설명하셨어요.</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <p>잘 안 되면 초보는 "모델이 잘못됐나? 알고리즘이 구닥다리인가?"부터 의심해요. 그런데…</p>
+          <blockquote>근데 대부분의 문제는 데이터가 부족한 거예요. (0909 06:48)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s1-induction"><h3>오늘의 메인 레슨: 머신러닝은 귀납이다</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s5</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">탐정은 발자국(데이터)을 보고 범인(규칙)을 추리해요. 이렇게 증거에서 규칙을 찾아내는 게 <b>귀납</b>이고, 머신러닝이 하는 일이에요.</p>
+          <p>반대로 "규칙(수식)을 먼저 알고 데이터가 어떻게 나올지 계산하는 것"은 <b>연역</b>이에요. 우리가 지금까지 배운 과목들은 대부분 연역이었어요.</p>
+          <figure class="figure"><svg id="fig-induction" viewBox="0 0 540 245" role="img" aria-label="왼쪽 연역: 수식에서 데이터로, 오른쪽 귀납: 파란 점에서 직선으로">
+            <text x="130" y="18" text-anchor="middle" class="fig-text">연역 (통신 · 신호처리)</text>
+            <rect x="15" y="32" width="230" height="40" rx="8" class="fig-ink"/>
+            <text x="130" y="57" text-anchor="middle" class="fig-text">y(t) = x(t) * h(t) + n(t)</text>
+            <line x1="130" y1="76" x2="130" y2="118" class="fig-ink"/><polyline points="125,111 130,118 135,111" class="fig-ink"/>
+            <text x="140" y="101" class="fig-muted">수식으로 계산</text>
+            <path d="M25,175 C45,135 65,135 85,175 S125,215 145,175 S185,135 205,175 S225,200 235,190" class="fig-ink"/>
+            <circle cx="35" cy="160" r="4" class="fig-dot"/><circle cx="60" cy="140" r="4" class="fig-dot"/><circle cx="92" cy="192" r="4" class="fig-dot"/>
+            <circle cx="118" cy="200" r="4" class="fig-dot"/><circle cx="150" cy="168" r="4" class="fig-dot"/><circle cx="178" cy="148" r="4" class="fig-dot"/><circle cx="210" cy="178" r="4" class="fig-dot"/>
+            <text x="130" y="236" text-anchor="middle" class="fig-muted">수식이 먼저 → 데이터를 예측 (어긋나면 "노이즈")</text>
+            <line x1="270" y1="10" x2="270" y2="240" class="fig-ink" stroke-dasharray="4 5"/>
+            <text x="410" y="18" text-anchor="middle" class="fig-text">귀납 (머신러닝)</text>
+            <rect x="295" y="32" width="230" height="40" rx="8" class="fig-accent"/>
+            <text x="410" y="57" text-anchor="middle" class="fig-text">y = θ₁x + θ₀ 일 거야!</text>
+            <line x1="410" y1="118" x2="410" y2="76" class="fig-ink"/><polyline points="405,83 410,76 415,83" class="fig-ink"/>
+            <text x="420" y="101" class="fig-muted">규칙을 추측</text>
+            <line x1="300" y1="215" x2="525" y2="215" class="fig-ink"/><line x1="300" y1="215" x2="300" y2="130" class="fig-ink"/>
+            <line x1="310" y1="208" x2="515" y2="134" class="fig-accent" stroke-dasharray="6 4"/>
+            <circle cx="320" cy="198" r="4" class="fig-dot"/><circle cx="345" cy="194" r="4" class="fig-dot"/><circle cx="370" cy="180" r="4" class="fig-dot"/>
+            <circle cx="395" cy="178" r="4" class="fig-dot"/><circle cx="420" cy="162" r="4" class="fig-dot"/><circle cx="445" cy="160" r="4" class="fig-dot"/>
+            <circle cx="470" cy="145" r="4" class="fig-dot"/><circle cx="495" cy="144" r="4" class="fig-dot"/>
+            <text x="410" y="236" text-anchor="middle" class="fig-muted">파란 점이 먼저 → 직선(수식)을 찾기</text>
+          </svg><figcaption>슬라이드 그림에서도 우리에게 주어진 건 검정 선이 아니라 <b>파란 점</b>이에요. 선(수식)은 우리가 찾아내야 해요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <div class="table-wrap"><table>
+            <tr><th></th><th>연역 (deductive)</th><th>귀납 (inductive) = 머신러닝</th></tr>
+            <tr><td>먼저 주어지는 것</td><td>원리 · 수식</td><td>데이터 (raw data)</td></tr>
+            <tr><td>하는 일</td><td>수식으로 데이터(출력)를 예측하고, 어긋나면 노이즈로 해석</td><td>데이터를 가장 잘 설명하는 수식(규칙)을 스스로 만들어 냄</td></tr>
+            <tr><td>예</td><td>인덕터 $v = L \frac{di}{dt}$, 통신 $y(t) = x(t) * h(t) + n(t)$</td><td>점들을 보고 "선형 관계일 거야" → $y = \theta_1 x + \theta_0$</td></tr>
+          </table></div>
+          <p>통신·신호처리 식 $y(t) = x(t) * h(t) + n(t)$ 에서 $*$ 는 convolution, $h(t)$ 는 임펄스 응답, $n(t)$ 는 노이즈다. $h(t)$ 를 알면 입력 $x(t)$ 로부터 출력 $y(t)$ 를 예측할 수 있다.</p>
+          <ol class="steps">
+            <li>데이터(파란 점)가 주어진다. 그림에서는 점이지만 실제로 점 하나는 $D$차원 실수 벡터다.</li>
+            <li>경향을 본다: x가 커지면 y도 <b>선형적으로</b> 커진다.</li>
+            <li>모델을 정한다: $y = \theta_1 x + \theta_0$.</li>
+            <li>$\theta_0, \theta_1$ 을 최적화한다. 이 과정이 학습이다.</li>
+          </ol>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>로맨스 영화 마지막 장면</b>: 떠나는 주인공이 아련하게 웃으며 손을 흔들어요. 슬퍼서일까, 기뻐서일까? 표정과 몸짓은 겉으로 드러난 <b>데이터</b>이고, 그 뒤의 마음이 데이터를 만든 <b>기작(모델)</b>이에요. (0909 19:55–21:10)</p>
+          <p>"우리에게 주어진 것은 파란색 점일까요, 검정색 선일까요?" → 파란 점! 선은 아무도 알려주지 않아요. (0909 46:00)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>오늘은 이게 진짜 메인 레슨이거든요. … 귀납식. (0909 45:54)</blockquote>
+          <blockquote>머신러닝의 핵심은 이거예요. 파란색 점이 우리에게 주어졌다는 거예요. (0909 46:00)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s1-data"><h3>데이터 = 벡터</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">컴퓨터에게 사진 한 장은 아주아주 긴 숫자 줄이에요. 그중 중요한 숫자만 남기면 짧은 줄이 되는데, 이 짧은 줄을 "데이터"라고 불러요.</p>
+          <figure class="figure"><svg id="fig-data-vector" viewBox="0 0 540 200" role="img" aria-label="사진이 긴 숫자 줄이 되고 중요한 숫자만 남긴 짧은 벡터가 되는 과정">
+            <rect x="20" y="36" width="14" height="14" class="fig-ink"/><rect x="34" y="36" width="14" height="14" class="fig-dot"/><rect x="48" y="36" width="14" height="14" class="fig-ink"/><rect x="62" y="36" width="14" height="14" class="fig-dot"/><rect x="76" y="36" width="14" height="14" class="fig-ink"/>
+            <rect x="20" y="50" width="14" height="14" class="fig-ink"/><rect x="34" y="50" width="14" height="14" class="fig-dot"/><rect x="48" y="50" width="14" height="14" class="fig-dot"/><rect x="62" y="50" width="14" height="14" class="fig-dot"/><rect x="76" y="50" width="14" height="14" class="fig-ink"/>
+            <rect x="20" y="64" width="14" height="14" class="fig-ink"/><rect x="34" y="64" width="14" height="14" class="fig-ink"/><rect x="48" y="64" width="14" height="14" class="fig-dot"/><rect x="62" y="64" width="14" height="14" class="fig-ink"/><rect x="76" y="64" width="14" height="14" class="fig-ink"/>
+            <rect x="20" y="78" width="14" height="14" class="fig-ink"/><rect x="34" y="78" width="14" height="14" class="fig-dot"/><rect x="48" y="78" width="14" height="14" class="fig-dot"/><rect x="62" y="78" width="14" height="14" class="fig-dot"/><rect x="76" y="78" width="14" height="14" class="fig-ink"/>
+            <rect x="20" y="92" width="14" height="14" class="fig-ink"/><rect x="34" y="92" width="14" height="14" class="fig-ink"/><rect x="48" y="92" width="14" height="14" class="fig-ink"/><rect x="62" y="92" width="14" height="14" class="fig-ink"/><rect x="76" y="92" width="14" height="14" class="fig-ink"/>
+            <text x="55" y="126" text-anchor="middle" class="fig-text">사진 한 장</text>
+            <line x1="96" y1="71" x2="130" y2="71" class="fig-ink"/><polyline points="123,66 130,71 123,76" class="fig-ink"/>
+            <text x="318" y="42" text-anchor="middle" class="fig-muted">raw data: 픽셀 수 × RGB 개의 아주 긴 실수 줄</text>
+            <rect x="138" y="52" width="40" height="38" class="fig-ink"/><rect x="178" y="52" width="40" height="38" class="fig-ink"/><rect x="218" y="52" width="40" height="38" class="fig-ink"/><rect x="258" y="52" width="40" height="38" class="fig-ink"/><rect x="298" y="52" width="40" height="38" class="fig-ink"/><rect x="338" y="52" width="40" height="38" class="fig-ink"/><rect x="378" y="52" width="40" height="38" class="fig-ink"/><rect x="418" y="52" width="40" height="38" class="fig-ink"/><rect x="458" y="52" width="40" height="38" class="fig-ink"/>
+            <text x="158" y="76" text-anchor="middle" class="fig-muted">0.12</text><text x="198" y="76" text-anchor="middle" class="fig-muted">0.87</text><text x="238" y="76" text-anchor="middle" class="fig-muted">0.33</text><text x="278" y="76" text-anchor="middle" class="fig-muted">0.05</text><text x="318" y="76" text-anchor="middle" class="fig-text">…</text><text x="358" y="76" text-anchor="middle" class="fig-muted">0.91</text><text x="398" y="76" text-anchor="middle" class="fig-muted">0.40</text><text x="438" y="76" text-anchor="middle" class="fig-muted">0.77</text><text x="478" y="76" text-anchor="middle" class="fig-muted">0.54</text>
+            <text x="318" y="110" text-anchor="middle" class="fig-muted">너무 길어요! 중요한 것만 남기기 (PCA · feature extraction)</text>
+            <line x1="318" y1="116" x2="318" y2="140" class="fig-ink"/><polyline points="313,133 318,140 323,133" class="fig-ink"/>
+            <text x="235" y="169" text-anchor="end" class="fig-text">feature vector xₙ</text>
+            <rect x="243" y="146" width="50" height="36" class="fig-accent"/><rect x="293" y="146" width="50" height="36" class="fig-accent"/><rect x="343" y="146" width="50" height="36" class="fig-accent"/>
+            <text x="268" y="169" text-anchor="middle" class="fig-text">x₁</text><text x="318" y="169" text-anchor="middle" class="fig-text">x₂</text><text x="368" y="169" text-anchor="middle" class="fig-text">x₃</text>
+            <text x="405" y="169" class="fig-text">+ 짝꿍 y ∈ {0, 1}</text>
+            <text x="405" y="190" class="fig-muted">(0 = 개, 1 = 고양이)</text>
+          </svg><figcaption>사진 → 긴 숫자 줄(raw data) → 중요한 숫자만 남긴 짧은 벡터(feature vector). 이번 학기엔 마지막 것을 "데이터"라고 불러요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>데이터셋 표기</b></p>
+          $$\mathcal{D} = \{(\mathbf{x}_1, y_1), (\mathbf{x}_2, y_2), \dots, (\mathbf{x}_N, y_N)\}$$
+          <ul>
+            <li><b>표기 관습 (convention)</b>: 볼드 소문자 $\mathbf{x}_n$ 은 벡터, $y_n$ 은 실수 하나(스칼라). 아래첨자 $n$ 은 n번째 데이터. 괄호로 묶은 $(\mathbf{x}_n, y_n)$ 은 짝꿍(세트)이다. 보통 입력은 $x$(벡터), 출력은 $y$(숫자)로 쓴다.</li>
+            <li><b>빅데이터</b> = 데이터 개수 $N \to \infty$.</li>
+            <li><b>차원</b>: $\mathbf{x}_n \in \mathbb{R}^D$ — 실수 $D$개로 된 벡터. 예: $D = 3$ 이면 $\mathbf{x}_n = (x_{n1}, x_{n2}, x_{n3})$. 각 성분을 feature(또는 attribute, covariate)라고 부른다. $y_n$ 은 label(target, response variable, annotation)이라고 부른다.</li>
+            <li><b>개/고양이 예시</b>: 입력 사진은 (픽셀 수 × RGB 채널) 길이의 아주 긴 실수 벡터, 출력은 $y \in \{0,1\}$ (0 = 개, 1 = 고양이).</li>
+          </ul>
+          <p><b>학습 방식</b></p>
+          <ul>
+            <li><b>supervised learning</b>: 라벨이 있다. 데이터가 $(\mathbf{x}_n, y_n)$ 쌍으로 주어진다.</li>
+            <li><b>unsupervised learning</b>: 라벨이 없다. $\{\mathbf{x}_1, \dots, \mathbf{x}_N\}$ 만 주어진다. 비슷한 것끼리 묶는 clustering이 대표적이다.</li>
+          </ul>
+          <p><b>raw data vs feature vector</b>: 수십만 개 실수로 된 고화질 사진(raw data)을 1비트 결정(개냐 고양이냐)에 다 넣는 건 낭비다. 줄이고 줄여 만든 <b>feature vector를 이번 학기에는 "데이터"라고 부른다.</b> 이 과정을 (data) preprocessing, feature extraction이라고 한다.</p>
+          <ul>
+            <li><b>PCA</b> = principal(주요한) + component(성분) + analysis(분석): 결정에 정말 중요한 성분만 체계적으로 압축한다. 선형대수의 <b>SVD</b>(특이값 분해)나 고유값 분해(EVD)로 low-dimensional approximation(저차원 근사)을 만든다.</li>
+            <li><b>feature map / kernel</b>: 반대로 원래 feature를 비선형으로 조합해 <b>더 높은 차원</b>의 벡터로 만든다.</li>
+            <li><b>autoencoder</b> 같은 딥러닝 모델도 데이터를 통과시키며 스스로 feature extraction을 한다("누가누가 압축을 잘하나?").</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>의학드라마 약어</b>: 의사들이 "CVA 줘!"처럼 자기들끼리 약어를 쓰듯, 공학자·수학자에게도 관습(convention)이 있어요. "볼드체는 강조가 아니라 <b>벡터</b>라는 뜻이에요." (0909 08:28–12:50)</p>
+          <p><b>MBTI</b>는 사람을 16개 그룹으로 clustering한 것이에요. 라벨(정답) 없이 비슷한 사람끼리 묶은 거죠. (0909 15:16–16:52)</p>
+        </div>
+      </article>
+      <article class="topic" id="s1-model"><h3>모델 = 수식 (정답은 없다)</h3><div class="tags"><span class="tag date">📅 0909 · 0914</span><span class="tag slide">L01 s5–7</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">모델은 "데이터가 왜 이렇게 생겼는지 설명하는 이야기"예요. 그 이야기를 수식으로 쓴 거예요.</p>
+          <p>더 잘 들어맞는 이야기는 있어도, 딱 하나의 "정답" 이야기는 없어요. 모델은 정답은 없고, 더 좋은 것과 덜 좋은 것만 있어요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>모델 = 수식.</b> 데이터 밑에서 동작하는 기작(규칙)을 수식으로 쓴 것이다. 공학수학에서 RLC 회로를 미분방정식으로 푼 것도 모델이다.</p>
+          <ul>
+            <li><b>deterministic (함수) 모델</b>: 자연법칙처럼 정해진 공식이 있다고 본다. 예: $F = ma$, "이 데이터는 $y = ax + b$ 일 거야"(1차식), "$ax^2 + bx + c$ 일 거야"(2차식). 3차식·지수·사인·로그도 가능하다. 계수 값은 나중에 fitting해 봐야 알지만 <b>꼴(모양)</b>은 먼저 정한다.</li>
+            <li><b>probabilistic (확률) 모델</b>: 불확실성(노이즈)까지 모델에 넣는다. → 다음 토픽.</li>
+          </ul>
+          <p><b>모델 셋업 예</b>: $\mathbf{x} = (x_1, x_2, x_3)$ 이라 두고 $y = 3x_1 + 5x_2 + 6x_3 + 0.6$ 이라고 "자신감 있게 질러야 된다". 그리고 "왜 그렇게 생각했어?"에 합리적으로 답해 가는 과정이 모델 셋업이다. (여기의 3, 5, 6, 0.6을 좋은 값으로 맞추는 게 러닝이다.)</p>
+          <p><b>큰 모델은 작은 모델을 포함한다</b>: $ax^2 + bx + c$ 에서 $a = 0$ 이면 1차식이 된다. 모델 크기(파라미터 수)가 커질수록 표현력도 커진다. 1차식이 안 맞으면 2차, 3차로 바꿔 본다.</p>
+          <p><b>suppose vs assume</b> (0914)</p>
+          <ul>
+            <li><b>assume</b>: 사실이 아닌 줄 알면서 그렇다고 가정하는 것.</li>
+            <li><b>suppose</b>: 모르니까 그렇게 추측하는 것. <b>모델을 고르는 일은 suppose다.</b> "뉴럴넷으로 해 보니 잘 예측되던데? 그러면 되는 거야."</li>
+          </ul>
+          <p>그래서 모델은 correct/incorrect의 문제가 아니라 good/bad, 즉 <b>취사선택(preference)</b>의 문제다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>영화 추천</b>: 사람이 어떤 영화를 좋아하는지 그 속마음(기작)은 알 수 없고, 작년과 올해 취향이 다를 수도 있어요(time-varying). "Nobody knows." 그래도 데이터를 최대한 잘 설명하려는 노력이 머신러닝이에요. (0914 00:00–04:04)</p>
+          <p><b>단어 많이 아는 사람</b>: 단어를 많이 알면 말이 유창하듯, 파라미터가 많으면 표현력이 좋아요. 유치원생은 "밥 줘, 배고파" 정도만 말하죠. (0909 48:52–50:12)</p>
+          <p><b>작은 GPU 랩</b>: 큰 GPU를 가진 랩은 큰 모델을 써도 되지만, 작은 GPU로 <b>작은 모델로 비슷한 성능</b>을 내는 쪽이 더 좋은 ML 엔진이에요. (0914 00:00–04:04)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>모델이라는 말이 나오면 … 수학이라고 생각해라. 수식이라고 생각해라. (0909 17:00)</blockquote>
+          <blockquote>가장 중요하게 생각해야 되는 게 모델링이에요. (0909 19:18)</blockquote>
+          <blockquote>모델은 정답이 없어요. "네 모델은 틀렸어"라고 말할 수 있는 사람은 아무도 없어요. (0909 24:00)</blockquote>
+          <blockquote>옳고 그름의 문제가 아니라 취사선택의 문제. (0909 28:10) · 이 모델을 결정하는 문제는 매우 중요하다. (0914 01:24)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s1-prob-model"><h3>함수 모델 vs 확률 모델</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s7</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">과녁에 활을 쏘면 딱 한 점에만 꽂히지 않고 가운데 근처에 흩어져요. 그 흩어짐까지 설명하는 게 확률 모델이에요.</p>
+          <p>함수 모델은 "x가 60이면 답은 100!"이라고 점 하나로 말하고, 확률 모델은 "100 근처일 가능성이 제일 크고, 멀어질수록 드물어"라고 종 모양으로 말해요.</p>
+          <figure class="figure"><svg id="fig-det-vs-prob" viewBox="0 0 540 300" role="img" aria-label="위: 함수 모델은 x=60에서 점 하나 100을 예측, 아래: 확률 모델은 x=60 위에 종 모양 가우시안을 세움">
+            <text x="66" y="14" class="fig-text">① 함수 모델: 답이 점 하나</text>
+            <line x1="60" y1="125" x2="490" y2="125" class="fig-ink"/><line x1="60" y1="125" x2="60" y2="20" class="fig-ink"/>
+            <text x="498" y="129" class="fig-muted">x</text><text x="52" y="26" text-anchor="end" class="fig-muted">y</text>
+            <line x1="86.25" y1="122.2" x2="453.75" y2="30.5" class="fig-ink"/>
+            <circle cx="112.5" cy="117.5" r="4" class="fig-dot"/><circle cx="175.5" cy="95" r="4" class="fig-dot"/><circle cx="233.25" cy="87.5" r="4" class="fig-dot"/><circle cx="291" cy="66.5" r="4" class="fig-dot"/><circle cx="333" cy="61.25" r="4" class="fig-dot"/>
+            <line x1="375" y1="125" x2="375" y2="58" class="fig-ink" stroke-dasharray="4 4"/>
+            <circle cx="375" cy="50" r="7" class="fig-danger"/>
+            <text x="360" y="46" text-anchor="end" class="fig-text">ŷ = 100</text>
+            <text x="375" y="140" text-anchor="middle" class="fig-muted">x=60</text>
+            <text x="66" y="164" class="fig-text">② 확률 모델: 답이 분포(종 모양)</text>
+            <line x1="60" y1="275" x2="490" y2="275" class="fig-ink"/><line x1="60" y1="275" x2="60" y2="170" class="fig-ink"/>
+            <text x="498" y="279" class="fig-muted">x</text><text x="52" y="176" text-anchor="end" class="fig-muted">y</text>
+            <line x1="86.25" y1="272.2" x2="385.5" y2="197.4" class="fig-ink"/>
+            <circle cx="112.5" cy="267.5" r="4" class="fig-dot"/><circle cx="175.5" cy="245" r="4" class="fig-dot"/><circle cx="233.25" cy="237.5" r="4" class="fig-dot"/><circle cx="291" cy="216.5" r="4" class="fig-dot"/><circle cx="333" cy="211.25" r="4" class="fig-dot"/>
+            <line x1="375" y1="275" x2="375" y2="162" class="fig-ink" stroke-dasharray="4 4"/>
+            <path d="M375.67,166.25 L377.63,171.88 L383.12,177.5 L394.48,183.13 L411.39,188.75 L427.95,194.38 L435,200 L427.95,205.63 L411.39,211.25 L394.48,216.88 L383.12,222.5 L377.63,228.13 L375.67,233.75" class="fig-accent"/>
+            <text x="444" y="198" class="fig-text">N(100, σ²)</text>
+            <text x="444" y="216" class="fig-muted">100이 제일 흔함</text>
+            <text x="375" y="290" text-anchor="middle" class="fig-muted">x=60</text>
+          </svg><figcaption>같은 파란 점 5개, 같은 x=60. 위는 "100"이라는 점 하나, 아래는 100을 가운데로 한 가우시안 분포를 답으로 내놓아요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>noisy observation</b>: 많은 데이터는 "진짜 효과(underlying effect) + 노이즈"로 관측된다고 본다.</p>
+          <ul>
+            <li>논리회로 실험: XOR 게이트의 1도 실제로는 5.3V, 6.2V처럼 전압에 노이즈가 낀다. 사진·언어 데이터에도 에러가 있다.</li>
+            <li>동전 5번: 앞, 앞, 뒤, 뒤, 앞 → "앞면 확률 0.6, 뒷면 0.4구나"라고 판단하는 사고가 확률이다.</li>
+            <li>노이즈를 어떻게 통계적으로 모델링하느냐에 따라 데이터 패턴의 해석이 달라진다. 그래서 불확실성을 모델에 넣는 <b>확률 모델</b>이 더 합리적이라고 여겨진다.</li>
+            <li>이때 모델의 파라미터는 확률분포(PDF)의 파라미터다. 예: 가우시안 $\mathcal{N}(\mu, \sigma^2)$ 은 평균 $\mu$ 와 분산 $\sigma^2$, 실수 2개로 정해진다 → "실수 두 개를 최적화하는 문제".</li>
+          </ul>
+          <p><b>x=60에서 비교</b> (unseen data $x = 60$ 이 들어왔을 때)</p>
+          <ul>
+            <li><b>함수(deterministic) 모델</b>: 학습된 직선 $f$ 에 60을 넣어 $\hat{y} = f(60) = 100$ 을 내놓는다. 끝.</li>
+            <li><b>확률(probabilistic) 모델</b>: x가 주어졌을 때 y의 conditional PDF를 내놓는다.
+              $$p(y \mid \mathbf{x}) = \mathcal{N}\big(y \mid f(\mathbf{x}), \sigma^2\big)$$
+              $x = 60$ 이면 평균 $f(60) = 100$, 분산 $\sigma^2$ 인 가우시안이다.</li>
+          </ul>
+          <p><b>분포에서 답 하나 고르기</b>: conditional PDF 자체가 "순수 베이지안의 결과"다. 여기서 숫자 하나를 고르는 기준(criterion)은 무엇을 중요하게 보느냐에 따라 다르다: <b>MLE</b>(가장 그럴듯한 값), <b>MAP</b>, <b>MMSE</b>(평균제곱오차 최소), <b>Neyman–Pearson</b> criterion 등. MLE와 MAP는 <a href="#s3">3절</a>에서 정식으로 다룬다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>대령 일화</b>: 한 대령이 "산에서 기지국이 꺼지면 통신이 몇 퍼센트 됩니까? 숫자로 얘기해 주세요"라고 했대요. 엔지니어는 답이 "100 근처일 확률이 높고, 많이 크거나 작을 확률은 낮은" <b>분포</b>라는 걸 알아요. 그래도 단답을 원하면 "그냥 100". 이게 가장 그럴듯한 값을 고르는 MLE의 직관이에요. (0909 56:07)</p>
+          <p>"구름 잡는 얘기 같아요?" → "맞아요. 아직 안 가르쳐 줬어요." 분포를 어떻게 만드는지는 뒤에서 배워요. (0909 54:48–55:48)</p>
+        </div>
+      </article>
+      <article class="topic" id="s1-learning"><h3>러닝의 3단계와 하이퍼파라미터</h3><div class="tags"><span class="tag date">📅 0909 · 0914</span><span class="tag slide">L01 s8</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">요리대회를 떠올려요. 먼저 어떤 요리를 할지 레시피 종류를 고르고, 맛보며 간을 맞추고, 마지막에 심사위원 앞에서 요리해요.</p>
+          <p>레시피 고르기 = model selection, 간 맞추기 = training, 심사위원 앞 요리 = prediction. 심사위원은 연습 때 한 번도 안 본 사람(unseen data)이에요.</p>
+          <figure class="figure"><svg id="fig-three-phases" viewBox="0 0 540 158" role="img" aria-label="러닝의 세 단계: 모델 선택, 트레이닝, 예측, 성능이 나쁘면 모델을 다시 고름">
+            <rect x="10" y="20" width="150" height="80" rx="10" class="fig-ink"/>
+            <text x="85" y="46" text-anchor="middle" class="fig-text">③ Model selection</text>
+            <text x="85" y="67" text-anchor="middle" class="fig-muted">hyperparameter 정하기</text>
+            <text x="85" y="87" text-anchor="middle" class="fig-muted">🍲 레시피 고르기</text>
+            <line x1="162" y1="60" x2="191" y2="60" class="fig-ink"/><polyline points="184,55 191,60 184,65" class="fig-ink"/>
+            <rect x="195" y="20" width="150" height="80" rx="10" class="fig-ink"/>
+            <text x="270" y="46" text-anchor="middle" class="fig-text">② Training</text>
+            <text x="270" y="67" text-anchor="middle" class="fig-muted">파라미터 θ 맞추기</text>
+            <text x="270" y="87" text-anchor="middle" class="fig-muted">🧂 간 맞추기</text>
+            <line x1="347" y1="60" x2="376" y2="60" class="fig-ink"/><polyline points="369,55 376,60 369,65" class="fig-ink"/>
+            <rect x="380" y="20" width="150" height="80" rx="10" class="fig-accent"/>
+            <text x="455" y="46" text-anchor="middle" class="fig-text">① Prediction</text>
+            <text x="455" y="67" text-anchor="middle" class="fig-muted">unseen data 예측</text>
+            <text x="455" y="87" text-anchor="middle" class="fig-muted">🍽️ 심사위원 앞 요리</text>
+            <polyline points="455,104 455,128 85,128 85,108" class="fig-ink" stroke-dasharray="5 4"/><polyline points="80,115 85,108 90,115" class="fig-ink"/>
+            <text x="270" y="148" text-anchor="middle" class="fig-muted">성능이 별로면? 모델부터 다시 골라요</text>
+          </svg><figcaption>번호는 슬라이드(L01 s8) 번호예요. 교수님은 실제 작업 순서대로 ③ → ② → ① 거꾸로 설명하셨어요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>러닝의 목표</b>: "find a model and its corresponding parameters <b>such that</b> the resulting predictor will perform well on unseen data." — such that은 "뒤 문장을 이루도록"이라는 뜻이다. 즉 <b>unseen data에서 잘 동작하는 예측기</b>를 만들기 위해 모델도 정하고 파라미터도 튜닝한다. 새 데이터로 해 보는 것을 test라고 한다.</p>
+          <p><b>세 가지 알고리즘 단계</b> (L01 s8)</p>
+          <ol class="steps">
+            <li><b>prediction / inference</b>: 함수 모델 또는 확률 모델로 새 데이터의 답을 낸다.</li>
+            <li><b>training / parameter estimation</b>: 파라미터를 데이터로 추정한다.
+              <ul>
+                <li>비확률적: 예) ERM (Empirical Risk Minimization) → <a href="#s2">2절</a></li>
+                <li>확률적: 예) ML(Maximum Likelihood), MAP(Maximum A Posteriori) → <a href="#s3">3절</a></li>
+                <li>cross-validation: unseen data 성능을 흉내 내 보는 시뮬레이션</li>
+                <li>regularization / prior: training data와 unseen data 사이에서 모델의 균형을 잡음</li>
+              </ul>
+            </li>
+            <li><b>model selection</b>: hyperparameter를 고른다.</li>
+          </ol>
+          <div class="table-wrap"><table>
+            <tr><th></th><th>parameter</th><th>hyperparameter</th></tr>
+            <tr><td>언제 정하나</td><td>training data로 <b>학습해서</b> 얻는다</td><td>학습 <b>전에</b> 정해 두고, 학습 과정을 조절한다</td></tr>
+            <tr><td>예</td><td>가중치(weights), bias, 위 식의 3, 5, 6, 0.6</td><td>learning rate, regularization(정규화) 강도, 다항식 차수, 클러스터 수, 층·뉴런 수</td></tr>
+          </table></div>
+          <p><b>learning vs training</b>: 거의 같은 말로 써도 되지만, 엄밀히 learning은 <b>모델 결정까지</b> 포함하고 training은 <b>정해진 모델의 파라미터 튜닝</b>이다. 요즘은 "학습한다"는 말에 하이퍼파라미터를 건드려 모델 자체를 바꿔 보는 것까지 포함한다 (0914).</p>
+          <p><b>파라미터는 어떻게 찾나?</b> 실제 데이터는 수만 개, 찾을 실수는 여러 개다.</p>
+          <ul>
+            <li><b>grid search</b>: 예를 들어 −100부터 +100까지 0.01 간격으로 모든 조합을 다 해 본다. "돈이 많고 시간이 많으면" 제일 확실하지만 너무 느리다.</li>
+            <li>더 효율적인 방법: <b>gradient descent</b>, <b>least squares</b>(regression) 등 — 뒤에서 배운다.</li>
+          </ul>
+          <p>전체 흐름: 모델 선택 → hyperparameter 결정 → 파라미터 학습 → "문 열어! unseen data 들어와" → test / prediction.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>MBTI 4비트 → 6비트</b>: MBTI는 4비트, 16그룹이에요. "왜 16개야? 난 6비트로 할래" 하면 $2^6 = 64$ 그룹이 되죠. 클러스터 수 같은 hyperparameter를 바꾸면 <b>모델이 바뀌는 것</b>이나 다름없어요. (0909 62:30–67:05)</p>
+          <p><b>소 잡는 칼을 닭 잡는 데</b> 쓸 필요는 없어요. 무겁기만 하죠. 선형으로 이틀이면 될 걸 한 달씩 시뮬레이션하면 안 돼요. 뉴럴넷도 결국 하나의 모델이라 층 수·뉴런 수를 골라야 해요. (0909 62:30–67:05)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>그런 일이 없어야 되기 때문에 모델 선택이 매우 중요하다. (0909 66:00)</blockquote>
+        </div>
+      </article>
     </section>
 
     <section id="s2"><h2>2. Empirical Risk Minimization (모델 = 함수)</h2>
