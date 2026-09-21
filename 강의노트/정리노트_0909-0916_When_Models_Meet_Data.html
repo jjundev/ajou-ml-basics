@@ -901,12 +901,194 @@
     </section>
 
     <section id="s4"><h2>4. 확률적 모델링과 추론</h2>
-      <article class="topic" id="s4-generative"><h3>Generative process: 데이터는 이렇게 만들어졌을 거야</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div></article>
-      <article class="topic" id="s4-joint"><h3>Joint · Marginal · Latent</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div></article>
-      <article class="topic" id="s4-posterior"><h3>Prior × Likelihood → Posterior</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div></article>
-      <article class="topic" id="s4-three-ways"><h3>ML vs MAP vs Fully Bayesian</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div></article>
-      <article class="topic" id="s4-coin"><h3>동전으로 보는 세 가지 답</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div></article>
-      <article class="topic" id="s4-predictive"><h3>Posterior predictive와 조건부 독립</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div></article>
+      <article class="topic" id="s4-generative"><h3>Generative process: 데이터는 이렇게 만들어졌을 거야</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">케이크(데이터)를 먹어 보고 "이 레시피(생성 과정)로 만들었을 거야"라고 추측하는 것과 같아요.</p>
+          <p>레시피에는 정해진 재료(θ)도 있지만, 오븐 온도가 살짝씩 달라지는 것 같은 우연(노이즈)도 섞여 있어요. 그래서 같은 레시피로 구워도 케이크가 매번 조금씩 달라요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>ML의 목적</b>: 많은 ML task의 목적은 <b>unseen event의 prediction</b>과, expected risk를 최소화하는 <b>decision making</b>이다. 이를 위해 확률 모형을 많이 쓴다.</p>
+          <p><b>Generative process</b>: 관측 데이터가 어떤 generative process(random process)로 만들어졌을 거라고 suppose하고 모델을 세운다. 예를 들어 affine 모델에 노이즈가 더해져 나왔다고 가정한다.</p>
+          $$y_n = \mathbf{x}_n^\top \boldsymbol{\theta} + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2)$$
+          <p><b>데이터는 온전하지 않다</b>: 온도 측정값이나 사진은 물리 세계의 정보를 전부 담지 못하고, 소리에는 잡음이 낀다. 이 노이즈를 random variable(불확실성)로 가정하는 것이 probabilistic model이다.</p>
+          <p><b>칠판 설명</b></p>
+          <ol class="steps">
+            <li>$\mathbf{x}_n$ 은 주어진 값(given)이고 θ는 추정할 대상이다. 여기서는 둘 다 확률변수로 보지 않으므로 $c_n = \mathbf{x}_n^\top \boldsymbol{\theta}$ 는 상수다.</li>
+            <li>따라서 $y_n = c_n + \varepsilon \Rightarrow y_n \sim \mathcal{N}(c_n, \sigma^2)$ 이다. 가우시안에 상수를 더하면 평균만 $c_n$ 으로 이동하고 분산은 그대로다(<a href="#s3-mle-ls">3절 MLE = LS</a>에서 쓴 사실).</li>
+            <li>$c_n$ 은 θ의 함수다. 즉 <b>θ는 평균을 바꾸는 방식으로 데이터에 영향을 준다</b>. θ를 바꾸면 종 모양 분포의 중심이 움직인다.</li>
+          </ol>
+          <p>벡터 버전(선형 변환 + 가우시안 노이즈)은 <a href="복습문제_0909-0916_When_Models_Meet_Data.html#p9">복습문제 P9</a>에서 직접 풀어 본다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>작사·작곡을 직접 한 신승훈의 노래가 "~했을 거야"로 끝나는 것처럼, 교수님은 generative process를 <b>"데이터는 이 과정으로 만들어졌을 거야"</b>라는 톤으로 다시 설명했어요. 단정이 아니라 가정(suppose)이라는 뜻이에요. (0916 39:15–44:58)</p>
+          <p>교수님이 노래하는 동안에도 에어컨 소리가 녹음되고 있었어요. 녹음실이라면 이런 소리를 빼겠죠. 데이터가 이상하게 나왔다면 <b>"마가 낀 게 아니고 노이즈가 꼈을 거다."</b></p>
+        </div>
+      </article>
+      <article class="topic" id="s4-joint"><h3>Joint · Marginal · Latent</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">두 사람의 키를 각각 적어 둔 기록(marginal)보다, 둘이 나란히 찍힌 사진(joint)에 정보가 더 많아요.</p>
+          <p>사진이 있으면 각자의 키도 알 수 있고, "누가 더 큰지"처럼 둘 사이의 관계도 알 수 있어요. 따로 적은 기록만으로는 관계를 알 수 없어요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <ul>
+            <li>확률변수의 <b>PDF/PMF를 알면</b> 그 확률변수의 평균, 분산, 함수의 기댓값 등 <b>모든 것</b>을 안다.</li>
+            <li>변수가 둘 이상이면 <b>joint</b> 분포를 알아야 전부 안다(공분산처럼 둘 사이의 관계까지). 각자의 분포 $p(\mathbf{x})$, $p(\boldsymbol{\theta})$ 는 <b>marginal</b>이며 자기 자신의 불확실성만 설명한다. 그래서 probabilistic modeling에서는 가능하다면 joint distribution을 알아야 한다.</li>
+            <li><b>주변화(marginalization)</b>: joint를 관심 없는 변수에 대해 적분하면 marginal이 된다. $p(\mathbf{x}) = \int p(\mathbf{x}, \boldsymbol{\theta})\, d\boldsymbol{\theta}$ (이산이면 적분 대신 합 $\sum_{\boldsymbol{\theta}}$).</li>
+            <li>θ는 확률론에서는 <b>hidden parameter</b>, ML에서는 <b>latent variable</b>이라고 부른다. 겉으로 보이지 않지만 x를 설명할 단서를 준다.</li>
+          </ul>
+          <p>슬라이드에서는 joint distribution과 hidden parameter가 "encapsulate the key information"한다고 쓴다. 이 문장을 어떻게 읽어야 하는지는 아래 ⚠️에 있다. joint 표에서 marginal과 조건부확률을 직접 구하는 연습은 <a href="복습문제_0909-0916_When_Models_Meet_Data.html#p6">복습문제 P6</a>에 있다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>인셉션 비유</b>: "왜 꿈속의 꿈으로 들어가요?" 겉으로 보이는 현상이 x이고, 꿈 깊은 곳의 코어(기작)가 θ예요. θ를 바꿔 가며 현상이 어떻게 변하는지 보고 싶은 게 ML의 습성이에요. (0916 47:37)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>확률 랜덤 변수 수업이 이만큼 중요한 거야. (0916 45:11)</blockquote>
+          <p>joint, marginal, 조건부확률이 헷갈리면 확률 및 랜덤변수 추가강의를 먼저 보세요: <a href="추가%20강의/eli5_lecture10_statistical_inference_part1.html">확률 및 랜덤변수 Lecture 10 · Statistical Inference Part 1</a></p>
+          <blockquote>머신러닝을 연구할 때 그런 생각은 없애야 된다니까. (0916 51:00)</blockquote>
+          <p>θ가 <b>원래부터</b> key information을 담고 있는 게 아니다. ML은 연역이 아니라 <a href="#s1-induction">귀납</a>이므로, θ가 key information을 머금도록 모델을 잘 설정하고 <b>만들어 가고</b> 최적화하는 것이다. 모델 가정이 잘못되면(<a href="#s3-fitting">빨간 거리</a>) 최적화에 한계가 있다. 목표는 가진 데이터뿐 아니라 unseen data도 잘 예측하는 θ다.</p>
+        </div>
+      </article>
+      <article class="topic" id="s4-posterior"><h3>Prior × Likelihood → Posterior</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">"원래 믿음(prior)" × "데이터가 말해 주는 것(likelihood)" = "업데이트된 믿음(posterior)"이에요.</p>
+          <p>원래 믿음과 데이터를 곱해서 합친 다음, 전체 합이 1이 되도록 나눠 주면 새 믿음이 돼요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>joint의 분해</b>: joint는 곱셈 규칙(multiplicative rule)으로 항상 인수분해된다.</p>
+          $$p(\mathbf{x}, \boldsymbol{\theta}) = p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})$$
+          <ul>
+            <li>$p(\boldsymbol{\theta})$ = <b>prior</b>(사전). x를 관찰하기 <b>전에</b> 내가 가진 편견, 바이어스, 선호(preference), 의도다. "모름지기 파라미터는 이런 거 아니겠습니까?"</li>
+            <li>$p(\mathbf{x} \mid \boldsymbol{\theta})$ = <b>likelihood</b>. 확률 수업에서 배운 forward probability, 또는 transition probability다. θ(원인)에서 x(관측)로 가는 방향의 확률이며 보통 주어지는 경우가 많다.</li>
+          </ul>
+          <p><b>prior와 정규화의 연결</b>: <a href="#s2-reg">정규화</a> 식 $\min_{\boldsymbol{\theta}} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$ 에서 λ = 0이면 "편견 없음", λ가 크면 "θ는 작을수록 좋다"는 prior를 녹인 것이다. 가우시안 prior에서 λ가 정확히 어떻게 나오는지는 <a href="#s3-map-l2">3절 보충(가우시안 prior = L2 정규화)</a>에 있다.</p>
+          <p><b>posterior와 marginal likelihood</b>: 조건부확률의 정의에 대입하고, 분모를 주변화로 쓴다.</p>
+          $$p(\boldsymbol{\theta} \mid \mathbf{x}) = \frac{p(\mathbf{x}, \boldsymbol{\theta})}{p(\mathbf{x})} = \frac{p(\mathbf{x}, \boldsymbol{\theta})}{\int p(\mathbf{x}, \boldsymbol{\theta})\, d\boldsymbol{\theta}}$$
+          <ul>
+            <li>분모 $p(\mathbf{x}) = \int p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})\, d\boldsymbol{\theta}$ 를 <b>marginal likelihood</b>라고 한다. θ에 대해 적분했으므로 θ와 무관하다.</li>
+            <li>그래서 θ를 찾을 때(<a href="#s3-map">MAP</a>)는 분모를 무시하고 $p(\boldsymbol{\theta} \mid \mathbf{x}) \propto p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})$ 로 쓴다. 분모는 posterior의 전체 넓이를 1로 맞추는 역할을 한다.</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>"위, 아래, 위, 아래… 팔짱 끼고 쳐다보면" 분자도 joint이고 분모도 joint예요. "왜 꼭 저렇게 합니까?" → <b>"엔지니어링적으로 효과적"</b>이니까요. joint 함수 하나만 계산하면 분자에 그대로 쓰고, 적분해서 분모에도 쓸 수 있어요. (0916 55:38–58:59)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>데이터로부터 학습 모형을 만들어 낸다라고 할 때 항상 이 확률 수식을 기억해야 되거든요. (0916 56:22)</blockquote>
+          <p>내 손안의 데이터는 무엇이고 추론할 파라미터는 무엇인지 따진 뒤, $p(\boldsymbol{\theta} \mid \mathbf{x})$ 의 문제로 푼다는 뜻이다.</p>
+        </div>
+      </article>
+      <article class="topic" id="s4-three-ways"><h3>ML vs MAP vs Fully Bayesian</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">장군님은 "그래서 앞이야, 뒤야?"라며 단답을 원해요(ML·MAP). 엔지니어는 분포 전체를 보고해요(Fully Bayesian).</p>
+          <p>단답은 듣기 편하지만 정보가 버려져요. 분포 전체는 설명이 길지만 "얼마나 확실한지"까지 담고 있어요.</p>
+          <figure class="figure"><svg id="fig-general" viewBox="0 0 560 240" role="img" aria-label="왼쪽: 장군님의 말풍선 '앞? 뒤?'와 값 하나를 가리키는 막대. 오른쪽: 엔지니어가 보고하는 분포 곡선 전체">
+            <rect x="30" y="14" width="200" height="44" rx="14" class="fig-ink"/>
+            <text x="130" y="41" text-anchor="middle" class="fig-text">그래서 앞? 뒤?</text>
+            <polyline points="96,58 106,78 118,58" class="fig-ink"/>
+            <line x1="40" y1="180" x2="250" y2="180" class="fig-ink"/>
+            <text x="40" y="198" text-anchor="middle" class="fig-muted">0</text><text x="250" y="198" text-anchor="middle" class="fig-muted">1</text>
+            <line x1="106" y1="180" x2="106" y2="98" class="fig-accent"/><circle cx="106" cy="94" r="6" class="fig-dot"/>
+            <text x="118" y="130" class="fig-text">θ 하나만</text><text x="118" y="146" class="fig-muted">(점 추정)</text>
+            <line x1="285" y1="14" x2="285" y2="206" class="fig-ink" stroke-opacity=".25"/>
+            <text x="425" y="41" text-anchor="middle" class="fig-text">앞면 확률은 이렇게 퍼져 있습니다</text>
+            <line x1="320" y1="180" x2="530" y2="180" class="fig-ink"/>
+            <text x="320" y="198" text-anchor="middle" class="fig-muted">0</text><text x="530" y="198" text-anchor="middle" class="fig-muted">1</text>
+            <polyline points="320,180 325,180 330,180 336,178 341,174 346,165 352,154 357,139 362,123 367,108 372,95 378,85 383,81 388,81 394,85 399,93 404,103 409,115 414,127 420,138 425,148 430,157 436,164 441,169 446,173 451,176 456,178 462,179 467,179 472,180 478,180 483,180 488,180 493,180 498,180 504,180 509,180 514,180 520,180 525,180 530,180" class="fig-accent"/>
+            <text x="440" y="110" class="fig-text">p(θ | X) 전체</text>
+            <text x="140" y="226" text-anchor="middle" class="fig-text">장군님: 단답 (ML · MAP)</text>
+            <text x="425" y="226" text-anchor="middle" class="fig-text">엔지니어: 분포 (Fully Bayesian)</text>
+          </svg><figcaption>ML·MAP은 곡선에서 점 하나만 골라 말하고, Fully Bayesian은 곡선 전체를 그대로 써요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>예측 문제</b>: 러닝이 끝난 뒤, 데이터셋 $\mathbf{X}$ 가 주어졌을 때 unseen data에 대한 사건 A를 예측한다: $P(A \mid \mathbf{X})$. 예) 새 사진이 개인지 고양이인지, 수신 신호에 재밍(jamming)이 있었는지를 분류하는 문제.</p>
+          <p><b>세 가지 답</b></p>
+          <ul>
+            <li>ML: 데이터만 보고 θ를 하나 고른 뒤 그 값으로 예측한다. $$\text{ML: } P(A \mid \mathbf{X}) \approx P(A \mid \boldsymbol{\theta}_{\text{ML}}), \quad \boldsymbol{\theta}_{\text{ML}} = \arg\max_{\boldsymbol{\theta}} P(\mathbf{X} \mid \boldsymbol{\theta})$$</li>
+            <li>MAP: prior까지 반영해 θ를 하나 고른다(<a href="#s3-map">3절 MAP</a>). $$\text{MAP: } P(A \mid \mathbf{X}) \approx P(A \mid \boldsymbol{\theta}_{\text{MAP}}), \quad \boldsymbol{\theta}_{\text{MAP}} = \arg\max_{\boldsymbol{\theta}} P(\boldsymbol{\theta} \mid \mathbf{X})$$</li>
+            <li><b>Fully Bayesian</b>: θ를 하나로 결정하지 않고 posterior 분포 전체를 사용한다(<a href="#s4-predictive">posterior predictive</a>). 성능은 Fully Bayesian이 가장 좋다.</li>
+          </ul>
+          <p>ML과 MAP은 "≈"다. 분포 전체 대신 점 하나로 근사했기 때문이다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>장군님 비유</b>(확률 수업에서 자주 쓴 비유): 장군님은 복잡하고 긴 말을 싫어하고 Yes/No 단답을 요구해요. 엔지니어와 데이터 사이언티스트는 "원재료"인 분포 전체를 가지고 있어요. Fully Bayesian은 엔지니어가 좋아하는 방식(복잡하지만), ML과 MAP은 단답을 원하는 장군님이 좋아하는 대답이에요. (0916 60:40–69:25)</p>
+          <p>0909 수업의 <a href="#s1-prob-model">대령 일화</a>("숫자로 얘기해 주세요")와 같은 이야기예요. 분포를 알아도 단답을 요구받으면 가장 그럴듯한 값 하나를 말하게 돼요.</p>
+        </div>
+      </article>
+      <article class="topic" id="s4-coin"><h3>동전으로 보는 세 가지 답</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">동전을 10번 던져 앞면이 2번 나왔어요. 다음에 앞면이 나올 확률은 얼마일까요?</p>
+          <ul>
+            <li>"데이터만 믿는 사람": 10번 중 2번이니까 <b>0.2</b>.</li>
+            <li>"동전은 원래 반반이라고 믿는 사람": 그래도 <b>0.5</b>.</li>
+            <li>"둘을 섞는 사람": 그 사이인 <b>약 0.3</b>.</li>
+          </ul>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <ul>
+            <li><b>Fully Bayesian</b>: "앞면일까, 뒷면일까?"라는 질문에 한 학생이 "앞면 0.5, 뒷면 0.5"라고 답했다. 하나를 고르지 않고 <b>PMF 자체</b>를 보고했으므로 Fully Bayesian식 답이다.</li>
+            <li><b>ML</b>: 10번 중 앞면 2번이 관측됐으므로 앞면 확률 θ = 0.2로 추정한다. 반반(θ = 0.5)이라면 binomial 분포의 peak는 앞면 5번에 선다. 관측값(앞면 2번)에 peak가 서는 binomial을 만드는 θ가 0.2다. 장군님께는 "뒷면입니다"라고 답한다. 교수님은 "미분해 보면 나오거든요"라며 계산을 미뤘다 → 아래 보충에서 유도한다.</li>
+            <li><b>MAP</b>: 데이터만 믿지 않고 "모름지기 동전이면 반반이어야 되는 거 아니야?"라는 prior를 섞는다. 그러면 앞면 확률은 0.2와 0.5 사이, <b>0.3 정도</b>가 된다. 교수님은 "정확하게 어떻게 반영했는지는 나중에 설명할게"라고 했다 (0916 68:15).</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>머니볼</b>: 오클랜드 야구팀이 데이터 사이언티스트를 활용한 이야기를 다룬 영화예요. 데이터만 보고 판단하는 사람의 대답이 ML이에요. (0916 60:40–69:25)</p>
+          <p><b>야구 코치 vs 데이터 사이언티스트</b>: 선수 출신 코치는 "내가 해봐서 아는데 어제 술 먹은 거다, 혼내면 다음엔 잘 던진다"고 하고, 데이터 사이언티스트는 "이미 꺾였다, 구속이 안 나온다"고 해요. 교수님 결론은 <b>"온전한 솔루션은 항상 그 사이에 있다."</b> 경험(prior)과 데이터를 섞는 것, 이게 MAP의 직관이에요.</p>
+        </div>
+        <div class="layer supp"><span class="badge supp">📎 보충 · 수업 미유도</span>
+          <p><b>ML 유도</b> (N = 10, k = 2)</p>
+          <ol class="steps">
+            <li>likelihood는 binomial이다: $p(k \mid \theta) = \binom{N}{k} \theta^{k} (1-\theta)^{N-k}$.</li>
+            <li>log를 씌운다: $\ell(\theta) = \log\binom{10}{2} + 2\log\theta + 8\log(1-\theta)$</li>
+            <li>미분해서 0으로 둔다(첫째 항은 θ와 무관): $$\frac{2}{\theta} - \frac{8}{1-\theta} = 0 \ \Rightarrow\ \theta_{\text{ML}} = 0.2$$ 일반적으로 $\theta_{\text{ML}} = \frac{k}{N}$ 이다.</li>
+          </ol>
+          <p><b>MAP 유도</b> ("반반" prior를 Beta 분포로 표현)</p>
+          <ol class="steps">
+            <li>prior를 $\mathrm{Beta}(\alpha, \beta)$ 로 둔다: $p(\theta) \propto \theta^{\alpha - 1} (1-\theta)^{\beta - 1}$. $\alpha = \beta$ 이면 0.5를 중심으로 대칭이고, 값이 클수록 "반반"을 강하게 믿는 것이다.</li>
+            <li>posterior ∝ likelihood × prior: $p(\theta \mid k) \propto \theta^{k + \alpha - 1} (1-\theta)^{N - k + \beta - 1}$, 즉 $\mathrm{Beta}(\alpha + k, \beta + N - k)$ 다. prior와 posterior가 같은 Beta 꼴이다.</li>
+            <li>prior Beta(4, 4)이면 사후분포는 Beta(6, 12)이다.</li>
+            <li>posterior의 봉우리(log를 미분해서 0)가 MAP이다: $$\theta_{\text{MAP}} = \frac{k + \alpha - 1}{N + \alpha + \beta - 2} = \frac{5}{16} = 0.3125$$</li>
+            <li>참고로 Fully Bayesian 예측값은 posterior의 평균 $\frac{6}{18} = \frac{1}{3}$ 이다(<a href="#s4-predictive">posterior predictive</a>).</li>
+          </ol>
+          <p>연결: <a href="복습문제_0909-0916_When_Models_Meet_Data.html#p8">복습문제 P8</a>(Beta prior의 posterior와 MAP), <a href="복습문제_0909-0916_When_Models_Meet_Data.html#p10">복습문제 P10</a>(미분으로 극값 찾기).</p>
+        </div>
+      </article>
+      <div class="widget" id="widget-coin">
+        <h4>🪙 직접 해보기: 동전 ML vs MAP vs 사후분포</h4>
+        <p class="widget-help">N번 던져 앞면이 k번 나왔어요. prior 강도 a는 "모름지기 동전은 반반"이라는 믿음의 세기예요(Beta(a, a)). a=1이면 아무 믿음 없는 uniform prior라서 MAP가 ML과 같아져요.</p>
+        <div class="controls">
+          <label>던진 횟수 N <input type="range" id="coin-n" min="1" max="50" step="1" value="10"> <output id="coin-n-out">10</output></label>
+          <label>앞면 수 k <input type="range" id="coin-k" min="0" max="10" step="1" value="2"> <output id="coin-k-out">2</output></label>
+          <label>prior 강도 a <input type="range" id="coin-a" min="1" max="20" step="1" value="4"> <output id="coin-a-out">4</output></label>
+        </div>
+        <svg id="coin-plot" viewBox="0 0 560 260" role="img" aria-label="likelihood, prior, posterior 곡선과 ML·MAP 위치"></svg>
+        <div class="readout">θ<sub>ML</sub> = <b id="coin-ml">–</b> · θ<sub>MAP</sub> = <b id="coin-map">–</b> · 다음에 앞면 나올 확률(Fully Bayesian) = <b id="coin-pred">–</b></div>
+        <p class="legend"><span><span class="sw like"></span>likelihood(정규화)</span><span><span class="sw prior"></span>prior Beta(a, a)</span><span><span class="sw post"></span>posterior</span></p>
+      </div>
+      <article class="topic" id="s4-predictive"><h3>Posterior predictive와 조건부 독립</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">하나만 골라 말하지 말고, 가능한 모든 θ의 의견을 믿는 만큼 가중평균해서 예측하자는 거예요.</p>
+          <p>θ = 0.2라는 친구, θ = 0.3이라는 친구, θ = 0.5라는 친구가 있으면, 더 믿을 만한 친구의 말에 더 큰 무게를 줘서 평균을 내요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>분포를 요약하는 방법</b>: θ의 분포가 연속 곡선으로 나오면, 장군님께 그림을 그려 가며 설명해야 해서 말이 길어진다.</p>
+          <ul>
+            <li>가우시안으로 가정하면 파라미터 두 개(평균과 분산)로 요약된다. 예) "평균 7.8, 분산 3.2인 가우시안입니다." θ처럼 값이 [0, 1] 범위라면 Beta 분포로 요약하는 것이 어울린다.</li>
+            <li>봉우리가 여럿이면 가우시안 여러 개의 가중합, 즉 <b>mixture</b>로 요약한다: $\sum_k \pi_k \mathcal{N}(\mu_k, \sigma_k^2)$. 이 모델은 학기 말에 <b>EM(Expectation-Maximization) 알고리즘</b>에서 다룬다.</li>
+          </ul>
+          <p><b>posterior predictive 유도</b></p>
+          <ol class="steps">
+            <li>θ를 끼워 넣었다가 적분으로 없앤다(주변화를 거꾸로 이용): $P(A \mid \mathbf{X}) = \int P(A, \boldsymbol{\theta} \mid \mathbf{X})\, d\boldsymbol{\theta}$</li>
+            <li>곱셈 규칙으로 joint를 조건부 × posterior로 나눈다: $\int P(A \mid \boldsymbol{\theta}, \mathbf{X})\, P(\boldsymbol{\theta} \mid \mathbf{X})\, d\boldsymbol{\theta}$</li>
+            <li>θ가 주어지면 $\mathbf{X}$ 는 A에 대해 더 알려 주는 것이 없으므로 $P(A \mid \boldsymbol{\theta}, \mathbf{X}) = P(A \mid \boldsymbol{\theta})$ 이다. 한 줄로 쓰면: $$P(A \mid \mathbf{X}) = \int P(A, \boldsymbol{\theta} \mid \mathbf{X})\, d\boldsymbol{\theta} = \int P(A \mid \boldsymbol{\theta}, \mathbf{X})\, P(\boldsymbol{\theta} \mid \mathbf{X})\, d\boldsymbol{\theta} = \int P(A \mid \boldsymbol{\theta})\, P(\boldsymbol{\theta} \mid \mathbf{X})\, d\boldsymbol{\theta}$$</li>
+            <li>이것이 <b>posterior predictive distribution</b>이다. "θ의 예측 $P(A \mid \boldsymbol{\theta})$"를 "θ를 믿는 정도 $P(\boldsymbol{\theta} \mid \mathbf{X})$"로 가중평균한 것이다.</li>
+          </ol>
+          <p><b>마지막 등호의 근거는 조건부 독립이다</b>: $P(x_1, \dots, x_N, A \mid \boldsymbol{\theta}) = \prod_{i=1}^{N} P(x_i \mid \boldsymbol{\theta}) \cdot P(A \mid \boldsymbol{\theta})$. θ가 주어지면 관측 데이터들과 새 사건 A가 서로 독립이다. 즉 θ가 주어지면 X는 A에 대해 더 알려 주는 것이 없다(<a href="#s3-iid">i.i.d.</a>와 같은 생각).</p>
+          <p><b>위젯과의 연결</b>: 위 <a href="#widget-coin">동전 위젯</a>의 "다음에 앞면 나올 확률"이 바로 이 값이다. 동전의 경우 $P(A \mid \boldsymbol{\theta}) = \theta$ 이므로 posterior Beta(k + a, N − k + a)의 평균, 즉 $\frac{k + a}{N + 2a}$ 가 된다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>연속 곡선을 말로 설명하는 건 "everybody dislikes this." 그래서 가우시안이나 mixture처럼 파라미터 몇 개로 요약해서 보고해요. (0916 69:27–71:32)</p>
+          <p>조건부 독립과 posterior predictive는 "이거는 다음 시간에 조금 더 자세히 다시 설명할게요." (0916 72:04)</p>
+        </div>
+      </article>
     </section>
 
     <section id="s5"><h2>5. 한 장 요약 · 다음 시간 예고</h2>
@@ -1057,6 +1239,43 @@ if (typeof module !== 'undefined' && module.exports) {
   }
   el('reg-degree').addEventListener('input', draw);
   el('reg-lambda').addEventListener('input', draw);
+  draw();
+})();
+  </script>
+  <script id="widget-coin-ui">
+(function () {
+  const el = (id) => document.getElementById(id);
+  const W = 560, H = 260, P = 24;
+  const sx = (t) => P + t * (W - 2 * P);
+  const grid = Array.from({ length: 199 }, (_, i) => (i + 1) / 200);
+  const fmt = (v) => String(Number(v.toFixed(4)));
+  function draw() {
+    const N = Number(el('coin-n').value);
+    const kEl = el('coin-k');
+    kEl.max = String(N);
+    if (Number(kEl.value) > N) kEl.value = String(N);
+    const k = Number(kEl.value);
+    const a = Number(el('coin-a').value);
+    el('coin-n-out').textContent = String(N);
+    el('coin-k-out').textContent = String(k);
+    el('coin-a-out').textContent = String(a);
+    const like = grid.map((t) => betaPdf(t, k + 1, N - k + 1));
+    const prior = grid.map((t) => betaPdf(t, a, a));
+    const post = grid.map((t) => betaPdf(t, k + a, N - k + a));
+    const ymax = Math.max(...like, ...prior, ...post) * 1.08;
+    const sy = (y) => H - P - (y / ymax) * (H - 2 * P);
+    const path = (ys) => ys.map((y, i) => (i ? 'L' : 'M') + sx(grid[i]).toFixed(1) + ' ' + sy(y).toFixed(1)).join(' ');
+    const est = coinEstimates(N, k, a);
+    const vline = (t, cls) => '<line class="' + cls + '" x1="' + sx(t).toFixed(1) + '" y1="' + P + '" x2="' + sx(t).toFixed(1) + '" y2="' + (H - P) + '"/>';
+    const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => '<text class="tick" x="' + sx(t) + '" y="' + (H - 6) + '" text-anchor="middle">' + t + '</text>').join('');
+    el('coin-plot').innerHTML = '<line class="axis" x1="' + P + '" y1="' + (H - P) + '" x2="' + (W - P) + '" y2="' + (H - P) + '"/>' + ticks
+      + '<path class="plot-like" d="' + path(like) + '"/><path class="plot-prior" d="' + path(prior) + '"/><path class="plot-post" d="' + path(post) + '"/>'
+      + vline(est.ml, 'mark-ml') + vline(est.map, 'mark-map');
+    el('coin-ml').textContent = fmt(est.ml);
+    el('coin-map').textContent = fmt(est.map);
+    el('coin-pred').textContent = fmt(est.pred);
+  }
+  ['coin-n', 'coin-k', 'coin-a'].forEach((id) => el(id).addEventListener('input', draw));
   draw();
 })();
   </script>
