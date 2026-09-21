@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>머신러닝기초 정리노트</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 0909·0914·0916 수업 정리 (When Models Meet Data)">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    :root {
+      --bg: #f7f8fa; --surface: #ffffff; --surface-2: #f1f3f7; --ink: #1b2130; --ink-2: #4a5468; --line: #dde2ea;
+      --accent: #2f6fdb; --accent-soft: #e6efff; --warn: #b54708; --warn-soft: #fff4e5;
+      --prof: #6941c6; --prof-soft: #f3efff; --supp: #067647; --supp-soft: #e8f7ef;
+      --eli5: #c4320a; --eli5-soft: #fff1eb; --danger: #d92d20;
+      --radius: 14px; --shadow: 0 1px 2px rgba(16, 24, 40, .06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f1218; --surface: #171b23; --surface-2: #1e2430; --ink: #e7eaf0; --ink-2: #a8b0c0; --line: #2a3140;
+        --accent: #7aa7ff; --accent-soft: #1c2a45; --warn: #f5a15c; --warn-soft: #2d2215;
+        --prof: #b69cff; --prof-soft: #251d3b; --supp: #5fd39a; --supp-soft: #14291f;
+        --eli5: #ff9b73; --eli5-soft: #2e1c15; --danger: #ff6b61; --shadow: none;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f1218; --surface: #171b23; --surface-2: #1e2430; --ink: #e7eaf0; --ink-2: #a8b0c0; --line: #2a3140;
+      --accent: #7aa7ff; --accent-soft: #1c2a45; --warn: #f5a15c; --warn-soft: #2d2215;
+      --prof: #b69cff; --prof-soft: #251d3b; --supp: #5fd39a; --supp-soft: #14291f;
+      --eli5: #ff9b73; --eli5-soft: #2e1c15; --danger: #ff6b61; --shadow: none;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; line-height: 1.7; font-size: 16px; }
+    a { color: var(--accent); }
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: 920px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 12px; align-items: center; }
+    .topbar strong { white-space: nowrap; font-size: 15px; }
+    .toc { display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .toc a { text-decoration: none; color: var(--ink-2); font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+    .toc a:hover { background: var(--accent-soft); color: var(--accent); }
+    main { max-width: 920px; margin: 0 auto; padding: 24px 16px 80px; }
+    .hero { padding: 24px 0 8px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 36px); line-height: 1.3; margin: 0 0 8px; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    .legend-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; font-size: 13px; }
+    section { margin-top: 48px; }
+    section > h2 { font-size: 24px; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+    .topic { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin: 16px 0; }
+    .topic h3 { margin: 0 0 6px; font-size: 19px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); }
+    .layer { border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer.eli5 { background: var(--eli5-soft); border-left: 4px solid var(--eli5); }
+    .layer.eli5 .lead { font-size: 17px; font-weight: 600; }
+    .layer.formal { background: var(--surface-2); border-left: 4px solid var(--accent); }
+    .layer.prof { background: var(--prof-soft); border-left: 4px solid var(--prof); }
+    .layer.warn { background: var(--warn-soft); border-left: 4px solid var(--warn); }
+    .layer.supp { background: var(--supp-soft); border-left: 4px solid var(--supp); }
+    .layer-title { font-weight: 700; font-size: 13px; letter-spacing: .02em; margin-bottom: 6px; display: block; }
+    .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+    .badge.supp { color: var(--supp); border-color: var(--supp); }
+    blockquote { margin: 8px 0; padding: 0 0 0 12px; border-left: 3px solid var(--line); color: var(--ink-2); }
+    .figure { margin: 12px 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 640px; color: var(--ink); }
+    .figure figcaption { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); }
+    ol.steps li { margin: 6px 0; }
+    .widget { background: var(--surface); border: 2px dashed var(--accent); border-radius: var(--radius); padding: 16px; margin: 20px 0; }
+    .widget h4 { margin: 0 0 6px; }
+    .widget-help { font-size: 14px; color: var(--ink-2); margin: 0 0 8px; }
+    .controls { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 8px; font-size: 14px; }
+    .controls label { display: flex; align-items: center; gap: 8px; }
+    .controls input[type=range] { flex: 1; min-width: 0; }
+    .widget svg { width: 100%; height: auto; background: var(--surface-2); border-radius: 10px; }
+    .readout { font-size: 15px; margin-top: 8px; }
+    .legend { font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: 12px; font-family: inherit; }
+    footer { max-width: 920px; margin: 0 auto; padding: 24px 16px 48px; color: var(--ink-2); font-size: 13px; }
+    @media (max-width: 480px) { .topic { padding: 14px; } .topbar strong { display: none; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <strong>🧸 머러기 정리노트</strong>
+      <nav class="toc" aria-label="목차">
+        <a href="#s0">0 오리엔테이션</a><a href="#s1">1 데이터·모델·러닝</a><a href="#s2">2 ERM</a>
+        <a href="#s3">3 MLE·MAP</a><a href="#s4">4 확률적 추론</a><a href="#s5">5 요약·예고</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <h1>When Models Meet Data — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 0909 · 0914 · 0916 수업 (Lecture00~02, MML 8장)</p>
+      <div class="legend-bar">
+        <span class="badge">🧸 쉬운 비유</span><span class="badge">📐 정식 버전</span><span class="badge">🎙️ 교수님 한마디</span>
+        <span class="badge">⚠️ 강조 포인트</span><span class="badge supp">📎 보충 · 수업 미유도</span>
+      </div>
+    </div>
+
+    <section id="s0"><h2>0. 오리엔테이션</h2>
+      <article class="topic" id="s0-course"><h3>과목 한눈에 보기</h3><div class="tags"><span class="tag date">📅 0902</span><span class="tag slide">L00</span></div></article>
+    </section>
+
+    <section id="s1"><h2>1. 데이터 · 모델 · 러닝</h2>
+      <article class="topic" id="s1-components"><h3>머신러닝의 3요소: 데이터 · 모델 · 러닝</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s5</span></div></article>
+      <article class="topic" id="s1-induction"><h3>오늘의 메인 레슨: 머신러닝은 귀납이다</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s5</span></div></article>
+      <article class="topic" id="s1-data"><h3>데이터 = 벡터</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s6</span></div></article>
+      <article class="topic" id="s1-model"><h3>모델 = 수식 (정답은 없다)</h3><div class="tags"><span class="tag date">📅 0909 · 0914</span><span class="tag slide">L01 s5–7</span></div></article>
+      <article class="topic" id="s1-prob-model"><h3>함수 모델 vs 확률 모델</h3><div class="tags"><span class="tag date">📅 0909</span><span class="tag slide">L01 s7</span></div></article>
+      <article class="topic" id="s1-learning"><h3>러닝의 3단계와 하이퍼파라미터</h3><div class="tags"><span class="tag date">📅 0909 · 0914</span><span class="tag slide">L01 s8</span></div></article>
+    </section>
+
+    <section id="s2"><h2>2. Empirical Risk Minimization (모델 = 함수)</h2>
+      <article class="topic" id="s2-erm"><h3>Empirical Risk Minimization이라는 이름</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s10</span></div></article>
+      <article class="topic" id="s2-affine"><h3>가장 중요한 수식: affine 모델과 augmentation</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s10</span></div></article>
+      <article class="topic" id="s2-matrix"><h3>데이터 행렬과 squared loss (김밥 말기)</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s11</span></div></article>
+      <article class="topic" id="s2-risk"><h3>진짜 목표: unseen data의 위험 (true risk)</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s11</span></div></article>
+      <article class="topic" id="s2-reg"><h3>Overfitting과 Regularization</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s12</span></div></article>
+    </section>
+
+    <section id="s3"><h2>3. 확률 모델로 파라미터 추정: MLE · MAP</h2>
+      <article class="topic" id="s3-likelihood"><h3>Likelihood = 그럴듯함, 그리고 −log</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s14</span></div></article>
+      <article class="topic" id="s3-iid"><h3>i.i.d.: 같은 공장에서 찍어낸 데이터</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s15</span></div></article>
+      <article class="topic" id="s3-mle-ls"><h3>가우시안 노이즈면 MLE = Least Squares</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s15</span></div></article>
+      <article class="topic" id="s3-map"><h3>MAP: 데이터 + 선입견(prior)</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s16</span></div></article>
+      <article class="topic" id="s3-map-l2"><h3>📎 가우시안 prior = L2 정규화</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s12 · s16</span></div></article>
+      <article class="topic" id="s3-fitting"><h3>Model fitting: 과적합 · 과소적합 · 적정적합</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s17</span></div></article>
+    </section>
+
+    <section id="s4"><h2>4. 확률적 모델링과 추론</h2>
+      <article class="topic" id="s4-generative"><h3>Generative process: 데이터는 이렇게 만들어졌을 거야</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div></article>
+      <article class="topic" id="s4-joint"><h3>Joint · Marginal · Latent</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div></article>
+      <article class="topic" id="s4-posterior"><h3>Prior × Likelihood → Posterior</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s5</span></div></article>
+      <article class="topic" id="s4-three-ways"><h3>ML vs MAP vs Fully Bayesian</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div></article>
+      <article class="topic" id="s4-coin"><h3>동전으로 보는 세 가지 답</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div></article>
+      <article class="topic" id="s4-predictive"><h3>Posterior predictive와 조건부 독립</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L02 s6</span></div></article>
+    </section>
+
+    <section id="s5"><h2>5. 한 장 요약 · 다음 시간 예고</h2>
+      <article class="topic" id="s5-cheatsheet"><h3>한 장 치트시트</h3></article>
+      <article class="topic" id="s5-prereq"><h3>전제지식 지도 (MML Part I)</h3></article>
+      <article class="topic" id="s5-next"><h3>다음 시간 예고 (아직 안 배움)</h3></article>
+      <article class="topic" id="s5-links"><h3>함께 보면 좋은 자료</h3></article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture00–02) · 수업 녹음 전사(0909·0914·0916) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 8장.</footer>
+  <script id="widget-math">
+/* 위젯 수학 (정리노트 인라인 원본). 브라우저: 전역 함수 / Node: module.exports */
+function polyFeatures(x, degree) {
+  const row = [];
+  for (let p = 0; p <= degree; p++) row.push(x ** p);
+  return row;
+}
+
+function solveLinear(A, b) {
+  const n = b.length;
+  const M = A.map((row, i) => [...row, b[i]]);
+  for (let c = 0; c < n; c++) {
+    let p = c;
+    for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+    [M[c], M[p]] = [M[p], M[c]];
+    const piv = M[c][c];
+    if (Math.abs(piv) < 1e-14) throw new Error('singular');
+    for (let r = 0; r < n; r++) {
+      if (r === c) continue;
+      const f = M[r][c] / piv;
+      for (let k = c; k <= n; k++) M[r][k] -= f * M[c][k];
+    }
+  }
+  return M.map((row, i) => row[n] / row[i]);
+}
+
+function ridgeFit(xs, ys, degree, lambda) {
+  const N = xs.length;
+  const D = degree + 1;
+  const Phi = xs.map((x) => polyFeatures(x, degree));
+  const A = Array.from({ length: D }, (_, i) =>
+    Array.from({ length: D }, (_, j) => {
+      let s = 0;
+      for (let n = 0; n < N; n++) s += Phi[n][i] * Phi[n][j];
+      return s + (i === j ? N * lambda : 0);
+    })
+  );
+  const b = Array.from({ length: D }, (_, i) => {
+    let s = 0;
+    for (let n = 0; n < N; n++) s += Phi[n][i] * ys[n];
+    return s;
+  });
+  return solveLinear(A, b);
+}
+
+function predictPoly(theta, x) {
+  return theta.reduce((s, t, p) => s + t * x ** p, 0);
+}
+
+function mse(theta, xs, ys) {
+  return xs.reduce((s, x, i) => s + (ys[i] - predictPoly(theta, x)) ** 2, 0) / xs.length;
+}
+
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function makeDataset(seed) {
+  const rand = mulberry32(seed);
+  const gauss = () => {
+    const u = 1 - rand();
+    const v = rand();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  };
+  const truth = (x) => Math.sin(Math.PI * x);
+  const trainX = Array.from({ length: 10 }, (_, i) => -1 + (2 * i) / 9);
+  const testX = Array.from({ length: 10 }, (_, i) => -0.95 + (1.9 * i) / 9);
+  return {
+    trainX,
+    trainY: trainX.map((x) => truth(x) + 0.25 * gauss()),
+    testX,
+    testY: testX.map((x) => truth(x) + 0.25 * gauss()),
+    truth,
+  };
+}
+
+function lgamma(z) {
+  const g = 7;
+  const c = [
+    0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313,
+    -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6,
+    1.5056327351493116e-7,
+  ];
+  if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lgamma(1 - z);
+  z -= 1;
+  let x = c[0];
+  for (let i = 1; i < g + 2; i++) x += c[i] / (z + i);
+  const t = z + g + 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+}
+
+function betaPdf(t, a, b) {
+  if (t <= 0 || t >= 1) return 0;
+  return Math.exp((a - 1) * Math.log(t) + (b - 1) * Math.log(1 - t) + lgamma(a + b) - lgamma(a) - lgamma(b));
+}
+
+function coinEstimates(N, k, a) {
+  return { ml: k / N, map: (k + a - 1) / (N + 2 * a - 2), pred: (k + a) / (N + 2 * a) };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { polyFeatures, solveLinear, ridgeFit, predictPoly, mse, mulberry32, makeDataset, lgamma, betaPdf, coinEstimates };
+}
+
+  </script>
+</body>
+</html>

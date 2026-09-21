@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>머신러닝기초 복습문제</title>
+  <meta name="description" content="0909~0916 수업 범위 교과서(MML) 복습문제 10선">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    :root {
+      --bg: #f7f8fa; --surface: #ffffff; --surface-2: #f1f3f7; --ink: #1b2130; --ink-2: #4a5468; --line: #dde2ea;
+      --accent: #2f6fdb; --accent-soft: #e6efff; --warn: #b54708; --warn-soft: #fff4e5;
+      --prof: #6941c6; --prof-soft: #f3efff; --supp: #067647; --supp-soft: #e8f7ef;
+      --eli5: #c4320a; --eli5-soft: #fff1eb; --danger: #d92d20;
+      --radius: 14px; --shadow: 0 1px 2px rgba(16, 24, 40, .06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f1218; --surface: #171b23; --surface-2: #1e2430; --ink: #e7eaf0; --ink-2: #a8b0c0; --line: #2a3140;
+        --accent: #7aa7ff; --accent-soft: #1c2a45; --warn: #f5a15c; --warn-soft: #2d2215;
+        --prof: #b69cff; --prof-soft: #251d3b; --supp: #5fd39a; --supp-soft: #14291f;
+        --eli5: #ff9b73; --eli5-soft: #2e1c15; --danger: #ff6b61; --shadow: none;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f1218; --surface: #171b23; --surface-2: #1e2430; --ink: #e7eaf0; --ink-2: #a8b0c0; --line: #2a3140;
+      --accent: #7aa7ff; --accent-soft: #1c2a45; --warn: #f5a15c; --warn-soft: #2d2215;
+      --prof: #b69cff; --prof-soft: #251d3b; --supp: #5fd39a; --supp-soft: #14291f;
+      --eli5: #ff9b73; --eli5-soft: #2e1c15; --danger: #ff6b61; --shadow: none;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; line-height: 1.7; font-size: 16px; }
+    a { color: var(--accent); }
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: 920px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 12px; align-items: center; }
+    .topbar strong { white-space: nowrap; font-size: 15px; }
+    .toc { display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .toc a { text-decoration: none; color: var(--ink-2); font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+    .toc a:hover { background: var(--accent-soft); color: var(--accent); }
+    main { max-width: 920px; margin: 0 auto; padding: 24px 16px 80px; }
+    .hero { padding: 24px 0 8px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 36px); line-height: 1.3; margin: 0 0 8px; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    .legend-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; font-size: 13px; }
+    section { margin-top: 48px; }
+    section > h2 { font-size: 24px; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+    .topic { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin: 16px 0; }
+    .topic h3 { margin: 0 0 6px; font-size: 19px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); }
+    .layer { border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer.eli5 { background: var(--eli5-soft); border-left: 4px solid var(--eli5); }
+    .layer.eli5 .lead { font-size: 17px; font-weight: 600; }
+    .layer.formal { background: var(--surface-2); border-left: 4px solid var(--accent); }
+    .layer.prof { background: var(--prof-soft); border-left: 4px solid var(--prof); }
+    .layer.warn { background: var(--warn-soft); border-left: 4px solid var(--warn); }
+    .layer.supp { background: var(--supp-soft); border-left: 4px solid var(--supp); }
+    .layer-title { font-weight: 700; font-size: 13px; letter-spacing: .02em; margin-bottom: 6px; display: block; }
+    .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+    .badge.supp { color: var(--supp); border-color: var(--supp); }
+    blockquote { margin: 8px 0; padding: 0 0 0 12px; border-left: 3px solid var(--line); color: var(--ink-2); }
+    .figure { margin: 12px 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 640px; color: var(--ink); }
+    .figure figcaption { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); }
+    ol.steps li { margin: 6px 0; }
+    .widget { background: var(--surface); border: 2px dashed var(--accent); border-radius: var(--radius); padding: 16px; margin: 20px 0; }
+    .widget h4 { margin: 0 0 6px; }
+    .widget-help { font-size: 14px; color: var(--ink-2); margin: 0 0 8px; }
+    .controls { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 8px; font-size: 14px; }
+    .controls label { display: flex; align-items: center; gap: 8px; }
+    .controls input[type=range] { flex: 1; min-width: 0; }
+    .widget svg { width: 100%; height: auto; background: var(--surface-2); border-radius: 10px; }
+    .readout { font-size: 15px; margin-top: 8px; }
+    .legend { font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: 12px; font-family: inherit; }
+    footer { max-width: 920px; margin: 0 auto; padding: 24px 16px 48px; color: var(--ink-2); font-size: 13px; }
+    @media (max-width: 480px) { .topic { padding: 14px; } .topbar strong { display: none; } }
+  
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin: 16px 0; }
+    .card h3 { margin: 6px 0 10px; font-size: 18px; }
+    .card-head { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge.src { color: var(--accent); border-color: var(--accent); }
+    .badge.level { color: var(--warn); border-color: var(--warn); }
+    .problem { margin: 8px 0 12px; }
+    details { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; background: var(--surface-2); }
+    details > summary { cursor: pointer; font-weight: 700; }
+    details[open] > summary { margin-bottom: 8px; }
+    details.original { font-size: 14px; color: var(--ink-2); }
+    .answer { font-weight: 700; background: var(--supp-soft); border-radius: 8px; padding: 8px 10px; }
+    .link-back { font-size: 14px; color: var(--ink-2); }
+    .done { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; cursor: pointer; }
+    .progress { position: sticky; top: 52px; z-index: 5; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; display: inline-block; font-size: 14px; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <strong>📝 머러기 복습문제</strong>
+      <nav class="toc" aria-label="목차">
+        <a href="#partA">A 교과서 예제</a><a href="#partB">B 교과서 연습문제</a>
+        <a href="정리노트_0909-0916_When_Models_Meet_Data.html">정리노트로 ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <h1>복습문제 10선 — 0909~0916 수업 범위</h1>
+      <p>수업 범위인 MML 8장에는 연습문제가 없어서, <b>8장 본문 예제(Example 8.1~8.6)를 문제로 바꾼 5문항</b>과 <b>수업 내용으로 풀 수 있는 6·7장 연습문제 5문항</b>을 골랐습니다. 먼저 스스로 풀고, 막히면 💡 힌트, 그다음 ✅ 풀이를 여세요.</p>
+      <p class="progress">풀었음 <b id="progress-count">0</b> / 10</p>
+    </div>
+    <section id="partA"><h2>A. 교과서 본문 예제 (MML 8장)</h2>
+      <article class="card" id="p1"></article>
+      <article class="card" id="p2"></article>
+      <article class="card" id="p3"></article>
+      <article class="card" id="p4"></article>
+      <article class="card" id="p5"></article>
+    </section>
+    <section id="partB"><h2>B. 교과서 연습문제 (MML 6·7장)</h2>
+      <article class="card" id="p6"></article>
+      <article class="card" id="p7"></article>
+      <article class="card" id="p8"></article>
+      <article class="card" id="p9"></article>
+      <article class="card" id="p10"></article>
+    </section>
+  </main>
+  <footer>출처: Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (Cambridge University Press, 2020). 풀이는 자체 작성이며 <code>scripts/review_answers.py</code>로 수치를 검증했습니다.</footer>
+  <script id="progress-ui">
+    (function () {
+      const KEY = 'mlb-review-0909-0916-done';
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+      const boxes = Array.from(document.querySelectorAll('input[data-done]'));
+      const update = () => { document.getElementById('progress-count').textContent = String(boxes.filter((b) => b.checked).length); };
+      boxes.forEach((b) => {
+        b.checked = Boolean(saved[b.dataset.done]);
+        b.addEventListener('change', () => {
+          saved[b.dataset.done] = b.checked;
+          try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* 저장 불가 환경: 무시 */ }
+          update();
+        });
+      });
+      update();
+    })();
+  </script>
+</body>
+</html>
