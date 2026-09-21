@@ -640,12 +640,264 @@
     </section>
 
     <section id="s3"><h2>3. 확률 모델로 파라미터 추정: MLE · MAP</h2>
-      <article class="topic" id="s3-likelihood"><h3>Likelihood = 그럴듯함, 그리고 −log</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s14</span></div></article>
-      <article class="topic" id="s3-iid"><h3>i.i.d.: 같은 공장에서 찍어낸 데이터</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s15</span></div></article>
-      <article class="topic" id="s3-mle-ls"><h3>가우시안 노이즈면 MLE = Least Squares</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s15</span></div></article>
-      <article class="topic" id="s3-map"><h3>MAP: 데이터 + 선입견(prior)</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s16</span></div></article>
-      <article class="topic" id="s3-map-l2"><h3>📎 가우시안 prior = L2 정규화</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s12 · s16</span></div></article>
-      <article class="topic" id="s3-fitting"><h3>Model fitting: 과적합 · 과소적합 · 적정적합</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s17</span></div></article>
+      <article class="topic" id="s3-likelihood"><h3>Likelihood = 그럴듯함, 그리고 −log</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s14</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">"이 동전이라면 이런 결과가 나올 법하네?" 하고 느끼는 정도가 likelihood(그럴듯함)예요.</p>
+          <p>여러 동전(파라미터 θ) 후보 중에서 지금 본 결과가 <b>가장 그럴듯하게 나오는</b> 동전을 고르는 게 MLE예요. 확률이 너무 작아서 비교하기 힘들 땐 <b>log</b>라는 돋보기로 작은 부분을 크게 확대해서 봐요.</p>
+          <figure class="figure"><svg id="fig-log" viewBox="0 0 520 240" role="img" aria-label="log t 곡선: 0에서 1 사이의 좁은 구간이 세로로 아주 넓게 펼쳐진다">
+            <line x1="40" y1="58" x2="500" y2="58" class="fig-ink" stroke-opacity=".5"/>
+            <line x1="50" y1="12" x2="50" y2="200" class="fig-ink" stroke-opacity=".5"/>
+            <text x="494" y="50" text-anchor="end" class="fig-muted">t (확률값)</text><text x="58" y="22" class="fig-muted">log t</text>
+            <line x1="190" y1="52" x2="190" y2="64" class="fig-ink"/><text x="190" y="78" text-anchor="middle" class="fig-text">1</text>
+            <text x="42" y="62" text-anchor="end" class="fig-muted">0</text>
+            <polyline points="53,187 54,174 57,157 61,141 67,128 75,115 85,104 99,93 120,81 148,70 190,58 246,47 316,37 386,29 470,22" class="fig-accent"/>
+            <line x1="52" y1="214" x2="188" y2="214" class="fig-danger"/><line x1="52" y1="208" x2="52" y2="220" class="fig-danger"/><line x1="188" y1="208" x2="188" y2="220" class="fig-danger"/>
+            <text x="120" y="234" text-anchor="middle" class="fig-text">0 ~ 1: 좁은 구간</text>
+            <line x1="30" y1="62" x2="30" y2="190" class="fig-danger"/><line x1="24" y1="62" x2="36" y2="62" class="fig-danger"/><line x1="24" y1="190" x2="36" y2="190" class="fig-danger"/>
+            <text x="230" y="150" class="fig-text">세로로 크게 펼쳐짐 (클로즈업!)</text>
+            <text x="230" y="170" class="fig-muted">0.001 과 0.002 의 차이도 또렷해져요</text>
+          </svg><figcaption>log는 0~1 사이의 작은 확률값들을 세로로 쭉 늘려 줘요. 감독이 보고 싶은 장면을 클로즈업하는 것과 같아요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>뜻</b>: likely(~할 것 같은) + -hood(명사를 만드는 접미사, childhood처럼) = <b>그럴듯함</b>. maximum likelihood는 "가장 그럴듯함"이다.</p>
+          <ul>
+            <li>likelihood $p(\mathbf{x} \mid \boldsymbol{\theta})$ 는 데이터 $\mathbf{x}$ 를 고정하고 <b>θ를 바꿔 가며 보는 θ의 함수</b>다. θ에 대한 PDF가 아니다(θ로 적분해도 1이 된다는 보장이 없다).</li>
+            <li>주어진 데이터가 그 파라미터로부터 나왔을 그럴듯함이 최대가 되는 θ를 학습 파라미터로 정한다.</li>
+          </ul>
+          <p><b>Negative log-likelihood (NLL)</b></p>
+          $$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathbf{x} \mid \boldsymbol{\theta})$$
+          <p>loss와 risk는 작을수록 좋은 "부정적 metric"으로 정의하므로 앞에 마이너스를 붙여 <b>최소화</b> 문제로 만든다. <b>MLE</b>는 θ를 바꿔 가며 $\mathcal{L}$ 을 최소화하는 θ를 찾는 것이다: $\arg\max_{\boldsymbol{\theta}} p(\mathbf{x} \mid \boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \mathcal{L}(\boldsymbol{\theta})$.</p>
+          <p><b>왜 하필 log인가 (세 가지 이유)</b></p>
+          <ol class="steps">
+            <li><b>단조증가</b> 함수라서 값의 대소(우열)가 바뀌지 않는다. 그래서 log를 씌워도 argmax가 그대로 보존된다.</li>
+            <li>노이즈나 관측을 <b>가우시안</b>으로 모델링하는 경우가 많은데, log를 취하면 $\exp$ 가 사라져 계산이 쉬워진다.</li>
+            <li>확률이 0.0000…처럼 아주 작아지면 0.001과 0.002(두 배 차이)의 격차가 잘 드러나지 않는다. log는 1보다 작은 영역을 크게 늘려 준다(<b>클로즈업</b>, 위 그림).</li>
+          </ol>
+          <p><small>※ 덧붙임: 확률밀도함수(PDF)의 <b>값 자체는 1보다 클 수</b> 있다. 1을 넘을 수 없는 것은 적분한 값(넓이)뿐이다.</small></p>
+          <p><b>latent parameter θ와 확률 모형을 "정의(define)"한다는 것</b></p>
+          <ul>
+            <li>x가 주어졌을 때 y가 나오게 만드는 숨은 파라미터 θ를 <b>latent parameter</b>(latent variable, 숨겨진 변수)라고 부른다.</li>
+            <li>x와 y의 관계를 deterministic 함수로 둘지 PDF로 둘지는 <b>내가 정하는 것</b>이다. 그래서 "정의한다"고 말한다.</li>
+            <li>예) 지수분포: $f(x) = \lambda e^{-\lambda x}$ ($x \ge 0$). λ에 따라 가파르게 또는 느리게 감소한다. 파라미터는 λ 하나다.</li>
+            <li>예) 가우시안: $\theta_1 = \mu$, $\theta_2 = \sigma^2$ 로 두면 $f(x; \theta_1, \theta_2) = \frac{1}{\sqrt{2\pi\theta_2}} \exp\big(-\frac{(x - \theta_1)^2}{2\theta_2}\big)$ 이 되어, PDF가 θ의 식이 된다.</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>우리말 <b>"그럴듯하다"</b>가 likelihood와 딱 맞는 뜻이에요. 그 분야에서 쓰는 용어를 조금 섬세하게 볼 필요가 있어요. (0916 00:26–04:59)</p>
+          <p>디지털통신에서 배우는 MLD(Maximum Likelihood Detection)와 MAP도 통신만의 용어가 아니라 같은 <b>통계학 용어</b>예요. (0914 55:00)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>항상 예외 없이 이 수식을 쓰는 거예요… 묻지도 말고 따지지도 말고 -log를 쳐. (0916 07:02)</blockquote>
+          <blockquote>이렇게 외워도 돼요. (0916 08:59)</blockquote>
+          <blockquote>그 어떤 머신러닝 문제가 있어도… 항상 여기까지는 그냥 쓰는 거예요. (0916 12:18)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s3-iid"><h3>i.i.d.: 같은 공장에서 찍어낸 데이터</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s15</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">같은 공장, 같은 기계에서 하나씩 따로따로 찍어낸 과자들이에요.</p>
+          <p>과자 하나가 다른 과자 모양에 영향을 주지 않고(따로따로), 모두 같은 기계(θ 하나)에서 나왔어요. 그래서 과자들을 잔뜩 모으면 그 기계가 어떻게 생겼는지 알아낼 수 있어요.</p>
+          <figure class="figure"><svg id="fig-factory" viewBox="0 0 540 230" role="img" aria-label="공장 하나(θ)에서 과자 y₁부터 y_N까지가 하나씩 따로 만들어져 나온다">
+            <polygon points="30,170 30,90 70,70 70,90 110,70 110,90 150,70 150,170" class="fig-ink"/>
+            <rect x="120" y="40" width="16" height="36" class="fig-ink"/>
+            <text x="90" y="130" text-anchor="middle" class="fig-text">공장 θ</text>
+            <text x="90" y="192" text-anchor="middle" class="fig-muted">p(y | x, θ) 하나</text>
+            <text x="90" y="210" text-anchor="middle" class="fig-muted">같은 기계 · 같은 불확실성</text>
+            <line x1="152" y1="115" x2="350" y2="42" class="fig-ink"/><polyline points="341,41 350,42 344,49" class="fig-ink"/>
+            <line x1="152" y1="120" x2="350" y2="92" class="fig-ink"/><polyline points="342,89 350,92 343,97" class="fig-ink"/>
+            <line x1="152" y1="125" x2="350" y2="142" class="fig-ink"/><polyline points="343,137 350,142 342,145" class="fig-ink"/>
+            <line x1="152" y1="130" x2="350" y2="202" class="fig-ink"/><polyline points="344,195 350,202 341,203" class="fig-ink"/>
+            <text x="250" y="170" text-anchor="middle" class="fig-muted" transform="rotate(20 250 170)">하나씩 따로</text>
+            <circle cx="372" cy="42" r="18" class="fig-accent"/><circle cx="366" cy="38" r="2.5" class="fig-dot"/><circle cx="378" cy="47" r="2.5" class="fig-dot"/>
+            <circle cx="372" cy="92" r="18" class="fig-accent"/><circle cx="366" cy="88" r="2.5" class="fig-dot"/><circle cx="378" cy="97" r="2.5" class="fig-dot"/>
+            <circle cx="372" cy="142" r="18" class="fig-accent"/><circle cx="366" cy="138" r="2.5" class="fig-dot"/><circle cx="378" cy="147" r="2.5" class="fig-dot"/>
+            <text x="372" y="180" text-anchor="middle" class="fig-text">⋮</text>
+            <circle cx="372" cy="202" r="18" class="fig-accent"/><circle cx="366" cy="198" r="2.5" class="fig-dot"/><circle cx="378" cy="207" r="2.5" class="fig-dot"/>
+            <text x="400" y="47" class="fig-text">y₁ (x₁로부터)</text><text x="400" y="97" class="fig-text">y₂ (x₂로부터)</text><text x="400" y="147" class="fig-text">y₃</text><text x="400" y="207" class="fig-text">y_N</text>
+          </svg><figcaption>공장(θ)은 하나, 과자(데이터)는 N개. 과자끼리는 서로 영향을 주지 않아요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>i.i.d.</b> = independent and identically distributed.</p>
+          <ul>
+            <li><b>independent</b>: $\mathbf{x}_1$ 은 짝인 $y_1$ 에만 영향을 주고 $y_2, y_3, \dots$ 에는 영향을 주지 않는다. 통계적으로 독립이면 $p(A, B) = p(A)\, p(B)$ 다.</li>
+            <li><b>identically distributed</b>: 모든 데이터 쌍이 같은 PDF(같은 θ)에서 나왔다.</li>
+            <li>데이터: $(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)$, $\mathbf{x}_n \in \mathbb{R}^D$. 입력들을 모은 집합을 $\mathcal{X}$, 정답들을 모은 집합을 $\mathcal{Y}$ 로 쓴다.</li>
+          </ul>
+          <p><b>칠판 유도</b> (시작: $\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta})$)</p>
+          <ol class="steps">
+            <li><b>independent → 곱</b>: 데이터 쌍마다 따로 분해된다. 아직은 쌍마다 관계 파라미터가 다를 수 있으니 $\boldsymbol{\theta}_n$ 으로 둔다. $$-\log \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta}_n)$$</li>
+            <li><b>identical → θ 하나</b>: 모두 같은 PDF이므로 첨자 n을 지우고 $\boldsymbol{\theta}$ 하나로 쓴다. $$-\log \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li>
+            <li><b>log → 합</b>: $\log(ab) = \log a + \log b$ 이므로 곱이 합이 된다.</li>
+          </ol>
+          <p>최종 결과 (negative log-likelihood, log-likelihood loss라고도 부른다. 이것을 최소화하는 게 목표다)</p>
+          $$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = -\log \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta}) = -\sum_{n=1}^{N} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$
+          <p><b>왜 identical을 가정하나</b>: 데이터 하나를 만들 때마다 PDF가 바뀐다면, PDF 하나를 추정하는 데 쓸 데이터가 <b>1개뿐</b>이다. 그러면 추정이 말이 안 된다(빅데이터가 아니다). 그래서 데이터 전체를 설명하는 PDF 하나를 두고 i.i.d.를 가정한다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>추석 선물 세트</b>: D차원 벡터 $\mathbf{x}_1, \dots, \mathbf{x}_N$ 을 "모아 모아 모아서 세트로 만든" 것을 멋드러지게 꺾은 글씨 $\mathcal{X}$ 로 써요. 정답 $y_1, \dots, y_N$ 은 $\mathcal{Y}$ 예요. (0916 04:59–07:01)</p>
+          <p>"$y_1$ 이 $\mathbf{x}_1$ 에 의해 만들어지는 이 데이터 세트가 확률밀도함수 하나로만 만들어진다는 겁니까?" → "맞아요."</p>
+          <blockquote>동일한 공장에서 동일한 불확실성을 갖고 찍어낸 데이터 N개 세트를 가지고 있다는 가정이에요. (0916 14:45)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s3-mle-ls"><h3>가우시안 노이즈면 MLE = Least Squares</h3><div class="tags"><span class="tag date">📅 0914 · 0916</span><span class="tag slide">L01 s15</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">"오차는 종 모양(가우시안)으로 생겼을 거야"라고 믿으면, 가장 그럴듯한 선은 오차 제곱의 합이 가장 작은 선과 똑같아져요.</p>
+          <p>확률로 생각해서 풀어도, 그냥 "틀린 만큼 제곱해서 더한 걸 줄이자"로 풀어도 같은 답이 나와요. 두 길이 한 곳에서 만나요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>가정(모델링)을 추가한다</b>. 데이터가 affine 모델에 가우시안 노이즈가 더해져 나왔다고 suppose한다.</p>
+          $$y_n = \mathbf{x}_n^\top \boldsymbol{\theta} + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2)$$
+          <p>상수($\mathbf{x}_n^\top \boldsymbol{\theta}$)에 가우시안 확률변수를 더하면 여전히 가우시안이다. 평균만 상수만큼 이동하고 분산은 그대로다. 따라서 $y_n \mid \mathbf{x}_n, \boldsymbol{\theta} \sim \mathcal{N}(\mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$, 즉</p>
+          $$p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta}) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\Big(-\frac{(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2}{2\sigma^2}\Big)$$
+          <p><b>A항 / B항 분리 유도</b> (<a href="#s3-iid">i.i.d. 결과식</a>에 대입)</p>
+          <ol class="steps">
+            <li>log 안의 곱을 둘로 나눈다: $$\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n=1}^{N} \Big[ \underbrace{\log \frac{1}{\sqrt{2\pi\sigma^2}}}_{A} + \underbrace{\log \exp\Big(-\frac{(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2}{2\sigma^2}\Big)}_{B} \Big]$$</li>
+            <li><b>A항</b>: n과 무관하므로 N번 더하면 $-N \log \frac{1}{\sqrt{2\pi\sigma^2}} = \frac{N}{2}\log(2\pi\sigma^2)$ 이다.</li>
+            <li><b>B항</b>: log와 exp가 상쇄되고, $\frac{1}{2\sigma^2}$ 은 n과 무관하므로 합 밖으로 뺀다.</li>
+            <li>결과: $$\mathcal{L}(\boldsymbol{\theta}) = \frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2} \sum_{n=1}^{N} (y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$$</li>
+            <li>첫째 항은 <b>θ와 무관</b>하다. 최소화하는 θ(argmin)에 영향을 주지 않으므로 무시한다(칠판에서는 "=" 대신 "∝"로 바꿔 썼다).</li>
+            <li>둘째 항의 합은 벡터 $\mathbf{y} - \mathbf{X}\boldsymbol{\theta}$ 의 유클리드 노름 제곱이다: $\frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$.</li>
+          </ol>
+          <p>따라서 <b>가우시안 노이즈 가정 하의 MLE = least squares</b>. <a href="#s2-matrix">2절의 squared loss</a>에서 본 $\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$ 최소화와 같은 해를 준다. $y_n$ 은 실제 라벨, $\mathbf{x}_n^\top \boldsymbol{\theta} = \hat{y}_n$ 이니 결국 average empirical loss다.</p>
+          <p><b>노이즈 가정이 바뀌면</b>: 이번 결과는 노이즈를 좌우 대칭인 가우시안으로 가정했기 때문에 나온 것이다. Laplace, exponential처럼 다른(비대칭 등) 노이즈를 가정하면 다른 loss 함수가 나온다.</p>
+          <p><b>왜 확률 모델이 대세인가</b>: 상수는 <b>delta PDF</b>(한 점에 확률밀도가 모두 몰린 PDF)를 갖는 확률변수로 볼 수 있다. 불확실성이 0인 확률변수인 셈이다. 그래서 확률 모델은 deterministic 모델을 특수한 경우로 <b>포함</b>한다. 위의 결과처럼 deterministic 해법(least squares)도 확률 모델의 특별한 경우로 다시 얻어진다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>"데이터가 애초에 저 수식으로부터 만들어졌다는 얘긴가요?" → <b>"꼭 그렇지 않아."</b> ML은 데이터가 먼저 주어지는 귀납적 학문이라, "pretty well explained"되면 충분해요. (0914 61:29–71:57)</p>
+          <p>넷플릭스가 영화를 추천할 때 그 모델이 꼭 linear, Transformer, DNN이어야 할 이유는 없어요. "쥐만 잘 잡으면 돼, 냥이가." (흑묘백묘)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>발음을 촌스럽게 suppose 자꾸 강조하잖아요… 여기서 가정이 필요하다니까. (0914 66:25)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s3-map"><h3>MAP: 데이터 + 선입견(prior)</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s16</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">데이터만 믿지 않고, "원래 이럴 거야"라는 선입견(prior)을 섞어서 판단해요.</p>
+          <p>선입견(점선)과 데이터가 말해 주는 것(파랑)을 합치면, 결론(초록)은 둘 사이 어딘가에 생겨요. 데이터가 많을수록 결론은 데이터 쪽으로 끌려가요.</p>
+          <figure class="figure"><svg id="fig-prior-likelihood-posterior" viewBox="0 0 520 240" role="img" aria-label="prior(점선), likelihood(파랑), posterior(초록) 세 곡선. posterior는 둘 사이에 더 뾰족하게 선다">
+            <line x1="40" y1="190" x2="490" y2="190" class="axis"/>
+            <text x="490" y="210" text-anchor="end" class="fig-muted">θ</text>
+            <polyline points="40,179 51,175 62,170 73,164 84,157 95,149 106,141 117,133 128,126 139,119 150,114 161,111 172,110 183,111 194,114 205,119 216,126 227,133 238,141 249,149 260,157 271,164 282,170 293,175 304,179 315,182 326,185 337,186 348,188 359,189 370,189 381,189 392,190 403,190 414,190 425,190 436,190 447,190 458,190 469,190 480,190" class="plot-prior"/>
+            <polyline points="40,190 51,190 62,190 73,190 84,190 95,190 106,190 117,190 128,190 139,190 150,190 161,190 172,190 183,190 194,190 205,189 216,189 227,187 238,185 249,180 260,174 271,164 282,151 293,135 304,117 315,99 326,84 337,74 348,70 359,74 370,84 381,99 392,117 403,135 414,151 425,164 436,174 447,180 458,185 469,187 480,189" class="plot-like"/>
+            <polyline points="40,190 51,190 62,190 73,190 84,190 95,190 106,190 117,190 128,190 139,190 150,190 161,190 172,189 183,189 194,187 205,182 216,175 227,163 238,145 249,122 260,96 271,71 282,53 293,46 304,51 315,68 326,92 337,118 348,142 359,160 370,173 381,182 392,186 403,188 414,189 425,190 436,190 447,190 458,190 469,190 480,190" class="plot-post"/>
+            <text x="120" y="100" text-anchor="middle" class="fig-text">prior</text><text x="120" y="116" text-anchor="middle" class="fig-muted">선입견 p(θ)</text>
+            <text x="420" y="64" text-anchor="middle" class="fig-text">likelihood</text><text x="420" y="80" text-anchor="middle" class="fig-muted">데이터 p(x | θ)</text>
+            <text x="294" y="30" text-anchor="middle" class="fig-text">posterior p(θ | x)</text>
+            <line x1="293" y1="190" x2="293" y2="200" class="fig-ink"/><text x="293" y="224" text-anchor="middle" class="fig-muted">θ_MAP</text>
+            <line x1="348" y1="190" x2="348" y2="200" class="fig-ink"/><text x="352" y="224" text-anchor="start" class="fig-muted">θ_ML</text>
+          </svg><figcaption>posterior ∝ likelihood × prior. MAP는 초록 곡선의 꼭대기, ML은 파란 곡선의 꼭대기예요.</figcaption></figure>
+          <p class="legend"><span><span class="sw prior"></span>prior (선입견)</span><span><span class="sw like"></span>likelihood (데이터)</span><span><span class="sw post"></span>posterior (결론)</span></p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>posterior</b> = "사후" 분포. 죽은 후가 아니라 <b>사건(관측)이 발생한 이후</b>의 분포라는 뜻이다. 역시 조건부 확률(conditional probability)이다.</p>
+          <p><b>추론 문제의 틀</b>: 나한테 주어진 것(데이터 $\mathbf{x}$)을 조건에 두고, 알고 싶은 것(파라미터 θ)을 앞에 두면 그것이 posterior $p(\boldsymbol{\theta} \mid \mathbf{x})$ 다.</p>
+          <p><b>Bayes 유도</b></p>
+          <ol class="steps">
+            <li>조건부확률의 정의: $p(A \mid B) = \frac{p(A, B)}{p(B)}$</li>
+            <li>곱셈 규칙(multiplication rule)으로 분자를 푼다: $$p(\boldsymbol{\theta} \mid \mathbf{x}) = \frac{p(\mathbf{x}, \boldsymbol{\theta})}{p(\mathbf{x})} = \frac{p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})}{p(\mathbf{x})}$$</li>
+            <li>분모 $p(\mathbf{x})$ 는 θ와 무관하므로 무시하고 비례(∝)로 쓴다: $p(\boldsymbol{\theta} \mid \mathbf{x}) \propto p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})$</li>
+            <li><b>max vs argmax</b>: max는 "최대가 된 확률값이 얼마냐"이고, <b>argmax</b>는 "그 값을 최대로 만드는 θ가 무엇이냐"다. 우리가 찾는 것은 θ이므로 argmax를 쓴다.</li>
+            <li>−log를 씌워 최소화 문제로 바꾼다(log는 단조증가, 곱은 합으로): $$\boldsymbol{\theta}_{\text{MAP}} = \arg\max_{\boldsymbol{\theta}} p(\boldsymbol{\theta} \mid \mathbf{x}) = \arg\min_{\boldsymbol{\theta}} \big[-\log p(\mathbf{x} \mid \boldsymbol{\theta}) - \log p(\boldsymbol{\theta})\big]$$ 앞 항 $-\log p(\mathbf{x} \mid \boldsymbol{\theta})$ 는 방금 한 <b>MLE 항</b>(<a href="#s3-likelihood">NLL</a>)이고, 뒤 항 $-\log p(\boldsymbol{\theta})$ 는 <b>prior 항</b>이다. 확률로 보면 prior가 곱해져 있는 셈이다.</li>
+            <li>prior를 <b>uniform</b>(상수)으로 두면 뒤 항이 θ와 무관해진다. 이때 <b>MAP = ML</b>이다.</li>
+          </ol>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>"여러분 손에 쥐어진 게 데이터예요, 세타예요?" → "데이터지." "찾으려는 건?" → "세타지." (0916 20:34–28:16)</p>
+          <p><b>의사의 CT 판독</b>: 의사 손에 쥐어진 건 CT 영상, 숫자, 테이블 같은 데이터예요. 의사는 그걸 보고 암인지 건강한지라는 원인(파라미터)을 거꾸로 추론해요. 이게 바로 posterior를 구하는 일이에요.</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>보통의 inference problem을 수학으로 옮기면 항상 이 수식을 기억해야 돼. (0916 23:41)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s3-map-l2"><h3>📎 가우시안 prior = L2 정규화</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s12 · s16</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">"θ는 작을 거야"라는 믿음(가우시안 prior)을 넣으면, θ가 커질 때마다 벌점 $\lambda\|\boldsymbol{\theta}\|^2$ 을 주는 것과 똑같아져요.</p>
+          <p>선입견을 넣는 것(MAP)과 벌점을 주는 것(정규화)은 이름만 다르고 같은 일을 해요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>prior와 정규화의 연결</b></p>
+          <ul>
+            <li>prior $p(\boldsymbol{\theta})$ 는 x를 관찰하기 <b>전에</b> 내가 가진 편견, 바이어스, preference다. "모름지기 θ는 이런 거 아니겠습니까?"</li>
+            <li>이 선호가 <a href="#s2-reg">2절 regularization</a>의 벌점 항과 연결된다: $\min_{\boldsymbol{\theta}} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$. λ가 크면 "모름지기 θ는 벡터 크기가 작을수록 좋다"는 선호를 수식에 녹인 것이다.</li>
+            <li>수업에서는 연결만 언급하고 "나중에 다시 썰 푸는 걸로"라며 수식 유도를 미뤘다 (0916 55:32). 유도는 아래 보충에 정리한다.</li>
+          </ul>
+        </div>
+        <div class="layer supp"><span class="badge supp">📎 보충 · 수업 미유도</span>
+          <ol class="steps">
+            <li>가우시안 prior를 둔다: $$p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, b^2 \mathbf{I}) \ \Rightarrow\ -\log p(\boldsymbol{\theta}) = \frac{1}{2b^2}\|\boldsymbol{\theta}\|^2 + \text{const}$$</li>
+            <li><a href="#s3-mle-ls">가우시안 노이즈의 NLL</a>(θ와 무관한 상수 제외)과 더하면 <a href="#s3-map">MAP 목적함수</a>가 된다: $$\frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \frac{1}{2b^2}\|\boldsymbol{\theta}\|^2$$</li>
+            <li>양수 $\frac{2\sigma^2}{N}$ 를 곱해도 argmin은 그대로다: $$\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \frac{\sigma^2}{N b^2}\|\boldsymbol{\theta}\|^2$$</li>
+            <li>이것은 L2 정규화 식에서 $$\lambda = \frac{\sigma^2}{N b^2}$$ 로 둔 것과 같다.</li>
+          </ol>
+          <p><b>해석</b>: prior의 폭 $b$ 가 작을수록("θ는 0 근처라고 강하게 믿을수록") λ가 커진다. 데이터 수 N이 커지면 λ가 작아져 데이터의 목소리가 더 커진다.</p>
+          <p>참고: MML 8.3.2, 9.2.3. <a href="복습문제_0909-0916_When_Models_Meet_Data.html#p5">복습문제 P5</a>에서 직접 유도해 본다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>λ = 0이면 "선험적인 편견 따위는 고려하지 않겠다"는 뜻이에요. prior에는 인간적인 면(의도, 선호)이 들어가 있어요. (0916 52:16–55:35)</p>
+        </div>
+      </article>
+      <article class="topic" id="s3-fitting"><h3>Model fitting: 과적합 · 과소적합 · 적정적합</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s17</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">옷 맞추기와 같아요. 너무 딱 붙으면 움직일 때 찢어지고(과적합), 너무 헐렁하면 몸에 안 맞아요(과소적합).</p>
+          <p>진짜 정답 모델(★)은 요정만 알아요. 우리는 "이런 모양일 거야"라고 정한 동그라미(모델 클래스) 안에서 최선을 찾을 뿐이에요.</p>
+          <figure class="figure"><svg id="fig-model-class" viewBox="0 0 520 250" role="img" aria-label="큰 원은 모델 클래스, 안쪽에서 초기 모델이 최선의 모델로 이동하고, 원 밖의 별(진짜 모델)과 빨간 점선 거리가 남는다">
+            <circle cx="200" cy="135" r="100" class="fig-ink"/>
+            <text x="200" y="22" text-anchor="middle" class="fig-text">모델 클래스 M_θ (예: linear)</text>
+            <circle cx="140" cy="175" r="5" class="fig-dot"/><text x="140" y="200" text-anchor="middle" class="fig-text">M_θ₀</text><text x="140" y="216" text-anchor="middle" class="fig-muted">초기값</text>
+            <line x1="146" y1="169" x2="244" y2="98" class="fig-accent"/><polyline points="234,99 244,98 240,108" class="fig-accent"/>
+            <text x="180" y="120" text-anchor="middle" class="fig-muted" transform="rotate(-36 180 120)">학습</text>
+            <circle cx="250" cy="94" r="5" class="fig-dot"/><text x="250" y="122" text-anchor="middle" class="fig-text">M_θ*</text><text x="250" y="138" text-anchor="middle" class="fig-muted">클래스 안의 최선</text>
+            <line x1="256" y1="90" x2="418" y2="64" class="fig-danger" stroke-dasharray="6 5"/>
+            <text x="340" y="100" text-anchor="middle" class="fig-text">빨간 거리</text>
+            <polygon points="430,48 434,57 443,58 436,64 438,73 430,68 422,73 424,64 417,58 426,57" class="fig-accent"/>
+            <text x="430" y="96" text-anchor="middle" class="fig-text">M*</text><text x="430" y="112" text-anchor="middle" class="fig-muted">진짜 모델 (요정만 앎)</text>
+          </svg><figcaption>파라미터를 아무리 잘 튜닝해도 클래스 밖의 진짜 모델 M*까지는 빨간 거리가 남아요. 거리가 멀면 모델 자체를 바꿔야 해요.</figcaption></figure>
+          <figure class="figure"><svg id="fig-fitting-3" viewBox="0 0 600 190" role="img" aria-label="과소적합, 적정적합, 과적합 세 그림">
+  <g transform="translate(10,10)">
+    <rect x="0" y="0" width="180" height="140" rx="10" class="fig-ink" stroke-opacity=".25"/>
+    <circle cx="25" cy="110" r="4" class="fig-dot"/><circle cx="55" cy="70" r="4" class="fig-dot"/><circle cx="85" cy="45" r="4" class="fig-dot"/><circle cx="115" cy="50" r="4" class="fig-dot"/><circle cx="145" cy="85" r="4" class="fig-dot"/><circle cx="165" cy="115" r="4" class="fig-dot"/>
+    <line x1="15" y1="85" x2="170" y2="80" class="fig-danger"/>
+    <text x="90" y="165" text-anchor="middle" class="fig-text">과소적합 (너무 단순)</text>
+  </g>
+  <g transform="translate(210,10)">
+    <rect x="0" y="0" width="180" height="140" rx="10" class="fig-ink" stroke-opacity=".25"/>
+    <circle cx="25" cy="110" r="4" class="fig-dot"/><circle cx="55" cy="70" r="4" class="fig-dot"/><circle cx="85" cy="45" r="4" class="fig-dot"/><circle cx="115" cy="50" r="4" class="fig-dot"/><circle cx="145" cy="85" r="4" class="fig-dot"/><circle cx="165" cy="115" r="4" class="fig-dot"/>
+    <path d="M15 120 Q 95 -10 172 122" class="fig-accent"/>
+    <text x="90" y="165" text-anchor="middle" class="fig-text">적정적합 (good fitting)</text>
+  </g>
+  <g transform="translate(410,10)">
+    <rect x="0" y="0" width="180" height="140" rx="10" class="fig-ink" stroke-opacity=".25"/>
+    <circle cx="25" cy="110" r="4" class="fig-dot"/><circle cx="55" cy="70" r="4" class="fig-dot"/><circle cx="85" cy="45" r="4" class="fig-dot"/><circle cx="115" cy="50" r="4" class="fig-dot"/><circle cx="145" cy="85" r="4" class="fig-dot"/><circle cx="165" cy="115" r="4" class="fig-dot"/>
+    <path d="M10 135 L25 110 C35 60 45 125 55 70 C65 15 75 70 85 45 C95 20 105 90 115 50 C125 10 135 130 145 85 C152 55 158 140 165 115 L172 20" class="fig-danger"/>
+    <text x="90" y="165" text-anchor="middle" class="fig-text">과적합 (점만 외움)</text>
+  </g>
+</svg><figcaption>같은 데이터, 세 가지 모델. 과적합은 학습 점을 전부 지나지만 그 사이에서 크게 요동친다.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>model fitting vs parameter fitting</b>: training, learning, optimization, fitting은 <b>모델 파라미터</b>를 튜닝할 때 쓰는 말이다. <b>Model fitting</b>은 <b>모델 자체를 바꾸는 것</b>이다. 최선을 다해 파라미터를 튜닝했는데도 성능이 나쁘면 모델을 바꿔 봐야 한다.</p>
+          <ul>
+            <li>$M^*$: x에서 y가 생성되는 진짜 과정. 요정만 아는 ideal unknown model.</li>
+            <li>$M_{\boldsymbol{\theta}}$: 내가 가정한 모델 클래스(linear, Gaussian, mixed Gaussian 등).</li>
+            <li>초기값 $M_{\boldsymbol{\theta}_0}$ 에서 gradient descent 같은 최적화로 파라미터를 학습해 $M_{\boldsymbol{\theta}^*}$ 에 도착한다(★ 표시는 보통 optimal을 뜻한다). $M_{\boldsymbol{\theta}^*}$ 는 그 <b>모델 클래스 안에서의 최선</b>이다.</li>
+            <li>$M_{\boldsymbol{\theta}^*}$ 와 $M^*$ 사이의 <b>빨간 거리</b>가 클수록 나쁜 모델이다. 가까우면 좋은 학습을 한 것이다.</li>
+          </ul>
+          <p><b>Overfitting (과적합)</b></p>
+          <ul>
+            <li>가진 데이터 점들만 기가 막히게 설명하는 추정을 한 경우다. 새 입력에서는 크게 틀린다. 예) 학습 점 근처가 아닌 입력 −2에서 −100을 예측한다.</li>
+            <li>결과: <b>unseen data</b>에 대해 예상치 못한 큰 에러가 난다.</li>
+            <li>원인: <b>데이터 개수에 비해 너무 복잡한 모델</b>. 옛날에는 underfitting이 많았고 <b>요즘은 overfitting이 더 흔하다</b>(GPU를 많이 돌려 파라미터가 아주 많은 모델을 쓰기 때문).</li>
+            <li><b>모델 크기 = 최적화할 파라미터 개수</b> (the number of parameters to be optimized). LLaMA, GPT 같은 모델이 "크다"는 것도 이 개수가 많다는 뜻이다.</li>
+          </ul>
+          <p><b>Underfitting (과소적합)</b>: 데이터는 많은데 <b>너무 단순한 모델</b>("난 모르겠고 리니어로 해")을 쓴 경우다. <b>내 데이터조차 설명하지 못한다.</b> 대신 모델이 <b>안정적</b>이라 어떤 데이터가 와도 적당히는 맞춘다(아주 잘 맞추지는 못한다).</p>
+          <p><b>Good fitting (적정적합)</b>: 데이터 크기와 모델 크기가 적절해서 현재 데이터와 앞으로 들어올 데이터를 모두 잘 설명하는 상태다. <b>컴퓨팅 자원의 양, 풀려는 문제의 크기, 손에 쥔 데이터의 개수</b>를 모두 고려해 판단한다. 과적합을 막는 한 가지 도구가 <a href="#s2-reg">정규화</a>다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>전지전능한 요정·지니</b>: x에서 y가 어떻게 만들어지는지는 요정만 알아요($M^*$). 우리는 모르니까 모델을 가정하고, 그 안에서 최선을 찾을 뿐이에요. (0916 28:19–31:53)</p>
+          <p><b>논문 실수</b>: 데이터셋으로 학습시킨 뒤 <b>그 데이터셋의 일부로 테스트</b>한 결과를 논문에 싣는 경우가 있어요. 학습에 쓴 입력을 다시 넣으면 당연히 맞히죠. "되새김질… 당연히 소화가 잘 되겠지." (0916 31:53–38:12)</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>말이 안 되는 거야. 이렇게 하면 안 돼. (0916 33:45)</blockquote>
+        </div>
+      </article>
     </section>
 
     <section id="s4"><h2>4. 확률적 모델링과 추론</h2>
