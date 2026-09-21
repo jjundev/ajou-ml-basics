@@ -1092,10 +1092,63 @@
     </section>
 
     <section id="s5"><h2>5. 한 장 요약 · 다음 시간 예고</h2>
-      <article class="topic" id="s5-cheatsheet"><h3>한 장 치트시트</h3></article>
-      <article class="topic" id="s5-prereq"><h3>전제지식 지도 (MML Part I)</h3></article>
-      <article class="topic" id="s5-next"><h3>다음 시간 예고 (아직 안 배움)</h3></article>
-      <article class="topic" id="s5-links"><h3>함께 보면 좋은 자료</h3></article>
+      <article class="topic" id="s5-cheatsheet">
+        <h3>한 장 치트시트</h3>
+        <p>시험 직전 한 장 치트시트: 이 노트에서 나온 핵심 수식만 모았다. "노트 링크"를 눌러 원래 설명으로 돌아갈 수 있다.</p>
+        <div class="table-wrap"><table>
+          <tr><th>개념</th><th>핵심 수식</th><th>한 줄 의미</th><th>노트 링크</th></tr>
+          <tr><td>선형 예측기</td><td>$f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n$</td><td>파라미터와 입력의 내적으로 예측값을 만든다</td><td><a href="#s2-affine">→ 2. Affine</a></td></tr>
+          <tr><td>Empirical risk</td><td>$R_{\text{emp}} = \frac{1}{N}\sum_{n} \ell(y_n, \hat{y}_n)$</td><td>학습 데이터 위에서 평균 손실을 잰다</td><td><a href="#s2-matrix">→ 2. 행렬 표기</a></td></tr>
+          <tr><td>Least squares</td><td>$\min_{\boldsymbol{\theta}} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$</td><td>제곱오차 평균을 최소화하는 $\boldsymbol{\theta}$ 를 찾는다</td><td><a href="#s2-matrix">→ 2. 행렬 표기</a></td></tr>
+          <tr><td>Regularized LS</td><td>$+\,\lambda\|\boldsymbol{\theta}\|^2$</td><td>손실에 penalty를 더해 overfitting을 억제한다</td><td><a href="#s2-reg">→ 2. Regularization</a></td></tr>
+          <tr><td>NLL</td><td>$\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$</td><td>likelihood를 최대화하는 대신 negative log-likelihood를 최소화한다</td><td><a href="#s3-iid">→ 3. i.i.d.</a></td></tr>
+          <tr><td>MLE = LS (가우시안 노이즈)</td><td>—</td><td>노이즈가 가우시안이면 MLE 풀이와 least squares 풀이가 같아진다</td><td><a href="#s3-mle-ls">→ 3. MLE = LS</a></td></tr>
+          <tr><td>MAP</td><td>$\boldsymbol{\theta}_{\text{MAP}} = \arg\min_{\boldsymbol{\theta}} [-\log p(\mathbf{x} \mid \boldsymbol{\theta}) - \log p(\boldsymbol{\theta})]$</td><td>likelihood에 prior를 곱해서(로그로는 더해서) 최적화한다</td><td><a href="#s3-map">→ 3. MAP</a></td></tr>
+          <tr><td>가우시안 prior ↔ L2</td><td>$\lambda = \frac{\sigma^2}{N b^2}$</td><td>가우시안 prior를 쓴 MAP는 L2 정규화와 같은 식이 된다</td><td><a href="#s3-map-l2">→ 3. prior ↔ L2</a></td></tr>
+          <tr><td>Posterior</td><td>$p(\boldsymbol{\theta} \mid \mathbf{x}) \propto p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})$</td><td>사후분포는 likelihood와 prior의 곱에 비례한다</td><td><a href="#s4-posterior">→ 4. Posterior</a></td></tr>
+          <tr><td>Posterior predictive</td><td>$P(A \mid \mathbf{X}) = \int P(A \mid \boldsymbol{\theta})\, P(\boldsymbol{\theta} \mid \mathbf{X})\, d\boldsymbol{\theta}$</td><td>가능한 모든 $\boldsymbol{\theta}$ 에 대해 예측을 평균 낸다 (Fully Bayesian)</td><td><a href="#s4-predictive">→ 4. Posterior predictive</a></td></tr>
+        </table></div>
+      </article>
+      <article class="topic" id="s5-prereq">
+        <h3>전제지식 지도 (MML Part I)</h3>
+        <p>이 수업에서 쓰인 수학이 <i>Mathematics for Machine Learning</i> (MML) Part I의 어느 장에 해당하는지 정리한다.</p>
+        <div class="table-wrap"><table>
+          <tr><th>MML 챕터</th><th>수업에서 쓰인 곳</th></tr>
+          <tr><td>Ch.2 선형대수</td><td>벡터·행렬 표기, 전치, 데이터 행렬 $\mathbf{X}$</td></tr>
+          <tr><td>Ch.3 해석기하</td><td>내적, 유클리드 노름, 1·2·p-노름</td></tr>
+          <tr><td>Ch.4 행렬분해</td><td>SVD, 고유값분해(PCA의 도구)</td></tr>
+          <tr><td>Ch.5 벡터미적분</td><td>미분으로 argmin 찾기(동전 ML)</td></tr>
+          <tr><td>Ch.6 확률과 분포</td><td>조건부확률, Bayes, 주변화, i.i.d., 가우시안, Beta</td></tr>
+          <tr><td>Ch.7 연속최적화</td><td>gradient descent, 최적화 관점("in terms of")</td></tr>
+        </table></div>
+      </article>
+      <article class="topic" id="s5-next">
+        <h3>다음 시간 예고 (아직 안 배움)</h3>
+        <p>아직 수업에서 다루지 않은 슬라이드(제목만)다. 용어만 미리 적어 두고, 내용은 나중 수업에서 다룬다.</p>
+        <ul>
+          <li>L02 s7 Bayesian Inference: Hardness (MCMC, Laplace approximation, variational inference)</li>
+          <li>L02 s9–s15 Graphical Models · Directed Graphical Models · Conditional Independence &amp; d-separation</li>
+          <li>L02 s17 Nested Cross-Validation</li>
+          <li>L02 s18 Bayesian Model Selection</li>
+          <li>L02 s19 Bayes factor</li>
+        </ul>
+        <p>예고된 일정:</p>
+        <ol class="steps">
+          <li>다음 주 Linear Regression(least squares와 pseudo-inverse로 $\boldsymbol{\theta}$ 를 한 번에 구하기)</li>
+          <li>실습(랩)</li>
+          <li>학기 말 EM 알고리즘</li>
+        </ol>
+      </article>
+      <article class="topic" id="s5-links">
+        <h3>함께 보면 좋은 자료</h3>
+        <p>교수님 안내: "지난 학기 확률 수업의 Statistical Inference 강의로 갈음" (0909 02:07)</p>
+        <ul>
+          <li><a href="추가%20강의/eli5_lecture10_statistical_inference_part1.html">확률 및 랜덤변수 Lecture 10 · 통계적 추론 Part 1 (Bayesian, Beta prior)</a></li>
+          <li><a href="추가%20강의/eli5_lecture11_statistical_inference_part2.html">Lecture 11 · Part 2 (MAP, LMS)</a></li>
+          <li><a href="추가%20강의/eli5_lecture12_statistical_inference_part3.html">Lecture 12 · Part 3 (LLMS, ML)</a></li>
+          <li><a href="복습문제_0909-0916_When_Models_Meet_Data.html">📝 복습문제 10선 풀러 가기</a></li>
+        </ul>
+      </article>
     </section>
   </main>
   <footer>출처: 정방철 교수님 강의자료(Lecture00–02) · 수업 녹음 전사(0909·0914·0916) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 8장.</footer>
