@@ -447,11 +447,196 @@
     </section>
 
     <section id="s2"><h2>2. Empirical Risk Minimization (모델 = 함수)</h2>
-      <article class="topic" id="s2-erm"><h3>Empirical Risk Minimization이라는 이름</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s10</span></div></article>
-      <article class="topic" id="s2-affine"><h3>가장 중요한 수식: affine 모델과 augmentation</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s10</span></div></article>
-      <article class="topic" id="s2-matrix"><h3>데이터 행렬과 squared loss (김밥 말기)</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s11</span></div></article>
-      <article class="topic" id="s2-risk"><h3>진짜 목표: unseen data의 위험 (true risk)</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s11</span></div></article>
-      <article class="topic" id="s2-reg"><h3>Overfitting과 Regularization</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s12</span></div></article>
+      <article class="topic" id="s2-erm"><h3>Empirical Risk Minimization이라는 이름</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s10</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">"실제로 해 봤더니(empirical) 틀린 정도(risk)가 가장 작게(minimization)" 되도록 손잡이(파라미터)를 돌리는 거예요.</p>
+          <p>상상으로 "데이터는 이래야 해"라고 정하는 게 아니라, 가진 데이터를 진짜로 넣어 보고 얼마나 틀리는지 재서 그걸 줄여요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>용어 해석</b>: 강의 노트의 용어에는 뉘앙스가 다 있다.</p>
+          <ul>
+            <li><b>Empirical</b> = 실험적인. "모름지기 데이터는 이래야만 해"라고 머릿속으로 상상한 것이 아니라, 데이터를 <b>실제로 넣어 봤다</b>는 뜻이다.</li>
+            <li><b>Risk</b> = 위험 요소, 즉 작을수록 좋은 <b>부정적인 metric</b>이다.</li>
+            <li><b>Minimization</b> = 그것을 최소화한다.</li>
+          </ul>
+          <p>정리하면: 함수 모델의 꼴을 먼저 suppose하고(파라미터는 아직 미지수), 현재 데이터를 가장 잘 설명하도록 파라미터를 최적화한다. 단, <b>risk를 최소화하는 관점에서</b>.</p>
+          <p><b>Predictor</b>: ML 엔진은 보통 새 데이터의 정답을 예측하는 함수(predictor)다. 이 절에서 predictor는 <b>deterministic 함수</b> $f(\mathbf{x}, \boldsymbol{\theta})$ 다. 학습 데이터는 $\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}$ (supervised), $\mathbf{x}_n \in \mathbb{R}^D$, 파라미터를 모은 벡터가 $\boldsymbol{\theta}$ 다.</p>
+          <p><b>목표</b></p>
+          $$\text{Find } \boldsymbol{\theta}^* \text{ such that } f(\mathbf{x}_n, \boldsymbol{\theta}^*) = \hat{y}_n \approx y_n, \ \forall n = 1, \dots, N$$
+          <ul>
+            <li>$y_n$ 은 데이터로 주어진 정답(라벨), $\hat{y}_n$ 은 튜닝된 모델의 출력이다. <b>hat(^)은 추정치(estimate)</b>를 뜻하는 관습이다.</li>
+            <li>식의 뜻: "모델 출력 = $\hat{y}_n$ 인데, 이 $\hat{y}_n$ 이 정답 $y_n$ 과 비슷했으면 좋겠다."</li>
+            <li>regression, classification, PCA, 뉴럴넷, 딥러닝은 수학적으로 쓰면 모두 이것을 하는 것이다.</li>
+          </ul>
+          <p><b>"for all"($\forall$)의 의미</b>: $\mathbf{x}_1$ 을 넣었을 때 정확히 $y_1$ 이 나오도록 미친 듯이 튜닝하면, 같은 $\mathbf{x}_1$ 에는 완벽하지만 $\mathbf{x}_2$ 를 넣었을 때 $y_2$ 와 크게 다를 수 있다. 이것은 $\mathbf{x}_1$ 하나에 <b>과적합</b>된 나쁜 예측기다. 특정 데이터 하나가 아니라 <b>모든 학습 데이터에 두루두루 그럴듯한</b> $\boldsymbol{\theta}^*$ 를 찾아야 한다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>공학에서 "최적"이라는 말 뒤에는 반드시 <b>"in terms of ★"</b>(무엇의 관점에서)가 붙어야 해요. "인생에서 무엇이 최적인가요?"처럼 관점 없는 질문은 허황되고, 궁극의 최적 기술 같은 건 세상에 없어요. (0914 09:30–10:07)</p>
+          <p>시간표에 맞춰 수강 과목을 고르는 것도 "학교에 머무는 시간" in terms of 최적화예요. 핵심은 늘 <b>어떤 관점에서</b> 최적화하느냐예요.</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>어떤 관점에서 최적화를 하는지가 되게 중요하거든요. (0914 10:07)</blockquote>
+          <blockquote>여러분 머신러닝을 잘한다는 건 사실 최적화를 잘한다는 거예요. (0914 11:16)</blockquote>
+          <blockquote>여기서 보면 이거는 for all이라는 말이 붙죠 … 하나도 버릴 단어가 없어. (0914 18:40)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s2-affine"><h3>가장 중요한 수식: affine 모델과 augmentation</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s10</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">입력마다 "중요도(가중치)"를 곱해서 다 더하고, 마지막에 기본 점수(bias)를 더하는 계산기예요.</p>
+          <p>기본 점수만 따로 떨어져 있는 게 귀찮으니, 입력 맨 앞에 숫자 <b>1</b>을 몰래 끼워 넣어요. 그러면 "1 × 기본 점수"가 되어 전부 한 번의 곱셈-덧셈(내적)으로 끝나요. 이걸 <b>augmentation</b>이라고 해요.</p>
+          <figure class="figure"><svg id="fig-neuron" viewBox="0 0 520 200" role="img" aria-label="뉴런: 입력에 가중치를 곱해 더하고 activation을 통과">
+            <circle cx="60" cy="40" r="16" class="fig-ink"/><text x="60" y="45" text-anchor="middle" class="fig-text">x₁</text>
+            <circle cx="60" cy="100" r="16" class="fig-ink"/><text x="60" y="105" text-anchor="middle" class="fig-text">x₂</text>
+            <circle cx="60" cy="160" r="16" class="fig-ink"/><text x="60" y="165" text-anchor="middle" class="fig-text">x_D</text>
+            <line x1="76" y1="40" x2="224" y2="96" class="fig-ink"/><line x1="76" y1="100" x2="224" y2="100" class="fig-ink"/><line x1="76" y1="160" x2="224" y2="104" class="fig-ink"/>
+            <text x="140" y="58" class="fig-muted">w₁</text><text x="140" y="94" class="fig-muted">w₂</text><text x="140" y="150" class="fig-muted">w_D</text>
+            <circle cx="250" cy="100" r="26" class="fig-accent"/><text x="250" y="106" text-anchor="middle" class="fig-text">Σ + b</text>
+            <line x1="276" y1="100" x2="340" y2="100" class="fig-ink"/>
+            <rect x="340" y="76" width="70" height="48" rx="8" class="fig-accent"/><text x="375" y="105" text-anchor="middle" class="fig-text">σ(·)</text>
+            <line x1="410" y1="100" x2="480" y2="100" class="fig-ink"/><text x="492" y="105" class="fig-text">ŷ</text>
+            <text x="250" y="160" text-anchor="middle" class="fig-muted">affine (선형 + bias)</text><text x="375" y="160" text-anchor="middle" class="fig-muted">activation (비선형)</text>
+          </svg><figcaption>뉴런 하나 = affine 함수 + activation. 딥러닝은 이걸 여러 층 쌓은 합성함수예요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p>원래 모델은 가중합에 bias를 더한 것이다: $f(\mathbf{x}_n, \boldsymbol{\theta}) = \theta_1 x_n^{(1)} + \dots + \theta_D x_n^{(D)} + \theta_0$.</p>
+          <ol class="steps">
+            <li>$\theta_0 = 1 \cdot \theta_0$ 이므로 데이터 맨 앞에 unit feature $x^{(0)} = 1$ 을 붙인다 (augmentation).</li>
+            <li>$$\mathbf{x}_n = [1, x_n^{(1)}, \dots, x_n^{(D)}]^\top, \qquad \boldsymbol{\theta} = [\theta_0, \theta_1, \dots, \theta_D]^\top$$</li>
+            <li>$$f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n = \theta_0 + \sum_{d=1}^{D} \theta_d x_n^{(d)}$$ 누운 벡터 × 선 벡터 = 스칼라(내적).</li>
+            <li>데이터와 무관한 상수 $\theta_0$ 때문에 $f(\mathbf{0}) = \theta_0$, 즉 원점을 지나지 않을 수 있다. 그래서 linear가 아니라 <b>affine</b> 함수라고 부른다.</li>
+          </ol>
+          <p>뉴런: $\hat{y} = \sigma\big(\sum_{i} w_i x_i + b\big)$. 여기서 $\sigma$ 는 sigmoid, ReLU 같은 activation function이다. DNN은 affine과 activation을 층층이 합성한 함수다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>"교수님, 왜 그렇게 하셨어요?" → "그냥 했어. 해본 거야." 괜찮으면 여기서 끝내고, 안 되면 뉴럴넷으로 간다. (0914 22:00 무렵)</p>
+          <p>GPU가 딥러닝에 강한 이유: 결국 곱셈과 덧셈이라 코어 여러 개로 나눠 병렬 계산할 수 있어서다.</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>머신러닝에서 가장 중요한 컨셉이 뭐냐라고 묻는다면 저는 이 수식을 만드는 거라고 생각해요. (0914 26:00)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s2-matrix"><h3>데이터 행렬과 squared loss (김밥 말기)</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s11</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">김밥 재료(데이터 벡터)를 하나씩 눕혀서 차곡차곡 쌓아 두면(행렬), 한 번에 돌돌 말 수 있어요.</p>
+          <p>데이터 N개를 하나씩 계산하는 대신, 한 판에 모아 두고 "얼마나 틀렸나"를 한 줄의 식으로 계산해요.</p>
+          <figure class="figure"><svg id="fig-matrix-packing" viewBox="0 0 540 210" role="img" aria-label="세워진 데이터 벡터들을 눕혀 차곡차곡 쌓으면 데이터 행렬 X가 되고, 옆에 라벨 벡터 y가 선다">
+            <rect x="24" y="50" width="20" height="104" class="fig-ink"/><rect x="56" y="50" width="20" height="104" class="fig-ink"/><rect x="104" y="50" width="20" height="104" class="fig-ink"/>
+            <text x="90" y="106" text-anchor="middle" class="fig-text">…</text>
+            <text x="34" y="176" text-anchor="middle" class="fig-text">x₁</text><text x="66" y="176" text-anchor="middle" class="fig-text">x₂</text><text x="114" y="176" text-anchor="middle" class="fig-text">x_N</text>
+            <text x="74" y="36" text-anchor="middle" class="fig-muted">선 벡터 (D × 1)</text>
+            <line x1="138" y1="102" x2="196" y2="102" class="fig-ink"/><polyline points="189,97 196,102 189,107" class="fig-ink"/>
+            <text x="167" y="90" text-anchor="middle" class="fig-muted">눕혀서(ᵀ)</text><text x="167" y="124" text-anchor="middle" class="fig-muted">쌓기</text>
+            <text x="310" y="36" text-anchor="middle" class="fig-muted">D개 열 (feature)</text>
+            <rect x="220" y="50" width="180" height="26" class="fig-accent"/><rect x="220" y="76" width="180" height="26" class="fig-accent"/><rect x="220" y="102" width="180" height="26" class="fig-ink"/><rect x="220" y="128" width="180" height="26" class="fig-accent"/>
+            <text x="310" y="68" text-anchor="middle" class="fig-text">x₁ᵀ</text><text x="310" y="94" text-anchor="middle" class="fig-text">x₂ᵀ</text><text x="310" y="120" text-anchor="middle" class="fig-text">⋮</text><text x="310" y="146" text-anchor="middle" class="fig-text">x_Nᵀ</text>
+            <text x="310" y="176" text-anchor="middle" class="fig-text">X : N × D</text>
+            <text x="310" y="196" text-anchor="middle" class="fig-muted">N개 행 = 데이터 개수</text>
+            <rect x="440" y="50" width="40" height="26" class="fig-accent"/><rect x="440" y="76" width="40" height="26" class="fig-accent"/><rect x="440" y="102" width="40" height="26" class="fig-ink"/><rect x="440" y="128" width="40" height="26" class="fig-accent"/>
+            <text x="460" y="68" text-anchor="middle" class="fig-text">y₁</text><text x="460" y="94" text-anchor="middle" class="fig-text">y₂</text><text x="460" y="120" text-anchor="middle" class="fig-text">⋮</text><text x="460" y="146" text-anchor="middle" class="fig-text">y_N</text>
+            <text x="460" y="176" text-anchor="middle" class="fig-text">y : N × 1</text>
+            <text x="460" y="36" text-anchor="middle" class="fig-muted">라벨</text>
+          </svg><figcaption>세워진 데이터 벡터를 눕혀(전치) 아래로 N개 쌓으면 데이터 행렬 X, 라벨은 옆에 세로로 모아 y. 재료 손질 끝!</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>데이터 행렬</b> (대문자 볼드 = 행렬, 라벨은 빼고 입력만 모은 것)</p>
+          $$\mathbf{X} := [\mathbf{x}_1, \dots, \mathbf{x}_N]^\top \in \mathbb{R}^{N \times D}, \qquad \mathbf{y} := [y_1, \dots, y_N]^\top$$
+          <p><small>※ 교수님이 칠판에 처음엔 열벡터를 나란히 세운 D×N 모양으로 그렸다가, "여기 트랜스포즈가 들어가 있네요"라며 <b>전치</b>된 N×D 모양으로 정정했다 (0914 30:08). 각 행이 데이터 하나 $\mathbf{x}_n^\top$ 이다. augmentation(맨 앞에 1 추가)을 하면 열이 $D+1$ 개가 된다.</small></p>
+          <p><b>Empirical risk (average loss)</b></p>
+          $$R_{\text{emp}}(f, \mathbf{X}, \mathbf{y}) = \frac{1}{N} \sum_{n=1}^{N} \ell(y_n, \hat{y}_n)$$
+          <ul>
+            <li>이것도 <b>정의(definition)</b>다. 꼭 평균이어야 하는 건 아니고, 평균은 선택이다. 특정 데이터가 아니라 두루두루 잘 맞게 하려고 평균을 쓴다(학점 평점이 과목 점수들의 평균인 것처럼).</li>
+            <li>$\ell$ 은 loss의 L. 입력은 두 개: 정답 $y_n$ 과 추정치 $\hat{y}_n$. 훈련 중에는 정답이 있지만 없다고 치고 계산한 값이라 예측이 아니라 <b>추정(estimate)</b>이다.</li>
+            <li>loss는 $y_n$ 과 $\hat{y}_n$ 사이의 거리(distance)를 함수로 만든 것이다.</li>
+          </ul>
+          <p><b>Squared loss</b> ($y_n$ 이 스칼라이므로 norm 없이 차이의 제곱이면 된다. 딥러닝에서도 많이 쓴다)</p>
+          $$\ell(y_n, \hat{y}_n) = (y_n - \hat{y}_n)^2$$
+          <p><b>합에서 노름까지 (칠판 유도)</b></p>
+          <ol class="steps">
+            <li>$\hat{y}_n = \boldsymbol{\theta}^\top \mathbf{x}_n = \mathbf{x}_n^\top \boldsymbol{\theta}$ 를 대입한다: $$\frac{1}{N} \sum_{n=1}^{N} (y_n - \hat{y}_n)^2 = \frac{1}{N} \sum_{n=1}^{N} (y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$$</li>
+            <li>행별로 풀어 쓴다: 1행 $(y_1 - \mathbf{x}_1^\top \boldsymbol{\theta})^2$, 2행 $(y_2 - \mathbf{x}_2^\top \boldsymbol{\theta})^2$, …, N행 $(y_N - \mathbf{x}_N^\top \boldsymbol{\theta})^2$.</li>
+            <li>$\mathbf{X}$ 의 n번째 행이 $\mathbf{x}_n^\top$ 이므로, 벡터 $\mathbf{y} - \mathbf{X}\boldsymbol{\theta}$ 의 n번째 원소가 바로 $y_n - \mathbf{x}_n^\top \boldsymbol{\theta}$ 다.</li>
+            <li>유클리디안 norm의 제곱은 각 원소를 제곱해서 더한 것이므로, 합 전체가 norm 하나로 말린다: $$\min_{\boldsymbol{\theta}} \frac{1}{N} \|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</li>
+            <li>여기서 $\mathbf{X}\boldsymbol{\theta} = \hat{\mathbf{y}} \in \mathbb{R}^{N \times 1}$, 즉 $\hat{\mathbf{y}} = [\hat{y}_1, \dots, \hat{y}_N]^\top$ 이다.</li>
+          </ol>
+          <p>데이터 $\mathbf{X}, \mathbf{y}$ 는 고정이고, 바꾸는 것은 오직 $\boldsymbol{\theta}$ 다.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>$\mathbf{X}$ 를 이렇게 정의한 건 "나중에 아름답게 <b>김밥</b>으로 말기 위해 재료 손질을 한 것"이에요. (0914 29:14–39:54)</p>
+          <p>기호가 낯설어도 당황하지 말고 "팔짱 끼고" 차분히 읽어 보세요. 탑다운으로 설계를 먼저 끝내고, $\ell$ 의 정체는 그다음에 정해요.</p>
+        </div>
+        <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span>
+          <blockquote>여러분 이거는 해보세요. 산수니까. (0914 37:24)</blockquote>
+          <blockquote>잊지 말아야 될 건 θ를 … 변화시키고 싶은 거. (0914 38:22)</blockquote>
+        </div>
+      </article>
+      <article class="topic" id="s2-risk"><h3>진짜 목표: unseen data의 위험 (true risk)</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s11</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">시험공부는 기출문제(train)로 하지만, 점수는 처음 보는 문제(test)로 매겨요.</p>
+          <p>기출문제만 달달 외워서 100점 맞는 건 의미가 없어요. 처음 보는 문제도 잘 풀어야 진짜 실력이에요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>θ는 어떻게 찾나?</b></p>
+          <ul>
+            <li>무식한 방법: θ를 이것저것 바꿔 보면서 찾는다. 실수 $D$ 개(augmentation을 하면 $D+1$ 개)를 모두 탐색해야 한다.</li>
+            <li>체계적인 방법: 선형대수의 <b>least squares</b>, pseudo-inverse. → 다음 주 linear regression에서 배운다.</li>
+          </ul>
+          <p><b>궁극 목표 = unseen data에 대한 risk 최소화</b> (true risk, expected risk)</p>
+          $$R_{\text{true}}(f) = \mathbb{E}_{\mathbf{x}, y}\big[\ell(y, f(\mathbf{x}))\big]$$
+          <p>새로운 $(\mathbf{x}, y)$ 에 대해 <b>평균적으로</b> loss가 작기를 바란다. 하지만 미래의 데이터는 볼 수 없으니, 가진 데이터로 계산한 $R_{\text{emp}}$ 를 대신 최소화한다.</p>
+          <p><b>가정</b>: 앞으로 들어올 데이터가 지금 본 데이터와 크게 다르지 않다("해 아래 새 것이 없다"). 이 가정이 성립하면 training을 잘하면 예측도 잘된다.</p>
+          <p><b>데이터 분할</b>: 가진 데이터 일부를 unseen data 역할로 떼어 둔다.</p>
+          <ul>
+            <li>train / test = <b>7:3</b> (70%로 훈련, 30%로 테스트)</li>
+            <li>train / validation / test = 60 / 20 / 20 (100 중 20은 test, 남은 80 중 20은 validation)</li>
+            <li>"정답은 없는 거야." 비율은 장인의 손맛이다. 예측하고 싶은 것을 테스트 용도로 남겨 두는 게 좋다.</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p><b>바둑 AI</b>는 이창호 9단이 바둑 두는 영상을 학습한 게 아니에요. 전 세계 프로들의 <b>기보</b>, 즉 바둑판을 벡터로 만든 것(흰 돌·검은 돌의 위치와 순서)을 학습했어요. 그래서 누가 와도 이겨요. (0914 41:13–46:27)</p>
+          <p>"해 아래 새 것이 없다"(전도서): 새 데이터도 결국 이미 본 데이터와 닮았을 거라는 믿음이 ERM의 바탕이에요.</p>
+          <p>7:3은 청국장 끓일 때 소금을 몇 스푼 넣느냐 같은 "장인의 손맛"이에요.</p>
+        </div>
+      </article>
+      <article class="topic" id="s2-reg"><h3>Overfitting과 Regularization</h3><div class="tags"><span class="tag date">📅 0914</span><span class="tag slide">L01 s12</span></div>
+        <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span>
+          <p class="lead">시험 문제의 답만 통째로 외운 학생(overfitting)에게 "너무 튀는 답은 벌점!"(penalty)을 주는 거예요.</p>
+          <p>벌점이 무서우면 학생은 억지로 외우지 않고, 무난하고 일반적인 풀이를 찾게 돼요. 벌점의 세기는 λ라는 손잡이로 정해요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p><b>Overfitting</b>: 학습 데이터에 너무 가깝게 맞춰서(fit too closely) 새 데이터에 일반화(generalization)가 안 되는 현상. 해결책은 empirical risk에 <b>penalty term</b>을 더하는 것이다.</p>
+          <p><b>Regularized least squares</b></p>
+          $$\min_{\boldsymbol{\theta}} \frac{1}{N} \|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$$
+          <ul>
+            <li>$\|\boldsymbol{\theta}\|^2$ = <b>regularizer</b>, $\lambda$ = regularization parameter = <b>hyperparameter</b> (학습으로 찾는 θ가 아니라 사람이 미리 정하는 값).</li>
+            <li>모델 자체는 바뀌지 않는다. 모델은 여전히 affine $f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n$ 이고, 바뀌는 것은 θ를 고르는 기준뿐이다.</li>
+            <li>$\lambda = 0$: penalty가 사라져 empirical risk만 최소화한다. 딱 과적합되기 좋다.</li>
+            <li>$\lambda = 1$ 처럼 λ가 있으면: 훈련 데이터에 가까워지려는 힘과, θ의 2-norm(<b>원점에서의 거리</b>)을 작게 하려는 힘 사이의 밸런스다. λ가 커질수록 θ가 원점 쪽으로 끌린다.</li>
+          </ul>
+          <p><b>노름 (norm)</b></p>
+          <ul>
+            <li>2-norm의 제곱: $\|\boldsymbol{\theta}\|_2^2 = \sum_d \theta_d^2$ — 원점에서의 거리(의 제곱).</li>
+            <li>1-norm: $\|\boldsymbol{\theta}\|_1 = \sum_d |\theta_d|$ — 파라미터를 자꾸 0으로 만드는 습성이 있어 <b>sparse solution</b>(0이 아닌 원소가 적은 해)이 나온다. 자세한 건 최적화 시간에 배운다.</li>
+            <li>p-norm: $\|\boldsymbol{\theta}\|_p = \big(\sum_d |\theta_d|^p\big)^{1/p}$</li>
+          </ul>
+          <p><b>하이퍼파라미터 최적화</b>: 1-norm이냐 2-norm이냐, λ를 얼마로 하느냐도 찾아야 한다. Gaussian Process를 이용하는 <b>Bayesian Optimization</b>이라는 방법이 있다(이름만 알아 두기).</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>penalty는 "모름지기 θ란 말이야, 이래야만 해"라는 사람이 만든(human-made) <b>expert knowledge</b> 항이에요. (0914 46:27–54:12)</p>
+          <p>λ가 0.7이 최적이냐 0.9가 최적이냐는 문제와 데이터에 따라 달라요. "그게 바로 장인의 손맛이에요." 김밥도 사람마다 좋아하는 이유(예: 우엉)가 다르듯 취향이 있어요.</p>
+        </div>
+      </article>
+      <div class="widget" id="widget-reg">
+        <h4>🎛️ 직접 해보기: 차수와 λ로 과적합 조절하기</h4>
+        <p class="widget-help">파란 점(학습 데이터)만 보고 다항식 곡선을 맞춥니다. 주황 점은 한 번도 못 본 <b>unseen data</b>예요. 차수 9, λ=0(과적합)에서 시작합니다. λ를 올리거나 차수를 낮춰 테스트 MSE가 어떻게 변하는지 보세요.</p>
+        <div class="controls">
+          <label>다항 차수 <input type="range" id="reg-degree" min="1" max="9" step="1" value="9"> <output id="reg-degree-out">9</output></label>
+          <label>λ <input type="range" id="reg-lambda" min="0" max="7" step="1" value="0"> <output id="reg-lambda-out">0</output></label>
+        </div>
+        <svg id="reg-plot" viewBox="0 0 560 300" role="img" aria-label="다항 회귀 적합 곡선과 학습·테스트 점"></svg>
+        <div class="readout">학습 MSE <b id="reg-train-mse">–</b> · 테스트(unseen) MSE <b id="reg-test-mse">–</b></div>
+        <p class="legend"><span><span class="sw truth"></span>진짜 함수 sin(πx)</span><span><span class="sw fit"></span>학습된 곡선</span><span><span class="sw train"></span>학습 점</span><span><span class="sw test"></span>unseen 점</span></p>
+        <p class="widget-help">해볼 것: ① 차수 9, λ=0 → 학습 MSE≈0인데 테스트 MSE 0.712 (과적합) ② 차수 3, λ=0.001 → 테스트 0.109 (적정) ③ 차수 1, λ=0 → 테스트 0.417 (과소적합) ④ 차수 9, λ=10 → 너무 강한 벌점도 과소적합</p>
+      </div>
     </section>
 
     <section id="s3"><h2>3. 확률 모델로 파라미터 추정: MLE · MAP</h2>
@@ -591,6 +776,37 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { polyFeatures, solveLinear, ridgeFit, predictPoly, mse, mulberry32, makeDataset, lgamma, betaPdf, coinEstimates };
 }
 
+  </script>
+  <script id="widget-reg-ui">
+(function () {
+  const el = (id) => document.getElementById(id);
+  const LAMBDAS = [0, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10];
+  const W = 560, H = 300, P = 24;
+  const sx = (x) => P + ((x + 1) / 2) * (W - 2 * P);
+  const sy = (y) => H / 2 - (y * (H / 2 - P)) / 2;
+  const clamp = (y) => Math.max(-2.2, Math.min(2.2, y));
+  const path = (pts) => pts.map((p, i) => (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join(' ');
+  const data = makeDataset(7);
+  const grid = Array.from({ length: 201 }, (_, i) => -1 + i / 100);
+  function draw() {
+    const deg = Number(el('reg-degree').value);
+    const lam = LAMBDAS[Number(el('reg-lambda').value)];
+    el('reg-degree-out').textContent = String(deg);
+    el('reg-lambda-out').textContent = String(lam);
+    const theta = ridgeFit(data.trainX, data.trainY, deg, lam);
+    const axes = '<line class="axis" x1="' + P + '" y1="' + sy(0) + '" x2="' + (W - P) + '" y2="' + sy(0) + '"/>'
+      + '<line class="axis" x1="' + sx(0) + '" y1="' + P / 2 + '" x2="' + sx(0) + '" y2="' + (H - P / 2) + '"/>';
+    const truth = '<path class="plot-truth" d="' + path(grid.map((x) => [x, data.truth(x)])) + '"/>';
+    const fit = '<path class="plot-fit" d="' + path(grid.map((x) => [x, clamp(predictPoly(theta, x))])) + '"/>';
+    const dots = (xs, ys, cls) => xs.map((x, i) => '<circle class="' + cls + '" r="5" cx="' + sx(x).toFixed(1) + '" cy="' + sy(ys[i]).toFixed(1) + '"/>').join('');
+    el('reg-plot').innerHTML = axes + truth + fit + dots(data.trainX, data.trainY, 'pt-train') + dots(data.testX, data.testY, 'pt-test');
+    el('reg-train-mse').textContent = mse(theta, data.trainX, data.trainY).toFixed(3);
+    el('reg-test-mse').textContent = mse(theta, data.testX, data.testY).toFixed(3);
+  }
+  el('reg-degree').addEventListener('input', draw);
+  el('reg-lambda').addEventListener('input', draw);
+  draw();
+})();
   </script>
 </body>
 </html>
