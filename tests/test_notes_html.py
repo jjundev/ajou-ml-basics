@@ -100,7 +100,7 @@ PROBLEMS = {
 
 # 콘텐츠 태스크가 여기에 항목을 추가한다.
 COMPLETED_SECTIONS: list[str] = ["s0", "s1", "s2", "s3", "s4", "s5"]
-COMPLETED_PROBLEMS: list[str] = []
+COMPLETED_PROBLEMS: list[str] = ["p1", "p2", "p3", "p4", "p5"]
 
 
 class _Common:

@@ -140,11 +140,143 @@
       <p class="progress">풀었음 <b id="progress-count">0</b> / 10</p>
     </div>
     <section id="partA"><h2>A. 교과서 본문 예제 (MML 8장)</h2>
-      <article class="card" id="p1"></article>
-      <article class="card" id="p2"></article>
-      <article class="card" id="p3"></article>
-      <article class="card" id="p4"></article>
-      <article class="card" id="p5"></article>
+      <article class="card" id="p1" data-source="MML Example 8.1">
+        <header class="card-head"><span class="badge src">MML Example 8.1</span><span class="badge level">★</span><span class="tag date">📅 0914</span></header>
+        <h3>P1. bias를 내적 안으로 넣기</h3>
+        <div class="problem">
+          D개의 특징을 가진 데이터에 대한 affine 예측기 $f(\mathbf{x}_n) = \theta_0 + \sum_{d=1}^{D} \theta_d x_n^{(d)}$를 생각하자.
+          <ol>
+            <li>(a) 이 식을 내적 하나 $\boldsymbol{\theta}^\top \mathbf{x}_n$으로 쓰려면 $\mathbf{x}_n$과 $\boldsymbol{\theta}$를 어떻게 다시 정의해야 하는가?</li>
+            <li>(b) 그때 두 벡터의 차원과 $f$의 정의역·공역은?</li>
+            <li>(c) 이 함수를 linear가 아니라 affine이라고 부르는 이유는?</li>
+          </ol>
+        </div>
+        <details class="original"><summary>📖 교과서 원문</summary>"We choose a more compact notation for an affine function by concatenating an additional unit feature $x^{(0)} = 1$ to $\mathbf{x}_n$ … (8.4) … (8.5)" — Example 8.1</details>
+        <details class="hint"><summary>💡 힌트</summary>$\theta_0 = 1 \cdot \theta_0$이다. 숫자 1을 데이터 쪽에 붙여 보자.</details>
+        <details class="solution">
+          <summary>✅ 풀이</summary>
+          <ol class="steps">
+            <li>$\mathbf{x}_n = [1, x_n^{(1)}, \dots, x_n^{(D)}]^\top$, $\boldsymbol{\theta} = [\theta_0, \theta_1, \dots, \theta_D]^\top$</li>
+            <li>$\boldsymbol{\theta}^\top \mathbf{x}_n = \theta_0 \cdot 1 + \sum_{d=1}^{D} \theta_d x_n^{(d)}$로 원래 식과 같다.</li>
+            <li>두 벡터는 모두 $\mathbb{R}^{D+1}$에 속하고, $f: \mathbb{R}^{D+1} \to \mathbb{R}$이다(누운 벡터와 선 벡터의 내적은 스칼라).</li>
+            <li>$f(\mathbf{0}) = \theta_0$이라 일반적으로 원점을 지나지 않는다. 그래서 affine이다.</li>
+          </ol>
+          <p class="answer">정답: 앞에 1과 $\theta_0$를 붙인다. 둘 다 $\mathbb{R}^{D+1}$이다. 원점을 지나지 않을 수 있어서 affine이다.</p>
+        </details>
+        <p class="link-back">🔗 수업과 연결: <a href="정리노트_0909-0916_When_Models_Meet_Data.html#s2-affine">가장 중요한 수식: affine 모델과 augmentation</a> — 이 카드는 그 augmentation 트릭을 직접 손으로 검산한다.</p>
+        <label class="done"><input type="checkbox" data-done="p1"> 풀었음</label>
+      </article>
+      <article class="card" id="p2" data-source="MML Example 8.2">
+        <header class="card-head"><span class="badge src">MML Example 8.2</span><span class="badge level">★</span><span class="tag date">📅 0914</span></header>
+        <h3>P2. ERM을 행렬 한 줄로</h3>
+        <div class="problem">
+          학습 데이터 $\{(\mathbf{x}_n, y_n)\}_{n=1}^{N}$($\mathbf{x}_n$은 P1처럼 1이 붙은 $\mathbb{R}^{D+1}$ 벡터), 선형 예측기 $\hat{y}_n = \boldsymbol{\theta}^\top \mathbf{x}_n$, squared loss가 주어졌다.
+          <ol>
+            <li>(a) empirical risk를 합(Σ) 꼴로 쓰시오.</li>
+            <li>(b) $\mathbf{X} := [\mathbf{x}_1, \dots, \mathbf{x}_N]^\top$, $\mathbf{y} := [y_1, \dots, y_N]^\top$로 두면 (a)가 $\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$과 같음을 보이시오.</li>
+            <li>(c) $\mathbf{X}$와 $\mathbf{X}\boldsymbol{\theta}$의 크기는?</li>
+          </ol>
+        </div>
+        <details class="original"><summary>📖 교과서 원문</summary>Example 8.2, 식 (8.7)–(8.9) "…This equation can be equivalently expressed in matrix form…"</details>
+        <details class="hint"><summary>💡 힌트</summary>벡터 $\mathbf{y} - \mathbf{X}\boldsymbol{\theta}$의 n번째 원소를 먼저 적어 보자. 유클리드 노름의 제곱은 원소 제곱의 합이다.</details>
+        <details class="solution">
+          <summary>✅ 풀이</summary>
+          <ol class="steps">
+            <li>$R_{\text{emp}} = \frac{1}{N}\sum_{n=1}^{N}(y_n - \boldsymbol{\theta}^\top \mathbf{x}_n)^2$</li>
+            <li>$\mathbf{X}$의 n번째 행은 $\mathbf{x}_n^\top$이므로 $(\mathbf{X}\boldsymbol{\theta})_n = \mathbf{x}_n^\top \boldsymbol{\theta}$이다.</li>
+            <li>$(\mathbf{y} - \mathbf{X}\boldsymbol{\theta})_n = y_n - \mathbf{x}_n^\top \boldsymbol{\theta}$</li>
+            <li>$\|\mathbf{v}\|^2 = \sum_n v_n^2$이므로 (a)와 같다.</li>
+            <li>$\mathbf{X} \in \mathbb{R}^{N \times (D+1)}$, $\mathbf{X}\boldsymbol{\theta} = \hat{\mathbf{y}} \in \mathbb{R}^{N}$</li>
+          </ol>
+          <p class="answer">정답: $\frac{1}{N}\sum_{n}(y_n - \boldsymbol{\theta}^\top \mathbf{x}_n)^2 = \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$, $\mathbf{X} \in \mathbb{R}^{N \times (D+1)}$</p>
+        </details>
+        <p class="link-back">🔗 수업과 연결: <a href="정리노트_0909-0916_When_Models_Meet_Data.html#s2-matrix">데이터 행렬과 squared loss (김밥 말기)</a> — 그 "김밥 말기" 비유를 식으로 다시 확인한다.</p>
+        <label class="done"><input type="checkbox" data-done="p2"> 풀었음</label>
+      </article>
+      <article class="card" id="p3" data-source="MML Example 8.3">
+        <header class="card-head"><span class="badge src">MML Example 8.3</span><span class="badge level">★★</span><span class="tag date">📅 0914</span></header>
+        <h3>P3. λ를 0부터 무한대까지</h3>
+        <div class="problem">
+          $$\min_{\boldsymbol{\theta}} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \lambda\|\boldsymbol{\theta}\|^2$$
+          에 대해 답하시오.
+          <ol>
+            <li>(a) $\lambda = 0$이면 어떤 문제가 되는가?</li>
+            <li>(b) $\lambda \to \infty$이면 해는 어디로 가는가?</li>
+            <li>(c) λ는 학습 파라미터인가, hyperparameter인가?</li>
+            <li>(d) [도전] gradient를 0으로 두어 해를 구하시오.</li>
+          </ol>
+        </div>
+        <details class="original"><summary>📖 교과서 원문</summary>Example 8.3, 식 (8.12) "The additional term $\|\boldsymbol{\theta}\|^2$ is called the regularizer…"</details>
+        <details class="hint">
+          <summary>💡 힌트</summary>
+          (b) 두 번째 항이 첫 번째 항을 압도하면 어떻게 될까?<br>
+          (d) $\nabla_{\boldsymbol{\theta}}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 = -2\mathbf{X}^\top(\mathbf{y} - \mathbf{X}\boldsymbol{\theta})$, $\nabla_{\boldsymbol{\theta}}\|\boldsymbol{\theta}\|^2 = 2\boldsymbol{\theta}$
+        </details>
+        <details class="solution">
+          <summary>✅ 풀이</summary>
+          <ol class="steps">
+            <li>(a) $\lambda = 0$이면 보통의 least squares(ERM만)가 된다. 과적합 위험이 있다("딱 과적합되기 좋지").</li>
+            <li>(b) $\lambda \to \infty$이면 벌점이 지배해서 $\boldsymbol{\theta} \to \mathbf{0}$(원점)이 된다. 너무 단순해져 과소적합이다(위젯: 차수 9, λ=10).</li>
+            <li>(c) hyperparameter다. 학습 전에 사람이 정한다.</li>
+            <li>(d) $-\frac{2}{N}\mathbf{X}^\top(\mathbf{y} - \mathbf{X}\boldsymbol{\theta}) + 2\lambda\boldsymbol{\theta} = \mathbf{0}$ ⇒ $(\mathbf{X}^\top \mathbf{X} + N\lambda \mathbf{I})\boldsymbol{\theta} = \mathbf{X}^\top \mathbf{y}$. 다음 주 Linear Regression에서 정식으로 다룬다.</li>
+          </ol>
+          <p class="answer">정답: (a) 과적합 위험, (b) $\boldsymbol{\theta} \to \mathbf{0}$, (c) hyperparameter, (d) $\boldsymbol{\theta} = (\mathbf{X}^\top \mathbf{X} + N\lambda \mathbf{I})^{-1}\mathbf{X}^\top \mathbf{y}$</p>
+        </details>
+        <p class="link-back">🔗 수업과 연결: <a href="정리노트_0909-0916_When_Models_Meet_Data.html#s2-reg">Overfitting과 Regularization</a> — λ가 커질수록 원점으로 끌려가는 그 위젯과 같은 이야기다.</p>
+        <label class="done"><input type="checkbox" data-done="p3"> 풀었음</label>
+      </article>
+      <article class="card" id="p4" data-source="MML Example 8.5">
+        <header class="card-head"><span class="badge src">MML Example 8.5</span><span class="badge level">★★</span><span class="tag date">📅 0914·0916</span></header>
+        <h3>P4. 가우시안 NLL을 펼치면 least squares</h3>
+        <div class="problem">
+          각 라벨이 $p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta}) = \mathcal{N}(y_n \mid \mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$를 따르고 데이터는 i.i.d.라고 하자(σ는 알려진 상수).
+          <ol>
+            <li>(a) 전체 likelihood를 곱으로 쓰고, 왜 곱이 되는지 설명하시오.</li>
+            <li>(b) negative log-likelihood를 전개하시오.</li>
+            <li>(c) 그 최소화가 least squares와 같은 이유를 쓰시오.</li>
+          </ol>
+        </div>
+        <details class="original"><summary>📖 교과서 원문</summary>Example 8.4 (8.15)와 Example 8.5 (8.18a–d) "…minimizing $\mathcal{L}(\boldsymbol{\theta})$ corresponds to solving the least-squares problem…"</details>
+        <details class="hint"><summary>💡 힌트</summary>log는 곱을 합으로 바꾸고 exp를 없앤다. θ와 무관한 항은 argmin에 영향이 없다.</details>
+        <details class="solution">
+          <summary>✅ 풀이</summary>
+          <ol class="steps">
+            <li>independent이면 곱, identical이면 θ가 하나다: $p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \prod_{n=1}^{N} \mathcal{N}(y_n \mid \mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$</li>
+            <li>$\mathcal{L} = -\sum_{n} \log\Big[\frac{1}{\sqrt{2\pi\sigma^2}} \exp\big(-\frac{(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2}{2\sigma^2}\big)\Big]$</li>
+            <li>$\mathcal{L}(\boldsymbol{\theta}) = \frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$</li>
+            <li>첫째 항은 상수이고, 둘째 항은 양수 × $\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$이다. 따라서 argmin이 least squares와 같다.</li>
+          </ol>
+          <p class="answer">정답: 상수 + $\frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$ → least squares와 같은 해</p>
+        </details>
+        <p class="link-back">🔗 수업과 연결: <a href="정리노트_0909-0916_When_Models_Meet_Data.html#s3-mle-ls">가우시안 노이즈면 MLE = Least Squares</a> — 그 전개를 처음부터 끝까지 손으로 다시 밟는다.</p>
+        <label class="done"><input type="checkbox" data-done="p4"> 풀었음</label>
+      </article>
+      <article class="card" id="p5" data-source="MML Example 8.6">
+        <header class="card-head"><span class="badge src">MML Example 8.6</span><span class="badge level">★★★ 도전</span><span class="tag date">📅 0916</span><span class="badge supp">📎 보충 · 수업 미유도</span></header>
+        <h3>P5. prior가 곧 정규화</h3>
+        <div class="problem">
+          P4에 prior $p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, b^2\mathbf{I})$를 더한다. 교과서는 일반 공분산 $\boldsymbol{\Sigma}$를 쓰지만, 여기서는 $\boldsymbol{\Sigma} = b^2\mathbf{I}$로 단순화한 변형이다.
+          <ol>
+            <li>(a) $-\log p(\boldsymbol{\theta})$를 구하시오.</li>
+            <li>(b) MAP 목적함수를 쓰시오.</li>
+            <li>(c) P3의 정규화 LS와 같은 해를 주는 λ를 구하시오.</li>
+          </ol>
+        </div>
+        <details class="original"><summary>📖 교과서 원문</summary>Example 8.6 "…we assume that the parameter vector is distributed as a multivariate Gaussian with zero mean, i.e., $p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, \boldsymbol{\Sigma})$…"</details>
+        <details class="hint"><summary>💡 힌트</summary>$\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$의 밀도는 $\exp\big(-\frac{1}{2b^2}\|\boldsymbol{\theta}\|^2\big)$에 비례한다. 목적함수에 양수를 곱해도 argmin은 그대로다.</details>
+        <details class="solution">
+          <summary>✅ 풀이</summary>
+          <ol class="steps">
+            <li>$-\log p(\boldsymbol{\theta}) = \frac{1}{2b^2}\|\boldsymbol{\theta}\|^2 + \text{const}$</li>
+            <li>$\boldsymbol{\theta}_{\text{MAP}} = \arg\min_{\boldsymbol{\theta}} \Big[\frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \frac{1}{2b^2}\|\boldsymbol{\theta}\|^2\Big]$</li>
+            <li>$\frac{2\sigma^2}{N}$를 곱하면 $\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \frac{\sigma^2}{N b^2}\|\boldsymbol{\theta}\|^2$</li>
+            <li>해석: b가 작을수록("θ는 작다"는 믿음이 강할수록) λ가 커진다.</li>
+          </ol>
+          <p class="answer">정답: $\lambda = \frac{\sigma^2}{N b^2}$</p>
+        </details>
+        <p class="link-back">🔗 수업과 연결: <a href="정리노트_0909-0916_When_Models_Meet_Data.html#s3-map-l2">📎 가우시안 prior = L2 정규화</a> — 수업에서 미룬 이 유도를 직접 끝까지 전개한다.</p>
+        <label class="done"><input type="checkbox" data-done="p5"> 풀었음</label>
+      </article>
     </section>
     <section id="partB"><h2>B. 교과서 연습문제 (MML 6·7장)</h2>
       <article class="card" id="p6"></article>
