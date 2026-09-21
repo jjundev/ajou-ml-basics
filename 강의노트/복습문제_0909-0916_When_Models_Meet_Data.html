@@ -74,6 +74,7 @@
     table { border-collapse: collapse; width: 100%; font-size: 14px; }
     th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
     th { background: var(--surface-2); }
+    td:first-child, th:first-child { min-width: 6em; }
     ol.steps li { margin: 6px 0; }
     .widget { background: var(--surface); border: 2px dashed var(--accent); border-radius: var(--radius); padding: 16px; margin: 20px 0; }
     .widget h4 { margin: 0 0 6px; }
@@ -353,7 +354,7 @@
         <details class="hint">
           <summary>💡 힌트</summary>
           Beta 밀도는 $\mu^{\alpha-1}(1-\mu)^{\beta-1}$에 비례한다. 곱해 보면 같은 모양이 나온다.<br>
-          Beta(α, β)의 최빈값은 $\frac{\alpha - 1}{\alpha + \beta - 2}$, 평균은 $\frac{\alpha}{\alpha + \beta}$다(확률 추가강의 Lecture 10).
+          Beta(α, β)의 최빈값은 $\frac{\alpha - 1}{\alpha + \beta - 2}$, 평균은 $\frac{\alpha}{\alpha + \beta}$다(평균: 확률 추가강의 Lecture 10, 최빈값·MAP: Lecture 11).
         </details>
         <details class="solution">
           <summary>✅ 풀이</summary>
@@ -361,7 +362,7 @@
             <li>likelihood: $\prod_n \mu^{x_n}(1-\mu)^{1-x_n} = \mu^{k}(1-\mu)^{N-k}$, 단 $k = \sum_n x_n$</li>
             <li>prior Beta(α, β)와 곱하면 $\mu^{k+\alpha-1}(1-\mu)^{N-k+\beta-1}$ ⇒ 사후분포 $\mathrm{Beta}(\alpha + k, \beta + N - k)$. prior와 같은 가족이 되므로 켤레(conjugate)다.</li>
             <li>(b) $\ell(\mu) = 2\log\mu + 8\log(1-\mu)$, $\frac{2}{\mu} - \frac{8}{1-\mu} = 0$ ⇒ $\mu_{\text{ML}} = 0.2$</li>
-            <li>(c) 사후분포 Beta(6, 12)의 최빈값: $\frac{5}{16} = 0.3125$. 교수님이 말한 "0.3 정도"다.</li>
+            <li>(c) 사후분포 Beta(6, 12)의 최빈값: $\frac{5}{16} = 0.3125$. 교수님이 말한 "0.3 정도"와 맞는 값이다 (Beta(4,4)는 예시로 고른 prior).</li>
             <li>(d) 사후분포 Beta(3, 9)의 최빈값: $\frac{2}{10} = 0.2$ = ML. uniform prior이면 MAP = ML이다.</li>
             <li>(e) $P(x_{\text{new}} = 1 \mid \text{data}) = \int \mu\, p(\mu \mid \text{data})\, d\mu = \frac{6}{18} = \frac{1}{3}$. 이것이 posterior predictive이며 정리노트의 동전 위젯 기본값과 같다.</li>
           </ol>

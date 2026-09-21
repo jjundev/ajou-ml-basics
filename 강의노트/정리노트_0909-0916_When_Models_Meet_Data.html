@@ -74,6 +74,7 @@
     table { border-collapse: collapse; width: 100%; font-size: 14px; }
     th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
     th { background: var(--surface-2); }
+    td:first-child, th:first-child { min-width: 6em; }
     ol.steps li { margin: 6px 0; }
     .widget { background: var(--surface); border: 2px dashed var(--accent); border-radius: var(--radius); padding: 16px; margin: 20px 0; }
     .widget h4 { margin: 0 0 6px; }
@@ -757,8 +758,8 @@
             <li>첫째 항은 <b>θ와 무관</b>하다. 최소화하는 θ(argmin)에 영향을 주지 않으므로 무시한다(칠판에서는 "=" 대신 "∝"로 바꿔 썼다).</li>
             <li>둘째 항의 합은 벡터 $\mathbf{y} - \mathbf{X}\boldsymbol{\theta}$ 의 유클리드 노름 제곱이다: $\frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$.</li>
           </ol>
-          <p>따라서 <b>가우시안 노이즈 가정 하의 MLE = least squares</b>. <a href="#s2-matrix">2절의 squared loss</a>에서 본 $\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$ 최소화와 같은 해를 준다. $y_n$ 은 실제 라벨, $\mathbf{x}_n^\top \boldsymbol{\theta} = \hat{y}_n$ 이니 결국 average empirical loss다.</p>
-          <p><b>노이즈 가정이 바뀌면</b>: 이번 결과는 노이즈를 좌우 대칭인 가우시안으로 가정했기 때문에 나온 것이다. Laplace, exponential처럼 다른(비대칭 등) 노이즈를 가정하면 다른 loss 함수가 나온다.</p>
+          <p>따라서 <b>가우시안 노이즈 가정 하의 MLE = least squares</b>. <a href="#s2-matrix">2절의 squared loss</a>에서 본 $\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$ 최소화와 같은 해를 준다. $y_n$ 은 실제 라벨, $\mathbf{x}_n^\top \boldsymbol{\theta} = \hat{y}_n$ 이니 empirical risk에 양수를 곱한 것(+ 상수)이라 argmin이 같다.</p>
+          <p><b>노이즈 가정이 바뀌면</b>: 이번 결과는 노이즈를 좌우 대칭인 가우시안으로 가정했기 때문에 나온 것이다. Laplace 노이즈를 가정하면 절댓값(L1) loss, exponential처럼 비대칭인 노이즈를 가정하면 또 다른 loss가 나온다.</p>
           <p><b>왜 확률 모델이 대세인가</b>: 상수는 <b>delta PDF</b>(한 점에 확률밀도가 모두 몰린 PDF)를 갖는 확률변수로 볼 수 있다. 불확실성이 0인 확률변수인 셈이다. 그래서 확률 모델은 deterministic 모델을 특수한 경우로 <b>포함</b>한다. 위의 결과처럼 deterministic 해법(least squares)도 확률 모델의 특별한 경우로 다시 얻어진다.</p>
         </div>
         <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
@@ -821,6 +822,9 @@
             <li>수업에서는 연결만 언급하고 "나중에 다시 썰 푸는 걸로"라며 수식 유도를 미뤘다 (0916 55:32). 유도는 아래 보충에 정리한다.</li>
           </ul>
         </div>
+        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
+          <p>λ = 0이면 "선험적인 편견 따위는 고려하지 않겠다"는 뜻이에요. prior에는 인간적인 면(의도, 선호)이 들어가 있어요. (0916 52:16–55:35)</p>
+        </div>
         <div class="layer supp"><span class="badge supp">📎 보충 · 수업 미유도</span>
           <ol class="steps">
             <li>가우시안 prior를 둔다: $$p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, b^2 \mathbf{I}) \ \Rightarrow\ -\log p(\boldsymbol{\theta}) = \frac{1}{2b^2}\|\boldsymbol{\theta}\|^2 + \text{const}$$</li>
@@ -830,9 +834,6 @@
           </ol>
           <p><b>해석</b>: prior의 폭 $b$ 가 작을수록("θ는 0 근처라고 강하게 믿을수록") λ가 커진다. 데이터 수 N이 커지면 λ가 작아져 데이터의 목소리가 더 커진다.</p>
           <p>참고: MML 8.3.2, 9.2.3. <a href="복습문제_0909-0916_When_Models_Meet_Data.html#p5">복습문제 P5</a>에서 직접 유도해 본다.</p>
-        </div>
-        <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span>
-          <p>λ = 0이면 "선험적인 편견 따위는 고려하지 않겠다"는 뜻이에요. prior에는 인간적인 면(의도, 선호)이 들어가 있어요. (0916 52:16–55:35)</p>
         </div>
       </article>
       <article class="topic" id="s3-fitting"><h3>Model fitting: 과적합 · 과소적합 · 적정적합</h3><div class="tags"><span class="tag date">📅 0916</span><span class="tag slide">L01 s17</span></div>
@@ -999,12 +1000,13 @@
           </svg><figcaption>ML·MAP은 곡선에서 점 하나만 골라 말하고, Fully Bayesian은 곡선 전체를 그대로 써요.</figcaption></figure>
         </div>
         <div class="layer formal"><span class="layer-title">📐 정식 버전</span>
+          <p>여기서 $\mathbf{X}$는 관측 데이터 전체(3절의 $\mathcal{X}$, $\mathcal{Y}$를 묶은 것)를 뜻하고, 슬라이드를 따라 대문자 P로 쓴다.</p>
           <p><b>예측 문제</b>: 러닝이 끝난 뒤, 데이터셋 $\mathbf{X}$ 가 주어졌을 때 unseen data에 대한 사건 A를 예측한다: $P(A \mid \mathbf{X})$. 예) 새 사진이 개인지 고양이인지, 수신 신호에 재밍(jamming)이 있었는지를 분류하는 문제.</p>
           <p><b>세 가지 답</b></p>
           <ul>
             <li>ML: 데이터만 보고 θ를 하나 고른 뒤 그 값으로 예측한다. $$\text{ML: } P(A \mid \mathbf{X}) \approx P(A \mid \boldsymbol{\theta}_{\text{ML}}), \quad \boldsymbol{\theta}_{\text{ML}} = \arg\max_{\boldsymbol{\theta}} P(\mathbf{X} \mid \boldsymbol{\theta})$$</li>
             <li>MAP: prior까지 반영해 θ를 하나 고른다(<a href="#s3-map">3절 MAP</a>). $$\text{MAP: } P(A \mid \mathbf{X}) \approx P(A \mid \boldsymbol{\theta}_{\text{MAP}}), \quad \boldsymbol{\theta}_{\text{MAP}} = \arg\max_{\boldsymbol{\theta}} P(\boldsymbol{\theta} \mid \mathbf{X})$$</li>
-            <li><b>Fully Bayesian</b>: θ를 하나로 결정하지 않고 posterior 분포 전체를 사용한다(<a href="#s4-predictive">posterior predictive</a>). 성능은 Fully Bayesian이 가장 좋다.</li>
+            <li><b>Fully Bayesian</b>: θ를 하나로 결정하지 않고 posterior 분포 전체를 사용한다(<a href="#s4-predictive">posterior predictive</a>). 성능은 Fully Bayesian이 가장 좋다(모델·prior 가정이 맞다면. 대신 적분 계산이 비싸다).</li>
           </ul>
           <p>ML과 MAP은 "≈"다. 분포 전체 대신 점 하나로 근사했기 때문이다.</p>
         </div>
@@ -1102,7 +1104,7 @@
           <tr><td>Least squares</td><td>$\min_{\boldsymbol{\theta}} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$</td><td>제곱오차 평균을 최소화하는 $\boldsymbol{\theta}$ 를 찾는다</td><td><a href="#s2-matrix">→ 2. 행렬 표기</a></td></tr>
           <tr><td>Regularized LS</td><td>$+\,\lambda\|\boldsymbol{\theta}\|^2$</td><td>손실에 penalty를 더해 overfitting을 억제한다</td><td><a href="#s2-reg">→ 2. Regularization</a></td></tr>
           <tr><td>NLL</td><td>$\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$</td><td>likelihood를 최대화하는 대신 negative log-likelihood를 최소화한다</td><td><a href="#s3-iid">→ 3. i.i.d.</a></td></tr>
-          <tr><td>MLE = LS (가우시안 노이즈)</td><td>—</td><td>노이즈가 가우시안이면 MLE 풀이와 least squares 풀이가 같아진다</td><td><a href="#s3-mle-ls">→ 3. MLE = LS</a></td></tr>
+          <tr><td>MLE = LS (가우시안 노이즈)</td><td>$\mathcal{L}(\boldsymbol{\theta}) = \text{const} + \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$</td><td>노이즈가 가우시안이면 MLE 풀이와 least squares 풀이가 같아진다</td><td><a href="#s3-mle-ls">→ 3. MLE = LS</a></td></tr>
           <tr><td>MAP</td><td>$\boldsymbol{\theta}_{\text{MAP}} = \arg\min_{\boldsymbol{\theta}} [-\log p(\mathbf{x} \mid \boldsymbol{\theta}) - \log p(\boldsymbol{\theta})]$</td><td>likelihood에 prior를 곱해서(로그로는 더해서) 최적화한다</td><td><a href="#s3-map">→ 3. MAP</a></td></tr>
           <tr><td>가우시안 prior ↔ L2</td><td>$\lambda = \frac{\sigma^2}{N b^2}$</td><td>가우시안 prior를 쓴 MAP는 L2 정규화와 같은 식이 된다</td><td><a href="#s3-map-l2">→ 3. prior ↔ L2</a></td></tr>
           <tr><td>Posterior</td><td>$p(\boldsymbol{\theta} \mid \mathbf{x}) \propto p(\mathbf{x} \mid \boldsymbol{\theta})\, p(\boldsymbol{\theta})$</td><td>사후분포는 likelihood와 prior의 곱에 비례한다</td><td><a href="#s4-posterior">→ 4. Posterior</a></td></tr>

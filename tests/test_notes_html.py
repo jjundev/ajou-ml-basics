@@ -91,9 +91,9 @@ PROBLEMS = {
     "p3": {"source": "MML Example 8.3", "anchor": "s2-reg", "terms": ["\\lambda \\to \\infty", "(\\mathbf{X}^\\top \\mathbf{X} + N\\lambda \\mathbf{I})", "hyperparameter"]},
     "p4": {"source": "MML Example 8.5", "anchor": "s3-mle-ls", "terms": ["\\frac{N}{2}\\log(2\\pi\\sigma^2)", "least squares"]},
     "p5": {"source": "MML Example 8.6", "anchor": "s3-map-l2", "terms": ["\\frac{\\sigma^2}{N b^2}", "\\frac{1}{2b^2}"]},
-    "p6": {"source": "MML Exercise 6.1", "anchor": "s4-joint", "terms": ["0.16", "0.34", "0.26", "0.47", "\\frac{5}{13}", "\\frac{5}{11}"]},
+    "p6": {"source": "MML Exercise 6.1", "anchor": "s4-joint", "terms": ["0.16", "0.34", "0.26", "0.47", "\\frac{5}{13}", "\\frac{5}{11}", "\\frac{1}{26}", "\\frac{3}{26}"]},
     "p7": {"source": "MML Exercise 6.4", "anchor": "s3-map", "terms": ["\\frac{1}{3}", "0.6", "0.4"]},
-    "p8": {"source": "MML Exercise 6.3", "anchor": "s4-coin", "terms": ["\\mathrm{Beta}(\\alpha + k, \\beta + N - k)", "0.3125", "\\frac{1}{3}"]},
+    "p8": {"source": "MML Exercise 6.3", "anchor": "s4-coin", "terms": ["\\mathrm{Beta}(\\alpha + k, \\beta + N - k)", "0.3125", "\\frac{1}{3}", "\\frac{2}{10} = 0.2"]},
     "p9": {"source": "MML Exercise 6.12", "anchor": "s4-generative", "terms": ["\\mathcal{N}\\big(\\mathbf{y} \\mid \\mathbf{A}\\mathbf{x} + \\mathbf{b}, \\mathbf{Q}\\big)"]},
     "p10": {"source": "MML Exercise 7.1", "anchor": "s4-coin", "terms": ["-2 + \\sqrt{5}", "-2 - \\sqrt{5}", "6x + 12"]},
 }
@@ -208,6 +208,11 @@ class TestReview(_Common, unittest.TestCase):
             with self.subTest(pid=pid):
                 self.assertIn(pid, self.doc.containers)
         self.assertIn("progress-count", self.doc.ids)
+
+    def test_scope_forbidden_terms(self):
+        for term in FORBIDDEN_OUTSIDE_NEXT:
+            with self.subTest(term=term):
+                self.assertNotIn(term, self.doc.body_text)
 
     def test_completed_problems(self):
         for pid in COMPLETED_PROBLEMS:
