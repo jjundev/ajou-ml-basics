@@ -8,6 +8,7 @@
 - 입력(읽기 전용): `<RUN>/repo/STT/<MMDD 머러기.md>` — **처음부터 끝까지 전부** 읽는다. 건너뛰지 않는다.
 - 대조 자료: `<RUN>/repo/강의노트/<LectureXX_*.pdf>` 슬라이드 텍스트(메인이 추출해 `<RUN>/slides.txt`에 둠)
 - 출력: `<RUN>/summaries/stt-<MMDD>.md` 한 파일만 쓴다. 다른 곳에는 쓰지 않는다.
+- 임시·보조 파일(스크립트, 초안, 그림 생성 폴더)은 `<RUN>/work/` 아래에만 둔다. 저장소(`STT/`, `강의노트/`, `교과서/`, `복습노트/`)와 scratchpad 루트, `/tmp`에는 아무것도 쓰지 않는다. 한글(NFD) 파일명은 복사하거나 이름을 바꾸지 말고 Python `os.listdir` + `unicodedata.normalize('NFC', …)`로 찾아 그 경로로 연다.
 
 출력 형식:
 1. `# <MMDD> 머신러닝기초 강의 개요 (정방철 교수, <YYYY-MM-DD>)`

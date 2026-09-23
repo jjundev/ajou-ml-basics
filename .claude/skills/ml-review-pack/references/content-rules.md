@@ -10,7 +10,8 @@
 - 링크: manifest `links` 중 `topic`이 이 섹션에 있는 항목 `<이 섹션의 links 목록>`을 모두 그 토픽 안에 `<a href="…">`로 넣는다. `href`는 글자 그대로 복사(`%20` 포함). 복습문제 링크만은 `{{REVIEW_HREF}}`로 써도 된다(조립 뒤 실제 파일명이 되어 검사를 통과한다).
 - 근거: `<RUN>/summaries/stt-*.md`(해당 날짜), `<RUN>/slides.txt`, 필요하면 MML `<RUN>/repo/교과서/Mathematics_for_Machine_Learning.pdf` <쪽>
 - 출력: `<RUN>/sections/<sid>.html` **한 파일만**. `<section>`/`<h2>`는 쓰지 않는다(조립기가 감싼다).
-- 자기 검사(끝내기 전): 토픽별로 `required_terms`가 모두 문자 그대로 들어갔는지, `$` 짝, `links` 항목이 해당 토픽 안에 있는지, 금지어 `<forbidden 목록>`이 없는지. 금지어는 예고 토픽 `<preview_topic>` 안에서만 허용된다 — 이 토픽에는 예고 제목을 빠뜨리지 말고 쓴다.
+- 임시·보조 파일(스크립트, 초안, 그림 생성 폴더)은 `<RUN>/work/` 아래에만 둔다. 저장소(`STT/`, `강의노트/`, `교과서/`, `복습노트/`)와 scratchpad 루트, `/tmp`에는 아무것도 쓰지 않는다. 한글(NFD) 파일명은 복사하거나 이름을 바꾸지 말고 Python `os.listdir` + `unicodedata.normalize('NFC', …)`로 찾아 그 경로로 연다.
+- 자기 검사(끝내기 전): 토픽별로 `required_terms`가 모두 문자 그대로 들어갔는지, `$` 짝, `links` 항목이 해당 토픽 안에 있는지, 금지어 `<forbidden 목록>`이 없는지. 금지어는 예고 토픽 `<preview_topic>` 안에서만 허용된다 — 이 토픽에는 예고 제목을 빠뜨리지 말고 쓴다. 🧸 레이어마다 문장 수(figcaption 포함)가 3 이하이고 전문용어·기호(θ, σ, 식, 영어 용어)가 없는지 — 있으면 📐로 옮긴다. 그림 설명(글, `aria-label`)이 SVG 클래스의 실제 모양(채움/윤곽)과 맞는지.
 - 보고: 파일 경로, 토픽별 한 줄, 요약에 있었지만 넣지 않은 것과 이유.
 ---
 
@@ -33,7 +34,7 @@
 - 복습문제 링크는 `href="{{REVIEW_HREF}}"`로 쓴다(조립기가 실제 파일명으로 바꾼다. manifest의 파일명을 그대로 써도 된다). 다른 링크는 manifest `href`를 글자 그대로.
 
 ## 문체
-- 🧸: 초등학생이 이해할 1~3문장 + 그림. 전문용어 없이. "~예요" 체.
+- 🧸: 초등학생이 이해할 1~3문장(figcaption 포함) + 그림. 전문용어·기호 없이(필요하면 📐에 쓴다). "~예요" 체.
 - 📐: 빠짐없이, 정확하게. 유도는 한 줄에 한 단계. "~다" 체.
 - 🎙️/⚠️: 원문 인용은 15단어 안팎으로 줄이고 `(0914 26:00)`처럼 출처.
 - UI 글은 한국어, 전문용어는 영어 병기(예: 과적합(overfitting)).
@@ -47,5 +48,6 @@
 - 개념 토픽마다 🧸 레이어에 그림 1개 이상(흐름도, 막대, 곡선 등).
 - `<figure class="figure"><svg id="fig-<kebab>" viewBox="…" role="img" aria-label="한국어 설명">…</svg><figcaption>…</figcaption></figure>`
 - 색은 클래스로만: `fig-ink`, `fig-accent`, `fig-danger`, `fig-dot`, `fig-text`, `fig-muted`. 하드코딩 색 금지(다크모드).
+- 채움과 윤곽: `fig-ink`, `fig-accent`, `fig-danger`는 선만 그린다(`fill:none`). 속이 칠해진 점·도형은 `fig-dot`(강조색 채움)뿐이다(`fig-text`, `fig-muted`는 글자용). 글·figcaption·`aria-label`에서 "색칠된", "채워진"은 `fig-dot` 도형에만 쓰고, 선만 있는 도형은 "테두리", "선"으로 부른다.
 - 글자 12~14px, SVG `<text>`에 `$` 금지(θ, σ, ₁ 같은 유니코드).
 - id는 페이지 전체에서 유일해야 한다(`fig-` + 토픽 고유 단어).

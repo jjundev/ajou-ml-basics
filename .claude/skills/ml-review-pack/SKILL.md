@@ -36,9 +36,9 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
    - `range`는 첫 STT 날짜 하나이거나 `첫-끝` 형식이다.
 4. 실행 폴더를 만든다. 서브에이전트에게는 `RUN`, `RUN/repo`, `SKILL` 경로만 넘긴다.
    ```bash
-   mkdir -p "$RUN"/{summaries,sections,cards} && ln -sfn "$REPO" "$RUN/repo"
+   mkdir -p "$RUN"/{summaries,sections,cards,work} && ln -sfn "$REPO" "$RUN/repo"
    ```
-   에이전트는 `RUN` 밖에 쓰지 않는다. `복습노트/`에는 메인 에이전트만 쓴다.
+   에이전트는 `RUN` 밖에 쓰지 않는다. 임시·보조 파일(그림 생성 스크립트, 초안, 복사본)은 `RUN/work/`에만 둔다. 저장소(`STT/`, `강의노트/`, `교과서/`)에는 아무도 쓰지 않고, `복습노트/`에는 메인 에이전트만 쓴다.
 
 ### 1. 범위 파악
 1. **먼저** 관련 `강의노트/Lecture*.pdf` 텍스트를 슬라이드 번호와 함께 `RUN/slides.txt`에 추출한다(PyMuPDF, 쪽마다 `=== LXX sN ===`, 몇 초면 끝난다). 요약 에이전트는 이 파일이 있다고 보고 시작하므로 추출이 끝난 뒤에 띄운다.

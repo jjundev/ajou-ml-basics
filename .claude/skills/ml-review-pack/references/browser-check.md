@@ -8,6 +8,9 @@ python3 -m http.server $PORT --directory "<RUN>/repo" >/dev/null 2>&1 &   # run_
 ```
 URL: `http://localhost:$PORT/복습노트/<파일명>` (한글 그대로). 끝나면 서버를 종료한다.
 
+## 측정 전 준비
+브라우저 창이 숨겨져 있으면 `document.documentElement.clientWidth`가 0이 되어 `hScroll`이 거짓 양성으로 나온다. 측정 전에 `resize_window`로 크기를 명시하고(`width: 1280`, `height: 900`) `document.documentElement.clientWidth > 0`을 확인한다. `.katex-mathml` 안 요소는 화면에 보이지 않으므로 넘침 원인으로 치지 않는다. 스크롤 직후 스크린샷은 늦게 반영될 수 있으니 1초쯤 기다린 뒤 찍는다.
+
 ## 정리노트 (`mcp__Claude_Browser__javascript_tool`)
 ```js
 await new Promise((r) => setTimeout(r, 1500));
@@ -25,7 +28,7 @@ const textNodes = Array.from(document.querySelectorAll('main *')).filter((e) => 
 위젯마다 슬라이더 하나를 바꾸고(`input` 이벤트) readout 값이 `.widget-static` 표의 같은 설정 값과 같은지 확인한다.
 
 ## 모바일·다크
-`resize_window`(`preset: "mobile"`, `colorScheme: "dark"`) → 새로고침 → 위 스크립트 재실행(`hScroll: false`) → 스크린샷으로 그림·위젯 글자가 보이는지 확인 → `preset: "desktop"`, `colorScheme: "light"`로 되돌린다.
+`resize_window`(`preset: "mobile"`, `colorScheme: "dark"`) → 새로고침 → `clientWidth > 0` 확인 → 위 스크립트 재실행(`hScroll: false`) → 스크린샷으로 그림·위젯 글자가 보이는지 확인 → `preset: "desktop"`, `colorScheme: "light"`로 되돌린다.
 
 ## 복습문제
 ```js
@@ -39,3 +42,6 @@ await new Promise((r) => setTimeout(r, 300));
 })
 ```
 통과: `cards`가 manifest 문제 수, `katexErrors: 0`, `hScroll: false`. 첫 카드의 "수업과 연결" 링크를 눌러 노트 토픽으로 이동하는지 확인.
+
+## 마무리
+모든 검사가 끝나면 `resize_window`(`preset: "desktop"`, `colorScheme: "light"`)로 되돌리고 서버를 종료한다.
