@@ -31,6 +31,7 @@ const textNodes = Array.from(document.querySelectorAll('main *')).filter((e) => 
 `resize_window`(`preset: "mobile"`, `colorScheme: "dark"`) → 새로고침 → `clientWidth > 0` 확인 → 위 스크립트 재실행(`hScroll: false`) → 스크린샷으로 그림·위젯 글자가 보이는지 확인 → `preset: "desktop"`, `colorScheme: "light"`로 되돌린다.
 
 ## 복습문제
+측정 전에 다시 `resize_window`(`width: 1280`, `height: 900`) → `clientWidth > 0` 확인(앞 단계의 `preset: "desktop"`은 창 크기를 창 자체 크기로 되돌려 숨은 창에서는 0이 될 수 있다).
 ```js
 await new Promise((r) => setTimeout(r, 1500));
 document.querySelectorAll('details').forEach((d) => { d.open = true; });
