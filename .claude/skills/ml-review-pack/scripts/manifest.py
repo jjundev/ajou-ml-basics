@@ -31,14 +31,25 @@ class ManifestError(ValueError):
 
 
 def _need(obj: dict, key: str, typ: type, where: str, errors: list[str]) -> bool:
-    if not isinstance(obj.get(key), typ):
+    if not isinstance(obj, dict) or not isinstance(obj.get(key), typ):
         errors.append(f"{where}.{key}: {typ.__name__} 필요")
         return False
     return True
 
 
+def _objects(items: list, where: str, errors: list[str]):
+    """dict 항목만 (i, 항목)으로 돌려준다. dict가 아닌 항목은 오류로 기록하고 건너뛴다."""
+    for i, item in enumerate(items):
+        if isinstance(item, dict):
+            yield i, item
+        else:
+            errors.append(f"{where}[{i}]: 객체 필요")
+
+
 def validate(m: dict) -> list[str]:
     errors: list[str] = []
+    if not isinstance(m, dict):
+        return ["manifest: JSON 객체 필요"]
     for key, typ in TOP_LEVEL_TYPES.items():
         _need(m, key, typ, "manifest", errors)
     if errors:
@@ -57,18 +68,18 @@ def validate(m: dict) -> list[str]:
             errors.append(f"{where}: 중복 id: {value}")
         seen.add(value)
 
-    for i, s in enumerate(m["sessions"]):
+    for i, s in _objects(m["sessions"], "sessions", errors):
         for key in ("date", "stt", "summary", "slides"):
             _need(s, key, str, f"sessions[{i}]", errors)
 
     topic_ids: set[str] = set()
-    for i, sec in enumerate(m["sections"]):
+    for i, sec in _objects(m["sections"], "sections", errors):
         where = f"sections[{i}]"
         if not all([_need(sec, "id", str, where, errors), _need(sec, "title", str, where, errors),
                     _need(sec, "short", str, where, errors), _need(sec, "topics", list, where, errors)]):
             continue
         new_id(sec["id"], where)
-        for j, t in enumerate(sec["topics"]):
+        for j, t in _objects(sec["topics"], f"{where}.topics", errors):
             tw = f"{where}.topics[{j}]"
             ok = all([_need(t, "id", str, tw, errors), _need(t, "title", str, tw, errors),
                       _need(t, "required_terms", list, tw, errors), _need(t, "layers", list, tw, errors),
@@ -77,6 +88,9 @@ def validate(m: dict) -> list[str]:
                 continue
             new_id(t["id"], tw)
             topic_ids.add(t["id"])
+            if not all(isinstance(x, str) for x in t["layers"]):
+                errors.append(f"{tw}.layers: 문자열 목록이어야 함")
+                continue
             unknown = set(t["layers"]) - LAYER_NAMES
             if unknown:
                 errors.append(f"{tw}.layers: 알 수 없는 레이어 {sorted(unknown)}")
@@ -85,14 +99,14 @@ def validate(m: dict) -> list[str]:
         errors.append(f"preview_topic: 토픽 id가 아님: {m['preview_topic']}")
 
     part_ids: set[str] = set()
-    for i, p in enumerate(m["parts"]):
+    for i, p in _objects(m["parts"], "parts", errors):
         where = f"parts[{i}]"
         if all([_need(p, "id", str, where, errors), _need(p, "title", str, where, errors),
                 _need(p, "short", str, where, errors)]):
             new_id(p["id"], where)
             part_ids.add(p["id"])
 
-    for i, q in enumerate(m["problems"]):
+    for i, q in _objects(m["problems"], "problems", errors):
         where = f"problems[{i}]"
         ok = all([_need(q, key, typ, where, errors) for key, typ in (
             ("id", str), ("part", str), ("source", str), ("variant", bool), ("anchor", str),
@@ -107,7 +121,7 @@ def validate(m: dict) -> list[str]:
         if not 1 <= q["level"] <= 3:
             errors.append(f"{where}.level: 1~3이어야 함")
 
-    for i, link in enumerate(m["links"]):
+    for i, link in _objects(m["links"], "links", errors):
         where = f"links[{i}]"
         if _need(link, "topic", str, where, errors) and link["topic"] not in topic_ids:
             errors.append(f"{where}.topic: 없는 토픽: {link['topic']}")
@@ -116,7 +130,14 @@ def validate(m: dict) -> list[str]:
 
 
 def load(path: Path | str) -> dict:
-    m = json.loads(Path(path).read_text(encoding="utf-8"))
+    try:
+        text = Path(path).read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as e:
+        raise ManifestError(f"{path}: 파일을 읽을 수 없음: {e}") from e
+    try:
+        m = json.loads(text)
+    except json.JSONDecodeError as e:
+        raise ManifestError(f"{path}: JSON 형식 오류: {e}") from e
     errors = validate(m)
     if errors:
         raise ManifestError("\n".join(errors))

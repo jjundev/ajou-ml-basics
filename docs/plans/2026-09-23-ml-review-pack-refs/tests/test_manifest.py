@@ -69,6 +69,52 @@ class TestManifest(unittest.TestCase):
             self.assertEqual(manifest.main([str(MINI_RUN / "manifest.json")]), 0)
         self.assertEqual(out.getvalue().strip(), "OK")
 
+    def test_non_dict_top_level(self):
+        for value in ([], "x", 3, None):
+            self.assertEqual(manifest.validate(value), ["manifest: JSON 객체 필요"])
+
+    def test_non_dict_list_item_is_reported_and_skipped(self):
+        m = mini()
+        m["problems"].insert(0, "oops")
+        m["sessions"].append(7)
+        m["sections"][0]["topics"].append(None)
+        errors = manifest.validate(m)
+        self.assertIn("problems[0]: 객체 필요", errors)
+        self.assertIn(f"sessions[{len(m['sessions']) - 1}]: 객체 필요", errors)
+        self.assertTrue(any(e.endswith(": 객체 필요") and e.startswith("sections[0].topics[") for e in errors))
+
+    def test_non_string_layer_is_reported(self):
+        m = mini()
+        m["sections"][0]["topics"][0]["layers"].append(["eli5"])
+        self.assertTrue(any("layers" in e for e in manifest.validate(m)))
+
+    def test_load_invalid_json_raises_manifest_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "manifest.json"
+            path.write_text("{not json", encoding="utf-8")
+            with self.assertRaises(manifest.ManifestError):
+                manifest.load(path)
+            with self.assertRaises(manifest.ManifestError):
+                manifest.load(Path(tmp) / "missing.json")
+
+    def test_cli_invalid_manifest_exits_1(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "manifest.json"
+            bad.write_text("[]", encoding="utf-8")
+            for arg in (bad, Path(tmp) / "missing.json"):
+                with contextlib.redirect_stdout(io.StringIO()) as out, \
+                        contextlib.redirect_stderr(io.StringIO()) as err:
+                    self.assertEqual(manifest.main([str(arg)]), 1)
+                self.assertTrue(out.getvalue().strip())
+                self.assertNotIn("Traceback", out.getvalue() + err.getvalue())
+
+    def test_cli_usage_exits_2(self):
+        for argv in ([], ["a", "b"]):
+            with contextlib.redirect_stdout(io.StringIO()), \
+                    contextlib.redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(manifest.main(argv), 2)
+            self.assertIn("사용법", err.getvalue())
+
     def test_names(self):
         m = mini()
         self.assertEqual(manifest.note_name(m), "정리노트_0101-0102_Mini_Test.html")
