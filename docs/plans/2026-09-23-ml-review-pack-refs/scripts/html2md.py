@@ -17,7 +17,10 @@ import html
 import os
 import re
 import sys
+import unicodedata
+from collections import Counter
 from html.parser import HTMLParser
+from urllib.parse import unquote
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 NAME_RE = re.compile(r"^(정리노트|복습문제)_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html$")
@@ -44,6 +47,26 @@ svg {{ color: {LIGHT['ink']}; font-family: {FONT}; }}
 .plot-prior {{ fill: none; stroke: {LIGHT['prof']}; stroke-width: 2; stroke-dasharray: 6 4; }}
 .plot-post {{ fill: none; stroke: {LIGHT['supp']}; stroke-width: 3; }}
 """
+
+
+# HTMLParser는 태그·속성 이름을 소문자로 바꾼다. 독립 SVG(XML)는 대소문자를 구분하므로 되돌린다.
+SVG_ATTR_CASE = {k.lower(): k for k in (
+    "viewBox", "preserveAspectRatio", "markerWidth", "markerHeight", "markerUnits", "refX", "refY",
+    "textLength", "lengthAdjust", "gradientUnits", "gradientTransform", "patternUnits",
+    "patternContentUnits", "patternTransform", "stdDeviation", "clipPathUnits", "startOffset",
+    "baseFrequency", "numOctaves", "pathLength", "maskUnits", "maskContentUnits", "primitiveUnits",
+    "filterUnits", "spreadMethod", "attributeName", "repeatCount", "keySplines", "keyTimes",
+    "calcMode", "stitchTiles", "kernelMatrix", "specularExponent", "surfaceScale", "diffuseConstant",
+    "tableValues", "zoomAndPan")}
+SVG_TAG_CASE = {k.lower(): k for k in (
+    "linearGradient", "radialGradient", "clipPath", "textPath", "foreignObject", "animateMotion",
+    "animateTransform", "feBlend", "feColorMatrix", "feComponentTransfer", "feComposite",
+    "feDiffuseLighting", "feDisplacementMap", "feDropShadow", "feFlood", "feGaussianBlur", "feImage",
+    "feMerge", "feMergeNode", "feMorphology", "feOffset", "feSpecularLighting", "feTile", "feTurbulence")}
+
+
+def nfc(s):
+    return unicodedata.normalize("NFC", s)
 
 
 def _read(path):
@@ -96,13 +119,19 @@ class Builder(HTMLParser):
         self.cur.children.append(data)
 
 
+def _svg_attrs(attrs):
+    return "".join(f' {SVG_ATTR_CASE.get(k, k)}="{html.escape(v)}"' for k, v in attrs.items())
+
+
 def serialize(node):
+    """SVG 하위 트리를 XML로 직렬화한다(SVG 태그·속성 대소문자 복원)."""
     if isinstance(node, str):
         return html.escape(node, quote=False)
-    attrs = "".join(f' {k}="{html.escape(v)}"' for k, v in node.attrs.items())
+    tag = SVG_TAG_CASE.get(node.tag, node.tag)
+    attrs = _svg_attrs(node.attrs)
     if not node.children and node.tag not in ("text",):
-        return f"<{node.tag}{attrs}/>"
-    return f"<{node.tag}{attrs}>" + "".join(serialize(c) for c in node.children) + f"</{node.tag}>"
+        return f"<{tag}{attrs}/>"
+    return f"<{tag}{attrs}>" + "".join(serialize(c) for c in node.children) + f"</{tag}>"
 
 
 # ---------------------------------------------------------------- inline
@@ -125,14 +154,27 @@ def escape_text(s):
 
 
 class Ctx:
-    def __init__(self, link_map, fig_dir_abs, fig_dir_name):
+    """변환 상태. registry는 팩 전체에서 공유하는 그림 파일명 집합(파일 간 덮어쓰기 방지)."""
+
+    def __init__(self, link_map, fig_dir_abs, fig_dir_name, prefix="", registry=None):
         self.link_map, self.fig_dir_abs, self.fig_dir_name, self.figs = link_map, fig_dir_abs, fig_dir_name, []
+        self.prefix = prefix
+        self.registry = registry if registry is not None else set()
+        self.auto = 0
 
 
 def fix_href(href, ctx):
+    """팩 HTML(NFC·NFD, %-인코딩, ./ 접두 모두)을 가리키는 링크를 .md로 바꾼다."""
+    path, sep, frag = href.partition("#")
+    if not path:
+        return href
+    head, _, base = path.rpartition("/")
+    if head not in ("", "."):
+        return href
+    base = nfc(unquote(base))
     for old, new in ctx.link_map:
-        if href.startswith(old):
-            return new + href[len(old):]
+        if base == nfc(old):
+            return (f"{head}/" if head else "") + new + sep + frag
     return href
 
 
@@ -265,18 +307,44 @@ def render_table(node, ctx):
     return lines
 
 
+def _fig_name(svg, ctx, name):
+    sid = name or svg.attrs.get("id")
+    if not sid:
+        ctx.auto += 1
+        sid = f"{ctx.prefix}-fig-{ctx.auto}" if ctx.prefix else f"fig-{ctx.auto}"
+    sid = re.sub(r"[^\w.-]", "_", sid)
+    fname, n = f"{sid}.svg", 1
+    while fname in ctx.registry:
+        n += 1
+        fname = f"{sid}-{n}.svg"
+    ctx.registry.add(fname)
+    return fname
+
+
+def _num(v):
+    m = re.fullmatch(r"\s*([0-9.]+)\s*(px)?\s*", v or "")
+    return m.group(1) if m else None
+
+
 def export_svg(svg, ctx, name=None):
-    sid = name or svg.attrs.get("id") or f"fig-auto-{len(ctx.figs) + 1}"
-    vb = svg.attrs.get("viewBox", "0 0 600 300").split()
+    vb_raw = svg.attrs.get("viewbox")
+    vb = vb_raw.replace(",", " ").split() if vb_raw else []
+    if len(vb) != 4:
+        w0, h0 = _num(svg.attrs.get("width")), _num(svg.attrs.get("height"))
+        vb = ["0", "0", w0, h0] if w0 and h0 else ["0", "0", "600", "300"]
     w, h = vb[2], vb[3]
     body = "".join(serialize(c) for c in svg.children)
-    attrs = {k: v for k, v in svg.attrs.items() if k not in ("id", "class")}
-    attr_s = "".join(f' {k}="{html.escape(v)}"' for k, v in attrs.items())
-    doc = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}"{attr_s}>'
+    drop = ("id", "class", "viewbox", "width", "height", "xmlns")
+    attrs = {k: v for k, v in svg.attrs.items() if k not in drop}
+    uses_xlink = "xlink:" in body or any(k.startswith("xlink:") for k in attrs)
+    if uses_xlink and "xmlns:xlink" not in attrs:
+        attrs["xmlns:xlink"] = "http://www.w3.org/1999/xlink"
+    doc = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="{" ".join(vb)}"'
+           f"{_svg_attrs(attrs)}>"
            f"<style>{SVG_CSS}</style>"
            f'<rect x="{vb[0]}" y="{vb[1]}" width="{w}" height="{h}" rx="10" fill="{LIGHT["surface"]}"/>'
            f"{body}</svg>\n")
-    fname = f"{sid}.svg"
+    fname = _fig_name(svg, ctx, name)
     with open(os.path.join(ctx.fig_dir_abs, fname), "w", encoding="utf-8") as f:
         f.write(doc)
     ctx.figs.append(fname)
@@ -441,8 +509,24 @@ SKIP_CHECK_CLASSES = {"controls", "topbar"}
 
 
 def _norm_math(s):
+    """수식 토큰 정규화: 구분자($, $$)·공백 제거, 표 안 \\Vert/\\vert 치환을 되돌린다."""
+    s = s.strip()
+    s = s[2:-2] if s.startswith("$$") and s.endswith("$$") and len(s) >= 4 else s[1:-1]
     s = s.replace("\\Vert", "\\|").replace("\\vert", "|")
-    return re.sub(r"[\s$]", "", s)
+    return re.sub(r"\s", "", s)
+
+
+def _pack_names(html_path):
+    """html_path가 속한 팩의 HTML 두 이름(NFC)."""
+    base = nfc(os.path.basename(html_path))
+    m = NAME_RE.match(base)
+    if not m:
+        return {base}
+    return {f"{kind}_{m.group(2)}_{m.group(3)}.html" for kind in ("정리노트", "복습문제")}
+
+
+def _exists(path):
+    return any(os.path.exists(unicodedata.normalize(f, path)) for f in ("NFC", "NFD")) or os.path.exists(path)
 
 
 def html_math_and_ids(path):
@@ -476,28 +560,38 @@ def check_md(html_path, md_path):
     md = _read(md_path)
     md_dir = os.path.dirname(os.path.abspath(md_path))
     problems = []
-    md_norm = _norm_math(md)
     maths, ids = html_math_and_ids(html_path)
-    problems += [f"수식 누락: {m[:60]}" for m in maths if _norm_math(m) not in md_norm]
+    want = Counter(_norm_math(m) for m in maths)
+    have = Counter(_norm_math(m) for m in MD_MATH_RE.findall(md))
+    first = {}
+    for m in maths:
+        first.setdefault(_norm_math(m), m)
+    for key, n in want.items():
+        if have[key] < n:
+            problems.append(f"수식 누락: {first[key][:60]} ({have[key]}/{n})")
     anchors = set(re.findall(r'<a id="([^"]+)"></a>', md))
     problems += [f"앵커 누락: {i}" for i in ids if i not in anchors]
     for img in re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md):
-        if not os.path.exists(os.path.join(md_dir, img)):
+        if not _exists(os.path.join(md_dir, unquote(img))):
             problems.append(f"그림 없음: {img}")
+    pack = _pack_names(html_path)
     for target in re.findall(r"(?<!!)\[[^\]]*\]\(([^)]+)\)", md):
-        if target.startswith(("http://", "https://", "mailto:")):
+        if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target):  # http:, https:, mailto: 등 외부
             continue
         path_part, _, frag = target.partition("#")
         if not path_part:
             if frag not in anchors:
                 problems.append(f"링크 앵커 없음: {target}")
             continue
-        if not path_part.endswith(".md"):
+        path_dec = nfc(unquote(path_part))
+        head, _, base = path_dec.rpartition("/")
+        if head in ("", ".") and base in pack:
+            problems.append(f"링크 미변환(.html): {target}")
             continue
-        other = os.path.join(md_dir, path_part)
-        if not os.path.exists(other):
+        other = os.path.join(md_dir, path_dec)
+        if not _exists(other):
             problems.append(f"링크 파일 없음: {target}")
-        elif frag and f'<a id="{frag}"></a>' not in _read(other):
+        elif path_dec.endswith(".md") and frag and f'<a id="{frag}"></a>' not in _read(other):
             problems.append(f"링크 앵커 없음: {target}")
     return problems
 
@@ -505,7 +599,8 @@ def check_md(html_path, md_path):
 def convert_pack(note_path, review_path):
     """두 HTML을 같은 폴더에 .md로 변환한다. (md 경로 두 개, 그림 파일 수)를 돌려준다."""
     out_dir = os.path.dirname(os.path.abspath(note_path))
-    names = [os.path.basename(note_path), os.path.basename(review_path)]
+    srcs = [os.path.abspath(note_path), os.path.abspath(review_path)]
+    names = [nfc(os.path.basename(p)) for p in srcs]
     matches = [NAME_RE.match(n) for n in names]
     if not all(matches) or matches[0].group(1) != "정리노트" or matches[1].group(1) != "복습문제":
         raise ValueError(f"파일명 규칙 위반: {names}")
@@ -514,21 +609,20 @@ def convert_pack(note_path, review_path):
     fig_name = f"figures_{matches[0].group(2)}"
     fig_abs = os.path.join(out_dir, fig_name)
     os.makedirs(fig_abs, exist_ok=True)
-    link_map = [(n, n[:-5] + ".md") for n in names]
+    link_map = [(n, n[:-5] + ".md") for n in names]  # fix_href가 NFC로 비교하므로 NFD 링크도 잡힌다
     intros = [
         [f"> 이 문서는 `{names[0]}`의 마크다운 버전입니다. 그림은 `{fig_name}/` 폴더의 SVG로, "
          "인터랙티브 위젯은 정적 스냅샷으로 옮겼습니다. 수식은 `$…$` / `$$…$$` (GitHub, Obsidian, Typora 등에서 렌더링) 입니다."],
         [f"> 이 문서는 `{names[1]}`의 마크다운 버전입니다. "
          "📖 원문 · 💡 힌트 · ✅ 풀이는 접혀 있으니 먼저 스스로 풀어 본 뒤 펼치세요."],
     ]
-    outs, fig_count = [], 0
-    for name, intro in zip(names, intros):
-        ctx = Ctx(link_map, fig_abs, fig_name)
+    outs, registry = [], set()
+    for src, name, intro, prefix in zip(srcs, names, intros, ("note", "review")):
+        ctx = Ctx(link_map, fig_abs, fig_name, prefix=prefix, registry=registry)
         out = os.path.join(out_dir, name[:-5] + ".md")
-        convert(os.path.join(out_dir, name), out, ctx, intro)
+        convert(src, out, ctx, intro)
         outs.append(out)
-        fig_count += len(ctx.figs)
-    return outs, fig_count
+    return outs, len(registry)
 
 
 def main(argv=None):
