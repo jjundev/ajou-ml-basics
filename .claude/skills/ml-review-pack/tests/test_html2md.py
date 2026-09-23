@@ -47,6 +47,16 @@ class TestHtml2Md(unittest.TestCase):
         self.assertIn("![평균 1.5 막대](figures_0101-0102/widget-mean-static.svg)", self.md)
         self.assertIn("| 1, 2 | $\\frac{3}{2}$ |", self.md)
 
+    def test_reconversion_removes_orphan_svgs_only(self):
+        fig = self.tmp / "figures_0101-0102"
+        (fig / "old-orphan.svg").write_text("<svg/>", encoding="utf-8")
+        (fig / "keep.txt").write_text("x", encoding="utf-8")
+        (self.tmp / "outside.svg").write_text("<svg/>", encoding="utf-8")
+        _, figs = html2md.convert_pack(self.note, self.review)
+        self.assertEqual(figs, 1)
+        self.assertEqual(sorted(p.name for p in fig.iterdir()), ["keep.txt", "widget-mean-static.svg"])
+        self.assertTrue((self.tmp / "outside.svg").exists())
+
     def test_links_rewritten_to_md(self):
         self.assertIn("(복습문제_0101-0102_Mini_Test.md)", self.md)
         review = Path(self.review_md).read_text(encoding="utf-8")

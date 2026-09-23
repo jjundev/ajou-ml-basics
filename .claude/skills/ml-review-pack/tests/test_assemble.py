@@ -50,6 +50,20 @@ class TestAssemble(unittest.TestCase):
         with self.assertRaises(assemble.AssembleError):
             assemble.assemble(run, self.tmp / "out")
 
+    def test_missing_card_writes_neither_file(self):
+        run = self.tmp / "run"
+        shutil.copytree(MINI_RUN, run)
+        (run / "cards" / "p1.html").unlink()
+        out = self.tmp / "out2"
+        with self.assertRaises(assemble.AssembleError):
+            assemble.assemble(run, out)
+        self.assertEqual(list(out.iterdir()), [])
+        # 이미 있는 팩도 그대로 남는다
+        before = {p.name: p.read_bytes() for p in (self.note, self.review)}
+        with self.assertRaises(assemble.AssembleError):
+            assemble.assemble(run, self.tmp)
+        self.assertEqual({p.name: p.read_bytes() for p in (self.note, self.review)}, before)
+
     def test_fill_rejects_missing_slot(self):
         with self.assertRaises(assemble.AssembleError):
             assemble.fill("<p>{{NOPE}}</p>", {})

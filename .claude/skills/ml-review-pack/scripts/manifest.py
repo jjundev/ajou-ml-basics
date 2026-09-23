@@ -31,10 +31,19 @@ class ManifestError(ValueError):
 
 
 def _need(obj: dict, key: str, typ: type, where: str, errors: list[str]) -> bool:
-    if not isinstance(obj, dict) or not isinstance(obj.get(key), typ):
+    value = obj.get(key) if isinstance(obj, dict) else None
+    # bool은 int의 하위 클래스라 int 자리에 true/false가 들어오지 않게 따로 막는다.
+    if not isinstance(value, typ) or (typ is int and isinstance(value, bool)):
         errors.append(f"{where}.{key}: {typ.__name__} 필요")
         return False
     return True
+
+
+def _strings(items: list, where: str, errors: list[str]) -> None:
+    """검사기가 `term in text`로 쓰는 목록: 빈 문자열이 아닌 문자열만 허용한다(숫자는 "0.2"처럼 따옴표)."""
+    for i, item in enumerate(items):
+        if not isinstance(item, str) or not item:
+            errors.append(f"{where}[{i}]: 빈 문자열이 아닌 문자열 필요: {item!r}")
 
 
 def _objects(items: list, where: str, errors: list[str]):
@@ -88,6 +97,7 @@ def validate(m: dict) -> list[str]:
                 continue
             new_id(t["id"], tw)
             topic_ids.add(t["id"])
+            _strings(t["required_terms"], f"{tw}.required_terms", errors)
             if not all(isinstance(x, str) for x in t["layers"]):
                 errors.append(f"{tw}.layers: 문자열 목록이어야 함")
                 continue
@@ -95,6 +105,7 @@ def validate(m: dict) -> list[str]:
             if unknown:
                 errors.append(f"{tw}.layers: 알 수 없는 레이어 {sorted(unknown)}")
 
+    _strings(m["forbidden_outside_preview"], "forbidden_outside_preview", errors)
     if m["preview_topic"] not in topic_ids:
         errors.append(f"preview_topic: 토픽 id가 아님: {m['preview_topic']}")
 
@@ -114,6 +125,7 @@ def validate(m: dict) -> list[str]:
         if not ok:
             continue
         new_id(q["id"], where)
+        _strings(q["terms"], f"{where}.terms", errors)
         if q["part"] not in part_ids:
             errors.append(f"{where}.part: 없는 part: {q['part']}")
         if q["anchor"] not in topic_ids:

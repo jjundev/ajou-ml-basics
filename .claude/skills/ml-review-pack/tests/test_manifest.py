@@ -115,6 +115,29 @@ class TestManifest(unittest.TestCase):
                 self.assertEqual(manifest.main(argv), 2)
             self.assertIn("사용법", err.getvalue())
 
+    def test_term_lists_require_nonempty_strings(self):
+        for bad in (0.2, 3, None, "", ["x"]):
+            with self.subTest(bad=bad):
+                m = mini()
+                m["problems"][0]["terms"].append(bad)
+                m["sections"][0]["topics"][0]["required_terms"].append(bad)
+                m["forbidden_outside_preview"].append(bad)
+                errors = manifest.validate(m)
+                for where in ("problems[0].terms[", "sections[0].topics[0].required_terms[", "forbidden_outside_preview["):
+                    self.assertTrue(any(e.startswith(where) and "빈 문자열이 아닌 문자열 필요" in e for e in errors), (where, errors))
+
+    def test_quoted_number_term_is_valid(self):
+        m = mini()
+        m["problems"][0]["terms"].append("0.2")
+        self.assertEqual(manifest.validate(m), [])
+
+    def test_level_rejects_bool(self):
+        for value in (True, False):
+            with self.subTest(value=value):
+                m = mini()
+                m["problems"][0]["level"] = value
+                self.assertIn("problems[0].level: int 필요", manifest.validate(m))
+
     def test_names(self):
         m = mini()
         self.assertEqual(manifest.note_name(m), "정리노트_0101-0102_Mini_Test.html")

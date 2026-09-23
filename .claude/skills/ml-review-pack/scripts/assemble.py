@@ -102,8 +102,10 @@ def assemble(run_dir: Path | str, out_dir: Path | str) -> tuple[Path, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     note_path = out_dir / manifest_mod.note_name(m)
     review_path = out_dir / manifest_mod.review_name(m)
-    note_path.write_text(build_note(m, run_dir), encoding="utf-8")
-    review_path.write_text(build_review(m, run_dir), encoding="utf-8")
+    # 둘 다 만든 뒤에 쓴다: 조각이 하나라도 없으면 어느 파일도 바뀌지 않는다.
+    note_html, review_html = build_note(m, run_dir), build_review(m, run_dir)
+    note_path.write_text(note_html, encoding="utf-8")
+    review_path.write_text(review_html, encoding="utf-8")
     return note_path, review_path
 
 

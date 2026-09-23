@@ -609,6 +609,10 @@ def convert_pack(note_path, review_path):
     fig_name = f"figures_{matches[0].group(2)}"
     fig_abs = os.path.join(out_dir, fig_name)
     os.makedirs(fig_abs, exist_ok=True)
+    for entry in os.listdir(fig_abs):  # 다시 변환할 때 이전 실행의 고아 SVG를 남기지 않는다(.svg만, 이 폴더만)
+        old_svg = os.path.join(fig_abs, entry)
+        if entry.lower().endswith(".svg") and os.path.isfile(old_svg) and not os.path.islink(old_svg):
+            os.remove(old_svg)
     link_map = [(n, n[:-5] + ".md") for n in names]  # fix_href가 NFC로 비교하므로 NFD 링크도 잡힌다
     intros = [
         [f"> 이 문서는 `{names[0]}`의 마크다운 버전입니다. 그림은 `{fig_name}/` 폴더의 SVG로, "
