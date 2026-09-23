@@ -33,7 +33,9 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 
 ## parts / problems
 - `parts`: `partA`(교과서 본문 예제 변형), `partB`(교과서 연습문제). 한쪽이 0개면 그 part는 뺀다.
+  각 항목은 `{"id": "partA", "title": "A. 교과서 예제 변형", "short": "A 예제"}`처럼 `id`·`title`·`short`가 모두 있어야 한다(`short`는 상단 목차 글자).
 - 문제 선별은 `references/problem-selection.md`. 개수 8~12.
+- 문제 `id`: `p1`, `p2`, … 빈 번호 없이 순서대로(카드 파일명 `cards/<id>.html`이 된다). `part`: 위 `parts`의 id 중 하나.
 - `source`: `"MML Example 9.1"` / `"MML Exercise 6.3"` 정확히 이 형식. `variant`: 본문 예제를 문제로 바꿨으면 `true`.
 - `anchor`: 풀이가 기대는 정리노트 토픽 id. `level`: 1~3. `date`: 관련 수업 날짜.
 - `terms`: 카드에 반드시 나올 TeX/숫자(정답 포함).
@@ -44,7 +46,8 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
   계산 스크립트를 `<RUN>/answers.py`로 남기고 보고서에 경로를 적는다.
 
 ## links
-- `{"topic": "s<N>-links", "href": "<복습문제 파일명>"}`는 항상.
+- `href`는 작성자가 `<a href="…">`에 **글자 그대로** 넣을 값이다(검사기가 해당 `topic` 안의 링크와 정확히 비교한다). `%20` 같은 인코딩도 그대로.
+- `{"topic": "s<N>-links", "href": "복습문제_<range>_<slug>.html"}`는 항상. 파일명은 `manifest.py`의 `review_name`이 만드는 것과 정확히 같아야 한다.
 - 확률 개념(Bayes, prior, MLE/MAP, 조건부확률)이 나오면 추가강의 eli5 링크를 건다:
   `../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html`, `…lecture11_statistical_inference_part2.html`, `…lecture12_statistical_inference_part3.html`
-- 이전 복습팩과 이어지는 개념이면 `정리노트_<이전 range>_<slug>.html#<토픽>` 링크를 건다(같은 `복습노트/` 폴더).
+- 이전 복습팩과 이어지는 개념이면 `정리노트_<이전 range>_<slug>.html#<토픽>` 링크를 건다(같은 `복습노트/` 폴더). 토픽은 기본 `s<N>-links`, 특정 토픽에 거는 편이 분명하면 그 토픽 id.
