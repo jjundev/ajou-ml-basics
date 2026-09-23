@@ -1,12 +1,17 @@
 # 브라우저 검증 (메인 에이전트)
 
 ## 서버
-file:// 미리보기에서는 스크립트가 돌지 않는다. 빈 포트로 서버를 띄운다.
-```bash
-PORT=$(python3 -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1])")
-python3 -m http.server $PORT --directory "<RUN>/repo" >/dev/null 2>&1 &   # run_in_background
-```
-URL: `http://localhost:$PORT/복습노트/<파일명>` (한글 그대로). 끝나면 서버를 종료한다.
+file:// 미리보기에서는 스크립트가 돌지 않는다. 빈 포트로 서버를 띄운다. 셸 상태는 Bash 호출 사이에 이어지지 않으므로 포트 번호를 먼저 출력해 두고, 이후 명령과 URL에는 그 숫자를 직접 쓴다.
+1. 빈 포트 찾기(출력된 숫자가 `<port>`):
+   ```bash
+   python3 -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1])"
+   ```
+2. 서버 띄우기: Bash 도구의 `run_in_background: true`로 실행한다(명령 끝에 `&`를 붙이지 않는다).
+   ```bash
+   python3 -m http.server <port> --directory "<RUN>/repo"
+   ```
+3. URL: `http://localhost:<port>/복습노트/<파일명>` (한글 그대로).
+4. 끝나면 서버를 종료한다: 그 백그라운드 작업을 멈추거나(TaskStop 등), `pkill -f "http.server <port>"`.
 
 ## 측정 전 준비
 브라우저 창이 숨겨져 있으면 `document.documentElement.clientWidth`가 0이 되어 `hScroll`이 거짓 양성으로 나온다. 측정 전에 `resize_window`로 크기를 명시하고(`width: 1280`, `height: 900`) `document.documentElement.clientWidth > 0`을 확인한다. `.katex-mathml` 안 요소는 화면에 보이지 않으므로 넘침 원인으로 치지 않는다. 스크롤 직후 스크린샷은 늦게 반영될 수 있으니 1초쯤 기다린 뒤 찍는다.
@@ -45,4 +50,4 @@ await new Promise((r) => setTimeout(r, 300));
 통과: `cards`가 manifest 문제 수, `katexErrors: 0`, `hScroll: false`. 첫 카드의 "수업과 연결" 링크를 눌러 노트 토픽으로 이동하는지 확인.
 
 ## 마무리
-모든 검사가 끝나면 `resize_window`(`preset: "desktop"`, `colorScheme: "light"`)로 되돌리고 서버를 종료한다.
+모든 검사가 끝나면 `resize_window`(`preset: "desktop"`, `colorScheme: "light"`)로 되돌리고 서버를 종료한다(위 "서버" 4).

@@ -20,9 +20,9 @@
 - MML 목차의 `Exercises` 항목(PDF 1-기준 쪽): 2장 70, 3장 102, 4장 143, 5장 176, 6장 228, 7장 253. **책 쪽 = PDF 쪽 − 6.**
 - 스니펫:
   ```bash
-  python3 - <<'EOF'
-  import fitz, re
-  d = fitz.open("교과서/Mathematics_for_Machine_Learning.pdf")
+  REPO=… python3 - <<'EOF'
+  import fitz, os, re
+  d = fitz.open(os.path.join(os.environ["REPO"], "교과서/Mathematics_for_Machine_Learning.pdf"))
   print([(t, p) for lvl, t, p in d.get_toc() if t == "Exercises"])
   first = {}
   for i in range(d.page_count):

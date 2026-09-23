@@ -6,6 +6,7 @@
 머신러닝기초 정리노트의 섹션 `<sid>`(`<섹션 title>`)를 쓴다.
 
 - 읽기: `<SKILL>/references/content-rules.md`(이 파일 전체), 위젯이 있으면 `<SKILL>/references/widget-rules.md`
+- 위젯: <위젯> (메인 에이전트가 정한 것만 만든다. "위젯 없음"이면 이 섹션에는 위젯을 넣지 않는다)
 - 계약: `<RUN>/manifest.json`의 섹션 `<sid>` — 토픽 id·제목·`required_terms`·`layers`·`supp`가 정확히 여기 적힌 대로여야 한다.
 - 링크: manifest `links` 중 `topic`이 이 섹션에 있는 항목 `<이 섹션의 links 목록>`을 모두 그 토픽 안에 `<a href="…">`로 넣는다. `href`는 글자 그대로 복사(`%20` 포함). 복습문제 링크만은 `{{REVIEW_HREF}}`로 써도 된다(조립 뒤 실제 파일명이 되어 검사를 통과한다).
 - 근거: `<RUN>/summaries/stt-*.md`(해당 날짜), `<RUN>/slides.txt`, 필요하면 MML `<RUN>/repo/교과서/Mathematics_for_Machine_Learning.pdf` <쪽>

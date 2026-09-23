@@ -1,5 +1,7 @@
 # 머신러닝기초 복습팩 스킬 `ml-review-pack` Implementation Plan
 
+> **현재 상태 메모 (2026-09-24):** 아래에서 말하는 참조 구현 폴더 `docs/plans/2026-09-23-ml-review-pack-refs/`(`REFS`)는 스킬이 정본이 된 뒤 커밋 bf6e43e에서 삭제했다. 지금은 `.claude/skills/ml-review-pack/`이 유일한 기준(source of truth)이며, 이 계획서의 `REFS` 경로는 기록으로만 남긴다.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 이 저장소에서 `/ml-review-pack [기간] [lite]`를 한 번 호출하면 0909~0916과 같은 품질의 정리노트·복습문제(HTML+MD+그림)가 `복습노트/`에 만들어지는 프로젝트 스킬을 만든다.

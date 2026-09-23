@@ -60,13 +60,38 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 섹션마다 작성자 1명을 띄운다. 브리프는 `references/content-rules.md`, 위젯 규칙은 `references/widget-rules.md`에 있다.
 - 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다.
 - 모두 **한 메시지에서 병렬로** 띄운다. 모델은 opus, `lite`이면 sonnet이다.
-- 브리프의 `<…>` 자리는 실제 경로, id, 금지어 목록(`<forbidden 목록>`), 예고 토픽 id(`<preview_topic>`), 그리고 섹션 작성자에게는 manifest `links` 중 그 섹션 토픽에 속한 것만(`<이 섹션의 links 목록>`) 채워 넣는다.
+- 브리프의 `<…>` 자리는 실제 경로, id, 금지어 목록(`<forbidden 목록>`), 예고 토픽 id(`<preview_topic>`), 섹션 작성자에게 필요한 MML 쪽 번호(`<쪽>`, 1단계 3에서 찾은 PDF 쪽), 그리고 섹션 작성자에게는 manifest `links` 중 그 섹션 토픽에 속한 것만(`<이 섹션의 links 목록>`) 채워 넣는다.
+- 위젯은 팩 전체에 0~2개다. 병렬 작성자끼리는 서로를 모르므로 **메인 에이전트가 띄우기 전에** 위젯을 둘 토픽(0~2개)을 정하고, 그 토픽의 섹션 작성자 브리프에만 `<위젯>` 자리에 "토픽 `<토픽 id>`에 위젯 1개: <무엇을 움직이면 무엇이 보이는지>"를 적는다. 나머지 작성자의 `<위젯>` 자리에는 "위젯 없음"이라고 적는다. 정한 토픽과 이유는 보고서 "스킬이 정한 사항"에 적는다.
 
 ### 4. 조립
-- **처음 조립할 때만**: `복습노트/`에 이번 `range`의 산출물(`정리노트_<range>_*`, `복습문제_<range>_*`의 `.html`·`.md`, `figures_<range>/`)이 하나라도 있으면 먼저 백업한다. 다시 조립할 때(5~8단계에서 돌아온 경우)는 백업하지 않는다. 이미 스킬이 만든 초안이 백업을 덮어쓰기 때문이다.
-  ```bash
-  mkdir -p "$RUN/previous" && find "$REPO/복습노트" -maxdepth 1 \( -name '정리노트_<range>_*' -o -name '복습문제_<range>_*' -o -name 'figures_<range>' \) -exec cp -R {} "$RUN/previous/" \; && ls "$RUN/previous"
-  ```
+- **처음 조립할 때만**: `복습노트/`에 이번 `range`의 산출물(`정리노트_<range>_*`, `복습문제_<range>_*`의 `.html`·`.md`, `figures_<range>/`)이 하나라도 있으면 먼저 백업한다. 다시 조립할 때(5~8단계에서 돌아온 경우)는 백업하지 않는다. 이미 스킬이 만든 초안이 백업에 섞이기 때문이다.
+  - `RANGE`, `REPO`, `RUN`을 모두 실제 값으로 바꿔 한 명령으로 실행한다. 파일명은 NFC로 비교하므로 NFD 파일명도 잡힌다.
+  - 백업은 매번 새 폴더 `RUN/previous-<시각>-<임의>/`에 만든다(이전 백업을 덮어쓰지 않음). `RANGE`가 형식에 안 맞거나, 대상이 있는데 복사된 파일 수가 다르면 종료 코드 1로 멈춘다. 이때는 조립하지 말고 원인을 고친다.
+```bash
+RANGE=<range> REPO=… RUN=… python3 - <<'EOF'
+import os, re, shutil, sys, tempfile, time, unicodedata as u
+r, run = os.environ["RANGE"], os.environ["RUN"]
+src = os.path.join(os.environ["REPO"], "복습노트")
+if not re.fullmatch(r"\d{4}(-\d{4})?", r) or not os.path.isdir(run):
+    sys.exit(f"백업 중단: RANGE={r!r} 또는 RUN={run!r} 잘못됨")
+def want(n):
+    n = u.normalize("NFC", n)
+    return n.startswith((f"정리노트_{r}_", f"복습문제_{r}_")) or n == f"figures_{r}"
+hits = sorted(n for n in os.listdir(src) if want(n)) if os.path.isdir(src) else []
+if not hits:
+    print("백업할 기존 팩 없음"); sys.exit(0)
+def count(p):
+    return sum(len(f) for _, _, f in os.walk(p)) if os.path.isdir(p) else 1
+dst = tempfile.mkdtemp(prefix=time.strftime("previous-%Y%m%d-%H%M%S-"), dir=run)  # 항상 새 폴더
+for n in hits:
+    a, b = os.path.join(src, n), os.path.join(dst, n)
+    shutil.copytree(a, b) if os.path.isdir(a) else shutil.copy2(a, b)
+want_n, got_n = sum(count(os.path.join(src, n)) for n in hits), count(dst)
+if got_n != want_n:
+    sys.exit(f"백업 실패: 파일 {want_n}개 중 {got_n}개만 복사됨 → {dst}")
+print(f"백업 {len(hits)}항목(파일 {got_n}개): {dst}", *hits, sep="\n")
+EOF
+```
 ```bash
 python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$REPO/복습노트"
 ```
@@ -119,5 +144,5 @@ python3 "$SKILL/scripts/html2md.py" "$REPO/복습노트/<정리노트>.html" "$R
 | 기간에 해당하는 STT 없음 | 사용 가능한 날짜를 보여 주고 멈춤 |
 | PDF 텍스트 추출 실패 | STT만으로 진행하고 보고서에 표시 |
 | 포트 사용 중 | 다른 빈 포트 사용 |
-| 같은 range의 팩이 이미 있음 | 4단계 첫 조립 전에 기존 html·md·`figures_<range>/`를 `RUN/previous/`에 복사하고(다시 조립할 때는 복사하지 않음) 보고서에 적음 |
+| 같은 range의 팩이 이미 있음 | 4단계 첫 조립 전에 기존 html·md·`figures_<range>/`를 새 폴더 `RUN/previous-<시각>-<임의>/`에 복사하고(다시 조립할 때는 복사하지 않음) 백업 경로를 보고서에 적음. 백업 명령이 실패하면 조립하지 않고 원인을 고친다 |
 | 검사 2회 실패 | 멈추지 않고 나머지 단계를 끝낸 뒤 "미해결"로 보고 |
