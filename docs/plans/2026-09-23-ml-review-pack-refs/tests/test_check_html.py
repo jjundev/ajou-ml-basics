@@ -30,6 +30,27 @@ class TestPrimitives(unittest.TestCase):
         codes = sorted(p.code for p in check_html.check_common(check_html.parse_html(src), src, Path("x.html")))
         self.assertEqual(codes, ["external", "leftover-slot"])
 
+    def external_codes(self, head: str, body: str = "") -> list[str]:
+        src = f'<html lang="ko"><head>{head}</head><body>{body}</body></html>'
+        return [p.code for p in check_html.check_common(check_html.parse_html(src), src, Path("x.html"))]
+
+    def test_remote_resources_on_any_tag_are_external(self):
+        cases = [
+            ("", '<img src="https://evil.com/x.png" alt="">'),
+            ("", '<iframe src="https://evil.com/frame"></iframe>'),
+            ('<link rel="preload" href="https://evil.com/f.woff2" as="font">', ""),
+            ('<style>@import url("https://x/y.css");</style>', ""),
+            ('<script src="//cdn.example.com/a.js"></script>', ""),
+        ]
+        for head, body in cases:
+            with self.subTest(head=head, body=body):
+                self.assertEqual(self.external_codes(head, body), ["external"])
+
+    def test_relative_and_allowed_resources_are_not_external(self):
+        head = ('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">'
+                '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>')
+        self.assertEqual(self.external_codes(head, '<img src="figures_0101-0102/a.svg" alt="">'), [])
+
 
 class TestPack(unittest.TestCase):
     def setUp(self):

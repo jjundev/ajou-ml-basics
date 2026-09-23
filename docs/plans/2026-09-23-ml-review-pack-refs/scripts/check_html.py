@@ -35,6 +35,13 @@ ALLOWED_EXTERNAL_PREFIXES = (
 SUPP_LABEL = "📎 보충 · 수업 미유도"
 CARD_PARTS = {"problem", "original", "hint", "solution", "answer", "link-back", "done"}
 SLOT_RE = re.compile(r"\{\{[A-Z_]+\}\}")
+REMOTE_PREFIXES = ("http://", "https://", "//")
+# CSS 안의 url(...) 과 @import "..." 대상
+CSS_URL_RE = re.compile(r"""url\(\s*['"]?([^'")\s]+)|@import\s+['"]([^'"]+)['"]""", re.IGNORECASE)
+
+
+def is_remote(url: str) -> bool:
+    return url.strip().lower().startswith(REMOTE_PREFIXES)
 
 
 @dataclass
@@ -107,9 +114,10 @@ class _Parser(HTMLParser):
             self.doc.hrefs.append(a["href"])
             if con is not None:
                 self.doc.containers[con].hrefs.append(a["href"])
-        if tag == "script" and a.get("src"):
+        # 원격 리소스: 모든 태그의 src, 모든 <link>의 href (<a href>는 broken_links 담당)
+        if is_remote(a.get("src", "")):
             self.doc.external_resources.append(a["src"])
-        if tag == "link" and "stylesheet" in a.get("rel", "") and a.get("href"):
+        if tag == "link" and is_remote(a.get("href", "")):
             self.doc.external_resources.append(a["href"])
         if tag in ("script", "style"):
             self.raw_tag = tag
@@ -143,6 +151,10 @@ class _Parser(HTMLParser):
                 self.doc.scripts_by_id[self.script_id] += data
             return
         if self.raw_tag == "style":
+            for m in CSS_URL_RE.finditer(data):
+                url = m.group(1) or m.group(2)
+                if is_remote(url):
+                    self.doc.external_resources.append(url)
             return
         self._emit(data)
 
