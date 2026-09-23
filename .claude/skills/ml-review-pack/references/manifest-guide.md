@@ -1,0 +1,50 @@
+# manifest.json 작성 규칙 (메인 에이전트)
+
+manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모두 이 파일을 기준으로 삼는다.
+정본 예시: `tests/fixtures/mini-run/manifest.json`, 실제 규모 예시: `tests/fixtures/manifest-0909-0916.json`.
+작성 후 반드시 `python3 <SKILL>/scripts/manifest.py <RUN>/manifest.json` → `OK`.
+
+## 최상위
+| 키 | 값 |
+|---|---|
+| `course` | `"머신러닝기초"` |
+| `range` | `"0921"` 또는 `"0921-0923"` (첫 STT–마지막 STT 날짜) |
+| `slug` | 이번 범위 대표 강의자료 제목의 영문 밑줄 형태, 예: `"Linear_Regression"`. 두 강의자료에 걸치면 뒤쪽 것 |
+| `note_title` | `"<주제> — 5살도 이해하는 정리노트"` |
+| `note_subtitle` | `"정방철 교수님 머신러닝기초 · 0921 · 0923 수업 (Lecture02~03, MML 9장)"` 형식 |
+| `review_title` | `"복습문제 N선 — <range 물결표기> 수업 범위"` |
+| `review_intro` | HTML 허용. 문제 구성(본문 예제 변형 몇 개, 연습문제 몇 개)과 "먼저 풀고 💡 힌트, 그다음 ✅ 풀이" 안내 |
+| `footer_note` | HTML 허용. `출처: 정방철 교수님 강의자료(LectureXX–YY) · 수업 녹음 전사(MMDD…) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) N장.` |
+| `footer_review` | HTML 허용. `출처: Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (Cambridge University Press, 2020). 풀이는 자체 작성이며 수치는 Python으로 검증했습니다.` |
+| `sessions` | 날짜별 `{date, stt, summary, slides}` |
+
+## sections / topics
+- 섹션 id는 `s0`, `s1`, … 순서. 마지막 섹션은 항상 "요약 · 예고"이며 토픽 `s<N>-cheatsheet`, `s<N>-next`, `s<N>-links`를 둔다.
+- 섹션은 **개념 순서(슬라이드 로드맵)** 로 묶는다. 날짜는 토픽 태그로만 드러낸다.
+- 토픽 id는 `s<n>-<kebab>`(영문 소문자). 토픽 하나 = 슬라이드 1~3장 또는 칠판 유도 하나.
+- `short`는 상단 목차 글자(예: `"2 최소제곱"`), `title`은 `"2. 최소제곱법"`.
+- `layers`: 개념 토픽은 `["eli5", "formal", "prof"]`. 교수님 발언이 없으면 `prof` 대신 빼되 이유를 보고서 "스킬이 정한 사항"에 적는다. 요약·예고 섹션 토픽은 `[]`.
+- `supp`: 요약의 `🕳️ 미룬 유도`를 보충으로 싣는 토픽만 `true`.
+- `required_terms`: 토픽당 3~9개. 요약의 **용어·식 목록과 강조 발언**에서 고른다.
+  - 식은 작성자가 **공백까지 그대로** 쓸 TeX 문자열이다(예: `"\\boldsymbol{\\theta}_{\\text{ML}}"`).
+  - 교수님 비유의 핵심 단어(예: `"김밥"`)를 최소 하나 넣어 🎙️ 레이어 누락을 잡는다.
+- `preview_topic`: `s<N>-next`.
+- `forbidden_outside_preview`: 슬라이드 대조표에서 "예고만/안 다룸"인 슬라이드의 핵심 용어 3~8개. 본문에 나오면 검사 실패.
+
+## parts / problems
+- `parts`: `partA`(교과서 본문 예제 변형), `partB`(교과서 연습문제). 한쪽이 0개면 그 part는 뺀다.
+- 문제 선별은 `references/problem-selection.md`. 개수 8~12.
+- `source`: `"MML Example 9.1"` / `"MML Exercise 6.3"` 정확히 이 형식. `variant`: 본문 예제를 문제로 바꿨으면 `true`.
+- `anchor`: 풀이가 기대는 정리노트 토픽 id. `level`: 1~3. `date`: 관련 수업 날짜.
+- `terms`: 카드에 반드시 나올 TeX/숫자(정답 포함).
+- `answer`: Python으로 계산한 정답 문자열. 계산 예:
+  ```bash
+  python3 -c "from fractions import Fraction as F; print(F(2,10), F(2+3,10+6))"
+  ```
+  계산 스크립트를 `<RUN>/answers.py`로 남기고 보고서에 경로를 적는다.
+
+## links
+- `{"topic": "s<N>-links", "href": "<복습문제 파일명>"}`는 항상.
+- 확률 개념(Bayes, prior, MLE/MAP, 조건부확률)이 나오면 추가강의 eli5 링크를 건다:
+  `../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html`, `…lecture11_statistical_inference_part2.html`, `…lecture12_statistical_inference_part3.html`
+- 이전 복습팩과 이어지는 개념이면 `정리노트_<이전 range>_<slug>.html#<토픽>` 링크를 건다(같은 `복습노트/` 폴더).
