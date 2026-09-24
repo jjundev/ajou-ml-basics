@@ -15,8 +15,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from check_notes_html import broken_links, math_delimiter_errors, parse_file  # noqa: E402
 
-NOTE_PATH = ROOT / "강의노트" / "정리노트_0909-0916_When_Models_Meet_Data.html"
-REVIEW_PATH = ROOT / "강의노트" / "복습문제_0909-0916_When_Models_Meet_Data.html"
+NOTE_PATH = ROOT / "복습노트" / "정리노트_0909-0916_When_Models_Meet_Data.html"
+REVIEW_PATH = ROOT / "복습노트" / "복습문제_0909-0916_When_Models_Meet_Data.html"
 WIDGET_JS_PATH = ROOT / "scripts" / "widget_math.js"
 NOTE_HREF = "정리노트_0909-0916_When_Models_Meet_Data.html"
 
@@ -79,9 +79,9 @@ REQUIRED_TERMS = {
     "s5-links": ["Lecture 10", "Lecture 11", "Lecture 12", "복습문제"],
 }
 S5_LINK_HREFS = [
-    "추가%20강의/eli5_lecture10_statistical_inference_part1.html",
-    "추가%20강의/eli5_lecture11_statistical_inference_part2.html",
-    "추가%20강의/eli5_lecture12_statistical_inference_part3.html",
+    "../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html",
+    "../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html",
+    "../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html",
     "복습문제_0909-0916_When_Models_Meet_Data.html",
 ]
 
