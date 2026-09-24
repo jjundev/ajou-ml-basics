@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>머신러닝기초 복습문제 0921-0923</title>
+  <meta name="description" content="복습문제 7선 — 0921~0923 수업 범위">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    :root {
+      --bg: #f7f8fa; --surface: #ffffff; --surface-2: #f1f3f7; --ink: #1b2130; --ink-2: #4a5468; --line: #dde2ea;
+      --accent: #2f6fdb; --accent-soft: #e6efff; --warn: #b54708; --warn-soft: #fff4e5;
+      --prof: #6941c6; --prof-soft: #f3efff; --supp: #067647; --supp-soft: #e8f7ef;
+      --eli5: #c4320a; --eli5-soft: #fff1eb; --danger: #d92d20;
+      --radius: 14px; --shadow: 0 1px 2px rgba(16, 24, 40, .06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f1218; --surface: #171b23; --surface-2: #1e2430; --ink: #e7eaf0; --ink-2: #a8b0c0; --line: #2a3140;
+        --accent: #7aa7ff; --accent-soft: #1c2a45; --warn: #f5a15c; --warn-soft: #2d2215;
+        --prof: #b69cff; --prof-soft: #251d3b; --supp: #5fd39a; --supp-soft: #14291f;
+        --eli5: #ff9b73; --eli5-soft: #2e1c15; --danger: #ff6b61; --shadow: none;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f1218; --surface: #171b23; --surface-2: #1e2430; --ink: #e7eaf0; --ink-2: #a8b0c0; --line: #2a3140;
+      --accent: #7aa7ff; --accent-soft: #1c2a45; --warn: #f5a15c; --warn-soft: #2d2215;
+      --prof: #b69cff; --prof-soft: #251d3b; --supp: #5fd39a; --supp-soft: #14291f;
+      --eli5: #ff9b73; --eli5-soft: #2e1c15; --danger: #ff6b61; --shadow: none;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; line-height: 1.7; font-size: 16px; }
+    a { color: var(--accent); }
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: 920px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 12px; align-items: center; }
+    .topbar strong { white-space: nowrap; font-size: 15px; }
+    .toc { display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .toc a { text-decoration: none; color: var(--ink-2); font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+    .toc a:hover { background: var(--accent-soft); color: var(--accent); }
+    main { max-width: 920px; margin: 0 auto; padding: 24px 16px 80px; }
+    .hero { padding: 24px 0 8px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 36px); line-height: 1.3; margin: 0 0 8px; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    .legend-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; font-size: 13px; }
+    section { margin-top: 48px; }
+    section > h2 { font-size: 24px; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+    .topic { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin: 16px 0; }
+    .topic h3 { margin: 0 0 6px; font-size: 19px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); }
+    .layer { border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer.eli5 { background: var(--eli5-soft); border-left: 4px solid var(--eli5); }
+    .layer.eli5 .lead { font-size: 17px; font-weight: 600; }
+    .layer.formal { background: var(--surface-2); border-left: 4px solid var(--accent); }
+    .layer.prof { background: var(--prof-soft); border-left: 4px solid var(--prof); }
+    .layer.warn { background: var(--warn-soft); border-left: 4px solid var(--warn); }
+    .layer.supp { background: var(--supp-soft); border-left: 4px solid var(--supp); }
+    .layer-title { font-weight: 700; font-size: 13px; letter-spacing: .02em; margin-bottom: 6px; display: block; }
+    .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+    .badge.supp { color: var(--supp); border-color: var(--supp); }
+    blockquote { margin: 8px 0; padding: 0 0 0 12px; border-left: 3px solid var(--line); color: var(--ink-2); }
+    .figure { margin: 12px 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 640px; color: var(--ink); }
+    .figure figcaption { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); }
+    td:first-child, th:first-child { min-width: 6em; }
+    ol.steps li { margin: 6px 0; }
+    .widget { background: var(--surface); border: 2px dashed var(--accent); border-radius: var(--radius); padding: 16px; margin: 20px 0; }
+    .widget h4 { margin: 0 0 6px; }
+    .widget-help { font-size: 14px; color: var(--ink-2); margin: 0 0 8px; }
+    .controls { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 8px; font-size: 14px; }
+    .controls label { display: flex; align-items: center; gap: 8px; }
+    .controls input[type=range] { flex: 1; min-width: 0; }
+    .widget svg { width: 100%; height: auto; background: var(--surface-2); border-radius: 10px; }
+    .readout { font-size: 15px; margin-top: 8px; }
+    .legend { font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: 12px; font-family: inherit; }
+    footer { max-width: 920px; margin: 0 auto; padding: 24px 16px 48px; color: var(--ink-2); font-size: 13px; }
+    @media (max-width: 480px) { .topic { padding: 14px; } .topbar strong { display: none; } }
+  
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin: 16px 0; }
+    .card h3 { margin: 6px 0 10px; font-size: 18px; }
+    .card-head { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge.src { color: var(--accent); border-color: var(--accent); }
+    .badge.level { color: var(--warn); border-color: var(--warn); }
+    .problem { margin: 8px 0 12px; }
+    details { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; background: var(--surface-2); }
+    details > summary { cursor: pointer; font-weight: 700; }
+    details[open] > summary { margin-bottom: 8px; }
+    details.original { font-size: 14px; color: var(--ink-2); }
+    .answer { font-weight: 700; background: var(--supp-soft); border-radius: 8px; padding: 8px 10px; }
+    .link-back { font-size: 14px; color: var(--ink-2); }
+    .done { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; cursor: pointer; }
+    .progress { position: sticky; top: 52px; z-index: 5; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; display: inline-block; font-size: 14px; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <strong>📝 머러기 복습문제</strong>
+      <nav class="toc" aria-label="목차"><a href="#partA">A 교과서 예제</a><a href="#partB">B 교과서 연습문제</a><a href="정리노트_0921-0923_Linear_Regression.html">정리노트로 ↗</a></nav>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <h1>복습문제 7선 — 0921~0923 수업 범위</h1>
+      <p>수업 범위(MML 8.4–8.6, 9.1–9.2)는 Part II라 연습문제가 없어서, <b>본문 예제(Example 6.11, 8.7, 8.8, 9.2, 9.3)를 문제로 바꾼 5문항</b>과 <b>수업 내용으로 풀 수 있는 5·6장 연습문제 2문항</b>을 골랐습니다. 먼저 스스로 풀고, 막히면 💡 힌트, 그다음 ✅ 풀이를 여세요.</p>
+      <p class="progress">풀었음 <b id="progress-count">0</b> / 7</p>
+    </div>
+    <section id="partA"><h2>A. 교과서 본문 예제 (MML 6·8·9장)</h2>
+<article class="card" id="p1" data-source="MML Example 8.7">
+  <header class="card-head"><span class="badge src">MML Example 8.7 변형</span><span class="badge level">★</span><span class="tag date">📅 0921</span></header>
+  <h3>P1. factorization에서 화살표 읽기</h3>
+  <div class="problem">
+    세 확률변수 $a, b, c$의 joint distribution이 다음처럼 factorization되어 있다(식 (8.29)).
+    $$p(a, b, c) = p(c \mid a, b)\, p(b \mid a)\, p(a)$$
+    <ol>
+      <li>(a) 이 식에 해당하는 방향 그래프(directed graphical model)의 화살표를 모두 쓰고 그래프를 그리시오.</li>
+      <li>(b) 각 변수가 어떤 변수에 직접 의존하는지 한 줄씩 쓰시오.</li>
+    </ol>
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"For each conditional distribution, we add a directed link (arrow) … from the nodes … on which the distribution is conditioned." — Example 8.7 직후 절차</details>
+  <details class="hint"><summary>💡 힌트</summary>조건부 분포 하나마다, 세로줄 오른쪽(조건)에 있는 변수에서 왼쪽 변수로 화살표를 하나씩 긋는다.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>확률변수마다 노드를 하나씩 만든다: $a, b, c$.</li>
+      <li>$p(a)$에는 조건이 없다. 그래서 $a$로 들어오는 화살표는 없다.</li>
+      <li>$p(b \mid a)$에서 $a \to b$를 얻는다.</li>
+      <li>$p(c \mid a, b)$에서 $a \to c$와 $b \to c$를 얻는다.</li>
+      <li>그래프는 아래와 같은 삼각형이다(Figure 8.9(a), 모든 쌍이 연결된 fully connected 그래프).
+        <figure class="figure"><svg id="fig-p1-triangle" viewBox="0 0 300 200" role="img" aria-label="a에서 b와 c로, b에서 c로 가는 화살표 세 개가 있는 삼각형 방향 그래프">
+          <defs><marker id="arrow-p1" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="fig-ink" d="M0,0 L10,5 L0,10"/></marker></defs>
+          <circle class="fig-ink" cx="150" cy="40" r="22"/><circle class="fig-ink" cx="70" cy="160" r="22"/><circle class="fig-ink" cx="230" cy="160" r="22"/>
+          <text class="fig-text" x="150" y="45" text-anchor="middle" font-size="14">a</text>
+          <text class="fig-text" x="70" y="165" text-anchor="middle" font-size="14">b</text>
+          <text class="fig-text" x="230" y="165" text-anchor="middle" font-size="14">c</text>
+          <line class="fig-accent" x1="138" y1="58" x2="82" y2="142" marker-end="url(#arrow-p1)"/>
+          <line class="fig-accent" x1="162" y1="58" x2="218" y2="142" marker-end="url(#arrow-p1)"/>
+          <line class="fig-accent" x1="92" y1="160" x2="208" y2="160" marker-end="url(#arrow-p1)"/>
+        </svg><figcaption>식의 조건 세 개(b의 조건 a, c의 조건 a와 b)가 화살표 세 개가 된다.</figcaption></figure>
+      </li>
+      <li>(b) $c$는 $a$와 $b$에 직접 의존한다. $b$는 $a$에 직접 의존한다. $a$는 $b$에도 $c$에도 의존하지 않는다.</li>
+      <li>수업과의 연결: 0921 수업의 가족 그래프와 같은 식이다. 아버지 $a$는 말만 하고($p(a)$), 엄마 $b$는 아버지에게 잔소리를 듣고($p(b \mid a)$), 막내딸 $c$는 양쪽에서 잔소리를 듣는다($p(c \mid a, b)$).</li>
+    </ol>
+    <p class="answer">정답: (a) $a \to b$, $a \to c$, $b \to c$ (모두 3개) (b) $c$는 $a, b$에, $b$는 $a$에 직접 의존하고, $a$는 아무것에도 의존하지 않는다.</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s2-factorization">화살표로 읽는 factorization</a> — 수업의 3노드 가족 그래프를 "식 → 그래프" 방향으로 직접 그려 본다.</p>
+  <label class="done"><input type="checkbox" data-done="p1"> 풀었음</label>
+</article>
+<article class="card" id="p2" data-source="MML Example 8.8">
+  <header class="card-head"><span class="badge src">MML Example 8.8 변형</span><span class="badge level">★</span><span class="tag date">📅 0921</span></header>
+  <h3>P2. 그래프에서 joint 읽기</h3>
+  <div class="problem">
+    다섯 확률변수 $x_1, \dots, x_5$의 방향 그래프가 아래와 같다(Figure 8.9(b), 화살표: $x_5 \to x_2$, $x_1 \to x_3$, $x_2 \to x_3$, $x_2 \to x_4$).
+    <figure class="figure"><svg id="fig-p2-five-nodes" viewBox="0 0 300 240" role="img" aria-label="x5에서 x2로, x1과 x2에서 x3로, x2에서 x4로 가는 화살표가 있는 다섯 노드 방향 그래프">
+      <defs><marker id="arrow-p2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="fig-ink" d="M0,0 L10,5 L0,10"/></marker></defs>
+      <circle class="fig-ink" cx="60" cy="40" r="20"/><circle class="fig-ink" cx="240" cy="40" r="20"/><circle class="fig-ink" cx="240" cy="120" r="20"/><circle class="fig-ink" cx="120" cy="120" r="20"/><circle class="fig-ink" cx="240" cy="200" r="20"/>
+      <text class="fig-text" x="60" y="45" text-anchor="middle" font-size="14">x₁</text>
+      <text class="fig-text" x="240" y="45" text-anchor="middle" font-size="14">x₅</text>
+      <text class="fig-text" x="240" y="125" text-anchor="middle" font-size="14">x₂</text>
+      <text class="fig-text" x="120" y="125" text-anchor="middle" font-size="14">x₃</text>
+      <text class="fig-text" x="240" y="205" text-anchor="middle" font-size="14">x₄</text>
+      <line class="fig-accent" x1="240" y1="60" x2="240" y2="100" marker-end="url(#arrow-p2)"/>
+      <line class="fig-accent" x1="72" y1="56" x2="108" y2="104" marker-end="url(#arrow-p2)"/>
+      <line class="fig-accent" x1="220" y1="120" x2="140" y2="120" marker-end="url(#arrow-p2)"/>
+      <line class="fig-accent" x1="240" y1="140" x2="240" y2="180" marker-end="url(#arrow-p2)"/>
+    </svg><figcaption>P2의 그래프. 화살표는 parent에서 child로 향한다.</figcaption></figure>
+    <ol>
+      <li>(a) joint $p(x_1, x_2, x_3, x_4, x_5)$의 factorization을 쓰시오.</li>
+      <li>(b) 그 식에는 분포가 몇 개 곱해져 있는가?</li>
+    </ol>
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"Each conditional depends only on the parents of the corresponding node in the graph. For example, x4 will be conditioned on x2." — Example 8.8</details>
+  <details class="hint"><summary>💡 힌트</summary>노드 하나에 분포 하나. 각 분포의 조건에는 그 노드로 화살표를 보내는 parent만 넣는다.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>일반식: $p(x_1, \dots, x_K) = \prod_{k=1}^{K} p(x_k \mid \mathrm{Pa}_k)$.</li>
+      <li>노드별 parent: $x_1$은 없음, $x_5$는 없음, $x_2$는 $x_5$, $x_3$는 $x_1, x_2$, $x_4$는 $x_2$.</li>
+      <li>그래서 분포는 $p(x_1)$, $p(x_5)$, $p(x_2 \mid x_5)$, $p(x_3 \mid x_1, x_2)$, $p(x_4 \mid x_2)$이다.</li>
+      <li>모두 곱하면 $p(x_1, x_2, x_3, x_4, x_5) = p(x_1)\, p(x_5)\, p(x_2 \mid x_5)\, p(x_3 \mid x_1, x_2)\, p(x_4 \mid x_2)$이다.</li>
+      <li>곱셈 규칙만 쓰면 등호가 성립하는 식을 여러 개 쓸 수 있다. 하지만 이 그래프 구조에 맞는 것은 위의 식 하나다.</li>
+      <li>수업과의 연결: 0921 수업에서 바로 이 5노드 그래프를 다뤘다. parent가 없는 $x_1$과 $x_5$를 "천상천하 유아독존"이라고 불렀다.</li>
+    </ol>
+    <p class="answer">정답: (a) $p(x_1, x_2, x_3, x_4, x_5) = p(x_1)\, p(x_5)\, p(x_2 \mid x_5)\, p(x_3 \mid x_1, x_2)\, p(x_4 \mid x_2)$ (b) 노드 수와 같은 5개</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s2-factorization">화살표로 읽는 factorization</a> — P1과 반대 방향(그래프 → 식)을 연습한다.</p>
+  <label class="done"><input type="checkbox" data-done="p2"> 풀었음</label>
+</article>
+<article class="card" id="p3" data-source="MML Example 6.11">
+  <header class="card-head"><span class="badge src">MML Example 6.11 변형</span><span class="badge level">★★</span><span class="tag date">📅 0921</span></header>
+  <h3>P3. 한 동전으로 ML · MAP · Fully Bayesian 비교</h3>
+  <div class="problem">
+    앞면 확률이 $\mu$인 동전을 5번 던져 H, T, T, T, H를 얻었다(데이터 $X$, 앞면 2번). 각 던지기는 $\mu$가 주어지면 서로 독립이고, $\mu$에 prior $\mu \sim \mathrm{Beta}(2, 2)$를 둔다.
+    <ol>
+      <li>(a) posterior $p(\mu \mid X)$는 어떤 Beta 분포인가?</li>
+      <li>(b) $\mu_{\text{ML}}$과 $\mu_{\text{MAP}}$을 구하시오.</li>
+      <li>(c) 다음 던지기 $A$가 앞면일 확률을 Fully Bayesian으로, 즉 $P(A \mid X) = \int P(A \mid \mu)\, p(\mu \mid X)\, d\mu$로 구하시오.</li>
+      <li>(d) 세 값의 크기를 비교하고 왜 다른지 한 줄로 설명하시오.</li>
+    </ol>
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"we compute the posterior distribution on µ as" $p(\mu \mid x = h, N, \alpha, \beta) \propto \mu^{h+\alpha-1}(1-\mu)^{(N-h)+\beta-1}$ (6.104c) — Example 6.11</details>
+  <details class="hint"><summary>💡 힌트</summary>$\mathrm{Beta}(\alpha, \beta)$의 최빈값은 $\frac{\alpha - 1}{\alpha + \beta - 2}$, 평균은 $\frac{\alpha}{\alpha + \beta}$이다. 또 $P(A \mid \mu) = \mu$이다.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>likelihood: H는 $\mu$, T는 $1-\mu$를 주므로 $p(X \mid \mu) = \mu \cdot (1-\mu)^3 \cdot \mu = \mu^2 (1 - \mu)^3$이다. prior는 $p(\mu) \propto \mu^{1}(1-\mu)^{1}$이다.</li>
+      <li>둘을 곱하면 $p(\mu \mid X) \propto \mu^{3}(1-\mu)^{4}$이다. 이것은 $\mathrm{Beta}(4, 5)$의 모양이다(prior와 같은 Beta 꼴).</li>
+      <li>$\mu_{\text{ML}}$은 prior 없이 likelihood만 최대화한다. $\log p = 2\log\mu + 3\log(1-\mu)$를 미분해 0으로 두면 $\frac{2}{\mu} = \frac{3}{1-\mu}$, 곧 $\mu_{\text{ML}} = \frac{2}{5}$이다.</li>
+      <li>$\mu_{\text{MAP}}$은 posterior의 최빈값이다: $\frac{4-1}{4+5-2} = \frac{3}{7}$.</li>
+      <li>Fully Bayesian: $P(A \mid X) = \int_0^1 \mu\, p(\mu \mid X)\, d\mu = \mathbb{E}_{\mu \mid X}[\mu] = \frac{4}{4+5} = \frac{4}{9}$ (posterior 평균).</li>
+      <li>비교: $\frac{2}{5} = 0.4 \lt \frac{3}{7} \approx 0.429 \lt \frac{4}{9} \approx 0.444$. $\mathrm{Beta}(2, 2)$는 $\frac{1}{2}$ 근처를 믿는 prior라서 MAP를 ML보다 $\frac{1}{2}$ 쪽으로 당긴다. Fully Bayesian은 봉우리 한 점이 아니라 posterior 전체를 가중 평균하므로 또 다른 값이 된다.</li>
+      <li>수업과의 연결: 0921 수업에서 ML과 MAP는 posterior를 $\delta(\theta - \hat{\theta})$로 보고 한 점에 "몰빵"한다고 했다. 세 값이 서로 다르다는 것이 바로 그 물결표(≈)가 생기는 이유다. 같은 수업(14:49–15:03)에서 이 H, T, T, T, H 데이터로 θ를 "5분의 3"이라고 말했는데, 앞면은 2번이므로 ML 추정값은 $\frac{2}{5}$가 맞다(3/5는 뒷면 비율).</li>
+    </ol>
+    <p class="answer">정답: (a) $\mathrm{Beta}(4, 5)$ (b) $\mu_{\text{ML}} = \frac{2}{5}$, $\mu_{\text{MAP}} = \frac{3}{7}$ (c) $P(A \mid X) = \frac{4}{9}$ (d) ML $\lt$ MAP $\lt$ Fully Bayesian</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s1-delta">Fully Bayesian은 가중 평균, ML·MAP는 델타 함수</a> — 델타 함수 근사와 가중 평균의 차이를 숫자로 확인한다.</p>
+  <label class="done"><input type="checkbox" data-done="p3"> 풀었음</label>
+</article>
+<article class="card" id="p4" data-source="MML Example 9.3">
+  <header class="card-head"><span class="badge src">MML Example 9.3 변형</span><span class="badge level">★</span><span class="tag date">📅 0923</span></header>
+  <h3>P4. 다항 feature vector 계산하기</h3>
+  <div class="problem">
+    $K = 4$인 다항 feature vector $\boldsymbol{\phi}(x) = [1, x, x^2, x^3]^\top$와 모델 $y = \boldsymbol{\phi}^\top(x)\boldsymbol{\theta} + \epsilon$을 생각하자.
+    <ol>
+      <li>(a) $x = 0.3$에서 $\boldsymbol{\phi}(0.3)$을 계산하시오.</li>
+      <li>(b) 이 모델은 $x$에 대해 3차식인데도 왜 "선형"회귀라고 부르는가?</li>
+    </ol>
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"we 'lift' the original one-dimensional input space into a K-dimensional feature space consisting of all monomials" — Example 9.3</details>
+  <details class="hint"><summary>💡 힌트</summary>$x$를 넣은 뒤의 $\boldsymbol{\phi}$는 그냥 숫자 벡터다. 그 다음 식이 $\boldsymbol{\theta}$에 대해 어떤 꼴인지 보자.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>$\phi_0 = 1$, $\phi_1 = 0.3$, $\phi_2 = 0.3^2 = 0.09$, $\phi_3 = 0.3^3 = 0.027$.</li>
+      <li>그래서 $\boldsymbol{\phi}(0.3) = [1, 0.3, 0.09, 0.027]^\top$이다.</li>
+      <li>평균은 $\boldsymbol{\phi}^\top(x)\boldsymbol{\theta} = \theta_0 + \theta_1 x + \theta_2 x^2 + \theta_3 x^3$이다.</li>
+      <li>$x$가 정해지면 $1, x, x^2, x^3$은 상수다. 따라서 이 식은 $\theta_0, \dots, \theta_3$의 가중합, 즉 $\boldsymbol{\theta}$에 대해 1차식이다. "선형회귀"의 선형은 파라미터에 대해 linear in이라는 뜻이다.</li>
+      <li>그래서 입력을 $\boldsymbol{\phi}$로 바꾼 뒤에도 가우시안 likelihood와 ML 추정을 그대로 쓸 수 있다.</li>
+      <li>수업과의 연결: 0923 수업(41:07)에서도 $x_1 = 0.3$을 예로 들었다. 이때 $0.3^3$을 0.0027이라고 했지만 0.027이 맞다. 수업의 $[x_1, x_1^2, x_1^3]^\top$ 앞에 교과서는 상수 1을 하나 더 붙였다.</li>
+    </ol>
+    <p class="answer">정답: (a) $\boldsymbol{\phi}(0.3) = [1, 0.3, 0.09, 0.027]^\top$ (b) $x$에는 비선형이지만 $\boldsymbol{\theta}$에 대해 linear in이기 때문이다.</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s4-features">x에 비선형이어도 선형회귀: feature vector</a> — 수업의 0.3 예를 직접 계산하고 0.027을 확인한다.</p>
+  <label class="done"><input type="checkbox" data-done="p4"> 풀었음</label>
+</article>
+<article class="card" id="p5" data-source="MML Example 9.2">
+  <header class="card-head"><span class="badge src">MML Example 9.2 변형</span><span class="badge level">★★</span><span class="tag date">📅 0923</span></header>
+  <h3>P5. 원점을 지나는 직선을 ML로 맞추기</h3>
+  <div class="problem">
+    모델 $y = \theta x + \epsilon$, $\epsilon \sim \mathcal{N}(0, \sigma^2)$로 데이터 $(1, 2), (2, 3), (3, 7)$을 맞춘다. $\mathbf{X} = [1, 2, 3]^\top$, $\mathbf{y} = [2, 3, 7]^\top$으로 둔다.
+    <ol>
+      <li>(a) $\mathbf{X}^\top \mathbf{X}$와 $\mathbf{X}^\top \mathbf{y}$를 계산하시오.</li>
+      <li>(b) $\boldsymbol{\theta}_{\text{ML}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{y}$로 기울기 $\theta_{\text{ML}}$을 구하시오.</li>
+      <li>(c) 이 값이 최소화하는 양은 무엇인가?</li>
+    </ol>
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"we aim to fit a straight line $f(x) = \theta x$, where θ is an unknown slope, to a dataset using maximum likelihood estimation." — Example 9.2</details>
+  <details class="hint"><summary>💡 힌트</summary>$\mathbf{X}$가 열벡터 하나뿐이면 $\mathbf{X}^\top \mathbf{X}$는 스칼라이고, 역행렬은 그냥 역수다.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>$\mathbf{X}^\top \mathbf{X} = 1^2 + 2^2 + 3^2$, 즉 $\mathbf{X}^\top \mathbf{X} = 14$이다.</li>
+      <li>$\mathbf{X}^\top \mathbf{y} = 1 \cdot 2 + 2 \cdot 3 + 3 \cdot 7 = 29$.</li>
+      <li>$\theta_{\text{ML}} = \frac{1}{14} \cdot 29 = \frac{29}{14} \approx 2.07$.</li>
+      <li>(c) 가우시안 노이즈에서 음의 로그우도는 상수를 빼면 $\frac{1}{2\sigma^2} \|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 = \frac{1}{2\sigma^2}\sum_{n=1}^{3}(y_n - \theta x_n)^2$이다. 그래서 $\theta_{\text{ML}}$은 제곱오차 합을 최소화한다.</li>
+      <li>검산(스칼라 미분): $\frac{d}{d\theta}\sum_n (y_n - \theta x_n)^2 = -2\sum_n x_n (y_n - \theta x_n) = 0 \Rightarrow \theta \sum_n x_n^2 = \sum_n x_n y_n$이다. 즉 $14\theta = 29$로 같은 답이 나온다.</li>
+      <li>수업과의 연결: 0923 수업(67:19)에서 "미분값이 0이 되는 점을 찾는 게 선형회귀의 처음부터 끝"이라고 했다. 수업에서는 벡터 미분 과정 없이 결과식만 받았다. 파라미터가 하나면 위처럼 스칼라 미분만으로 같은 식을 확인할 수 있다.</li>
+    </ol>
+    <p class="answer">정답: (a) $\mathbf{X}^\top \mathbf{X} = 14$, $\mathbf{X}^\top \mathbf{y} = 29$ (b) $\theta_{\text{ML}} = \frac{29}{14} \approx 2.07$ (c) 제곱오차 합 $\sum_n (y_n - \theta x_n)^2$</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s5-normal-eq">미분해서 0: 정규방정식과 의사역행렬</a> — 정규방정식을 가장 작은 크기의 데이터로 직접 계산한다.</p>
+  <label class="done"><input type="checkbox" data-done="p5"> 풀었음</label>
+</article>
+    </section>
+    <section id="partB"><h2>B. 교과서 연습문제</h2>
+<article class="card" id="p6" data-source="MML Exercise 5.3">
+  <header class="card-head"><span class="badge src">MML Exercise 5.3</span><span class="badge level">★</span><span class="tag date">📅 0923</span></header>
+  <h3>P6. 가우시안 모양 함수의 도함수</h3>
+  <div class="problem">
+    다음 함수의 도함수 $f'(x)$를 구하시오. 여기서 $\mu, \sigma \in \mathbb{R}$은 상수다.
+    $$f(x) = \exp\!\Big(-\frac{1}{2\sigma^2}(x-\mu)^2\Big)$$
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"Compute the derivative $f'(x)$ of the function $f(x) = \exp(-\frac{1}{2\sigma^2}(x-\mu)^2)$, where $\mu, \sigma \in \mathbb{R}$ are constants." — Exercise 5.3</details>
+  <details class="hint"><summary>💡 힌트</summary>연쇄법칙을 쓴다. 바깥 함수는 exp, 안쪽 함수는 $g(x) = -\frac{1}{2\sigma^2}(x-\mu)^2$이다.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>$f(x) = \exp(g(x))$이므로 $f'(x) = \exp(g(x)) \cdot g'(x)$이다.</li>
+      <li>$g'(x) = -\frac{1}{2\sigma^2} \cdot 2(x-\mu) = -\frac{x - \mu}{\sigma^2}$.</li>
+      <li>따라서 $f'(x) = -\frac{x - \mu}{\sigma^2} \exp\!\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big)$이다.</li>
+      <li>확인: $x = \mu$에서 $f'(x) = 0$으로 꼭대기다. $x \gt \mu$이면 음수(내리막), $x \lt \mu$이면 양수(오르막)다. 종(bell) 모양과 맞는다.</li>
+      <li>수업과의 연결: 0923 수업에서 칠판에 쓴 가우시안 PDF $\frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big)$에서 상수 계수만 뺀 함수다. 꼭대기가 평균 $\mu$에 있다는 점이 "노이즈는 평균 근처에 몰려 있다"는 설명의 근거다.</li>
+    </ol>
+    <p class="answer">정답: $f'(x) = -\frac{x - \mu}{\sigma^2} \exp\!\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big)$</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s4-gaussian-noise">가우시안 노이즈 가정</a> — 가우시안 bell의 꼭대기가 평균에 있다는 것을 미분으로 확인한다.</p>
+  <label class="done"><input type="checkbox" data-done="p6"> 풀었음</label>
+</article>
+<article class="card" id="p7" data-source="MML Exercise 6.11">
+  <header class="card-head"><span class="badge src">MML Exercise 6.11</span><span class="badge level">★★★ 도전</span><span class="tag date">📅 0921</span></header>
+  <h3>P7. Iterated expectations를 "하나 마나 한 짓"으로 증명하기</h3>
+  <div class="problem">
+    joint distribution $p(x, y)$를 갖는 두 확률변수 $x, y$를 생각하자(연속형으로 가정한다). 다음을 보이시오.
+    $$\mathbb{E}_X[x] = \mathbb{E}_Y\big[\mathbb{E}_X[x \mid y]\big]$$
+    여기서 $\mathbb{E}_X[x \mid y]$는 조건부 분포 $p(x \mid y)$ 아래에서의 $x$의 기댓값이다.
+  </div>
+  <details class="original"><summary>📖 교과서 원문</summary>"Consider two random variables x, y with joint distribution p(x, y). Show that $\mathbb{E}_X[x] = \mathbb{E}_Y[\mathbb{E}_X[x \mid y]]$." — Exercise 6.11</details>
+  <details class="hint"><summary>💡 힌트</summary>오른쪽에서 출발한다. 두 기댓값을 적분으로 풀어 쓰고, 곱셈 규칙과 marginalization을 차례로 쓴다.</details>
+  <details class="solution">
+    <summary>✅ 풀이</summary>
+    <ol class="steps">
+      <li>안쪽 기댓값은 $y$의 함수다: $\mathbb{E}_X[x \mid y] = \int x\, p(x \mid y)\, dx$.</li>
+      <li>바깥 기댓값을 적분으로 쓴다: $\mathbb{E}_Y\big[\mathbb{E}_X[x \mid y]\big] = \int \Big(\int x\, p(x \mid y)\, dx\Big)\, p(y)\, dy$.</li>
+      <li>$p(y)$는 $x$와 무관하므로 안쪽 적분 안으로 넣는다: $= \int\!\!\int x\, p(x \mid y)\, p(y)\, dx\, dy$.</li>
+      <li>곱셈 규칙 $p(x, y) = p(x \mid y)\, p(y)$를 쓴다: $= \int\!\!\int x\, p(x, y)\, dx\, dy$.</li>
+      <li>적분 순서를 바꾼다: $= \int x \Big(\int p(x, y)\, dy\Big)\, dx$.</li>
+      <li>marginalization $\int p(x, y)\, dy = p(x)$를 쓴다: $= \int x\, p(x)\, dx = \mathbb{E}_X[x]$. ∎</li>
+      <li>수업과의 연결: 0921 수업의 posterior predictive 유도에서 쓴 두 가지 "하나 마나 한 짓"(marginalization, 곱셈 규칙)이 그대로 쓰인다. $P(A \mid X) = \mathbb{E}_{\theta \mid X}[P(A \mid \theta)]$도 조건부 기댓값을 한 번 더 평균하는 같은 구조다.</li>
+    </ol>
+    <p class="answer">정답: $\mathbb{E}_Y\big[\mathbb{E}_X[x \mid y]\big] = \int\!\!\int x\, p(x \mid y)\, p(y)\, dx\, dy = \int\!\!\int x\, p(x, y)\, dx\, dy = \int x\, p(x)\, dx = \mathbb{E}_X[x]$</p>
+  </details>
+  <p class="link-back">🔗 수업과 연결: <a href="정리노트_0921-0923_Linear_Regression.html#s1-predictive">posterior predictive 유도: 하나 마나 한 짓과 조건부 독립</a> — 수업에서 익힌 항등식 끼워 넣기로 교과서 증명 문제를 푼다.</p>
+  <label class="done"><input type="checkbox" data-done="p7"> 풀었음</label>
+</article>
+    </section>
+  </main>
+  <footer>출처: Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (Cambridge University Press, 2020). 풀이는 자체 작성이며 수치는 Python으로 검증했습니다.</footer>
+
+  <script id="progress-ui">
+    (function () {
+      const KEY = 'mlb-review-0921-0923-done';
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+      const boxes = Array.from(document.querySelectorAll('input[data-done]'));
+      const update = () => { document.getElementById('progress-count').textContent = String(boxes.filter((b) => b.checked).length); };
+      boxes.forEach((b) => {
+        b.checked = Boolean(saved[b.dataset.done]);
+        b.addEventListener('change', () => {
+          saved[b.dataset.done] = b.checked;
+          try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* 저장 불가 환경: 무시 */ }
+          update();
+        });
+      });
+      update();
+    })();
+  </script>
+</body>
+</html>
