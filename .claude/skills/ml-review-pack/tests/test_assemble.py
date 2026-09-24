@@ -48,6 +48,14 @@ class TestAssemble(unittest.TestCase):
             self.assertIn("const KEY = 'od-review-solved:' + RANGE;", html)
             self.assertIn("const KEY = 'od-note-read:' + RANGE;", html)
 
+    def test_theme_toggle_in_both_pages(self):
+        for html in (self.note_html, self.review_html):
+            self.assertIn('id="theme-toggle"', html)
+            self.assertIn('<script id="theme-ui">', html)
+            # 저장된 테마는 첫 페인트 전에(head에서) 적용한다
+            head = html.split("</head>", 1)[0]
+            self.assertIn("localStorage.getItem('od-theme')", head)
+
     def test_missing_fragment_raises(self):
         run = self.tmp / "run"
         shutil.copytree(MINI_RUN, run)
