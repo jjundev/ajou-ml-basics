@@ -8,7 +8,7 @@ manifest + 조각 파일 → 정리노트/복습문제 HTML 두 개 (표준 라�
   RUN/cards/<problem-id>.html      (<article class="card"> 하나)
 조각 안의 {{NOTE_HREF}} / {{REVIEW_HREF}} 는 실제 파일명으로 바뀐다.
 <script> 블록은 조각에서 빼서 </body> 앞({{SCRIPTS}})으로 모은다.
-CLI: assemble.py --run RUN --out 복습노트
+CLI: assemble.py --run RUN --out 복습노트/<range>
 """
 
 from __future__ import annotations

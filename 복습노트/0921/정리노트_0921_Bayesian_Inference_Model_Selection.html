@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 0921</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · 0921 수업 (Lecture02, MML 8장)">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="0921">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 ML·MAP vs 베이지안</a><a href="#s1">1 Fully Bayesian</a><a href="#s2">2 그래피컬 모델</a><a href="#s3">3 모델 선택</a><a href="#s4">4 요약·예고</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>Bayesian Inference &amp; Model Selection — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 0921 수업 (Lecture02, MML 8장)</p>
+    </div>
+    <section id="s0"><h2>0. 통계적 추론: ML/MAP vs Fully Bayesian</h2>
+<article class="topic" id="s0-inference"><h3>1. 통계적 추론은 P(A | X) 하나로</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s5–s6</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">손에 쥔 기록을 보고 궁금한 일이 일어날 가능성을 따져 보는 게 추론이에요.</p>
+          <figure class="figure"><svg id="fig-inference-given" viewBox="0 0 360 130" role="img" aria-label="왼쪽 테두리 상자 안에 색칠된 점 다섯 개가 모은 기록을 나타내고, 선 화살표가 오른쪽 테두리 상자인 궁금한 일로 이어지는 그림">
+            <rect x="12" y="24" width="130" height="80" rx="10" class="fig-ink"/>
+            <circle cx="40" cy="52" r="6" class="fig-dot"/>
+            <circle cx="66" cy="68" r="6" class="fig-dot"/>
+            <circle cx="92" cy="50" r="6" class="fig-dot"/>
+            <circle cx="112" cy="74" r="6" class="fig-dot"/>
+            <circle cx="52" cy="84" r="6" class="fig-dot"/>
+            <text x="77" y="122" text-anchor="middle" class="fig-text" font-size="13">손에 쥔 기록</text>
+            <line x1="150" y1="64" x2="206" y2="64" class="fig-ink"/>
+            <polyline points="198,57 206,64 198,71" class="fig-ink"/>
+            <rect x="214" y="24" width="134" height="80" rx="10" class="fig-accent"/>
+            <text x="281" y="60" text-anchor="middle" class="fig-text" font-size="14">다음에</text>
+            <text x="281" y="80" text-anchor="middle" class="fig-text" font-size="14">무슨 일이?</text>
+            <text x="281" y="122" text-anchor="middle" class="fig-text" font-size="13">궁금한 일</text>
+          </svg><figcaption>늘 기록을 먼저 쥐고, 그다음 궁금한 일을 물어요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>가진 데이터 전체를 $X$, 추론하려는 사건을 $A$라고 해요. 통계적 추론(statistical inference) 문제에서 늘 떠올릴 식은 하나예요.</p>
+          $$P(A \mid X)$$
+          <p>손에 쥔 것($X$)을 조건에 두고, 궁금한 것($A$)의 조건부 확률(PDF 또는 PMF)을 계산해요.</p>
+          <p>데이터 뒤에는 데이터를 만든 규칙, 곧 모델이 있다고 봐요. 예를 들어 선형으로 만들어지고 노이즈로 흔들리는 모델은 이렇게 써요.</p>
+          $$y = \theta x + \epsilon$$
+          <p>모델은 내가 가정한 것(suppose)이에요. 그 모양을 정하는 것이 파라미터 $\theta$이므로, 실제로 최적화할 대상은 $\theta$예요.</p>
+          <ol class="steps">
+            <li>MLE(maximum likelihood estimation)는 데이터만 봐요. 사전 직관(prior information)은 쓰지 않아요.
+              $$\theta_{\text{ML}} = \arg\max_\theta P(X \mid \theta)$$</li>
+            <li>MAP(maximum a posteriori)는 사전 확률 $P(\theta)$까지 반영해요.
+              $$\theta_{\text{MAP}} = \arg\max_\theta P(\theta \mid X)$$
+              $$P(\theta \mid X) = \frac{P(X \mid \theta)\, P(\theta)}{P(X)}$$</li>
+            <li>두 방법 모두 "내가 가정한 모델이 맞다면, 어떤 $\theta$였길래 이런 데이터가 나왔을까"를 거꾸로 따져요.</li>
+            <li>그 결과로 $\theta$ 값 하나를 결정해요.</li>
+          </ol>
+          <p>MLE와 MAP의 자세한 차이는 따로 올린 강의노트와 강의 동영상에서 보라고 하셨어요(0921 03:52).</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>데이터를 만든 모델을 신승훈의 노래 〈보이지 않는 사랑〉에 빗대셨어요. 눈에 보이지는 않지만 데이터를 만든 흐름이 분명히 있다는 뜻이에요. 지난 시간부터 이어진 비유이고, 모델 선택을 시작할 때(0921 41:19) 다시 나와요.</p>
+          <blockquote>"항상 기억해야 될 수식은 딱 이거 하나예요." (0921 00:23)</blockquote>
+          <blockquote>"궁금해하고 있는 거를 given condition에 대해서 확률을 계산하는 문제로 생각해야 돼요, 항상." (0921 00:37)</blockquote>
+          <blockquote>"사실상 우리가 최적화해야 되는 거는 세타다." (0921 03:13)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">추론은 가진 데이터 $X$를 조건에 두고 궁금한 사건 $A$의 확률을 구하는 일이에요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">추론의 목표</span>$$P(A \mid X)$$</li>
+            <li><span class="eq-name">ML</span>$$\theta_{\text{ML}} = \arg\max_\theta P(X \mid \theta)$$</li>
+            <li><span class="eq-name">MAP</span>$$\theta_{\text{MAP}} = \arg\max_\theta P(\theta \mid X)$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>통계적 추론(statistical inference)</dt><dd>가진 것을 조건으로 궁금한 것의 확률을 구하는 문제</dd>
+            <dt>모델(suppose)</dt><dd>데이터가 이렇게 만들어졌다고 내가 가정한 규칙</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s0-approx"><h3>2. ML/MAP은 공장 g를 거친 근사</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">기록을 전부 들고 다니기 무거워서, 공장에서 숫자 하나로 눌러 담아 들고 다녀요.</p>
+          <p>가볍지만, 그 숫자가 틀리면 답도 조금 빗나가요.</p>
+          <figure class="figure"><svg id="fig-factory-approx" viewBox="0 0 400 170" role="img" aria-label="위 줄은 색칠된 점 다섯 개인 기록이 선 화살표로 곧장 답 상자에 이어진다. 아래 줄은 같은 기록이 테두리 상자인 공장을 거쳐 색칠된 점 하나가 된 뒤 답 상자로 이어진다.">
+            <text x="10" y="18" class="fig-muted" font-size="12">전부 들고 가기</text>
+            <circle cx="24" cy="44" r="5" class="fig-dot"/>
+            <circle cx="42" cy="36" r="5" class="fig-dot"/>
+            <circle cx="58" cy="48" r="5" class="fig-dot"/>
+            <circle cx="74" cy="38" r="5" class="fig-dot"/>
+            <circle cx="90" cy="46" r="5" class="fig-dot"/>
+            <line x1="104" y1="42" x2="316" y2="42" class="fig-ink"/>
+            <polyline points="308,35 316,42 308,49" class="fig-ink"/>
+            <rect x="322" y="24" width="68" height="36" rx="8" class="fig-accent"/>
+            <text x="356" y="47" text-anchor="middle" class="fig-text" font-size="13">답</text>
+            <text x="10" y="96" class="fig-muted" font-size="12">공장에서 줄여 가기</text>
+            <circle cx="24" cy="124" r="5" class="fig-dot"/>
+            <circle cx="42" cy="116" r="5" class="fig-dot"/>
+            <circle cx="58" cy="128" r="5" class="fig-dot"/>
+            <circle cx="74" cy="118" r="5" class="fig-dot"/>
+            <circle cx="90" cy="126" r="5" class="fig-dot"/>
+            <line x1="104" y1="122" x2="136" y2="122" class="fig-ink"/>
+            <polyline points="128,115 136,122 128,129" class="fig-ink"/>
+            <rect x="142" y="102" width="76" height="40" rx="6" class="fig-ink"/>
+            <text x="180" y="127" text-anchor="middle" class="fig-text" font-size="13">공장</text>
+            <line x1="222" y1="122" x2="250" y2="122" class="fig-ink"/>
+            <polyline points="242,115 250,122 242,129" class="fig-ink"/>
+            <circle cx="264" cy="122" r="8" class="fig-dot"/>
+            <text x="264" y="158" text-anchor="middle" class="fig-muted" font-size="12">숫자 하나</text>
+            <line x1="276" y1="122" x2="316" y2="122" class="fig-danger"/>
+            <polyline points="308,115 316,122 308,129" class="fig-danger"/>
+            <rect x="322" y="104" width="68" height="36" rx="8" class="fig-accent"/>
+            <text x="356" y="127" text-anchor="middle" class="fig-text" font-size="13">거의 답</text>
+          </svg><figcaption>아래 줄은 숫자 하나만 들고 가서 가볍지만, 답이 조금 어긋날 수 있어요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>ML/MAP 추론은 원시 데이터 $X$를 직접 쓰지 않아요. 단계는 이래요.</p>
+          <ol class="steps">
+            <li>데이터 $X$ 전체를 공장 $g$에 넣어요: $\theta_{\text{ML}} = g(X)$ 또는 $\theta_{\text{MAP}} = g(X)$.</li>
+            <li>미래 사건 $A$는 그 값 하나로만 추론해요.
+              $$P(A \mid X) \approx P(A \mid \theta_{\text{ML}})$$
+              $$P(A \mid X) \approx P(A \mid \theta_{\text{MAP}})$$</li>
+          </ol>
+          <p>그래서 등호가 아니라 물결($\approx$)이에요. 추정한 $\theta$가 틀리면 $A$에 대한 추론도 빗나가요. $\theta$라는 잠재(latent, hidden) 파라미터를 한 단계 더 거치므로 오류가 더 생길 수 있어요.</p>
+          <p>원시 데이터를 그대로 쓰는 왼쪽 $P(A \mid X)$도 완벽하지는 않아요. 머신러닝은 귀납적 학문이고, 숨은 모델과 $\theta$의 참값은 아무도 몰라요(nobody knows).</p>
+          <p>고를 수 있다면 왼쪽이 나아요. 하지만 There is no free lunch예요.</p>
+          <ul>
+            <li>왼쪽은 원시 데이터를 매번 넣어야 해서 복잡하고, 비싸고, 오래 걸려요.</li>
+            <li>그래서 실제로는 함수를 한 번 거쳐 $\theta$를 만들어 두고 그것만 들고 다녀요. 이것이 학습(training)이에요.</li>
+          </ul>
+          <p>근사 없이 $P(A \mid X)$를 그대로 푸는 방법은 <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a>에서 이어져요.</p>
+          <p class="footnote">(수업 중 이 학습 과정을 "프리트레이닝"이라고 부르셨는데, 딥러닝의 pre-training이 아니라 일반적인 파라미터 추정을 뜻해요.)</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>공장 $g$ 비유: 데이터를 모조리 공장에 넣어 $\theta$ 하나를 뽑아내고, 그것만 들고 다니는 과정이에요. 공짜 점심이 없다는 말은 성능과 계산 비용을 맞바꾼다는 뜻이에요.</p>
+          <p>교수님이 스스로 묻고 답하며 정리하셨어요.</p>
+          <ul>
+            <li>"이거 equal이 아니라 approximation인가요?" 그렇다. (0921 01:20, 06:03)</li>
+            <li>"그럼 이거는 완벽한 건가요?" 이것도 완벽하지 않다. (0921 06:31)</li>
+            <li>"둘 중에 뭘 선택해야 되나요?" 가능하면 왼쪽. (0921 07:30)</li>
+          </ul>
+          <blockquote>"그래서 이게 이퀄이 아니라 물결표가 되는 겁니다." (0921 06:03)</blockquote>
+          <blockquote>"세상에 There is no free lunch." (0921 07:37)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">ML/MAP은 데이터를 공장에서 $\theta$ 하나로 줄인 뒤 쓰므로 근사예요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">ML 근사</span>$$P(A \mid X) \approx P(A \mid \theta_{\text{ML}})$$</li>
+            <li><span class="eq-name">MAP 근사</span>$$P(A \mid X) \approx P(A \mid \theta_{\text{MAP}})$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>잠재 파라미터(latent parameter)</dt><dd>데이터 뒤에 숨어 직접 보이지 않는 $\theta$</dd>
+            <dt>There is no free lunch</dt><dd>더 정확한 방법은 그만큼 계산 비용이 든다</dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section id="s1"><h2>1. Fully Bayesian 추론</h2>
+<article class="topic" id="s1-derivation"><h3>3. 주변화 → 곱셈 규칙 → 조건부 독립</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">동전이 얼마나 앞면을 잘 내는지만 알면, 지난 기록은 없어도 다음을 맞힐 수 있어요.</p>
+          <figure class="figure"><svg id="fig-s1-coin-shortcut" viewBox="0 0 520 190" role="img" aria-label="왼쪽에 지난 다섯 번의 결과 원 다섯 개, 가운데에 동전 성질 상자, 오른쪽에 다음 던지기 상자가 있어요. 기록에서 성질 상자를 거쳐 다음 던지기로 화살표가 이어지고, 기록에서 다음 던지기로 바로 가는 점선에는 가위표가 있어요.">
+            <defs><marker id="arr-s1-coin" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fig-dot"/></marker></defs>
+            <text x="92" y="30" text-anchor="middle" class="fig-muted">지난 기록</text>
+            <circle cx="28" cy="70" r="15" class="fig-ink"/><text x="28" y="75" text-anchor="middle" class="fig-text">앞</text>
+            <circle cx="60" cy="70" r="15" class="fig-ink"/><text x="60" y="75" text-anchor="middle" class="fig-text">뒤</text>
+            <circle cx="92" cy="70" r="15" class="fig-ink"/><text x="92" y="75" text-anchor="middle" class="fig-text">뒤</text>
+            <circle cx="124" cy="70" r="15" class="fig-ink"/><text x="124" y="75" text-anchor="middle" class="fig-text">뒤</text>
+            <circle cx="156" cy="70" r="15" class="fig-ink"/><text x="156" y="75" text-anchor="middle" class="fig-text">앞</text>
+            <rect x="200" y="46" width="120" height="48" rx="10" class="fig-accent"/>
+            <text x="260" y="75" text-anchor="middle" class="fig-text">동전 성질</text>
+            <rect x="380" y="46" width="120" height="48" rx="10" class="fig-ink"/>
+            <text x="440" y="75" text-anchor="middle" class="fig-text">다음 던지기</text>
+            <line x1="174" y1="70" x2="196" y2="70" class="fig-accent" marker-end="url(#arr-s1-coin)"/>
+            <line x1="322" y1="70" x2="376" y2="70" class="fig-accent" marker-end="url(#arr-s1-coin)"/>
+            <path d="M92,90 C92,160 440,160 440,98" class="fig-ink" stroke-dasharray="6 5"/>
+            <line x1="256" y1="132" x2="276" y2="152" class="fig-danger"/><line x1="276" y1="132" x2="256" y2="152" class="fig-danger"/>
+            <text x="266" y="180" text-anchor="middle" class="fig-muted">바로 가는 길은 필요 없어요</text>
+          </svg><figcaption>성질을 끼워 넣으면 기록에서 다음으로 바로 가는 길은 지워져요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>Fully Bayesian은 $P(A \mid X)$를 근사(≈) 없이 등호로 계산해요. 슬라이드의 결과식은 아래와 같아요.</p>
+          $$P(A \mid X) = \int P(A \mid \theta)\, P(\theta \mid X)\, d\theta$$
+          <p>조건부 독립 가정이 있어야 등호가 성립해요.</p>
+          <ol class="steps">
+            <li><strong>주변화(marginalization).</strong> 새 변수 $\theta$를 넣고 적분으로 다시 없애요. 값은 그대로라서 "하나 마나 한" 단계예요.
+              $$P(A \mid X) = \int P(A, \theta \mid X)\, d\theta$$
+              <p>복습: $\int_{-\infty}^{\infty} p(x,y)\,dx = p(y)$는 결합에서 주변으로 가는 방향(1번)이에요. 여기서는 반대로 주변에서 잠재변수를 넣은 결합의 적분으로 가요(2번).</p></li>
+            <li><strong>곱셈 규칙(multiplication rule).</strong> $\theta$를 조건 쪽으로 넘겨요.
+              $$P(A, \theta \mid X) = P(A \mid \theta, X)\, P(\theta \mid X)$$
+              <p>복습: $P(a,b,c) = P(a \mid b,c)\,P(b,c) = P(a,b \mid c)\,P(c)$. 조건 $X$를 모든 항에 붙인 채 같은 규칙을 쓴 거예요.</p></li>
+            <li><strong>조건부 독립(conditional independence) 가정.</strong> $\theta$가 주어지면 $A$와 $X$는 통계적으로 독립이라고 가정해요.
+              $$P(A \mid \theta, X) = P(A \mid \theta)$$
+              <p>슬라이드 근거: $P(x_1,\dots,x_N,A \mid \theta) = \prod_{i=1}^{N} P(x_i \mid \theta)\cdot P(A \mid \theta)$.</p></li>
+            <li><strong>대입.</strong> 세 식을 합치면 결과식이 나와요.
+              $$P(A \mid X) = \int P(A, \theta \mid X)\, d\theta = \int P(A \mid \theta, X)\, P(\theta \mid X)\, d\theta$$
+              $$P(A \mid X) = \int P(A \mid \theta)\, P(\theta \mid X)\, d\theta$$</li>
+          </ol>
+          <p><strong>동전 예.</strong> 동전을 5번 던져 H, T, T, T, H가 나왔어요($X$). 다음 던지기가 앞면일 사건이 $A$예요.</p>
+          <ul>
+            <li>동전은 베르누이(Bernoulli) 확률변수라서 앞면 확률 $\theta$만 알면 돼요. 즉 $P(A \mid \theta) = \theta$예요.</li>
+            <li>앞면이 2번이므로 ML 추정은 $\theta = \frac{2}{5}$예요.</li>
+            <li>$\theta$가 정해지면 과거 5개 결과는 있어도 되고 없어도 되는 정보예요. 이것이 조건부 독립이에요.</li>
+          </ul>
+          <p><small>(수업 중 $3/5$로 말씀하셨지만 앞면 확률은 $2/5$예요)</small></p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>"수학을 잘하려면 뭘 잘해야 돼?"라는 물음에 한 학생이 "하나 마나 한…"이라고 답했어요. 교수님은 "이 친구 에이스네요"라고 했어요. 항등식으로 변수를 끼워 넣는 기술이 주변화예요. (0921 09:21)</p>
+          <blockquote>"좋은 엔지니어들은 1번도 잘해야 되지만 2번을 할 줄 알아야 돼요." (0921 10:53)</blockquote>
+          <blockquote>"요 수식을 이렇게 바꾸는 2번이 사실 이 문제를 해석하는 키가 되거든." (0921 11:11)</blockquote>
+          <p>영화 〈타짜〉의 "첫 판부터 장난질이냐"를 빌려, 식에서 $X$가 슬쩍 사라진 곳에 숨은 가정이 있다고 짚었어요.</p>
+          <blockquote>"마음대로 이렇게 하면 안 돼. … 이퀄리티가 성립하려면 어떤 조건이 필요해요." (0921 13:39)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">주변화, 곱셈 규칙, 조건부 독립을 차례로 쓰면 Fully Bayesian 식이 나와요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">주변화</span>$$P(A \mid X) = \int P(A, \theta \mid X)\, d\theta$$</li>
+            <li><span class="eq-name">조건부 독립</span>$$P(A \mid \theta, X) = P(A \mid \theta)$$</li>
+            <li><span class="eq-name">Fully Bayesian 예측</span>$$P(A \mid X) = \int P(A \mid \theta)\, P(\theta \mid X)\, d\theta$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>주변화(marginalization)</dt><dd>변수를 넣고 적분해 없애는 항등식</dd>
+            <dt>조건부 독립(conditional independence)</dt><dd>$\theta$가 주어지면 $A$와 $X$가 독립</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s1-expectation"><h3>4. 조건부 기댓값으로 읽기와 델타 함수</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s6</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">모든 후보의 답을 믿는 만큼 섞어 평균 내요.</p>
+          <figure class="figure"><svg id="fig-s1-weighted-vs-spike" viewBox="0 0 520 200" role="img" aria-label="왼쪽 그림에는 높이가 다른 테두리 막대 일곱 개가 나란히 있어 모든 후보를 믿는 만큼 섞는 모습이에요. 오른쪽 그림에는 색칠된 막대 하나만 높이 솟아 한 후보에 믿음을 모두 건 모습이에요.">
+            <text x="125" y="22" text-anchor="middle" class="fig-muted">골고루 섞기</text>
+            <line x1="20" y1="160" x2="235" y2="160" class="fig-ink"/>
+            <rect x="30" y="140" width="22" height="20" class="fig-accent"/>
+            <rect x="58" y="115" width="22" height="45" class="fig-accent"/>
+            <rect x="86" y="85" width="22" height="75" class="fig-accent"/>
+            <rect x="114" y="65" width="22" height="95" class="fig-accent"/>
+            <rect x="142" y="80" width="22" height="80" class="fig-accent"/>
+            <rect x="170" y="112" width="22" height="48" class="fig-accent"/>
+            <rect x="198" y="138" width="22" height="22" class="fig-accent"/>
+            <text x="125" y="185" text-anchor="middle" class="fig-text">후보 모두 사용</text>
+            <text x="395" y="22" text-anchor="middle" class="fig-muted">한 곳에 다 걸기</text>
+            <line x1="290" y1="160" x2="505" y2="160" class="fig-ink"/>
+            <rect x="384" y="40" width="22" height="120" class="fig-dot"/>
+            <text x="395" y="185" text-anchor="middle" class="fig-text">후보 하나만 사용</text>
+          </svg><figcaption>왼쪽은 후보를 모두 섞고, 오른쪽은 가장 믿는 후보 하나에 다 걸어요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>확률과 랜덤변수 복습이에요.</p>
+          $$E[X] = \int x\, f(x)\, dx$$
+          $$E[g(X)] = \int g(x)\, f(x)\, dx$$
+          $$E[g(X) \mid Y=y] = \int g(x)\, f(x \mid y)\, dx$$
+          <p>마지막 식이 조건부 기댓값(conditional expectation)이에요. Fully Bayesian 식과 짝을 지어요.</p>
+          <ol class="steps">
+            <li>$x \to \theta$, $g(\theta) = P(A \mid \theta)$</li>
+            <li>$f(\theta \mid X) = P(\theta \mid X)$: 데이터를 본 뒤 $\theta$에 대한 믿음을 요약한 조건부 pdf예요.</li>
+            <li>$$P(A \mid X) = \mathbb{E}_{\theta \mid X}[P(A \mid \theta)]$$</li>
+          </ol>
+          <p><strong>가중 평균으로 읽기.</strong> 적분은 촘촘한 리만 합이에요.</p>
+          $$P(A \mid X) \approx \sum_i P(A \mid \theta_i)\, P(\theta_i \mid X)\, \Delta\theta$$
+          <p>후보 $\theta_1, \theta_2, \dots$마다 예측 $P(A \mid \theta_i)$에 믿음 $P(\theta_i \mid X)$를 가중치로 곱해 빠짐없이 더해요. 이 가중 평균이 사후 예측분포(posterior predictive)예요. MML 식 (8.23)도 예측을 "그럴듯한 모든 $\theta$에 대한 평균"으로 설명해요.</p>
+          <p><strong>ML/MAP은 델타 함수 가정.</strong> ML/MAP은 가중치가 가장 큰 $\hat{\theta}$ 하나만 골라 적분 없이 대입해요. 사후분포를 델타 함수로 둔 것과 같아요.</p>
+          <ol class="steps">
+            <li>$$P(\theta \mid X) \approx \delta(\theta - \hat{\theta})$$</li>
+            <li>$$P(A \mid X) \approx \int P(A \mid \theta)\, \delta(\theta - \hat{\theta})\, d\theta$$</li>
+            <li>$$P(A \mid X) \approx P(A \mid \hat{\theta})$$</li>
+          </ol>
+          <p>믿음을 한 점에 몰빵한 셈이에요. 그래서 ML/MAP 예측은 등호가 아니라 근사예요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <blockquote>"이런 거 하려고 여러분 확률 배운 거예요, 사실." (0921 16:43)</blockquote>
+          <blockquote>"그 모든 것들을 하나도 놓치지 않고 다 모아서 평균을 내는 게 fully Bayesian" (0921 21:10)</blockquote>
+          <p>ML/MAP을 신호및시스템 관점으로 보면 사후분포를 델타 함수로 둔 거예요. 온 믿음을 한 점에 몰빵한다고 비유했어요.</p>
+          <blockquote>"델타 펑션이라고 가정한 거지." (0921 22:11)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">Fully Bayesian 예측은 사후분포로 가중한 평균이고, ML/MAP은 그 분포를 한 점으로 줄인 근사예요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">조건부 기댓값</span>$$E[g(X) \mid Y=y] = \int g(x)\, f(x \mid y)\, dx$$</li>
+            <li><span class="eq-name">사후 예측분포</span>$$P(A \mid X) = \mathbb{E}_{\theta \mid X}[P(A \mid \theta)]$$</li>
+            <li><span class="eq-name">델타 함수 가정</span>$$P(\theta \mid X) \approx \delta(\theta - \hat{\theta})$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>사후 예측분포(posterior predictive)</dt><dd>사후분포로 가중한 예측의 평균</dd>
+            <dt>조건부 기댓값(conditional expectation)</dt><dd>조건부 pdf로 가중한 평균</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s1-hardness"><h3>5. Fully Bayesian이 어려운 이유와 근사 기법</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s7</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">울퉁불퉁한 모양의 넓이는 정확히 재기 어려워요.</p>
+          <figure class="figure"><svg id="fig-s1-hard-integral" viewBox="0 0 520 190" role="img" aria-label="울퉁불퉁한 실선 곡선 위에 매끈한 종 모양 점선 곡선이 겹쳐 있어요. 점선이 실선의 가장 높은 봉우리를 따라가요.">
+            <line x1="20" y1="160" x2="500" y2="160" class="fig-ink"/>
+            <path d="M30,158 C70,156 90,140 120,128 C145,118 150,138 170,120 C195,96 205,40 250,36 C285,34 290,80 310,86 C330,92 335,70 355,78 C380,90 400,140 430,152 C455,158 480,158 495,158" class="fig-ink"/>
+            <path d="M60,159 C130,158 170,120 205,70 C225,42 240,34 255,34 C270,34 285,42 305,70 C340,120 380,158 450,159" class="fig-accent" stroke-dasharray="7 5"/>
+            <text x="120" y="110" text-anchor="middle" class="fig-muted">진짜 모양</text>
+            <text x="360" y="60" text-anchor="middle" class="fig-muted">매끈한 언덕</text>
+            <text x="260" y="182" text-anchor="middle" class="fig-text">봉우리에 맞춰 바꿔 계산</text>
+          </svg><figcaption>그래서 가장 높은 봉우리에 맞춘 매끈한 언덕으로 바꿔서 계산해요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>Fully Bayesian을 곧이곧대로 풀려면 사후분포 전체가 필요해요. 사전확률 $P(\theta)$와 우도에서 베이즈 정리로 구해요(MML 식 8.22).</p>
+          $$P(\theta \mid X) = \frac{P(X \mid \theta)\, P(\theta)}{P(X)}$$
+          $$P(X) = \int P(X \mid \theta)\, P(\theta)\, d\theta$$
+          <p>어려움은 두 가지예요.</p>
+          <ul>
+            <li><strong>적분.</strong> 정규화 상수 $P(X)$에 적분이 있고, 예측 $\int P(A \mid \theta)\, P(\theta \mid X)\, d\theta$에도 적분이 또 있어요. 켤레 사전분포(conjugate prior)가 아니면 해석적으로 풀리지 않는다고 슬라이드에 적혀 있어요.</li>
+            <li><strong>구현.</strong> 아주 작은 확률값(0.0000002 같은 값)을 곱하다 보면 수치가 튀어요(언더플로).</li>
+          </ul>
+          <div class="table-wrap"><table>
+            <tr><th>방식</th><th>결과</th><th>핵심 계산</th></tr>
+            <tr><td>ML/MAP</td><td>점 추정 $\hat{\theta}$ 하나</td><td>최적화</td></tr>
+            <tr><td>Fully Bayesian</td><td>사후분포 $P(\theta \mid X)$ 전체</td><td>적분</td></tr>
+          </table></div>
+          <p>그래서 근사 기법을 써요.</p>
+          <ul>
+            <li><strong>MCMC</strong>(Markov chain Monte Carlo): 시뮬레이션으로 샘플을 만들고, 그 샘플의 분포를 원래 분포로 간주해요.</li>
+            <li><strong>Laplace approximation</strong>: 가장 높은 봉우리 주변을 가우시안으로 피팅해 PDF를 근사해요.</li>
+            <li><strong>variational inference</strong>: 수업에서는 이름만 언급했어요.</li>
+            <li><strong>expectation propagation</strong>: 수업에서는 이름만 언급했어요.</li>
+          </ul>
+          <p>봉우리를 라플라스나 가우시안으로 피팅해 PDF를 근사하는 것이 머신러닝에서 자주 보이는 방식이에요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <blockquote>"공짜 점심은 없다." (0921 22:53)</blockquote>
+          <p>Fully Bayesian이 더 좋아 보여도 계산 비용을 치러야 한다는 뜻이에요.</p>
+          <blockquote>"결국 허들이 어디서 생기냐면 파이썬 코드에서 생기지 않아요." (0921 24:29)</blockquote>
+          <p>코드는 GPT가 3초 만에 바꿔 준다고 했어요. 머신러닝 엔진을 설계하려면 수식이 허들이에요. 강화학습, 지도, 비지도, CNN, DNN 모두 바탕은 같아요.</p>
+          <blockquote>"결국 펀더멘털은 바뀌지 않고, 그 펀더멘털을 이해하려면 수학을 해야 된다." (0921 25:20)</blockquote>
+          <blockquote>"확률이 그만큼 중요해서 지금 복습을 하고 있는 거지" (0921 25:55)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">사후분포와 예측에 적분이 들어가서, 실제로는 MCMC 같은 근사 기법을 써요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">사후분포</span>$$P(\theta \mid X) = \frac{P(X \mid \theta)\, P(\theta)}{P(X)}$$</li>
+            <li><span class="eq-name">정규화 상수</span>$$P(X) = \int P(X \mid \theta)\, P(\theta)\, d\theta$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>MCMC(Markov chain Monte Carlo)</dt><dd>샘플로 분포를 근사하는 기법</dd>
+            <dt>Laplace approximation</dt><dd>봉우리 주변을 가우시안으로 피팅하는 근사</dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section id="s2"><h2>2. 방향 그래피컬 모델</h2>
+<article class="topic" id="s2-motivation"><h3>6. 왜 그래프인가: 독립과 조건부 독립</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s9</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">모든 것이 모든 것과 얽혀 있으면 따라가기 너무 힘들어요.</p>
+<figure class="figure"><svg id="fig-graph-tangle" viewBox="0 0 460 200" role="img" aria-label="왼쪽은 동그라미 네 개가 빨간 선으로 모두 서로 이어진 모습, 오른쪽은 같은 네 개 사이에 화살표 세 개만 남은 모습"><line x1="60" y1="40" x2="160" y2="40" class="fig-danger"/><line x1="60" y1="40" x2="60" y2="140" class="fig-danger"/><line x1="60" y1="40" x2="160" y2="140" class="fig-danger"/><line x1="160" y1="40" x2="60" y2="140" class="fig-danger"/><line x1="160" y1="40" x2="160" y2="140" class="fig-danger"/><line x1="60" y1="140" x2="160" y2="140" class="fig-danger"/><circle cx="60" cy="40" r="14" class="fig-ink"/><circle cx="160" cy="40" r="14" class="fig-ink"/><circle cx="60" cy="140" r="14" class="fig-ink"/><circle cx="160" cy="140" r="14" class="fig-ink"/><line x1="300.0" y1="56.0" x2="300.0" y2="123.0" class="fig-ink"/><polyline points="303.4,115.7 300.0,123.0 296.6,115.7" class="fig-ink"/><line x1="311.3" y1="51.3" x2="388.0" y2="128.0" class="fig-ink"/><polyline points="385.2,120.5 388.0,128.0 380.5,125.2" class="fig-ink"/><line x1="400.0" y1="56.0" x2="400.0" y2="123.0" class="fig-ink"/><polyline points="403.4,115.7 400.0,123.0 396.6,115.7" class="fig-ink"/><circle cx="300" cy="40" r="14" class="fig-accent"/><circle cx="400" cy="40" r="14" class="fig-accent"/><circle cx="300" cy="140" r="14" class="fig-accent"/><circle cx="400" cy="140" r="14" class="fig-accent"/><text x="110" y="182" class="fig-text" text-anchor="middle" dominant-baseline="middle">모두 얽힌 실타래</text><text x="350" y="182" class="fig-text" text-anchor="middle" dominant-baseline="middle">꼭 필요한 줄만</text></svg><figcaption>서로 상관없는 줄은 끊고, 꼭 필요한 줄만 화살표로 남기면 한눈에 보여요.</figcaption></figure></div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>확률 모델에서 가장 일반적인 표현은 결합분포(joint distribution)예요. $X$와 $Y$의 행동을 정확히 모델링하려면 결합 PDF $p(x, y)$를 아는 게 최선이에요.</p>
+<p>문제는 변수가 많아질수록 결합 PDF를 구하기가 매우 까다롭다는 점이에요. 그래서 변수 사이의 구조적 특성(structural property)을 찾아 복잡도를 줄여요.</p>
+<ul>
+<li>독립(statistical independence): $P(A) = P(A \mid B)$이면 $A$와 $B$는 통계적으로 독립이에요. $B$를 알아도 $A$에 대한 확률이 바뀌지 않으니 둘을 따로 다뤄도 돼요.</li>
+<li>조건부 독립(conditional independence): 어떤 변수 $C$가 주어졌을 때 $P(A \mid B, C) = P(A \mid C)$이면, $C$를 조건으로 $A$와 $B$가 독립이에요. <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a>에서 쓴 $P(A \mid \theta, X) = P(A \mid \theta)$가 이 예예요.</li>
+<li>연관성이 아주 작으면 실제로는 독립이 아니어도 "독립이라고 합시다"로 단순화하기도 해요(수업에서 덧붙인 설명).</li>
+</ul>
+<p>이런 독립과 조건부 독립 관계를 그래프로 나타낸 것이 (확률적) 그래피컬 모델(graphical model)이에요. 노드는 확률변수예요. 슬라이드가 꼽은 장점은 세 가지예요.</p>
+<ol class="steps">
+<li>모델의 구조를 간단하게 시각화해요.</li>
+<li>조건부 독립 같은 구조적 특성을 그래프에서 바로 읽어요.</li>
+<li>추론(inference)과 학습(learning)의 계산을 그래프 조작으로 표현해요(graph semantics).</li>
+</ol></div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>이 과목을 들은 학생의 후기를 소개했어요. "머신러닝의 기초인 줄 알았는데 확률 및 랜덤변수 2야?"라는 말이었어요. 머신러닝을 확률로 다루기 때문에 확률 복습이 계속 나온다는 설명이에요.</p>
+<blockquote>"조인트 PDF를 아는 게 옵티멀이에요. 얘를 알면 다 아는 거예요." (0921 26:23)</blockquote></div>
+<div class="sum" hidden>
+<p class="sum-lead">결합 PDF는 구하기 어려워서, 독립과 조건부 독립으로 구조를 줄이고 그걸 그래프로 그려요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list"><li><span class="eq-name">독립</span>$$P(A) = P(A \mid B)$$</li><li><span class="eq-name">조건부 독립</span>$$P(A \mid B, C) = P(A \mid C)$$</li></ul>
+<p class="panel-label">용어</p>
+<dl class="terms"><dt>구조적 특성(structural property)</dt><dd>변수 사이의 독립·조건부 독립 같은 관계</dd><dt>그래피컬 모델(graphical model)</dt><dd>확률변수를 노드로, 의존을 간선으로 그린 그래프</dd></dl>
+</div></article>
+<article class="topic" id="s2-semantics"><h3>7. 그래프 시맨틱스와 인수분해 (가족 그래프)</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s10</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">화살표는 "누가 누구에게 말하는지"를 보여 줘요.</p>
+<figure class="figure"><svg id="fig-family-graph" viewBox="0 0 340 210" role="img" aria-label="아빠 상자에서 엄마와 막내딸로 화살표가 가고, 엄마에서 막내딸로도 화살표가 가는 가족 그림"><rect x="115.0" y="20.0" width="110" height="40" rx="6" class="fig-ink"/><rect x="5.0" y="150.0" width="110" height="40" rx="6" class="fig-ink"/><rect x="225.0" y="150.0" width="110" height="40" rx="6" class="fig-ink"/><line x1="151.8" y1="61.5" x2="78.9" y2="147.7" class="fig-ink"/><polyline points="86.1,144.4 78.9,147.7 81.0,140.0" class="fig-ink"/><line x1="188.2" y1="61.5" x2="261.1" y2="147.7" class="fig-ink"/><polyline points="259.0,140.0 261.1,147.7 253.9,144.4" class="fig-ink"/><line x1="117.0" y1="170.0" x2="222.0" y2="170.0" class="fig-ink"/><polyline points="214.7,166.6 222.0,170.0 214.7,173.4" class="fig-ink"/><text x="170" y="40" class="fig-text" text-anchor="middle" dominant-baseline="middle">아빠</text><text x="60" y="170" class="fig-text" text-anchor="middle" dominant-baseline="middle">엄마</text><text x="280" y="170" class="fig-text" text-anchor="middle" dominant-baseline="middle">막내딸</text></svg><figcaption>아빠는 말만 하고, 엄마는 아빠 말을 듣고, 막내딸은 두 사람 말을 모두 들어요.</figcaption></figure></div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<ul><li>노드(node): 확률변수예요.</li><li>방향 간선 $a \to b$: $b$가 $a$에 직접 의존한다는 뜻이에요.</li><li>그래프 배치가 곧 결합분포의 인수분해(factorization)예요.</li></ul>
+<p>세 노드 예: $a \to b$, $a \to c$, $b \to c$.</p>
+<ol class="steps">
+<li>$$P(a,b,c) = P(c \mid a,b)\, P(a,b)$$</li>
+<li>$$P(a,b) = P(b \mid a)\, P(a)$$</li>
+<li>$$P(a,b,c) = P(c \mid a,b)\, P(b \mid a)\, P(a)$$</li>
+</ol>
+<p>곱셈 규칙(multiplication rule)만 쓰면 $P(a,b,c) = P(a \mid b,c)\, P(b \mid c)\, P(c)$처럼 다른 순서도 등식으로 성립해요. 하지만 구조가 주어지면 그 구조를 따른 인수분해 하나만 의미가 있어요.</p>
+<p>다섯 노드 예: $x_1$, $x_5$는 부모가 없고, $x_5 \to x_2$, $x_1, x_2 \to x_3$, $x_2 \to x_4$예요.</p>
+<figure class="figure"><svg id="fig-five-node" viewBox="0 0 330 290" role="img" aria-label="노드 다섯 개의 방향 그래프. x₅에서 x₂로, x₁과 x₂에서 x₃으로, x₂에서 x₄로 화살표가 간다"><line x1="200.0" y1="52.0" x2="200.0" y2="117.0" class="fig-ink"/><polyline points="203.4,109.7 200.0,117.0 196.6,109.7" class="fig-ink"/><line x1="71.8" y1="158.6" x2="117.7" y2="230.6" class="fig-ink"/><polyline points="116.6,222.7 117.7,230.6 110.9,226.3" class="fig-ink"/><line x1="188.2" y1="158.6" x2="142.3" y2="230.6" class="fig-ink"/><polyline points="149.1,226.3 142.3,230.6 143.4,222.7" class="fig-ink"/><line x1="211.8" y1="158.6" x2="257.7" y2="230.6" class="fig-ink"/><polyline points="256.6,222.7 257.7,230.6 250.9,226.3" class="fig-ink"/><circle cx="60" cy="140" r="20" class="fig-ink"/><text x="60" y="140" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₁</text><circle cx="200" cy="30" r="20" class="fig-ink"/><text x="200" y="30" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₅</text><circle cx="200" cy="140" r="20" class="fig-ink"/><text x="200" y="140" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₂</text><circle cx="130" cy="250" r="20" class="fig-ink"/><text x="130" y="250" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₃</text><circle cx="270" cy="250" r="20" class="fig-ink"/><text x="270" y="250" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₄</text></svg><figcaption>화살표를 따라 각 노드를 자기 부모로 조건 지어요.</figcaption></figure>
+<p>$$P(x_1, \dots, x_5) = P(x_1)\, P(x_5)\, P(x_2 \mid x_5)\, P(x_3 \mid x_1, x_2)\, P(x_4 \mid x_2)$$</p>
+<p>일반형은 이렇게 써요. 여기서 $\mathrm{Pa}_k$는 $x_k$의 부모(parent) 노드 집합이에요.</p>
+<p>$$P(x_1, \dots, x_K) = \prod_{k=1}^{K} P(x_k \mid \mathrm{Pa}_k)$$</p>
+<p>화살표가 나가는 쪽이 parent, 들어오는 쪽이 child예요. 위 예에서 $x_1, x_2$는 $x_3$의 parent이고, $x_3$은 child예요.</p></div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>가족 그래프로 설명했어요. 화살표는 "말한다 → 듣는다"예요.</p>
+<ul><li>$A$ = 아버지: "천상천하 유아독존", 말만 해요. 그래서 $P(a)$예요.</li>
+<li>$B$ = 엄마: 아버지 말을 듣고 딸에게 말해요. 그래서 $P(b \mid a)$예요.</li>
+<li>$C$ = 막내딸: 두 사람에게 모두 잔소리를 들어요. 그래서 $P(c \mid a,b)$예요.</li></ul>
+<p>부모 노드는 화살표로 나에게 "잔소리하는" 노드라고도 표현했어요. 가상의 질문 "곱셈 규칙으로 다르게 쓰면 안 돼요?"에는 등식은 성립하지만 구조가 주어지면 그 구조의 인수분해만 의미가 있다고 답했어요 (0921 30:50).</p>
+<blockquote>"요것만 알면 되는 거야, 요것만." (0921 31:42)</blockquote>
+<p>구조가 주어지면 그 구조를 따른 인수분해 $P(a,b,c) = P(c \mid a,b)\, P(b \mid a)\, P(a)$만 의미가 있다는 말이에요.</p></div>
+<div class="sum" hidden>
+<p class="sum-lead">방향 그래프는 각 노드를 자기 부모로 조건 지은 곱으로 결합분포를 인수분해해요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list"><li><span class="eq-name">세 노드 예</span>$$P(a,b,c) = P(c \mid a,b)\, P(b \mid a)\, P(a)$$</li><li><span class="eq-name">일반형</span>$$P(x_1, \dots, x_K) = \prod_{k=1}^{K} P(x_k \mid \mathrm{Pa}_k)$$</li></ul>
+<p class="panel-label">용어</p>
+<dl class="terms"><dt>인수분해(factorization)</dt><dd>결합분포를 조건부 확률의 곱으로 나눠 쓰기</dd><dt>parent / child</dt><dd>화살표가 나가는 노드 / 들어오는 노드</dd></dl>
+</div></article>
+<article class="topic" id="s2-coin"><h3>8. N번 동전 던지기와 하이퍼프라이어</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s11</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">동전 하나를 여러 번 던지면, 모든 결과는 "앞면이 나올 확률" 하나에만 달려 있어요.</p>
+<figure class="figure"><svg id="fig-coin-octopus" viewBox="0 0 400 215" role="img" aria-label="앞면이 나올 확률 상자 하나에서 색칠된 동그라미 여러 개로 화살표가 문어발처럼 뻗어 나가고, 동그라미끼리는 이어지지 않은 그림"><rect x="125.0" y="20.0" width="150" height="40" rx="6" class="fig-ink"/><text x="200" y="40" class="fig-text" text-anchor="middle" dominant-baseline="middle">앞면이 나올 확률</text><line x1="173.4" y1="61.2" x2="64.8" y2="148.1" class="fig-ink"/><polyline points="72.6,146.2 64.8,148.1 68.4,141.0" class="fig-ink"/><circle cx="50" cy="160" r="16" class="fig-dot"/><text x="50" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">첫째</text><line x1="186.4" y1="61.7" x2="135.1" y2="143.9" class="fig-ink"/><polyline points="141.8,139.5 135.1,143.9 136.0,135.9" class="fig-ink"/><circle cx="125" cy="160" r="16" class="fig-dot"/><text x="125" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">둘째</text><line x1="200.0" y1="62.0" x2="200.0" y2="141.0" class="fig-ink"/><polyline points="203.4,133.7 200.0,141.0 196.6,133.7" class="fig-ink"/><circle cx="200" cy="160" r="16" class="fig-dot"/><text x="200" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">셋째</text><text x="275" y="160" class="fig-text" text-anchor="middle" dominant-baseline="middle">…</text><line x1="226.6" y1="61.2" x2="335.2" y2="148.1" class="fig-ink"/><polyline points="331.6,141.0 335.2,148.1 327.4,146.2" class="fig-ink"/><circle cx="350" cy="160" r="16" class="fig-dot"/><text x="350" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">마지막</text></svg><figcaption>문어발처럼 한 곳에서 뻗어 나가고, 던진 결과끼리는 서로 영향을 주지 않아요.</figcaption></figure></div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<ul><li>$\mu$: 앞면이 나올 확률이에요. 잠재(latent) 확률변수이고, 앞에서 쓴 $\theta$와 같은 역할이에요.</li>
+<li>$x_1, \dots, x_N$: $N$번 던진 결과예요. 슬라이드에서 색칠된 노드는 관측값(observables)이에요.</li>
+<li>$x_n$은 자식이 없는 끝 노드(leaf node)이고, $x_n$끼리는 간선이 없어요.</li></ul>
+<p>그래서 결합분포는 $\mu$에만 의존해요.</p>
+<p>$$P(x_1, \dots, x_N \mid \mu) = \prod_{n=1}^{N} P(x_n \mid \mu)$$</p>
+<p>이 식은 <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a>에서 쓴 조건부 독립 가정을 그래프로 그린 것이에요. $\mu$가 정해지면 과거·현재·미래의 모든 던지기가 $\mu$로만 결정돼요.</p>
+<figure class="figure"><svg id="fig-coin-hyperprior" viewBox="0 0 400 285" role="img" aria-label="원이 없는 α와 β에서 테두리 원 μ로 화살표가 들어가고, μ에서 색칠된 관측 노드 x₁부터 마지막 노드까지 화살표가 뻗는 그래프"><text x="150" y="30" class="fig-text" text-anchor="middle" dominant-baseline="middle">α</text><text x="250" y="30" class="fig-text" text-anchor="middle" dominant-baseline="middle">β</text><line x1="155.8" y1="40.5" x2="187.9" y2="98.1" class="fig-ink"/><polyline points="187.3,90.2 187.9,98.1 181.4,93.4" class="fig-ink"/><line x1="244.2" y1="40.5" x2="212.1" y2="98.1" class="fig-ink"/><polyline points="218.6,93.4 212.1,98.1 212.7,90.2" class="fig-ink"/><circle cx="200" cy="120" r="22" class="fig-ink"/><text x="200" y="120" class="fig-text" text-anchor="middle" dominant-baseline="middle">μ</text><line x1="180.6" y1="134.2" x2="65.3" y2="218.8" class="fig-ink"/><polyline points="73.2,217.2 65.3,218.8 69.2,211.8" class="fig-ink"/><circle cx="50" cy="230" r="16" class="fig-dot"/><text x="50" y="265" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₁</text><line x1="186.5" y1="139.8" x2="135.7" y2="214.3" class="fig-ink"/><polyline points="142.6,210.2 135.7,214.3 137.0,206.4" class="fig-ink"/><circle cx="125" cy="230" r="16" class="fig-dot"/><text x="125" y="265" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₂</text><line x1="200.0" y1="144.0" x2="200.0" y2="211.0" class="fig-ink"/><polyline points="203.4,203.7 200.0,211.0 196.6,203.7" class="fig-ink"/><circle cx="200" cy="230" r="16" class="fig-dot"/><text x="200" y="265" class="fig-text" text-anchor="middle" dominant-baseline="middle">x₃</text><text x="275" y="230" class="fig-text" text-anchor="middle" dominant-baseline="middle">…</text><line x1="219.4" y1="134.2" x2="334.7" y2="218.8" class="fig-ink"/><polyline points="330.8,211.8 334.7,218.8 326.8,217.2" class="fig-ink"/><circle cx="350" cy="230" r="16" class="fig-dot"/><text x="350" y="265" class="fig-text" text-anchor="middle" dominant-baseline="middle">x<tspan baseline-shift="sub" font-size="10">N</tspan></text></svg><figcaption>α와 β는 원 없이 쓰고, 관측한 x만 색칠해요.</figcaption></figure>
+<p>하이퍼프라이어(hyperprior): $\mu$ 자체가 다시 $\alpha$, $\beta$라는 값의 영향을 받는 분포를 따르면 그것도 그래프에 그려요. $\alpha$, $\beta$는 확률변수가 아닌 결정론적(deterministic) 파라미터라서 원을 생략해요.</p>
+<p>이 그래프는 결합확률에서 무엇이 조건이고 무엇이 결과인지, 곧 결합확률의 구조를 설명하는 표기법이에요. 이어지는 L02 s12–13은 수업에서 건너뛰었고, 그래피컬 모델을 더 다룰 때 다시 보기로 했어요 (0921 35:40).</p>
+<p class="footnote">(수업 중 $\alpha$, $\beta$를 "히든 파라미터"라고 말했지만, 슬라이드 기준으로는 결정론적 파라미터예요.)</p></div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>부모 $\mu$ 하나에 자식 $x_1, \dots, x_N$이 문어발처럼 달린 모양이라고 설명했어요. 앞면 확률이 정해지면 과거, 현재, 미래의 모든 던지기가 그 값 하나로 결정된다고 했어요 (0921 34:10–34:35).</p></div>
+<div class="sum" hidden>
+<p class="sum-lead">동전 던지기 결과들은 앞면 확률 하나를 부모로 둔 끝 노드이고, 그 부모가 정해지면 서로 독립이에요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list"><li><span class="eq-name">N번 던지기의 결합분포</span>$$P(x_1, \dots, x_N \mid \mu) = \prod_{n=1}^{N} P(x_n \mid \mu)$$</li></ul>
+<p class="panel-label">용어</p>
+<dl class="terms"><dt>leaf node</dt><dd>자식이 없는 끝 노드</dd><dt>하이퍼프라이어(hyperprior)</dt><dd>$\mu$의 분포를 정하는 결정론적 파라미터 $\alpha$, $\beta$</dd></dl>
+</div></article>
+<article class="topic" id="s2-healthcare"><h3>9. 헬스케어 예제: LUCAS 인과 그래프</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s14</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">병과 습관 사이의 원인과 결과를 화살표로 그린 지도예요.</p>
+<figure class="figure"><svg id="fig-lucas-graph" viewBox="0 0 540 350" role="img" aria-label="흡연에서 폐암과 노란 손가락으로, 불안과 또래 압력에서 흡연으로, 유전에서 폐암과 주의력 결핍으로, 폐암과 알레르기에서 기침으로 강조색 화살표, 폐암에서 피로로, 피로와 주의력 결핍에서 교통사고로 화살표가 가고, 생일 상자는 아무 데도 이어지지 않은 그림"><line x1="155.4" y1="46.5" x2="194.0" y2="87.8" class="fig-ink"/><polyline points="191.5,80.2 194.0,87.8 186.5,84.8" class="fig-ink"/><line x1="264.6" y1="46.5" x2="226.0" y2="87.8" class="fig-ink"/><polyline points="233.5,84.8 226.0,87.8 228.5,80.2" class="fig-ink"/><line x1="170.0" y1="105.0" x2="121.0" y2="105.0" class="fig-ink"/><polyline points="128.3,108.4 121.0,105.0 128.3,101.6" class="fig-ink"/><line x1="218.9" y1="121.8" x2="240.6" y2="162.4" class="fig-ink"/><polyline points="240.2,154.4 240.6,162.4 234.2,157.5" class="fig-ink"/><line x1="368.2" y1="120.9" x2="282.7" y2="163.7" class="fig-ink"/><polyline points="290.7,163.4 282.7,163.7 287.7,157.4" class="fig-ink"/><line x1="408.9" y1="121.8" x2="430.6" y2="162.4" class="fig-ink"/><polyline points="430.2,154.4 430.6,162.4 424.2,157.5" class="fig-ink"/><line x1="87.5" y1="196.4" x2="131.8" y2="237.9" class="fig-accent"/><polyline points="128.8,230.5 131.8,237.9 124.2,235.5" class="fig-accent"/><line x1="228.4" y1="196.2" x2="172.4" y2="238.2" class="fig-accent"/><polyline points="180.2,236.6 172.4,238.2 176.2,231.1" class="fig-accent"/><line x1="267.5" y1="196.4" x2="311.8" y2="237.9" class="fig-ink"/><polyline points="308.8,230.5 311.8,237.9 304.2,235.5" class="fig-ink"/><line x1="355.3" y1="271.1" x2="413.9" y2="308.4" class="fig-ink"/><polyline points="409.6,301.6 413.9,308.4 406.0,307.3" class="fig-ink"/><line x1="440.0" y1="197.0" x2="440.0" y2="307.0" class="fig-ink"/><polyline points="443.4,299.7 440.0,307.0 436.6,299.7" class="fig-ink"/><rect x="102.0" y="15.0" width="76" height="30" rx="6" class="fig-ink"/><text x="140" y="30" class="fig-text" text-anchor="middle" dominant-baseline="middle">불안</text><rect x="232.0" y="15.0" width="96" height="30" rx="6" class="fig-ink"/><text x="280" y="30" class="fig-text" text-anchor="middle" dominant-baseline="middle">또래 압력</text><rect x="462.0" y="15.0" width="76" height="30" rx="6" class="fig-ink"/><text x="500" y="30" class="fig-text" text-anchor="middle" dominant-baseline="middle">생일</text><rect x="22.0" y="90.0" width="96" height="30" rx="6" class="fig-ink"/><text x="70" y="105" class="fig-text" text-anchor="middle" dominant-baseline="middle">노란 손가락</text><rect x="172.0" y="90.0" width="76" height="30" rx="6" class="fig-ink"/><text x="210" y="105" class="fig-text" text-anchor="middle" dominant-baseline="middle">흡연</text><rect x="362.0" y="90.0" width="76" height="30" rx="6" class="fig-ink"/><text x="400" y="105" class="fig-text" text-anchor="middle" dominant-baseline="middle">유전</text><rect x="22.0" y="165.0" width="96" height="30" rx="6" class="fig-ink"/><text x="70" y="180" class="fig-text" text-anchor="middle" dominant-baseline="middle">알레르기</text><rect x="212.0" y="165.0" width="76" height="30" rx="6" class="fig-ink"/><text x="250" y="180" class="fig-text" text-anchor="middle" dominant-baseline="middle">폐암</text><rect x="392.0" y="165.0" width="96" height="30" rx="6" class="fig-ink"/><text x="440" y="180" class="fig-text" text-anchor="middle" dominant-baseline="middle">주의력 결핍</text><rect x="112.0" y="240.0" width="76" height="30" rx="6" class="fig-ink"/><text x="150" y="255" class="fig-text" text-anchor="middle" dominant-baseline="middle">기침</text><rect x="292.0" y="240.0" width="76" height="30" rx="6" class="fig-ink"/><text x="330" y="255" class="fig-text" text-anchor="middle" dominant-baseline="middle">피로</text><rect x="392.0" y="310.0" width="96" height="30" rx="6" class="fig-ink"/><text x="440" y="325" class="fig-text" text-anchor="middle" dominant-baseline="middle">교통사고</text></svg><figcaption>기침은 폐암 때문일 수도, 알레르기 때문일 수도 있어서 기침만 보고 폐암이라고 단정하지 않아요.</figcaption></figure></div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>슬라이드의 LUCAS 데이터셋 인과 그래프예요. 간선은 이래요.</p>
+<ul>
+<li>불안, 또래 압력 → 흡연</li>
+<li>흡연 → 폐암, 흡연 → 노란 손가락</li>
+<li>유전 → 폐암, 유전 → 주의력 결핍</li>
+<li>폐암 → 기침, 알레르기 → 기침</li>
+<li>폐암 → 피로</li>
+<li>피로, 주의력 결핍 → 교통사고</li>
+<li>생일(홀짝)은 어디에도 연결되지 않아요.</li>
+</ul>
+<p>그래프를 그리는 원칙은 두 가지예요.</p>
+<ol class="steps">
+<li>연관성이 아주 작으면 독립으로 보고 선을 없애요. 예: 흡연과 알레르기 사이에 약한 연관이 있을 수 있어도 선을 긋지 않아요.</li>
+<li>데이터로 검증할 수 없는 관계에는 화살표를 넣지 않아요. 충분히 많은 사람을 조사해 통계적 차이가 확인되면 그때 반영해요.</li>
+</ol></div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<ul><li>고등학교 때 선생님이 손가락 냄새를 맡아 흡연을 확인하던 일을 들었어요. 흡연 → 노란 손가락처럼 관측 가능한 결과의 예예요.</li>
+<li>"손 없는 날" 이사처럼 데이터로 검증되지 않는 미신은 그래프에 넣지 않는다고 했어요.</li>
+<li>가상의 반론 "교수님, 미신은 과학입니다"에도 검증할 수 없는 건 화살표를 넣지 않는다고 답했어요 (0921 37:57).</li></ul>
+<blockquote>"보통의 데이터로 검증할 수 없는 것들은 화살표를 넣지 않습니다." (0921 38:05)</blockquote></div>
+<div class="sum" hidden>
+<p class="sum-lead">인과 그래프에는 데이터로 확인되는 관계만 화살표로 넣고, 연관이 작으면 선을 없애요.</p>
+<p class="panel-label">용어</p>
+<dl class="terms"><dt>LUCAS</dt><dd>폐암 관련 요인을 그린 헬스케어 인과 그래프 예제</dd><dt>검증할 수 없는 관계</dt><dd>화살표를 넣지 않아요(예: 손 없는 날)</dd></dl>
+</div></article>
+<article class="topic" id="s2-birthday"><h3>10. 생일 예로 본 ML vs MAP, 그리고 방향 그래프</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s14–s15</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">몇 명만 보고 "짝수 날 태어나면 산만하다"고 믿으면 성급해요.</p>
+<figure class="figure"><svg id="fig-birthday-bars" viewBox="0 0 430 215" role="img" aria-label="빨간 테두리 막대는 데이터만 믿은 판단으로 80퍼센트, 강조색 테두리 막대는 원래 믿음도 함께 본 판단으로 55퍼센트이고, 반반을 뜻하는 점선이 50퍼센트에 있는 막대그림"><line x1="40" y1="190" x2="380" y2="190" class="fig-ink"/><line x1="40" y1="90.0" x2="380" y2="90.0" class="fig-ink" stroke-dasharray="5 5"/><text x="385" y="90.0" class="fig-text" text-anchor="start" dominant-baseline="middle">반반</text><rect x="80" y="30.0" width="80" height="160.0" class="fig-danger"/><text x="120" y="18.0" class="fig-text" text-anchor="middle" dominant-baseline="middle">80%</text><text x="120" y="208" class="fig-text" text-anchor="middle" dominant-baseline="middle">데이터만 믿기</text><rect x="240" y="79.99999999999999" width="80" height="110.00000000000001" class="fig-accent"/><text x="280" y="67.99999999999999" class="fig-text" text-anchor="middle" dominant-baseline="middle">55%</text><text x="280" y="208" class="fig-text" text-anchor="middle" dominant-baseline="middle">원래 믿음도 함께</text></svg><figcaption>원래 알던 상식을 함께 보면 반반 근처로 조심스럽게 판단해요.</figcaption></figure></div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>주의력 결핍이 있는 50명 가운데 우연히 짝수일에 태어난 사람이 80%라고 해 봐요(수업에서 든 예시 숫자예요).</p>
+<ul>
+<li>ML 판단: 데이터만 믿어요. 생일과 증상의 연관성 확률을 약 0.8로 봐요.</li>
+<li>MAP 판단: "태어난 날과 증상은 관련이 없을 것"이라는 사전 믿음(0.5)을 반영해요. 데이터는 조금만 반영해 약 0.55로 봐요.</li>
+</ul>
+<p>ML의 문제는 데이터가 작으면 전체 현상을 대변하지 못한다는 점이에요. 그래서 정규화(regularization)로 조정해요. 그 조정에 쓰는 전문가의 식견·지식·경험·선호, 곧 데이터로 설명할 수 없는 믿음이 사전확률(prior probability) $P(\theta)$예요.</p>
+<p>10년 넘게 조사해 보니 늘 홀짝이 반반이었다는 경험이 있다면 ML 판단을 하지 않아요. 그 경험을 반영하는 것이 MAP이에요(<a href="#s0-inference">1. 통계적 추론은 P(A | X) 하나로</a>의 $\theta_{\text{ML}}$, $\theta_{\text{MAP}}$).</p>
+<p>베이지안 접근은 확률(조건부 확률)로 관계를 설명하므로 주로 방향 그래프, 곧 directed graphical model을 써요. 슬라이드 s15는 그래피컬 모델을 세 종류로 들지만 수업에서는 방향 그래프만 다뤘어요.</p></div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>데이터 사이언티스트는 데이터만 믿기 때문에 작은 데이터에서 이런 우연을 그대로 받아들일 수 있다고 했어요. 전문가의 경험이 들어가는 자리가 prior라고 설명했어요.</p>
+<blockquote>"데이터 사이언티스트는 진짜 데이터만 믿거든." (0921 39:50)</blockquote>
+<blockquote>"그래서 레귤러라이제이션이 필요한 거야." (0921 40:01)</blockquote></div>
+<div class="sum" hidden>
+<p class="sum-lead">작은 데이터만 믿는 ML은 성급할 수 있어서, 사전확률로 판단을 조정하는 것이 MAP이에요.</p>
+<p class="panel-label">용어</p>
+<dl class="terms"><dt>정규화(regularization)</dt><dd>데이터만 믿는 판단을 사전 지식으로 조정하기</dd><dt>사전확률(prior probability)</dt><dd>데이터로 설명할 수 없는 전문가의 믿음 $P(\theta)$</dd><dt>directed graphical model</dt><dd>조건부 확률로 관계를 나타내는 방향 그래프</dd></dl>
+</div></article>
+    </section>
+    <section id="s3"><h2>3. 모델 선택</h2>
+<article class="topic" id="s3-validation"><h3>11. 모델 선택은 선택의 문제: 훈련·검증·테스트</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s17</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">어떤 모델을 쓸지는 맞고 틀림이 아니라 고르는 일이라서, 연습 시험으로 미리 확인해요.</p>
+          <figure class="figure"><svg id="fig-split-100" viewBox="0 0 420 110" role="img" aria-label="문제 100개를 공부용 60개, 연습 시험 20개, 진짜 시험 20개로 나눈 테두리 막대. 진짜 시험 칸만 색칠되어 있어요.">
+            <rect x="10" y="30" width="240" height="40" class="fig-ink"/>
+            <rect x="250" y="30" width="80" height="40" class="fig-accent"/>
+            <rect x="330" y="30" width="80" height="40" class="fig-dot"/>
+            <text x="130" y="55" text-anchor="middle" class="fig-text" font-size="14">공부용 60</text>
+            <text x="290" y="55" text-anchor="middle" class="fig-text" font-size="13">연습 20</text>
+            <text x="370" y="22" text-anchor="middle" class="fig-text" font-size="13">진짜 시험 20</text>
+            <text x="170" y="92" text-anchor="middle" class="fig-muted" font-size="12">여기까지 80개로 모델을 만들고 골라요</text>
+            <line x1="10" y1="78" x2="330" y2="78" class="fig-ink"/>
+          </svg><figcaption>문제 100개를 공부용 60개, 연습 시험 20개, 끝까지 숨겨 둘 진짜 시험 20개로 나눠요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>모델(model)은 "데이터가 이런 규칙에서 만들어졌을 것"이라는 가정이에요. 그래서 모델은 옳고 그름이나 좋고 나쁨이 아니라 <strong>선택의 문제</strong>예요. 고르려면 늘 검증(validation)이 필요해요.</p>
+          <p>슬라이드 s17의 제목은 Nested Cross-Validation이에요. 레이블이 붙은 데이터가 100개일 때 이렇게 나눠요.</p>
+          <ol class="steps">
+            <li>20개는 test set으로 떼어 두고 끝까지 쓰지 않아요(unseen data).</li>
+            <li>남은 80개가 training set이에요.</li>
+            <li>training set을 다시 60개(파라미터 학습)와 20개(validation)로 나눠요.</li>
+            <li>60개로 후보 모델마다 $\boldsymbol{\theta}$를 학습해요. 후보는 선형, 다항, DNN, CNN, RNN, 트랜스포머 등이에요.</li>
+            <li>validation 20개의 성능으로 어느 모델을 쓸지 골라요.</li>
+            <li>고른 모델의 성능을 test set으로 보고해요.</li>
+          </ol>
+          <p>가장 단순한 방법은 80개 전부로 선형 모델의 $\boldsymbol{\theta}$를 학습하고 test set으로 성능만 보는 거예요. 모델을 여러 개 비교하려면 validation을 따로 둬야 해요.</p>
+          <p>모델 선택은 model complexity(모델 복잡도)와 data fit(데이터 적합) 사이의 trade-off(트레이드오프)예요.</p>
+          <ul>
+            <li>너무 단순하면 데이터를 못 따라가요(과소적합, underfitting).</li>
+            <li>너무 복잡하면 training set에만 맞춰져요(과적합, overfitting). 이때 validation 성능이 나빠져요.</li>
+            <li>적당한 복잡도에서 validation 성능이 가장 좋아요.</li>
+          </ul>
+          <figure class="figure"><svg id="fig-complexity-curve" viewBox="0 0 400 200" role="img" aria-label="가로축은 모델 복잡도, 세로축은 오차예요. 훈련 오차 선은 계속 내려가고, 검증 오차 선은 내려갔다가 다시 올라가요. 가장 낮은 곳에 색칠된 점이 있어요.">
+            <line x1="40" y1="170" x2="380" y2="170" class="fig-ink"/>
+            <line x1="40" y1="170" x2="40" y2="20" class="fig-ink"/>
+            <path d="M50 40 C 120 110, 200 150, 370 160" class="fig-ink"/>
+            <path d="M50 50 C 110 130, 170 140, 200 132 S 300 90, 370 45" class="fig-danger"/>
+            <circle cx="190" cy="134" r="5" class="fig-dot"/>
+            <text x="210" y="190" text-anchor="middle" class="fig-muted" font-size="12">모델 복잡도</text>
+            <text x="14" y="100" text-anchor="middle" class="fig-muted" font-size="12" transform="rotate(-90 14 100)">오차</text>
+            <text x="300" y="175" class="fig-text" font-size="12">훈련 오차</text>
+            <text x="300" y="58" class="fig-text" font-size="12">검증 오차</text>
+            <text x="70" y="30" class="fig-muted" font-size="12">과소적합</text>
+            <text x="320" y="30" class="fig-muted" font-size="12">과적합</text>
+          </svg><figcaption>검증 오차는 복잡도가 적당할 때 가장 낮아요.</figcaption></figure>
+          <p>슬라이드의 오컴의 면도날(Occam's razor)은 "데이터를 충분히 설명하는 가장 단순한 모델을 고르라"는 원칙이에요. 수업에서는 "성능이 비슷하면 단순한 모델"로 같은 뜻을 말했어요(<a href="#s3-bayes-ms">13. 베이지안 모델 선택</a>).</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>신승훈의 〈보이지 않는 사랑〉처럼, 데이터를 만든 규칙은 보이지 않아요. "이런 모델에서 만들어졌을 것"이라는 가정이 곧 모델이에요.</p>
+          <blockquote>"옳고 그름의 문제다? 아니야. … 선택의 문제인 거거든." (0921 41:57)</blockquote>
+          <blockquote>"그래서 모델 셀렉션은 항상 밸리데이션이 필요하다." (0921 42:13)</blockquote>
+          <blockquote>"모델의 컴플렉시티와 데이터 핏 사이의 트레이드오프를 갖고 있어요." (0921 44:23)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">모델은 선택의 문제라서, validation으로 복잡도와 적합의 균형을 보고 골라요.</p>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>검증(validation)</dt><dd>training set에서 떼어 낸 20개로 모델을 고르는 단계</dd>
+            <dt>test set</dt><dd>끝까지 숨겨 뒀다가 최종 성능을 보고하는 데이터</dd>
+            <dt>trade-off</dt><dd>model complexity와 data fit 사이의 균형, 넘치면 overfitting</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s3-cv"><h3>12. 교차 검증</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s17</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">연습 시험 문제를 한 묶음으로 고정하지 않고 돌아가며 바꿔 써요.</p>
+          <figure class="figure"><svg id="fig-cv-folds" viewBox="0 0 380 170" role="img" aria-label="네 줄마다 네 칸이 있어요. 줄마다 색칠된 연습 칸이 한 칸씩 옆으로 옮겨 가고, 나머지 세 칸은 테두리만 있는 공부 칸이에요.">
+            <text x="10" y="37" class="fig-muted" font-size="12">1회</text>
+            <text x="10" y="72" class="fig-muted" font-size="12">2회</text>
+            <text x="10" y="107" class="fig-muted" font-size="12">3회</text>
+            <text x="10" y="142" class="fig-muted" font-size="12">4회</text>
+            <rect x="50" y="20" width="70" height="26" class="fig-dot"/><rect x="125" y="20" width="70" height="26" class="fig-ink"/><rect x="200" y="20" width="70" height="26" class="fig-ink"/><rect x="275" y="20" width="70" height="26" class="fig-ink"/>
+            <rect x="50" y="55" width="70" height="26" class="fig-ink"/><rect x="125" y="55" width="70" height="26" class="fig-dot"/><rect x="200" y="55" width="70" height="26" class="fig-ink"/><rect x="275" y="55" width="70" height="26" class="fig-ink"/>
+            <rect x="50" y="90" width="70" height="26" class="fig-ink"/><rect x="125" y="90" width="70" height="26" class="fig-ink"/><rect x="200" y="90" width="70" height="26" class="fig-dot"/><rect x="275" y="90" width="70" height="26" class="fig-ink"/>
+            <rect x="50" y="125" width="70" height="26" class="fig-ink"/><rect x="125" y="125" width="70" height="26" class="fig-ink"/><rect x="200" y="125" width="70" height="26" class="fig-ink"/><rect x="275" y="125" width="70" height="26" class="fig-dot"/>
+            <text x="50" y="166" class="fig-muted" font-size="12">색칠한 칸은 연습 시험, 테두리 칸은 공부용</text>
+          </svg><figcaption>네 묶음이 한 번씩 연습 시험이 되고, 나머지 세 묶음으로 공부해요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>두 데이터의 역할이 달라요.</p>
+          <ul>
+            <li>validation set: 후보 가운데 가장 좋은 모델을 고르는 데 써요.</li>
+            <li>test set: 고른 모델의 일반화 성능(generalization performance)을 추정하는 데 써요.</li>
+          </ul>
+          <p>training 80개를 학습 60개와 검증 20개로 나누는 60:20은 정답이 아니에요. 30:50이나 40:40도 돼요. 파라미터 튜닝에 데이터를 많이 쓰는 편이 좋아서 보통 60:20을 써요.</p>
+          <p>교차 검증(cross validation, CV)은 validation 20개를 한곳에 고정하지 않아요.</p>
+          <ol class="steps">
+            <li>training 80개를 20개씩 4조각으로 나눠요.</li>
+            <li>3조각(60개)으로 학습하고 남은 1조각(20개)으로 검증해요.</li>
+            <li>검증 조각을 바꿔 가며 4번 반복해요.</li>
+            <li>4번의 검증 성능을 모아 모델을 골라요.</li>
+          </ol>
+          <p>같은 데이터가 한 번은 검증에, 나머지는 학습에 쓰여요. 곧 데이터 재사용(reuse)이에요. 데이터 수집은 비싸서, 영상 데이터를 이어 붙이거나(stitch) 섞어서(randomize) 늘려 쓰기도 해요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>비율은 상황에 따라 정해요. 데이터를 모으는 데 돈이 많이 드니, 있는 데이터를 최대한 돌려 써야 해요.</p>
+          <blockquote>"꼭 60 대 20이 정답은 아니에요." (0921 45:18)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">교차 검증은 검증 조각을 돌려 가며 바꿔서 데이터를 재사용해요.</p>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>교차 검증(cross validation)</dt><dd>training을 4조각으로 나눠 3개로 학습, 1개로 검증을 돌아가며 반복</dd>
+            <dt>validation set</dt><dd>가장 좋은 모델을 고르는 데 쓰는 데이터</dd>
+            <dt>일반화(generalization)</dt><dd>test set으로 추정하는, 처음 보는 데이터에서의 성능</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s3-bayes-ms"><h3>13. 베이지안 모델 선택</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s18</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">후보 모델마다 이 데이터를 얼마나 잘 설명하는지 점수를 매기고, 가장 높은 모델을 골라요.</p>
+          <figure class="figure"><svg id="fig-model-scores" viewBox="0 0 380 170" role="img" aria-label="모델 여섯 개의 점수 막대예요. 가장 높은 막대 하나만 색칠되어 있고 나머지는 테두리만 있어요.">
+            <line x1="20" y1="140" x2="370" y2="140" class="fig-ink"/>
+            <rect x="35" y="90" width="40" height="50" class="fig-accent"/>
+            <rect x="92" y="40" width="40" height="100" class="fig-dot"/>
+            <rect x="149" y="60" width="40" height="80" class="fig-accent"/>
+            <rect x="206" y="100" width="40" height="40" class="fig-accent"/>
+            <rect x="263" y="75" width="40" height="65" class="fig-accent"/>
+            <rect x="320" y="110" width="40" height="30" class="fig-accent"/>
+            <text x="55" y="158" text-anchor="middle" class="fig-muted" font-size="12">모델1</text>
+            <text x="112" y="158" text-anchor="middle" class="fig-text" font-size="12">모델2</text>
+            <text x="169" y="158" text-anchor="middle" class="fig-muted" font-size="12">모델3</text>
+            <text x="226" y="158" text-anchor="middle" class="fig-muted" font-size="12">모델4</text>
+            <text x="283" y="158" text-anchor="middle" class="fig-muted" font-size="12">모델5</text>
+            <text x="340" y="158" text-anchor="middle" class="fig-muted" font-size="12">모델6</text>
+            <text x="112" y="32" text-anchor="middle" class="fig-text" font-size="12">가장 높음</text>
+          </svg><figcaption>점수가 가장 높은 모델을 고르지만, 점수가 비슷하면 더 단순한 모델이 나을 수도 있어요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>후보 모델의 집합을 $\mathcal{M}=\{M_1,\dots,M_K\}$라 해요. 예를 들어 $M_1$은 RNN, $M_2$는 트랜스포머, $M_3$은 CNN, $M_4$는 DNN, $M_5$는 선형, $M_6$은 다항 모델이에요. 각 $M_k$는 학습으로 자기 파라미터 $\theta_k$를 가져요. 선형 모델도 입력 벡터 크기에 따라 파라미터 수가 달라져요.</p>
+          <p>데이터가 만들어지는 과정(generative process)을 이렇게 가정해요.</p>
+          <p>$$M_k \sim P(M)$$</p>
+          <p>$$\theta_k \sim P(\theta \mid M_k)$$</p>
+          <p>$$D \sim P(D \mid \theta_k)$$</p>
+          <p>모델 사전확률(model prior) $P(M)$은 $\sum_{k} P(M_k)=1$이기만 하면 마음대로 정해요(예: 0.2, 0.3, 0.2, …). 선호가 없으면 균등 사전확률(uniform prior) $P(M_k) = 1/K$로 둬요.</p>
+          <p>사후확률은 베이즈 규칙으로 유도해요(칠판).</p>
+          <ol class="steps">
+            <li>$$P(M_k \mid D)=\frac{P(M_k, D)}{P(D)}$$</li>
+            <li>$$P(M_k, D)=P(D \mid M_k)\, P(M_k)$$</li>
+            <li>$P(D)$는 $k$와 무관하니 비교할 때 무시해요. $$P(M_k \mid D) \propto P(D \mid M_k)\, P(M_k)$$</li>
+          </ol>
+          <p>여기서 $P(D \mid M_k)$를 모델 증거(evidence) 또는 주변 우도(marginal likelihood)라고 해요. 모델 자체는 흐릿한 이름이라, 그 모델이 만드는 $\theta_k$로 데이터를 얼마나 잘 설명하는지를 평균 내요.</p>
+          <p>$$P(D \mid M_k) = \int P(D \mid \theta_k)\, P(\theta_k \mid M_k)\, d\theta_k = \mathbb{E}_{\theta_k \mid M_k}\!\left[P(D \mid \theta_k)\right]$$</p>
+          <p>슬라이드에서는 이 적분을 (***)로 표시해요. 모델에 대한 MAP은 사후확률이 가장 큰 모델이에요.</p>
+          <p>$$M^\ast = \arg\max_{M_k} P(M_k \mid D)$$</p>
+          <p>균등 사전확률이면 $P(M_k)$가 모든 $k$에서 같아요. 그래서 MAP은 증거 $P(D \mid M_k)$를 최대화하는 것, 곧 ML과 같은 답을 내요.</p>
+          <p>모델 선택도, 모델 안의 $\theta$도 같은 틀(Fully Bayesian, MAP, ML)로 판단해요. "가장 그럴듯한 답"이라는 머신러닝의 생각 자체가 확률의 생각이에요.</p>
+          <p>복잡도도 따져야 해요. $P(M_1 \mid D)=0.25$, $P(M_2 \mid D)=0.23$처럼 차이가 작은데 $M_1$이 훨씬 복잡하면 $M_2$가 더 나은 선택일 수 있어요(<a href="#s3-validation">11. 모델 선택은 선택의 문제</a>의 오컴의 면도날). 이런 비교는 답 하나만 주는 MAP보다 모든 경우의 확률을 주는 Fully Bayesian이 잘해요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>모델 선택까지 같은 확률의 틀로 풀리니 "베이지안으로 안 되는 게 없네"라고 했어요.</p>
+          <blockquote>"내 손 안에 뭐가 있는지 … 컨디셔널 프로바빌리티로 만드는 게 제일 중요하다." (0921 49:34)</blockquote>
+          <blockquote>"어떤 모델 k가 주어졌을 때 이 데이터를 그 모델이 얼마나 잘 설명하느냐" (0921 50:25)</blockquote>
+          <blockquote>"이 확률을 모르고서는 절대 머신러닝을 이해하기 힘들다." (0921 52:20)</blockquote>
+          <blockquote>"fully Bayesian이 그만큼 스트롱하다, 좋은 기법이다" (0921 53:46)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">모델마다 증거와 사전확률을 곱해 사후확률을 구하고, 가장 큰 모델을 골라요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">사후확률</span>$$P(M_k \mid D) \propto P(D \mid M_k)\, P(M_k)$$</li>
+            <li><span class="eq-name">증거</span>$$P(D \mid M_k) = \int P(D \mid \theta_k)\, P(\theta_k \mid M_k)\, d\theta_k = \mathbb{E}_{\theta_k \mid M_k}\!\left[P(D \mid \theta_k)\right]$$</li>
+            <li><span class="eq-name">모델의 MAP</span>$$M^\ast = \arg\max_{M_k} P(M_k \mid D)$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>증거(evidence)</dt><dd>주변 우도(marginal likelihood), 모델이 데이터를 설명하는 정도의 평균</dd>
+            <dt>균등 사전확률(uniform prior)</dt><dd>$P(M_k) = 1/K$, 이때 MAP은 ML과 같아요</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s3-bayes-factor"><h3>14. 베이즈 팩터로 두 모델 비교</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s19</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">후보가 둘뿐이면 순위를 매길 필요 없이 두 점수를 나눠 봐요.</p>
+          <figure class="figure"><svg id="fig-factor-scale" viewBox="0 0 380 160" role="img" aria-label="양팔 저울이에요. 왼쪽 접시에 모델1 점수, 오른쪽 접시에 모델2 점수가 있고, 왼쪽이 더 무거워 내려가 있어요. 가운데 받침은 색칠된 삼각형이에요.">
+            <polygon points="190,90 175,130 205,130" class="fig-dot"/>
+            <line x1="80" y1="110" x2="300" y2="70" class="fig-ink"/>
+            <line x1="80" y1="110" x2="80" y2="125" class="fig-ink"/>
+            <line x1="300" y1="70" x2="300" y2="85" class="fig-ink"/>
+            <rect x="45" y="125" width="70" height="14" class="fig-accent"/>
+            <rect x="265" y="85" width="70" height="14" class="fig-accent"/>
+            <text x="80" y="155" text-anchor="middle" class="fig-text" font-size="13">모델1 점수</text>
+            <text x="300" y="115" text-anchor="middle" class="fig-text" font-size="13">모델2 점수</text>
+            <text x="190" y="30" text-anchor="middle" class="fig-muted" font-size="12">나눈 값이 1보다 크면 모델1</text>
+          </svg><figcaption>두 점수를 나눈 값이 1보다 크면 모델1, 아니면 모델2를 골라요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>모델이 $M_1$, $M_2$ 둘뿐이면 사후확률의 비, 곧 사후 오즈(posterior odds)를 봐요.</p>
+          <ol class="steps">
+            <li>$$\frac{P(M_1 \mid D)}{P(M_2 \mid D)}=\frac{P(D \mid M_1)\,P(M_1)/P(D)}{P(D \mid M_2)\,P(M_2)/P(D)}$$</li>
+            <li>$P(D)$는 위아래에서 약분돼요. $$\frac{P(M_1 \mid D)}{P(M_2 \mid D)}=\underbrace{\frac{P(M_1)}{P(M_2)}}_{\text{prior odds}}\;\underbrace{\frac{P(D \mid M_1)}{P(D \mid M_2)}}_{\text{Bayes factor}}$$</li>
+          </ol>
+          <ul>
+            <li>posterior odds = prior odds × Bayes factor예요.</li>
+            <li>$P(D \mid M_k)$는 모델 $M_k$가 데이터를 얼마나 잘 예측하는지를 나타내요.</li>
+          </ul>
+          <p>균등 사전확률이면 prior odds가 1이라, 베이즈 팩터(Bayes factor) $\frac{P(D \mid M_1)}{P(D \mid M_2)}$만 보면 돼요.</p>
+          <ul>
+            <li>$\frac{P(D \mid M_1)}{P(D \mid M_2)} \gt 1$이면 $M_1$을 골라요.</li>
+            <li>1 이하이면 $M_2$를 골라요.</li>
+          </ul>
+          <p>로그를 씌우면 로그 우도비(log likelihood ratio) $\log \frac{P(D \mid M_1)}{P(D \mid M_2)}$가 0보다 큰지 보는 것과 같아요.</p>
+          <p>디지털통신의 비트 검출과 같은 구조예요. 받은 신호 $y$로 비트를 정할 때 MAP 검출이 항상 최적이에요. 1과 0이 같은 확률로 보내지면 사전확률이 균등하므로, ML 검출 $P(y \mid 1)$ 대 $P(y \mid 0)$ 비교와 같아져요.</p>
+          <p>베이즈 팩터를 구하려면 증거 적분(<a href="#s3-bayes-ms">13. 베이지안 모델 선택</a>의 (***))을 풀어야 해요. 데이터가 커질수록 적분이 복잡해져서 MCMC(Markov chain Monte Carlo) 같은 근사를 써요. MCMC의 구체적 방법은 기말고사 무렵에 다룰 예정이에요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>디지털통신에서 비트를 검출할 때와 같은 판단이라고 연결했어요.</p>
+          <blockquote>"이 확률이 큰 놈을 결정하는 게 optimal이다." (0921 56:40)</blockquote>
+          <blockquote>"나중에 아마 기말고사 그때 한번 설명할 기회가 있을 거예요." (0921 57:56)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">두 모델은 사후 오즈를 prior odds와 베이즈 팩터로 나눠 비교해요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">사후 오즈</span>$$\frac{P(M_1 \mid D)}{P(M_2 \mid D)}=\underbrace{\frac{P(M_1)}{P(M_2)}}_{\text{prior odds}}\;\underbrace{\frac{P(D \mid M_1)}{P(D \mid M_2)}}_{\text{Bayes factor}}$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>베이즈 팩터(Bayes factor)</dt><dd>두 모델의 증거의 비, 균등 사전확률이면 이것만 보면 돼요</dd>
+            <dt>MCMC</dt><dd>증거 적분이 어려울 때 쓰는 근사 방법</dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section id="s4"><h2>4. 한 장 요약 · 다음 시간 예고</h2>
+<article class="topic" id="s4-cheatsheet"><h3>한 장 치트시트</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s6–19</span></div>
+        <p>0921 수업 전체를 한 표로 모은 치트시트예요. 모든 줄의 출발점은 $P(A \mid X)$ 하나예요. 토픽 제목을 누르면 그 토픽으로 가요.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>토픽</th><th>핵심 식</th><th>한 줄 정리</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#s0-inference">1. 통계적 추론은 P(A | X) 하나로</a></td><td>$\theta_{\text{ML}} = \arg\max_\theta P(X \mid \theta)$<br>$\theta_{\text{MAP}} = \arg\max_\theta P(\theta \mid X)$</td><td>손에 쥔 데이터 $X$를 조건에 두고 궁금한 사건 $A$의 확률을 구해요. 최적화 대상은 $\theta$예요.</td></tr>
+            <tr><td><a href="#s0-approx">2. ML/MAP은 공장 g를 거친 근사</a></td><td>$P(A \mid X) \approx P(A \mid \theta_{\text{ML}})$</td><td>$\theta$ 하나를 먼저 뽑아 쓰므로 등호가 아니라 근사(≈)예요.</td></tr>
+            <tr><td><a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a></td><td>$P(A \mid X) = \int P(A \mid \theta)\, P(\theta \mid X)\, d\theta$</td><td>$\theta$를 끼워 넣고(주변화), 곱셈 규칙으로 쪼갠 뒤, $\theta$가 주어지면 $X$를 지워요.</td></tr>
+            <tr><td><a href="#s1-expectation">4. 조건부 기댓값으로 읽기와 델타 함수</a></td><td>$P(A \mid X) = \mathbb{E}_{\theta \mid X}[P(A \mid \theta)]$</td><td>posterior predictive는 모든 $\theta$의 가중 평균이에요. ML/MAP은 사후분포를 $\delta(\theta - \hat{\theta})$로 몰빵한 경우예요.</td></tr>
+            <tr><td><a href="#s1-hardness">5. Fully Bayesian이 어려운 이유와 근사 기법</a></td><td>$P(X) = \int P(X \mid \theta)\, P(\theta)\, d\theta$</td><td>이 적분이 어려워 MCMC, Laplace approximation, variational inference, expectation propagation으로 근사해요.</td></tr>
+            <tr><td><a href="#s2-motivation">6. 왜 그래프인가: 독립과 조건부 독립</a></td><td>$P(A) = P(A \mid B)$</td><td>결합 PDF의 구조(독립·조건부 독립)를 그림으로 보이려고 graphical model을 써요.</td></tr>
+            <tr><td><a href="#s2-semantics">7. 그래프 시맨틱스와 인수분해 (가족 그래프)</a></td><td>$P(x_1, \dots, x_K) = \prod_{k=1}^{K} P(x_k \mid \mathrm{Pa}_k)$</td><td>각 노드는 parent만 조건으로 두고 곱해요(factorization).</td></tr>
+            <tr><td><a href="#s2-coin">8. N번 동전 던지기와 하이퍼프라이어</a></td><td>$P(x_1, \dots, x_N \mid \mu) = \prod_{n=1}^{N} P(x_n \mid \mu)$</td><td>$\mu$ 하나에서 $x_n$이 문어발처럼 뻗어요. $\mu$의 prior를 정하는 결정론적 파라미터 $\alpha$, $\beta$(그래프에서 원 생략)가 hyperprior예요.</td></tr>
+            <tr><td><a href="#s2-healthcare">9. 헬스케어 예제: LUCAS 인과 그래프</a></td><td>식 없음</td><td>흡연, 폐암, 기침, 알레르기 같은 원인과 결과를 방향 화살표로 그려요.</td></tr>
+            <tr><td><a href="#s2-birthday">10. 생일 예로 본 ML vs MAP, 그리고 방향 그래프</a></td><td>ML 0.8, MAP 0.55</td><td>데이터만 믿으면 0.8, 사전 믿음을 섞으면 0.55예요. 이 조정이 regularization이에요.</td></tr>
+            <tr><td><a href="#s3-validation">11. 모델 선택은 선택의 문제: 훈련·검증·테스트</a></td><td>training 60 : validation 20 : test 20</td><td>모델 선택은 model complexity와 data fit의 trade-off라서 validation이 늘 필요해요.</td></tr>
+            <tr><td><a href="#s3-cv">12. 교차 검증</a></td><td>식 없음</td><td>검증 조각을 돌려 가며 바꿔 데이터를 재사용해요(cross validation).</td></tr>
+            <tr><td><a href="#s3-bayes-ms">13. 베이지안 모델 선택</a></td><td>$P(M_k \mid D) \propto P(D \mid M_k)\, P(M_k)$<br>$P(D \mid M_k) = \int P(D \mid \theta_k)\, P(\theta_k \mid M_k)\, d\theta_k$</td><td>evidence(marginal likelihood)가 큰 모델을 골라요. 균등 prior이면 MAP과 ML이 같아요.</td></tr>
+            <tr><td><a href="#s3-bayes-factor">14. 베이즈 팩터로 두 모델 비교</a></td><td>$\frac{P(D \mid M_1)}{P(D \mid M_2)}$</td><td>posterior odds = prior odds × Bayes factor예요. 1보다 크면 $M_1$을 골라요.</td></tr>
+          </tbody>
+        </table></div>
+      </article>
+      <article class="topic" id="s4-next"><h3>다음 시간 예고 (아직 안 배움)</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s12–13 · L03</span></div>
+        <p>이번 수업에서 다루지 않은 내용이에요. 제목만 적어 둘게요.</p>
+        <ul>
+          <li>d-separation (L02 s12–13, 건너뜀. 그래피컬 모델을 더 설명할 때 다시 다뤄요)</li>
+          <li>Linear Regression (L03, 수요일부터)
+            <ul>
+              <li>Regression Problem · Formulation · Parameter Estimation</li>
+              <li>MLE · MLE with Features · Feature Matrix &amp; MLE</li>
+              <li>Polynomial Fit · Overfitting in Linear Regression</li>
+              <li>MAPE · MAPE for Gaussian Prior · Regularization: MAPE vs. Explicit Regularizer</li>
+            </ul>
+          </li>
+          <li>퀴즈: 10월 초, 이론과 실습 포함 (추석 뒤 linear regression 실습 먼저)</li>
+        </ul>
+      </article>
+      <article class="topic" id="s4-links"><h3>함께 보면 좋은 자료</h3>
+        <ul>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html">Lecture 10 · Statistical Inference Part 1 (쉬운 설명)</a></li>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html">Lecture 11 · Statistical Inference Part 2 (쉬운 설명)</a></li>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html">Lecture 12 · Statistical Inference Part 3 (쉬운 설명)</a></li>
+          <li><a href="복습문제_0921_Bayesian_Inference_Model_Selection.html">복습문제 6선 풀러 가기 (0921 수업 범위)</a></li>
+          <li><a href="../0916/정리노트_0916_MAP_and_Generative_Models.html">지난 정리노트: 0916 MAP and Generative Models</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture02) · 수업 녹음 전사(0921) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 8장.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-sub" id="sum-for">전체 흐름</p>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const sub = document.getElementById('aid-for');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
+          sub.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const sub = document.getElementById('sum-for');
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+</body>
+</html>

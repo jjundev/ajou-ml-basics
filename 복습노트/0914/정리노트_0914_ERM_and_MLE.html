@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 0914</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · 0914 수업 (Lecture01, MML 8장)">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="0914">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 모델=가정</a><a href="#s1">1 ERM</a><a href="#s2">2 손실·위험</a><a href="#s3">3 정규화</a><a href="#s4">4 MLE</a><a href="#s5">5 요약·예고</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>경험적 위험 최소화와 최대우도추정 — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 0914 수업 (Lecture01, MML 8장)</p>
+    </div>
+    <section id="s0"><h2>0. 모델은 가정이다</h2>
+<article class="topic" id="s0-suppose"><h3>모델은 suppose, 그리고 선호의 문제</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s7</span><span class="tag slide">L01 s5</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">데이터를 설명하는 틀은 정답이 아니라 "아마 이렇게 생겼을 거야" 하는 짐작이에요.</p>
+    <figure class="figure"><svg id="fig-suppose-choices" viewBox="0 0 360 170" role="img" aria-label="색칠된 점 일곱 개 위에 곧은 선, 완만한 곡선, 구불구불한 선 세 가지를 겹쳐 그린 그림. 셋 다 그려 볼 수 있고 무엇을 고를지는 선택이에요.">
+      <line x1="30" y1="150" x2="340" y2="150" class="fig-ink" stroke-width="1"/>
+      <line x1="30" y1="150" x2="30" y2="15" class="fig-ink" stroke-width="1"/>
+      <path d="M40 132 L330 38" class="fig-ink" stroke-width="2" fill="none"/>
+      <path d="M40 128 Q185 120 330 30" class="fig-accent" stroke-width="2" fill="none"/>
+      <path d="M40 135 C70 90 95 150 125 104 S175 70 205 98 S265 40 330 44" class="fig-danger" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+      <circle cx="55" cy="126" r="4" class="fig-dot"/>
+      <circle cx="95" cy="118" r="4" class="fig-dot"/>
+      <circle cx="135" cy="106" r="4" class="fig-dot"/>
+      <circle cx="175" cy="94" r="4" class="fig-dot"/>
+      <circle cx="215" cy="88" r="4" class="fig-dot"/>
+      <circle cx="260" cy="66" r="4" class="fig-dot"/>
+      <circle cx="305" cy="46" r="4" class="fig-dot"/>
+      <text x="250" y="112" class="fig-text" font-size="13">곧은 선</text>
+      <text x="120" y="140" class="fig-text" font-size="13">완만한 곡선</text>
+      <text x="215" y="30" class="fig-text" font-size="13">구불구불한 선</text>
+    </svg><figcaption>같은 점들에 곧은 선도, 곡선도 그려 볼 수 있고, 무엇을 고를지는 좋고 싫음의 문제예요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>머신러닝은 설명하기 어렵고 시간에 따라 바뀌기까지 하는(time-varying) 데이터를 최대한 설명해 보려는 일이에요. 이때 데이터를 만든 규칙을 우리는 몰라요.</p>
+    <p>그래서 모델은 1차식, 2차식, 비선형 함수, 뉴럴넷(neural network) 중 무엇으로든 <strong>가정해요(suppose)</strong>.</p>
+    <div class="table-wrap"><table>
+      <tr><th>단어</th><th>뉘앙스</th></tr>
+      <tr><td>assume</td><td>사실이 아닌 줄 알면서도 그렇다고 치는 가정</td></tr>
+      <tr><td>suppose</td><td>모르니까 "이렇지 않을까" 하고 세우는 추측</td></tr>
+    </table></div>
+    <p>예를 들어 입력 $x$와 출력 $y$ 사이를 $y = ax + b$ 로 가정할 수 있어요. 이것이 맞는 모델인지 증명할 방법은 없어요.</p>
+    <ol class="steps">
+      <li>모델 선택은 옳다/그르다(correct/incorrect)가 아니라 좋다/나쁘다(good/bad)의 문제예요.</li>
+      <li>그래서 모델은 <strong>취사선택</strong>의 문제이고, 결국 선호(preference)의 문제예요.</li>
+      <li>수학이 <strong>정의</strong>(definition)에서 출발하는 것과 같아요. 정의에는 참·거짓이 없고, 유용하니까 그렇게 정하기로 한 거예요.</li>
+      <li>무엇이 "좋은" 모델인지도 기준을 정해야 해요. 예를 들어 파라미터가 많은 큰 모델보다 <strong>작은 모델</strong>로 비슷한 성능을 내는 쪽이 더 좋은 엔진이에요.</li>
+    </ol>
+    <p>모델을 정한 다음에 할 일(파라미터 찾기)은 <a href="#s0-two-models">두 갈래 모델과 학습(트레이닝)의 뜻</a>에서 이어져요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>영화 취향 예측을 예로 들었어요. 사람 마음속 기작은 아무도 모르고, 1년 전 취향과 지금 취향이 다를 수도 있어요. 그래도 그 데이터를 설명해 보려는 것이 머신러닝이에요 (0914 00:36–01:10).</p>
+    <blockquote>"이 모델을 결정하는 문제는 매우 중요하다." (0914 01:24)</blockquote>
+    <blockquote>"모델은 옳고 그름의 문제가 아니라 취사선택의 문제고, 결국 프레퍼런스의 문제다." (0914 02:00)</blockquote>
+    <p>큰 GPU가 있는 연구실은 파라미터가 많은 모델을 돌릴 수 있어요. 하지만 작은 모델로 비슷한 성능을 내면 그쪽이 더 좋은 머신러닝 엔진이라고 했어요 (0914 02:08–02:46).</p>
+    <p>"수학은 무엇에서 시작하나?"라는 물음에 한 학생이 "정의"라고 답했어요. 지난 학기 확률 수업을 들은 학생이었어요 (0914 03:19–03:28).</p>
+    <blockquote>"옳은 모델이냐 그른 모델이냐, 이런 건 없다." (0914 03:54)</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">모델은 모르니까 세우는 가정(suppose)이고, 옳고 그름이 아니라 선호(preference)의 문제예요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">가정한 모델의 예</span>$y = ax + b$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>suppose</dt><dd>모르니까 이렇지 않을까 하고 세우는 추측</dd><dt>선호(preference)</dt><dd>모델 선택은 좋고 나쁨을 고르는 취사선택</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s0-two-models"><h3>두 갈래 모델과 학습(트레이닝)의 뜻</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s7</span><span class="tag slide">L01 s8</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">예측하는 틀은 두 가지예요: 답을 딱 하나 내놓거나, "이쯤일 가능성이 커요" 하고 퍼진 모양으로 내놓아요.</p>
+    <figure class="figure"><svg id="fig-two-models" viewBox="0 0 360 170" role="img" aria-label="왼쪽은 입력 상자에서 선을 따라 색칠된 점 하나로 가는 그림으로 답이 하나예요. 오른쪽은 입력 상자에서 종 모양 곡선 테두리로 가는 그림으로 답이 퍼져 있어요.">
+      <rect x="20" y="30" width="60" height="36" class="fig-ink" stroke-width="2" fill="none" rx="6"/>
+      <text x="36" y="53" class="fig-text" font-size="13">입력</text>
+      <line x1="80" y1="48" x2="130" y2="48" class="fig-ink" stroke-width="2"/>
+      <circle cx="140" cy="48" r="6" class="fig-dot"/>
+      <text x="115" y="85" class="fig-text" font-size="13">답 하나</text>
+      <rect x="20" y="110" width="60" height="36" class="fig-ink" stroke-width="2" fill="none" rx="6"/>
+      <text x="36" y="133" class="fig-text" font-size="13">입력</text>
+      <line x1="80" y1="128" x2="190" y2="128" class="fig-ink" stroke-width="2"/>
+      <line x1="200" y1="150" x2="340" y2="150" class="fig-ink" stroke-width="1"/>
+      <path d="M200 148 C240 146 250 60 270 60 S300 146 340 148" class="fig-accent" stroke-width="2" fill="none"/>
+      <text x="238" y="45" class="fig-text" font-size="13">퍼진 답</text>
+    </svg><figcaption>어느 쪽이든 틀 속 숫자를 데이터에 맞게 고르는 일을 배운다고 불러요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>모델을 정하는 방법은 크게 두 갈래예요 (L01 s7).</p>
+    <div class="table-wrap"><table>
+      <tr><th>구분</th><th>① 결정론적 함수(deterministic function)</th><th>② 확률 모델(probabilistic model)</th></tr>
+      <tr><td>모양</td><td>$f : \mathbb{R}^D \to \mathbb{R}$, 입력 하나에 답 하나</td><td>확률밀도함수(PDF) $p(y \mid \mathbf{x}, \boldsymbol{\theta})$ 자체가 모델</td></tr>
+      <tr><td>예</td><td>$f(\mathbf{x}, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x} + \theta_0$<br>여기서 $\boldsymbol{\theta}$에는 $\theta_0$이 들어 있지 않아요(바이어스를 흡수하는 표기는 <a href="#s1-affine">가장 중요한 수식: 어파인 모델과 바이어스 흡수</a>).</td><td>가우시안: 평균 $\mu$, 분산 $\sigma^2$</td></tr>
+      <tr><td>파라미터</td><td>함수를 이루는 상수</td><td>고른 분포의 파라미터</td></tr>
+      <tr><td>특징</td><td>불확실성을 표현하지 않아요(non-probabilistic)</td><td>데이터를 참값에 잡음이 섞인 관측으로 보고, 예측의 불확실성을 표현해요</td></tr>
+    </table></div>
+    <p>이날은 ①부터 다뤘어요(<a href="#s1-erm-name">Empirical · Risk · Minimization이라는 이름</a>). ②는 <a href="#s4-likelihood">Likelihood = 그럴듯함, 그리고 −log</a>에서 이어져요.</p>
+    <p><strong>학습 = 트레이닝 = 러닝</strong>은 모델을 정한 뒤 <strong>파라미터</strong>를 최적화하는 일이에요.</p>
+    <ol class="steps">
+      <li>모델을 가정: $y = ax + b$</li>
+      <li>데이터로 파라미터를 정함: $a = 0.3$, $b = 1.8$</li>
+      <li>처음 보는(unseen) $x$를 넣어 $y$를 예측</li>
+    </ol>
+    <p>모델 자체가 잘못됐다면 트레이닝을 아무리 잘해도 한계가 있어요. 그래서 요즘 "학습"은 <strong>하이퍼파라미터</strong>(hyperparameter)를 바꿔 모델 자체를 바꿔 보는 일까지 포함해요.</p>
+    <div class="table-wrap"><table>
+      <tr><th>구분</th><th>언제 정하나</th><th>예</th></tr>
+      <tr><td>파라미터(parameter)</td><td>학습 데이터로 배움</td><td>가중치(weight), 바이어스(bias), $a$, $b$</td></tr>
+      <tr><td>하이퍼파라미터(hyperparameter)</td><td>트레이닝 전에 정해 학습 과정을 조절</td><td>학습률(learning rate), 정규화 세기(regularization strength)</td></tr>
+    </table></div>
+    <p>슬라이드(L01 s8)는 학습을 세 단계로 나눠요.</p>
+    <ol class="steps">
+      <li>예측(prediction, inference): 함수 모델이나 확률 모델로 답을 냄</li>
+      <li>트레이닝(training, parameter estimation): 결정론적이면 경험적 위험 최소화, 확률적이면 최대우도(ML)나 MAP</li>
+      <li>모델 선택(model selection): 하이퍼파라미터를 고름</li>
+    </ol>
+    <p>하이퍼파라미터를 실제로 고르는 이야기는 <a href="#s3-norms">여러 가지 노름과 하이퍼파라미터 튜닝</a>에서 이어져요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>모델을 정하면 파라미터를 최적화해요. $y = ax + b$ 로 가정하고 $a = 0.3$, $b = 1.8$ 처럼 정해 unseen 데이터를 예측하는 과정이 트레이닝이라고 했어요 (0914 04:04–04:39).</p>
+    <p>모델이 틀렸으면 학습을 잘해도 한계가 있으니, 요즘은 모델의 하이퍼파라미터를 건드려 모델 자체를 바꿔 보는 것까지 학습이라고 부른다고 했어요 (0914 04:43–05:38).</p>
+    <blockquote>"그 이그잼플 좀 이따 이제 설명할게요. 크로스 밸리데이션이라고 하는데" (0914 05:47)</blockquote>
+    <p>교차검증(cross-validation) 예시는 이날 끝까지 설명하지 않았어요.</p>
+    <p>이어서 모델을 정하는 방법은 결정론적 함수와 확률 모델 두 가지이고, 오늘은 결정론적 함수부터 한다고 했어요 (0914 05:52–06:13). 확률 모델에서는 PDF 자체가 모델이고, PDF의 파라미터가 학습 파라미터라고 다시 짚었어요 (0914 58:10–59:22).</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">모델은 결정론적 함수나 확률밀도함수(PDF)로 정하고, 트레이닝은 그 파라미터를 데이터로 고르는 일이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">결정론적 함수</span>$f(\mathbf{x}, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x} + \theta_0$</li><li><span class="eq-name">확률 모델</span>$p(y \mid \mathbf{x}, \boldsymbol{\theta})$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>파라미터(parameter)</dt><dd>학습 데이터로 배우는 모델 속 상수</dd><dt>하이퍼파라미터(hyperparameter)</dt><dd>트레이닝 전에 정해 학습 과정을 조절하는 값</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s1"><h2>1. Empirical Risk Minimization: 좋은 θ* 찾기</h2>
+<article class="topic" id="s1-erm-name"><h3>Empirical · Risk · Minimization이라는 이름</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s9–s10</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">상상 대신 진짜 자료를 넣어 보고, 틀리는 정도가 가장 작아지게 맞추는 일이에요.</p>
+          <figure class="figure"><svg id="fig-erm-flow" viewBox="0 0 480 120" role="img" aria-label="테두리 상자 세 개가 선으로 이어진 흐름: 진짜 자료 넣기, 틀린 정도 재기, 가장 작게 줄이기">
+            <rect x="10" y="35" width="130" height="50" rx="8" class="fig-ink"/>
+            <text x="75" y="65" text-anchor="middle" class="fig-text">진짜 자료 넣기</text>
+            <line x1="140" y1="60" x2="172" y2="60" class="fig-ink"/>
+            <path d="M164 54 L172 60 L164 66" class="fig-ink"/>
+            <rect x="175" y="35" width="130" height="50" rx="8" class="fig-ink"/>
+            <text x="240" y="65" text-anchor="middle" class="fig-text">틀린 정도 재기</text>
+            <line x1="305" y1="60" x2="337" y2="60" class="fig-ink"/>
+            <path d="M329 54 L337 60 L329 66" class="fig-ink"/>
+            <rect x="340" y="35" width="130" height="50" rx="8" class="fig-accent"/>
+            <text x="405" y="65" text-anchor="middle" class="fig-text">가장 작게 줄이기</text>
+          </svg><figcaption>자료를 넣고, 틀린 정도를 재고, 그 값을 줄여요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>모델을 결정론적 함수로 정했을 때 파라미터를 고르는 방법이 경험적 위험 최소화(Empirical Risk Minimization, ERM)예요. 로드맵(L01 s9)의 두 번째 항목 "Models as Functions"에 해당해요. 확률 모델 쪽은 <a href="#s4-likelihood">Likelihood = 그럴듯함, 그리고 −log</a>에서 이어져요.</p>
+          <p>세 단어를 하나씩 풀면 이래요.</p>
+          <ul>
+            <li><b>Empirical</b>(경험적, 실험적): 머릿속 상상이 아니라 실제 데이터를 받아 넣어 본다는 뜻이에요.</li>
+            <li><b>Risk</b>(위험): 작을수록 좋은 부정적인 지표(metric)예요.</li>
+            <li><b>Minimization</b>(최소화): 그 위험을 가장 작게 만든다는 뜻이에요.</li>
+          </ul>
+          <p>합치면 "가정한 함수의 파라미터를 위험을 최소화하는 관점에서 최적화한다"는 말이에요.</p>
+          <ul>
+            <li>모델을 이루는 상수들이 파라미터예요. 머신러닝 엔진을 만든다는 것은 이 파라미터를 위험 최소화 관점에서 튜닝하는 일이에요.</li>
+            <li>"최적"이라는 말 뒤에는 늘 <b>in terms of</b>(어떤 관점에서)가 붙어야 해요. 모든 면에서 최고인 기법은 없어요.</li>
+            <li>그 관점을 식으로 적은 것이 목적함수(objective function)예요. ERM에서는 위험이 목적함수이고, 이를 줄이는 방향으로 최적화(optimization)해요.</li>
+            <li>인공지능수학에서 볼록 최적화(convex optimization), 최소제곱(least squares), 선형대수, PCA를 배운 이유도 제약 아래에서 최적화하는 이론이 필요하기 때문이에요.</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>Empirical은 플라톤 철학자처럼 "모름지기 데이터는 이래야 해"라고 상상하는 게 아니에요. 실제 데이터를 넣어 보는 거예요 (0914 06:37).</p>
+          <p>시간표를 짜며 "학교에 머무는 시간을 최소화"하려던 학생처럼, 누구나 자기 목적함수를 두고 최적화를 해요 (0914 08:06). "인생에서 무엇이 최적인가"는 허황된 질문이에요. 지금 좋아 보이는 선택도 6개월 뒤 후회할 수 있어요.</p>
+          <blockquote>"그 뒤에 뭐가 붙어야 되냐면 in terms of가 붙어야 돼." (0914 09:16)</blockquote>
+          <blockquote>"강의 노트를 이렇게 볼 때도 그냥 허투루 보지 말라는 거예요." (0914 10:32)</blockquote>
+          <p>신호처리 연구자들이 머신러닝으로 빨리 넘어간 것도 원래 "최적화의 달인"이었기 때문이라고 하셨어요 (0914 11:46).</p>
+          <blockquote>"머신러닝을 잘한다는 건 사실 최적화를 잘한다는 거예요." (0914 11:16)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">실제 데이터로 잰 위험을 최소화하는 관점에서 파라미터를 최적화하는 게 ERM이에요.</p>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>경험적 위험 최소화(Empirical Risk Minimization)</dt><dd>실제 데이터에서 잰 위험을 가장 작게 하도록 파라미터를 고르는 방법</dd>
+            <dt>in terms of</dt><dd>"최적"에 늘 붙어야 하는 "어떤 관점에서"</dd>
+            <dt>목적함수(objective function)</dt><dd>최적화할 관점을 식으로 적은 것</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s1-data"><h3>데이터 표기: 볼드 소문자는 벡터</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s6, s10</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">자료 하나는 숫자 여러 개를 한 줄로 묶은 꾸러미이고, 꾸러미마다 정답 쪽지가 붙어 있어요.</p>
+          <figure class="figure"><svg id="fig-data-columns" viewBox="0 0 420 190" role="img" aria-label="세로로 선 테두리 칸 세 줄이 나란히 붙어 큰 점선 표를 이루고, 줄마다 아래에 강조색 테두리의 정답 칸이 붙어 있는 그림">
+            <rect x="40" y="15" width="300" height="110" rx="6" class="fig-ink" stroke-dasharray="5 4"/>
+            <rect x="70" y="25" width="50" height="28" class="fig-ink"/><rect x="70" y="56" width="50" height="28" class="fig-ink"/><rect x="70" y="87" width="50" height="28" class="fig-ink"/>
+            <rect x="165" y="25" width="50" height="28" class="fig-ink"/><rect x="165" y="56" width="50" height="28" class="fig-ink"/><rect x="165" y="87" width="50" height="28" class="fig-ink"/>
+            <rect x="260" y="25" width="50" height="28" class="fig-ink"/><rect x="260" y="56" width="50" height="28" class="fig-ink"/><rect x="260" y="87" width="50" height="28" class="fig-ink"/>
+            <rect x="70" y="135" width="50" height="26" rx="4" class="fig-accent"/><text x="95" y="153" text-anchor="middle" class="fig-text">정답</text>
+            <rect x="165" y="135" width="50" height="26" rx="4" class="fig-accent"/><text x="190" y="153" text-anchor="middle" class="fig-text">정답</text>
+            <rect x="260" y="135" width="50" height="26" rx="4" class="fig-accent"/><text x="285" y="153" text-anchor="middle" class="fig-text">정답</text>
+            <text x="95" y="180" text-anchor="middle" class="fig-muted">첫 자료</text>
+            <text x="190" y="180" text-anchor="middle" class="fig-muted">둘째 자료</text>
+            <text x="285" y="180" text-anchor="middle" class="fig-muted">마지막 자료</text>
+            <text x="350" y="75" class="fig-muted">큰 표</text>
+          </svg><figcaption>꾸러미를 세워서 옆으로 붙이면 큰 표 하나가 돼요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>머신러닝 엔진이 주로 하는 일은 새 데이터의 정답을 내놓는 predictor(inference)예요. 이를 위해 이런 학습 데이터를 받아요.</p>
+          <p>$$\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}, \qquad \mathbf{x}_n \in \mathbb{R}^D$$</p>
+          <ul>
+            <li>소문자 볼드체 $\mathbf{x}_n$은 관례상 벡터예요. 각 원소를 feature(attribute, covariate)라고 불러요.</li>
+            <li>$y_n$은 볼드가 아닌 스칼라 라벨(label, target, response variable, annotation)이에요.</li>
+            <li>입력 $\mathbf{x}_n$마다 라벨 $y_n$이 붙어 있으니 지도학습(supervised learning)을 가정한 거예요.</li>
+          </ul>
+          <p>칠판 예시로 $D = 3$이면 벡터 하나는 이렇게 생겼어요.</p>
+          <p>$$\mathbf{x}_1 = \begin{bmatrix} x_{11} \\ x_{12} \\ x_{13} \end{bmatrix} = [x_{11}, x_{12}, x_{13}]^\top \in \mathbb{R}^3$$</p>
+          <p>$\mathbf{x}_1, \dots, \mathbf{x}_N$을 세로로 세워 옆으로 이어 붙이면 행렬 하나가 돼요.</p>
+          <p>$$\big[\,\mathbf{x}_1 \;\; \mathbf{x}_2 \;\; \cdots \;\; \mathbf{x}_N\,\big] \in \mathbb{R}^{D \times N}$$</p>
+          <p>행의 수는 벡터 하나의 길이 $D$, 열의 수는 데이터 개수 $N$이에요. 슬라이드의 데이터 행렬 $\mathbf{X}$는 이것을 전치해 $N \times D$로 둔 것이고, <a href="#s2-remp">데이터 행렬 X와 평균 손실 R_emp</a>에서 다시 정리해요.</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">볼드 소문자는 벡터, 라벨은 스칼라이고, 벡터를 세로로 이어 붙이면 D×N 행렬이 돼요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">학습 데이터</span>$$\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}, \qquad \mathbf{x}_n \in \mathbb{R}^D$$</li>
+            <li><span class="eq-name">세로로 이어 붙인 행렬</span>$$\big[\,\mathbf{x}_1 \;\; \mathbf{x}_2 \;\; \cdots \;\; \mathbf{x}_N\,\big] \in \mathbb{R}^{D \times N}$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>볼드 소문자</dt><dd>관례상 벡터를 뜻하는 표기</dd>
+            <dt>지도학습(supervised learning)</dt><dd>입력마다 라벨이 붙은 데이터로 배우는 것</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s1-goal"><h3>좋은 파라미터 θ*와 for all의 뜻</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s10</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">좋은 설정값은 자료 하나만이 아니라 모든 자료에서 정답에 가깝게 맞히는 값이에요.</p>
+          <figure class="figure"><svg id="fig-forall" viewBox="0 0 420 200" role="img" aria-label="색칠된 점 다섯 개 근처를 고르게 지나는 강조색 직선과, 점 하나만 정확히 지나고 나머지 점에서 크게 벗어나는 빨간 곡선">
+            <line x1="30" y1="175" x2="400" y2="175" class="fig-ink"/>
+            <line x1="30" y1="175" x2="30" y2="15" class="fig-ink"/>
+            <circle cx="80" cy="140" r="6" class="fig-dot"/>
+            <circle cx="145" cy="118" r="6" class="fig-dot"/>
+            <circle cx="210" cy="112" r="6" class="fig-dot"/>
+            <circle cx="275" cy="80" r="6" class="fig-dot"/>
+            <circle cx="340" cy="66" r="6" class="fig-dot"/>
+            <line x1="50" y1="150" x2="380" y2="55" class="fig-accent"/>
+            <path d="M50 60 C 70 175, 95 150, 145 118 S 250 190, 380 170" class="fig-danger" stroke-dasharray="6 4"/>
+            <text x="300" y="40" class="fig-text">모두에 가까움</text>
+            <text x="300" y="195" class="fig-text">하나만 딱 맞음</text>
+          </svg><figcaption>한 점만 딱 맞히는 선보다, 모든 점 근처를 지나는 선이 좋아요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>결정론적 함수 모델의 역할은 과거 데이터로 학습해 unseen 데이터를 예측하는 거예요. 함수의 파라미터(예: $y = ax + b$의 $a, b$)를 모은 벡터를 $\boldsymbol{\theta}$라고 불러요. 예측기(predictor)는 $f(\cdot, \boldsymbol{\theta}) : \mathbb{R}^D \to \mathbb{R}$예요.</p>
+          <p>ERM의 목표(L01 s10)는 다음을 만족하는 좋은 파라미터 $\boldsymbol{\theta}^*$를 찾는 거예요.</p>
+          <p>$$f(\mathbf{x}_n, \boldsymbol{\theta}^*) = \hat{y}_n \approx y_n, \quad \text{for all } n = 1, \dots, N$$</p>
+          <ul>
+            <li>$y_n$: 데이터로 주어진 정답(라벨)이에요.</li>
+            <li>$\hat{y}_n$: 튜닝한 모델에 $\mathbf{x}_n$을 넣어 나온 추정치예요. 햇(^)은 관례상 추정치를 뜻해요.</li>
+            <li>모델 출력 $\hat{y}_n$이 라벨 $y_n$과 가장 비슷해지도록 $\boldsymbol{\theta}$를 고르는 것이 파라미터 튜닝이에요.</li>
+          </ul>
+          <p>regression, classification, PCA, 뉴럴넷, 딥러닝이 수학적으로는 모두 이 일을 해요.</p>
+          <p><b>for all</b>의 뜻은 이래요.</p>
+          <ol class="steps">
+            <li>$\boldsymbol{\theta}$를 $\mathbf{x}_1$ 하나에만 맞추면 $f(\mathbf{x}_1, \boldsymbol{\theta}) = y_1$이 정확히 나올 수 있어요.</li>
+            <li>그 $\boldsymbol{\theta}$로 $\mathbf{x}_2$를 넣으면 $f(\mathbf{x}_2, \boldsymbol{\theta})$가 $y_2$와 크게 어긋날 수 있어요.</li>
+            <li>특정 데이터에 과적합(overfitting)하지 말고, $n = 1, \dots, N$ 모두에서 두루 그럴듯한 $\boldsymbol{\theta}^*$를 찾으라는 조건이에요.</li>
+          </ol>
+          <p>슬라이드에는 조건으로만 적혀 있고, 과적합 방지라는 풀이는 교수님이 덧붙인 거예요. 과적합을 막는 방법은 <a href="#s3-reg">Overfitting과 정규화 최소제곱</a>으로 이어져요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>LLM처럼 파라미터가 수십억 개가 넘는 모델도 결국 이 $\boldsymbol{\theta}$를 학습하는 것이고, 그 계산을 GPU가 맡아요 (0914 15:58).</p>
+          <p>"such that 뒤에 문장이 나올 줄 알았더니 수식이 나왔네? 수학은 언어니까"라며 식을 문장처럼 읽어 주셨어요 (0914 16:19).</p>
+          <blockquote>"이 모든 일들이 다 저거 하는 거예요, 사실은." (0914 18:26)</blockquote>
+          <blockquote>"하나도 버릴 단어가 없어." (0914 18:40)</blockquote>
+          <blockquote>"특정 데이터에만 과적합시키면 안 된다는 거." (0914 20:29)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">모든 학습 데이터에서 추정치가 라벨에 가까워지는 파라미터 θ*를 찾는 게 목표예요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">ERM의 목표</span>$$f(\mathbf{x}_n, \boldsymbol{\theta}^*) = \hat{y}_n \approx y_n, \quad \text{for all } n = 1, \dots, N$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>for all</dt><dd>한 데이터가 아니라 모든 학습 데이터에서 맞아야 한다는 조건</dd>
+            <dt>과적합(overfitting)</dt><dd>특정 데이터에만 너무 맞춰 다른 데이터에서 어긋나는 것</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s1-affine"><h3>가장 중요한 수식: 어파인 모델과 바이어스 흡수</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s10</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">자료 맨 앞에 숫자 1을 하나 붙이면, 따로 더하던 덤까지 곱해서 더하기 한 번으로 끝나요.</p>
+          <figure class="figure"><svg id="fig-bias-one" viewBox="0 0 440 200" role="img" aria-label="왼쪽 자료 줄 맨 위에 1이 적힌 강조색 테두리 칸이 붙고, 오른쪽 설정값 줄과 칸마다 짝지어 곱한 뒤 테두리 원 하나에서 모두 더하는 그림">
+            <text x="60" y="18" text-anchor="middle" class="fig-muted">자료</text>
+            <rect x="35" y="25" width="50" height="32" class="fig-accent"/><text x="60" y="46" text-anchor="middle" class="fig-text">1</text>
+            <rect x="35" y="60" width="50" height="32" class="fig-ink"/><rect x="35" y="95" width="50" height="32" class="fig-ink"/><rect x="35" y="130" width="50" height="32" class="fig-ink"/>
+            <text x="160" y="18" text-anchor="middle" class="fig-muted">설정값</text>
+            <rect x="135" y="25" width="50" height="32" class="fig-accent"/><text x="160" y="46" text-anchor="middle" class="fig-text">덤</text>
+            <rect x="135" y="60" width="50" height="32" class="fig-ink"/><rect x="135" y="95" width="50" height="32" class="fig-ink"/><rect x="135" y="130" width="50" height="32" class="fig-ink"/>
+            <text x="110" y="46" text-anchor="middle" class="fig-text">곱</text><text x="110" y="81" text-anchor="middle" class="fig-text">곱</text><text x="110" y="116" text-anchor="middle" class="fig-text">곱</text><text x="110" y="151" text-anchor="middle" class="fig-text">곱</text>
+            <line x1="185" y1="41" x2="290" y2="95" class="fig-ink"/><line x1="185" y1="76" x2="290" y2="95" class="fig-ink"/><line x1="185" y1="111" x2="290" y2="95" class="fig-ink"/><line x1="185" y1="146" x2="290" y2="95" class="fig-ink"/>
+            <circle cx="315" cy="95" r="26" class="fig-ink"/><text x="315" y="100" text-anchor="middle" class="fig-text">더하기</text>
+            <line x1="341" y1="95" x2="395" y2="95" class="fig-ink"/><path d="M387 89 L395 95 L387 101" class="fig-ink"/>
+            <text x="400" y="100" class="fig-text">답</text>
+          </svg><figcaption>맨 위 칸의 1이 따로 떨어져 있던 덤을 대신 맡아 줘요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>예시 모델로 선형(어파인) 함수를 가정해요. 칠판 유도는 이래요.</p>
+          <ol class="steps">
+            <li>원래 식은 입력의 가중합에 바이어스를 더한 거예요. $$f(\mathbf{x}_n, \boldsymbol{\theta}) = \theta_1 x_n^{(1)} + \theta_2 x_n^{(2)} + \cdots + \theta_D x_n^{(D)} + b$$</li>
+            <li>바이어스 $b$만 식 밖에 따로 떨어져 있어 다루기 번거로워요. 그런데 $b = \theta_0 \cdot 1$로 쓸 수 있어요.</li>
+            <li>데이터 벡터 맨 앞에 상수 1을 붙여요(augmentation). 길이가 $D$에서 $D+1$로 늘어나요. $$\mathbf{x}_n = [1, x_n^{(1)}, \dots, x_n^{(D)}]^\top \in \mathbb{R}^{D+1}$$</li>
+            <li>파라미터도 $\theta_0$을 맨 앞에 넣어 같은 길이로 맞춰요. $$\boldsymbol{\theta} = [\theta_0, \theta_1, \dots, \theta_D]^\top$$</li>
+            <li>그러면 식 전체가 내적 하나가 돼요. $$f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n = \theta_0 + \sum_{d=1}^{D} \theta_d x_n^{(d)}$$</li>
+          </ol>
+          <ul>
+            <li>여기서 augmentation은 흔히 말하는 "데이터 증강"이 아니라, 1을 붙여 벡터를 늘리는 바이어스 흡수를 뜻해요.</li>
+            <li>선형 모델은 늘 "데이터와 파라미터 벡터의 내적"이에요. 다만 데이터와 무관한 상수 $\theta_0$이 더해져 원점을 지나지 않을 수 있으므로 linear가 아니라 affine function이라고 불러요.</li>
+          </ul>
+          <p>뉴런과의 연결(L01 s10, "Example. Neural network")도 같은 식이에요.</p>
+          <p>$$\text{output} = \sigma\left(\sum_i w_i x_i + b\right)$$</p>
+          <ul>
+            <li>노드 하나는 어파인 함수 $\sum_i w_i x_i + b$에 활성화 함수(activation function) $\sigma$를 씌워 내보내요. 활성화 함수로는 sigmoid, ReLU 등을 써요.</li>
+            <li>딥러닝은 이런 레이어를 여러 층 쌓은 것이에요. 가장 복잡하다는 딥 뉴럴넷도 어파인 함수를 층층이 쌓은 합성 함수(composite function)예요.</li>
+          </ul>
+          <p>(수업 중 $b$를 "곱한다"고 말했지만, 바이어스는 더하는 것이 맞아요.)</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <blockquote>"가장 중요한 컨셉이 뭐냐라고 묻는다면 저는 이 수식을 만드는 거라고 생각해요." (0914 26:00)</blockquote>
+          <p>왜 선형으로 했냐고 물으면 "그냥 해본 거야"라고 하셨어요. 선형으로 되면 끝내고, 안 되면 뉴럴넷을 써요 (0914 26:32).</p>
+          <blockquote>"아니야, 그냥 내가 선택한 거야." (0914 26:32)</blockquote>
+          <blockquote>"딥 뉴럴넷도 사실은 어파인 펑션의 웨이티드 썸이야, 그냥 다." (0914 28:33)</blockquote>
+          <p>GPU가 딥러닝을 잘하는 이유도 여기 있어요. 원래 그래픽용으로 곱셈과 덧셈을 하던 장치이고, 곱셈과 덧셈은 여러 코어로 나눠 병렬 처리할 수 있어요 (0914 28:41).</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">데이터 앞에 1을 붙이면 바이어스가 θ₀으로 흡수되어 어파인 모델이 내적 하나가 돼요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">1을 붙인 데이터</span>$$\mathbf{x}_n = [1, x_n^{(1)}, \dots, x_n^{(D)}]^\top \in \mathbb{R}^{D+1}$$</li>
+            <li><span class="eq-name">어파인 모델</span>$$f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n = \theta_0 + \sum_{d=1}^{D} \theta_d x_n^{(d)}$$</li>
+            <li><span class="eq-name">뉴런 하나</span>$$\text{output} = \sigma\left(\sum_i w_i x_i + b\right)$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>affine function</dt><dd>내적에 상수가 더해져 원점을 지나지 않을 수 있는 함수</dd>
+            <dt>augmentation</dt><dd>데이터 벡터 앞에 1을 붙여 길이를 D+1로 늘리는 것</dd>
+            <dt>활성화 함수(activation function)</dt><dd>어파인 함수 출력에 씌우는 sigmoid, ReLU 같은 함수</dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section id="s2"><h2>2. 손실 함수와 경험적 위험</h2>
+<article class="topic" id="s2-remp"><h3>데이터 행렬 X와 평균 손실 R_emp</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s11</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">과목 점수를 모아 평점을 내듯, 문제마다 틀린 만큼을 모아 평균을 내요.</p>
+          <figure class="figure">
+            <svg id="fig-remp-average" viewBox="0 0 360 200" role="img" aria-label="테두리만 있는 막대 네 개의 높이가 서로 다르고, 그 높이들의 평균 높이에 점선 하나가 그어져 있어요.">
+              <line x1="30" y1="160" x2="340" y2="160" class="fig-ink"/>
+              <rect x="50" y="100" width="44" height="60" class="fig-accent"/>
+              <rect x="120" y="60" width="44" height="100" class="fig-accent"/>
+              <rect x="190" y="130" width="44" height="30" class="fig-accent"/>
+              <rect x="260" y="90" width="44" height="70" class="fig-accent"/>
+              <line x1="36" y1="95" x2="330" y2="95" class="fig-danger" stroke-dasharray="6 5"/>
+              <text x="72" y="180" text-anchor="middle" class="fig-text">첫째</text>
+              <text x="142" y="180" text-anchor="middle" class="fig-text">둘째</text>
+              <text x="212" y="180" text-anchor="middle" class="fig-text">셋째</text>
+              <text x="282" y="180" text-anchor="middle" class="fig-text">넷째</text>
+              <text x="330" y="86" text-anchor="end" class="fig-muted">평균</text>
+              <text x="36" y="30" class="fig-muted">틀린 정도</text>
+            </svg>
+            <figcaption>막대 하나가 한 문제에서 틀린 정도이고, 점선이 그 평균이에요.</figcaption>
+          </figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>학습 데이터는 $\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}$이고, 각 입력 $\mathbf{x}_n$에 라벨 $y_n$이 붙은 지도학습(supervised learning)을 가정해요. 입력들을 행렬 하나로 묶어요(L01 s11, MML 8.2.2).</p>
+          <p>$$\mathbf{X} := [\mathbf{x}_1, \dots, \mathbf{x}_N]^\top \in \mathbb{R}^{N \times D}$$</p>
+          <ul>
+            <li>대문자 볼드체는 관례상 행렬이에요. 소문자 볼드체는 벡터예요.</li>
+            <li>전치($\top$)가 붙어 있어서, 세로 벡터 $\mathbf{x}_n$을 가로로 눕혀 아래로 $N$개 쌓은 모양이에요. 첫 번째 행이 $\mathbf{x}_1^\top$이에요.</li>
+            <li>칠판에서 처음에 $\mathbf{x}_n$을 세로로 세워 옆으로 이어 붙인 $D \times N$ 행렬을 그렸어요. 슬라이드의 $\mathbf{X}$는 그것의 전치예요.</li>
+            <li>$\mathbf{X}$에는 입력만 있고 라벨은 없어요. 라벨은 세로 벡터 $\mathbf{y} := [y_1, \dots, y_N]^\top \in \mathbb{R}^N$로 따로 모아요.</li>
+            <li>맨 앞에 상수 1을 붙인 벡터(<a href="#s1-affine">가장 중요한 수식: 어파인 모델과 바이어스 흡수</a>)를 쓰면 한 행의 길이가 $D+1$이 돼요.</li>
+          </ul>
+          <p>평균 손실(average loss)을 경험적 위험(empirical risk)이라고 불러요.</p>
+          <p>$$R_{\text{emp}}(f, \mathbf{X}, \mathbf{y}) = \frac{1}{N}\sum_{n=1}^{N} \ell(y_n, \hat{y}_n), \quad \hat{y}_n = f(\mathbf{x}_n, \boldsymbol{\theta})$$</p>
+          <ol class="steps">
+            <li>손실 함수(loss function) $\ell(y_n, \hat{y}_n)$은 한 데이터에서 얼마나 틀렸는지를 음이 아닌 수 하나로 돌려줘요. $\ell$은 loss의 L이에요.</li>
+            <li>첫 번째 인자 $y_n$은 데이터로 주어진 정답(라벨)이에요.</li>
+            <li>두 번째 인자 $\hat{y}_n$은 모델이 낸 추정치(estimate)예요. 햇(^)은 관례상 추정치를 뜻해요.</li>
+            <li>학습 중에 나온 값은 아직 unseen 데이터에 대한 예측이 아니에요. 그래서 예측보다 추정이라고 불러요.</li>
+            <li>$N$개 손실을 더해 $N$으로 나눠요. 특정 데이터 하나가 아니라 모든 데이터에서 두루 잘 맞게 하려는 거예요.</li>
+            <li>$R_{\text{emp}}$는 예측기 $f$와 데이터 $\mathbf{X}$, $\mathbf{y}$ 세 가지에 달려 있어요. 이것을 최소화하는 전략이 경험적 위험 최소화(ERM)예요.</li>
+          </ol>
+          <p>이 식도 정의(definition)예요. 꼭 평균으로 해야 하는 법은 없고, 쓸모가 있어서 이렇게 정한 거예요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>평균 손실은 학점 평점과 같아요. 과목별 학점을 평균 내듯 데이터별 손실을 평균 내요 (0914 32:45).</p>
+          <blockquote>"이것도 데피니션이에요 정의해야 돼." (0914 31:50)</blockquote>
+          <blockquote>"교수님 꼭 저렇게 해야 되나요? 꼭 저렇게 할 필요 없어요." (0914 31:54)</blockquote>
+          <p>수식이 낯설어도 팔짱 끼고 기호를 하나씩 읽어 보라고 하셨어요 (0914 33:06).</p>
+          <blockquote>"그래서 예측이라고 보통 안 하고 추정이라고 불러 추정." (0914 34:06)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">입력을 가로로 눕혀 쌓은 행렬 X를 만들고, 데이터별 손실의 평균을 경험적 위험이라고 불러요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">데이터 행렬</span>$$\mathbf{X} := [\mathbf{x}_1, \dots, \mathbf{x}_N]^\top \in \mathbb{R}^{N \times D}$$</li>
+            <li><span class="eq-name">경험적 위험</span>$$R_{\text{emp}}(f, \mathbf{X}, \mathbf{y}) = \frac{1}{N}\sum_{n=1}^{N} \ell(y_n, \hat{y}_n)$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>경험적 위험(empirical risk)</dt><dd>학습 데이터에서 낸 손실의 평균</dd>
+            <dt>추정치(estimate)</dt><dd>학습 중 모델이 낸 값 $\hat{y}_n$, 햇은 추정을 뜻함</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s2-squared"><h3>제곱 손실을 행렬 한 줄로 (김밥 재료 손질)</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s11</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">김밥 재료를 미리 손질해 두면 한 번에 돌돌 말 수 있어요.</p>
+          <figure class="figure">
+            <svg id="fig-squared-kimbap" viewBox="0 0 380 190" role="img" aria-label="왼쪽에 테두리만 있는 가로 막대 네 줄이 쌓여 있고, 선을 따라 오른쪽으로 가면 테두리만 있는 큰 원 하나로 말려 있어요.">
+              <rect x="30" y="40" width="120" height="20" class="fig-accent"/>
+              <rect x="30" y="68" width="120" height="20" class="fig-accent"/>
+              <rect x="30" y="96" width="120" height="20" class="fig-accent"/>
+              <rect x="30" y="124" width="120" height="20" class="fig-accent"/>
+              <text x="90" y="170" text-anchor="middle" class="fig-text">손질한 재료</text>
+              <line x1="170" y1="92" x2="230" y2="92" class="fig-ink"/>
+              <polyline points="220,84 230,92 220,100" class="fig-ink"/>
+              <circle cx="300" cy="92" r="48" class="fig-accent"/>
+              <circle cx="300" cy="92" r="30" class="fig-ink"/>
+              <circle cx="300" cy="92" r="12" class="fig-danger"/>
+              <text x="300" y="170" text-anchor="middle" class="fig-text">한 줄로 말기</text>
+            </svg>
+            <figcaption>재료를 가로로 눕혀 쌓아 두면, 틀린 만큼을 모두 더하는 일이 한 줄로 끝나요.</figcaption>
+          </figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>제곱 손실(squared loss)은 이렇게 정해요. 딥러닝에서도 많이 써요.</p>
+          <p>$$\ell(y_n, \hat{y}_n) = (y_n - \hat{y}_n)^2$$</p>
+          <p>$y_n$은 스칼라라서 노름을 쓸 필요 없이 차이의 제곱이면 돼요. 어파인 모델의 추정치 $\hat{y}_n = \mathbf{x}_n^\top\boldsymbol{\theta}$를 넣고 행렬로 바꿔요(MML Example 8.2, 식 8.7–8.9).</p>
+          <ol class="steps">
+            <li>$$\frac{1}{N}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top\boldsymbol{\theta})^2$$</li>
+            <li>$\mathbf{X}$의 $n$번째 행이 $\mathbf{x}_n^\top$이므로 $\mathbf{X}\boldsymbol{\theta}$의 $n$번째 원소는 $\mathbf{x}_n^\top\boldsymbol{\theta}$예요.</li>
+            <li>$$= \frac{1}{N}\left\|\begin{bmatrix} y_1 - \mathbf{x}_1^\top\boldsymbol{\theta} \\ \vdots \\ y_N - \mathbf{x}_N^\top\boldsymbol{\theta} \end{bmatrix}\right\|^2$$</li>
+            <li>유클리드 노름의 제곱은 원소 제곱의 합이에요. 괄호 안 벡터는 $\mathbf{y} - \mathbf{X}\boldsymbol{\theta}$예요.</li>
+            <li>$$= \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</li>
+          </ol>
+          <p>$\mathbf{X}$를 가로로 눕혀 쌓아 정의한 이유가 바로 이 한 줄이에요. 풀 문제는 최소제곱 문제(least squares problem)예요.</p>
+          <p>$$\min_{\boldsymbol{\theta} \in \mathbb{R}^D} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</p>
+          <ul>
+            <li>바꾸는 대상은 $\boldsymbol{\theta}$예요. $\mathbf{X}$와 $\mathbf{y}$는 데이터로 고정돼 있어요.</li>
+            <li>추정치를 모은 벡터는 $\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}$이고 크기는 $N \times 1$이에요. 식에서 $\mathbf{X}\boldsymbol{\theta}$ 자리가 원래 $\hat{y}_n$들이 있던 자리예요.</li>
+          </ul>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>김밥을 예쁘게 말려면 재료를 먼저 손질해 둬야 해요. $\mathbf{X}$를 미리 그렇게 정의해 둔 것이 재료 손질이에요 (0914 38:01).</p>
+          <blockquote>"여러분 이거는 해보세요. 산수니까." (0914 37:24)</blockquote>
+          <blockquote>"잊지 말아야 될 건 … 세타를 변화시키고 싶은 거." (0914 38:22)</blockquote>
+        </div>
+        <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+          <p>수업에서 학생 몫으로 남긴 "산수"를 $N = 2$, $D = 2$로 확인해 봐요.</p>
+          <p>$$\mathbf{x}_1 = [1, 0]^\top, \quad \mathbf{x}_2 = [1, 1]^\top, \quad \mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2]^\top$$</p>
+          <p>$$\mathbf{y} = [1, 2]^\top, \quad \boldsymbol{\theta} = [0, 1]^\top$$</p>
+          <ol class="steps">
+            <li>합으로: $(1 - 0)^2 + (2 - 1)^2 = 2$</li>
+            <li>행렬로: $\mathbf{X}\boldsymbol{\theta} = [0, 1]^\top$, $\mathbf{y} - \mathbf{X}\boldsymbol{\theta} = [1, 1]^\top$, $\|[1, 1]^\top\|^2 = 2$</li>
+            <li>두 값이 같고, $N = 2$로 나누면 $R_{\text{emp}} = 1$이에요.</li>
+          </ol>
+          <p>이 문제는 정규방정식(normal equations)으로 닫힌 해를 구할 수 있어요(MML 9.2). 수업에서는 다음 주로 미뤘어요.</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">제곱 손실의 평균은 X를 가로로 쌓아 둔 덕분에 노름 제곱 한 줄로 써져요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">제곱 손실</span>$$\ell(y_n, \hat{y}_n) = (y_n - \hat{y}_n)^2$$</li>
+            <li><span class="eq-name">최소제곱 문제</span>$$\min_{\boldsymbol{\theta} \in \mathbb{R}^D} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</li>
+            <li><span class="eq-name">추정치 벡터</span>$$\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>최소제곱 문제(least squares problem)</dt><dd>제곱 손실의 평균을 가장 작게 하는 θ 찾기</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="topic" id="s2-true-risk"><h3>θ를 어떻게 찾나, 그리고 진짜 목표 R_true</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s11</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">연습문제만 잘 푸는 게 목표가 아니라, 처음 보는 시험 문제도 잘 풀어야 해요.</p>
+          <figure class="figure">
+            <svg id="fig-true-risk-unseen" viewBox="0 0 380 180" role="img" aria-label="왼쪽 상자에는 색칠된 점 여러 개가, 오른쪽 상자에는 테두리만 있는 원 여러 개가 있어요.">
+              <rect x="20" y="20" width="150" height="120" rx="10" class="fig-ink"/>
+              <rect x="210" y="20" width="150" height="120" rx="10" class="fig-ink"/>
+              <circle cx="55" cy="55" r="7" class="fig-dot"/>
+              <circle cx="95" cy="70" r="7" class="fig-dot"/>
+              <circle cx="135" cy="50" r="7" class="fig-dot"/>
+              <circle cx="70" cy="105" r="7" class="fig-dot"/>
+              <circle cx="120" cy="110" r="7" class="fig-dot"/>
+              <circle cx="245" cy="60" r="7" class="fig-accent"/>
+              <circle cx="290" cy="45" r="7" class="fig-accent"/>
+              <circle cx="330" cy="75" r="7" class="fig-accent"/>
+              <circle cx="260" cy="110" r="7" class="fig-accent"/>
+              <circle cx="315" cy="115" r="7" class="fig-accent"/>
+              <text x="95" y="165" text-anchor="middle" class="fig-text">풀어 본 문제</text>
+              <text x="285" y="165" text-anchor="middle" class="fig-text">처음 보는 문제</text>
+            </svg>
+            <figcaption>색칠된 점은 풀어 본 문제, 테두리만 있는 원은 앞으로 만날 문제예요.</figcaption>
+          </figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>$\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$을 가장 작게 하는 $\boldsymbol{\theta}$는 이렇게 찾을 수 있어요.</p>
+          <ul>
+            <li>무식한 방법: $\boldsymbol{\theta}$를 하나씩 바꿔 가며 찾아요. 튜닝할 파라미터는 $D$개이고, 1을 붙였다면 $D+1$개예요.</li>
+            <li>체계적인 방법: least squares 알고리즘과 pseudo-inverse가 있어요. 이 수학은 다음 주 선형 회귀(linear regression)에서 배워요.</li>
+          </ul>
+          <p>여기까지가 트레이닝이에요. 학습 데이터를 잘 설명하면 예측도 잘된다는 건 "앞으로 올 데이터가 지금 본 데이터와 크게 다르지 않다"는 가정이 맞을 때뿐이에요.</p>
+          <p>궁극적인 목표는 기대 위험(expected risk)을 최소화하는 거예요(MML 식 8.10).</p>
+          <p>$$R_{\text{true}}(f) = \mathbb{E}_{\mathbf{x}, y}\big[\ell(y, f(\mathbf{x}))\big]$$</p>
+          <ol class="steps">
+            <li>$y$는 라벨이고, $f(\mathbf{x})$는 파라미터를 고정한 예측기가 $\mathbf{x}$로 낸 예측이에요.</li>
+            <li>기댓값 $\mathbb{E}_{\mathbf{x}, y}$는 가능한 모든 데이터와 라벨에 대한 평균이에요. 교과서는 데이터를 무한히 가졌을 때의 진짜 위험이라고 설명해요.</li>
+            <li>그래서 $R_{\text{true}}$가 작다는 건 unseen 데이터에서도 평균적으로 손실이 작다는 뜻이에요.</li>
+            <li>우리가 가진 건 유한한 데이터라서 직접 계산할 수 있는 건 $R_{\text{emp}}$뿐이에요.</li>
+          </ol>
+          <p>교수님은 데이터 뒤에 숨은 잠재 변수(hidden latent variable)가 있다고 덧붙였어요.</p>
+          <div class="table-wrap"><table>
+            <tr><th>구분</th><th>$R_{\text{emp}}$</th><th>$R_{\text{true}}$</th></tr>
+            <tr><td>평균 내는 대상</td><td>가진 학습 데이터 $N$개</td><td>가능한 모든 데이터</td></tr>
+            <tr><td>계산</td><td>직접 할 수 있음</td><td>직접 할 수 없음</td></tr>
+          </table></div>
+          <p>예측 성능을 확인하려면 테스트용 데이터를 남겨 둬요. 흔히 학습 70%, 테스트 30%로 나누거나, 테스트 20%를 떼고 남은 80%를 검증 20%, 학습 60%로 나눠요. 정답 비율은 없어요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>"해 아래 새 것이 없다"(성경): 새 데이터도 이미 본 데이터의 일부라는 가정이 맞으면, 트레이닝만 잘돼도 예측이 잘돼요 (0914 42:22).</p>
+          <p>바둑 AI는 프로들의 기보를 대량으로 학습했어요. 기보는 바둑판을 벡터로 만들어 흑백 돌의 위치와 순서를 적은 데이터예요. 그랬더니 누가 와도 이겨요. 대국 영상 전체가 아니라 필요한 특징만 뽑아 쓰면 돼요(feature extraction) (0914 42:37).</p>
+          <p>학습과 테스트를 70:30으로 나눌지는 청국장에 소금을 몇 스푼 넣느냐 같은 장인의 손맛이에요 (0914 45:38).</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">학습 데이터에서의 평균 손실을 줄이는 건 수단이고, 진짜 목표는 처음 보는 데이터까지 포함한 기대 위험을 줄이는 거예요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list">
+            <li><span class="eq-name">기대 위험</span>$$R_{\text{true}}(f) = \mathbb{E}_{\mathbf{x}, y}\big[\ell(y, f(\mathbf{x}))\big]$$</li>
+          </ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms">
+            <dt>기대 위험(expected risk)</dt><dd>가능한 모든 데이터에 대한 평균 손실</dd>
+            <dt>pseudo-inverse</dt><dd>최소제곱 해를 체계적으로 구하는 도구, 다음 주에 배움</dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section id="s3"><h2>3. 과적합과 정규화</h2>
+<article class="topic" id="s3-reg"><h3>Overfitting과 정규화 최소제곱</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s12</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">연습 문제의 답만 통째로 외우면 새 문제에서 틀려요.</p>
+          <figure class="figure"><svg id="fig-reg-wiggle" viewBox="0 0 520 200" role="img" aria-label="왼쪽 그림은 색칠된 점 여섯 개를 모두 지나며 크게 구불거리는 선이고, 오른쪽 그림은 같은 점들 사이를 부드럽게 지나는 선이에요.">
+            <text class="fig-text" x="20" y="22">외운 선</text>
+            <text class="fig-text" x="280" y="22">부드러운 선</text>
+            <path class="fig-danger" d="M20 150 C35 40 55 40 65 120 C75 190 95 180 110 90 C122 20 140 40 155 110 C168 170 190 175 205 80 C215 30 230 40 240 60"/>
+            <circle class="fig-dot" cx="30" cy="110" r="5"/><circle class="fig-dot" cx="70" cy="135" r="5"/><circle class="fig-dot" cx="110" cy="90" r="5"/><circle class="fig-dot" cx="150" cy="95" r="5"/><circle class="fig-dot" cx="195" cy="120" r="5"/><circle class="fig-dot" cx="235" cy="60" r="5"/>
+            <path class="fig-accent" d="M280 125 C330 120 360 100 400 105 C440 110 470 100 500 65"/>
+            <circle class="fig-dot" cx="290" cy="110" r="5"/><circle class="fig-dot" cx="330" cy="135" r="5"/><circle class="fig-dot" cx="370" cy="90" r="5"/><circle class="fig-dot" cx="410" cy="95" r="5"/><circle class="fig-dot" cx="455" cy="120" r="5"/><circle class="fig-dot" cx="495" cy="60" r="5"/>
+          </svg><figcaption>점을 하나도 빠짐없이 지나려는 선은 구불구불해지고, 조금 봐주는 선은 새 점도 잘 맞혀요.</figcaption></figure>
+          <p>그래서 선이 너무 요란해지면 벌점을 매겨 얌전하게 만들어요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p><strong>과적합(overfitting)</strong>은 예측기가 학습 데이터에 너무 가깝게 맞춰져서(fits too closely) 새 데이터로 일반화되지 않는 현상이에요.</p>
+          <p>학습 데이터에서는 평균 손실이 아주 작은데, 테스트 데이터에서는 평균 손실이 큰 모습으로 나타나요.</p>
+          <p>그래서 경험적 위험을 최소화하는 $\boldsymbol{\theta}$를 찾을 때 <strong>패널티 항(penalty term)</strong>을 더해 탐색을 한쪽으로 기울여요. 이 항에는 "$\boldsymbol{\theta}$는 이래야 한다"는 사람의 사전 지식을 담아요. 이것이 <strong>정규화(regularization)</strong>예요.</p>
+          <p>정규화는 경험적 위험을 정확히 최소화하는 것과, 해의 크기·복잡도를 작게 두는 것 사이의 타협이에요.</p>
+          <p>정규화 최소제곱(regularized least squares)은 다음과 같아요.</p>
+          $$\min_{\boldsymbol{\theta}}\ \frac{1}{N}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$$
+          <ul>
+            <li>$\|\boldsymbol{\theta}\|^2$: <strong>regularizer</strong>(정규화 항)</li>
+            <li>$\lambda$: <strong>regularization parameter</strong>(정규화 파라미터). 사람이 미리 정하는 <strong>hyperparameter</strong>(하이퍼파라미터)예요.</li>
+            <li>하이퍼파라미터는 모델 자체(어파인 함수 $f(\mathbf{x}_n,\boldsymbol{\theta})=\boldsymbol{\theta}^\top\mathbf{x}_n$)를 바꾸지 않아요. 무엇을 최소화할지만 바꿔요.</li>
+          </ul>
+          <p>$\lambda$ 값에 따라 목적 함수가 이렇게 달라져요.</p>
+          <ol class="steps">
+            <li>$\lambda = 0$: 패널티 항이 사라져요. $\min_{\boldsymbol{\theta}}\frac{1}{N}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2$, 경험적 위험만 최소화해서 과적합되기 쉬워요.</li>
+            <li>$\lambda \gt 0$(예: $\lambda=1$): 학습 데이터에 가까워지려는 첫째 항과, $\boldsymbol{\theta}$가 원점에서 먼 정도를 재는 $\lambda \|\boldsymbol{\theta}\|^2$ 사이에서 균형을 잡아요.</li>
+          </ol>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <blockquote>"아, 내가 너무 오버했네." 그게 오버피팅이에요. (0914 46:59)</blockquote>
+          <p>패널티 항은 "모름지기 $\boldsymbol{\theta}$는 이래야 해"라는 전문가의 지식을 넣는 자리라고 하셨어요. (0914 47:03–47:47)</p>
+          <blockquote>$\lambda = 0$이면 "딱 과적합되기 좋지." (0914 48:44–49:13)</blockquote>
+          <p>$\lambda=1$처럼 양수를 주면 학습 데이터에 맞추면서도 $\boldsymbol{\theta}$가 원점에서 얼마나 먼지를 함께 따져 균형을 잡는다고 하셨어요. (0914 49:16–49:53)</p>
+        </div>
+        <div class="widget" id="widget-reg"><h4>직접 해 보기: 정규화 세기 λ</h4>
+          <p class="widget-help">λ를 0에서 키우면, 점 10개를 모두 지나며 구불구불하던 9차 다항식 곡선이 점점 완만해져요. 입력의 거듭제곱을 특징으로 쓴 선형 모델이에요.</p>
+          <div class="controls">
+            <label>λ <input type="range" id="reg-a" min="0" max="8" step="1" value="0" aria-label="정규화 세기 λ 단계"> <b id="reg-a-val">0</b></label>
+          </div>
+          <svg id="reg-plot" viewBox="0 0 560 300" role="img" aria-label="학습 점 10개와 진짜 곡선, 정규화 세기에 따라 바뀌는 9차 다항식 적합 곡선"></svg>
+          <p class="readout">λ = <b id="reg-lam">0</b> · 학습 오차 $\frac{1}{N}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2$ = <b id="reg-out">0</b> · $\|\boldsymbol{\theta}\|^2$ = <b id="reg-norm">0</b></p>
+          <p class="legend"><span><span class="sw truth"></span>진짜 곡선 sin(πx) (점선)</span> <span><span class="sw fit"></span>정규화 최소제곱으로 맞춘 9차 다항식</span> <span><span class="sw train"></span>학습 데이터 10개</span></p>
+          <div class="widget-static" hidden>
+            <figure class="figure"><svg id="widget-reg-static-1" viewBox="0 0 560 300" role="img" aria-label="λ가 0일 때: 곡선이 점 10개를 모두 지나며 양 끝에서 크게 구불거려요"><line class="axis" x1="40" y1="150" x2="540" y2="150"/><line class="axis" x1="40" y1="20" x2="40" y2="280"/><text class="tick" x="544" y="154">x</text><text class="tick" x="46" y="30">y</text><path class="plot-truth" d="M51.9 150.0L54.3 151.9L56.7 153.8L59.0 155.6L61.4 157.5L63.8 159.4L66.2 161.2L68.6 163.1L71.0 164.9L73.3 166.7L75.7 168.5L78.1 170.3L80.5 172.1L82.9 173.8L85.2 175.5L87.6 177.2L90.0 178.9L92.4 180.5L94.8 182.1L97.1 183.7L99.5 185.3L101.9 186.8L104.3 188.2L106.7 189.7L109.0 191.1L111.4 192.4L113.8 193.7L116.2 195.0L118.6 196.2L121.0 197.4L123.3 198.5L125.7 199.6L128.1 200.7L130.5 201.6L132.9 202.6L135.2 203.5L137.6 204.3L140.0 205.1L142.4 205.8L144.8 206.5L147.1 207.1L149.5 207.6L151.9 208.1L154.3 208.6L156.7 208.9L159.0 209.3L161.4 209.5L163.8 209.7L166.2 209.9L168.6 210.0L171.0 210.0L173.3 210.0L175.7 209.9L178.1 209.7L180.5 209.5L182.9 209.3L185.2 208.9L187.6 208.6L190.0 208.1L192.4 207.6L194.8 207.1L197.1 206.5L199.5 205.8L201.9 205.1L204.3 204.3L206.7 203.5L209.0 202.6L211.4 201.6L213.8 200.7L216.2 199.6L218.6 198.5L221.0 197.4L223.3 196.2L225.7 195.0L228.1 193.7L230.5 192.4L232.9 191.1L235.2 189.7L237.6 188.2L240.0 186.8L242.4 185.3L244.8 183.7L247.1 182.1L249.5 180.5L251.9 178.9L254.3 177.2L256.7 175.5L259.0 173.8L261.4 172.1L263.8 170.3L266.2 168.5L268.6 166.7L271.0 164.9L273.3 163.1L275.7 161.2L278.1 159.4L280.5 157.5L282.9 155.6L285.2 153.8L287.6 151.9L290.0 150.0L292.4 148.1L294.8 146.2L297.1 144.4L299.5 142.5L301.9 140.6L304.3 138.8L306.7 136.9L309.0 135.1L311.4 133.3L313.8 131.5L316.2 129.7L318.6 127.9L321.0 126.2L323.3 124.5L325.7 122.8L328.1 121.1L330.5 119.5L332.9 117.9L335.2 116.3L337.6 114.7L340.0 113.2L342.4 111.8L344.8 110.3L347.1 108.9L349.5 107.6L351.9 106.3L354.3 105.0L356.7 103.8L359.0 102.6L361.4 101.5L363.8 100.4L366.2 99.3L368.6 98.4L371.0 97.4L373.3 96.5L375.7 95.7L378.1 94.9L380.5 94.2L382.9 93.5L385.2 92.9L387.6 92.4L390.0 91.9L392.4 91.4L394.8 91.1L397.1 90.7L399.5 90.5L401.9 90.3L404.3 90.1L406.7 90.0L409.0 90.0L411.4 90.0L413.8 90.1L416.2 90.3L418.6 90.5L421.0 90.7L423.3 91.1L425.7 91.4L428.1 91.9L430.5 92.4L432.9 92.9L435.2 93.5L437.6 94.2L440.0 94.9L442.4 95.7L444.8 96.5L447.1 97.4L449.5 98.4L451.9 99.3L454.3 100.4L456.7 101.5L459.0 102.6L461.4 103.8L463.8 105.0L466.2 106.3L468.6 107.6L471.0 108.9L473.3 110.3L475.7 111.8L478.1 113.2L480.5 114.7L482.9 116.3L485.2 117.9L487.6 119.5L490.0 121.1L492.4 122.8L494.8 124.5L497.1 126.2L499.5 127.9L501.9 129.7L504.3 131.5L506.7 133.3L509.0 135.1L511.4 136.9L513.8 138.8L516.2 140.6L518.6 142.5L521.0 144.4L523.3 146.2L525.7 148.1L528.1 150.0"/><path class="plot-fit" d="M51.9 144.0L54.3 117.2L56.7 97.5L59.0 83.9L61.4 75.5L63.8 71.5L66.2 71.0L68.6 73.6L71.0 78.5L73.3 85.3L75.7 93.5L78.1 102.7L80.5 112.5L82.9 122.8L85.2 133.2L87.6 143.4L90.0 153.4L92.4 163.0L94.8 172.1L97.1 180.5L99.5 188.2L101.9 195.2L104.3 201.4L106.7 206.9L109.0 211.6L111.4 215.5L113.8 218.7L116.2 221.1L118.6 222.9L121.0 224.1L123.3 224.7L125.7 224.7L128.1 224.3L130.5 223.4L132.9 222.2L135.2 220.7L137.6 218.9L140.0 216.8L142.4 214.7L144.8 212.4L147.1 210.0L149.5 207.6L151.9 205.2L154.3 202.8L156.7 200.5L159.0 198.3L161.4 196.3L163.8 194.3L166.2 192.6L168.6 191.0L171.0 189.6L173.3 188.3L175.7 187.3L178.1 186.4L180.5 185.8L182.9 185.3L185.2 185.0L187.6 184.9L190.0 184.9L192.4 185.0L194.8 185.3L197.1 185.7L199.5 186.3L201.9 186.8L204.3 187.5L206.7 188.2L209.0 188.9L211.4 189.6L213.8 190.4L216.2 191.1L218.6 191.7L221.0 192.3L223.3 192.8L225.7 193.2L228.1 193.5L230.5 193.7L232.9 193.7L235.2 193.7L237.6 193.4L240.0 193.0L242.4 192.5L244.8 191.7L247.1 190.8L249.5 189.8L251.9 188.5L254.3 187.1L256.7 185.6L259.0 183.8L261.4 182.0L263.8 179.9L266.2 177.8L268.6 175.4L271.0 173.0L273.3 170.5L275.7 167.9L278.1 165.2L280.5 162.4L282.9 159.6L285.2 156.7L287.6 153.8L290.0 150.9L292.4 148.0L294.8 145.2L297.1 142.3L299.5 139.5L301.9 136.8L304.3 134.2L306.7 131.6L309.0 129.1L311.4 126.8L313.8 124.6L316.2 122.5L318.6 120.5L321.0 118.7L323.3 117.0L325.7 115.5L328.1 114.1L330.5 112.9L332.9 111.9L335.2 110.9L337.6 110.2L340.0 109.5L342.4 109.1L344.8 108.7L347.1 108.4L349.5 108.3L351.9 108.2L354.3 108.2L356.7 108.3L359.0 108.4L361.4 108.6L363.8 108.8L366.2 109.0L368.6 109.2L371.0 109.3L373.3 109.4L375.7 109.4L378.1 109.3L380.5 109.2L382.9 108.9L385.2 108.5L387.6 108.0L390.0 107.3L392.4 106.5L394.8 105.5L397.1 104.3L399.5 103.0L401.9 101.5L404.3 99.8L406.7 98.0L409.0 96.0L411.4 93.9L413.8 91.7L416.2 89.3L418.6 87.0L421.0 84.5L423.3 82.1L425.7 79.6L428.1 77.3L430.5 75.0L432.9 72.9L435.2 70.9L437.6 69.2L440.0 67.8L442.4 66.8L444.8 66.2L447.1 66.0L449.5 66.4L451.9 67.3L454.3 68.9L456.7 71.2L459.0 74.2L461.4 78.0L463.8 82.6L466.2 88.1L468.6 94.5L471.0 101.7L473.3 109.9L475.7 119.0L478.1 128.9L480.5 139.6L482.9 151.0L485.2 163.1L487.6 175.7L490.0 188.7L492.4 201.9L494.8 215.0L497.1 227.8L499.5 240.1L501.9 251.3L504.3 261.2L506.7 269.3L509.0 274.9L511.4 277.6L513.8 276.7L516.2 271.3L518.6 260.7L521.0 243.9L523.3 219.8L525.7 187.3L528.1 145.2"/><circle class="pt-train" cx="51.9" cy="144.0" r="5"/><circle class="pt-train" cx="104.3" cy="201.4" r="5"/><circle class="pt-train" cx="156.7" cy="200.5" r="5"/><circle class="pt-train" cx="211.4" cy="189.6" r="5"/><circle class="pt-train" cx="263.8" cy="179.9" r="5"/><circle class="pt-train" cx="316.2" cy="122.5" r="5"/><circle class="pt-train" cx="368.6" cy="109.2" r="5"/><circle class="pt-train" cx="423.3" cy="82.1" r="5"/><circle class="pt-train" cx="475.7" cy="119.0" r="5"/><circle class="pt-train" cx="528.1" cy="145.2" r="5"/></svg><figcaption>λ = 0: 점을 모두 지나며 구불구불해요.</figcaption></figure>
+            <figure class="figure"><svg id="widget-reg-static-2" viewBox="0 0 560 300" role="img" aria-label="λ가 10의 마이너스 4제곱일 때: 곡선이 점 근처를 부드럽게 지나며 진짜 곡선과 비슷해요"><line class="axis" x1="40" y1="150" x2="540" y2="150"/><line class="axis" x1="40" y1="20" x2="40" y2="280"/><text class="tick" x="544" y="154">x</text><text class="tick" x="46" y="30">y</text><path class="plot-truth" d="M51.9 150.0L54.3 151.9L56.7 153.8L59.0 155.6L61.4 157.5L63.8 159.4L66.2 161.2L68.6 163.1L71.0 164.9L73.3 166.7L75.7 168.5L78.1 170.3L80.5 172.1L82.9 173.8L85.2 175.5L87.6 177.2L90.0 178.9L92.4 180.5L94.8 182.1L97.1 183.7L99.5 185.3L101.9 186.8L104.3 188.2L106.7 189.7L109.0 191.1L111.4 192.4L113.8 193.7L116.2 195.0L118.6 196.2L121.0 197.4L123.3 198.5L125.7 199.6L128.1 200.7L130.5 201.6L132.9 202.6L135.2 203.5L137.6 204.3L140.0 205.1L142.4 205.8L144.8 206.5L147.1 207.1L149.5 207.6L151.9 208.1L154.3 208.6L156.7 208.9L159.0 209.3L161.4 209.5L163.8 209.7L166.2 209.9L168.6 210.0L171.0 210.0L173.3 210.0L175.7 209.9L178.1 209.7L180.5 209.5L182.9 209.3L185.2 208.9L187.6 208.6L190.0 208.1L192.4 207.6L194.8 207.1L197.1 206.5L199.5 205.8L201.9 205.1L204.3 204.3L206.7 203.5L209.0 202.6L211.4 201.6L213.8 200.7L216.2 199.6L218.6 198.5L221.0 197.4L223.3 196.2L225.7 195.0L228.1 193.7L230.5 192.4L232.9 191.1L235.2 189.7L237.6 188.2L240.0 186.8L242.4 185.3L244.8 183.7L247.1 182.1L249.5 180.5L251.9 178.9L254.3 177.2L256.7 175.5L259.0 173.8L261.4 172.1L263.8 170.3L266.2 168.5L268.6 166.7L271.0 164.9L273.3 163.1L275.7 161.2L278.1 159.4L280.5 157.5L282.9 155.6L285.2 153.8L287.6 151.9L290.0 150.0L292.4 148.1L294.8 146.2L297.1 144.4L299.5 142.5L301.9 140.6L304.3 138.8L306.7 136.9L309.0 135.1L311.4 133.3L313.8 131.5L316.2 129.7L318.6 127.9L321.0 126.2L323.3 124.5L325.7 122.8L328.1 121.1L330.5 119.5L332.9 117.9L335.2 116.3L337.6 114.7L340.0 113.2L342.4 111.8L344.8 110.3L347.1 108.9L349.5 107.6L351.9 106.3L354.3 105.0L356.7 103.8L359.0 102.6L361.4 101.5L363.8 100.4L366.2 99.3L368.6 98.4L371.0 97.4L373.3 96.5L375.7 95.7L378.1 94.9L380.5 94.2L382.9 93.5L385.2 92.9L387.6 92.4L390.0 91.9L392.4 91.4L394.8 91.1L397.1 90.7L399.5 90.5L401.9 90.3L404.3 90.1L406.7 90.0L409.0 90.0L411.4 90.0L413.8 90.1L416.2 90.3L418.6 90.5L421.0 90.7L423.3 91.1L425.7 91.4L428.1 91.9L430.5 92.4L432.9 92.9L435.2 93.5L437.6 94.2L440.0 94.9L442.4 95.7L444.8 96.5L447.1 97.4L449.5 98.4L451.9 99.3L454.3 100.4L456.7 101.5L459.0 102.6L461.4 103.8L463.8 105.0L466.2 106.3L468.6 107.6L471.0 108.9L473.3 110.3L475.7 111.8L478.1 113.2L480.5 114.7L482.9 116.3L485.2 117.9L487.6 119.5L490.0 121.1L492.4 122.8L494.8 124.5L497.1 126.2L499.5 127.9L501.9 129.7L504.3 131.5L506.7 133.3L509.0 135.1L511.4 136.9L513.8 138.8L516.2 140.6L518.6 142.5L521.0 144.4L523.3 146.2L525.7 148.1L528.1 150.0"/><path class="plot-fit" d="M51.9 144.3L54.3 149.5L56.7 154.4L59.0 159.0L61.4 163.1L63.8 167.0L66.2 170.6L68.6 173.9L71.0 176.9L73.3 179.6L75.7 182.2L78.1 184.5L80.5 186.7L82.9 188.6L85.2 190.4L87.6 192.0L90.0 193.5L92.4 194.8L94.8 196.1L97.1 197.2L99.5 198.1L101.9 199.0L104.3 199.8L106.7 200.5L109.0 201.2L111.4 201.7L113.8 202.2L116.2 202.6L118.6 203.0L121.0 203.3L123.3 203.5L125.7 203.7L128.1 203.9L130.5 204.0L132.9 204.1L135.2 204.2L137.6 204.2L140.0 204.2L142.4 204.1L144.8 204.0L147.1 203.9L149.5 203.8L151.9 203.6L154.3 203.4L156.7 203.2L159.0 203.0L161.4 202.8L163.8 202.5L166.2 202.2L168.6 201.8L171.0 201.5L173.3 201.1L175.7 200.7L178.1 200.3L180.5 199.9L182.9 199.4L185.2 198.9L187.6 198.4L190.0 197.9L192.4 197.3L194.8 196.8L197.1 196.1L199.5 195.5L201.9 194.9L204.3 194.2L206.7 193.5L209.0 192.7L211.4 192.0L213.8 191.2L216.2 190.4L218.6 189.5L221.0 188.7L223.3 187.8L225.7 186.9L228.1 185.9L230.5 184.9L232.9 183.9L235.2 182.9L237.6 181.9L240.0 180.8L242.4 179.7L244.8 178.5L247.1 177.4L249.5 176.2L251.9 175.0L254.3 173.8L256.7 172.5L259.0 171.2L261.4 169.9L263.8 168.6L266.2 167.2L268.6 165.8L271.0 164.5L273.3 163.0L275.7 161.6L278.1 160.1L280.5 158.7L282.9 157.2L285.2 155.7L287.6 154.1L290.0 152.6L292.4 151.0L294.8 149.5L297.1 147.9L299.5 146.3L301.9 144.7L304.3 143.1L306.7 141.4L309.0 139.8L311.4 138.2L313.8 136.5L316.2 134.9L318.6 133.2L321.0 131.6L323.3 129.9L325.7 128.3L328.1 126.7L330.5 125.0L332.9 123.4L335.2 121.8L337.6 120.2L340.0 118.6L342.4 117.0L344.8 115.4L347.1 113.9L349.5 112.4L351.9 110.9L354.3 109.4L356.7 107.9L359.0 106.5L361.4 105.1L363.8 103.8L366.2 102.4L368.6 101.1L371.0 99.9L373.3 98.7L375.7 97.5L378.1 96.4L380.5 95.3L382.9 94.3L385.2 93.4L387.6 92.5L390.0 91.6L392.4 90.8L394.8 90.1L397.1 89.5L399.5 88.9L401.9 88.4L404.3 87.9L406.7 87.6L409.0 87.3L411.4 87.1L413.8 87.0L416.2 87.0L418.6 87.0L421.0 87.2L423.3 87.4L425.7 87.8L428.1 88.2L430.5 88.7L432.9 89.3L435.2 90.1L437.6 90.9L440.0 91.8L442.4 92.8L444.8 93.9L447.1 95.2L449.5 96.5L451.9 97.9L454.3 99.4L456.7 101.0L459.0 102.7L461.4 104.4L463.8 106.3L466.2 108.2L468.6 110.2L471.0 112.2L473.3 114.4L475.7 116.5L478.1 118.7L480.5 121.0L482.9 123.2L485.2 125.5L487.6 127.7L490.0 129.9L492.4 132.1L494.8 134.3L497.1 136.4L499.5 138.4L501.9 140.2L504.3 142.0L506.7 143.6L509.0 145.0L511.4 146.1L513.8 147.1L516.2 147.7L518.6 148.1L521.0 148.1L523.3 147.7L525.7 146.9L528.1 145.6"/><circle class="pt-train" cx="51.9" cy="144.0" r="5"/><circle class="pt-train" cx="104.3" cy="201.4" r="5"/><circle class="pt-train" cx="156.7" cy="200.5" r="5"/><circle class="pt-train" cx="211.4" cy="189.6" r="5"/><circle class="pt-train" cx="263.8" cy="179.9" r="5"/><circle class="pt-train" cx="316.2" cy="122.5" r="5"/><circle class="pt-train" cx="368.6" cy="109.2" r="5"/><circle class="pt-train" cx="423.3" cy="82.1" r="5"/><circle class="pt-train" cx="475.7" cy="119.0" r="5"/><circle class="pt-train" cx="528.1" cy="145.2" r="5"/></svg><figcaption>λ = 1×10⁻⁴: 완만해지고 진짜 곡선과 비슷해요.</figcaption></figure>
+            <figure class="figure"><svg id="widget-reg-static-3" viewBox="0 0 560 300" role="img" aria-label="λ가 10의 마이너스 2제곱일 때: 곡선이 한결 완만하고 ‖θ‖²가 작아요"><line class="axis" x1="40" y1="150" x2="540" y2="150"/><line class="axis" x1="40" y1="20" x2="40" y2="280"/><text class="tick" x="544" y="154">x</text><text class="tick" x="46" y="30">y</text><path class="plot-truth" d="M51.9 150.0L54.3 151.9L56.7 153.8L59.0 155.6L61.4 157.5L63.8 159.4L66.2 161.2L68.6 163.1L71.0 164.9L73.3 166.7L75.7 168.5L78.1 170.3L80.5 172.1L82.9 173.8L85.2 175.5L87.6 177.2L90.0 178.9L92.4 180.5L94.8 182.1L97.1 183.7L99.5 185.3L101.9 186.8L104.3 188.2L106.7 189.7L109.0 191.1L111.4 192.4L113.8 193.7L116.2 195.0L118.6 196.2L121.0 197.4L123.3 198.5L125.7 199.6L128.1 200.7L130.5 201.6L132.9 202.6L135.2 203.5L137.6 204.3L140.0 205.1L142.4 205.8L144.8 206.5L147.1 207.1L149.5 207.6L151.9 208.1L154.3 208.6L156.7 208.9L159.0 209.3L161.4 209.5L163.8 209.7L166.2 209.9L168.6 210.0L171.0 210.0L173.3 210.0L175.7 209.9L178.1 209.7L180.5 209.5L182.9 209.3L185.2 208.9L187.6 208.6L190.0 208.1L192.4 207.6L194.8 207.1L197.1 206.5L199.5 205.8L201.9 205.1L204.3 204.3L206.7 203.5L209.0 202.6L211.4 201.6L213.8 200.7L216.2 199.6L218.6 198.5L221.0 197.4L223.3 196.2L225.7 195.0L228.1 193.7L230.5 192.4L232.9 191.1L235.2 189.7L237.6 188.2L240.0 186.8L242.4 185.3L244.8 183.7L247.1 182.1L249.5 180.5L251.9 178.9L254.3 177.2L256.7 175.5L259.0 173.8L261.4 172.1L263.8 170.3L266.2 168.5L268.6 166.7L271.0 164.9L273.3 163.1L275.7 161.2L278.1 159.4L280.5 157.5L282.9 155.6L285.2 153.8L287.6 151.9L290.0 150.0L292.4 148.1L294.8 146.2L297.1 144.4L299.5 142.5L301.9 140.6L304.3 138.8L306.7 136.9L309.0 135.1L311.4 133.3L313.8 131.5L316.2 129.7L318.6 127.9L321.0 126.2L323.3 124.5L325.7 122.8L328.1 121.1L330.5 119.5L332.9 117.9L335.2 116.3L337.6 114.7L340.0 113.2L342.4 111.8L344.8 110.3L347.1 108.9L349.5 107.6L351.9 106.3L354.3 105.0L356.7 103.8L359.0 102.6L361.4 101.5L363.8 100.4L366.2 99.3L368.6 98.4L371.0 97.4L373.3 96.5L375.7 95.7L378.1 94.9L380.5 94.2L382.9 93.5L385.2 92.9L387.6 92.4L390.0 91.9L392.4 91.4L394.8 91.1L397.1 90.7L399.5 90.5L401.9 90.3L404.3 90.1L406.7 90.0L409.0 90.0L411.4 90.0L413.8 90.1L416.2 90.3L418.6 90.5L421.0 90.7L423.3 91.1L425.7 91.4L428.1 91.9L430.5 92.4L432.9 92.9L435.2 93.5L437.6 94.2L440.0 94.9L442.4 95.7L444.8 96.5L447.1 97.4L449.5 98.4L451.9 99.3L454.3 100.4L456.7 101.5L459.0 102.6L461.4 103.8L463.8 105.0L466.2 106.3L468.6 107.6L471.0 108.9L473.3 110.3L475.7 111.8L478.1 113.2L480.5 114.7L482.9 116.3L485.2 117.9L487.6 119.5L490.0 121.1L492.4 122.8L494.8 124.5L497.1 126.2L499.5 127.9L501.9 129.7L504.3 131.5L506.7 133.3L509.0 135.1L511.4 136.9L513.8 138.8L516.2 140.6L518.6 142.5L521.0 144.4L523.3 146.2L525.7 148.1L528.1 150.0"/><path class="plot-fit" d="M51.9 145.7L54.3 150.8L56.7 155.6L59.0 160.0L61.4 164.2L63.8 168.0L66.2 171.6L68.6 174.9L71.0 178.0L73.3 180.8L75.7 183.4L78.1 185.8L80.5 188.0L82.9 190.0L85.2 191.8L87.6 193.5L90.0 195.0L92.4 196.4L94.8 197.6L97.1 198.7L99.5 199.6L101.9 200.5L104.3 201.2L106.7 201.8L109.0 202.3L111.4 202.8L113.8 203.1L116.2 203.4L118.6 203.6L121.0 203.7L123.3 203.7L125.7 203.7L128.1 203.6L130.5 203.5L132.9 203.3L135.2 203.1L137.6 202.8L140.0 202.4L142.4 202.0L144.8 201.6L147.1 201.2L149.5 200.7L151.9 200.2L154.3 199.6L156.7 199.0L159.0 198.4L161.4 197.8L163.8 197.1L166.2 196.5L168.6 195.8L171.0 195.0L173.3 194.3L175.7 193.5L178.1 192.8L180.5 192.0L182.9 191.2L185.2 190.3L187.6 189.5L190.0 188.7L192.4 187.8L194.8 187.0L197.1 186.1L199.5 185.2L201.9 184.3L204.3 183.4L206.7 182.5L209.0 181.6L211.4 180.7L213.8 179.7L216.2 178.8L218.6 177.8L221.0 176.9L223.3 175.9L225.7 175.0L228.1 174.0L230.5 173.1L232.9 172.1L235.2 171.1L237.6 170.2L240.0 169.2L242.4 168.2L244.8 167.2L247.1 166.2L249.5 165.3L251.9 164.3L254.3 163.3L256.7 162.3L259.0 161.3L261.4 160.3L263.8 159.3L266.2 158.3L268.6 157.3L271.0 156.3L273.3 155.3L275.7 154.3L278.1 153.3L280.5 152.3L282.9 151.3L285.2 150.4L287.6 149.4L290.0 148.4L292.4 147.4L294.8 146.4L297.1 145.4L299.5 144.4L301.9 143.4L304.3 142.5L306.7 141.5L309.0 140.5L311.4 139.5L313.8 138.5L316.2 137.6L318.6 136.6L321.0 135.6L323.3 134.7L325.7 133.7L328.1 132.8L330.5 131.8L332.9 130.9L335.2 130.0L337.6 129.0L340.0 128.1L342.4 127.2L344.8 126.3L347.1 125.4L349.5 124.5L351.9 123.6L354.3 122.7L356.7 121.8L359.0 120.9L361.4 120.1L363.8 119.2L366.2 118.4L368.6 117.5L371.0 116.7L373.3 115.9L375.7 115.1L378.1 114.3L380.5 113.5L382.9 112.7L385.2 112.0L387.6 111.3L390.0 110.5L392.4 109.8L394.8 109.1L397.1 108.5L399.5 107.8L401.9 107.2L404.3 106.5L406.7 105.9L409.0 105.4L411.4 104.8L413.8 104.3L416.2 103.8L418.6 103.3L421.0 102.8L423.3 102.4L425.7 102.0L428.1 101.6L430.5 101.3L432.9 101.0L435.2 100.7L437.6 100.5L440.0 100.3L442.4 100.1L444.8 100.0L447.1 100.0L449.5 99.9L451.9 100.0L454.3 100.1L456.7 100.2L459.0 100.4L461.4 100.6L463.8 100.9L466.2 101.3L468.6 101.7L471.0 102.2L473.3 102.8L475.7 103.4L478.1 104.2L480.5 105.0L482.9 105.9L485.2 106.9L487.6 108.0L490.0 109.2L492.4 110.5L494.8 111.9L497.1 113.4L499.5 115.0L501.9 116.8L504.3 118.7L506.7 120.8L509.0 123.0L511.4 125.3L513.8 127.8L516.2 130.5L518.6 133.4L521.0 136.4L523.3 139.7L525.7 143.1L528.1 146.8"/><circle class="pt-train" cx="51.9" cy="144.0" r="5"/><circle class="pt-train" cx="104.3" cy="201.4" r="5"/><circle class="pt-train" cx="156.7" cy="200.5" r="5"/><circle class="pt-train" cx="211.4" cy="189.6" r="5"/><circle class="pt-train" cx="263.8" cy="179.9" r="5"/><circle class="pt-train" cx="316.2" cy="122.5" r="5"/><circle class="pt-train" cx="368.6" cy="109.2" r="5"/><circle class="pt-train" cx="423.3" cy="82.1" r="5"/><circle class="pt-train" cx="475.7" cy="119.0" r="5"/><circle class="pt-train" cx="528.1" cy="145.2" r="5"/></svg><figcaption>λ = 1×10⁻²: 한결 완만하고 ‖θ‖²가 작아요.</figcaption></figure>
+            <div class="table-wrap"><table><tr><th>λ</th><th>학습 오차</th><th>‖θ‖²</th><th>모양</th></tr>
+              <tr><td>0</td><td>0.0000</td><td>128,055</td><td>점을 모두 지나며 구불구불(과적합)</td></tr>
+              <tr><td>1×10⁻⁴</td><td>0.0110</td><td>28.58</td><td>완만하고 진짜 곡선과 비슷</td></tr>
+              <tr><td>1×10⁻²</td><td>0.0407</td><td>3.53</td><td>한결 완만, ‖θ‖²가 작음</td></tr>
+            </table></div>
+          </div>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">학습 데이터에 너무 맞추면 과적합이 생겨서, 패널티 항을 더해 θ를 원점 쪽으로 붙잡아요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list"><li><span class="eq-name">정규화 최소제곱</span>$$\min_{\boldsymbol{\theta}}\ \frac{1}{N}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$$</li></ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms"><dt>과적합(overfitting)</dt><dd>학습 데이터에 너무 가깝게 맞춰 새 데이터에서 틀리는 현상</dd><dt>regularizer</dt><dd>패널티 항 $\|\boldsymbol{\theta}\|^2$</dd><dt>hyperparameter</dt><dd>사람이 정하는 $\lambda$, 모델 자체는 바꾸지 않아요</dd></dl>
+        </div>
+      </article>
+      <article class="topic" id="s3-norms"><h3>여러 가지 노름과 하이퍼파라미터 튜닝</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s12</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+          <p class="lead">크기를 재는 자는 여러 가지예요.</p>
+          <figure class="figure"><svg id="fig-norm-routes" viewBox="0 0 320 220" role="img" aria-label="바둑판 모양 격자 위에서 색칠된 두 점 사이를, 곧게 날아가는 선과 골목을 따라 꺾어 가는 선으로 비교한 그림이에요.">
+            <path class="fig-ink" d="M40 190 H280 M40 150 H280 M40 110 H280 M40 70 H280 M40 30 H280 M40 30 V190 M100 30 V190 M160 30 V190 M220 30 V190 M280 30 V190" opacity="0.25"/>
+            <path class="fig-accent" d="M40 190 L220 70"/>
+            <path class="fig-danger" d="M40 190 H220 V70"/>
+            <circle class="fig-dot" cx="40" cy="190" r="6"/><circle class="fig-dot" cx="220" cy="70" r="6"/>
+            <text class="fig-text" x="90" y="115">새처럼 곧게</text>
+            <text class="fig-text" x="120" y="210">택시처럼 골목길로</text>
+          </svg><figcaption>같은 두 점이라도 곧게 재느냐, 골목을 따라 재느냐에 따라 거리가 달라요.</figcaption></figure>
+          <p>어떤 자를 쓸지, 벌점을 얼마나 줄지는 요리 간처럼 해 보며 맞춰요.</p>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>정규화 항에는 여러 가지 노름(norm)을 쓸 수 있어요. $\boldsymbol{\theta}=[\theta_1,\dots,\theta_D]^\top$일 때,</p>
+          <ul>
+            <li>2-노름(유클리드 노름): $\|\boldsymbol{\theta}\|_2=\sqrt{\sum_{d=1}^D\theta_d^2}$, 즉 $\|\boldsymbol{\theta}\|_2^2=\sum_{d=1}^D\theta_d^2$. 원점에서의 거리예요. 정규화 최소제곱의 $\|\boldsymbol{\theta}\|^2$가 바로 $\|\boldsymbol{\theta}\|_2^2$예요.</li>
+            <li>1-노름: $\|\boldsymbol{\theta}\|_1=\sum_{d=1}^D|\theta_d|$</li>
+            <li>$p$-노름: $\|\boldsymbol{\theta}\|_p=\left(\sum_{d=1}^D|\theta_d|^p\right)^{1/p}$. $p=1$, $p=2$가 앞의 두 노름이에요.</li>
+          </ul>
+          <p>1-노름으로 정규화하면 <strong>희소해(sparse solution)</strong>가 나와요. 파라미터를 0으로 보내려는 성질이 있어서, 0이 아닌 원소의 개수를 줄여요. 왜 그런지는 최적화 과목에서 배운다고 하셨어요.</p>
+          <p><strong>하이퍼파라미터 튜닝(hyperparameter tuning)</strong>: 1-노름과 2-노름 중 무엇을 쓸지, $\lambda$를 0.5로 할지 1.5로 할지는 문제와 데이터에 따라 달라요. 정답이 정해져 있지 않아요.</p>
+          <p>하이퍼파라미터를 찾는 체계적인 방법으로 <strong>Bayesian optimization</strong>(베이지안 최적화)이 있어요. 가우시안 분포의 성질을 이용하는 <strong>Gaussian process</strong>(가우시안 프로세스)로 좋은 하이퍼파라미터를 찾아가요. 참고서로 Rasmussen·Williams의 <em>Gaussian Processes for Machine Learning</em>을 소개하셨어요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>하이퍼파라미터 고르기는 "장인의 손맛"이라고 하셨어요. 청국장 잘하는 집, 김밥 맛집을 고르듯 취향과 취사선택의 문제예요. (0914 52:06–53:07)</p>
+          <blockquote>우엉이 많이 든 김밥을 좋아한다는 걸 "휴먼 러닝"으로 알아냈다. (0914 52:06–53:07)</blockquote>
+          <p>문제에 따라 $\lambda=0.7$이 최적일 수도, $\lambda=0.9$가 최적일 수도 있어요.</p>
+          <blockquote>Bayesian optimization도 써 봤는데 "될 때가 있고 안 될 때가 있다." (0914 53:44–54:12)</blockquote>
+          <p>만능 해법은 없다는 뜻이에요. 노름을 "원 놈, 투 놈"이라고 부르며 웃기신 대목도 있었어요. (0914 50:23)</p>
+        </div>
+        <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+          <p><strong>노름의 정의(MML 3.1).</strong> 벡터 공간 $V$ 위의 노름 $\|\cdot\|$은 모든 $\lambda\in\mathbb{R}$, $\mathbf{x},\mathbf{y}\in V$에 대해 다음 세 가지를 만족해요.</p>
+          <ol class="steps">
+            <li>절대 동차성: $\|\lambda\mathbf{x}\|=|\lambda|\,\|\mathbf{x}\|$</li>
+            <li>삼각 부등식: $\|\mathbf{x}+\mathbf{y}\|\le\|\mathbf{x}\|+\|\mathbf{y}\|$</li>
+            <li>양의 정부호: $\|\mathbf{x}\|\ge 0$이고, $\|\mathbf{x}\|=0 \iff \mathbf{x}=\mathbf{0}$</li>
+          </ol>
+          <p>MML은 1-노름을 맨해튼 노름(Manhattan norm), 2-노름을 유클리드 노름(Euclidean norm)이라고 불러요. 격자 골목을 따라가는 거리와 곧은 거리의 차이예요.</p>
+          <p><strong>1-노름이 희소해를 만드는 이유(직관).</strong> 2차원에서 $\|\boldsymbol{\theta}\|_1\le c$인 영역은 꼭짓점이 좌표축 위에 있는 마름모이고, $\|\boldsymbol{\theta}\|_2\le c$인 영역은 원이에요. 손실의 등고선이 이 영역에 처음 닿는 점은 마름모에서는 꼭짓점일 때가 많아요. 꼭짓점에서는 한 좌표가 정확히 0이에요.</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">정규화 항에 쓰는 노름은 여러 가지이고, 무엇을 얼마나 쓸지는 하이퍼파라미터 튜닝으로 정해요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list"><li><span class="eq-name">1-노름</span>$$\|\boldsymbol{\theta}\|_1=\sum_{d=1}^D|\theta_d|$$</li><li><span class="eq-name">p-노름</span>$$\|\boldsymbol{\theta}\|_p=\left(\sum_{d=1}^D|\theta_d|^p\right)^{1/p}$$</li></ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms"><dt>희소해(sparse solution)</dt><dd>0이 아닌 원소가 적은 해, 1-노름 정규화가 만들어요</dd><dt>Bayesian optimization</dt><dd>Gaussian process로 하이퍼파라미터를 찾아가는 방법</dd></dl>
+        </div>
+      </article>
+    </section>
+    <section id="s4"><h2>4. 확률 모델로: 최대우도추정(MLE)</h2>
+<article class="topic" id="s4-likelihood"><h3>Likelihood = 그럴듯함, 그리고 −log</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s14</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">여러 종 모양 중에서 지금 가진 점들을 가장 잘 만들어 냈을 것 같은 종을 고르는 일이에요.</p>
+          <figure class="figure"><svg id="fig-s4-bells" viewBox="0 0 360 170" role="img" aria-label="가로줄 위에 색칠된 점 다섯 개가 가운데에 모여 있어요. 점들 바로 위에 선으로 그린 종 모양이 있고, 오른쪽으로 비켜난 곳에 선으로 그린 다른 종 모양이 있어요.">
+            <line x1="20" y1="140" x2="340" y2="140" class="fig-ink"/>
+            <path d="M40 140 C 90 140, 100 40, 130 40 C 160 40, 170 140, 220 140" class="fig-accent"/>
+            <path d="M160 140 C 210 140, 220 70, 250 70 C 280 70, 290 140, 340 140" class="fig-ink" stroke-dasharray="5 4"/>
+            <circle cx="112" cy="140" r="5" class="fig-dot"/>
+            <circle cx="124" cy="140" r="5" class="fig-dot"/>
+            <circle cx="132" cy="140" r="5" class="fig-dot"/>
+            <circle cx="141" cy="140" r="5" class="fig-dot"/>
+            <circle cx="152" cy="140" r="5" class="fig-dot"/>
+            <text x="130" y="28" text-anchor="middle" class="fig-text">그럴듯해요</text>
+            <text x="250" y="58" text-anchor="middle" class="fig-muted">덜 그럴듯해요</text>
+            <text x="132" y="162" text-anchor="middle" class="fig-muted">가진 점들</text>
+          </svg><figcaption>점들 바로 위에 선 종이 점들을 만들었을 가능성이 더 커요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>여기까지는 모델을 함수로 본 경험적 위험 최소화(ERM)였어요. 이제 모델을 확률분포로 봐요. 확률 모델에서는 확률밀도함수(PDF) 자체가 모델이고, PDF의 파라미터가 학습할 파라미터예요.</p>
+          <p>용어부터 풀어요. <i>likely to</i>는 "~할 것 같다"는 뜻이에요. <i>-hood</i>는 childhood(어린 시절)처럼 명사를 만들어요. 그래서 likelihood(우도)는 "그럴듯함"이고, maximum likelihood는 "가장 그럴듯한 것"이에요.</p>
+          <p>최대우도추정(maximum likelihood estimation, MLE)은 주어진 데이터가 그 파라미터에서 나왔을 그럴듯함이 가장 큰 파라미터를 학습 결과로 고르는 방법이에요.</p>
+          <p>예를 들어 가우시안 $\mathcal{N}(\mu, \sigma^2)$ 모델의 PDF는 다음과 같고, 학습할 파라미터는 평균 $\mu$와 분산 $\sigma^2$(퍼진 정도)예요.</p>
+          <p>$$p(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$</p>
+          <p>지수분포도 예로 들었어요: $p(x) = \lambda e^{-\lambda x}\ (x \ge 0)$. (수업 중 $\frac{1}{\lambda}e^{-\lambda x}$로 말했는데, 적분이 1이 되려면 이 형태여야 해요.)</p>
+          <p>데이터 $\mathbf{x}$와 파라미터 $\boldsymbol{\theta}$로 정해지는 확률밀도 $p(\mathbf{x} \mid \boldsymbol{\theta})$에 대해 음의 로그우도(negative log-likelihood)를 이렇게 정의해요.</p>
+          <p>$$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathbf{x} \mid \boldsymbol{\theta})$$</p>
+          <ol class="steps">
+            <li>데이터 $\mathbf{x}$는 고정하고 $\boldsymbol{\theta}$를 바꿔 가며 봐요. 그래서 $\mathcal{L}$은 $\boldsymbol{\theta}$의 함수예요.</li>
+            <li>$\log$는 단조증가 함수라서 $p$가 커질수록 $\log p$도 커져요.</li>
+            <li>따라서 $-\log p$를 최소화하는 $\boldsymbol{\theta}$가 $p$를 최대화하는 $\boldsymbol{\theta}$와 같아요.</li>
+            <li>MLE: $\mathcal{L}(\boldsymbol{\theta})$를 최소화하는 $\boldsymbol{\theta}$를 찾아요(= likelihood 최대화).</li>
+          </ol>
+          <p>우도는 수학적으로 정확히 말하면 PDF가 아니에요. 같은 식이라도 $\mathbf{x}$가 아니라 $\boldsymbol{\theta}$의 함수로 읽기 때문이에요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>디지털통신에서 배운 ML detection과 MAP는 통신 용어가 아니라 통계학 용어라고 짚으셨어요(0914 55:19). 통신의 ML detection과 이 수업의 ML estimation은 같은 원리예요.</p>
+          <blockquote>"영어로 어떤 터미놀로지가 정의될 때 다 의미가 있거든." (0914 55:19)</blockquote>
+          <p><i>likely</i>의 느낌은 "I'm likely to love you", 곧 "너를 사랑하게 될 것만 같아"라고 설명하셨어요(0914 55:40). childhood가 어린 시절이듯 likelihood는 그럴듯함이에요(0914 56:48).</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">데이터를 가장 그럴듯하게 만들어 내는 파라미터를 고르는 게 MLE예요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list"><li><span class="eq-name">음의 로그우도</span>$$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathbf{x} \mid \boldsymbol{\theta})$$</li></ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms"><dt>우도(likelihood)</dt><dd>그럴듯함. 데이터가 이 파라미터에서 나왔을 가능성</dd><dt>단조증가</dt><dd>$\log$는 단조증가라서 $-\log p$ 최소화가 $p$ 최대화와 같아요</dd></dl>
+        </div>
+      </article>
+      <article class="topic" id="s4-iid"><h3>i.i.d.: 곱을 합으로</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s15</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">데이터끼리 서로 모르는 사이면, 하나씩 따로 점수를 매겨서 합칠 수 있어요.</p>
+          <figure class="figure"><svg id="fig-s4-iid" viewBox="0 0 360 150" role="img" aria-label="테두리만 있는 네모 네 개가 떨어져 있고 각각 안에 색칠된 점이 하나씩 있어요. 오른쪽에는 네모 네 칸을 세로로 쌓은 탑이 있어요.">
+            <rect x="15" y="50" width="40" height="40" class="fig-ink"/>
+            <rect x="65" y="50" width="40" height="40" class="fig-ink"/>
+            <rect x="115" y="50" width="40" height="40" class="fig-ink"/>
+            <rect x="165" y="50" width="40" height="40" class="fig-ink"/>
+            <circle cx="35" cy="70" r="6" class="fig-dot"/>
+            <circle cx="85" cy="70" r="6" class="fig-dot"/>
+            <circle cx="135" cy="70" r="6" class="fig-dot"/>
+            <circle cx="185" cy="70" r="6" class="fig-dot"/>
+            <text x="110" y="38" text-anchor="middle" class="fig-text">하나씩 따로 점수</text>
+            <line x1="220" y1="70" x2="262" y2="70" class="fig-ink"/>
+            <polyline points="254,63 262,70 254,77" class="fig-ink"/>
+            <rect x="280" y="20" width="50" height="25" class="fig-accent"/>
+            <rect x="280" y="45" width="50" height="25" class="fig-accent"/>
+            <rect x="280" y="70" width="50" height="25" class="fig-accent"/>
+            <rect x="280" y="95" width="50" height="25" class="fig-accent"/>
+            <text x="305" y="140" text-anchor="middle" class="fig-text">쌓아서 합계</text>
+          </svg><figcaption>따로 매긴 점수를 차곡차곡 쌓으면 전체 점수가 돼요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>지도학습 데이터 $(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)$이 i.i.d.(independently and identically distributed, 독립 동일 분포)라고 해요. 입력 모음 $\mathcal{X} = \{\mathbf{x}_1, \dots, \mathbf{x}_N\}$, 라벨 모음 $\mathcal{Y} = \{y_1, \dots, y_N\}$이에요.</p>
+          <ol class="steps">
+            <li>음의 로그우도: $$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta})$$</li>
+            <li>독립이면 $p(A, B) = p(A)p(B)$이므로 곱으로 쪼개요: $$= -\log \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li>
+            <li>$\log ab = \log a + \log b$이므로 곱이 합이 돼요: $$= -\sum_{n=1}^{N} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li>
+          </ol>
+          <p>곱으로 쓸 수 있는 이유는 데이터가 통계적으로 독립이기 때문이에요. $\mathbf{x}_1$은 $y_1$에만 영향을 주고 $y_2, y_3$에는 영향을 주지 않아요. "identically distributed"는 곱의 모든 항이 같은 분포이고 같은 $\boldsymbol{\theta}$를 쓴다는 뜻이에요.</p>
+          <p>여기까지는 어떤 분포에도 성립하는 일반식이에요. 더 내려가려면 $p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$의 모양을 가정해야 해요(<a href="#s4-mle-ls">가우시안 노이즈면 MLE = 최소제곱</a>).</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>곱을 합으로 바꾸는 단계를 칠판에 한 줄씩 적으며, 독립이라 곱이 되고 로그의 곱셈 법칙으로 합이 된다고 설명하셨어요(0914 62:00–65:38).</p>
+          <blockquote>"이 수식까지는 일반적인 수식인데, 밑으로 내리려면 가정이 필요해요." (0914 66:35)</blockquote>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">i.i.d.면 전체 우도가 곱으로 쪼개지고, 로그를 씌우면 합이 돼요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list"><li><span class="eq-name">i.i.d. 분해</span>$$= -\log \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li><li><span class="eq-name">합으로</span>$$= -\sum_{n=1}^{N} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li></ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms"><dt>i.i.d.</dt><dd>독립이고 모두 같은 분포(같은 파라미터)를 따름</dd><dt>일반식</dt><dd>분포 모양을 정하기 전까지 성립하는 식</dd></dl>
+        </div>
+      </article>
+      <article class="topic" id="s4-mle-ls"><h3>가우시안 노이즈면 MLE = 최소제곱</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s15</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">점들이 곧은 선 둘레에 종 모양으로 흩어져 있다고 믿으면, 가장 그럴듯한 선은 점과의 틈이 가장 작은 선이에요.</p>
+          <figure class="figure"><svg id="fig-s4-noise" viewBox="0 0 360 190" role="img" aria-label="비스듬한 곧은 선이 있고 그 둘레에 색칠된 점들이 흩어져 있어요. 점마다 선까지 짧은 세로 선이 이어져 있고, 선 위 세 곳에 옆으로 누운 종 모양이 선으로 그려져 있어요.">
+            <line x1="20" y1="170" x2="340" y2="30" class="fig-accent"/>
+            <path d="M80 110 C 80 150, 110 144, 110 144 C 110 144, 80 138, 80 178" class="fig-ink"/>
+            <path d="M180 66 C 180 106, 210 100, 210 100 C 210 100, 180 94, 180 134" class="fig-ink"/>
+            <path d="M280 22 C 280 62, 310 56, 310 56 C 310 56, 280 50, 280 90" class="fig-ink"/>
+            <line x1="60" y1="152" x2="60" y2="136" class="fig-ink"/>
+            <line x1="130" y1="122" x2="130" y2="106" class="fig-ink"/>
+            <line x1="160" y1="108" x2="160" y2="128" class="fig-ink"/>
+            <line x1="230" y1="78" x2="230" y2="64" class="fig-ink"/>
+            <line x1="260" y1="64" x2="260" y2="80" class="fig-ink"/>
+            <circle cx="60" cy="136" r="5" class="fig-dot"/>
+            <circle cx="130" cy="106" r="5" class="fig-dot"/>
+            <circle cx="160" cy="128" r="5" class="fig-dot"/>
+            <circle cx="230" cy="64" r="5" class="fig-dot"/>
+            <circle cx="260" cy="80" r="5" class="fig-dot"/>
+            <text x="30" y="30" class="fig-text">점과 선 사이 틈</text>
+            <text x="30" y="48" class="fig-muted">가장 작게 만들기</text>
+          </svg><figcaption>선 둘레의 종 모양은 점이 흩어지는 방식을 뜻해요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>일반식 $\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n=1}^{N} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$(<a href="#s4-iid">i.i.d.: 곱을 합으로</a>)를 더 풀려면 모델을 가정(suppose)해야 해요.</p>
+          <ol class="steps">
+            <li>모델링: 어파인 모델에 노이즈를 더해요. $$y_n = \mathbf{x}_n^\top \boldsymbol{\theta} + w, \quad w \sim \mathcal{N}(0, \sigma^2)$$</li>
+            <li>상수 $\mathbf{x}_n^\top \boldsymbol{\theta}$에 확률변수 $w$를 더했으니 $y_n$도 확률변수예요. 평균은 상수만큼 옮겨 가고 분산은 그대로예요. $$y_n \mid \mathbf{x}_n, \boldsymbol{\theta} \sim \mathcal{N}(\mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$$</li>
+            <li>가우시안 PDF를 대입해요. $$\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n=1}^{N} \log \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2}{2\sigma^2}\right)$$</li>
+            <li>자연로그와 $\exp$가 상쇄되고, $n$과 무관한 $\frac{1}{2\sigma^2}$은 합 밖으로 빼요. $$= \frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$$</li>
+            <li>앞의 상수항은 $\boldsymbol{\theta}$와 무관하므로 최소화에서 무시해요(슬라이드는 $\propto$로 표기. 엄밀히는 $\boldsymbol{\theta}$와 무관한 상수를 더한 차이예요). $$\mathcal{L}(\boldsymbol{\theta}) \propto \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$$</li>
+          </ol>
+          <p>남은 $\sum_{n}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$은 제곱 손실의 합이고, $\mathbf{x}_n^\top \boldsymbol{\theta}$는 어파인 모델의 추정치 $\hat{y}_n$이에요. 따라서 확률 모델에서 음의 로그우도를 최소화하는 것은 결정론적 모델에서 least squares(최소제곱) 문제를 푸는 것과 같은 해를 줘요(<a href="#s2-squared">제곱 손실을 행렬 한 줄로 (김밥 재료 손질)</a>).</p>
+          <p>최소제곱의 닫힌 해는 수업에서 다음 주로 미뤘어요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <blockquote>"발음을 촌스럽게 서포즈 자꾸 강조하잖아요? 이게 지금 강조하고 있는 거야." (0914 66:25)</blockquote>
+          <p>머신러닝은 데이터가 먼저 주어지는 귀납적 학문이에요. 어떤 식으로 잘 설명된다고 해서 데이터가 그 식에서 만들어졌다는 뜻은 아니고, "영원히 정답은 없다"고 하셨어요(0914 67:46–68:15).</p>
+          <p>넷플릭스 추천 모델이 꼭 선형이거나 트랜스포머, RNN일 필요는 없고 잘 추정하기만 하면 된다는 비유예요.</p>
+          <blockquote>"쥐만 잘 잡으면 돼, 냥이가." (0914 68:59)</blockquote>
+          <blockquote>"라이클리후드 펑션을 미니마이즈하는 것이 결국은 리스트 스퀘어 프라블럼을 … 미니마이즈하는 것과 똑같은 솔루션이다." (0914 71:08)</blockquote>
+        </div>
+        <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+          <p>MML Example 8.5(식 8.18)은 상수항을 버리지 않고 끝까지 적어요.</p>
+          <p>$$\mathcal{L}(\boldsymbol{\theta}) = \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2 - \sum_{n=1}^{N}\log\frac{1}{\sqrt{2\pi\sigma^2}}$$</p>
+          <p>두 번째 항은 $-N\log\frac{1}{\sqrt{2\pi\sigma^2}} = \frac{N}{2}\log(2\pi\sigma^2)$로, 수업의 상수항과 같아요. $\sigma$가 주어진 값이면 이 항은 상수라서 최소화하는 $\boldsymbol{\theta}$를 바꾸지 않아요. 양수 $\frac{1}{2\sigma^2}$을 곱해도 최소점은 그대로라서 다음이 성립해요.</p>
+          <p>$$\arg\min_{\boldsymbol{\theta}} \mathcal{L}(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</p>
+          <p>MML에 따르면 가우시안 우도에서는 이 문제에 닫힌 해가 있고(9장), 가우시안이 아닌 노이즈를 쓰면 닫힌 해가 없을 수 있어 수치 최적화(7장)를 써요. MLE도 정규화 없는 ERM처럼 과적합할 수 있어요(<a href="#s3-reg">Overfitting과 정규화 최소제곱</a>). 음의 부호는 "최대화"를 최적화 문헌의 "최소화" 관례에 맞추려고 붙인 거예요.</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">노이즈를 가우시안으로 가정하면 음의 로그우도 최소화가 최소제곱과 같아져요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list"><li><span class="eq-name">라벨의 분포</span>$$y_n \mid \mathbf{x}_n, \boldsymbol{\theta} \sim \mathcal{N}(\mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$$</li><li><span class="eq-name">가우시안 음의 로그우도</span>$$= \frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$$</li></ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms"><dt>가정(suppose)</dt><dd>일반식에서 더 내려가려면 노이즈 모양을 정해야 해요</dd><dt>최소제곱(least squares)</dt><dd>제곱 손실 합을 최소화하는 문제</dd></dl>
+        </div>
+      </article>
+      <article class="topic" id="s4-contains"><h3>확률 모델은 결정론적 모델을 품는다</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s15</span></div>
+        <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">퍼진 종을 한없이 좁히면 한 점에 꽂힌 막대가 되고, 그게 바로 딱 정해진 값이에요.</p>
+          <figure class="figure"><svg id="fig-s4-delta" viewBox="0 0 360 170" role="img" aria-label="선으로 그린 종 모양 세 개가 왼쪽부터 넓게, 조금 좁게, 아주 좁게 그려져 있고, 맨 오른쪽에는 한 점에 선 높은 막대 선이 있어요.">
+            <line x1="10" y1="140" x2="350" y2="140" class="fig-ink"/>
+            <path d="M15 140 C 45 140, 50 95, 60 95 C 70 95, 75 140, 105 140" class="fig-ink"/>
+            <path d="M115 140 C 135 140, 140 65, 150 65 C 160 65, 165 140, 185 140" class="fig-ink"/>
+            <path d="M200 140 C 212 140, 215 35, 222 35 C 229 35, 232 140, 244 140" class="fig-ink"/>
+            <line x1="300" y1="140" x2="300" y2="20" class="fig-accent"/>
+            <circle cx="300" cy="140" r="5" class="fig-dot"/>
+            <text x="60" y="160" text-anchor="middle" class="fig-muted">넓게 퍼짐</text>
+            <text x="222" y="160" text-anchor="middle" class="fig-muted">좁게</text>
+            <text x="300" y="160" text-anchor="middle" class="fig-text">딱 한 값</text>
+          </svg><figcaption>그래서 퍼짐으로 설명하는 쪽이 딱 정해진 값까지 품어요.</figcaption></figure>
+        </div>
+        <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+          <p>MLE가 최소제곱과 같아진 것은 노이즈를 가우시안으로 가정했기 때문이에요(<a href="#s4-mle-ls">가우시안 노이즈면 MLE = 최소제곱</a>). 라플라스 분포나 지수 분포처럼 좌우 비대칭이거나 모양이 다른 노이즈를 가정하면 음의 로그우도의 식이 달라져요.</p>
+          <ol class="steps">
+            <li>결정론적 모델(함수)의 해는 확률 모델에서 노이즈를 가우시안으로 둔 특수한 경우로 얻을 수 있어요.</li>
+            <li>상수 $c$는 확률밀도가 한 점에 모인 델타 함수 PDF $p(x) = \delta(x - c)$를 가진 확률변수로 볼 수 있어요.</li>
+            <li>밀도가 한 점에 모여 있으니 불확실성이 없어요.</li>
+            <li>따라서 확률밀도함수 모델은 결정론적 함수를 포함해요.</li>
+          </ol>
+          <p>이것이 요즘 확률밀도함수로 데이터를 모델링하는 방식이 대세인 이유예요. 확률 모델이 결정론적 모델의 metric까지 포함하기 때문이에요.</p>
+        </div>
+        <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+          <p>한 학생에게 "왜 대세일까?"라고 물으셨고, 답이 나오지 않자 직접 설명하셨어요(0914 72:07).</p>
+          <blockquote>"요즘 확률 밀도 함수로 데이터를 모델링하는 게 대세다." (0914 72:01)</blockquote>
+          <blockquote>"확률로 정의하는 게 디터미니스틱 펑션을 포함하는 경우가 많다." (0914 72:30)</blockquote>
+          <p>이번 주까지는 "뜬구름 잡는 얘기"이고, 숙제와 예제를 거쳐 회귀 문제로 가면 구체화된다고 하셨어요(0914 73:36).</p>
+        </div>
+        <div class="sum" hidden>
+          <p class="sum-lead">결정론적 모델은 확률 모델의 특수한 경우라서, 확률 모델이 더 넓어요.</p>
+          <p class="panel-label">핵심 식</p>
+          <ul class="eq-list"><li><span class="eq-name">상수의 PDF</span>$$p(x) = \delta(x - c)$$</li></ul>
+          <p class="panel-label">용어</p>
+          <dl class="terms"><dt>델타 함수 PDF</dt><dd>밀도가 한 점에 모여 불확실성이 없는 분포</dd><dt>특수한 경우</dt><dd>가우시안 노이즈일 때 확률 모델의 해가 최소제곱 해와 같아요</dd></dl>
+        </div>
+      </article>
+    </section>
+    <section id="s5"><h2>5. 한 장 요약 · 다음 시간 예고</h2>
+<article class="topic" id="s5-cheatsheet"><h3>한 장 치트시트</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s7–s15</span></div>
+        <p>오늘 수업을 한 장에 모은 치트시트예요. 주제 이름을 누르면 그 토픽으로 가요.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>주제</th><th>핵심 식</th><th>한 줄 요점</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#s0-suppose">모델은 suppose, 그리고 선호의 문제</a></td><td>$y = ax + b$</td><td>모델은 옳고 그름이 아니라 취사선택, 곧 선호(preference)의 문제예요.</td></tr>
+            <tr><td><a href="#s0-two-models">두 갈래 모델과 학습(트레이닝)의 뜻</a></td><td>함수 $f(\mathbf{x}, \boldsymbol{\theta})$ 또는 PDF $p(\mathbf{x} \mid \boldsymbol{\theta})$</td><td>결정론적 함수와 확률밀도함수 두 갈래가 있고, 파라미터를 정하는 일이 트레이닝이에요.</td></tr>
+            <tr><td><a href="#s1-erm-name">Empirical · Risk · Minimization이라는 이름</a></td><td>$\min_{\boldsymbol{\theta}} R_{\text{emp}}$</td><td>실제 데이터에서 잰 위험을 최소화하는 관점(in terms of)으로 파라미터를 최적화해요.</td></tr>
+            <tr><td><a href="#s1-data">데이터 표기: 볼드 소문자는 벡터</a></td><td>$\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}$, $\mathbf{x}_n \in \mathbb{R}^D$</td><td>볼드 소문자는 벡터, 볼드 대문자는 행렬이에요.</td></tr>
+            <tr><td><a href="#s1-goal">좋은 파라미터 θ*와 for all의 뜻</a></td><td>$f(\mathbf{x}_n, \boldsymbol{\theta}^*) = \hat{y}_n \approx y_n$</td><td>모든 $n$에서 두루 맞아야 해요. 한 데이터에만 맞추면 과적합이에요.</td></tr>
+            <tr><td><a href="#s1-affine">가장 중요한 수식: 어파인 모델과 바이어스 흡수</a></td><td>$f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n$</td><td>벡터 맨 앞에 1을 붙여 길이를 $D+1$로 만들면 바이어스가 $\theta_0$로 들어가요.</td></tr>
+            <tr><td><a href="#s2-remp">데이터 행렬 X와 평균 손실 R_emp</a></td><td>$R_{\text{emp}}(f, \mathbf{X}, \mathbf{y}) = \frac{1}{N}\sum_{n=1}^{N} \ell(y_n, \hat{y}_n)$</td><td>데이터마다 잰 손실의 평균이 경험적 위험이에요.</td></tr>
+            <tr><td><a href="#s2-squared">제곱 손실을 행렬 한 줄로</a></td><td>$\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$</td><td>제곱 손실의 평균은 노름 제곱 한 줄로 써져요(최소제곱).</td></tr>
+            <tr><td><a href="#s2-true-risk">θ를 어떻게 찾나, 그리고 진짜 목표 R_true</a></td><td>$R_{\text{true}} = \mathbb{E}_{\mathbf{x}, y}[\ell(y, f(\mathbf{x}))]$</td><td>진짜 목표는 아직 보지 않은(unseen) 데이터에서 손실이 작은 거예요.</td></tr>
+            <tr><td><a href="#s3-reg">Overfitting과 정규화 최소제곱</a></td><td>$\min_{\boldsymbol{\theta}} \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$</td><td>패널티 항으로 과적합(overfitting)을 막아요. $\lambda$는 하이퍼파라미터예요.</td></tr>
+            <tr><td><a href="#s3-norms">여러 가지 노름과 하이퍼파라미터 튜닝</a></td><td>$\|\boldsymbol{\theta}\|_1$, $\|\boldsymbol{\theta}\|_2$, $\|\boldsymbol{\theta}\|_p$</td><td>1-노름 정규화는 희소해(sparse solution)를 만들어요.</td></tr>
+            <tr><td><a href="#s4-likelihood">Likelihood = 그럴듯함, 그리고 −log</a></td><td>$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathbf{x} \mid \boldsymbol{\theta})$</td><td>우도를 최대화하는 것은 음의 로그우도를 최소화하는 것과 같아요.</td></tr>
+            <tr><td><a href="#s4-iid">i.i.d.: 곱을 합으로</a></td><td>$-\sum_{n=1}^{N}\log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$</td><td>독립이면 곱으로 쪼개지고, 로그를 씌우면 합이 돼요.</td></tr>
+            <tr><td><a href="#s4-mle-ls">가우시안 노이즈면 MLE = 최소제곱</a></td><td>$\frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top\boldsymbol{\theta})^2$</td><td>노이즈를 가우시안으로 가정하면 MLE와 최소제곱의 해가 같아요.</td></tr>
+            <tr><td><a href="#s4-contains">확률 모델은 결정론적 모델을 품는다</a></td><td>상수 = 델타 PDF</td><td>결정론적 모델은 확률 모델의 특수한 경우라서 확률 모델이 대세예요.</td></tr>
+          </tbody>
+        </table></div>
+      </article>
+      <article class="topic" id="s5-next"><h3>다음 시간 예고 (아직 안 배움)</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s16–s17 · L02</span></div>
+        <p>이번 수업에서 제목만 나왔거나 아직 시작하지 않은 내용이에요.</p>
+        <ul>
+          <li>L01 s16 MAP (Maximum A Posteriori): MLE에 "θ는 이럴 거야"라는 사전 지식을 더해요. 교수님이 수요일에 다룬다고 했어요 (0914 73:33).</li>
+          <li>최소제곱의 닫힌 해와 pseudo-inverse: 다음 주 선형 회귀에서 배워요 (0914 41:03).</li>
+          <li>다음 시간에는 실습(랩)도 있다고 했어요 (0914 71:23).</li>
+          <li>L01 s17 Model Fitting: model class, overfitting vs. underfitting vs. good fitting</li>
+          <li>Lecture02 (When Models Meet Data – Part 2): 확률적 모델링과 추론, Fully Bayesian vs. ML/MAP</li>
+          <li>Lecture02: Graphical Models, Conditional Independence &amp; d-separation</li>
+          <li>Lecture02: Nested Cross-Validation, Bayesian Model Selection, Bayes factor</li>
+        </ul>
+      </article>
+      <article class="topic" id="s5-links"><h3>함께 보면 좋은 자료</h3><div class="tags"><span class="tag date">0914 수업</span></div>
+        <ul>
+          <li><a href="복습문제_0914_ERM_and_MLE.html">0914 복습문제 8선 풀러 가기</a></li>
+          <li><a href="../0909/정리노트_0909_Data_Models_Learning.html">0909 정리노트: 데이터, 모델, 학습</a></li>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html">ELI5 Lecture 10: 통계적 추론 1부</a></li>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html">ELI5 Lecture 11: 통계적 추론 2부</a></li>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html">ELI5 Lecture 12: 통계적 추론 3부</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture01) · 수업 녹음 전사(0914) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 8장.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-sub" id="sum-for">전체 흐름</p>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+  <script id="widget-reg-ui">(function () {
+var REG = (function () {
+  var DEG = 9;
+  var XS = [-1, -0.78, -0.56, -0.33, -0.11, 0.11, 0.33, 0.56, 0.78, 1];
+  var NOISE = [0.10, -0.22, 0.14, 0.20, -0.16, 0.12, -0.18, 0.15, -0.12, 0.08];
+  var LAMS = [0, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2];
+  function truth(x) { return Math.sin(Math.PI * x); }
+  var YS = XS.map(function (x, i) { return truth(x) + NOISE[i]; });
+  function feats(x) { var r = []; for (var d = 0; d <= DEG; d++) r.push(Math.pow(x, d)); return r; }
+  // minimize (1/N)||y - X th||^2 + lam ||th||^2  <=>  least squares on [X; sqrt(N lam) I] th = [y; 0]
+  function fit(lam) {
+    var N = XS.length, P = DEG + 1, A = [], b = [];
+    for (var n = 0; n < N; n++) { A.push(feats(XS[n])); b.push(YS[n]); }
+    var s = Math.sqrt(N * lam);
+    if (lam > 0) for (var d = 0; d < P; d++) { var row = []; for (var k = 0; k < P; k++) row.push(k === d ? s : 0); A.push(row); b.push(0); }
+    var M = A.length;
+    // Householder QR
+    for (var j = 0; j < P; j++) {
+      var nrm = 0; for (var i = j; i < M; i++) nrm += A[i][j] * A[i][j];
+      nrm = Math.sqrt(nrm); if (nrm === 0) continue;
+      var alpha = A[j][j] > 0 ? -nrm : nrm;
+      var v = []; for (i = 0; i < M; i++) v.push(i < j ? 0 : A[i][j]);
+      v[j] -= alpha;
+      var vv = 0; for (i = j; i < M; i++) vv += v[i] * v[i];
+      if (vv === 0) continue;
+      for (var c = j; c < P; c++) { var dot = 0; for (i = j; i < M; i++) dot += v[i] * A[i][c]; var f = 2 * dot / vv; for (i = j; i < M; i++) A[i][c] -= f * v[i]; }
+      dot = 0; for (i = j; i < M; i++) dot += v[i] * b[i]; f = 2 * dot / vv; for (i = j; i < M; i++) b[i] -= f * v[i];
+    }
+    var th = new Array(P);
+    for (j = P - 1; j >= 0; j--) { var acc = b[j]; for (c = j + 1; c < P; c++) acc -= A[j][c] * th[c]; th[j] = acc / A[j][j]; }
+    return th;
+  }
+  function predict(th, x) { var y = 0; for (var d = th.length - 1; d >= 0; d--) y = y * x + th[d]; return y; }
+  function stats(lam) {
+    var th = fit(lam), N = XS.length, err = 0, nrm = 0;
+    for (var n = 0; n < N; n++) { var r = YS[n] - predict(th, XS[n]); err += r * r; }
+    for (var d = 0; d < th.length; d++) nrm += th[d] * th[d];
+    return { th: th, err: err / N, norm2: nrm };
+  }
+  // plot geometry: viewBox 560x300, x in [-1.05,1.05] -> [40,540], y: 1 unit = 60px, 0 at 150
+  function sx(x) { return 40 + (x + 1.05) / 2.1 * 500; }
+  function sy(y) { return 150 - y * 60; }
+  function clampY(py) { return Math.max(12, Math.min(288, py)); }
+  function pathOf(fn) {
+    var s = '';
+    for (var k = 0; k <= 200; k++) { var x = -1 + 2 * k / 200; s += (k ? 'L' : 'M') + sx(x).toFixed(1) + ' ' + clampY(sy(fn(x))).toFixed(1); }
+    return s;
+  }
+  function fmtLam(l) { return l === 0 ? '0' : (l >= 1 ? String(l) : l.toExponential(0).replace('e-', '×10⁻').replace(/⁻(\d)/, function (m, d) { return '⁻' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]; })); }
+  function frame() {
+    var g = '<line class="axis" x1="40" y1="150" x2="540" y2="150"/><line class="axis" x1="40" y1="20" x2="40" y2="280"/>';
+    g += '<text class="tick" x="544" y="154">x</text><text class="tick" x="46" y="30">y</text>';
+    g += '<path class="plot-truth" d="' + pathOf(truth) + '"/>';
+    return g;
+  }
+  function dots() { var g = ''; for (var n = 0; n < XS.length; n++) g += '<circle class="pt-train" cx="' + sx(XS[n]).toFixed(1) + '" cy="' + sy(YS[n]).toFixed(1) + '" r="5"/>'; return g; }
+  function svgInner(lam) { var st = stats(lam); return frame() + '<path class="plot-fit" d="' + pathOf(function (x) { return predict(st.th, x); }) + '"/>' + dots(); }
+  function fmtNum(v) { return v >= 100 ? Math.round(v).toLocaleString('en-US') : (v >= 1 ? v.toFixed(2) : v.toPrecision(2)); }
+  return { fmtNum: fmtNum, LAMS: LAMS, stats: stats, svgInner: svgInner, fmtLam: fmtLam, predict: predict };
+})();
+
+  var slider = document.getElementById('reg-a');
+  var plot = document.getElementById('reg-plot');
+  if (!slider || !plot) return;
+  function draw() {
+    var lam = REG.LAMS[+slider.value];
+    var st = REG.stats(lam);
+    plot.innerHTML = REG.svgInner(lam);
+    document.getElementById('reg-a-val').textContent = REG.fmtLam(lam);
+    document.getElementById('reg-lam').textContent = REG.fmtLam(lam);
+    document.getElementById('reg-out').textContent = st.err.toFixed(4);
+    document.getElementById('reg-norm').textContent = REG.fmtNum(st.norm2);
+  }
+  slider.addEventListener('input', draw);
+  draw();
+})();</script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const sub = document.getElementById('aid-for');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
+          sub.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const sub = document.getElementById('sum-for');
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 ---
 머신러닝기초 복습팩 초안을 검토한다. 파일은 수정하지 않는다.
 
-- 대상: `<RUN>/repo/복습노트/<정리노트 html>`, `<…/복습문제 html>`
+- 대상: `<RUN>/repo/복습노트/<range>/<정리노트 html>`, `<…/복습문제 html>`
 - 근거: `<RUN>/summaries/stt-*.md`, `<RUN>/slides.txt`, `<RUN>/manifest.json`, `<RUN>/answers.py`, MML PDF
 - 규칙: `<SKILL>/references/content-rules.md`, `card-rules.md`, `problem-selection.md`
 

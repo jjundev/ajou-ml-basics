@@ -10,7 +10,7 @@ file:// 미리보기에서는 스크립트가 돌지 않는다. 빈 포트로 �
    ```bash
    python3 -m http.server <port> --directory "<RUN>/repo"
    ```
-3. URL: `http://localhost:<port>/복습노트/<파일명>` (한글 그대로).
+3. URL: `http://localhost:<port>/복습노트/<range>/<파일명>` (한글 그대로).
 4. 끝나면 서버를 종료한다: 그 백그라운드 작업을 멈추거나(TaskStop 등), `pkill -f "http.server <port>"`.
 
 ## 측정 전 준비
