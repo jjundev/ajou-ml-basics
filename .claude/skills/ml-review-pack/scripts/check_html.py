@@ -32,8 +32,11 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://cdn.jsdelivr.net/npm/katex@0.16.11/",
     "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/",
 )
-SUPP_LABEL = "📎 보충 · 수업 미유도"
-CARD_PARTS = {"problem", "original", "hint", "solution", "answer", "link-back", "done"}
+SUPP_LABEL = "보충 · 수업에서 유도하진 않았어요"
+# 스킬 템플릿을 바꾸기 전에 만든 팩의 라벨도 받아 준다.
+LEGACY_SUPP_LABELS = ("📎 보충 · 수업 미유도",)
+CARD_PARTS = {"problem", "original", "hint", "solution", "answer"}
+SUM_PANEL_ID = "sum-for"
 SLOT_RE = re.compile(r"\{\{[A-Z_]+\}\}")
 REMOTE_PREFIXES = ("http://", "https://", "//")
 # CSS 안의 url(...) 과 @import "..." 대상
@@ -256,8 +259,12 @@ def check_note(doc: Doc, m: dict) -> list[Problem]:
                 out.append(Problem("wrong-section", t["id"], f"{con.section} 안에 있음 (기대: {sec['id']})"))
             out += [Problem("missing-term", t["id"], term) for term in t["required_terms"] if term not in con.text]
             out += [Problem("missing-layer", t["id"], layer) for layer in t["layers"] if layer not in con.child_classes]
-            if t["supp"] and ("supp" not in con.child_classes or SUPP_LABEL not in con.text):
+            if t["supp"] and ("supp" not in con.child_classes
+                              or not any(label in con.text for label in (SUPP_LABEL, *LEGACY_SUPP_LABELS))):
                 out.append(Problem("missing-supp", t["id"], f"layer supp + '{SUPP_LABEL}' 필요"))
+            # 페이지 요약 패널(#sum-for)이 있는 템플릿으로 만든 팩만 검사한다.
+            if SUM_PANEL_ID in doc.ids and t["layers"] and "sum" not in con.child_classes:
+                out.append(Problem("missing-sum", t["id"], '<div class="sum" hidden> 페이지 요약 없음'))
     texts: dict[str, str] = {}
     for sec in m["sections"]:
         if sec["id"] != preview_section:
@@ -277,10 +284,6 @@ def check_note(doc: Doc, m: dict) -> list[Problem]:
 
 def check_review(doc: Doc, m: dict) -> list[Problem]:
     out: list[Problem] = []
-    note_href = manifest_mod.note_name(m)
-    total = len(m["problems"])
-    if "progress-count" not in doc.ids or f"/ {total}" not in doc.body_text:
-        out.append(Problem("progress", "hero", f"progress-count와 '/ {total}' 필요"))
     out += [Problem("forbidden-term", "review", term) for term in m["forbidden_outside_preview"] if term in doc.body_text]
     for q in m["problems"]:
         card = doc.containers.get(q["id"])
@@ -289,8 +292,6 @@ def check_review(doc: Doc, m: dict) -> list[Problem]:
             continue
         if card.attrs.get("data-source") != q["source"]:
             out.append(Problem("card-source", q["id"], f"data-source={card.attrs.get('data-source')!r}"))
-        if f"{note_href}#{q['anchor']}" not in card.hrefs:
-            out.append(Problem("card-anchor", q["id"], f"{note_href}#{q['anchor']} 링크 없음"))
         missing = CARD_PARTS - card.child_classes
         if missing:
             out.append(Problem("card-parts", q["id"], ", ".join(sorted(missing))))

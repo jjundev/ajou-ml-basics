@@ -13,7 +13,7 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 | `note_title` | `"<주제> — 5살도 이해하는 정리노트"` |
 | `note_subtitle` | `"정방철 교수님 머신러닝기초 · 0921 · 0923 수업 (Lecture02~03, MML 9장)"` 형식 |
 | `review_title` | `"복습문제 N선 — <range 물결표기> 수업 범위"` |
-| `review_intro` | 인라인 HTML만(`<b>`, `<i>`, `<code>`, `<a>`). 템플릿이 `<p>`로 감싸므로 `<p>`·`<ul>`·`<div>` 같은 블록 태그는 쓰지 않는다. 문제 구성(본문 예제 변형 몇 개, 연습문제 몇 개)과 "먼저 풀고 💡 힌트, 그다음 ✅ 풀이" 안내 |
+| `review_intro` | 인라인 HTML만(`<b>`, `<i>`, `<code>`, `<a>`). 템플릿이 `<p>`로 감싸므로 `<p>`·`<ul>`·`<div>` 같은 블록 태그는 쓰지 않는다. 문제 구성(본문 예제 변형 몇 개, 연습문제 몇 개)과 "먼저 풀어 보고, 막히면 힌트를 열어 보세요"처럼 "~해요" 체 한 문장 안내(이모지 없이) |
 | `footer_note` | HTML 허용. `출처: 정방철 교수님 강의자료(LectureXX–YY) · 수업 녹음 전사(MMDD…) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) N장.` |
 | `footer_review` | HTML 허용. `출처: Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (Cambridge University Press, 2020). 풀이는 자체 작성이며 수치는 Python으로 검증했습니다.` |
 | `sessions` | 날짜별 `{date, stt, summary, slides}` |
@@ -27,7 +27,7 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 - `supp`: 요약의 `🕳️ 미룬 유도`를 보충으로 싣는 토픽만 `true`.
 - `required_terms`: 토픽당 3~9개. 요약의 **용어·식 목록과 강조 발언**에서 고른다.
   - 식은 작성자가 **공백까지 그대로** 쓸 TeX 문자열이다(예: `"\\boldsymbol{\\theta}_{\\text{ML}}"`).
-  - 교수님 비유의 핵심 단어(예: `"김밥"`)를 최소 하나 넣어 🎙️ 레이어 누락을 잡는다.
+  - 교수님 비유의 핵심 단어(예: `"김밥"`)를 최소 하나 넣어 교수님 말씀(prof) 레이어 누락을 잡는다.
 - `preview_topic`: `s<N>-next`.
 - `forbidden_outside_preview`: 슬라이드 대조표에서 "예고만/안 다룸"인 슬라이드의 핵심 용어 3~8개. 본문에 나오면 검사 실패.
 
@@ -37,7 +37,7 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 - 문제 선별은 `references/problem-selection.md`. 개수 8~12.
 - 문제 `id`: `p1`, `p2`, … 빈 번호 없이 순서대로(카드 파일명 `cards/<id>.html`이 된다). `part`: 위 `parts`의 id 중 하나.
 - `source`: `"MML Example 9.1"` / `"MML Exercise 6.3"` 정확히 이 형식. `variant`: 본문 예제를 문제로 바꿨으면 `true`.
-- `anchor`: 풀이가 기대는 정리노트 토픽 id. `level`: 1~3. `date`: 관련 수업 날짜.
+- `anchor`: 풀이가 기대는 정리노트 토픽 id(카드에 링크로 쓰지는 않는다). `level`: 1~3. `date`: 관련 수업 날짜.
 - `terms`: 카드에 반드시 나올 TeX/숫자(정답 포함). **모두 빈 문자열이 아닌 문자열**이다. 숫자도 따옴표로 쓴다(`"0.2"`, `"\\frac{1}{5}"`). `required_terms`, `forbidden_outside_preview`도 같다(`manifest.py`가 검사).
 - `answer`: Python으로 계산한 정답 문자열. 계산 예:
   ```bash

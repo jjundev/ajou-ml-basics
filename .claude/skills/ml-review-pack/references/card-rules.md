@@ -18,18 +18,18 @@
 ## 마크업
 ```html
 <article class="card" id="pN" data-source="MML Example 9.1">
-  <header class="card-head"><span class="badge src">MML Example 9.1 변형</span><span class="badge level">★</span><span class="tag date">📅 MMDD</span></header>
   <h3>PN. 제목</h3>
   <div class="problem">…한국어 문제… 여러 문항이면 <ol><li>(a) …</li><li>(b) …</li></ol></div>
-  <details class="original"><summary>📖 교과서 원문</summary>"…원문 짧게…" — Example 9.1</details>
-  <details class="hint"><summary>💡 힌트</summary>…한두 문장…</details>
-  <details class="solution"><summary>✅ 풀이</summary><ol class="steps"><li>…</li></ol><p class="answer">정답: …</p></details>
-  <p class="link-back">🔗 수업과 연결: <a href="{{NOTE_HREF}}#ANCHOR">토픽 제목</a> — 한 줄 설명</p>
-  <label class="done"><input type="checkbox" data-done="pN"> 풀었음</label>
+  <details class="original"><summary>교과서 원문 보기</summary>"…원문 짧게…" — Example 9.1</details>
+  <details class="hint"><summary>힌트 보기</summary>…한두 문장…</details>
+  <details class="solution"><summary>풀이 보기</summary><ol class="steps"><li>…</li></ol><p class="answer">정답: …</p></details>
 </article>
 ```
-- `data-source`는 manifest `source`와 글자까지 같다. 배지 글자에는 `variant: true`면 " 변형"을 붙인다.
-- 난이도 배지: level 1 `★`, 2 `★★`, 3 `★★★ 도전`.
+- `data-source`는 manifest `source`와 글자까지 같다. 출처는 이 속성과 교과서 원문 보기 안에만 두고, 화면에 출처 배지는 달지 않는다.
+- 난이도(`level`)와 수업 날짜(`date`)는 문제 구성에만 쓰고, 카드 위에 배지·태그 줄(`card-head`)을 두지 않는다.
+- 카드에 "수업에서 다시 보기", "수업과 연결" 같은 연결 안내 줄을 두지 않는다. manifest `anchor`는 풀이가 기대는 토픽을 고르는 데만 쓴다.
+- 이모지와 장식 기호(★, ↗ 등)는 쓰지 않는다. 문제·힌트·풀이 문장은 토스처럼 짧고 다정한 "~해요" 체로 쓴다(예: "평균을 구해 보세요.", "더한 뒤 개수로 나눠요.").
+- 템플릿이 카드 하나를 한 화면에 보여 준다. 카드는 다른 카드 없이도 풀 수 있게 쓴다.
 - 원문 인용은 한 카드에 25단어 이내.
 - 풀이 마지막 단계에 "수업과의 연결"을 한 줄로(어느 수업의 어떤 말/식과 이어지는지).
 - 수식 규칙은 `content-rules.md`의 "수식"과 같다.

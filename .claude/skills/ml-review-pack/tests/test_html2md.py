@@ -40,6 +40,11 @@ class TestHtml2Md(unittest.TestCase):
         self.assertEqual(html2md.check_md(self.note, self.note_md), [])
         self.assertEqual(html2md.check_md(self.review, self.review_md), [])
 
+    def test_page_summary_rendered(self):
+        self.assertIn("**페이지 요약**", self.md)
+        self.assertIn("*핵심 식*", self.md)
+        self.assertIn("- **분산(variance)** — 평균과의 차이를 제곱해 평균낸 값", self.md)
+
     def test_widget_static_becomes_figure_and_table(self):
         self.assertEqual(self.figs, 1)
         self.assertTrue((self.tmp / "figures_0101-0102" / "widget-mean-static.svg").exists())
@@ -60,8 +65,7 @@ class TestHtml2Md(unittest.TestCase):
     def test_links_rewritten_to_md(self):
         self.assertIn("(복습문제_0101-0102_Mini_Test.md)", self.md)
         review = Path(self.review_md).read_text(encoding="utf-8")
-        self.assertIn("(정리노트_0101-0102_Mini_Test.md#s1-mean)", review)
-        self.assertIn("**✅ 정답:**", review)
+        self.assertIn("**정답:**", review)
 
     def test_table_math_pipes(self):
         ctx = html2md.Ctx([], str(self.tmp), "figures_x")

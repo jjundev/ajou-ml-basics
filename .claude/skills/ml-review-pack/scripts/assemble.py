@@ -69,6 +69,7 @@ def build_note(m: dict, run_dir: Path) -> str:
         "SECTIONS": "\n".join(sections),
         "FOOTER": m["footer_note"],
         "SCRIPTS": "\n".join(f"  {s}" for s in scripts),
+        "RANGE": m["range"],
     })
 
 
@@ -88,7 +89,6 @@ def build_review(m: dict, run_dir: Path) -> str:
         "NOTE_HREF": manifest_mod.note_name(m),
         "TITLE": esc(m["review_title"]),
         "INTRO": m["review_intro"],
-        "TOTAL": str(len(m["problems"])),
         "PARTS": "\n".join(parts),
         "FOOTER": m["footer_review"],
         "SCRIPTS": "\n".join(f"  {s}" for s in scripts),

@@ -210,7 +210,7 @@ def inline(node, ctx):
 
 BLOCK = {"p", "div", "section", "article", "main", "ul", "ol", "li", "table", "blockquote", "figure", "details",
          "h1", "h2", "h3", "h4", "header", "footer", "label", "figcaption", "summary", "thead", "tbody", "tr", "svg",
-         "nav", "hr"}
+         "nav", "hr", "dl"}
 
 
 def is_block(n):
@@ -414,7 +414,7 @@ def block(node, ctx):
     if t == "p" and "answer" in cls:
         lines = para("".join(inline(c, ctx) for c in node.children))
         if lines:
-            lines[0] = re.sub(r"^정답:", "**✅ 정답:**", lines[0])
+            lines[0] = re.sub(r"^정답:", "**정답:**", lines[0])
         return lines
     if t == "details":
         summary = next((c for c in node.children if isinstance(c, Node) and c.tag == "summary"), None)
@@ -426,7 +426,7 @@ def block(node, ctx):
     if t == "summary":
         return []
     if t == "label" and "done" in cls:
-        return ["- [ ] 풀었음"]
+        return ["- [ ] 풀었어요"]
     if t == "div" and "widget" in cls:
         return render_widget(node, ctx)
     if t == "div" and "legend-bar" in cls:
@@ -440,6 +440,21 @@ def block(node, ctx):
         return ["**" + " · ".join(p for p in parts if p) + "**"]
     if t == "div" and "layer" in cls:
         return children_blocks(node, ctx)
+    if t == "div" and "sum" in cls:
+        return ["**페이지 요약**", ""] + children_blocks(node, ctx)
+    if t == "p" and "panel-label" in cls:
+        return ["*" + "".join(inline(c, ctx) for c in node.children).strip() + "*"]
+    if t == "dl":
+        lines = []
+        for c in node.children:
+            if not isinstance(c, Node):
+                continue
+            text = " ".join(para("".join(inline(x, ctx) for x in c.children)))
+            if c.tag == "dt":
+                lines.append(f"- **{text}**")
+            elif c.tag == "dd" and lines:
+                lines[-1] += f" — {text}"
+        return lines
     if t == "article" and "card" in cls:
         kids = [c for c in node.children if isinstance(c, Node)]
         head = [c for c in kids if c.tag == "header"]
@@ -615,10 +630,10 @@ def convert_pack(note_path, review_path):
             os.remove(old_svg)
     link_map = [(n, n[:-5] + ".md") for n in names]  # fix_href가 NFC로 비교하므로 NFD 링크도 잡힌다
     intros = [
-        [f"> 이 문서는 `{names[0]}`의 마크다운 버전입니다. 그림은 `{fig_name}/` 폴더의 SVG로, "
-         "인터랙티브 위젯은 정적 스냅샷으로 옮겼습니다. 수식은 `$…$` / `$$…$$` (GitHub, Obsidian, Typora 등에서 렌더링) 입니다."],
-        [f"> 이 문서는 `{names[1]}`의 마크다운 버전입니다. "
-         "📖 원문 · 💡 힌트 · ✅ 풀이는 접혀 있으니 먼저 스스로 풀어 본 뒤 펼치세요."],
+        [f"> `{names[0]}`를 마크다운으로 옮겼어요. 그림은 `{fig_name}/` 폴더의 SVG, "
+         "위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요."],
+        [f"> `{names[1]}`를 마크다운으로 옮겼어요. "
+         "원문, 힌트, 풀이는 접혀 있어요. 먼저 풀어 보고 펼쳐 보세요."],
     ]
     outs, registry = [], set()
     for src, name, intro, prefix in zip(srcs, names, intros, ("note", "review")):

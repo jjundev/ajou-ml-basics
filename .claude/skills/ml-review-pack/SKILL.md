@@ -130,7 +130,7 @@ python3 "$SKILL/scripts/html2md.py" "$REPO/복습노트/<정리노트>.html" "$R
 ## 복습팩 <range> 완료
 - 파일: 복습노트/… (html 2, md 2, figures_<range>/ N개)
 - 범위: 배운 슬라이드 … / 예고만: …
-- 문제: P1 MML Example 9.1 변형(★) … (정답은 RUN/answers.py로 검증)
+- 문제: P1 MML Example 9.1 변형(level 1) … (정답은 RUN/answers.py로 검증)
 - 스킬이 정한 사항: slug, 섹션 구성, 위젯, 뺀 내용과 이유
 - 미해결: … (없으면 "없음")
 - 커밋 제안: git add 복습노트/<파일들> && git commit -m "docs(notes): add review pack <range>"

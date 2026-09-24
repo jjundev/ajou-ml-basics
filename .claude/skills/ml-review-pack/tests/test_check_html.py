@@ -84,20 +84,30 @@ class TestPack(unittest.TestCase):
         self.assertEqual(self.codes(), ["forbidden-term"])
 
     def test_missing_layer(self):
-        self.edit("sections/s1.html", '<div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span><p>"평균부터 봐요." (0101 01:00)</p></div>', "")
+        self.edit("sections/s1.html", '<div class="layer prof"><span class="layer-title">교수님 말씀</span><p>"평균부터 봐요." (0101 01:00)</p></div>', "")
         self.assertEqual(self.codes(), ["missing-layer"])
 
     def test_missing_supp_badge(self):
-        self.edit("sections/s1.html", '<span class="badge supp">📎 보충 · 수업 미유도</span>', "")
+        self.edit("sections/s1.html", '<span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>', "")
         self.assertEqual(self.codes(), ["missing-supp"])
 
-    def test_card_anchor_and_source(self):
-        self.edit("cards/p1.html", "{{NOTE_HREF}}#s1-mean", "{{NOTE_HREF}}#s1-var")
+    def test_missing_sum(self):
+        self.edit("sections/s1.html", '<div class="sum" hidden>\n          <p class="sum-lead">평균은', '<div class="summary" hidden>\n          <p class="sum-lead">평균은')
+        self.assertEqual(self.codes(), ["missing-sum"])
+
+    def test_sum_not_required_without_summary_panel(self):
+        # 요약 패널이 없는 예전 템플릿으로 만든 팩은 .sum을 요구하지 않는다.
+        self.edit("sections/s1.html", '<div class="sum" hidden>\n          <p class="sum-lead">평균은', '<div class="summary" hidden>\n          <p class="sum-lead">평균은')
+        note, review = assemble.assemble(self.run, self.tmp / "out")
+        note.write_text(note.read_text(encoding="utf-8").replace('id="sum-for"', 'id="old-panel"'), encoding="utf-8")
+        self.assertEqual([p.code for p in check_html.check_pack(self.m, note, review)], [])
+
+    def test_card_source(self):
         self.edit("cards/p1.html", 'data-source="MML Example 6.1"', 'data-source="MML Ex 6.1"')
-        self.assertEqual(self.codes(), ["card-anchor", "card-source"])
+        self.assertEqual(self.codes(), ["card-source"])
 
     def test_card_missing_hint(self):
-        self.edit("cards/p1.html", '<details class="hint"><summary>💡 힌트</summary>더해서 개수로 나눈다.</details>', "")
+        self.edit("cards/p1.html", '<details class="hint"><summary>힌트 보기</summary>더해서 개수로 나눈다.</details>', "")
         self.assertEqual(self.codes(), ["card-parts"])
 
     def test_widget_static_required(self):

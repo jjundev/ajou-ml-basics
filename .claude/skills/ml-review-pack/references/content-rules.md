@@ -12,7 +12,7 @@
 - 근거: `<RUN>/summaries/stt-*.md`(해당 날짜), `<RUN>/slides.txt`, 필요하면 MML `<RUN>/repo/교과서/Mathematics_for_Machine_Learning.pdf` <쪽>
 - 출력: `<RUN>/sections/<sid>.html` **한 파일만**. `<section>`/`<h2>`는 쓰지 않는다(조립기가 감싼다). 임시 파일은 아래 규칙.
 - 임시·보조 파일(스크립트, 초안, 그림 생성 폴더)은 `<RUN>/work/` 아래에만 둔다. 저장소(`STT/`, `강의노트/`, `교과서/`, `복습노트/`)와 scratchpad 루트, `/tmp`에는 아무것도 쓰지 않는다. 한글(NFD) 파일명은 복사하거나 이름을 바꾸지 말고 Python `os.listdir` + `unicodedata.normalize('NFC', …)`로 찾아 그 경로로 연다.
-- 자기 검사(끝내기 전): 토픽별로 `required_terms`가 모두 문자 그대로 들어갔는지, `$` 짝, `links` 항목이 해당 토픽 안에 있는지, 금지어 `<forbidden 목록>`이 없는지. 금지어는 예고 토픽 `<preview_topic>` 안에서만 허용된다 — 이 토픽에는 예고 제목을 빠뜨리지 말고 쓴다. 🧸 레이어마다 문장 수(figcaption 포함)가 3 이하이고 전문용어·기호(θ, σ, 식, 영어 용어)가 없는지 — 있으면 📐로 옮긴다. 그림 설명(글, `aria-label`)이 SVG 클래스의 실제 모양(채움/윤곽)과 맞는지.
+- 자기 검사(끝내기 전): 토픽별로 `required_terms`가 모두 문자 그대로 들어갔는지, `$` 짝, `links` 항목이 해당 토픽 안에 있는지, 금지어 `<forbidden 목록>`이 없는지. 금지어는 예고 토픽 `<preview_topic>` 안에서만 허용된다 — 이 토픽에는 예고 제목을 빠뜨리지 말고 쓴다. eli5 레이어마다 문장 수(figcaption 포함)가 3 이하이고 전문용어·기호(θ, σ, 식, 영어 용어)가 없는지 — 있으면 formal 레이어로 옮긴다. 조각 어디에도 이모지를 쓰지 않았는지. `layers`가 빈 목록이 아닌 토픽마다 마지막에 `<div class="sum" hidden>`이 있고, 그 식·용어가 본문과 같은 표기인지. 그림 설명(글, `aria-label`)이 SVG 클래스의 실제 모양(채움/윤곽)과 맞는지.
 - 보고: 파일 경로, 토픽별 한 줄, 요약에 있었지만 넣지 않은 것과 이유.
 ---
 
@@ -23,22 +23,40 @@
 
 ## 토픽 마크업 (이 순서)
 ```html
-<article class="topic" id="…"><h3>…</h3><div class="tags"><span class="tag date">📅 MMDD</span><span class="tag slide">L0X sN</span></div>
-  <div class="layer eli5"><span class="layer-title">🧸 쉽게 말하면</span><p class="lead">한 문장 비유</p> …그림… </div>
-  <div class="layer formal"><span class="layer-title">📐 정식 버전</span> …정의·수식·단계별 유도(ol.steps)… </div>
-  <div class="layer prof"><span class="layer-title">🎙️ 교수님 한마디</span> …비유·일화, 원문은 blockquote… </div>
-  <div class="layer warn"><span class="layer-title">⚠️ 강조 포인트</span> …원문 인용 + (MMDD MM:SS)… </div>   ← 강조 발언이 있을 때만
-  <div class="layer supp"><span class="badge supp">📎 보충 · 수업 미유도</span> … </div>             ← manifest supp=true만
+<article class="topic" id="…"><h3>…</h3><div class="tags"><span class="tag date">MMDD 수업</span><span class="tag slide">L0X sN</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">한 문장 비유</p> …그림… </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span> …정의·수식·단계별 유도(ol.steps)… </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span> …비유·일화, 원문은 blockquote… </div>
+  <div class="layer warn"><span class="layer-title">꼭 기억해요</span> …원문 인용 + (MMDD MM:SS)… </div>   ← 강조 발언이 있을 때만
+  <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span> … </div>             ← manifest supp=true만
+  <div class="sum" hidden>…페이지 요약(아래)…</div>                                                    ← layers가 빈 목록이 아닌 토픽만, 맨 끝
 </article>
 ```
+- 레이어 제목과 배지 글자는 위와 글자 그대로 쓴다. 이모지, 장식 기호(★, ↗, → 같은 화살표 아이콘), "아래를 보세요" 같은 안내 문장은 쓰지 않는다.
+- 템플릿이 토픽 하나를 한 화면에 보여 준다. 토픽은 그것만 읽어도 이해되게 쓰고, "위에서 본 것처럼"처럼 앞 토픽의 위치에 기대는 말 대신 `<a href="#토픽id">토픽 제목</a>`으로 잇는다.
 - 요약·예고 섹션: 치트시트는 표(`<div class="table-wrap"><table>`), 예고는 `<ul>`, 링크는 `<ul><li><a>`.
 - 복습문제 링크는 `href="{{REVIEW_HREF}}"`로 쓴다(조립기가 실제 파일명으로 바꾼다. manifest의 파일명을 그대로 써도 된다). 다른 링크는 manifest `href`를 글자 그대로.
 
+## 페이지 요약 (`.sum`)
+화면 오른쪽 "페이지 요약" 패널에 그 토픽의 핵심만 보여 준다. 템플릿이 토픽의 **직계 자식** `.sum`을 패널로 옮기므로 토픽 안 맨 끝에, 레이어 밖에 둔다. `hidden`은 꼭 붙인다(본문에 두 번 보이지 않게).
+```html
+<div class="sum" hidden>
+  <p class="sum-lead">토픽 핵심 한 문장("~해요" 체)</p>
+  <p class="panel-label">핵심 식</p>
+  <ul class="eq-list"><li><span class="eq-name">식 이름</span>$$…$$</li></ul>
+  <p class="panel-label">용어</p>
+  <dl class="terms"><dt>용어(영어)</dt><dd>한 줄 뜻</dd></dl>
+</div>
+```
+- 새 내용을 쓰지 않는다. 본문(formal 레이어)에 이미 나온 식·용어를 **같은 TeX 표기로** 1~3개씩 고른다. 요약에만 있는 식이나 설명은 두지 않는다.
+- 식이 없는 토픽은 "핵심 식" 줄과 `eq-list`를 빼고, 용어가 없으면 "용어" 줄과 `dl`을 뺀다. `sum-lead`는 항상 쓴다.
+- 요약·예고 섹션처럼 `layers`가 `[]`인 토픽에는 두지 않는다.
+
 ## 문체
-- 🧸: 초등학생이 이해할 1~3문장(figcaption 포함) + 그림. 전문용어·기호 없이(필요하면 📐에 쓴다). "~예요" 체.
-- 📐: 빠짐없이, 정확하게. 유도는 한 줄에 한 단계. "~다" 체.
-- 🎙️/⚠️: 원문 인용은 15단어 안팎으로 줄이고 `(0914 26:00)`처럼 출처.
-- UI 글은 한국어, 전문용어는 영어 병기(예: 과적합(overfitting)).
+- 쉽게 말하면(eli5): 초등학생이 이해할 1~3문장(figcaption 포함) + 그림. 전문용어·기호 없이(필요하면 정확히 말하면에 쓴다). 토스처럼 짧고 다정한 "~해요" 체.
+- 정확히 말하면(formal): 빠짐없이, 정확하게. 유도는 한 줄에 한 단계. 문장은 "~해요" 체, 유도 단계는 식 위주로 짧게.
+- 교수님 말씀(prof)/꼭 기억해요(warn): 원문 인용은 15단어 안팎으로 줄이고 `(0914 26:00)`처럼 출처.
+- UI 글은 한국어, 전문용어는 영어 병기(예: 과적합(overfitting)). 한 문장에 한 가지만 말하고, 군더더기 수식어("아주", "정말", "한번")는 뺀다.
 
 ## 수식
 - `$…$`(인라인), `$$…$$`(디스플레이)만. 본문에 리터럴 `$` 금지.
@@ -46,7 +64,7 @@
 - 벡터는 `\mathbf{x}`, 파라미터 벡터는 `\boldsymbol{\theta}`, 행렬 `\mathbf{X}` — manifest `required_terms`와 같은 표기.
 
 ## SVG 그림
-- 개념 토픽마다 🧸 레이어에 그림 1개 이상(흐름도, 막대, 곡선 등).
+- 개념 토픽마다 eli5 레이어에 그림 1개 이상(흐름도, 막대, 곡선 등).
 - `<figure class="figure"><svg id="fig-<kebab>" viewBox="…" role="img" aria-label="한국어 설명">…</svg><figcaption>…</figcaption></figure>`
 - 색은 클래스로만: `fig-ink`, `fig-accent`, `fig-danger`, `fig-dot`, `fig-text`, `fig-muted`. 하드코딩 색 금지(다크모드).
 - 채움과 윤곽: `fig-ink`, `fig-accent`, `fig-danger`는 선만 그린다(`fill:none`). 속이 칠해진 점·도형은 `fig-dot`(강조색 채움)뿐이다(`fig-text`, `fig-muted`는 글자용). 글·figcaption·`aria-label`에서 "색칠된", "채워진"은 `fig-dot` 도형에만 쓰고, 선만 있는 도형은 "테두리", "선"으로 부른다.

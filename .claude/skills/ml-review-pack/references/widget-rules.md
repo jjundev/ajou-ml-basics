@@ -7,7 +7,7 @@
 
 ## 마크업
 ```html
-<div class="widget" id="widget-<name>"><h4>🎛️ 직접 해보기: …</h4>
+<div class="widget" id="widget-<name>"><h4>직접 해 보기: …</h4>
   <p class="widget-help">무엇을 움직이면 무엇이 보이는지 한 문장.</p>
   <div class="controls">
     <label>차수 <input type="range" id="<name>-a" min="1" max="9" step="1" value="3"> <b id="<name>-a-val">3</b></label>

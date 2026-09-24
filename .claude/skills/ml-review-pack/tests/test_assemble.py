@@ -35,13 +35,18 @@ class TestAssemble(unittest.TestCase):
 
     def test_href_tokens_replaced_and_no_slots_left(self):
         self.assertIn('href="복습문제_0101-0102_Mini_Test.html"', self.note_html)
-        self.assertIn('href="정리노트_0101-0102_Mini_Test.html#s1-mean"', self.review_html)
+        self.assertIn('<a class="top-link" href="정리노트_0101-0102_Mini_Test.html">', self.review_html)
         self.assertNotIn("{{", self.note_html + self.review_html)
 
-    def test_review_parts_progress_and_storage_key(self):
+    def test_review_parts(self):
         self.assertIn('<section id="partA"><h2>A. 교과서 예제</h2>', self.review_html)
-        self.assertIn('<b id="progress-count">0</b> / 1', self.review_html)
-        self.assertIn("const KEY = 'mlb-review-0101-0102-done';", self.review_html)
+
+    def test_progress_keys_are_scoped_by_range(self):
+        # 팩마다 p1, s1-… id가 겹치므로 진행 기록 키에 기간이 들어가야 한다.
+        for html in (self.note_html, self.review_html):
+            self.assertIn('data-range="0101-0102"', html)
+            self.assertIn("const KEY = 'od-review-solved:' + RANGE;", html)
+            self.assertIn("const KEY = 'od-note-read:' + RANGE;", html)
 
     def test_missing_fragment_raises(self):
         run = self.tmp / "run"
