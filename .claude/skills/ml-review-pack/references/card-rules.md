@@ -1,6 +1,6 @@
 # 문제 카드 규칙
 
-## 작성자 브리프 (메인 에이전트가 1명, model: opus / lite: sonnet)
+## 작성자 브리프 (메인 에이전트가 1명, model: opus / lite: sonnet, GPT이면 sol / lite: luna)
 
 ---
 머신러닝기초 복습문제 카드를 쓴다.

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5살 요정의 추리 교실 🧚 - Lecture 11: 통계적 추정 Part 2 (MAP & LMS)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX for LaTeX Math -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false
+    });"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Pretendard', sans-serif;
+    }
+    .gradient-hero {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a8a 100%);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-200">
+
+  <!-- Header Section -->
+  <header class="gradient-hero text-white py-14 px-4 sm:px-8 relative overflow-hidden shadow-xl">
+    <div class="absolute -right-16 -top-16 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="max-w-5xl mx-auto text-center space-y-4 relative z-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-md border border-white/15">
+        <span>📖 Machine Learning & Statistics 2026</span>
+        <span>•</span>
+        <span>Prof. Bang Chul Jung</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-white to-blue-200">
+        5살 요정의 추리 교실 🧚: 점 추정과 두 요정 이야기
+      </h1>
+      <p class="text-base sm:text-xl text-indigo-100 max-w-3xl mx-auto font-light leading-relaxed">
+        <strong>Lecture 11 (Statistical Inference: Part 2)</strong>의 모든 슬라이드를 5살도 웃으며 이해하는 직관적인 비유와, 
+        대학생도 감탄하는 빈틈없는 수식 유도 & 증명으로 마스터해보아요!
+      </p>
+      
+      <!-- Key Targets Tag Cloud -->
+      <div class="pt-3 flex flex-wrap justify-center gap-2 text-xs text-slate-200">
+        <span class="bg-white/10 px-3 py-1 rounded-lg border border-white/10">🎯 점 추정 (Point Estimator)</span>
+        <span class="bg-emerald-500/20 px-3 py-1 rounded-lg border border-emerald-400/30 text-emerald-200">🏔️ MAP (최빈값/1등 봉우리)</span>
+        <span class="bg-blue-500/20 px-3 py-1 rounded-lg border border-blue-400/30 text-blue-200">⚖️ LMS (조건부 기댓값/무게중심)</span>
+        <span class="bg-purple-500/20 px-3 py-1 rounded-lg border border-purple-400/30 text-purple-200">🪙 베타-이항 모델 풀이</span>
+        <span class="bg-rose-500/20 px-3 py-1 rounded-lg border border-rose-400/30 text-rose-200">🤖 LLM 고차원 적분의 저주</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+
+    <!-- Overview Roadmap Box (Slides 2, 3, 4, 11) -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+      <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+        <span class="text-3xl">🗺️</span>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">오늘의 탐험 지도 (Lecture 11 로드맵)</h2>
+          <p class="text-xs sm:text-sm text-slate-500">베이지안 통계적 추론 전체 여정 중 Part 2의 핵심 위치 (Slide 3 & 4 & 11)</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm font-medium">
+        <div class="p-3.5 rounded-2xl bg-slate-100 text-slate-400 border border-slate-200 flex items-center gap-2">
+          <span>(1)</span> <span>추론의 개요</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-100 text-slate-400 border border-slate-200 flex items-center gap-2">
+          <span>(2)</span> <span>베이지안 프레임워크</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-100 text-slate-400 border border-slate-200 flex items-center gap-2">
+          <span>(3)</span> <span>사전/사후 예제들</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-emerald-50 text-emerald-800 border-2 border-emerald-500 font-bold flex items-center gap-2 shadow-sm animate-pulse">
+          <span>(4)</span> <span>📍 MAP 추정기 (Part 2)</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-blue-50 text-blue-800 border-2 border-blue-500 font-bold flex items-center gap-2 shadow-sm">
+          <span>(5)</span> <span>📍 LMS 추정기 (Part 2)</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-purple-50 text-purple-600 border border-purple-200 flex items-center gap-2">
+          <span>(6)</span> <span>LLMS 추정기 (다음 시간!)</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-100 text-slate-400 border border-slate-200 flex items-center gap-2">
+          <span>(7)</span> <span>고전적 추론: ML 추정기</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-2">
+          <span>🎯</span> <span>목표: 점 추정기 개념 정복</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- [1교시] 점 추정 (Slide 5, 7) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-amber-500/20">1</div>
+        <div>
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Slide 5 & Slide 7</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">점 추정(Point Estimation)이란 무엇일까요?</h2>
+        </div>
+      </div>
+
+      <!-- 5살 눈높이 카드 -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-6 sm:p-8 border border-amber-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-amber-900 font-bold text-lg">
+          <span class="text-2xl">🧸</span>
+          <h3>5살 눈높이: "구름 속에서 딱 하나만 집어줘!"</h3>
+        </div>
+        <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+          우리가 돋보기로 관측 단서($X$)를 보고 나면, 숨겨진 미지의 정체($\Theta$)에 대해 구름처럼 퍼져 있는 
+          <strong>사후확률분포 $p_{\Theta|X}$</strong>를 얻게 돼요. <br class="hidden sm:inline">
+          하지만 친구가 <em>"그래서 정답이 몇 번인데? 딱 하나만 콕 집어 말해줘!"</em>라고 물어보면 어떻게 할까요? 
+          수많은 가능성 구름 중에서 <strong>단 하나의 대표 숫자($\hat{\theta}$)</strong>를 골라내야겠죠? 이걸 바로 <strong>"점 추정(Point Estimate)"</strong>이라고 불러요!
+        </p>
+      </div>
+
+      <!-- 개념 상세 카드 3열 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- 카드 1: 왜 단 하나의 값인가? -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl">🎯</div>
+          <h4 class="font-bold text-slate-900">왜 점(Point) 하나만 골라요?</h4>
+          <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside">
+            <li><strong>바쁜 사람들의 요약:</strong> 사람들은 복잡한 확률분포 곡선보다 결론이 딱 떨어지는 한마디 요약을 원해요.</li>
+            <li><strong>원래 정답이 하나인 물리량:</strong> 예컨대 <em>전자의 질량(mass of electron)</em>처럼 우주에 존재하는 진짜 파라미터는 본래 딱 하나의 고정된 상수이기 때문이에요!</li>
+          </ul>
+        </div>
+
+        <!-- 카드 2: 모자 기호의 비밀 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl">🎩</div>
+          <h4 class="font-bold text-slate-900">머리에 쓴 모자 $\hat{\theta}$ (Hat)</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            통계학자들은 진짜 값 $\theta$와 우리가 관측을 통해 추측해 낸 값 $\hat{\theta}$를 구분하기 위해 머리 위에 고깔모자(Hat)를 씌워줘요! <br>
+            $\hat{\theta}$는 <strong>"세타 햇(theta hat)"</strong>이라고 읽고, <em>"우리의 추정 결과"</em>를 의미해요.
+          </p>
+        </div>
+
+        <!-- 카드 3: 함수로서의 추정기 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl">⚙️</div>
+          <h4 class="font-bold text-slate-900">추정치($\hat{\theta}$) vs 추정기($\hat{\Theta}$)</h4>
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <p>• <strong>소문자 $x \to$ 숫자 $\hat{\theta} = g(x)$:</strong> 이미 손에 쥔 관측값 $x$를 자판기에 넣었을 때 툭 튀어나오는 <em>구체적인 하나의 숫자</em>.</p>
+            <p>• <strong>대문자 $X \to$ 확률변수 $\hat{\Theta} = g(X)$:</strong> 아직 뽑지 않은 관측치 $X$는 매번 랜덤하게 바뀌므로, 자판기 함수 규칙 $g(X)$ 자체도 <em>확률변수</em>예요!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 슬라이드 5 시스템 블록선도 재현 -->
+      <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-md">
+        <h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4 text-center">베이지안 점 추정 시스템의 전체 파이프라인 (Slide 5)</h4>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-3 text-center text-xs sm:text-sm">
+          <div class="bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl w-full md:w-auto">
+            <span class="text-slate-400 block text-[11px]">사전 믿음</span>
+            <strong class="text-emerald-400 text-base">Prior $p_\Theta$</strong>
+          </div>
+          <span class="text-slate-500 font-bold">➔</span>
+          <div class="bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl w-full md:w-auto">
+            <span class="text-slate-400 block text-[11px]">관측 과정</span>
+            <strong class="text-amber-400 text-base">Observation Process $X$</strong>
+            <span class="text-[10px] text-slate-400 block">조건부 모델 $p_{X|\Theta}$</span>
+          </div>
+          <span class="text-slate-500 font-bold">➔ 관측값 $x$ ➔</span>
+          <div class="bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl w-full md:w-auto">
+            <span class="text-slate-400 block text-[11px]">사후분포 계산</span>
+            <strong class="text-blue-400 text-base">Posterior $p_{\Theta|X}(\cdot|X=x)$</strong>
+          </div>
+          <span class="text-slate-500 font-bold">➔</span>
+          <div class="bg-indigo-900/80 border-2 border-indigo-400 px-5 py-3 rounded-xl w-full md:w-auto shadow-lg shadow-indigo-500/20">
+            <span class="text-indigo-300 block text-[11px]">최종 단일 결정</span>
+            <strong class="text-white text-base">Point Estimates $\hat{\theta}$ & 오차 분석</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [2교시] 두 자연스러운 추정기: MAP vs LMS (Slide 6) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-indigo-600/20">2</div>
+        <div>
+          <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Slide 6</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">두 명의 천재 요정: MAP vs LMS</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+          사후분포라는 울퉁불퉁한 산맥이 눈앞에 펼쳐졌을 때, 통계학자들은 가장 자연스러운 두 가지 방식을 떠올렸어요. 
+          하나는 <strong>"제일 높은 산꼭대기 요정"</strong>이고, 다른 하나는 <strong>"가장 공평한 시소 요정"</strong>이에요!
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- M1. MAP 요정 카드 -->
+          <div class="bg-emerald-50/70 border-2 border-emerald-400 rounded-3xl p-6 space-y-4 relative overflow-hidden">
+            <div class="absolute right-4 top-4 text-4xl opacity-20">🏔️</div>
+            <div class="inline-block px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full">M1. 최대 사후확률 요정</div>
+            <h3 class="text-xl font-black text-emerald-950">MAP (Maximum A Posteriori)</h3>
+            <p class="text-xs sm:text-sm text-emerald-800 leading-relaxed">
+              <strong>"가장 높은 봉우리 하나만 본다!"</strong> <br>
+              사후확률밀도나 확률값이 제일 큰 위치의 $\theta$를 선택해요. 1등 산꼭대기에 깃발을 꽂는 방식입니다.
+            </p>
+            <div class="bg-white/90 p-4 rounded-2xl border border-emerald-200 font-mono text-xs sm:text-sm text-emerald-950">
+              $$\hat{\theta}_{\text{MAP}} = \arg\max_\theta p_{\Theta|X}(\theta|x)$$
+              <div class="text-[11px] text-slate-500 mt-1 font-sans text-center">(연속형일 때는 $f_{\Theta|X}(\theta|x)$ 최대화)</div>
+            </div>
+            <div class="text-xs text-emerald-800 bg-emerald-100/70 p-3 rounded-xl">
+              💡 <strong>5살 비유:</strong> 반장 선거할 때 <em>투표용지가 가장 많이 쏟아진 1등 후보</em>를 반장으로 뽑는 것과 똑같아요!
+            </div>
+          </div>
+
+          <!-- M2. LMS 요정 카드 -->
+          <div class="bg-blue-50/70 border-2 border-blue-400 rounded-3xl p-6 space-y-4 relative overflow-hidden">
+            <div class="absolute right-4 top-4 text-4xl opacity-20">⚖️</div>
+            <div class="inline-block px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">M2. 최소 평균제곱오차 요정</div>
+            <h3 class="text-xl font-black text-blue-950">LMS (Least Mean Square)</h3>
+            <p class="text-xs sm:text-sm text-blue-800 leading-relaxed">
+              <strong>"시소가 완벽하게 수평을 이루는 무게중심!"</strong> <br>
+              산꼭대기 높이에 얽매이지 않고, 사후분포 전체의 <strong>조건부 기댓값(Conditional Expectation, 평균)</strong>을 답으로 삼아요.
+            </p>
+            <div class="bg-white/90 p-4 rounded-2xl border border-blue-200 font-mono text-xs sm:text-sm text-blue-950">
+              $$\hat{\theta}_{\text{LMS}} = \mathbb{E}[\Theta|X = x]$$
+              <div class="text-[11px] text-slate-500 mt-1 font-sans text-center">(주어진 $x$ 조건에서의 기대치/무게중심)</div>
+            </div>
+            <div class="text-xs text-blue-800 bg-blue-100/70 p-3 rounded-xl">
+              💡 <strong>5살 비유:</strong> 시소 위에 모래를 부었을 때 <em>시소가 어느 한쪽으로 쿵 기울지 않고 수평을 유지하는 받침대 위치</em>예요!
+            </div>
+          </div>
+        </div>
+
+        <!-- 시각적 비교 SVG 그래픽 -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+          <div class="text-center font-bold text-slate-800 text-sm mb-2">🎨 비대칭 산맥에서 두 요정의 선택 비교</div>
+          <p class="text-xs text-slate-500 text-center mb-4">봉우리가 왼쪽에 뾰족하게 솟아있지만 오른쪽에 완만한 꼬리가 길게 뻗어있을 때!</p>
+          <div class="w-full max-w-lg mx-auto">
+            <svg viewBox="0 0 500 200" class="w-full h-auto">
+              <!-- Grid and baseline -->
+              <line x1="30" y1="170" x2="470" y2="170" stroke="#cbd5e1" stroke-width="2" />
+              <!-- Distribution curve (skewed right) -->
+              <path d="M 50 170 C 100 170, 130 30, 170 30 C 210 30, 240 120, 320 140 C 380 155, 420 170, 460 170" 
+                    fill="url(#gradDist)" stroke="#6366f1" stroke-width="3" />
+              <defs>
+                <linearGradient id="gradDist" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#818cf8" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#818cf8" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              
+              <!-- MAP line (Peak) -->
+              <line x1="170" y1="30" x2="170" y2="170" stroke="#059669" stroke-width="2.5" stroke-dasharray="4" />
+              <circle cx="170" cy="30" r="6" fill="#059669" />
+              <text x="170" y="20" font-size="12" font-weight="bold" fill="#059669" text-anchor="middle">🏔️ MAP (꼭대기 봉우리)</text>
+
+              <!-- LMS line (Mean/Center of gravity) -->
+              <line x1="230" y1="100" x2="230" y2="170" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="4" />
+              <polygon points="230,170 223,185 237,185" fill="#2563eb" />
+              <circle cx="230" cy="100" r="5" fill="#2563eb" />
+              <text x="245" y="115" font-size="12" font-weight="bold" fill="#2563eb">⚖️ LMS (시소 무게중심)</text>
+
+              <!-- Baseline markings -->
+              <text x="50" y="190" font-size="11" fill="#94a3b8" text-anchor="middle">작은 값</text>
+              <text x="460" y="190" font-size="11" fill="#94a3b8" text-anchor="middle">큰 값</text>
+              <text x="475" y="174" font-size="12" fill="#64748b" font-weight="bold">&theta;</text>
+            </svg>
+          </div>
+          <p class="text-[11px] text-center text-slate-500 mt-2">
+            * 대칭인 가우시안(종 모양)에서는 꼭대기(MAP)와 무게중심(LMS)이 완벽히 일치하지만, 비대칭일 때는 서로 달라져요!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- [3교시] MAP는 왜 짱인가? 수학적 최적성 증명 (Slide 9, 10) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-emerald-600/20">3</div>
+        <div>
+          <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Slide 9 & Slide 10</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">MAP 요정은 왜 천재일까요? (오답률 최소화의 수학적 증명)</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="bg-emerald-50 rounded-2xl p-5 border border-emerald-200">
+          <div class="flex items-center gap-2 font-bold text-emerald-900 mb-2">
+            <span>🍬</span>
+            <h4>5살 퀴즈쇼: "맞추면 사탕 1개! 틀리면 0개!" (All-or-Nothing / 0-1 손실)</h4>
+          </div>
+          <p class="text-xs sm:text-sm text-emerald-800 leading-relaxed">
+            상자 안에 1번, 2번, 3번 공 중 하나가 들어있대요. 
+            정답을 딱 맞추면 사탕을 받고, 1이라도 틀리면 사탕을 하나도 못 받아요! <br>
+            확률이 <strong>[1번: 10%, 2번: 60%, 3번: 30%]</strong>라면 몇 번을 외쳐야 사탕을 받을 확률이 제일 높을까요? 
+            당연히 <strong>60%인 2번</strong>이죠! 이것이 바로 MAP 요정의 필승 전략이에요.
+          </p>
+        </div>
+
+        <!-- 슬라이드 9 이산 예제 시각화 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+            <h5 class="text-xs font-bold text-slate-700 mb-3">Slide 9의 이산 사후분포 예시 ($p_{\Theta|X}(\theta|x)$)</h5>
+            <div class="flex justify-center items-end gap-8 h-32 pt-6">
+              <!-- theta=1 -->
+              <div class="flex flex-col items-center">
+                <span class="text-xs font-bold text-slate-500 mb-1">0.1</span>
+                <div class="w-4 bg-slate-300 rounded-t h-6"></div>
+                <span class="text-xs font-bold text-slate-700 mt-2">$\theta=1$</span>
+              </div>
+              <!-- theta=2 (MAP) -->
+              <div class="flex flex-col items-center">
+                <span class="text-xs font-bold text-emerald-600 mb-1">0.6 (최대!)</span>
+                <div class="w-4 bg-emerald-500 rounded-t h-24 shadow-md shadow-emerald-500/30"></div>
+                <span class="text-xs font-extrabold text-emerald-700 mt-2">$\hat{\theta}_{\text{MAP}}=2$</span>
+              </div>
+              <!-- theta=3 -->
+              <div class="flex flex-col items-center">
+                <span class="text-xs font-bold text-slate-500 mb-1">0.3</span>
+                <div class="w-4 bg-slate-400 rounded-t h-12"></div>
+                <span class="text-xs font-bold text-slate-700 mt-2">$\theta=3$</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+            <p class="font-semibold text-slate-900">왜 2번을 고르는 게 오답 확률을 최소화할까요?</p>
+            <p>틀릴 확률 $\mathbb{P}(\hat{\theta} \neq \Theta | X=x)$ 은 $1 - \mathbb{P}(\hat{\theta} = \Theta | X=x)$ 예요.</p>
+            <p>따라서 <strong>틀릴 확률을 최소화($\min$)</strong>하는 것은 곧 <strong>맞출 확률을 최대화($\max$)</strong>하는 것과 수학적으로 완벽히 동치입니다!</p>
+            <div class="p-3 bg-emerald-100/60 rounded-xl font-mono text-emerald-950 text-xs">
+              $$\hat{\theta}_{\text{MAP}} = \arg\min_{\hat{\theta} \in \{1,2,3\}} \mathbb{P}(\hat{\theta} \neq \Theta \mid X=x)$$
+            </div>
+          </div>
+        </div>
+
+        <!-- 슬라이드 10 수학적 증명 (Claim 1 & Claim 2) -->
+        <div class="border-t border-slate-100 pt-6 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-emerald-700 text-white rounded-lg text-xs font-bold">정리와 엄밀한 증명</span>
+            <span class="text-xs text-slate-500 font-semibold">교수님 필기 완벽 해설 (Slide 10)</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-200">
+              <span class="font-bold text-emerald-900 text-sm block mb-1">📜 Claim 1 (국소적 최적성)</span>
+              <p class="text-xs text-emerald-800">어떤 특정 관측값 $x$가 딱 주어졌을 때, MAP 규칙은 오답 확률을 최소화한다.</p>
+            </div>
+            <div class="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-200">
+              <span class="font-bold text-emerald-900 text-sm block mb-1">📜 Claim 2 (전역적 최적성)</span>
+              <p class="text-xs text-emerald-800">모든 가능한 $x$에 대해 평균을 낸 전체 오답 확률 또한 MAP 규칙이 최소화한다.</p>
+            </div>
+          </div>
+
+          <!-- 지시확률변수 Proof 박스 -->
+          <div class="bg-slate-900 text-slate-100 rounded-2xl p-5 sm:p-6 space-y-3 font-mono text-xs sm:text-sm">
+            <div class="text-emerald-400 font-bold font-sans flex items-center gap-1.5 text-xs">
+              <span>✍️</span> <span>지시확률변수(Indicator Random Variable)를 이용한 증명:</span>
+            </div>
+            <p class="text-slate-300 font-sans text-xs">
+              정답을 맞히면 1, 틀리면 0이 되는 마법의 스위치(지시확률변수) $I$와 $I_{\text{MAP}}$를 정의합니다:
+            </p>
+            <div class="bg-slate-800/80 p-3 rounded-xl space-y-1">
+              <div>$$\mathbb{E}[I \mid X = x] = \mathbb{P}[g(X) = \Theta \mid X = x]$$</div>
+              <div>$$\mathbb{E}[I_{\text{MAP}} \mid X = x] = \mathbb{P}[g_{\text{MAP}}(X) = \Theta \mid X = x]$$</div>
+            </div>
+            <p class="text-slate-300 font-sans text-xs">
+              MAP는 정의상 해당 $x$에서 사후확률이 가장 큰 값을 고르므로, 임의의 다른 추정기 $g(X)$보다 맞출 확률이 무조건 크거나 같습니다:
+            </p>
+            <div class="text-emerald-300 py-1">
+              $$\mathbb{E}[I \mid X=x] \le \mathbb{E}[I_{\text{MAP}} \mid X=x] \quad \implies \text{Claim 1 증명 완료!}$$
+            </div>
+            <p class="text-slate-300 font-sans text-xs">
+              이제 양변에 $X$에 대한 기댓값을 취하면, <strong>반복 기댓값의 법칙(Law of Iterated Expectations, $\mathbb{E}[\mathbb{E}[I \mid X]] = \mathbb{E}[I]$)</strong>에 의해:
+            </p>
+            <div class="text-emerald-300 py-1">
+              $$\mathbb{E}[I] \le \mathbb{E}[I_{\text{MAP}}] \quad \iff \quad \mathbb{P}(\hat{\Theta} \neq \Theta) \ge \mathbb{P}(\hat{\Theta}_{\text{MAP}} \neq \Theta) \quad \implies \text{Claim 2 증명 완료!}$$
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [4교시] 실전 예제 1: 요술 동전의 MAP 추정 (Slide 8) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-teal-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-teal-600/20">4</div>
+        <div>
+          <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Slide 8</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">실전 대모험 1: 찌그러진 동전과 베타 사전분포의 MAP</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4 text-xs sm:text-sm text-slate-700">
+            <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <span>🪙</span> <span>동전 던지기 문제의 세팅</span>
+            </h4>
+            <p>
+              • 앞면이 나올 진짜 확률 $\theta$를 몰라요. 이것을 확률변수 $\Theta$로 모델링해요. <br>
+              • 사전 믿음: $\Theta \sim \text{Beta}(\alpha, \beta)$ (과거에 앞면 $\alpha-1$번, 뒷면 $\beta-1$번 본 것 같은 선입견)<br>
+              • 관측 $X$: $n$번 던져서 앞면이 $k$번 나옴! ($X=k$)
+            </p>
+            <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl">
+              <strong>사후확률밀도함수:</strong> 
+              $\Theta \mid \{X=k\} \sim \text{Beta}(k+\alpha, \, n-k+\beta)$ <br>
+              $$f_{\Theta|X}(\theta|k) \propto \theta^{\alpha + k - 1} (1 - \theta)^{\beta + n - k - 1}$$
+            </div>
+          </div>
+
+          <!-- 미분 유도 카드 -->
+          <div class="bg-slate-900 text-white rounded-2xl p-5 space-y-2 text-xs font-mono flex flex-col justify-center">
+            <div class="text-teal-400 font-bold font-sans">산꼭대기 찾기 (로그 미분):</div>
+            <p class="text-slate-300 font-sans text-[11px]">함수에 로그를 취해 미분해서 0이 되는 $\theta$를 찾아요!</p>
+            <div class="text-[11px] text-teal-200">
+              $$\frac{d}{d\theta}\Big[ (\alpha+k-1)\ln\theta + (\beta+n-k-1)\ln(1-\theta) \Big] = 0$$
+              $$\frac{\alpha+k-1}{\theta} - \frac{\beta+n-k-1}{1-\theta} = 0$$
+            </div>
+            <div class="p-2 bg-teal-900/80 border border-teal-500 text-emerald-200 rounded-lg text-center font-bold">
+              $$\hat{\theta}_{\text{MAP}} = \frac{\alpha + k - 1}{\alpha + \beta - 2 + n}$$
+            </div>
+          </div>
+        </div>
+
+        <!-- 특별한 경우: 균등분포 (Uniform Prior) -->
+        <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <span class="inline-block px-2 py-0.5 bg-amber-200 text-amber-900 rounded text-[11px] font-bold">특별한 경우: $\alpha=\beta=1$</span>
+            <p class="text-xs sm:text-sm text-amber-900 font-medium">
+              만약 아무런 사전 편견이 없는 <strong>균등분포 $\mathcal{U}[0, 1]$</strong>라면? (모든 확률이 평평할 때)
+            </p>
+          </div>
+          <div class="bg-white px-4 py-2 rounded-xl border border-amber-300 text-center font-mono font-bold text-amber-950 text-base shadow-sm">
+            $$\hat{\theta}_{\text{MAP}} = \frac{k}{n}$$
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 text-center">
+          🎉 "우리가 일상에서 흔히 쓰는 <em>'10번 던져서 7번 나왔으니 앞면 확률은 7/10이야!'</em>라는 생각은 알고 보면 균등 사전분포 하에서의 MAP 추정치였던 거예요!"
+        </p>
+      </div>
+    </section>
+
+    <!-- [5교시] MAP의 한계와 LMS의 탄생: 과녁 맞히기 (Slide 12) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-blue-600/20">5</div>
+        <div>
+          <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Slide 12</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">MAP 말고 다른 추정기는 없나요? (LMS의 탄생 배경)</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <!-- 5살 과녁 비유 -->
+          <div class="bg-rose-50 rounded-3xl p-6 border border-rose-200 space-y-3">
+            <div class="flex items-center gap-2 text-rose-900 font-bold">
+              <span class="text-2xl">🎯</span>
+              <h4>5살 비유: 과녁 맞히기에서 1mm 빗나간 화살</h4>
+            </div>
+            <p class="text-xs sm:text-sm text-rose-800 leading-relaxed">
+              MAP 요정은 너무 냉정해요! 정답이 50인데 <strong>49.99를 맞춘 아이</strong>와 <strong>10,000을 쏜 아이</strong>를 똑같이 <em>"둘 다 틀렸으니 빵점!"</em>이라고 벌점을 줘요 (0-1 Loss). <br><br>
+              하지만 현실에서는 <strong>조금 빗나간 건 봐주고, 엄청 멀리 빗나간 것만 크게 벌을 주는 게</strong> 훨씬 공평하겠죠? 
+              오차 $(\Theta - \hat{\theta})$를 제곱해서 벌점으로 매기는 <strong>평균 제곱 오차(MSE)</strong>의 세계로 떠나봅시다!
+            </p>
+          </div>
+
+          <!-- 목적 함수 비교 -->
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 space-y-1">
+              <span class="text-xs font-bold text-emerald-800">MAP의 목표: 오답률 자체를 최소화 (0-1 Loss)</span>
+              <div class="font-mono text-xs sm:text-sm text-emerald-950">
+                $$\min_{\hat{\theta}} \mathbb{P}[\Theta \neq \hat{\theta} \mid X = x]$$
+              </div>
+            </div>
+            <div class="p-4 rounded-2xl bg-blue-50 border-2 border-blue-400 space-y-1 shadow-sm">
+              <span class="text-xs font-bold text-blue-800">LMS의 목표: 평균 제곱 오차(MSE)를 최소화!</span>
+              <div class="font-mono text-xs sm:text-sm text-blue-950 font-bold">
+                $$\min_{\hat{\theta}} \mathbb{E}\big[ (\Theta - \hat{\theta})^2 \mid X = x \big]$$
+              </div>
+            </div>
+            <p class="text-xs text-slate-500">
+              이 목적함수를 최소화하는 추정기를 바로 <strong>LMS (Least Mean Square) 추정기</strong>라고 불러요!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [6교시] 힌트가 없을 때의 LMS 유도 (Slide 13) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-violet-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-violet-600/20">6</div>
+        <div>
+          <span class="text-xs font-bold text-violet-600 uppercase tracking-wider">Slide 13</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">아무 힌트가 없을 때! LMS는 어떤 모양일까요?</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="p-5 bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl border border-violet-200 text-xs sm:text-sm text-slate-700 space-y-2">
+          <h4 class="font-bold text-violet-955 text-base">상황 가정: 관측 단서 $X$가 아예 없는 상태!</h4>
+          <p>
+            숨겨진 미지의 값 $\theta$가 <strong>4부터 10 사이에서 균등분포 $\Theta \sim \mathcal{U}[4, 10]$</strong>로 놓여있다고 해요. 
+            아직 우리는 아무것도 관측하지 못했어요 ($X$ 없음).
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div class="p-3 bg-white rounded-xl border border-slate-200">
+              <strong class="text-rose-600 block text-xs">❌ MAP 요정의 멘붕:</strong>
+              4부터 10까지 모든 곳의 높이가 똑같아서 4든, 7이든, 10이든 아무거나 다 답이 됨! (결정력 없음)
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-blue-200">
+              <strong class="text-blue-600 block text-xs">✨ LMS 요정의 선택:</strong>
+              "양쪽에서 가장 안 다치는 곳은 딱 정중앙이야!" <br>
+              기댓값 $\hat{\theta} = \mathbb{E}[\Theta] = \frac{4+10}{2} = 7$ 선택!
+            </div>
+          </div>
+        </div>
+
+        <!-- 슬라이드 13 편차-분산 분해 증명 -->
+        <div class="bg-slate-900 text-white rounded-3xl p-6 space-y-4 font-mono text-xs sm:text-sm">
+          <div class="text-amber-400 font-sans font-bold text-xs flex items-center gap-1.5">
+            <span>📐</span> <span>수학적 증명: 왜 기댓값 $\mathbb{E}[\Theta]$가 오차 제곱을 최소화할까?</span>
+          </div>
+          <p class="text-slate-300 font-sans text-xs">
+            임의의 추정 상수 $\hat{\theta}$에 대해 평균 제곱 오차를 분산과 평균의 성질을 이용해 분해해 봅니다:
+          </p>
+          <div class="bg-slate-800 p-4 rounded-xl space-y-2 text-slate-100">
+            <div>$$\mathbb{E}\big[(\Theta - \hat{\theta})^2\big] = \text{var}(\Theta - \hat{\theta}) + \Big(\mathbb{E}[\Theta - \hat{\theta}]\Big)^2$$</div>
+            <div class="text-slate-400 text-xs font-sans">($\hat{\theta}$는 상수이므로 분산에 영향을 주지 않아 $\text{var}(\Theta - \hat{\theta}) = \text{var}(\Theta)$)</div>
+            <div class="text-emerald-300 font-bold">$$= \text{var}(\Theta) + \Big(\mathbb{E}[\Theta] - \hat{\theta}\Big)^2$$</div>
+          </div>
+          <div class="font-sans text-xs text-slate-300 space-y-1">
+            <p>• 앞의 $\text{var}(\Theta)$는 우리가 바꿀 수 없는 원래의 흔들림(불확실성)이에요.</p>
+            <p>• 뒤의 $(\mathbb{E}[\Theta] - \hat{\theta})^2$은 실수 제곱이므로 무조건 $\ge 0$이에요!</p>
+            <p class="text-amber-300 font-bold pt-1">
+              👉 따라서 이 값이 0이 되는 순간, 즉 $\mathbf{\hat{\theta} = \mathbb{E}[\Theta]}$ 일 때 오차가 최소가 됩니다!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [7교시] 힌트가 있을 때의 LMS와 오차 분산 (Slide 14) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-sky-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-sky-600/20">7</div>
+        <div>
+          <span class="text-xs font-bold text-sky-600 uppercase tracking-wider">Slide 14</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">단서 $X=x$가 주어졌을 때의 LMS와 오차 분석</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <p class="text-slate-700 text-xs sm:text-sm leading-relaxed">
+          관측치 $X=x$가 주어졌다면, 앞서 배운 마법의 원리를 <strong>조건부 확률의 세계</strong>로 그대로 확장하면 돼요!
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2">
+            <span class="text-xs font-bold text-blue-900 uppercase">조건부 LMS 추정치</span>
+            <div class="font-mono text-base font-bold text-blue-950">
+              $$\hat{\theta}_{\text{LMS}} = \mathbb{E}[\Theta \mid X = x]$$
+            </div>
+            <p class="text-xs text-blue-800">
+              구체적인 단서 $x$가 나왔을 때, 사후분포의 <strong>조건부 기댓값</strong>이 오차 제곱을 가장 작게 만들어줘요.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-2">
+            <span class="text-xs font-bold text-indigo-900 uppercase">함수로서의 LMS 추정기</span>
+            <div class="font-mono text-base font-bold text-indigo-950">
+              $$\hat{\Theta}_{\text{LMS}} = \mathbb{E}[\Theta \mid X]$$
+            </div>
+            <p class="text-xs text-indigo-800">
+              단서를 관측하기 전 전체 규칙으로 보면, LMS 추정기는 관측 확률변수 $X$에 따른 조건부 기댓값 확률변수예요.
+            </p>
+          </div>
+        </div>
+
+        <!-- 오차 분산 분석 카드 (Slide 14 하단부) -->
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+          <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <span>📏</span> <span>LMS 추정기의 오차의 크기(MSE)는 얼마나 될까요?</span>
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+            <div class="p-4 bg-white rounded-xl border border-slate-200 space-y-2">
+              <strong class="text-slate-800 block text-xs">1. 특정 관측값 $X=x$가 정해졌을 때 오차:</strong>
+              <div class="font-mono text-blue-900 text-xs">
+                $$\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X=x])^2 \mid X=x\big] = \mathbf{\text{var}(\Theta \mid X=x)}$$
+              </div>
+              <p class="text-slate-500 text-[11px]">👉 그 조건에서의 <strong>사후분포의 분산(두께)</strong> 자체가 바로 오차가 됩니다!</p>
+            </div>
+            <div class="p-4 bg-white rounded-xl border border-slate-200 space-y-2">
+              <strong class="text-slate-800 block text-xs">2. 가능한 모든 $X$에 대해 평균을 냈을 때 전체 오차:</strong>
+              <div class="font-mono text-indigo-900 text-xs">
+                $$\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X])^2\big] = \mathbf{\mathbb{E}\big[\text{var}(\Theta \mid X)\big]}$$
+              </div>
+              <p class="text-slate-500 text-[11px]">👉 전체 평균 제곱 오차는 <strong>조건부 분산들의 기댓값</strong>이 됩니다!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [8교시] 실전 예제 2: 동전 문제에서 MAP vs LMS 전면 비교 (Slide 15) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-purple-600/20">8</div>
+        <div>
+          <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">Slide 15</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">실전 대모험 2: 동전 문제에서 MAP와 LMS의 숙명적 라이벌 매치!</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <!-- 베타 분포 기댓값 수학적 사실 -->
+        <div class="p-4 bg-purple-50 rounded-2xl border border-purple-200 text-xs sm:text-sm text-purple-950 space-y-2">
+          <div class="font-bold flex items-center gap-1.5">
+            <span>📌</span> <span>베타 분포의 기댓값 수학적 성질 (Fact)</span>
+          </div>
+          <p class="leading-relaxed">
+            $\Theta \sim \text{Beta}(\alpha, \beta)$ 일 때, 기댓값은 베타 함수의 성질 $B(\alpha+1, \beta) = \frac{\alpha}{\alpha+\beta} B(\alpha, \beta)$ 에 의해 다음과 같아요:
+          </p>
+          <div class="font-mono text-center text-xs py-1">
+            $$\mathbb{E}[\Theta] = \frac{1}{B(\alpha, \beta)}\int_0^1 \theta \cdot \theta^{\alpha-1}(1-\theta)^{\beta-1} d\theta = \frac{\alpha}{\alpha + \beta}$$
+          </div>
+        </div>
+
+        <!-- 사후분포 대입 & 공식 비교 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- MAP 결과 -->
+          <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-300 space-y-3">
+            <span class="px-2.5 py-1 bg-emerald-600 text-white rounded-full text-xs font-bold">🏔️ MAP 추정치</span>
+            <div class="font-mono text-sm sm:text-base font-bold text-emerald-950">
+              $$\hat{\theta}_{\text{MAP}} = \frac{\alpha + k - 1}{\alpha + \beta - 2 + n}$$
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-emerald-200 text-xs">
+              <strong>균등분포 ($\alpha=\beta=1$)일 때:</strong>
+              <div class="font-mono text-emerald-700 font-bold text-sm mt-1">$$\hat{\theta}_{\text{MAP}} = \frac{k}{n}$$</div>
+            </div>
+          </div>
+
+          <!-- LMS 결과 -->
+          <div class="p-5 rounded-2xl bg-blue-50/70 border border-blue-300 space-y-3">
+            <span class="px-2.5 py-1 bg-blue-600 text-white rounded-full text-xs font-bold">⚖️ LMS 추정치</span>
+            <div class="font-mono text-sm sm:text-base font-bold text-blue-950">
+              $$\mathbb{E}[\Theta \mid X=k] = \frac{k + \alpha}{\alpha + \beta + n}$$
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-blue-200 text-xs">
+              <strong>균등분포 ($\alpha=\beta=1$)일 때:</strong>
+              <div class="font-mono text-blue-700 font-bold text-sm mt-1">$$\mathbb{E}[\Theta \mid X=k] = \frac{k + 1}{n + 2}$$</div>
+              <span class="text-[10px] text-slate-500 font-sans block mt-1">(유명한 라플라스의 승계 법칙!)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 충격적인 차이: 1번 던져 1번 앞면 나왔을 때 ($n=1, k=1$) -->
+        <div class="p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border-2 border-amber-300 space-y-4">
+          <div class="flex items-center gap-2 text-amber-950 font-bold">
+            <span class="text-2xl">⚡</span>
+            <h4 class="text-base sm:text-lg">동전을 딱 1번 던져서 앞면이 1번 나왔을 때 ($n=1, k=1$)</h4>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+            <div class="bg-white p-4 rounded-xl border border-amber-200 space-y-2">
+              <span class="font-bold text-emerald-800 block text-xs">🏔️ MAP 요정의 대답: $1 / 1 = 1.0$ (100%!)</span>
+              <p class="text-slate-600 leading-relaxed">
+                <em>"앞면 나왔잖아! 이 동전은 앞면만 나오는 마법 동전이 100% 확실해!"</em> <br>
+                단 한 번의 관측만으로 지나치게 극단적이고 오만한 판단을 내려요 (심각한 과적합).
+              </p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-amber-200 space-y-2">
+              <span class="font-bold text-blue-800 block text-xs">⚖️ LMS 요정의 대답: $(1+1)/(1+2) = 2/3 \approx 0.67$</span>
+              <p class="text-slate-600 leading-relaxed">
+                <em>"앞면이 나오긴 했지만, 겨우 1번 던진 거잖아. 앞면 확률이 한 67% 정도 되지 않을까?"</em> <br>
+                불확실성을 고려해 훨씬 지혜롭고 겸손한 판단을 내려요!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [인터랙티브 코너] 동전 던지기 시뮬레이터 -->
+    <section class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">🎮</span>
+        <div>
+          <h3 class="text-xl font-bold text-emerald-300">인터랙티브 실험실: MAP vs LMS 직접 비교하기</h3>
+          <p class="text-xs text-slate-300">던진 횟수($n$)와 앞면 횟수($k$)를 슬라이더로 조절해 보세요! (균등 사전분포 기준)</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-2">
+        <!-- 컨트롤러 -->
+        <div class="space-y-5 bg-white/5 p-5 rounded-2xl border border-white/10">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span>동전 던진 횟수 ($n$)</span>
+              <span id="nVal" class="text-amber-300 font-mono text-sm">1</span>
+            </div>
+            <input id="nSlider" type="range" min="1" max="50" value="1" class="w-full accent-amber-400 cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span>앞면이 나온 횟수 ($k$)</span>
+              <span id="kVal" class="text-emerald-300 font-mono text-sm">1</span>
+            </div>
+            <input id="kSlider" type="range" min="0" max="1" value="1" class="w-full accent-emerald-400 cursor-pointer">
+          </div>
+
+          <div class="text-[11px] text-slate-400">
+            * $k$는 당연히 던진 횟수 $n$보다 클 수 없도록 자동으로 조절됩니다.
+          </div>
+        </div>
+
+        <!-- 실시간 결과 카드 -->
+        <div class="space-y-4">
+          <!-- MAP 바 -->
+          <div class="bg-emerald-950/60 border border-emerald-500/40 p-4 rounded-2xl space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-emerald-300 flex items-center gap-1.5">
+                <span>🏔️ MAP: $k / n$</span>
+              </span>
+              <span id="mapText" class="font-mono font-bold text-emerald-400 text-sm">1.000 (100.0%)</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-3.5 overflow-hidden">
+              <div id="mapBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-300" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <!-- LMS 바 -->
+          <div class="bg-blue-950/60 border border-blue-500/40 p-4 rounded-2xl space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-blue-300 flex items-center gap-1.5">
+                <span>⚖️ LMS: $(k+1)/(n+2)$</span>
+              </span>
+              <span id="lmsText" class="font-mono font-bold text-blue-400 text-sm">0.667 (66.7%)</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-3.5 overflow-hidden">
+              <div id="lmsBar" class="bg-gradient-to-r from-blue-500 to-indigo-400 h-full rounded-full transition-all duration-300" style="width: 66.7%"></div>
+            </div>
+          </div>
+
+          <!-- 역동적인 한 줄 코멘트 -->
+          <div id="simComment" class="text-xs text-amber-200 bg-white/10 p-3 rounded-xl border border-amber-400/20 leading-relaxed font-sans">
+            "지금은 데이터가 적어서 MAP(100%)와 LMS(66.7%)의 차이가 아주 커요! $n$을 50까지 쭈욱 늘려보세요!"
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [9교시] LMS 추정기가 현실에서 어려운 이유 (Slide 16) -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-rose-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-rose-600/20">9</div>
+        <div>
+          <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Slide 16</span>
+          <h2 class="text-2xl font-extrabold text-slate-900">완벽해 보이는 LMS 요정의 눈물 (현실에서 LMS가 어려운 이유!)</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="p-5 bg-rose-50 rounded-2xl border border-rose-200 space-y-3">
+          <div class="flex items-center gap-2 text-rose-900 font-bold">
+            <span class="text-2xl">😱</span>
+            <h4>분모에 도사린 괴물: "차원의 저주(Curse of Dimensionality)"</h4>
+          </div>
+          <p class="text-xs sm:text-sm text-rose-800 leading-relaxed">
+            사후확률분포를 구하려면 베이즈 정리를 써야 해요:
+          </p>
+          <div class="bg-white/80 p-3 rounded-xl font-mono text-center text-xs sm:text-sm text-rose-950">
+            $$f_{\Theta|X}(\theta|x) = \frac{f_\Theta(\theta) f_{X|\Theta}(x|\theta)}{f_X(x)}, \quad \text{where } \mathbf{f_X(x) = \int f_\Theta(\theta') f_{X|\Theta}(x|\theta') d\theta'}$$
+          </div>
+          <p class="text-xs sm:text-sm text-rose-800 leading-relaxed">
+            보물이 1개($\theta$ 1차원)일 땐 컴퓨터가 적분을 뚝딱 계산해요. 
+            하지만 만약 찾아야 할 비밀 보물이 <strong>수천억 개</strong>라면 어떻게 될까요? 
+            우주에 있는 모든 원자 수보다 많은 계산을 해야 해서 슈퍼컴퓨터도 폭발하고 말아요!
+          </p>
+        </div>
+
+        <!-- 슬라이드 16의 딥러닝 파라미터 폭발 인포그래픽 -->
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <h4 class="font-bold text-slate-900 text-sm">딥러닝/빅데이터 시대의 파라미터 폭발사 (Slide 16 전수 반영)</h4>
+            <span class="text-xs text-slate-500">AlexNet $\to$ 현대 초대형 LLM</span>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <!-- AlexNet -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-semibold">
+                <span class="text-slate-700">🖼️ AlexNet (2012, 이미지 인식)</span>
+                <span class="font-mono font-bold text-slate-900">60,000,000 (60M / 61M 개)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                <div class="bg-slate-400 h-full rounded-full" style="width: 2%"></div>
+              </div>
+            </div>
+
+            <!-- SwinV2-G -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-semibold">
+                <span class="text-slate-700">👁️ SwinV2-G (컴퓨터 비전)</span>
+                <span class="font-mono font-bold text-indigo-700">3,000,000,000 (3B 개)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                <div class="bg-indigo-400 h-full rounded-full" style="width: 8%"></div>
+              </div>
+            </div>
+
+            <!-- GPT-3 -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-semibold">
+                <span class="text-slate-700">💬 GPT-3 (2020, 자연어 처리)</span>
+                <span class="font-mono font-bold text-purple-700">175,000,000,000 (175B 개)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                <div class="bg-purple-500 h-full rounded-full" style="width: 35%"></div>
+              </div>
+            </div>
+
+            <!-- Llama 3.1 & DeepSeek-V3 -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-semibold">
+                <span class="text-slate-700">🚀 Llama 3.1 / DeepSeek-V3 (현대 초대형 언어모델)</span>
+                <span class="font-mono font-bold text-rose-600">405,000,000,000 ~ 671,000,000,000 (405B / 671B 개!)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden">
+                <div class="bg-gradient-to-r from-rose-500 to-amber-500 h-full rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3가지 치명적 장벽과 대안 (LLMS 예고) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2">
+            <span class="font-bold text-rose-900 block text-xs">🚨 LMS의 2가지 근본 한계:</span>
+            <p>1. <strong>관측 모델 부재:</strong> 현실에선 $f_{X|\Theta}(x|\theta)$(우도) 함수 자체를 모르는 경우가 수두룩함.</p>
+            <p>2. <strong>다차원 사후분포 계산 불가:</strong> 차원이 수억 개면 적분 $f_X(x)$ 계산 불가능!</p>
+          </div>
+
+          <div class="p-4 bg-indigo-50 rounded-2xl border border-indigo-200 text-xs space-y-2">
+            <span class="font-bold text-indigo-900 block text-xs">🔮 다음 시간의 위대한 탈출구!</span>
+            <p class="text-indigo-800 leading-relaxed">
+              <em>"적분이 너무 복잡해서 포기해야 할까?"</em> <br>
+              아니요! <strong>"그냥 $aX + b$ 같은 심플한 1차 직선 공식으로 때려 맞추면 어떨까?"</strong> <br>
+              $\implies$ <strong>(6) LLMS (Linear LMS)</strong>에서 마법처럼 쉬운 해결책이 공개됩니다!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [종합 비교] MAP vs LMS 최종 결산표 -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+      <div class="text-center space-y-1">
+        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-bold uppercase tracking-wider">Cheat Sheet</span>
+        <h3 class="text-2xl font-black text-slate-900">MAP vs LMS 한눈에 끝내는 완전 정복표</h3>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b-2 border-slate-200 text-slate-700">
+              <th class="py-3 px-4 bg-slate-50 font-bold">비교 기준</th>
+              <th class="py-3 px-4 bg-emerald-50/70 font-bold text-emerald-900">🏔️ MAP 추정기</th>
+              <th class="py-3 px-4 bg-blue-50/70 font-bold text-blue-900">⚖️ LMS 추정기</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">직관적 의미</td>
+              <td class="py-3.5 px-4">사후분포의 <strong>가장 높은 봉우리(최빈값)</strong></td>
+              <td class="py-3.5 px-4">사후분포의 <strong>시소 무게중심(평균값)</strong></td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">수학적 공식</td>
+              <td class="py-3.5 px-4 font-mono text-emerald-700">$$\hat{\theta}_{\text{MAP}} = \arg\max_\theta f_{\Theta|X}(\theta|x)$$</td>
+              <td class="py-3.5 px-4 font-mono text-blue-700">$$\hat{\theta}_{\text{LMS}} = \mathbb{E}[\Theta \mid X=x]$$</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">최적화 목적함수</td>
+              <td class="py-3.5 px-4 font-mono text-xs">$$\min \mathbb{P}(\hat{\theta} \neq \Theta \mid X=x)$$<br>(오답 확률 최소화 / 0-1 손실)</td>
+              <td class="py-3.5 px-4 font-mono text-xs">$$\min \mathbb{E}[(\Theta - \hat{\theta})^2 \mid X=x]$$<br>(평균 제곱 오차 최소화 / MSE)</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">동전 예제 ($\mathcal{U}[0,1]$ 사전분포)</td>
+              <td class="py-3.5 px-4 font-mono font-bold text-emerald-800">$$\frac{k}{n}$$</td>
+              <td class="py-3.5 px-4 font-mono font-bold text-blue-800">$$\frac{k + 1}{n + 2}$$</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">오차 분석의 결과</td>
+              <td class="py-3.5 px-4">정답률 최대화 (지시함수 기댓값 $\mathbb{E}[I]$ 극대화)</td>
+              <td class="py-3.5 px-4">오차의 분산은 사후 조건부 분산 $\text{var}(\Theta \mid X=x)$</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">가장 큰 장점</td>
+              <td class="py-3.5 px-4">분모 적분 없이 분자만 미분해서 찾을 수 있음!</td>
+              <td class="py-3.5 px-4">극단적 편향이 적고 오차 크기 자체를 줄여줌!</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-semibold bg-slate-50/50">가장 큰 약점</td>
+              <td class="py-3.5 px-4">데이터 적을 때 과적합 극심 ($n=1, k=1 \to 100\%$)</td>
+              <td class="py-3.5 px-4">고차원 파라미터에서 사후 적분 계산이 극도로 어려움</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer Takeaway & Slide 17 -->
+    <footer class="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 space-y-6 shadow-2xl relative overflow-hidden">
+      <div class="max-w-2xl mx-auto text-center space-y-4">
+        <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">5살 요정의 마지막 한 줄 요약</span>
+        <blockquote class="text-lg sm:text-xl font-medium text-slate-100 leading-relaxed">
+          “1등 당첨만 노릴 때는 <strong>가장 높은 산꼭대기(MAP)</strong>를 고르고,<br>
+          아깝게 틀려도 덜 혼나고 싶을 때는 <strong>시소의 무게중심(LMS)</strong>을 고르자!”
+        </blockquote>
+        <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+          <span>아주대학교 소프트웨어학과 / 인공지능융합학과</span>
+          <span class="font-mono">Lecture 11 Statistical Inference (Part 2)</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Interactive Simulator Logic -->
+  <script>
+    const nSlider = document.getElementById('nSlider');
+    const kSlider = document.getElementById('kSlider');
+    const nVal = document.getElementById('nVal');
+    const kVal = document.getElementById('kVal');
+    const mapText = document.getElementById('mapText');
+    const lmsText = document.getElementById('lmsText');
+    const mapBar = document.getElementById('mapBar');
+    const lmsBar = document.getElementById('lmsBar');
+    const simComment = document.getElementById('simComment');
+
+    function updateSim() {
+      let n = parseInt(nSlider.value);
+      kSlider.max = n;
+      let k = parseInt(kSlider.value);
+      if (k > n) {
+        k = n;
+        kSlider.value = n;
+      }
+
+      nVal.textContent = n;
+      kVal.textContent = k;
+
+      // MAP: k / n
+      const mapVal = k / n;
+      const mapPercent = (mapVal * 100).toFixed(1);
+      mapText.textContent = `${mapVal.toFixed(3)} (${mapPercent}%)`;
+      mapBar.style.width = `${mapPercent}%`;
+
+      // LMS: (k + 1) / (n + 2)
+      const lmsVal = (k + 1) / (n + 2);
+      const lmsPercent = (lmsVal * 100).toFixed(1);
+      lmsText.textContent = `${lmsVal.toFixed(3)} (${lmsPercent}%)`;
+      lmsBar.style.width = `${lmsPercent}%`;
+
+      // Commentary update
+      if (n === 1 && k === 1) {
+        simComment.innerHTML = "⚡ <strong>n=1, k=1:</strong> MAP는 단 1번 보고 100%라고 단정하지만, LMS는 66.7%로 신중함을 유지해요!";
+      } else if (n === 1 && k === 0) {
+        simComment.innerHTML = "⚡ <strong>n=1, k=0:</strong> MAP는 0%라고 단정하지만, LMS는 33.3%로 여지를 남겨둬요!";
+      } else if (n >= 40) {
+        const diff = Math.abs(mapVal - lmsVal).toFixed(4);
+        simComment.innerHTML = `🎉 <strong>n=${n}:</strong> 데이터가 엄청 많아지니까 MAP(${mapVal.toFixed(3)})와 LMS(${lmsVal.toFixed(3)})의 차이가 겨우 <strong>${diff}</strong>로 거의 똑같아졌어요!`;
+      } else {
+        simComment.innerHTML = `💡 던진 횟수 n=${n}, 앞면 횟수 k=${k}일 때: MAP는 ${k}/${n}, LMS는 (${k}+1)/(${n}+2)를 나타냅니다.`;
+      }
+    }
+
+    nSlider.addEventListener('input', updateSim);
+    kSlider.addEventListener('input', updateSim);
+    updateSim();
+  </script>
+</body>
+</html>

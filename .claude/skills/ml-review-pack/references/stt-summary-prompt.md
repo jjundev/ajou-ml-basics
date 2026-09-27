@@ -1,6 +1,6 @@
 # STT 요약 에이전트 지시문
 
-메인 에이전트는 날짜마다 아래 브리프로 에이전트 1명을 띄운다(병렬, model: opus / lite: sonnet).
+메인 에이전트는 날짜마다 아래 브리프로 에이전트 1명을 띄운다(병렬, model: opus / lite: sonnet, GPT이면 sol / lite: luna).
 
 ---
 머신러닝기초(정방철 교수님) <MMDD> 수업 녹음 전사를 정밀 요약한다.

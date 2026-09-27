@@ -1,6 +1,6 @@
 # 섹션 작성 규칙
 
-## 작성자 브리프 (메인 에이전트가 섹션마다 1명, 병렬, model: opus / lite: sonnet)
+## 작성자 브리프 (메인 에이전트가 섹션마다 1명, 병렬, model: opus / lite: sonnet, GPT이면 sol / lite: luna)
 
 ---
 머신러닝기초 정리노트의 섹션 `<sid>`(`<섹션 title>`)를 쓴다.
