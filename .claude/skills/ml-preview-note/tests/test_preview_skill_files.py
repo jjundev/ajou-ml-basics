@@ -4,7 +4,7 @@ import os
 import re
 import unittest
 
-from _util import REPO, SKILL
+from _preview_util import REPO, SKILL
 
 SKILL_MD = SKILL / "SKILL.md"
 

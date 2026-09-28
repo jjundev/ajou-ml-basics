@@ -10,7 +10,7 @@ manifest는 이번 예습노트의 계약이다. 작성자, 검사기, 조립기
 | `course` | `"머신러닝기초"` |
 | `lecture` | `"L04"` (`pick` 출력 첫 칸) |
 | `slug` | `pick` 출력 셋째 칸(예: `"Linear_Regression_Part1"`) |
-| `pdf` | 저장소 기준 PDF 경로(예: `"강의노트/Lecture03_Linear_Regression_Part1_rev.pdf"`) |
+| `pdf` | 저장소 기준 PDF 경로(예: `"강의노트/Lecture03_Linear_Regression_Part1_rev.pdf"`). `pick`은 절대 경로를 출력하므로 저장소 루트 부분을 떼어 쓴다 |
 | `note_title` | `"<주제> — 수업 전에 보는 예습노트"` |
 | `note_subtitle` | `"정방철 교수님 머신러닝기초 · Lecture04 <영문 제목> 예습 (MML N장)"` 형식 |
 | `footer_note` | HTML 허용. `출처: 정방철 교수님 강의자료(LectureXX) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) N장. 수업 전에 만든 노트라 수업 내용과 다를 수 있어요.` |

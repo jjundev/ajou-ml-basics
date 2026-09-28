@@ -23,7 +23,6 @@ import time
 import unicodedata
 
 PDF_RE = re.compile(r"Lecture(\d{2})_([A-Za-z0-9_]+?)(_rev)?\.pdf")
-LECTURE_RE = re.compile(r"L\d{2}")
 LECTURES_DIR = "강의노트"
 NOTES_DIR = "예습노트"
 
@@ -73,6 +72,7 @@ def pick(repo, lecture: str | None = None) -> tuple[str, Path, str]:
         raise PickError(f"{LECTURES_DIR}/에 LectureNN_*.pdf 없음. 새 강의노트가 올라왔는지 ajou-bb로 확인하세요.")
     available = ", ".join(pdfs)
     if lecture is not None:
+        lecture = normalize_lecture(lecture)
         if lecture not in pdfs:
             raise PickError(f"{lecture} 강의노트 없음. 사용 가능: {available}")
     else:
@@ -84,14 +84,26 @@ def pick(repo, lecture: str | None = None) -> tuple[str, Path, str]:
     return lecture, pdf, slug
 
 
+def normalize_lecture(arg: str) -> str:
+    """"L03", "l03", "L3", "3", "03" → "L03"."""
+    m = re.fullmatch(r"[Ll]?(\d{1,2})", arg.strip())
+    if not m:
+        raise PickError(f"Lecture 형식이 아님: {arg!r} (예: L03)")
+    return f"L{int(m.group(1)):02d}"
+
+
 def _count(p: Path) -> int:
     return sum(len(files) for _, _, files in os.walk(p)) if p.is_dir() else 1
 
 
 def backup(repo, lecture: str, run) -> Path | None:
     run = Path(run)
-    if not LECTURE_RE.fullmatch(lecture) or not run.is_dir():
-        raise PickError(f"백업 중단: lecture={lecture!r} 또는 run={str(run)!r} 잘못됨")
+    try:
+        lecture = normalize_lecture(lecture)
+    except PickError as e:
+        raise PickError(f"백업 중단: {e}") from e
+    if not run.is_dir():
+        raise PickError(f"백업 중단: run 폴더 없음: {run}")
     src = child(child(Path(repo), NOTES_DIR), lecture)
     if src is None:
         return None

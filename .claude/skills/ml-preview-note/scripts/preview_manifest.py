@@ -15,7 +15,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import _review  # noqa: E402,F401  (ml-review-pack/scripts를 import 경로에 넣는다)
-from manifest import ManifestError, _need, _objects, _strings  # noqa: E402  (복습 스킬 공용 도우미)
+from manifest import ManifestError, need as _need, objects as _objects, strings as _strings  # noqa: E402  (복습 스킬 공용 도우미)
 
 LAYER_NAMES = {"eli5", "formal", "listen"}
 CONCEPT_LAYERS = {"eli5", "formal"}

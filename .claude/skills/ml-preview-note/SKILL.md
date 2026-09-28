@@ -10,10 +10,10 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 **산출물** (`예습노트/<Lxx>/`): `예습노트_<Lxx>_<slug>.html`, 같은 이름 `.md`, `figures_<Lxx>/`
 
 **인자**: `[Lxx] [lite]`
-- `Lxx`가 없으면 번호가 가장 큰 Lecture PDF. 그 예습노트가 이미 있으면 멈추고 알린다.
-- `lite`: 작성자를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사는 그대로 한다.
+- `Lxx`가 없으면 번호가 가장 큰 Lecture PDF. 그 예습노트가 이미 있으면 멈추고 알린다. `l03`, `L3`, `3`도 `L03`으로 받는다.
+- `lite`: 작성자와 6단계 리뷰어를 sonnet(GPT이면 luna)으로 돌린다. 리뷰는 생략하지 않는다(검사기가 못 잡는 사실 오류·문장 문제를 잡는 유일한 단계라서). 기계 검사와 브라우저 검사도 그대로 한다.
 
-**진행 표시**: 단계마다 한 줄. 예: `3/9 작성 중: 섹션 4개 (병렬)`
+**진행 표시**: 단계마다 한 줄, `<단계 번호>/9`(단계는 0~9). 예: `3/9 작성 중: 섹션 4개 (병렬)`
 
 **경로 약속**
 - `SKILL` = 이 파일이 있는 폴더(`.claude/skills/ml-preview-note`)의 절대 경로
@@ -32,9 +32,9 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
    출력은 `Lxx<TAB>PDF 경로<TAB>slug`. 종료 코드가 1이면 표준에러 메시지(사용 가능 목록, ajou-bb 안내)를 그대로 보여 주고 멈춘다.
 3. 실행 폴더를 만든다. 서브에이전트에게는 `RUN`, `RUN/repo`, `SKILL` 경로만 넘긴다.
    ```bash
-   mkdir -p "$RUN"/{sections,work} && ln -sfn "$REPO" "$RUN/repo"
+   rm -rf "$RUN/sections" "$RUN/work" && mkdir -p "$RUN"/{sections,work} && ln -sfn "$REPO" "$RUN/repo"
    ```
-   에이전트는 `RUN` 밖에 쓰지 않는다. 임시 파일은 `RUN/work/`에만 둔다. `예습노트/`에는 메인 에이전트만 쓴다.
+   같은 세션에서 다시 실행해도 이전 실행의 조각이 섞이지 않게 `sections/`와 `work/`를 비우고 시작한다(`RUN` 아래 scratch 폴더만 지운다). 에이전트는 `RUN` 밖에 쓰지 않는다. 임시 파일은 `RUN/work/`에만 둔다. `예습노트/`에는 메인 에이전트만 쓴다.
 
 ### 1. 자료 파악
 1. 슬라이드 텍스트를 슬라이드 번호와 함께 `RUN/slides.txt`로 뽑는다.
@@ -70,7 +70,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 
 ### 3. 작성
 - 섹션마다 작성자 1명을 **한 메시지에서 병렬로** 띄운다. 브리프는 `references/content-rules.md`.
-- 모델은 opus, `lite`이면 sonnet. GPT이면 opus 대신 sol, sonnet 대신 luna.
+- 모델은 opus, `lite`이면 sonnet. GPT이면 opus 대신 sol, sonnet 대신 luna. 리뷰어도 같은 규칙이다.
 - 브리프의 `<…>` 자리에 실제 경로, 섹션 id·제목, 그 섹션 토픽의 `links` 목록, MML 쪽 번호를 채운다.
 
 ### 4. 조립
@@ -78,7 +78,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
   ```bash
   python3 "$SKILL/scripts/preview_files.py" backup --repo "$REPO" --lecture <Lxx> --run "$RUN"
   ```
-  종료 코드가 1이면 조립하지 말고 원인을 고친다.
+  종료 코드가 1이면 조립하지 말고 원인을 고친다. 조립기가 "다른 slug의 예습노트가 남아 있어요" 경고를 내면 지우지 말고 보고서 "미해결"에 적는다(사용자가 정한다).
 - 조립:
   ```bash
   python3 "$SKILL/scripts/preview_assemble.py" --run "$RUN" --out "$REPO/예습노트/<Lxx>"
@@ -92,7 +92,7 @@ python3 "$SKILL/scripts/preview_check.py" --manifest "$RUN/manifest.json" --note
 - `topic-long`·`eli5-long`·`listen-long`은 "줄여 주세요"로 보낸다. 내용을 다른 토픽으로 옮기지 말고 덜 중요한 문장을 뺀다.
 - 고친 뒤 4단계(조립)부터 다시 한다. 최대 2회, 그래도 남으면 "미해결"로 보고한다.
 
-### 6. 리뷰 (`lite`면 생략)
+### 6. 리뷰 (`lite`면 sonnet)
 - 리뷰어 1명. 브리프는 `references/review-prompt.md`.
 - Critical·Important는 모두, Minor는 쉬운 것만 고친다. 작성자별로 한 번에 모아 한 번만 수정 요청한다. 수정 후 4~5단계를 다시 한다.
 

@@ -1,10 +1,10 @@
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import io
 from pathlib import Path
 import tempfile
 import unittest
 
-from _util import MINI_RUN
+from _preview_util import MINI_RUN
 
 import preview_assemble as pa
 import preview_md as pmd
@@ -47,3 +47,9 @@ class TestPreviewMd(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             code = pmd.main([str(self.note), "--check"])
         self.assertEqual(code, 0)
+
+    def test_cli_missing_note(self):
+        err = io.StringIO()
+        with redirect_stderr(err):
+            code = pmd.main([str(self.tmp / "예습노트_L99_None.html")])
+        self.assertEqual(code, 1)

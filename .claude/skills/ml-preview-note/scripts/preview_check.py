@@ -8,6 +8,7 @@
 - 분량은 레이어 안 글자만 센다. 공백, TeX($…$, $$…$$), 그림(svg·figure), 레이어 제목, 배지, 태그, 요약 패널은 뺀다.
 - 문장은 블록(p, li, br …) 경계와 "." "?" "!" 뒤 공백에서 나눈다. 인라인 태그(b, a, span)는 문장을 나누지 않는다.
 - 슬라이드 태그는 .tag.slide 글자가 manifest와 정확히 같아야 한다(s1이 s12에 통과하지 않게).
+- 들을 때 포인트는 교수님 발언을 예측하지 않는다("~하실 거예요" 같은 문장은 listen-predicts).
 CLI: preview_check.py --manifest RUN/manifest.json --note NOTE.html
 """
 
@@ -36,6 +37,8 @@ SKIP_TAGS = {"svg", "figure", "script", "style"}
 SKIP_CLASSES = {"layer-title", "badge", "sum", "tags"}
 BLOCK_TAGS = {"p", "div", "li", "ul", "ol", "br", "dl", "dt", "dd", "table", "tr", "td", "th", "blockquote", "h3", "h4"}
 MATH_RE = re.compile(r"\$\$.*?\$\$|\$[^$]*\$", re.S)
+# 교수님 발언 예측: "강조하실 거예요", "짚으실 거예요", "나올 거예요", "물어보실 수 있어요"
+PREDICT_RE = re.compile(r"(?:실|주실|으실)\s*(?:거예요|겁니다|수\s*있어요)|나올\s*거예요")
 
 
 @dataclass
@@ -43,6 +46,7 @@ class TopicStats:
     text: str = ""
     eli5: str = ""
     listen_items: int = 0
+    listen: str = ""
     slide_tags: list[str] = field(default_factory=list)
 
 
@@ -101,6 +105,8 @@ class _StatsParser(HTMLParser):
             st.text += data
             if layer == "eli5":
                 st.eli5 += data
+            if layer == "listen":
+                st.listen += data
 
 
 def topic_stats(source: str) -> dict[str, TopicStats]:
@@ -110,13 +116,17 @@ def topic_stats(source: str) -> dict[str, TopicStats]:
     return parser.stats
 
 
+def _strip_math(text: str, repl: str = "") -> str:
+    return MATH_RE.sub(repl, text.replace("\\$", ""))  # TeX 안의 \$는 구분자가 아니다
+
+
 def visible_chars(text: str) -> int:
-    return len(re.sub(r"\s", "", MATH_RE.sub("", text)))
+    return len(re.sub(r"\s", "", _strip_math(text)))
 
 
 def sentences(text: str) -> int:
     """블록 경계(줄바꿈)와 "." "?" "!" 뒤 공백에서 나눈 문장 수."""
-    t = MATH_RE.sub("X", text)
+    t = _strip_math(text, "X")
     return sum(len([p for p in re.split(r"(?<=[.?!])\s+", line.strip()) if p.strip()]) for line in t.split("\n"))
 
 
@@ -158,6 +168,8 @@ def check_preview(m: dict, note_path: Path | str) -> list[Problem]:
             k = sentences(st.eli5)
             if k > MAX_ELI5_SENTENCES:
                 out.append(Problem("eli5-long", t["id"], f"쉽게 말하면 {k}문장 > {MAX_ELI5_SENTENCES}문장"))
+            if PREDICT_RE.search(_strip_math(st.listen)):
+                out.append(Problem("listen-predicts", t["id"], "교수님 발언을 예측하는 문장(\"~하실 거예요\") 대신 \"~가 나오면 ~해 보세요\"로"))
             if st.listen_items > MAX_LISTEN_ITEMS:
                 out.append(Problem("listen-long", t["id"], f"들을 때 포인트 {st.listen_items}개 > {MAX_LISTEN_ITEMS}개"))
     return out
@@ -173,6 +185,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.manifest:
         if not args.note:
             ap.error("--manifest에는 --note가 필요")
+        if not Path(args.note).is_file():
+            print(f"노트 파일 없음: {args.note}")
+            return 1
         try:
             problems += check_preview(pm.load(args.manifest), args.note)
         except pm.ManifestError as e:

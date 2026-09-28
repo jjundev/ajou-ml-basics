@@ -4,7 +4,7 @@ import os
 import re
 import unittest
 
-from _util import REVIEW_SKILL, SKILL
+from _preview_util import REVIEW_SKILL, SKILL
 
 TEMPLATE = SKILL / "assets" / "note-template.html"
 SLOTS = {"BRAND", "DESCRIPTION", "FOOTER", "PAGE_TITLE", "RANGE", "SCRIPTS", "SECTIONS", "SUBTITLE", "TITLE", "TOC"}

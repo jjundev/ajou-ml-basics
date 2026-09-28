@@ -5,7 +5,7 @@ import tempfile
 import unicodedata
 import unittest
 
-import _util  # noqa: F401  (scripts 경로)
+import _preview_util  # noqa: F401  (scripts 경로)
 import preview_files as pf
 
 
@@ -54,6 +54,13 @@ class TestPick(unittest.TestCase):
     def test_nfd_notes_dir_detected(self):
         self.make_note("L03", dir_name=unicodedata.normalize("NFD", "예습노트"))
         self.assertTrue(pf.has_note(self.repo, "L03"))
+
+    def test_lecture_arg_normalized(self):
+        for arg in ("l03", "L3", "3", "03"):
+            with self.subTest(arg=arg):
+                self.assertEqual(pf.pick(self.repo, arg)[0], "L03")
+        with self.assertRaises(pf.PickError):
+            pf.pick(self.repo, "abc")
 
     def test_no_lectures_dir(self):
         with tempfile.TemporaryDirectory() as empty:
@@ -110,6 +117,13 @@ class TestBackup(unittest.TestCase):
 
     def test_bad_args(self):
         with self.assertRaises(pf.PickError):
-            pf.backup(self.repo, "3", self.run)
+            pf.backup(self.repo, "x3", self.run)
         with self.assertRaises(pf.PickError):
             pf.backup(self.repo, "L03", self.run / "missing")
+
+    def test_nfd_notes_dir_backed_up(self):
+        nfd = self.repo.parent / "repo2" / unicodedata.normalize("NFD", "예습노트") / "L03"
+        nfd.mkdir(parents=True)
+        (nfd / "예습노트_L03_A.html").write_text("a", encoding="utf-8")
+        dst = pf.backup(self.repo.parent / "repo2", "l03", self.run)
+        self.assertEqual([p.name for p in dst.iterdir()], ["예습노트_L03_A.html"])

@@ -4,7 +4,7 @@ import json
 from contextlib import redirect_stdout
 import unittest
 
-from _util import MINI_RUN
+from _preview_util import MINI_RUN
 
 import preview_manifest as pm
 

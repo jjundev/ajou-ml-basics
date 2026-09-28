@@ -5,7 +5,7 @@ import shutil
 import tempfile
 import unittest
 
-from _util import MINI_RUN
+from _preview_util import MINI_RUN
 
 import preview_assemble as pa
 import preview_check as pc
@@ -82,6 +82,10 @@ class TestPreviewCheck(unittest.TestCase):
         self.patch("s0", '<div class="tags"><span class="tag slide">L99 s1</span></div>', "")
         self.assertEqual(self.problems(), [])
 
+    def test_listen_predicting_professor(self):
+        self.patch("s1", "무게중심 비유가 나오면 위 식과 연결해 보세요.", "무게중심 비유를 강조하실 거예요.")
+        self.assertIn(("listen-predicts", "s1-mean"), self.codes())
+
     def test_listen_items(self):
         self.patch("s1", "<li>무게중심 비유가 나오면 위 식과 연결해 보세요.</li>", "<li>가</li><li>나</li><li>다</li>")
         self.assertIn(("listen-long", "s1-mean"), self.codes())
@@ -102,6 +106,16 @@ class TestPreviewCheck(unittest.TestCase):
         self.assertEqual(pc.visible_chars("가 나 $x^2$ $$y$$ 다"), 3)
         self.assertEqual(pc.sentences(" 하나예요. 둘이에요? 셋 "), 3)
         self.assertEqual(pc.sentences("값은 0.5예요."), 1)
+
+    def test_escaped_dollar_in_math(self):
+        self.assertEqual(pc.visible_chars("가 $\\$5$ 나 $x$ 다"), 3)
+
+    def test_cli_missing_note(self):
+        out = io.StringIO()
+        with redirect_stdout(out):
+            code = pc.main(["--manifest", str(self.run / "manifest.json"), "--note", str(self.tmp / "none.html")])
+        self.assertEqual(code, 1)
+        self.assertIn("none.html", out.getvalue())
 
     def test_cli(self):
         note = pa.assemble(self.run, self.tmp / "out")

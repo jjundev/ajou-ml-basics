@@ -50,6 +50,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("note")
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args(argv)
+    if not Path(args.note).is_file():
+        print(f"노트 파일 없음: {args.note}", file=sys.stderr)
+        return 1
     try:
         out, figs = convert_note(args.note)
     except ValueError as e:

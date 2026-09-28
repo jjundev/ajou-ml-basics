@@ -1,11 +1,11 @@
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import io
 from pathlib import Path
 import shutil
 import tempfile
 import unittest
 
-from _util import MINI_RUN
+from _preview_util import MINI_RUN
 
 import preview_assemble as pa
 from assemble import AssembleError  # preview_assemble이 복습 scripts 경로를 넣은 뒤라 import된다
@@ -45,6 +45,17 @@ class TestPreviewAssemble(unittest.TestCase):
         with self.assertRaises(AssembleError):
             pa.assemble(run, out)
         self.assertFalse(out.exists())
+
+    def test_warns_about_other_slug(self):
+        out = self.tmp / "warn"
+        out.mkdir()
+        (out / "예습노트_L99_Old_Slug.html").write_text("old", encoding="utf-8")
+        err = io.StringIO()
+        with redirect_stdout(io.StringIO()), redirect_stderr(err):
+            code = pa.main(["--run", str(MINI_RUN), "--out", str(out)])
+        self.assertEqual(code, 0)
+        self.assertIn("예습노트_L99_Old_Slug.html", err.getvalue())
+        self.assertTrue((out / "예습노트_L99_Old_Slug.html").exists())  # 지우지 않고 알리기만 한다
 
     def test_cli(self):
         with redirect_stdout(io.StringIO()):
