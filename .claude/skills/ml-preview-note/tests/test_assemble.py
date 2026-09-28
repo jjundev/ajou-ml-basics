@@ -1,3 +1,5 @@
+from contextlib import redirect_stdout
+import io
 from pathlib import Path
 import shutil
 import tempfile
@@ -45,5 +47,7 @@ class TestPreviewAssemble(unittest.TestCase):
         self.assertFalse(out.exists())
 
     def test_cli(self):
-        self.assertEqual(pa.main(["--run", str(MINI_RUN), "--out", str(self.tmp / "cli")]), 0)
+        with redirect_stdout(io.StringIO()):
+            code = pa.main(["--run", str(MINI_RUN), "--out", str(self.tmp / "cli")])
+        self.assertEqual(code, 0)
         self.assertTrue((self.tmp / "cli" / "예습노트_L99_Mini_Preview.html").exists())
