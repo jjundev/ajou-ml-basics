@@ -147,3 +147,11 @@ class TestManifest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSharedHelpers(unittest.TestCase):
+    def test_public_helpers_for_preview_skill(self):
+        # ml-preview-note가 import하는 공개 이름
+        for name in ("need", "objects", "strings", "ManifestError"):
+            with self.subTest(name=name):
+                self.assertTrue(hasattr(manifest, name))

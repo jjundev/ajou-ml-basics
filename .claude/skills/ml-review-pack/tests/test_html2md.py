@@ -167,3 +167,12 @@ class TestHtml2Md(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTermListMath(unittest.TestCase):
+    def test_term_list_math_not_merged(self):
+        # 용어 목록 dt/dd가 모두 수식이어도 HTML 쪽 수식 토큰이 $$로 붙지 않는다
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "a.html"
+            p.write_text(page('<dl><dt>$a$</dt><dd>$b$</dd></dl>'), encoding="utf-8")
+            self.assertEqual(html2md.html_math_and_ids(str(p))[0], ["$a$", "$b$"])

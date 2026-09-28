@@ -141,6 +141,10 @@ def validate(m: dict) -> list[str]:
     return errors
 
 
+# ml-preview-note가 import하는 공개 이름. 시그니처를 바꾸면 그 스킬 테스트도 함께 돌린다.
+need, objects, strings = _need, _objects, _strings
+
+
 def load(path: Path | str) -> dict:
     try:
         text = Path(path).read_text(encoding="utf-8")
