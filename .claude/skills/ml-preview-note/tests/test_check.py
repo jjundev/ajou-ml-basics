@@ -64,6 +64,24 @@ class TestPreviewCheck(unittest.TestCase):
         self.patch("s1", "평균은 시소의 무게중심이에요.", "평균은 시소의 무게중심이에요. 두 번째 문장이에요.")
         self.assertNotIn(("eli5-long", "s1-mean"), self.codes())
 
+    def test_eli5_sentences_without_periods(self):
+        self.patch("s1", '<p class="lead">평균은 시소의 무게중심이에요.</p>',
+                   '<p class="lead">첫 문장이에요</p><p>둘째 문장이에요</p><p>셋째예요</p>')
+        self.assertIn(("eli5-long", "s1-mean"), self.codes())
+
+    def test_inline_markup_does_not_split_sentence(self):
+        self.patch("s1", "평균은 시소의 무게중심이에요.", "평균은 0.<b>5</b>예요. 둘째 문장이에요.")
+        self.assertNotIn(("eli5-long", "s1-mean"), self.codes())
+
+    def test_slide_tag_exact_match(self):
+        self.patch("s0", "L99 s1</span>", "L99 s12</span>")
+        self.assertIn(("slide-tag", "s0-vector"), self.codes())
+
+    def test_s0_topic_without_slides(self):
+        self.m["sections"][0]["topics"][0]["slides"] = ""
+        self.patch("s0", '<div class="tags"><span class="tag slide">L99 s1</span></div>', "")
+        self.assertEqual(self.problems(), [])
+
     def test_listen_items(self):
         self.patch("s1", "<li>무게중심 비유가 나오면 위 식과 연결해 보세요.</li>", "<li>가</li><li>나</li><li>다</li>")
         self.assertIn(("listen-long", "s1-mean"), self.codes())

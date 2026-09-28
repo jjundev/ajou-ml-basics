@@ -29,7 +29,7 @@
 </article>
 ```
 - 레이어 제목과 배지 글자는 위와 글자 그대로 쓴다. `layer prof`, `layer warn`은 쓰지 않는다(검사 실패).
-- 슬라이드 태그는 manifest `lecture`와 `slides`를 공백 하나로 이은 글자 그대로.
+- 슬라이드 태그는 manifest `lecture`와 `slides`를 공백 하나로 이은 글자 그대로이고, 태그 span 안에는 그 글자만 쓴다(검사기가 정확히 비교한다). `slides`가 빈 문자열인 `s0` 토픽은 `<div class="tags">`를 생략한다.
 - 토픽은 그것만 읽어도 이해되게 쓰고, 앞 토픽은 `<a href="#토픽id">토픽 제목</a>`으로 잇는다.
 - "미리 알아둘 것"(`s0`) 토픽: 이 강의를 따라가려면 필요한 선수 개념 하나. 이전 복습노트나 MML 쪽 링크를 건다.
 - "한눈에 보기"(마지막 섹션): `-cheatsheet`는 표(`<div class="table-wrap"><table>`), `-links`는 `<ul><li><a>`.

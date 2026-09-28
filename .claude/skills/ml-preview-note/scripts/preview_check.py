@@ -6,6 +6,8 @@
   (예고 금지어는 없고, 보충 배지는 이 파일에서 "교과서 보충"으로 따로 검사한다).
 - 예습 전용: 슬라이드 태그, 교과서 보충 배지, STT 레이어 금지, 분량(600자·eli5 2문장·listen 2항목).
 - 분량은 레이어 안 글자만 센다. 공백, TeX($…$, $$…$$), 그림(svg·figure), 레이어 제목, 배지, 태그, 요약 패널은 뺀다.
+- 문장은 블록(p, li, br …) 경계와 "." "?" "!" 뒤 공백에서 나눈다. 인라인 태그(b, a, span)는 문장을 나누지 않는다.
+- 슬라이드 태그는 .tag.slide 글자가 manifest와 정확히 같아야 한다(s1이 s12에 통과하지 않게).
 CLI: preview_check.py --manifest RUN/manifest.json --note NOTE.html
 """
 
@@ -13,7 +15,7 @@ from __future__ import annotations
 
 import argparse
 import copy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from pathlib import Path
 import re
@@ -32,6 +34,7 @@ MAX_LISTEN_ITEMS = 2
 LAYER_KINDS = ("eli5", "formal", "listen", "supp")
 SKIP_TAGS = {"svg", "figure", "script", "style"}
 SKIP_CLASSES = {"layer-title", "badge", "sum", "tags"}
+BLOCK_TAGS = {"p", "div", "li", "ul", "ol", "br", "dl", "dt", "dd", "table", "tr", "td", "th", "blockquote", "h3", "h4"}
 MATH_RE = re.compile(r"\$\$.*?\$\$|\$[^$]*\$", re.S)
 
 
@@ -40,37 +43,42 @@ class TopicStats:
     text: str = ""
     eli5: str = ""
     listen_items: int = 0
+    slide_tags: list[str] = field(default_factory=list)
 
 
 class _StatsParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.stats: dict[str, TopicStats] = {}
-        # (tag, topic_id, layer_kind, skip)
-        self.stack: list[tuple[str, str | None, str | None, bool]] = []
+        # (tag, topic_id, layer_kind, skip, in_slide_tag)
+        self.stack: list[tuple[str, str | None, str | None, bool, bool]] = []
 
-    def _top(self) -> tuple[str | None, str | None, bool]:
-        return self.stack[-1][1:] if self.stack else (None, None, False)
+    def _top(self) -> tuple[str | None, str | None, bool, bool]:
+        return self.stack[-1][1:] if self.stack else (None, None, False, False)
+
+    def _block_break(self, tag: str) -> None:
+        topic, layer, skip, _ = self._top()
+        if tag in BLOCK_TAGS and topic and layer == "eli5" and not skip:
+            self.stats[topic].eli5 += "\n"  # 블록 경계 = 문장 경계(마침표가 없어도)
 
     def handle_starttag(self, tag, attrs):
         a = {k: (v or "") for k, v in attrs}
         cls = set(a.get("class", "").split())
-        topic, layer, skip = self._top()
+        topic, layer, skip, in_slide = self._top()
         if tag == "article" and "topic" in cls and a.get("id"):
             topic, layer = a["id"], None
             self.stats[topic] = TopicStats()
         if topic and tag == "div" and "layer" in cls:
             layer = next((k for k in LAYER_KINDS if k in cls), "other")
+        if topic and {"tag", "slide"} <= cls:
+            in_slide = True
+            self.stats[topic].slide_tags.append("")
         skip = skip or tag in SKIP_TAGS or bool(cls & SKIP_CLASSES)
-        if topic and layer and not skip:
-            st = self.stats[topic]
-            st.text += " "
-            if layer == "eli5":
-                st.eli5 += " "  # 블록 경계에서 문장이 붙지 않게
-            if layer == "listen" and tag == "li":
-                st.listen_items += 1
+        if topic and layer == "listen" and tag == "li" and not skip:
+            self.stats[topic].listen_items += 1
         if tag not in VOID_TAGS:
-            self.stack.append((tag, topic, layer, skip))
+            self.stack.append((tag, topic, layer, skip, in_slide))
+        self._block_break(tag)
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
@@ -78,13 +86,16 @@ class _StatsParser(HTMLParser):
             self.handle_endtag(tag)
 
     def handle_endtag(self, tag):
+        self._block_break(tag)
         for i in range(len(self.stack) - 1, -1, -1):
             if self.stack[i][0] == tag:
                 del self.stack[i:]
                 break
 
     def handle_data(self, data):
-        topic, layer, skip = self._top()
+        topic, layer, skip, in_slide = self._top()
+        if topic and in_slide:
+            self.stats[topic].slide_tags[-1] += data
         if topic and layer and not skip:
             st = self.stats[topic]
             st.text += data
@@ -104,8 +115,9 @@ def visible_chars(text: str) -> int:
 
 
 def sentences(text: str) -> int:
-    t = MATH_RE.sub("X", text).strip()
-    return len([p for p in re.split(r"(?<=[.?!])\s+", t) if p.strip()])
+    """블록 경계(줄바꿈)와 "." "?" "!" 뒤 공백에서 나눈 문장 수."""
+    t = MATH_RE.sub("X", text)
+    return sum(len([p for p in re.split(r"(?<=[.?!])\s+", line.strip()) if p.strip()]) for line in t.split("\n"))
 
 
 def contract_view(m: dict) -> dict:
@@ -130,15 +142,16 @@ def check_preview(m: dict, note_path: Path | str) -> list[Problem]:
             con = doc.containers.get(t["id"])
             if con is None or not t["layers"]:
                 continue
-            tag = f"{m['lecture']} {t['slides']}"
-            if tag not in con.text:
-                out.append(Problem("slide-tag", t["id"], f"'{tag}' 태그 없음"))
+            st = stats.get(t["id"], TopicStats())
+            if t["slides"]:
+                tag = f"{m['lecture']} {t['slides']}"
+                if tag not in (s.strip() for s in st.slide_tags):
+                    out.append(Problem("slide-tag", t["id"], f"'{tag}' 태그 없음 (있는 태그: {st.slide_tags})"))
             if t["supp"] and ("supp" not in con.child_classes or SUPP_LABEL not in con.text):
                 out.append(Problem("missing-supp", t["id"], f"layer supp + '{SUPP_LABEL}' 필요"))
             stt = STT_LAYERS & con.child_classes
             if stt:
                 out.append(Problem("stt-layer", t["id"], ", ".join(sorted(stt))))
-            st = stats.get(t["id"], TopicStats())
             n = visible_chars(st.text)
             if n > MAX_CHARS:
                 out.append(Problem("topic-long", t["id"], f"본문 {n}자 > {MAX_CHARS}자"))

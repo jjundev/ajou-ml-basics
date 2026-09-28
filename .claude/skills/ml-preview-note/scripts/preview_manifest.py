@@ -84,8 +84,9 @@ def validate(m: dict) -> list[str]:
             if t["layers"]:
                 if not CONCEPT_LAYERS <= set(t["layers"]):
                     errors.append(f"{tw}.layers: 개념 토픽은 eli5와 formal 필요")
-                if not SLIDES_RE.fullmatch(t["slides"]):
-                    errors.append(f"{tw}.slides: s12 또는 s12–14(en dash) 형식이어야 함: {t['slides']!r}")
+                # s0(미리 알아둘 것)은 슬라이드가 아니라 선수 개념이라 빈 문자열을 허용한다
+                if not SLIDES_RE.fullmatch(t["slides"]) and not (sec["id"] == "s0" and t["slides"] == ""):
+                    errors.append(f"{tw}.slides: s12 또는 s12–14(en dash) 형식이어야 함(s0만 빈 문자열 허용): {t['slides']!r}")
             elif t["supp"]:
                 errors.append(f"{tw}.supp: 레이어가 없는 토픽은 false여야 함")
 

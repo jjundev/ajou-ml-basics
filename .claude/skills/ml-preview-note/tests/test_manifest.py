@@ -48,6 +48,11 @@ class TestPreviewManifest(unittest.TestCase):
                 errs = errors_with(lambda m: m["sections"][1]["topics"][0].update(slides=bad))
                 self.assertTrue(any(".slides" in e for e in errs), errs)
 
+    def test_s0_topic_may_omit_slides(self):
+        self.assertEqual(errors_with(lambda m: m["sections"][0]["topics"][0].update(slides="")), [])
+        errs = errors_with(lambda m: m["sections"][0]["topics"][0].update(slides="12"))
+        self.assertTrue(any(".slides" in e for e in errs), errs)
+
     def test_section_ids_in_order(self):
         errs = errors_with(lambda m: m["sections"][0].update(id="s9"))
         self.assertTrue(any("s0이어야 함" in e for e in errs), errs)
