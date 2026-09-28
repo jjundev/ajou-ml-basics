@@ -27,7 +27,8 @@ VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
 CONTAINER_CLASSES = {"topic", "card"}
 # 블록 경계에서 텍스트를 끊어 인접 수식이 "$$"로 붙지 않게 한다.
 BLOCK_TAGS = {"p", "div", "li", "ol", "ul", "td", "th", "tr", "table", "h1", "h2", "h3", "h4", "section", "article",
-              "details", "summary", "figure", "figcaption", "blockquote", "header", "footer", "label", "br"}
+              "details", "summary", "figure", "figcaption", "blockquote", "header", "footer", "label", "br",
+              "dl", "dt", "dd"}
 ALLOWED_EXTERNAL_PREFIXES = (
     "https://cdn.jsdelivr.net/npm/katex@0.16.11/",
     "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/",

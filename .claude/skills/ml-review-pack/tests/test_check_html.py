@@ -17,6 +17,11 @@ class TestPrimitives(unittest.TestCase):
         doc = check_html.parse_html('<html lang="ko"><body><ol><li>$a$</li><li>$b$</li></ol></body></html>')
         self.assertEqual(check_html.math_delimiter_errors(doc.body_text), [])
 
+    def test_adjacent_inline_math_in_term_list_is_not_display_math(self):
+        # 페이지 요약의 용어 목록(dt/dd)에서 수식이 이어져도 $$로 붙지 않는다
+        doc = check_html.parse_html('<html lang="ko"><body><dl><dt>$a$</dt><dd>$b$</dd></dl></body></html>')
+        self.assertEqual(check_html.math_delimiter_errors(doc.body_text), [])
+
     def test_unbalanced_inline_math(self):
         self.assertEqual(check_html.math_delimiter_errors("a $x b"), ["unbalanced $ (inline math)"])
 

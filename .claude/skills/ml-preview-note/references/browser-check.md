@@ -49,6 +49,8 @@ const textNodes = Array.from(document.querySelectorAll('main *, #panel-right *')
 
 개념 토픽 하나로 넘겨(`location.hash = '#<토픽 id>'`) 스크린샷을 찍고, 슬라이드 태그와 "들을 때 포인트" 박스가 보이는지 확인한다.
 
+그림(`figure svg`)이 있는 토픽은 **모두** 넘겨서 스크린샷을 찍는다. 곡선의 증가·감소 방향과 레이블이 슬라이드·본문 설명과 맞는지 눈으로 확인한다(SVG y축이 뒤집혀 그려지는 실수가 잦다). 틀리면 사실 오류라 되돌림 횟수와 관계없이 고친다.
+
 ## 모바일·다크
 `resize_window`(`preset: "mobile"`, `colorScheme: "dark"`) → 새로고침 → `clientWidth > 0` 확인 → 위 스크립트 재실행(`over: []`만 통과 조건, 모바일의 `tall`은 참고만) → 스크린샷으로 그림 글자가 보이는지 확인 → `#theme-toggle`을 눌러 배경색과 `aria-label`이 바뀌는지 확인한 뒤 `localStorage.removeItem('od-theme')`.
 
