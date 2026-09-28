@@ -62,6 +62,7 @@ def build_note(m: dict, run_dir: Path) -> str:
         sections.append(f'    <section id="{sec["id"]}"><h2>{esc(sec["title"])}</h2>\n{body.strip()}\n    </section>')
     return fill((ASSETS / "note-template.html").read_text(encoding="utf-8"), {
         "PAGE_TITLE": esc(f"머신러닝기초 정리노트 {m['range']}"),
+        "BRAND": "정리노트",
         "DESCRIPTION": esc(m["note_subtitle"]),
         "TOC": "".join(f'<a href="#{s["id"]}">{esc(s["short"])}</a>' for s in m["sections"]),
         "TITLE": esc(m["note_title"]),
