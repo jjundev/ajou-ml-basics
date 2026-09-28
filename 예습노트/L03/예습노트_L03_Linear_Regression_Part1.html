@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 예습노트 L03</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · Lecture03 Linear Regression Part 1 예습 (MML 9장, 5.2–5.3절)">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="L03">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">예습노트</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 미리</a><a href="#s1">1 문제 설정</a><a href="#s2">2 ML 추정</a><a href="#s3">3 벡터 미분</a><a href="#s4">4 특징·과적합</a><a href="#s5">5 MAP 추정</a><a href="#s6">6 한눈에</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>Linear Regression Part 1 — 수업 전에 보는 예습노트</h1>
+      <p>정방철 교수님 머신러닝기초 · Lecture03 Linear Regression Part 1 예습 (MML 9장, 5.2–5.3절)</p>
+    </div>
+    <section id="s0"><h2>0. 미리 알아둘 것</h2>
+<article class="topic" id="s0-gaussian"><h3>가우시안 분포</h3>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">가우시안 분포는 평균 근처에 값이 많이 모이고, 멀어질수록 확률이 빠르게 줄어드는 종 모양 분포예요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>평균 $\mu$, 분산 $\sigma^2$인 가우시안 분포는 $\mathcal{N}(\mu, \sigma^2)$로 써요. 이번 강의는 노이즈를 이 분포로 가정하고 우도(likelihood)를 만들어요. 자세한 내용은 <a href="../../복습노트/0923/정리노트_0923_Linear_Regression.html#s1-gaussian">가우시안 노이즈와 종 모양 PDF</a>에서 다뤘어요.</p>
+    <ul><li>$\mu$ — 분포의 중심(평균)</li><li>$\sigma^2$ — 퍼진 정도(분산)</li></ul>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">가우시안 분포는 평균과 분산 두 숫자로 정해지는 종 모양 분포예요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">가우시안</span>$$\mathcal{N}(\mu, \sigma^2)$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>평균(mean) $\mu$</dt><dd>분포의 중심</dd><dt>분산(variance) $\sigma^2$</dt><dd>퍼진 정도</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s0-mle-map"><h3>ML과 MAP 추정</h3>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">ML은 데이터만 보고 가장 그럴듯한 값을 고르고, MAP은 거기에 "이런 값일 것 같다"는 사전 믿음까지 더해서 골라요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>ML 추정치 $\boldsymbol{\theta}_{\text{ML}}$은 음의 로그우도를 최소화해서 구해요. MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$은 여기에 사전분포(prior)의 $-\log p(\boldsymbol{\theta})$ 항을 더해서 구해요. 자세한 유도는 <a href="../../복습노트/0914/정리노트_0914_ERM_and_MLE.html#s4-mle-ls">가우시안 노이즈면 MLE = 최소제곱</a>과 <a href="../../복습노트/0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map">MAP = MLE + log prior</a>에서 다뤘어요.</p>
+    <ul><li>$\boldsymbol{\theta}_{\text{ML}}$ — 우도만 최대화한 추정치</li><li>$\boldsymbol{\theta}_{\text{MAP}}$ — 우도와 사전분포를 함께 반영한 추정치</li></ul>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">ML은 우도만, MAP은 우도에 사전분포까지 더해 파라미터를 추정해요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>ML 추정치 $\boldsymbol{\theta}_{\text{ML}}$</dt><dd>우도(likelihood)만 최대화한 값</dd><dt>MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$</dt><dd>우도와 사전분포(prior)를 함께 반영한 값</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s1"><h2>1. 문제 설정</h2>
+<article class="topic" id="s1-regression"><h3>회귀 문제</h3><div class="tags"><span class="tag slide">L03 s5</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">입력값을 넣으면 진짜 답에 약간의 잡음이 섞인 값이 관찰돼요.</p><p>우리가 할 일은 이 잡음 뒤에 숨은 진짜 함수를 찾는 거예요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>$$y_n = f(\mathbf{x}_n) + \epsilon$$</p>
+    <ul>
+      <li>$\mathbf{x}_n$: $n$번째 입력값</li>
+      <li>$f$: 우리가 추정하려는 진짜 함수</li>
+      <li>$\epsilon$: 관측에 섞이는 잡음</li>
+    </ul>
+    <p>목표는 새로운 입력에서도 잘 맞는 $f$를 찾는 거예요(일반화).</p>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul>
+    <li>시계열, 로봇 제어, 이미지 인식 예시가 나오면 각각 무엇이 $\mathbf{x}$이고 무엇이 $y$인지 짝지어 보세요</li>
+    <li>"일반화"가 나오면 훈련 데이터가 아닌 새 입력에서 맞히는 것인지 확인해 보세요</li>
+  </ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">회귀는 잡음 섞인 관측에서 진짜 함수 $f$를 추정하는 문제예요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">관측 모델</span>$$y_n = f(\mathbf{x}_n) + \epsilon$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>일반화(generalization)</dt><dd>새 입력에도 잘 맞는 성질</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s1-formulation"><h3>가우시안 노이즈와 선형 모델</h3><div class="tags"><span class="tag slide">L03 s6</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">잡음이 가운데가 볼록한 종 모양으로 흩어진다고 가정해요.</p><p>입력을 그대로 쓰든 다르게 변형해서 쓰든, 계산하는 방식은 똑같아요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>$$\epsilon \sim \mathcal{N}(0, \sigma^2)$$</p>
+    <p>입력을 그대로 쓰는 모델과 변형된 입력을 쓰는 모델 모두, 파라미터에 대해서는 선형이에요.</p>
+    <ul>
+      <li>$f(\mathbf{x}) = \mathbf{x}^\top\boldsymbol{\theta}$: 입력 $\mathbf{x}$를 그대로 쓰는 선형 모델</li>
+      <li>$\boldsymbol{\phi}(\mathbf{x})$: 입력을 비선형으로 변형한 특징(feature)</li>
+      <li>$\boldsymbol{\theta}$: 두 경우 모두에서 추정할 파라미터</li>
+    </ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul>
+    <li>"linear in $\boldsymbol{\theta}$"가 나오면 $\mathbf{x}$가 아니라 $\boldsymbol{\theta}$ 기준이라는 점에 주목해 보세요</li>
+    <li>$\boldsymbol{\phi}(\mathbf{x})$가 앞으로 특징 함수로 계속 나와요</li>
+  </ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">잡음이 정규분포를 따른다고 가정하면, 선형·비선형 모델 모두 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">잡음</span>$$\epsilon \sim \mathcal{N}(0, \sigma^2)$$</li>
+      <li><span class="eq-name">선형 모델</span>$$f(\mathbf{x}) = \mathbf{x}^\top\boldsymbol{\theta}$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>특징 함수 $\boldsymbol{\phi}(\mathbf{x})$(feature function)</dt><dd>입력을 비선형으로 변형하는 함수</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s1-likelihood"><h3>iid 우도</h3><div class="tags"><span class="tag slide">L03 s7</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">데이터가 서로 영향을 주지 않고 독립적으로 뽑혔다고 가정해요.</p><p>그러면 전체 확률은 각 데이터 확률의 곱이 돼요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>iid 가정에서 우도는 다음처럼 인수분해돼요.</p>
+    <p>$$p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</p>
+    <ul>
+      <li>iid: 독립이고 같은 분포에서 나왔다는 가정</li>
+      <li>$\mathcal{X}, \mathcal{Y}$: 전체 입력·출력 집합</li>
+    </ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul>
+    <li>곱 기호 $\prod$가 나오면 iid 가정 덕분이라는 점을 떠올려 보세요</li>
+    <li>다음 슬라이드 ML·MAP로 이어져요</li>
+  </ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">iid 가정 덕분에 전체 우도는 각 데이터점 우도의 곱으로 쓸 수 있어요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">iid 우도</span>$$p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>iid</dt><dd>독립이고 동일한 분포에서 뽑힘</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s2"><h2>2. ML 추정</h2>
+<article class="topic" id="s2-nll"><h3>음의 로그우도</h3><div class="tags"><span class="tag slide">L03 s9</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">우도가 클수록 좋으니까, 마이너스와 로그를 붙여서 최소화 문제로 바꿔요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span><p><a href="#s1-likelihood">iid 우도</a>에 로그와 마이너스를 씌우면 다음 식이 나와요.</p>
+  $$-\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \text{const}$$
+  <ul><li>$\mathbf{y}$: 정답 값들을 모은 벡터</li><li>$\text{const}$: $\boldsymbol{\theta}$와 무관한 상수항</li></ul></div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul><li>const가 나오면 $\boldsymbol{\theta}$와 무관해서 최솟값 위치를 바꾸지 않는다는 점을 확인해 보세요</li></ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">우도 최대화는 음의 로그우도 최소화와 같아요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">음의 로그우도</span>$$-\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \text{const}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>const</dt><dd>$\boldsymbol{\theta}$와 무관한 상수항</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s2-erm"><h3>ML = 제곱 손실 최소화</h3><div class="tags"><span class="tag slide">L03 s10</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">음의 로그우도를 최소화하는 것과, 예측이 틀린 정도를 제곱해서 더한 값을 최소화하는 것은 같은 문제예요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span><p><a href="#s2-nll">음의 로그우도</a>에서 $\boldsymbol{\theta}$와 무관한 상수를 떼면 손실함수 $\mathcal{L}(\boldsymbol{\theta})$가 남아요.</p>
+  $$\boldsymbol{\theta}_{\text{ML}} = \arg\min_{\boldsymbol{\theta}} \mathcal{L}(\boldsymbol{\theta}), \quad \mathcal{L}(\boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$
+  <ul><li>$\mathcal{L}(\boldsymbol{\theta})$: 제곱 손실로 정의한 경험적 위험(empirical risk)</li></ul></div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul><li>"Models as functions = Models as probabilistic models"가 나오면 두 관점이 같은 식에 도착한다는 점을 확인해 보세요</li></ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">가우시안 노이즈에서 ML 추정은 제곱 손실 최소화와 같아요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">경험적 위험</span>$$\mathcal{L}(\boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>$\mathcal{L}(\boldsymbol{\theta})$</dt><dd>제곱 손실로 정의한 경험적 위험(empirical risk)</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s2-normal-eq"><h3>미분해서 닫힌 해 구하기</h3><div class="tags"><span class="tag slide">L03 s11</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">손실이 가장 작아지는 지점은 기울기가 0인 곳이니까, 미분해서 0으로 놓고 풀면 답이 한 번에 나와요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span><p><a href="#s2-erm">앞에서 정의한</a> $\mathcal{L}(\boldsymbol{\theta})$를 $\boldsymbol{\theta}$로 미분해서 0으로 놓으면 다음 닫힌 해(closed-form solution)를 얻어요.</p>
+  $$\boldsymbol{\theta}_{\text{ML}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$$
+  <ul><li>$\mathbf{X}^\top\mathbf{X}$: $\text{rk}(\mathbf{X}) = D$이면 역행렬이 존재해요</li></ul></div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul><li>미분 전개가 빠르게 지나가면 바로 뒤 벡터 미분 복습(s12–16)에서 다시 확인하면 돼요</li><li>$\text{rk}(\mathbf{X}) = D$가 나오면 역행렬이 존재하려면 왜 필요한지 생각해 보세요</li></ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">손실을 미분해서 0으로 놓으면 ML 추정치의 닫힌 해가 나와요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">ML 추정치</span>$$\boldsymbol{\theta}_{\text{ML}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>랭크 조건(rank condition)</dt><dd>$\mathbf{X}^\top\mathbf{X}$가 역행렬을 가지려면 필요한 조건</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s3"><h2>3. 벡터 미분 복습</h2>
+<article class="topic" id="s3-gradient"><h3>편미분과 그래디언트</h3><div class="tags"><span class="tag slide">L03 s12–13</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">변수 하나만 살짝 움직이고 나머지는 그대로 둔 채 함수가 얼마나 변하는지 재는 게 편미분이에요.</p><p>이걸 변수마다 구해서 한 줄로 모으면 그래디언트가 돼요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>$f: \mathbb{R}^n \to \mathbb{R}$일 때 편미분 $\frac{\partial f}{\partial x_1}$은 $x_1$만 바꾸고 나머지는 고정한 순간변화율이에요. 이를 모두 모은 그래디언트 $\nabla_x f = \frac{df}{dx}$는 행벡터예요.</p>
+    <ul>
+      <li>$\frac{\partial f}{\partial x_1}$: $f$를 $x_1$로만 편미분한 값</li>
+      <li>$\nabla_x f$: 모든 편미분을 모은 그래디언트</li>
+      <li>$\mathbb{R}^{1 \times n}$: 그래디언트가 속하는 행벡터 공간</li>
+    </ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul>
+    <li>그래디언트 크기 $\mathbb{R}^{1 \times n}$이 나오면 열벡터가 아니라 행벡터라는 점을 체크해 두세요</li>
+    <li>$(x + 2y^3)^2$ 예제에서 바깥 제곱과 안쪽 식을 나눠 미분하는 흐름을 따라가 보세요</li>
+  </ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">함수를 변수마다 편미분해서 모으면 그래디언트가 돼요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">그래디언트</span>$$\nabla_x f = \frac{df}{dx} = \begin{bmatrix} \frac{\partial f}{\partial x_1} & \cdots & \frac{\partial f}{\partial x_n} \end{bmatrix}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>편미분(partial derivative)</dt><dd>한 변수만 바꿀 때의 순간변화율</dd><dt>그래디언트(gradient)</dt><dd>모든 편미분을 모은 $\mathbb{R}^{1 \times n}$ 행벡터</dd></dl>
+  </div>
+</article>
+
+<article class="topic" id="s3-jacobian"><h3>야코비안</h3><div class="tags"><span class="tag slide">L03 s14–15</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">함수가 출력을 여러 개 낼 때는 각 출력마다 편미분을 구해서 표처럼 늘어놓아요.</p><p>이 표가 바로 야코비안이에요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>$f: \mathbb{R}^n \to \mathbb{R}^m$이면 야코비안 $\mathbf{J} = \frac{df}{dx}$는 크기 $m \times n$인 행렬이고, 행마다 하나의 출력 $f_i$를 모든 입력으로 편미분한 값이 들어가요. 특히 $f(\mathbf{x}) = \mathbf{A}\mathbf{x}$이면 야코비안은 그대로 $\mathbf{A}$가 돼요.</p>
+    <ul>
+      <li>$\mathbf{J}$: 야코비안 행렬</li>
+      <li>$m \times n$: 야코비안의 크기(출력 수 $\times$ 입력 수)</li>
+      <li>$\mathbf{A}$: $f(\mathbf{x}) = \mathbf{A}\mathbf{x}$일 때 야코비안과 같아지는 행렬</li>
+    </ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul>
+    <li>$f(\mathbf{x}) = \mathbf{A}\mathbf{x}$ 예가 나오면 $\frac{\partial f_i}{\partial x_j} = A_{ij}$를 직접 확인해 보세요</li>
+    <li>야코비안 행렬이 나오면 행은 출력, 열은 입력이라는 점을 체크해 두세요</li>
+  </ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">벡터를 출력하는 함수의 편미분들을 모으면 $m \times n$ 야코비안이 돼요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">야코비안</span>$$\mathbf{J} = \frac{d\mathbf{f}}{d\mathbf{x}}, \quad f(\mathbf{x}) = \mathbf{A}\mathbf{x} \Rightarrow \mathbf{J} = \mathbf{A}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>야코비안(Jacobian)</dt><dd>벡터 출력 함수의 편미분을 모은 $m \times n$ 행렬</dd></dl>
+  </div>
+</article>
+
+<article class="topic" id="s3-chain"><h3>연쇄법칙으로 손실 미분하기</h3><div class="tags"><span class="tag slide">L03 s16</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">오차가 손실에 주는 영향과 파라미터가 오차에 주는 영향을 곱해서 이어 붙이면, 손실을 파라미터로 바로 미분할 수 있어요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>선형 모델 $\mathbf{y} = \boldsymbol{\Phi}\boldsymbol{\theta}$에서 오차는 $\mathbf{e} = \mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}$이고 손실은 $L(\mathbf{e}) = \|\mathbf{e}\|^2$이에요. $\boldsymbol{\theta}$가 $L$에 직접 안 보이니 연쇄법칙으로 나눠요.</p>
+    <ul>
+      <li>1단계: $\frac{\partial L}{\partial \mathbf{e}} = 2\mathbf{e}^\top$</li>
+      <li>2단계: $\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}} = -\boldsymbol{\Phi}$</li>
+      <li>3단계: $\frac{\partial L}{\partial \boldsymbol{\theta}} = \frac{\partial L}{\partial \mathbf{e}}\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}} = -2\mathbf{e}^\top\boldsymbol{\Phi}$</li>
+    </ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul>
+    <li>바로 앞에서 본 $\frac{d\mathcal{L}}{d\boldsymbol{\theta}}$ 계산이 여기 연쇄법칙 세 단계로 완성돼요</li>
+    <li>$\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}} = -\boldsymbol{\Phi}$가 나오면 야코비안의 $\mathbf{A}\mathbf{x}$ 규칙과 연결해 보세요</li>
+  </ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">오차 $\mathbf{e} = \mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}$를 통해 손실을 연쇄법칙으로 미분해요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">연쇄법칙</span>$$\frac{\partial L}{\partial \boldsymbol{\theta}} = \frac{\partial L}{\partial \mathbf{e}}\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}} = -2\mathbf{e}^\top\boldsymbol{\Phi}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>오차(error)</dt><dd>$\mathbf{e} = \mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}$, 예측과 관측의 차이</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s4"><h2>4. 특징과 과적합</h2>
+<article class="topic" id="s4-features"><h3>특징 함수와 다항 회귀</h3><div class="tags"><span class="tag slide">L03 s17</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">직선을 긋는 방법이라도 입력을 미리 바꿔서 넣으면 곡선도 맞출 수 있어요. 입력을 제곱하고 세제곱한 값을 함께 넣는 식이에요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>모델은 여전히 파라미터 $\boldsymbol{\theta}$에 대해 선형이라, $y = \boldsymbol{\phi}(\mathbf{x})^\top\boldsymbol{\theta} + \epsilon$ 형태예요. $\boldsymbol{\phi}(\mathbf{x})$ 자체가 비선형이어도 파라미터에 선형이면 여전히 선형회귀라고 불러요. 다항 회귀는 $\boldsymbol{\phi}(x) = [1, x, \dots, x^{K-1}]^\top$처럼 거듭제곱을 특징으로 쓰는 예예요.</p>
+    <ul><li>$\boldsymbol{\phi}(\mathbf{x})$ — 입력을 변형한 특징 벡터</li><li>$K$ — 특징(=파라미터) 개수</li></ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span>
+    <ul><li>다항 회귀 예가 나오면 곡선을 그리지만 $\boldsymbol{\theta}$에는 여전히 선형이라는 점을 확인해 보세요</li></ul>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">다항 회귀는 입력의 거듭제곱을 특징으로 쓰는, 파라미터에는 여전히 선형인 모델이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">특징 기반 모델</span>$$y = \boldsymbol{\phi}(\mathbf{x})^\top\boldsymbol{\theta} + \epsilon$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>특징 함수(feature) $\boldsymbol{\phi}(\mathbf{x})$</dt><dd>입력을 변형한 벡터</dd><dt>다항 회귀(polynomial regression)</dt><dd>거듭제곱을 특징으로 쓰는 회귀</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s4-feature-matrix"><h3>특징 행렬과 ML 해</h3><div class="tags"><span class="tag slide">L03 s18</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">학습 데이터 전체의 특징을 한 번에 쌓아 행렬로 만들면, 모든 데이터의 예측을 행렬 곱 한 번으로 계산할 수 있어요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>특징 행렬은 $\boldsymbol{\Phi} \in \mathbb{R}^{N \times K}$이고, $i$번째 행이 $\boldsymbol{\phi}(\mathbf{x}_i)^\top$예요. 음의 로그우도는 $\frac{1}{2\sigma^2}\|\mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}\|^2$ 꼴로, 전에 본 $\mathbf{X}$ 자리에 $\boldsymbol{\Phi}$가 들어간 것과 같아요. ML 해도 같은 모양으로 $\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$예요.</p>
+    <ul><li>$\boldsymbol{\Phi}$ — 특징 행렬, 각 행이 한 데이터의 특징 벡터</li><li>$\Phi_{ij} = \phi_j(x_i)$ — $i$번째 데이터의 $j$번째 특징값</li></ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span>
+    <ul><li>$\boldsymbol{\Phi}$가 나오면 앞의 $\mathbf{X}$ 자리에 들어간다는 점을 확인해 보세요. $\mathbf{X}$는 $\boldsymbol{\phi}(\mathbf{x}) = \mathbf{x}$인 특수한 경우예요</li></ul>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">데이터 전체의 특징을 쌓은 행렬 $\boldsymbol{\Phi}$로 ML 해를 한 번에 구해요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">ML 해</span>$$\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>특징 행렬(feature matrix) $\boldsymbol{\Phi} \in \mathbb{R}^{N \times K}$</dt><dd>각 행이 한 데이터의 특징 벡터</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s4-overfit"><h3>다항식 피팅과 과적합</h3><div class="tags"><span class="tag slide">L03 s19–20</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">곡선을 복잡하게 만들수록 연습 문제는 잘 맞히지만 새 문제는 오히려 틀려요. 이걸 과적합이라고 해요.</p>
+    <figure class="figure"><svg id="fig-overfit-curve" viewBox="0 0 360 82" role="img" aria-label="다항식 차수가 커질수록 계속 내려가는 훈련 오차 선과, 내려갔다가 다시 올라가는 테스트 오차 선">
+      <line x1="40" y1="67" x2="350" y2="67" class="fig-ink"/>
+      <line x1="40" y1="3" x2="40" y2="67" class="fig-ink"/>
+      <path d="M 45 9 C 120 39, 200 57, 345 62" class="fig-accent"/>
+      <path d="M 45 15 C 110 49, 150 55, 175 53 S 280 35, 345 11" class="fig-danger"/>
+      <line x1="175" y1="3" x2="175" y2="67" stroke-dasharray="3,3" class="fig-ink"/>
+      <circle cx="175" cy="53" r="3" class="fig-dot"/>
+      <text x="282" y="55" class="fig-text">훈련 오차</text>
+      <text x="270" y="13" class="fig-text">테스트 오차</text>
+      <text x="160" y="81" class="fig-muted">차수 M</text>
+      <text x="4" y="11" class="fig-muted">오차</text>
+    </svg><figcaption>파란 선(훈련 오차)은 계속 내려가고, 빨간 선(테스트 오차)은 점선을 지나면 다시 올라가요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>s19는 $N=10$개 데이터에 4차 다항식을 ML로 맞추는 예예요. s20은 차수 $M$을 올리면 훈련 오차는 줄지만 테스트 오차는 어느 차수부터 다시 늘어난다는 그래프예요.</p>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span>
+    <ul><li>s20 그래프에서 테스트 오차가 다시 올라가기 시작하는 차수를 찾아보세요</li></ul>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">차수를 올릴수록 훈련 오차는 줄지만 테스트 오차는 어느 순간부터 늘어나는 것이 과적합이에요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>과적합(overfitting)</dt><dd>훈련 데이터에만 맞춰 새 데이터 성능이 떨어지는 현상</dd><dt>테스트 오차(test error)</dt><dd>학습에 쓰지 않은 데이터에 대한 오차</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s5"><h2>5. MAP 추정</h2>
+<article class="topic" id="s5-map"><h3>사전분포를 더하는 MAP</h3><div class="tags"><span class="tag slide">L03 s22</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">데이터만 보고 정하면 값이 지나치게 커지기 쉬워요. 그래서 "이 정도 값이 그럴듯해" 하는 믿음을 미리 하나 더해 줘요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>베이즈 정리로 사후분포 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$를 쓰면 우도와 사전분포의 곱에 비례해요. 이를 최대화하는 대신 음의 로그를 최소화하면, 음의 로그우도에 사전분포 항 $-\log p(\boldsymbol{\theta})$가 더해진 형태가 돼요.</p>
+    <ul><li>$p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$ — 데이터를 본 뒤 파라미터에 대한 믿음(사후분포)</li><li>$-\log p(\boldsymbol{\theta})$ — 사전분포를 반영하는 벌점 항</li><li>$\boldsymbol{\theta}_{\text{MAP}}$ — 이 벌점까지 더해 구한 추정치</li></ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul><li>"prior does not depend on the inputs" 가정이 나오면 $p(\boldsymbol{\theta} \mid \mathcal{X}) = p(\boldsymbol{\theta})$로 바뀐다는 점을 확인해 보세요</li></ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">MAP은 음의 로그우도에 사전분포의 $-\log p(\boldsymbol{\theta})$ 항을 더해 구해요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>사후분포 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$</dt><dd>데이터를 본 뒤 파라미터에 대한 믿음</dd><dt>MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$</dt><dd>사전분포까지 반영해 구한 값</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s5-gauss-prior"><h3>가우시안 사전분포의 MAP 해</h3><div class="tags"><span class="tag slide">L03 s23–24</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">파라미터가 0 근처에 모여 있을 거라는 가우시안 사전분포를 쓰면, 최소제곱 해에 파라미터를 작게 눌러주는 항이 하나 더 붙어요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>사전분포를 $\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$로 두면 음의 로그사후분포는 우도 항과 $\frac{1}{2b^2}\boldsymbol{\theta}^\top\boldsymbol{\theta}$의 합이에요. 이를 최소화하면 다음 닫힌 해가 나와요.</p>
+    <p>$$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top\boldsymbol{\Phi} + \frac{\sigma^2}{b^2}\mathbf{I}\right)^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$$</p>
+    <ul><li>$\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$ — 평균 0, 분산 $b^2$인 사전분포</li><li>$\frac{\sigma^2}{b^2}\mathbf{I}$ — ML 해에 더해지는 항, 행렬을 대칭·양의 정부호로 만들어 역행렬을 항상 존재하게 해요</li></ul>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul><li>"Role of regularizer"가 나오면 $\frac{\sigma^2}{b^2}\mathbf{I}$가 ML 해와의 유일한 차이라는 점을 확인해 보세요</li></ul></div>
+  <div class="sum" hidden>
+    <p class="sum-lead">가우시안 사전분포를 쓴 MAP 해는 ML 해에 $\frac{\sigma^2}{b^2}\mathbf{I}$가 더해진 형태예요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">MAP 해</span>$$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top\boldsymbol{\Phi} + \frac{\sigma^2}{b^2}\mathbf{I}\right)^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$$</li></ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>가우시안 사전분포 $\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$</dt><dd>평균 0, 분산 $b^2$인 사전 믿음</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s5-general-prior"><h3>일반 가우시안 사전분포</h3><div class="tags"><span class="tag slide">L03 s25</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">사전분포의 평균이 꼭 0일 필요는 없고, 평균과 분산을 자유롭게 정한 가우시안도 쓸 수 있어요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>사전분포를 $\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$로 두면 음의 로그사후분포에 $\frac{1}{2}(\boldsymbol{\theta} - \mathbf{m}_0)^\top\mathbf{S}_0^{-1}(\boldsymbol{\theta} - \mathbf{m}_0)$ 항이 더해져요. 이 형태는 나중에 베이지안 선형회귀의 파라미터 사후분포를 구할 때 다시 쓰여요.</p>
+    <ul><li>$\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$ — 평균 $\mathbf{m}_0$, 공분산 $\mathbf{S}_0$인 사전분포</li></ul>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">사전분포의 평균과 분산을 임의로 둔 일반 가우시안도 MAP에 쓸 수 있어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>일반 가우시안 사전분포 $\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$</dt><dd>평균 $\mathbf{m}_0$, 공분산 $\mathbf{S}_0$인 사전분포</dd></dl>
+  </div>
+</article>
+<article class="topic" id="s5-rls"><h3>MAP = 정규화 최소제곱</h3><div class="tags"><span class="tag slide">L03 s26</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">값이 커지지 않게 벌점을 직접 더하는 방법과, 앞에서 본 믿음을 더하는 방법은 사실 같은 계산이에요.</p></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>정규화 최소제곱(RLS)은 오차제곱합에 $\lambda\|\boldsymbol{\theta}\|^2$를 더해 최소화해요. 그래서 해도 $\boldsymbol{\theta}_{\text{RLS}} = (\boldsymbol{\Phi}^\top\boldsymbol{\Phi} + \lambda\mathbf{I})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$로 가우시안 사전분포의 MAP 해와 같은 모양이에요.</p>
+  </div>
+  <div class="layer listen"><span class="layer-title">들을 때 포인트</span><ul><li>s26의 $\lambda = 1/2b^2$가 나오면 s24 식과 맞춰 $\sigma^2/b^2$와 비교해 보세요</li></ul></div>
+  <div class="layer supp"><span class="badge supp">교과서 보충</span>
+    <p>슬라이드는 $\lambda = 1/2b^2$라고 적지만, s24 식과 맞추려면 $\lambda = \sigma^2/b^2$가 맞아요(MML 9.2.4절, 스케일 상수 차이).</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">정규화 최소제곱은 가우시안 사전분포를 쓴 MAP 추정과 같은 식이에요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>정규화 항 $\lambda\|\boldsymbol{\theta}\|^2$</dt><dd>파라미터 크기를 누르는 벌점</dd></dl>
+  </div>
+</article>
+    </section>
+    <section id="s6"><h2>6. 한눈에 보기</h2>
+<article class="topic" id="s6-cheatsheet"><h3>치트시트</h3>
+        <div class="table-wrap"><table>
+          <tr><th>무엇</th><th>식</th><th>슬라이드</th></tr>
+          <tr><td>모델</td><td>$y = \boldsymbol{\phi}(\mathbf{x})^\top\boldsymbol{\theta} + \epsilon,\ \epsilon \sim \mathcal{N}(0, \sigma^2)$</td><td>s6, s17</td></tr>
+          <tr><td>음의 로그우도</td><td>$\frac{1}{2\sigma^2}\|\mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}\|^2 + \text{const}$</td><td>s9, s18</td></tr>
+          <tr><td>ML 해</td><td>$\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$</td><td>s11, s18</td></tr>
+          <tr><td>MAP 해(가우시안 사전분포)</td><td>$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top\boldsymbol{\Phi} + \frac{\sigma^2}{b^2}\mathbf{I}\right)^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$</td><td>s24</td></tr>
+          <tr><td>정규화 최소제곱</td><td>$\boldsymbol{\theta}_{\text{RLS}} = (\boldsymbol{\Phi}^\top\boldsymbol{\Phi} + \lambda\mathbf{I})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$</td><td>s26</td></tr>
+        </table></div>
+      </article>
+      <article class="topic" id="s6-links"><h3>함께 보면 좋은 자료</h3>
+        <ul>
+          <li><a href="../../교과서/Mathematics_for_Machine_Learning.pdf#page=297">MML 9.1절 문제 설정</a></li>
+          <li><a href="../../교과서/Mathematics_for_Machine_Learning.pdf#page=306">MML 9.2.3절 MAP 추정</a></li>
+          <li><a href="../../교과서/Mathematics_for_Machine_Learning.pdf#page=152">MML 5.2절 편미분과 그래디언트</a></li>
+          <li><a href="../../복습노트/0923/정리노트_0923_Linear_Regression.html">0923 복습노트: Linear Regression</a></li>
+          <li><a href="../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html">추가 강의: 통계적 추론 Part 1</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture03) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 5장·9장. 수업 전에 만든 노트라 수업 내용과 다를 수 있어요.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-sub" id="sum-for">전체 흐름</p>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const sub = document.getElementById('aid-for');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
+          sub.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const sub = document.getElementById('sum-for');
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+</body>
+</html>
