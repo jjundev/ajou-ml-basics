@@ -1205,7 +1205,12 @@ Fully Bayesian 예측은 posterior로 가중평균한 predictive distribution이
 
 *0916 수업*
 
-- [복습문제 풀러 가기 (0916 수업 범위 7문제)](복습문제_0916_MAP_and_Generative_Models.md)
+- [복습문제 풀러 가기 (0916 수업 범위 6문제)](복습문제_0916_MAP_and_Generative_Models.md)
+
+복습문제 6문항
+
+- [문제지 PDF](복습문제_0916_MAP_and_Generative_Models-문제.pdf)
+- [해설지 PDF](복습문제_0916_MAP_and_Generative_Models-답안.pdf)
 - [지난 시간 0914 정리노트: ERM and MLE](../0914/정리노트_0914_ERM_and_MLE.html)
 - [추가 강의 Lecture 10: Statistical Inference Part 1](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
 - [추가 강의 Lecture 11: Statistical Inference Part 2](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)

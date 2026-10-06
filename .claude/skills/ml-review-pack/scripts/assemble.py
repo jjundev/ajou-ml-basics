@@ -97,7 +97,7 @@ def build_review(m: dict, run_dir: Path) -> str:
     })
 
 
-def assemble(run_dir: Path | str, out_dir: Path | str) -> tuple[Path, Path]:
+def assemble(run_dir: Path | str, out_dir: Path | str, *, include_pdf_links: bool = False) -> tuple[Path, Path]:
     run_dir, out_dir = Path(run_dir), Path(out_dir)
     m = manifest_mod.load(run_dir / "manifest.json")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -105,6 +105,22 @@ def assemble(run_dir: Path | str, out_dir: Path | str) -> tuple[Path, Path]:
     review_path = out_dir / manifest_mod.review_name(m)
     # 둘 다 만든 뒤에 쓴다: 조각이 하나라도 없으면 어느 파일도 바뀌지 않는다.
     note_html, review_html = build_note(m, run_dir), build_review(m, run_dir)
+    if include_pdf_links:
+        from review_pdf_links import add_pdf_links
+        from review_pdf_types import ReviewPdfError
+        from build_review_pdf import _verify_pdf
+        import fitz
+        try:
+            for name in manifest_mod.pdf_names(m['range'], m['slug']):
+                path = out_dir / name
+                if not path.is_file():
+                    raise AssembleError(f"검증된 PDF 쌍이 필요합니다: {path}")
+                with fitz.open(path) as doc:
+                    count = len(doc)
+                _verify_pdf(path, count)
+            note_html = add_pdf_links(note_html, m['range'], m['slug'], len(m['problems']))
+        except (ReviewPdfError, OSError, fitz.FileDataError) as e:
+            raise AssembleError(f"PDF 링크 실패: {e}") from e
     note_path.write_text(note_html, encoding="utf-8")
     review_path.write_text(review_html, encoding="utf-8")
     return note_path, review_path
@@ -114,9 +130,10 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--run", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--pdf-links", action="store_true")
     args = ap.parse_args(argv)
     try:
-        for path in assemble(args.run, args.out):
+        for path in assemble(args.run, args.out, include_pdf_links=args.pdf_links):
             print(path)
     except (AssembleError, manifest_mod.ManifestError) as e:
         print(f"assemble 실패: {e}", file=sys.stderr)

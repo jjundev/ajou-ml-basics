@@ -70,3 +70,6 @@
 - 채움과 윤곽: `fig-ink`, `fig-accent`, `fig-danger`는 선만 그린다(`fill:none`). 속이 칠해진 점·도형은 `fig-dot`(강조색 채움)뿐이다(`fig-text`, `fig-muted`는 글자용). 글·figcaption·`aria-label`에서 "색칠된", "채워진"은 `fig-dot` 도형에만 쓰고, 선만 있는 도형은 "테두리", "선"으로 부른다.
 - 글자 12~14px, SVG `<text>`에 `$` 금지(θ, σ, ₁ 같은 유니코드).
 - id는 페이지 전체에서 유일해야 한다(`fig-` + 토픽 고유 단어).
+
+## PDF 연결
+노트의 마지막 links 토픽에 PDF 문제지/해설지 링크를 메인 에이전트가 검증 후 삽입한다. 기존 review HTML link는 유지하고 문항 수는 실제 카드 수로 계산한다.

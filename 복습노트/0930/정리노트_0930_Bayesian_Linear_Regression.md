@@ -1787,6 +1787,11 @@ $$
 *0930 수업 · L04*
 
 - [복습문제 풀러 가기 (0930 수업 범위 8문제)](복습문제_0930_Bayesian_Linear_Regression.md)
+
+복습문제 8문항
+
+- [문제지 PDF](복습문제_0930_Bayesian_Linear_Regression-문제.pdf)
+- [해설지 PDF](복습문제_0930_Bayesian_Linear_Regression-답안.pdf)
 - [지난 시간 0928 정리노트: 일반 가우시안 사전분포](../0928/정리노트_0928_Linear_Regression.html#s5-general-prior)
 - [0921 정리노트: 베이지안 추론](../0921/정리노트_0921_Bayesian_Inference_Model_Selection.html#s0-inference)
 - [0916 정리노트: 예측분포](../0916/정리노트_0916_MAP_and_Generative_Models.html#s3-predictive)

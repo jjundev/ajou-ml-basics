@@ -1,0 +1,62 @@
+{
+  "source_sha256": "7ccaad21e5ed3c741095543c5a1fa696289693fd687ebb724862c097260629c8",
+  "problems": {
+    "p1": {
+      "conditions_html": "입력이 스칼라인 훈련 데이터 $N = 3$개가 있어요: $x_1 = -1$, $x_2 = 1$, $x_3 = 2$.\n  ",
+      "ask_html": "2차 다항식 특징 $\\boldsymbol{\\phi}(x) = [1, x, x^2]^\\top$을 쓸 때, 특징행렬 $\\boldsymbol{\\Phi}$를 숫자로 적어 보세요."
+    },
+    "p2": {
+      "conditions_html": "데이터셋이 $N = 8$개의 쌍 $(x_n, y_n)$으로 이뤄져 있어요. $x_n \\sim \\mathcal{U}[-5, 5]$이고 $y_n = -\\sin(x_n/5) + \\cos(x_n) + \\epsilon$, $\\epsilon \\sim \\mathcal{N}(0, 0.2^2)$이에요.\n  ",
+      "ask_html": "이 데이터에 3차 다항식을 최대우도 추정으로 맞추려고 해요.\n  <ol><li>(a) 특징 벡터 $\\boldsymbol{\\phi}(x)$의 길이 $K$는 얼마인가요?</li><li>(b) 특징행렬 $\\boldsymbol{\\Phi}$의 크기는 얼마인가요?</li><li>(c) 최대우도 해 $\\boldsymbol{\\theta}_{\\text{ML}}$을 $\\boldsymbol{\\Phi}$와 $\\mathbf{y}$로 적어 보세요.</li></ol>"
+    },
+    "p3": {
+      "conditions_html": "잡음이 $\\epsilon \\sim \\mathcal{N}(0, 0.2^2)$인 다항회귀 데이터에서 파라미터에 가우시안 사전분포 $p(\\boldsymbol{\\theta}) = \\mathcal{N}(\\mathbf{0}, \\frac{1}{4}\\mathbf{I})$를 두고 MAP 추정을 해요. MAP 해는 아래와 같아요.\n  $$\\boldsymbol{\\theta}_{\\text{MAP}} = \\left(\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi} + \\frac{\\sigma^2}{b^2} \\mathbf{I}\\right)^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$\n  ",
+      "ask_html": "<ol><li>(a) 이 식에 들어가는 $\\frac{\\sigma^2}{b^2}$ 값을 구해 보세요.</li><li>(b) 6차 다항식과 8차 다항식 중 어느 쪽에서 사전분포(정규화)의 효과가 크게 드러날까요? 이유도 말해 보세요.</li></ol>"
+    },
+    "p4": {
+      "conditions_html": "",
+      "ask_html": "아래 함수의 도함수 $f'(x)$를 구해 보세요. $\\log$는 자연로그예요.\n  $$f(x) = \\log(x^4) \\sin(x^3)$$"
+    },
+    "p5": {
+      "conditions_html": "$\\mu, \\sigma \\in \\mathbb{R}$은 상수예요. ",
+      "ask_html": "아래 함수의 도함수 $f'(x)$를 구해 보세요.\n  $$f(x) = \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$$"
+    },
+    "p6": {
+      "conditions_html": "",
+      "ask_html": "연쇄법칙으로 $\\frac{df}{d\\mathbf{x}}$를 구해 보세요. 각 편미분의 차원도 함께 적어요.\n  <ol><li>(a) $f(z) = \\log(1 + z)$, $z = \\mathbf{x}^\\top \\mathbf{x}$, $\\mathbf{x} \\in \\mathbb{R}^D$</li><li>(b) $\\mathbf{f}(\\mathbf{z}) = \\sin(\\mathbf{z})$, $\\mathbf{z} = \\mathbf{A}\\mathbf{x} + \\mathbf{b}$, $\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$, $\\mathbf{x} \\in \\mathbb{R}^D$, $\\mathbf{b} \\in \\mathbb{R}^E$. 여기서 $\\sin$은 $\\mathbf{z}$의 성분마다 따로 적용해요.</li></ol>"
+    },
+    "p7": {
+      "conditions_html": "",
+      "ask_html": "아래 함수에서 연쇄법칙으로 $\\frac{d\\mathbf{f}}{d\\mathbf{x}}$를 구해 보세요. 각 편미분의 차원도 적어요. 두 편미분의 곱을 끝까지 계산하지 않아도 돼요.\n  $$\\mathbf{f} = \\tanh(\\mathbf{z}) \\in \\mathbb{R}^M, \\quad \\mathbf{z} = \\mathbf{A}\\mathbf{x} + \\mathbf{b}, \\quad \\mathbf{x} \\in \\mathbb{R}^N,\\ \\mathbf{A} \\in \\mathbb{R}^{M \\times N},\\ \\mathbf{b} \\in \\mathbb{R}^M$$\n  여기서 $\\tanh$는 $\\mathbf{z}$의 성분마다 따로 적용해요."
+    },
+    "p8": {
+      "conditions_html": "",
+      "ask_html": "로지스틱 시그모이드 함수의 도함수 $f'(x)$를 구해 보세요. 구한 결과를 $f(x)$로도 나타내 보세요.\n  $$f(x) = \\frac{1}{1 + \\exp(-x)}$$"
+    }
+  },
+  "review_md_sha256": "0c65e0cae5d09155c2b4cbccafa2dc44f4c93d2a584b9167885dfb3381b49f42",
+  "figures_sha256": {
+    "figures_0928/fig-polyfit.svg": "23af1fce8e65c5a63a5d7cc9ad239a46353afe40a8219135a32b48ead2acd6f9",
+    "figures_0928/fig-rls-same.svg": "42ede3cecff9435582b05bfe3c3275da3eab62349667fad0710216957dc1ca66",
+    "figures_0928/fig-map-scale.svg": "35e904b1cca8d69f873301172977543b418beb1bf7508f9cc61123ee3fa1d958",
+    "figures_0928/fig-poly-lift.svg": "1e3d0305aab2da4b4ee3b8f3501de6ce08864a98dc203bf677467e3a80bf2c36",
+    "figures_0928/fig-phi-grid.svg": "8f290c1e476e9ea662c5676d3fe1cee53beeca8933260c82e17d43b0b2168142",
+    "figures_0928/fig-gradient-knobs.svg": "4c8af30a57a4f578bd7237c2f0237a62146cc9cd841e80fc3cca0957ff0ffb3b",
+    "figures_0928/fig-feature-flow.svg": "c8f793213ce0b3521d2e34c3beda6d7b2ab706c54a340d3424287460bf276d2c",
+    "figures_0928/fig-thetaml-bowl.svg": "69b622b5f2f0a209b71a5d6ab5a90d3d6688a2c7a550a4c5b2d6df90fd1af0bd",
+    "figures_0928/fig-mlmap-knob.svg": "ef8af696d4384881f3cbbd9e001678dcde8fe30e013b80f2fc45405e814dfa96",
+    "figures_0928/fig-overfit-curve.svg": "edaccf65ec2ff84c12c53b0c0ec6812968e8c9a6e72f1f24f232a87f3f27cc61",
+    "figures_0928/fig-gauss-prior-width.svg": "3e5a0349f6ad283ae80f00f10dbe72705eb1deae8f24e1b7fc228b33332ce891",
+    "figures_0928/fig-jacobian-factory.svg": "1096257ce718e45784c959d35fe24ba0ec28d8fac8ba9aa6190c641fc6339652",
+    "figures_0928/widget-mapw-static-4.svg": "18e3e9961bf92af195972485d14a3519e34b3b7abf1de3b38a83f6cc59159021",
+    "figures_0928/fig-general-prior.svg": "b40ed47aa66ef4dfb051feefd98aced16a2b943f2c573535d454fb63389cc3a5",
+    "figures_0928/widget-mapw-static-2.svg": "e2442e6613ff1bfcba8b657fea0366f087dbd04925921e40398d758f50151911",
+    "figures_0928/fig-recap-bowl.svg": "75f35dcf82c5a195d1f4d34ea5f2b0c9e204e5861825a7c33224167b15692d9d",
+    "figures_0928/widget-overfit-static-3.svg": "02ec586eb3a76979c5efc3f9acba7040df304072710bfea41ea5e49d245937c7",
+    "figures_0928/widget-overfit-static-2.svg": "4463a3a1b0326103bf89424c74f70cd4bcdf06f0a6b6d960553f2b9c683c90fb",
+    "figures_0928/fig-chain-boxes.svg": "df6c65b804ddd3eb859f14be2c7c529629f55aee7ac079a43ded7861e90f4ae1",
+    "figures_0928/widget-mapw-static-3.svg": "fdd2260feecb8c8b72741efdbdf1d42ca4bf6c4b60a5290d4e6aa8ed401ad533",
+    "figures_0928/widget-mapw-static-1.svg": "47106ee6e00f1299a983036f46265b2833dd4ca8945487a05ab1993b64e77efe",
+    "figures_0928/widget-overfit-static-1.svg": "5a7a76c2011e0b85cae00cc32a8d09a3382f066d8b4db7d364dfbb2d059a08e0"
+  }
+}

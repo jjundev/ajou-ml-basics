@@ -1,0 +1,54 @@
+{
+  "source_sha256": "06ec4f9ad2c6a8cdff7a8cbe4294da9ac0a3a263f50539c23a62b27e8b513e37",
+  "problems": {
+    "p1": {
+      "conditions_html": "원점을 지나는 직선 모델 $f(x) = \\theta x$에 가우시안 노이즈가 더해진다고 가정해요($y = \\theta x + \\epsilon$, $\\epsilon \\sim \\mathcal{N}(0, \\sigma^2)$). 기울기 $\\theta$ 하나만 모르는 값이에요. 훈련 데이터가 $(x_n, y_n) = (1, 2),\\ (2, 5),\\ (4, 7)$일 때, 입력을 세로로 쌓은 $\\mathbf{X} = [1, 2, 4]^\\top$와 $\\mathbf{y} = [2, 5, 7]^\\top$로 최대우도 기울기를 구해 보세요.\n    ",
+      "ask_html": "<ol><li>(a) $\\mathbf{X}^\\top\\mathbf{X}$를 계산해 보세요.</li><li>(b) $\\mathbf{X}^\\top\\mathbf{y}$를 계산해 보세요.</li><li>(c) $\\theta_{\\text{ML}} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$를 구해 보세요.</li></ol>"
+    },
+    "p2": {
+      "conditions_html": "원점을 지나는 직선 모델 $f(x) = \\theta x$로 데이터를 최대우도로 맞춰요. 훈련 데이터는 $(x_n, y_n) = (1, 1),\\ (1, 3),\\ (2, 4)$이고, $\\mathbf{X} = [1, 1, 2]^\\top$, $\\mathbf{y} = [1, 3, 4]^\\top$로 둬요.\n    ",
+      "ask_html": "<ol><li>(a) $\\mathbf{X}^\\top\\mathbf{X}$와 $\\mathbf{X}^\\top\\mathbf{y}$를 계산해 보세요.</li><li>(b) 미분이 0이 되는 조건인 정규방정식 $\\theta_{\\text{ML}}^\\top \\mathbf{X}^\\top\\mathbf{X} = \\mathbf{y}^\\top\\mathbf{X}$에 넣어 $\\theta_{\\text{ML}}$을 구해 보세요.</li></ol>"
+    },
+    "p3": {
+      "conditions_html": "스칼라 입력 $x$를 특징 벡터 $\\boldsymbol{\\phi}(x) = [1, x, x^2, \\dots, x^{K-1}]^\\top \\in \\mathbb{R}^K$로 들어 올려요. 모델은 $f(x) = \\sum_{k=0}^{K-1} \\theta_k x^k = \\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$예요. $K = 4$이고 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2, \\theta_3]^\\top = [1, -2, 0, 1]^\\top$일 때,\n    ",
+      "ask_html": "<ol><li>(a) $\\boldsymbol{\\phi}(2)$를 적어 보세요.</li><li>(b) $f(2)$를 구해 보세요.</li></ol>"
+    },
+    "p4": {
+      "conditions_html": "스칼라 입력 $x$를 특징 벡터 $\\boldsymbol{\\phi}(x) = [1, x, \\dots, x^{K-1}]^\\top \\in \\mathbb{R}^K$로 들어 올리고, $f(x) = \\sum_{k=0}^{K-1} \\theta_k x^k = \\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$로 둬요. $K = 3$이고 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2]^\\top = [2, 0, -1]^\\top$일 때,\n    ",
+      "ask_html": "<ol><li>(a) $\\boldsymbol{\\phi}(3)$을 적어 보세요.</li><li>(b) $f(3)$을 구해 보세요.</li></ol>"
+    },
+    "p5": {
+      "conditions_html": "",
+      "ask_html": "다음 $\\mathbf{A}\\mathbf{x} = \\mathbf{b}$의 모든 해의 집합 $S$를 구해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 1 &amp; 1 &amp; -1 &amp; -1 \\\\ 2 &amp; 5 &amp; -7 &amp; -5 \\\\ 2 &amp; -1 &amp; 1 &amp; 3 \\\\ 5 &amp; 2 &amp; -4 &amp; 2 \\end{bmatrix}, \\quad \\mathbf{b} = \\begin{bmatrix} 1 \\\\ -2 \\\\ 4 \\\\ 6 \\end{bmatrix}$$"
+    },
+    "p6": {
+      "conditions_html": "",
+      "ask_html": "다음 행렬의 역행렬을 구해 보세요. 없다면 왜 없는지 설명해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 2 &amp; 3 &amp; 4 \\\\ 3 &amp; 4 &amp; 5 \\\\ 4 &amp; 5 &amp; 6 \\end{bmatrix}$$"
+    },
+    "p7": {
+      "conditions_html": "",
+      "ask_html": "다음 행렬의 역행렬 $\\mathbf{A}^{-1}$를 구해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 1 &amp; 0 &amp; 1 &amp; 0 \\\\ 0 &amp; 1 &amp; 1 &amp; 0 \\\\ 1 &amp; 1 &amp; 0 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 &amp; 0 \\end{bmatrix}$$"
+    }
+  },
+  "review_md_sha256": "e536d2ce2a8f99cdccbfb58dca04a00542e6644b2d411aa2b6a8be558ae91250",
+  "figures_sha256": {
+    "figures_0923/fig-bias-lift.svg": "c8fbd65e5eba3032d53ca3eaa61f12f8961444ce152e2dc0640c1d01dfa85d10",
+    "figures_0923/fig-nll-gap.svg": "b64317a92b7ba6f213521dc927c482c95345db0bbbb838ec5fef5357a0e8d868",
+    "figures_0923/fig-assume-guess.svg": "b477d71cf71221f60c7ff5f23858e7abe6ebc9eb70068fb2094001f55372c1e4",
+    "figures_0923/fig-pinv-machine.svg": "8d12b7f221ef5d22f6dd9b64fd772f76366cd88af866d8c3dc62a4b80d1a5893",
+    "figures_0923/fig-vecdiff-knobs.svg": "cec73bcc8a4e3773ae396439fb87466ba37ee94ed378382f899eb5ecb423cb1c",
+    "figures_0923/fig-normaleq-bowl.svg": "2f9317c9044b2f169bdf00e7aa37a56998b77eedadd870f2e13554727ec47048",
+    "figures_0923/fig-reg-vs-cls.svg": "524cc6f8ba5f9ad9c0063b99dc9b24d89fa488d955c4fe375c8158aefc0d69f0",
+    "figures_0923/widget-normaleq-static-3.svg": "0fdbc80787aa3353fc7d734f13c65c1cc3b323936823f311e32ed9fe60b58d65",
+    "figures_0923/widget-normaleq-static-2.svg": "9320b4282e3e2bd60e7501958f92aea53f33e4f0f33c0b038194a566b2022f3b",
+    "figures_0923/widget-normaleq-static-1.svg": "3a775474d42afb76f6b05dbbb3cdf946a7901cafe12f427bcd91f84f000daef7",
+    "figures_0923/fig-roadmap.svg": "af3497cd5a7f7460fb7d67347c9d30c571f836684caa54d3bd3bd4cb994b700f",
+    "figures_0923/fig-det-vs-prob-0923.svg": "83924a00146167422fafe4bc2acb6ee56d309fed8561d71074195f9f2c38c0fe",
+    "figures_0923/fig-dataset-rows.svg": "a41bea8b6b7980b52aee26be534979c3284b27e8bf93878a5a6a0b7c431430e6",
+    "figures_0923/fig-mlerm-noise.svg": "19ea792960c33a67473dce1e28eefc891f1445fec02707902722acdb97839daf",
+    "figures_0923/fig-iid-product.svg": "cdb58c80b6a20e118519cd0d9765a0cd40313d69bab8bd112c2d91945dbda9ed",
+    "figures_0923/fig-gauss-bell.svg": "0de3de903444fec29c9d1744b8c706ddc3acb894d4ad6383e1f96ce4018a515a",
+    "figures_0923/fig-likelihood-box.svg": "106711f285ac15df1103a85f1f143e30a18d49a115f951c944baae7db370c5ad",
+    "figures_0923/fig-feature-lift.svg": "7d77c22a25dc1c6d4e37ede2058a37b63c5589607723a5e5b8c965be3f859622"
+  }
+}

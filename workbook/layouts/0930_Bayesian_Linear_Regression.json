@@ -1,0 +1,64 @@
+{
+  "source_sha256": "5a0b54e7c974508c005446b5b94e691f5eb0f6cccafd1b00b1d01186f4c595b5",
+  "problems": {
+    "p1": {
+      "conditions_html": "확률변수 $X$는 평균이 0이고($\\mathbb{E}[x] = 0$), 세제곱의 평균도 0이에요($\\mathbb{E}[x^3] = 0$).\n  새 확률변수를 $y = x^2$으로 만들어요. $y$는 $x$로 정해지니까 $Y$는 $X$에 종속이에요.\n  ",
+      "ask_html": "이때 $X$와 $Y$의 공분산 $\\operatorname{Cov}[x, y]$를 구해 보세요."
+    },
+    "p2": {
+      "conditions_html": "서로 독립인 가우시안 확률변수 $\\mathbf{x}$와 $\\mathbf{y}$가 있어요. $\\mathbf{x}$의 평균은 $\\boldsymbol{\\mu}_x$, 공분산 행렬은 $\\boldsymbol{\\Sigma}_x$이고, $\\mathbf{y}$의 평균은 $\\boldsymbol{\\mu}_y$, 공분산 행렬은 $\\boldsymbol{\\Sigma}_y$예요.\n  상수 $a$, $b$로 가중합 $a\\mathbf{x} + b\\mathbf{y}$를 만들어요. 이 가중합도 가우시안이라는 사실은 주어진 것으로 써요.\n  ",
+      "ask_html": "가중합의 평균과 공분산 행렬을 구해서 $p(a\\mathbf{x} + b\\mathbf{y})$를 적어 보세요."
+    },
+    "p3": {
+      "conditions_html": "시간에 따라 변하는 상태 $\\mathbf{x}_t$를 아래 시계열 모델로 나타내요.\n  $$\\mathbf{x}_{t+1} = \\mathbf{A}\\mathbf{x}_t + \\mathbf{w}, \\quad \\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$$\n  $$\\mathbf{y}_t = \\mathbf{C}\\mathbf{x}_t + \\mathbf{v}, \\quad \\mathbf{v} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R})$$\n  $\\mathbf{A}$, $\\mathbf{C}$는 상수 행렬이고, $\\mathbf{w}$, $\\mathbf{v}$는 상태와 독립인 가우시안 노이즈예요. $\\mathbf{y}_t$는 상태를 측정한 값이에요.\n  시각 $t$까지의 측정값을 본 뒤 $\\mathbf{x}_t$의 분포가 $p(\\mathbf{x}_t \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t) = \\mathcal{N}(\\boldsymbol{\\mu}_t, \\boldsymbol{\\Sigma}_t)$라고 해요.\n  ",
+      "ask_html": "같은 측정값만 가지고 다음 상태의 분포 $p(\\mathbf{x}_{t+1} \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t)$를 구해 보세요. 이 분포가 가우시안이라는 사실은 주어진 것으로 써요."
+    },
+    "p4": {
+      "conditions_html": "확률변수 $X$의 평균을 $\\mu = \\mathbb{E}[x]$라고 해요. 분산의 정의는 평균에서 벗어난 정도를 제곱해 평균 낸 값이에요.\n  $$\\mathbb{V}[x] = \\mathbb{E}[(x - \\mu)^2]$$\n  ",
+      "ask_html": "이 정의에서 출발해 아래 식을 증명해 보세요.\n  $$\\mathbb{V}[x] = \\mathbb{E}[x^2] - (\\mathbb{E}[x])^2$$"
+    },
+    "p5": {
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$가 있어요($\\mathbf{x} \\in \\mathbb{R}^D$). 여기에 상수 행렬 $\\mathbf{A}$를 곱하고 상수 벡터 $\\mathbf{b}$와 노이즈 $\\mathbf{w}$를 더해요.\n  $$\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$$\n  $\\mathbf{y} \\in \\mathbb{R}^E$이고, $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$는 $\\mathbf{x}$와 독립인 가우시안 노이즈예요.\n ",
+      "ask_html": " $\\mathbf{x}$ 값이 주어졌을 때 $\\mathbf{y}$의 분포, 즉 가능도(likelihood) $p(\\mathbf{y} \\mid \\mathbf{x})$를 적어 보세요."
+    },
+    "p6": {
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$가 있어요($\\mathbf{x} \\in \\mathbb{R}^D$). 여기에 상수 행렬 $\\mathbf{A}$를 곱하고 상수 벡터 $\\mathbf{b}$와 노이즈 $\\mathbf{w}$를 더해요.\n  $$\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$$\n  $\\mathbf{y} \\in \\mathbb{R}^E$이고, $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$는 $\\mathbf{x}$와 독립인 가우시안 노이즈예요.\n ",
+      "ask_html": " $\\mathbf{y}$의 분포 $p(\\mathbf{y})$가 가우시안이라는 사실은 주어진 것으로 써요. 그 평균 $\\boldsymbol{\\mu}_y$와 공분산 행렬 $\\boldsymbol{\\Sigma}_y$를 단계별로 유도해 보세요."
+    },
+    "p7": {
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$로 $\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$를 만들어요. $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$는 $\\mathbf{x}$와 독립인 가우시안 노이즈예요.\n  이때 $\\mathbf{y}$는 평균이 $\\boldsymbol{\\mu}_y = \\mathbf{A}\\boldsymbol{\\mu}_x + \\mathbf{b}$, 공분산 행렬이 $\\boldsymbol{\\Sigma}_y = \\mathbf{A}\\boldsymbol{\\Sigma}_x\\mathbf{A}^\\top + \\mathbf{Q}$인 가우시안이에요. 이 결과는 주어진 것으로 써요.\n  이제 $\\mathbf{y}$를 상수 행렬 $\\mathbf{C}$로 한 번 더 변환해서 측정해요.\n  $$\\mathbf{z} = \\mathbf{C}\\mathbf{y} + \\mathbf{v}$$\n  $\\mathbf{v} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R})$은 $\\mathbf{y}$와 독립인 가우시안 측정 노이즈예요. $p(\\mathbf{z})$가 가우시안이라는 사실도 주어진 것으로 써요.\n  ",
+      "ask_html": "<ol><li>(a) $p(\\mathbf{z} \\mid \\mathbf{y})$를 적어 보세요.</li><li>(b) $p(\\mathbf{z})$의 평균 $\\boldsymbol{\\mu}_z$와 공분산 행렬 $\\boldsymbol{\\Sigma}_z$를 단계별로 유도해 보세요.</li></ol>"
+    },
+    "p8": {
+      "conditions_html": "확률변수 $X$에서 얻은 관측값 $x_1, \\dots, x_N$이 있어요. 모든 쌍 $(x_i, x_j)$의 차이를 제곱해 평균 내면, \"제곱의 평균 빼기 평균의 제곱\"의 두 배가 돼요.\n  $$\\frac{1}{N^2}\\sum_{i,j=1}^{N}(x_i - x_j)^2 = 2\\left[\\frac{1}{N}\\sum_{i=1}^{N} x_i^2 - \\left(\\frac{1}{N}\\sum_{i=1}^{N} x_i\\right)^2\\right]$$\n  ",
+      "ask_html": "이 식을 증명해 보세요."
+    }
+  },
+  "review_md_sha256": "ee4bfbfc9edf5973832bbdf273390e136d22db8bfd8706c61ee22faac79bbaa2",
+  "figures_sha256": {
+    "figures_0930/widget-bell-static-4.svg": "325f92817aede3669d5c5099e59fde88a0bf3cd3a1c1f2cff2501a80814e57d1",
+    "figures_0930/fig-affine-cloud.svg": "922f43f7b459c5848ca0532376dc7f9922dae80c601c7dccb423436a31fa14c9",
+    "figures_0930/fig-goal-inhand.svg": "805f0d421d3c035bf3b4c1e9d642e44a7b8aa499ffb93e2fd7d72a74f54906b9",
+    "figures_0930/fig-marginalize-apples.svg": "0f8c7406f0610d657a929eb957b2ed8966aeb7588ea0ea137367e3b0103ce043",
+    "figures_0930/fig-fully-bayesian-narrow.svg": "7e90dfa8a186c4e470087cb608d222132d3f42fd6a56830e15d5a9c4ff14e4e7",
+    "figures_0930/widget-bell-static-3.svg": "85a69c3e7388d0be76196ce55745d56567694966b55366cf4f81833676699865",
+    "figures_0930/widget-bell-static-2.svg": "3184200ee6525eae2f5121969252b2b83ce936f0bf412a1ea7a0822bea22679c",
+    "figures_0930/widget-bell-static-1.svg": "28ebec88ff260440f726b19059719e8795461c4ec232b61902bf212931d877f7",
+    "figures_0930/fig-prior-likelihood.svg": "830f8eb01a83ad56b0f8e17d8f70d2abafc2ec41384061331fe6fc3214538278",
+    "figures_0930/fig-condexp-blend.svg": "8318a4a6c4a2ae1b012c4945c11ad0d3d5ea2ad2f6160f8631d183d181611bd8",
+    "figures_0930/fig-sum-spread.svg": "1261a183f3af621aaf37c785a4bd1e7e58f32b9042d1eb329cf07569af29f521",
+    "figures_0930/widget-mix-static-1.svg": "fb2da37d36d31b901fbab2f0b7976be22f60b35430560633f0564a139830a628",
+    "figures_0930/fig-predictive-two-parts.svg": "2b0ad3b8e8d72f8c32598ca148ceb26ac4097ded6a286414402fc8f132f82fa6",
+    "figures_0930/widget-mix-static-2.svg": "282d3c84d471cf3d89a234309d4bb4cc6868932895772ac13eb4607fc004c917",
+    "figures_0930/fig-bell-two-numbers.svg": "35daa12dca252a7ec7410c56bc9b2b857bc3a0435ad0a328481677fc2b4a3471",
+    "figures_0930/widget-mix-static-3.svg": "7c4b54de1cb925ad0b193aa0abad5cc69691159b4148b1c6193f96aef50e9dd6",
+    "figures_0930/fig-cov-families.svg": "8a7714f9770d04501924a008222c18840899cdf1b37ac07643128576eccd2c2f",
+    "figures_0930/fig-cond-prob-split.svg": "8e036b7e1521853ba71c4d8a8619102e09258fabdfb2c5c5bcd963e7d9624d0c",
+    "figures_0930/fig-graphical-story.svg": "7683036f54b902fa884e5e92d0ccb4623c1f8b3f87e2d74f18060924c9129067",
+    "figures_0930/fig-joint-independence.svg": "0717fe50fd3564eaddda5b0526ad96171c2110aabc16a84818bb656d341bb985",
+    "figures_0930/fig-vector-hill.svg": "73ce173b0ceaabc5f4603d7ac4431d9ba2d873b562c3c76506c07681f67a708f",
+    "figures_0930/fig-graphical-symbols.svg": "41e6ba57533c4496032095121784e933978202ea57a5ac3ec17dff5673e91ab9",
+    "figures_0930/fig-why-bayes-answer.svg": "acd7791f62f22b8a0be2ca5e51be7c8630c337067ecb5fc99ed93521e0c108ef",
+    "figures_0930/fig-symmetric-family.svg": "daec4e1461c851a70c8451881362d4fbbe04e23185a8ced275a9e4b951d205f2"
+  }
+}

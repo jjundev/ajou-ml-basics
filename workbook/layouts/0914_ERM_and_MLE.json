@@ -1,0 +1,54 @@
+{
+  "source_sha256": "f865e2df5e4000a2a80d9dc57eaed03048738a9a16764ab08c878880af0d993f",
+  "problems": {
+    "p1": {
+      "conditions_html": "<p>특징이 $D = 2$개인 예제 하나가 있어요. 특징 값은 $x_n^{(1)} = 2$, $x_n^{(2)} = -1$이에요. 교과서처럼 맨 앞에 단위 특징 $x^{(0)} = 1$을 붙여서 예측기를 $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\boldsymbol{\\theta}^\\top \\mathbf{x}_n$으로 써요. 파라미터는 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2]^\\top = [\\tfrac{1}{2}, 3, 2]^\\top$이에요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 1을 붙인 벡터 $\\mathbf{x}_n$을 써 보세요. 길이는 몇인가요?</li>\n            <li>(b) 예측값 $f(\\mathbf{x}_n, \\boldsymbol{\\theta})$를 구해 보세요.</li>\n          </ol>"
+    },
+    "p2": {
+      "conditions_html": "<p>학습 데이터가 세 개 있어요: $(x, y) = (0, 1), (1, 4), (2, 4)$. 각 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 쓰고, 예측기는 $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\boldsymbol{\\theta}^\\top \\mathbf{x}_n$이에요. 제곱 손실의 평균은 행렬로 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$이에요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 데이터 행렬 $\\mathbf{X}$와 라벨 벡터 $\\mathbf{y}$를 써 보세요.</li>\n            <li>(b) $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, \\tfrac{3}{2}]^\\top$ 각각에 대해 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$를 구해 보세요.</li>\n            <li>(c) 둘 중 어느 쪽의 평균 손실이 더 작나요?</li>\n          </ol>"
+    },
+    "p3": {
+      "conditions_html": "<p>학습 데이터가 $(x, y) = (0, 1), (1, 3), (2, 5)$예요. 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 쓰고, 예측기는 $\\boldsymbol{\\theta}^\\top \\mathbf{x}_n$이에요. 정규화된 문제의 목적함수는 다음과 같아요.</p>\n          $$J(\\boldsymbol{\\theta}) = \\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2 + \\lambda \\|\\boldsymbol{\\theta}\\|^2$$\n          <p>후보는 $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [1, 1]^\\top$ 두 개예요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) $\\lambda = 0$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>\n            <li>(b) $\\lambda = 1$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>\n          </ol>"
+    },
+    "p4": {
+      "conditions_html": "<p>라벨에 평균 0인 가우시안 노이즈 $\\varepsilon_n \\sim \\mathcal{N}(0, \\sigma^2)$가 더해지고, 예측에는 선형 모델 $\\mathbf{x}_n^\\top \\boldsymbol{\\theta}$를 쓴다고 가정해요. 그러면 예제 하나의 우도는 $p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta}) = \\mathcal{N}(y_n \\mid \\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$예요. 이제 $\\mathbf{x}_n = [1, 2]^\\top$, $\\boldsymbol{\\theta} = [1, 2]^\\top$, $\\sigma^2 = 1$이라고 해요. </p>",
+      "ask_html": "$y_n$의 조건부 분포의 평균과 분산을 구해 보세요."
+    },
+    "p5": {
+      "conditions_html": "<p>데이터는 $(x, y) = (0, 1), (1, 4), (2, 4)$이고, 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 써요. 각 라벨은 $p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta}) = \\mathcal{N}(y_n \\mid \\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$를 따르고 $\\sigma^2 = 1$이에요. 예제들은 i.i.d.라고 가정해요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 음의 로그우도 $\\mathcal{L}(\\boldsymbol{\\theta}) = -\\sum_{n=1}^{N} \\log p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta})$를 제곱합 항과 상수항으로 나눠 써 보세요.</li>\n            <li>(b) $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, \\tfrac{3}{2}]^\\top$의 $\\mathcal{L}$을 자연로그로 소수 셋째 자리까지 구해 보세요.</li>\n            <li>(c) 어느 쪽의 $\\mathcal{L}$이 더 작나요? 제곱 손실 합으로 비교한 순서와 같은가요?</li>\n          </ol>"
+    },
+    "p6": {
+      "conditions_html": "<p>두 벡터 $\\mathbf{x} = [1, 2, 3]^\\top$, $\\mathbf{y} = [-1, -1, 0]^\\top$이 있어요. </p>",
+      "ask_html": "내적을 $\\langle \\mathbf{x}, \\mathbf{y} \\rangle := \\mathbf{x}^\\top \\mathbf{y}$로 둘 때, 두 벡터 사이의 거리 $d(\\mathbf{x}, \\mathbf{y}) = \\|\\mathbf{x} - \\mathbf{y}\\|$를 구해 보세요."
+    },
+    "p7": {
+      "conditions_html": "<p>일변수 함수 $f(x) = x^3 + 6x^2 - 3x - 5$가 있어요. </p>",
+      "ask_html": "정상점(stationary point)을 모두 찾고, 각각 극대인지 극소인지 안장점인지 판정해 보세요."
+    }
+  },
+  "review_md_sha256": "20ecbf34de565ffdfdb372202d5825e153918264997c479a6a4276067b9a0a13",
+  "figures_sha256": {
+    "figures_0914/fig-forall.svg": "77eb3fdf290c1d04d5cb8d767695490127493f1d4833f522a6d9cf8ae6f27621",
+    "figures_0914/fig-data-columns.svg": "ffff661ba8364c82013b4bbcbc64b1b1eb4e5cc3c14844e8c8a946f90503fc00",
+    "figures_0914/fig-remp-average.svg": "7f3f0781b4af49642f0e32ba72a9ce71070c1aeb26eae0d0b344b245481b1f54",
+    "figures_0914/fig-s4-delta.svg": "fafef02526aa3851272dc30fa014cb63ecbd77ab553831ec96344f4abfb841df",
+    "figures_0914/fig-erm-flow.svg": "724f57561f99c265a4cad63627177eec79ae1611d1b362c626c4f5413b0a8fca",
+    "figures_0914/fig-s4-noise.svg": "9ea53daeecb85a16f3cd87773a36e38d91e2980ee3144f36cb909e3cb775835b",
+    "figures_0914/fig-norm-routes.svg": "58dbcdbf55296422deb7711def435a8251d5dba415d0c22e3107beab253b8d76",
+    "figures_0914/fig-suppose-choices.svg": "a25e47d867e89fe67e0498d29f9b7e2e14ce9093347e9e630bd2ffef89e3ecbd",
+    "figures_0914/fig-s4-iid.svg": "9a2257256515a271ac64f62956f24aa623faab25f90cafa41d19ef5e109fb48a",
+    "figures_0914/fig-squared-kimbap.svg": "f313899bbd74d1242d5b24b3e37f0f8603b19bf540b134840fa349b5e63a24f0",
+    "figures_0914/widget-reg-static-1.svg": "02d3d1aba4bfe7d80be08d4321f17f66c69a65d2ac945cad0c6c898618f48e06",
+    "figures_0914/fig-two-models.svg": "17f5f856507671e38fb25f84beca53eca59b4fafc08bf7b571c8ba2fb573c3c5",
+    "figures_0914/widget-reg-static-3.svg": "694e33b117685ef4aafe0a41c753a07fdc8ee4c85851c501a8b24f9790922277",
+    "figures_0914/widget-reg-static-2.svg": "99028365e8a02df99a9392d6f5819123f54d53bf0270c8cd5d9e5dce3322f3f7",
+    "figures_0914/fig-bias-one.svg": "2a7f1d74532fe1c1eeacd66f4184e13cc823d53271ffd9460a46ce0e3a8de222",
+    "figures_0914/fig-reg-wiggle.svg": "39c824840d7e94ac147e6e0005a09a4693811d85ac5bed5aa064b915c699f059",
+    "figures_0914/fig-s4-bells.svg": "3077c067a5d0da5f336f389fb8a82b1924c394bd86ccb025824d725fdd924453",
+    "figures_0914/fig-true-risk-unseen.svg": "b21902121bb5c93aa386c01b4f21ec43079f53787ddba4377e5b7091ddb029d7"
+  }
+}

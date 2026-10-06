@@ -8,10 +8,10 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 수업 녹음 전사(STT)와 강의자료, MML 교과서로 한 기간의 복습팩을 만든다. 중간에 사용자에게 묻지 않고 끝에 한 번 보고한다. 커밋은 제안만 한다.
 
 **산출물** (`복습노트/<range>/`, 수업 날짜마다 폴더 하나):
-`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `figures_<range>/`
+`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `figures_<range>/`, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. 문제지/해설지는 동봉된 전자회로2 템플릿 그대로 만든다.
 
 **인자**: `[MMDD | MMDD-MMDD] [lite]`
-- `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사는 그대로 한다.
+- `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다.
 
 **진행 표시**: 단계마다 한 줄만 쓴다. 예: `3/9 작성 중: 섹션 5개 + 카드 10개 (병렬)`
 
@@ -64,6 +64,8 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 위젯은 팩 전체에 0~2개다. 병렬 작성자끼리는 서로를 모르므로 **메인 에이전트가 띄우기 전에** 위젯을 둘 토픽(0~2개)을 정하고, 그 토픽의 섹션 작성자 브리프에만 `<위젯>` 자리에 "토픽 `<토픽 id>`에 위젯 1개: <무엇을 움직이면 무엇이 보이는지>"를 적는다. 나머지 작성자의 `<위젯>` 자리에는 "위젯 없음"이라고 적는다. 정한 토픽과 이유는 보고서 "스킬이 정한 사항"에 적는다.
 
 ### 4. 조립
+- `review_pdf_stage.py`는 stage 루트에 과목의 상대 경로 구조와 기존 노트/강의자료 읽기 연결을 준비한다. 현재 날짜 폴더는 일반 디렉터리이므로 공개 폴더에 초안이 쓰이지 않는다.
+- 모든 초안과 수정은 `RUN/work/stage/복습노트/<range>/`에서 만든다. 8단계에서 HTML/MD/PDF 쌍과 그림을 모두 검증한 후에만 공개 폴더에 반영한다. 실패한 초안으로 기존 산출물을 덮어쓰지 않는다.
 - **처음 조립할 때만**: `복습노트/<range>/`(또는 예전 형식인 `복습노트/` 바로 아래)에 이번 `range`의 산출물(`정리노트_<range>_*`, `복습문제_<range>_*`의 `.html`·`.md`, `figures_<range>/`)이 하나라도 있으면 먼저 백업한다. 다시 조립할 때(5~8단계에서 돌아온 경우)는 백업하지 않는다. 이미 스킬이 만든 초안이 백업에 섞이기 때문이다.
   - `RANGE`, `REPO`, `RUN`을 모두 실제 값으로 바꿔 한 명령으로 실행한다. 파일명은 NFC로 비교하므로 NFD 파일명도 잡힌다.
   - 백업은 매번 새 폴더 `RUN/previous-<시각>-<임의>/`에 만든다(이전 백업을 덮어쓰지 않음). `RANGE`가 형식에 안 맞거나, 대상이 있는데 복사된 파일 수가 다르면 종료 코드 1로 멈춘다. 이때는 조립하지 말고 원인을 고친다.
@@ -96,12 +98,13 @@ print(f"백업 {len(hits)}항목(파일 {got_n}개): {dst}", *(a for _, a in hit
 EOF
 ```
 ```bash
-python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$REPO/복습노트/<range>"
+python3 "$SKILL/scripts/review_pdf_stage.py" --run "$RUN" --repo "$REPO" --range "<range>"
+python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습노트/<range>"
 ```
 
 ### 5. 기계 검사
 ```bash
-python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$REPO/복습노트/<range>/<정리노트>.html" --review "$REPO/복습노트/<range>/<복습문제>.html"
+python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
 ```
 - `FAIL`이면 Problem의 `where`(토픽 id, 카드 id, 섹션 id)로 담당 작성자를 찾는다.
 - 그 작성자에게 문제 목록을 보내 조각을 고치게 한다(SendMessage, 안 되면 같은 브리프로 새 에이전트).
@@ -120,21 +123,24 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 결함은 5단계와 같은 방식으로 작성자에게 되돌린다. 이것도 최대 2회 규칙에 포함된다.
 - 끝나면 서버를 종료한다.
 
-### 8. MD 변환
-```bash
-python3 "$SKILL/scripts/html2md.py" "$REPO/복습노트/<range>/<정리노트>.html" "$REPO/복습노트/<range>/<복습문제>.html" --check
-```
-- `OK`가 나와야 한다.
-- 누락이 나오면 대부분 HTML 조각의 마크업 문제다(수식이 `svg`나 `.controls` 안에 있는 경우 등). 조각을 고치고 4단계부터 다시 한다.
+### 8. PDF 쌍·링크·MD 검증과 배포
+- `references/pdf-workflow.md`의 명령을 그대로 따른다. HTML은 stage에서 검사하고, 저장된 원시 카드로 PDF 쌍을 만든다. 미래 카드에는 `.problem` 직계 `.conditions`와 `.ask`가 필수다.
+- `build_review_pdf.py --stage-only`가 성공한 PDF 둘만 stage에 복사한다. `add_pdf_links`로 노트에 문제지/해설지 링크를 넣고 실제 카드 수를 안내한다. manifest의 links 토픽에 두 PDF 링크를 추가한 후 다시 HTML 검사한다.
+- `html2md.py --check`로 MD 두 개와 그림을 만들고 PDF href가 유지되는지 확인한다. PDF 전체 페이지를 PNG로 렌더링하여 표·화살표·수식·필기 공간·Hint·계속 페이지를 모두 눈으로 확인한다.
+- PDF skill을 사용할 때 첫 PDF 작성 직전 authoring marker를 한 번 수행한다. 두 템플릿은 변경하지 않는다. `pdf-template-provenance.json`의 해시를 확인한다.
+- 두 PDF, HTML 두 개, MD 두 개, 모든 참조 그림이 준비된 후 `publish_files`로 함께 배포한다. 백업은 `RUN/work/backups/`다. 교체 실패 시 기존 파일을 복구한다.
+- KaTeX·폰트·이미지 로드 실패, 넘침, 정답 검증 실패 또는 PDF 둘 중 하나의 실패는 해당 팩 배포 실패다. 이미 있는 파일을 보존하고 원인/문제 id를 보고한다. HTML/MD만으로 완료라고 보고하지 않는다. `lite`도 이 규칙을 생략하지 않는다.
 
 ### 9. 보고
 다음 형식으로 끝낸다.
 ```
 ## 복습팩 <range> 완료
-- 파일: 복습노트/<range>/… (html 2, md 2, figures_<range>/ N개)
+- 파일: 복습노트/<range>/… (html 2, md 2, PDF 2, figures_<range>/ N개)
 - 범위: 배운 슬라이드 … / 예고만: …
 - 문제: P1 MML Example 9.1 변형(level 1) … (정답은 RUN/answers.py로 검증)
 - 스킬이 정한 사항: slug, 섹션 구성, 위젯, 뺀 내용과 이유
+- PDF 검증: 논리 문항 수, 모드별 페이지 수, 전체 페이지 시각 검수, validation.json, 템플릿 SHA
+- 백업: …
 - 미해결: … (없으면 "없음")
 - 커밋 제안: git add 복습노트/<range> && git commit -m "docs(notes): add review pack <range>"
 ```
@@ -148,4 +154,5 @@ python3 "$SKILL/scripts/html2md.py" "$REPO/복습노트/<range>/<정리노트>.h
 | PDF 텍스트 추출 실패 | STT만으로 진행하고 보고서에 표시 |
 | 포트 사용 중 | 다른 빈 포트 사용 |
 | 같은 range의 팩이 이미 있음 | 4단계 첫 조립 전에 기존 html·md·`figures_<range>/`를 새 폴더 `RUN/previous-<시각>-<임의>/`에 복사하고(다시 조립할 때는 복사하지 않음) 백업 경로를 보고서에 적음. 백업 명령이 실패하면 조립하지 않고 원인을 고친다 |
-| 검사 2회 실패 | 멈추지 않고 나머지 단계를 끝낸 뒤 "미해결"로 보고 |
+| 검사 2회 실패 | 초안 검사를 끝내고 "미해결"로 보고; 검증된 산출물 쌍이 없으면 배포/완료하지 않음 |
+| PDF 생성·검증 실패 | 해당 날짜 배포 보류, 기존 PDF/노트 보존, 날짜·문제 id·실패 원인과 stage/보고 경로를 알림 |

@@ -20,6 +20,7 @@ from urllib.parse import unquote
 
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 CONTAINER_CLASSES = {"topic", "card"}
+BLOCK_TAGS = {"p", "div", "li", "td", "th", "tr", "h1", "h2", "h3", "section", "article", "summary", "details", "figure", "figcaption", "ul", "ol", "table", "h4", "blockquote", "header", "footer", "label", "br", "dl", "dt", "dd"}
 
 
 @dataclass
@@ -94,6 +95,8 @@ class _Parser(HTMLParser):
             self.script_id = el_id if tag == "script" else None
             if self.script_id:
                 self.doc.scripts_by_id[self.script_id] = ""
+        if tag in BLOCK_TAGS:
+            self.handle_data("\n")
         if tag not in VOID_TAGS:
             self.stack.append((tag, sec, con))
 
@@ -106,6 +109,8 @@ class _Parser(HTMLParser):
         if tag in ("script", "style"):
             self.raw_tag = None
             self.script_id = None
+        if tag in BLOCK_TAGS:
+            self.handle_data("\n")
         for i in range(len(self.stack) - 1, -1, -1):
             if self.stack[i][0] == tag:
                 del self.stack[i:]

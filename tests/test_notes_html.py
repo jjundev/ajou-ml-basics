@@ -128,6 +128,7 @@ class _Common:
         self.assertEqual(broken_links(self.doc, self.path.parent), [])
 
 
+@unittest.skipUnless(NOTE_PATH.exists(), "기존 0909-0916 통합 노트가 날짜별 팩으로 대체됨")
 class TestNote(_Common, unittest.TestCase):
     path = NOTE_PATH
 
@@ -200,6 +201,7 @@ class TestNote(_Common, unittest.TestCase):
                 self.assertIn(href, hrefs)
 
 
+@unittest.skipUnless(REVIEW_PATH.exists(), "기존 0909-0916 통합 문제가 날짜별 팩으로 대체됨")
 class TestReview(_Common, unittest.TestCase):
     path = REVIEW_PATH
 
@@ -227,6 +229,24 @@ class TestReview(_Common, unittest.TestCase):
             for term in spec["terms"]:
                 with self.subTest(pid=pid, term=term):
                     self.assertIn(term, card.text)
+
+
+class TestCurrentDatedPacks(unittest.TestCase):
+    def test_all_current_html_contracts(self):
+        counts = {'0909': 5, '0914': 7, '0916': 6, '0921': 6, '0923': 7, '0928': 8, '0930': 8}
+        for date, count in counts.items():
+            folder = ROOT / '복습노트' / date
+            paths = list(folder.glob('*.html'))
+            self.assertEqual(len(paths), 2, date)
+            for path in paths:
+                with self.subTest(date=date, file=path.name):
+                    doc = parse_file(path)
+                    self.assertEqual(doc.lang, 'ko')
+                    self.assertFalse(doc.duplicate_ids)
+                    self.assertEqual(math_delimiter_errors(doc.body_text), [])
+                    self.assertEqual(broken_links(doc, folder), [])
+                    if path.name.startswith('복습문제_'):
+                        self.assertTrue({f'p{i}' for i in range(1, count + 1)} <= doc.ids)
 
 
 if __name__ == "__main__":

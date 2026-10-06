@@ -51,3 +51,6 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 - 확률 개념(Bayes, prior, MLE/MAP, 조건부확률)이 나오면 추가강의 eli5 링크를 건다:
   `../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html`, `…lecture11_statistical_inference_part2.html`, `…lecture12_statistical_inference_part3.html`
 - 이전 복습팩과 이어지는 개념이면 `../<이전 range>/정리노트_<이전 range>_<slug>.html#<토픽>` 링크를 건다(팩마다 `복습노트/<range>/` 폴더라 한 단계 위로 올라간다). 토픽은 기본 `s<N>-links`, 특정 토픽에 거는 편이 분명하면 그 토픽 id.
+
+## PDF 연결
+PDF stage 빌드 후 links 토픽의 links에 `복습문제_<range>_<slug>-문제.pdf`, `-답안.pdf` href를 추가한다. 기존 review HTML link는 유지한다. PDF가 없던 첫 HTML 검사에는 아직 PDF 링크를 넣지 않는다.

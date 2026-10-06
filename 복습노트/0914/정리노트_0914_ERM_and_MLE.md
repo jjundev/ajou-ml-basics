@@ -1249,7 +1249,12 @@ MLE가 최소제곱과 같아진 것은 노이즈를 가우시안으로 가정�
 
 *0914 수업*
 
-- [0914 복습문제 8선 풀러 가기](복습문제_0914_ERM_and_MLE.md)
+- [0914 복습문제 7선 풀러 가기](복습문제_0914_ERM_and_MLE.md)
+
+복습문제 7문항
+
+- [문제지 PDF](복습문제_0914_ERM_and_MLE-문제.pdf)
+- [해설지 PDF](복습문제_0914_ERM_and_MLE-답안.pdf)
 - [0909 정리노트: 데이터, 모델, 학습](../0909/정리노트_0909_Data_Models_Learning.html)
 - [ELI5 Lecture 10: 통계적 추론 1부](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
 - [ELI5 Lecture 11: 통계적 추론 2부](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)

@@ -1077,7 +1077,12 @@ unseen data에서 잘하는 예측기를 위해 모델 선택, 트레이닝, 예
 
 *0909 수업*
 
-- [복습문제 풀러 가기 (0909 수업 범위 7문항)](복습문제_0909_Data_Models_Learning.md)
+- [복습문제 풀러 가기 (0909 수업 범위 5문항)](복습문제_0909_Data_Models_Learning.md)
+
+복습문제 5문항
+
+- [문제지 PDF](복습문제_0909_Data_Models_Learning-문제.pdf)
+- [해설지 PDF](복습문제_0909_Data_Models_Learning-답안.pdf)
 - 교과서: MML 8.1 Data, Models, and Learning (Deisenroth, Faisal, Ong, *Mathematics for Machine Learning*)
 
 ---

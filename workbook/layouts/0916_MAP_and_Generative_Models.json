@@ -1,0 +1,51 @@
+{
+  "source_sha256": "634963d66553f70b9f2e0fae67399078cf9b2b614a4075e10dff03afee7231c4",
+  "problems": {
+    "p1": {
+      "conditions_html": "Example 8.5처럼 가우시안 likelihood $p(y\\mid X,\\theta)$로 회귀를 하고 있어요. 여기에 파라미터 벡터 $\\theta\\in\\mathbb{R}^D$가 평균 0인 다변량 가우시안을 따른다고 더 가정해요: $p(\\theta)=\\mathcal{N}(0,\\Sigma)=\\frac{1}{(2\\pi)^{D/2}|\\Sigma|^{1/2}}\\exp\\!\\left(-\\frac{1}{2}\\theta^\\top\\Sigma^{-1}\\theta\\right)$ ($\\Sigma$는 공분산 행렬).",
+      "ask_html": "<ol><li>(a) $-\\log p(\\theta)$를 $\\theta$에 대한 항과 상수로 나눠 써 보세요.</li><li>(b) $\\theta_{\\text{MAP}}$를 찾을 때 최소화하는 목적함수를 음의 로그우도와 (a)의 결과로 써 보세요.</li></ol>"
+    },
+    "p2": {
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"><table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table></div>",
+      "ask_html": "<p>$X$의 marginal distribution $p(x)$를 구해 보세요.</p>"
+    },
+    "p3": {
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"><table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table></div>",
+      "ask_html": "<p>$Y$의 marginal distribution $p(y)$를 구해 보세요.</p>"
+    },
+    "p4": {
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"><table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table></div>",
+      "ask_html": "<p>조건부 분포 $p(x\\mid Y=y_1)$를 분수로 구해 보세요.</p>"
+    },
+    "p5": {
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"><table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table></div>",
+      "ask_html": "<p>조건부 분포 $p(y\\mid X=x_3)$를 분수로 구해 보세요.</p>"
+    },
+    "p6": {
+      "conditions_html": "코드를 안 바꿨는데도 프로그램이 컴파일될 때도 있고 안 될 때도 있어요. 성공 여부 $x\\in\\{0,1\\}$을 Bernoulli 분포 $p(x\\mid\\mu)=\\mu^{x}(1-\\mu)^{1-x}$로 모델링해요. $N$번 시도한 결과 $x_1,\\dots,x_N$을 i.i.d.로 봐요. prior로 $\\mathrm{Beta}(\\alpha,\\beta)\\propto\\mu^{\\alpha-1}(1-\\mu)^{\\beta-1}$가 주어져요. ",
+      "ask_html": "posterior $p(\\mu\\mid x_1,\\dots,x_N)$를 구해 보세요."
+    }
+  },
+  "review_md_sha256": "31e0fb9dfcc335610cba472f8683b38acd258eaaf5dc5af4958421de7492b4cb",
+  "figures_sha256": {
+    "figures_0916/widget-coin-static-1.svg": "89412933a845c52ca11466a228176aa521caca31d5886adcce77f34f66d3eaea",
+    "figures_0916/fig-coin-between.svg": "196dc82ce75775d11ae23b78a2d51ba9223844ad06e437932afb1f355ff6a928",
+    "figures_0916/widget-coin-static-2.svg": "1335d8a7bc47140fd97d3619d7b851dbaab43d96469f62ce6659483de06964d0",
+    "figures_0916/widget-coin-static-3.svg": "237e8f68526a484180fb7ab68e2013e02ba57b83b27f6b6872fc99e6092ad69a",
+    "figures_0916/fig-joint-table.svg": "8cf385026d677c7ebbb15600547da787381a4fa4f2824656735e2899e348c8e0",
+    "figures_0916/fig-prior-pull.svg": "6ddb14898e7659dfbc08a82ba458130555da1cfa962d72a1f148ab86e0e14839",
+    "figures_0916/fig-nll-closeup.svg": "c85dffd98614760205409a7ce863af567d538bdda06ba43f7247ff3c5aed3a07",
+    "figures_0916/fig-fitting-three.svg": "142d40a5e7e03d558caff7628b8b50108edfcf95f345f9a4c09182070b94833c",
+    "figures_0916/fig-mle-ls-line.svg": "b2a83441e8b13d1e065aaa319bb607f1b2d3479ef55da1a5dac91c70f586fca7",
+    "figures_0916/fig-posterior-flow.svg": "33bf6afde546a7732931a0cc0e3200e41e1736a3c94044b8d8011e52afba4f96",
+    "figures_0916/fig-genproc-flow.svg": "a6e7fbe0bf3ab846b01234b2c579fc3507352405656d0fae339c917deb80c87e",
+    "figures_0916/fig-prior-posterior.svg": "03adfe27154c67f4fb61bfa49b6a93b89bfe1da58b1f52bd1e17dcb273c12a3c",
+    "figures_0916/fig-iid-factory.svg": "b482b3ba74d9a52a20976ed90956e68bebabb197da8fd326eb241d216ef453ab",
+    "figures_0916/fig-model-class-dist.svg": "69d854fdafd57a1f8ae345981b64def382bb22923ac8b0cd228a51006fc8189e",
+    "figures_0916/fig-map-sum.svg": "8ac53bbeef59dcf539a9e3553925883a5e92d8b601b417859e22696c96acdb7c",
+    "figures_0916/fig-joint-grid.svg": "ffa27ffce8909932e8283d82732616b6a4cbcef990154f92d38e4ba85b6480e7",
+    "figures_0916/fig-three-answers.svg": "6c7875864168ade6d5b86be58a59a4c9075839f16d1756328bccec6d93bbc618",
+    "figures_0916/fig-predictive-mix.svg": "8f8da03a9140e99d6698b2323cbf83f23ba6ba119193bbd62ce9ea1c0996e2de",
+    "figures_0916/fig-genproc-noise.svg": "d7f2b6e7e08a6a0fcebba24208e3ce9314176e69ce99bca8e32cbf6fc77ede4e"
+  }
+}

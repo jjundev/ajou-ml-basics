@@ -168,6 +168,10 @@ def review_name(m: dict) -> str:
     return f"복습문제_{m['range']}_{m['slug']}.html"
 
 
+def pdf_names(range_: str, slug: str) -> tuple[str, str]:
+    return (f"복습문제_{range_}_{slug}-문제.pdf", f"복습문제_{range_}_{slug}-답안.pdf")
+
+
 def fig_dir_name(range_: str) -> str:
     return f"figures_{range_}"
 

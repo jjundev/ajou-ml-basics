@@ -8,7 +8,7 @@ file:// 미리보기에서는 스크립트가 돌지 않는다. 빈 포트로 �
    ```
 2. 서버 띄우기: Bash 도구의 `run_in_background: true`로 실행한다(명령 끝에 `&`를 붙이지 않는다).
    ```bash
-   python3 -m http.server <port> --directory "<RUN>/repo"
+   python3 -m http.server <port> --directory "<RUN>/work/stage"
    ```
 3. URL: `http://localhost:<port>/복습노트/<range>/<파일명>` (한글 그대로).
 4. 끝나면 서버를 종료한다: 그 백그라운드 작업을 멈추거나(TaskStop 등), `pkill -f "http.server <port>"`.
@@ -77,3 +77,6 @@ await new Promise((r) => setTimeout(r, 300));
 
 ## 마무리
 모든 검사가 끝나면 `resize_window`(`preset: "desktop"`, `colorScheme: "light"`)로 되돌리고 서버를 종료한다(위 "서버" 4).
+
+## PDF 연결
+서버는 최종 배포 전에 RUN/work/stage 루트를 서비스한다. 브라우저 URL은 /복습노트/<range>/<정리노트 또는 복습문제>.html이며 검사기와 동일한 상대 구조를 쓴다. PDF 둘을 열고 모든 페이지를 PNG로 검사한다. 검색 가능한 한국어, A4 가로, 표/그래프/수식/필기 공간/Hint와 계속 페이지의 조건 및 마지막 답을 확인한다. HTML의 PDF 링크가 둘 다 정확한 파일을 여는지 확인한다. 실패 시 공개 폴더를 유지한다.

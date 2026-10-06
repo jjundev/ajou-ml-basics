@@ -19,7 +19,7 @@
 ```html
 <article class="card" id="pN" data-source="MML Example 9.1">
   <h3>PN. 제목</h3>
-  <div class="problem">…한국어 문제… 여러 문항이면 <ol><li>(a) …</li><li>(b) …</li></ol></div>
+  <div class="problem"><div class="conditions">…주어진 조건·식·표·그림…</div><div class="ask">…구할 것… 여러 문항이면 <ol><li>(a) …</li><li>(b) …</li></ol></div></div>
   <details class="original"><summary>교과서 원문 보기</summary>"…원문 짧게…" — Example 9.1</details>
   <details class="hint"><summary>힌트 보기</summary>…한두 문장…</details>
   <details class="solution"><summary>풀이 보기</summary><ol class="steps"><li>…</li></ol><p class="answer">정답: …</p></details>
@@ -33,3 +33,7 @@
 - 원문 인용은 한 카드에 25단어 이내.
 - 풀이 마지막 단계에 "수업과의 연결"을 한 줄로(어느 수업의 어떤 말/식과 이어지는지).
 - 수식 규칙은 `content-rules.md`의 "수식"과 같다.
+
+## PDF 계약
+- `.conditions`와 `.ask`는 `.problem`의 직계 자식으로 각각 한 개다. 조건은 질문보다 먼저 쓰고 원본 순서·수치·식·소문항을 보존한다. 증명 목표 식은 ask 안에 유지한다. 풀이와 최종 답은 solution에만 둔다.
+- SVG/표는 원문에 보관하고 PDF 변환기가 별도 그림으로 고정한다. SVG viewBox와 화살표 정의를 보존한다. 파일 그림은 현재 날짜 stage 폴더(예: figures_<range>/diagram.png)에 복사하고 원본 HTML 기준 상대 src를 쓴다. 메인 에이전트는 이 참조 자산도 HTML/MD/PDF와 함께 배포한다.
