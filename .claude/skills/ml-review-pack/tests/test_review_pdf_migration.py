@@ -33,3 +33,17 @@ class TestMigration(unittest.TestCase):
                 self.assertTrue((folder/name).is_file(),name)
                 self.assertIn(name,next(folder.glob('정리노트*html')).read_text())
                 self.assertIn(name,next(folder.glob('정리노트*md')).read_text())
+
+    def test_published_pairs_are_widescreen_and_caption_safe(self):
+        import fitz
+        from build_review_pdf import _verify_pdf
+        notes=next(p for p in REPO.iterdir() if unicodedata.normalize('NFC',p.name)=='복습노트')
+        paths=[p for date in COUNTS for p in (notes/date).glob('*.pdf')]
+        self.assertEqual(len(paths),14)
+        for path in paths:
+            with fitz.open(path) as doc:
+                for page in doc:
+                    self.assertAlmostEqual(page.rect.width,1440,delta=.1)
+                    self.assertAlmostEqual(page.rect.height,810,delta=.1)
+                    self.assertFalse(page.get_text(clip=fitz.Rect(0,675,1440,810)).strip())
+                _verify_pdf(path,len(doc),'video-16x9')

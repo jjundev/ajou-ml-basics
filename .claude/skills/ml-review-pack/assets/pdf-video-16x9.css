@@ -1,0 +1,14 @@
+/* Preserve the previous overview text size; reserve the bottom 180px for captions. */
+@page { size: 1920px 1080px; margin: 0; }
+:root {
+  --page-w: 1920px; --page-h: 1079.8px;
+  --page-pad: 48px;
+}
+.page { padding: 32px 48px 204px; }
+.page::before { bottom: 190px; }
+.page[data-overflow]::after { bottom: 190px; }
+.page-row.has-strip { --strip-w: 144px; }
+.page-row.has-formula { --strip-w: 250px; }
+.fig-band { --fig-frac: .30; }
+.work { --sol-step-gap: 24px; }
+.staging { width: 850px; }

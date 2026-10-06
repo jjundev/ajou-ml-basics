@@ -11,23 +11,43 @@ import fitz
 from review_pdf_cards import read_cards,normalize_cards
 from review_pdf_payload import to_workbook,page_id
 from review_pdf_pages import paginate
-from review_pdf_render import freeze_figures,render_workbook
+from review_pdf_render import freeze_figures,render_workbook,measure_typography
 from review_pdf_publish import publish_files
+from review_pdf_layout import Layout,page_size_pt
 from review_pdf_types import BuildResult,ReviewPdfError
 
 
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def _verify_pdf(path,expected_pages):
+def _verify_pdf(path,expected_pages,layout: Layout):
+    width,height=page_size_pt(layout)
+    tolerance=.1 if layout=='video-16x9' else 72/25.4
     with fitz.open(path) as doc:
         if len(doc)!=expected_pages:raise ReviewPdfError(f'{path.name}: extra or missing PDF pages')
         for i,page in enumerate(doc,1):
-            if abs(page.rect.width*25.4/72-297)>1 or abs(page.rect.height*25.4/72-210)>1:raise ReviewPdfError(f'{path.name} page {i}: expected A4 landscape')
+            if abs(page.rect.width-width)>tolerance or abs(page.rect.height-height)>tolerance:raise ReviewPdfError(f'{path.name} page {i}: expected {layout}')
             if not page.get_text().strip():raise ReviewPdfError(f'{path.name} page {i}: blank page')
+            if layout=='video-16x9':
+                band=fitz.Rect(0,675,1440,810)
+                def intrudes(rect):
+                    r=fitz.Rect(rect)
+                    return r.y1>675+.1 and r.y0<810 and r.x1>0 and r.x0<1440
+                for block in page.get_text('dict')['blocks']:
+                    if block['type']==1 and intrudes(block['bbox']):raise ReviewPdfError(f'{path.name} page {i}: image in caption band')
+                    for line in block.get('lines',[]):
+                        for span in line['spans']:
+                            if span['text'].strip() and intrudes(span['bbox']):raise ReviewPdfError(f'{path.name} page {i}: text in caption band')
+                for drawing in page.get_drawings():
+                    colors=[drawing[k] for k,opacity in [('color','stroke_opacity'),('fill','fill_opacity')] if drawing.get(k) is not None and drawing.get(opacity,1)>0]
+                    if colors and any(any(c<1 for c in color) for color in colors) and intrudes(fitz.Rect(drawing['rect'])+(-(drawing.get('width') or 0)/2,-(drawing.get('width') or 0)/2,(drawing.get('width') or 0)/2,(drawing.get('width') or 0)/2)):raise ReviewPdfError(f'{path.name} page {i}: drawing in caption band')
+                # Raster gate covers stroke joins, masks and paint beyond geometric bboxes.
+                pixels=page.get_pixmap(clip=band,alpha=False)
+                if min(pixels.samples)<255:raise ReviewPdfError(f'{path.name} page {i}: visible ink in caption band')
 
 
-def build_pack(review_path,layouts_path,build_dir):
+def build_pack(review_path,layouts_path,build_dir,*,layout: Layout="video-16x9"):
+    size=page_size_pt(layout)
     review_path=Path(review_path).resolve()
     source_hash=digest(review_path)
     pack=read_cards(review_path)
@@ -35,7 +55,7 @@ def build_pack(review_path,layouts_path,build_dir):
     problems=normalize_cards(pack,layouts,review_path)
     stage=Path(build_dir)/('run-'+uuid.uuid4().hex);stage.mkdir(parents=True,exist_ok=False)
     assets=freeze_figures(pack,stage/'figures')
-    evidence={'status':'validated','range':pack.range,'slug':pack.slug,'logical_count':len(pack.cards),'source_path':str(review_path),'source_sha256':source_hash,'pages':{},'pdfs':{},'errors':[]}
+    evidence={'status':'validated','range':pack.range,'slug':pack.slug,'logical_count':len(pack.cards),'source_path':str(review_path),'source_sha256':source_hash,'pages':{},'pdfs':{},'errors':[],'layout':layout,'page_size_pt':size,'caption_height_px':180 if layout=='video-16x9' else 0,'typography':{}}
     results={}
     for mode,suffix in [('problems','문제'),('answers','답안')]:
         counter=0
@@ -43,12 +63,15 @@ def build_pack(review_path,layouts_path,build_dir):
             nonlocal counter
             counter+=1
             payload=to_workbook(problems,assets,mode,pages);payload['meta']['title']=f'머신러닝기초 복습문제 {pack.range}'
-            return render_workbook(payload,mode,stage/f'{mode}-measure-{counter}.html')
+            scales=measure_typography(payload,mode,stage/f'{mode}-a4-{counter}.html') if layout=='video-16x9' else None
+            return render_workbook(payload,mode,stage/f'{mode}-measure-{counter}.html',layout=layout,typography=scales)
         pages=paginate(problems,mode,measure)
         payload=to_workbook(problems,assets,mode,pages);payload['meta']['title']=f'머신러닝기초 복습문제 {pack.range}'
         pdf=stage/f'복습문제_{pack.range}_{pack.slug}-{suffix}.pdf'
-        report=render_workbook(payload,mode,stage/f'{mode}.html',pdf)
-        _verify_pdf(pdf,len(report.page_ids))
+        scales=measure_typography(payload,mode,stage/f'{mode}-a4-final.html') if layout=='video-16x9' else None
+        report=render_workbook(payload,mode,stage/f'{mode}.html',pdf,layout=layout,typography=scales)
+        _verify_pdf(pdf,len(report.page_ids),layout)
+        evidence['typography'][mode]=scales
         mapping={c.id:[] for c in pack.cards}
         for i,p in enumerate(pages,1):mapping[p.logical_id].append(i)
         evidence['pages'][mode]=mapping
@@ -72,10 +95,11 @@ def main(argv=None):
     ap.add_argument('--review',required=True,type=Path);ap.add_argument('--layouts',type=Path)
     ap.add_argument('--build-dir',required=True,type=Path);ap.add_argument('--pdf-dir',type=Path)
     ap.add_argument('--report',required=True,type=Path);ap.add_argument('--stage-only',action='store_true')
+    ap.add_argument('--layout',choices=['a4','video-16x9'],default='video-16x9')
     args=ap.parse_args(argv)
     if not args.pdf_dir and not args.stage_only:ap.error('--pdf-dir or --stage-only required')
     try:
-        result=build_pack(args.review,args.layouts,args.build_dir)
+        result=build_pack(args.review,args.layouts,args.build_dir,layout=args.layout)
         if not args.stage_only:publish_build(result,args.pdf_dir,args.build_dir/'backups')
         args.report.parent.mkdir(parents=True,exist_ok=True)
         if args.report.resolve()!=result.report_path.resolve():shutil.copy2(result.report_path,args.report)

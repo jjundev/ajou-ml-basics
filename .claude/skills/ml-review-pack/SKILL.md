@@ -8,7 +8,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 수업 녹음 전사(STT)와 강의자료, MML 교과서로 한 기간의 복습팩을 만든다. 중간에 사용자에게 묻지 않고 끝에 한 번 보고한다. 커밋은 제안만 한다.
 
 **산출물** (`복습노트/<range>/`, 수업 날짜마다 폴더 하나):
-`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `figures_<range>/`, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. 문제지/해설지는 동봉된 전자회로2 템플릿 그대로 만든다.
+`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `figures_<range>/`, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
 
 **인자**: `[MMDD | MMDD-MMDD] [lite]`
 - `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다.
@@ -125,9 +125,10 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 
 ### 8. PDF 쌍·링크·MD 검증과 배포
 - `references/pdf-workflow.md`의 명령을 그대로 따른다. HTML은 stage에서 검사하고, 저장된 원시 카드로 PDF 쌍을 만든다. 미래 카드에는 `.problem` 직계 `.conditions`와 `.ask`가 필수다.
+- 기본은 1920×1080 CSS px(1440×810pt)의 `video-16x9`이며 하단 180px은 흰 자막 여백이다. A4 문항별 본문·풀이·수식 배율을 먼저 측정해 화면 글자 크기를 보존한다. 인쇄용 A4가 명시적으로 필요하면 `--layout a4`를 사용한다.
 - `build_review_pdf.py --stage-only`가 성공한 PDF 둘만 stage에 복사한다. `add_pdf_links`로 노트에 문제지/해설지 링크를 넣고 실제 카드 수를 안내한다. manifest의 links 토픽에 두 PDF 링크를 추가한 후 다시 HTML 검사한다.
 - `html2md.py --check`로 MD 두 개와 그림을 만들고 PDF href가 유지되는지 확인한다. PDF 전체 페이지를 PNG로 렌더링하여 표·화살표·수식·필기 공간·Hint·계속 페이지를 모두 눈으로 확인한다.
-- PDF skill을 사용할 때 첫 PDF 작성 직전 authoring marker를 한 번 수행한다. 두 템플릿은 변경하지 않는다. `pdf-template-provenance.json`의 해시를 확인한다.
+- PDF skill을 사용할 때 첫 PDF 작성 직전 authoring marker를 한 번 수행한다. 실행 중 두 템플릿과 video CSS는 변경하지 않는다. EC2 `757fa081521008d46542e23d5a1a53112391aed2`에서 고정 복사한 세 파일의 `pdf-template-provenance.json` 해시를 확인한다.
 - 두 PDF, HTML 두 개, MD 두 개, 모든 참조 그림이 준비된 후 `publish_files`로 함께 배포한다. 백업은 `RUN/work/backups/`다. 교체 실패 시 기존 파일을 복구한다.
 - KaTeX·폰트·이미지 로드 실패, 넘침, 정답 검증 실패 또는 PDF 둘 중 하나의 실패는 해당 팩 배포 실패다. 이미 있는 파일을 보존하고 원인/문제 id를 보고한다. HTML/MD만으로 완료라고 보고하지 않는다. `lite`도 이 규칙을 생략하지 않는다.
 

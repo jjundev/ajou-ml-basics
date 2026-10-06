@@ -283,11 +283,11 @@ const FIG_SCALE_CAP = 1.5;        // 교재 인쇄 크기 대비 확대 상한
 const MATH_MIN_SCALE = 0.7;
 const STRIP_MATH_MIN_SCALE = 0.5;  // Hint 띠 속 식은 띠 폭에 맞춰 더 줄일 수 있음
 // 쪽 맞춤 순서: 폭 → 글자. 앞 단계 값은 유지한 채 다음 단계로 간다.
-const FIT_STEPS = [
+const FIT_STEPS = window.workbookVideoLayout ? [['--pw', '40%'], ['--pw', '45%']] : [
   ['--pw', '40%'], ['--pw', '50%'],
   ['--fs', '0.9'], ['--fs', '0.8'],
 ];
-const PAGE_W_PX = 297 * 96 / 25.4;
+const PAGE_W_PX = window.workbookVideoLayout ? 1920 : 297 * 96 / 25.4;
 
 const book = document.getElementById('book');
 
@@ -534,7 +534,7 @@ function problemPage(p, n, total) {
 function fitProblemPage(page) {
   const panel = page.querySelector('.panel');
   const fits = () => panel.scrollHeight <= panel.clientHeight + 1;
-  const state = { pw: '33%', fs: '1' };
+  const state = { pw: '33%', fs: panel.style.getPropertyValue('--fs') || '1' };
   for (const [prop, val] of FIT_STEPS) {
     if (fits()) break;
     panel.style.setProperty(prop, val);
@@ -564,6 +564,14 @@ async function main() {
     // DOM 생성
     const total = meta.total || problems.length;
     problems.forEach((p, i) => book.append(problemPage(p, i + 1, total)));
+    if (window.workbookVideoLayout && meta.typography) {
+      for (const page of book.querySelectorAll('.page--problem')) {
+        const scales = meta.typography[page.id];
+        if (!scales) continue;
+        page.querySelector('.panel').style.setProperty('--fs', scales.panel);
+        page.querySelector('.work').style.setProperty('--sfs', scales.solution);
+      }
+    }
 
     // 글꼴 + 그림 → KaTeX (수식 글꼴도 다 받은 뒤 잰다)
     await Promise.all([nextLayout(), ...[...document.images].map(img => img.decode().catch(() => {}))]);
@@ -575,6 +583,19 @@ async function main() {
       if (!fitProblemPage(page)) overflow.push(page.id);
     }
 
+    if (window.workbookVideoLayout && meta.typography) {
+      for (const page of book.querySelectorAll('.page--problem')) {
+        const scales = meta.typography[page.id];
+        if (!scales) continue;
+        for (const [selector, values] of [['.katex-display > .katex', scales.math], ['.hint-strip-formula', scales.hints]]) {
+          [...page.querySelectorAll(selector)].forEach((node, i) => {
+            const scale = values?.[i] ?? 1;
+            node.style.transformOrigin = 'left center';
+            node.style.transform = scale < 1 ? `scale(${scale})` : '';
+          });
+        }
+      }
+    }
     document.body.dataset.overflow = overflow.join(',');
     document.documentElement.dataset.ready = 'true';
   } catch (err) {

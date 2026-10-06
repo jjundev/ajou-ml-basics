@@ -30,8 +30,9 @@ class TestPayload(unittest.TestCase):
         self.assertEqual(json.loads(s.split('>',1)[1].rsplit('<',1)[0])['text'],'</script><script>bad</script>')
     def test_templates_unchanged(self):
         record=json.loads((SKILL/'assets/pdf-template-provenance.json').read_text())
-        expected={'problem':'431fdafcd3bce6d86b2bb7881ed4332e6287a9b8c6bd8626628f9e673a4d2655','answer':'4d3a13379d759ae8b1b48dd27417919929b4e0bf94a686a7362b79719e949040'}
-        for mode in expected:
-            data=(SKILL/f'assets/pdf-{mode}.html').read_bytes()
-            self.assertEqual(hashlib.sha256(data).hexdigest(),expected[mode])
-            self.assertEqual(record['templates'][mode]['sha256'],expected[mode])
+        self.assertEqual(record['source_commit'], '757fa081521008d46542e23d5a1a53112391aed2')
+        expected = {'problem': '1ddb009d96f3a844778bd8f4378126d0fd52d037296dff89223adb69bc38bdc7', 'answer': '557b30b2918b4b41ff37763c80869ce28ce6b55f81c42e1ce34bfa30af3c1b06', 'video': 'd56658538e1b67df08a7eea0282e733afd999c6255e58ecc13cd4c72d13ad870'}
+        for mode, sha in expected.items():
+            entry = record['templates'][mode]
+            self.assertEqual(entry['sha256'], sha)
+            self.assertEqual(hashlib.sha256((SKILL/'assets'/entry['local_path']).read_bytes()).hexdigest(),sha)

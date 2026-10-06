@@ -15,6 +15,7 @@ class TestBuild(unittest.TestCase):
     def test_stage_only_pair_and_report(self):
         result=build_pack(self.source,None,self.d/'build')
         report=json.loads(result.report_path.read_text())
+        self.assertEqual(report['layout'],'video-16x9');self.assertEqual(report['page_size_pt'],[1440,810]);
         self.assertEqual(report['logical_count'],2);self.assertEqual(report['range'],'0101')
         self.assertEqual(report['pages']['problems']['p1'],[1])
         self.assertTrue(result.problems_pdf.exists());self.assertTrue(result.answers_pdf.exists())
@@ -26,9 +27,9 @@ class TestBuild(unittest.TestCase):
     def test_second_pdf_failure_publishes_neither(self):
         import build_review_pdf
         original=build_review_pdf.render_workbook
-        def fail(payload,mode,html_path,pdf_path=None):
+        def fail(payload,mode,html_path,pdf_path=None,**kwargs):
             if mode=='answers' and pdf_path is not None:raise ReviewPdfError('injected answers failure')
-            return original(payload,mode,html_path,pdf_path)
+            return original(payload,mode,html_path,pdf_path,**kwargs)
         (self.d/'report.json').write_text('{"status":"validated"}')
         with patch('build_review_pdf.render_workbook',fail):
             self.assertEqual(main(['--review',str(self.source),'--build-dir',str(self.d/'build'),'--pdf-dir',str(self.d/'public'),'--report',str(self.d/'report.json')]),1)
@@ -39,3 +40,8 @@ class TestBuild(unittest.TestCase):
     def test_usage_requires_destination_or_stage_only(self):
         with self.assertRaises(SystemExit) as e:main(['--review',str(self.source),'--build-dir',str(self.d/'build'),'--report',str(self.d/'report.json')])
         self.assertEqual(e.exception.code,2)
+
+    def test_explicit_a4_build(self):
+        result=build_pack(self.source,None,self.d/'a4',layout='a4')
+        with fitz.open(result.problems_pdf) as doc:self.assertAlmostEqual(doc[0].rect.width,297*72/25.4,delta=1)
+        self.assertEqual(json.loads(result.report_path.read_text())['layout'],'a4')

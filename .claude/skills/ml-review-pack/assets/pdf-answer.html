@@ -318,13 +318,13 @@ const FIG_SCALE_CAP = 1.5;        // 교재 인쇄 크기 대비 확대 상한
 const MATH_MIN_SCALE = 0.7;
 const STRIP_MATH_MIN_SCALE = 0.5;  // Hint 띠 속 식은 띠 폭에 맞춰 더 줄일 수 있음
 // 쪽 맞춤 순서: 폭 → 글자. 앞 단계 값은 유지한 채 다음 단계로 간다.
-const FIT_STEPS = [
+const FIT_STEPS = window.workbookVideoLayout ? [['--pw', '40%'], ['--pw', '45%']] : [
   ['--pw', '40%'], ['--pw', '50%'],
   ['--fs', '0.9'], ['--fs', '0.8'],
 ];
 // 풀이 칸 맞춤 순서: 글자 → 위 회로도 높이 → 2단
-const SOL_FIT_STEPS = [['sfs', '0.9'], ['sfs', '0.8'], ['fig', '0.30'], ['fig', '0.22'], ['cols', '2']];
-const PAGE_W_PX = 297 * 96 / 25.4;
+const SOL_FIT_STEPS = window.workbookVideoLayout ? [['gap', '12px'], ['cols', '2'], ['fig', '0.22']] : [['sfs', '0.9'], ['sfs', '0.8'], ['fig', '0.30'], ['fig', '0.22'], ['cols', '2']];
+const PAGE_W_PX = window.workbookVideoLayout ? 1920 : 297 * 96 / 25.4;
 
 const book = document.getElementById('book');
 
@@ -593,7 +593,7 @@ function problemPage(p, n, total) {
 function fitProblemPage(page) {
   const panel = page.querySelector('.panel');
   const fits = () => panel.scrollHeight <= panel.clientHeight + 1;
-  const state = { pw: '33%', fs: '1' };
+  const state = { pw: '33%', fs: panel.style.getPropertyValue('--fs') || '1' };
   for (const [prop, val] of FIT_STEPS) {
     if (fits()) break;
     panel.style.setProperty(prop, val);
@@ -619,7 +619,7 @@ function fitSolution(page) {
     return l.bottom <= f.bottom + 1 && l.right <= f.right + 1;
   };
   const band = page.querySelector('.fig-band');
-  const state = { sfs: '1', fig: '0.40', cols: '1' };
+  const state = { sfs: work.style.getPropertyValue('--sfs') || '1', fig: '0.40', cols: '1' };
   for (const [key, val] of SOL_FIT_STEPS) {
     if (fits()) break;
     if (key === 'fig') {
@@ -627,6 +627,7 @@ function fitSolution(page) {
       band.style.setProperty('--fig-frac', val);
     }
     else if (key === 'cols') flow.classList.add('is-2col');
+    else if (key === 'gap') work.style.setProperty('--sol-step-gap', val);
     else work.style.setProperty(`--${key}`, val);
     state[key] = val;
   }
@@ -716,6 +717,14 @@ async function main() {
     // DOM 생성
     const total = meta.total || problems.length;
     problems.forEach((p, i) => book.append(problemPage(p, i + 1, total)));
+    if (window.workbookVideoLayout && meta.typography) {
+      for (const page of book.querySelectorAll('.page--problem')) {
+        const scales = meta.typography[page.id];
+        if (!scales) continue;
+        page.querySelector('.panel').style.setProperty('--fs', scales.panel);
+        page.querySelector('.work').style.setProperty('--sfs', scales.solution);
+      }
+    }
     const staging = el('div', 'staging');
     staging.setAttribute('aria-hidden', 'true');
     const staged = new Map();
@@ -741,6 +750,19 @@ async function main() {
     overflow.push(...flowHints(meta, problems, staged));
     staging.remove();
 
+    if (window.workbookVideoLayout && meta.typography) {
+      for (const page of book.querySelectorAll('.page--problem')) {
+        const scales = meta.typography[page.id];
+        if (!scales) continue;
+        for (const [selector, values] of [['.katex-display > .katex', scales.math], ['.hint-strip-formula', scales.hints]]) {
+          [...page.querySelectorAll(selector)].forEach((node, i) => {
+            const scale = values?.[i] ?? 1;
+            node.style.transformOrigin = 'left center';
+            node.style.transform = scale < 1 ? `scale(${scale})` : '';
+          });
+        }
+      }
+    }
     document.body.dataset.overflow = overflow.join(',');
     document.documentElement.dataset.ready = 'true';
   } catch (err) {
