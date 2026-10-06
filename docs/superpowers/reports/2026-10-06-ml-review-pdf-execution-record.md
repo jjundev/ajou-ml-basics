@@ -1,4 +1,5 @@
 # SDD ledger — plan: docs/superpowers/plans/2026-10-06-ml-review-pdf-migration.md
+Current status (2026-10-07): Implementation committed as 4822c99ffde1107a11541283d3cdf3df80ba58d5; no push. Uncommitted statements below describe the earlier execution stage. Follow-up documentation correction unifies the no-classroom-connection rule and restores the output validation report; PDF/content/code unchanged.
 Ruling: Projectless native worktree tool cannot select the course repository; used detached git worktree in task work/ — required isolation without changing video branch — needs explicit file installation after QA.
 Ruling: No commits or pushes; preserve workspace ledger until user requests commit — explicit spec boundary — uncommitted evidence relies on retained checkout.
 Pre-flight 1→2→3→4→5: common frozen types and mode/page interfaces agree.
