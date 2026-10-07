@@ -8,6 +8,8 @@ python3 "$SKILL/scripts/build_review_pdf.py" --review "$RUN/work/stage/복습노
 
 기본 규격은 `video-16x9`: 1920×1080 CSS px, PDF 1440×810pt다. 하단 180px(마지막 135pt)은 완전히 흰 자막 여백이다. 같은 후보의 A4 fitting을 측정해 본문·풀이·display 수식·Hint 수식의 화면 배율을 보존하며, 분할 후보는 다시 측정한다. 임의 추가 축소는 하지 않는다. 명시적인 `--layout a4`는 기존 A4 가로 출력을 유지한다. `validation.json`의 layout·page_size_pt·caption_height_px·typography와 페이지 대응을 확인한다.
 
+과제 PDF는 `--profile homework`로 만든다. 입력 파일명은 `과제<N>_<Slug>.html`, 카드 `data-source`는 `HW<N> Problem <k>`(카드 id `p<k>`와 번호 일치)이며, 출력은 `과제<N>_<Slug>-문제.pdf`/`-답안.pdf`, 배지는 `과제`, 제목은 `머신러닝기초 과제<N>`이다. 프로필을 생략하면 `review` 규칙이 적용되어 과제 파일명은 `invalid review filename`으로 실패한다.
+
 템플릿 두 개와 video CSS는 EC2 `757fa081521008d46542e23d5a1a53112391aed2`의 고정 복사본이다. 실행 중 변경하지 말고 `assets/pdf-template-provenance.json`의 세 SHA256을 검사한다.
 
 기존 비구조화 카드만 수동 `--layouts PATH`가 필요하다. layout의 `source_sha256`는 읽은 HTML bytes와 일치해야 하고 conditions+ask는 원문 문장·수식 순서를 보존해야 한다. 전체 render output 경로와 PDF 해시는 validation JSON에 있다. 실패는 종료코드 1이며 공개 파일을 쓰지 않는다.

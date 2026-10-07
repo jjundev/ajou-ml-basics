@@ -1,7 +1,7 @@
 """Convert normalized review cards into the unchanged EC2 template schema."""
 import json
 import re
-from review_pdf_types import PageSlice, ReviewPdfError
+from review_pdf_types import PageSlice, ReviewPdfError, REVIEW
 
 
 def initial_pages(problems):
@@ -12,7 +12,7 @@ def page_id(page):
     return page.logical_id if page.continuation==1 else f'{page.logical_id}-c{page.continuation}'
 
 
-def to_workbook(problems, assets, mode, pages=None):
+def to_workbook(problems, assets, mode, pages=None, profile=REVIEW):
     if mode not in ('problems','answers'):raise ReviewPdfError(f'invalid mode: {mode}')
     ps=initial_pages(problems) if pages is None else pages
     lookup={p.card.id:p for p in problems};records=[]
@@ -23,7 +23,7 @@ def to_workbook(problems, assets, mode, pages=None):
             asset=assets.get((c.id,fid))
             if asset is None:raise ReviewPdfError(f'{c.id}: missing asset {fid}')
             figs.append({'src':asset.src,'w_mm':asset.w_mm,'h_mm':asset.h_mm})
-        item={'id':page_id(page),'kind':'예제' if ' Example ' in c.source else '연습문제','number':c.id.upper()+(' (계속)' if page.continuation>1 else ''),'title':re.sub(r'^P\d+\.\s*','',c.title),'section':c.source,'book_page':None,'difficulty':0,'sol':False,'original_lang':'en','html':{'original':c.original_html if page.show_original else '', 'conditions':page.conditions_html,'ask':page.ask_html},'figures':figs,'hints':[{'label':'풀이 방향','html':c.hint_html}] if c.hint_html and page.continuation==1 else []}
+        item={'id':page_id(page),'kind':profile.kind(c.source),'number':c.id.upper()+(' (계속)' if page.continuation>1 else ''),'title':re.sub(r'^P\d+\.\s*','',c.title),'section':c.source,'book_page':None,'difficulty':0,'sol':False,'original_lang':'en','html':{'original':c.original_html if page.show_original else '', 'conditions':page.conditions_html,'ask':page.ask_html},'figures':figs,'hints':[{'label':'풀이 방향','html':c.hint_html}] if c.hint_html and page.continuation==1 else []}
         if mode=='answers':item['solution']={'steps':[{'label':'','html':s} for s in c.steps[page.step_start:page.step_end]],'answer':c.answer_html if page.show_answer else ''}
         records.append(item)
     return {'meta':{'title':'머신러닝기초 복습문제','total':len(records)},'problems':records}
