@@ -22,6 +22,7 @@ class ReviewCard:
     steps: tuple[str,...]
     answer_html: str
     figures: tuple[FigureInput,...]
+    hint_label: str = ''  # 문제지 Hint 띠에 보일 짧은 힌트(data-label). 없으면 '풀이 방향'
 @dataclass(frozen=True)
 class CardProfile:
     """Naming and labeling rules for one kind of card source (review pack, homework)."""

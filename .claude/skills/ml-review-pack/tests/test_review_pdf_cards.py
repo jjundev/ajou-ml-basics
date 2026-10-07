@@ -63,6 +63,16 @@ class TestHomeworkProfile(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p=self.write(d,HW_SOURCE.read_text(encoding='utf-8'),unicodedata.normalize('NFD',HW_SOURCE.name))
             self.assertEqual(read_cards(p,HOMEWORK).range,'9')
+    def test_hint_label(self):
+        self.assertEqual([c.hint_label for c in read_cards(HW_SOURCE,HOMEWORK).cards],['',''])
+        with tempfile.TemporaryDirectory() as d:
+            p=self.write(d,HW_SOURCE.read_text(encoding='utf-8').replace('<details class="hint">','<details class="hint" data-label="비율 $a/b$ &amp; 약분">',1))
+            self.assertEqual(read_cards(p,HOMEWORK).cards[0].hint_label,'비율 $a/b$ &amp; 약분')
+    def test_bad_hint_label(self):
+        for bad in ('',' ','가'*61,'$$a$$'):
+            with self.subTest(bad=bad),tempfile.TemporaryDirectory() as d:
+                p=self.write(d,HW_SOURCE.read_text(encoding='utf-8').replace('<details class="hint">',f'<details class="hint" data-label="{bad}">',1))
+                with self.assertRaisesRegex(ReviewPdfError,'p1: hint label'):read_cards(p,HOMEWORK)
     def test_profile_helpers(self):
         self.assertEqual(REVIEW.kind('MML Example 9.1'),'예제')
         self.assertEqual(REVIEW.kind('MML Exercise 6.1'),'연습문제')

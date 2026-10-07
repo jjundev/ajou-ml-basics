@@ -75,8 +75,10 @@ def read_cards(path: Path, profile: CardProfile = REVIEW) -> ReviewPack:
             figures.append(FigureInput(f'f{i}',outer(n),kind))
         ancestor=node.parent
         while ancestor is not root and ancestor.tag!='section':ancestor=ancestor.parent
-        card=ReviewCard(id_,titles[0].text().strip(),source,ancestor.attrs.get('id',''),inner(problem).strip(),inner(one(node,'original',id_),True).strip(),inner(one(node,'hint',id_),True).strip(),steps,inner(one(sol,'answer',id_)).strip(),tuple(figures))
-        for field in [card.statement_html,card.original_html,card.hint_html,*card.steps,card.answer_html]:
+        hint=one(node,'hint',id_);label=hint.attrs.get('data-label')
+        if label is not None and (not label.strip() or len(label)>60 or '$$' in label):raise ReviewPdfError(f'{id_}: hint label must be 1-60 chars without display math')
+        card=ReviewCard(id_,titles[0].text().strip(),source,ancestor.attrs.get('id',''),inner(problem).strip(),inner(one(node,'original',id_),True).strip(),inner(hint,True).strip(),steps,inner(one(sol,'answer',id_)).strip(),tuple(figures),html.escape(label or '',quote=False))
+        for field in [card.statement_html,card.original_html,card.hint_html,card.hint_label,*card.steps,card.answer_html]:
             errors=math_delimiter_errors(parse(field).text())
             if errors:raise ReviewPdfError(f'{id_}: math {errors}')
         if not compact(card.answer_html):raise ReviewPdfError(f'{id_}: missing answer')
