@@ -23,11 +23,29 @@ class ReviewCard:
     answer_html: str
     figures: tuple[FigureInput,...]
 @dataclass(frozen=True)
+class CardProfile:
+    """Naming and labeling rules for one kind of card source (review pack, homework)."""
+    name: str
+    filename_re: str  # groups: (range, slug)
+    source_re: str
+    kind_label: str | None  # None: derive 예제/연습문제 from source
+    title_fmt: str  # .format(range=…)
+    stem_fmt: str  # .format(range=…, slug=…)
+    source_fmt: str | None = None  # exact source per card: .format(range=…, n=…)
+    def kind(self, source: str) -> str:
+        return self.kind_label or ('예제' if ' Example ' in source else '연습문제')
+    def expected_source(self, range_: str, card_id: str) -> str | None:
+        return self.source_fmt.format(range=range_, n=card_id[1:]) if self.source_fmt else None
+REVIEW = CardProfile('review', r'복습문제_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html', r'MML (Example|Exercise) \d+(?:\.\d+)+', None, '머신러닝기초 복습문제 {range}', '복습문제_{range}_{slug}')
+HOMEWORK = CardProfile('homework', r'과제(\d+)_([A-Za-z0-9_]+)\.html', r'HW\d+ Problem \d+', '과제', '머신러닝기초 과제{range}', '과제{range}_{slug}', 'HW{range} Problem {n}')
+PROFILES = {p.name: p for p in (REVIEW, HOMEWORK)}
+@dataclass(frozen=True)
 class ReviewPack:
     range: str
     slug: str
     cards: tuple[ReviewCard,...]
     source_path: Path | None = None
+    profile: CardProfile = REVIEW
 @dataclass(frozen=True)
 class NormalizedProblem:
     card: ReviewCard

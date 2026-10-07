@@ -6,7 +6,7 @@ import re
 import unicodedata
 from html2md import Builder, Node, VOID, serialize
 from check_html import math_delimiter_errors
-from review_pdf_types import FigureInput, ReviewCard, ReviewPack, NormalizedProblem, ReviewPdfError
+from review_pdf_types import CardProfile, REVIEW, FigureInput, ReviewCard, ReviewPack, NormalizedProblem, ReviewPdfError
 
 
 def parse(text):
@@ -52,16 +52,18 @@ def compact(text):
     return re.sub(r'\s+','',parse(text).text())
 
 
-def read_cards(path: Path) -> ReviewPack:
+def read_cards(path: Path, profile: CardProfile = REVIEW) -> ReviewPack:
     path=Path(path)
-    m=re.fullmatch(r'복습문제_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html',unicodedata.normalize('NFC',path.name))
-    if not m:raise ReviewPdfError(f'invalid review filename: {path.name}')
+    m=re.fullmatch(profile.filename_re,unicodedata.normalize('NFC',path.name))
+    if not m:raise ReviewPdfError(f'invalid {profile.name} filename: {path.name}')
     root=parse(path.read_text(encoding='utf-8'));cards=[];seen=set()
     for node in root.find_all(lambda n:n.tag=='article' and 'card' in n.classes):
         id_=node.attrs.get('id','')
         if not re.fullmatch(r'p[1-9]\d*',id_) or id_ in seen:raise ReviewPdfError(f'{m[1]} {id_}: invalid/duplicate id')
         seen.add(id_);source=node.attrs.get('data-source','')
-        if not re.fullmatch(r'MML (Example|Exercise) \d+(?:\.\d+)+',source):raise ReviewPdfError(f'{id_}: invalid source')
+        if not re.fullmatch(profile.source_re,source):raise ReviewPdfError(f'{id_}: invalid source')
+        expected=profile.expected_source(m[1],id_)
+        if expected and source!=expected:raise ReviewPdfError(f'{id_}: source {source} != {expected}')
         titles=list(node.find_all(lambda n:n.tag=='h3'))
         if len(titles)!=1:raise ReviewPdfError(f'{id_}: missing title')
         problem=one(node,'problem',id_);sol=one(node,'solution',id_)
@@ -80,7 +82,7 @@ def read_cards(path: Path) -> ReviewPack:
         if not compact(card.answer_html):raise ReviewPdfError(f'{id_}: missing answer')
         cards.append(card)
     if not cards:raise ReviewPdfError(f'{path}: no review cards')
-    return ReviewPack(m[1],m[2],tuple(cards),path.resolve())
+    return ReviewPack(m[1],m[2],tuple(cards),path.resolve(),profile)
 
 
 def normalize_cards(pack: ReviewPack, layouts: dict | None, source_path: Path) -> tuple[NormalizedProblem,...]:
