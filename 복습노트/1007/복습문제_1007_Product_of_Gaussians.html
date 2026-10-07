@@ -523,7 +523,7 @@
   $$\mathbf{C} = (\mathbf{A}^{-1} + \mathbf{B}^{-1})^{-1}$$
   $$\mathbf{c} = \mathbf{C}(\mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b})$$</div></div>
   <details class="original"><summary>교과서 원문 보기</summary>"The product of two Gaussians $\mathcal{N}(\mathbf{x} \mid \mathbf{a}, \mathbf{A})\,\mathcal{N}(\mathbf{x} \mid \mathbf{b}, \mathbf{B})$ is an unnormalized Gaussian distribution" … "a. By completing the square" — Exercise 6.10</details>
-  <details class="hint"><summary>힌트 보기</summary>지수 안을 $\mathbf{x}^\top\mathbf{M}\mathbf{x} - 2\mathbf{v}^\top\mathbf{x} + \text{상수}$ 꼴로 묶어 보세요. 교과서에는 이런 꼴을 완전제곱식으로 바꾸는 방법이 정리되어 있어요. $\mathbf{M}$이 대칭이고 양의 정부호이면 $$\mathbf{x}^\top\mathbf{M}\mathbf{x} - 2\mathbf{v}^\top\mathbf{x} + \text{상수}_1 = (\mathbf{x} - \boldsymbol{\mu})^\top\mathbf{M}(\mathbf{x} - \boldsymbol{\mu}) + \text{상수}_2, \qquad \boldsymbol{\mu} = \mathbf{M}^{-1}\mathbf{v}$$예요. 스칼라 렘마 $\alpha x^2 - 2\beta x + \gamma \Rightarrow \mathcal{N}\left(\frac{\beta}{\alpha}, \frac{1}{\alpha}\right)$에서 $\alpha$가 $\mathbf{M}$, $\beta$가 $\mathbf{v}$로 바뀐 모양이에요.</details>
+  <details class="hint"><summary>힌트 보기</summary>지수 안을 $\mathbf{x}^\top\mathbf{M}\mathbf{x} - 2\mathbf{v}^\top\mathbf{x} + \text{상수}$ 꼴로 묶어 보세요. 교과서에는 이런 꼴을 완전제곱식으로 바꾸는 방법이 정리되어 있어요. $\mathbf{M}$이 대칭이고 양의 정부호이면 $$\mathbf{x}^\top\mathbf{M}\mathbf{x} - 2\mathbf{v}^\top\mathbf{x} + \text{상수}_1 = (\mathbf{x} - \boldsymbol{\mu})^\top\mathbf{M}(\mathbf{x} - \boldsymbol{\mu}) + \text{상수}_2$$이고, 이때 $$\boldsymbol{\mu} = \mathbf{M}^{-1}\mathbf{v}$$예요. 스칼라 렘마 $\alpha x^2 - 2\beta x + \gamma \Rightarrow \mathcal{N}\left(\frac{\beta}{\alpha}, \frac{1}{\alpha}\right)$에서 $\alpha$가 $\mathbf{M}$, $\beta$가 $\mathbf{v}$로 바뀐 모양이에요.</details>
   <details class="solution"><summary>풀이 보기</summary><ol class="steps">
     <li>$\mathbf{x}$와 무관한 앞쪽 상수는 버려요. 곱은 지수끼리 더한 것이에요.
     $$\mathcal{N}(\mathbf{x} \mid \mathbf{a}, \mathbf{A})\,\mathcal{N}(\mathbf{x} \mid \mathbf{b}, \mathbf{B}) \propto \exp\left(-\frac{1}{2}\Big[(\mathbf{x} - \mathbf{a})^\top\mathbf{A}^{-1}(\mathbf{x} - \mathbf{a}) + (\mathbf{x} - \mathbf{b})^\top\mathbf{B}^{-1}(\mathbf{x} - \mathbf{b})\Big]\right)$$</li>
@@ -532,7 +532,7 @@
     둘째도 같은 꼴이에요.
     $$(\mathbf{x} - \mathbf{b})^\top\mathbf{B}^{-1}(\mathbf{x} - \mathbf{b}) = \mathbf{x}^\top\mathbf{B}^{-1}\mathbf{x} - 2(\mathbf{B}^{-1}\mathbf{b})^\top\mathbf{x} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}$$</li>
     <li>더해서 묶어요. $\boldsymbol{\Lambda} = \mathbf{A}^{-1} + \mathbf{B}^{-1}$, $\boldsymbol{\eta} = \mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b}$로 두면
-    $$[\cdots] = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \gamma, \qquad \gamma = \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{a} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}$$
+    $$[\cdots] = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \gamma$$이고, 상수항은 $$\gamma = \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{a} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}$$
     스칼라 렘마의 $\alpha$ 자리에 $\boldsymbol{\Lambda}$, $\beta$ 자리에 $\boldsymbol{\eta}$가 왔어요.</li>
     <li>완전제곱식을 만들어요. $\mathbf{m} = \boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}$로 두고 펼쳐 봐요. $\boldsymbol{\Lambda}$가 대칭이라 $\mathbf{m}^\top\boldsymbol{\Lambda} = \boldsymbol{\eta}^\top$이에요.
     $$(\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m}) = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \boldsymbol{\eta}^\top\boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}$$
