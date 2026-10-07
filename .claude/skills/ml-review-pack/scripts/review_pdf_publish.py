@@ -4,13 +4,24 @@ This is recoverable publication, not an OS-atomic multi-file transaction.
 """
 from contextlib import contextmanager, ExitStack
 from pathlib import Path
-import fcntl
+try:
+    import fcntl
+except ImportError:  # Windows: msvcrt byte-range lock, released when the handle closes
+    fcntl=None
+    import msvcrt
 import hashlib
 import os
 import shutil
 import tempfile
 import uuid
 from review_pdf_types import ReviewPdfError
+
+
+def _try_lock(stream):
+    if fcntl:fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB);return
+    stream.seek(0)
+    try:msvcrt.locking(stream.fileno(),msvcrt.LK_NBLCK,1)
+    except OSError as e:raise BlockingIOError(str(e)) from e
 
 
 @contextmanager
@@ -21,7 +32,7 @@ def publication_lock(destinations):
         for parent in parents:
             name=hashlib.sha256(parent.encode()).hexdigest()+'.lock'
             stream=stack.enter_context((lock_root/name).open('a+'))
-            try:fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            try:_try_lock(stream)
             except BlockingIOError as e:raise ReviewPdfError(f'publication locked: {parent}') from e
         yield
     # Closing the descriptors releases locks; never unlink a live lock inode.

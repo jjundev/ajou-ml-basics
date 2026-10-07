@@ -37,7 +37,7 @@ def freeze_figures(pack,build_dir):
         try:
             ctx=browser.new_context(viewport={'width':1400,'height':1000},device_scale_factor=300/96)
             page=ctx.new_page();failures=_watch(page)
-            head=(ASSETS/'pdf-problem.html').read_text().split('<style>')[0]
+            head=(ASSETS/'pdf-problem.html').read_text(encoding='utf-8').split('<style>')[0]
             for c in pack.cards:
                 for f in c.figures:
                     path=build_dir/f'{c.id}-{f.id}.html'
