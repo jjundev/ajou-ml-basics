@@ -10,13 +10,13 @@ import unittest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / ".claude/skills/ml-review-pack/scripts"))
 
-from review_pdf_cards import read_cards  # noqa: E402
+from review_pdf_cards import normalize_cards, read_cards  # noqa: E402
+from review_pdf_payload import has_top_level_relation, to_workbook  # noqa: E402
 from review_pdf_types import HOMEWORK  # noqa: E402
 
 CARDS = ROOT / "과제/과제1/과제1_Homework1.html"
-PART_OPEN = '<div class="part" style="margin-top:1.6mm">'
+PART_OPEN = '<div class="part">'
 TALL_OPEN = '<span style="display:inline-block;margin:.8mm 0">'
-INLINE_MATH = re.compile(r"\$\$[\s\S]+?\$\$|\$[^$]+?\$")
 MATRIX = re.compile(r"\\begin\{bmatrix\}.*?\\end\{bmatrix\}", re.S)
 
 
@@ -51,24 +51,30 @@ class TestOriginals(unittest.TestCase):
                     self.assertTrue(before.endswith(PART_OPEN), (letter, before))
         self.assertEqual(parts, 39)
 
-    def test_stacked_displays_are_spaced(self):
-        # 조건에서 display 식이 연달아 오면 뒤 식은 위 여백을 둔 블록에 넣어요.
-        for card in read_cards(CARDS, HOMEWORK).cards:
-            with self.subTest(card=card.id):
-                self.assertNotRegex(card.statement_html, r"\$\$\s*\$\$")
+    def test_cards_carry_no_inline_styles(self):
+        # 여백은 PDF 변환기(space_math)가 넣어요. 카드는 내용만 담아요.
+        self.assertNotIn("style=", CARDS.read_text(encoding="utf-8"))
 
-    def test_inline_matrices_have_vertical_room(self):
-        # 문장 속 행렬은 위아래 줄과 붙지 않게 여백 있는 inline-block에 넣어요.
-        source = CARDS.read_text(encoding="utf-8")
+    def test_pdf_payload_spaces_tall_math(self):
+        # 변환 결과에서 연달은 display 식이 붙어 있지 않고, 문장 속 행렬은 여백 블록에 들어가요.
+        problems = normalize_cards(read_cards(CARDS, HOMEWORK), None, CARDS)
+        items = to_workbook(problems, {}, "answers", profile=HOMEWORK)["problems"]
+        fields = [f for it in items for f in (*it["html"].values(), it["solution"]["answer"], *(s["html"] for s in it["solution"]["steps"]))]
+        for f in fields:
+            self.assertNotRegex(f, r"\$\$\s*\$\$")
+        text = "".join(fields)
         wrapped = 0
-        for m in INLINE_MATH.finditer(source):
-            if m.group(0).startswith("$$") or r"\begin{" not in m.group(0):
+        for m in re.finditer(r"\$\$[\s\S]+?\$\$|\$[^$]+?\$", text):
+            tex = m.group(0)
+            if tex.startswith("$$") or r"\begin{" not in tex:
                 continue
-            with self.subTest(tex=m.group(0)[:40]):
-                self.assertTrue(source[: m.start()].endswith(TALL_OPEN))
-                self.assertTrue(source[m.end():].startswith("</span>"))
+            if len(tex) - 2 > 40 and has_top_level_relation(tex[1:-1]):
+                continue  # 템플릿이 display로 바꿔 줄을 나눠요.
+            with self.subTest(tex=tex[:50]):
+                self.assertTrue(text[: m.start()].endswith(TALL_OPEN))
             wrapped += 1
-        self.assertGreater(wrapped, 0)
+        self.assertGreater(wrapped, 50)
+        self.assertEqual(text.count('<div class="part" style="margin-top:1.6mm">'), 39)
 
     def test_every_card_has_short_hint(self):
         for card in read_cards(CARDS, HOMEWORK).cards:
