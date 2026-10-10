@@ -54,9 +54,156 @@ class MediaTests(Sandbox):
         def command(args,**kwargs):
             Path(args[args.index('--output')+1]).write_bytes(b'video');return __import__('types').SimpleNamespace(returncode=0,stdout='',stderr='')
         def checked(args,**kwargs):(self.run/'renders/master.pending.mp4').write_bytes(b'video')
-        with patch('solution_video.media.source_checks'),patch('solution_video.media.command',side_effect=command),patch('solution_video.media.probe',return_value={'streams':[{'codec_type':'video','nb_frames':t['total_frames']}]}),patch('solution_video.media.checked',side_effect=checked),patch('solution_video.media.ffmpeg',return_value='ffmpeg'):
+        with patch('solution_video.media.source_checks'),patch('solution_video.media.command',side_effect=command),patch('solution_video.media.probe',return_value={'streams':[{'codec_type':'video','width':1920,'height':1080,'r_frame_rate':'30/1','nb_frames':t['total_frames']},{'codec_type':'audio','sample_rate':24000,'channels':1}]}),patch('solution_video.media.checked',side_effect=checked),patch('solution_video.media.ffmpeg',return_value='ffmpeg'):
             render_master([dict(entry='composition/index.html',key='solution',first_frame=0,last_frame=t['total_frames'])],t,audio,self.run,entry)
         with wave.open(str(self.run/'renders/narration.wav'),'rb') as f:raw=f.readframes(f.getnframes())
         self.assertEqual(raw[800*2:1600*2],b'\x02\x00'*800)
         self.assertEqual(raw[1600*2:64800*2],b'\x00\x00'*(64800-1600))
         self.assertEqual(raw[64800*2:65600*2],b'\x03\x00'*800)
+
+class RenderOutputTests(Sandbox):
+    def setUp(self):
+        super().setUp()
+        from test_render_options import OPTIONS
+        from solution_video.util import write
+        self.options=dict(OPTIONS);write(self.run/'source/render-options.json',self.options)
+        self.entry=self.run/'cli.js';self.entry.write_text('')
+        self.html=self.run/'composition/index.html';self.html.parent.mkdir();self.html.write_text('')
+        self.parts=[dict(key='solution',entry='composition/index.html',first_frame=0,last_frame=30)]
+        self.timeline=dict(total_frames=30,total_samples=24000,segments=[])
+        self.work=self.run/'renders';self.work.mkdir()
+        self.master=self.work/'master.mp4';self.master.write_bytes(b'old master')
+        self.part=self.work/'solution.mp4';self.part.write_bytes(b'old part')
+        self.receipt=self.run/'verification/render-receipt.json';write(self.receipt,dict(old=True))
+        self.old_receipt=self.receipt.read_bytes();self.calls=[]
+    def metadata(self,master=False):
+        streams=[dict(codec_type='video',width=1920,height=1080,r_frame_rate='30/1',nb_frames=30)]
+        if master:streams.append(dict(codec_type='audio',sample_rate='24000',channels=1))
+        return dict(streams=streams)
+    def command(self,args,**kwargs):
+        from types import SimpleNamespace
+        self.calls.append([str(a) for a in args])
+        Path(args[args.index('--output')+1]).write_bytes(b'new part')
+        return SimpleNamespace(returncode=0,stdout='rendered',stderr='')
+    def checked(self,args,**kwargs):
+        Path(args[-1]).write_bytes(b'new master')
+    def invoke(self,command=None,probe=None):
+        from unittest.mock import patch
+        from solution_video.media import render_master
+        with patch('solution_video.media.source_checks'),patch('solution_video.media.ffmpeg',return_value='ffmpeg'),patch('solution_video.media.command',side_effect=command or self.command),patch('solution_video.media.checked',side_effect=self.checked),patch('solution_video.media.probe',side_effect=probe or (lambda p:self.metadata('master' in p.name))):
+            return render_master(self.parts,self.timeline,[],self.run,self.entry)
+    def assert_preserved(self,part=True):
+        if part:self.assertEqual(self.part.read_bytes(),b'old part')
+        self.assertEqual(self.master.read_bytes(),b'old master');self.assertEqual(self.receipt.read_bytes(),self.old_receipt)
+        self.assertFalse(list(self.work.glob('*.pending.mp4')))
+        self.assertFalse(list(self.receipt.parent.glob('*.pending*')))
+    def test_render_failure_preserves_previous_outputs(self):
+        import subprocess
+        from types import SimpleNamespace
+        from solution_video.contracts import InputError
+        for failure in ['nonzero','timeout']:
+            def fail(args,**kwargs):
+                self.command(args,**kwargs)
+                if failure=='timeout':raise subprocess.TimeoutExpired(args,2,output=b'partial stdout',stderr=b'partial stderr')
+                return SimpleNamespace(returncode=1,stdout='partial stdout',stderr='partial stderr')
+            with self.subTest(failure=failure),self.assertRaises((InputError,subprocess.TimeoutExpired)):self.invoke(command=fail)
+            self.assert_preserved();log=(self.work/'solution.log').read_text()
+            self.assertIn('partial stdout',log);self.assertIn('partial stderr',log)
+    def test_wrong_dimensions_or_fps_or_frames_cannot_replace_part(self):
+        from solution_video.contracts import InputError
+        cases=[dict(width=1280),dict(height=720),dict(r_frame_rate='24/1'),dict(nb_frames=29),dict(nb_frames='N/A'),dict(r_frame_rate='0/0')]
+        for fields in cases:
+            metadata=self.metadata();metadata['streams'][0].update(fields)
+            with self.subTest(fields=fields),self.assertRaises(InputError):self.invoke(probe=lambda p:metadata)
+            self.assert_preserved()
+        with self.assertRaises(InputError):self.invoke(probe=lambda p:dict(streams=[]))
+        self.assert_preserved()
+    def test_later_part_failure_preserves_master_and_completed_part(self):
+        from solution_video.contracts import InputError
+        from types import SimpleNamespace
+        self.parts.append(dict(self.parts[0],key='second',first_frame=30,last_frame=60))
+        second=self.work/'second.mp4';second.write_bytes(b'old second')
+        def fail_second(args,**kwargs):
+            result=self.command(args,**kwargs)
+            return SimpleNamespace(returncode=1,stdout='bad second',stderr='') if 'second.pending.mp4' in str(args[-1]) else result
+        with self.assertRaises(InputError):self.invoke(command=fail_second)
+        self.assert_preserved(part=False);self.assertEqual(self.part.read_bytes(),b'new part');self.assertEqual(second.read_bytes(),b'old second')
+        self.assertEqual(len(self.calls),2)
+    def test_invalid_master_cannot_replace_previous_master(self):
+        from solution_video.contracts import InputError
+        for fields in [dict(sample_rate='48000'),dict(channels=2)]:
+            def probe(p):
+                result=self.metadata('master' in p.name)
+                if 'master' in p.name:result['streams'][1].update(fields)
+                return result
+            with self.subTest(fields=fields),self.assertRaises(InputError):self.invoke(probe=probe)
+            self.assert_preserved(part=False)
+    def test_receipt_write_or_replace_failure_rolls_back_master(self):
+        import os
+        from unittest.mock import patch
+        from solution_video.media import _commit_master_and_receipt
+        for failure in ['write','second_replace']:
+            pending=self.work/'master.pending.mp4';pending.write_bytes(b'new master')
+            real_replace=os.replace
+            def replace(src,dest):
+                if Path(src).name=='render-receipt.json.pending' and Path(dest).resolve()==self.receipt.resolve():raise OSError('receipt replace')
+                return real_replace(src,dest)
+            target=patch('solution_video.media.write',side_effect=OSError('receipt write')) if failure=='write' else patch('solution_video.media.os.replace',side_effect=replace)
+            with self.subTest(failure=failure),target,self.assertRaises(OSError):
+                _commit_master_and_receipt(pending,dict(new=True),self.master,self.receipt)
+            self.assert_preserved()
+    def test_saved_render_options_drive_execution_and_receipt(self):
+        from solution_video.util import read,file_hash
+        result=self.invoke();self.assertEqual(result,self.master.resolve())
+        receipt=read(self.receipt);self.assertEqual(receipt['options'],self.options)
+        args=self.calls[0];self.assertEqual(args[args.index('--workers')+1],'6');self.assertEqual(args[args.index('--quality')+1],'delivery')
+        self.assertIn('--experimental-fast-capture=false',args);self.assertNotIn('--gpu',args)
+        self.assertEqual(receipt['parts'][0]['command'],args);self.assertEqual(receipt['parts'][0]['frames'],30)
+        self.assertEqual(receipt['parts'][0]['output_sha256'],file_hash(self.part));self.assertEqual(receipt['master_sha256'],file_hash(self.master))
+        self.assertGreaterEqual(receipt['parts'][0]['elapsed_seconds'],0);self.assertFalse(list(self.work.glob('*.pending.mp4')))
+    def test_invalid_options_are_rejected_before_source_checks(self):
+        from unittest.mock import patch
+        from solution_video.media import render_master
+        from solution_video.contracts import InputError
+        with patch('solution_video.media.source_checks',side_effect=AssertionError('renderer launched')):
+            with self.assertRaises(InputError):render_master(self.parts,self.timeline,[],self.run,self.entry,render_options=dict(self.options,workers=True))
+    def test_stale_pending_is_not_accepted_as_new_render(self):
+        from types import SimpleNamespace
+        from solution_video.contracts import InputError
+        (self.work/'solution.pending.mp4').write_bytes(b'stale video')
+        with self.assertRaises(InputError):self.invoke(command=lambda *a,**kw:SimpleNamespace(returncode=0,stdout='',stderr=''))
+        self.assert_preserved()
+    def test_failed_rollback_keeps_recovery_copies(self):
+        import os
+        from unittest.mock import patch
+        from solution_video.media import _commit_master_and_receipt
+        pending=self.work/'master.pending.mp4';pending.write_bytes(b'new master');real_replace=os.replace
+        def fail(src,dest):
+            if Path(src).name in ['render-receipt.json.pending','master.mp4.rollback']:raise OSError('injected commit/restore failure')
+            return real_replace(src,dest)
+        with patch('solution_video.media.os.replace',side_effect=fail),self.assertRaises(Exception) as caught:
+            _commit_master_and_receipt(pending,dict(new=True),self.master,self.receipt)
+        backup=self.master.with_name('master.mp4.rollback')
+        self.assertTrue(backup.is_file(),'old master recovery copy must survive rollback failure')
+        self.assertEqual(backup.read_bytes(),b'old master')
+        self.assertIn(str(backup),str(caught.exception));self.assertEqual(self.receipt.read_bytes(),self.old_receipt)
+        self.assertFalse(pending.exists())
+    def test_interrupt_between_pair_replacements_restores_previous_pair(self):
+        import os
+        from unittest.mock import patch
+        from solution_video.media import _commit_master_and_receipt
+        pending=self.work/'master.pending.mp4';pending.write_bytes(b'new master');real_replace=os.replace
+        def interrupt(src,dest):
+            if Path(src).name=='render-receipt.json.pending':raise KeyboardInterrupt()
+            return real_replace(src,dest)
+        with patch('solution_video.media.os.replace',side_effect=interrupt),self.assertRaises(KeyboardInterrupt):
+            _commit_master_and_receipt(pending,dict(new=True),self.master,self.receipt)
+        self.assert_preserved();self.assertFalse(list(self.work.glob('*.rollback')))
+    def test_retry_cannot_overwrite_unrestored_recovery_copy(self):
+        from solution_video.media import _commit_master_and_receipt
+        from solution_video.contracts import InputError
+        backup=self.master.with_name('master.mp4.rollback');backup.write_bytes(b'only old master')
+        pending=self.work/'master.pending.mp4';pending.write_bytes(b'new master')
+        with self.assertRaisesRegex(InputError,'recovery'):
+            _commit_master_and_receipt(pending,dict(new=True),self.master,self.receipt)
+        self.assertEqual(backup.read_bytes(),b'only old master');self.assert_preserved()
