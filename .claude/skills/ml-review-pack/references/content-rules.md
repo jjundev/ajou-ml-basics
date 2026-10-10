@@ -61,6 +61,7 @@
 ## 수식
 - `$…$`(인라인), `$$…$$`(디스플레이)만. 본문에 리터럴 `$` 금지.
 - TeX 안에 `<`, `>`, `&` 금지 → `\lt`, `\gt`. 정렬 환경 대신 `$$` 줄을 나눈다.
+- PDF 템플릿은 40자가 넘고 중괄호·`\left…\right` 바깥에 관계 기호(`=`, `\le(q)`, `\ge(q)`, `\approx`, `\Rightarrow`)가 있는 `$…$`를 display로 바꾸고 관계 기호마다 줄을 나눈다. 문장 속에 한 줄로 두려는 긴 식(행렬 정의 `A=\begin{bmatrix}…\end{bmatrix}` 등)은 식 전체를 `${…}$`처럼 중괄호로 감싼다. 여러 식을 쉼표로 나란히 쓸 때도 식마다 감싼다(`${\mathbf{A}=…},\quad{\mathbf{B}=…}$`).
 - 벡터는 `\mathbf{x}`, 파라미터 벡터는 `\boldsymbol{\theta}`, 행렬 `\mathbf{X}` — manifest `required_terms`와 같은 표기.
 
 ## SVG 그림
