@@ -1,3 +1,4 @@
+from fixtures import *
 import unittest
 from pathlib import Path
 from port_baseline import validate_port_manifest
@@ -14,3 +15,11 @@ class PortTests(unittest.TestCase):
   self.assertEqual(default_config()['voice'],'Aoede')
   self.assertNotIn('direction',str(make_speech_payload('평균을 구해요.',default_config())))
   self.assertTrue(all(str(skill) in str(m.__file__) for m in _modules()))
+
+ def test_render_port_hashes(self):
+  import json,hashlib
+  skill=Path(__file__).resolve().parents[1]
+  port=json.loads((skill/'assets/render-port-provenance.json').read_text())
+  self.assertEqual(port['source_commit'],'75a6a581d7b66651d361856fa1bfa35bc85f20b8')
+  for row in port['files']+port['ml_changes']:
+   self.assertEqual(hashlib.sha256((skill/row['destination']).read_bytes()).hexdigest(),row['ported_sha256'])

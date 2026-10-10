@@ -9,9 +9,12 @@ FACTORS={
  'layers':['source/map.json','layers/candidates.json','layers/original.svg','layers/pages/**/original.svg'],
  'script':['source/manifest.json','source/coverage.json','source/circuit-review.json','source/math-review.json','source/lesson.json','verification/gate.json'],
     'voice':['source/config.json'], 'timing':['source/audio.json','source/chunk-audio.json','source/chunk-trims.json','assets/voice/*.wav'],
- 'composition':['source/timeline.json'], 'render':['source/parts.json','composition/**/*'],
+ 'composition':['source/timeline.json'], 'render':['source/parts.json','composition/**/*','source/render-options.json'],
  'captions':['renders/master.mp4'], 'verify':['renders/final.mp4','renders/captions.srt','verification/audio-review.json','verification/visual-review.json','verification/pacing-review.json'], 'publish':['verification/report.json']}
-MODULES={'inputs':['sources','ml_cards','page_pairs','bundle_cli'],'layers':['pdf_pages','writing_units','bundle_layers'],'script':['source_integrity','math_review','manifest','lesson','subtitles','speech_chunks'],'voice':['review_adapter','speech_tts','speech_chunks'],'timing':['bundle_timeline','reveal','writing','speech_chunks','shape_timing'],'composition':['bundle_composition','composition','writing_camera'],'render':['media'],'captions':['subtitles'],'verify':['verify','bundle_verify','narration_pacing'],'publish':['publication']}
+MODULES={'inputs':['sources','ml_cards','page_pairs','bundle_cli'],'layers':['pdf_pages','writing_units','bundle_layers'],'script':['source_integrity','math_review','manifest','lesson','subtitles','speech_chunks'],'voice':['review_adapter','speech_tts','speech_chunks'],'timing':['bundle_timeline','reveal','writing','speech_chunks','shape_timing'],'composition':['bundle_composition','composition','writing_camera'],'render':['media','render_options'],'captions':['subtitles'],'verify':['verify','bundle_verify','narration_pacing'],'publish':['publication']}
+# Only this reviewed render-only bundle revision has unchanged input semantics.
+# An unrecognized edit returns its actual hash and invalidates inputs normally.
+_BUNDLE_RENDER_ONLY_HASHES={'569f2dc9c6572f545910093462879490338da1596e1ddfa290f118af5e3172ec':'b57dfef39e121c9e4eab645ba32536727f8e83ac64f2abc55270eecd3b6e4496'}
 def stage_fingerprint(run,stage):
     run=Path(run); n=STAGES.index(stage); files={}
     for s in STAGES[:n+1]:
@@ -20,7 +23,9 @@ def stage_fingerprint(run,stage):
                 if p.is_file(): files[p.relative_to(run).as_posix()]=file_hash(p)
         for module in MODULES[s]:
             p=S/'scripts/solution_video'/(module+'.py')
-            if p.exists(): files['tool:'+module]=file_hash(p)
+            if p.exists():
+                sha=file_hash(p)
+                files['tool:'+module]=_BUNDLE_RENDER_ONLY_HASHES.get(sha,sha) if s=='inputs' and module=='bundle_cli' else sha
     for module in ['util','contracts','page_layout']:
         p=S/'scripts/solution_video'/(module+'.py'); files['tool:'+module]=file_hash(p)
     if n>=1: files['tool:browser_check']=file_hash(S/'tests/browser_check.mjs')

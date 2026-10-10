@@ -15,6 +15,7 @@ from solution_video.lesson import load_lesson
 from solution_video.writing import default_writing,load_writing,validate_writing
 from solution_video.composition import assemble
 from solution_video.media import render_master
+from solution_video.render_options import load_render_options
 from solution_video.subtitles import write_srt,burn_subtitles,caption_notation_warnings
 from solution_video.verify import verify_run
 from solution_video.state import STAGES,recover_run,finish_stage,stage_fingerprint
@@ -65,6 +66,9 @@ def _run_stage(action,run,args,transport=None):
         (run/'source/prepare-error.json').unlink(missing_ok=True)
     needed=['source/map.json'] if action=='extract' else ['source/manifest.json','layers/layers.json','source/coverage.json','source/circuit-review.json']
     if any(not (run/p).is_file() for p in needed): return {'status':'author-required','run':str(run),'missing':[p for p in needed if not (run/p).is_file()],'paid_requests':0}
+    if action=='render':
+        render_options=load_render_options(run,getattr(args,'render_workers',None))
+        write(run/'source/render-options.json',render_options)
     stage={'extract':'layers','check':'script','tts':'voice','retime':'timing','assemble':'composition','render':'render','captions':'captions','verify':'verify'}[action]
     if (run/'state.json').is_file():
         next_stage=recover_run(run)
@@ -138,7 +142,7 @@ def _run_stage(action,run,args,transport=None):
         if not (run/'source/audio.json').exists(): return {'status':'author-required','paid_requests':0,'missing':['source/audio.json']}
         parts=assemble(read(run/'source/pair.json'),l,m,read(run/'source/timeline.json'),run,Path(args.runtime));finish_stage(run,stage,[run/'source/parts.json',*[p for p in (run/'composition').rglob('*') if p.is_file()]]);return {'status':'passed','parts':parts,'paid_requests':0}
     if action=='render':
-        p=render_master(read(run/'source/parts.json'),read(run/'source/timeline.json'),read(run/'source/audio.json')['voices'],run,Path(args.hyperframes_entry));finish_stage(run,stage,[p]);return {'status':'passed','master':str(p),'paid_requests':0}
+        p=render_master(read(run/'source/parts.json'),read(run/'source/timeline.json'),read(run/'source/audio.json')['voices'],run,Path(args.hyperframes_entry),render_options=render_options);receipt=run/'verification/render-receipt.json';finish_stage(run,stage,[p,receipt]);return {'status':'passed','master':str(p),'render_options':render_options,'render_receipt':str(receipt),'paid_requests':0}
     if action=='captions':
         srt=write_srt(read(run/'source/timeline.json'),run/'renders/captions.srt');final=burn_subtitles(run/'renders/master.mp4',srt,run/'renders/final.mp4',S/'assets/fonts/Pretendard-Bold.ttf');finish_stage(run,stage,[srt,final]);return {'status':'passed','final':str(final),'paid_requests':0}
     report=verify_run(run,Path(args.hyperframes_entry))
@@ -154,6 +158,7 @@ def main(argv=None):
             p.add_argument('--config',type=Path);p.add_argument('--env-file',type=Path);p.add_argument('--approve-review',action='store_true')
         if name=='retime':p.add_argument('--writing-config',type=Path)
         if name=='assemble': p.add_argument('--runtime',required=True)
+        if name=='render':p.add_argument('--render-workers',type=int,choices=range(1,7))
         if name in ['render','verify']: p.add_argument('--hyperframes-entry',required=True)
     for name in ['resume-set','publish-set']:
         p=subs.add_parser(name);p.add_argument('--batch',required=True,type=Path)

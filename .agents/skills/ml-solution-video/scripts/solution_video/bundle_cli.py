@@ -13,6 +13,7 @@ from .annotations import load_teaching
 from .lesson import load_lesson
 from .bundle_timeline import build_bundle_timeline
 from .state import STAGES,recover_run,finish_stage
+from .render_options import default_render_options,load_render_options
 
 def prepare_batch(repo,selector,problem_ids=None,review=False,writing_mode='pencil',*,pack=None,page_map=None):
  repo=Path(repo).resolve();failures=[];bundles=discover(repo,selector,problem_ids,failures,pack=pack,page_map=read(page_map) if isinstance(page_map,(Path,str)) else page_map)
@@ -24,6 +25,7 @@ def prepare_batch(repo,selector,problem_ids=None,review=False,writing_mode='penc
   for relative in set(b['source_files'].values()):
    target=local(run,relative);target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(local(batch,relative),target)
   write(run/'source/inputs.json',read(batch/'source/inputs.json'));write(run/'source/pair.json',b);write(run/'source/config.json',default_config());write(run/'source/writing.json',default_writing(writing_mode));write(run/'run.json',dict(batch=str(batch),review=review,problem_id=b['problem_id'],key=b['key']))
+  write(run/'source/render-options.json',default_render_options())
   item=dict(id=b['problem_id'],key=b['key'],pack_id=b['pack_id'],range=b['range'],slug=b['slug'],run='videos/'+key,filename=b['problem_id']+' — 풀이.mp4',status='author-required',prefix=(b['range']+' — ' if '-' in selector else '')+(b['slug']+' — ' if len({x['slug'] for x in frozen})>1 else ''));data['items'].append(item);write(batch/'batch.json',data)
   try:
    export_bundle(b,run);finish_stage(run,'inputs',[run/'source/inputs.json',run/'source/pair.json'])
@@ -67,6 +69,8 @@ def run_bundle_stage(action,run,args,transport=None):
  needed=['source/map.json'] if action=='extract' else ['source/manifest.json','layers/layers.json','source/coverage.json','source/math-review.json','source/lesson.json']
  missing=[p for p in needed if not (run/p).is_file()]
  if missing:return dict(status='author-required',missing=missing,paid_requests=0)
+ if action=='render':
+  render_options=load_render_options(run,getattr(args,'render_workers',None));write(run/'source/render-options.json',render_options)
  if (run/'state.json').is_file():
   nxt=recover_run(run)
   if nxt and STAGES.index(nxt)<STAGES.index(stage):raise InputError('refresh prerequisite stage: '+nxt)
@@ -111,7 +115,7 @@ def run_bundle_stage(action,run,args,transport=None):
   parts=assemble(read(run/'source/pair.json'),l,m,read(run/'source/timeline.json'),run,Path(args.runtime));finish_stage(run,'composition',[run/'source/parts.json',*[p for p in (run/'composition').rglob('*') if p.is_file()]]);return dict(status='passed',parts=parts,paid_requests=0)
  if action=='render':
   from .media import render_master
-  p=render_master(read(run/'source/parts.json'),read(run/'source/timeline.json'),read(run/'source/audio.json')['voices'],run,Path(args.hyperframes_entry));finish_stage(run,'render',[p]);return dict(status='passed',paid_requests=0,master=str(p))
+  p=render_master(read(run/'source/parts.json'),read(run/'source/timeline.json'),read(run/'source/audio.json')['voices'],run,Path(args.hyperframes_entry),render_options=render_options);receipt=run/'verification/render-receipt.json';finish_stage(run,'render',[p,receipt]);return dict(status='passed',paid_requests=0,master=str(p),render_options=render_options,render_receipt=str(receipt))
  if action=='captions':
   from .subtitles import write_srt,burn_subtitles
   srt=write_srt(read(run/'source/timeline.json'),run/'renders/captions.srt');final=burn_subtitles(run/'renders/master.mp4',srt,run/'renders/final.mp4',S/'assets/fonts/Pretendard-Bold.ttf');finish_stage(run,'captions',[srt,final]);return dict(status='passed',final=str(final),paid_requests=0)

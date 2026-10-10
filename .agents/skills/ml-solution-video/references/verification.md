@@ -20,3 +20,5 @@ node "$S/tests/test_teaching_runtime.cjs"
 python3 "$S/tests/ml_acceptance.py" --repo "$REPO" --dest "$SCRATCH" --hyperframes-entry "$HYPERFRAMES"
 ```
 마지막 명령은 실제1007 P2/P3/P8의 고정 source를 scratch에서 사용한다. 기본 synthetic/paid0/completefalse이며 production 게시를 하지 않는다. --live는 실제 음성 실행을 요청받은 경우만 사용하며 청취 승인을 자동으로 쓰지 않는다. 원문은 전후 SHA로 보존을 확인한다. skip/실음성 미검증을 통과 수에 포함하지 않는다.
+
+멀티코어 검증은 workers 2/6의 모든 decoded frame MD5, PCM, AAC와 원자료 SHA를 비교한다. synthetic PCM 결과는 실제 음성 승인과 분리한다. 작업자 설정 변경 시 음성/타임라인 hash 유지, 실패/중단 시 이전 미디어와 기록 보존 및 rollback 잔여 시 재시도 차단을 확인한다. 실행 시간 개선과 저하 모두 기록한다.

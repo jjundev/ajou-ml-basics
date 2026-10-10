@@ -50,3 +50,7 @@ Vertex AI Express / gemini-2.5-flash-tts / Aoede / ko-KR / mono PCM 24kHz 16bit�
 `문제풀이영상/<선택범위>/`에는 자연스러운 제목의 최종 MP4와 `<선택범위>_제작자료/`만 둔다. 모든 원고·캐시·검증·이전 버전은 제작자료 안에 둔다. 범위 영상은 날짜, 여러 팩은 slug도 파일명에 넣는다. 전체 성공일 때만 latest를 바꾼다. 게시 교체 실패는 journal로 롤백하며 강제 종료 상황의 원자적 다중 파일 갱신을 주장하지 않는다.
 
 EC2 기준은 `eeec3d56513fe9e8a34f45edb05ae1118b08cf62`다. `assets/port-provenance.json`에 84개 원본 파일과 6개 자체 부품의 SHA·이식 위치·검사 대응을 기록한다. 런타임은 다른 과목 checkout을 요구하지 않는다. `tests/ml_acceptance.py`는 실제 1007 P2/P3/P8의 고정 원자료로 scratch 검사를 하며 기본 synthetic/paid0/게시 차단이다. 다른 날짜의 저작 템플릿으로 좌표를 재사용하지 않는다.
+
+## 멀티코어 렌더 정책
+
+render는 CPU 인코딩, browser GPU auto, fast capture false를 유지하며 파트·문항을 순차 처리한다. Apple M5/물리 10코어/16GiB 이상 macOS는 내부 작업자 6개, 나머지·탐지 실패는 2개다. `render --render-workers 1..6`은 유효한 저장값보다 우선하며, 손상된 저장 설정은 거부한다. 설정은 `source/render-options.json`, 실행 기록은 `verification/render-receipt.json`에 보존한다. 신규 RUN은 기본값을 저장하고, 기존 RUN은 render에서만 생성하며 resume-set은 설정을 쓰지 않는다. 작업자 변경은 render 이후만 무효화하여 음성·대본·타임라인·composition을 보존한다. 실패 시 이전 마스터/기록을 복구하며 남은 `.rollback` 파일은 확인 전 재교체를 차단한다.

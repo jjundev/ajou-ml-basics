@@ -411,3 +411,5 @@ SSE oracle points=(0,0),(1,1),(2,2), intercept=0, w=0/1/2, SSE=5/0/5. 실제 ML 
 ```
 
 미디어·source-check·render receipts·그림은 이 worktree의 `.superpowers/렌더검증_제작자료/review/{static,static-corrected,dynamic}`에 보존한다. `static`은 처음의 x 이동 실험 실패를 포함하고 최종 수용 결과는 `static-corrected`/`dynamic`이다. CLI worker flag를 임시 제거한 mutation이 FAIL이고 원본 복원 후 CLI11 PASS여서 연결 회귀가 누락을 잡음을 확인했다.
+
+복원은 git ls-tree/show로 모든 충돌을 먼저 확인하고 127개 원본 blob을 썼다(archive와 동일한 SHA). 복원/정책/렌더/수용 파일은 manifest의 일관성을 위해 함께 커밋했다. 테스트의 누락된 template.html 예시는 실제 pinned video-layout.css로 수정했다. 두 변경은 런타임 비용이 없고 커밋 묶음은 검토 diff만 커진다.
