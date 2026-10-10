@@ -4,7 +4,7 @@ import unittest
 from _util import FIXTURES, SKILL
 from review_pdf_cards import read_cards, normalize_cards
 from review_pdf_payload import to_workbook, inject_data
-from review_pdf_types import ReviewPdfError
+from review_pdf_types import HOMEWORK, ReviewPdfError
 
 class TestPayload(unittest.TestCase):
     def setUp(self):
@@ -21,6 +21,20 @@ class TestPayload(unittest.TestCase):
         self.assertEqual(p['problems'][0]['kind'],'예제')
         self.assertEqual(p['problems'][0]['number'],'P1')
         self.assertEqual(p['problems'][0]['section'],'MML Example 9.1')
+    def test_homework_kind_badge(self):
+        path=FIXTURES/'pdf/과제9_Pdf_Test.html'
+        ps=normalize_cards(read_cards(path,HOMEWORK),None,path)[:1]
+        p=to_workbook(ps,{},'problems',profile=HOMEWORK)['problems'][0]
+        self.assertEqual((p['kind'],p['section'],p['number']),('과제','HW9 Problem 1','P1'))
+        self.assertEqual(to_workbook(self.ps[:1],{},'problems')['problems'][0]['kind'],'예제')
+    def test_hint_label_falls_back(self):
+        from dataclasses import replace
+        ps=self.ps[:1]
+        self.assertEqual(to_workbook(ps,{},'problems')['problems'][0]['hints'][0]['label'],'풀이 방향')
+        card=replace(ps[0].card,hint_label='비율 $a/b$')
+        ps=(replace(ps[0],card=card),)
+        h=to_workbook(ps,{},'answers')['problems'][0]['hints'][0]
+        self.assertEqual((h['label'],h['html']),('비율 $a/b$',card.hint_html))
     def test_missing_asset(self):
         with self.assertRaisesRegex(ReviewPdfError,'p2.*asset'):to_workbook(self.ps,{},'problems')
     def test_script_escape(self):

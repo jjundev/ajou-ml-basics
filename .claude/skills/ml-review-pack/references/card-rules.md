@@ -36,4 +36,5 @@
 
 ## PDF 계약
 - `.conditions`와 `.ask`는 `.problem`의 직계 자식으로 각각 한 개다. 조건은 질문보다 먼저 쓰고 원본 순서·수치·식·소문항을 보존한다. 증명 목표 식은 ask 안에 유지한다. 풀이와 최종 답은 solution에만 둔다.
+- 문제지 오른쪽 Hint 띠에는 `<details class="hint" data-label="…">`의 짧은 힌트가 보인다(태그 없는 60자 이내 명사형 한 구절, inline `$…$`만, `$$` 금지). 답안 Hint 부록에서는 이 구절이 제목, 힌트 본문이 설명이 된다. 없으면 "풀이 방향"이 보인다.
 - SVG/표는 원문에 보관하고 PDF 변환기가 별도 그림으로 고정한다. SVG viewBox와 화살표 정의를 보존한다. 파일 그림은 현재 날짜 stage 폴더(예: figures_<range>/diagram.png)에 복사하고 원본 HTML 기준 상대 src를 쓴다. 메인 에이전트는 이 참조 자산도 HTML/MD/PDF와 함께 배포한다.

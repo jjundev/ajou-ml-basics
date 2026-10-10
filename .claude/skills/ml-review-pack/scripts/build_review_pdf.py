@@ -14,7 +14,7 @@ from review_pdf_pages import paginate
 from review_pdf_render import freeze_figures,render_workbook,measure_typography
 from review_pdf_publish import publish_files
 from review_pdf_layout import Layout,page_size_pt
-from review_pdf_types import BuildResult,ReviewPdfError
+from review_pdf_types import BuildResult,ReviewPdfError,REVIEW,PROFILES
 
 
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -46,28 +46,29 @@ def _verify_pdf(path,expected_pages,layout: Layout):
                 if min(pixels.samples)<255:raise ReviewPdfError(f'{path.name} page {i}: visible ink in caption band')
 
 
-def build_pack(review_path,layouts_path,build_dir,*,layout: Layout="video-16x9"):
+def build_pack(review_path,layouts_path,build_dir,*,layout: Layout="video-16x9",profile=REVIEW):
     size=page_size_pt(layout)
     review_path=Path(review_path).resolve()
     source_hash=digest(review_path)
-    pack=read_cards(review_path)
+    pack=read_cards(review_path,profile)
     layouts=json.loads(Path(layouts_path).read_text(encoding='utf-8')) if layouts_path else None
     problems=normalize_cards(pack,layouts,review_path)
     stage=Path(build_dir)/('run-'+uuid.uuid4().hex);stage.mkdir(parents=True,exist_ok=False)
     assets=freeze_figures(pack,stage/'figures')
-    evidence={'status':'validated','range':pack.range,'slug':pack.slug,'logical_count':len(pack.cards),'source_path':str(review_path),'source_sha256':source_hash,'pages':{},'pdfs':{},'errors':[],'layout':layout,'page_size_pt':size,'caption_height_px':180 if layout=='video-16x9' else 0,'typography':{}}
+    evidence={'status':'validated','profile':profile.name,'range':pack.range,'slug':pack.slug,'logical_count':len(pack.cards),'source_path':str(review_path),'source_sha256':source_hash,'pages':{},'pdfs':{},'errors':[],'layout':layout,'page_size_pt':size,'caption_height_px':180 if layout=='video-16x9' else 0,'typography':{}}
     results={}
+    title=profile.title_fmt.format(range=pack.range);stem=profile.stem_fmt.format(range=pack.range,slug=pack.slug)
     for mode,suffix in [('problems','문제'),('answers','답안')]:
         counter=0
         def measure(pages):
             nonlocal counter
             counter+=1
-            payload=to_workbook(problems,assets,mode,pages);payload['meta']['title']=f'머신러닝기초 복습문제 {pack.range}'
+            payload=to_workbook(problems,assets,mode,pages,profile);payload['meta']['title']=title
             scales=measure_typography(payload,mode,stage/f'{mode}-a4-{counter}.html') if layout=='video-16x9' else None
             return render_workbook(payload,mode,stage/f'{mode}-measure-{counter}.html',layout=layout,typography=scales)
         pages=paginate(problems,mode,measure)
-        payload=to_workbook(problems,assets,mode,pages);payload['meta']['title']=f'머신러닝기초 복습문제 {pack.range}'
-        pdf=stage/f'복습문제_{pack.range}_{pack.slug}-{suffix}.pdf'
+        payload=to_workbook(problems,assets,mode,pages,profile);payload['meta']['title']=title
+        pdf=stage/f'{stem}-{suffix}.pdf'
         scales=measure_typography(payload,mode,stage/f'{mode}-a4-final.html') if layout=='video-16x9' else None
         report=render_workbook(payload,mode,stage/f'{mode}.html',pdf,layout=layout,typography=scales)
         _verify_pdf(pdf,len(report.page_ids),layout)
@@ -96,10 +97,11 @@ def main(argv=None):
     ap.add_argument('--build-dir',required=True,type=Path);ap.add_argument('--pdf-dir',type=Path)
     ap.add_argument('--report',required=True,type=Path);ap.add_argument('--stage-only',action='store_true')
     ap.add_argument('--layout',choices=['a4','video-16x9'],default='video-16x9')
+    ap.add_argument('--profile',choices=sorted(PROFILES),default='review')
     args=ap.parse_args(argv)
     if not args.pdf_dir and not args.stage_only:ap.error('--pdf-dir or --stage-only required')
     try:
-        result=build_pack(args.review,args.layouts,args.build_dir,layout=args.layout)
+        result=build_pack(args.review,args.layouts,args.build_dir,layout=args.layout,profile=PROFILES[args.profile])
         if not args.stage_only:publish_build(result,args.pdf_dir,args.build_dir/'backups')
         args.report.parent.mkdir(parents=True,exist_ok=True)
         if args.report.resolve()!=result.report_path.resolve():shutil.copy2(result.report_path,args.report)
