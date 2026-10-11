@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+from collections import Counter
 from pathlib import Path
 from urllib.parse import unquote, urlsplit, quote
 from mpe_contract import validate_fragment, payload_hash, markup_errors
@@ -26,6 +27,25 @@ def dump(path, value):
 def artifact_hashes(artifacts):
     root = artifacts.html.parent
     return {p.relative_to(root).as_posix(): sha256(p) for p in artifacts.files}
+
+def convert_markdown(html_path, md_path, ctx):
+    """Reuse the converter while supplying its missing raster-image support."""
+    document = parse(html_path.read_text(encoding='utf-8'))
+    main = next(document.find_all(lambda n: n.tag == 'main'))
+    for node in list(main.find_all(lambda n: n.tag == 'figure')):
+        if list(node.find_all(lambda n: n.tag == 'img')) and not list(node.find_all(lambda n: n.tag == 'svg')):
+            node.tag = 'div'  # html2md's figure branch handles SVG only.
+    for node in list(main.find_all(lambda n: n.tag == 'img')):
+        alt = node.attrs.get('alt', '그림').replace('[', '(').replace(']', ')')
+        src = quote(node.attrs['src'], safe='/')
+        node.tag, node.attrs, node.children = 'p', {}, [f'![{alt}]({src})']
+    footer = next(document.find_all(lambda n: n.tag == 'footer'), None)
+    temporary = html_path.with_name('.' + html_path.stem + '-md-input.html')
+    temporary.write_text('<html><body>' + outer(main) + (outer(footer) if footer else '') + '</body></html>', encoding='utf-8')
+    try:
+        convert(str(temporary), str(md_path), ctx, ['문제의 첫 줄부터 검산까지 설명해요.'])
+    finally:
+        temporary.unlink(missing_ok=True)
 
 def resources(markup, problem, pack, repo, stage, fig_name, destination):
     root = parse(markup)
@@ -108,8 +128,10 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
         # Validate each block separately: a summary remains a direct fragment child.
         reading = resources(reading, p, pack, repo, stage, fig_name, pack.path.parent)
         explanation = resources(fragments[p.id], p, pack, repo, stage, fig_name, pack.path.parent)
+        original_link = quote(pack.path.name, safe='') + '#' + p.id
         articles.append(f'<article class="topic" id="{p.id}"><h3>{html.escape(p.title)}</h3>'
-                        + f'<p class="panel-meta">{html.escape(p.source)}</p>' + reading + explanation + '</article>')
+                        + f'<p class="panel-meta">{html.escape(p.source)} · <a href="{original_link}">원 문제 보기</a></p>'
+                        + reading + explanation + '</article>')
         toc.append(f'<li><a href="#{p.id}">{html.escape(p.title)}</a></li>')
         (data_dir / 'fragments').mkdir(exist_ok=True)
         (data_dir / 'fragments' / f'{p.id}.html').write_text(fragments[p.id], encoding='utf-8')
@@ -127,7 +149,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
         raise ExplainError('미치환 템플릿 슬롯')
     html_path.write_text(text, encoding='utf-8')
     ctx = Ctx([(html_path.name, md_path.name)], str(stage / fig_name), fig_name, prefix='explain')
-    convert(str(html_path), str(md_path), ctx, ['문제의 첫 줄부터 검산까지 설명해요.'])
+    convert_markdown(html_path, md_path, ctx)
     manifest_path = data_dir / 'manifest.json'
     files = tuple(sorted(p for p in stage.rglob('*') if p.is_file()))
     dump(manifest_path, {'version': 1, 'profile': pack.profile, 'range': pack.range, 'slug': pack.slug,
@@ -155,6 +177,13 @@ def check_artifacts(pack, artifacts):
             if not file.resolve().is_relative_to(root) or not file.is_file() or sha256(file) != digest:
                 errors.append('생성 파일 변경/누락: ' + name)
         document = parse(artifacts.html.read_text(encoding='utf-8'))
+        main = next(document.find_all(lambda n: n.tag == 'main'))
+        wanted_images = Counter(unquote(n.attrs.get('src', '')) for n in main.find_all(lambda n: n.tag == 'img'))
+        markdown = artifacts.md.read_text(encoding='utf-8')
+        md_images = Counter(unquote(path) for path in re.findall(r'!\[[^\]]*\]\(([^)]+)\)', markdown))
+        for image, count in wanted_images.items():
+            if md_images[image] < count:
+                errors.append('래스터 그림 누락: ' + image)
         ids = [n.attrs['id'] for n in document.find_all(lambda n: 'id' in n.attrs)]
         if len(ids) != len(set(ids)):
             errors.append('중복 문서 ID')
@@ -191,6 +220,10 @@ def check_artifacts(pack, artifacts):
                 path = Path(manifest['destination']) / unquote(url.path)
             if not path.is_file():
                 errors.append('자원 없음: ' + href)
+            elif node.tag == 'a' and url.fragment:
+                target_ids = {n.attrs.get('id') for n in parse(path.read_text(encoding='utf-8')).find_all(lambda n: True)}
+                if unquote(url.fragment) not in target_ids:
+                    errors.append('링크 앵커 없음: ' + href)
         # Existing Markdown checker resolves links relative to stage; external course links
         # use their intended destination instead (checked above and by browser on publication).
         errors += [e for e in check_md(str(artifacts.html), str(artifacts.md)) if not e.startswith('링크 파일 없음:')]

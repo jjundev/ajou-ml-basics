@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 import sys
 import uuid
-from mpe_contract import initial_reviews
+from mpe_contract import initial_reviews, payload_hash, validate_fragment
 from mpe_source import inside, load_source, resolve_sources, sha256
 from mpe_render import build_explanation, check_artifacts, artifact_hashes, dump
 from mpe_publish import publish_explanation
@@ -47,7 +47,7 @@ def extract(repo, target, run):
     dump(run / 'run.json', {'version': 1, 'repo': str(repo), 'targets': buckets})
     return int(failed)
 
-def load_run(run):
+def load_run(run, errors=None):
     run = Path(run).absolute()
     index = read_json(inside(run / 'run.json', run))
     repo = Path(index['repo'])
@@ -57,15 +57,20 @@ def load_run(run):
     if not isinstance(index['targets'], list) or not index['targets']:
         raise ExplainError('추출 대상 없음')
     for name in index['targets']:
-        folder = inside(run / name, run)
-        value = read_json(inside(folder / 'source.json', run))
-        source = Path(value['path'])
-        if not source.is_absolute():
-            raise ExplainError('추출 입력은 절대 경로여야 해요')
-        pack = load_source(inside(source, repo), repo)
-        if value != serialized(pack):
-            raise ExplainError('추출 데이터 또는 원본 변경: extract부터 다시 실행하세요')
-        items.append({'pack': pack, 'folder': folder, 'repo': repo, 'run': run})
+        try:
+            folder = inside(run / name, run)
+            value = read_json(inside(folder / 'source.json', run))
+            source = Path(value['path'])
+            if not source.is_absolute():
+                raise ExplainError('추출 입력은 절대 경로여야 해요')
+            pack = load_source(inside(source, repo), repo)
+            if value != serialized(pack):
+                raise ExplainError('추출 데이터 또는 원본 변경: extract부터 다시 실행하세요')
+            items.append({'pack': pack, 'folder': folder, 'repo': repo, 'run': run})
+        except (ExplainError, OSError, ValueError, KeyError, TypeError) as exc:
+            if errors is None:
+                raise
+            errors.append(f'{name}: {exc}')
     return items
 
 def load_fragments(item):
@@ -125,8 +130,12 @@ def main(argv=None):
     try:
         if args.command == 'extract':
             return extract(args.repo, args.target, args.run)
-        failed = False
-        for item in load_run(args.run):
+        load_errors = []
+        items = load_run(args.run, errors=load_errors)
+        failed = bool(load_errors)
+        for error in load_errors:
+            print(error, file=sys.stderr)
+        for item in items:
             try:
                 fragments = load_fragments(item)
                 if args.command == 'build':
@@ -135,6 +144,9 @@ def main(argv=None):
                     artifacts = load_artifacts(item)
                     if args.command == 'check':
                         errors = check_artifacts(item['pack'], artifacts)
+                        errors += [e for p in item['pack'].problems for e in validate_fragment(p, fragments[p.id])]
+                        if read_json(artifacts.manifest).get('input_hash') != payload_hash(item['pack'], fragments):
+                            errors.append('설명 조각 변경: build부터 다시 실행하세요')
                         dump(item['folder'] / 'machine.json', {'status': 'fail' if errors else 'pass', 'errors': errors,
                                                               'artifact_hashes': artifact_hashes(artifacts)})
                         if errors:

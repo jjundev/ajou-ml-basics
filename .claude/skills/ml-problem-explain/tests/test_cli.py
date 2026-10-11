@@ -66,3 +66,34 @@ def test_forged_serialized_problem_is_rejected(tmp_path):
     result = call('check', '--run', run)
     assert result.returncode == 1
     assert '추출' in result.stderr
+
+def test_one_stale_pack_does_not_block_other_pack(tmp_path):
+    repo = tmp_path / 'repo'
+    for date in ('1006', '1007'):
+        source = repo / '복습노트' / date / f'복습문제_{date}_Product_of_Gaussians.html'
+        source.parent.mkdir(parents=True)
+        source.write_bytes((ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html').read_bytes())
+    run = tmp_path / 'run'
+    assert call('extract', '--repo', repo, '--target', '1006-1007', '--run', run).returncode == 0
+    for item in load_run(run):
+        for p in item['pack'].problems:
+            (item['folder'] / 'explanations' / f'{p.id}.html').write_text(fragment(p), encoding='utf-8')
+    later = repo / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html'
+    later.write_bytes(later.read_bytes() + b'changed')
+    result = call('build', '--run', run)
+    assert result.returncode == 1
+    assert (run / 'review-1006-Product_of_Gaussians/stage.json').is_file()
+    assert not (run / 'review-1007-Product_of_Gaussians/stage.json').is_file()
+
+def test_check_refuses_fragments_changed_after_build(tmp_path):
+    run = tmp_path / 'run'
+    assert call('extract', '--repo', ROOT, '--target', '1007', '--run', run).returncode == 0
+    item = load_run(run)[0]
+    for p in item['pack'].problems:
+        (item['folder'] / 'explanations' / f'{p.id}.html').write_text(fragment(p), encoding='utf-8')
+    assert call('build', '--run', run).returncode == 0
+    (item['folder'] / 'explanations/p1.html').write_text('<p>풀이 누락</p>', encoding='utf-8')
+    result = call('check', '--run', run)
+    assert result.returncode == 1
+    machine = json.loads((item['folder'] / 'machine.json').read_text(encoding='utf-8'))
+    assert machine['status'] == 'fail'

@@ -59,7 +59,10 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
         path = path if path.is_absolute() else repo / path
         path = inside(path, repo)
         if not path.is_file():
-            raise ExplainError(f'대상 없음: {path}')
+            try:
+                path = inside(existing_path(path), repo)
+            except ExplainError as exc:
+                raise ExplainError(f'대상 없음: {path}') from exc
         return (path,)
     candidates = []
     for path in repo.rglob('*.html'):
@@ -78,7 +81,12 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
     else:
         reviews = [(value, path) for kind, value, path in candidates if kind == 'review']
         if target is None:
-            target = max((value for value, _ in reviews), key=lambda v: v.split('-')[-1], default='')
+            latest = max((value.split('-')[-1] for value, _ in reviews), default='')
+            latest_candidates = [(value, path) for value, path in reviews if value.split('-')[-1] == latest]
+            ranges = {value for value, _ in latest_candidates}
+            if len(ranges) > 1:
+                raise ExplainError('여러 후보 (최신 날짜의 통합/개별):\n' + '\n'.join(str(p) for _, p in latest_candidates))
+            target = next(iter(ranges), '')
         if not re.fullmatch(r'\d{4}(?:-\d{4})?', target):
             raise ExplainError('대상 없음 또는 잘못된 대상: ' + target)
         bounds = target.split('-')
@@ -105,20 +113,22 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
 
 def subparts(ask: str, original: str) -> tuple[str, ...]:
     root = parse(ask)
+    original_root = parse(original)
+    parts = list(original_root.find_all(lambda n: 'part' in n.classes))
+    marked = tuple(m[1] for n in parts if (m := re.match(r'\s*\(([a-z])\)', n.text())))
     lists = [n for n in root.find_all(lambda n: n.tag == 'ol')
              if not any(a.tag in ('li', 'ol') for a in ancestors(n, root))]
     if len(lists) > 1:
         raise ExplainError('질문 목록 여러 개: 소문항 구분을 확인하세요')
     if not lists:
+        if marked:
+            raise ExplainError('질문 목록·원문 소문항 표지 불일치')
         return ('main',)
     items = [n for n in lists[0].children if isinstance(n, Node) and n.tag == 'li']
     labels = tuple((re.match(r'\s*\(([a-z])\)', n.text())[1]
                     if re.match(r'\s*\(([a-z])\)', n.text()) else chr(97 + i)) for i, n in enumerate(items))
     if not labels or len(labels) != len(set(labels)):
         raise ExplainError('중복 또는 빈 소문항 표지')
-    original_root = parse(original)
-    parts = list(original_root.find_all(lambda n: 'part' in n.classes))
-    marked = tuple(m[1] for n in parts if (m := re.match(r'\s*\(([a-z])\)', n.text())))
     if marked and set(marked) != set(labels):
         raise ExplainError('질문 목록·원문 소문항 표지 불일치')
     return labels

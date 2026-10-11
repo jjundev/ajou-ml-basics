@@ -3,7 +3,7 @@ import json
 import shutil
 import unicodedata
 import pytest
-from mpe_source import load_source, resolve_sources
+from mpe_source import load_source, resolve_sources, subparts
 from mpe_types import ExplainError
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -72,3 +72,22 @@ def test_missing_or_invalid_target(tmp_path, target):
 def test_outside_source_is_rejected(tmp_path):
     with pytest.raises(ExplainError, match='저장소'):
         load_source(HW, tmp_path)
+
+def test_latest_day_and_integrated_pack_are_ambiguous(tmp_path):
+    for folder, value in [('a', '1007'), ('b', '0930-1007')]:
+        path = tmp_path / '복습노트' / folder / f'복습문제_{value}_A.html'
+        path.parent.mkdir(parents=True)
+        path.touch()
+    with pytest.raises(ExplainError, match='여러 후보'):
+        resolve_sources(tmp_path, None)
+
+def test_original_subparts_cannot_be_collapsed_to_main():
+    with pytest.raises(ExplainError, match='소문항'):
+        subparts('<p>Calculate both.</p>', '<div class="part">(a) first</div><div class="part">(b) second</div>')
+
+def test_explicit_nfc_path_resolves_existing_nfd_file(tmp_path):
+    folder = tmp_path / unicodedata.normalize('NFD', '복습노트') / '1007'
+    folder.mkdir(parents=True)
+    path = folder / unicodedata.normalize('NFD', REVIEW.name)
+    path.touch()
+    assert resolve_sources(tmp_path, unicodedata.normalize('NFC', str(path))) == (path,)

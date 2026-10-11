@@ -71,3 +71,23 @@ def test_vendor_files_and_hashes_present():
     for css in vendor.rglob('*.css'):
         for href in re.findall(r'url\([\'"]?([^\)\'"\s]+)', css.read_text(encoding='utf-8')):
             assert (css.parent / href).is_file()
+
+def test_original_card_link_and_raster_image_survive_markdown(tmp_path):
+    import base64
+    source = tmp_path / '복습문제_1007_Product_of_Gaussians.html'
+    source.write_bytes((ROOT / '복습노트/1007' / source.name).read_bytes())
+    # Tiny PNG is a controlled resource fixture, not a generated course illustration.
+    (tmp_path / '그림.png').write_bytes(base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jJ1sAAAAASUVORK5CYII='))
+    pack = load_source(source, tmp_path)
+    p = replace(pack.problems[0], figures_html=('<figure><img src="%EA%B7%B8%EB%A6%BC.png" alt="원 그림"><figcaption>조건 그림</figcaption></figure>',))
+    pack = replace(pack, problems=(p,))
+    result = build_explanation(pack, {'p1': fragment(p)}, tmp_path / 'stage', tmp_path)
+    md = result.md.read_text(encoding='utf-8')
+    assert re.search(r'!\[원 그림\]\(figures_[^)]+\.png\)', md)
+    assert any(n.attrs.get('href', '').endswith(source.name + '#p1') or n.attrs.get('href', '').endswith('Product_of_Gaussians.html#p1') for n in parse(result.html.read_text(encoding='utf-8')).find_all(lambda n: n.tag == 'a'))
+    assert check_artifacts(pack, result) == []
+    result.md.write_text(re.sub(r'!\[원 그림\]\([^)]+\)', '', md), encoding='utf-8')
+    manifest = json.loads(result.manifest.read_text(encoding='utf-8'))
+    manifest['files'][result.md.name] = sha256(result.md)
+    result.manifest.write_text(json.dumps(manifest, ensure_ascii=False), encoding='utf-8')
+    assert any('래스터 그림 누락' in e for e in check_artifacts(pack, result))
