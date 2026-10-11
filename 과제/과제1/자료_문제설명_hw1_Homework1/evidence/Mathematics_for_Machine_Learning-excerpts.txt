@@ -1,0 +1,1780 @@
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 46 ===
+40
+Linear Algebra
+Remark. Every subspace U ⊆(Rn, +, ·) is the solution space of a homo-
+geneous system of linear equations Ax = 0 for x ∈Rn.
+♢
+2.5 Linear Independence
+In the following, we will have a close look at what we can do with vectors
+(elements of the vector space). In particular, we can add vectors together
+and multiply them with scalars. The closure property guarantees that we
+end up with another vector in the same vector space. It is possible to find
+a set of vectors with which we can represent every vector in the vector
+space by adding them together and scaling them. This set of vectors is
+a basis, and we will discuss them in Section 2.6.1. Before we get there,
+we will need to introduce the concepts of linear combinations and linear
+independence.
+Definition 2.11 (Linear Combination). Consider a vector space V and a
+finite number of vectors x1, . . . , xk ∈V . Then, every v ∈V of the form
+v = λ1x1 + · · · + λkxk =
+k
+X
+i=1
+λixi ∈V
+(2.65)
+with λ1, . . . , λk ∈R is a linear combination of the vectors x1, . . . , xk.
+linear combination
+The 0-vector can always be written as the linear combination of k vec-
+tors x1, . . . , xk because 0 = Pk
+i=1 0xi is always true. In the following,
+we are interested in non-trivial linear combinations of a set of vectors to
+represent 0, i.e., linear combinations of vectors x1, . . . , xk, where not all
+coefficients λi in (2.65) are 0.
+Definition 2.12 (Linear (In)dependence). Let us consider a vector space
+V with k ∈N and x1, . . . , xk ∈V . If there is a non-trivial linear com-
+bination, such that 0 = Pk
+i=1 λixi with at least one λi̸ = 0, the vectors
+x1, . . . , xk are linearly dependent. If only the trivial solution exists, i.e.,
+linearly dependent
+λ1 = . . . = λk = 0 the vectors x1, . . . , xk are linearly independent.
+linearly
+independent
+Linear independence is one of the most important concepts in linear
+algebra. Intuitively, a set of linearly independent vectors consists of vectors
+that have no redundancy, i.e., if we remove any of those vectors from
+the set, we will lose something. Throughout the next sections, we will
+formalize this intuition more.
+Example 2.13 (Linearly Dependent Vectors)
+A geographic example may help to clarify the concept of linear indepen-
+dence. A person in Nairobi (Kenya) describing where Kigali (Rwanda) is
+might say ,“You can get to Kigali by first going 506 km Northwest to Kam-
+pala (Uganda) and then 374 km Southwest.”. This is sufficient information
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 47 ===
+2.5 Linear Independence
+41
+to describe the location of Kigali because the geographic coordinate sys-
+tem may be considered a two-dimensional vector space (ignoring altitude
+and the Earth’s curved surface). The person may add, “It is about 751 km
+West of here.” Although this last statement is true, it is not necessary to
+find Kigali given the previous information (see Figure 2.7 for an illus-
+tration). In this example, the “506 km Northwest” vector (blue) and the
+“374 km Southwest” vector (purple) are linearly independent. This means
+the Southwest vector cannot be described in terms of the Northwest vec-
+tor, and vice versa. However, the third “751 km West” vector (black) is a
+linear combination of the other two vectors, and it makes the set of vec-
+tors linearly dependent. Equivalently, given “751 km West” and “374 km
+Southwest” can be linearly combined to obtain “506 km Northwest”.
+Figure 2.7
+Geographic example
+(with crude
+approximations to
+cardinal directions)
+of linearly
+dependent vectors
+in a
+two-dimensional
+space (plane).
+506 km Northwest
+751 km West
+374 km Southwest
+374 km Southwest
+Kampala
+Nairobi
+Kigali
+Remark. The following properties are useful to find out whether vectors
+are linearly independent:
+k vectors are either linearly dependent or linearly independent. There
+is no third option.
+If at least one of the vectors x1, . . . , xk is 0 then they are linearly de-
+pendent. The same holds if two vectors are identical.
+The vectors {x1, . . . , xk : xi̸ = 0, i = 1, . . . , k}, k ⩾2, are linearly
+dependent if and only if (at least) one of them is a linear combination
+of the others. In particular, if one vector is a multiple of another vector,
+i.e., xi = λxj, λ ∈R then the set {x1, . . . , xk : xi̸ = 0, i = 1, . . . , k}
+is linearly dependent.
+A practical way of checking whether vectors x1, . . . , xk ∈V are linearly
+independent is to use Gaussian elimination: Write all vectors as columns
+of a matrix A and perform Gaussian elimination until the matrix is in
+row echelon form (the reduced row-echelon form is unnecessary here):
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 106 ===
+100
+Matrix Decompositions
+onto a real number. Before providing a definition of the determinant for
+general n × n matrices, let us have a look at some motivating examples,
+and define determinants for some special matrices.
+Example 4.1 (Testing for Matrix Invertibility)
+Let us begin with exploring if a square matrix A is invertible (see Sec-
+tion 2.2.2). For the smallest cases, we already know when a matrix
+is invertible. If A is a 1 × 1 matrix, i.e., it is a scalar number, then
+A = a =⇒A−1 = 1
+a. Thus a 1
+a = 1 holds, if and only if a̸ = 0.
+For 2 × 2 matrices, by the definition of the inverse (Definition 2.3), we
+know that AA−1 = I. Then, with (2.24), the inverse of A is
+A−1 =
+1
+a11a22 −a12a21
+ a22
+−a12
+−a21
+a11
+
+.
+(4.2)
+Hence, A is invertible if and only if
+a11a22 −a12a21̸ = 0 .
+(4.3)
+This quantity is the determinant of A ∈R2×2, i.e.,
+det(A) =
+
+a11
+a12
+a21
+a22
+ = a11a22 −a12a21 .
+(4.4)
+Example 4.1 points already at the relationship between determinants
+and the existence of inverse matrices. The next theorem states the same
+result for n × n matrices.
+Theorem 4.1. For any square matrix A ∈Rn×n it holds that A is invertible
+if and only if det(A)̸ = 0.
+We have explicit (closed-form) expressions for determinants of small
+matrices in terms of the elements of the matrix. For n = 1,
+det(A) = det(a11) = a11 .
+(4.5)
+For n = 2,
+det(A) =
+
+a11
+a12
+a21
+a22
+ = a11a22 −a12a21 ,
+(4.6)
+which we have observed in the preceding example.
+For n = 3 (known as Sarrus’ rule),
+
+a11
+a12
+a13
+a21
+a22
+a23
+a31
+a32
+a33
+
+= a11a22a33 + a21a32a13 + a31a12a23
+(4.7)
+−a31a22a13 −a11a32a23 −a21a12a33 .
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 107 ===
+4.1 Determinant and Trace
+101
+For a memory aid of the product terms in Sarrus’ rule, try tracing the
+elements of the triple products in the matrix.
+We call a square matrix T an upper-triangular matrix if Tij = 0 for
+upper-triangular
+matrix
+i > j, i.e., the matrix is zero below its diagonal. Analogously, we define a
+lower-triangular matrix as a matrix with zeros above its diagonal. For a tri-
+lower-triangular
+matrix
+angular matrix T ∈Rn×n, the determinant is the product of the diagonal
+elements, i.e.,
+det(T ) =
+n
+Y
+i=1
+Tii .
+(4.8)
+The determinant is
+the signed volume
+of the parallelepiped
+formed by the
+columns of the
+matrix.
+Figure 4.2 The area
+of the parallelogram
+(shaded region)
+spanned by the
+vectors b and g is
+|det([b, g])|.
+b
+g
+Figure 4.3 The
+volume of the
+parallelepiped
+(shaded volume)
+spanned by vectors
+r, b, g is
+|det([r, b, g])|.
+b
+g
+r
+Example 4.2 (Determinants as Measures of Volume)
+The notion of a determinant is natural when we consider it as a mapping
+from a set of n vectors spanning an object in Rn. It turns out that the de-
+terminant det(A) is the signed volume of an n-dimensional parallelepiped
+formed by columns of the matrix A.
+For n = 2, the columns of the matrix form a parallelogram; see Fig-
+ure 4.2. As the angle between vectors gets smaller, the area of a parallel-
+ogram shrinks, too. Consider two vectors b, g that form the columns of a
+matrix A = [b, g]. Then, the absolute value of the determinant of A is the
+area of the parallelogram with vertices 0, b, g, b + g. In particular, if b, g
+are linearly dependent so that b = λg for some λ ∈R, they no longer
+form a two-dimensional parallelogram. Therefore, the corresponding area
+is 0. On the contrary, if b, g are linearly independent and are multiples of
+the canonical basis vectors e1, e2 then they can be written as b =
+b
+0
+
+and
+g =
+0
+g
+
+, and the determinant is
+
+b
+0
+0
+g
+ = bg −0 = bg.
+The sign of the determinant indicates the orientation of the spanning
+vectors b, g with respect to the standard basis (e1, e2). In our figure, flip-
+ping the order to g, b swaps the columns of A and reverses the orientation
+of the shaded area. This becomes the familiar formula: area = height ×
+length. This intuition extends to higher dimensions. In R3, we consider
+three vectors r, b, g ∈R3 spanning the edges of a parallelepiped, i.e., a
+solid with faces that are parallel parallelograms (see Figure 4.3). The ab-
+The sign of the
+determinant
+indicates the
+orientation of the
+spanning vectors.
+solute value of the determinant of the 3 × 3 matrix [r, b, g] is the volume
+of the solid. Thus, the determinant acts as a function that measures the
+signed volume formed by column vectors composed in a matrix.
+Consider the three linearly independent vectors r, g, b ∈R3 given as
+r =
+
+
+2
+0
+−8
+
+,
+g =
+
+
+6
+1
+0
+
+,
+b =
+
+
+1
+4
+−1
+
+.
+(4.9)
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 154 ===
+148
+Vector Calculus
+Chain rule:
+∂
+∂x(g ◦f)(x) = ∂
+∂x
+ g(f(x))
+ = ∂g
+∂f
+∂f
+∂x
+(5.48)
+Let us have a closer look at the chain rule. The chain rule (5.48) resem-
+This is only an
+intuition, but not
+mathematically
+correct since the
+partial derivative is
+not a fraction.
+bles to some degree the rules for matrix multiplication where we said that
+neighboring dimensions have to match for matrix multiplication to be de-
+fined; see Section 2.2.1. If we go from left to right, the chain rule exhibits
+similar properties: ∂f shows up in the “denominator” of the first factor
+and in the “numerator” of the second factor. If we multiply the factors to-
+gether, multiplication is defined, i.e., the dimensions of ∂f match, and ∂f
+“cancels”, such that ∂g/∂x remains.
+5.2.2 Chain Rule
+Consider a function f : R2 →R of two variables x1, x2. Furthermore,
+x1(t) and x2(t) are themselves functions of t. To compute the gradient of
+f with respect to t, we need to apply the chain rule (5.48) for multivariate
+functions as
+df
+dt =
+h
+∂f
+∂x1
+∂f
+∂x2
+i "
+∂x1(t)
+∂t
+∂x2(t)
+∂t
+#
+= ∂f
+∂x1
+∂x1
+∂t + ∂f
+∂x2
+∂x2
+∂t ,
+(5.49)
+where d denotes the gradient and ∂partial derivatives.
+Example 5.8
+Consider f(x1, x2) = x2
+1 + 2x2, where x1 = sin t and x2 = cos t, then
+df
+dt = ∂f
+∂x1
+∂x1
+∂t + ∂f
+∂x2
+∂x2
+∂t
+(5.50a)
+= 2 sin t∂sin t
+∂t
++ 2∂cos t
+∂t
+(5.50b)
+= 2 sin t cos t −2 sin t = 2 sin t(cos t −1)
+(5.50c)
+is the corresponding derivative of f with respect to t.
+If f(x1, x2) is a function of x1 and x2, where x1(s, t) and x2(s, t) are
+themselves functions of two variables s and t, the chain rule yields the
+partial derivatives
+∂f
+∂s = ∂f
+∂x1
+∂x1
+∂s + ∂f
+∂x2
+∂x2
+∂s ,
+(5.51)
+∂f
+∂t = ∂f
+∂x1
+∂x1
+∂t + ∂f
+∂x2
+∂x2
+∂t ,
+(5.52)
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 156 ===
+150
+Vector Calculus
+Therefore, the partial derivative of a vector-valued function f : Rn →
+Rm with respect to xi ∈R, i = 1, . . . n, is given as the vector
+∂f
+∂xi
+=
+
+
+∂f1
+∂xi...
+∂fm
+∂xi
+
+=
+
+
+limh→0
+f1(x1,...,xi−1,xi+h,xi+1,...xn)−f1(x)
+h
+...
+limh→0
+fm(x1,...,xi−1,xi+h,xi+1,...xn)−fm(x)
+h
+
+∈Rm .
+(5.55)
+From (5.40), we know that the gradient of f with respect to a vector is
+the row vector of the partial derivatives. In (5.55), every partial derivative
+∂f/∂xi is itself a column vector. Therefore, we obtain the gradient of f :
+Rn →Rm with respect to x ∈Rn by collecting these partial derivatives:
+df(x)
+dx
+=
+∂f(x)
+∂x1
+· · ·
+∂f(x)
+∂xn
+
+
+(5.56a)
+=
+∂f1(x)
+∂x1
+· · ·
+∂f1(x)
+∂xn
+...
+...
+∂fm(x)
+∂x1
+· · ·
+∂fm(x)
+∂xn
+
+
+
+
+∈Rm×n .
+(5.56b)
+Definition 5.6 (Jacobian). The collection of all first-order partial deriva-
+tives of a vector-valued function f : Rn →Rm is called the Jacobian. The
+Jacobian
+Jacobian J is an m × n matrix, which we define and arrange as follows:
+The gradient of a
+function
+f : Rn →Rm is a
+matrix of size
+m × n.
+J = ∇xf = df(x)
+dx
+=
+∂f(x)
+∂x1
+· · ·
+∂f(x)
+∂xn
+
+(5.57)
+=
+
+
+∂f1(x)
+∂x1
+· · ·
+∂f1(x)
+∂xn
+...
+...
+∂fm(x)
+∂x1
+· · ·
+∂fm(x)
+∂xn
+
+
+,
+(5.58)
+x =
+
+
+x1
+...
+xn
+
+,
+J(i, j) = ∂fi
+∂xj
+.
+(5.59)
+As a special case of (5.58), a function f : Rn →R1, which maps a
+vector x ∈Rn onto a scalar (e.g., f(x) = Pn
+i=1 xi), possesses a Jacobian
+that is a row vector (matrix of dimension 1 × n); see (5.40).
+Remark. In this book, we use the numerator layout of the derivative, i.e.,
+numerator layout
+the derivative df/dx of f ∈Rm with respect to x ∈Rn is an m ×
+n matrix, where the elements of f define the rows and the elements of
+x define the columns of the corresponding Jacobian; see (5.58). There
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 200 ===
+194
+Probability and Distributions
+Mean and (co)variance exhibit some useful properties when it comes
+to affine transformation of random variables. Consider a random variable
+X with mean µ and covariance matrix Σ and a (deterministic) affine
+transformation y = Ax + b of x. Then y is itself a random variable
+whose mean vector and covariance matrix are given by
+EY [y] = EX[Ax + b] = AEX[x] + b = Aµ + b ,
+(6.50)
+VY [y] = VX[Ax + b] = VX[Ax] = AVX[x]A⊤= AΣA⊤,
+(6.51)
+respectively. Furthermore,
+This can be shown
+directly by using the
+definition of the
+mean and
+covariance.
+Cov[x, y] = E[x(Ax + b)⊤] −E[x]E[Ax + b]⊤
+(6.52a)
+= E[x]b⊤+ E[xx⊤]A⊤−µb⊤−µµ⊤A⊤
+(6.52b)
+= µb⊤−µb⊤+
+ E[xx⊤] −µµ⊤A⊤
+(6.52c)
+(6.38b)
+=
+ΣA⊤,
+(6.52d)
+where Σ = E[xx⊤] −µµ⊤is the covariance of X.
+6.4.5 Statistical Independence
+Definition 6.10 (Independence). Two random variables X, Y are statis-
+statistical
+independence
+tically independent if and only if
+p(x, y) = p(x)p(y) .
+(6.53)
+Intuitively, two random variables X and Y are independent if the value
+of y (once known) does not add any additional information about x (and
+vice versa). If X, Y are (statistically) independent, then
+p(y | x) = p(y)
+p(x | y) = p(x)
+VX,Y [x + y] = VX[x] + VY [y]
+CovX,Y [x, y] = 0
+The last point may not hold in converse, i.e., two random variables can
+have covariance zero but are not statistically independent. To understand
+why, recall that covariance measures only linear dependence. Therefore,
+random variables that are nonlinearly dependent could have covariance
+zero.
+Example 6.5
+Consider a random variable X with zero mean (EX[x] = 0) and also
+EX[x3] = 0. Let y = x2 (hence, Y is dependent on X) and consider the
+covariance (6.36) between X and Y . But this gives
+Cov[x, y] = E[xy] −E[x]E[y] = E[x3] = 0 .
+(6.54)
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 201 ===
+6.4 Summary Statistics and Independence
+195
+In machine learning, we often consider problems that can be mod-
+eled as independent and identically distributed (i.i.d.) random variables,
+independent and
+identically
+distributed
+i.i.d.
+X1, . . . , XN. For more than two random variables, the word “indepen-
+dent” (Definition 6.10) usually refers to mutually independent random
+variables, where all subsets are independent (see Pollard (2002, chap-
+ter 4) and Jacod and Protter (2004, chapter 3)). The phrase “identically
+distributed” means that all the random variables are from the same distri-
+bution.
+Another concept that is important in machine learning is conditional
+independence.
+Definition 6.11 (Conditional Independence). Two random variables X
+and Y are conditionally independent given Z if and only if
+conditionally
+independent
+p(x, y | z) = p(x | z)p(y | z)
+for all
+z ∈Z ,
+(6.55)
+where Z is the set of states of random variable Z. We write X ⊥⊥Y | Z to
+denote that X is conditionally independent of Y given Z.
+Definition 6.11 requires that the relation in (6.55) must hold true for
+every value of z. The interpretation of (6.55) can be understood as “given
+knowledge about z, the distribution of x and y factorizes”. Independence
+can be cast as a special case of conditional independence if we write X ⊥⊥
+Y | ∅. By using the product rule of probability (6.22), we can expand the
+left-hand side of (6.55) to obtain
+p(x, y | z) = p(x | y, z)p(y | z) .
+(6.56)
+By comparing the right-hand side of (6.55) with (6.56), we see that p(y | z)
+appears in both of them so that
+p(x | y, z) = p(x | z) .
+(6.57)
+Equation (6.57) provides an alternative definition of conditional indepen-
+dence, i.e., X ⊥⊥Y | Z. This alternative presentation provides the inter-
+pretation “given that we know z, knowledge about y does not change our
+knowledge of x”.
+6.4.6 Inner Products of Random Variables
+Recall the definition of inner products from Section 3.2. We can define an
+Inner products
+between
+multivariate random
+variables can be
+treated in a similar
+fashion
+inner product between random variables, which we briefly describe in this
+section. If we have two uncorrelated random variables X, Y , then
+V[x + y] = V[x] + V[y] .
+(6.58)
+Since variances are measured in squared units, this looks very much like
+the Pythagorean theorem for right triangles c2 = a2 + b2.
+In the following, we see whether we can find a geometric interpreta-
+tion of the variance relation of uncorrelated random variables in (6.58).
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 202 ===
+196
+Probability and Distributions
+Figure 6.6
+Geometry of
+random variables. If
+random variables X
+and Y are
+uncorrelated, they
+are orthogonal
+vectors in a
+corresponding
+vector space, and
+the Pythagorean
+theorem applies.
+p
+var[y]
+p
+var[x]
+p
+var[x + y] =
+p
+var[x] + var[y]
+a
+c
+b
+Random variables can be considered vectors in a vector space, and we
+can define inner products to obtain geometric properties of random vari-
+ables (Eaton, 2007). If we define
+⟨X, Y ⟩:= Cov[x, y]
+(6.59)
+for zero mean random variables X and Y , we obtain an inner product. We
+see that the covariance is symmetric, positive definite, and linear in either
+Cov[x, x] = 0 ⇐⇒
+x = 0
+argument. The length of a random variable is
+Cov[αx + z, y] =
+α Cov[x, y] +
+Cov[z, y] for α ∈R.
+∥X∥=
+q
+Cov[x, x] =
+q
+V[x] = σ[x] ,
+(6.60)
+i.e., its standard deviation. The “longer” the random variable, the more
+uncertain it is; and a random variable with length 0 is deterministic.
+If we look at the angle θ between two random variables X, Y , we get
+cos θ =
+⟨X, Y ⟩
+∥X∥∥Y ∥=
+Cov[x, y]
+p
+V[x]V[y] ,
+(6.61)
+which is the correlation (Definition 6.8) between the two random vari-
+ables. This means that we can think of correlation as the cosine of the
+angle between two random variables when we consider them geometri-
+cally. We know from Definition 3.7 that X ⊥Y
+⇐⇒⟨X, Y ⟩= 0. In our
+case, this means that X and Y are orthogonal if and only if Cov[x, y] = 0,
+i.e., they are uncorrelated. Figure 6.6 illustrates this relationship.
+Remark. While it is tempting to use the Euclidean distance (constructed
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 203 ===
+6.5 Gaussian Distribution
+197
+Figure 6.7
+Gaussian
+distribution of two
+random variables x1
+and x2.
+x1
+−1
+0
+1
+x2
+−5.0
+−2.50.02.55.07.5
+p(x1, x2)
+0.00
+0.05
+0.10
+0.15
+0.20
+from the preceding definition of inner products) to compare probability
+distributions, it is unfortunately not the best way to obtain distances be-
+tween distributions. Recall that the probability mass (or density) is posi-
+tive and needs to add up to 1. These constraints mean that distributions
+live on something called a statistical manifold. The study of this space of
+probability distributions is called information geometry. Computing dis-
+tances between distributions are often done using Kullback-Leibler diver-
+gence, which is a generalization of distances that account for properties of
+the statistical manifold. Just like the Euclidean distance is a special case of
+a metric (Section 3.3), the Kullback-Leibler divergence is a special case of
+two more general classes of divergences called Bregman divergences and
+f-divergences. The study of divergences is beyond the scope of this book,
+and we refer for more details to the recent book by Amari (2016), one of
+the founders of the field of information geometry.
+♢
+6.5 Gaussian Distribution
+The Gaussian distribution is the most well-studied probability distribution
+for continuous-valued random variables. It is also referred to as the normal
+normal distribution
+distribution. Its importance originates from the fact that it has many com-
+The Gaussian
+distribution arises
+naturally when we
+consider sums of
+independent and
+identically
+distributed random
+variables. This is
+known as the
+central limit
+theorem (Grinstead
+and Snell, 1997).
+putationally convenient properties, which we will be discussing in the fol-
+lowing. In particular, we will use it to define the likelihood and prior for
+linear regression (Chapter 9), and consider a mixture of Gaussians for
+density estimation (Chapter 11).
+There are many other areas of machine learning that also benefit from
+using a Gaussian distribution, for example Gaussian processes, variational
+inference, and reinforcement learning. It is also widely used in other ap-
+plication areas such as signal processing (e.g., Kalman filter), control (e.g.,
+linear quadratic regulator), and statistics (e.g., hypothesis testing).
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 204 ===
+198
+Probability and Distributions
+Figure 6.8
+Gaussian
+distributions
+overlaid with 100
+samples. (a) One-
+dimensional case;
+(b) two-dimensional
+case.
+−5.0
+−2.5
+0.0
+2.5
+5.0
+7.5
+x
+0.00
+0.05
+0.10
+0.15
+0.20
+p(x)
+Mean
+Sample
+2σ
+(a) Univariate (one-dimensional) Gaussian;
+The red cross shows the mean and the red
+line shows the extent of the variance.
+−1
+0
+1
+x1
+−4
+−2
+0
+2
+4
+6
+8
+x2
+Mean
+Sample
+(b) Multivariate (two-dimensional) Gaus-
+sian, viewed from top. The red cross shows
+the mean and the colored lines show the con-
+tour lines of the density.
+For a univariate random variable, the Gaussian distribution has a den-
+sity that is given by
+p(x | µ, σ2) =
+1
+√
+2πσ2 exp
+
+−(x −µ)2
+2σ2
+
+.
+(6.62)
+The multivariate Gaussian distribution is fully characterized by a mean
+multivariate
+Gaussian
+distribution
+mean vector
+vector µ and a covariance matrix Σ and defined as
+covariance matrix
+p(x | µ, Σ) = (2π)−D
+2 |Σ|−1
+2 exp
+  −1
+2(x −µ)⊤Σ−1(x −µ)
+ ,
+(6.63)
+where x ∈RD. We write p(x) = N
+ x | µ, Σ
+
+or X ∼N
+ µ, Σ
+
+. Fig-
+Also known as a
+multivariate normal
+distribution.
+ure 6.7 shows a bivariate Gaussian (mesh), with the corresponding con-
+tour plot. Figure 6.8 shows a univariate Gaussian and a bivariate Gaussian
+with corresponding samples. The special case of the Gaussian with zero
+mean and identity covariance, that is, µ = 0 and Σ = I, is referred to as
+the standard normal distribution.
+standard normal
+distribution
+Gaussians are widely used in statistical estimation and machine learn-
+ing as they have closed-form expressions for marginal and conditional dis-
+tributions. In Chapter 9, we use these closed-form expressions extensively
+for linear regression. A major advantage of modeling with Gaussian ran-
+dom variables is that variable transformations (Section 6.7) are often not
+needed. Since the Gaussian distribution is fully specified by its mean and
+covariance, we often can obtain the transformed distribution by applying
+the transformation to the mean and covariance of the random variable.
+6.5.1 Marginals and Conditionals of Gaussians are Gaussians
+In the following, we present marginalization and conditioning in the gen-
+eral case of multivariate random variables. If this is confusing at first read-
+ing, the reader is advised to consider two univariate random variables in-
+stead. Let X and Y be two multivariate random variables, that may have
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 205 ===
+6.5 Gaussian Distribution
+199
+different dimensions. To consider the effect of applying the sum rule of
+probability and the effect of conditioning, we explicitly write the Gaus-
+sian distribution in terms of the concatenated states [x⊤y⊤]⊤so that
+p(x, y) = N
+µx
+µy
+
+,
+Σxx
+Σxy
+Σyx
+Σyy
+
+,
+(6.64)
+where Σxx = Cov[x, x] and Σyy = Cov[y, y] are the marginal covari-
+ance matrices of x and y, respectively, and Σxy = Cov[x, y] is the cross-
+covariance matrix between x and y.
+The conditional distribution p(x | y) is also Gaussian (illustrated in Fig-
+ure 6.9(c)) and given by (derived in Section 2.3 of Bishop, 2006)
+p(x | y) = N
+ µx | y, Σx | y
+
+(6.65)
+µx | y = µx + ΣxyΣ−1
+yy (y −µy)
+(6.66)
+Σx | y = Σxx −ΣxyΣ−1
+yy Σyx .
+(6.67)
+Note that in the computation of the mean in (6.66), the y-value is an
+observation and no longer random.
+Remark. The conditional Gaussian distribution shows up in many places,
+where we are interested in posterior distributions:
+The Kalman filter (Kalman, 1960), one of the most central algorithms
+for state estimation in signal processing, does nothing but computing
+Gaussian conditionals of joint distributions (Deisenroth and Ohlsson,
+2011; S¨arkk¨a, 2013).
+Gaussian processes (Rasmussen and Williams, 2006), which are a prac-
+tical implementation of a distribution over functions. In a Gaussian pro-
+cess, we make assumptions of joint Gaussianity of random variables. By
+(Gaussian) conditioning on observed data, we can determine a poste-
+rior distribution over functions.
+Latent linear Gaussian models (Roweis and Ghahramani, 1999; Mur-
+phy, 2012), which include probabilistic principal component analysis
+(PPCA) (Tipping and Bishop, 1999). We will look at PPCA in more de-
+tail in Section 10.7.
+♢
+The marginal distribution p(x) of a joint Gaussian distribution p(x, y)
+(see (6.64)) is itself Gaussian and computed by applying the sum rule
+(6.20) and given by
+p(x) =
+Z
+p(x, y)dy = N
+ x | µx, Σxx
+ .
+(6.68)
+The corresponding result holds for p(y), which is obtained by marginaliz-
+ing with respect to x. Intuitively, looking at the joint distribution in (6.64),
+we ignore (i.e., integrate out) everything we are not interested in. This is
+illustrated in Figure 6.9(b).
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 206 ===
+200
+Probability and Distributions
+Example 6.6
+Figure 6.9
+(a) Bivariate
+Gaussian;
+(b) marginal of a
+joint Gaussian
+distribution is
+Gaussian; (c) the
+conditional
+distribution of a
+Gaussian is also
+Gaussian.
+−1
+0
+1
+x1
+−4
+−2
+0
+2
+4
+6
+8
+x2
+x2 = −1
+(a) Bivariate Gaussian.
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+x1
+0.0
+0.2
+0.4
+0.6
+p(x1)
+Mean
+2σ
+(b) Marginal distribution.
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+x1
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+p(x1|x2 = −1)
+Mean
+2σ
+(c) Conditional distribution.
+Consider the bivariate Gaussian distribution (illustrated in Figure 6.9):
+p(x1, x2) = N
+0
+2
+
+,
+0.3
+−1
+−1
+5
+
+.
+(6.69)
+We can compute the parameters of the univariate Gaussian, conditioned
+on x2 = −1, by applying (6.66) and (6.67) to obtain the mean and vari-
+ance respectively. Numerically, this is
+µx1 | x2=−1 = 0 + (−1) · 0.2 · (−1 −2) = 0.6
+(6.70)
+and
+σ2
+x1 | x2=−1 = 0.3 −(−1) · 0.2 · (−1) = 0.1 .
+(6.71)
+Therefore, the conditional Gaussian is given by
+p(x1 | x2 = −1) = N
+ 0.6, 0.1
+ .
+(6.72)
+The marginal distribution p(x1), in contrast, can be obtained by apply-
+ing (6.68), which is essentially using the mean and variance of the random
+variable x1, giving us
+p(x1) = N
+ 0, 0.3
+ .
+(6.73)
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 207 ===
+6.5 Gaussian Distribution
+201
+6.5.2 Product of Gaussian Densities
+For linear regression (Chapter 9), we need to compute a Gaussian likeli-
+hood. Furthermore, we may wish to assume a Gaussian prior (Section 9.3).
+We apply Bayes’ Theorem to compute the posterior, which results in a mul-
+tiplication of the likelihood and the prior, that is, the multiplication of two
+Gaussian densities. The product of two Gaussians N
+ x | a, A
+N
+ x | b, B
+
+The derivation is an
+exercise at the end
+of this chapter.
+is a Gaussian distribution scaled by a c ∈R, given by c N
+ x | c, C
+
+with
+C = (A−1 + B−1)−1
+(6.74)
+c = C(A−1a + B−1b)
+(6.75)
+c = (2π)−D
+2 |A + B|−1
+2 exp
+  −1
+2(a −b)⊤(A + B)−1(a −b)
+ . (6.76)
+The scaling constant c itself can be written in the form of a Gaussian
+density either in a or in b with an “inflated” covariance matrix A + B,
+i.e., c = N
+ a | b, A + B
+ = N
+ b | a, A + B
+
+.
+Remark. For notation convenience, we will sometimes use N
+ x | m, S
+
+to describe the functional form of a Gaussian density even if x is not a
+random variable. We have just done this in the preceding demonstration
+when we wrote
+c = N
+ a | b, A + B
+ = N
+ b | a, A + B
+ .
+(6.77)
+Here, neither a nor b are random variables. However, writing c in this way
+is more compact than (6.76).
+♢
+6.5.3 Sums and Linear Transformations
+If X, Y are independent Gaussian random variables (i.e., the joint distri-
+bution is given as p(x, y) = p(x)p(y)) with p(x) = N
+ x | µx, Σx
+
+and
+p(y) = N
+ y | µy, Σy
+
+, then x + y is also Gaussian distributed and given
+by
+p(x + y) = N
+ µx + µy, Σx + Σy
+ .
+(6.78)
+Knowing that p(x + y) is Gaussian, the mean and covariance matrix can
+be determined immediately using the results from (6.46) through (6.49).
+This property will be important when we consider i.i.d. Gaussian noise
+acting on random variables, as is the case for linear regression (Chap-
+ter 9).
+Example 6.7
+Since expectations are linear operations, we can obtain the weighted sum
+of independent Gaussian random variables
+p(ax + by) = N
+ aµx + bµy, a2Σx + b2Σy
+ .
+(6.79)
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 297 ===
+9.1 Problem Formulation
+291
+9.1 Problem Formulation
+Because of the presence of observation noise, we will adopt a probabilis-
+tic approach and explicitly model the noise using a likelihood function.
+More specifically, throughout this chapter, we consider a regression prob-
+lem with the likelihood function
+p(y | x) = N
+ y | f(x), σ2 .
+(9.1)
+Here, x ∈RD are inputs and y ∈R are noisy function values (targets).
+With (9.1), the functional relationship between x and y is given as
+y = f(x) + ϵ ,
+(9.2)
+where ϵ ∼N
+ 0, σ2
+is independent, identically distributed (i.i.d.) Gaus-
+sian measurement noise with mean 0 and variance σ2. Our objective is
+to find a function that is close (similar) to the unknown function f that
+generated the data and that generalizes well.
+In this chapter, we focus on parametric models, i.e., we choose a para-
+metrized function and find parameters θ that “work well” for modeling the
+data. For the time being, we assume that the noise variance σ2 is known
+and focus on learning the model parameters θ. In linear regression, we
+consider the special case that the parameters θ appear linearly in our
+model. An example of linear regression is given by
+p(y | x, θ) = N
+ y | x⊤θ, σ2
+(9.3)
+⇐⇒y = x⊤θ + ϵ ,
+ϵ ∼N
+ 0, σ2 ,
+(9.4)
+where θ ∈RD are the parameters we seek. The class of functions de-
+scribed by (9.4) are straight lines that pass through the origin. In (9.4),
+we chose a parametrization f(x) = x⊤θ.
+A Dirac delta (delta
+function) is zero
+everywhere except
+at a single point,
+and its integral is 1.
+It can be considered
+a Gaussian in the
+limit of σ2 →0.
+The likelihood in (9.3) is the probability density function of y evalu-
+likelihood
+ated at x⊤θ. Note that the only source of uncertainty originates from the
+observation noise (as x and θ are assumed known in (9.3)). Without ob-
+servation noise, the relationship between x and y would be deterministic
+and (9.3) would be a Dirac delta.
+Example 9.1
+For x, θ ∈R the linear regression model in (9.4) describes straight lines
+(linear functions), and the parameter θ is the slope of the line. Fig-
+ure 9.2(a) shows some example functions for different values of θ.
+Linear regression
+refers to models that
+are linear in the
+parameters.
+The linear regression model in (9.3)–(9.4) is not only linear in the pa-
+rameters, but also linear in the inputs x. Figure 9.2(a) shows examples
+of such functions. We will see later that y = ϕ⊤(x)θ for nonlinear trans-
+formations ϕ is also a linear regression model because “linear regression”
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 298 ===
+292
+Linear Regression
+Figure 9.2 Linear
+regression example.
+(a) Example
+functions that fall
+into this category;
+(b) training set;
+(c) maximum
+likelihood estimate.
+−10
+0
+10
+x
+−20
+0
+20
+y
+(a) Example functions (straight
+lines) that can be described us-
+ing the linear model in (9.4).
+−10
+−5
+0
+5
+10
+x
+−10
+0
+10
+y
+(b) Training set.
+−10
+−5
+0
+5
+10
+x
+−10
+0
+10
+y
+(c) Maximum likelihood esti-
+mate.
+refers to models that are “linear in the parameters”, i.e., models that de-
+scribe a function by a linear combination of input features. Here, a “fea-
+ture” is a representation ϕ(x) of the inputs x.
+In the following, we will discuss in more detail how to find good pa-
+rameters θ and how to evaluate whether a parameter set “works well”.
+For the time being, we assume that the noise variance σ2 is known.
+9.2 Parameter Estimation
+Consider the linear regression setting (9.4) and assume we are given a
+training set D := {(x1, y1), . . . , (xN, yN)} consisting of N inputs xn ∈
+training set
+RD and corresponding observations/targets yn ∈R, n = 1, . . . , N. The
+Figure 9.3
+Probabilistic
+graphical model for
+linear regression.
+Observed random
+variables are
+shaded,
+deterministic/
+known values are
+without circles.
+θ
+yn
+σ
+xn
+n = 1, . . . , N
+corresponding graphical model is given in Figure 9.3. Note that yi and yj
+are conditionally independent given their respective inputs xi, xj so that
+the likelihood factorizes according to
+p(Y | X, θ) = p(y1, . . . , yN | x1, . . . , xN, θ)
+(9.5a)
+=
+N
+Y
+n=1
+p(yn | xn, θ) =
+N
+Y
+n=1
+N
+ yn | x⊤
+n θ, σ2 ,
+(9.5b)
+where we defined X := {x1, . . . , xN} and Y := {y1, . . . , yN} as the sets
+of training inputs and corresponding targets, respectively. The likelihood
+and the factors p(yn | xn, θ) are Gaussian due to the noise distribution;
+see (9.3).
+In the following, we will discuss how to find optimal parameters θ∗∈
+RD for the linear regression model (9.4). Once the parameters θ∗are
+found, we can predict function values by using this parameter estimate
+in (9.4) so that at an arbitrary test input x∗the distribution of the corre-
+sponding target y∗is
+p(y∗| x∗, θ∗) = N
+ y∗| x⊤
+∗θ∗, σ2 .
+(9.6)
+In the following, we will have a look at parameter estimation by maxi-
+mizing the likelihood, a topic that we already covered to some degree in
+Section 8.3.
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 299 ===
+9.2 Parameter Estimation
+293
+9.2.1 Maximum Likelihood Estimation
+A widely used approach to finding the desired parameters θML is maximum
+maximum likelihood
+estimation
+likelihood estimation, where we find parameters θML that maximize the
+likelihood (9.5b). Intuitively, maximizing the likelihood means maximiz-
+Maximizing the
+likelihood means
+maximizing the
+predictive
+distribution of the
+(training) data
+given the
+parameters.
+ing the predictive distribution of the training data given the model param-
+eters. We obtain the maximum likelihood parameters as
+θML ∈arg max
+θ
+p(Y | X, θ) .
+(9.7)
+The likelihood is not
+a probability
+distribution in the
+parameters.
+Remark. The likelihood p(y | x, θ) is not a probability distribution in θ: It
+is simply a function of the parameters θ but does not integrate to 1 (i.e.,
+it is unnormalized), and may not even be integrable with respect to θ.
+However, the likelihood in (9.7) is a normalized probability distribution
+in y.
+♢
+To find the desired parameters θML that maximize the likelihood, we
+typically perform gradient ascent (or gradient descent on the negative
+likelihood). In the case of linear regression we consider here, however,
+Since the logarithm
+is a (strictly)
+monotonically
+increasing function,
+the optimum of a
+function f is
+identical to the
+optimum of log f.
+a closed-form solution exists, which makes iterative gradient descent un-
+necessary. In practice, instead of maximizing the likelihood directly, we
+apply the log-transformation to the likelihood function and minimize the
+negative log-likelihood.
+Remark (Log-Transformation). Since the likelihood (9.5b) is a product of
+N Gaussian distributions, the log-transformation is useful since (a) it does
+not suffer from numerical underflow, and (b) the differentiation rules will
+turn out simpler. More specifically, numerical underflow will be a prob-
+lem when we multiply N probabilities, where N is the number of data
+points, since we cannot represent very small numbers, such as 10−256.
+Furthermore, the log-transform will turn the product into a sum of log-
+probabilities such that the corresponding gradient is a sum of individual
+gradients, instead of a repeated application of the product rule (5.46) to
+compute the gradient of a product of N terms.
+♢
+To find the optimal parameters θML of our linear regression problem,
+we minimize the negative log-likelihood
+−log p(Y | X, θ) = −log
+N
+Y
+n=1
+p(yn | xn, θ) = −
+N
+X
+n=1
+log p(yn | xn, θ) , (9.8)
+where we exploited that the likelihood (9.5b) factorizes over the number
+of data points due to our independence assumption on the training set.
+In the linear regression model (9.4), the likelihood is Gaussian (due to
+the Gaussian additive noise term), such that we arrive at
+log p(yn | xn, θ) = −1
+2σ2 (yn −x⊤
+n θ)2 + const ,
+(9.9)
+where the constant includes all terms independent of θ. Using (9.9) in the
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 300 ===
+294
+Linear Regression
+negative log-likelihood (9.8), we obtain (ignoring the constant terms)
+L(θ) :=
+1
+2σ2
+N
+X
+n=1
+(yn −x⊤
+n θ)2
+(9.10a)
+=
+1
+2σ2 (y −Xθ)⊤(y −Xθ) =
+1
+2σ2 ∥y −Xθ∥
+2 ,
+(9.10b)
+where we define the design matrix X := [x1, . . . , xN]⊤∈RN×D as the
+The negative
+log-likelihood
+function is also
+called error function.
+design matrix
+collection of training inputs and y := [y1, . . . , yN]⊤∈RN as a vector that
+collects all training targets. Note that the nth row in the design matrix X
+corresponds to the training input xn. In (9.10b), we used the fact that the
+The squared error is
+often used as a
+measure of distance.
+sum of squared errors between the observations yn and the corresponding
+model prediction x⊤
+n θ equals the squared distance between y and Xθ.
+Recall from
+Section 3.1 that
+∥x∥2 = x⊤x if we
+choose the dot
+product as the inner
+product.
+With (9.10b), we have now a concrete form of the negative log-likelihood
+function we need to optimize. We immediately see that (9.10b) is quadratic
+in θ. This means that we can find a unique global solution θML for mini-
+mizing the negative log-likelihood L. We can find the global optimum by
+computing the gradient of L, setting it to 0 and solving for θ.
+Using the results from Chapter 5, we compute the gradient of L with
+respect to the parameters as
+dL
+dθ = d
+dθ
+ 1
+2σ2 (y −Xθ)⊤(y −Xθ)
+
+(9.11a)
+=
+1
+2σ2
+d
+dθ
+
+y⊤y −2y⊤Xθ + θ⊤X⊤Xθ
+
+(9.11b)
+= 1
+σ2 (−y⊤X + θ⊤X⊤X) ∈R1×D .
+(9.11c)
+The maximum likelihood estimator θML solves dL
+dθ = 0⊤(necessary opti-
+mality condition) and we obtain
+Ignoring the
+possibility of
+duplicate data
+points, rk(X) = D
+if N ⩾D, i.e., we
+do not have more
+parameters than
+data points.
+dL
+dθ = 0⊤(9.11c)
+⇐⇒θ⊤
+MLX⊤X = y⊤X
+(9.12a)
+⇐⇒θ⊤
+ML = y⊤X(X⊤X)−1
+(9.12b)
+⇐⇒θML = (X⊤X)−1X⊤y .
+(9.12c)
+We could right-multiply the first equation by (X⊤X)−1 because X⊤X is
+positive definite if rk(X) = D, where rk(X) denotes the rank of X.
+Remark. Setting the gradient to 0⊤is a necessary and sufficient condition,
+and we obtain a global minimum since the Hessian ∇2
+θL(θ) = X⊤X ∈
+RD×D is positive definite.
+♢
+Remark. The maximum likelihood solution in (9.12c) requires us to solve
+a system of linear equations of the form Aθ = b with A = (X⊤X) and
+b = X⊤y.
+♢
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 301 ===
+9.2 Parameter Estimation
+295
+Example 9.2 (Fitting Lines)
+Let us have a look at Figure 9.2, where we aim to fit a straight line f(x) =
+θx, where θ is an unknown slope, to a dataset using maximum likelihood
+estimation. Examples of functions in this model class (straight lines) are
+shown in Figure 9.2(a). For the dataset shown in Figure 9.2(b), we find
+the maximum likelihood estimate of the slope parameter θ using (9.12c)
+and obtain the maximum likelihood linear function in Figure 9.2(c).
+Maximum Likelihood Estimation with Features
+So far, we considered the linear regression setting described in (9.4),
+which allowed us to fit straight lines to data using maximum likelihood
+estimation. However, straight lines are not sufficiently expressive when it
+Linear regression
+refers to “linear-in-
+the-parameters”
+regression models,
+but the inputs can
+undergo any
+nonlinear
+transformation.
+comes to fitting more interesting data. Fortunately, linear regression offers
+us a way to fit nonlinear functions within the linear regression framework:
+Since “linear regression” only refers to “linear in the parameters”, we can
+perform an arbitrary nonlinear transformation ϕ(x) of the inputs x and
+then linearly combine the components of this transformation. The corre-
+sponding linear regression model is
+p(y | x, θ) = N
+ y | ϕ⊤(x)θ, σ2
+⇐⇒y = ϕ⊤(x)θ + ϵ =
+K−1
+X
+k=0
+θkϕk(x) + ϵ ,
+(9.13)
+where ϕ : RD →RK is a (nonlinear) transformation of the inputs x and
+ϕk : RD →R is the kth component of the feature vector ϕ. Note that the
+feature vector
+model parameters θ still appear only linearly.
+Example 9.3 (Polynomial Regression)
+We are concerned with a regression problem y = ϕ⊤(x)θ+ϵ, where x ∈R
+and θ ∈RK. A transformation that is often used in this context is
+ϕ(x) =
+
+
+ϕ0(x)
+ϕ1(x)
+...
+ϕK−1(x)
+
+=
+
+
+1
+x
+x2
+x3
+...
+xK−1
+
+
+∈RK .
+(9.14)
+This means that we “lift” the original one-dimensional input space into
+a K-dimensional feature space consisting of all monomials xk for k =
+0, . . . , K −1. With these features, we can model polynomials of degree
+⩽K−1 within the framework of linear regression: A polynomial of degree
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 306 ===
+300
+Linear Regression
+Figure 9.6 Training
+and test error.
+0
+2
+4
+6
+8
+10
+Degree of polynomial
+0
+2
+4
+6
+8
+10
+RMSE
+Training error
+Test error
+maximum likelihood fits in Figure 9.5. Note that the training error (blue
+training error
+curve in Figure 9.6) never increases when the degree of the polynomial in-
+creases. In our example, the best generalization (the point of the smallest
+test error) is obtained for a polynomial of degree M = 4.
+test error
+9.2.3 Maximum A Posteriori Estimation
+We just saw that maximum likelihood estimation is prone to overfitting.
+We often observe that the magnitude of the parameter values becomes
+relatively large if we run into overfitting (Bishop, 2006).
+To mitigate the effect of huge parameter values, we can place a prior
+distribution p(θ) on the parameters. The prior distribution explicitly en-
+codes what parameter values are plausible (before having seen any data).
+For example, a Gaussian prior p(θ) = N
+ 0, 1
+
+on a single parameter
+θ encodes that parameter values are expected lie in the interval [−2, 2]
+(two standard deviations around the mean value). Once a dataset X, Y
+is available, instead of maximizing the likelihood we seek parameters that
+maximize the posterior distribution p(θ | X, Y). This procedure is called
+maximum a posteriori (MAP) estimation.
+maximum a
+posteriori
+MAP
+The posterior over the parameters θ, given the training data X, Y, is
+obtained by applying Bayes’ theorem (Section 6.3) as
+p(θ | X, Y) = p(Y | X, θ)p(θ)
+p(Y | X)
+.
+(9.24)
+Since the posterior explicitly depends on the parameter prior p(θ), the
+prior will have an effect on the parameter vector we find as the maximizer
+of the posterior. We will see this more explicitly in the following. The
+parameter vector θMAP that maximizes the posterior (9.24) is the MAP
+estimate.
+To find the MAP estimate, we follow steps that are similar in flavor
+to maximum likelihood estimation. We start with the log-transform and
+compute the log-posterior as
+log p(θ | X, Y) = log p(Y | X, θ) + log p(θ) + const ,
+(9.25)
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 307 ===
+9.2 Parameter Estimation
+301
+where the constant comprises the terms that are independent of θ. We see
+that the log-posterior in (9.25) is the sum of the log-likelihood p(Y | X, θ)
+and the log-prior log p(θ) so that the MAP estimate will be a “compromise”
+between the prior (our suggestion for plausible parameter values before
+observing data) and the data-dependent likelihood.
+To find the MAP estimate θMAP, we minimize the negative log-posterior
+distribution with respect to θ, i.e., we solve
+θMAP ∈arg min
+θ {−log p(Y | X, θ) −log p(θ)} .
+(9.26)
+The gradient of the negative log-posterior with respect to θ is
+−d log p(θ | X, Y)
+dθ
+= −d log p(Y | X, θ)
+dθ
+−d log p(θ)
+dθ
+,
+(9.27)
+where we identify the first term on the right-hand side as the gradient of
+the negative log-likelihood from (9.11c).
+With a (conjugate) Gaussian prior p(θ) = N
+ 0, b2I
+
+on the parameters
+θ, the negative log-posterior for the linear regression setting (9.13), we
+obtain the negative log posterior
+−log p(θ | X, Y) =
+1
+2σ2 (y −Φθ)⊤(y −Φθ) + 1
+2b2 θ⊤θ + const . (9.28)
+Here, the first term corresponds to the contribution from the log-likelihood,
+and the second term originates from the log-prior. The gradient of the log-
+posterior with respect to the parameters θ is then
+−d log p(θ | X, Y)
+dθ
+= 1
+σ2 (θ⊤Φ⊤Φ −y⊤Φ) + 1
+b2 θ⊤.
+(9.29)
+We will find the MAP estimate θMAP by setting this gradient to 0⊤and
+solving for θMAP. We obtain
+1
+σ2 (θ⊤Φ⊤Φ −y⊤Φ) + 1
+b2 θ⊤= 0⊤
+(9.30a)
+⇐⇒θ⊤
+ 1
+σ2 Φ⊤Φ + 1
+b2 I
+
+−1
+σ2 y⊤Φ = 0⊤
+(9.30b)
+⇐⇒θ⊤
+
+Φ⊤Φ + σ2
+b2 I
+
+= y⊤Φ
+(9.30c)
+⇐⇒θ⊤= y⊤Φ
+
+Φ⊤Φ + σ2
+b2 I
+−1
+(9.30d)
+so that the MAP estimate is (by transposing both sides of the last equality)
+Φ⊤Φ is symmetric,
+positive semi
+definite. The
+additional term
+in (9.31) is strictly
+positive definite so
+that the inverse
+exists.
+θMAP =
+
+Φ⊤Φ + σ2
+b2 I
+−1
+Φ⊤y .
+(9.31)
+Comparing the MAP estimate in (9.31) with the maximum likelihood es-
+timate in (9.19), we see that the only difference between both solutions
+is the additional term σ2
+b2 I in the inverse matrix. This term ensures that
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+=== 교과서/Mathematics_for_Machine_Learning.pdf PDF page 308 ===
+302
+Linear Regression
+Φ⊤Φ + σ2
+b2 I is symmetric and strictly positive definite (i.e., its inverse
+exists and the MAP estimate is the unique solution of a system of linear
+equations). Moreover, it reflects the impact of the regularizer.
+Example 9.6 (MAP Estimation for Polynomial Regression)
+In the polynomial regression example from Section 9.2.1, we place a Gaus-
+sian prior p(θ) = N
+ 0, I
+
+on the parameters θ and determine the MAP
+estimates according to (9.31). In Figure 9.7, we show both the maximum
+likelihood and the MAP estimates for polynomials of degree 6 (left) and
+degree 8 (right). The prior (regularizer) does not play a significant role
+for the low-degree polynomial, but keeps the function relatively smooth
+for higher-degree polynomials. Although the MAP estimate can push the
+boundaries of overfitting, it is not a general solution to this problem, so
+we need a more principled approach to tackle overfitting.
+Figure 9.7
+Polynomial
+regression:
+maximum likelihood
+and MAP estimates.
+(a) Polynomials of
+degree 6;
+(b) polynomials of
+degree 8.
+−4
+−2
+0
+2
+4
+x
+−4
+−2
+0
+2
+4
+y
+Training data
+MLE
+MAP
+(a) Polynomials of degree 6.
+−4
+−2
+0
+2
+4
+x
+−4
+−2
+0
+2
+4
+y
+Training data
+MLE
+MAP
+(b) Polynomials of degree 8.
+9.2.4 MAP Estimation as Regularization
+Instead of placing a prior distribution on the parameters θ, it is also pos-
+sible to mitigate the effect of overfitting by penalizing the amplitude of
+the parameter by means of regularization. In regularized least squares, we
+regularization
+regularized least
+squares
+consider the loss function
+∥y −Φθ∥
+2 + λ ∥θ∥
+2
+2 ,
+(9.32)
+which we minimize with respect to θ (see Section 8.2.3). Here, the first
+term is a data-fit term (also called misfit term), which is proportional to
+data-fit term
+misfit term
+the negative log-likelihood; see (9.10b). The second term is called the
+regularizer, and the regularization parameter λ ⩾0 controls the “strict-
+regularizer
+regularization
+parameter
+ness” of the regularization.
+Remark. Instead of the Euclidean norm ∥·∥2, we can choose any p-norm
+∥·∥p in (9.32). In practice, smaller values for p lead to sparser solutions.
+Here, “sparse” means that many parameter values θd = 0, which is also
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.

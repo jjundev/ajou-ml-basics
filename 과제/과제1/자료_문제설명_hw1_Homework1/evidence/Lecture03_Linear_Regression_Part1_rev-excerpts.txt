@@ -1,0 +1,187 @@
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 17 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+MLE with Features
+17
+• Linear regression: Linear in terms of the parameters
+→ω(x)Tω is also ﬁne, where ω(x) can be non-linear (still linear in ω).
+→ω(x) are the features.
+• Linear regression with the parameter ω →RK, ω(x) : RD ↑↓RK:
+p(y | x) = N(y | ω(x)Tω, ε2) ↔↗y = ω(x)Tω + ϑ =
+K→1
+!
+k=0
+ϖkωk(x) + ϑ
+• Example. Polynomial regression. For x →R and ω →RK, we lift the original 1-D
+input into K-D feature space with monomials xk:
+ω(x) =
+
+
+
+ω0(x)
+...
+ωK→1(x)
+
+
+=
+
+
+
+1
+...
+xK→1
+
+
+→RK
+=↗
+f (x) =
+K→1
+!
+k=0
+ϖkxk
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 18 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+Feature Matrix & MLE
+18
+• Now, for the entire training set {x1, . . . , xN},
+! :=
+
+
+
+ωT(x1)
+...
+ωT(xN)
+
+
+=
+
+
+
+ω0(x1)
+· · ·
+ωK→1(x1)
+...
+· · ·
+...
+ω0(xN)
+· · ·
+ωK→1(xN)
+
+
+→RN↑K, !ij = ωj(xi), ωj : RD ↑↓R
+• Negative log-likelihood: Similarly to the case of y = Xω,
+→p(Y|X, ω) = N(y | !ω, ε2I)
+→Negative-log likelihood for f (x) = ωT(x)ω + N(0, ε2):
+↔log p(Y | X, ω) =
+1
+2ε2 ↗y ↔!ω↗2 + const
+• MLE: ωML = (!T!)→1!Ty
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 22 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+MAPE (Maximum A Posteriori Estimation)
+22
+• MLE: prone to overﬁtting, where the magnitude of the parameters becomes large.
+• a prior distribution p(ω) helps: what ω is plausible
+• MAPE and Bayes’ theorem
+p(ω | X, Y) = p(Y | X, ω)p(ω)
+p(Y | X)
+=→ωMAP ↑arg min
+ω
+!
+↓log p(Y | X, ω) ↓log p(ω)
+"
+• Gradient
+↓d log p(ω|X, Y)
+dω
+= ↓d log p(Y|X, ω)
+dω
+↓d log p(ω)
+dω
+Assumption: The prior distribution of ω does not depend on the inputs X. →p(ω | X) = p(ω).
+Thus, observing the inputs alone does not update our prior belief about ω.
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 23 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+MAPE for Gaussian Prior (1)
+23
+• Example. A (conjugate) Gaussian prior p(ω) →N(0, b2I)
+→For Gaussian likelihood, Gaussian prior =↑Gaussian posterior
+• Negative log-posterior
+Negative-log posterior for f (x) = ωT(x)ω + N(0, ε2) and p(ω) →N(0, b2I):
+↓log p(ω|X, Y) =
+1
+2ε2 (y ↓!ω)T(y ↓!ω) +
+1
+2b2 ωTω + const
+• Gradient
+↓d log p(ω|X, Y)
+dω
+= 1
+ε2 (ωT!T! ↓y T!) + 1
+b2 ωT
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 24 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+MAPE for Gaussian Prior (2)
+24
+• MAP vs. ML
+ωMAP =
+!
+!T! + ω2
+b2 I
+"
+#
+$%
+&
+(→)
+↑1
+!Ty,
+ωML = (!T!)
+↑1!Ty
+• The term ω2
+b2 I
+→Ensures that (→) is symmetric, strictly positive deﬁnite
+→Role of regularizer
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 25 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+Aside: MAPE for General Gaussian Prior (3)
+25
+• Example. A (conjugate) Gaussian prior p(ω) →N(m0, S0)
+• Negative log-posterior
+Negative-log posterior for f (x) = ωT(x)ω + N(0, ε2) and p(ω) →N(m0, S0):
+↑log p(ω|X, Y) =
+1
+2ε2 (y ↑!ω)T(y ↑!ω) + 1
+2(ω ↑m0)TS→1
+0 (ω ↑m0) + const
+• We will use this later for computing the parameter posterior distribution in Bayesian
+linear regression.
+
+=== 강의노트/Lecture03_Linear_Regression_Part1_rev.pdf PDF page 26 ===
+Introduction to Machine Learning
+Sept. 23, 2026
+Regularization: MAPE vs. Explicit Regularizer
+26
+• Explicit regularizer in regularized least squares (RLS)
+→y ↑!ω→2 + ω →ω→2
+• MAPE wth Gaussian prior p(ω) ↓N(0, b2I)
+→Negative log-Gaussian prior
+↑log p(ω) =
+1
+2b2 ωTω + const
+→ω = 1/2b2 is the regularization term
+• Not surprising that we have
+ωRLS =
+!
+!T! + ωI
+"→1
+!Ty
