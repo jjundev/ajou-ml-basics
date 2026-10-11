@@ -57,6 +57,10 @@ def validate_manifest(m):
     for ident,s in segments.items():
         if s.get('scene_id') not in scenes: errors.append(ident+':scene')
         for field in ('text','caption'): text(s,field,ident)
+        if 'subtitle_text' in s:
+            text(s,'subtitle_text',ident)
+            if isinstance(s['subtitle_text'],str) and any(c in s['subtitle_text'] for c in ('\n','\r','\x00')):
+                errors.append(ident+':subtitle_text must be a single line of full narration')
         refs(s,'source_ids',sources,ident,True)
         for rid in refs(s,'requirement_ids',reqs,ident):
             linked.add(rid); by_requirement.setdefault(rid,set()).add(ident)

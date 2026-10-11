@@ -2,7 +2,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 import json,os,re,shutil,signal,subprocess,time,uuid,wave
 from .cache import digest,file_hash,cache_valid,atomic_json
-from .render_options import load_render_options,validate_render_options
+from .render_options import load_render_options,validate_render_options,resolve_scene_workers,detect_hardware
 
 def _stop_process_tree(proc):
     if os.name=='nt':
@@ -144,6 +144,8 @@ def cpu_backend(entry,options):
 def render_parts(parts,run,backend):
     run=Path(run)
     options=validate_render_options(backend['render_options']) if 'render_options' in backend else load_render_options(run)
+    host=detect_hardware() if options['workers']=='auto' else None
+    selections=[resolve_scene_workers(run,p,options,hardware=host) for p in parts]
     require_dark_entries(parts,run); dest=run/'renders/parts'; dest.mkdir(parents=True,exist_ok=True)
     entry=Path(backend['hyperframes_entry']).resolve()
     if not entry.is_file(): raise ValueError('HyperFrames Node entry is missing')
@@ -154,11 +156,13 @@ def render_parts(parts,run,backend):
     dependencies={p.relative_to(run).as_posix():file_hash(p) for p in run.rglob('*')
                   if p.is_file() and p.suffix in ('.html','.css','.js','.svg','.png','.jpg','.jpeg','.webp','.woff2')
                   and p.relative_to(run).parts[0] not in ('renders','verification','work')}
-    renderer={name:file_hash(Path(__file__).with_name(name)) for name in ('render.py','render_options.py')}
+    renderer={name:file_hash(Path(__file__).with_name(name)) for name in ('render.py','render_options.py','workload.py')}
     outputs=[]
-    for part in parts:
+    for part,selection in zip(parts,selections):
         out=dest/(part['id']+'.mp4'); receipt=out.with_suffix('.json')
-        key=digest({'part':part,'dependencies':dependencies,'render_options':options,'versions':versions,'renderer':renderer})
+        motion_files=[run/'source/timeline.json',run/'source/scene-fragments'/(part['id']+'.motion.json')]
+        metadata={p.relative_to(run).as_posix():file_hash(p) for p in motion_files if p.is_file()}
+        key=digest({'motion_metadata':metadata,'part':part,'dependencies':dependencies,'render_options':options,'versions':versions,'renderer':renderer,'worker_selection':selection})
         old=None
         if receipt.exists():
             try: old=json.loads(receipt.read_text(encoding='utf-8'))
@@ -168,7 +172,7 @@ def render_parts(parts,run,backend):
         out.with_name(out.stem+'.pending.mp4').unlink(missing_ok=True) # clean legacy abandoned output
         pending=out.with_name(out.stem+'.'+uuid.uuid4().hex+'.pending.mp4')
         args=[str(a) for a in ['node',entry,'render','--composition',part['entry'],'--quality','delivery',
-                              '--workers',options['workers'],'--experimental-fast-capture=false','--output',pending]]
+                              '--workers',selection['workers'],'--experimental-fast-capture=false','--output',pending]]
         started=time.monotonic()
         try:
             try: r=command(args,run,timeout=3600)
@@ -180,7 +184,7 @@ def render_parts(parts,run,backend):
             if r.returncode or not pending.is_file() or not frames_ok(pending,part['frames']):
                 raise RuntimeError('scene render failed: '+part['id'])
             record={'key':key,'output_sha256':file_hash(pending),'frames':part['frames'],
-                    'render_options':options,'args':args,'elapsed_seconds':time.monotonic()-started,'versions':versions}
+                    'render_options':options,'worker_selection':selection,'args':args,'elapsed_seconds':time.monotonic()-started,'versions':versions}
             commit_media_receipt(pending,record,out,receipt)
             outputs.append(out)
         finally: pending.unlink(missing_ok=True)

@@ -41,3 +41,9 @@ python3 SKILL/tests/integration_smoke.py --run SCRATCH --hyperframes-entry LOCAL
 최종 날짜 폴더에는 자막본만 남기고 복습영상/README.md·catalog.json은 실제 최종 파일의 경로·크기·SHA256으로 갱신한다. 마스터 검증 지문·review.mp4 링크·latest.json 해시는 자막본에 맞춰 수정하지 않는다. 재검증·revoice·자막 재굽기에는 해당 RUN에서 render로 재생성한 자막 없는 마스터를 쓴다.
 
 멀티코어 검증은 workers 2/6의 모든 decoded frame MD5, PCM, AAC와 원자료 SHA를 비교한다. synthetic PCM 결과는 실제 음성 승인과 분리한다. 작업자 설정 변경 시 음성/타임라인 hash 유지, 실패/중단 시 이전 미디어와 기록 보존 및 rollback 잔여 시 재시도 차단을 확인한다. 실행 시간 개선과 저하 모두 기록한다.
+
+## 장면별 자동 작업자
+
+새 기본 workers=auto는 동작 JSON과 실측 타임라인의 동작 합집합을 분석한다. 검증된 M5/10코어/16GiB에서 장면 >=900프레임이며 동작 비율 >0.5면 6개, 나머지·정보 누락은 2개다. 손상 정보는 오류다. CLI auto/1..6 > 저장값 > auto 순이며 schema1 숫자는 유지한다. auto 명시 override만 schema2로 전환한다. 실제 선택·이유·동작 비율은 장면/마스터 영수증과 캐시 키에 들어간다. 설정 변경은 TTS·조립을 재실행하지 않는다. 재음성에서는 재렌더 장면에만 정책을 적용하고 retime 구간은 기존 프레임을 사용한다.
+
+검증: test_workload.py의 경계·겹침·누락·손상, test_render_options.py의 기존 숫자 보존, test_numeric_subtitles.py의 발화/표시 분리와 숫자단위 보호를 전체 회귀 검사와 함께 실행한다. 실제 ML 그래프/KaTeX 검증은 tests/render_performance_acceptance.py --auto-compare --destination <새폴더> --hyperframes-entry <로컬 Node entry>로 정적/동적 혼합 장면의 auto와 고정 2/6의 프레임·PCM·AAC 동일성을 확인한다. 음성은 합성 PCM이며 유료 TTS 호출은 없다.

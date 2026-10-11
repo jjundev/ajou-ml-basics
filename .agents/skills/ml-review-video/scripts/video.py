@@ -41,6 +41,13 @@ def config_for(args,run=None):
     if set(config)-allowed: raise ValueError('unknown config keys; never put credentials in config')
     config['direction']=(SKILL/'assets/vertex-direction.txt').read_text(encoding='utf-8').strip()
     return config
+def render_workers(value):
+    if value=='auto':return value
+    try:workers=int(value)
+    except ValueError:raise argparse.ArgumentTypeError('workers must be auto or 1..6')
+    if not 1<=workers<=6:raise argparse.ArgumentTypeError('workers must be auto or 1..6')
+    return workers
+
 def parser():
     p=argparse.ArgumentParser(description=__doc__); sub=p.add_subparsers(dest='command',required=True)
     q=sub.add_parser('prepare'); q.add_argument('selector',nargs='?')
@@ -57,7 +64,7 @@ def parser():
         if name=='tts': q.add_argument('--approve-review',action='store_true')
         if name=='assemble': q.add_argument('--pack',required=True); q.add_argument('--assets-from')
         if name in ('render','verify','revoice'): q.add_argument('--hyperframes-entry')
-        if name in ('render','revoice'):q.add_argument('--render-workers',type=int,choices=range(1,7))
+        if name in ('render','revoice'):q.add_argument('--render-workers',type=render_workers,choices=('auto',1,2,3,4,5,6))
         if name=='revoice': q.add_argument('--source-run',required=True)
     for q in sub.choices.values():
         q.add_argument('--config'); q.add_argument('--voice'); q.add_argument('--env-file')

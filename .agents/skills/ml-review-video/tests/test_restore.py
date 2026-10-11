@@ -13,6 +13,10 @@ class RestoreTests(unittest.TestCase):
   self.assertEqual(restore['commit'],'7b2028e82f92962dd12b7f8b76580f6ee7b39682')
   port=json.loads((s/'assets/render-port-provenance.json').read_text())
   current={r['destination']:r['ported_sha256'] for r in port['files']+port['ml_changes']}
+  upgrade=json.loads((s/'assets/upgrade-provenance.json').read_text())
+  current.update({r['path']:r['sha256'] for r in upgrade['files']})
+  for row in upgrade['files']:
+   self.assertEqual(hashlib.sha256((s/row['path']).read_bytes()).hexdigest(),row['sha256'],row['path'])
   for row in restore['files']:
    actual=hashlib.sha256((s/row['path']).read_bytes()).hexdigest()
    self.assertEqual(actual,current.get(row['path'],row['source_sha256']),row['path'])

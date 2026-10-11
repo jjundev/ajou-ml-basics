@@ -29,6 +29,11 @@ def _chunks(text):
         if cur: out.append(cur)
     return out
 
+# Keep numeric values and attached units in one wrapping atom, including Korean suffixes.
+_NUMBER = r'[+−-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[eE][+−-]?\d+)?(?:/\d+)?(?:[–~]\d+(?:\.\d+)?)?'
+_UNIT = r'(?:MHz|kHz|Hz|ms|cm|mm|mV|mA|kg|μs|us|m|s|V|A|W|Ω|°C|g|%|초|밀리초|개|회|배|차원)'
+_WRAP_ATOM = re.compile(r'[([{]?' + _NUMBER + r'[^\S\r\n]+' + _UNIT + r'(?:[가-힣]+)?[.,!?;:)\]}]*(?=\s|$)|\S+')
+
 def split_srt(source):
     """긴 문단 자막을 문장·쉼표 단위로 쪼개고 글자 수에 비례해 시간을 나눈다."""
     cues=[]; n=1
@@ -37,7 +42,7 @@ def split_srt(source):
         chunks=_chunks(' '.join(lines[2:])); total=sum(len(c) for c in chunks) or 1; cursor=start
         for chunk in chunks:
             length=(end-start)*len(chunk)/total
-            words=chunk.split(' ')
+            words=_WRAP_ATOM.findall(chunk)
             if len(chunk)>WRAP_AT and len(words)>1:
                 cut=min(range(1,len(words)),key=lambda i:abs(len(' '.join(words[:i]))-len(' '.join(words[i:]))))
                 chunk=' '.join(words[:cut])+'\n'+' '.join(words[cut:])

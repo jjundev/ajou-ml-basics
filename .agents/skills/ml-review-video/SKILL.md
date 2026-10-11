@@ -27,7 +27,7 @@ prepare/prepare-set/tts에 `--env-file REPO/.env`를 전달한다. 명시 파일
 
 1. **전체 읽기·선정.** HyperFrames entry skill을 읽고 기존 의도/디자인으로 복습 explainer workflow를 사용한다. [선정·묶음](references/selection-and-batches.md)에 따라 정리노트 HTML/MD·복습문제·그림을 읽는다. 장마감은 있으면 참고한다. 예고는 기본 선정에서 제외한다. 전체 개념과 선정/비선정 이유·학습 질문·선수 개념·상태 변화를 selection.json에 남긴다. `plan-check RANGE --repo REPO --selection PLAN` → `prepare-set RANGE --repo REPO --selection PLAN --env-file REPO/.env` 순서로 실행한다. --review이면 prepare-set에도 붙인다.
 2. **출처와 내용 범위.** [출처·coverage](references/sources-and-coverage.md)에 따라 영상별 requirement와 발화 대응을 manifest.json과 source/coverage.md에 남긴다. 필요 시 STT·강의노트·MML 쪽으로 대조한다. 원문 수치·조건·독립 가정을 바꾸지 않는다. 새 수치 예시는 설명용으로 표시한다.
-3. **수식·대본·장면.** [대본·수학·화면](references/narration-and-motion.md)에 따라 작은 예시 → 상태 변화 → 대응 수식 → 조건/오개념 순서로 작성한다. manifest의 segments/scenes, source/scene-fragments의 HTML/motion JSON, source/math-evidence.json을 작성한다. 계산 스크립트를 실행해 결과와 시작·중간·끝 그림을 연결한다. `check --run RUN` 통과가 TTS 전제다. --review이면 전체 선정·장면을 묶어 한 번 검토한다.
+3. **수식·대본·장면.** [대본·수학·화면](references/narration-and-motion.md)에 따라 주제별로 왜 필요한가(문제 → 단순 해법의 한계 → 핵심 아이디어)를 15–25초로 연 뒤 작은 예시 → 상태 변화 → 대응 수식 → 조건/오개념 순서로 작성한다. 원문에 있는 동기를 해당 영상에 연결하고 노트 전체의 공통 동기를 모든 영상에 강제하지 않는다. manifest의 segments/scenes, source/scene-fragments의 HTML/motion JSON, source/math-evidence.json을 작성한다. 계산 스크립트를 실행해 결과와 시작·중간·끝 그림을 연결한다. `check --run RUN` 통과가 TTS 전제다. --review이면 전체 선정·장면을 묶어 한 번 검토한다.
 4. **음성.** `tts --run RUN --env-file REPO/.env`로 생성한다. --review에서 승인된 경우 --approve-review를 추가한다. 기호 원문 대신 대본의 자연스러운 한국어 발화를 읽고 선수 개념·조건·단위를 보존한다.
 5. **실측·화면 조립.** `assemble --run RUN --pack REPO/.agents/skills/ml-review-pack --assets-from SKILL/assets/runtime`. 템플릿을 동결하고 실측 PCM으로 타이밍을 맞춘다. 수식은 로컬 KaTeX로 조립 시 렌더하여 단독 장면과 편집 소스에 모두 포함한다. 넘치면 장면을 나눈다.
 6. **렌더.** `render --run RUN --hyperframes-entry LOCAL_HYPERFRAMES_BIN`. CPU 인코딩과 browser GPU auto로 장면을 순차 렌더하고 PCM을 결합한다. OS 전역 GPU 설정은 변경하지 않는다.
@@ -74,6 +74,12 @@ FFmpeg subtitles/libass 필터가 필요하다. macOS 기본 빌드에 없으면
 
 회귀 검사: `python3 -m unittest discover -s SKILL/tests -v`. 가짜 API와 로컬 PCM을 사용하며 비용은 발생하지 않는다. 실제 인증 성공과 완성된 학습 영상 검증은 제작 요청에서 별도로 확인한다.
 
+## 숫자 자막
+
+segments.text는 자연스러운 한국어 전체 발화, caption은 본문 핵심 문장이다. 숫자 발화를 표시할 때는 segments.subtitle_text에 숫자·단위만 표기한 전체 발화의 한 줄 문자열을 명시한다. 예: text="영 점 오입니다.", subtitle_text="0.5입니다.". SRT는 subtitle_text를 사용하고 없으면 text를 보존한다. 핵심 문장 caption을 전체 자막 대신 쓰지 않는다. 음성은 text만 읽으며 subtitle_text 변경은 동일 음성 캐시를 재사용한다. 한글 일/이 등을 전역 치환하지 않는다. [숫자 작성·검토·분할 규칙](references/narration-and-motion.md#숫자-자막)을 따른다.
+
 ## 멀티코어 렌더 정책
 
-Apple M5/물리 10코어/16GiB 이상 macOS는 내부 캡처 작업자 6개, 나머지·탐지 실패는 2개다. `render`/`revoice --render-workers 1..6` → 유효한 저장값 → 호스트 기본값 순이며 손상 설정은 override로 숨기지 않는다. CPU 인코딩·browser GPU auto·fast capture false를 고정한다. `source/render-options.json`과 `verification/render-receipt.json`을 보존한다. resume/resume-set은 옵션을 생성하지 않으며 prepare --from-run은 저장값을 유지한다. 옵션 변경은 render 이후만 무효화하여 음성과 타임라인을 유지한다. 장면 캐시는 폰트·HTML·도구·설정 변경을 감지한다. 마스터와 기록을 함께 복구하고 `.rollback`이 남으면 재교체를 차단한다. 중단/timeout은 실행한 자식 프로세스를 종료·회수한 후 pending을 정리한다.
+새 RUN의 기본은 schema2 workers=auto다. 검증된 Apple M5/물리 10코어/16GiB 이상 macOS에서 900프레임(30초) 이상 장면의 동작 비중이 50%를 넘으면 6개, 나머지는 2개를 선택한다. from/to가 달라지는 동작 구간을 실측 타임라인에 맞춰 합산하며 겹친 구간은 한 번만 센다. 정보 누락·미검증 장비는 2개, 손상 정보는 오류다. 메타데이터 기반 휴리스틱이며 모든 장면의 최적 속도를 보장하지 않는다.
+
+render/revoice --render-workers auto 또는 1..6 → 유효한 저장값 → auto 기본값 순이다. 기존 schema1 숫자는 그대로 유지하고 auto를 명시할 때만 schema2로 전환한다. 손상 설정은 override로 숨기지 않는다. CPU 인코딩·browser GPU auto·fast capture false와 순차 장면 처리를 유지한다. source/render-options.json과 verification/render-receipt.json에 설정·실제 작업자·선택 이유·동작 비율을 보존한다. resume/resume-set은 옵션을 생성하지 않으며 prepare --from-run은 저장값을 유지한다. 정책 변경은 render 이후만 무효화하여 음성과 타임라인을 유지한다. 장면 캐시는 동작 메타데이터·선택 결과·폰트·HTML·도구·설정 변경을 감지한다. 마스터와 기록을 함께 복구하고 .rollback이 남으면 재교체를 차단한다. 중단/timeout은 실행한 자식 프로세스를 종료·회수한 후 pending을 정리한다.

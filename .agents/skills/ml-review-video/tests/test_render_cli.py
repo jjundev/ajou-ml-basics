@@ -83,3 +83,14 @@ class RenderCliTest(unittest.TestCase):
             with contextlib.redirect_stdout(io.StringIO()) as out:
                 self.assertEqual(main(['prepare','--repo',str(repo),'--from-run',str(old)]),0)
             new=Path(json.loads(out.getvalue())['run']);self.assertEqual(json.loads((new/'source/render-options.json').read_text()),options)
+
+class AutoParserTest(unittest.TestCase):
+    def test_auto_render_and_revoice(self):
+        import importlib.util
+        from _util import SKILL
+        spec=importlib.util.spec_from_file_location('ml_auto_cli',SKILL/'scripts/video.py')
+        mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+        for cmd in ('render','revoice'):
+            args=[cmd,'--run','run','--render-workers','auto']
+            if cmd=='revoice':args+=['--source-run','old']
+            self.assertEqual(mod.parser().parse_args(args).render_workers,'auto')

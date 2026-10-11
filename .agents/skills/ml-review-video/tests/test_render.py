@@ -95,6 +95,32 @@ class CapturePolicyTest(unittest.TestCase):
                 with patch('lib.render.file_hash',side_effect=changed):render_parts(parts[:1],run,backend)
             self.assertEqual(len(seen),2)
 
+    def test_auto_chooses_per_scene_and_receipts_explain_selection(self):
+        from unittest.mock import patch
+        from types import SimpleNamespace
+        from lib.render import render_parts
+        from test_workload import M5,AUTO
+        from lib.cache import atomic_json
+        with tempfile.TemporaryDirectory() as d:
+            run=Path(d);parts,backend=self.setup_run(run)
+            self.assertTrue(hasattr(__import__('lib.render_options',fromlist=['resolve_scene_workers']),'resolve_scene_workers'))
+            backend['render_options']=AUTO
+            scenes=[];segments=[]
+            for i,p in enumerate(parts):
+                p['frames']=900;scenes.append(dict(id=p['id'],start_sample=i*720000,end_sample=(i+1)*720000,first_frame=i*900,last_frame=(i+1)*900));segments.append(dict(id='seg-'+p['id'],scene_id=p['id'],start_sample=i*720000,end_sample=(i+1)*720000))
+                atomic_json(run/'source/scene-fragments'/(p['id']+'.motion.json'),[dict(segment_id='seg-'+p['id'],target='#x',kind='move',duration_s=.6 if i==0 else 24,**{'from':{'x':0},'to':{'x':100}})])
+            atomic_json(run/'source/timeline.json',dict(rate=24000,fps=30,scenes=scenes,segments=segments));seen=[]
+            def tool(args,cwd=None,timeout=300):
+                if 'render' in args:seen.append(args);Path(args[args.index('--output')+1]).write_bytes(b'new')
+                return SimpleNamespace(returncode=0,stdout='v',stderr='')
+            with patch('lib.render.command',side_effect=tool),patch('lib.render.frames_ok',return_value=True),patch('lib.render.detect_hardware',return_value=M5):
+                outputs=render_parts(parts,run,backend);render_parts(parts,run,backend)
+                path=run/'source/scene-fragments'/(parts[1]['id']+'.motion.json')
+                motion=json.loads(path.read_text());motion[0]['target']='#different';atomic_json(path,motion)
+                render_parts(parts[1:],run,backend)
+            self.assertEqual([int(a[a.index('--workers')+1]) for a in seen],[2,6,6])
+            self.assertEqual([json.loads(p.with_suffix('.json').read_text())['worker_selection']['workers'] for p in outputs],[2,6])
+
 
 class FailureSafetyTest(unittest.TestCase):
     def test_part_receipt_write_failure_preserves_previous_pair(self):
