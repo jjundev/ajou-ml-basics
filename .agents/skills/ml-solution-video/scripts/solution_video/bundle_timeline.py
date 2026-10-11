@@ -17,8 +17,20 @@ def build_bundle_timeline(manifest,layers,audio,config,writing,teaching=None):
  if t.get('teaching') and teaching:
   page_of={i['id']:i.get('page_id') for i in teaching['items']}
   for span in t['teaching']['spans']:span['page_id']=page_of[span['id']]
+ reset_page_entry_moves(t)
  return t
 
 def page_state(timeline,frame):
  frame=max(0,min(timeline['total_frames']-1,int(frame)));span=next(s for s in timeline['page_spans'] if s['start_frame']<=frame<s['end_frame']);pid=span['page_id']
  return dict(page_id=pid,visible_ids=[e['id'] for e in timeline['events'] if e.get('page_id')==pid and e['frame']<=frame])
+
+
+def reset_page_entry_moves(timeline):
+ # A new PDF page has no visible pen continuity with the previous sheet.
+ # Keep the measured move interval, but start it at the current target.
+ for span in timeline.get('writing_spans',[]):
+  source=span.get('from_id') or ''
+  if span.get('kind')=='move' and '::' in source and source.split('::',1)[0]!=span.get('page_id'):
+   span['from_id']=span['id']
+   span['from_bbox']=list(span['clip_bbox'])
+ return timeline
