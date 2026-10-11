@@ -10,7 +10,7 @@ verification/audio-review.json은 실제 전청크와 최종 MP4를 청취한 �
 
 source/inputs→layers→script→voice→timing→composition→render→captions→verify→publish의 fingerprint와 출력 SHA를 state.json에 기록한다. resume-set은 처음 무효인 단계를 반환한다. 수정된 단계부터 다시 실행하고 성공 형제·raw WAV·이전 finals를 지우지 않는다. caption만 수정해도 검토는 갱신하지만 동일 text 음성 cache는 재사용한다.
 
-publish-set은 현재 complete report와 실제 audio/visual 근거·final SHA를 확인하고 안전한 파일명을 만든다. 날짜 범위는 날짜 prefix, 여러 팩은 slug prefix로 충돌을 피한다. 날짜 폴더에는 최종MP4와 제작자료만 둔다. 내부 catalog/README·스냅샷·검토·사용량·cache·이전 버전은 제작자료에 둔다. 성공 문항만 게시하고 실패 형제/기존 파일을 보존한다. 전체 성공만 latest 갱신한다. 교체 journal/backups로 일반 실패를 롤백하며 강제 종료의 원자적 다중 파일 commit을 주장하지 않는다.
+publish-set은 현재 complete report와 실제 audio/visual 근거·final SHA를 확인하고 안전한 파일명을 만든다. 날짜 범위는 날짜 prefix, 여러 팩은 slug prefix로 충돌을 피한다. `문제풀이영상/<선택범위>/`에는 문항별 MP4와 `<선택범위>_제작자료/`를 둔다. 과제1은 `문제풀이영상/과제1/`이며, 검토용 MP4도 이 폴더에 놓고 미검수 상태를 기록한다. 내부 catalog/README·스냅샷·검토·사용량·cache·이전 버전은 제작자료에 둔다. 성공 문항만 게시하고 실패 형제/기존 파일을 보존한다. 전체 성공만 latest 갱신한다. 교체 journal/backups로 일반 실패를 롤백하며 강제 종료의 원자적 다중 파일 commit을 주장하지 않는다.
 
 회귀 실행:
 ```bash
