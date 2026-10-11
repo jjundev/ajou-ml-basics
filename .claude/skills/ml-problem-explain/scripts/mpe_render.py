@@ -133,7 +133,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     dump(manifest_path, {'version': 1, 'profile': pack.profile, 'range': pack.range, 'slug': pack.slug,
                          'source': str(pack.path), 'source_sha256': pack.sha256,
                          'input_hash': payload_hash(pack, fragments), 'reading_key': values['RANGE'],
-                         'destination': str(pack.path.parent),
+                         'destination': str(pack.path.parent), 'repo': str(repo.resolve()),
                          'problems': [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems],
                          'files': {p.relative_to(stage).as_posix(): sha256(p) for p in files}})
     return Artifacts(html_path, md_path, manifest_path, tuple(sorted((*files, manifest_path))))
