@@ -1,0 +1,68 @@
+import json
+import subprocess
+import sys
+from pathlib import Path
+import pytest
+from helpers import fragment, approved
+from mpe_source import load_source
+from mpe_cli import load_run
+
+ROOT = Path(__file__).resolve().parents[4]
+CLI = Path(__file__).resolve().parents[1] / 'scripts/mpe_cli.py'
+
+def call(*args):
+    return subprocess.run([sys.executable, str(CLI), *map(str, args)], capture_output=True, text=True, encoding='utf-8')
+
+def test_missing_target_returns_one(tmp_path):
+    result = call('extract', '--repo', ROOT, '--target', '과제999', '--run', tmp_path / 'run')
+    assert result.returncode == 1
+    assert '대상 없음' in result.stderr
+
+def test_cli_round_trip_and_unreviewed_publish(tmp_path):
+    repo = tmp_path / 'repo'
+    source = repo / '과제/과제1/과제1_Homework1.html'
+    source.parent.mkdir(parents=True)
+    source.write_bytes((ROOT / '과제/과제1' / source.name).read_bytes())
+    run = tmp_path / 'run'
+    result = call('extract', '--repo', repo, '--target', '과제1', '--run', run)
+    assert result.returncode == 0, result.stderr
+    item = load_run(run)[0]
+    assert item['pack'] == load_source(source, repo)
+    before = source.read_bytes()
+    for p in item['pack'].problems:
+        (item['folder'] / 'explanations' / f'{p.id}.html').write_text(fragment(p), encoding='utf-8')
+    for command in ('build', 'check'):
+        result = call(command, '--run', run)
+        assert result.returncode == 0, result.stderr
+    result = call('publish', '--run', run)
+    assert result.returncode == 1 and '보류' in result.stderr
+    assert source.read_bytes() == before
+    assert not list(source.parent.glob('*문제설명*.html'))
+    item = load_run(run)[0]
+    from mpe_cli import load_artifacts, load_fragments
+    artifacts = load_artifacts(item)
+    reviews = approved(item['pack'], load_fragments(item), artifacts)
+    (item['folder'] / 'review.json').write_text(json.dumps(reviews, ensure_ascii=False), encoding='utf-8')
+    result = call('publish', '--run', run)
+    assert result.returncode == 0, result.stderr
+    assert list(source.parent.glob('*문제설명*.html'))
+    assert source.read_bytes() == before
+
+def test_extract_refuses_nonempty_run(tmp_path):
+    run = tmp_path / 'run'
+    run.mkdir()
+    (run / 'keep.txt').write_text('keep')
+    result = call('extract', '--repo', ROOT, '--target', '1007', '--run', run)
+    assert result.returncode == 1
+    assert (run / 'keep.txt').read_text() == 'keep'
+
+def test_forged_serialized_problem_is_rejected(tmp_path):
+    run = tmp_path / 'run'
+    assert call('extract', '--repo', ROOT, '--target', '1007', '--run', run).returncode == 0
+    source_json = next(run.rglob('source.json'))
+    value = json.loads(source_json.read_text(encoding='utf-8'))
+    value['problems'][0]['ask_html'] = '위조 조건'
+    source_json.write_text(json.dumps(value), encoding='utf-8')
+    result = call('check', '--run', run)
+    assert result.returncode == 1
+    assert '추출' in result.stderr
