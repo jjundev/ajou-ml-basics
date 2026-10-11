@@ -30,6 +30,14 @@ def markup_errors(root, allow_summary=False):
                     errors.append(f'허용하지 않는 URL: {key}')
     return errors
 
+def _body_text(node):
+    """Exclude headings even when authors wrap them in layout containers."""
+    if isinstance(node, str):
+        return node
+    if node.tag in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'):
+        return ''
+    return ''.join(_body_text(child) for child in node.children)
+
 def validate_fragment(problem, fragment):
     root = parse(fragment)
     errors = markup_errors(root, allow_summary=True)
@@ -41,9 +49,7 @@ def validate_fragment(problem, fragment):
         errors.append('설명 구역 순서는 understand/recall/start/solve/verify/pitfall/retry여야 해요')
     for node in sections:
         if node.attrs['data-explanation'] == 'recall':
-            body = ''.join(child.text() if isinstance(child, Node) else child
-                           for child in node.children
-                           if not isinstance(child, Node) or child.tag not in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'))
+            body = _body_text(node)
             if not body.strip():
                 errors.append('recall: 제목 외에 단서·개념·공식·적용 조건 설명이 필요해요')
         if node.parent is not root or 'layer' not in node.classes or not node.text().strip():

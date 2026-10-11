@@ -40,6 +40,14 @@ def test_recall_edit_invalidates_approval():
     assert changed != before
     assert validate_reviews(pack(), {'p1': changed}, reviews())
 
+def test_nested_heading_only_recall_refused():
+    from mpe_shared import parse, outer
+    text = with_recall()
+    block = outer(next(parse(text).find_all(lambda n: n.attrs.get('data-explanation') == 'recall')))
+    nested = ('<div class="layer formal" data-explanation="recall">'
+              '<div><h4>제목뿐인 개념 구역</h4></div></div>')
+    assert any('recall' in e for e in validate_fragment(problem(), text.replace(block, nested)))
+
 def reviews():
     base = {'status': 'pass', 'reviewer': '검토자', 'evidence': '근거: MML p.1'}
     items = {f'p1:{s}': dict(base) for s in ('a', 'b')}
