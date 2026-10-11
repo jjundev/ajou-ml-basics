@@ -11,6 +11,25 @@ from mpe_render import build_explanation, check_artifacts, artifact_hashes
 
 ROOT = Path(__file__).resolve().parents[4]
 
+def test_recall_and_summary_survive_html_and_markdown(tmp_path):
+    pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
+    pack = replace(pack, problems=pack.problems[:1])
+    p = pack.problems[0]
+    text = fragment(p).replace('<div class="sum" hidden>',
+        '<div class="sum" hidden><div class="summary-group">'
+        '<h4>떠올릴 개념·공식</h4><p>전치의 크기는 $n\\times m$이에요.</p></div>')
+    result = build_explanation(pack, {p.id: text}, tmp_path / 'stage', ROOT)
+    assert check_artifacts(pack, result) == []
+    html = result.html.read_text(encoding='utf-8')
+    md = result.md.read_text(encoding='utf-8')
+    node = next(parse(html).find_all(lambda n: n.attrs.get('data-explanation') == 'recall'))
+    assert 'hidden' not in node.attrs
+    for output in (html, md):
+        assert '이 문제를 봤을 때 떠올릴 개념과 공식' in output
+        assert '떠올릴 개념·공식' in output
+        assert '$n\\times m$' in output
+    assert 'A\\cdot A' in md
+
 @pytest.mark.parametrize('source', ['복습노트/1007/복습문제_1007_Product_of_Gaussians.html', '과제/과제1/과제1_Homework1.html'])
 def test_render_preserves_questions_and_math_offline(tmp_path, source):
     source = ROOT / source

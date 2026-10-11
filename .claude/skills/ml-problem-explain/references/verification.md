@@ -5,7 +5,7 @@
 JSON의 `input_hash`는 현재 원본과 설명 조각에 묶여요. build 출력의 `artifact_hashes`도 그대로 검토 대상이에요. 조각·원본·렌더링 파일을 바꿨다면 다시 build하고 검토해요. 예전 검토 보고서는 통과하지 않아요.
 
 - `source_visual`: 문항 조건·그림·소문항을 PDF/MML의 실제 페이지와 대조. reviewer와 evidence에 자료/페이지/대조 결과.
-- `content`: 상위 status/reviewer/evidence 및 items의 모든 `pN:a` 또는 `pN:main`. 첫 줄·유도 이유·모든 답·검산·가정·충돌 여부 확인.
+- `content`: 상위 status/reviewer/evidence 및 items의 모든 `pN:a` 또는 `pN:main`. recall의 문제 단서와 개념 연결·공식·기호의 뜻·적용 가정·선택 이유·소문항별 누락 여부, 첫 줄·유도 이유·모든 답·검산·가정·충돌 여부 확인. recall은 정의/판단 기준만 필요한 문항도 허용하지만 제목만으로는 충분하지 않아요. start와 긴 설명을 복제하지 않았는지, 요약의 핵심 개념·공식이 본문과 일치하는지 확인해요.
 - `independent`: 같은 모든 items, method=`exact|symbolic|numerical|proof|qualitative`, conclusion과 evidence. 검산 스크립트·출력·자료 위치를 구체적으로 기록.
 - `browser`: 1280×900 및 375×812, light/dark. 모든 문항의 목차·이전/다음·요약·수식·표·그림·링크를 확인. 콘솔·KaTeX 오류·누락 자원·문서 가로 넘침은 0. 짧은 인라인 수식의 스크롤 컨테이너와 수식 영역의 보이는 스크롤바는 0. 구역 24px·제목 아래 12px·소문항 16px 간격, 행렬 잘림과 겹침을 실제 렌더링으로 확인. 긴 수식은 의미 단위 줄바꿈을 우선하고, 더 나눌 수 없는 긴 수식만 안내와 함께 스크롤바 없는 국소 이동을 허용. 외부 요청 없이 로컬 자원으로 렌더링.
 

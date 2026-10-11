@@ -6,7 +6,7 @@ from collections import Counter
 from urllib.parse import urlsplit
 from mpe_shared import Node, parse, math_delimiter_errors
 
-KEYS = ('understand', 'start', 'solve', 'verify', 'pitfall', 'retry')
+KEYS = ('understand', 'recall', 'start', 'solve', 'verify', 'pitfall', 'retry')
 
 def payload_hash(pack, fragments):
     payload = {'source_sha256': pack.sha256, 'fragments': fragments}
@@ -36,8 +36,16 @@ def validate_fragment(problem, fragment):
     sections = list(root.find_all(lambda n: 'data-explanation' in n.attrs))
     counts = Counter(n.attrs['data-explanation'] for n in sections)
     if counts != Counter(KEYS):
-        errors.append('여섯 설명 구역을 각각 한 번 작성하세요')
+        errors.append('일곱 설명 구역(understand/recall/start/solve/verify/pitfall/retry)을 각각 한 번 작성하세요')
+    if tuple(n.attrs['data-explanation'] for n in sections) != KEYS:
+        errors.append('설명 구역 순서는 understand/recall/start/solve/verify/pitfall/retry여야 해요')
     for node in sections:
+        if node.attrs['data-explanation'] == 'recall':
+            body = ''.join(child.text() if isinstance(child, Node) else child
+                           for child in node.children
+                           if not isinstance(child, Node) or child.tag not in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'))
+            if not body.strip():
+                errors.append('recall: 제목 외에 단서·개념·공식·적용 조건 설명이 필요해요')
         if node.parent is not root or 'layer' not in node.classes or not node.text().strip():
             errors.append('설명 구역은 내용이 있는 직계 layer여야 해요')
         if node.attrs['data-explanation'] in ('solve', 'verify'):

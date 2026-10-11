@@ -10,6 +10,10 @@ def fragment(p=None):
     p = p or problem()
     parts = ''.join(f'<div data-subpart="{key}"><p>첫 식에서 계산하고 대입해 확인해요. $1=1$</p></div>' for key in p.subparts)
     return ('<div class="layer eli5" data-explanation="understand"><p>구할 것을 읽어요.</p></div>'
+            '<div class="layer formal" data-explanation="recall">'
+            '<h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>'
+            '<p>제곱을 구하라는 단서에서 같은 수의 곱을 떠올려요. '
+            '$A^2=A\\cdot A$이며 A는 주어진 스칼라예요.</p></div>'
             '<div class="layer formal" data-explanation="start"><p>$A=1$부터 써요.</p></div>'
             f'<div class="layer formal" data-explanation="solve">{parts}</div>'
             f'<div class="layer formal" data-explanation="verify">{parts}</div>'
