@@ -37,6 +37,24 @@ def test_render_preserves_questions_and_math_offline(tmp_path, source):
     assert source.read_bytes() == before
     assert set(artifact_hashes(result)) == {str(p.relative_to(result.html.parent)).replace('\\', '/') for p in result.files}
 
+def test_generated_question_has_top_spacing_before_ask_heading(tmp_path):
+    from playwright.sync_api import sync_playwright
+
+    source = ROOT / '과제/과제1/과제1_Homework1.html'
+    pack = load_source(source, ROOT)
+    problem = next(p for p in pack.problems if p.id == 'p25')
+    pack = replace(pack, problems=(problem,))
+    result = build_explanation(pack, {problem.id: fragment(problem)}, tmp_path / 'stage', ROOT)
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch()
+        page = browser.new_page()
+        page.set_content(result.html.read_text(encoding='utf-8'))
+        page.evaluate("document.documentElement.classList.remove('js')")
+        ask_heading = page.locator('[data-source-problem="p25"] h4').filter(has_text='구할 것')
+        assert ask_heading.evaluate('(node) => getComputedStyle(node).marginTop') == '24px'
+        browser.close()
+
 def test_missing_images_and_duplicate_svg_ids_refused(tmp_path):
     path = ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html'
     pack = load_source(path, ROOT)
