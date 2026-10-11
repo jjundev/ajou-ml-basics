@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{{VENDOR}}/katex/katex.min.css">
   <script defer src="{{VENDOR}}/katex/katex.min.js"></script>
   <script defer src="{{VENDOR}}/katex/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']});window.mlLayoutMath?.()"></script>
   <style>
     /* ---------- 토큰 ---------- */
     :root {
@@ -74,9 +74,16 @@
 
     /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
     .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
-    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .topic > .layer:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
     .layer > :first-child { margin-top: 0; }
     .layer > :last-child { margin-bottom: 0; }
+    .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
+    .layer p { margin: var(--s3) 0; }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer li + li { margin-top: var(--s3); }
+    .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
+    .sum h4 { margin: 0 0 var(--s3); font-size: inherit; line-height: 1.5; }
+    .sum .summary-group > p { margin: 0; }
     .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
     .layer.eli5 .layer-title { color: var(--accent-ink); }
     .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
@@ -100,7 +107,7 @@
     .figure { margin: var(--s4) 0; text-align: center; }
     .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
-    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .katex-display { padding: var(--s2) 0; }
     .table-wrap { overflow-x: auto; }
     table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
     th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
@@ -318,7 +325,17 @@
     }
 
     .topic, .layer, .content, main { min-width: 0; }
-    .katex-display { max-width:100%; overflow-x:auto; overflow-y:hidden; padding-block:4px; }
+    /* Inline formulas stay inline; only genuinely wide blocks may be panned. */
+    .katex-display { max-width:100%; }
+    .katex-display > .katex, .katex.math-block { display:block; white-space:normal; text-align:left; }
+    .katex.math-block { margin:0; }
+    .katex-display > .katex > .katex-html { white-space:normal; }
+    .math-row { display:block; max-width:100%; margin:var(--s3) 0; padding:var(--s2) var(--s1); }
+    .math-row .katex-display { margin:0; padding:0; }
+    .math-punctuation { margin-left:.15em; font-family:var(--font); }
+    .math-row.math-pan { overflow-x:auto; overflow-y:hidden; scrollbar-width:none; }
+    .math-row.math-pan::-webkit-scrollbar { display:none; }
+    .math-pan-hint { display:block; margin:var(--s1) 0 var(--s3); color:var(--ink-2); font:var(--fs-small)/1.5 var(--font); }
     table { display:block; max-width:100%; overflow-x:auto; }
     img, svg { max-width:100%; height:auto; }
   </style>
@@ -752,7 +769,7 @@
 
       document.addEventListener('keydown', (e) => {
         if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
-        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"], .math-row')) return;
         if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
         if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
       });
@@ -762,7 +779,7 @@
       main.addEventListener('touchstart', (e) => {
         const t = e.touches[0];
         sx = t.clientX; sy = t.clientY;
-        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .math-row, .table-wrap, svg, input, details'));
       }, { passive: true });
       main.addEventListener('touchend', (e) => {
         if (skip) return;
@@ -772,6 +789,77 @@
       }, { passive: true });
 
       fromUrl();
+    })();
+  </script>
+  <script id="math-layout">
+    (function () {
+      let queued = false;
+      function markOverflow(row) {
+        row.classList.remove('math-pan');
+        row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+        if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+        if (row.scrollWidth > row.clientWidth + 2) {
+          row.classList.add('math-pan'); row.tabIndex = 0;
+          row.setAttribute('aria-label', '긴 수식. 좌우 화살표 또는 가로 밀기로 전체를 읽을 수 있어요.');
+          const hint = document.createElement('span'); hint.className = 'math-pan-hint';
+          hint.textContent = '가로로 밀어 전체 수식 읽기'; row.after(hint);
+        }
+      }
+      function layout() {
+        queued = false;
+        document.querySelectorAll('main .katex, .sums .katex').forEach((math) => {
+          if (!math.getClientRects().length) return;
+          const tex = math.querySelector('annotation')?.textContent || '';
+          const display = math.parentElement.classList.contains('katex-display');
+          let row = math.closest('.math-row');
+          const container = math.closest('p, li, .part, [data-source-field], [data-subpart], .layer, .sum');
+          const width = container?.clientWidth || 0;
+          // Each matrix receives its own line; long inline equations become blocks.
+          if (!row && (display || /\\begin\{(?:bmatrix|pmatrix|matrix|aligned|array)\}/.test(tex) || (width > 0 && math.getBoundingClientRect().width > width - 8))) {
+            row = document.createElement('span');
+            row.className = 'math-row';
+            const autoWrapper = math.parentElement.tagName === 'SPAN' && math.parentElement.childNodes.length === 1;
+            const target = display || autoWrapper ? math.parentElement : math;
+            target.before(row); row.appendChild(target);
+            if (!display) math.classList.add('math-block');
+            // Keep sentence punctuation beside the last formula instead of orphaning it.
+            const tail = row.nextSibling;
+            if (tail?.nodeType === Node.TEXT_NODE) {
+              const match = tail.textContent.match(/^([.,;:]+["”]?)/);
+              if (match) {
+                const punctuation = document.createElement('span'); punctuation.className = 'math-punctuation';
+                punctuation.textContent = match[1]; math.appendChild(punctuation);
+                tail.textContent = tail.textContent.slice(match[1].length);
+              }
+            }
+          }
+          if (!row) return;
+          math.style.fontSize = '';
+          row.classList.remove('math-pan');
+          row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+          if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+          const available = row.clientWidth - 8;
+          if (available <= 0) return;
+          const bases = Array.from(math.querySelectorAll('.katex-html > .base'));
+          const widest = Math.max(0, ...bases.map((el) => el.getBoundingClientRect().width));
+          // Relations already split KaTeX's base groups, allowing natural line breaks.
+          // Reduce only unbreakable content, by at most 15%; retain readable body size.
+          if (widest > available) math.style.fontSize = (1.21 * Math.max(.85, available / widest)) + 'em';
+          markOverflow(row);
+        });
+        // Font-size changes and wrapping need one completed frame before final ink bounds.
+        requestAnimationFrame(() => document.querySelectorAll('.math-row').forEach((row) => {
+          if (row.getClientRects().length) markOverflow(row);
+        }));
+      }
+      function schedule() { if (!queued) { queued = true; requestAnimationFrame(layout); } }
+      window.mlLayoutMath = schedule;
+      document.addEventListener('od:screen', schedule);
+      new ResizeObserver(schedule).observe(document.querySelector('.content'));
+      new ResizeObserver(schedule).observe(document.querySelector('#panel-right .panel-inner'));
+      new MutationObserver(schedule).observe(document.querySelector('.sums'), {subtree:true, attributes:true, attributeFilter:['hidden']});
+      document.fonts.ready.then(schedule);
+      schedule();
     })();
   </script>
 </body>
