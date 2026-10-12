@@ -1,0 +1,303 @@
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 6 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: (Normal) Gaussian Distribution
+6
+• Standard Normal N(0, 1)
+fX(x) =
+1
+→
+2ω
+e→x2/2
+• E[X] = 0
+• var[X] = 1
+• General Normal N(µ, ε2)
+fX(x) =
+1
+ε
+→
+2ω
+e→(x→µ)2/2ω2
+• E[X] = µ
+• var[X] = ε2
+Extension to Random Vectors X =
+
+
+X1...
+Xn
+
+
+• E(X) :=
+
+
+
+E(X1)
+...
+E(Xn)
+
+
+
+• Covariance of X →Rn and Y →Rm
+cov(X, Y ) = E(XY T) ↑E(X)E(Y )T →Rn→m
+Covariance
+cov(X, Y ) = E
+!
+(X ↓E[X]) · (Y ↓E[Y ])
+"
+Recall:
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 7 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: (Normal) Gaussian Distribution
+7
+• Covariance of X →Rn and Y →Rm
+cov(X, Y ) = E(XY T) ↑E(X)E(Y )T →Rn→m
+• Variance of X: var(X) = cov(X, X) →Rn→n, often denoted by !X (or simply !):
+!X := var[X] =
+
+
+
+cov(X1, X1)
+cov(X1, X2)
+· · · cov(X1, Xn)
+...
+...
+...
+cov(Xn, X1)
+cov(Xn, X2)
+· · · cov(Xn, Xn)
+
+
+
+→We call !X covariance matrix of X.
+For two random vectors X, Y →Rn,
+• E(X + Y ) = E(X) + E(Y ) →Rn
+• var(X + Y ) = var(X) + var(Y ) →Rn→n
+• Assume Y = AX + b.
+→E(Y ) = AE(X) + b
+→var(Y ) = var(AX) = A var(X)AT
+→cov(X, Y ) = !XAT (Please prove)
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 8 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Gaussian Random Vector
+8
+• X = (X1, X2, · · · , Xn)T with the mean vector µ =
+
+
+
+E(X1)
+...
+E(Xn)
+
+
+and the covariance
+matrix !.
+• A Gaussian random vector X = (X1, X2, · · · , Xn)T has a joint pdf of the form:
+fX(x) =
+1
+'
+(2ω)n|!|
+exp
+(
+→1
+2(x →µ)T!→1(x →µ)
+)
+,
+where ! is symmetric and positive deﬁnite.
+• We write X ↑N(µ, !), or pX(x) = N(x | µ, !).
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 9 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Properties of Gaussian Random Vector
+9
+• Marginals of Gaussians are Gaussians
+• Conditionals of Gaussians are Gaussians
+• Products of Gausssian Densities are Gaussians.
+• A sum of two Gassuaians is Gaussian if they are independent
+• Any linear/a!ne transformation of a Gaussian is Gaussian.
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 10 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Product of Gaussian Densities
+10
+• Lemma. The pdf of the form c · exp(→1
+2(ωx2 →2εx + ϑ)) is N( ω
+ε, 1
+ε).
+• Using the above Lemma, the product of two Gaussians N(µ0, ϖ0) and N(µ1, ϖ1) is
+Gaussian up to rescaling.
+Proof.
+exp
+!
+→(x →µ0)2/2ϖ0
+"
+↑exp
+!
+→(x →µ1)2/2ϖ1
+"
+= exp
+#
+→1
+2
+$% 1
+ϖ0
++ 1
+ϖ1
+&
+x2 →2
+%µ0
+ϖ0
++ µ1
+ϖ1
+&
+x + c
+'(
+=↓N
+$ϖ1µ0 + ϖ0µ1
+ϖ0 + ϖ1
+,
+ϖ0ϖ1
+ϖ0 + ϖ1
+'
+N(µ, ω2) →
+1
+↑
+2εω2 exp
+!
+↓(x ↓µ)2
+2ω2
+"
+ω
+ω
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 11 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Product of Gaussian Densities
+11
+• Similar results for the matrix version.
+• The product of the densities of two Gaussian vectors N(µ0, !0) and N(µ1, !1) is
+Gaussian up to rescaling.
+• The resulting Gaussian is given by:
+N
+!
+!1(!0 + !1)→1µ0 + !0(!0 + !1)→1µ1, !1(!0 + !1)→1!0
+"
+Compare the above to this:
+N
+!
+ω1µ0 + ω0µ1
+ω0 + ω1
+,
+ω0ω1
+ω0 + ω1
+"
+Why?
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 12 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Parameter Posterior Distribution (1)
+12
+• Parameter posterior distribution
+p(ω | X, Y) = N(ω | mN, SN),
+where
+SN =
+!
+S→1
+0
++ ω2!T!
+"→1,
+mN = SN
+!
+S→1
+0 m0 + ω→2!Ty
+"
+(Proof Sketch)
+• From the negative-log posterior for general Gaussian prior,
+→log p(ω|X, Y) =
+1
+2ω2 (y →!ω)T(y →!ω) + 1
+2(ω →m0)TS→1
+0 (ω →m0) + const
+= 1
+2
+!
+ω→2y Ty →2ω→2y T!ω + ωTω→2!T!ω + ωTS→1
+0 ω →2mT
+0 S→1
+0 ω + mT
+0 S→1
+0 m0
+"
+= 1
+2
+!
+ωT(ω→2!T! + S→1
+0 )ω →2(ω→2!Ty + S→1
+0 m0)
+Tω
+"
++ const
+• p(ω|X, Y) ↑exp( quadratic in ω ) =↓Gaussian distribution
+
+=== 강의노트/Lecture04_Linear_Regression_Part2.pdf PDF page 13 ===
+Introduction to Machine Learning
+Sept. 30, 2026
+Parameter Posterior Distribution (2)
+13
+• Parameter posterior distribution
+p(ω | X, Y) = N(ω | mN, SN),
+where
+SN =
+!
+S→1
+0
++ ω2!T!
+"→1,
+mN = SN
+!
+S→1
+0 m0 + ω→2!Ty
+"
+• Assume that p(ω|X, Y) = N(ω|mN, SN), and ﬁnd mN and SN.
+→log N(ω|mN, SN) = 1
+2(ω →mN)TS→1
+N (ω →mN) + const
+= 1
+2
+!
+ωTS→1
+N ω →2mN
+TS→1
+N ω + mT
+NS→1
+N mN
+"
++ const
+• Thus, S→1
+N
+= ω→2!T! + S→1
+0
+and
+mT
+NS→1
+N
+= (ω→2!Ty + S→1
+0 m0)
+T
+= 1
+2
+!
+ωT(ω→2!T! + S→1
+0 )ω →2(ω→2!Ty + S→1
+0 m0)
+Tω
+"
++ const

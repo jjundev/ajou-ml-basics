@@ -1,0 +1,805 @@
+{
+  "input_hash": "f91dc7232274971266f7c21e833d3ad1d7b4a768453af5de4661fa6271fc9095",
+  "references": [
+    {
+      "path": "C:\\Users\\Hyunjun\\Desktop\\현준대학\\26-2\\ajou-ml-basics\\과제\\과제1\\26_10_Introduction_to_Machine_Learning_homework1_rev.pdf",
+      "sha256": "4aaa039018637dc052419554ee6b6f0c069a32289c791d73d40ea87ed6fc6bd8"
+    },
+    {
+      "path": "C:\\Users\\Hyunjun\\Desktop\\현준대학\\26-2\\ajou-ml-basics\\교과서\\Mathematics_for_Machine_Learning.pdf",
+      "sha256": "3f87b70c64a35d30ec4e565b4d5cfd18fe913002d3b3bed44691c7d0838911bc"
+    },
+    {
+      "path": "C:\\Users\\Hyunjun\\Desktop\\현준대학\\26-2\\ajou-ml-basics\\강의노트\\Lecture03_Linear_Regression_Part1_rev.pdf",
+      "sha256": "8cf6f4621fdcd8daa9be51e55e8a1121f62bbf58bc32d8252ffb840703ea2699"
+    },
+    {
+      "path": "C:\\Users\\Hyunjun\\Desktop\\현준대학\\26-2\\ajou-ml-basics\\강의노트\\Lecture04_Linear_Regression_Part2.pdf",
+      "sha256": "958343f9e9986461d6d80b3a95f41247448e01de5af3c3592c5f2410e5f3674c"
+    }
+  ],
+  "source_visual": {
+    "status": "pass",
+    "reviewer": "Codex: PDF 9페이지 원문 대조",
+    "evidence": "evidence/source-pages-recheck.png 및 원 PDF 페이지1–9, source.json 25문항/50소문항·수치·부호·조건 대조; recall-content-review.md"
+  },
+  "browser": {
+    "status": "pass",
+    "reviewer": "Codex: Playwright 및 실제 스크린샷 확인",
+    "evidence": "evidence/recall-browser-results.json: 1280x900/375x812 light/dark, 100문항 본문+요약, 오류0; resize-recall-results.json 키보드/드래그/Home; layout-p1/22/25 및 summary 화면 확인. verified-render.json과 최종 HTML/MD bytes 일치"
+  },
+  "content": {
+    "status": "pass",
+    "reviewer": "Codex: 본문·요약 및 최종 검토 지적 반영",
+    "evidence": "evidence/recall-content-review.md, reviewer-findings.md, 현재 25개 설명 조각 검토",
+    "items": {
+      "p10:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p10:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p10:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p10:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p10:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p10:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p11:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p11:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p11:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p11:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p12:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p12:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p12:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p12:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p13:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p13:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p14:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p14:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p15:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p15:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p16:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p16:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p17:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p17:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p17:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p17:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p18:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p18:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p19:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p19:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p19:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p19:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p1:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p1:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p1:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p1:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p20:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p20:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p20:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p20:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p20:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p20:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p21:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p21:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p21:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p21:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p22:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p22:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p22:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p22:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p22:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p22:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p23:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p23:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p23:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p23:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p23:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p23:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p24:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p24:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p24:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p24:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p24:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p24:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p25:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p25:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p2:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p2:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p2:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p2:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p2:d": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p2:d; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p3:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p3:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p4:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p4:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p4:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p4:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p4:d": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p4:d; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p5:a; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p5:b; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p5:c": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p5:c; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p6:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p6:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p7:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p7:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p8:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p8:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      },
+      "p9:main": {
+        "status": "pass",
+        "reviewer": "Codex: 원문·개념·기호·공식·가정 검토",
+        "evidence": "evidence/recall-content-review.md: p9:main; 현재 설명 조각 직접 검토 및 별도 최종 검토 반영"
+      }
+    }
+  },
+  "independent": {
+    "status": "pass",
+    "reviewer": "Codex: 독립 계산과 증명",
+    "evidence": "50소문항 새 SymPy 실행, 신규 공식 및 보존63검사, 일반식 증명",
+    "items": {
+      "p10:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Symbolic derivatives and directional first-order polynomial coefficients agree: Matrix([[0], [-2]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p10:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p10:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Symbolic derivatives and directional first-order polynomial coefficients agree: Matrix([[-4], [-2]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p10:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p10:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Symbolic derivatives and directional first-order polynomial coefficients agree: Matrix([[-2], [-4], [2]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p10:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p11:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Output by input Jacobian exact: Matrix([[1, 2], [3, -1]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p11:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p11:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Output by input Jacobian exact: Matrix([[2, 1], [2, 1], [0, 4]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p11:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p12:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Expansion and gradient Matrix([[6*x1 + 2*x2 - 2], [2*x1 + 4*x2 + 2]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p12:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p12:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Stationary point exact; positive definite Hessian proves unique global minimum",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p12:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p13:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exponent expansion exact, covariance positive definite, normalizer 1/(2*pi*sqrt(3))",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p13:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p14:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Direct symbolic integrals: mass 1, mean 1, variance 1/4",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p14:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p15:main": {
+        "status": "pass",
+        "method": "proof",
+        "conclusion": "Independent-density product: constants multiply, exponential arguments add; N=1 recovers Gaussian",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p15:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p16:main": {
+        "status": "pass",
+        "method": "proof",
+        "conclusion": "Exponentiating NLL recovers density; fixed positive scale preserves minimizers",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p16:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p17:a": {
+        "status": "pass",
+        "method": "proof",
+        "conclusion": "Universal proof checked separately: normal-equation cross term vanishes, full column rank gives strict positive curvature",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p17:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p17:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact theta, predictions Matrix([[4/3], [7/3], [10/3]]), residual norm 8/3 and residual orthogonality",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p17:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p18:main": {
+        "status": "pass",
+        "method": "proof",
+        "conclusion": "lambda=sigma2/b2; universal positive-definite regularized Hessian proof checked separately",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p18:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p19:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "ML and MAP b2=1 exact",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p19:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p19:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "MAP b2=1/4 exact; increasing positive denominators shrinks both positive coordinates",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p19:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p1:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Double transpose restores all entries; Matrix([[1, 0], [-2, 4], [3, 5]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p1:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p1:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Double transpose restores all entries; Matrix([[2, -1, 4]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p1:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p1:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Double transpose restores all entries; Matrix([[1, -1, 5], [2, 3, 0], [0, 4, -2]])",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p1:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p20:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Gram rank 1 and determinant zero",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p20:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p20:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Both residuals zero; entire line theta1+theta2=3 fits",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p20:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p20:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact completed squares prove global min theta=(1,1), J=15",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p20:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p21:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Mean exact and centered deviations sum to zero",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p21:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p21:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Deviation outer products and raw-second-moment formulas agree",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p21:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p22:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "All transformed moments exact; shared-noise outer product included only in output covariance",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p22:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p22:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "All transformed moments exact; shared-noise outer product included only in output covariance",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p22:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p22:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "All transformed moments exact; shared-noise outer product included only in output covariance",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p22:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p23:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Likelihood factor 1/(2*pi) and residual polynomial exact",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p23:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p23:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "ML 8/5, positive completed square confirms unique min",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p23:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p23:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "MAP 4/3; predictions ML 24/5 and MAP 4",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p23:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p24:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Three-observation likelihood factor (2*pi)^(-3/2)",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p24:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p24:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "ML 3, positive quadratic coefficient proves minimum",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p24:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p24:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "MAP 5/2; prior distances 3/2<2",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p24:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p25:main": {
+        "status": "pass",
+        "method": "proof",
+        "conclusion": "Completed-square identity valid for all x; positive-definite covariance yields normalized density; product mass exp(-5/22)/(2*pi*sqrt(11))",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p25:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p2:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Inner product zero; squared length of x+y is 14=9+5",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p2:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p2:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact norm 3",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p2:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p2:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact norm sqrt(5)",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p2:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p2:d": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Nonzero vectors; cosine zero implies orthogonality",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p2:d; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p3:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Both ordered products checked entry by entry",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p3:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p4:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact determinant 10",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p4:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p4:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact determinant 6",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p4:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p4:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact determinant -6",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p4:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p4:d": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Exact determinant 0",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p4:d; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p5:a": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Both left and right inverse identities exact",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p5:a; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p5:b": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Both left and right inverse identities exact",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p5:b; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p5:c": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Both left and right inverse identities exact",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p5:c; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p6:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Nonzero coefficient relation (-2,1,1) gives zero",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p6:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p7:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Reconstruction exact; coefficient matrix determinant 5",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p7:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p8:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Gram, determinant and inverse exact",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p8:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      },
+      "p9:main": {
+        "status": "pass",
+        "method": "symbolic",
+        "conclusion": "Polynomial substitution and feature product agree; parameter linearity follows distributivity",
+        "reviewer": "Codex: SymPy 재실행 및 일반식 논증 검토",
+        "evidence": "evidence/independent.py, independent-results.json: p9:main; recall-content-review.md 일반식 논증; verify_recall.py, recall-exact-results.json"
+      }
+    }
+  },
+  "artifact_hashes": {
+    "과제1_문제설명_Homework1.html": "c84e2cfabdfb608ddd3661bdc11fae38991cc35cc3752c8717da44b07951ca22",
+    "과제1_문제설명_Homework1.md": "d484a97bbe7e7884e67e90aea3cea230f5882a33ce48a8067a43363aa3140036",
+    "자료_문제설명_hw1_Homework1/evidence/26_10_Introduction_to_Machine_Learning_homework1_rev-excerpts.txt": "b97941d889c752963c338b43bf0605a72ad54cfc24e320ad5304394ebc44c12f",
+    "자료_문제설명_hw1_Homework1/evidence/author_recall.py": "5270e7e79f77f07b9f8848af3d96cec92dc564d3e0f5f5d3d0539a2d59ccbcd3",
+    "자료_문제설명_hw1_Homework1/evidence/browser-recall.py": "65d9191da9ae7a1a80d2405826f00f7b150218eedc2084a53aa551cbb9c5de28",
+    "자료_문제설명_hw1_Homework1/evidence/independent-results.json": "01e103090d9a0e556b5702c02735e2a0d7a0bc38229e2ddf72536e793216c33f",
+    "자료_문제설명_hw1_Homework1/evidence/independent.py": "b71265019b645f6125a3a75b3d254cdddcfd6cdbb0c0ede919a7f3659bb1fe00",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p1-1280-dark.png": "d60d6c389ed729120fd1770a15213298ee42f7937fdc64ae5649c6b91c3b48d2",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p1-1280-light.png": "0b3514472356efac21316fba978652ade884881ec2649295c4e5b3ceac691aaa",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p1-375-dark.png": "26660982d7a455f94891bcc9ffc3e867a03d09af155eff47a25af5b5c89217b3",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p1-375-light.png": "1ba697468c8f3df04cfc0cab21d88827c40922cb674e6501f23781e39455f8b1",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p13-1280-dark.png": "691e0f544514a87189422cf1b125330337c1c14bc894230634d87fa005c10c2e",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p13-1280-light.png": "7c2bf69e7a44f8d4394e445ad7150c055eb2272690cd8202b536f13fe7714b88",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p13-375-dark.png": "6ed0e25f88dd13a2c4c2135390d9ae039f9b76f7d8998b831cbb8350aa3affdd",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p13-375-light.png": "6411b2ccdbab19e5d35084935b198b384f1b4c5aa0ea0a7c5e8c111284b995dd",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p18-1280-dark.png": "1bd51e7a535a85c6e108fa0a7b8b7ccf8ca8b7b86437de6ad8c2b1090ebea1e7",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p18-1280-light.png": "9ca6bf276024b44cf9ed48335eb06bc480f81ffc14f58b2cf4a9a1957fbaf780",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p18-375-dark.png": "2f1920bf836becb08b1a007ed202616fd8b388119c57fb46d6996c658242c846",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p18-375-light.png": "db8be4c45b929532069727e58f95fa8037b791e5e022d87264a102d73092af9f",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p22-1280-dark.png": "e5d3fc7a2d6c7d4679caac532170cf3a160ea48a7361c5b6207021f3a85bf09b",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p22-1280-light.png": "a7e6ad7ffbd424acd4d115c235e24a5ad57602dc9780e85c485a21417c20e998",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p22-375-dark.png": "f5da1d1914f3f64642d95e7c33d4a0a94ad589558025d6d600555c1ef8f234ca",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p22-375-light.png": "4930b3673b90442d534d8f59796b31eff32bf4d663cc6237084bba3ead396249",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p25-1280-dark.png": "a13469c818099eee0cf0083cefb4154a350adc6d4ff5d67da50d69f977b3e5eb",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p25-1280-light.png": "a805883a580d606442e3eeca6d558f8a97dd69857b1b608190ba23f7e4d80de8",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p25-375-dark.png": "b06c825e241882c238a7d9956931c47e9974f6e99ed91cd850dd0abd1849062f",
+    "자료_문제설명_hw1_Homework1/evidence/layout-p25-375-light.png": "d8055c5c11e0170cc0f470047c72cf9ce431e2427dd0155ccceed36570b6c850",
+    "자료_문제설명_hw1_Homework1/evidence/layout-summary-1280-dark.png": "fdb491f588a9e3e4ee3458d660906715584adeeb34fe50d6530ac4fbb3801f59",
+    "자료_문제설명_hw1_Homework1/evidence/layout-summary-1280-light.png": "9a36dfb2d0e59d4c8d89397754ffe304e54320cc639a5ef8279cfc1f86540f08",
+    "자료_문제설명_hw1_Homework1/evidence/layout-summary-375-dark.png": "0f4b5246aa2c66138e53128d7c12eaf2790bcbf08e93bdfa10cbc89423bc66fd",
+    "자료_문제설명_hw1_Homework1/evidence/layout-summary-375-light.png": "66d818c0778e943ee024bc7dc84a8a9dffdc75f2992804cdeb341d79e586bd2c",
+    "자료_문제설명_hw1_Homework1/evidence/Lecture03_Linear_Regression_Part1_rev-excerpts.txt": "f4000bcf6ff7c963ca09b8cc7d16f03be0518d6d3fb555a4fa6a1329c23cf607",
+    "자료_문제설명_hw1_Homework1/evidence/Lecture04_Linear_Regression_Part2-excerpts.txt": "0076066a7256011073659b4cb3748dba8ef66cc3d0de2435bd141daaa61fcd78",
+    "자료_문제설명_hw1_Homework1/evidence/Mathematics_for_Machine_Learning-excerpts.txt": "a6e454664ede1ff47b3e678c0043a3ef69d39711bb8971892d5fd762b112d429",
+    "자료_문제설명_hw1_Homework1/evidence/original-hashes.json": "332fbe57f48afafcdb85123becbfacaf880baffe51bd8396160b83d1b84e6569",
+    "자료_문제설명_hw1_Homework1/evidence/recall-browser-results.json": "812e61e41c3620100903539a3b590a9623780af9c2a4cebc9fbd16661f3ab33e",
+    "자료_문제설명_hw1_Homework1/evidence/recall-content-review.md": "6deb1c16d8728366bd6b3b586cb8c64fa3814fcd126e19fca033609cdf17165b",
+    "자료_문제설명_hw1_Homework1/evidence/recall-exact-results.json": "7e20ab423cf93c6d060365d92aceebe9575400ebf97333757dcd2466a3b67a92",
+    "자료_문제설명_hw1_Homework1/evidence/references.json": "fc770c399b0e0161b440c52be35d5e1f2552ac2eebd49d8a400dd5e6d51d591f",
+    "자료_문제설명_hw1_Homework1/evidence/resize-recall-results.json": "f5d9935966aef3b129fb09eb688abb134182aa7ba6ec8907f2aece864306d98b",
+    "자료_문제설명_hw1_Homework1/evidence/resize-summary-dark.png": "fa5f4245bf689789808daf7da3442313a7d39ff5b89a36c6c61ca7db7cd39975",
+    "자료_문제설명_hw1_Homework1/evidence/resize-summary-light.png": "86c50a29b52bbe2911125e2cefbe17e011811fddcf1a1557ed1622c7681c3919",
+    "자료_문제설명_hw1_Homework1/evidence/resize_recall.py": "aa645940c0d54a0584e494de4343a1488b10601b09a3a3d468eb9a99d927ff50",
+    "자료_문제설명_hw1_Homework1/evidence/reviewer-findings.md": "19e1071198a7f46d0b02f973a474eb19acee416463a09e8865ad278aa482df84",
+    "자료_문제설명_hw1_Homework1/evidence/source-pages-recheck.png": "af7ed38e9daf574becef96cc1592696c59e7a70a42972f008ee87b52da03d798",
+    "자료_문제설명_hw1_Homework1/evidence/verify_recall.py": "45ad200644c2a72167b7634502d5dac65b8cef9da84c936a00eeee24c10993da",
+    "자료_문제설명_hw1_Homework1/fragments/p1.html": "864b86496d203fdb48642c65bc09c8a335f43609c2e3f5af789133bc4c64585d",
+    "자료_문제설명_hw1_Homework1/fragments/p10.html": "c232f122d050f21c5296fe031ba0a1beec7991fa76b3f629e1a36cdcc5d1f3f8",
+    "자료_문제설명_hw1_Homework1/fragments/p11.html": "177e6caaf7a1c467d7438b92ef04e02f3f4fe3f4cbf16b42dc02b9db1007a347",
+    "자료_문제설명_hw1_Homework1/fragments/p12.html": "cbb23d9238e68453cc5d4740bcd6d1ba51dc56a9471ffcad207f4c2f0c2fbe9c",
+    "자료_문제설명_hw1_Homework1/fragments/p13.html": "4015e36f4fd80e83cad4db9b2395d9ebe91571d51853fb48f453c97737dad87f",
+    "자료_문제설명_hw1_Homework1/fragments/p14.html": "62a9d1d98ccc8cdd433ec925e446c84d9589a238ff62df9339f5af7b5172d05c",
+    "자료_문제설명_hw1_Homework1/fragments/p15.html": "d41308730ba3ac08ee6e416df22d6b055fd99feec5516f86dadfdf63fd816ee5",
+    "자료_문제설명_hw1_Homework1/fragments/p16.html": "54ae28d7b6e2ef6deb7d5d7b1a71b611ad30ad6ea3f6b5e86c788e1be5d53754",
+    "자료_문제설명_hw1_Homework1/fragments/p17.html": "35f783ba0e3dc157ba677577e1ea71e45385771c7e538a532fc528cfde8c98ca",
+    "자료_문제설명_hw1_Homework1/fragments/p18.html": "3c787e2c8a68b6c53ae5ca985cb6bc8dc99c7e7ed28cff629c834ea106137771",
+    "자료_문제설명_hw1_Homework1/fragments/p19.html": "34bbb6acb3566bd3ae7ee972a2415c852742b67d0c1620165a5e19f61072e6dd",
+    "자료_문제설명_hw1_Homework1/fragments/p2.html": "28edf11bffc256fc726c39004e7ffe91042ccaafaf71302af8738ca85213c972",
+    "자료_문제설명_hw1_Homework1/fragments/p20.html": "246169c670a62781f472186ee97aff20955bdfeba8533a2da8e91f99bd6d8173",
+    "자료_문제설명_hw1_Homework1/fragments/p21.html": "0ea4822267e0c18dd10cd197cc506a7309de8fd207d8d501039b242222b4660b",
+    "자료_문제설명_hw1_Homework1/fragments/p22.html": "8a4e9faa3a274c6b5db2d1b00f4f6e76951fca6c27e56649a455b46b05b2af11",
+    "자료_문제설명_hw1_Homework1/fragments/p23.html": "cfd70b3cb11207f2ba75f6e03a1a690ddeedae41ef748a5d488ca8a4b8fddaf3",
+    "자료_문제설명_hw1_Homework1/fragments/p24.html": "fce3ff749c06bc97865f8095f2d12672a4abe39acd0adfb89a4d26e718accaed",
+    "자료_문제설명_hw1_Homework1/fragments/p25.html": "1745113f35708f48ebb3bcd1af1ce099dbf304c1b4b6920ded8dcc5a409b7df3",
+    "자료_문제설명_hw1_Homework1/fragments/p3.html": "c12c2d445cfe62171aed15d90d512f4f9a9ef2d5b6a2f5c76441cac9b926eb88",
+    "자료_문제설명_hw1_Homework1/fragments/p4.html": "c43aba3e7cb2a3d18dc109ff768f15d14b141d6ba67dd4c000aa3ccb0e83e70d",
+    "자료_문제설명_hw1_Homework1/fragments/p5.html": "aab2fec81321d052b3c33cd31ef07d9fe7f0baa7e6b28d6013e0967637f79e67",
+    "자료_문제설명_hw1_Homework1/fragments/p6.html": "efb357cfe968e9844785edaed5b7dfae64b5f9db07931a432ef76b967f5d7302",
+    "자료_문제설명_hw1_Homework1/fragments/p7.html": "e8bb8e33925aa76a9744c8287f5ac3664fda5ae8a083ae123fa3b03fcce56d5e",
+    "자료_문제설명_hw1_Homework1/fragments/p8.html": "c5f63467716c5c38fc8a8d1719c570985a57d2f2881ffe41ff454f9987b1f66c",
+    "자료_문제설명_hw1_Homework1/fragments/p9.html": "fcde8c17e07bb1ef1b56230ea9ed2e641d8d96dc5a8c408a99940af8409f1f5a",
+    "자료_문제설명_hw1_Homework1/template-provenance.json": "1b351c3c54d3673979cde165e6cffc98506da4699f193b94f41f5a95776aa2af",
+    "자료_문제설명_hw1_Homework1/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_AMS-Regular.woff": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_AMS-Regular.woff2": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Bold.ttf": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Bold.woff": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Bold.woff2": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Italic.ttf": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Italic.woff": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Italic.woff2": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Regular.ttf": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Regular.woff": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Main-Regular.woff2": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Math-Italic.ttf": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Math-Italic.woff": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Math-Italic.woff2": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Script-Regular.ttf": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Script-Regular.woff": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Script-Regular.woff2": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size1-Regular.ttf": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size1-Regular.woff": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size1-Regular.woff2": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size2-Regular.ttf": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size2-Regular.woff": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size2-Regular.woff2": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size3-Regular.ttf": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size3-Regular.woff": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size3-Regular.woff2": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size4-Regular.ttf": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size4-Regular.woff": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Size4-Regular.woff2": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7",
+    "자료_문제설명_hw1_Homework1/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b",
+    "자료_문제설명_hw1_Homework1/vendor/katex/katex.min.css": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258",
+    "자료_문제설명_hw1_Homework1/vendor/katex/katex.min.js": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4",
+    "자료_문제설명_hw1_Homework1/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/LICENSE": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/pretendard.css": "74dbf94c1ab3cb1d166346878e03572d8004ac88d21ac84332a32b28a088f2bd",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-Black.woff": "d8511e03d73b848d3df45d6f3d1166bb9532f7547b68da5f768d7b60df76faaa",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-Bold.woff": "b02e6d7d8606f13f12682bc4d43575d403a9cbb2d662f6f4f137dba384633267",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-ExtraBold.woff": "1f43803fe4cb56b82061c7392eae37a9123e839b39cc0aa3c3f5b22edcb170d3",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-ExtraLight.woff": "f8c8f64cec9d0c4b2c675a5cac99b2cef9d34f4b485caf9ec47901314ff8c460",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-Light.woff": "744e50b9780722eada9afc308712c7d1dc5176d8b46c315d010fa42fffb76fe6",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-Medium.woff": "6231269ba695835ca13b03cf411b4e68379993039b4033c373e4e9940ee5370d",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-Regular.woff": "3214d4fdb5bd41e10c9f0b5fa8c6ff2f1096b249665cdbf34948434ee7c51934",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-SemiBold.woff": "e476f124e88472078cf472ac09768331f93f76063a52183ff303a192adea800a",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff/Pretendard-Thin.woff": "1c760324692f0d4bdd46f6f2378ce73aaa37056b8673163d1463adaee8b3dee1",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-Black.woff2": "c5fd0c3568fc1368a3edc0d0fbb36df029935954276e3573451b3bae09e27296",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-Bold.woff2": "4609c3356e536fafe38f4add0daeceb3d8595d3057bce13c428c33ddbd43d362",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-ExtraBold.woff2": "dd7c1e156f508eb962acc7a33a7a1896d1e0b71e11156fad96e731689ceb6dc3",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-ExtraLight.woff2": "df43dc9165dff4542114674bcd8b79b7daae6dec004004586d5d076fec6fe2aa",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-Light.woff2": "b7426635cce2ea2b95c9c802e43fba1c620e0dafaf25f737c069b8b4e09fa841",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-Medium.woff2": "d03481330eeba0659ab5b87f25ceb504a35de377dd90a0d0aba2982eb2d05e2c",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-Regular.woff2": "fad853f7f47c6c8b103171e7193fa095708cdcd70850a71d93aa5379e8a61d63",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
+    "자료_문제설명_hw1_Homework1/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
+    "자료_문제설명_hw1_Homework1/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
+    "자료_문제설명_hw1_Homework1/manifest.json": "0fe1c7fa9e30d8e3723b6be07ee2e60d7b74f922ac648243fdf969832fc6bfd9"
+  }
+}
