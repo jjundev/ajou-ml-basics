@@ -1,6 +1,6 @@
 ---
 name: ml-stt
-description: [Gemini Only] Use when transcribing machine learning lecture audio or video recordings (.m4a, .mp3, .wav) into a verbatim transcript under STT/<MMDD> 머러기.md with domain-specific terminology guidance for ajou-ml-basics, or when invoking /ml-stt. Strictly requires Gemini models; fails on Claude/GPT.
+description: "[Gemini Only] Use when transcribing machine learning lecture audio or video recordings (.m4a, .mp3, .wav) into a verbatim transcript under STT/<MMDD> 머러기.md with domain-specific terminology guidance for ajou-ml-basics, or when invoking /ml-stt. Strictly requires Gemini models; fails on Claude/GPT."
 ---
 
 # ML STT (머신러닝기초 강의 음성 전사)
