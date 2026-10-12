@@ -27,18 +27,18 @@
 
 공통 개념은 한 번 설명하고, 서로 다른 개념을 요구하는 소문항은 (a), (b)처럼 구분해요. 개념 수를 고정하지 않아요. 공식이 필요 없는 정성·증명 문항에서는 정의·판단 기준과 논증 조건을 설명해요. 우측 sum에 `summary-group`을 추가해 `<h4>떠올릴 개념·공식</h4>` 아래 핵심 개념·공식을 짧게 적어요. 본문 전체를 요약에 복제하지 않아요.
 
-`source.json`의 subparts가 a,b이면 **solve와 verify 모두** 각각 아래 표지를 한 번씩 사용해요. 단일 문항도 `main` 표지가 필요해요.
+`source.json`의 subparts가 a,b이면 **solve와 verify 모두** 각각 아래 표지를 한 번씩 사용해요. 단일 문항도 `main` 표지가 필요해요. 소문항 제목에 `(a)`, `(b)`를 한 번 표시하고, 같은 묶음의 문단 앞에는 같은 표지를 반복하지 않아요. `(a)에서 구한 결과`처럼 의미 있는 참조는 유지해요. 조립기도 제목이 있는 solve/verify 묶음의 같은 접두사와 뒤 공백만 제거해요.
 
 ```html
 <div class="layer formal" data-explanation="solve">
   <h4>왜 이렇게 푸는지 함께 따라가요</h4>
-  <div data-subpart="a"><p>(a) 실제 식, 변형 이유, 완성 답을 써요.</p></div>
-  <div data-subpart="b"><p>(b) 실제 식, 변형 이유, 완성 답을 써요.</p></div>
+  <div data-subpart="a"><h4>(a)</h4><p>실제 식, 변형 이유, 완성 답을 써요.</p></div>
+  <div data-subpart="b"><h4>(b)</h4><p>실제 식, 변형 이유, 완성 답을 써요.</p></div>
 </div>
 <div class="layer formal" data-explanation="verify">
   <h4>완성 답과 검산</h4>
-  <div data-subpart="a"><p>(a) 계산을 별도로 확인한 결과를 써요.</p></div>
-  <div data-subpart="b"><p>(b) 조건에 대입한 결과를 써요.</p></div>
+  <div data-subpart="a"><h4>(a) 검산</h4><p>계산을 별도로 확인한 결과를 써요.</p></div>
+  <div data-subpart="b"><h4>(b) 검산</h4><p>조건에 대입한 결과를 써요.</p></div>
 </div>
 ```
 

@@ -12,6 +12,7 @@ from mpe_contract import validate_fragment, payload_hash, markup_errors
 from mpe_shared import Node, parse, inner, outer, compact, Ctx, convert, check_md
 from mpe_source import sha256, inside, existing_path
 from mpe_types import ExplainError, Artifacts
+from mpe_labels import normalize_subpart_labels
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
 
@@ -127,14 +128,15 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
             reading += '<div class="layer formal" data-original-problem="' + p.id + '"><h4>과제 원문</h4>' + p.original_html + '</div>'
         # Validate each block separately: a summary remains a direct fragment child.
         reading = resources(reading, p, pack, repo, stage, fig_name, pack.path.parent)
-        explanation = resources(fragments[p.id], p, pack, repo, stage, fig_name, pack.path.parent)
+        normalized = normalize_subpart_labels(fragments[p.id])
+        explanation = resources(normalized, p, pack, repo, stage, fig_name, pack.path.parent)
         original_link = quote(pack.path.name, safe='') + '#' + p.id
         articles.append(f'<article class="topic" id="{p.id}"><h3>{html.escape(p.title)}</h3>'
                         + f'<p class="panel-meta">{html.escape(p.source)} · <a href="{original_link}">원 문제 보기</a></p>'
                         + reading + explanation + '</article>')
         toc.append(f'<li><a href="#{p.id}">{html.escape(p.title)}</a></li>')
         (data_dir / 'fragments').mkdir(exist_ok=True)
-        (data_dir / 'fragments' / f'{p.id}.html').write_text(fragments[p.id], encoding='utf-8')
+        (data_dir / 'fragments' / f'{p.id}.html').write_text(normalized, encoding='utf-8')
     title = f'머신러닝기초 {"과제" if pack.profile == "homework" else "복습"} {pack.range} 문제설명'
     values = {'PAGE_TITLE': html.escape(title), 'BRAND': '문제풀이 입문 설명', 'DESCRIPTION': '첫 줄부터 완성 답과 검산까지 설명해요.',
               'TOC': '<ul class="toc-list">' + ''.join(toc) + '</ul>', 'TITLE': html.escape(title),

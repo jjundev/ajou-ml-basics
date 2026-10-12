@@ -89,7 +89,7 @@ $(A^\top)_{ij}=A_{ji}$부터 써요. 전치(transpose)의 정의가 이 식이�
 
 #### (a)
 
-(a) $\mathbf{A}$는 $2\times 3$이라 $\mathbf{A}^\top$는 $3\times 2$예요. 첫 행 $(1,-2,3)$이 첫 열, 둘째 행 $(0,4,5)$가 둘째 열이 돼요.
+$\mathbf{A}$는 $2\times 3$이라 $\mathbf{A}^\top$는 $3\times 2$예요. 첫 행 $(1,-2,3)$이 첫 열, 둘째 행 $(0,4,5)$가 둘째 열이 돼요.
 
 $$
 \mathbf{A}^\top=\begin{bmatrix}1 & 0\\-2 & 4\\3 & 5\end{bmatrix}
@@ -97,7 +97,7 @@ $$
 
 #### (b)
 
-(b) $\mathbf{b}$는 $3\times 1$ 열벡터라 $\mathbf{b}^\top$는 $1\times 3$ 행벡터예요.
+$\mathbf{b}$는 $3\times 1$ 열벡터라 $\mathbf{b}^\top$는 $1\times 3$ 행벡터예요.
 
 $$
 \mathbf{b}^\top=\begin{bmatrix}2 & -1 & 4\end{bmatrix}
@@ -105,7 +105,7 @@ $$
 
 #### (c)
 
-(c) $\mathbf{C}$의 각 행을 열로 세워요. 첫 행 $(1,2,0)$, 둘째 행 $(-1,3,4)$, 셋째 행 $(5,0,-2)$가 차례로 열이 돼요.
+$\mathbf{C}$의 각 행을 열로 세워요. 첫 행 $(1,2,0)$, 둘째 행 $(-1,3,4)$, 셋째 행 $(5,0,-2)$가 차례로 열이 돼요.
 
 $$
 \mathbf{C}^\top=\begin{bmatrix}1 & -1 & 5\\2 & 3 & 0\\0 & 4 & -2\end{bmatrix}
@@ -214,7 +214,7 @@ $x^\top y=\sum_{i=1}^3x_i y_i$, $\|x\|_2=\sqrt{x^\top x}$부터 써요. 내적(d
 
 #### (a)
 
-(a) 같은 자리끼리 곱해서 더해요.
+같은 자리끼리 곱해서 더해요.
 
 $$
 \mathbf{x}^\top\mathbf{y}=1\cdot 2+(-2)\cdot 1+2\cdot 0=2-2+0=0
@@ -222,15 +222,15 @@ $$
 
 #### (b)
 
-(b) $\|\mathbf{x}\|_2=\sqrt{1^2+(-2)^2+2^2}=\sqrt{9}=3$이에요.
+$\|\mathbf{x}\|_2=\sqrt{1^2+(-2)^2+2^2}=\sqrt{9}=3$이에요.
 
 #### (c)
 
-(c) $\|\mathbf{y}\|_2=\sqrt{2^2+1^2+0^2}=\sqrt{5}$예요.
+$\|\mathbf{y}\|_2=\sqrt{2^2+1^2+0^2}=\sqrt{5}$예요.
 
 #### (d)
 
-(d) 두 벡터는 내적이 $0$일 때 직교해요. (a)에서 $\mathbf{x}^\top\mathbf{y}=0$이고 두 벡터 모두 영벡터가 아니니, $\mathbf{x}$와 $\mathbf{y}$는 직교해요.
+두 벡터는 내적이 $0$일 때 직교해요. (a)에서 $\mathbf{x}^\top\mathbf{y}=0$이고 두 벡터 모두 영벡터가 아니니, $\mathbf{x}$와 $\mathbf{y}$는 직교해요.
 
 **완성 답**<br>정답: $\mathbf{x}^\top\mathbf{y}=0$, $\|\mathbf{x}\|_2=3$, $\|\mathbf{y}\|_2=\sqrt{5}$, 내적이 0이라 두 벡터는 직교해요.
 
@@ -457,25 +457,25 @@ $\det\begin{bmatrix}a&b\\c&d\end{bmatrix}=ad-bc$부터 써요. (c)는 대각 원
 
 #### (a)
 
-(a) $\det(\mathbf{A})=3\cdot 4-1\cdot 2=10$이에요.
+$\det(\mathbf{A})=3\cdot 4-1\cdot 2=10$이에요.
 
 #### (b)
 
-(b) $\det(\mathbf{B})=1\cdot 0-(-2)\cdot 3=6$이에요.
+$\det(\mathbf{B})=1\cdot 0-(-2)\cdot 3=6$이에요.
 
 #### (c)
 
-(c) 대각행렬이라 $\det(\mathbf{C})=2\cdot(-1)\cdot 3=-6$이에요.
+대각행렬이라 $\det(\mathbf{C})=2\cdot(-1)\cdot 3=-6$이에요.
 
 #### (d)
 
-(d) 첫 행으로 전개해요.
+첫 행으로 전개해요.
 
 $$
 \det(\mathbf{D})=1(4\cdot 4-6\cdot 2)-3(2\cdot 4-6\cdot 0)+5(2\cdot 2-4\cdot 0)=4-24+20=0
 $$
 
-(d) Sarrus 규칙으로도 확인해요.
+Sarrus 규칙으로도 확인해요.
 
 $$
 (1\cdot 4\cdot 4+3\cdot 6\cdot 0+5\cdot 2\cdot 2)-(5\cdot 4\cdot 0+1\cdot 6\cdot 2+3\cdot 2\cdot 4)=36-36=0
@@ -597,33 +597,33 @@ $M^{-1}=\frac1{ad-bc}\begin{bmatrix}d&-b\\-c&a\end{bmatrix}$, $ad-bc\ne0$부터 
 
 #### (a)
 
-(a) $\det(\mathbf{A})=2\cdot 1-1\cdot 1=1$이에요. 공식에 넣으면
+$\det(\mathbf{A})=2\cdot 1-1\cdot 1=1$이에요. 공식에 넣으면
 
 $$
 \mathbf{A}^{-1}=\frac{1}{1}\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}=\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}
 $$
 
-(a) 확인: $\mathbf{A}\mathbf{A}^{-1}=\begin{bmatrix}2-1 & -2+2\\1-1 & -1+2\end{bmatrix}=\mathbf{I}$예요.
+확인: $\mathbf{A}\mathbf{A}^{-1}=\begin{bmatrix}2-1 & -2+2\\1-1 & -1+2\end{bmatrix}=\mathbf{I}$예요.
 
 #### (b)
 
-(b) $\det(\mathbf{B})=1\cdot 1-(-2)\cdot 3=7$이에요.
+$\det(\mathbf{B})=1\cdot 1-(-2)\cdot 3=7$이에요.
 
 $$
 \mathbf{B}^{-1}=\frac{1}{7}\begin{bmatrix}1 & 2\\-3 & 1\end{bmatrix}=\begin{bmatrix}\frac{1}{7} & \frac{2}{7}\\-\frac{3}{7} & \frac{1}{7}\end{bmatrix}
 $$
 
-(b) 확인: $\mathbf{B}\begin{bmatrix}1 & 2\\-3 & 1\end{bmatrix}=\begin{bmatrix}1+6 & 2-2\\3-3 & 6+1\end{bmatrix}=7\mathbf{I}$라서 $\frac{1}{7}$을 곱하면 $\mathbf{I}$예요.
+확인: $\mathbf{B}\begin{bmatrix}1 & 2\\-3 & 1\end{bmatrix}=\begin{bmatrix}1+6 & 2-2\\3-3 & 6+1\end{bmatrix}=7\mathbf{I}$라서 $\frac{1}{7}$을 곱하면 $\mathbf{I}$예요.
 
 #### (c)
 
-(c) $\mathbf{C}$는 블록대각 행렬이에요. 왼쪽 위 블록 $\begin{bmatrix}2 & 1\\1 & 2\end{bmatrix}$의 행렬식은 $4-1=3$이라 역은 $\frac{1}{3}\begin{bmatrix}2 & -1\\-1 & 2\end{bmatrix}$이고, 오른쪽 아래 $2$의 역은 $\frac{1}{2}$이에요.
+$\mathbf{C}$는 블록대각 행렬이에요. 왼쪽 위 블록 $\begin{bmatrix}2 & 1\\1 & 2\end{bmatrix}$의 행렬식은 $4-1=3$이라 역은 $\frac{1}{3}\begin{bmatrix}2 & -1\\-1 & 2\end{bmatrix}$이고, 오른쪽 아래 $2$의 역은 $\frac{1}{2}$이에요.
 
 $$
 \mathbf{C}^{-1}=\begin{bmatrix}\frac{2}{3} & -\frac{1}{3} & 0\\-\frac{1}{3} & \frac{2}{3} & 0\\0 & 0 & \frac{1}{2}\end{bmatrix}
 $$
 
-(c) 확인: 첫 행은 $(2\cdot\frac{2}{3}-\frac{1}{3},\;-\frac{2}{3}+\frac{2}{3},\;0)=(1,0,0)$, 둘째 행은 $(\frac{2}{3}-\frac{2}{3},\;-\frac{1}{3}+\frac{4}{3},\;0)=(0,1,0)$, 셋째 행은 $(0,0,2\cdot\frac{1}{2})=(0,0,1)$이라 $\mathbf{C}\mathbf{C}^{-1}=\mathbf{I}$예요.
+확인: 첫 행은 $(2\cdot\frac{2}{3}-\frac{1}{3},\;-\frac{2}{3}+\frac{2}{3},\;0)=(1,0,0)$, 둘째 행은 $(\frac{2}{3}-\frac{2}{3},\;-\frac{1}{3}+\frac{4}{3},\;0)=(0,1,0)$, 셋째 행은 $(0,0,2\cdot\frac{1}{2})=(0,0,1)$이라 $\mathbf{C}\mathbf{C}^{-1}=\mathbf{I}$예요.
 
 **완성 답**<br>정답: ${\mathbf{A}^{-1}=\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}}$, ${\mathbf{B}^{-1}=\begin{bmatrix}\frac{1}{7} & \frac{2}{7}\\-\frac{3}{7} & \frac{1}{7}\end{bmatrix}}$, ${\mathbf{C}^{-1}=\begin{bmatrix}\frac{2}{3} & -\frac{1}{3} & 0\\-\frac{1}{3} & \frac{2}{3} & 0\\0 & 0 & \frac{1}{2}\end{bmatrix}}$
 
@@ -1141,7 +1141,7 @@ $\nabla f=(f_u,f_v)^\top$부터 써요. 예를 들어 $\partial_u(3v^2)=0$, $\pa
 
 #### (a)
 
-(a) $\partial f/\partial u=2u-2$, $\partial f/\partial v=6v+4$예요. $(1,-1)$에서 $2-2=0$, $-6+4=-2$예요.
+$\partial f/\partial u=2u-2$, $\partial f/\partial v=6v+4$예요. $(1,-1)$에서 $2-2=0$, $-6+4=-2$예요.
 
 $$
 \nabla f(1,-1)=\begin{bmatrix}0\\-2\end{bmatrix}
@@ -1149,7 +1149,7 @@ $$
 
 #### (b)
 
-(b) $\partial g/\partial u=2u+2v-4$, $\partial g/\partial v=2u+6v+2$예요. $(1,-1)$에서 $2-2-4=-4$, $2-6+2=-2$예요.
+$\partial g/\partial u=2u+2v-4$, $\partial g/\partial v=2u+6v+2$예요. $(1,-1)$에서 $2-2-4=-4$, $2-6+2=-2$예요.
 
 $$
 \nabla g(1,-1)=\begin{bmatrix}-4\\-2\end{bmatrix}
@@ -1157,9 +1157,9 @@ $$
 
 #### (c)
 
-(c) $s=u+2v-w-3$로 두면 $h=s^2$이고, 연쇄법칙으로 $\nabla h=2s\,(\partial s/\partial u,\partial s/\partial v,\partial s/\partial w)^\top=2s\,(1,2,-1)^\top$예요.
+$s=u+2v-w-3$로 두면 $h=s^2$이고, 연쇄법칙으로 $\nabla h=2s\,(\partial s/\partial u,\partial s/\partial v,\partial s/\partial w)^\top=2s\,(1,2,-1)^\top$예요.
 
-(c) $(1,0,-1)$에서 $s=1+0+1-3=-1$이라
+$(1,0,-1)$에서 $s=1+0+1-3=-1$이라
 
 $$
 \nabla h(1,0,-1)=2(-1)\begin{bmatrix}1\\2\\-1\end{bmatrix}=\begin{bmatrix}-2\\-4\\2\end{bmatrix}
@@ -1266,7 +1266,7 @@ $J_{ij}=\partial f_i/\partial x_j$부터 써요. 첫 행은 첫 출력의 u,v �
 
 #### (a)
 
-(a) 출력 $f_1=u+2v$, $f_2=3u-v$를 $u$, $v$로 미분해 행으로 쌓아요. 모든 편미분이 상수라 점과 상관없이 같아요.
+출력 $f_1=u+2v$, $f_2=3u-v$를 $u$, $v$로 미분해 행으로 쌓아요. 모든 편미분이 상수라 점과 상관없이 같아요.
 
 $$
 \mathbf{J}_\mathbf{f}=\begin{bmatrix}\partial f_1/\partial u & \partial f_1/\partial v\\\partial f_2/\partial u & \partial f_2/\partial v\end{bmatrix}=\begin{bmatrix}1 & 2\\3 & -1\end{bmatrix}
@@ -1274,13 +1274,13 @@ $$
 
 #### (b)
 
-(b) 출력이 3개, 입력이 2개라 $3\times 2$ 행렬이에요.
+출력이 3개, 입력이 2개라 $3\times 2$ 행렬이에요.
 
 $$
 \mathbf{J}_\mathbf{g}=\begin{bmatrix}2u & 1\\v & u\\0 & 2v\end{bmatrix}
 $$
 
-(b) $(u,v)=(1,2)$를 넣어요.
+$(u,v)=(1,2)$를 넣어요.
 
 $$
 \mathbf{J}_\mathbf{g}(1,2)=\begin{bmatrix}2 & 1\\2 & 1\\0 & 4\end{bmatrix}
@@ -1383,19 +1383,19 @@ $Qx=(3x_1+x_2,x_1+2x_2)^\top$부터 써요. 왼쪽에서 $(x_1,x_2)$를 곱하�
 
 #### (a)
 
-(a) $\mathbf{x}^\top\mathbf{Q}\mathbf{x}=3x_1^2+x_1x_2+x_2x_1+2x_2^2=3x_1^2+2x_1x_2+2x_2^2$이고, $2\mathbf{b}^\top\mathbf{x}=2(x_1-x_2)$예요.
+$\mathbf{x}^\top\mathbf{Q}\mathbf{x}=3x_1^2+x_1x_2+x_2x_1+2x_2^2=3x_1^2+2x_1x_2+2x_2^2$이고, $2\mathbf{b}^\top\mathbf{x}=2(x_1-x_2)$예요.
 
 $$
 h=3x_1^2+2x_1x_2+2x_2^2-2x_1+2x_2
 $$
 
-(a) 편미분하면 $\partial h/\partial x_1=6x_1+2x_2-2$, $\partial h/\partial x_2=2x_1+4x_2+2$예요.
+편미분하면 $\partial h/\partial x_1=6x_1+2x_2-2$, $\partial h/\partial x_2=2x_1+4x_2+2$예요.
 
 #### (b)
 
-(b) 두 식을 $0$으로 두면 $3x_1+x_2=1$, $x_1+2x_2=-1$이에요. 둘째 식에서 $x_1=-1-2x_2$를 첫 식에 넣으면 $-3-6x_2+x_2=1$, 즉 $x_2=-\frac{4}{5}$예요.
+두 식을 $0$으로 두면 $3x_1+x_2=1$, $x_1+2x_2=-1$이에요. 둘째 식에서 $x_1=-1-2x_2$를 첫 식에 넣으면 $-3-6x_2+x_2=1$, 즉 $x_2=-\frac{4}{5}$예요.
 
-(b) 그러면 $x_1=-1+\frac{8}{5}=\frac{3}{5}$이에요. 검산: $6\cdot\frac{3}{5}+2(-\frac{4}{5})-2=\frac{18-8-10}{5}=0$, $2\cdot\frac{3}{5}+4(-\frac{4}{5})+2=\frac{6-16+10}{5}=0$이에요.
+그러면 $x_1=-1+\frac{8}{5}=\frac{3}{5}$이에요. 검산: $6\cdot\frac{3}{5}+2(-\frac{4}{5})-2=\frac{18-8-10}{5}=0$, $2\cdot\frac{3}{5}+4(-\frac{4}{5})+2=\frac{6-16+10}{5}=0$이에요.
 
 **완성 답**<br>정답: (a) $h=3x_1^2+2x_1x_2+2x_2^2-2x_1+2x_2$, $\partial h/\partial x_1=6x_1+2x_2-2$, $\partial h/\partial x_2=2x_1+4x_2+2$; (b) $x_1=\frac{3}{5}$, $x_2=-\frac{4}{5}$
 
@@ -1920,23 +1920,23 @@ $J=(y-\Phi\theta)^\top(y-\Phi\theta)$부터 써요. 곱을 네 항으로 전개�
 
 #### (a)
 
-(a) 전개해요. $\mathbf{y}^\top\boldsymbol{\Phi}\boldsymbol{\theta}$는 스칼라라 $\boldsymbol{\theta}^\top\boldsymbol{\Phi}^\top\mathbf{y}$와 같아요.
+전개해요. $\mathbf{y}^\top\boldsymbol{\Phi}\boldsymbol{\theta}$는 스칼라라 $\boldsymbol{\theta}^\top\boldsymbol{\Phi}^\top\mathbf{y}$와 같아요.
 
 $$
 J(\boldsymbol{\theta})=\mathbf{y}^\top\mathbf{y}-2\boldsymbol{\theta}^\top\boldsymbol{\Phi}^\top\mathbf{y}+\boldsymbol{\theta}^\top\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\boldsymbol{\theta}
 $$
 
-(a) $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$는 대칭이라
+$\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$는 대칭이라
 
 $$
 \nabla_{\boldsymbol{\theta}}J=-2\boldsymbol{\Phi}^\top\mathbf{y}+2\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\boldsymbol{\theta}
 $$
 
-(a) $\mathbf{0}$으로 두면 정규방정식 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\boldsymbol{\theta}=\boldsymbol{\Phi}^\top\mathbf{y}$를 얻어요.
+$\mathbf{0}$으로 두면 정규방정식 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\boldsymbol{\theta}=\boldsymbol{\Phi}^\top\mathbf{y}$를 얻어요.
 
-(a) 열이 선형 독립이면 $\mathbf{v}\ne\mathbf{0}$일 때 $\boldsymbol{\Phi}\mathbf{v}\ne\mathbf{0}$이라 $\mathbf{v}^\top\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\mathbf{v}=\|\boldsymbol{\Phi}\mathbf{v}\|_2^2\gt 0$이에요. 즉 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$는 양의 정부호라 가역이고, 헤시안 $2\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$도 양의 정부호라 이 점이 최소예요.
+열이 선형 독립이면 $\mathbf{v}\ne\mathbf{0}$일 때 $\boldsymbol{\Phi}\mathbf{v}\ne\mathbf{0}$이라 $\mathbf{v}^\top\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\mathbf{v}=\|\boldsymbol{\Phi}\mathbf{v}\|_2^2\gt 0$이에요. 즉 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$는 양의 정부호라 가역이고, 헤시안 $2\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$도 양의 정부호라 이 점이 최소예요.
 
-(a) 음의 로그우도는 상수 $+\frac{1}{2\sigma^2}J(\boldsymbol{\theta})$라 $J$의 최소점이 ML 추정이에요.
+음의 로그우도는 상수 $+\frac{1}{2\sigma^2}J(\boldsymbol{\theta})$라 $J$의 최소점이 ML 추정이에요.
 
 $$
 \boldsymbol{\theta}_{\mathrm{ML}}=(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}
@@ -1944,21 +1944,21 @@ $$
 
 #### (b)
 
-(b) 행이 $(1,x_n)$이라
+행이 $(1,x_n)$이라
 
 $$
 {\boldsymbol{\Phi}=\begin{bmatrix}1 & -1\\1 & 0\\1 & 1\end{bmatrix}},\quad{\boldsymbol{\Phi}^\top\boldsymbol{\Phi}=\begin{bmatrix}3 & 0\\0 & 2\end{bmatrix}},\quad{\boldsymbol{\Phi}^\top\mathbf{y}=\begin{bmatrix}2+1+4\\-2+0+4\end{bmatrix}=\begin{bmatrix}7\\2\end{bmatrix}}
 $$
 
-(b) 대각행렬이라 바로 풀려요.
+대각행렬이라 바로 풀려요.
 
 $$
 \boldsymbol{\theta}_{\mathrm{ML}}=\begin{bmatrix}\frac{1}{3} & 0\\0 & \frac{1}{2}\end{bmatrix}\begin{bmatrix}7\\2\end{bmatrix}=\begin{bmatrix}\frac{7}{3}\\1\end{bmatrix}
 $$
 
-(b) 예측은 $\hat{y}_n=\frac{7}{3}+x_n$이라 $\hat{y}_1=\frac{4}{3}$, $\hat{y}_2=\frac{7}{3}$, $\hat{y}_3=\frac{10}{3}$이에요.
+예측은 $\hat{y}_n=\frac{7}{3}+x_n$이라 $\hat{y}_1=\frac{4}{3}$, $\hat{y}_2=\frac{7}{3}$, $\hat{y}_3=\frac{10}{3}$이에요.
 
-(b) 잔차는 $2-\frac{4}{3}=\frac{2}{3}$, $1-\frac{7}{3}=-\frac{4}{3}$, $4-\frac{10}{3}=\frac{2}{3}$이에요.
+잔차는 $2-\frac{4}{3}=\frac{2}{3}$, $1-\frac{7}{3}=-\frac{4}{3}$, $4-\frac{10}{3}=\frac{2}{3}$이에요.
 
 $$
 S=\frac{4}{9}+\frac{16}{9}+\frac{4}{9}=\frac{24}{9}=\frac{8}{3}
@@ -2169,13 +2169,13 @@ $\lambda=\sigma^2/b^2$, $(\Phi^\top\Phi+\lambda I)\theta=\Phi^\top y$부터 써�
 
 #### (a)
 
-(a) ML은 정규방정식의 해예요.
+ML은 정규방정식의 해예요.
 
 $$
 \boldsymbol{\theta}_{\mathrm{ML}}=\begin{bmatrix}3 & 0\\0 & 2\end{bmatrix}^{-1}\begin{bmatrix}7\\2\end{bmatrix}=\begin{bmatrix}\frac{7}{3}\\1\end{bmatrix}
 $$
 
-(a) $b^2=1$이면 $\frac{\sigma^2}{b^2}=1$이라 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+\mathbf{I}=\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}$이에요.
+$b^2=1$이면 $\frac{\sigma^2}{b^2}=1$이라 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+\mathbf{I}=\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}$이에요.
 
 $$
 \boldsymbol{\theta}_{\mathrm{MAP}}=\begin{bmatrix}\frac{7}{4}\\\frac{2}{3}\end{bmatrix}
@@ -2183,13 +2183,13 @@ $$
 
 #### (b)
 
-(b) $b^2=\frac{1}{4}$이면 $\frac{\sigma^2}{b^2}=4$라 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+4\mathbf{I}=\begin{bmatrix}7 & 0\\0 & 6\end{bmatrix}$이에요.
+$b^2=\frac{1}{4}$이면 $\frac{\sigma^2}{b^2}=4$라 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+4\mathbf{I}=\begin{bmatrix}7 & 0\\0 & 6\end{bmatrix}$이에요.
 
 $$
 \boldsymbol{\theta}_{\mathrm{MAP}}=\begin{bmatrix}\frac{7}{7}\\\frac{2}{6}\end{bmatrix}=\begin{bmatrix}1\\\frac{1}{3}\end{bmatrix}
 $$
 
-(b) 비교하면 절편은 $\frac{7}{3}\to\frac{7}{4}\to 1$, 기울기는 $1\to\frac{2}{3}\to\frac{1}{3}$로 작아져요. $b^2$을 줄이면 사전분포가 $\mathbf{0}$ 주변에 더 좁게 몰려서 규제 강도 $\lambda=\frac{\sigma^2}{b^2}$가 커지고, MAP 추정이 $\mathbf{0}$ 쪽으로 더 강하게 수축돼요.
+비교하면 절편은 $\frac{7}{3}\to\frac{7}{4}\to 1$, 기울기는 $1\to\frac{2}{3}\to\frac{1}{3}$로 작아져요. $b^2$을 줄이면 사전분포가 $\mathbf{0}$ 주변에 더 좁게 몰려서 규제 강도 $\lambda=\frac{\sigma^2}{b^2}$가 커지고, MAP 추정이 $\mathbf{0}$ 쪽으로 더 강하게 수축돼요.
 
 **완성 답**<br>정답: (a) ${\boldsymbol{\theta}_{\mathrm{ML}}=\begin{bmatrix}\frac{7}{3}\\1\end{bmatrix}}$, $b^2=1$일 때 ${\boldsymbol{\theta}_{\mathrm{MAP}}=\begin{bmatrix}\frac{7}{4}\\\frac{2}{3}\end{bmatrix}}$; (b) $b^2=\frac{1}{4}$일 때 ${\boldsymbol{\theta}_{\mathrm{MAP}}=\begin{bmatrix}1\\\frac{1}{3}\end{bmatrix}}$. $b^2$이 작을수록 추정이 $\mathbf{0}$ 쪽으로 더 수축돼요.
 
@@ -2293,7 +2293,7 @@ $s=\theta_1+\theta_2$, $\Phi\theta=(s,2s)^\top$부터 써요. 이 데이터가 �
 
 #### (a)
 
-(a) 두 열이 모두 $(1,2)^\top$이라 모든 원소가 $1+4=5$예요.
+두 열이 모두 $(1,2)^\top$이라 모든 원소가 $1+4=5$예요.
 
 $$
 {\boldsymbol{\Phi}^\top\boldsymbol{\Phi}=\begin{bmatrix}5 & 5\\5 & 5\end{bmatrix}},\quad{\det(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})=25-25=0}
@@ -2301,21 +2301,21 @@ $$
 
 #### (b)
 
-(b) $\boldsymbol{\Phi}\boldsymbol{\theta}_A=(3+0,\,6+0)^\top$, $\boldsymbol{\Phi}\boldsymbol{\theta}_B=(1+2,\,2+4)^\top$로 둘 다 $\begin{bmatrix}3\\6\end{bmatrix}=\mathbf{y}$예요. 그래서 두 경우 모두 $\|\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}\|_2^2=0$이에요.
+$\boldsymbol{\Phi}\boldsymbol{\theta}_A=(3+0,\,6+0)^\top$, $\boldsymbol{\Phi}\boldsymbol{\theta}_B=(1+2,\,2+4)^\top$로 둘 다 $\begin{bmatrix}3\\6\end{bmatrix}=\mathbf{y}$예요. 그래서 두 경우 모두 $\|\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}\|_2^2=0$이에요.
 
-(b) $\det=0$이라 정규방정식의 해가 하나로 정해지지 않고, 오차를 $0$으로 만드는 $\boldsymbol{\theta}$가 $\theta_1+\theta_2=3$ 위에 무수히 많아요.
+$\det=0$이라 정규방정식의 해가 하나로 정해지지 않고, 오차를 $0$으로 만드는 $\boldsymbol{\theta}$가 $\theta_1+\theta_2=3$ 위에 무수히 많아요.
 
 #### (c)
 
-(c) $\nabla J=-2\boldsymbol{\Phi}^\top(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})+10\boldsymbol{\theta}=\mathbf{0}$에서 $(\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+5\mathbf{I})\boldsymbol{\theta}=\boldsymbol{\Phi}^\top\mathbf{y}$이고, $\boldsymbol{\Phi}^\top\mathbf{y}=(3+12,\,3+12)^\top=(15,15)^\top$이에요.
+$\nabla J=-2\boldsymbol{\Phi}^\top(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})+10\boldsymbol{\theta}=\mathbf{0}$에서 $(\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+5\mathbf{I})\boldsymbol{\theta}=\boldsymbol{\Phi}^\top\mathbf{y}$이고, $\boldsymbol{\Phi}^\top\mathbf{y}=(3+12,\,3+12)^\top=(15,15)^\top$이에요.
 
 $$
 \begin{bmatrix}10 & 5\\5 & 10\end{bmatrix}\boldsymbol{\theta}=\begin{bmatrix}15\\15\end{bmatrix}
 $$
 
-(c) 두 식을 빼면 $5\theta_1-5\theta_2=0$이라 $\theta_1=\theta_2$, 그러면 $15\theta_1=15$로 $\theta_1=\theta_2=1$이에요. 헤시안 $2(\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+5\mathbf{I})$가 양의 정부호라 이 점이 유일한 최소점이에요.
+두 식을 빼면 $5\theta_1-5\theta_2=0$이라 $\theta_1=\theta_2$, 그러면 $15\theta_1=15$로 $\theta_1=\theta_2=1$이에요. 헤시안 $2(\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+5\mathbf{I})$가 양의 정부호라 이 점이 유일한 최소점이에요.
 
-(c) $\boldsymbol{\Phi}\boldsymbol{\theta}=(2,4)^\top$이라 잔차는 $(1,2)^\top$, $\|\cdot\|_2^2=5$이고 $5\|\boldsymbol{\theta}\|_2^2=5\cdot 2=10$이에요. 그래서 $J_{\min}=5+10=15$예요.
+$\boldsymbol{\Phi}\boldsymbol{\theta}=(2,4)^\top$이라 잔차는 $(1,2)^\top$, $\|\cdot\|_2^2=5$이고 $5\|\boldsymbol{\theta}\|_2^2=5\cdot 2=10$이에요. 그래서 $J_{\min}=5+10=15$예요.
 
 **완성 답**<br>정답: (a) ${\boldsymbol{\Phi}^\top\boldsymbol{\Phi}=\begin{bmatrix}5 & 5\\5 & 5\end{bmatrix}}$, ${\det(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})=0}$; (b) 둘 다 ${\boldsymbol{\Phi}\boldsymbol{\theta}=\begin{bmatrix}3\\6\end{bmatrix}}$, 오차 $0$; (c) ${\boldsymbol{\theta}=\begin{bmatrix}1\\1\end{bmatrix}}$, $J_{\min}=15$
 
@@ -2424,7 +2424,7 @@ $\bar x=\frac14\sum_n x_n$, $d_n=x_n-\bar x$부터 써요. 편차를 먼저 적�
 
 #### (a)
 
-(a) 성분별로 더해 4로 나눠요. 첫 성분은 $\frac{1+1+3+3}{4}=2$, 둘째 성분은 $\frac{1+3+3+5}{4}=3$이에요.
+성분별로 더해 4로 나눠요. 첫 성분은 $\frac{1+1+3+3}{4}=2$, 둘째 성분은 $\frac{1+3+3+5}{4}=3$이에요.
 
 $$
 \bar{\mathbf{x}}=\begin{bmatrix}2\\3\end{bmatrix}
@@ -2432,11 +2432,11 @@ $$
 
 #### (b)
 
-(b) 편차는 $\mathbf{x}_1-\bar{\mathbf{x}}=(-1,-2)^\top$, $\mathbf{x}_2-\bar{\mathbf{x}}=(-1,0)^\top$, $\mathbf{x}_3-\bar{\mathbf{x}}=(1,0)^\top$, $\mathbf{x}_4-\bar{\mathbf{x}}=(1,2)^\top$예요.
+편차는 $\mathbf{x}_1-\bar{\mathbf{x}}=(-1,-2)^\top$, $\mathbf{x}_2-\bar{\mathbf{x}}=(-1,0)^\top$, $\mathbf{x}_3-\bar{\mathbf{x}}=(1,0)^\top$, $\mathbf{x}_4-\bar{\mathbf{x}}=(1,2)^\top$예요.
 
-(b) 외적은 차례로 $\begin{bmatrix}1 & 2\\2 & 4\end{bmatrix}$, $\begin{bmatrix}1 & 0\\0 & 0\end{bmatrix}$, $\begin{bmatrix}1 & 0\\0 & 0\end{bmatrix}$, $\begin{bmatrix}1 & 2\\2 & 4\end{bmatrix}$이고, 합은 $\begin{bmatrix}4 & 4\\4 & 8\end{bmatrix}$이에요.
+외적은 차례로 $\begin{bmatrix}1 & 2\\2 & 4\end{bmatrix}$, $\begin{bmatrix}1 & 0\\0 & 0\end{bmatrix}$, $\begin{bmatrix}1 & 0\\0 & 0\end{bmatrix}$, $\begin{bmatrix}1 & 2\\2 & 4\end{bmatrix}$이고, 합은 $\begin{bmatrix}4 & 4\\4 & 8\end{bmatrix}$이에요.
 
-(b) 4로 나눠요.
+4로 나눠요.
 
 $$
 \mathbf{S}=\frac{1}{4}\begin{bmatrix}4 & 4\\4 & 8\end{bmatrix}=\begin{bmatrix}1 & 1\\1 & 2\end{bmatrix}
@@ -2552,19 +2552,19 @@ $y=Ax+c$, $y-E[y]=A(x-E[x])$부터 써요. 중심화하면 상수 c가 사라져
 
 #### (a)
 
-(a) $\mathbf{A}=\begin{bmatrix}1 & 2\\-1 & 1\end{bmatrix}$, $\mathbf{c}=\begin{bmatrix}1\\-2\end{bmatrix}$, $\boldsymbol{\mu}_x=\begin{bmatrix}1\\2\end{bmatrix}$, $\boldsymbol{\Sigma}_x=\begin{bmatrix}4 & 1\\1 & 2\end{bmatrix}$이에요.
+$\mathbf{A}=\begin{bmatrix}1 & 2\\-1 & 1\end{bmatrix}$, $\mathbf{c}=\begin{bmatrix}1\\-2\end{bmatrix}$, $\boldsymbol{\mu}_x=\begin{bmatrix}1\\2\end{bmatrix}$, $\boldsymbol{\Sigma}_x=\begin{bmatrix}4 & 1\\1 & 2\end{bmatrix}$이에요.
 
 $$
 \boldsymbol{\mu}_y=\begin{bmatrix}1+4+1\\-1+2-2\end{bmatrix}=\begin{bmatrix}6\\-1\end{bmatrix}
 $$
 
-(a) $\mathbf{C}_{xy}=\boldsymbol{\Sigma}_x\mathbf{A}^\top=\begin{bmatrix}4 & 1\\1 & 2\end{bmatrix}\begin{bmatrix}1 & -1\\2 & 1\end{bmatrix}$이에요.
+$\mathbf{C}_{xy}=\boldsymbol{\Sigma}_x\mathbf{A}^\top=\begin{bmatrix}4 & 1\\1 & 2\end{bmatrix}\begin{bmatrix}1 & -1\\2 & 1\end{bmatrix}$이에요.
 
 $$
 \mathbf{C}_{xy}=\begin{bmatrix}4+2 & -4+1\\1+4 & -1+2\end{bmatrix}=\begin{bmatrix}6 & -3\\5 & 1\end{bmatrix}
 $$
 
-(a) $\boldsymbol{\Sigma}_y=\mathbf{A}\mathbf{C}_{xy}$로 계산해요.
+$\boldsymbol{\Sigma}_y=\mathbf{A}\mathbf{C}_{xy}$로 계산해요.
 
 $$
 \boldsymbol{\Sigma}_y=\begin{bmatrix}1 & 2\\-1 & 1\end{bmatrix}\begin{bmatrix}6 & -3\\5 & 1\end{bmatrix}=\begin{bmatrix}16 & -1\\-1 & 4\end{bmatrix}
@@ -2572,25 +2572,25 @@ $$
 
 #### (b)
 
-(b) 지수 안을 $(\mathbf{x}-\boldsymbol{\mu}_x)^\top\mathbf{P}(\mathbf{x}-\boldsymbol{\mu}_x)$와 비교하면 $\boldsymbol{\mu}_x=\begin{bmatrix}1\\-1\end{bmatrix}$, $\mathbf{P}=\boldsymbol{\Sigma}_x^{-1}=\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}$이에요. $\det\mathbf{P}=1$이라 정규화 상수 $\frac{1}{2\pi\sqrt{\det\boldsymbol{\Sigma}_x}}=\frac{1}{2\pi}$와도 맞아요.
+지수 안을 $(\mathbf{x}-\boldsymbol{\mu}_x)^\top\mathbf{P}(\mathbf{x}-\boldsymbol{\mu}_x)$와 비교하면 $\boldsymbol{\mu}_x=\begin{bmatrix}1\\-1\end{bmatrix}$, $\mathbf{P}=\boldsymbol{\Sigma}_x^{-1}=\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}$이에요. $\det\mathbf{P}=1$이라 정규화 상수 $\frac{1}{2\pi\sqrt{\det\boldsymbol{\Sigma}_x}}=\frac{1}{2\pi}$와도 맞아요.
 
 $$
 \boldsymbol{\Sigma}_x=\mathbf{P}^{-1}=\begin{bmatrix}2 & 1\\1 & 1\end{bmatrix}
 $$
 
-(b) $\mathbf{A}=\begin{bmatrix}2 & -1\\1 & 1\end{bmatrix}$, $\mathbf{c}=\begin{bmatrix}-1\\2\end{bmatrix}$이에요.
+$\mathbf{A}=\begin{bmatrix}2 & -1\\1 & 1\end{bmatrix}$, $\mathbf{c}=\begin{bmatrix}-1\\2\end{bmatrix}$이에요.
 
 $$
 \boldsymbol{\mu}_y=\begin{bmatrix}2+1-1\\1-1+2\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}
 $$
 
-(b) $\mathbf{C}_{xy}=\boldsymbol{\Sigma}_x\mathbf{A}^\top=\begin{bmatrix}2 & 1\\1 & 1\end{bmatrix}\begin{bmatrix}2 & 1\\-1 & 1\end{bmatrix}$이에요.
+$\mathbf{C}_{xy}=\boldsymbol{\Sigma}_x\mathbf{A}^\top=\begin{bmatrix}2 & 1\\1 & 1\end{bmatrix}\begin{bmatrix}2 & 1\\-1 & 1\end{bmatrix}$이에요.
 
 $$
 \mathbf{C}_{xy}=\begin{bmatrix}4-1 & 2+1\\2-1 & 1+1\end{bmatrix}=\begin{bmatrix}3 & 3\\1 & 2\end{bmatrix}
 $$
 
-(b) $\boldsymbol{\Sigma}_y=\mathbf{A}\mathbf{C}_{xy}$로 계산해요.
+$\boldsymbol{\Sigma}_y=\mathbf{A}\mathbf{C}_{xy}$로 계산해요.
 
 $$
 \boldsymbol{\Sigma}_y=\begin{bmatrix}2 & -1\\1 & 1\end{bmatrix}\begin{bmatrix}3 & 3\\1 & 2\end{bmatrix}=\begin{bmatrix}5 & 4\\4 & 5\end{bmatrix}
@@ -2598,19 +2598,19 @@ $$
 
 #### (c)
 
-(c) $\mathrm{Cov}(x_1,x_2)=E[x_1x_2]-E[x_1]E[x_2]=0-(1)(-1)=1$이라 $\boldsymbol{\Sigma}_x=\begin{bmatrix}2 & 1\\1 & 3\end{bmatrix}$이에요. $\mathbf{y}=\mathbf{A}\mathbf{x}+\varepsilon\mathbf{1}$, $\mathbf{A}=\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}$, $\mathbf{1}=(1,1)^\top$이고 $E[\varepsilon]=0$이라
+$\mathrm{Cov}(x_1,x_2)=E[x_1x_2]-E[x_1]E[x_2]=0-(1)(-1)=1$이라 $\boldsymbol{\Sigma}_x=\begin{bmatrix}2 & 1\\1 & 3\end{bmatrix}$이에요. $\mathbf{y}=\mathbf{A}\mathbf{x}+\varepsilon\mathbf{1}$, $\mathbf{A}=\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}$, $\mathbf{1}=(1,1)^\top$이고 $E[\varepsilon]=0$이라
 
 $$
 \boldsymbol{\mu}_y=\mathbf{A}\boldsymbol{\mu}_x=\begin{bmatrix}1-1\\1+1\end{bmatrix}=\begin{bmatrix}0\\2\end{bmatrix}
 $$
 
-(c) $\varepsilon$이 $\mathbf{x}$와 독립이라 $\mathrm{Cov}(\mathbf{x},\varepsilon)=\mathbf{0}$이고 교차공분산엔 영향이 없어요.
+$\varepsilon$이 $\mathbf{x}$와 독립이라 $\mathrm{Cov}(\mathbf{x},\varepsilon)=\mathbf{0}$이고 교차공분산엔 영향이 없어요.
 
 $$
 \mathbf{C}_{xy}=\boldsymbol{\Sigma}_x\mathbf{A}^\top=\begin{bmatrix}2 & 1\\1 & 3\end{bmatrix}\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}=\begin{bmatrix}3 & 1\\4 & -2\end{bmatrix}
 $$
 
-(c) 공분산에는 $\mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top=\mathbf{A}\mathbf{C}_{xy}=\begin{bmatrix}7 & -1\\-1 & 3\end{bmatrix}$에 같은 $\varepsilon$의 몫 $\mathrm{Var}(\varepsilon)\mathbf{1}\mathbf{1}^\top=\begin{bmatrix}1 & 1\\1 & 1\end{bmatrix}$이 더해져요. 같은 잡음이 두 좌표에 들어가 비대각에도 1이 더해져요.
+공분산에는 $\mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top=\mathbf{A}\mathbf{C}_{xy}=\begin{bmatrix}7 & -1\\-1 & 3\end{bmatrix}$에 같은 $\varepsilon$의 몫 $\mathrm{Var}(\varepsilon)\mathbf{1}\mathbf{1}^\top=\begin{bmatrix}1 & 1\\1 & 1\end{bmatrix}$이 더해져요. 같은 잡음이 두 좌표에 들어가 비대각에도 1이 더해져요.
 
 $$
 \boldsymbol{\Sigma}_y=\begin{bmatrix}8 & 0\\0 & 4\end{bmatrix}
@@ -2728,7 +2728,7 @@ $r_1=2-\theta$, $r_2=3-2\theta$부터 써요. 두 독립 표준 가우시안 밀
 
 #### (a)
 
-(a) 각 관측의 밀도는 $\frac{1}{\sqrt{2\pi}}\exp[-\frac{1}{2}(y_n-\theta x_n)^2]$이고 두 개를 곱해요.
+각 관측의 밀도는 $\frac{1}{\sqrt{2\pi}}\exp[-\frac{1}{2}(y_n-\theta x_n)^2]$이고 두 개를 곱해요.
 
 $$
 L(\theta)=\frac{1}{2\pi}\exp\left[-\frac{1}{2}\left((2-\theta)^2+(3-2\theta)^2\right)\right]
@@ -2736,13 +2736,13 @@ $$
 
 #### (b)
 
-(b) 음의 로그우도는 $\log(2\pi)+\frac{1}{2}[(2-\theta)^2+(3-2\theta)^2]$이에요. 미분하면 $-(2-\theta)-2(3-2\theta)=5\theta-8$이고, $0$으로 두면 $\theta_{\mathrm{ML}}=\frac{8}{5}$예요.
+음의 로그우도는 $\log(2\pi)+\frac{1}{2}[(2-\theta)^2+(3-2\theta)^2]$이에요. 미분하면 $-(2-\theta)-2(3-2\theta)=5\theta-8$이고, $0$으로 두면 $\theta_{\mathrm{ML}}=\frac{8}{5}$예요.
 
 #### (c)
 
-(c) 사전분포 $-\log p(\theta)=\frac{1}{2}\log(2\pi)+\frac{\theta^2}{2}$가 더해져요. 미분하면 $5\theta-8+\theta=6\theta-8$이고, $0$으로 두면 $\theta_{\mathrm{MAP}}=\frac{8}{6}=\frac{4}{3}$예요.
+사전분포 $-\log p(\theta)=\frac{1}{2}\log(2\pi)+\frac{\theta^2}{2}$가 더해져요. 미분하면 $5\theta-8+\theta=6\theta-8$이고, $0$으로 두면 $\theta_{\mathrm{MAP}}=\frac{8}{6}=\frac{4}{3}$예요.
 
-(c) $x=3$에서 $\hat{y}_{\mathrm{ML}}=3\cdot\frac{8}{5}=\frac{24}{5}$, $\hat{y}_{\mathrm{MAP}}=3\cdot\frac{4}{3}=4$예요. MAP은 사전분포 때문에 $0$ 쪽으로 조금 수축돼요.
+$x=3$에서 $\hat{y}_{\mathrm{ML}}=3\cdot\frac{8}{5}=\frac{24}{5}$, $\hat{y}_{\mathrm{MAP}}=3\cdot\frac{4}{3}=4$예요. MAP은 사전분포 때문에 $0$ 쪽으로 조금 수축돼요.
 
 **완성 답**<br>정답: (a) ${L(\theta)=\frac{1}{2\pi}\exp[-\frac{1}{2}((2-\theta)^2+(3-2\theta)^2)]}$; (b) $\theta_{\mathrm{ML}}=\frac{8}{5}$; (c) $\theta_{\mathrm{MAP}}=\frac{4}{3}$, $\hat{y}_{\mathrm{ML}}=\frac{24}{5}$, $\hat{y}_{\mathrm{MAP}}=4$
 
@@ -2852,7 +2852,7 @@ $r_n=y_n-\theta$, $-\log p(\theta)=\frac12(\theta-1)^2+C$부터 써요. 사전 �
 
 #### (a)
 
-(a) 세 관측의 밀도를 곱해요.
+세 관측의 밀도를 곱해요.
 
 $$
 L(\theta)=(2\pi)^{-3/2}\exp\left[-\frac{1}{2}\sum_{n=1}^{3}(y_n-\theta)^2\right]=(2\pi)^{-3/2}\exp\left[-\frac{1}{2}\left((2-\theta)^2+(3-\theta)^2+(4-\theta)^2\right)\right]
@@ -2860,13 +2860,13 @@ $$
 
 #### (b)
 
-(b) 음의 로그우도를 미분하면 $\sum_{n=1}^{3}(\theta-y_n)=3\theta-9$이고, $0$으로 두면 $\theta_{\mathrm{ML}}=3$이에요. 표본 평균과 같아요.
+음의 로그우도를 미분하면 $\sum_{n=1}^{3}(\theta-y_n)=3\theta-9$이고, $0$으로 두면 $\theta_{\mathrm{ML}}=3$이에요. 표본 평균과 같아요.
 
 #### (c)
 
-(c) 사전분포 몫 $\frac{(\theta-1)^2}{2}$의 미분 $\theta-1$이 더해져 $3\theta-9+\theta-1=4\theta-10$이에요. $0$으로 두면 $\theta_{\mathrm{MAP}}=\frac{5}{2}$예요.
+사전분포 몫 $\frac{(\theta-1)^2}{2}$의 미분 $\theta-1$이 더해져 $3\theta-9+\theta-1=4\theta-10$이에요. $0$으로 두면 $\theta_{\mathrm{MAP}}=\frac{5}{2}$예요.
 
-(c) 사전 평균 $1$까지의 거리는 ML이 $2$, MAP이 $\frac{3}{2}$라서 MAP 추정이 더 가까워요. 사전분포가 추정을 $1$ 쪽으로 끌어당긴 결과예요.
+사전 평균 $1$까지의 거리는 ML이 $2$, MAP이 $\frac{3}{2}$라서 MAP 추정이 더 가까워요. 사전분포가 추정을 $1$ 쪽으로 끌어당긴 결과예요.
 
 **완성 답**<br>정답: (a) ${L(\theta)=(2\pi)^{-3/2}\exp[-\frac{1}{2}\sum_{n=1}^{3}(y_n-\theta)^2]}$; (b) $\theta_{\mathrm{ML}}=3$; (c) $\theta_{\mathrm{MAP}}=\frac{5}{2}$이고, 사전 평균 1에 더 가까운 쪽은 MAP이에요.
 

@@ -1,8 +1,11 @@
 from pathlib import Path
-import json,re
+import json,re,sys
 
-root=Path(__file__).parent/'homework-1-Homework1'
+root=Path(sys.argv[1]) if len(sys.argv)>1 else Path(__file__).parent/'homework-1-Homework1'
 source=json.loads((root/'source.json').read_text(encoding='utf-8'))
+repo=Path(source['path']).resolve().parents[2]
+sys.path.insert(0,str(repo/'.agents/skills/ml-problem-explain/scripts'))
+from mpe_labels import normalize_subpart_labels
 # Each entry supplies a problem-specific reading, literal first line and reason,
 # error to avoid, and a fresh independent check for each original subpart.
 D={
@@ -55,5 +58,5 @@ for p in source['problems']:
 <div class="layer warn" data-explanation="pitfall"><h4>이 부분을 조심해요</h4><p>{pit}</p></div>
 <div class="layer eli5" data-explanation="retry"><h4>혼자 다시 풀어봐요</h4><ol><li>첫 줄의 식을 빈 종이에 쓰고 왜 이 식인지 말해요.</li><li>각 소문항의 계산을 답을 보지 않고 끝까지 진행해요.</li><li>검산 식으로 답과 조건이 맞는지 확인해요.</li></ol></div>
 <div class="sum" hidden><p><strong>첫 줄</strong><br>{start}</p><p><strong>핵심 주의점</strong><br>{pit}</p><p><strong>답</strong><br>{p['reference_answer']}</p></div>'''
-    (root/'explanations'/f"{p['id']}.html").write_text(txt,encoding='utf-8')
+    (root/'explanations'/f"{p['id']}.html").write_text(normalize_subpart_labels(txt),encoding='utf-8')
 print('Authored 25 explanations,',sum(len(p['subparts']) for p in source['problems']),'subparts')
