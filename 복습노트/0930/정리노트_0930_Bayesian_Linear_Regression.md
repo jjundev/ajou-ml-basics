@@ -1590,6 +1590,8 @@ $$
 - 스칼라에서는 곱해진 상수가 제곱해서 나와요. $X$의 분산이 $\sigma^2$이면 $\mathbb{V}[aX] = a^2\,\mathbb{V}[X]$, 즉 $a^2\sigma^2$이에요.
 - 행렬에서는 "제곱" 자리를 왼쪽의 $\mathbf{A}$와 오른쪽의 $\mathbf{A}^\top$가 맡아요.
 
+**행렬 곱의 순서를 유지해요.** $\Sigma=\mathbb{V}[\mathbf{x}]$로 놓아요. 스칼라에서는 $a\,\mathbb{V}[X]\,a=a^2\mathbb{V}[X]$로 모을 수 있지만, 행렬에서는 곱셈 순서를 일반적으로 바꿀 수 없어요. 정확한 대응은 **$\Sigma$의 왼쪽에 $\mathbf{A}$, 오른쪽에 $\mathbf{A}^\top$를 붙이는 것**이에요. $\mathbf{A}\Sigma\mathbf{A}^\top$를 일반적으로 $\mathbf{A}\mathbf{A}^\top\Sigma$로 합치면 안 돼요. [1007 아핀 변환 보충의 일반 규칙과 비교 예제](../1007/정리노트_1007_Product_of_Gaussians.html#s1-affine)에서 스칼라 가중합으로도 확인할 수 있어요.
+
 **칠판 증명 스케치.** $\mathbf{b}$를 뺀 $\mathbf{y} = \mathbf{A}\mathbf{x}$로 봐요. $\mathbf{a}_i^\top$를 $\mathbf{A}$의 $i$번째 행이라고 하면 $\mathbf{y}$의 $i$번째 성분은 스칼라 확률변수 $Y_i = \mathbf{a}_i^\top\mathbf{x}$예요.
 
 $\mathbb{V}[\mathbf{y}]$의 $(i, j)$ 원소는 $\operatorname{Cov}[Y_i, Y_j]$예요. "곱의 평균 빼기 평균의 곱"으로 쓰면 아래와 같아요.
@@ -1787,17 +1789,17 @@ $$
 *0930 수업 · L04*
 
 - [복습문제 풀러 가기 (0930 수업 범위 8문제)](복습문제_0930_Bayesian_Linear_Regression.md)
-
-복습문제 8문항
-
-- [문제지 PDF](복습문제_0930_Bayesian_Linear_Regression-문제.pdf)
-- [해설지 PDF](복습문제_0930_Bayesian_Linear_Regression-답안.pdf)
 - [지난 시간 0928 정리노트: 일반 가우시안 사전분포](../0928/정리노트_0928_Linear_Regression.html#s5-general-prior)
 - [0921 정리노트: 베이지안 추론](../0921/정리노트_0921_Bayesian_Inference_Model_Selection.html#s0-inference)
 - [0916 정리노트: 예측분포](../0916/정리노트_0916_MAP_and_Generative_Models.html#s3-predictive)
 - [추가 강의 Lecture 10: Statistical Inference Part 1 (통계적 추론 1)](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
 - [추가 강의 Lecture 11: Statistical Inference Part 2 (통계적 추론 2)](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
 - [추가 강의 Lecture 12: Statistical Inference Part 3 (통계적 추론 3)](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
+
+복습문제 8문항
+
+- [문제지 PDF](복습문제_0930_Bayesian_Linear_Regression-문제.pdf)
+- [해설지 PDF](복습문제_0930_Bayesian_Linear_Regression-답안.pdf)
 
 ---
 

@@ -1386,6 +1386,7 @@
       <li>스칼라에서는 곱해진 상수가 제곱해서 나와요. $X$의 분산이 $\sigma^2$이면 $\mathbb{V}[aX] = a^2\,\mathbb{V}[X]$, 즉 $a^2\sigma^2$이에요.</li>
       <li>행렬에서는 "제곱" 자리를 왼쪽의 $\mathbf{A}$와 오른쪽의 $\mathbf{A}^\top$가 맡아요.</li>
     </ul>
+    <p><b>행렬 곱의 순서를 유지해요.</b> $\Sigma=\mathbb{V}[\mathbf{x}]$로 놓아요. 스칼라에서는 $a\,\mathbb{V}[X]\,a=a^2\mathbb{V}[X]$로 모을 수 있지만, 행렬에서는 곱셈 순서를 일반적으로 바꿀 수 없어요. 정확한 대응은 <b>$\Sigma$의 왼쪽에 $\mathbf{A}$, 오른쪽에 $\mathbf{A}^\top$를 붙이는 것</b>이에요. $\mathbf{A}\Sigma\mathbf{A}^\top$를 일반적으로 $\mathbf{A}\mathbf{A}^\top\Sigma$로 합치면 안 돼요. <a href="../1007/정리노트_1007_Product_of_Gaussians.html#s1-affine">1007 아핀 변환 보충의 일반 규칙과 비교 예제</a>에서 스칼라 가중합으로도 확인할 수 있어요.</p>
     <p><b>칠판 증명 스케치.</b> $\mathbf{b}$를 뺀 $\mathbf{y} = \mathbf{A}\mathbf{x}$로 봐요. $\mathbf{a}_i^\top$를 $\mathbf{A}$의 $i$번째 행이라고 하면 $\mathbf{y}$의 $i$번째 성분은 스칼라 확률변수 $Y_i = \mathbf{a}_i^\top\mathbf{x}$예요.</p>
     <p>$\mathbb{V}[\mathbf{y}]$의 $(i, j)$ 원소는 $\operatorname{Cov}[Y_i, Y_j]$예요. "곱의 평균 빼기 평균의 곱"으로 쓰면 아래와 같아요.</p>
     $$\operatorname{Cov}[Y_i, Y_j] = \mathbb{E}[\mathbf{a}_i^\top\mathbf{x}\mathbf{x}^\top\mathbf{a}_j] - \mathbb{E}[\mathbf{a}_i^\top\mathbf{x}]\,\mathbb{E}[\mathbf{x}^\top\mathbf{a}_j]$$
