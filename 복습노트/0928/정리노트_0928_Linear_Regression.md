@@ -871,6 +871,30 @@ $\boldsymbol{\phi}$가 항등(identity) 함수 $\boldsymbol{\phi}(\mathbf{x}) = 
 
 답은 $\boldsymbol{\Phi}$를 만들 때 입력으로 쓴다는 것이었어요. 또 "말이 에스티메이션이지" 결국 학습이라고 덧붙였어요.
 
+**보충 · 수업에서 유도하진 않았어요**
+
+**스칼라 잡음의 분산이 왜 행렬이 되나요?** 입력과 $\boldsymbol{\theta}$가 주어진 상태에서, 각 관측의 잡음은 서로 독립이고 같은 분산 $\sigma^2$를 갖는다고 가정해요. 이 잡음들을 하나의 열벡터로 묶어요.
+
+$$
+\epsilon_i\sim\mathcal N(0,\sigma^2),\qquad \boldsymbol{\epsilon}=[\epsilon_1,\ldots,\epsilon_N]^\top
+$$
+
+공분산 행렬의 대각에는 각 잡음의 분산이 들어가고, 비대각에는 서로 다른 잡음의 공분산이 들어가요. 독립인 잡음끼리의 공분산은 0이에요. 두 관측만 놓으면 다음과 같아요.
+
+$$
+\mathrm{cov}(\boldsymbol{\epsilon})=\begin{bmatrix}\sigma^2&0\\0&\sigma^2\end{bmatrix}=\sigma^2\mathbf I_2
+$$
+
+$N$개를 묶으면 $\sigma^2\mathbf I_N$인 $N\times N$ 행렬이에요. 조건으로 주어진 입력과 파라미터가 잡음 분포를 바꾸지 않는 이 모델에서는 $\mathbf y$의 조건부 공분산도 같아요.
+
+$$
+\mathrm{cov}(\mathbf y\mid\mathcal X,\boldsymbol{\theta})=\sigma^2\mathbf I_N
+$$
+
+입력과 $\boldsymbol{\theta}$가 주어지면 $\boldsymbol{\Phi}\boldsymbol{\theta}$는 고정된 평균이에요. $\mathbf y=\boldsymbol{\Phi}\boldsymbol{\theta}+\boldsymbol{\epsilon}$에서 불확실성은 잡음에만 남으므로 이 식은 **조건부 공분산**이에요. 파라미터 자체의 불확실성까지 합친 예측 공분산과 구별해요.
+
+$\sigma^2\mathbf I_N$는 $N$개 관측 잡음의 공분산이고, [사전분포의 $b^2\mathbf I_K$](#s4-gaussian-prior)는 $K$개 파라미터의 공분산이에요. 행렬로 묶는 원리는 [1007 스칼라에서 벡터 공분산으로 이어지는 보충](../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에 있어요.
+
 **페이지 요약**
 
 특징 벡터를 행으로 쌓은 Φ를 X 자리에 넣으면 같은 최대우도 해가 나와요.
@@ -1222,7 +1246,7 @@ MAP은 우도에 사전분포를 곱한 사후분포를 가장 크게 만드는 
 
 사전분포를 평균 0인 가우시안으로 둬요: $p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, b^2 \mathbf{I})$. 모델은 [특징행렬 Φ와 최대우도 해](#s2-feature-matrix)의 $y = \boldsymbol{\phi}(\mathbf{x})^\top \boldsymbol{\theta} + \epsilon$, $\epsilon \sim \mathcal{N}(0, \sigma^2)$이고 $\boldsymbol{\theta} \in \mathbb{R}^K$예요.
 
-- 공분산이 $b^2 \mathbf{I}$라는 것은 각 $\theta_i$가 서로 독립이고 각각 $\mathcal{N}(0, b^2)$라는 뜻이에요.
+- 이 가우시안 사전분포에서는 공분산이 $b^2 \mathbf{I}$이면 각 $\theta_i$가 서로 독립이고 각각 $\mathcal{N}(0, b^2)$를 따라요.
 
   $$
   p(\boldsymbol{\theta}) = \prod_{i=1}^{K} \frac{1}{\sqrt{2\pi b^2}} \exp\left(-\frac{\theta_i^2}{2b^2}\right)
@@ -1279,6 +1303,24 @@ $$
 공분산행렬이 하는 역할은 다음 시간에 더 얘기하겠다고 하셨어요.
 
 > "코베리언스 매트릭스가 하는 역할이 그래요. 그거에 대해서는 다음 시간에" (0928 Part 07 ~03:30)
+
+**보충 · 수업에서 유도하진 않았어요**
+
+**$b^2\mathbf I$는 여러 스칼라 분산을 어떻게 담나요?** 두 파라미터를 묶은 $\boldsymbol{\theta}=[\theta_1,\theta_2]^\top$에서 각 성분의 분산을 $b^2$로 같게 두고, 서로의 공분산을 0으로 두면 다음 표가 돼요. $b^2\gt0$인 가우시안 사전분포를 사용해요.
+
+$$
+\mathrm{var}(\theta_1)=\mathrm{var}(\theta_2)=b^2,\qquad \mathrm{cov}(\theta_1,\theta_2)=0
+$$
+
+$$
+\mathrm{cov}(\boldsymbol{\theta})=\begin{bmatrix}b^2&0\\0&b^2\end{bmatrix}=b^2\mathbf I_2
+$$
+
+대각은 각 파라미터의 스칼라 분산이고, 비대각은 성분 사이의 공분산이에요. $K$개 파라미터에서는 $b^2\mathbf I_K$인 $K\times K$ 행렬이 돼요. $b^2$는 숫자 하나이고, $b^2\mathbf I_K$는 그 숫자를 대각선에 놓은 행렬이에요.
+
+**독립이라는 결론에는 가우시안 조건이 있어요.** 여기서는 성분들을 함께 묶은 분포가 가우시안, 즉 공동 가우시안이므로 비대각 공분산이 0이면 성분들이 독립이에요. 일반 분포에서는 공분산이 0이라는 사실만으로 독립이라고 할 수 없어요.
+
+이 설정은 모든 파라미터의 사전 분산이 같은 특별한 경우예요. [일반 사전분포의 $\mathbf S_0$](#s5-general-prior)는 성분별 분산과 성분 사이 공분산을 더 일반적으로 담아요. 공분산 행렬의 정의는 [1007 공분산 보충](../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에서 확인할 수 있어요.
 
 **페이지 요약**
 
@@ -1493,6 +1535,22 @@ $\mathbf{m}_0 = \mathbf{0},\ \mathbf{S}_0 = b^2\mathbf{I}$를 넣으면 뒤 항�
 
 앞 항은 데이터에서, 뒤 항은 선험적 의도에서 온다고 나눠서 설명했어요. 풀이는 수학적으로 좀 복잡하다며 다음 시간으로 미뤘어요 (0928 Part 08 ~09:35).
 
+**보충 · 수업에서 유도하진 않았어요**
+
+**스칼라 평균과 분산 자리에 무엇이 들어가나요?** $K$개 파라미터를 묶으면 평균은 각 성분의 평균을 모은 벡터이고, 분산은 성분 쌍의 공분산을 모은 행렬이에요.
+
+$$
+\mathbf m_0=E[\boldsymbol{\theta}]\in\mathbb R^K
+$$
+
+$$
+\mathbf S_0=\mathrm{cov}(\boldsymbol{\theta})\in\mathbb R^{K\times K}
+$$
+
+$\mathbf S_0$의 대각은 각 파라미터의 분산이고, 비대각은 파라미터 사이의 공분산이에요. $b^2\mathbf I_K$는 대각의 분산이 모두 같고 비대각이 0인 특별한 경우예요.
+
+공분산을 자유롭게 둔다고 아무 행렬이나 넣을 수 있는 것은 아니에요. 본문의 식은 $\mathbf S_0^{-1}$을 사용하므로, 여기서는 **양의 정부호인 공분산 행렬**을 가정해요. 이 조건에서는 역행렬이 존재해요. 성분별 정의는 [1007 공분산 보충](../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에 있어요. 사후분포 계산은 기존 수업 기록대로 다음 시간 내용으로 남겨 둬요.
+
 **페이지 요약**
 
 사전분포를 $\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$로 일반화하면 선험적 의도 항이 바뀌고, $\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$는 그 특수한 경우예요.
@@ -1579,7 +1637,7 @@ $\lambda = 1/2b^2$는 정규화항 $\lambda\|\boldsymbol{\theta}\|^2$을 이 사
 **RLS와 MAP의 관계**
 
 - $b \to \infty$이면 $\lambda \to 0$이 되어 둘 다 최대우도 해 $\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$로 돌아가요.
-- RLS는 공분산이 $b^2\mathbf{I}$, 곧 $\theta_1, \theta_2, \dots$가 통계적으로 독립이라고 가정한 MAP과 같아요.
+- RLS는 평균이 0이고 공분산이 $b^2\mathbf{I}$인 가우시안 사전분포를 둔 MAP과 같아요. 이 가정에서는 성분들이 독립이고 분산도 모두 같아요.
 - MAP은 [일반 가우시안 사전분포](#s5-general-prior)처럼 더 복잡한 공분산에도 쓸 수 있어요.
 - 그래서 MAP 하나로 ML도 포함하고 릿지(ridge)도 설명돼요.
 
@@ -1694,14 +1752,14 @@ MAP 유도와 단계가 같고, $\frac{\sigma^2}{b^2}$ 자리에 $\lambda$가 �
 *0928 수업 · L03*
 
 - [복습문제 풀러 가기 (0928 Linear Regression)](복습문제_0928_Linear_Regression.md)
+- [지난 시간 0923 정리노트: 벡터 미분 보충](../0923/정리노트_0923_Linear_Regression.html#s3-vector-diff)
+- [0916 정리노트: MAP과 정규화](../0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map-reg)
+- [추가 강의 Lecture 12: Statistical Inference Part 3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 복습문제 8문항
 
 - [문제지 PDF](복습문제_0928_Linear_Regression-문제.pdf)
 - [해설지 PDF](복습문제_0928_Linear_Regression-답안.pdf)
-- [지난 시간 0923 정리노트: 벡터 미분 보충](../0923/정리노트_0923_Linear_Regression.html#s3-vector-diff)
-- [0916 정리노트: MAP과 정규화](../0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map-reg)
-- [추가 강의 Lecture 12: Statistical Inference Part 3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 ---
 

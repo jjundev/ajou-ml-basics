@@ -612,6 +612,7 @@
         </div>
         <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
           <p>MML Example 8.6처럼 가우시안 likelihood에 0 평균 가우시안 prior를 둬요. 여기서는 공분산을 $b^2 I$로 단순하게 잡아요.</p>
+          <p>여기서 $\theta$는 여러 파라미터를 묶은 벡터이고, $b^2\gt0$이에요. $b^2 I$는 각 파라미터의 분산이 $b^2$이고 서로의 공분산이 0인 행렬이에요. 성분들을 함께 묶은 분포가 가우시안, 즉 공동 가우시안이므로 성분들이 독립이에요. 스칼라 분산을 행렬로 묶는 과정은 <a href="../0928/정리노트_0928_Linear_Regression.html#s4-gaussian-prior">0928 가우시안 사전분포 보충</a>에 있어요.</p>
           <ol class="steps">
             <li>likelihood: $y_n\mid x_n,\theta\sim\mathcal{N}(x_n^\top\theta,\sigma^2)$이므로 $-\log P(y\mid X,\theta)=\frac{1}{2\sigma^2}\|y-X\theta\|^2+\text{const}$</li>
             <li>prior: $\theta\sim\mathcal{N}(0, b^2 I)$이므로 $-\log P(\theta)=\frac{1}{2b^2}\|\theta\|^2+\text{const}$</li>

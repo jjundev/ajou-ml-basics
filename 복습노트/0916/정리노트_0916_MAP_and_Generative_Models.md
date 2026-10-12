@@ -439,6 +439,8 @@ prior는 이런 말투로 표현되는 선호이자 편견이래요. 정규화�
 
 MML Example 8.6처럼 가우시안 likelihood에 0 평균 가우시안 prior를 둬요. 여기서는 공분산을 $b^2 I$로 단순하게 잡아요.
 
+여기서 $\theta$는 여러 파라미터를 묶은 벡터이고, $b^2\gt0$이에요. $b^2 I$는 각 파라미터의 분산이 $b^2$이고 서로의 공분산이 0인 행렬이에요. 성분들을 함께 묶은 분포가 가우시안, 즉 공동 가우시안이므로 성분들이 독립이에요. 스칼라 분산을 행렬로 묶는 과정은 [0928 가우시안 사전분포 보충](../0928/정리노트_0928_Linear_Regression.html#s4-gaussian-prior)에 있어요.
+
 1. likelihood: $y_n\mid x_n,\theta\sim\mathcal{N}(x_n^\top\theta,\sigma^2)$이므로 $-\log P(y\mid X,\theta)=\frac{1}{2\sigma^2}\|y-X\theta\|^2+\text{const}$
 2. prior: $\theta\sim\mathcal{N}(0, b^2 I)$이므로 $-\log P(\theta)=\frac{1}{2b^2}\|\theta\|^2+\text{const}$
 3. MAP 목적함수: $\frac{1}{2\sigma^2}\|y-X\theta\|^2+\frac{1}{2b^2}\|\theta\|^2$
@@ -1206,15 +1208,15 @@ Fully Bayesian 예측은 posterior로 가중평균한 predictive distribution이
 *0916 수업*
 
 - [복습문제 풀러 가기 (0916 수업 범위 6문제)](복습문제_0916_MAP_and_Generative_Models.md)
+- [지난 시간 0914 정리노트: ERM and MLE](../0914/정리노트_0914_ERM_and_MLE.html)
+- [추가 강의 Lecture 10: Statistical Inference Part 1](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
+- [추가 강의 Lecture 11: Statistical Inference Part 2](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
+- [추가 강의 Lecture 12: Statistical Inference Part 3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 복습문제 6문항
 
 - [문제지 PDF](복습문제_0916_MAP_and_Generative_Models-문제.pdf)
 - [해설지 PDF](복습문제_0916_MAP_and_Generative_Models-답안.pdf)
-- [지난 시간 0914 정리노트: ERM and MLE](../0914/정리노트_0914_ERM_and_MLE.html)
-- [추가 강의 Lecture 10: Statistical Inference Part 1](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
-- [추가 강의 Lecture 11: Statistical Inference Part 2](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
-- [추가 강의 Lecture 12: Statistical Inference Part 3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 ---
 
