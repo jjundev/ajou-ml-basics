@@ -537,9 +537,45 @@ $$
 
 합의 분산에서는 슬라이드 식을 그대로 읽지 않고, 독립이거나 최소한 교차 공분산이 영행렬일 때만 성립한다고 짚었어요.
 
+**보충 · 수업에서 유도하진 않았어요**
+
+**스칼라에서 하던 계산을 모든 성분 쌍에 적용해요.** 스칼라 공분산은 평균에서 벗어난 값끼리 곱해 평균을 낸 것이에요.
+
+$$
+\mathrm{cov}(x,y)=E[(x-E[x])(y-E[y])]
+$$
+
+벡터에서도 같은 연산을 해요. 실수 열벡터를 사용하고, 각 성분의 이차 모멘트가 유한하다고 가정해요. 편차를 $\widetilde{\mathbf{X}}=\mathbf{X}-E[\mathbf{X}]$, $\widetilde{\mathbf{Y}}=\mathbf{Y}-E[\mathbf{Y}]$로 쓰면, 2차원에서는 다음 표가 돼요.
+
+$$
+\widetilde{\mathbf{X}}\widetilde{\mathbf{Y}}^\top= \begin{bmatrix}\widetilde X_1\\\widetilde X_2\end{bmatrix} \begin{bmatrix}\widetilde Y_1&\widetilde Y_2\end{bmatrix} =\begin{bmatrix}\widetilde X_1\widetilde Y_1&\widetilde X_1\widetilde Y_2\\\widetilde X_2\widetilde Y_1&\widetilde X_2\widetilde Y_2\end{bmatrix}
+$$
+
+각 칸의 평균을 내면 $(i,j)$ 칸은 $E[\widetilde X_i\widetilde Y_j]=\mathrm{cov}(X_i,Y_j)$예요. 첫 입력의 성분이 행을, 둘째 입력의 성분이 열을 정해요.
+
+$$
+\mathrm{cov}(\mathbf{X},\mathbf{Y})=E[\widetilde{\mathbf{X}}\widetilde{\mathbf{Y}}^\top]\in\mathbb R^{n\times m}
+$$
+
+스칼라에서는 성분 쌍이 하나라 숫자 하나가 나왔어요. 벡터에서는 첫 입력의 각 성분과 둘째 입력의 각 성분을 모두 짝지으므로 표가 나와요. 그 표를 행렬 곱으로 쓰려고 두 번째 벡터를 전치해요. 이것이 외적이에요. 같은 크기의 두 벡터에서 내적 $\widetilde{\mathbf{X}}^\top\widetilde{\mathbf{Y}}$을 쓰면 숫자 하나로 합쳐지므로 이 표를 대신할 수 없어요.
+
+**분산도 같은 정의 안에서 이어져요.** 성분별 분산만 모으면 각 성분의 퍼짐은 알 수 있어요.
+
+$$
+\begin{bmatrix}\mathrm{var}(X_1)\\\mathrm{var}(X_2)\end{bmatrix}
+$$
+
+하지만 두 성분이 함께 움직이는 정보는 빠져 있어요. 그래서 이 수업에서는 벡터의 분산을 자기 공분산 행렬로 표현해요.
+
+$$
+\mathrm{var}(\mathbf{X})=\mathrm{cov}(\mathbf{X},\mathbf{X})=\Sigma_{\mathbf{X}} =\begin{bmatrix}\mathrm{var}(X_1)&\mathrm{cov}(X_1,X_2)\\\mathrm{cov}(X_2,X_1)&\mathrm{var}(X_2)\end{bmatrix}
+$$
+
+대각은 익숙한 스칼라 분산이고, 비대각은 성분 사이의 공분산이에요. 스칼라의 $\mathrm{var}(x)=\mathrm{cov}(x,x)$ 관계가 벡터에서도 그대로 이어져요.
+
 **페이지 요약**
 
-분산은 자기 자신과의 공분산이고, 벡터끼리의 공분산은 성분 쌍마다 계산한 행렬이에요.
+분산은 자기 자신과의 공분산이에요. 벡터 공분산은 익숙한 스칼라 계산을 모든 성분 쌍에 적용한 표예요.
 
 *핵심 식*
 
@@ -644,9 +680,89 @@ $$
 
 수업 첫머리에 "오늘 두 가지는 내가 유도하지 않고 조교에게 시킬 생각"이라고 예고했는데, 이 두 식이 그 첫 번째예요.
 
+**보충 · 수업에서 유도하진 않았어요**
+
+**1. 행렬 곱을 스칼라 가중합으로 풀어요.** $\mathbf{X}=[X_1,X_2]^\top$, $\mathbf{A}=[2\;\;3]$이면 다음과 같아요.
+
+$$
+\mathbf{A}\mathbf{X}=2X_1+3X_2
+$$
+
+상수 계수에 대한 스칼라 공분산의 선형성으로 한 성분씩 계산할 수 있어요.
+
+$$
+\mathrm{cov}(X_1,\mathbf{A}\mathbf{X})=2\mathrm{var}(X_1)+3\mathrm{cov}(X_1,X_2)
+$$
+
+$X_2$에 대해서도 계산한 뒤 두 값을 열로 모으면 $\mathrm{cov}(\mathbf{X},\mathbf{A}\mathbf{X})$가 돼요. 스칼라 계산을 모아 행렬로 쓰는 것이에요.
+
+**2. 두 입력의 변환을 한 규칙으로 다뤄요.** 이 일반 규칙에서는 $\mathbf{X}\in\mathbb R^n$, $\mathbf{Y}\in\mathbb R^m$를 각각 임의의 실수 열벡터로 놓아요. 여기서 $\mathbf{Y}$는 앞 설정의 $\mathbf{A}\mathbf{X}+\mathbf{b}$로 제한하지 않아요. 각 성분의 이차 모멘트는 유한하고, $\mathbf{A}\in\mathbb R^{p\times n}$, $\mathbf{B}\in\mathbb R^{q\times m}$, $\mathbf{b}\in\mathbb R^p$, $\mathbf{c}\in\mathbb R^q$는 모두 상수예요.
+
+편차를 $\widetilde{\mathbf{X}}=\mathbf{X}-E[\mathbf{X}]$, $\widetilde{\mathbf{Y}}=\mathbf{Y}-E[\mathbf{Y}]$로 쓰면, 평균을 뺄 때 상수 이동이 사라져요. 둘째 입력도 같은 방식이에요.
+
+$$
+\mathbf{A}\mathbf{X}+\mathbf{b}-E[\mathbf{A}\mathbf{X}+\mathbf{b}]=\mathbf{A}(\mathbf{X}-E[\mathbf{X}])=\mathbf{A}\widetilde{\mathbf{X}}
+$$
+
+1. 공분산의 정의에 변환된 편차를 넣어요.
+
+   $$
+   \mathrm{cov}(\mathbf{A}\mathbf{X}+\mathbf{b},\mathbf{B}\mathbf{Y}+\mathbf{c})=E[(\mathbf{A}\widetilde{\mathbf{X}})(\mathbf{B}\widetilde{\mathbf{Y}})^\top]
+   $$
+2. 곱을 전치하면 순서가 뒤집혀요. $(\mathbf{B}\widetilde{\mathbf{Y}})^\top=\widetilde{\mathbf{Y}}^\top\mathbf{B}^\top$이므로
+
+   $$
+   =E[\mathbf{A}\widetilde{\mathbf{X}}\widetilde{\mathbf{Y}}^\top\mathbf{B}^\top].
+   $$
+3. 상수 행렬을 기대값 밖으로 꺼내요. $\mathbf{C}_{XY}=\mathrm{cov}(\mathbf{X},\mathbf{Y})$로 놓으면
+
+   $$
+   =\mathbf{A}E[\widetilde{\mathbf{X}}\widetilde{\mathbf{Y}}^\top]\mathbf{B}^\top=\mathbf{A}\mathbf{C}_{XY}\mathbf{B}^\top.
+   $$
+
+**첫 입력의 계수는 왼쪽, 둘째 입력의 계수는 전치해서 오른쪽. 더한 상수는 사라진다.** 교차 공분산 $\mathbf{C}_{XY}$와 자기 공분산 $\Sigma_{\mathbf{X}}$를 구별해요.
+
+$$
+(p\times n)(n\times m)(m\times q)=p\times q
+$$
+
+차원 검사는 계산을 점검하는 도구예요. 크기가 맞는다는 사실만으로 식의 정확성이 증명되지는 않아요. 위 정의의 유도가 계수의 위치와 순서를 정해 줘요. 계수가 랜덤이면 이 상수 계수 규칙을 그대로 적용할 수 없어요.
+
+**3. 같은 재료로 세 질문을 비교해요.** 이제 비교 예제에서는 $\mathbf{Y}=\mathbf{A}\mathbf{X}$로 다시 놓고, $\Sigma=\Sigma_{\mathbf{X}}$로 줄여 써요.
+
+$$
+\mathbf{A}=\begin{bmatrix}2&3\end{bmatrix},\qquad \Sigma=\begin{bmatrix}4&1\\1&9\end{bmatrix}
+$$
+
+값을 계산하기 전에 결과가 열인지, 행인지, 숫자 하나인지 먼저 구별해 보세요.
+
+| 질문 | 계산 규칙 | 크기 | 결과 |
+|---|---|---|---|
+| $\mathrm{cov}(\mathbf{X},\mathbf{A}\mathbf{X})$ | $\Sigma\mathbf{A}^\top$ | $2\times1$ | $\begin{bmatrix}11\\29\end{bmatrix}$ |
+| $\mathrm{cov}(\mathbf{A}\mathbf{X},\mathbf{X})$ | $\mathbf{A}\Sigma$ | $1\times2$ | $\begin{bmatrix}11&29\end{bmatrix}$ |
+| $\mathrm{var}(\mathbf{A}\mathbf{X})$ | $\mathbf{A}\Sigma\mathbf{A}^\top$ | $1\times1$ | $109$ |
+
+첫 질문은 첫 입력의 계수가 항등행렬인 경우라 $\Sigma\mathbf{A}^\top$예요. 둘째 질문은 첫 입력만 변환했으므로 $\mathbf{A}\Sigma$이고, 셋째 질문은 두 입력이 모두 $\mathbf{A}\mathbf{X}$여서 양쪽에 계수가 붙어요. 이 예제의 셋째 결과는 스칼라 분산이에요.
+
+$$
+\mathrm{cov}(X_1,2X_1+3X_2)=2\cdot4+3\cdot1=11
+$$
+
+$$
+\mathrm{cov}(X_2,2X_1+3X_2)=2\cdot1+3\cdot9=29
+$$
+
+첫 질문에서는 이 두 값을 열로 모아요. 입력 순서를 뒤집으면 전치 관계이므로 둘째 질문에서는 행이 돼요. 변환 결과의 분산은 익숙한 스칼라 식으로도 확인할 수 있어요.
+
+$$
+\mathrm{var}(2X_1+3X_2)=2^2\cdot4+2\cdot2\cdot3\cdot1+3^2\cdot9=109
+$$
+
+교차항을 빼면 $97$이 돼요. 비대각 공분산 $1$이 $12$만큼 기여해요. 이 예제에서는 두 성분이 독립이라고 가정하지 않았어요. [0930 아핀 변환의 곱 순서 주의](../0930/정리노트_0930_Bayesian_Linear_Regression.html#s4-affine)처럼 $\mathbf{A}\Sigma\mathbf{A}^\top$의 순서도 유지해야 해요.
+
 **페이지 요약**
 
-아핀 변환에서 평균은 같은 변환을 따르고, 분산과 교차 공분산 식의 증명은 이번 주 숙제로 남았어요.
+아핀 변환에서 평균은 같은 변환을 따르고, 분산과 교차 공분산 식의 증명은 이번 주 숙제로 남았어요. 보충의 기억 규칙은 첫 입력의 계수는 왼쪽, 둘째 입력의 계수는 전치해서 오른쪽이에요.
 
 *핵심 식*
 
@@ -1415,7 +1531,7 @@ MLE·MAP은 선 하나를 주고, BLR은 평균 둘레의 띠로 불확실성까
 | [공분산 행렬](#s1-covariance) | $\Sigma_{\mathbf{X}} = \mathrm{cov}(\mathbf{X}, \mathbf{X})$ | 대각은 분산, 비대각은 공분산이고 대칭 행렬이에요. |
 | [아핀 평균](#s1-affine) | $E[\mathbf{A}\mathbf{X} + \mathbf{b}] = \mathbf{A}E[\mathbf{X}] + \mathbf{b}$ | 기댓값은 선형 연산자라 상수가 밖으로 나와요. |
 | [아핀 분산](#s1-affine) | $\mathrm{var}(\mathbf{A}\mathbf{X} + \mathbf{b}) = \mathbf{A}\Sigma_{\mathbf{X}}\mathbf{A}^\top$ | $\mathbf{b}$는 사라지고 $\mathbf{A}$가 양옆에 붙어요. 증명은 이번 주 숙제예요. |
-| [교차 공분산](#s1-affine) | $\mathrm{cov}(\mathbf{X}, \mathbf{A}\mathbf{X} + \mathbf{b}) = \Sigma_{\mathbf{X}}\mathbf{A}^\top$ | 원래 벡터와 변환된 벡터의 공분산이에요. 이것도 숙제예요. |
+| [교차 공분산](#s1-affine) | $\mathrm{cov}(\mathbf{X}, \mathbf{A}\mathbf{X} + \mathbf{b}) = \Sigma_{\mathbf{X}}\mathbf{A}^\top$ | 원래 벡터와 변환된 벡터의 공분산이에요. 증명은 숙제예요. 보충 규칙: 첫 입력 계수는 왼쪽, 둘째 입력 계수는 전치해서 오른쪽. |
 | [벡터 PDF](#s2-pdf) | $f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n\vert \Sigma\vert }}\exp\left(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top\Sigma^{-1}(\mathbf{x} - \boldsymbol{\mu})\right)$ | $\mathbf{X} \sim \mathcal{N}(\boldsymbol{\mu}, \Sigma)$의 PDF예요. $\vert \Sigma\vert $는 행렬식, $\Sigma^{-1}$은 $1/\sigma^2$ 자리예요. |
 | [행렬식 예](#s2-pdf) | $\vert \Sigma\vert  = 1 \cdot 3 - 0.1 \cdot 0.1 = 2.99$ | 대각 1, 3이고 비대각 0.1인 공분산 행렬의 예제예요. |
 | [닫힌 성질](#s2-closure) | 주변분포, 조건부분포, 곱, 독립 합, 아핀 변환 | 가우시안으로 무엇을 해도 가우시안이에요. |
