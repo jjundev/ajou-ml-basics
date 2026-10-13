@@ -1,0 +1,19 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>선형 변환한 확률변수의 밀도 유도를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>변수변환(change of variables)은 역변환의 밀도에 역 Jacobian 행렬식의 절댓값을 곱해요. $p_Y(y)=p_X(A^{-1}y)/|\det A|$는 가역 A에서 확률 질량을 보존해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x=A^{-1}y$, $J=\partial x/\partial y=A^{-1}$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>역변환을 구해요. 선형 변환이라 역행렬을 곱하면 돼요.
+    $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{y} = \frac{1}{ad - bc}\begin{bmatrix}d &amp; -b \\ -c &amp; a\end{bmatrix}\begin{bmatrix}y_1 \\ y_2\end{bmatrix}$$</p>
+<p>$f(\mathbf{x})$에 대입해요. ${(\mathbf{A}^{-1}\mathbf{y})^\top = \mathbf{y}^\top\mathbf{A}^{-\top}}$이에요.
+    $$f(\mathbf{A}^{-1}\mathbf{y}) = \frac{1}{2\pi}\exp\left(-\frac{1}{2}\mathbf{y}^\top\mathbf{A}^{-\top}\mathbf{A}^{-1}\mathbf{y}\right)$$</p>
+<p>넓이 배율을 봐요. $\mathbf{A}$는 $\mathbf{x}$ 쪽의 단위정사각형을 넓이 $|\det\mathbf{A}| = |ad - bc|$인 평행사변형으로 보내요. 확률은 그대로여야 하니 밀도는 $1/|ad - bc|$배가 돼요.</p>
+<p>Jacobian으로도 같아요. ${\frac{\partial}{\partial \mathbf{y}}\mathbf{A}^{-1}\mathbf{y} = \mathbf{A}^{-1}}$이고, 행렬식은
+    $$\det\left(\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right) = \det(\mathbf{A}^{-1}) = \frac{1}{ad - bc}$$</p>
+<p>2단계 식에 이 배율의 절댓값을 곱해요.
+    $$f(\mathbf{y}) = f(\mathbf{A}^{-1}\mathbf{y})\left|\det\left(\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right)\right| = \frac{1}{2\pi}\exp\left(-\frac{1}{2}\mathbf{y}^\top\mathbf{A}^{-\top}\mathbf{A}^{-1}\mathbf{y}\right)|ad - bc|^{-1}$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>치환 y=Ax에서 dy=|det A|dx를 곱하면 최종밀도의 적분은 원 표준정규의 적분1이에요. (AAᵀ)⁻¹=A⁻ᵀA⁻¹로 지수와 공분산도 일치해요.</p>
+</div><p>정답: $$f(\mathbf{y}) = \frac{1}{2\pi}\exp\left(-\frac{1}{2}\mathbf{y}^\top\mathbf{A}^{-\top}\mathbf{A}^{-1}\mathbf{y}\right)|ad - bc|^{-1}$$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>forward Jacobian |det A|를 곱하면 정규화가 틀려요. 밀도의 함수 인자와 확률변수를 구별해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$x=A^{-1}y$, $J=\partial x/\partial y=A^{-1}$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>forward Jacobian |det A|를 곱하면 정규화가 틀려요. 밀도의 함수 인자와 확률변수를 구별해요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>변수변환(change of variables)은 역변환의 밀도에 역 Jacobian 행렬식의 절댓값을 곱해요. $p_Y(y)=p_X(A^{-1}y)/|\det A|$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$x=A^{-1}y$, $J=\partial x/\partial y=A^{-1}$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>치환 y=Ax에서 dy=|det A|dx를 곱하면 최종밀도의 적분은 원 표준정규의 적분1이에요. (AAᵀ)⁻¹=A⁻ᵀA⁻¹로 지수와 공분산도 일치해요.</p>
+</div></div>

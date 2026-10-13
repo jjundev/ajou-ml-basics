@@ -1,0 +1,14 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>곱할 수 있는 행렬인가요?를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>행렬 곱(matrix multiplication)은 앞 행과 뒤 열의 내적이에요. $A\in\mathbb R^{m\times n}$, $B\in\mathbb R^{n\times r}$이면 $(AB)_{ij}=\sum_{k=1}^n A_{ik}B_{kj}$예요. 합칠 길이가 같아야 해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$A:3\times2$, $B:3\times3$을 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>앞 행렬은 행 3개, 열 2개라서 $3 \times 2$예요. 뒤 행렬은 $3 \times 3$이에요.</p>
+<p>곱의 한 칸을 만들려면 앞 행렬의 행(길이 2)과 뒤 행렬의 열(길이 3)을 내적해야 해요.</p>
+<p>길이가 $2 \neq 3$으로 달라서 내적을 할 수 없어요. 그래서 이 곱은 정의되지 않아요.</p>
+<p>수업의 차원 검증에서 $\boldsymbol{\theta}^\top \mathbf{x}$는 두 벡터의 길이가 같아야 내적할 수 있다고 했어요. 행렬 곱도 같은 규칙이에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>첫 칸부터 길이 2인 행과 길이 3인 열을 내적해야 하므로 정의되지 않아요. 결과를 0행렬로 쓰면 안 돼요.</p>
+</div><p>정답: 계산할 수 없어요. $3 \times 2$ 행렬의 열 수 2와 $3 \times 3$ 행렬의 행 수 3이 달라서 곱이 정의되지 않아요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>행 수끼리 비교하지 않아요. 앞의 열 수와 뒤의 행 수를 비교해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$A:3\times2$, $B:3\times3$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>행 수끼리 비교하지 않아요. 앞의 열 수와 뒤의 행 수를 비교해요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>행렬 곱(matrix multiplication)은 앞 행과 뒤 열의 내적이에요. $A\in\mathbb R^{m\times n}$, $B\in\mathbb R^{n\times r}$이면 $(AB)_{ij}=\sum_{k=1}^n A_{ik}B_{kj}$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$A:3\times2$, $B:3\times3$을 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>첫 칸부터 길이 2인 행과 길이 3인 열을 내적해야 하므로 정의되지 않아요. 결과를 0행렬로 쓰면 안 돼요.</p>
+</div></div>

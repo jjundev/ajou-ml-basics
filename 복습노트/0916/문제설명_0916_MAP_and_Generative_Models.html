@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 복습 0916 문제설명</title>
+  <meta name="description" content="첫 줄부터 완성 답과 검산까지 설명해요.">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="자료_문제설명_0916_MAP_and_Generative_Models/vendor/pretendard/pretendard.css">
+  <link rel="stylesheet" href="자료_문제설명_0916_MAP_and_Generative_Models/vendor/katex/katex.min.css">
+  <script defer src="자료_문제설명_0916_MAP_and_Generative_Models/vendor/katex/katex.min.js"></script>
+  <script defer src="자료_문제설명_0916_MAP_and_Generative_Models/vendor/katex/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']});window.mlLayoutMath?.()"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .topic > .layer:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
+    .layer [data-source-field] + h4 { margin-top: var(--s5); }
+    .layer p { margin: var(--s3) 0; }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer li + li { margin-top: var(--s3); }
+    .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
+    .sum h4 { margin: 0 0 var(--s3); font-size: inherit; line-height: 1.5; }
+    .sum .summary-group > p { margin: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { padding: var(--s2) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+
+    .topic, .layer, .content, main { min-width: 0; }
+    /* Inline formulas stay inline; only genuinely wide blocks may be panned. */
+    .katex-display { max-width:100%; }
+    .katex-display > .katex, .katex.math-block { display:block; white-space:normal; text-align:left; }
+    .katex.math-block { margin:0; }
+    .katex-display > .katex > .katex-html { white-space:normal; }
+    .math-row { display:block; max-width:100%; margin:var(--s3) 0; padding:var(--s2) var(--s1); }
+    .math-row .katex-display { margin:0; padding:0; }
+    .math-punctuation { margin-left:.15em; font-family:var(--font); }
+    .math-row.math-pan { overflow-x:auto; overflow-y:hidden; scrollbar-width:none; }
+    .math-row.math-pan::-webkit-scrollbar { display:none; }
+    .math-pan-hint { display:block; margin:var(--s1) 0 var(--s3); color:var(--ink-2); font:var(--fs-small)/1.5 var(--font); }
+    table { display:block; max-width:100%; overflow-x:auto; }
+    img, svg { max-width:100%; height:auto; }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="ml-problem-explain-review-0916-MAP_and_Generative_Models">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">문제풀이 입문 설명</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 가우시안 prior를 더한 MAP 목적함수</a></li><li><a href="#p2">P2. Joint 표에서 p(x) 구하기</a></li><li><a href="#p3">P3. Joint 표에서 p(y) 구하기</a></li><li><a href="#p4">P4. 조건부 분포 p(x | Y = y1)</a></li><li><a href="#p5">P5. 조건부 분포 p(y | X = x3)</a></li><li><a href="#p6">P6. 컴파일 성공률의 posterior</a></li></ul></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>머신러닝기초 복습 0916 문제설명</h1>
+      <p>주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.</p>
+    </div>
+<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 가우시안 prior를 더한 MAP 목적함수</h3><p class="panel-meta">MML Example 8.6 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p1">원 문제 보기</a></p><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions">Example 8.5처럼 가우시안 likelihood $p(y\mid X,\theta)$로 회귀를 하고 있어요. 여기에 파라미터 벡터 $\theta\in\mathbb{R}^D$가 평균 0인 다변량 가우시안을 따른다고 더 가정해요: $p(\theta)=\mathcal{N}(0,\Sigma)=\frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}}\exp\!\left(-\frac{1}{2}\theta^\top\Sigma^{-1}\theta\right)$ ($\Sigma$는 공분산 행렬).</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $-\log p(\theta)$를 $\theta$에 대한 항과 상수로 나눠 써 보세요.</li><li>(b) $\theta_{\text{MAP}}$를 찾을 때 최소화하는 목적함수를 음의 로그우도와 (a)의 결과로 써 보세요.</li></ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 prior를 더한 MAP 목적함수를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>MAP는 posterior의 봉우리를 찾아요. $p(\theta\mid X,y)\propto p(y\mid X,\theta)p(\theta)$에 음의 로그를 취하면 우도와 prior 벌점의 합이에요. Σ는 고정 양의 정부호 공분산이고 θ만 최적화해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$-\log p(\theta) = \frac{D}{2}\log(2\pi)+\frac{1}{2}\log|\Sigma| + \frac{1}{2}\theta^\top\Sigma^{-1}\theta$예요. $\log(ab)=\log a+\log b$와 $-\log\exp(u)=-u$를 썼어요.</p>
+<p>앞의 두 항은 $\theta$와 무관하니 상수로 묶어요: $-\log p(\theta)=\frac{1}{2}\theta^\top\Sigma^{-1}\theta+\text{상수}$.</p>
+<p>posterior는 $p(\theta\mid X,y)\propto p(y\mid X,\theta)\,p(\theta)$이고, $-\log$를 치면 곱이 합이 돼요.</p>
+<p>그래서 $\theta_{\text{MAP}}=\arg\min_\theta\big[-\log p(y\mid X,\theta)-\log p(\theta)\big]=\arg\min_\theta\big[-\log p(y\mid X,\theta)+\frac{1}{2}\theta^\top\Sigma^{-1}\theta\big]$예요.</p>
+<p>수업과의 연결: 0916 수업의 $\theta_{\text{MAP}}=\arg\min_\theta\big[-\log P(x\mid\theta)-\log P(\theta)\big]$, 즉 "MAP = MLE + log prior"에 가우시안 prior를 넣어 본 거예요.</p>
+<div data-subpart="a"><h4>(a)</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
+</div><p>정답: (a) $-\log p(\theta)=\frac{1}{2}\theta^\top\Sigma^{-1}\theta+\text{상수}$, (b) 음의 로그우도에 $-\log p(\theta)$를 더한 $-\log p(y\mid X,\theta)-\log p(\theta)$를 최소화해 $\theta_{\text{MAP}}$를 구해요</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>Σ나 분산도 최적화한다면 그것과 관련된 상수항은 버릴 수 없어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>Σ나 분산도 최적화한다면 그것과 관련된 상수항은 버릴 수 없어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>MAP는 posterior의 봉우리를 찾아요. $p(\theta\mid X,y)\propto p(y\mid X,\theta)p(\theta)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요. posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
+</div></div>
+</article><article class="topic" id="p2"><h3>P2. Joint 표에서 p(x) 구하기</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>$X$의 marginal distribution $p(x)$를 구해 보세요.</p></div><table>
+<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
+<tbody>
+<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>
+<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>
+<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>
+</tbody></table></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>Joint 표에서 p(x) 구하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>주변화(marginalization)는 관심 없는 변수의 모든 경우를 합해요. $p(x_i)=\sum_jp(x_i,y_j)$에서 x는 열, y는 행이므로 같은 열을 더해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>marginal은 joint를 관심 없는 변수로 합(연속이면 적분)해서 얻어요: $p(x)=\sum_{y}p(x,y)$.</p>
+<p>$p(x_1)=0.01+0.05+0.1=0.16$, $p(x_2)=0.02+0.1+0.05=0.17$</p>
+<p>$p(x_3)=0.03+0.05+0.03=0.11$, $p(x_4)=0.1+0.07+0.05=0.22$, $p(x_5)=0.1+0.2+0.04=0.34$</p>
+<p>확인: $0.16+0.17+0.11+0.22+0.34=1$이에요.</p>
+<p>수업과의 연결: marginal likelihood $P(x)=\int P(x\mid\theta)P(\theta)\,d\theta$처럼 joint를 관심 없는 $\theta$로 적분한 것과 같은 동작을, 이산 표에서 합으로 한 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 분수 계산으로 [16,17,11,22,34]/100을 얻고 합이1이에요.</p>
+</div><p>정답: $p(x) = (0.16,\ 0.17,\ 0.11,\ 0.22,\ 0.34)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>열마다 전체 확률1을 따로 맞추지 않아요. 주변확률 전체 합이1이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>열마다 전체 확률1을 따로 맞추지 않아요. 주변확률 전체 합이1이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>주변화(marginalization)는 관심 없는 변수의 모든 경우를 합해요. $p(x_i)=\sum_jp(x_i,y_j)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 분수 계산으로 [16,17,11,22,34]/100을 얻고 합이1이에요.</p>
+</div></div>
+</article><article class="topic" id="p3"><h3>P3. Joint 표에서 p(y) 구하기</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>$Y$의 marginal distribution $p(y)$를 구해 보세요.</p></div><table>
+<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
+<tbody>
+<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>
+<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>
+<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>
+</tbody></table></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>Joint 표에서 p(y) 구하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Y의 주변분포는 X를 없애요. $p(y_j)=\sum_ip(x_i,y_j)$로 한 행 전체를 더해요. 표의 위 행이 y1이라는 방향을 확인해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$p(y)=\sum_{x}p(x,y)$라서 행 합을 구해요.</p>
+<p>$p(y_1)=0.01+0.02+0.03+0.1+0.1=0.26$</p>
+<p>$p(y_2)=0.05+0.1+0.05+0.07+0.2=0.47$</p>
+<p>$p(y_3)=0.1+0.05+0.03+0.05+0.04=0.27$, 확인: $0.26+0.47+0.27=1$</p>
+<p>수업과의 연결: 교수님이 "joint 분포가 가장 많은 정보를 갖고 있다"고 했죠. joint만 있으면 $f_X(x)$, $f_Y(y)$ 같은 marginal은 더해서 언제든 꺼낼 수 있어요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 분수 계산으로 [26,47,27]/100이고 세 행 합이1이에요.</p>
+</div><p>정답: $p(y) = (0.26,\ 0.47,\ 0.27)$ ($y_1, y_2, y_3$ 순)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>X의 주변분포처럼 열을 더하면 다른 질문에 답하게 돼요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>X의 주변분포처럼 열을 더하면 다른 질문에 답하게 돼요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Y의 주변분포는 X를 없애요. $p(y_j)=\sum_ip(x_i,y_j)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 분수 계산으로 [26,47,27]/100이고 세 행 합이1이에요.</p>
+</div></div>
+</article><article class="topic" id="p4"><h3>P4. 조건부 분포 p(x | Y = y1)</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>조건부 분포 $p(x\mid Y=y_1)$를 분수로 구해 보세요.</p></div><table>
+<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
+<tbody>
+<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>
+<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>
+<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>
+</tbody></table></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>조건부 분포 p(x | Y = y1)를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>조건부 분포(conditional distribution)는 주어진 행 안에서 다시 정규화해요. $p(x_i\mid y_1)=p(x_i,y_1)/p(y_1)$이고 분모는 양수여야 해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(y_1)=26/100$을 먼저 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>조건부확률 정의: $p(x\mid y_1)=\dfrac{p(x,y_1)}{p(y_1)}$</p>
+<p>분모 $p(y_1)=0.01+0.02+0.03+0.1+0.1=0.26$</p>
+<p>$\frac{0.01}{0.26}=\frac{1}{26}$, $\frac{0.02}{0.26}=\frac{1}{13}$, $\frac{0.03}{0.26}=\frac{3}{26}$, $\frac{0.1}{0.26}=\frac{5}{13}$ (두 칸)</p>
+<p>확인: $\frac{1+2+3+10+10}{26}=1$</p>
+<p>수업과의 연결: posterior를 유도할 때 칠판에 쓴 첫 줄 $P(A\mid B)=\dfrac{P(A,B)}{P(B)}$를 표에 그대로 적용한 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>분자는 [1,2,3,10,10]/100, 공통 분모26/100이라 [1,2,3,10,10]/26이에요. 합1이고 각 조건부 값×0.26은 원 표의 칸을 복원해요.</p>
+</div><p>정답: $p(x\mid Y=y_1) = \left(\frac{1}{26},\ \frac{1}{13},\ \frac{3}{26},\ \frac{5}{13},\ \frac{5}{13}\right)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>분모로 p(x)를 쓰면 조건의 방향이 바뀌어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y_1)=26/100$을 먼저 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>분모로 p(x)를 쓰면 조건의 방향이 바뀌어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>조건부 분포(conditional distribution)는 주어진 행 안에서 다시 정규화해요. $p(x_i\mid y_1)=p(x_i,y_1)/p(y_1)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(y_1)=26/100$을 먼저 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>분자는 [1,2,3,10,10]/100, 공통 분모26/100이라 [1,2,3,10,10]/26이에요. 합1이고 각 조건부 값×0.26은 원 표의 칸을 복원해요.</p>
+</div></div>
+</article><article class="topic" id="p5"><h3>P5. 조건부 분포 p(y | X = x3)</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>조건부 분포 $p(y\mid X=x_3)$를 분수로 구해 보세요.</p></div><table>
+<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
+<tbody>
+<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>
+<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>
+<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>
+</tbody></table></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>조건부 분포 p(y | X = x3)를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>X=x3이 주어졌으니 세 번째 열만 남겨요. $p(y_j\mid x_3)=p(x_3,y_j)/p(x_3)$가 조건부 확률의 정의예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(x_3)=0.03+0.05+0.03=0.11$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$p(y\mid x_3)=\dfrac{p(x_3,y)}{p(x_3)}$</p>
+<p>분모 $p(x_3)=0.03+0.05+0.03=0.11$</p>
+<p>$\frac{0.03}{0.11}=\frac{3}{11}$, $\frac{0.05}{0.11}=\frac{5}{11}$, $\frac{0.03}{0.11}=\frac{3}{11}$</p>
+<p>확인: $\frac{3+5+3}{11}=1$</p>
+<p>수업과의 연결: "주어진 것을 조건으로 두고 알고 싶은 것을 앞에 둔다"는 틀 그대로예요. $X=x_3$을 손에 쥐고 $Y$를 추론하는 모양이에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>세 확률은 [3,5,3]/11로 합1이에요. 다시 11/100을 곱하면 [3,5,3]/100이 복원돼요.</p>
+</div><p>정답: $p(y\mid X=x_3) = \left(\frac{3}{11},\ \frac{5}{11},\ \frac{3}{11}\right)$ ($y_1, y_2, y_3$ 순)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>위쪽 행 y1과 세 번째 열 x3을 혼동하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(x_3)=0.03+0.05+0.03=0.11$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>위쪽 행 y1과 세 번째 열 x3을 혼동하지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>X=x3이 주어졌으니 세 번째 열만 남겨요. $p(y_j\mid x_3)=p(x_3,y_j)/p(x_3)$가 조건부 확률의 정의예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(x_3)=0.03+0.05+0.03=0.11$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>세 확률은 [3,5,3]/11로 합1이에요. 다시 11/100을 곱하면 [3,5,3]/100이 복원돼요.</p>
+</div></div>
+</article><article class="topic" id="p6"><h3>P6. 컴파일 성공률의 posterior</h3><p class="panel-meta">MML Exercise 6.3 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">코드를 안 바꿨는데도 프로그램이 컴파일될 때도 있고 안 될 때도 있어요. 성공 여부 $x\in\{0,1\}$을 Bernoulli 분포 $p(x\mid\mu)=\mu^{x}(1-\mu)^{1-x}$로 모델링해요. $N$번 시도한 결과 $x_1,\dots,x_N$을 i.i.d.로 봐요. prior로 $\mathrm{Beta}(\alpha,\beta)\propto\mu^{\alpha-1}(1-\mu)^{\beta-1}$가 주어져요. </div><h4>구할 것</h4><div data-source-field="ask">posterior $p(\mu\mid x_1,\dots,x_N)$를 구해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>컴파일 성공률의 posterior를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Beta–Bernoulli 켤레성(conjugacy)은 likelihood와 prior의 거듭제곱 모양이 맞는다는 뜻이에요. $k=\sum x_n$은 성공 횟수, N−k는 실패 횟수예요. α,β&gt;0이고 0&lt;μ&lt;1인 밀도의 지수를 합해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>i.i.d.라서 likelihood는 곱으로 나뉘어요: $\prod_{n=1}^{N}\mu^{x_n}(1-\mu)^{1-x_n}=\mu^{k}(1-\mu)^{N-k}$, 여기서 $k = \sum_{n=1}^{N} x_n$ (성공 횟수)예요.</p>
+<p>prior를 상수까지 쓰면 $p(\mu)=\frac{1}{B(\alpha,\beta)}\mu^{\alpha-1}(1-\mu)^{\beta-1}$ ($B(\alpha,\beta)$는 넓이를 1로 맞추는 상수).</p>
+<p>posterior $\propto$ likelihood $\times$ prior라서 $p(\mu\mid x_1,\dots,x_N)\propto\mu^{\alpha + k - 1}(1-\mu)^{\beta + N - k - 1}$이에요.</p>
+<p>이건 파라미터만 바뀐 Beta 꼴이에요. 그래서 posterior는 $\mathrm{Beta}(\alpha + k, \beta + N - k)$예요. prior와 같은 Beta 꼴이 유지되고 파라미터만 데이터만큼 늘어나요.</p>
+<p>숫자로 확인: $N=10$, $k=2$, $\alpha=\beta=4$면 posterior는 $\mathrm{Beta}(6,12)\propto\mu^{5}(1-\mu)^{11}$. $\log$를 미분해 0으로 두면 $\frac{5}{\mu}-\frac{11}{1-\mu}=0$, 봉우리는 $\mu=\frac{5}{16}=0.3125$예요. ML 값 $\frac{2}{10}=0.2$보다 반반 쪽으로 끌려가요.</p>
+<p>수업과의 연결: 동전 10번 중 앞면 2번이면 ML은 0.2, "모름지기 반반"이라는 prior를 섞은 MAP는 0.3 정도라고 한 이야기를, Beta prior로 계산하면 이렇게 나와요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>지수는 α+k−1과 β+N−k−1이라 Beta(α+k,β+N−k)의 정규화 적분이 존재해요. N=10,k=2,α=β=4일 때 Beta(6,12)이고 내부 mode는5/16, 평균은1/3으로 달라요.</p>
+</div><p>정답: $p(\mu\mid x_1,\dots,x_N)=\mathrm{Beta}(\alpha + k, \beta + N - k)$, $k = \sum_{n=1}^{N} x_n$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>성공확률 μ와 성공횟수 k를 구별해요. posterior의 평균과 MAP도 다른 값이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>성공확률 μ와 성공횟수 k를 구별해요. posterior의 평균과 MAP도 다른 값이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Beta–Bernoulli 켤레성(conjugacy)은 likelihood와 prior의 거듭제곱 모양이 맞는다는 뜻이에요. $k=\sum x_n$은 성공 횟수, N−k는 실패 횟수예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>지수는 α+k−1과 β+N−k−1이라 Beta(α+k,β+N−k)의 정규화 적분이 존재해요. N=10,k=2,α=β=4일 때 Beta(6,12)이고 내부 mode는5/16, 평균은1/3으로 달라요.</p>
+</div></div>
+</article></section>
+  </main>
+  <footer>원 문제·정리노트·PDF는 보존해요.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-sub" id="sum-for">전체 흐름</p>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const sub = document.getElementById('aid-for');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
+          sub.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const sub = document.getElementById('sum-for');
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
+          const heading = s.querySelector('h3');
+          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
+            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"], .math-row')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .math-row, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+  <script id="math-layout">
+    (function () {
+      let queued = false;
+      function markOverflow(row) {
+        row.classList.remove('math-pan');
+        row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+        if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+        if (row.scrollWidth > row.clientWidth + 2) {
+          row.classList.add('math-pan'); row.tabIndex = 0;
+          row.setAttribute('aria-label', '긴 수식. 좌우 화살표 또는 가로 밀기로 전체를 읽을 수 있어요.');
+          const hint = document.createElement('span'); hint.className = 'math-pan-hint';
+          hint.textContent = '가로로 밀어 전체 수식 읽기'; row.after(hint);
+        }
+      }
+      function layout() {
+        queued = false;
+        document.querySelectorAll('main .katex, .sums .katex').forEach((math) => {
+          if (!math.getClientRects().length) return;
+          const tex = math.querySelector('annotation')?.textContent || '';
+          const display = math.parentElement.classList.contains('katex-display');
+          let row = math.closest('.math-row');
+          const container = math.closest('p, li, .part, [data-source-field], [data-subpart], .layer, .sum');
+          const width = container?.clientWidth || 0;
+          // Each matrix receives its own line; long inline equations become blocks.
+          if (!row && (display || /\\begin\{(?:bmatrix|pmatrix|matrix|aligned|array)\}/.test(tex) || (width > 0 && math.getBoundingClientRect().width > width - 8))) {
+            row = document.createElement('span');
+            row.className = 'math-row';
+            const autoWrapper = math.parentElement.tagName === 'SPAN' && math.parentElement.childNodes.length === 1;
+            const target = display || autoWrapper ? math.parentElement : math;
+            target.before(row); row.appendChild(target);
+            if (!display) math.classList.add('math-block');
+            // Keep sentence punctuation beside the last formula instead of orphaning it.
+            const tail = row.nextSibling;
+            if (tail?.nodeType === Node.TEXT_NODE) {
+              const match = tail.textContent.match(/^([.,;:]+["”]?)/);
+              if (match) {
+                const punctuation = document.createElement('span'); punctuation.className = 'math-punctuation';
+                punctuation.textContent = match[1]; math.appendChild(punctuation);
+                tail.textContent = tail.textContent.slice(match[1].length);
+              }
+            }
+          }
+          if (!row) return;
+          math.style.fontSize = '';
+          row.classList.remove('math-pan');
+          row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+          if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+          const available = row.clientWidth - 8;
+          if (available <= 0) return;
+          const bases = Array.from(math.querySelectorAll('.katex-html > .base'));
+          const widest = Math.max(0, ...bases.map((el) => el.getBoundingClientRect().width));
+          // Relations already split KaTeX's base groups, allowing natural line breaks.
+          // Reduce only unbreakable content, by at most 15%; retain readable body size.
+          if (widest > available) math.style.fontSize = (1.21 * Math.max(.85, available / widest)) + 'em';
+          markOverflow(row);
+        });
+        // Font-size changes and wrapping need one completed frame before final ink bounds.
+        requestAnimationFrame(() => document.querySelectorAll('.math-row').forEach((row) => {
+          if (row.getClientRects().length) markOverflow(row);
+        }));
+      }
+      function schedule() { if (!queued) { queued = true; requestAnimationFrame(layout); } }
+      window.mlLayoutMath = schedule;
+      document.addEventListener('od:screen', schedule);
+      new ResizeObserver(schedule).observe(document.querySelector('.content'));
+      new ResizeObserver(schedule).observe(document.querySelector('#panel-right .panel-inner'));
+      new MutationObserver(schedule).observe(document.querySelector('.sums'), {subtree:true, attributes:true, attributeFilter:['hidden']});
+      document.fonts.ready.then(schedule);
+      schedule();
+    })();
+  </script>
+</body>
+</html>

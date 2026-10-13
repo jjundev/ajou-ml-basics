@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>그래프에서 결합분포 인수분해 쓰기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>베이지안 네트워크(Bayesian network)는 결합밀도를 노드별 조건부의 곱으로 표현해요. $p(\mathbf x)=\prod_i p(x_i\mid pa(x_i))$이며 부모 없는 노드는 주변 인수로 써요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(x_1)p(x_5)$부터 적고 세 조건부 인수를 붙여요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>들어오는 화살표로 부모를 찾아요: $x_1$, $x_5$는 부모 없음, $x_2$는 $x_5$, $x_3$은 $x_1$과 $x_2$, $x_4$는 $x_2$예요.</p>
+<p>부모가 없는 노드는 $p(x_1)$, $p(x_5)$로 써요.</p>
+<p>나머지는 $p(x_2 \mid x_5)$, $p(x_3 \mid x_1, x_2)$, $p(x_4 \mid x_2)$로 써요.</p>
+<p>다섯 개를 모두 곱하면 결합분포가 돼요.
+    $$p(x_1, x_2, x_3, x_4, x_5) = p(x_1)\, p(x_5)\, p(x_2 \mid x_5)\, p(x_3 \mid x_1, x_2)\, p(x_4 \mid x_2)$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>위상순서 x1,x5,x2,x3,x4에 맞게 각각 한 인수가 있어요. 역순으로 적분하면 각 조건부가1이 되어 전체 정규화도1이에요.</p>
+</div><p>정답: $p(x_1, x_2, x_3, x_4, x_5) = p(x_1)\, p(x_5)\, p(x_2 \mid x_5)\, p(x_3 \mid x_1, x_2)\, p(x_4 \mid x_2)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>같은 노드를 두 인수의 대상으로 쓰거나 하나 빼먹지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(x_1)p(x_5)$부터 적고 세 조건부 인수를 붙여요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>같은 노드를 두 인수의 대상으로 쓰거나 하나 빼먹지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>베이지안 네트워크(Bayesian network)는 결합밀도를 노드별 조건부의 곱으로 표현해요. $p(\mathbf x)=\prod_i p(x_i\mid pa(x_i))$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(x_1)p(x_5)$부터 적고 세 조건부 인수를 붙여요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>위상순서 x1,x5,x2,x3,x4에 맞게 각각 한 인수가 있어요. 역순으로 적분하면 각 조건부가1이 되어 전체 정규화도1이에요.</p>
+</div></div>

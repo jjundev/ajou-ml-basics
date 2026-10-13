@@ -1,0 +1,19 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>행렬식으로 역행렬 판정하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>2×2 역행렬은 det≠0일 때 대각을 교환하고 비대각 부호를 바꾼 행렬을 det로 나눠요. 공분산 Σ의 역행렬은 정밀도 행렬이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\det\Sigma=4\cdot10-2\cdot2$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>행렬식은 대각끼리 곱한 값에서 비대각끼리 곱한 값을 빼요.
+    $$\det(\boldsymbol{\Sigma}) = 4 \cdot 10 - 2 \cdot 2 = 40 - 4 = 36$$</p>
+<p>$36 \ne 0$이라 $\boldsymbol{\Sigma}$는 역행렬을 가져요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>(4.2)에 넣어요. 대각 성분 4와 10은 자리를 맞바꾸고, 비대각 성분 2는 부호를 바꿔요.
+    $$\boldsymbol{\Sigma}^{-1} = \frac{1}{36}\begin{bmatrix}10 &amp; -2 \\ -2 &amp; 4\end{bmatrix} = \begin{bmatrix}\frac{5}{18} &amp; -\frac{1}{18} \\ -\frac{1}{18} &amp; \frac{1}{9}\end{bmatrix}$$</p>
+<p>곱해서 확인해요.
+    $$\begin{bmatrix}4 &amp; 2 \\ 2 &amp; 10\end{bmatrix}\begin{bmatrix}10 &amp; -2 \\ -2 &amp; 4\end{bmatrix} = \begin{bmatrix}36 &amp; 0 \\ 0 &amp; 36\end{bmatrix}$$
+    이것을 36으로 나누면 $\mathbf{I}$가 되니 역행렬이 맞아요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>det=36>0이고 첫 대각도4>0이므로 이 대칭행렬은 양의 정부호예요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>독립 계산에서 Σ⁻¹=(1/36)[[10,−2],[−2,4]]예요. 양쪽 곱 모두I2로 확인해요.</p>
+</div><p>정답: (a) $\det(\boldsymbol{\Sigma}) = 36 \ne 0$이라 역행렬이 있어요. (b) ${\boldsymbol{\Sigma}^{-1} = \frac{1}{36}\begin{bmatrix}10 &amp; -2 \\ -2 &amp; 4\end{bmatrix}}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>각 원소의 역수를 취하는 것이 역행렬은 아니에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\det\Sigma=4\cdot10-2\cdot2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>각 원소의 역수를 취하는 것이 역행렬은 아니에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>2×2 역행렬은 det≠0일 때 대각을 교환하고 비대각 부호를 바꾼 행렬을 det로 나눠요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\det\Sigma=4\cdot10-2\cdot2$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>det=36>0이고 첫 대각도4>0이므로 이 대칭행렬은 양의 정부호예요. 독립 계산에서 Σ⁻¹=(1/36)[[10,−2],[−2,4]]예요. 양쪽 곱 모두I2로 확인해요.</p>
+</div></div>

@@ -1,0 +1,16 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>곱의 미분과 치환 미분를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>곱의 미분(product rule)은 $(uv)\prime=u\prime v+uv\prime$예요. 합성함수에는 연쇄법칙(chain rule)으로 안쪽 미분까지 곱해요. log(x⁴)는 실수 x≠0에서 정의돼요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$u=\log(x^4)$, $v=\sin(x^3)$로 나눠요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>곱의 미분: $f'(x) = [\log(x^4)]' \sin(x^3) + \log(x^4) [\sin(x^3)]'$이에요.</p>
+<p>$u = x^4$로 두면 $[\log u]' = \frac{1}{u} \cdot 4x^3 = \frac{4x^3}{x^4} = \frac{4}{x}$예요.</p>
+<p>$v = x^3$으로 두면 $[\sin v]' = \cos v \cdot 3x^2 = 3x^2 \cos(x^3)$이에요.</p>
+<p>합치면
+    $$f'(x) = \frac{4}{x} \sin(x^3) + 3x^2 \log(x^4) \cos(x^3)$$</p>
+<p>수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$을 $y$로 미분할 때 쓴 치환 미분이 여기서도 두 번 쓰였어요. 교수님 말대로 $\log$는 자연로그(ln)예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>
+</div><p>정답: $f'(x) = \frac{4}{x} \sin(x^3) + 3x^2 \log(x^4) \cos(x^3)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>log(x⁴)=4log(x)는 x>0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$u=\log(x^4)$, $v=\sin(x^3)$로 나눠요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>log(x⁴)=4log(x)는 x>0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>곱의 미분(product rule)은 $(uv)\prime=u\prime v+uv\prime$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$u=\log(x^4)$, $v=\sin(x^3)$로 나눠요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>
+</div></div>

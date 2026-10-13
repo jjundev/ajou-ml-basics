@@ -1,0 +1,16 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 모양 함수 미분하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요. μ,σ는 미분 대상이 아닌 상수이며 분모가 있으므로 σ≠0이 필요해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$u=-(x-\mu)^2/(2\sigma^2)$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$u = -\frac{1}{2\sigma^2}(x - \mu)^2$로 두면 $f = \exp(u)$예요.</p>
+<p>$\frac{du}{dx} = -\frac{1}{2\sigma^2} \cdot 2(x - \mu) = -\frac{x - \mu}{\sigma^2}$예요.</p>
+<p>연쇄법칙으로 곱하면
+    $$f'(x) = -\frac{x - \mu}{\sigma^2} \exp\left(-\frac{1}{2\sigma^2}(x - \mu)^2\right)$$</p>
+<p>$x = \mu$에서 도함수가 0이라 여기가 봉우리예요.</p>
+<p>수업과의 연결: 0928 수업에서 가우시안 PDF의 지수 부분 $-\frac{(y - \mathbf{x}^\top\boldsymbol{\theta})^2}{2\sigma^2}$을 다뤘어요. 같은 꼴을 치환 미분으로 직접 미분해 본 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>
+</div><p>정답: $f'(x) = -\frac{x - \mu}{\sigma^2} \exp\left(-\frac{1}{2\sigma^2}(x - \mu)^2\right)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ>0으로 두어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$u=-(x-\mu)^2/(2\sigma^2)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ>0으로 두어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$u=-(x-\mu)^2/(2\sigma^2)$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>
+</div></div>

@@ -1,0 +1,19 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>분산은 제곱의 평균 빼기 평균의 제곱를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>분산(variance)은 편차제곱의 평균이에요. μ=E[X]가 상수라서 $E[(X-\mu)^2]$를 전개하면 $E[X^2]-\mu^2$예요. 이차 모멘트 유한성이 필요해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$(x-\mu)^2=x^2-2\mu x+\mu^2$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>제곱을 펼쳐요.
+    $$(x - \mu)^2 = x^2 - 2\mu x + \mu^2$$</p>
+<p>기댓값은 합과 상수배를 그대로 통과시켜요. $\mu$는 상수예요.
+    $$\mathbb{E}[(x - \mu)^2] = \mathbb{E}[x^2] - 2\mu\,\mathbb{E}[x] + \mu^2$$</p>
+<p>$\mathbb{E}[x] = \mu$를 넣어요.
+    $$\mathbb{E}[x^2] - 2\mu \cdot \mu + \mu^2 = \mathbb{E}[x^2] - \mu^2$$</p>
+<p>$\mu$를 다시 $\mathbb{E}[x]$로 적으면 증명이 끝나요.
+    $$\mathbb{V}[x] = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$$</p>
+<p>수업과의 연결: 0930 수업의 "곱의 평균 빼기 평균의 곱" $\operatorname{Cov}[X, Y] = \mathbb{E}[XY] - \mathbb{E}[X]\,\mathbb{E}[Y]$에서 $Y$ 자리에 $X$를 넣은 것과 같아요. 분산은 자기 자신과의 공분산이에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>선형성으로 E[X²]−2μE[X]+μ²=E[X²]−μ²예요. 정의와 같으므로0이상이며 상수변수이면0이에요.</p>
+</div><p>정답: $\mathbb{V}[x] = \mathbb{E}[(x - \mu)^2] = \mathbb{E}[x^2] - 2\mu\,\mathbb{E}[x] + \mu^2 = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>E[X²]와(E[X])²는 일반적으로 달라요. E[X²]를 먼저 평균의 제곱으로 바꾸면 안 돼요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$(x-\mu)^2=x^2-2\mu x+\mu^2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>E[X²]와(E[X])²는 일반적으로 달라요. E[X²]를 먼저 평균의 제곱으로 바꾸면 안 돼요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>분산(variance)은 편차제곱의 평균이에요. μ=E[X]가 상수라서 $E[(X-\mu)^2]$를 전개하면 $E[X^2]-\mu^2$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$(x-\mu)^2=x^2-2\mu x+\mu^2$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>선형성으로 E[X²]−2μE[X]+μ²=E[X²]−μ²예요. 정의와 같으므로0이상이며 상수변수이면0이에요.</p>
+</div></div>

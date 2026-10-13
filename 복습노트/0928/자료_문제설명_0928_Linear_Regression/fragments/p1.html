@@ -1,0 +1,16 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>2차 다항식의 특징행렬 쓰기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\Phi_{ij}=\phi_j(x_i)$로 데이터 i와 특징 j를 구별해요. 2차는 상수항까지3특징이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>특징이 $1, x, x^2$ 세 개라서 $K = 3$이고, 행은 데이터 수만큼 $N = 3$개예요. 그래서 $\boldsymbol{\Phi} \in \mathbb{R}^{3 \times 3}$이에요.</p>
+<p>$\Phi_{ij} = \phi_j(x_i)$이므로 $i$번째 행에 $[1, x_i, x_i^2]$를 적어요.</p>
+<p>$x_1 = -1$이면 $[1, -1, 1]$, $x_2 = 1$이면 $[1, 1, 1]$, $x_3 = 2$이면 $[1, 2, 4]$예요.</p>
+<p>세 행을 위에서부터 쌓아요.
+    $$\boldsymbol{\Phi} = \begin{bmatrix} 1 &amp; -1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \\ 1 &amp; 2 &amp; 4 \end{bmatrix}$$</p>
+<p>수업과의 연결: 0928 수업에서 "첫 행은 $\mathbf{x}_1$로, 마지막 행은 $\mathbf{x}_N$으로 만든다"고 한 특징행렬 $\Phi_{ij} = \phi_j(\mathbf{x}_i)$를 숫자로 채워 본 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>
+</div><p>정답: $\boldsymbol{\Phi} = \begin{bmatrix} 1 &amp; -1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \\ 1 &amp; 2 &amp; 4 \end{bmatrix}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>−1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>−1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\Phi_{ij}=\phi_j(x_i)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>
+</div></div>

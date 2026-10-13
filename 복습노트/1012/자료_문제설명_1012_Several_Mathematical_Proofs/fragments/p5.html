@@ -1,0 +1,24 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>기울이는 변환과 밀도를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>비대각 A는 축을 기울여 성분들을 섞어요. 먼저 역변환을 성분으로 풀고 제곱합에 넣으면 교차항 부호를 확인하기 쉬워요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$y_2=2x_2$에서 $x_2=y_2/2$를 먼저 얻어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>${\det\mathbf{A} = 1 \cdot 2 - 1 \cdot 0 = 2}$예요. 2×2 역행렬 공식으로
+    $$\mathbf{A}^{-1} = \frac{1}{2}\begin{bmatrix}2 &amp; -1 \\ 0 &amp; 1\end{bmatrix} = \begin{bmatrix}1 &amp; -\frac{1}{2} \\ 0 &amp; \frac{1}{2}\end{bmatrix}$$
+    성분으로 쓰면 $x_1 = y_1 - \frac{1}{2}y_2$, $x_2 = \frac{1}{2}y_2$예요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>${\frac{\partial}{\partial \mathbf{y}}\mathbf{A}^{-1}\mathbf{y} = \mathbf{A}^{-1}}$이에요. 행렬식은
+    $$\det\left(\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right) = 1 \cdot \frac{1}{2} - \left(-\frac{1}{2}\right) \cdot 0 = \frac{1}{2}$$
+    $\mathbf{A}$가 넓이를 2배로 늘리니 밀도는 $\frac{1}{2}$배가 된다는 뜻이에요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>지수부를 정리해요. ${\mathbf{x}^\top\mathbf{x} = \mathbf{y}^\top\mathbf{A}^{-\top}\mathbf{A}^{-1}\mathbf{y}}$이고
+    $$\mathbf{A}^{-\top}\mathbf{A}^{-1} = \begin{bmatrix}1 &amp; 0 \\ -\frac{1}{2} &amp; \frac{1}{2}\end{bmatrix}\begin{bmatrix}1 &amp; -\frac{1}{2} \\ 0 &amp; \frac{1}{2}\end{bmatrix} = \begin{bmatrix}1 &amp; -\frac{1}{2} \\ -\frac{1}{2} &amp; \frac{1}{2}\end{bmatrix}$$</p>
+<p>성분으로 전개해도 같아요.
+    $$x_1^2 + x_2^2 = \left(y_1 - \frac{1}{2}y_2\right)^2 + \frac{1}{4}y_2^2 = y_1^2 - y_1 y_2 + \frac{1}{2}y_2^2$$</p>
+<p>$f(\mathbf{A}^{-1}\mathbf{y})$에 Jacobian 행렬식의 절댓값 $\frac{1}{2}$를 곱해요. ${\frac{1}{2\pi} \cdot \frac{1}{2} = \frac{1}{4\pi}}$예요.
+    $$f(\mathbf{y}) = \frac{1}{4\pi}\exp\left(-\frac{1}{2}\left(y_1^2 - y_1 y_2 + \frac{1}{2}y_2^2\right)\right)$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>역방향 대입으로 x1=y1−y2/2,x2=y2/2예요. A와 역행렬의 곱I2를 확인해요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>역 Jacobian은삼각행렬이고 대각곱1×1/2=1/2예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>제곱합은y1²−y1y2+y2²/2예요. 공분산 AAᵀ=[[2,2],[2,4]]의 역은[[1,−1/2],[−1/2,1/2]]라 동일한 이차형식이에요.</p>
+</div><p>정답: (a) ${\mathbf{A}^{-1} = \begin{bmatrix}1 &amp; -\frac{1}{2} \\ 0 &amp; \frac{1}{2}\end{bmatrix}}$ (b) $\frac{1}{2}$ (c) $$f(\mathbf{y}) = \frac{1}{4\pi}\exp\left(-\frac{1}{2}\left(y_1^2 - y_1 y_2 + \frac{1}{2}y_2^2\right)\right)$$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>역변환 x1=y1−y2/2의 마이너스가 지수의 교차항 −y1y2를 만들어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$y_2=2x_2$에서 $x_2=y_2/2$를 먼저 얻어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>역변환 x1=y1−y2/2의 마이너스가 지수의 교차항 −y1y2를 만들어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>비대각 A는 축을 기울여 성분들을 섞어요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$y_2=2x_2$에서 $x_2=y_2/2$를 먼저 얻어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>역방향 대입으로 x1=y1−y2/2,x2=y2/2예요. A와 역행렬의 곱I2를 확인해요. 역 Jacobian은삼각행렬이고 대각곱1×1/2=1/2예요. 제곱합은y1²−y1y2+y2²/2예요. 공분산 AAᵀ=[[2,2],[2,4]]의 역은[[1,−1/2],[−1/2,1/2]]라 동일한 이차형식이에요.</p>
+</div></div>

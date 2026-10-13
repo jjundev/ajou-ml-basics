@@ -1,0 +1,21 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>잡음이 섞인 아핀 변환의 교차공분산를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>교차공분산(cross covariance)은 $E[(x-\mu_x)(y-\mu_y)^\top]$예요. 첫 입력의 성분이 행, 두 번째 입력의 성분이 열이에요. y=Ax+b+w에서 두 번째 계수A는 전치해 오른쪽에 나와요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$y-\mu_y=A(x-\mu_x)+w$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$\mathbf{y}$의 평균부터 구해요. 기댓값은 linear operator이고 $\mathbb{E}[\mathbf{w}] = \mathbf{0}$이에요.
+    $$\boldsymbol{\mu}_y = \mathbb{E}[\mathbf{y}] = \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}$$</p>
+<p>편차를 구해요. $\mathbf{b}$는 빠져요.
+    $$\mathbf{y} - \boldsymbol{\mu}_y = \mathbf{A}(\mathbf{x} - \boldsymbol{\mu}_x) + \mathbf{w}$$</p>
+<p>교차공분산의 정의에 넣고 ${(\mathbf{A}\mathbf{B})^\top = \mathbf{B}^\top\mathbf{A}^\top}$를 써요.
+    $$\mathrm{Cov}_{x,y}[\mathbf{x}, \mathbf{y}] = \mathbb{E}[(\mathbf{x} - \boldsymbol{\mu}_x)(\mathbf{x} - \boldsymbol{\mu}_x)^\top]\mathbf{A}^\top + \mathbb{E}[(\mathbf{x} - \boldsymbol{\mu}_x)\mathbf{w}^\top]$$
+    $\mathbf{A}^\top$는 deterministic이라 기댓값 밖으로 나와요.</p>
+<p>$\mathbf{x}$와 $\mathbf{w}$는 독립이라 교차공분산이 0이에요. ${\mathbb{E}[(\mathbf{x} - \boldsymbol{\mu}_x)\mathbf{w}^\top] = \mathbb{E}[\mathbf{x} - \boldsymbol{\mu}_x]\,\mathbb{E}[\mathbf{w}]^\top = \mathbf{0}}$이에요. 그래서
+    $$\mathrm{Cov}_{x,y}[\mathbf{x}, \mathbf{y}] = \boldsymbol{\Sigma}_x\mathbf{A}^\top$$</p>
+<p>반대 순서는 전치예요. $\boldsymbol{\Sigma}_x$는 대칭이라 ${\boldsymbol{\Sigma}_x^\top = \boldsymbol{\Sigma}_x}$예요.
+    $$\mathrm{Cov}_{y,x}[\mathbf{y}, \mathbf{x}] = \left(\boldsymbol{\Sigma}_x\mathbf{A}^\top\right)^\top = \mathbf{A}\boldsymbol{\Sigma}_x$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>성분(i,j)은∑k Cov(x_i,x_k)A_jk로 ΣxAᵀ의(i,j)예요. 결과D×E, 반대순서는전치E×D=AΣx예요. 독립 잡음의 교차항은0이고 b도 사라져요.</p>
+</div><p>정답: ${\mathrm{Cov}_{x,y}[\mathbf{x}, \mathbf{y}] = \boldsymbol{\Sigma}_x\mathbf{A}^\top}$, ${\mathrm{Cov}_{y,x}[\mathbf{y}, \mathbf{x}] = \mathbf{A}\boldsymbol{\Sigma}_x}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>Q가 대각이라는 사실만으로 x와 w의 독립은 나오지 않아요. 문제에 별도로 주어진 x,w의 독립을 써요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$y-\mu_y=A(x-\mu_x)+w$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>Q가 대각이라는 사실만으로 x와 w의 독립은 나오지 않아요. 문제에 별도로 주어진 x,w의 독립을 써요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>교차공분산(cross covariance)은 $E[(x-\mu_x)(y-\mu_y)^\top]$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$y-\mu_y=A(x-\mu_x)+w$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>성분(i,j)은∑k Cov(x_i,x_k)A_jk로 ΣxAᵀ의(i,j)예요. 결과D×E, 반대순서는전치E×D=AΣx예요. 독립 잡음의 교차항은0이고 b도 사라져요.</p>
+</div></div>

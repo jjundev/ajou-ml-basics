@@ -1,0 +1,17 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>로지스틱 시그모이드 미분하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요. 역수 미분과 exp(−x)의 미분은 각각 음의 부호가 생겨 결과가 양수예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$u=1+e^{-x}$, $f=u^{-1}$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$u = 1 + \exp(-x)$로 두면 $f = u^{-1}$이고, $\frac{df}{du} = -u^{-2}$예요.</p>
+<p>$\frac{du}{dx} = -\exp(-x)$예요.</p>
+<p>곱하면 부호 두 개가 상쇄돼요.
+    $$f'(x) = -\frac{1}{(1 + \exp(-x))^2} \cdot (-\exp(-x)) = \frac{\exp(-x)}{(1 + \exp(-x))^2}$$</p>
+<p>분자를 $\exp(-x) = (1 + \exp(-x)) - 1$로 쪼개요. 그러면 $\frac{\exp(-x)}{1 + \exp(-x)} = 1 - f(x)$예요.</p>
+<p>그래서 $f'(x) = \frac{1}{1 + \exp(-x)} \cdot \frac{\exp(-x)}{1 + \exp(-x)} = f(x)(1 - f(x))$예요. 함숫값만 알면 도함수가 바로 나와요.</p>
+<p>수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$에 쓴 치환 미분 그대로예요. 교수님이 DNN 가중치를 학습할 때 연쇄법칙을 많이 쓴다고 했는데, 시그모이드의 이 도함수가 그 연쇄에 자주 들어가요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>
+</div><p>정답: $f'(x) = \frac{\exp(-x)}{(1 + \exp(-x))^2} = f(x)(1 - f(x))$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$u=1+e^{-x}$, $f=u^{-1}$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$u=1+e^{-x}$, $f=u^{-1}$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>
+</div></div>

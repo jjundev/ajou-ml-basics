@@ -1,0 +1,23 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>쌍끼리의 차이로 보는 분산를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>쌍별 제곱차(pairwise squared difference)는 이중합을 전개해요. $\sum_{ij}x_i^2=N\sum_i x_i^2$, $\sum_{ij}x_ix_j=(\sum_i x_i)^2$예요. N>0이고 모든 순서쌍을 포함해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$(x_i-x_j)^2=x_i^2-2x_ix_j+x_j^2$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>제곱을 펼쳐요.
+    $$(x_i - x_j)^2 = x_i^2 - 2x_i x_j + x_j^2$$</p>
+<p>첫 항을 $i$, $j$ 모두에 대해 더해요. $x_i^2$은 $j$와 상관없으니 $j$에 대한 합은 같은 값을 $N$번 더하는 거예요.
+    $$\sum_{i,j=1}^{N} x_i^2 = N\sum_{i=1}^{N} x_i^2$$</p>
+<p>셋째 항도 같아요. 이번에는 $i$에 대한 합이 $N$번 더하는 역할을 해요. 합의 첨자 이름은 바꿔도 값이 같아요.
+    $$\sum_{i,j=1}^{N} x_j^2 = N\sum_{j=1}^{N} x_j^2 = N\sum_{i=1}^{N} x_i^2$$</p>
+<p>가운데 항은 두 합의 곱으로 나눠져요.
+    $$\sum_{i,j=1}^{N} x_i x_j = \left(\sum_{i=1}^{N} x_i\right)\left(\sum_{j=1}^{N} x_j\right) = \left(\sum_{i=1}^{N} x_i\right)^2$$</p>
+<p>세 결과를 모으고 $\frac{1}{N^2}$을 곱해요.
+    $$\frac{1}{N^2}\sum_{i,j=1}^{N}(x_i - x_j)^2 = \frac{1}{N^2}\left[2N\sum_{i=1}^{N} x_i^2 - 2\left(\sum_{i=1}^{N} x_i\right)^2\right]$$</p>
+<p>$\frac{1}{N^2}$을 괄호 안에 나눠 넣어요. 둘째 항에서는 $\frac{1}{N^2} = \left(\frac{1}{N}\right)^2$이라 제곱 안으로 들어가요.
+    $$= 2\left[\frac{1}{N}\sum_{i=1}^{N} x_i^2 - \left(\frac{1}{N}\sum_{i=1}^{N} x_i\right)^2\right]$$</p>
+<p>수업과의 연결: 괄호 안은 관측값으로 계산한 "제곱의 평균 빼기 평균의 제곱"이에요. 0930 수업의 $\operatorname{Cov}[X, Y] = \mathbb{E}[XY] - \mathbb{E}[X]\,\mathbb{E}[Y]$에서 $Y$ 자리에 $X$를 넣고, 기댓값을 $N$개 관측값의 평균으로 바꾼 모양이에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>두 제곱항은 각각N번씩 반복되고 교차항은 합의 제곱으로 분리돼요. 따라서2N∑x_i²−2(∑x_i)²를N²으로 나누면 정확한 우변이에요. 모든 실수 관측에 대한 대수 증명이며 숫자 예제만으로 끝낸 것이 아니에요.</p>
+</div><p>정답: $\frac{1}{N^2}\sum_{i,j=1}^{N}(x_i - x_j)^2 = \frac{1}{N^2}\left[2N\sum_{i=1}^{N} x_i^2 - 2\left(\sum_{i=1}^{N} x_i\right)^2\right] = 2\left[\frac{1}{N}\sum_{i=1}^{N} x_i^2 - \left(\frac{1}{N}\sum_{i=1}^{N} x_i\right)^2\right]$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>표본 불편분산의 N−1로 바꾸지 않아요. 이 식은 분모N인 경험분산의 항등식이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$(x_i-x_j)^2=x_i^2-2x_ix_j+x_j^2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>표본 불편분산의 N−1로 바꾸지 않아요. 이 식은 분모N인 경험분산의 항등식이에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>쌍별 제곱차(pairwise squared difference)는 이중합을 전개해요. $\sum_{ij}x_i^2=N\sum_i x_i^2$, $\sum_{ij}x_ix_j=(\sum_i x_i)^2$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$(x_i-x_j)^2=x_i^2-2x_ix_j+x_j^2$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>두 제곱항은 각각N번씩 반복되고 교차항은 합의 제곱으로 분리돼요. 따라서2N∑x_i²−2(∑x_i)²를N²으로 나누면 정확한 우변이에요. 모든 실수 관측에 대한 대수 증명이며 숫자 예제만으로 끝낸 것이 아니에요.</p>
+</div></div>

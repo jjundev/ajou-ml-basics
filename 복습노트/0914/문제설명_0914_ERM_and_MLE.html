@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 복습 0914 문제설명</title>
+  <meta name="description" content="첫 줄부터 완성 답과 검산까지 설명해요.">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/pretendard.css">
+  <link rel="stylesheet" href="자료_문제설명_0914_ERM_and_MLE/vendor/katex/katex.min.css">
+  <script defer src="자료_문제설명_0914_ERM_and_MLE/vendor/katex/katex.min.js"></script>
+  <script defer src="자료_문제설명_0914_ERM_and_MLE/vendor/katex/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']});window.mlLayoutMath?.()"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .topic > .layer:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
+    .layer [data-source-field] + h4 { margin-top: var(--s5); }
+    .layer p { margin: var(--s3) 0; }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer li + li { margin-top: var(--s3); }
+    .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
+    .sum h4 { margin: 0 0 var(--s3); font-size: inherit; line-height: 1.5; }
+    .sum .summary-group > p { margin: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { padding: var(--s2) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+
+    .topic, .layer, .content, main { min-width: 0; }
+    /* Inline formulas stay inline; only genuinely wide blocks may be panned. */
+    .katex-display { max-width:100%; }
+    .katex-display > .katex, .katex.math-block { display:block; white-space:normal; text-align:left; }
+    .katex.math-block { margin:0; }
+    .katex-display > .katex > .katex-html { white-space:normal; }
+    .math-row { display:block; max-width:100%; margin:var(--s3) 0; padding:var(--s2) var(--s1); }
+    .math-row .katex-display { margin:0; padding:0; }
+    .math-punctuation { margin-left:.15em; font-family:var(--font); }
+    .math-row.math-pan { overflow-x:auto; overflow-y:hidden; scrollbar-width:none; }
+    .math-row.math-pan::-webkit-scrollbar { display:none; }
+    .math-pan-hint { display:block; margin:var(--s1) 0 var(--s3); color:var(--ink-2); font:var(--fs-small)/1.5 var(--font); }
+    table { display:block; max-width:100%; overflow-x:auto; }
+    img, svg { max-width:100%; height:auto; }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="ml-problem-explain-review-0914-ERM_and_MLE">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">문제풀이 입문 설명</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 1을 붙여 어파인 예측기 계산하기</a></li><li><a href="#p2">P2. 두 파라미터의 제곱 손실 평균 비교하기</a></li><li><a href="#p3">P3. λ에 따라 달라지는 정규화 최소제곱의 선택</a></li><li><a href="#p4">P4. 가우시안 우도의 평균과 분산 읽기</a></li><li><a href="#p5">P5. 음의 로그우도와 최소제곱의 순서 비교하기</a></li><li><a href="#p6">P6. 두 벡터 사이의 유클리드 거리</a></li><li><a href="#p7">P7. 삼차함수의 정상점과 종류</a></li></ul></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>머신러닝기초 복습 0914 문제설명</h1>
+      <p>주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.</p>
+    </div>
+<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 1을 붙여 어파인 예측기 계산하기</h3><p class="panel-meta">MML Example 8.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p1">원 문제 보기</a></p><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions"><p>특징이 $D = 2$개인 예제 하나가 있어요. 특징 값은 $x_n^{(1)} = 2$, $x_n^{(2)} = -1$이에요. 교과서처럼 맨 앞에 단위 특징 $x^{(0)} = 1$을 붙여서 예측기를 $f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n$으로 써요. 파라미터는 $\boldsymbol{\theta} = [\theta_0, \theta_1, \theta_2]^\top = [\tfrac{1}{2}, 3, 2]^\top$이에요.</p>
+          </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+            <li>(a) 1을 붙인 벡터 $\mathbf{x}_n$을 써 보세요. 길이는 몇인가요?</li>
+            <li>(b) 예측값 $f(\mathbf{x}_n, \boldsymbol{\theta})$를 구해 보세요.</li>
+          </ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>1을 붙여 어파인 예측기 계산하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>“맨 앞에 1”은 바이어스(bias)를 내적에 흡수하는 단서예요. $f=\theta_0+\theta_1x^{(1)}+\theta_2x^{(2)}$에서 상수항도 $\theta_0\cdot1$로 써요. 특징과 계수의 순서가 같아야 해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\mathbf x=[1,2,-1]^\top$을 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>맨 앞에 1을 붙이면 $\mathbf{x}_n = [1, x_n^{(1)}, x_n^{(2)}]^\top = [1, 2, -1]^\top$이에요.</p>
+<p>길이는 $D + 1 = 3$이에요. 그래서 예측기는 $f : \mathbb{R}^{D+1} \to \mathbb{R}$인 함수가 돼요.</p>
+<p>내적을 계산해요: $\boldsymbol{\theta}^\top \mathbf{x}_n = \tfrac{1}{2} \cdot 1 + 3 \cdot 2 + 2 \cdot (-1)$</p>
+<p>$= \tfrac{1}{2} + 6 - 2 = \frac{9}{2}$</p>
+<p>어파인 꼴로 확인해요: $\theta_0 + \theta_1 x_n^{(1)} + \theta_2 x_n^{(2)} = \tfrac{1}{2} + 6 - 2$로 같아요.</p>
+<p>수업과의 연결: 교수님이 "가장 중요한 수식"이라고 한 바이어스 흡수예요. $b = \theta_0 \cdot 1$로 보고 1을 붙이면 어파인 함수가 내적 하나가 돼요 (0914 26:00).</p>
+<div data-subpart="a"><h4>(a)</h4><p>첫 성분은 1이고 나머지는 주어진 입력이에요. 계수 벡터와 모두 길이 3이에요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>어파인 식으로 직접 계산해도 $1/2+6-2=9/2$예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>첫 성분은 1이고 나머지는 주어진 입력이에요. 계수 벡터와 모두 길이 3이에요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>어파인 식으로 직접 계산해도 $1/2+6-2=9/2$예요.</p>
+</div><p>정답: (a) $\mathbf{x}_n = [1, 2, -1]^\top$, 길이 $D + 1 = 3$ (b) $f(\mathbf{x}_n, \boldsymbol{\theta}) = \frac{9}{2}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>특징 두 개와 바이어스 한 개라서 길이는 2가 아니라 3이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\mathbf x=[1,2,-1]^\top$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>특징 두 개와 바이어스 한 개라서 길이는 2가 아니라 3이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>“맨 앞에 1”은 바이어스(bias)를 내적에 흡수하는 단서예요. $f=\theta_0+\theta_1x^{(1)}+\theta_2x^{(2)}$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\mathbf x=[1,2,-1]^\top$을 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>첫 성분은 1이고 나머지는 주어진 입력이에요. 계수 벡터와 모두 길이 3이에요. 어파인 식으로 직접 계산해도 $1/2+6-2=9/2$예요.</p>
+</div></div>
+</article><article class="topic" id="p2"><h3>P2. 두 파라미터의 제곱 손실 평균 비교하기</h3><p class="panel-meta">MML Example 8.2 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions"><p>학습 데이터가 세 개 있어요: $(x, y) = (0, 1), (1, 4), (2, 4)$. 각 입력 앞에 1을 붙여 $\mathbf{x}_n = [1, x_n]^\top$으로 쓰고, 예측기는 $f(\mathbf{x}_n, \boldsymbol{\theta}) = \boldsymbol{\theta}^\top \mathbf{x}_n$이에요. 제곱 손실의 평균은 행렬로 $\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$이에요.</p>
+          </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+            <li>(a) 데이터 행렬 $\mathbf{X}$와 라벨 벡터 $\mathbf{y}$를 써 보세요.</li>
+            <li>(b) $\boldsymbol{\theta}_A = [1, 2]^\top$과 $\boldsymbol{\theta}_B = [\tfrac{3}{2}, \tfrac{3}{2}]^\top$ 각각에 대해 $\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$를 구해 보세요.</li>
+            <li>(c) 둘 중 어느 쪽의 평균 손실이 더 작나요?</li>
+          </ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>두 파라미터의 제곱 손실 평균 비교하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>제곱 손실(squared loss)은 오차를 제곱한 값이에요. $N^{-1}\|\mathbf y-X\theta\|^2$에서 $X$의 한 행은 한 예제, $\mathbf y$는 실제 출력이에요. 같은 데이터의 두 후보를 이 값으로 비교해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3]^\top \in \mathbb{R}^{3 \times 2}$이고, 행은 차례로 $[1, 0]$, $[1, 1]$, $[1, 2]$예요. $\mathbf{y} = [1, 4, 4]^\top$이에요.</p>
+<p>$\boldsymbol{\theta}_A$: $\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}_A = [1, 3, 5]^\top$</p>
+<p>$\mathbf{y} - \hat{\mathbf{y}} = [0, 1, -1]^\top$, 제곱합은 $0 + 1 + 1 = 2$</p>
+<p>$\frac{1}{3}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}_A\|^2 = \frac{2}{3}$</p>
+<p>$\boldsymbol{\theta}_B$: $\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}_B = [\tfrac{3}{2}, 3, \tfrac{9}{2}]^\top$</p>
+<p>$\mathbf{y} - \hat{\mathbf{y}} = [-\tfrac{1}{2}, 1, -\tfrac{1}{2}]^\top$, 제곱합은 $\tfrac{1}{4} + 1 + \tfrac{1}{4} = \tfrac{3}{2}$</p>
+<p>$\frac{1}{3}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}_B\|^2 = \frac{1}{2}$</p>
+<p>$\frac{1}{2} \lt \frac{2}{3}$이니까 $\boldsymbol{\theta}_B$가 이 데이터에 더 잘 맞아요.</p>
+<p>수업과의 연결: 칠판에서 $\frac{1}{N}\sum_n (y_n - \boldsymbol{\theta}^\top \mathbf{x}_n)^2$을 $\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$ 한 줄로 바꾼 "김밥 재료 손질"을 숫자로 해 본 거예요. 교수님이 "산수니까 해 보세요"라고 남긴 부분이에요 (0914 37:24).</p>
+<div data-subpart="a"><h4>(a)</h4><p>3예제×2특징이므로 X는 3×2, y는 3×1이에요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>A의 잔차는 [0,1,-1], B는 [-1/2,1,-1/2]예요. 제곱합 2와 3/2를 3으로 나누면 2/3과 1/2예요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>$2/3-1/2=1/6&gt;0$이므로 B예요. 이는 두 후보끼리 비교한 결과이며 전역 최적해를 증명한 것은 아니에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>3예제×2특징이므로 X는 3×2, y는 3×1이에요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>A의 잔차는 [0,1,-1], B는 [-1/2,1,-1/2]예요. 제곱합 2와 3/2를 3으로 나누면 2/3과 1/2예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>$2/3-1/2=1/6&gt;0$이므로 B예요. 이는 두 후보끼리 비교한 결과이며 전역 최적해를 증명한 것은 아니에요.</p>
+</div><p>정답: $\boldsymbol{\theta}_A$는 $\frac{2}{3}$, $\boldsymbol{\theta}_B$는 $\frac{1}{2}$이에요. $\boldsymbol{\theta}_B$가 더 작아요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>노름과 노름의 제곱을 구별하고 마지막에 N=3으로 나눠요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>노름과 노름의 제곱을 구별하고 마지막에 N=3으로 나눠요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>제곱 손실(squared loss)은 오차를 제곱한 값이에요. $N^{-1}\|\mathbf y-X\theta\|^2$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>3예제×2특징이므로 X는 3×2, y는 3×1이에요. A의 잔차는 [0,1,-1], B는 [-1/2,1,-1/2]예요. 제곱합 2와 3/2를 3으로 나누면 2/3과 1/2예요. $2/3-1/2=1/6&gt;0$이므로 B예요. 이는 두 후보끼리 비교한 결과이며 전역 최적해를 증명한 것은 아니에요.</p>
+</div></div>
+</article><article class="topic" id="p3"><h3>P3. λ에 따라 달라지는 정규화 최소제곱의 선택</h3><p class="panel-meta">MML Example 8.3 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions"><p>학습 데이터가 $(x, y) = (0, 1), (1, 3), (2, 5)$예요. 입력 앞에 1을 붙여 $\mathbf{x}_n = [1, x_n]^\top$으로 쓰고, 예측기는 $\boldsymbol{\theta}^\top \mathbf{x}_n$이에요. 정규화된 문제의 목적함수는 다음과 같아요.</p>
+          $$J(\boldsymbol{\theta}) = \frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$$
+          <p>후보는 $\boldsymbol{\theta}_A = [1, 2]^\top$과 $\boldsymbol{\theta}_B = [1, 1]^\top$ 두 개예요.</p>
+          </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+            <li>(a) $\lambda = 0$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>
+            <li>(b) $\lambda = 1$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>
+          </ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>λ에 따라 달라지는 정규화 최소제곱의 선택를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>정규화(regularization)는 적합 오차와 계수 크기를 함께 재요. $J=N^{-1}\|y-X\theta\|^2+\lambda\|\theta\|^2$에서 λ는 벌점의 세기예요. 이 문제는 바이어스까지 벌점에 포함해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$\boldsymbol{\theta}_A$의 추정치는 $[1, 3, 5]^\top$이라 $\mathbf{y}$와 똑같아요. 그래서 $\frac{1}{3}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}_A\|^2 = 0$이에요.</p>
+<p>$\boldsymbol{\theta}_B$의 추정치는 $[1, 2, 3]^\top$이고 잔차는 $[0, 1, 2]^\top$이에요. 그래서 $\frac{1}{3}(0 + 1 + 4) = \frac{5}{3}$이에요.</p>
+<p>파라미터 크기: $\|\boldsymbol{\theta}_A\|^2 = 1 + 4 = 5$, $\|\boldsymbol{\theta}_B\|^2 = 1 + 1 = 2$</p>
+<div data-subpart="a"><h4>(a)</h4><p>$\lambda = 0$: $J_A = 0$, $J_B = \frac{5}{3}$이라 $\boldsymbol{\theta}_A$를 골라요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>$\lambda = 1$: $J_A = 0 + 5 = 5$, $J_B = \frac{5}{3} + 2 = \frac{11}{3}$이라 $\boldsymbol{\theta}_B$를 골라요.</p>
+<p>학습 데이터에 딱 맞는 $\boldsymbol{\theta}_A$도 크기가 크면 $\lambda \|\boldsymbol{\theta}\|^2$ 벌점을 받아 밀려나요.</p>
+<p>수업과의 연결: 교수님이 $\lambda = 0$이면 "딱 과적합되기 좋지"라고 하고, $\lambda = 1$처럼 양수를 주면 원점에서의 거리까지 따져 균형을 잡는다고 한 장면이에요 (0914 48:44–49:53).</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>λ=0을 대입하면 0&lt;5/3이므로 A예요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>λ=1에서는 11/3&lt;5예요. 교차점은 λ=5/9이므로 1에서 B를 고르는 것이 일관돼요.</p>
+</div><p>정답: (a) $\lambda = 0$이면 $J_A = 0$, $J_B = \frac{5}{3}$ 이라 $\boldsymbol{\theta}_A$ (b) $\lambda = 1$이면 $J_A = 5$, $J_B = \frac{11}{3}$ 이라 $\boldsymbol{\theta}_B$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>평균 손실의 1/N을 벌점에도 임의로 곱하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>평균 손실의 1/N을 벌점에도 임의로 곱하지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>정규화(regularization)는 적합 오차와 계수 크기를 함께 재요. $J=N^{-1}\|y-X\theta\|^2+\lambda\|\theta\|^2$에서 λ는 벌점의 세기예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>λ=0을 대입하면 0&lt;5/3이므로 A예요. λ=1에서는 11/3&lt;5예요. 교차점은 λ=5/9이므로 1에서 B를 고르는 것이 일관돼요.</p>
+</div></div>
+</article><article class="topic" id="p4"><h3>P4. 가우시안 우도의 평균과 분산 읽기</h3><p class="panel-meta">MML Example 8.4 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions"><p>라벨에 평균 0인 가우시안 노이즈 $\varepsilon_n \sim \mathcal{N}(0, \sigma^2)$가 더해지고, 예측에는 선형 모델 $\mathbf{x}_n^\top \boldsymbol{\theta}$를 쓴다고 가정해요. 그러면 예제 하나의 우도는 $p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta}) = \mathcal{N}(y_n \mid \mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$예요. 이제 $\mathbf{x}_n = [1, 2]^\top$, $\boldsymbol{\theta} = [1, 2]^\top$, $\sigma^2 = 1$이라고 해요. </p></div><h4>구할 것</h4><div data-source-field="ask">$y_n$의 조건부 분포의 평균과 분산을 구해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 우도의 평균과 분산 읽기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>조건부 가우시안(Gaussian likelihood)은 입력과 계수를 고정한 뒤 잡음만 랜덤하게 봐요. $y=x^\top\theta+\epsilon$이면 평균은 $x^\top\theta$, 분산은 잡음 분산 σ²예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x^\top\theta=1\cdot1+2\cdot2=5$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>평균: $\mathbf{x}_n^\top \boldsymbol{\theta} = 1 \cdot 1 + 2 \cdot 2 = 5$</p>
+<p>분산: 노이즈 분산이 그대로 남아서 $\sigma^2 = 1$이에요.</p>
+<p>그래서 $y_n \mid \mathbf{x}_n, \boldsymbol{\theta} \sim \mathcal{N}(5, 1)$이에요.</p>
+<p>수업과의 연결: 칠판에서 $y_n = \mathbf{x}_n^\top \boldsymbol{\theta} + w$로 suppose하고, 상수를 더하면 평균만 옮겨지고 분산은 그대로라서 $\mathcal{N}(\mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$가 된다고 한 부분이에요 (0914 65:40–69:39).</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>$E[y]=5+E[\epsilon]=5$, $Var(y)=Var(\epsilon)=1$로 정의에서 확인돼요.</p>
+</div><p>정답: 조건부 분포의 평균 $5$, 분산 $1$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>가우시안 두 번째 인자는 표준편차가 아니라 분산이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$x^\top\theta=1\cdot1+2\cdot2=5$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>가우시안 두 번째 인자는 표준편차가 아니라 분산이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>조건부 가우시안(Gaussian likelihood)은 입력과 계수를 고정한 뒤 잡음만 랜덤하게 봐요. $y=x^\top\theta+\epsilon$이면 평균은 $x^\top\theta$, 분산은 잡음 분산 σ²예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$x^\top\theta=1\cdot1+2\cdot2=5$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>$E[y]=5+E[\epsilon]=5$, $Var(y)=Var(\epsilon)=1$로 정의에서 확인돼요.</p>
+</div></div>
+</article><article class="topic" id="p5"><h3>P5. 음의 로그우도와 최소제곱의 순서 비교하기</h3><p class="panel-meta">MML Example 8.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions"><p>데이터는 $(x, y) = (0, 1), (1, 4), (2, 4)$이고, 입력 앞에 1을 붙여 $\mathbf{x}_n = [1, x_n]^\top$으로 써요. 각 라벨은 $p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta}) = \mathcal{N}(y_n \mid \mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$를 따르고 $\sigma^2 = 1$이에요. 예제들은 i.i.d.라고 가정해요.</p>
+          </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+            <li>(a) 음의 로그우도 $\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n=1}^{N} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$를 제곱합 항과 상수항으로 나눠 써 보세요.</li>
+            <li>(b) $\boldsymbol{\theta}_A = [1, 2]^\top$과 $\boldsymbol{\theta}_B = [\tfrac{3}{2}, \tfrac{3}{2}]^\top$의 $\mathcal{L}$을 자연로그로 소수 셋째 자리까지 구해 보세요.</li>
+            <li>(c) 어느 쪽의 $\mathcal{L}$이 더 작나요? 제곱 손실 합으로 비교한 순서와 같은가요?</li>
+          </ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>음의 로그우도와 최소제곱의 순서 비교하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>i.i.d. 가우시안은 우도가 곱이고 로그우도는 합이에요. 음의 로그우도(negative log likelihood)는 $SSE/(2\sigma^2)+N\log(2\pi\sigma^2)/2$예요. 분산이 고정이고 공통이면 SSE와 같은 순서를 줘요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n=1}^{N} \log \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left(-\frac{(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2}{2\sigma^2}\right)$</p>
+<p>$= \frac{1}{2\sigma^2}\sum_{n=1}^{N} (y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2 + \frac{N}{2}\log(2\pi\sigma^2)$</p>
+<p>상수항: $N = 3$, $\sigma^2 = 1$이면 $\frac{3}{2}\log(2\pi) \approx 2.757$이에요. $\boldsymbol{\theta}$와 상관없어요.</p>
+<p>$\boldsymbol{\theta}_A$: 추정치 $[1, 3, 5]^\top$, 잔차 $[0, 1, -1]^\top$, 제곱합 $2$라서 첫 항은 $\frac{2}{2} = 1$이에요.</p>
+<p>$\mathcal{L}(\boldsymbol{\theta}_A) = 1 + \frac{3}{2}\log(2\pi) \approx 3.757$</p>
+<p>$\boldsymbol{\theta}_B$: 추정치 $[\tfrac{3}{2}, 3, \tfrac{9}{2}]^\top$, 잔차 $[-\tfrac{1}{2}, 1, -\tfrac{1}{2}]^\top$, 제곱합 $\tfrac{3}{2}$라서 첫 항은 $\frac{3}{4}$이에요.</p>
+<p>$\mathcal{L}(\boldsymbol{\theta}_B) = \frac{3}{4} + \frac{3}{2}\log(2\pi) \approx 3.507$</p>
+<p>$\boldsymbol{\theta}_B$가 더 작아요. 상수항이 같으니 순서는 제곱합($2$ 대 $\tfrac{3}{2}$)이 정하고, 제곱 손실로 비교한 순서와 같아요.</p>
+<p>수업과의 연결: 칠판에서 $\frac{N}{2}\log(2\pi\sigma^2)$ 같은 상수항은 "무시하고" 넘어가고, 음의 로그우도 최소화가 최소제곱과 같은 해를 준다고 결론 낸 부분이에요 (0914 69:54–71:15).</p>
+<div data-subpart="a"><h4>(a)</h4><p>정규화 상수의 음의 로그는 예제마다 log(2π)/2이고 세 번 더해요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>별도 계산에서 A=3.7568156…, B=3.5068156…이므로 반올림하면 3.757과 3.507예요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>두 값 차이는 (2−3/2)/2=1/4예요. 같은 양의 배율과 같은 상수이므로 순서가 유지돼요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>정규화 상수의 음의 로그는 예제마다 log(2π)/2이고 세 번 더해요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>별도 계산에서 A=3.7568156…, B=3.5068156…이므로 반올림하면 3.757과 3.507예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>두 값 차이는 (2−3/2)/2=1/4예요. 같은 양의 배율과 같은 상수이므로 순서가 유지돼요.</p>
+</div><p>정답: $\mathcal{L}(\boldsymbol{\theta}_A) = 1 + \frac{3}{2}\log(2\pi) \approx 3.757$, $\mathcal{L}(\boldsymbol{\theta}_B) = \frac{3}{4} + \frac{3}{2}\log(2\pi) \approx 3.507$이라 $\boldsymbol{\theta}_B$가 더 작고, 최소제곱으로 비교한 순서와 같아요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>로그 상수는 최적 후보 선택에는 지워도 실제 수치 계산에서는 남겨요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>로그 상수는 최적 후보 선택에는 지워도 실제 수치 계산에서는 남겨요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>i.i.d. 가우시안은 우도가 곱이고 로그우도는 합이에요. 음의 로그우도(negative log likelihood)는 $SSE/(2\sigma^2)+N\log(2\pi\sigma^2)/2$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>정규화 상수의 음의 로그는 예제마다 log(2π)/2이고 세 번 더해요. 별도 계산에서 A=3.7568156…, B=3.5068156…이므로 반올림하면 3.757과 3.507예요. 두 값 차이는 (2−3/2)/2=1/4예요. 같은 양의 배율과 같은 상수이므로 순서가 유지돼요.</p>
+</div></div>
+</article><article class="topic" id="p6"><h3>P6. 두 벡터 사이의 유클리드 거리</h3><p class="panel-meta">MML Exercise 3.3 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions"><p>두 벡터 $\mathbf{x} = [1, 2, 3]^\top$, $\mathbf{y} = [-1, -1, 0]^\top$이 있어요. </p></div><h4>구할 것</h4><div data-source-field="ask">내적을 $\langle \mathbf{x}, \mathbf{y} \rangle := \mathbf{x}^\top \mathbf{y}$로 둘 때, 두 벡터 사이의 거리 $d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\|$를 구해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>두 벡터 사이의 유클리드 거리를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>유클리드 거리(Euclidean distance)는 차이 벡터의 길이예요. $d=\sqrt{(x-y)^\top(x-y)}$에서 내적은 대응 성분 곱의 합이에요. 이 문제는 표준 내적을 지정했어요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x-y=[2,3,3]^\top$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>차이 벡터: $\mathbf{x} - \mathbf{y} = [1 - (-1), 2 - (-1), 3 - 0]^\top = [2, 3, 3]^\top$</p>
+<p>자기 내적: $(\mathbf{x} - \mathbf{y})^\top(\mathbf{x} - \mathbf{y}) = 4 + 9 + 9 = 22$</p>
+<p>$d(\mathbf{x}, \mathbf{y}) = \sqrt{22} \approx 4.690$</p>
+<p>수업과의 연결: 교수님이 2-노름 $\|\boldsymbol{\theta}\|_2$를 "원점에서의 거리"라고 설명했어요. 여기서는 원점 대신 $\mathbf{y}$에서 잰 거리예요 (0914 49:56).</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>반대로 y−x=[−2,−3,−3]을 써도 제곱합은22, 거리는 $\sqrt{22}$예요.</p>
+</div><p>정답: $d(\mathbf{x}, \mathbf{y}) = \sqrt{22} \approx 4.690$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>22는 거리의 제곱이에요. 거리에는 제곱근이 필요해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$x-y=[2,3,3]^\top$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>22는 거리의 제곱이에요. 거리에는 제곱근이 필요해요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>유클리드 거리(Euclidean distance)는 차이 벡터의 길이예요. $d=\sqrt{(x-y)^\top(x-y)}$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$x-y=[2,3,3]^\top$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>반대로 y−x=[−2,−3,−3]을 써도 제곱합은22, 거리는 $\sqrt{22}$예요.</p>
+</div></div>
+</article><article class="topic" id="p7"><h3>P7. 삼차함수의 정상점과 종류</h3><p class="panel-meta">MML Exercise 7.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p7">원 문제 보기</a></p><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions"><p>일변수 함수 $f(x) = x^3 + 6x^2 - 3x - 5$가 있어요. </p></div><h4>구할 것</h4><div data-source-field="ask">정상점(stationary point)을 모두 찾고, 각각 극대인지 극소인지 안장점인지 판정해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>삼차함수의 정상점과 종류를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>정상점(stationary point)은 미분이 0인 점이에요. $f\prime\prime$이 음이면 극대, 양이면 극소예요. 도함수 0만으로 최대/최소라고 결론내리지 않아요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$f\prime(x)=3x^2+12x-3$을 먼저 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$f'(x) = 3x^2 + 12x - 3$</p>
+<p>$f'(x) = 0 \Rightarrow x^2 + 4x - 1 = 0 \Rightarrow x = -2 \pm \sqrt{5}$</p>
+<p>정상점은 $x = -2 + \sqrt{5} \approx 0.236$과 $x = -2 - \sqrt{5} \approx -4.236$ 두 개예요.</p>
+<p>$f''(x) = 6x + 12$</p>
+<p>$x = -2 + \sqrt{5}$: $f'' = 6\sqrt{5} \gt 0$이라 극소예요.</p>
+<p>$x = -2 - \sqrt{5}$: $f'' = -6\sqrt{5} \lt 0$이라 극대예요.</p>
+<p>함숫값: $x^2 = 1 - 4x$를 쓰면 $f(x) = -10x - 3$으로 줄어요.</p>
+<p>그래서 $f(-2 + \sqrt{5}) = 17 - 10\sqrt{5} \approx -5.36$, $f(-2 - \sqrt{5}) = 17 + 10\sqrt{5} \approx 39.36$이에요.</p>
+<p>수업과의 연결: 교수님은 $\boldsymbol{\theta}$를 하나씩 바꿔 보는 무식한 방법 대신 least squares 알고리즘과 pseudo-inverse 같은 체계적인 방법이 있다고 했어요. 그런 방법이 찾는 것도 이 문제처럼 목적함수가 가장 작아지는 점이에요 (0914 40:04–41:07).</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>아래 독립 symbolic 미분으로 도함수의 근과 각 근에서 이계도함수 부호를 확인해요. 삼차함수는 양끝이 반대 방향으로 무한히 가므로 전역 극값이라고 쓰지 않아요.</p>
+</div><p>정답: $x = -2 + \sqrt{5}$에서 극소($f = 17 - 10\sqrt{5} \approx -5.36$), $x = -2 - \sqrt{5}$에서 극대($f = 17 + 10\sqrt{5} \approx 39.36$)예요. 안장점은 없어요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>국소 극값과 전체 실수 구간의 전역 최대·최소는 다른 질문이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$f\prime(x)=3x^2+12x-3$을 먼저 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>국소 극값과 전체 실수 구간의 전역 최대·최소는 다른 질문이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>정상점(stationary point)은 미분이 0인 점이에요. $f\prime\prime$이 음이면 극대, 양이면 극소예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$f\prime(x)=3x^2+12x-3$을 먼저 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>아래 독립 symbolic 미분으로 도함수의 근과 각 근에서 이계도함수 부호를 확인해요. 삼차함수는 양끝이 반대 방향으로 무한히 가므로 전역 극값이라고 쓰지 않아요.</p>
+</div></div>
+</article></section>
+  </main>
+  <footer>원 문제·정리노트·PDF는 보존해요.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-sub" id="sum-for">전체 흐름</p>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const sub = document.getElementById('aid-for');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
+          sub.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const sub = document.getElementById('sum-for');
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
+          const heading = s.querySelector('h3');
+          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
+            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"], .math-row')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .math-row, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+  <script id="math-layout">
+    (function () {
+      let queued = false;
+      function markOverflow(row) {
+        row.classList.remove('math-pan');
+        row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+        if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+        if (row.scrollWidth > row.clientWidth + 2) {
+          row.classList.add('math-pan'); row.tabIndex = 0;
+          row.setAttribute('aria-label', '긴 수식. 좌우 화살표 또는 가로 밀기로 전체를 읽을 수 있어요.');
+          const hint = document.createElement('span'); hint.className = 'math-pan-hint';
+          hint.textContent = '가로로 밀어 전체 수식 읽기'; row.after(hint);
+        }
+      }
+      function layout() {
+        queued = false;
+        document.querySelectorAll('main .katex, .sums .katex').forEach((math) => {
+          if (!math.getClientRects().length) return;
+          const tex = math.querySelector('annotation')?.textContent || '';
+          const display = math.parentElement.classList.contains('katex-display');
+          let row = math.closest('.math-row');
+          const container = math.closest('p, li, .part, [data-source-field], [data-subpart], .layer, .sum');
+          const width = container?.clientWidth || 0;
+          // Each matrix receives its own line; long inline equations become blocks.
+          if (!row && (display || /\\begin\{(?:bmatrix|pmatrix|matrix|aligned|array)\}/.test(tex) || (width > 0 && math.getBoundingClientRect().width > width - 8))) {
+            row = document.createElement('span');
+            row.className = 'math-row';
+            const autoWrapper = math.parentElement.tagName === 'SPAN' && math.parentElement.childNodes.length === 1;
+            const target = display || autoWrapper ? math.parentElement : math;
+            target.before(row); row.appendChild(target);
+            if (!display) math.classList.add('math-block');
+            // Keep sentence punctuation beside the last formula instead of orphaning it.
+            const tail = row.nextSibling;
+            if (tail?.nodeType === Node.TEXT_NODE) {
+              const match = tail.textContent.match(/^([.,;:]+["”]?)/);
+              if (match) {
+                const punctuation = document.createElement('span'); punctuation.className = 'math-punctuation';
+                punctuation.textContent = match[1]; math.appendChild(punctuation);
+                tail.textContent = tail.textContent.slice(match[1].length);
+              }
+            }
+          }
+          if (!row) return;
+          math.style.fontSize = '';
+          row.classList.remove('math-pan');
+          row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+          if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+          const available = row.clientWidth - 8;
+          if (available <= 0) return;
+          const bases = Array.from(math.querySelectorAll('.katex-html > .base'));
+          const widest = Math.max(0, ...bases.map((el) => el.getBoundingClientRect().width));
+          // Relations already split KaTeX's base groups, allowing natural line breaks.
+          // Reduce only unbreakable content, by at most 15%; retain readable body size.
+          if (widest > available) math.style.fontSize = (1.21 * Math.max(.85, available / widest)) + 'em';
+          markOverflow(row);
+        });
+        // Font-size changes and wrapping need one completed frame before final ink bounds.
+        requestAnimationFrame(() => document.querySelectorAll('.math-row').forEach((row) => {
+          if (row.getClientRects().length) markOverflow(row);
+        }));
+      }
+      function schedule() { if (!queued) { queued = true; requestAnimationFrame(layout); } }
+      window.mlLayoutMath = schedule;
+      document.addEventListener('od:screen', schedule);
+      new ResizeObserver(schedule).observe(document.querySelector('.content'));
+      new ResizeObserver(schedule).observe(document.querySelector('#panel-right .panel-inner'));
+      new MutationObserver(schedule).observe(document.querySelector('.sums'), {subtree:true, attributes:true, attributeFilter:['hidden']});
+      document.fonts.ready.then(schedule);
+      schedule();
+    })();
+  </script>
+</body>
+</html>

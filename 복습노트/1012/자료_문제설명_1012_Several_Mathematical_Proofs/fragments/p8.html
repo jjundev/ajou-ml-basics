@@ -1,0 +1,25 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>시계열 모델의 다음 상태와 관측를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>시계열 예측에서 다음상태와 다음관측은 같은 미래 상태를 공유해 상관돼요. 먼저 $P=A\Sigma_tA^\top+Q$를 계산한 뒤 joint block을 조립해요. 새 잡음은 과거와 상태에 독립이라고 가정해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\mu_{t+1}=A\mu_t$, $P=A\Sigma_tA^\top+Q$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>모든 기댓값은 $\mathbf{y}_1, \dots, \mathbf{y}_t$가 주어진 조건 아래에서 계산해요. 이 조건 아래 $\mathbf{x}_t$의 평균은 $\boldsymbol{\mu}_t$, 공분산은 $\boldsymbol{\Sigma}_t$예요. 새 잡음 $\mathbf{w}$, $\mathbf{v}$는 $\mathbf{x}_t$와 지난 관측에 독립이고 평균이 $\mathbf{0}$이에요.</p>
+<p>$\mathbf{x}_{t+1}$의 평균은 같은 꼴로 따라가요.
+    $$\mathbb{E}[\mathbf{x}_{t+1}] = \mathbf{A}\boldsymbol{\mu}_t$$</p>
+<p>편차는 ${\mathbf{x}_{t+1} - \mathbf{A}\boldsymbol{\mu}_t = \mathbf{A}(\mathbf{x}_t - \boldsymbol{\mu}_t) + \mathbf{w}}$예요. $\mathbf{x}_t$와 $\mathbf{w}$는 독립이라 둘이 만나는 항은 0이에요.
+    $$\mathbf{P} := \mathrm{Var}[\mathbf{x}_{t+1}] = \mathbf{A}\boldsymbol{\Sigma}_t\mathbf{A}^\top + \mathbf{Q}$$
+    즉 ${p(\mathbf{x}_{t+1} \mid \mathbf{y}_1, \dots, \mathbf{y}_t) = \mathcal{N}(\mathbf{A}\boldsymbol{\mu}_t, \mathbf{P})}$예요.</p>
+<p>${\mathbf{y}_{t+1} = \mathbf{C}\mathbf{x}_{t+1} + \mathbf{v}}$의 평균은
+    $$\mathbb{E}[\mathbf{y}_{t+1}] = \mathbf{C}\mathbf{A}\boldsymbol{\mu}_t$$</p>
+<p>편차는 ${\mathbf{y}_{t+1} - \mathbf{C}\mathbf{A}\boldsymbol{\mu}_t = \mathbf{C}(\mathbf{x}_{t+1} - \mathbf{A}\boldsymbol{\mu}_t) + \mathbf{v}}$예요. $\mathbf{v}$는 $\mathbf{x}_{t+1}$과 독립이라 교차항이 0이에요.
+    $$\mathrm{Var}[\mathbf{y}_{t+1}] = \mathbf{C}\mathbf{P}\mathbf{C}^\top + \mathbf{R}$$</p>
+<p>교차공분산은 정의 $\mathbb{E}[(\mathbf{x}_{t+1} - \mathbf{A}\boldsymbol{\mu}_t)(\mathbf{y}_{t+1} - \mathbf{C}\mathbf{A}\boldsymbol{\mu}_t)^\top]$에 편차를 넣어요. $\mathbf{C}^\top$는 밖으로 나오고 $\mathbf{v}$ 항은 0이에요.
+    $$\mathrm{Cov}[\mathbf{x}_{t+1}, \mathbf{y}_{t+1}] = \mathbf{P}\mathbf{C}^\top, \qquad \mathrm{Cov}[\mathbf{y}_{t+1}, \mathbf{x}_{t+1}] = \mathbf{C}\mathbf{P}$$
+    $\mathbf{P}$는 대칭이라 ${(\mathbf{P}\mathbf{C}^\top)^\top = \mathbf{C}\mathbf{P}}$예요.</p>
+<p>블록으로 모아요. 결합분포가 가우시안이니 이 평균과 공분산으로 정해져요.
+    $$p(\mathbf{x}_{t+1}, \mathbf{y}_{t+1} \mid \mathbf{y}_1, \dots, \mathbf{y}_t) = \mathcal{N}\left(\begin{bmatrix}\mathbf{A}\boldsymbol{\mu}_t \\ \mathbf{C}\mathbf{A}\boldsymbol{\mu}_t\end{bmatrix}, \begin{bmatrix}\mathbf{P} &amp; \mathbf{P}\mathbf{C}^\top \\ \mathbf{C}\mathbf{P} &amp; \mathbf{C}\mathbf{P}\mathbf{C}^\top + \mathbf{R}\end{bmatrix}\right)$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>조건부 평균은[Aμt,CAμt]ᵀ이고 블록공분산은[[P,PCᵀ],[CP,CPCᵀ+R]]예요. 다음상태 잡음과 측정잡음의 독립으로 빠진 교차항이0이에요. 이전 joint 변환의 A를C,Σx를P로 놓아도 같은결과예요.</p>
+</div><p>정답: ${\mathbf{P} := \mathbf{A}\boldsymbol{\Sigma}_t\mathbf{A}^\top + \mathbf{Q}}$일 때 평균 $\begin{bmatrix}\mathbf{A}\boldsymbol{\mu}_t \\ \mathbf{C}\mathbf{A}\boldsymbol{\mu}_t\end{bmatrix}$, 공분산 $\begin{bmatrix}\mathbf{P} &amp; \mathbf{P}\mathbf{C}^\top \\ \mathbf{C}\mathbf{P} &amp; \mathbf{C}\mathbf{P}\mathbf{C}^\top + \mathbf{R}\end{bmatrix}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>현재 관측 y_t와 다음 관측 y_{t+1}를 구별해요. 아직 다음 관측으로 조건화하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\mu_{t+1}=A\mu_t$, $P=A\Sigma_tA^\top+Q$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>현재 관측 y_t와 다음 관측 y_{t+1}를 구별해요. 아직 다음 관측으로 조건화하지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>시계열 예측에서 다음상태와 다음관측은 같은 미래 상태를 공유해 상관돼요. $P=A\Sigma_tA^\top+Q$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\mu_{t+1}=A\mu_t$, $P=A\Sigma_tA^\top+Q$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>조건부 평균은[Aμt,CAμt]ᵀ이고 블록공분산은[[P,PCᵀ],[CP,CPCᵀ+R]]예요. 다음상태 잡음과 측정잡음의 독립으로 빠진 교차항이0이에요. 이전 joint 변환의 A를C,Σx를P로 놓아도 같은결과예요.</p>
+</div></div>

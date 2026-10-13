@@ -1,0 +1,21 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>사전분포가 만드는 함수들를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. 5차는6계수이고 $f(x)=\phi(x)^\top\theta$에서 랜덤 재료는 θ예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\theta_i\sim\mathcal N(0,I/4)$를 먼저 뽑아요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>함수 $f(x) = \boldsymbol{\theta}^\top\boldsymbol{\phi}(x)$에서 랜덤한 것은 $\boldsymbol{\theta}$뿐이에요. $\boldsymbol{\phi}(x)$는 $x$만 알면 정해지는 값이에요.</p>
+<div data-subpart="a"><h4>(a)</h4><p>그래서 먼저 사전분포에서 파라미터 벡터 하나를 뽑아요.
+    $$\boldsymbol{\theta}_i \sim p(\boldsymbol{\theta}) = \mathcal{N}\left(\mathbf{0}, \frac{1}{4}\mathbf{I}\right)$$
+    다음으로 이 값을 넣어 함수 하나를 만들어요.
+    $$f_i(\cdot) = \boldsymbol{\theta}_i^\top\boldsymbol{\phi}(\cdot)$$
+    200개 입력 $x_*$마다 $\boldsymbol{\theta}_i^\top\boldsymbol{\phi}(x_*)$를 계산해 이으면 곡선 하나가 돼요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>$\boldsymbol{\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\top$의 성분은 상수항부터 $x^5$까지 6개예요. 내적 $\boldsymbol{\theta}^\top\boldsymbol{\phi}(x)$가 되려면 $\boldsymbol{\theta}$도 같은 크기여야 해요. 그래서 $\boldsymbol{\theta} \in \mathbb{R}^6$, 6차원이에요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>여기서 그린 것은 노이즈 없는 함수값 $f(x_*) = \boldsymbol{\phi}(x_*)^\top\boldsymbol{\theta}$예요. 노이즈 분산 $\sigma^2$이 들어가지 않아요.</p>
+<p>남은 랜덤한 재료는 $\boldsymbol{\theta}$ 하나뿐이에요. 따라서 음영의 불확실성은 모두 파라미터 $\boldsymbol{\theta}$의 불확실성에서 와요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>0차~5차 계수라6차원이에요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>
+</div><p>정답: (a) $\boldsymbol{\theta}_i \sim p(\boldsymbol{\theta})$를 뽑고 $f_i(\cdot) = \boldsymbol{\theta}_i^\top\boldsymbol{\phi}(\cdot)$를 계산해요. (b) $\boldsymbol{\theta} \in \mathbb{R}^6$, 6차원이에요. (c) 노이즈 없는 함수값이라서 음영은 파라미터 불확실성에서만 와요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\theta_i\sim\mathcal N(0,I/4)$를 먼저 뽑아요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\phi(x)^\top\theta$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\theta_i\sim\mathcal N(0,I/4)$를 먼저 뽑아요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>
+</div></div>

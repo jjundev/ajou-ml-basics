@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>독립인 가우시안의 가중합 구하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>독립 가우시안의 가중합은 가우시안이고 평균은 선형, 분산은 계수의 제곱으로 계산해요. $Var(2X-Y)=4Var(X)+Var(Y)$로 −1의 제곱이+1이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$E[2X-Y]=2E[X]-E[Y]$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$2x$와 $-y$는 각각 가우시안의 상수배라서 가우시안이고, 서로 독립이에요. 독립인 가우시안의 합도 가우시안이니까 $2x - y$는 가우시안이에요. 평균과 분산만 구하면 돼요.</p>
+<p>기댓값은 선형이에요.
+    $$E[2x - y] = 2E[x] - E[y] = 2 \cdot 1 - (-1) = 3$$</p>
+<p>상수배는 분산에서 제곱해서 나와요. $\mathrm{var}[2x] = 2^2 \cdot 2 = 8$, $\mathrm{var}[-y] = (-1)^2 \cdot 3 = 3$이에요.</p>
+<p>$x$와 $y$가 독립이라 공분산이 0이에요. 그래서 합의 분산은 분산의 합이에요.
+    $$\mathrm{var}[2x - y] = a^2\sigma_x^2 + b^2\sigma_y^2 = 8 + 3 = 11$$</p>
+<p>따라서
+    $$2x - y \sim \mathcal{N}(3, 11)$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.</p>
+</div><p>정답: $2x - y \sim \mathcal{N}(3, 11)$ (평균 $3$, 분산 $11$)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>빼기라고 분산3을 빼지 않아요. 독립이라 교차항이0이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$E[2X-Y]=2E[X]-E[Y]$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>빼기라고 분산3을 빼지 않아요. 독립이라 교차항이0이에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>독립 가우시안의 가중합은 가우시안이고 평균은 선형, 분산은 계수의 제곱으로 계산해요. $Var(2X-Y)=4Var(X)+Var(Y)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$E[2X-Y]=2E[X]-E[Y]$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.</p>
+</div></div>

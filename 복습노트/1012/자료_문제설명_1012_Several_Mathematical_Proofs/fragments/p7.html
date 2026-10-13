@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>결합 가우시안 p(x, y) 세우기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>결합가우시안(joint Gaussian)은 평균을 쌓고 자기·교차 공분산을 블록에 배치해요. y=Ax+b+w이면 우하단은AΣxAᵀ+Q이며 좌하단은우상단의 전치예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>결합벡터 $u=[x^\top,y^\top]^\top$의 편차를 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>평균을 구해요. 기댓값은 linear operator이고 $\mathbb{E}[\mathbf{w}] = \mathbf{0}$이에요.
+    $$\boldsymbol{\mu}_y = \mathbb{E}[\mathbf{y}] = \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}$$</p>
+<p>편차는 ${\mathbf{y} - \boldsymbol{\mu}_y = \mathbf{A}(\mathbf{x} - \boldsymbol{\mu}_x) + \mathbf{w}}$예요. $\mathbf{x}$와 $\mathbf{w}$는 독립이라 교차공분산이 0이에요. ${\mathbb{E}[(\mathbf{x} - \boldsymbol{\mu}_x)\mathbf{w}^\top] = \mathbf{0}}$이에요.</p>
+<p>$\mathbf{y}$의 공분산을 정의대로 전개해요. $\mathbf{w}$와 $\mathbf{x}$가 만나는 두 항은 0이에요.
+    $$\mathrm{Var}[\mathbf{y}] = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbb{E}[\mathbf{w}\mathbf{w}^\top] = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}$$</p>
+<p>교차공분산은 주어진 대로 $\boldsymbol{\Sigma}_x\mathbf{A}^\top$와 $\mathbf{A}\boldsymbol{\Sigma}_x$예요. 왼쪽 위 블록은 ${\mathrm{Var}[\mathbf{x}] = \boldsymbol{\Sigma}_x}$예요.</p>
+<p>블록으로 모아요. 결합분포가 가우시안이니 이 평균과 공분산으로 정해져요.
+    $$p(\mathbf{x}, \mathbf{y}) = \mathcal{N}\left(\begin{bmatrix}\boldsymbol{\mu}_x \\ \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}\end{bmatrix}, \begin{bmatrix}\boldsymbol{\Sigma}_x &amp; \boldsymbol{\Sigma}_x\mathbf{A}^\top \\ \mathbf{A}\boldsymbol{\Sigma}_x &amp; \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}\end{bmatrix}\right)$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>u의 편차는B[x−μx,w]ᵀ 꼴이고 B=[[I,0],[A,I]]예요. B diag(Σx,Q)Bᵀ를 블록곱하면 정확한 네 블록이 나와요. 평균은[μx,Aμx+b]ᵀ예요.</p>
+</div><p>정답: 평균 $\begin{bmatrix}\boldsymbol{\mu}_x \\ \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}\end{bmatrix}$, 공분산 $\begin{bmatrix}\boldsymbol{\Sigma}_x &amp; \boldsymbol{\Sigma}_x\mathbf{A}^\top \\ \mathbf{A}\boldsymbol{\Sigma}_x &amp; \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}\end{bmatrix}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>교차블록에 Q를 더하지 않아요. Q는 y에만 들어간 잡음이에요. x와w의 독립이 핵심이고 Q가 대각일 필요는 없어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>결합벡터 $u=[x^\top,y^\top]^\top$의 편차를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>교차블록에 Q를 더하지 않아요. Q는 y에만 들어간 잡음이에요. x와w의 독립이 핵심이고 Q가 대각일 필요는 없어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>결합가우시안(joint Gaussian)은 평균을 쌓고 자기·교차 공분산을 블록에 배치해요. y=Ax+b+w이면 우하단은AΣxAᵀ+Q이며 좌하단은우상단의 전치예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>결합벡터 $u=[x^\top,y^\top]^\top$의 편차를 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>u의 편차는B[x−μx,w]ᵀ 꼴이고 B=[[I,0],[A,I]]예요. B diag(Σx,Q)Bᵀ를 블록곱하면 정확한 네 블록이 나와요. 평균은[μx,Aμx+b]ᵀ예요.</p>
+</div></div>

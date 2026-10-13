@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>Joint 표에서 p(x) 구하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>주변화(marginalization)는 관심 없는 변수의 모든 경우를 합해요. $p(x_i)=\sum_jp(x_i,y_j)$에서 x는 열, y는 행이므로 같은 열을 더해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>marginal은 joint를 관심 없는 변수로 합(연속이면 적분)해서 얻어요: $p(x)=\sum_{y}p(x,y)$.</p>
+<p>$p(x_1)=0.01+0.05+0.1=0.16$, $p(x_2)=0.02+0.1+0.05=0.17$</p>
+<p>$p(x_3)=0.03+0.05+0.03=0.11$, $p(x_4)=0.1+0.07+0.05=0.22$, $p(x_5)=0.1+0.2+0.04=0.34$</p>
+<p>확인: $0.16+0.17+0.11+0.22+0.34=1$이에요.</p>
+<p>수업과의 연결: marginal likelihood $P(x)=\int P(x\mid\theta)P(\theta)\,d\theta$처럼 joint를 관심 없는 $\theta$로 적분한 것과 같은 동작을, 이산 표에서 합으로 한 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 분수 계산으로 [16,17,11,22,34]/100을 얻고 합이1이에요.</p>
+</div><p>정답: $p(x) = (0.16,\ 0.17,\ 0.11,\ 0.22,\ 0.34)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>열마다 전체 확률1을 따로 맞추지 않아요. 주변확률 전체 합이1이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>열마다 전체 확률1을 따로 맞추지 않아요. 주변확률 전체 합이1이에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>주변화(marginalization)는 관심 없는 변수의 모든 경우를 합해요. $p(x_i)=\sum_jp(x_i,y_j)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 분수 계산으로 [16,17,11,22,34]/100을 얻고 합이1이에요.</p>
+</div></div>

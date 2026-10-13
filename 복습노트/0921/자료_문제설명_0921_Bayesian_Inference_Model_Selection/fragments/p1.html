@@ -1,0 +1,20 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>인수분해에서 의존 관계 읽기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>방향 그래피컬 모델(DAG)의 인수는 $p(v\mid pa(v))$예요. pa는 그래프에서 바로 들어오는 부모예요. 조건 목록을 읽는 것은 통계적 독립을 모두 판정하는 것과 달라요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$pa(c)=\{a,b\}$, $pa(b)=\{a\}$, $pa(a)=\varnothing$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>인수분해를 조각으로 나눠요: $p(c \mid a, b)$, $p(b \mid a)$, $p(a)$.</p>
+<p>$p(c \mid a, b)$에서 $c$의 조건은 $a$와 $b$예요. 그래서 $c$는 $a$와 $b$에 직접 의존해요.</p>
+<p>$p(b \mid a)$에서 $b$의 조건은 $a$ 하나예요. 그래서 $b$는 $a$에 직접 의존해요.</p>
+<p>$p(a)$에는 조건이 없어요. 그래서 그래프에서 $a$의 부모는 없어요. 이는 $a$가 $b,c$와 통계적으로 독립이라는 뜻은 아니에요.</p>
+<div data-subpart="a"><h4>(a)</h4><p>p(c|a,b)의 조건이 a,b라서 두 부모예요. 실제 확률 의존의 강도는 분포 값에 따라 달라져요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>p(b|a)의 조건이 a이므로 부모는 a예요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>p(a)는 부모가 없는 루트의 인수예요. 이는 a와 b,c의 주변 독립을 뜻하지 않아요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>p(c|a,b)의 조건이 a,b라서 두 부모예요. 실제 확률 의존의 강도는 분포 값에 따라 달라져요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>p(b|a)의 조건이 a이므로 부모는 a예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>p(a)는 부모가 없는 루트의 인수예요. 이는 a와 b,c의 주변 독립을 뜻하지 않아요.</p>
+</div><p>정답: (a) $c$는 $a$와 $b$에 직접 의존 (b) $b$는 $a$에 직접 의존 (c) $a$는 $b$와 $c$ 어느 쪽에도 의존하지 않음</p>
+<p>원 참고 답에서 “의존하지 않음”은 부모가 없다는 뜻으로 한정해 읽어요. 결합분포의 통계적 독립과 구별해요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>부모가 없는 a도 자식 b,c와 관련될 수 있어요. “부모 없음”을 “모든 변수와 독립”으로 바꾸지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$pa(c)=\{a,b\}$, $pa(b)=\{a\}$, $pa(a)=\varnothing$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>부모가 없는 a도 자식 b,c와 관련될 수 있어요. “부모 없음”을 “모든 변수와 독립”으로 바꾸지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>방향 그래피컬 모델(DAG)의 인수는 $p(v\mid pa(v))$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$pa(c)=\{a,b\}$, $pa(b)=\{a\}$, $pa(a)=\varnothing$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>p(c|a,b)의 조건이 a,b라서 두 부모예요. 실제 확률 의존의 강도는 분포 값에 따라 달라져요. p(b|a)의 조건이 a이므로 부모는 a예요. p(a)는 부모가 없는 루트의 인수예요. 이는 a와 b,c의 주변 독립을 뜻하지 않아요.</p>
+</div></div>

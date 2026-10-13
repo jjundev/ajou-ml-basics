@@ -1,0 +1,16 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>2차원 가우시안에서 한 변수만 보기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>가우시안 주변화(Gaussian marginalization)는 관심 성분의 평균과 공분산 대각을 남겨요. 한 성분을 보는 데 다른 성분 값이 조건으로 주어진 것은 아니에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\mu_1=1$, $\Sigma_{11}=0.5$를 원 행렬에서 읽어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>결합 가우시안을 주변화해도 가우시안이에요. 그래서 $p(x_1)$은 평균과 분산만 정하면 돼요.</p>
+<p>평균 벡터 $E[\mathbf{x}] = [E[x_1], E[x_2]]^\top$의 첫 성분이 $x_1$의 평균이에요. $E[x_1] = 1$이에요.</p>
+<p>공분산 행렬의 대각 성분은 각 변수의 분산이에요. $(1,1)$ 성분이 $\mathrm{cov}(x_1, x_1) = \mathrm{var}[x_1] = 0.5$예요.</p>
+<p>비대각 성분 $-1$은 $x_1$과 $x_2$의 관계를 나타내요. $x_2$를 적분해 없애면 이 관계는 $x_1$만의 분포에 남지 않아요.</p>
+<p>따라서
+    $$p(x_1) = \mathcal{N}(1, 0.5)$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요.</p>
+</div><p>정답: $p(x_1) = \mathcal{N}(1, 0.5)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>조건부분산의 Schur complement를 주변분산에 쓰지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\mu_1=1$, $\Sigma_{11}=0.5$를 원 행렬에서 읽어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>조건부분산의 Schur complement를 주변분산에 쓰지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>가우시안 주변화(Gaussian marginalization)는 관심 성분의 평균과 공분산 대각을 남겨요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\mu_1=1$, $\Sigma_{11}=0.5$를 원 행렬에서 읽어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요.</p>
+</div></div>

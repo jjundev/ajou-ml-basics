@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>연쇄법칙과 편미분의 차원를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Jacobian은 출력차원×입력차원이에요. 행 미분 convention에서 $df/dx=(df/dz)(dz/dx)$를 써요. 성분별 sin의 Jacobian은 대각 cos이고 xᵀx는 성분제곱 합이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\operatorname{diag}(\cos z)$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$\frac{df}{dz} = \frac{1}{1 + z}$이고, 스칼라라서 차원은 $1 \times 1$이에요.</p>
+<p>$z = \mathbf{x}^\top \mathbf{x} = x_1^2 + \dots + x_D^2$이므로 $\frac{dz}{d\mathbf{x}} = 2\mathbf{x}^\top \in \mathbb{R}^{1 \times D}$예요.</p>
+<p>곱하면 $\frac{df}{d\mathbf{x}} = \frac{2\mathbf{x}^\top}{1 + \mathbf{x}^\top \mathbf{x}} \in \mathbb{R}^{1 \times D}$예요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>$\frac{\partial f_i}{\partial z_j}$는 $i = j$일 때 $\cos z_i$, 아니면 0이에요. 그래서 $\frac{d\mathbf{f}}{d\mathbf{z}} = \operatorname{diag}(\cos \mathbf{z}) \in \mathbb{R}^{E \times E}$예요.</p>
+<p>$\frac{d\mathbf{z}}{d\mathbf{x}} = \mathbf{A} \in \mathbb{R}^{E \times D}$예요. $\mathbf{b}$는 $\mathbf{x}$와 상관없어서 미분하면 0이에요.</p>
+<p>곱하면 $\frac{d\mathbf{f}}{d\mathbf{x}} = \operatorname{diag}(\cos \mathbf{z})\,\mathbf{A} \in \mathbb{R}^{E \times D}$예요. $(E \times E)(E \times D)$라 차원이 맞아요.</p>
+<p>수업과의 연결: 0928 수업의 $\frac{\partial L}{\partial \mathbf{e}} = 2\mathbf{e}^\top$, $\frac{d(\mathbf{A}\mathbf{x})}{d\mathbf{x}} = \mathbf{A}$를 연쇄법칙으로 이어 붙이고, "디멘션만 맞추면 된다"는 말대로 차원을 확인한 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\sum x_i^2)$라 1×D예요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>
+</div><p>정답: (a) $\frac{df}{d\mathbf{x}} = \frac{2\mathbf{x}^\top}{1 + \mathbf{x}^\top \mathbf{x}} \in \mathbb{R}^{1 \times D}$ (b) $\frac{d\mathbf{f}}{d\mathbf{x}} = \operatorname{diag}(\cos \mathbf{z})\,\mathbf{A} \in \mathbb{R}^{E \times D}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\operatorname{diag}(\cos z)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\operatorname{diag}(\cos z)$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>
+</div></div>

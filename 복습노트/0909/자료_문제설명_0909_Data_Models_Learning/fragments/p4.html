@@ -1,0 +1,14 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>넓은 행렬과 긴 행렬의 곱를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>직사각형 행렬 곱도 같은 내적 규칙을 써요. $(m\times n)(n\times r)$의 결과는 $m\times r$예요. 공통 길이 $n$은 곱해 더하는 횟수예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$(2\times4)(4\times2)=2\times2$, 첫 칸 $0+2+2+10=14$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>앞은 $2 \times 4$, 뒤는 $4 \times 2$예요. 가운데 4가 같아서 곱할 수 있고, 결과는 $2 \times 2$예요.</p>
+<p>1행 1열: $1 \cdot 0 + 2 \cdot 1 + 1 \cdot 2 + 2 \cdot 5 = 14$, 1행 2열: $3 - 2 + 1 + 4 = 6$이에요.</p>
+<p>2행 1열: $0 + 1 - 2 - 20 = -21$, 2행 2열: $12 - 1 - 1 - 8 = 2$예요.</p>
+<p>수업에서 $\mathbf{x}_n \in \mathbb{R}^D$와 $\boldsymbol{\theta}$의 길이가 같아야 내적이 된다고 했어요. 여기선 길이 4짜리 행과 열을 내적해서 칸 하나씩 스칼라를 얻어요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>별도 내적으로 4칸을 구하면 행이 [14,6], [-21,2]예요. 둘째 행 둘째 열은 $12-1-1-8=2$로 부호를 확인해요.</p>
+</div><p>정답: $$\left[\begin{matrix}14 \\ -21\end{matrix}\;\;\begin{matrix}6 \\ 2\end{matrix}\right]$$ ($2 \times 4$ 곱하기 $4 \times 2$ = $2 \times 2$)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>각 성분끼리만 곱하는 원소별 곱과 혼동하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$(2\times4)(4\times2)=2\times2$, 첫 칸 $0+2+2+10=14$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>각 성분끼리만 곱하는 원소별 곱과 혼동하지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>직사각형 행렬 곱도 같은 내적 규칙을 써요. $(m\times n)(n\times r)$의 결과는 $m\times r$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$(2\times4)(4\times2)=2\times2$, 첫 칸 $0+2+2+10=14$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>별도 내적으로 4칸을 구하면 행이 [14,6], [-21,2]예요. 둘째 행 둘째 열은 $12-1-1-8=2$로 부호를 확인해요.</p>
+</div></div>

@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>Joint 표에서 p(y) 구하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Y의 주변분포는 X를 없애요. $p(y_j)=\sum_ip(x_i,y_j)$로 한 행 전체를 더해요. 표의 위 행이 y1이라는 방향을 확인해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$p(y)=\sum_{x}p(x,y)$라서 행 합을 구해요.</p>
+<p>$p(y_1)=0.01+0.02+0.03+0.1+0.1=0.26$</p>
+<p>$p(y_2)=0.05+0.1+0.05+0.07+0.2=0.47$</p>
+<p>$p(y_3)=0.1+0.05+0.03+0.05+0.04=0.27$, 확인: $0.26+0.47+0.27=1$</p>
+<p>수업과의 연결: 교수님이 "joint 분포가 가장 많은 정보를 갖고 있다"고 했죠. joint만 있으면 $f_X(x)$, $f_Y(y)$ 같은 marginal은 더해서 언제든 꺼낼 수 있어요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 분수 계산으로 [26,47,27]/100이고 세 행 합이1이에요.</p>
+</div><p>정답: $p(y) = (0.26,\ 0.47,\ 0.27)$ ($y_1, y_2, y_3$ 순)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>X의 주변분포처럼 열을 더하면 다른 질문에 답하게 돼요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>X의 주변분포처럼 열을 더하면 다른 질문에 답하게 돼요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Y의 주변분포는 X를 없애요. $p(y_j)=\sum_ip(x_i,y_j)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 분수 계산으로 [26,47,27]/100이고 세 행 합이1이에요.</p>
+</div></div>

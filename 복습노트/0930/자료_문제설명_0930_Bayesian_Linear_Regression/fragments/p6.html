@@ -1,0 +1,22 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>노이즈가 섞인 선형 변환의 평균과 공분산를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>아핀 변환(affine transformation)은 상수 이동 b가 평균에는 남고 편차에서는 사라져요. $Var(AX)=A\Sigma_xA^\top$은 스칼라 Var(aX)=a²Var(X)의 확장이에요. 두 번째 계수는 전치해 오른쪽에 둬요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$y-E[y]=A(x-\mu_x)+w$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$\mathbf{y}$를 두 조각으로 나눠요. $\mathbf{u} = \mathbf{A}\mathbf{x} + \mathbf{b}$라고 두면 $\mathbf{y} = \mathbf{u} + \mathbf{w}$예요.</p>
+<p>평균은 합을 그대로 통과해요. 아핀 변환 규칙과 $\mathbb{E}[\mathbf{w}] = \mathbf{0}$을 써요.
+    $$\boldsymbol{\mu}_y = \mathbb{E}[\mathbf{u}] + \mathbb{E}[\mathbf{w}] = \mathbf{A}\,\mathbb{E}[\mathbf{x}] + \mathbf{b} + \mathbf{0} = \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}$$</p>
+<p>$\mathbf{u}$의 공분산 행렬은 아핀 변환 규칙으로 구해요. 상수 $\mathbf{b}$는 퍼짐에 영향을 주지 않아요.
+    $$\mathbb{V}[\mathbf{u}] = \mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top$$</p>
+<p>$\mathbf{u}$와 $\mathbf{w}$ 사이의 공분산을 확인해요. $\mathbb{E}[\mathbf{w}] = \mathbf{0}$이라서
+    $$\operatorname{Cov}[\mathbf{u}, \mathbf{w}] = \mathbb{E}[(\mathbf{A}\mathbf{x} + \mathbf{b})\mathbf{w}^\top] - \mathbb{E}[\mathbf{u}]\,\mathbb{E}[\mathbf{w}]^\top = \mathbf{A}\,\mathbb{E}[\mathbf{x}\mathbf{w}^\top]$$
+    $\mathbf{x}$와 $\mathbf{w}$가 독립이라 $\mathbb{E}[\mathbf{x}\mathbf{w}^\top] = \mathbb{E}[\mathbf{x}]\,\mathbb{E}[\mathbf{w}]^\top = \mathbf{0}$이에요. 그래서 $\operatorname{Cov}[\mathbf{u}, \mathbf{w}] = \mathbf{0}$이에요.</p>
+<p>교차 공분산이 0이니까 합의 분산은 분산의 합이에요. $\mathbb{V}[\mathbf{w}] = \mathbf{Q}$를 넣어요.
+    $$\boldsymbol{\Sigma}_y = \mathbb{V}[\mathbf{u}] + \mathbb{V}[\mathbf{w}] = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}$$</p>
+<p>$p(\mathbf{y})$는 가우시안이라고 주어졌으니 $p(\mathbf{y}) = \mathcal{N}(\mathbf{y} \mid \boldsymbol{\mu}_y, \boldsymbol{\Sigma}_y)$로 정해져요.</p>
+<p>수업과의 연결: 0930 수업의 아핀 변환 규칙 $\mathbb{V}[\mathbf{y}] = \mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top$에, 독립이거나 적어도 공분산이 0일 때 쓸 수 있다고 한 $\mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]$를 더한 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>성분(i,j)은 ∑kl A_ik Cov(x_k,x_l)A_jl+Q_ij예요. 이것이 AΣxAᵀ+Q의 칸과 같아요. 차원은 E×E이고 b는 사라져요.</p>
+</div><p>정답: $\boldsymbol{\mu}_y = \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}$, $\boldsymbol{\Sigma}_y = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>AΣxAᵀ를 AAᵀΣx로 바꾸지 않아요. 독립 잡음의 Q만 별도로 더해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$y-E[y]=A(x-\mu_x)+w$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>AΣxAᵀ를 AAᵀΣx로 바꾸지 않아요. 독립 잡음의 Q만 별도로 더해요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>아핀 변환(affine transformation)은 상수 이동 b가 평균에는 남고 편차에서는 사라져요. $Var(AX)=A\Sigma_xA^\top$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$y-E[y]=A(x-\mu_x)+w$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>성분(i,j)은 ∑kl A_ik Cov(x_k,x_l)A_jl+Q_ij예요. 이것이 AΣxAᵀ+Q의 칸과 같아요. 차원은 E×E이고 b는 사라져요.</p>
+</div></div>

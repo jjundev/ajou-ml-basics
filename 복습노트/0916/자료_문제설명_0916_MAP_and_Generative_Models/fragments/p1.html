@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 prior를 더한 MAP 목적함수를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>MAP는 posterior의 봉우리를 찾아요. $p(\theta\mid X,y)\propto p(y\mid X,\theta)p(\theta)$에 음의 로그를 취하면 우도와 prior 벌점의 합이에요. Σ는 고정 양의 정부호 공분산이고 θ만 최적화해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$-\log p(\theta) = \frac{D}{2}\log(2\pi)+\frac{1}{2}\log|\Sigma| + \frac{1}{2}\theta^\top\Sigma^{-1}\theta$예요. $\log(ab)=\log a+\log b$와 $-\log\exp(u)=-u$를 썼어요.</p>
+<p>앞의 두 항은 $\theta$와 무관하니 상수로 묶어요: $-\log p(\theta)=\frac{1}{2}\theta^\top\Sigma^{-1}\theta+\text{상수}$.</p>
+<p>posterior는 $p(\theta\mid X,y)\propto p(y\mid X,\theta)\,p(\theta)$이고, $-\log$를 치면 곱이 합이 돼요.</p>
+<p>그래서 $\theta_{\text{MAP}}=\arg\min_\theta\big[-\log p(y\mid X,\theta)-\log p(\theta)\big]=\arg\min_\theta\big[-\log p(y\mid X,\theta)+\frac{1}{2}\theta^\top\Sigma^{-1}\theta\big]$예요.</p>
+<p>수업과의 연결: 0916 수업의 $\theta_{\text{MAP}}=\arg\min_\theta\big[-\log P(x\mid\theta)-\log P(\theta)\big]$, 즉 "MAP = MLE + log prior"에 가우시안 prior를 넣어 본 거예요.</p>
+<div data-subpart="a"><h4>(a)</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
+</div><p>정답: (a) $-\log p(\theta)=\frac{1}{2}\theta^\top\Sigma^{-1}\theta+\text{상수}$, (b) 음의 로그우도에 $-\log p(\theta)$를 더한 $-\log p(y\mid X,\theta)-\log p(\theta)$를 최소화해 $\theta_{\text{MAP}}$를 구해요</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>Σ나 분산도 최적화한다면 그것과 관련된 상수항은 버릴 수 없어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>Σ나 분산도 최적화한다면 그것과 관련된 상수항은 버릴 수 없어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>MAP는 posterior의 봉우리를 찾아요. $p(\theta\mid X,y)\propto p(y\mid X,\theta)p(\theta)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요. posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
+</div></div>

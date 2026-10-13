@@ -1,0 +1,19 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>사후분포로 그린 함수 그림 읽기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요. 그래서 θMAP=mN이고 평균 함수도 φᵀmN예요. 음영은 각 입력점의 posterior 함수값 구간이며 표본곡선은 θ를 공유해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\theta_{MAP}=m_N$을 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>MAP 추정값은 사후분포 $p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})$를 가장 크게 하는 $\boldsymbol{\theta}$예요. 이 사후분포는 가우시안 $\mathcal{N}(\boldsymbol{\theta} \mid \mathbf{m}_N, \mathbf{S}_N)$이고, 가우시안은 평균에서 가장 높아요. 그래서 $\boldsymbol{\theta}_{\mathrm{MAP}} = \mathbf{m}_N$이에요.</p>
+<p>BLR의 평균 함수는 각 $x_*$에서 $\boldsymbol{\phi}(x_*)^\top\boldsymbol{\theta}$의 평균이에요. 아핀 변환의 평균 공식으로
+    $$E[\boldsymbol{\phi}(x_*)^\top\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y}] = \boldsymbol{\phi}(x_*)^\top\mathbf{m}_N = \boldsymbol{\theta}_{\mathrm{MAP}}^\top\boldsymbol{\phi}(x_*)$$
+    그러니 MAP 함수는 BLR의 사후 평균 함수와 같아요. 사전분포를 쓰지 않는 MLE 함수 $\boldsymbol{\theta}_{\mathrm{ML}}^\top\boldsymbol{\phi}(\cdot)$는 이것과 다를 수 있어요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>음영은 함수값이 얼마나 불확실한지 보여 줘요. 교과서는 진한 회색을 67%, 옅은 회색을 95% 예측 신뢰 구간이라고 적어요. 평균에서 표준편차 1배(1σ), 2배(2σ)만큼 벌린 구간이에요. 데이터가 있는 가운데에서는 좁고 양 끝으로 갈수록 넓어져요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>BLR은 함수 하나가 아니라 함수 위의 분포를 줘요. 그림 (c)의 곡선들은 이 사후분포 아래에서 그럴듯한 함수 표본(realization)들이에요.</p>
+<p>곡선 하나는 사후분포에서 파라미터 $\boldsymbol{\theta}_i \sim p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})$를 뽑아 $\boldsymbol{\theta}_i^\top\boldsymbol{\phi}(\cdot)$로 만든 것이에요. 데이터가 있는 곳에서는 곡선들이 서로 가깝고, 양 끝에서는 많이 벌어져요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>
+</div><p>정답: (a) MAP 함수는 BLR의 사후 평균 함수 $\mathbf{m}_N^\top\boldsymbol{\phi}(\cdot)$와 같아요. (b) 진한 음영은 67%, 옅은 음영은 95% 예측 신뢰 구간이에요. (c) 함수 위의 사후분포에서 나온 그럴듯한 함수 표본들이에요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\theta_{MAP}=m_N$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\theta_{MAP}=m_N$을 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>
+</div></div>

@@ -1,0 +1,158 @@
+{
+  "profile": "review",
+  "range": "0923",
+  "slug": "Linear_Regression",
+  "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/0923/복습문제_0923_Linear_Regression.html",
+  "sha256": "06ec4f9ad2c6a8cdff7a8cbe4294da9ac0a3a263f50539c23a62b27e8b513e37",
+  "problems": [
+    {
+      "id": "p1",
+      "number": 1,
+      "title": "P1. 기울기 하나짜리 직선 맞추기",
+      "source": "MML Example 9.2",
+      "original_html": "\"we aim to fit a straight line f(x) = θx, where θ is an unknown slope, to a dataset using maximum likelihood estimation.\" — Example 9.2",
+      "conditions_html": "원점을 지나는 직선 모델 $f(x) = \\theta x$에 가우시안 노이즈가 더해진다고 가정해요($y = \\theta x + \\epsilon$, $\\epsilon \\sim \\mathcal{N}(0, \\sigma^2)$). 기울기 $\\theta$ 하나만 모르는 값이에요. 훈련 데이터가 $(x_n, y_n) = (1, 2),\\ (2, 5),\\ (4, 7)$일 때, 입력을 세로로 쌓은 $\\mathbf{X} = [1, 2, 4]^\\top$와 $\\mathbf{y} = [2, 5, 7]^\\top$로 최대우도 기울기를 구해 보세요.\n    ",
+      "ask_html": "<ol><li>(a) $\\mathbf{X}^\\top\\mathbf{X}$를 계산해 보세요.</li><li>(b) $\\mathbf{X}^\\top\\mathbf{y}$를 계산해 보세요.</li><li>(c) $\\theta_{\\text{ML}} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$를 구해 보세요.</li></ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "(a) 같은 벡터끼리 내적해요. $\\mathbf{X}^\\top\\mathbf{X} = 1^2 + 2^2 + 4^2 = 1 + 4 + 16$이므로 $\\mathbf{X}^\\top\\mathbf{X} = 21$예요.",
+        "(b) 입력과 출력을 짝지어 곱해 더해요. $1 \\cdot 2 + 2 \\cdot 5 + 4 \\cdot 7 = 2 + 10 + 28$이므로 $\\mathbf{X}^\\top\\mathbf{y} = 40$예요.",
+        "(c) $1 \\times 1$ 행렬의 역행렬은 역수예요. $\\mathbf{X}^\\top\\mathbf{y}$를 $\\mathbf{X}^\\top\\mathbf{X}$로 나눠서 $\\theta_{\\text{ML}} = \\frac{40}{21}$이에요. $40$과 $21$은 서로소라 더 약분되지 않아요.",
+        "확인: 제곱오차 $\\sum_n (y_n - \\theta x_n)^2$은 $\\theta = \\frac{40}{21}$에서 $\\frac{38}{21}$이고, $\\theta$를 조금 바꾸면 커져요.",
+        "수업과의 연결: 0923 수업의 결론 \"선형회귀의 답은 유사역행렬 $(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$\"를 $D = 1$에 그대로 넣어 본 거예요."
+      ],
+      "reference_answer": "정답: (a) $\\mathbf{X}^\\top\\mathbf{X} = 21$, (b) $\\mathbf{X}^\\top\\mathbf{y} = 40$, (c) $\\theta_{\\text{ML}} = \\frac{40}{21}$",
+      "subparts": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "id": "p2",
+      "number": 2,
+      "title": "P2. 정규방정식으로 기울기 구하기",
+      "source": "MML Example 9.2",
+      "original_html": "\"we aim to fit a straight line f(x) = θx, where θ is an unknown slope, to a dataset using maximum likelihood estimation.\" — Example 9.2",
+      "conditions_html": "원점을 지나는 직선 모델 $f(x) = \\theta x$로 데이터를 최대우도로 맞춰요. 훈련 데이터는 $(x_n, y_n) = (1, 1),\\ (1, 3),\\ (2, 4)$이고, $\\mathbf{X} = [1, 1, 2]^\\top$, $\\mathbf{y} = [1, 3, 4]^\\top$로 둬요.\n    ",
+      "ask_html": "<ol><li>(a) $\\mathbf{X}^\\top\\mathbf{X}$와 $\\mathbf{X}^\\top\\mathbf{y}$를 계산해 보세요.</li><li>(b) 미분이 0이 되는 조건인 정규방정식 $\\theta_{\\text{ML}}^\\top \\mathbf{X}^\\top\\mathbf{X} = \\mathbf{y}^\\top\\mathbf{X}$에 넣어 $\\theta_{\\text{ML}}$을 구해 보세요.</li></ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "(a) $1^2 + 1^2 + 2^2$이므로 $\\mathbf{X}^\\top\\mathbf{X} = 6$이에요. $1 \\cdot 1 + 1 \\cdot 3 + 2 \\cdot 4 = 12$이므로 $\\mathbf{X}^\\top\\mathbf{y} = 12$예요.",
+        "(b) $\\mathbf{y}^\\top\\mathbf{X}$는 $\\mathbf{X}^\\top\\mathbf{y}$와 같은 숫자 $12$예요. 그래서 정규방정식은 $6\\,\\theta_{\\text{ML}} = 12$가 돼요.",
+        "양변을 $6$으로 나누면 $\\theta_{\\text{ML}} = 2$예요.",
+        "수업과의 연결: 0923 수업에서 \"손실을 $\\boldsymbol{\\theta}$로 미분해 0이 되는 점을 찾는 게 선형회귀의 처음부터 끝\"이라고 한 그 정규방정식을 직접 풀어 본 거예요."
+      ],
+      "reference_answer": "정답: $\\mathbf{X}^\\top\\mathbf{X} = 6$, $\\mathbf{X}^\\top\\mathbf{y} = 12$, $\\theta_{\\text{ML}} = 2$",
+      "subparts": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "p3",
+      "number": 3,
+      "title": "P3. 3차 다항식을 특징 벡터로 쓰기",
+      "source": "MML Example 9.3",
+      "original_html": "\"we “lift” the original one-dimensional input space into a K-dimensional feature space consisting of all monomials\" — Example 9.3",
+      "conditions_html": "스칼라 입력 $x$를 특징 벡터 $\\boldsymbol{\\phi}(x) = [1, x, x^2, \\dots, x^{K-1}]^\\top \\in \\mathbb{R}^K$로 들어 올려요. 모델은 $f(x) = \\sum_{k=0}^{K-1} \\theta_k x^k = \\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$예요. $K = 4$이고 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2, \\theta_3]^\\top = [1, -2, 0, 1]^\\top$일 때,\n    ",
+      "ask_html": "<ol><li>(a) $\\boldsymbol{\\phi}(2)$를 적어 보세요.</li><li>(b) $f(2)$를 구해 보세요.</li></ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "(a) $2^0, 2^1, 2^2, 2^3$을 차례로 쌓아요. $\\boldsymbol{\\phi}(2) = [1, 2, 4, 8]^\\top$이에요.",
+        "(b) 내적해요. $f(2) = 1 \\cdot 1 + (-2) \\cdot 2 + 0 \\cdot 4 + 1 \\cdot 8 = 1 - 4 + 0 + 8$이므로 $f(2) = 5$예요.",
+        "$f$는 $x$에 대해서는 3차 곡선이지만 $\\boldsymbol{\\theta}$에 대해서는 일차식이에요. 그래서 여전히 선형회귀예요.",
+        "수업과의 연결: 0923 수업에서 별표 치라고 한 \"$x$에 대해 비선형이어도 $\\boldsymbol\\theta$에 대해 선형(linear in $\\boldsymbol\\theta$)이면 선형회귀\"를 숫자로 확인한 거예요."
+      ],
+      "reference_answer": "정답: $\\boldsymbol{\\phi}(2) = [1, 2, 4, 8]^\\top$, $f(2) = 5$",
+      "subparts": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "p4",
+      "number": 4,
+      "title": "P4. 2차 다항식을 특징 벡터로 쓰기",
+      "source": "MML Example 9.3",
+      "original_html": "\"we “lift” the original one-dimensional input space into a K-dimensional feature space consisting of all monomials\" — Example 9.3",
+      "conditions_html": "스칼라 입력 $x$를 특징 벡터 $\\boldsymbol{\\phi}(x) = [1, x, \\dots, x^{K-1}]^\\top \\in \\mathbb{R}^K$로 들어 올리고, $f(x) = \\sum_{k=0}^{K-1} \\theta_k x^k = \\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$로 둬요. $K = 3$이고 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2]^\\top = [2, 0, -1]^\\top$일 때,\n    ",
+      "ask_html": "<ol><li>(a) $\\boldsymbol{\\phi}(3)$을 적어 보세요.</li><li>(b) $f(3)$을 구해 보세요.</li></ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "(a) $3^0, 3^1, 3^2$를 쌓아요. $\\boldsymbol{\\phi}(3) = [1, 3, 9]^\\top$이에요.",
+        "(b) $f(3) = 2 \\cdot 1 + 0 \\cdot 3 + (-1) \\cdot 9 = 2 - 9$이므로 $f(3) = -7$이에요.",
+        "수업과의 연결: 0923 수업의 $x_1 = 0.3$ 예처럼, 입력 하나를 거듭제곱 특징 벡터로 바꾸고 $\\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$로 내적하는 과정이에요."
+      ],
+      "reference_answer": "정답: $\\boldsymbol{\\phi}(3) = [1, 3, 9]^\\top$, $f(3) = -7$",
+      "subparts": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "p5",
+      "number": 5,
+      "title": "P5. 해가 없는 연립방정식",
+      "source": "MML Exercise 2.5",
+      "original_html": "\"Find the set S of all solutions in x of the following inhomogeneous linear systems Ax = b\" — Exercise 2.5a",
+      "conditions_html": "",
+      "ask_html": "다음 $\\mathbf{A}\\mathbf{x} = \\mathbf{b}$의 모든 해의 집합 $S$를 구해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 1 &amp; 1 &amp; -1 &amp; -1 \\\\ 2 &amp; 5 &amp; -7 &amp; -5 \\\\ 2 &amp; -1 &amp; 1 &amp; 3 \\\\ 5 &amp; 2 &amp; -4 &amp; 2 \\end{bmatrix}, \\quad \\mathbf{b} = \\begin{bmatrix} 1 \\\\ -2 \\\\ 4 \\\\ 6 \\end{bmatrix}$$",
+      "figures_html": [],
+      "reference_steps": [
+        "첫 행으로 아래를 지워요. $R_2 - 2R_1$, $R_3 - 2R_1$, $R_4 - 5R_1$을 하면 $[0, 3, -5, -3 \\mid -4]$, $[0, -3, 3, 5 \\mid 2]$, $[0, -3, 1, 7 \\mid 1]$이 돼요.",
+        "둘째 행을 더해 지워요. $R_3 + R_2 = [0, 0, -2, 2 \\mid -2]$, $R_4 + R_2 = [0, 0, -4, 4 \\mid -3]$이에요.",
+        "$R_4 - 2R_3 = [0, 0, 0, 0 \\mid 1]$이에요. 이 행은 $0 = 1$이라는 뜻이라 어떤 $\\mathbf{x}$로도 맞출 수 없어요.",
+        "계수로 보면 $\\mathrm{rk}(\\mathbf{A}) = 3$인데 $\\mathrm{rk}([\\mathbf{A} \\mid \\mathbf{b}]) = 4$라서 모순이에요. 그래서 $S = \\emptyset$이에요.",
+        "수업과의 연결: 선수 선형대수 복습이에요. 데이터 개수 $N$이 파라미터 수 $D$보다 많으면 $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\theta}$도 이렇게 딱 맞는 해가 없는 게 보통이에요. 그래서 0923 수업은 등식을 맞추는 대신 $\\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$을 가장 작게 하는 least squares 문제로 풀었어요."
+      ],
+      "reference_answer": "정답: $S = \\emptyset$ (소거하면 $0 = 1$인 행이 나와요)",
+      "subparts": [
+        "main"
+      ]
+    },
+    {
+      "id": "p6",
+      "number": 6,
+      "title": "P6. 역행렬이 있을까요",
+      "source": "MML Exercise 2.8",
+      "original_html": "\"Determine the inverses of the following matrices if possible\" — Exercise 2.8a",
+      "conditions_html": "",
+      "ask_html": "다음 행렬의 역행렬을 구해 보세요. 없다면 왜 없는지 설명해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 2 &amp; 3 &amp; 4 \\\\ 3 &amp; 4 &amp; 5 \\\\ 4 &amp; 5 &amp; 6 \\end{bmatrix}$$",
+      "figures_html": [],
+      "reference_steps": [
+        "$R_2 - R_1 = [1, 1, 1]$, $R_3 - R_2 = [1, 1, 1]$이에요. 셋째 행은 $R_3 = 2R_2 - R_1$로 앞의 두 행에서 만들어져요.",
+        "그래서 독립인 행은 두 개뿐이고 $\\mathrm{rk}(\\mathbf{A}) = 2$예요. $3 \\times 3$ 행렬인데 계수가 3보다 작아요.",
+        "행렬식으로도 확인해요. $2(24 - 25) - 3(18 - 20) + 4(15 - 16) = -2 + 6 - 4$이므로 $\\det(\\mathbf{A}) = 0$이에요.",
+        "행렬식이 0이면 역행렬이 없어요.",
+        "수업과의 연결: 선수 선형대수 복습이에요. 0923 수업의 해 $(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$는 $\\mathbf{X}^\\top\\mathbf{X}$의 역행렬이 있어야 쓸 수 있어요. MML 9.2.1의 Remark에 따르면 $\\mathrm{rk}(\\mathbf{X}) = D$일 때 그 역행렬이 있어요. 이 문제처럼 계수가 모자라면 역행렬이 없어요."
+      ],
+      "reference_answer": "정답: 역행렬이 없어요 ($\\det(\\mathbf{A}) = 0$, $\\mathrm{rk}(\\mathbf{A}) = 2$)",
+      "subparts": [
+        "main"
+      ]
+    },
+    {
+      "id": "p7",
+      "number": 7,
+      "title": "P7. 4×4 역행렬 구하기",
+      "source": "MML Exercise 2.8",
+      "original_html": "\"Determine the inverses of the following matrices if possible\" — Exercise 2.8b",
+      "conditions_html": "",
+      "ask_html": "다음 행렬의 역행렬 $\\mathbf{A}^{-1}$를 구해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 1 &amp; 0 &amp; 1 &amp; 0 \\\\ 0 &amp; 1 &amp; 1 &amp; 0 \\\\ 1 &amp; 1 &amp; 0 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 &amp; 0 \\end{bmatrix}$$",
+      "figures_html": [],
+      "reference_steps": [
+        "$R_3 - R_1 = [0, 1, -1, 1 \\mid -1, 0, 1, 0]$, $R_4 - R_1 = [0, 1, 0, 0 \\mid -1, 0, 0, 1]$이에요.",
+        "둘째 행 $[0, 1, 1, 0 \\mid 0, 1, 0, 0]$을 빼요. $[0, 0, -2, 1 \\mid -1, -1, 1, 0]$과 $[0, 0, -1, 0 \\mid -1, -1, 0, 1]$이 돼요.",
+        "뒤의 행에 $-1$을 곱해 셋째 행으로 올려요. $[0, 0, 1, 0 \\mid 1, 1, 0, -1]$이에요. 앞의 행에 이것의 2배를 더하면 $[0, 0, 0, 1 \\mid 1, 1, 1, -2]$예요.",
+        "위로 올라가며 지워요. $R_2 - R_3 = [0, 1, 0, 0 \\mid -1, 0, 0, 1]$, $R_1 - R_3 = [1, 0, 0, 0 \\mid 0, -1, 0, 1]$이에요.",
+        "오른쪽 절반을 모으면 역행렬이에요.\n    $$\\mathbf{A}^{-1} = \\begin{bmatrix} 0 &amp; -1 &amp; 0 &amp; 1 \\\\ -1 &amp; 0 &amp; 0 &amp; 1 \\\\ 1 &amp; 1 &amp; 0 &amp; -1 \\\\ 1 &amp; 1 &amp; 1 &amp; -2 \\end{bmatrix}$$\n    확인: $\\mathbf{A}$의 첫 행 $[1, 0, 1, 0]$과 $\\mathbf{A}^{-1}$의 첫 열 $[0, -1, 1, 1]^\\top$을 내적하면 $0 + 0 + 1 + 0 = 1$이에요. 나머지 칸도 같은 방법으로 $\\mathbf{I}$가 나와요.",
+        "수업과의 연결: 선수 선형대수 복습이에요. MML 9.2.1의 Remark에 따르면 최대우도 해는 $\\mathbf{X}^\\top\\mathbf{X}$를 계수로 하는 연립방정식을 푸는 일이에요. 0923 수업의 결론 $(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$에 나오는 역행렬을 손으로 구하면 이 과정이 돼요."
+      ],
+      "reference_answer": "정답: $\\mathbf{A}^{-1}$의 행은 차례로 $[0, -1, 0, 1]$, $[-1, 0, 0, 1]$, $[1, 1, 0, -1]$, $[1, 1, 1, -2]$예요 (위 풀이의 행렬).",
+      "subparts": [
+        "main"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>독립인 가우시안의 가중합를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>기댓값은 계수를 그대로 통과하지만 분산은 두 편차를 곱하므로 계수가 제곱돼요. 같은 차원의 독립 벡터에 대해 $Var(aX+bY)=a^2\Sigma_x+b^2\Sigma_y$예요. 독립이 교차항을0으로 만들어요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$E[aX+bY]=a\mu_x+b\mu_y$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>평균부터 구해요. 기댓값은 합과 상수배를 그대로 통과시켜요.
+    $$\mathbb{E}[a\mathbf{x} + b\mathbf{y}] = a\,\mathbb{E}[\mathbf{x}] + b\,\mathbb{E}[\mathbf{y}] = a\boldsymbol{\mu}_x + b\boldsymbol{\mu}_y$$</p>
+<p>$a\mathbf{x}$는 $\mathbf{A} = a\mathbf{I}$, $\mathbf{b} = \mathbf{0}$인 아핀 변환이에요. 그래서
+    $$\mathbb{V}[a\mathbf{x}] = (a\mathbf{I})\,\boldsymbol{\Sigma}_x\,(a\mathbf{I})^\top = a^2\boldsymbol{\Sigma}_x$$
+    같은 방법으로 $\mathbb{V}[b\mathbf{y}] = b^2\boldsymbol{\Sigma}_y$예요.</p>
+<p>$a\mathbf{x}$와 $b\mathbf{y}$ 사이의 공분산을 확인해요.
+    $$\operatorname{Cov}[a\mathbf{x}, b\mathbf{y}] = \mathbb{E}[a\mathbf{x}\,b\mathbf{y}^\top] - \mathbb{E}[a\mathbf{x}]\,\mathbb{E}[b\mathbf{y}]^\top = ab\,\operatorname{Cov}[\mathbf{x}, \mathbf{y}]$$
+    $\mathbf{x}$와 $\mathbf{y}$가 독립이라서 $\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$이고, 이 값도 $\mathbf{0}$이에요.</p>
+<p>교차 공분산이 0이니까 합의 분산은 분산의 합이에요.
+    $$\mathbb{V}[a\mathbf{x} + b\mathbf{y}] = \mathbb{V}[a\mathbf{x}] + \mathbb{V}[b\mathbf{y}] = a^2\boldsymbol{\Sigma}_x + b^2\boldsymbol{\Sigma}_y$$</p>
+<p>가중합이 가우시안이라는 사실은 주어졌어요. 가우시안은 평균과 공분산만 알면 정해지니까
+    $$p(a\mathbf{x} + b\mathbf{y}) = \mathcal{N}\big(a\boldsymbol{\mu}_x + b\boldsymbol{\mu}_y,\; a^2\boldsymbol{\Sigma}_x + b^2\boldsymbol{\Sigma}_y\big)$$</p>
+<p>수업과의 연결: 0930 수업의 "상수는 분산에서 제곱해서 나온다"($\mathbb{V}[aX] = a^2\,\mathbb{V}[X]$)와, 독립이거나 적어도 공분산이 0일 때 쓸 수 있다고 한 $\mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]$를 이어 쓴 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>편차 a(X−μx)+b(Y−μy)의 외적을 펼치면 자기항2개와 교차항2개예요. 독립으로 교차항이0이라 제시한 평균·공분산이 남아요.</p>
+</div><p>정답: $p(a\mathbf{x} + b\mathbf{y}) = \mathcal{N}\big(a\boldsymbol{\mu}_x + b\boldsymbol{\mu}_y,\; a^2\boldsymbol{\Sigma}_x + b^2\boldsymbol{\Sigma}_y\big)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>분산에 a,b를 그대로 곱하지 않아요. 같은 차원이라도 공분산 순서를 임의로 바꾸지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$E[aX+bY]=a\mu_x+b\mu_y$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>분산에 a,b를 그대로 곱하지 않아요. 같은 차원이라도 공분산 순서를 임의로 바꾸지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>기댓값은 계수를 그대로 통과하지만 분산은 두 편차를 곱하므로 계수가 제곱돼요. 같은 차원의 독립 벡터에 대해 $Var(aX+bY)=a^2\Sigma_x+b^2\Sigma_y$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$E[aX+bY]=a\mu_x+b\mu_y$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>편차 a(X−μx)+b(Y−μy)의 외적을 펼치면 자기항2개와 교차항2개예요. 독립으로 교차항이0이라 제시한 평균·공분산이 남아요.</p>
+</div></div>

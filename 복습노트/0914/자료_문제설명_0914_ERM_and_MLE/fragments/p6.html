@@ -1,0 +1,14 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>두 벡터 사이의 유클리드 거리를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>유클리드 거리(Euclidean distance)는 차이 벡터의 길이예요. $d=\sqrt{(x-y)^\top(x-y)}$에서 내적은 대응 성분 곱의 합이에요. 이 문제는 표준 내적을 지정했어요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x-y=[2,3,3]^\top$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>차이 벡터: $\mathbf{x} - \mathbf{y} = [1 - (-1), 2 - (-1), 3 - 0]^\top = [2, 3, 3]^\top$</p>
+<p>자기 내적: $(\mathbf{x} - \mathbf{y})^\top(\mathbf{x} - \mathbf{y}) = 4 + 9 + 9 = 22$</p>
+<p>$d(\mathbf{x}, \mathbf{y}) = \sqrt{22} \approx 4.690$</p>
+<p>수업과의 연결: 교수님이 2-노름 $\|\boldsymbol{\theta}\|_2$를 "원점에서의 거리"라고 설명했어요. 여기서는 원점 대신 $\mathbf{y}$에서 잰 거리예요 (0914 49:56).</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>반대로 y−x=[−2,−3,−3]을 써도 제곱합은22, 거리는 $\sqrt{22}$예요.</p>
+</div><p>정답: $d(\mathbf{x}, \mathbf{y}) = \sqrt{22} \approx 4.690$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>22는 거리의 제곱이에요. 거리에는 제곱근이 필요해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$x-y=[2,3,3]^\top$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>22는 거리의 제곱이에요. 거리에는 제곱근이 필요해요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>유클리드 거리(Euclidean distance)는 차이 벡터의 길이예요. $d=\sqrt{(x-y)^\top(x-y)}$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$x-y=[2,3,3]^\top$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>반대로 y−x=[−2,−3,−3]을 써도 제곱합은22, 거리는 $\sqrt{22}$예요.</p>
+</div></div>

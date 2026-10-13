@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>긴 행렬과 넓은 행렬의 곱를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>순서를 바꾸면 합칠 길이도 결과 크기도 달라져요. $(4\times2)(2\times4)$는 길이 2 내적 16개로 4×4 결과를 만들어요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>첫 행 $[0,3]$과 첫 열 $[1,4]^\top$의 내적 $0+12=12$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>앞은 $4 \times 2$, 뒤는 $2 \times 4$예요. 가운데 2가 같아서 곱할 수 있고, 결과는 $4 \times 4$예요.</p>
+<p>1행 $[0, 3]$: 뒤 행렬의 열 $[1,4]^\top, [2,1]^\top, [1,-1]^\top, [2,-4]^\top$과 내적하면 $12, 3, -3, -12$예요.</p>
+<p>2행 $[1, -1]$: $-3, 1, 2, 6$이에요. 3행 $[2, 1]$: $6, 5, 1, 0$이에요.</p>
+<p>4행 $[5, 2]$: $5 + 8 = 13$, $10 + 2 = 12$, $5 - 2 = 3$, $10 - 8 = 2$예요.</p>
+<p>결과가 $4 \times 4$로 커졌어요. 수업의 차원 검증처럼 곱하기 전에 크기부터 맞춰 보면 결과 모양이 먼저 보여요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립적으로 각 행을 선형결합하면 [12,3,-3,-12], [-3,1,2,6], [6,5,1,0], [13,12,3,2]예요. 4행 4열은 $5\cdot2+2(-4)=2$예요.</p>
+</div><p>정답: $$\left[\begin{matrix}12 \\ -3 \\ 6 \\ 13\end{matrix}\;\;\begin{matrix}3 \\ 1 \\ 5 \\ 12\end{matrix}\;\;\begin{matrix}-3 \\ 2 \\ 1 \\ 3\end{matrix}\;\;\begin{matrix}-12 \\ 6 \\ 0 \\ 2\end{matrix}\right]$$ ($4 \times 2$ 곱하기 $2 \times 4$ = $4 \times 4$)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>이전 문제의 2×2 답을 전치하는 것이 아니에요. 곱 순서 교환과 전치는 다른 연산이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>첫 행 $[0,3]$과 첫 열 $[1,4]^\top$의 내적 $0+12=12$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>이전 문제의 2×2 답을 전치하는 것이 아니에요. 곱 순서 교환과 전치는 다른 연산이에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>순서를 바꾸면 합칠 길이도 결과 크기도 달라져요. $(4\times2)(2\times4)$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>첫 행 $[0,3]$과 첫 열 $[1,4]^\top$의 내적 $0+12=12$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립적으로 각 행을 선형결합하면 [12,3,-3,-12], [-3,1,2,6], [6,5,1,0], [13,12,3,2]예요. 4행 4열은 $5\cdot2+2(-4)=2$예요.</p>
+</div></div>

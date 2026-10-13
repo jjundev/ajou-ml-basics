@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>4×4 역행렬 구하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Gauss–Jordan 소거는 [A|I]의 왼쪽을 I로 만들어요. 같은 행연산을 오른쪽에도 적용하면 오른쪽이 A의 역행렬이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$[A\mid I_4]$를 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$R_3 - R_1 = [0, 1, -1, 1 \mid -1, 0, 1, 0]$, $R_4 - R_1 = [0, 1, 0, 0 \mid -1, 0, 0, 1]$이에요.</p>
+<p>둘째 행 $[0, 1, 1, 0 \mid 0, 1, 0, 0]$을 빼요. $[0, 0, -2, 1 \mid -1, -1, 1, 0]$과 $[0, 0, -1, 0 \mid -1, -1, 0, 1]$이 돼요.</p>
+<p>뒤의 행에 $-1$을 곱해 셋째 행으로 올려요. $[0, 0, 1, 0 \mid 1, 1, 0, -1]$이에요. 앞의 행에 이것의 2배를 더하면 $[0, 0, 0, 1 \mid 1, 1, 1, -2]$예요.</p>
+<p>위로 올라가며 지워요. $R_2 - R_3 = [0, 1, 0, 0 \mid -1, 0, 0, 1]$, $R_1 - R_3 = [1, 0, 0, 0 \mid 0, -1, 0, 1]$이에요.</p>
+<p>오른쪽 절반을 모으면 역행렬이에요.
+    $$\mathbf{A}^{-1} = \begin{bmatrix} 0 &amp; -1 &amp; 0 &amp; 1 \\ -1 &amp; 0 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 0 &amp; -1 \\ 1 &amp; 1 &amp; 1 &amp; -2 \end{bmatrix}$$
+    확인: $\mathbf{A}$의 첫 행 $[1, 0, 1, 0]$과 $\mathbf{A}^{-1}$의 첫 열 $[0, -1, 1, 1]^\top$을 내적하면 $0 + 0 + 1 + 0 = 1$이에요. 나머지 칸도 같은 방법으로 $\mathbf{I}$가 나와요.</p>
+<p>수업과의 연결: 선수 선형대수 복습이에요. MML 9.2.1의 Remark에 따르면 최대우도 해는 $\mathbf{X}^\top\mathbf{X}$를 계수로 하는 연립방정식을 푸는 일이에요. 0923 수업의 결론 $(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$에 나오는 역행렬을 손으로 구하면 이 과정이 돼요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 symbolic inverse 계산과 양쪽 곱 AA⁻¹=A⁻¹A=I4를 모두 확인해요. 결과의 행은 [0,−1,0,1], [−1,0,0,1], [1,1,0,−1], [1,1,1,−2]예요.</p>
+</div><p>정답: $\mathbf{A}^{-1}$의 행은 차례로 $[0, -1, 0, 1]$, $[-1, 0, 0, 1]$, $[1, 1, 0, -1]$, $[1, 1, 1, -2]$예요 (위 풀이의 행렬).</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>왼쪽만 행연산하거나 오른쪽 행 순서를 다르게 바꾸면 역행렬이 아니에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$[A\mid I_4]$를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>왼쪽만 행연산하거나 오른쪽 행 순서를 다르게 바꾸면 역행렬이 아니에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Gauss–Jordan 소거는 [A|I]의 왼쪽을 I로 만들어요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$[A\mid I_4]$를 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 symbolic inverse 계산과 양쪽 곱 AA⁻¹=A⁻¹A=I4를 모두 확인해요. 결과의 행은 [0,−1,0,1], [−1,0,0,1], [1,1,0,−1], [1,1,1,−2]예요.</p>
+</div></div>

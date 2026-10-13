@@ -1,0 +1,24 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>음의 로그우도와 최소제곱의 순서 비교하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>i.i.d. 가우시안은 우도가 곱이고 로그우도는 합이에요. 음의 로그우도(negative log likelihood)는 $SSE/(2\sigma^2)+N\log(2\pi\sigma^2)/2$예요. 분산이 고정이고 공통이면 SSE와 같은 순서를 줘요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$\mathcal{L}(\boldsymbol{\theta}) = -\sum_{n=1}^{N} \log \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left(-\frac{(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2}{2\sigma^2}\right)$</p>
+<p>$= \frac{1}{2\sigma^2}\sum_{n=1}^{N} (y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2 + \frac{N}{2}\log(2\pi\sigma^2)$</p>
+<p>상수항: $N = 3$, $\sigma^2 = 1$이면 $\frac{3}{2}\log(2\pi) \approx 2.757$이에요. $\boldsymbol{\theta}$와 상관없어요.</p>
+<p>$\boldsymbol{\theta}_A$: 추정치 $[1, 3, 5]^\top$, 잔차 $[0, 1, -1]^\top$, 제곱합 $2$라서 첫 항은 $\frac{2}{2} = 1$이에요.</p>
+<p>$\mathcal{L}(\boldsymbol{\theta}_A) = 1 + \frac{3}{2}\log(2\pi) \approx 3.757$</p>
+<p>$\boldsymbol{\theta}_B$: 추정치 $[\tfrac{3}{2}, 3, \tfrac{9}{2}]^\top$, 잔차 $[-\tfrac{1}{2}, 1, -\tfrac{1}{2}]^\top$, 제곱합 $\tfrac{3}{2}$라서 첫 항은 $\frac{3}{4}$이에요.</p>
+<p>$\mathcal{L}(\boldsymbol{\theta}_B) = \frac{3}{4} + \frac{3}{2}\log(2\pi) \approx 3.507$</p>
+<p>$\boldsymbol{\theta}_B$가 더 작아요. 상수항이 같으니 순서는 제곱합($2$ 대 $\tfrac{3}{2}$)이 정하고, 제곱 손실로 비교한 순서와 같아요.</p>
+<p>수업과의 연결: 칠판에서 $\frac{N}{2}\log(2\pi\sigma^2)$ 같은 상수항은 "무시하고" 넘어가고, 음의 로그우도 최소화가 최소제곱과 같은 해를 준다고 결론 낸 부분이에요 (0914 69:54–71:15).</p>
+<div data-subpart="a"><h4>(a)</h4><p>정규화 상수의 음의 로그는 예제마다 log(2π)/2이고 세 번 더해요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>별도 계산에서 A=3.7568156…, B=3.5068156…이므로 반올림하면 3.757과 3.507예요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>두 값 차이는 (2−3/2)/2=1/4예요. 같은 양의 배율과 같은 상수이므로 순서가 유지돼요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>정규화 상수의 음의 로그는 예제마다 log(2π)/2이고 세 번 더해요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>별도 계산에서 A=3.7568156…, B=3.5068156…이므로 반올림하면 3.757과 3.507예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>두 값 차이는 (2−3/2)/2=1/4예요. 같은 양의 배율과 같은 상수이므로 순서가 유지돼요.</p>
+</div><p>정답: $\mathcal{L}(\boldsymbol{\theta}_A) = 1 + \frac{3}{2}\log(2\pi) \approx 3.757$, $\mathcal{L}(\boldsymbol{\theta}_B) = \frac{3}{4} + \frac{3}{2}\log(2\pi) \approx 3.507$이라 $\boldsymbol{\theta}_B$가 더 작고, 최소제곱으로 비교한 순서와 같아요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>로그 상수는 최적 후보 선택에는 지워도 실제 수치 계산에서는 남겨요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>로그 상수는 최적 후보 선택에는 지워도 실제 수치 계산에서는 남겨요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>i.i.d. 가우시안은 우도가 곱이고 로그우도는 합이에요. 음의 로그우도(negative log likelihood)는 $SSE/(2\sigma^2)+N\log(2\pi\sigma^2)/2$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>정규화 상수의 음의 로그는 예제마다 log(2π)/2이고 세 번 더해요. 별도 계산에서 A=3.7568156…, B=3.5068156…이므로 반올림하면 3.757과 3.507예요. 두 값 차이는 (2−3/2)/2=1/4예요. 같은 양의 배율과 같은 상수이므로 순서가 유지돼요.</p>
+</div></div>

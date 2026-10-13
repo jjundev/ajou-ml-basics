@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>3차 다항식 최대우도 적합 준비하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. Φ는 N×K이고, full column rank일 때 최대우도 해는 $(\Phi^\top\Phi)^{-1}\Phi^\top y$예요. 잡음 분산은 고정 양수라 최소제곱과 같아요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\phi(x)=[1,x,x^2,x^3]^\top$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>3차 다항식의 특징은 $\boldsymbol{\phi}(x) = [1, x, x^2, x^3]^\top$이에요. 항이 네 개라서 $K = 4$예요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>행은 데이터 수 $N = 8$개, 열은 특징 수 $K = 4$개예요. 그래서 $\boldsymbol{\Phi} \in \mathbb{R}^{8 \times 4}$이고, $n$번째 행은 $[1, x_n, x_n^2, x_n^3]$이에요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>음의 로그우도는 $\frac{1}{2\sigma^2}\|\mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}\|^2 + \text{const}$예요. 이걸 $\boldsymbol{\theta}$로 미분해 0으로 두면
+    $$\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$$</p>
+<p>이때 $\boldsymbol{\Phi}^\top \boldsymbol{\Phi}$는 $4 \times 4$라서 역행렬 계산이 작아요.</p>
+<p>수업과의 연결: 0928 수업에서 "3차면 $K = 4$"라고 한 말과, $\mathbf{X}$ 자리에 $\boldsymbol{\Phi}$를 넣은 유사역행렬 해를 그대로 쓴 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>8개 입력에 각각4특징을 만들므로8×4예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>미분식 $\Phi^\top\Phi\theta=\Phi^\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>
+</div><p>정답: (a) $K = 4$ (b) $\boldsymbol{\Phi} \in \mathbb{R}^{8 \times 4}$ (c) $\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\phi(x)=[1,x,x^2,x^3]^\top$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. $(\Phi^\top\Phi)^{-1}\Phi^\top y$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\phi(x)=[1,x,x^2,x^3]^\top$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\Phi^\top\Phi\theta=\Phi^\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>
+</div></div>

@@ -1,0 +1,31 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>두 가우시안 밀도의 곱: 완전제곱식으로 유도하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요. A,B는 양의 정부호이고 계수 순서를 지켜요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>두 이차형식을 따로 이름 붙여요. $$Q_A=(\mathbf{x}-\mathbf{a})^\top\mathbf{A}^{-1}(\mathbf{x}-\mathbf{a})$$ $$Q_B=(\mathbf{x}-\mathbf{b})^\top\mathbf{B}^{-1}(\mathbf{x}-\mathbf{b})$$ 두 밀도의 곱을 $P(\mathbf{x})$라고 하면, 입력과 무관한 정규화 상수를 제외하고 $$P(\mathbf{x})\propto\exp\left(-\frac12(Q_A+Q_B)\right)$$예요. 곱의 지수를 더한다는 뜻이에요.</p>
+<p>첫째 이차형식을 펼쳐요. $\mathbf{A}^{-1}$이 대칭이라 $\mathbf{x}^\top\mathbf{A}^{-1}\mathbf{a} = \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{x}$예요.
+    $$(\mathbf{x} - \mathbf{a})^\top\mathbf{A}^{-1}(\mathbf{x} - \mathbf{a}) = \mathbf{x}^\top\mathbf{A}^{-1}\mathbf{x} - 2(\mathbf{A}^{-1}\mathbf{a})^\top\mathbf{x} + \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{a}$$
+    둘째도 같은 꼴이에요.
+    $$(\mathbf{x} - \mathbf{b})^\top\mathbf{B}^{-1}(\mathbf{x} - \mathbf{b}) = \mathbf{x}^\top\mathbf{B}^{-1}\mathbf{x} - 2(\mathbf{B}^{-1}\mathbf{b})^\top\mathbf{x} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}$$</p>
+<p>더해서 묶어요. $\boldsymbol{\Lambda} = \mathbf{A}^{-1} + \mathbf{B}^{-1}$, $\boldsymbol{\eta} = \mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b}$로 두면
+    $$[\cdots] = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \gamma$$이고, 상수항은 $$\gamma = \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{a} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}$$
+    스칼라 렘마의 $\alpha$ 자리에 $\boldsymbol{\Lambda}$, $\beta$ 자리에 $\boldsymbol{\eta}$가 왔어요.</p>
+<p>완전제곱식을 만들어요. $\mathbf{m} = \boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}$로 두고 펼쳐 봐요. $\boldsymbol{\Lambda}$가 대칭이라 $\mathbf{m}^\top\boldsymbol{\Lambda} = \boldsymbol{\eta}^\top$이에요.
+    $$(\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m}) = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \boldsymbol{\eta}^\top\boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}$$
+    그래서 같은 수를 더하고 빼면
+    $$\mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \gamma = (\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m}) + \left(\gamma - \boldsymbol{\eta}^\top\boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}\right)$$</p>
+<p>괄호 안 상수는 $\mathbf{x}$와 무관하니 앞쪽 상수로 넘겨요.
+    $$\mathcal{N}(\mathbf{x} \mid \mathbf{a}, \mathbf{A})\,\mathcal{N}(\mathbf{x} \mid \mathbf{b}, \mathbf{B}) \propto \exp\left(-\frac{1}{2}(\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m})\right)$$</p>
+<p>가우시안 PDF의 지수 $-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top\Sigma^{-1}(\mathbf{x} - \boldsymbol{\mu})$와 맞춰 보면 $\Sigma^{-1} = \boldsymbol{\Lambda}$, $\boldsymbol{\mu} = \mathbf{m}$이에요. 그러니
+    $$\mathbf{C} = \boldsymbol{\Lambda}^{-1} = (\mathbf{A}^{-1} + \mathbf{B}^{-1})^{-1}$$
+    $$\mathbf{c} = \mathbf{m} = \boldsymbol{\Lambda}^{-1}\boldsymbol{\eta} = \mathbf{C}(\mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b})$$</p>
+<p>1차원으로 확인해요. $\mathbf{A} = \nu_0$, $\mathbf{B} = \nu_1$, $\mathbf{a} = \mu_0$, $\mathbf{b} = \mu_1$을 넣으면
+    $$C = \left(\frac{1}{\nu_0} + \frac{1}{\nu_1}\right)^{-1} = \frac{\nu_0\nu_1}{\nu_0 + \nu_1}$$
+    $$c = \frac{\nu_0\nu_1}{\nu_0 + \nu_1}\left(\frac{\mu_0}{\nu_0} + \frac{\mu_1}{\nu_1}\right) = \frac{\nu_1\mu_0 + \nu_0\mu_1}{\nu_0 + \nu_1}$$
+    스칼라 곱 공식과 같은 결과가 나와요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.</p>
+</div><p>정답: $\mathbf{C} = (\mathbf{A}^{-1} + \mathbf{B}^{-1})^{-1}$, $\mathbf{c} = \mathbf{C}(\mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b})$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.</p>
+</div></div>

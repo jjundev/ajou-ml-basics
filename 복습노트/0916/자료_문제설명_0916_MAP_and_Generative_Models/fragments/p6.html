@@ -1,0 +1,16 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>컴파일 성공률의 posterior를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Beta–Bernoulli 켤레성(conjugacy)은 likelihood와 prior의 거듭제곱 모양이 맞는다는 뜻이에요. $k=\sum x_n$은 성공 횟수, N−k는 실패 횟수예요. α,β>0이고 0<μ<1인 밀도의 지수를 합해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>i.i.d.라서 likelihood는 곱으로 나뉘어요: $\prod_{n=1}^{N}\mu^{x_n}(1-\mu)^{1-x_n}=\mu^{k}(1-\mu)^{N-k}$, 여기서 $k = \sum_{n=1}^{N} x_n$ (성공 횟수)예요.</p>
+<p>prior를 상수까지 쓰면 $p(\mu)=\frac{1}{B(\alpha,\beta)}\mu^{\alpha-1}(1-\mu)^{\beta-1}$ ($B(\alpha,\beta)$는 넓이를 1로 맞추는 상수).</p>
+<p>posterior $\propto$ likelihood $\times$ prior라서 $p(\mu\mid x_1,\dots,x_N)\propto\mu^{\alpha + k - 1}(1-\mu)^{\beta + N - k - 1}$이에요.</p>
+<p>이건 파라미터만 바뀐 Beta 꼴이에요. 그래서 posterior는 $\mathrm{Beta}(\alpha + k, \beta + N - k)$예요. prior와 같은 Beta 꼴이 유지되고 파라미터만 데이터만큼 늘어나요.</p>
+<p>숫자로 확인: $N=10$, $k=2$, $\alpha=\beta=4$면 posterior는 $\mathrm{Beta}(6,12)\propto\mu^{5}(1-\mu)^{11}$. $\log$를 미분해 0으로 두면 $\frac{5}{\mu}-\frac{11}{1-\mu}=0$, 봉우리는 $\mu=\frac{5}{16}=0.3125$예요. ML 값 $\frac{2}{10}=0.2$보다 반반 쪽으로 끌려가요.</p>
+<p>수업과의 연결: 동전 10번 중 앞면 2번이면 ML은 0.2, "모름지기 반반"이라는 prior를 섞은 MAP는 0.3 정도라고 한 이야기를, Beta prior로 계산하면 이렇게 나와요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>지수는 α+k−1과 β+N−k−1이라 Beta(α+k,β+N−k)의 정규화 적분이 존재해요. N=10,k=2,α=β=4일 때 Beta(6,12)이고 내부 mode는5/16, 평균은1/3으로 달라요.</p>
+</div><p>정답: $p(\mu\mid x_1,\dots,x_N)=\mathrm{Beta}(\alpha + k, \beta + N - k)$, $k = \sum_{n=1}^{N} x_n$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>성공확률 μ와 성공횟수 k를 구별해요. posterior의 평균과 MAP도 다른 값이에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>성공확률 μ와 성공횟수 k를 구별해요. posterior의 평균과 MAP도 다른 값이에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Beta–Bernoulli 켤레성(conjugacy)은 likelihood와 prior의 거듭제곱 모양이 맞는다는 뜻이에요. $k=\sum x_n$은 성공 횟수, N−k는 실패 횟수예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>지수는 α+k−1과 β+N−k−1이라 Beta(α+k,β+N−k)의 정규화 적분이 존재해요. N=10,k=2,α=β=4일 때 Beta(6,12)이고 내부 mode는5/16, 평균은1/3으로 달라요.</p>
+</div></div>

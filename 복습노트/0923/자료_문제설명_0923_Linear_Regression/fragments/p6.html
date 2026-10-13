@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>역행렬이 있을까요를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>역행렬(inverse)은 정방행렬의 rank가 전체 차원일 때만 있어요. 행의 선형종속이나 det=0을 발견하면 역행렬 계산을 멈출 수 있어요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$R_3-2R_2+R_1=0$을 확인해요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$R_2 - R_1 = [1, 1, 1]$, $R_3 - R_2 = [1, 1, 1]$이에요. 셋째 행은 $R_3 = 2R_2 - R_1$로 앞의 두 행에서 만들어져요.</p>
+<p>그래서 독립인 행은 두 개뿐이고 $\mathrm{rk}(\mathbf{A}) = 2$예요. $3 \times 3$ 행렬인데 계수가 3보다 작아요.</p>
+<p>행렬식으로도 확인해요. $2(24 - 25) - 3(18 - 20) + 4(15 - 16) = -2 + 6 - 4$이므로 $\det(\mathbf{A}) = 0$이에요.</p>
+<p>행렬식이 0이면 역행렬이 없어요.</p>
+<p>수업과의 연결: 선수 선형대수 복습이에요. 0923 수업의 해 $(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$는 $\mathbf{X}^\top\mathbf{X}$의 역행렬이 있어야 쓸 수 있어요. MML 9.2.1의 Remark에 따르면 $\mathrm{rk}(\mathbf{X}) = D$일 때 그 역행렬이 있어요. 이 문제처럼 계수가 모자라면 역행렬이 없어요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>독립 계산으로 det=0, rank=2이고 비영 영공간 벡터 [1,−2,1]이 있어요. A가 이 벡터를0으로 보내므로 가역일 수 없어요.</p>
+</div><p>정답: 역행렬이 없어요 ($\det(\mathbf{A}) = 0$, $\mathrm{rk}(\mathbf{A}) = 2$)</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>0인 행렬식으로 나누지 않아요. 행소거로 가짜 역행렬을 만들 수 없어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$R_3-2R_2+R_1=0$을 확인해요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>0인 행렬식으로 나누지 않아요. 행소거로 가짜 역행렬을 만들 수 없어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>역행렬(inverse)은 정방행렬의 rank가 전체 차원일 때만 있어요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$R_3-2R_2+R_1=0$을 확인해요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>독립 계산으로 det=0, rank=2이고 비영 영공간 벡터 [1,−2,1]이 있어요. A가 이 벡터를0으로 보내므로 가역일 수 없어요.</p>
+</div></div>

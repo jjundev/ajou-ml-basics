@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>인수분해로 방향 그래프 그리기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>DAG에서는 조건에 있는 부모에서 인수의 대상으로 화살표를 그려요. $p(c\mid a,b)$는 a→c와 b→c예요. 이 모델의 연결 구조를 묻는 문제예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>노드 a,b,c를 적고 a→b부터 그려요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>노드 $a$, $b$, $c$를 하나씩 둬요.</p>
+<p>$p(c \mid a, b)$: $c$가 $a$와 $b$에 직접 의존하니 $a \to c$, $b \to c$를 그어요.</p>
+<p>$p(b \mid a)$: $b$가 $a$에 직접 의존하니 $a \to b$를 그어요.</p>
+<p>$p(a)$: 조건이 없으니 $a$로 들어오는 화살표는 없어요.</p>
+<p>화살표는 $a \to b$, $a \to c$, $b \to c$로 모두 $3$개예요. 세 노드 쌍 $(a,b)$, $(a,c)$, $(b,c)$가 모두 이어져 있어서 fully connected 그래프예요.</p>
+<div data-subpart="a"><h4>(a)</h4><p>부모 목록을 복원하면 a→b,a→c,b→c 세 간선이에요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>쌍{a,b},{a,c},{b,c}마다 한 간선이라3개예요. 위상순서 a,b,c가 있어 순환은 없어요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>부모 목록을 복원하면 a→b,a→c,b→c 세 간선이에요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>쌍{a,b},{a,c},{b,c}마다 한 간선이라3개예요. 위상순서 a,b,c가 있어 순환은 없어요.</p>
+</div><p>정답: (a) $a \to b$, $a \to c$, $b \to c$ (b) $3$개, 모든 쌍이 이어진 fully connected 그래프</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>p(c|a,b)를 c→a,b로 거꾸로 그리지 않아요. 인수분해만으로 인과관계를 증명한 것도 아니에요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>노드 a,b,c를 적고 a→b부터 그려요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>p(c|a,b)를 c→a,b로 거꾸로 그리지 않아요. 인수분해만으로 인과관계를 증명한 것도 아니에요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>DAG에서는 조건에 있는 부모에서 인수의 대상으로 화살표를 그려요. $p(c\mid a,b)$는 a→c와 b→c예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>노드 a,b,c를 적고 a→b부터 그려요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>부모 목록을 복원하면 a→b,a→c,b→c 세 간선이에요. 쌍{a,b},{a,c},{b,c}마다 한 간선이라3개예요. 위상순서 a,b,c가 있어 순환은 없어요.</p>
+</div></div>

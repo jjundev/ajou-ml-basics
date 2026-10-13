@@ -1,0 +1,17 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>사전분포를 바꾼 다항회귀 MAP를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\lambda=\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요. 고차에서의 효과는 데이터와 특징 스케일에도 달려요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>잡음 표준편차가 $0.2$라서 $\sigma^2 = 0.04 = \frac{1}{25}$이에요.</p>
+<p>사전분포 $\mathcal{N}(\mathbf{0}, \frac{1}{4}\mathbf{I})$를 $\mathcal{N}(\mathbf{0}, b^2 \mathbf{I})$와 맞춰 보면 $b^2 = \frac{1}{4}$이에요.</p>
+<p>나누면 $\frac{\sigma^2}{b^2} = \frac{1/25}{1/4} = \frac{4}{25} = 0.16$이에요.</p>
+<p>수업과의 연결: 0928 수업에서 ML과 MAP는 $\frac{\sigma^2}{b^2}\mathbf{I}$ 한 항만 다르고 이 항이 정규화(regularizer) 역할을 한다고 했어요. $b^2$를 $\frac{1}{4}$로 작게 잡을수록 이 항이 커져 선호를 더 강하게 반영해요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>
+</div><p>정답: (a) $\frac{\sigma^2}{b^2} = \frac{4}{25} = 0.16$ (b) 8차 다항식. 차수가 높을수록 최대우도 계수가 커지므로 사전분포(정규화) 효과가 더 크게 드러나요.</p>
+<p>원 참고 답의8차 선택은 해당 예제의 경향으로 읽어요. 모든 데이터에서 계수가 반드시 더 크다는 주장은 성립하지 않아요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\lambda=\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>
+</div></div>

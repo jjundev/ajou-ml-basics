@@ -1,0 +1,24 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>두 파라미터의 제곱 손실 평균 비교하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>제곱 손실(squared loss)은 오차를 제곱한 값이에요. $N^{-1}\|\mathbf y-X\theta\|^2$에서 $X$의 한 행은 한 예제, $\mathbf y$는 실제 출력이에요. 같은 데이터의 두 후보를 이 값으로 비교해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3]^\top \in \mathbb{R}^{3 \times 2}$이고, 행은 차례로 $[1, 0]$, $[1, 1]$, $[1, 2]$예요. $\mathbf{y} = [1, 4, 4]^\top$이에요.</p>
+<p>$\boldsymbol{\theta}_A$: $\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}_A = [1, 3, 5]^\top$</p>
+<p>$\mathbf{y} - \hat{\mathbf{y}} = [0, 1, -1]^\top$, 제곱합은 $0 + 1 + 1 = 2$</p>
+<p>$\frac{1}{3}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}_A\|^2 = \frac{2}{3}$</p>
+<p>$\boldsymbol{\theta}_B$: $\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}_B = [\tfrac{3}{2}, 3, \tfrac{9}{2}]^\top$</p>
+<p>$\mathbf{y} - \hat{\mathbf{y}} = [-\tfrac{1}{2}, 1, -\tfrac{1}{2}]^\top$, 제곱합은 $\tfrac{1}{4} + 1 + \tfrac{1}{4} = \tfrac{3}{2}$</p>
+<p>$\frac{1}{3}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}_B\|^2 = \frac{1}{2}$</p>
+<p>$\frac{1}{2} \lt \frac{2}{3}$이니까 $\boldsymbol{\theta}_B$가 이 데이터에 더 잘 맞아요.</p>
+<p>수업과의 연결: 칠판에서 $\frac{1}{N}\sum_n (y_n - \boldsymbol{\theta}^\top \mathbf{x}_n)^2$을 $\frac{1}{N}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$ 한 줄로 바꾼 "김밥 재료 손질"을 숫자로 해 본 거예요. 교수님이 "산수니까 해 보세요"라고 남긴 부분이에요 (0914 37:24).</p>
+<div data-subpart="a"><h4>(a)</h4><p>3예제×2특징이므로 X는 3×2, y는 3×1이에요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>A의 잔차는 [0,1,-1], B는 [-1/2,1,-1/2]예요. 제곱합 2와 3/2를 3으로 나누면 2/3과 1/2예요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>$2/3-1/2=1/6>0$이므로 B예요. 이는 두 후보끼리 비교한 결과이며 전역 최적해를 증명한 것은 아니에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>3예제×2특징이므로 X는 3×2, y는 3×1이에요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>A의 잔차는 [0,1,-1], B는 [-1/2,1,-1/2]예요. 제곱합 2와 3/2를 3으로 나누면 2/3과 1/2예요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>$2/3-1/2=1/6>0$이므로 B예요. 이는 두 후보끼리 비교한 결과이며 전역 최적해를 증명한 것은 아니에요.</p>
+</div><p>정답: $\boldsymbol{\theta}_A$는 $\frac{2}{3}$, $\boldsymbol{\theta}_B$는 $\frac{1}{2}$이에요. $\boldsymbol{\theta}_B$가 더 작아요.</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>노름과 노름의 제곱을 구별하고 마지막에 N=3으로 나눠요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>노름과 노름의 제곱을 구별하고 마지막에 N=3으로 나눠요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>제곱 손실(squared loss)은 오차를 제곱한 값이에요. $N^{-1}\|\mathbf y-X\theta\|^2$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>3예제×2특징이므로 X는 3×2, y는 3×1이에요. A의 잔차는 [0,1,-1], B는 [-1/2,1,-1/2]예요. 제곱합 2와 3/2를 3으로 나누면 2/3과 1/2예요. $2/3-1/2=1/6>0$이므로 B예요. 이는 두 후보끼리 비교한 결과이며 전역 최적해를 증명한 것은 아니에요.</p>
+</div></div>

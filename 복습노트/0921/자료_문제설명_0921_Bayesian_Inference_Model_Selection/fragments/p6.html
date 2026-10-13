@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>반복 기댓값 법칙 보이기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>반복 기댓값 법칙(law of total expectation)은 조건별 평균을 조건의 확률로 다시 평균내요. $E[X\mid Y=y]=\int xp(x\mid y)dx$는 y의 함수예요. $E|X|<\infty$이면 Fubini 정리를 써 적분 순서를 바꿀 수 있어요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$E_Y[E[X\mid Y]]=\int\int x p(x\mid y)p(y)\,dx\,dy$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>조건부 기댓값의 정의로 안쪽을 써요: $\mathbb{E}_X[x \mid y] = \int x\, p(x \mid y)\, dx$. 이 값은 $y$의 함수예요.</p>
+<p>바깥 기댓값은 이 함수를 $p(y)$로 가중 평균한 거예요.
+    $$\mathbb{E}_Y[\mathbb{E}_X[x \mid y]] = \int \left( \int x\, p(x \mid y)\, dx \right) p(y)\, dy$$</p>
+<p>곱셈 규칙 $p(x, y) = p(x \mid y)\, p(y)$로 두 밀도를 합쳐요.
+    $$= \int \int x\, p(x, y)\, dx\, dy$$</p>
+<p>적분 순서를 바꿔 $y$부터 적분해요. 주변화 $\int p(x, y)\, dy = p(x)$를 쓰면
+    $$= \int x \left( \int p(x, y)\, dy \right) dx = \int x\, p(x)\, dx$$</p>
+<p>마지막 식은 $x$의 기댓값의 정의 그대로예요. 그래서 $\mathbb{E}_X[x] = \mathbb{E}_Y[\mathbb{E}_X[x \mid y]]$가 성립해요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>$p(x|y)p(y)=p(x,y)$를 대입하고 y를 적분하면 p(x)가 돼요. 절대적분가능성으로 순서교환이 정당하고 남는 적분은 E[X]예요. p(y)=0인 곳의 조건부 정의는 결과에 영향을 주지 않아요.</p>
+</div><p>정답: $\mathbb{E}_Y[\mathbb{E}_X[x \mid y]] = \int \int x\, p(x \mid y)\, p(y)\, dx\, dy = \int \int x\, p(x, y)\, dx\, dy = \int x\, p(x)\, dx = \mathbb{E}_X[x]$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>안쪽 조건부 평균은 아직 y에 의존해요. 바깥 평균 전에 상수 취급하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$E_Y[E[X\mid Y]]=\int\int x p(x\mid y)p(y)\,dx\,dy$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>안쪽 조건부 평균은 아직 y에 의존해요. 바깥 평균 전에 상수 취급하지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>반복 기댓값 법칙(law of total expectation)은 조건별 평균을 조건의 확률로 다시 평균내요. $E[X\mid Y=y]=\int xp(x\mid y)dx$는 y의 함수예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$E_Y[E[X\mid Y]]=\int\int x p(x\mid y)p(y)\,dx\,dy$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>$p(x|y)p(y)=p(x,y)$를 대입하고 y를 적분하면 p(x)가 돼요. 절대적분가능성으로 순서교환이 정당하고 남는 적분은 E[X]예요. p(y)=0인 곳의 조건부 정의는 결과에 영향을 주지 않아요.</p>
+</div></div>

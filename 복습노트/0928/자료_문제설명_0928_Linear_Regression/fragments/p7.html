@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>tanh 층의 자코비안 차원를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>성분별 tanh 층의 Jacobian은 $\operatorname{diag}(1-\tanh^2z)$예요. 각 출력은 같은 번호의 z만 보므로 비대각은0이에요. 뒤의 affine layer Jacobian은 A예요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$\frac{d\mathbf{f}}{d\mathbf{x}} = \frac{d\mathbf{f}}{d\mathbf{z}}\frac{d\mathbf{z}}{d\mathbf{x}}$로 나눠요.</p>
+<p>$\frac{\partial f_i}{\partial z_j}$는 $i = j$일 때 $1 - \tanh^2 z_i$, 아니면 0이에요. 그래서 $\frac{d\mathbf{f}}{d\mathbf{z}} = \operatorname{diag}(1 - \tanh^2 \mathbf{z}) \in \mathbb{R}^{M \times M}$예요.</p>
+<p>$\frac{d\mathbf{z}}{d\mathbf{x}} = \mathbf{A} \in \mathbb{R}^{M \times N}$예요. $\mathbf{b}$는 상수라 사라져요.</p>
+<p>곱은 $(M \times M)(M \times N)$이므로 $\frac{d\mathbf{f}}{d\mathbf{x}} = \operatorname{diag}(1 - \tanh^2 \mathbf{z})\,\mathbf{A} \in \mathbb{R}^{M \times N}$예요.</p>
+<p>수업과의 연결: 0928 수업에서 $\mathbb{R}^n \to \mathbb{R}^m$ 함수의 자코비안은 $m \times n$이라고 했어요. 여기서도 $\mathbb{R}^N \to \mathbb{R}^M$이라 결과가 $M \times N$이에요. 수업에서 말한 DNN 가중치 학습도 이런 층의 연쇄법칙이에요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>성분 미분은 $(1-\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>
+</div><p>정답: $\frac{d\mathbf{f}}{d\mathbf{z}} = \operatorname{diag}(1 - \tanh^2 \mathbf{z}) \in \mathbb{R}^{M \times M}$, $\frac{d\mathbf{z}}{d\mathbf{x}} = \mathbf{A} \in \mathbb{R}^{M \times N}$, $\frac{d\mathbf{f}}{d\mathbf{x}} \in \mathbb{R}^{M \times N}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>성분별 tanh 층의 Jacobian은 $\operatorname{diag}(1-\tanh^2z)$예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>성분 미분은 $(1-\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>
+</div></div>

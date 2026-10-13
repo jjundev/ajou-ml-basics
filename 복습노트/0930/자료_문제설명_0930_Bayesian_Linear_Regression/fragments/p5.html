@@ -1,0 +1,19 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>노이즈가 섞인 선형 변환의 가능도를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>조건부 likelihood는 x가 주어졌을 때 잡음 w만 변하는 분포예요. $y=Ax+b+w$에서 Ax+b는 조건부 평균, Q는 조건부 공분산이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(y\mid x)=\mathcal N(y\mid Ax+b,Q)$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$\mathbf{x}$가 주어졌다고 해요. 그러면 $\mathbf{A}\mathbf{x} + \mathbf{b}$는 더 이상 흔들리지 않는 상수 벡터예요.</p>
+<p>$\mathbf{w}$는 $\mathbf{x}$와 독립이에요. $\mathbf{x}$를 알아도 $\mathbf{w}$의 분포는 그대로 $\mathcal{N}(\mathbf{0}, \mathbf{Q})$예요.</p>
+<p>$\mathbf{y}$는 상수에 $\mathbf{w}$를 더한 것이에요. 평균은 상수만큼 옮겨져요.
+    $$\mathbb{E}[\mathbf{y} \mid \mathbf{x}] = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbb{E}[\mathbf{w}] = \mathbf{A}\mathbf{x} + \mathbf{b}$$</p>
+<p>상수를 더해도 퍼진 정도는 바뀌지 않아요.
+    $$\mathbb{V}[\mathbf{y} \mid \mathbf{x}] = \mathbb{V}[\mathbf{w}] = \mathbf{Q}$$</p>
+<p>가우시안 노이즈를 상수만큼 옮긴 것이라 종 모양은 그대로예요. 그래서
+    $$p(\mathbf{y} \mid \mathbf{x}) = \mathcal{N}(\mathbf{y} \mid \mathbf{A}\mathbf{x} + \mathbf{b}, \mathbf{Q})$$</p>
+<p>수업과의 연결: 0930 수업의 가능도 $p(y \mid \mathbf{x}, \boldsymbol{\theta}) = \mathcal{N}\big(y \mid \boldsymbol{\phi}^\top(\mathbf{x})\boldsymbol{\theta},\, \sigma^2\big)$와 같은 논리예요. 조건으로 주어진 것은 상수가 되고, 불확실성은 노이즈에만 남아요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>x를 고정하면 y−(Ax+b)=w예요. 따라서 평균0, 공분산Q를 평행이동한 가우시안이 맞아요.</p>
+</div><p>정답: $p(\mathbf{y} \mid \mathbf{x}) = \mathcal{N}(\mathbf{y} \mid \mathbf{A}\mathbf{x} + \mathbf{b}, \mathbf{Q})$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>조건부에 AΣxAᵀ를 더하지 않아요. 그 항은 x까지 랜덤하게 평균낸 주변분포에서 나와요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y\mid x)=\mathcal N(y\mid Ax+b,Q)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>조건부에 AΣxAᵀ를 더하지 않아요. 그 항은 x까지 랜덤하게 평균낸 주변분포에서 나와요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>조건부 likelihood는 x가 주어졌을 때 잡음 w만 변하는 분포예요. $y=Ax+b+w$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(y\mid x)=\mathcal N(y\mid Ax+b,Q)$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>x를 고정하면 y−(Ax+b)=w예요. 따라서 평균0, 공분산Q를 평행이동한 가우시안이 맞아요.</p>
+</div></div>

@@ -1,0 +1,19 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 혼합의 차원별 주변분포를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>혼합분포(mixture)의 주변화는 적분의 선형성으로 각 성분을 주변화한 뒤 같은 가중치로 섞어요. 하나의 가우시안으로 합쳐 쓰는 문제가 아니에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(x_1)=0.4\int p_1(x)dx_2+0.6\int p_2(x)dx_2$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="main"><h4>풀이</h4><p>$p(x_1)$은 $x_2$를 적분해서 얻어요. 적분은 선형이라서 가중치가 그대로 밖으로 나와요.
+    $$p(x_1) = \int p(\mathbf{x})\,dx_2 = 0.4\int \mathcal{N}_1(\mathbf{x})\,dx_2 + 0.6\int \mathcal{N}_2(\mathbf{x})\,dx_2$$
+    여기서 $\mathcal{N}_1$, $\mathcal{N}_2$는 첫째, 둘째 성분 가우시안이에요.</p>
+<p>결합 가우시안을 주변화하면 가우시안이고, 평균 벡터의 해당 성분과 공분산 행렬의 해당 대각 성분을 그대로 가져와요.</p>
+<p>첫째 성분에서 $x_1$의 평균은 $10$, 분산은 $1$이에요. 둘째 성분에서는 평균 $0$, 분산 $8.4$예요. 그래서
+    $$p(x_1) = 0.4\,\mathcal{N}(10, 1) + 0.6\,\mathcal{N}(0, 8.4)$$</p>
+<p>$x_2$도 같은 방법으로 $x_1$을 적분해요. 첫째 성분에서 평균 $2$, 분산 $1$, 둘째 성분에서 평균 $0$, 분산 $1.7$이에요. 그래서
+    $$p(x_2) = 0.4\,\mathcal{N}(2, 1) + 0.6\,\mathcal{N}(0, 1.7)$$</p>
+<p>비대각 성분 $2.0$은 $x_1$과 $x_2$의 관계라서 한 차원만 남긴 주변분포에는 들어가지 않아요. 두 결과 모두 가중치 합이 $0.4 + 0.6 = 1$이라 확률분포가 맞아요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>검산</h4><p>x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요.</p>
+</div><p>정답: $p(x_1) = 0.4\,\mathcal{N}(10, 1) + 0.6\,\mathcal{N}(0, 8.4)$, $p(x_2) = 0.4\,\mathcal{N}(2, 1) + 0.6\,\mathcal{N}(0, 1.7)$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>혼합 가중치0.4,0.6을 분산으로 곱한 단일가우시안으로 바꾸지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(x_1)=0.4\int p_1(x)dx_2+0.6\int p_2(x)dx_2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>혼합 가중치0.4,0.6을 분산으로 곱한 단일가우시안으로 바꾸지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>혼합분포(mixture)의 주변화는 적분의 선형성으로 각 성분을 주변화한 뒤 같은 가중치로 섞어요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$p(x_1)=0.4\int p_1(x)dx_2+0.6\int p_2(x)dx_2$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요.</p>
+</div></div>

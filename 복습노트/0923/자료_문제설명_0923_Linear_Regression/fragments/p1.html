@@ -1,0 +1,17 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>기울기 하나짜리 직선 맞추기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>원점을 지나는 선형회귀는 기울기 θ 하나를 구해요. 고정 양의 잡음 분산의 가우시안 likelihood 최대화는 SSE 최소화와 같아요. $\theta=\sum x_ny_n/\sum x_n^2$는 분모가 양수일 때 유일해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\sum x_n^2=1+4+16$이에요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>같은 벡터끼리 내적해요. $\mathbf{X}^\top\mathbf{X} = 1^2 + 2^2 + 4^2 = 1 + 4 + 16$이므로 $\mathbf{X}^\top\mathbf{X} = 21$예요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>입력과 출력을 짝지어 곱해 더해요. $1 \cdot 2 + 2 \cdot 5 + 4 \cdot 7 = 2 + 10 + 28$이므로 $\mathbf{X}^\top\mathbf{y} = 40$예요.</p>
+</div><div data-subpart="c"><h4>(c)</h4><p>$1 \times 1$ 행렬의 역행렬은 역수예요. $\mathbf{X}^\top\mathbf{y}$를 $\mathbf{X}^\top\mathbf{X}$로 나눠서 $\theta_{\text{ML}} = \frac{40}{21}$이에요. $40$과 $21$은 서로소라 더 약분되지 않아요.</p>
+<p>확인: 제곱오차 $\sum_n (y_n - \theta x_n)^2$은 $\theta = \frac{40}{21}$에서 $\frac{38}{21}$이고, $\theta$를 조금 바꾸면 커져요.</p>
+<p>수업과의 연결: 0923 수업의 결론 "선형회귀의 답은 유사역행렬 $(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$"를 $D = 1$에 그대로 넣어 본 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>내적은21로 양수라 역수가 존재해요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>대응 입력·출력을 곱한 합은2+10+28=40이에요.</p>
+</div><div data-subpart="c"><h4>(c) 검산</h4><p>별도 전개한 $SSE=21\theta^2-80\theta+78$은 θ=40/21에서 미분0, 이계미분42>0이에요. 최소 SSE는38/21이에요.</p>
+</div><p>정답: (a) $\mathbf{X}^\top\mathbf{X} = 21$, (b) $\mathbf{X}^\top\mathbf{y} = 40$, (c) $\theta_{\text{ML}} = \frac{40}{21}$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>이 모델에는 상수항이 없어요. 입력 앞에1을 새로 붙이지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\sum x_n^2=1+4+16$이에요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>이 모델에는 상수항이 없어요. 입력 앞에1을 새로 붙이지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>원점을 지나는 선형회귀는 기울기 θ 하나를 구해요. $\theta=\sum x_ny_n/\sum x_n^2$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\sum x_n^2=1+4+16$이에요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>내적은21로 양수라 역수가 존재해요. 대응 입력·출력을 곱한 합은2+10+28=40이에요. 별도 전개한 $SSE=21\theta^2-80\theta+78$은 θ=40/21에서 미분0, 이계미분42>0이에요. 최소 SSE는38/21이에요.</p>
+</div></div>

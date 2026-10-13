@@ -1,0 +1,15 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>3차 다항식을 특징 벡터로 쓰기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>특징 맵(feature map)은 x를 거듭제곱 목록으로 바꿔요. $\phi=[1,x,x^2,x^3]^\top$의 길이는4이고 계수에 대해서는 여전히 선형이에요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$\phi(2)=[1,2,4,8]^\top$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$2^0, 2^1, 2^2, 2^3$을 차례로 쌓아요. $\boldsymbol{\phi}(2) = [1, 2, 4, 8]^\top$이에요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>내적해요. $f(2) = 1 \cdot 1 + (-2) \cdot 2 + 0 \cdot 4 + 1 \cdot 8 = 1 - 4 + 0 + 8$이므로 $f(2) = 5$예요.</p>
+<p>$f$는 $x$에 대해서는 3차 곡선이지만 $\boldsymbol{\theta}$에 대해서는 일차식이에요. 그래서 여전히 선형회귀예요.</p>
+<p>수업과의 연결: 0923 수업에서 별표 치라고 한 "$x$에 대해 비선형이어도 $\boldsymbol\theta$에 대해 선형(linear in $\boldsymbol\theta$)이면 선형회귀"를 숫자로 확인한 거예요.</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>0제곱부터3제곱까지라4성분이에요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>직접 다항식 $1-2x+x^3$에2를 대입하면1−4+8=5예요.</p>
+</div><p>정답: $\boldsymbol{\phi}(2) = [1, 2, 4, 8]^\top$, $f(2) = 5$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>3차의 계수는 상수항까지4개예요. K=3으로 쓰지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\phi(2)=[1,2,4,8]^\top$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>3차의 계수는 상수항까지4개예요. K=3으로 쓰지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>특징 맵(feature map)은 x를 거듭제곱 목록으로 바꿔요. $\phi=[1,x,x^2,x^3]^\top$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$\phi(2)=[1,2,4,8]^\top$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>0제곱부터3제곱까지라4성분이에요. 직접 다항식 $1-2x+x^3$에2를 대입하면1−4+8=5예요.</p>
+</div></div>

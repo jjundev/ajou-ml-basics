@@ -1,0 +1,20 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 혼합의 평균를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\sum_k\pi_k\mu_k$에서 π는 선택확률, μ는 각 성분평균이에요. 공분산까지 이 공식을 그대로 쓰면 안 돼요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$E[x]=0.4[10,2]^\top+0.6[0,0]^\top$예요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>평균의 정의에 혼합식을 넣고, 적분의 선형성으로 나눠요.
+    $$E[\mathbf{x}] = \int \mathbf{x}\,p(\mathbf{x})\,d\mathbf{x} = 0.4\int \mathbf{x}\,\mathcal{N}_1(\mathbf{x})\,d\mathbf{x} + 0.6\int \mathbf{x}\,\mathcal{N}_2(\mathbf{x})\,d\mathbf{x}$$</p>
+<p>각 적분은 성분 가우시안의 평균 벡터예요. 그래서
+    $$E[\mathbf{x}] = 0.4\left[\begin{matrix}10 \\ 2\end{matrix}\right] + 0.6\left[\begin{matrix}0 \\ 0\end{matrix}\right]$$</p>
+<div data-subpart="a"><h4>(a)</h4><p>랜덤 벡터의 평균은 성분마다 평균이에요. 성분별로 계산하면
+    $$E[x_1] = 0.4 \cdot 10 + 0.6 \cdot 0 = 4$$
+    $$E[x_2] = 0.4 \cdot 2 + 0.6 \cdot 0 = 0.8$$</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>두 값을 세로로 모으면 평균 벡터예요.
+    $$E[\mathbf{x}] = [4, 0.8]^\top$$</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>
+</div><p>정답: (a) $E[x_1] = 4$, $E[x_2] = 0.8$ (b) $E[\mathbf{x}] = [4, 0.8]^\top$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$E[x]=0.4[10,2]^\top+0.6[0,0]^\top$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\sum_k\pi_k\mu_k$</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$E[x]=0.4[10,2]^\top+0.6[0,0]^\top$예요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>
+</div></div>

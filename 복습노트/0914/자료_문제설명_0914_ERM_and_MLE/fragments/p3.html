@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>λ에 따라 달라지는 정규화 최소제곱의 선택를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
+</div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>정규화(regularization)는 적합 오차와 계수 크기를 함께 재요. $J=N^{-1}\|y-X\theta\|^2+\lambda\|\theta\|^2$에서 λ는 벌점의 세기예요. 이 문제는 바이어스까지 벌점에 포함해요.</p>
+</div><div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.</p>
+</div><div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>$\boldsymbol{\theta}_A$의 추정치는 $[1, 3, 5]^\top$이라 $\mathbf{y}$와 똑같아요. 그래서 $\frac{1}{3}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}_A\|^2 = 0$이에요.</p>
+<p>$\boldsymbol{\theta}_B$의 추정치는 $[1, 2, 3]^\top$이고 잔차는 $[0, 1, 2]^\top$이에요. 그래서 $\frac{1}{3}(0 + 1 + 4) = \frac{5}{3}$이에요.</p>
+<p>파라미터 크기: $\|\boldsymbol{\theta}_A\|^2 = 1 + 4 = 5$, $\|\boldsymbol{\theta}_B\|^2 = 1 + 1 = 2$</p>
+<div data-subpart="a"><h4>(a)</h4><p>$\lambda = 0$: $J_A = 0$, $J_B = \frac{5}{3}$이라 $\boldsymbol{\theta}_A$를 골라요.</p>
+</div><div data-subpart="b"><h4>(b)</h4><p>$\lambda = 1$: $J_A = 0 + 5 = 5$, $J_B = \frac{5}{3} + 2 = \frac{11}{3}$이라 $\boldsymbol{\theta}_B$를 골라요.</p>
+<p>학습 데이터에 딱 맞는 $\boldsymbol{\theta}_A$도 크기가 크면 $\lambda \|\boldsymbol{\theta}\|^2$ 벌점을 받아 밀려나요.</p>
+<p>수업과의 연결: 교수님이 $\lambda = 0$이면 "딱 과적합되기 좋지"라고 하고, $\lambda = 1$처럼 양수를 주면 원점에서의 거리까지 따져 균형을 잡는다고 한 장면이에요 (0914 48:44–49:53).</p>
+</div></div><div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>λ=0을 대입하면 0<5/3이므로 A예요.</p>
+</div><div data-subpart="b"><h4>(b) 검산</h4><p>λ=1에서는 11/3<5예요. 교차점은 λ=5/9이므로 1에서 B를 고르는 것이 일관돼요.</p>
+</div><p>정답: (a) $\lambda = 0$이면 $J_A = 0$, $J_B = \frac{5}{3}$ 이라 $\boldsymbol{\theta}_A$ (b) $\lambda = 1$이면 $J_A = 5$, $J_B = \frac{11}{3}$ 이라 $\boldsymbol{\theta}_B$</p>
+</div><div class="layer warn" data-explanation="pitfall"><h4>여기서 주의해요</h4><p>평균 손실의 1/N을 벌점에도 임의로 곱하지 않아요.</p>
+</div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>평균 손실의 1/N을 벌점에도 임의로 곱하지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>정규화(regularization)는 적합 오차와 계수 크기를 함께 재요. $J=N^{-1}\|y-X\theta\|^2+\lambda\|\theta\|^2$에서 λ는 벌점의 세기예요.</p>
+</div><div class="summary-group"><h4>첫 줄</h4><p>$J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.</p>
+</div><div class="summary-group"><h4>검산</h4><p>λ=0을 대입하면 0<5/3이므로 A예요. λ=1에서는 11/3<5예요. 교차점은 λ=5/9이므로 1에서 B를 고르는 것이 일관돼요.</p>
+</div></div>

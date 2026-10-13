@@ -1,0 +1,175 @@
+{
+  "profile": "review",
+  "range": "0914",
+  "slug": "ERM_and_MLE",
+  "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/0914/복습문제_0914_ERM_and_MLE.html",
+  "sha256": "f865e2df5e4000a2a80d9dc57eaed03048738a9a16764ab08c878880af0d993f",
+  "problems": [
+    {
+      "id": "p1",
+      "number": 1,
+      "title": "P1. 1을 붙여 어파인 예측기 계산하기",
+      "source": "MML Example 8.1",
+      "original_html": "\"concatenating an additional unit feature $x^{(0)} = 1$ to $\\mathbf{x}_n$ ... allowing us to write the predictor as a linear function\" — Example 8.1",
+      "conditions_html": "<p>특징이 $D = 2$개인 예제 하나가 있어요. 특징 값은 $x_n^{(1)} = 2$, $x_n^{(2)} = -1$이에요. 교과서처럼 맨 앞에 단위 특징 $x^{(0)} = 1$을 붙여서 예측기를 $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\boldsymbol{\\theta}^\\top \\mathbf{x}_n$으로 써요. 파라미터는 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2]^\\top = [\\tfrac{1}{2}, 3, 2]^\\top$이에요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 1을 붙인 벡터 $\\mathbf{x}_n$을 써 보세요. 길이는 몇인가요?</li>\n            <li>(b) 예측값 $f(\\mathbf{x}_n, \\boldsymbol{\\theta})$를 구해 보세요.</li>\n          </ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "맨 앞에 1을 붙이면 $\\mathbf{x}_n = [1, x_n^{(1)}, x_n^{(2)}]^\\top = [1, 2, -1]^\\top$이에요.",
+        "길이는 $D + 1 = 3$이에요. 그래서 예측기는 $f : \\mathbb{R}^{D+1} \\to \\mathbb{R}$인 함수가 돼요.",
+        "내적을 계산해요: $\\boldsymbol{\\theta}^\\top \\mathbf{x}_n = \\tfrac{1}{2} \\cdot 1 + 3 \\cdot 2 + 2 \\cdot (-1)$",
+        "$= \\tfrac{1}{2} + 6 - 2 = \\frac{9}{2}$",
+        "어파인 꼴로 확인해요: $\\theta_0 + \\theta_1 x_n^{(1)} + \\theta_2 x_n^{(2)} = \\tfrac{1}{2} + 6 - 2$로 같아요.",
+        "수업과의 연결: 교수님이 \"가장 중요한 수식\"이라고 한 바이어스 흡수예요. $b = \\theta_0 \\cdot 1$로 보고 1을 붙이면 어파인 함수가 내적 하나가 돼요 (0914 26:00)."
+      ],
+      "reference_answer": "정답: (a) $\\mathbf{x}_n = [1, 2, -1]^\\top$, 길이 $D + 1 = 3$ (b) $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\frac{9}{2}$",
+      "subparts": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "p2",
+      "number": 2,
+      "title": "P2. 두 파라미터의 제곱 손실 평균 비교하기",
+      "source": "MML Example 8.2",
+      "original_html": "\"we specify that we measure the cost of making an error during training using the squared loss\" — Example 8.2",
+      "conditions_html": "<p>학습 데이터가 세 개 있어요: $(x, y) = (0, 1), (1, 4), (2, 4)$. 각 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 쓰고, 예측기는 $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\boldsymbol{\\theta}^\\top \\mathbf{x}_n$이에요. 제곱 손실의 평균은 행렬로 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$이에요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 데이터 행렬 $\\mathbf{X}$와 라벨 벡터 $\\mathbf{y}$를 써 보세요.</li>\n            <li>(b) $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, \\tfrac{3}{2}]^\\top$ 각각에 대해 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$를 구해 보세요.</li>\n            <li>(c) 둘 중 어느 쪽의 평균 손실이 더 작나요?</li>\n          </ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "$\\mathbf{X} = [\\mathbf{x}_1, \\mathbf{x}_2, \\mathbf{x}_3]^\\top \\in \\mathbb{R}^{3 \\times 2}$이고, 행은 차례로 $[1, 0]$, $[1, 1]$, $[1, 2]$예요. $\\mathbf{y} = [1, 4, 4]^\\top$이에요.",
+        "$\\boldsymbol{\\theta}_A$: $\\hat{\\mathbf{y}} = \\mathbf{X}\\boldsymbol{\\theta}_A = [1, 3, 5]^\\top$",
+        "$\\mathbf{y} - \\hat{\\mathbf{y}} = [0, 1, -1]^\\top$, 제곱합은 $0 + 1 + 1 = 2$",
+        "$\\frac{1}{3}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}_A\\|^2 = \\frac{2}{3}$",
+        "$\\boldsymbol{\\theta}_B$: $\\hat{\\mathbf{y}} = \\mathbf{X}\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, 3, \\tfrac{9}{2}]^\\top$",
+        "$\\mathbf{y} - \\hat{\\mathbf{y}} = [-\\tfrac{1}{2}, 1, -\\tfrac{1}{2}]^\\top$, 제곱합은 $\\tfrac{1}{4} + 1 + \\tfrac{1}{4} = \\tfrac{3}{2}$",
+        "$\\frac{1}{3}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}_B\\|^2 = \\frac{1}{2}$",
+        "$\\frac{1}{2} \\lt \\frac{2}{3}$이니까 $\\boldsymbol{\\theta}_B$가 이 데이터에 더 잘 맞아요.",
+        "수업과의 연결: 칠판에서 $\\frac{1}{N}\\sum_n (y_n - \\boldsymbol{\\theta}^\\top \\mathbf{x}_n)^2$을 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$ 한 줄로 바꾼 \"김밥 재료 손질\"을 숫자로 해 본 거예요. 교수님이 \"산수니까 해 보세요\"라고 남긴 부분이에요 (0914 37:24)."
+      ],
+      "reference_answer": "정답: $\\boldsymbol{\\theta}_A$는 $\\frac{2}{3}$, $\\boldsymbol{\\theta}_B$는 $\\frac{1}{2}$이에요. $\\boldsymbol{\\theta}_B$가 더 작아요.",
+      "subparts": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "id": "p3",
+      "number": 3,
+      "title": "P3. λ에 따라 달라지는 정규화 최소제곱의 선택",
+      "source": "MML Example 8.3",
+      "original_html": "\"The regularization parameter trades off minimizing the loss on the training set and the magnitude of the parameters\" — Example 8.3",
+      "conditions_html": "<p>학습 데이터가 $(x, y) = (0, 1), (1, 3), (2, 5)$예요. 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 쓰고, 예측기는 $\\boldsymbol{\\theta}^\\top \\mathbf{x}_n$이에요. 정규화된 문제의 목적함수는 다음과 같아요.</p>\n          $$J(\\boldsymbol{\\theta}) = \\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2 + \\lambda \\|\\boldsymbol{\\theta}\\|^2$$\n          <p>후보는 $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [1, 1]^\\top$ 두 개예요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) $\\lambda = 0$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>\n            <li>(b) $\\lambda = 1$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>\n          </ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "$\\boldsymbol{\\theta}_A$의 추정치는 $[1, 3, 5]^\\top$이라 $\\mathbf{y}$와 똑같아요. 그래서 $\\frac{1}{3}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}_A\\|^2 = 0$이에요.",
+        "$\\boldsymbol{\\theta}_B$의 추정치는 $[1, 2, 3]^\\top$이고 잔차는 $[0, 1, 2]^\\top$이에요. 그래서 $\\frac{1}{3}(0 + 1 + 4) = \\frac{5}{3}$이에요.",
+        "파라미터 크기: $\\|\\boldsymbol{\\theta}_A\\|^2 = 1 + 4 = 5$, $\\|\\boldsymbol{\\theta}_B\\|^2 = 1 + 1 = 2$",
+        "(a) $\\lambda = 0$: $J_A = 0$, $J_B = \\frac{5}{3}$이라 $\\boldsymbol{\\theta}_A$를 골라요.",
+        "(b) $\\lambda = 1$: $J_A = 0 + 5 = 5$, $J_B = \\frac{5}{3} + 2 = \\frac{11}{3}$이라 $\\boldsymbol{\\theta}_B$를 골라요.",
+        "학습 데이터에 딱 맞는 $\\boldsymbol{\\theta}_A$도 크기가 크면 $\\lambda \\|\\boldsymbol{\\theta}\\|^2$ 벌점을 받아 밀려나요.",
+        "수업과의 연결: 교수님이 $\\lambda = 0$이면 \"딱 과적합되기 좋지\"라고 하고, $\\lambda = 1$처럼 양수를 주면 원점에서의 거리까지 따져 균형을 잡는다고 한 장면이에요 (0914 48:44–49:53)."
+      ],
+      "reference_answer": "정답: (a) $\\lambda = 0$이면 $J_A = 0$, $J_B = \\frac{5}{3}$ 이라 $\\boldsymbol{\\theta}_A$ (b) $\\lambda = 1$이면 $J_A = 5$, $J_B = \\frac{11}{3}$ 이라 $\\boldsymbol{\\theta}_B$",
+      "subparts": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "p4",
+      "number": 4,
+      "title": "P4. 가우시안 우도의 평균과 분산 읽기",
+      "source": "MML Example 8.4",
+      "original_html": "\"we assume that we can explain our observation uncertainty by independent Gaussian noise ... with zero mean\" — Example 8.4",
+      "conditions_html": "<p>라벨에 평균 0인 가우시안 노이즈 $\\varepsilon_n \\sim \\mathcal{N}(0, \\sigma^2)$가 더해지고, 예측에는 선형 모델 $\\mathbf{x}_n^\\top \\boldsymbol{\\theta}$를 쓴다고 가정해요. 그러면 예제 하나의 우도는 $p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta}) = \\mathcal{N}(y_n \\mid \\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$예요. 이제 $\\mathbf{x}_n = [1, 2]^\\top$, $\\boldsymbol{\\theta} = [1, 2]^\\top$, $\\sigma^2 = 1$이라고 해요. </p>",
+      "ask_html": "$y_n$의 조건부 분포의 평균과 분산을 구해 보세요.",
+      "figures_html": [],
+      "reference_steps": [
+        "평균: $\\mathbf{x}_n^\\top \\boldsymbol{\\theta} = 1 \\cdot 1 + 2 \\cdot 2 = 5$",
+        "분산: 노이즈 분산이 그대로 남아서 $\\sigma^2 = 1$이에요.",
+        "그래서 $y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta} \\sim \\mathcal{N}(5, 1)$이에요.",
+        "수업과의 연결: 칠판에서 $y_n = \\mathbf{x}_n^\\top \\boldsymbol{\\theta} + w$로 suppose하고, 상수를 더하면 평균만 옮겨지고 분산은 그대로라서 $\\mathcal{N}(\\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$가 된다고 한 부분이에요 (0914 65:40–69:39)."
+      ],
+      "reference_answer": "정답: 조건부 분포의 평균 $5$, 분산 $1$",
+      "subparts": [
+        "main"
+      ]
+    },
+    {
+      "id": "p5",
+      "number": 5,
+      "title": "P5. 음의 로그우도와 최소제곱의 순서 비교하기",
+      "source": "MML Example 8.5",
+      "original_html": "\"As $\\sigma$ is given, the second term in (8.18d) is constant, and minimizing $\\mathcal{L}(\\boldsymbol{\\theta})$ corresponds to solving the least-squares problem\" — Example 8.5",
+      "conditions_html": "<p>데이터는 $(x, y) = (0, 1), (1, 4), (2, 4)$이고, 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 써요. 각 라벨은 $p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta}) = \\mathcal{N}(y_n \\mid \\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$를 따르고 $\\sigma^2 = 1$이에요. 예제들은 i.i.d.라고 가정해요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 음의 로그우도 $\\mathcal{L}(\\boldsymbol{\\theta}) = -\\sum_{n=1}^{N} \\log p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta})$를 제곱합 항과 상수항으로 나눠 써 보세요.</li>\n            <li>(b) $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, \\tfrac{3}{2}]^\\top$의 $\\mathcal{L}$을 자연로그로 소수 셋째 자리까지 구해 보세요.</li>\n            <li>(c) 어느 쪽의 $\\mathcal{L}$이 더 작나요? 제곱 손실 합으로 비교한 순서와 같은가요?</li>\n          </ol>",
+      "figures_html": [],
+      "reference_steps": [
+        "$\\mathcal{L}(\\boldsymbol{\\theta}) = -\\sum_{n=1}^{N} \\log \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp\\!\\left(-\\frac{(y_n - \\mathbf{x}_n^\\top \\boldsymbol{\\theta})^2}{2\\sigma^2}\\right)$",
+        "$= \\frac{1}{2\\sigma^2}\\sum_{n=1}^{N} (y_n - \\mathbf{x}_n^\\top \\boldsymbol{\\theta})^2 + \\frac{N}{2}\\log(2\\pi\\sigma^2)$",
+        "상수항: $N = 3$, $\\sigma^2 = 1$이면 $\\frac{3}{2}\\log(2\\pi) \\approx 2.757$이에요. $\\boldsymbol{\\theta}$와 상관없어요.",
+        "$\\boldsymbol{\\theta}_A$: 추정치 $[1, 3, 5]^\\top$, 잔차 $[0, 1, -1]^\\top$, 제곱합 $2$라서 첫 항은 $\\frac{2}{2} = 1$이에요.",
+        "$\\mathcal{L}(\\boldsymbol{\\theta}_A) = 1 + \\frac{3}{2}\\log(2\\pi) \\approx 3.757$",
+        "$\\boldsymbol{\\theta}_B$: 추정치 $[\\tfrac{3}{2}, 3, \\tfrac{9}{2}]^\\top$, 잔차 $[-\\tfrac{1}{2}, 1, -\\tfrac{1}{2}]^\\top$, 제곱합 $\\tfrac{3}{2}$라서 첫 항은 $\\frac{3}{4}$이에요.",
+        "$\\mathcal{L}(\\boldsymbol{\\theta}_B) = \\frac{3}{4} + \\frac{3}{2}\\log(2\\pi) \\approx 3.507$",
+        "$\\boldsymbol{\\theta}_B$가 더 작아요. 상수항이 같으니 순서는 제곱합($2$ 대 $\\tfrac{3}{2}$)이 정하고, 제곱 손실로 비교한 순서와 같아요.",
+        "수업과의 연결: 칠판에서 $\\frac{N}{2}\\log(2\\pi\\sigma^2)$ 같은 상수항은 \"무시하고\" 넘어가고, 음의 로그우도 최소화가 최소제곱과 같은 해를 준다고 결론 낸 부분이에요 (0914 69:54–71:15)."
+      ],
+      "reference_answer": "정답: $\\mathcal{L}(\\boldsymbol{\\theta}_A) = 1 + \\frac{3}{2}\\log(2\\pi) \\approx 3.757$, $\\mathcal{L}(\\boldsymbol{\\theta}_B) = \\frac{3}{4} + \\frac{3}{2}\\log(2\\pi) \\approx 3.507$이라 $\\boldsymbol{\\theta}_B$가 더 작고, 최소제곱으로 비교한 순서와 같아요.",
+      "subparts": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "id": "p6",
+      "number": 6,
+      "title": "P6. 두 벡터 사이의 유클리드 거리",
+      "source": "MML Exercise 3.3",
+      "original_html": "\"Compute the distance between $\\mathbf{x}$ ... $\\mathbf{y}$ ... using a. $\\langle \\mathbf{x}, \\mathbf{y} \\rangle := \\mathbf{x}^\\top \\mathbf{y}$\" — Exercise 3.3",
+      "conditions_html": "<p>두 벡터 $\\mathbf{x} = [1, 2, 3]^\\top$, $\\mathbf{y} = [-1, -1, 0]^\\top$이 있어요. </p>",
+      "ask_html": "내적을 $\\langle \\mathbf{x}, \\mathbf{y} \\rangle := \\mathbf{x}^\\top \\mathbf{y}$로 둘 때, 두 벡터 사이의 거리 $d(\\mathbf{x}, \\mathbf{y}) = \\|\\mathbf{x} - \\mathbf{y}\\|$를 구해 보세요.",
+      "figures_html": [],
+      "reference_steps": [
+        "차이 벡터: $\\mathbf{x} - \\mathbf{y} = [1 - (-1), 2 - (-1), 3 - 0]^\\top = [2, 3, 3]^\\top$",
+        "자기 내적: $(\\mathbf{x} - \\mathbf{y})^\\top(\\mathbf{x} - \\mathbf{y}) = 4 + 9 + 9 = 22$",
+        "$d(\\mathbf{x}, \\mathbf{y}) = \\sqrt{22} \\approx 4.690$",
+        "수업과의 연결: 교수님이 2-노름 $\\|\\boldsymbol{\\theta}\\|_2$를 \"원점에서의 거리\"라고 설명했어요. 여기서는 원점 대신 $\\mathbf{y}$에서 잰 거리예요 (0914 49:56)."
+      ],
+      "reference_answer": "정답: $d(\\mathbf{x}, \\mathbf{y}) = \\sqrt{22} \\approx 4.690$",
+      "subparts": [
+        "main"
+      ]
+    },
+    {
+      "id": "p7",
+      "number": 7,
+      "title": "P7. 삼차함수의 정상점과 종류",
+      "source": "MML Exercise 7.1",
+      "original_html": "\"Find its stationary points and indicate whether they are maximum, minimum, or saddle points.\" — Exercise 7.1",
+      "conditions_html": "<p>일변수 함수 $f(x) = x^3 + 6x^2 - 3x - 5$가 있어요. </p>",
+      "ask_html": "정상점(stationary point)을 모두 찾고, 각각 극대인지 극소인지 안장점인지 판정해 보세요.",
+      "figures_html": [],
+      "reference_steps": [
+        "$f'(x) = 3x^2 + 12x - 3$",
+        "$f'(x) = 0 \\Rightarrow x^2 + 4x - 1 = 0 \\Rightarrow x = -2 \\pm \\sqrt{5}$",
+        "정상점은 $x = -2 + \\sqrt{5} \\approx 0.236$과 $x = -2 - \\sqrt{5} \\approx -4.236$ 두 개예요.",
+        "$f''(x) = 6x + 12$",
+        "$x = -2 + \\sqrt{5}$: $f'' = 6\\sqrt{5} \\gt 0$이라 극소예요.",
+        "$x = -2 - \\sqrt{5}$: $f'' = -6\\sqrt{5} \\lt 0$이라 극대예요.",
+        "함숫값: $x^2 = 1 - 4x$를 쓰면 $f(x) = -10x - 3$으로 줄어요.",
+        "그래서 $f(-2 + \\sqrt{5}) = 17 - 10\\sqrt{5} \\approx -5.36$, $f(-2 - \\sqrt{5}) = 17 + 10\\sqrt{5} \\approx 39.36$이에요.",
+        "수업과의 연결: 교수님은 $\\boldsymbol{\\theta}$를 하나씩 바꿔 보는 무식한 방법 대신 least squares 알고리즘과 pseudo-inverse 같은 체계적인 방법이 있다고 했어요. 그런 방법이 찾는 것도 이 문제처럼 목적함수가 가장 작아지는 점이에요 (0914 40:04–41:07)."
+      ],
+      "reference_answer": "정답: $x = -2 + \\sqrt{5}$에서 극소($f = 17 - 10\\sqrt{5} \\approx -5.36$), $x = -2 - \\sqrt{5}$에서 극대($f = 17 + 10\\sqrt{5} \\approx 39.36$)예요. 안장점은 없어요.",
+      "subparts": [
+        "main"
+      ]
+    }
+  ]
+}

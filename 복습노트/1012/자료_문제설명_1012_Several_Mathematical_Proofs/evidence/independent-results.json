@@ -1,0 +1,50 @@
+{
+  "p1:a": {
+    "method": "exact",
+    "conclusion": "determinants6,0; g=2b in zero-area case"
+  },
+  "p1:b": {
+    "method": "exact",
+    "conclusion": "determinants6,0; g=2b in zero-area case"
+  },
+  "p2:a": {
+    "method": "exact",
+    "conclusion": "det36, inverse correct via both identity products"
+  },
+  "p2:b": {
+    "method": "exact",
+    "conclusion": "det36, inverse correct via both identity products"
+  },
+  "p3:main": {
+    "method": "proof",
+    "conclusion": "Invertible linear map inverse Jacobian A^-1 and absolute determinant1/|detA|. Quadratic yᵀA^-ᵀA^-1y=(A^-1y)ᵀ(A^-1y); forward substitution normalizes to1; covarianceAAᵀ."
+  },
+  "p4:main": {
+    "method": "exact",
+    "conclusion": "Jacobian1/6, covariance diag(9,4), normalizer and origin1/(12pi)"
+  },
+  "p5:a": {
+    "method": "exact",
+    "conclusion": "inverse/Jacobian1/2 and quadratic entries checked; density1/(4pi)"
+  },
+  "p5:b": {
+    "method": "exact",
+    "conclusion": "inverse/Jacobian1/2 and quadratic entries checked; density1/(4pi)"
+  },
+  "p5:c": {
+    "method": "exact",
+    "conclusion": "inverse/Jacobian1/2 and quadratic entries checked; density1/(4pi)"
+  },
+  "p6:main": {
+    "method": "proof",
+    "conclusion": "Cov(x,y)_ij=sum_k Sigma_ik A_jk= (Sigma Aᵀ)_ij. Independence removes noise cross term, translation removesb; transpose gives A Sigma. Q diagonal not needed."
+  },
+  "p7:main": {
+    "method": "proof",
+    "conclusion": "General block multiplication B diag(Sigma,Q)Bᵀ for B=[[I,0],[A,I]] yields Sigma,SigmaAᵀ,A Sigma,A SigmaAᵀ+Q. Stacked mean[mu,A mu+b]. Joint Gaussian from independent Gaussian affine map."
+  },
+  "p8:main": {
+    "method": "proof",
+    "conclusion": "Apply prediction then same block map with C: mean[A mu_t,CA mu_t], blocksP,PCᵀ,CP,CPCᵀ+R whereP=A Sigma_tAᵀ+Q; fresh-noise conditional independence."
+  }
+}
