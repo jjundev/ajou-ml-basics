@@ -21,9 +21,13 @@ def test_homework_preserves_all_cards_and_subparts():
     assert all(p.original_html and p.reference_answer for p in pack.problems)
     assert HW.read_bytes() == before
 
-def test_latest_and_explicit_homework():
-    resolved = resolve_sources(ROOT, None)
-    assert len(resolved) == 1 and resolved[0].samefile(REVIEW)
+def test_latest_and_explicit_homework(tmp_path):
+    for date in ('1007', '1012'):
+        path = tmp_path / '복습노트' / date / f'복습문제_{date}_Fixture.html'
+        path.parent.mkdir(parents=True)
+        path.touch()
+    resolved = resolve_sources(tmp_path, None)
+    assert len(resolved) == 1 and resolved[0].name == '복습문제_1012_Fixture.html'
     resolved = resolve_sources(ROOT, '과제1')
     assert len(resolved) == 1 and resolved[0].samefile(HW)
     resolved = resolve_sources(ROOT, str(REVIEW))

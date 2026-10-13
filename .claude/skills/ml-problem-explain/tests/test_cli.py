@@ -97,3 +97,40 @@ def test_check_refuses_fragments_changed_after_build(tmp_path):
     assert result.returncode == 1
     machine = json.loads((item['folder'] / 'machine.json').read_text(encoding='utf-8'))
     assert machine['status'] == 'fail'
+
+
+def test_cli_explicit_review_path_ignores_newer_and_other_slug(tmp_path):
+    import shutil
+    repo = tmp_path / 'repo'
+    original = ROOT / '복습노트/0909/복습문제_0909_Data_Models_Learning.html'
+    source = repo / original.relative_to(ROOT)
+    source.parent.mkdir(parents=True)
+    shutil.copy2(original, source)
+    layout = Path('workbook/layouts/0909_Data_Models_Learning.json')
+    (repo / layout).parent.mkdir(parents=True)
+    shutil.copy2(ROOT / layout, repo / layout)
+    for date, slug in [('0909', 'Other'), ('1012', 'Latest')]:
+        other = repo / '복습노트' / date / f'복습문제_{date}_{slug}.html'
+        other.parent.mkdir(parents=True, exist_ok=True)
+        other.write_bytes(original.read_bytes())
+    before = source.read_bytes()
+    old = source.parent / '문제설명_0909_Data_Models_Learning.html'
+    old.write_bytes(b'previous explanation')
+    run = tmp_path / 'run'
+    result = call('extract', '--repo', repo, '--target', source, '--run', run)
+    assert result.returncode == 0, result.stderr
+    item, = load_run(run)
+    expected = load_source(source, repo)
+    assert item['pack'] == expected
+    value = json.loads((item['folder'] / 'source.json').read_text())
+    assert value['path'] == str(source) and value['sha256'] == expected.sha256
+    assert [p['id'] for p in value['problems']] == [p.id for p in expected.problems]
+    for p in expected.problems:
+        (item['folder'] / 'explanations' / f'{p.id}.html').write_text(fragment(p))
+    for command in ('build', 'check'):
+        result = call(command, '--run', run)
+        assert result.returncode == 0, result.stderr
+    result = call('publish', '--run', run)
+    assert result.returncode == 1 and '보류' in result.stderr
+    assert source.read_bytes() == before
+    assert old.read_bytes() == b'previous explanation'

@@ -39,6 +39,18 @@ class TestSkillFiles(unittest.TestCase):
             with self.subTest(ref=path.name):
                 self.assertIn(f"references/{path.name}", self.text)
 
+    def test_problem_explain_handoff(self):
+        ref = SKILL / 'references/problem-explain.md'
+        self.assertTrue(ref.is_file(), 'full explanation handoff is missing')
+        self.assertIn('references/problem-explain.md', self.text)
+        text = ref.read_text(encoding='utf-8')
+        for term in ('ABS_REVIEW', 'extract', '저작', '독립', 'source_visual', 'content', 'independent', 'browser', 'lite', 'publish', '보류'):
+            self.assertIn(term, text)
+        sections = re.split(r'\n### \d+\. ', self.text)
+        self.assertIn('mpe_cli.py', sections[1])
+        self.assertIn('references/problem-explain.md', sections[9])
+        self.assertIn('문제설명 보류', sections[10])
+
     def test_steps_present(self):
         for n in range(10):
             with self.subTest(step=n):

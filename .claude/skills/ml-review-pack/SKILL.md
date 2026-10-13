@@ -8,10 +8,10 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 수업 녹음 전사(STT)와 강의자료, MML 교과서로 한 기간의 복습팩을 만든다. 중간에 사용자에게 묻지 않고 끝에 한 번 보고한다. 커밋은 제안만 한다.
 
 **산출물** (`복습노트/<range>/`, 수업 날짜마다 폴더 하나):
-`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `figures_<range>/`, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
+`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `문제설명_<range>_<slug>.html/.md`와 설명 소유 자료, `figures_<range>/`, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
 
 **인자**: `[MMDD | MMDD-MMDD] [lite]`
-- `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다.
+- `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다. 배포 뒤 문제설명 전체 저작과 네 실제 검토도 생략하지 않는다.
 
 **진행 표시**: 단계마다 한 줄만 쓴다. 예: `3/9 작성 중: 섹션 5개 + 카드 10개 (병렬)`
 
@@ -25,6 +25,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 
 ### 0. 준비
 1. `REPO`에 `STT/`, `강의노트/`, `교과서/Mathematics_for_Machine_Learning.pdf`가 모두 있는지 확인한다. 하나라도 없으면 "머신러닝기초 저장소에서만 동작합니다"라고 알리고 멈춘다.
+   형제 `ml-problem-explain/SKILL.md`와 형제 설명 스킬의 실행기 `mpe_cli.py`도 시작 전에 확인한다. 없으면 경로와 원인을 보고하고 시작하지 않는다.
 2. STT 목록은 NFC로 읽는다. macOS에는 NFD 파일명이 섞여 있다.
    ```bash
    python3 -c "import os,unicodedata as u,re;n=[u.normalize('NFC',f) for f in os.listdir('$REPO/STT')];print(sorted(m.group(1) for f in n if f.endswith('머러기.md') and (m:=re.match(r'(\d{4})',f))))"
@@ -137,6 +138,8 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 두 PDF, HTML 두 개, MD 두 개, 모든 참조 그림이 준비된 후 `publish_files`로 함께 배포한다. 백업은 `RUN/work/backups/`다. 교체 실패 시 기존 파일을 복구한다.
 - KaTeX·폰트·이미지 로드 실패, 넘침, 정답 검증 실패 또는 PDF 둘 중 하나의 실패는 해당 팩 배포 실패다. 이미 있는 파일을 보존하고 원인/문제 id를 보고한다. HTML/MD만으로 완료라고 보고하지 않는다. `lite`도 이 규칙을 생략하지 않는다.
 
+- 기본 팩 배포 성공 직후 [문제설명 공통 절차](references/problem-explain.md)를 최종 복습문제의 정확한 절대 HTML 경로로 실행한다. 신규·기존 팩 갱신·lite 모두 전체 문항·소문항을 처리한다. 설명 실패는 기본 팩을 보존하고 별도로 보고한다.
+
 ### 9. 보고
 다음 형식으로 끝낸다.
 ```
@@ -147,6 +150,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 스킬이 정한 사항: slug, 섹션 구성, 위젯, 뺀 내용과 이유
 - 학습 레퍼런스: 적용 토픽 id / 적용 없음 / 참고 누락과 원인
 - PDF 검증: 논리 문항 수, 모드별 페이지 수, 전체 페이지 시각 검수, validation.json, 템플릿 SHA
+- 문제설명: published/withheld, 전체 문항·소문항 수, 네 실제 검토, HTML/MD 링크, RUN·백업; 실패하면 “복습팩 생성됨 / 문제설명 보류”, 이유. 이전 설명을 현재 입력 검증으로 보고하지 않음
 - 백업: …
 - 미해결: … (없으면 "없음")
 - 커밋 제안: git add 복습노트/<range> && git commit -m "docs(notes): add review pack <range>"
@@ -163,3 +167,4 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 | 같은 range의 팩이 이미 있음 | 4단계 첫 조립 전에 기존 html·md·`figures_<range>/`를 새 폴더 `RUN/previous-<시각>-<임의>/`에 복사하고(다시 조립할 때는 복사하지 않음) 백업 경로를 보고서에 적음. 백업 명령이 실패하면 조립하지 않고 원인을 고친다 |
 | 검사 2회 실패 | 초안 검사를 끝내고 "미해결"로 보고; 검증된 산출물 쌍이 없으면 배포/완료하지 않음 |
 | PDF 생성·검증 실패 | 해당 날짜 배포 보류, 기존 PDF/노트 보존, 날짜·문제 id·실패 원인과 stage/보고 경로를 알림 |
+| 문제설명 검토·발행 실패 | 기본 팩과 이전 설명 보존; “복습팩 생성됨 / 문제설명 보류”, 이유·RUN·백업 보고. 현재 입력 승인으로 표시하지 않음 |
