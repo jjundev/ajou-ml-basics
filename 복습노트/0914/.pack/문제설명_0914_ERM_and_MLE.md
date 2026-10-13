@@ -23,7 +23,7 @@
 
 ### P1. 1을 붙여 어파인 예측기 계산하기
 
-MML Example 8.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p1)
+MML Example 8.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p1)
 
 #### 주어진 조건
 
@@ -110,7 +110,7 @@ $\mathbf x=[1,2,-1]^\top$을 적어요.
 
 ### P2. 두 파라미터의 제곱 손실 평균 비교하기
 
-MML Example 8.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p2)
+MML Example 8.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p2)
 
 #### 주어진 조건
 
@@ -212,7 +212,7 @@ $X=[[1,0],[1,1],[1,2]]$, $\mathbf y=[1,4,4]^\top$을 적어요.
 
 ### P3. λ에 따라 달라지는 정규화 최소제곱의 선택
 
-MML Example 8.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p3)
+MML Example 8.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p3)
 
 #### 주어진 조건
 
@@ -303,7 +303,7 @@ $J_A=0+5\lambda$, $J_B=5/3+2\lambda$를 적어요.
 
 ### P4. 가우시안 우도의 평균과 분산 읽기
 
-MML Example 8.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p4)
+MML Example 8.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p4)
 
 #### 주어진 조건
 
@@ -375,7 +375,7 @@ $E[y]=5+E[\epsilon]=5$, $Var(y)=Var(\epsilon)=1$로 정의에서 확인돼요.
 
 ### P5. 음의 로그우도와 최소제곱의 순서 비교하기
 
-MML Example 8.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p5)
+MML Example 8.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p5)
 
 #### 주어진 조건
 
@@ -477,7 +477,7 @@ $SSE=\sum_n(y_n-x_n^\top\theta)^2$를 먼저 계산해요.
 
 ### P6. 두 벡터 사이의 유클리드 거리
 
-MML Exercise 3.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p6)
+MML Exercise 3.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p6)
 
 #### 주어진 조건
 
@@ -549,7 +549,7 @@ $x-y=[2,3,3]^\top$예요.
 
 ### P7. 삼차함수의 정상점과 종류
 
-MML Exercise 7.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p7)
+MML Exercise 7.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0914_ERM_and_MLE.html#p7)
 
 #### 주어진 조건
 

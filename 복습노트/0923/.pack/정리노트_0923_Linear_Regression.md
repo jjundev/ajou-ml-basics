@@ -1358,9 +1358,9 @@ $[1, \mathbf{x}^\top]^\top$은 특징 벡터 $\boldsymbol{\phi}(\mathbf{x})$의 
 
 - [문제지 PDF](복습문제_0923_Linear_Regression-문제.pdf)
 - [해설지 PDF](복습문제_0923_Linear_Regression-답안.pdf)
-- [지난 시간 정리노트: 0921 Bayesian Inference · Model Selection](../0921/정리노트_0921_Bayesian_Inference_Model_Selection.html)
-- [추가 강의 Lecture 10: Statistical Inference Part 1](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
-- [추가 강의 Lecture 12: Statistical Inference Part 3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
+- [지난 시간 정리노트: 0921 Bayesian Inference · Model Selection](../../0921/정리노트_0921_Bayesian_Inference_Model_Selection.html)
+- [추가 강의 Lecture 10: Statistical Inference Part 1](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
+- [추가 강의 Lecture 12: Statistical Inference Part 3](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 ---
 

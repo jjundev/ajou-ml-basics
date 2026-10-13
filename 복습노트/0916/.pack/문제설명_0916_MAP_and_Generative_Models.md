@@ -22,7 +22,7 @@
 
 ### P1. 가우시안 prior를 더한 MAP 목적함수
 
-MML Example 8.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p1)
+MML Example 8.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p1)
 
 #### 주어진 조건
 
@@ -107,7 +107,7 @@ $-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예
 
 ### P2. Joint 표에서 p(x) 구하기
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p2)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p2)
 
 #### 주어진 조건
 
@@ -187,7 +187,7 @@ $p(x_1)=0.01+0.05+0.10$으로 시작해요.
 
 ### P3. Joint 표에서 p(y) 구하기
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p3)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p3)
 
 #### 주어진 조건
 
@@ -267,7 +267,7 @@ $p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.
 
 ### P4. 조건부 분포 p(x | Y = y1)
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p4)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p4)
 
 #### 주어진 조건
 
@@ -347,7 +347,7 @@ $p(y_1)=26/100$을 먼저 적어요.
 
 ### P5. 조건부 분포 p(y | X = x3)
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p5)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p5)
 
 #### 주어진 조건
 
@@ -427,7 +427,7 @@ $p(x_3)=0.03+0.05+0.03=0.11$예요.
 
 ### P6. 컴파일 성공률의 posterior
 
-MML Exercise 6.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p6)
+MML Exercise 6.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p6)
 
 #### 주어진 조건
 

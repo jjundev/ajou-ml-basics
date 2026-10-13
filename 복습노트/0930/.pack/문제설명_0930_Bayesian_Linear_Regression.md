@@ -24,7 +24,7 @@
 
 ### P1. 종속인데 공분산이 0인 경우
 
-MML Example 6.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p1)
+MML Example 6.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p1)
 
 #### 주어진 조건
 
@@ -108,7 +108,7 @@ $Cov(X,X^2)=E[X^3]-E[X]E[X^2]$예요.
 
 ### P2. 독립인 가우시안의 가중합
 
-MML Example 6.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p2)
+MML Example 6.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p2)
 
 #### 주어진 조건
 
@@ -208,7 +208,7 @@ $E[aX+bY]=a\mu_x+b\mu_y$예요.
 
 ### P3. 시계열 모델에서 한 걸음 앞 예측하기
 
-MML Exercise 6.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p3)
+MML Exercise 6.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p3)
 
 #### 주어진 조건
 
@@ -320,7 +320,7 @@ $x_{t+1}-A\mu_t=A(x_t-\mu_t)+w$예요.
 
 ### P4. 분산은 제곱의 평균 빼기 평균의 제곱
 
-MML Exercise 6.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p4)
+MML Exercise 6.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p4)
 
 #### 주어진 조건
 
@@ -418,7 +418,7 @@ $(x-\mu)^2=x^2-2\mu x+\mu^2$예요.
 
 ### P5. 노이즈가 섞인 선형 변환의 가능도
 
-MML Exercise 6.12 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p5)
+MML Exercise 6.12 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p5)
 
 #### 주어진 조건
 
@@ -512,7 +512,7 @@ x를 고정하면 y−(Ax+b)=w예요. 따라서 평균0, 공분산Q를 평행이
 
 ### P6. 노이즈가 섞인 선형 변환의 평균과 공분산
 
-MML Exercise 6.12 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p6)
+MML Exercise 6.12 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p6)
 
 #### 주어진 조건
 
@@ -614,7 +614,7 @@ $y-E[y]=A(x-\mu_x)+w$예요.
 
 ### P7. 한 번 더 변환해서 측정하기
 
-MML Exercise 6.12 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p7)
+MML Exercise 6.12 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p7)
 
 #### 주어진 조건
 
@@ -727,7 +727,7 @@ y 고정 뒤 v만 변하므로 N(Cy,R)예요. 평균은 Cμy이고 편차 외적
 
 ### P8. 쌍끼리의 차이로 보는 분산
 
-MML Exercise 6.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p8)
+MML Exercise 6.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p8)
 
 #### 주어진 조건
 
