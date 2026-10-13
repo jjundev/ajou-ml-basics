@@ -8,7 +8,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 수업 녹음 전사(STT)와 강의자료, MML 교과서로 한 기간의 복습팩을 만든다. 중간에 사용자에게 묻지 않고 끝에 한 번 보고한다. 커밋은 제안만 한다.
 
 **산출물** (`복습노트/<range>/`, 수업 날짜마다 폴더 하나):
-`정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, 같은 이름의 `.md` 두 개, `문제설명_<range>_<slug>.html/.md`와 설명 소유 자료, `figures_<range>/`, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
+날짜 폴더 바로 아래에는 HTML만 둔다: `정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, `문제설명_<range>_<slug>.html`. 나머지는 모두 `.pack/` 하위 폴더에 둔다: 같은 이름의 `.md` 세 개, `figures_<range>/`, 문제설명 소유 자료, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. HTML은 `.pack/…`을 상대 경로로 링크하고, `.pack/` 안의 MD는 HTML을 `../`로 링크한다. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
 
 **인자**: `[MMDD | MMDD-MMDD] [lite]`
 - `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다. 배포 뒤 문제설명 전체 저작과 네 실제 검토도 생략하지 않는다.
@@ -71,7 +71,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 ### 4. 조립
 - `review_pdf_stage.py`는 stage 루트에 과목의 상대 경로 구조와 기존 노트/강의자료 읽기 연결을 준비한다. 현재 날짜 폴더는 일반 디렉터리이므로 공개 폴더에 초안이 쓰이지 않는다.
 - 모든 초안과 수정은 `RUN/work/stage/복습노트/<range>/`에서 만든다. 8단계에서 HTML/MD/PDF 쌍과 그림을 모두 검증한 후에만 공개 폴더에 반영한다. 실패한 초안으로 기존 산출물을 덮어쓰지 않는다.
-- **처음 조립할 때만**: `복습노트/<range>/`(또는 예전 형식인 `복습노트/` 바로 아래)에 이번 `range`의 산출물(`정리노트_<range>_*`, `복습문제_<range>_*`의 `.html`·`.md`, `figures_<range>/`)이 하나라도 있으면 먼저 백업한다. 다시 조립할 때(5~8단계에서 돌아온 경우)는 백업하지 않는다. 이미 스킬이 만든 초안이 백업에 섞이기 때문이다.
+- **처음 조립할 때만**: `복습노트/<range>/`(그 아래 `.pack/` 포함, 또는 예전 형식인 `복습노트/` 바로 아래)에 이번 `range`의 산출물(`정리노트_<range>_*`, `복습문제_<range>_*`의 `.html`·`.md`·PDF, `figures_<range>/`)이 하나라도 있으면 먼저 백업한다. 다시 조립할 때(5~8단계에서 돌아온 경우)는 백업하지 않는다. 이미 스킬이 만든 초안이 백업에 섞이기 때문이다.
   - `RANGE`, `REPO`, `RUN`을 모두 실제 값으로 바꿔 한 명령으로 실행한다. 파일명은 NFC로 비교하므로 NFD 파일명도 잡힌다.
   - 백업은 매번 새 폴더 `RUN/previous-<시각>-<임의>/`에 만든다(이전 백업을 덮어쓰지 않음). `RANGE`가 형식에 안 맞거나, 대상이 있는데 복사된 파일 수가 다르면 종료 코드 1로 멈춘다. 이때는 조립하지 말고 원인을 고친다.
 ```bash
@@ -86,7 +86,8 @@ def want(n):
     return n.startswith((f"정리노트_{r}_", f"복습문제_{r}_")) or n == f"figures_{r}"
 def listdir_nfc(d):  # NFD 폴더명도 찾는다
     return {u.normalize("NFC", n): os.path.join(d, n) for n in os.listdir(d)} if os.path.isdir(d) else {}
-srcs = [listdir_nfc(notes).get(r), notes]  # 날짜 폴더, 예전 형식(바로 아래)
+day = listdir_nfc(notes).get(r)
+srcs = [day, day and listdir_nfc(day).get(".pack"), notes]  # 날짜 폴더, 그 아래 .pack/, 예전 형식(바로 아래)
 hits = sorted({n: p for d in srcs if d and os.path.isdir(d) for n, p in listdir_nfc(d).items() if want(n)}.items())
 if not hits:
     print("백업할 기존 팩 없음"); sys.exit(0)
@@ -133,7 +134,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - `references/pdf-workflow.md`의 명령을 그대로 따른다. HTML은 stage에서 검사하고, 저장된 원시 카드로 PDF 쌍을 만든다. 미래 카드에는 `.problem` 직계 `.conditions`와 `.ask`가 필수다.
 - 기본은 1920×1080 CSS px(1440×810pt)의 `video-16x9`이며 하단 180px은 흰 자막 여백이다. A4 문항별 본문·풀이·수식 배율을 먼저 측정해 화면 글자 크기를 보존한다. 인쇄용 A4가 명시적으로 필요하면 `--layout a4`를 사용한다.
 - `build_review_pdf.py --stage-only`가 성공한 PDF 둘만 stage에 복사한다. `add_pdf_links`로 노트에 문제지/해설지 링크를 넣고 실제 카드 수를 안내한다. manifest의 links 토픽에 두 PDF 링크를 추가한 후 다시 HTML 검사한다.
-- `html2md.py --check`로 MD 두 개와 그림을 만들고 PDF href가 유지되는지 확인한다. PDF 전체 페이지를 PNG로 렌더링하여 표·화살표·수식·필기 공간·Hint·계속 페이지를 모두 눈으로 확인한다.
+- `html2md.py --check`로 MD 두 개와 그림을 `.pack/`에 만들고 PDF href가 유지되는지 확인한다. PDF 전체 페이지를 PNG로 렌더링하여 표·화살표·수식·필기 공간·Hint·계속 페이지를 모두 눈으로 확인한다.
 - PDF skill을 사용할 때 첫 PDF 작성 직전 authoring marker를 한 번 수행한다. 실행 중 두 템플릿과 video CSS는 변경하지 않는다. EC2 `757fa081521008d46542e23d5a1a53112391aed2`에서 고정 복사한 세 파일의 `pdf-template-provenance.json` 해시를 확인한다.
 - 두 PDF, HTML 두 개, MD 두 개, 모든 참조 그림이 준비된 후 `publish_files`로 함께 배포한다. 백업은 `RUN/work/backups/`다. 교체 실패 시 기존 파일을 복구한다.
 - KaTeX·폰트·이미지 로드 실패, 넘침, 정답 검증 실패 또는 PDF 둘 중 하나의 실패는 해당 팩 배포 실패다. 이미 있는 파일을 보존하고 원인/문제 id를 보고한다. HTML/MD만으로 완료라고 보고하지 않는다. `lite`도 이 규칙을 생략하지 않는다.
@@ -144,7 +145,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 다음 형식으로 끝낸다.
 ```
 ## 복습팩 <range> 완료
-- 파일: 복습노트/<range>/… (html 2, md 2, PDF 2, figures_<range>/ N개)
+- 파일: 복습노트/<range>/… (html 2 + .pack/: md 2, PDF 2, figures_<range>/ N개)
 - 범위: 배운 슬라이드 … / 예고만: …
 - 문제: P1 MML Example 9.1 변형(level 1) … (정답은 RUN/answers.py로 검증)
 - 스킬이 정한 사항: slug, 섹션 구성, 위젯, 뺀 내용과 이유

@@ -5,14 +5,39 @@ from pathlib import Path
 import unicodedata
 import tempfile
 import shutil
+import sys
 import pytest
 from mpe_source import load_source
 from mpe_types import Artifacts
 from mpe_render import check_artifacts, artifact_hashes
 
 ROOT = Path(__file__).resolve().parents[4]
-SOURCES = sorted(p for p in (ROOT / '복습노트').rglob('*.html')
+SOURCES = sorted(p for p in (ROOT / '복습노트').glob('*/*.html')
                  if unicodedata.normalize('NFC', p.name).startswith('복습문제_'))
+sys.path.insert(0, str(ROOT / 'scripts'))
+from migrate_pack_layout import PACK_DIR, legacy_files  # noqa: E402
+
+
+@pytest.fixture(scope='module')
+def legacy_root(tmp_path_factory):
+    """Approved hashes predate the .pack layout; rebuild that layout byte-exactly.
+
+    Published files differ from the approved ones only by the migration's link prefixes,
+    so a successful audit of this view proves nothing else changed."""
+    view = tmp_path_factory.mktemp('legacy-layout').resolve()
+    for entry in ROOT.iterdir():
+        if unicodedata.normalize('NFC', entry.name) != '복습노트':
+            (view / entry.name).symlink_to(entry, target_is_directory=entry.is_dir())
+    for source in SOURCES:
+        for rel, data in legacy_files(source.parent).items():
+            dest = view / '복습노트' / source.parent.name / rel
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(data)
+    return view
+
+
+def legacy_source(source, view):
+    return view / source.relative_to(ROOT)
 
 def repo_relative(path, root):
     """Recorded macOS NFD names and Git NFC names identify the same file."""
@@ -76,15 +101,22 @@ def audit_delivery(source, root):
 
 
 @pytest.mark.parametrize('source', SOURCES, ids=lambda p: p.parent.name)
-def test_published_review_explanation(source):
-    audit_delivery(source, ROOT)
+def test_published_review_explanation(source, legacy_root):
+    audit_delivery(legacy_source(source, legacy_root), legacy_root)
+
+
+@pytest.mark.parametrize('source', SOURCES, ids=lambda p: p.parent.name)
+def test_published_layout_keeps_only_html_on_top(source):
+    top = {unicodedata.normalize('NFC', p.name) for p in source.parent.iterdir() if p.name != '.DS_Store'}
+    assert PACK_DIR in top
+    assert all(name.endswith('.html') for name in top - {PACK_DIR})
 
 
 @pytest.mark.parametrize('damage', [None, 'reference', 'artifact'])
-def test_delivery_survives_checkout_relocation(tmp_path, damage):
+def test_delivery_survives_checkout_relocation(tmp_path, damage, legacy_root):
     import shutil
-    source = next(p for p in SOURCES if p.parent.name == '0909')
-    pack = load_source(source, ROOT)
+    source = legacy_source(next(p for p in SOURCES if p.parent.name == '0909'), legacy_root)
+    pack = load_source(source, legacy_root)
     name = f'문제설명_{pack.range}_{pack.slug}'
     data = source.parent / ('자료_' + name)
     manifest_path = data / 'manifest.json'
@@ -94,7 +126,7 @@ def test_delivery_survives_checkout_relocation(tmp_path, damage):
     review = json.loads(validation_bytes)
     relocated = tmp_path / 'different-home' / 'checkout'
     def copy(path):
-        dest = relocated / path.relative_to(ROOT)
+        dest = relocated / path.relative_to(legacy_root)
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, dest)
         return dest
@@ -105,15 +137,15 @@ def test_delivery_survives_checkout_relocation(tmp_path, damage):
         copy(source.parent / relative)
     copy(manifest_path)
     copy(validation_path)
-    layout = ROOT / 'workbook/layouts' / f'{pack.range}_{pack.slug}.json'
+    layout = legacy_root / 'workbook/layouts' / f'{pack.range}_{pack.slug}.json'
     copy(layout)
     for ref in review['references']:
-        copy(Path(ref['path']))
-    moved = relocated / source.relative_to(ROOT)
+        copy(legacy_root / repo_relative(ref['path'], manifest['repo']))
+    moved = relocated / source.relative_to(legacy_root)
     assert moved.read_bytes() == source.read_bytes()
     assert not moved.samefile(source)
     if damage:
-        target = (relocated / Path(review['references'][0]['path']).relative_to(ROOT)
+        target = (relocated / repo_relative(review['references'][0]['path'], manifest['repo'])
                   if damage == 'reference' else moved.parent / (name + '.md'))
         target.write_bytes(target.read_bytes() + b'changed')
         with pytest.raises(AssertionError):

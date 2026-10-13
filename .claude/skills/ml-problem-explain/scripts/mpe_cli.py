@@ -107,7 +107,7 @@ def build(item, fragments):
     dump(artifacts.manifest, manifest)
     artifacts = Artifacts(artifacts.html, artifacts.md, artifacts.manifest, files + (artifacts.manifest,))
     dump(folder / 'stage.json', {'stage': stage.relative_to(folder).as_posix(),
-                               'html': artifacts.html.name, 'md': artifacts.md.name,
+                               'html': artifacts.html.name, 'md': artifacts.md.relative_to(stage).as_posix(),
                                'manifest': artifacts.manifest.relative_to(stage).as_posix()})
     review = initial_reviews(item['pack'], fragments)
     review['artifact_hashes'] = artifact_hashes(artifacts)

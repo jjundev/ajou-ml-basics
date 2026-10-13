@@ -62,7 +62,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
            print(i + 1, hit)
    EOF
    ```
-4. 이전 복습노트(`복습노트/*/정리노트_*.md`)에서 이 강의가 기대는 개념을 찾아 둔다("미리 알아둘 것"과 링크에 쓴다).
+4. 이전 복습노트(`복습노트/*/.pack/정리노트_*.md`, MD는 날짜 폴더의 `.pack/` 아래에 있다)에서 이 강의가 기대는 개념을 찾아 둔다("미리 알아둘 것"과 링크에 쓴다).
 
 ### 2. manifest
 - `RUN/manifest.json`을 쓴다. 규칙은 `references/manifest-guide.md`.

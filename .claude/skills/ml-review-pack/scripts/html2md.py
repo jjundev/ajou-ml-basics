@@ -7,7 +7,7 @@ r"""정리노트/복습문제 HTML → GitHub 마크다운 변환기 (표준 라
 - 위젯은 .widget-static(정적 SVG·표)으로 대체한다. 없으면 "HTML 버전에서 조작" 안내만 남긴다.
 - 표 안 수식의 \| 는 \Vert, | 는 \vert 로 바꾼다(GFM 표 구분자 충돌 방지).
 CLI:
-  html2md.py NOTE.html REVIEW.html            # 같은 폴더에 .md 두 개 + figures_<range>/
+  html2md.py NOTE.html REVIEW.html            # HTML 옆 .pack/에 .md 두 개 + figures_<range>/
   html2md.py NOTE.html REVIEW.html --check    # 변환 후 누락 검사(수식·앵커·그림·링크)
 """
 from __future__ import annotations
@@ -21,6 +21,8 @@ import unicodedata
 from collections import Counter
 from html.parser import HTMLParser
 from urllib.parse import unquote
+
+from manifest import PACK_DIR
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 NAME_RE = re.compile(r"^(정리노트|복습문제)_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html$")
@@ -156,26 +158,33 @@ def escape_text(s):
 class Ctx:
     """변환 상태. registry는 팩 전체에서 공유하는 그림 파일명 집합(파일 간 덮어쓰기 방지)."""
 
-    def __init__(self, link_map, fig_dir_abs, fig_dir_name, prefix="", registry=None):
+    def __init__(self, link_map, fig_dir_abs, fig_dir_name, prefix="", registry=None, html_rel=""):
         self.link_map, self.fig_dir_abs, self.fig_dir_name, self.figs = link_map, fig_dir_abs, fig_dir_name, []
+        # MD 폴더에서 HTML 폴더로 가는 상대 경로("" = 같은 폴더, ".." = MD가 .pack/ 안에 있음).
+        self.html_rel = html_rel
         self.prefix = prefix
         self.registry = registry if registry is not None else set()
         self.auto = 0
 
 
 def fix_href(href, ctx):
-    """팩 HTML(NFC·NFD, %-인코딩, ./ 접두 모두)을 가리키는 링크를 .md로 바꾼다."""
+    """팩 HTML(NFC·NFD, %-인코딩, ./ 접두 모두)을 가리키는 링크를 .md로 바꾼다.
+
+    MD가 HTML과 다른 폴더(.pack/)에 있으면 나머지 상대 링크도 MD 위치 기준으로 옮긴다."""
     path, sep, frag = href.partition("#")
-    if not path:
+    if not path or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", path) or path.startswith("/"):
         return href
     head, _, base = path.rpartition("/")
-    if head not in ("", "."):
+    if head in ("", "."):
+        name = nfc(unquote(base))
+        for old, new in ctx.link_map:
+            if name == nfc(old):
+                return (f"{head}/" if head and not ctx.html_rel else "") + new + sep + frag
+    if not ctx.html_rel:
         return href
-    base = nfc(unquote(base))
-    for old, new in ctx.link_map:
-        if base == nfc(old):
-            return (f"{head}/" if head else "") + new + sep + frag
-    return href
+    if path.startswith(PACK_DIR + "/"):  # HTML에서 .pack/ 안을 가리키던 링크 → MD와 같은 폴더
+        return path[len(PACK_DIR) + 1:] + sep + frag
+    return f"{ctx.html_rel}/{path.removeprefix('./')}" + sep + frag
 
 
 def inline(node, ctx):
@@ -611,19 +620,22 @@ def check_md(html_path, md_path):
     return problems
 
 
-def convert_pack(note_path, review_path):
-    """두 HTML을 같은 폴더에 .md로 변환한다. (md 경로 두 개, 그림 파일 수)를 돌려준다."""
-    out_dir = os.path.dirname(os.path.abspath(note_path))
+def convert_pack(note_path, review_path, out_dir=None):
+    """두 HTML을 .md로 변환한다(기본: HTML 옆 .pack/). (md 경로 두 개, 그림 파일 수)를 돌려준다."""
+    html_dir = os.path.dirname(os.path.abspath(note_path))
+    out_dir = os.path.abspath(out_dir) if out_dir else os.path.join(html_dir, PACK_DIR)
     srcs = [os.path.abspath(note_path), os.path.abspath(review_path)]
     names = [nfc(os.path.basename(p)) for p in srcs]
     matches = [NAME_RE.match(n) for n in names]
     if not all(matches) or matches[0].group(1) != "정리노트" or matches[1].group(1) != "복습문제":
         raise ValueError(f"파일명 규칙 위반: {names}")
-    if os.path.dirname(os.path.abspath(review_path)) != out_dir:
+    if os.path.dirname(os.path.abspath(review_path)) != html_dir:
         raise ValueError("두 HTML은 같은 폴더에 있어야 함")
     fig_name = f"figures_{matches[0].group(2)}"
     fig_abs = os.path.join(out_dir, fig_name)
     os.makedirs(fig_abs, exist_ok=True)
+    html_rel = os.path.relpath(html_dir, out_dir).replace(os.sep, "/")
+    html_rel = "" if html_rel == "." else html_rel
     for entry in os.listdir(fig_abs):  # 다시 변환할 때 이전 실행의 고아 SVG를 남기지 않는다(.svg만, 이 폴더만)
         old_svg = os.path.join(fig_abs, entry)
         if entry.lower().endswith(".svg") and os.path.isfile(old_svg) and not os.path.islink(old_svg):
@@ -637,7 +649,7 @@ def convert_pack(note_path, review_path):
     ]
     outs, registry = [], set()
     for src, name, intro, prefix in zip(srcs, names, intros, ("note", "review")):
-        ctx = Ctx(link_map, fig_abs, fig_name, prefix=prefix, registry=registry)
+        ctx = Ctx(link_map, fig_abs, fig_name, prefix=prefix, registry=registry, html_rel=html_rel)
         out = os.path.join(out_dir, name[:-5] + ".md")
         convert(src, out, ctx, intro)
         outs.append(out)
@@ -648,9 +660,10 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("note")
     ap.add_argument("review")
+    ap.add_argument("--out-dir", help=f"MD와 그림을 쓸 폴더(기본: HTML 옆 {PACK_DIR}/)")
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args(argv)
-    outs, fig_count = convert_pack(args.note, args.review)
+    outs, fig_count = convert_pack(args.note, args.review, args.out_dir)
     for out in outs:
         print(out)
     print(f"figures: {fig_count}")

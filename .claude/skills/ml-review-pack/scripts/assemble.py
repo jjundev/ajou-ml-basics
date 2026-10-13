@@ -112,7 +112,7 @@ def assemble(run_dir: Path | str, out_dir: Path | str, *, include_pdf_links: boo
         import fitz
         try:
             for name in manifest_mod.pdf_names(m['range'], m['slug']):
-                path = out_dir / name
+                path = out_dir / manifest_mod.PACK_DIR / name
                 if not path.is_file():
                     raise AssembleError(f"검증된 PDF 쌍이 필요합니다: {path}")
                 with fitz.open(path) as doc:

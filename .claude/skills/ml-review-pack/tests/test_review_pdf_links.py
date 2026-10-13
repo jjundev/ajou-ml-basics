@@ -13,8 +13,8 @@ class TestLinks(unittest.TestCase):
     def test_idempotent_links_and_correct_count(self):
         once=add_pdf_links(self.note,'0914','ERM_and_MLE',7)
         self.assertEqual(add_pdf_links(once,'0914','ERM_and_MLE',7),once)
-        self.assertIn('복습문제_0914_ERM_and_MLE-문제.pdf',once)
-        self.assertIn('복습문제_0914_ERM_and_MLE-답안.pdf',once)
+        self.assertIn('href=".pack/복습문제_0914_ERM_and_MLE-문제.pdf"',once)
+        self.assertIn('href=".pack/복습문제_0914_ERM_and_MLE-답안.pdf"',once)
         self.assertIn('복습문제 7선',once);self.assertNotIn('8선',once)
         self.assertEqual(pdf_names('0914','ERM_and_MLE'),('복습문제_0914_ERM_and_MLE-문제.pdf','복습문제_0914_ERM_and_MLE-답안.pdf'))
     def test_preserve_unrelated_content(self):
