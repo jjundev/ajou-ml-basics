@@ -15,6 +15,7 @@
     /* ---------- 토큰 ---------- */
     :root {
       color-scheme: light;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
       --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
       --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
       --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
@@ -30,6 +31,7 @@
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         color-scheme: dark;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
         --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
         --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
         --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
@@ -37,6 +39,7 @@
     }
     :root[data-theme="dark"] {
       color-scheme: dark;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
       --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
       --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
       --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
@@ -242,6 +245,11 @@
     .content { grid-column: 2; }
     .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
     .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
     .panel-resize { display: none; }
     .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
     .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
