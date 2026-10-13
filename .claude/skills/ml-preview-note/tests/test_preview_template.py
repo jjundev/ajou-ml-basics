@@ -25,3 +25,12 @@ class TestSharedTemplate(unittest.TestCase):
         for sel in (".layer.eli5", ".layer.formal", ".layer.listen", ".badge.supp"):
             with self.subTest(sel=sel):
                 self.assertIn(sel, text)
+
+    def test_themed_scrollbar_tokens_and_rules(self):
+        text = TEMPLATE.read_text(encoding="utf-8")
+        self.assertEqual(len(re.findall(r"--scroll: #[0-9a-f]{6}; --scroll-hover: #[0-9a-f]{6};", text)), 3)
+        for needle in ("--scroll: #c9d0db; --scroll-hover: #9aa3b2;", "--scroll: #3f414b; --scroll-hover: #5b5e6a;",
+                       ".content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll);",
+                       "scrollbar-color: var(--scroll) transparent;"):
+            with self.subTest(needle=needle):
+                self.assertIn(needle, text)
