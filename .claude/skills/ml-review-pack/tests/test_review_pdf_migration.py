@@ -5,7 +5,7 @@ import unicodedata
 import unittest
 from _util import REPO
 from review_pdf_cards import read_cards,normalize_cards
-from manifest import pdf_names
+from manifest import PACK_DIR,pdf_names
 
 COUNTS={'0909':5,'0914':7,'0916':6,'0921':6,'0923':7,'0928':8,'0930':8}
 class TestMigration(unittest.TestCase):
@@ -24,21 +24,21 @@ class TestMigration(unittest.TestCase):
     def test_published_pairs_and_originals_preserved(self):
         notes=next(p for p in REPO.iterdir() if unicodedata.normalize('NFC',p.name)=='복습노트')
         for date,count in COUNTS.items():
-            folder=notes/date;source=next(p for p in folder.glob('*.html') if p.name.startswith('복습문제_'))
+            folder=notes/date;pack_dir=folder/PACK_DIR;source=next(p for p in folder.glob('*.html') if p.name.startswith('복습문제_'))
             pack=read_cards(source);layout=json.loads((REPO/f'workbook/layouts/{date}_{pack.slug}.json').read_text())
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),layout['source_sha256'])
-            self.assertEqual(hashlib.sha256(source.with_suffix('.md').read_bytes()).hexdigest(),layout['review_md_sha256'])
-            for rel,sha in layout['figures_sha256'].items():self.assertEqual(hashlib.sha256((folder/rel).read_bytes()).hexdigest(),sha)
+            self.assertEqual(hashlib.sha256((pack_dir/source.with_suffix('.md').name).read_bytes()).hexdigest(),layout['review_md_sha256'])
+            for rel,sha in layout['figures_sha256'].items():self.assertEqual(hashlib.sha256((pack_dir/rel).read_bytes()).hexdigest(),sha)
             for name in pdf_names(date,pack.slug):
-                self.assertTrue((folder/name).is_file(),name)
-                self.assertIn(name,next(folder.glob('정리노트*html')).read_text())
-                self.assertIn(name,next(folder.glob('정리노트*md')).read_text())
+                self.assertTrue((pack_dir/name).is_file(),name)
+                self.assertIn(f'{PACK_DIR}/{name}',next(folder.glob('정리노트*html')).read_text())
+                self.assertIn(f'({name})',next(pack_dir.glob('정리노트*md')).read_text())
 
     def test_published_pairs_are_widescreen_and_caption_safe(self):
         import fitz
         from build_review_pdf import _verify_pdf
         notes=next(p for p in REPO.iterdir() if unicodedata.normalize('NFC',p.name)=='복습노트')
-        paths=[p for date in COUNTS for p in (notes/date).glob('*.pdf')]
+        paths=[p for date in COUNTS for p in (notes/date/PACK_DIR).glob('*.pdf')]
         self.assertEqual(len(paths),14)
         for path in paths:
             with fitz.open(path) as doc:

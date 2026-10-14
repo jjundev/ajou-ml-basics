@@ -23,7 +23,7 @@
 
 ### P1. 기울기 하나짜리 직선 맞추기
 
-MML Example 9.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p1)
+MML Example 9.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p1)
 
 #### 주어진 조건
 
@@ -111,7 +111,7 @@ $\sum x_n^2=1+4+16$이에요.
 
 ### P2. 정규방정식으로 기울기 구하기
 
-MML Example 9.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p2)
+MML Example 9.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p2)
 
 #### 주어진 조건
 
@@ -190,7 +190,7 @@ $X^\top X=1+1+4$, $X^\top y=1+3+8$예요.
 
 ### P3. 3차 다항식을 특징 벡터로 쓰기
 
-MML Example 9.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p3)
+MML Example 9.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p3)
 
 #### 주어진 조건
 
@@ -269,7 +269,7 @@ $\phi(2)=[1,2,4,8]^\top$예요.
 
 ### P4. 2차 다항식을 특징 벡터로 쓰기
 
-MML Example 9.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p4)
+MML Example 9.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p4)
 
 #### 주어진 조건
 
@@ -346,7 +346,7 @@ $\phi(3)=[1,3,9]^\top$예요.
 
 ### P5. 해가 없는 연립방정식
 
-MML Exercise 2.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p5)
+MML Exercise 2.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p5)
 
 #### 주어진 조건
 
@@ -422,7 +422,7 @@ $R_4 - 2R_3 = [0, 0, 0, 0 \mid 1]$이에요. 이 행은 $0 = 1$이라는 뜻이�
 
 ### P6. 역행렬이 있을까요
 
-MML Exercise 2.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p6)
+MML Exercise 2.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p6)
 
 #### 주어진 조건
 
@@ -498,7 +498,7 @@ $R_3-2R_2+R_1=0$을 확인해요.
 
 ### P7. 4×4 역행렬 구하기
 
-MML Exercise 2.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p7)
+MML Exercise 2.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0923_Linear_Regression.html#p7)
 
 #### 주어진 조건
 

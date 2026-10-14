@@ -893,7 +893,7 @@ $$
 
 입력과 $\boldsymbol{\theta}$가 주어지면 $\boldsymbol{\Phi}\boldsymbol{\theta}$는 고정된 평균이에요. $\mathbf y=\boldsymbol{\Phi}\boldsymbol{\theta}+\boldsymbol{\epsilon}$에서 불확실성은 잡음에만 남으므로 이 식은 **조건부 공분산**이에요. 파라미터 자체의 불확실성까지 합친 예측 공분산과 구별해요.
 
-$\sigma^2\mathbf I_N$는 $N$개 관측 잡음의 공분산이고, [사전분포의 $b^2\mathbf I_K$](#s4-gaussian-prior)는 $K$개 파라미터의 공분산이에요. 행렬로 묶는 원리는 [1007 스칼라에서 벡터 공분산으로 이어지는 보충](../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에 있어요.
+$\sigma^2\mathbf I_N$는 $N$개 관측 잡음의 공분산이고, [사전분포의 $b^2\mathbf I_K$](#s4-gaussian-prior)는 $K$개 파라미터의 공분산이에요. 행렬로 묶는 원리는 [1007 스칼라에서 벡터 공분산으로 이어지는 보충](../../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에 있어요.
 
 **페이지 요약**
 
@@ -1192,7 +1192,7 @@ $$
 - 뒤 항 $-\log p(\boldsymbol{\theta})$의 기울기만 새로 계산하면 돼요. 그래서 MAP 식은 ML 항을 안에 품고 있어요.
 - 교과서는 MAP 추정을 사전분포(데이터를 보기 전 그럴듯한 값)와 데이터에 기댄 우도 사이의 "타협"이라고 설명해요(MML 식 9.24–9.27).
 
-MAP이 무엇인지 처음 배운 내용은 [0916 정리노트: MAP = MLE + log prior](../0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map)에 있어요.
+MAP이 무엇인지 처음 배운 내용은 [0916 정리노트: MAP = MLE + log prior](../../0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map)에 있어요.
 
 **교수님 말씀**
 
@@ -1320,7 +1320,7 @@ $$
 
 **독립이라는 결론에는 가우시안 조건이 있어요.** 여기서는 성분들을 함께 묶은 분포가 가우시안, 즉 공동 가우시안이므로 비대각 공분산이 0이면 성분들이 독립이에요. 일반 분포에서는 공분산이 0이라는 사실만으로 독립이라고 할 수 없어요.
 
-이 설정은 모든 파라미터의 사전 분산이 같은 특별한 경우예요. [일반 사전분포의 $\mathbf S_0$](#s5-general-prior)는 성분별 분산과 성분 사이 공분산을 더 일반적으로 담아요. 공분산 행렬의 정의는 [1007 공분산 보충](../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에서 확인할 수 있어요.
+이 설정은 모든 파라미터의 사전 분산이 같은 특별한 경우예요. [일반 사전분포의 $\mathbf S_0$](#s5-general-prior)는 성분별 분산과 성분 사이 공분산을 더 일반적으로 담아요. 공분산 행렬의 정의는 [1007 공분산 보충](../../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에서 확인할 수 있어요.
 
 **페이지 요약**
 
@@ -1549,7 +1549,7 @@ $$
 
 $\mathbf S_0$의 대각은 각 파라미터의 분산이고, 비대각은 파라미터 사이의 공분산이에요. $b^2\mathbf I_K$는 대각의 분산이 모두 같고 비대각이 0인 특별한 경우예요.
 
-공분산을 자유롭게 둔다고 아무 행렬이나 넣을 수 있는 것은 아니에요. 본문의 식은 $\mathbf S_0^{-1}$을 사용하므로, 여기서는 **양의 정부호인 공분산 행렬**을 가정해요. 이 조건에서는 역행렬이 존재해요. 성분별 정의는 [1007 공분산 보충](../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에 있어요. 사후분포 계산은 기존 수업 기록대로 다음 시간 내용으로 남겨 둬요.
+공분산을 자유롭게 둔다고 아무 행렬이나 넣을 수 있는 것은 아니에요. 본문의 식은 $\mathbf S_0^{-1}$을 사용하므로, 여기서는 **양의 정부호인 공분산 행렬**을 가정해요. 이 조건에서는 역행렬이 존재해요. 성분별 정의는 [1007 공분산 보충](../../1007/정리노트_1007_Product_of_Gaussians.html#s1-covariance)에 있어요. 사후분포 계산은 기존 수업 기록대로 다음 시간 내용으로 남겨 둬요.
 
 **페이지 요약**
 
@@ -1752,9 +1752,9 @@ MAP 유도와 단계가 같고, $\frac{\sigma^2}{b^2}$ 자리에 $\lambda$가 �
 *0928 수업 · L03*
 
 - [복습문제 풀러 가기 (0928 Linear Regression)](복습문제_0928_Linear_Regression.md)
-- [지난 시간 0923 정리노트: 벡터 미분 보충](../0923/정리노트_0923_Linear_Regression.html#s3-vector-diff)
-- [0916 정리노트: MAP과 정규화](../0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map-reg)
-- [추가 강의 Lecture 12: Statistical Inference Part 3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
+- [지난 시간 0923 정리노트: 벡터 미분 보충](../../0923/정리노트_0923_Linear_Regression.html#s3-vector-diff)
+- [0916 정리노트: MAP과 정규화](../../0916/정리노트_0916_MAP_and_Generative_Models.html#s1-map-reg)
+- [추가 강의 Lecture 12: Statistical Inference Part 3](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 복습문제 8문항
 

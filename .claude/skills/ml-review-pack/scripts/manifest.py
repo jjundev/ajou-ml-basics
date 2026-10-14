@@ -13,6 +13,10 @@ from pathlib import Path
 import re
 import sys
 
+# 복습노트/<range>/ 바로 아래에는 HTML만 두고, 나머지 산출물(MD·PDF·그림·자료)은 이 하위 폴더에 둔다.
+# ml-problem-explain과 html2md도 이 값을 쓴다.
+PACK_DIR = ".pack"
+
 LAYER_NAMES = {"eli5", "formal", "prof", "warn"}
 TOP_LEVEL_TYPES = {
     "course": str, "range": str, "slug": str,
@@ -170,6 +174,11 @@ def review_name(m: dict) -> str:
 
 def pdf_names(range_: str, slug: str) -> tuple[str, str]:
     return (f"복습문제_{range_}_{slug}-문제.pdf", f"복습문제_{range_}_{slug}-답안.pdf")
+
+
+def pdf_hrefs(range_: str, slug: str) -> tuple[str, str]:
+    """정리노트 HTML(날짜 폴더 최상위)에서 PDF 쌍을 가리키는 상대 링크."""
+    return tuple(f"{PACK_DIR}/{name}" for name in pdf_names(range_, slug))
 
 
 def fig_dir_name(range_: str) -> str:

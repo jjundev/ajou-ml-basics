@@ -3,7 +3,7 @@ import html
 import re
 import unicodedata
 from urllib.parse import unquote
-from manifest import pdf_names
+from manifest import pdf_hrefs
 from review_pdf_types import ReviewPdfError
 
 
@@ -19,7 +19,7 @@ def add_pdf_links(note_html,range_,slug,logical_count):
         if unicodedata.normalize('NFC',unquote(html.unescape(m[2])))!=legacy:return m[0]
         return m[1]+m[2]+m[3]+re.sub(r'\d+(선|문항|문제)',lambda n:f'{logical_count}{n[1]}',m[4])+m[5]
     topic=re.sub(r'(<a\b[^>]*\bhref=["\'])([^"\']+)(["\'][^>]*>)(.*?)(</a>)',update_anchor,topic,flags=re.S)
-    problem,answer=pdf_names(range_,slug)
+    problem,answer=pdf_hrefs(range_,slug)
     block=f'<div class="review-pdf-links" data-range="{range_}"><p>복습문제 {logical_count}문항</p><ul><li><a href="{problem}">문제지 PDF</a></li><li><a href="{answer}">해설지 PDF</a></li></ul></div>'
     topic=topic[:-len('</article>')]+block+'</article>'
     return note_html[:match.start()]+topic+note_html[match.end():]

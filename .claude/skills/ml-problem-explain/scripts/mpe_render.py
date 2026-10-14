@@ -13,13 +13,21 @@ from mpe_shared import Node, parse, inner, outer, compact, Ctx, convert, check_m
 from mpe_source import sha256, inside, existing_path
 from mpe_types import ExplainError, Artifacts
 from mpe_labels import normalize_subpart_labels
+from manifest import PACK_DIR  # ml-review-pack 공용 값(mpe_shared가 경로를 잡는다)
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
 
 def names(pack):
     stem = f'과제{pack.range}_문제설명_{pack.slug}' if pack.profile == 'homework' else f'문제설명_{pack.range}_{pack.slug}'
     range_ = f'hw{pack.range}' if pack.profile == 'homework' else pack.range
-    return stem, f'figures_문제설명_{range_}_{pack.slug}', f'자료_문제설명_{range_}_{pack.slug}'
+    # 복습노트 날짜 폴더에는 HTML만 두고 나머지는 .pack/ 아래에 둔다. 과제 폴더는 그대로다.
+    sub = '' if pack.profile == 'homework' else PACK_DIR + '/'
+    return stem, f'{sub}figures_문제설명_{range_}_{pack.slug}', f'{sub}자료_문제설명_{range_}_{pack.slug}'
+
+def md_name(pack):
+    """HTML 폴더 기준 MD 경로."""
+    stem = names(pack)[0]
+    return stem + '.md' if pack.profile == 'homework' else f'{PACK_DIR}/{stem}.md'
 
 def dump(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -38,7 +46,9 @@ def convert_markdown(html_path, md_path, ctx):
             node.tag = 'div'  # html2md's figure branch handles SVG only.
     for node in list(main.find_all(lambda n: n.tag == 'img')):
         alt = node.attrs.get('alt', '그림').replace('[', '(').replace(']', ')')
-        src = quote(node.attrs['src'], safe='/')
+        # HTML 기준 src를 MD 위치 기준으로 옮긴다(MD가 .pack/ 안에 있을 수 있다).
+        target = html_path.parent / unquote(node.attrs['src'])
+        src = quote(Path(os.path.relpath(target, md_path.parent)).as_posix(), safe='/')
         node.tag, node.attrs, node.children = 'p', {}, [f'![{alt}]({src})']
     footer = next(document.find_all(lambda n: n.tag == 'footer'), None)
     temporary = html_path.with_name('.' + html_path.stem + '-md-input.html')
@@ -112,10 +122,10 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
         raise ExplainError(' / '.join(errors))
     stage.mkdir(parents=True, exist_ok=True)
     stem, fig_name, data_name = names(pack)
-    html_path, md_path = stage / f'{stem}.html', stage / f'{stem}.md'
+    html_path, md_path = stage / f'{stem}.html', stage / md_name(pack)
     data_dir = stage / data_name
-    data_dir.mkdir()
-    (stage / fig_name).mkdir()
+    data_dir.mkdir(parents=True)
+    (stage / fig_name).mkdir(parents=True)
     shutil.copytree(ASSETS / 'vendor', data_dir / 'vendor')
     shutil.copy2(ASSETS / 'template-provenance.json', data_dir / 'template-provenance.json')
     articles = []
@@ -150,7 +160,9 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     if re.search(r'\{\{[A-Z_]+\}\}', text):
         raise ExplainError('미치환 템플릿 슬롯')
     html_path.write_text(text, encoding='utf-8')
-    ctx = Ctx([(html_path.name, md_path.name)], str(stage / fig_name), fig_name, prefix='explain')
+    html_rel = Path(os.path.relpath(stage, md_path.parent)).as_posix()
+    ctx = Ctx([(html_path.name, md_path.name)], str(stage / fig_name), Path(os.path.relpath(stage / fig_name, md_path.parent)).as_posix(),
+              prefix='explain', html_rel='' if html_rel == '.' else html_rel)
     convert_markdown(html_path, md_path, ctx)
     manifest_path = data_dir / 'manifest.json'
     files = tuple(sorted(p for p in stage.rglob('*') if p.is_file()))
@@ -180,12 +192,13 @@ def check_artifacts(pack, artifacts):
                 errors.append('생성 파일 변경/누락: ' + name)
         document = parse(artifacts.html.read_text(encoding='utf-8'))
         main = next(document.find_all(lambda n: n.tag == 'main'))
-        wanted_images = Counter(unquote(n.attrs.get('src', '')) for n in main.find_all(lambda n: n.tag == 'img'))
+        # HTML과 MD는 다른 폴더에 있을 수 있으니 실제 파일 위치로 비교한다.
+        wanted_images = Counter((root / unquote(n.attrs.get('src', ''))).resolve() for n in main.find_all(lambda n: n.tag == 'img'))
         markdown = artifacts.md.read_text(encoding='utf-8')
-        md_images = Counter(unquote(path) for path in re.findall(r'!\[[^\]]*\]\(([^)]+)\)', markdown))
+        md_images = Counter((artifacts.md.parent / unquote(path)).resolve() for path in re.findall(r'!\[[^\]]*\]\(([^)]+)\)', markdown))
         for image, count in wanted_images.items():
             if md_images[image] < count:
-                errors.append('래스터 그림 누락: ' + image)
+                errors.append('래스터 그림 누락: ' + image.relative_to(root).as_posix())
         ids = [n.attrs['id'] for n in document.find_all(lambda n: 'id' in n.attrs)]
         if len(ids) != len(set(ids)):
             errors.append('중복 문서 ID')

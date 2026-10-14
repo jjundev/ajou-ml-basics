@@ -2,6 +2,7 @@ from dataclasses import replace
 from pathlib import Path
 import json
 import re
+from urllib.parse import unquote
 import pytest
 from helpers import fragment
 from mpe_source import load_source, sha256
@@ -51,6 +52,12 @@ def test_render_preserves_questions_and_math_offline(tmp_path, source):
             assert p.original_html in text
             assert 'Find the transpose' in md
     assert 'https://cdn.' not in text
+    if pack.profile == 'review':  # 복습노트: HTML 옆 .pack/에 MD·그림·자료
+        assert result.md.parent == result.html.parent / '.pack'
+        assert 'href=".pack/자료_문제설명_' in text
+        assert '](../복습문제_' in unquote(md)
+    else:
+        assert result.md.parent == result.html.parent
     assert f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}' in text
     assert not list(root.find_all(lambda n: n.tag == 'details'))
     assert source.read_bytes() == before

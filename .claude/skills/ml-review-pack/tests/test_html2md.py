@@ -47,13 +47,13 @@ class TestHtml2Md(unittest.TestCase):
 
     def test_widget_static_becomes_figure_and_table(self):
         self.assertEqual(self.figs, 1)
-        self.assertTrue((self.tmp / "figures_0101-0102" / "widget-mean-static.svg").exists())
+        self.assertTrue((self.tmp / ".pack" / "figures_0101-0102" / "widget-mean-static.svg").exists())
         self.assertIn('<a id="widget-mean"></a>', self.md)
         self.assertIn("![평균 1.5 막대](figures_0101-0102/widget-mean-static.svg)", self.md)
         self.assertIn("| 1, 2 | $\\frac{3}{2}$ |", self.md)
 
     def test_reconversion_removes_orphan_svgs_only(self):
-        fig = self.tmp / "figures_0101-0102"
+        fig = self.tmp / ".pack" / "figures_0101-0102"
         (fig / "old-orphan.svg").write_text("<svg/>", encoding="utf-8")
         (fig / "keep.txt").write_text("x", encoding="utf-8")
         (self.tmp / "outside.svg").write_text("<svg/>", encoding="utf-8")
@@ -61,6 +61,36 @@ class TestHtml2Md(unittest.TestCase):
         self.assertEqual(figs, 1)
         self.assertEqual(sorted(p.name for p in fig.iterdir()), ["keep.txt", "widget-mean-static.svg"])
         self.assertTrue((self.tmp / "outside.svg").exists())
+
+    def test_md_goes_to_pack_dir(self):
+        self.assertEqual(Path(self.note_md).parent, self.tmp / ".pack")
+        self.assertEqual(Path(self.review_md).parent, self.tmp / ".pack")
+
+    def test_pack_relative_links_follow_md_location(self):
+        d = self.tmp / "rel" / "0102"
+        d.mkdir(parents=True)
+        (d.parent / "0101").mkdir()
+        (d.parent / "0101" / "정리노트_0101_A.html").write_text('<a id="t"></a>', encoding="utf-8")
+        (d / ".pack").mkdir()
+        (d / ".pack" / "doc.pdf").write_bytes(b"%PDF")
+        links = ('<a href="../0101/정리노트_0101_A.html#t">prev</a> <a href=".pack/doc.pdf">pdf</a> '
+                 '<a href="https://x.org/a">ext</a> <a href="#s">self</a>')
+        note, review = small_pack(d, f'<section id="s"><h2>A</h2><p>{links}</p></section>',
+                                  '<section id="q"><h2>Q</h2><p>q</p></section>')
+        (note_md, _), _ = html2md.convert_pack(note, review)
+        md = Path(note_md).read_text(encoding="utf-8")
+        for want in ("(../../0101/정리노트_0101_A.html#t)", "(doc.pdf)", "(https://x.org/a)", "(#s)"):
+            self.assertIn(want, md)
+        self.assertEqual(html2md.check_md(note, note_md), [])
+
+    def test_explicit_out_dir_keeps_same_folder_links(self):
+        d = self.tmp / "same"
+        d.mkdir()
+        note, review = small_pack(d, '<section id="s"><h2>A</h2><p><a href="./복습문제_0101_X.html#q">q</a></p></section>',
+                                  '<section id="q"><h2>Q</h2><p>q</p></section>')
+        (note_md, _), _ = html2md.convert_pack(note, review, d)
+        self.assertEqual(Path(note_md).parent, d)
+        self.assertIn("(./복습문제_0101_X.md#q)", Path(note_md).read_text(encoding="utf-8"))
 
     def test_links_rewritten_to_md(self):
         self.assertIn("(복습문제_0101-0102_Mini_Test.md)", self.md)
@@ -112,7 +142,7 @@ class TestHtml2Md(unittest.TestCase):
         note, review = small_pack(d, f'<section id="s"><h2>A</h2>{fig}{dup}</section>',
                                   f'<section id="q"><h2>Q</h2>{fig}{dup}</section>')
         (note_md, review_md), figs = html2md.convert_pack(note, review)
-        files = sorted(x.name for x in (d / "figures_0101").iterdir())
+        files = sorted(x.name for x in (d / ".pack" / "figures_0101").iterdir())
         self.assertEqual(figs, 4)
         self.assertEqual(files, ["note-fig-1.svg", "review-fig-1.svg", "same-2.svg", "same.svg"])
         self.assertEqual(html2md.check_md(note, note_md), [])
@@ -161,7 +191,7 @@ class TestHtml2Md(unittest.TestCase):
                                   '<section id="q"><h2>Q</h2><p>q</p></section>', nfd=True)
         (note_md, review_md), _ = html2md.convert_pack(note, review)
         self.assertEqual(Path(note_md).name, "정리노트_0101_X.md")
-        self.assertIn("(./복습문제_0101_X.md#q)", Path(note_md).read_text(encoding="utf-8"))
+        self.assertIn("(복습문제_0101_X.md#q)", Path(note_md).read_text(encoding="utf-8"))
         self.assertEqual(html2md.check_md(note, note_md), [])
 
 

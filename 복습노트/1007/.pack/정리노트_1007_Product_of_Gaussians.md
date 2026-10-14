@@ -301,7 +301,7 @@ $$
    p(y_* \mid \mathbf{x}_*, \mathbf{X}, \mathbf{y}) = \int p(y_* \mid \mathbf{x}_*, \boldsymbol{\theta})\,p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})\,d\boldsymbol{\theta}
    $$
 
-1007 수업에서는 이 단계를 "지난 시간에 설명했다"며 넘어갔어요. 주변화로 $\boldsymbol{\theta}$를 넣는 자세한 설명은 [0930 정리노트: 하나마나한 짓, 없던 θ를 넣고 주변화하기](../0930/정리노트_0930_Bayesian_Linear_Regression.html#s2-marginalize)에 있어요.
+1007 수업에서는 이 단계를 "지난 시간에 설명했다"며 넘어갔어요. 주변화로 $\boldsymbol{\theta}$를 넣는 자세한 설명은 [0930 정리노트: 하나마나한 짓, 없던 θ를 넣고 주변화하기](../../0930/정리노트_0930_Bayesian_Linear_Regression.html#s2-marginalize)에 있어요.
 
 **남은 일은 하나예요.**
 
@@ -492,7 +492,7 @@ $$
 - $n \times 1$ 열벡터에 $1 \times m$ 행벡터를 곱하면 $n \times m$ 행렬이 돼요. 그래서 결과의 크기가 $n \times m$이에요.
 - $(i, j)$ 성분은 $E[X_iY_j] - E[X_i]E[Y_j] = \mathrm{cov}(X_i, Y_j)$예요.
 
-$2 \times 2$에서 성분을 하나씩 맞춰 보는 계산은 0930 수업에서 했어요. [0930 정리노트 · 공분산에서 공분산 행렬로](../0930/정리노트_0930_Bayesian_Linear_Regression.html#s3-covariance)
+$2 \times 2$에서 성분을 하나씩 맞춰 보는 계산은 0930 수업에서 했어요. [0930 정리노트 · 공분산에서 공분산 행렬로](../../0930/정리노트_0930_Bayesian_Linear_Regression.html#s3-covariance)
 
 **공분산 행렬.** $\mathbf{Y}$ 자리에 $\mathbf{X}$를 넣으면 $\mathbf{X}$의 분산이 돼요. 이것을 공분산 행렬(covariance matrix) $\Sigma_{\mathbf{X}}$로 써요.
 
@@ -666,7 +666,7 @@ $$
 
 **숙제.** 두 식 $\mathrm{var}(\mathbf{A}\mathbf{X} + \mathbf{b}) = \mathbf{A}\Sigma_{\mathbf{X}}\mathbf{A}^\top$와 $\mathrm{cov}(\mathbf{X}, \mathbf{Y}) = \Sigma_{\mathbf{X}}\mathbf{A}^\top$의 증명은 이번 주 숙제로 남았어요. 다음 시간에 조교가 첫 번째 토픽으로 증명해요. 1007 수업에서는 유도하지 않았어요.
 
-0930 수업에서 칠판에 그린 분산 식의 증명 스케치는 [0930 정리노트 · 아핀 변환의 평균과 공분산](../0930/정리노트_0930_Bayesian_Linear_Regression.html#s4-affine)에 있어요.
+0930 수업에서 칠판에 그린 분산 식의 증명 스케치는 [0930 정리노트 · 아핀 변환의 평균과 공분산](../../0930/정리노트_0930_Bayesian_Linear_Regression.html#s4-affine)에 있어요.
 
 **교수님 말씀**
 
@@ -758,7 +758,7 @@ $$
 \mathrm{var}(2X_1+3X_2)=2^2\cdot4+2\cdot2\cdot3\cdot1+3^2\cdot9=109
 $$
 
-교차항을 빼면 $97$이 돼요. 비대각 공분산 $1$이 $12$만큼 기여해요. 이 예제에서는 두 성분이 독립이라고 가정하지 않았어요. [0930 아핀 변환의 곱 순서 주의](../0930/정리노트_0930_Bayesian_Linear_Regression.html#s4-affine)처럼 $\mathbf{A}\Sigma\mathbf{A}^\top$의 순서도 유지해야 해요.
+교차항을 빼면 $97$이 돼요. 비대각 공분산 $1$이 $12$만큼 기여해요. 이 예제에서는 두 성분이 독립이라고 가정하지 않았어요. [0930 아핀 변환의 곱 순서 주의](../../0930/정리노트_0930_Bayesian_Linear_Regression.html#s4-affine)처럼 $\mathbf{A}\Sigma\mathbf{A}^\top$의 순서도 유지해야 해요.
 
 **페이지 요약**
 
@@ -1574,8 +1574,8 @@ MLE·MAP은 선 하나를 주고, BLR은 평균 둘레의 띠로 불확실성까
 *1007 수업 · L04*
 
 - [복습문제 풀러 가기 (1007 수업 범위 8문제)](복습문제_1007_Product_of_Gaussians.md)
-- [지난 시간 0930 정리노트: 함께 보면 좋은 자료](../0930/정리노트_0930_Bayesian_Linear_Regression.html#s5-links)
-- [추가 강의 Lecture 12: Statistical Inference Part 3 (통계적 추론 3)](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
+- [지난 시간 0930 정리노트: 함께 보면 좋은 자료](../../0930/정리노트_0930_Bayesian_Linear_Regression.html#s5-links)
+- [추가 강의 Lecture 12: Statistical Inference Part 3 (통계적 추론 3)](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 복습문제 8문항
 

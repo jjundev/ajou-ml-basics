@@ -73,13 +73,20 @@ def test_success_preserves_original_and_saves_review(tmp_path):
     published = publish_explanation(pack, artifacts, fragments, approved(pack, fragments, artifacts), pack.path.parent, tmp_path / 'backup')
     assert pack.path.read_bytes() == before
     assert (pack.path.parent / artifacts.html.name).read_bytes() == artifacts.html.read_bytes()
+    # 날짜 폴더 최상위에는 HTML만, 나머지는 .pack/ 아래에 발행된다.
+    top = {p.name for p in pack.path.parent.iterdir()}
+    assert top == {pack.path.name, artifacts.html.name, '.pack'}
+    assert (pack.path.parent / '.pack' / artifacts.md.name).read_bytes() == artifacts.md.read_bytes()
     report = next(p for p in published if p.name == 'validation.json')
+    assert report.parent.parent.name == '.pack'
     assert json.loads(report.read_text(encoding='utf-8'))['browser']['status'] == 'pass'
 
 def test_replace_failure_rolls_back_pair(tmp_path, monkeypatch):
     pack, fragments, artifacts = setup(tmp_path)
     for file in (artifacts.html, artifacts.md):
-        (pack.path.parent / file.name).write_bytes(b'old-' + file.suffix.encode())
+        old = pack.path.parent / file.relative_to(artifacts.html.parent)
+        old.parent.mkdir(exist_ok=True)
+        old.write_bytes(b'old-' + file.suffix.encode())
     replace_copy = review_pdf_publish._replace_copy
     calls = 0
     def fail_once(source, destination):
@@ -92,7 +99,7 @@ def test_replace_failure_rolls_back_pair(tmp_path, monkeypatch):
     with pytest.raises(ExplainError, match='injected'):
         publish_explanation(pack, artifacts, fragments, approved(pack, fragments, artifacts), pack.path.parent, tmp_path / 'backup')
     for file in (artifacts.html, artifacts.md):
-        assert (pack.path.parent / file.name).read_bytes() == b'old-' + file.suffix.encode()
+        assert (pack.path.parent / file.relative_to(artifacts.html.parent)).read_bytes() == b'old-' + file.suffix.encode()
     assert not list(pack.path.parent.rglob('validation.json'))
 
 def test_overlapping_publication_lock_is_refused(tmp_path):

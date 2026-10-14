@@ -24,7 +24,7 @@
 
 ### P1. 2차 다항식의 특징행렬 쓰기
 
-MML Example 9.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p1)
+MML Example 9.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p1)
 
 #### 주어진 조건
 
@@ -102,7 +102,7 @@ $$
 
 ### P2. 3차 다항식 최대우도 적합 준비하기
 
-MML Example 9.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p2)
+MML Example 9.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p2)
 
 #### 주어진 조건
 
@@ -196,7 +196,7 @@ $\phi(x)=[1,x,x^2,x^3]^\top$예요.
 
 ### P3. 사전분포를 바꾼 다항회귀 MAP
 
-MML Example 9.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p3)
+MML Example 9.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p3)
 
 #### 주어진 조건
 
@@ -283,7 +283,7 @@ $\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.
 
 ### P4. 곱의 미분과 치환 미분
 
-MML Exercise 5.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p4)
+MML Exercise 5.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p4)
 
 #### 주어진 조건
 
@@ -363,7 +363,7 @@ $u=\log(x^4)$, $v=\sin(x^3)$로 나눠요.
 
 ### P5. 가우시안 모양 함수 미분하기
 
-MML Exercise 5.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p5)
+MML Exercise 5.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p5)
 
 #### 주어진 조건
 
@@ -445,7 +445,7 @@ $u=-(x-\mu)^2/(2\sigma^2)$예요.
 
 ### P6. 연쇄법칙과 편미분의 차원
 
-MML Exercise 5.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p6)
+MML Exercise 5.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p6)
 
 #### 주어진 조건
 
@@ -530,7 +530,7 @@ Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$
 
 ### P7. tanh 층의 자코비안 차원
 
-MML Exercise 5.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p7)
+MML Exercise 5.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p7)
 
 #### 주어진 조건
 
@@ -608,7 +608,7 @@ $J_{fx}=J_{fz}A$로 연쇄를 적어요.
 
 ### P8. 로지스틱 시그모이드 미분하기
 
-MML Exercise 5.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p8)
+MML Exercise 5.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p8)
 
 #### 주어진 조건
 

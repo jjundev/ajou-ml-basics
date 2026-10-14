@@ -1153,16 +1153,16 @@ $$
 
 ### 함께 보면 좋은 자료
 
-- [Lecture 10 · Statistical Inference Part 1 (쉬운 설명)](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
-- [Lecture 11 · Statistical Inference Part 2 (쉬운 설명)](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
-- [Lecture 12 · Statistical Inference Part 3 (쉬운 설명)](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
+- [Lecture 10 · Statistical Inference Part 1 (쉬운 설명)](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
+- [Lecture 11 · Statistical Inference Part 2 (쉬운 설명)](../../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
+- [Lecture 12 · Statistical Inference Part 3 (쉬운 설명)](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 - [복습문제 6선 풀러 가기 (0921 수업 범위)](복습문제_0921_Bayesian_Inference_Model_Selection.md)
 
 복습문제 6문항
 
 - [문제지 PDF](복습문제_0921_Bayesian_Inference_Model_Selection-문제.pdf)
 - [해설지 PDF](복습문제_0921_Bayesian_Inference_Model_Selection-답안.pdf)
-- [지난 정리노트: 0916 MAP and Generative Models](../0916/정리노트_0916_MAP_and_Generative_Models.html)
+- [지난 정리노트: 0916 MAP and Generative Models](../../0916/정리노트_0916_MAP_and_Generative_Models.html)
 
 ---
 

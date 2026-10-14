@@ -124,6 +124,21 @@ class TestBackupSnippet(unittest.TestCase):
         names = sorted(unicodedata.normalize("NFC", n) for n in os.listdir(d))
         self.assertEqual(names, ["figures_0921", "복습문제_0921_A.md", "정리노트_0921_A.html"])
 
+    def test_backs_up_pack_subfolder(self):
+        # .pack 형식: HTML은 날짜 폴더, MD·PDF·그림은 그 아래 .pack/.
+        day = self.notes / "0921"
+        (day / ".pack" / "figures_0921").mkdir(parents=True)
+        (day / ".pack" / "figures_0921" / "a.svg").write_text("<svg/>", encoding="utf-8")
+        (day / "정리노트_0921_A.html").write_text("n", encoding="utf-8")
+        (day / ".pack" / "복습문제_0921_A.md").write_text("r", encoding="utf-8")
+        (day / ".pack" / "복습문제_0921_A-문제.pdf").write_bytes(b"%PDF")
+        r = self.backup("0921")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("백업 4항목(파일 4개)", r.stdout)
+        (d,) = self.backups()
+        names = sorted(unicodedata.normalize("NFC", n) for n in os.listdir(d))
+        self.assertEqual(names, ["figures_0921", "복습문제_0921_A-문제.pdf", "복습문제_0921_A.md", "정리노트_0921_A.html"])
+
     def test_bad_range_fails_loudly(self):
         (self.notes / "정리노트_0921_A.html").write_text("n", encoding="utf-8")
         for bad in ("", "<range>", "921"):

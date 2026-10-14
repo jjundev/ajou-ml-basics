@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from mpe_contract import validate_fragment, validate_reviews, payload_hash
-from mpe_render import artifact_hashes, check_artifacts, dump, names
+from mpe_render import artifact_hashes, check_artifacts, dump, md_name, names
 from mpe_source import sha256, inside
 from mpe_shared import publish_files, ReviewPdfError
 from mpe_types import ExplainError
@@ -34,13 +34,14 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
                 raise ExplainError('참조 자료 변경: ' + str(path))
         stage_root = artifacts.html.parent.resolve()
         stem, fig_name, data_name = names(pack)
-        allowed_roots = {fig_name, data_name}
+        allowed_files = {stem + '.html', md_name(pack)}
         mapping = {}
         for src in artifacts.files:
             src = Path(src).absolute()
             inside(src, stage_root)
             relative = src.relative_to(stage_root)
-            owned = (len(relative.parts) == 1 and relative.name in (stem + '.html', stem + '.md')) or (len(relative.parts) > 1 and relative.parts[0] in allowed_roots)
+            rel = relative.as_posix()
+            owned = rel in allowed_files or rel.startswith((fig_name + '/', data_name + '/'))
             if not owned or relative.name == 'validation.json':
                 raise ExplainError('소유하지 않은 산출 경로: ' + str(relative))
             dst = inside(destination / relative, repo)

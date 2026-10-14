@@ -1,6 +1,6 @@
 # PDF stage workflow
 
-이 절차는 HTML 카드와 정리노트가 `RUN/work/stage/복습노트/<range>/`에 있고 HTML/정답 검증이 끝난 뒤 실행한다. 4단계의 `review_pdf_stage.py`로 상대 경로 구조를 먼저 준비한다. 새 이미지도 이 날짜 stage 폴더에 두고 상대 src로 참조한다. PNG 캡처는 원본 HTML 위치를 기준으로 읽는다. 날짜 stage 폴더에는 배포할 파일만 두고 임시 파일은 다른 RUN/work 하위에 둔다. 커밋·푸시는 별도 요청이 있을 때만 한다. 전자회로2 저장소를 실행 의존성으로 요구하지 않는다.
+이 절차는 HTML 카드와 정리노트가 `RUN/work/stage/복습노트/<range>/`에 있고 HTML/정답 검증이 끝난 뒤 실행한다. 4단계의 `review_pdf_stage.py`로 상대 경로 구조를 먼저 준비한다. 새 이미지도 이 날짜 stage 폴더의 `.pack/` 아래에 두고 상대 src로 참조한다. PNG 캡처는 원본 HTML 위치를 기준으로 읽는다. 날짜 stage 폴더에는 배포할 파일만 두고 임시 파일은 다른 RUN/work 하위에 둔다. 커밋·푸시는 별도 요청이 있을 때만 한다. 전자회로2 저장소를 실행 의존성으로 요구하지 않는다.
 
 ```bash
 python3 "$SKILL/scripts/build_review_pdf.py" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html" --build-dir "$RUN/work/pdf" --stage-only --layout video-16x9 --report "$RUN/work/pdf-validation.json"
@@ -21,7 +21,7 @@ import json, os, shutil, sys
 from pathlib import Path
 run, skill, repo = (Path(os.environ[k]) for k in ('RUN', 'SKILL', 'REPO'))
 sys.path.insert(0, str(skill / 'scripts'))
-from manifest import note_name, review_name, pdf_names
+from manifest import PACK_DIR, note_name, review_name, pdf_hrefs
 from review_pdf_links import add_pdf_links
 from review_pdf_cards import read_cards
 from build_review_pdf import digest
@@ -34,12 +34,13 @@ assert digest(review) == e['source_sha256'], 'stale source'
 for mode in ('problems', 'answers'):
     src = Path(e['pdfs'][mode]['path'])
     assert digest(src) == e['pdfs'][mode]['sha256'], 'PDF changed'
-    shutil.copy2(src, stage / src.name)
+    (stage / PACK_DIR).mkdir(exist_ok=True)
+    shutil.copy2(src, stage / PACK_DIR / src.name)
 note = stage / note_name(m)
 note.write_text(add_pdf_links(note.read_text(), m['range'], m['slug'], len(read_cards(review).cards)))
 # Use the existing links topic id from this manifest; never invent another topic.
 links_topic = next(t['id'] for s in m['sections'] for t in s['topics'] if t['id'].endswith('-links'))
-for href in pdf_names(m['range'], m['slug']):
+for href in pdf_hrefs(m['range'], m['slug']):
     if not any(link['topic'] == links_topic and link['href'] == href for link in m['links']):
         m['links'].append({'topic': links_topic, 'href': href})
 (run / 'manifest.json').write_text(json.dumps(m, ensure_ascii=False, indent=2) + '\n')
@@ -52,20 +53,20 @@ python3 "$SKILL/scripts/html2md.py" "$RUN/work/stage/복습노트/<range>/<정�
 
 마지막으로 PyMuPDF/pdftoppm으로 두 PDF의 **모든 페이지**를 PNG로 렌더링해서 검사한다. `validation.json`의 DOM 검사와 PDF 페이지 크기/텍스트 검사만으로 시각 검수를 대신하지 않는다. 기존 팩의 비율 변경은 review/정리노트 HTML·MD·그림과 링크를 보존하고 같은 이름의 PDF 쌍만 백업·교체한다. DOM 자막 경계와 PDF의 마지막 135pt에 텍스트·이미지·비백색 도형이 없는지 검증하고 전체 페이지에서 표·방향 그래프·행렬·긴 증명·Hint·필기 공간을 확인한다.
 
-검수가 모두 통과한 새 팩은 다음으로 배포한다. 상대 경로를 그대로 유지하며 여섯 파일과 그림 모두를 한 배포 요청에 넣는다.
+검수가 모두 통과한 새 팩은 다음으로 배포한다. 상대 경로를 그대로 유지하며 여섯 파일(HTML 2 + `.pack/`의 MD 2·PDF 2)과 그림 모두를 한 배포 요청에 넣는다.
 
 ```python
 import os, sys
 from pathlib import Path
 run, skill, repo = (Path(os.environ[k]) for k in ('RUN', 'SKILL', 'REPO'))
 sys.path.insert(0, str(skill / 'scripts'))
-from manifest import load, note_name, review_name, pdf_names, fig_dir_name
+from manifest import PACK_DIR, load, note_name, review_name, pdf_names
 from review_pdf_publish import publish_files
 m = load(run / 'manifest.json')
 stage = run / 'work/stage/복습노트' / m['range']
 public = repo / '복습노트' / m['range']
-names = [note_name(m), review_name(m), Path(note_name(m)).with_suffix('.md').name,
-         Path(review_name(m)).with_suffix('.md').name, *pdf_names(m['range'], m['slug'])]
+names = [note_name(m), review_name(m), *(f'{PACK_DIR}/{n}' for n in (Path(note_name(m)).with_suffix('.md').name,
+         Path(review_name(m)).with_suffix('.md').name, *pdf_names(m['range'], m['slug'])))]
 files = [stage / n for n in names]
 # Stage pack holds only deliverables and their local assets; scratch remains elsewhere.
 files += [p for p in stage.rglob('*') if p.is_file() and p not in files]
