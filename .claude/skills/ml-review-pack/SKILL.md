@@ -141,6 +141,8 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 
 - 기본 팩 배포 성공 직후 [문제설명 공통 절차](references/problem-explain.md)를 최종 복습문제의 정확한 절대 HTML 경로로 실행한다. 신규·기존 팩 갱신·lite 모두 전체 문항·소문항을 처리한다. 설명 실패는 기본 팩을 보존하고 별도로 보고한다.
 
+- 기본 팩 배포와 문제설명 처리 뒤 [기존 인터랙티브 연결 복원](references/interactive-links.md)을 적용한다. 기존 자료가 있을 때만 재연결하며 새 자료는 자동 생성하지 않는다. 연결 오류는 기본 팩·문제설명 결과와 분리해 보고한다.
+
 ### 9. 보고
 다음 형식으로 끝낸다.
 ```
@@ -152,6 +154,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 학습 레퍼런스: 적용 토픽 id / 적용 없음 / 참고 누락과 원인
 - PDF 검증: 논리 문항 수, 모드별 페이지 수, 전체 페이지 시각 검수, validation.json, 템플릿 SHA
 - 문제설명: published/withheld, 전체 문항·소문항 수, 네 실제 검토, HTML/MD 링크, RUN·백업; 실패하면 “복습팩 생성됨 / 문제설명 보류”, 이유. 이전 설명을 현재 입력 검증으로 보고하지 않음
+- 인터랙티브 연결: added/updated/unchanged/skipped·노트 절·실제 링크; 자료 없음/스킬 미설치면 생략
 - 백업: …
 - 미해결: … (없으면 "없음")
 - 커밋 제안: git add 복습노트/<range> && git commit -m "docs(notes): add review pack <range>"
