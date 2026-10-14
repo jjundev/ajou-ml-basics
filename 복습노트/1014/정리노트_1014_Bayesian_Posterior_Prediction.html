@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 1014</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · 1014 수업 (Lecture04 s5–15, MML 6·9장)">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="1014">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 출발점</a><a href="#s1">1 사후분포</a><a href="#s2">2 예측분포</a><a href="#s3">3 요약·예고</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>베이지안 선형회귀의 완성 — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 1014 수업 (Lecture04 s5–15, MML 6·9장)</p>
+    </div>
+    <section id="s0"><h2>0. 정규화와 확률 모델</h2>
+<article class="topic" id="s0-normalize"><h3>종 모양의 넓이를 1로 맞춰요</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s6·s8·s10–11</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">종 모양의 선을 그대로 두고 높이만 조절해서, 선 아래의 넓이를 딱 하나로 맞춰요.</p>
+    <figure class="figure"><svg id="fig-s0-normalize-area" viewBox="0 0 480 180" role="img" aria-label="같은 모양의 종 곡선 두 개가 있고, 오른쪽 곡선은 낮아져 선 아래 넓이가 하나가 된다"><path class="fig-ink" d="M22 145H220 M264 145H462"/><path class="fig-danger" d="M30 144 C72 142 82 34 120 25 C158 34 168 142 210 144"/><path class="fig-accent" d="M272 144 C312 142 326 70 363 65 C400 70 414 142 454 144"/><text class="fig-muted" x="70" y="167" font-size="13">조절 전</text><text class="fig-text" x="331" y="167" font-size="13">넓이 하나</text></svg><figcaption>높이를 맞추면 선 아래 넓이가 하나가 돼요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>확률밀도함수(PDF, probability density function)는 음이 아니고 전체 정의역에서 적분한 값이 1이어야 해요. 연속형 확률변수의 한 점에서 밀도값 자체가 확률인 것은 아니며, 구간의 확률은 그 구간 아래 넓이로 계산해요.</p>
+    <ol class="steps"><li>스칼라 변수 $x\in\mathbb R$, 평균 $\mu\in\mathbb R$, 분산 $\sigma^2\gt0$에 대해 정규분포 밀도를 써요.
+      $$p(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).$$</li>
+      <li>PDF의 정규화 조건을 적용해요.
+      $$1=\int_{-\infty}^{\infty}p(x)\,dx=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{\infty}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx.$$</li>
+      <li>앞의 상수는 $x$와 무관하므로 적분 밖에 둘 수 있어요. 양변에 $\sqrt{2\pi\sigma^2}$를 곱하면 지수부만의 넓이를 얻어요.
+      $$\int_{-\infty}^{\infty}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx=\sqrt{2\pi\sigma^2}.$$</li></ol>
+    <p>따라서 $\exp\!\left(-(x-\mu)^2/(2\sigma^2)\right)$는 종 모양을 정하고, $1/\sqrt{2\pi\sigma^2}$는 그 넓이를 1로 만드는 정규화 상수예요. 정규화 전의 지수부만을 PDF라고 부를 수는 없어요.</p>
+    <p>벡터에서도 같은 원리가 작동해요. $\mathbf u,\boldsymbol{\mu}\in\mathbb R^d$이고 $\Sigma\in\mathbb R^{d\times d}$가 대칭 양의 정부호인 공분산행렬이면 다변량 가우시안 밀도는 다음과 같아요.</p>
+    $$p(\mathbf u)=\frac{1}{\sqrt{(2\pi)^d|\Sigma|}}\exp\!\left(-\frac12(\mathbf u-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf u-\boldsymbol{\mu})\right).$$
+    <p>행렬식(determinant) $|\Sigma|$는 스칼라예요. 지수 안의 이차형식은 $(1\times d)(d\times d)(d\times1)$의 곱이라 스칼라예요. 따라서 PDF의 값도 스칼라이고, $d$개 성분을 모두 적분하면 1이 돼요. 앞 상수를 제외한 지수부의 전체 적분값은 $\sqrt{(2\pi)^d|\Sigma|}$예요. 이 사실은 뒤에서 가우시안 모양을 정규화할 때 다시 써요.</p>
+    <p>Part 03에서는 두 가우시안 밀도의 곱도 복습했어요. $p_0(x)=\mathcal N(x\mid\mu_0,v_0)$, $p_1(x)=\mathcal N(x\mid\mu_1,v_1)$에서 $\mu_0,\mu_1\in\mathbb R$는 평균, $v_0,v_1\gt0$은 분산이에요. 같은 변수 $x$에 관한 두 PDF를 곱하면 평균 $m$, 분산 $v$인 가우시안 모양이지만, 아직 PDF는 아니에요.</p>
+    $$v=(v_0^{-1}+v_1^{-1})^{-1},\qquad m=v\left(\frac{\mu_0}{v_0}+\frac{\mu_1}{v_1}\right).$$
+    <p>곱의 전체 적분값 $c=\int_{-\infty}^{\infty}p_0(x)p_1(x)\,dx$는 양의 상수예요. 따라서 다음 식에서 $c$는 곱을 정규화하기 전의 전체 넓이이고, $\mathcal N(x\mid m,v)$ 안의 $1/\sqrt{2\pi v}$는 정규화된 가우시안 PDF 자체의 앞 계수예요.</p>
+    $$p_0(x)p_1(x)=c\,\mathcal N(x\mid m,v),\qquad \frac{p_0(x)p_1(x)}{c}=\mathcal N(x\mid m,v).$$
+    <p>다변량 가우시안 곱에도 이 원리가 이어져요. 행렬판의 자세한 증명은 이날 다시 유도하지 않았으므로 <a href="../1012/정리노트_1012_Several_Mathematical_Proofs.html">1012 가우시안 곱 증명 노트</a>에서 확인해요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“PDF, PDF의 값은 항상 스칼라예요.”</blockquote><p>(1014 Part 02; 정확한 시각 없음) 교수님은 행렬식과 이차형식의 크기를 확인하며, 복잡해 보이는 식도 마지막에는 숫자 하나여야 한다고 강조했어요. Part 01에서는 종 모양의 넓이를 1로 맞추는 계수가 뒤의 유도에 쓰인다고 예고했어요.</p></div>
+  <div class="layer warn"><span class="layer-title">꼭 기억해요</span><blockquote>“이 세 번째 게 우리 지금 이 챕터에서 가장 중요한 이론.”</blockquote><p>(1014 Part 03; 정확한 시각 없음) 두 가우시안 밀도의 곱은 정규화 전에는 가우시안 모양에 비례해요. 전체 넓이로 나누어야 PDF가 돼요.</p></div>
+  <div class="sum" hidden><p class="sum-lead">종 모양의 지수부나 두 밀도의 곱은 전체 넓이로 정규화해야 PDF가 돼요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">스칼라 정규화</span>$$\int_{-\infty}^{\infty}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx=\sqrt{2\pi\sigma^2}.$$</li><li><span class="eq-name">다변량 밀도</span>$$p(\mathbf u)=\frac{1}{\sqrt{(2\pi)^d|\Sigma|}}\exp\!\left(-\frac12(\mathbf u-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf u-\boldsymbol{\mu})\right).$$</li><li><span class="eq-name">가우시안 곱</span>$$p_0(x)p_1(x)=c\,\mathcal N(x\mid m,v),\qquad \frac{p_0(x)p_1(x)}{c}=\mathcal N(x\mid m,v).$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>확률밀도함수(PDF)</dt><dd>음이 아니며 전체 적분값이 1인 함수예요.</dd><dt>정규화</dt><dd>함수의 전체 넓이를 1로 맞추는 일이에요.</dd></dl></div>
+</article>
+
+<article class="topic" id="s0-model"><h3>고정된 입력, 불확실한 가중치</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s5</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">같은 재료를 넣어도 조리법을 확신하지 못하면 결과가 여러 가지일 수 있어요.</p>
+    <figure class="figure"><svg id="fig-s0-model-path" viewBox="0 0 490 185" role="img" aria-label="왼쪽의 고정된 재료가 가운데 여러 조리법 후보를 거쳐 오른쪽의 여러 결과 후보로 이어지는 선 그림"><rect class="fig-ink" x="22" y="63" width="96" height="55" rx="9"/><text class="fig-text" x="46" y="95" font-size="13">재료</text><rect class="fig-accent" x="195" y="17" width="107" height="45" rx="9"/><rect class="fig-accent" x="195" y="71" width="107" height="45" rx="9"/><rect class="fig-accent" x="195" y="125" width="107" height="45" rx="9"/><text class="fig-text" x="214" y="45" font-size="13">조리법 하나</text><text class="fig-text" x="214" y="99" font-size="13">조리법 둘</text><text class="fig-text" x="214" y="153" font-size="13">조리법 셋</text><path class="fig-ink" d="M118 89L195 39 M118 90L195 93 M118 91L195 147 M302 39L390 89 M302 93L390 90 M302 147L390 91"/><rect class="fig-ink" x="390" y="63" width="80" height="55" rx="9"/><text class="fig-text" x="408" y="95" font-size="13">결과들</text></svg><figcaption>재료는 정해져 있어도 조리법 후보가 여럿이면 결과도 달라져요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>베이지안 선형회귀(Bayesian linear regression)의 한 관측값 모델은 다음과 같아요. $x$는 주어진 입력, $\phi(x)\in\mathbb R^K$는 입력에서 결정적으로 만드는 특징벡터(feature vector), $\theta\in\mathbb R^K$는 $K$개 가중치의 열벡터, $\epsilon\sim\mathcal N(0,\sigma^2)$는 분산 $\sigma^2\gt0$인 관측 잡음, $y\in\mathbb R$는 스칼라 출력이에요.</p>
+    $$y=\phi(x)^T\theta+\epsilon.$$
+    <p>여기서 내적 $\phi(x)^T\theta$는 $(1\times K)(K\times1)$이므로 스칼라예요. 특징벡터가 $\phi(x)=(1,x,x^2,x^3)^T$처럼 입력 $x$에 비선형이어도, 가중치 $\theta$에 선형이면 선형회귀라고 해요. $x$와 $\theta$를 모두 고정하면 출력의 조건부 밀도인 우도(likelihood)는 다음과 같아요.</p>
+    $$p(y\mid x,\theta)=\mathcal N\!\left(y\mid\phi(x)^T\theta,\sigma^2\right).$$
+    <p>베이지안 모델은 가중치를 미지의 확률벡터로 두고 사전분포(prior) $p(\theta)=\mathcal N(\theta\midm_0,S_0)$를 정해요. $m_0\in\mathbb R^K$는 사전평균, $S_0\in\mathbb R^{K\times K}$는 사전 공분산행렬이에요. 한 관측에 대한 결합밀도(joint density)는 $p(y,\theta\mid x)=p(y\mid x,\theta)p(\theta)$예요.</p>
+    <p>훈련 입력 $x_1,\ldots,x_N$과 정답 $y_1,\ldots,y_N$을 각각 $X,Y$라고 부르고, $y=(y_1,\ldots,y_N)^T\in\mathbb R^N$로 모아요. 특징행렬 $\Phi\in\mathbb R^{N\times K}$는 각 행을 $\phi(x_i)^T$로 쌓은 행렬이에요. 따라서 $\Phi\theta\in\mathbb R^N$이고, $\Phi$는 정방행렬일 필요가 없어요. 새 입력 $x_*$에 대해서는 $\phi_*:=\phi(x_*)\in\mathbb R^K$라고 써요. $\phi_*^T\theta$는 새 출력의 스칼라 평균이에요.</p>
+    <p>훈련자료를 본 뒤 가중치의 사후분포(posterior) $p(\theta\mid X,Y)$를 구하고, 새 출력의 사후예측분포(posterior predictive distribution)를 구하는 것이 목표예요.</p>
+    $$p(y_*\mid x_*,X,Y)=\int_{\mathbb R^K}p(y_*\mid x_*,\theta)p(\theta\mid X,Y)\,d\theta.$$
+    <p>$y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새 출력의 조건부 밀도를 계산하고, 사후분포로 가중평균해요. 우도 $p(Y\mid X,\theta)$는 관측값 $Y$에 관한 밀도이며, $\theta$의 함수로 볼 때 $\theta$에 대해 정규화된 PDF라는 뜻은 아니에요. 베이즈 규칙에서 $p(\theta\mid X,Y)\propto p(Y\mid X,\theta)p(\theta)$라는 곱은 정규화 전의 모양을 나타내고, 정규화한 뒤에야 적분값이 1인 사후밀도가 돼요. 서로 다른 변수에 관한 두 밀도를 곱하는 위 예측 적분도, 같은 변수에 관한 가우시안 곱 공식만으로 바로 끝나지 않아요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“그 linear하다는 말이 θ에 대해서만 linear하면 된다.”</blockquote><p>(1014 Part 01; 정확한 시각 없음) 입력을 변환해도 가중치에 대한 선형성이 핵심이라는 뜻이에요. Part 02에서는 새 입력의 정답을 숫자 하나로 단정하기보다, 가중치에 관한 사후분포를 적분해 예측분포를 얻는 목표를 다시 짚었어요.</p></div>
+  <div class="sum" hidden><p class="sum-lead">입력에서 특징은 고정되고, 가중치의 불확실성을 평균해 새 출력의 분포를 구해요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">관측 모델</span>$$y=\phi(x)^T\theta+\epsilon.$$</li><li><span class="eq-name">예측 목표</span>$$p(y_*\mid x_*,X,Y)=\int_{\mathbb R^K}p(y_*\mid x_*,\theta)p(\theta\mid X,Y)\,d\theta.$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>특징벡터(feature vector)</dt><dd>주어진 입력에서 결정적으로 만든 $K$차원 벡터예요.</dd><dt>사전분포(prior)</dt><dd>훈련자료를 보기 전 가중치에 둔 확률분포예요.</dd><dt>사후분포(posterior)</dt><dd>훈련자료를 본 뒤 가중치에 대해 갱신한 확률분포예요.</dd></dl></div>
+</article>
+    </section>
+    <section id="s1"><h2>1. 사후분포를 직접 구해요</h2>
+<article class="topic" id="s1-expand"><h3>음의 로그를 이차식으로 펼쳐요</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s12</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">서로 다른 두 힌트를 한 장의 계산표에 모아요.</p>
+    <figure class="figure"><svg id="fig-s1-expand-hints" viewBox="0 0 480 135" role="img" aria-label="왼쪽의 관측 힌트와 오른쪽의 이전 믿음 힌트가 가운데 계산표로 모이는 선 그림"><rect class="fig-ink" x="10" y="38" width="120" height="58" rx="8"/><rect class="fig-ink" x="350" y="38" width="120" height="58" rx="8"/><rect class="fig-accent" x="176" y="26" width="128" height="82" rx="8"/><path class="fig-accent" d="M130 67 H171 M309 67 H350"/><text font-size="13" class="fig-text" x="70" y="73" text-anchor="middle">관측 힌트</text><text font-size="13" class="fig-text" x="410" y="73" text-anchor="middle">이전 믿음</text><text font-size="13" class="fig-text" x="240" y="63" text-anchor="middle">한 장의</text><text font-size="13" class="fig-text" x="240" y="83" text-anchor="middle">계산표</text></svg><figcaption>두 힌트를 더하면 한 가지 모양이 보여요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>훈련 입력 $X$의 수를 $N$, 특징 수를 $K$라 해요. 특징행렬 $\Phi\in\mathbb R^{N\times K}$, 관측 벡터 $y\in\mathbb R^N$, 파라미터 $\theta\in\mathbb R^K$를 써요. 잡음 분산 $\sigma^2\gt0$과 단위행렬 $I_N$을 두면 우도(likelihood)는 $p(Y\mid X,\theta)=\mathcal N(y\mid\Phi\theta,\sigma^2I_N)$예요. 사전분포(prior)는 평균 $m_0\in\mathbb R^K$, 대칭 양의 정부호 공분산 $S_0\in\mathbb R^{K\times K}$를 갖는 $p(\theta)=\mathcal N(\theta\mid m_0,S_0)$예요. 여기서 $Y$는 관측값 전체를 뜻해요.</p>
+    <p>베이즈 규칙에서 $p(\theta\mid X,Y)\propto p(Y\mid X,\theta)p(\theta)$예요. 따라서 곱을 음의 로그로 바꾸면 지수의 두 이차식을 더할 수 있어요. $\mathrm{const}$는 $\theta$와 무관한 정규화 항이에요.</p>
+    <ol class="steps">
+      <li><p>음의 로그의 출발점이에요.</p>$$-\log p(\theta\mid X,Y)=\frac{1}{2\sigma^2}(y-\Phi\theta)^T(y-\Phi\theta)+\frac12(\theta-m_0)^TS_0^{-1}(\theta-m_0)+\mathrm{const}$$</li>
+      <li><p>$(\Phi\theta)^T=\theta^T\Phi^T$로 순서를 뒤집어 우도 부분을 네 항으로 펼쳐요.</p>$$ (y-\Phi\theta)^T(y-\Phi\theta)=y^Ty-y^T\Phi\theta-\theta^T\Phi^Ty+\theta^T\Phi^T\Phi\theta $$</li>
+      <li><p>사전분포 부분도 네 항으로 펼쳐요.</p>$$ (\theta-m_0)^TS_0^{-1}(\theta-m_0)=\theta^TS_0^{-1}\theta-\theta^TS_0^{-1}m_0-m_0^TS_0^{-1}\theta+m_0^TS_0^{-1}m_0 $$</li>
+      <li><p>우도의 두 교차항은 스칼라예요. $y^T\Phi\theta\in\mathbb R$이므로 전치해도 값이 같아요.</p>$$ (y^T\Phi\theta)^T=\theta^T\Phi^Ty=y^T\Phi\theta $$<p>사전분포의 두 교차항도 스칼라이고, $S_0^{-1}$가 대칭이므로 같아요.</p>$$ (\theta^TS_0^{-1}m_0)^T=m_0^T(S_0^{-1})^T\theta=m_0^TS_0^{-1}\theta=\theta^TS_0^{-1}m_0 $$</li>
+      <li><p>두 항씩 합친 뒤 $\theta$에 관한 이차항, 일차항, 상수항을 모아요.</p>$$-\log p(\theta\mid X,Y)=\frac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)+\mathrm{const}$$<p>여기서 $y^Ty$와 $m_0^TS_0^{-1}m_0$는 $\theta$가 없는 상수항이에요. $\Phi^T\Phi$와 $S_0^{-1}$는 모두 $K\times K$이고, $\Phi^Ty$와 $S_0^{-1}m_0$는 모두 $K\times1$이에요. 그래서 가로벡터, 행렬, 세로벡터의 곱은 스칼라가 돼요.</p></li>
+    </ol>
+    <p>우도 $p(Y\mid X,\theta)$는 고정된 $\theta$에서 $y$에 관해 정규화된 밀도예요. 이를 $\theta$의 함수로 본 것만으로는 $\theta$에 관해 정규화된 밀도가 되지 않아요. 사전분포와 곱하고 정규화한 결과가 사후분포예요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><p>교수님은 네 항씩 직접 펼쳐 $\theta$의 차수별로 묶고, 손으로 계산해 보라고 권했어요. “이거 어렵지 않아요, 복잡할 뿐이지.” (1014 Part 04; 정확한 시각 없음)</p></div>
+  <div class="sum" hidden><p class="sum-lead">두 이차식을 펼쳐 같은 교차항을 합치면 계수 비교가 쉬워져요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">음의 로그</span>$$-\log p(\theta\mid X,Y)=\frac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)+\mathrm{const}$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>스칼라(scalar)</dt><dd>행렬 곱의 결과로 얻는 숫자 하나예요.</dd><dt>우도(likelihood)</dt><dd>주어진 파라미터에서 관측값의 밀도를 나타내요.</dd></dl></div>
+</article>
+<article class="topic" id="s1-match"><h3>계수를 맞춰 평균과 공분산을 찾아요</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s13</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">같은 그림을 두 장의 설명서로 그렸다면, 같은 자리의 숫자도 같아야 해요.</p>
+    <figure class="figure"><svg id="fig-s1-match-coefficients" viewBox="0 0 480 135" role="img" aria-label="왼쪽 설명서와 오른쪽 설명서의 위아래 빈칸을 서로 잇는 선 그림"><rect class="fig-ink" x="24" y="17" width="170" height="102" rx="8"/><rect class="fig-accent" x="286" y="17" width="170" height="102" rx="8"/><path class="fig-accent" d="M194 47 H286 M194 88 H286"/><text font-size="13" class="fig-text" x="109" y="50" text-anchor="middle">첫 번째 설명서</text><text font-size="13" class="fig-text" x="371" y="50" text-anchor="middle">두 번째 설명서</text><text font-size="13" class="fig-muted" x="109" y="93" text-anchor="middle">위칸 · 아래칸</text><text font-size="13" class="fig-muted" x="371" y="93" text-anchor="middle">위칸 · 아래칸</text></svg><figcaption>같은 칸끼리 맞추면 숨은 값을 찾을 수 있어요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p><a href="#s1-expand">음의 로그 전개</a>에서 얻은 $\theta$의 이차식과 가우시안의 이차식을 비교해요. 사후평균 $m_N\in\mathbb R^K$와 사후공분산 $S_N\in\mathbb R^{K\times K}$를 아직 모르는 값으로 두어요. $S_N^{-1}$는 정밀도(precision), 즉 공분산의 역행렬이에요. 아래에서 $A:=S_0^{-1}+\sigma^{-2}\Phi^T\Phi$, $b:=S_0^{-1}m_0+\sigma^{-2}\Phi^Ty$로 줄여 써요.</p>
+    <ol class="steps">
+      <li><p>완전제곱을 목표로 하는 사후 가우시안의 음의 로그를 네 항으로 펼쳐요. $S_N^{-1}$는 대칭이에요.</p>$$-\log\mathcal N(\theta\mid m_N,S_N)=\frac12(\theta-m_N)^TS_N^{-1}(\theta-m_N)+\mathrm{const}$$ $$=\frac12\left(\theta^TS_N^{-1}\theta-\theta^TS_N^{-1}m_N-m_N^TS_N^{-1}\theta+m_N^TS_N^{-1}m_N\right)+\mathrm{const}$$</li>
+      <li><p>두 교차항은 서로 전치인 스칼라이고 정밀도의 대칭성 때문에 같아요.</p>$$ (\theta^TS_N^{-1}m_N)^T=m_N^T(S_N^{-1})^T\theta=m_N^TS_N^{-1}\theta $$<p>따라서 일차항을 하나로 모아요.</p>$$-\log\mathcal N(\theta\mid m_N,S_N)=\frac12\theta^TS_N^{-1}\theta-\theta^TS_N^{-1}m_N+\mathrm{const}$$</li>
+      <li><p>이차항의 계수를 맞추면 $S_N^{-1}=A$예요.</p>$$ S_N^{-1}=S_0^{-1}+\sigma^{-2}\Phi^T\Phi $$ $$ S_N=(S_0^{-1}+\sigma^{-2}\Phi^T\Phi)^{-1} $$<p>슬라이드 s12의 머리 부분은 잡음 분산과 정밀도 표기가 어긋나지만, 음의 로그 전개 및 계수 비교에 필요한 계수는 $\sigma^{-2}=1/\sigma^2$예요.</p></li>
+      <li><p>일차항은 $S_N^{-1}m_N=b$예요. 양변의 왼쪽에 $S_N$을 곱하면 평균을 얻어요.</p>$$ S_N^{-1}m_N=S_0^{-1}m_0+\sigma^{-2}\Phi^Ty $$ $$ m_N=S_N(S_0^{-1}m_0+\sigma^{-2}\Phi^Ty) $$<p>가로벡터 형태로 비교하면 $m_N^TS_N^{-1}=b^T$예요. 오른쪽에 $S_N$을 곱해 $m_N^T=b^TS_N$을 얻고 전치하면 같은 $m_N=S_Nb$가 나와요. 이때 $S_N^T=S_N$을 썼어요.</p></li>
+      <li><p>이 결과를 완전제곱 형태에 대입해 확인해요.</p>$$ \theta^TA\theta-2b^T\theta=(\theta-A^{-1}b)^TA(\theta-A^{-1}b)-b^TA^{-1}b $$<p>마지막 항은 $\theta$와 무관해 정규화 상수에 들어가요. $S_0$가 양의 정부호이므로 $S_0^{-1}$도 양의 정부호예요. $\sigma^2\gt0$에서 $\sigma^{-2}\Phi^T\Phi$는 양의 준정부호이므로 합 $A$는 대칭 양의 정부호예요. 따라서 $A^{-1}=S_N$이 존재하고, 이 가우시안 커널을 $\theta$에 관해 정규화할 수 있어요. 결론은 $p(\theta\mid X,Y)=\mathcal N(\theta\mid m_N,S_N)$예요.</p></li>
+    </ol>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><p>교수님은 일차항에서 평균을 꺼내는 부분을 다시 써 주며, 고등학교의 계수비교와 같은 원리라고 설명했어요. “다시 써볼까요, 그럼?” (1014 Part 05; 정확한 시각 없음)</p></div>
+  <div class="sum" hidden><p class="sum-lead">이차항과 일차항의 계수를 맞추면 사후공분산과 평균을 구해요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">사후 정밀도</span>$$ S_N^{-1}=S_0^{-1}+\sigma^{-2}\Phi^T\Phi $$</li><li><span class="eq-name">사후평균</span>$$ m_N=S_N(S_0^{-1}m_0+\sigma^{-2}\Phi^Ty) $$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>정밀도(precision)</dt><dd>공분산 행렬의 역행렬이에요.</dd><dt>완전제곱(completing the square)</dt><dd>이차식의 중심과 퍼짐을 드러내는 정리예요.</dd></dl></div>
+</article>
+    </section>
+    <section id="s2"><h2>2. 새 입력의 예측분포</h2>
+<article class="topic" id="s2-weighted">
+  <h3>가중합의 분산을 행렬로 묶어요</h3>
+  <div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s7, s14</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">두 재료를 섞은 결과가 얼마나 흔들릴지는 각 재료의 흔들림과 둘이 함께 움직이는 정도를 봐야 해요.</p>
+    <figure class="figure"><svg id="fig-s2-weighted-mix" viewBox="0 0 560 190" role="img" aria-label="두 재료에서 가운데 결과로 이어지는 선, 함께 움직이는 정도를 나타내는 두 재료 사이의 곡선">
+      <text class="fig-text" x="42" y="78" font-size="14">재료 하나</text><text class="fig-text" x="42" y="146" font-size="14">재료 둘</text><text class="fig-text" x="426" y="112" font-size="14">섞은 결과</text>
+      <path class="fig-ink" d="M115 72 L407 101 M115 139 L407 107" fill="none" stroke-width="2"/>
+      <path class="fig-accent" d="M120 84 C205 10 270 10 350 84" fill="none" stroke-width="2"/>
+      <circle class="fig-dot" cx="408" cy="104" r="5"/>
+    </svg><figcaption>재료 사이의 곡선도 결과의 흔들림에 영향을 줘요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>새 입력 $x_*$의 특징 열벡터를 $\phi_*=\phi(x_*)\in\mathbb R^K$라 하고, 훈련자료 $X,Y$를 본 뒤의 파라미터 열벡터를 $\theta\mid X,Y\sim\mathcal N(m_N,S_N)$라고 해요. $m_N\in\mathbb R^K$는 사후평균, $S_N\in\mathbb R^{K\times K}$는 사후 자기 공분산행렬이에요. $K$는 특징의 개수이고, 잡음 없는 출력 $z=\phi_*^T\theta$는 스칼라예요.</p>
+    <p>스칼라 가중합부터 시작해요. $K=2$, $\phi_*=(a,b)^T$, $\theta=(\theta_1,\theta_2)^T$이면 $z=a\theta_1+b\theta_2$예요. 여기서 $a,b$는 주어진 상수이고, $S_{ij}=\operatorname{Cov}(\theta_i,\theta_j\mid X,Y)$예요.</p>
+    <ol class="steps">
+      <li>스칼라 정의를 써요. $\operatorname{Cov}(u,v)=\mathbb{E}[(u-\mathbb{E}[u])(v-\mathbb{E}[v])]$이고 $\operatorname{Var}(u)=\operatorname{Cov}(u,u)$예요. $\mathbb{E}$는 기대값이에요.</li>
+      <li>가중합을 펼치면 $$\operatorname{Var}(z)=a^2S_{11}+abS_{12}+abS_{21}+b^2S_{22}.$$</li>
+      <li>자기 공분산행렬은 대칭이므로 $S_{12}=S_{21}$이에요. 따라서 $$\operatorname{Var}(z)=a^2S_{11}+2abS_{12}+b^2S_{22}.$$ 두 성분이 함께 움직이는 교차항을 버리면 일반적으로 틀려요.</li>
+      <li>이 성분 계산을 행렬로 묶어요. 편차 $\widetilde{\theta}=\theta-m_N$에 대해 $$\operatorname{Var}(z)=\mathbb{E}[(\phi_*^T\widetilde{\theta})(\phi_*^T\widetilde{\theta})]$$ $$=\phi_*^T\mathbb{E}[\widetilde{\theta}\widetilde{\theta}^T]\phi_*=\phi_*^T S_N\phi_*.$$</li>
+    </ol>
+    <p>차원은 $(1\times K)(K\times K)(K\times1)=1\times1$이에요. L04 s7에서 복습한 일반 규칙도 편차의 정의로 확인할 수 있어요. 이 문단의 $\mathbf X\in\mathbb R^n$, $\mathbf Y\in\mathbb R^m$는 훈련자료 $X,Y$와 별개의 일반 확률벡터예요. 상수 행렬 $A\in\mathbb R^{p\times n}$, $B\in\mathbb R^{q\times m}$와 상수 벡터 $b\in\mathbb R^p$, $c\in\mathbb R^q$를 놓고, $\widetilde{\mathbf X}=\mathbf X-\mathbb{E}[\mathbf X]$, $\widetilde{\mathbf Y}=\mathbf Y-\mathbb{E}[\mathbf Y]$라 해요. 상수 이동은 편차에서 사라지고, 둘째 편차의 전치가 $B^T$를 오른쪽에 놓아요.</p>
+    <p>$$\operatorname{Cov}(A\mathbf X+b,B\mathbf Y+c)=\mathbb{E}[(A\widetilde{\mathbf X})(B\widetilde{\mathbf Y})^T]=A\operatorname{Cov}(\mathbf X,\mathbf Y)B^T.$$ 첫 입력의 계수는 왼쪽, 둘째 입력의 계수는 전치해서 오른쪽이에요. 결과 차원은 $(p\times n)(n\times m)(m\times q)=p\times q$예요. 이는 두 입력 사이의 교차 공분산이에요. 특히 $n=m=K$, $\mathbf X=\mathbf Y=\theta$, $A=B$로 놓은 자기 공분산은 $\operatorname{Cov}(A\theta)=AS_NA^T\in\mathbb R^{p\times p}$예요. 지금은 $A=\phi_*^T$이고, $\operatorname{Cov}(\theta,z)=S_N\phi_*\in\mathbb R^{K\times1}$는 교차 공분산, $\operatorname{Var}(z)=\phi_*^T S_N\phi_*$는 자기 공분산이에요.</p>
+    <p>관측 잡음 $\epsilon\sim\mathcal N(0,\sigma^2)$는 $\theta$와 독립이라고 가정해요. 따라서 $y_*=z+\epsilon$의 분산에는 뒤에서 $\sigma^2$를 더해요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“벡터를 내적하면 스칼라잖아요.”</blockquote><p>(1014 Part 06; 정확한 시각 없음) 가중합의 결과와 분산이 스칼라인지 확인하며 차원을 짚었어요. 일반 정리의 별도 증명은 미뤘지만 공분산을 이용한 계산은 칠판에서 보여 주었어요.</p></div>
+  <div class="sum" hidden><p class="sum-lead">성분별 교차항을 포함해 계산한 분산이 행렬 표현 하나로 묶여요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">가중합의 분산</span>$$\operatorname{Var}(z)=\phi_*^T S_N\phi_*$$</li><li><span class="eq-name">일반 선형변환</span>$$\operatorname{Cov}(A\theta)=AS_NA^T$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>자기 공분산(self-covariance)</dt><dd>한 벡터의 성분들이 함께 움직이는 정도를 나타내는 행렬이에요.</dd></dl></div>
+</article>
+
+<article class="topic" id="s2-integral">
+  <h3>벡터 적분을 스칼라 하나로 줄여요</h3>
+  <div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s14</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">가능한 여러 조리법이 같은 맛을 낼 수 있어요. 그 맛이 얼마나 자주 나오는지 모은 다음, 마지막에 섞이는 잡음까지 합쳐요.</p>
+    <figure class="figure"><svg id="fig-s2-integral-flow" viewBox="0 0 560 170" role="img" aria-label="여러 조리법에서 한 가지 맛으로 선이 모이고, 맛에서 관측 결과로 선이 이어지는 흐름">
+      <text class="fig-text" x="24" y="31" font-size="14">여러 조리법</text><text class="fig-text" x="251" y="31" font-size="14">맛</text><text class="fig-text" x="420" y="31" font-size="14">나온 결과</text>
+      <circle class="fig-dot" cx="53" cy="69" r="4"/><circle class="fig-dot" cx="53" cy="105" r="4"/><circle class="fig-dot" cx="53" cy="141" r="4"/>
+      <path class="fig-ink" d="M60 69 L261 104 M60 105 L261 104 M60 141 L261 104 M268 104 L447 104" fill="none" stroke-width="2"/>
+      <circle class="fig-dot" cx="265" cy="104" r="5"/><circle class="fig-dot" cx="450" cy="104" r="5"/>
+    </svg><figcaption>여러 출발점이 같은 중간 결과로 모일 수 있어요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>새 입력에서의 사후예측분포(posterior predictive distribution)는 모든 파라미터 가능성을 합친 것이에요. $$p(y_*\mid x_*,X,Y)=\int_{\mathbb R^K}p(y_*\mid x_*,\theta)p(\theta\mid X,Y)\,d\theta.$$ 여기서 $y_*$는 새 관측값, $p(y_*\mid x_*,\theta)=\mathcal N(y_*\mid\phi_*^T\theta,\sigma^2)$는 $y_*$의 조건부 밀도, $p(\theta\mid X,Y)$는 파라미터 밀도예요.</p>
+    <p>$z=\phi_*^T\theta$에 의해 만들어지는 분포를 먼저 구해요. 선형 가우시안 변환 성질과 <a href="#s2-weighted">가중합의 분산을 행렬로 묶어요</a>의 결과에 따라 $$z\mid x_*,X,Y\sim\mathcal N(\mu,\nu),\qquad \mu=\phi_*^Tm_N,\quad \nu=\phi_*^T S_N\phi_*.$$ 여기서 $\mu$는 스칼라 평균이고 $\nu$는 스칼라 분산이에요. 이 단계는 벡터 분포를 $z$로 밀어 보낸 유도분포(pushforward distribution)를 얻는 일이에요. 여러 $\theta$가 같은 $z$를 만들 수 있으므로 일대일 변수변환의 Jacobian 하나만 붙이는 계산이 아니에요.</p>
+    <p>관측 잡음 $\epsilon\sim\mathcal N(0,\sigma^2)$가 $z$와 독립이고 $y_*=z+\epsilon$이라고 해요. $z$에 조건을 걸면 새 관측값의 분포는 $\mathcal N(y_*\mid z,\sigma^2)$예요. 따라서 벡터 적분을 한 변수의 주변화(marginalization)로 바꿔요. $$p(y_*\mid x_*,X,Y)=\int_{\mathbb R}\mathcal N(y_*\mid z,\sigma^2)\mathcal N(z\mid\mu,\nu)\,dz.$$ 독립인 두 정규변수의 합을 계산하는 합성곱(convolution) 적분이에요. 서로 다른 변수에 대한 두 밀도의 곱을 바로 정규화된 $y_*$ 밀도라고 부르는 단계가 아니에요.</p>
+    <p>$\nu\gt0$인 경우 스칼라 적분을 완전제곱해요. $a=1/\sigma^2$, $b=1/\nu$, $A=a+b$, $B=ay_*+b\mu$, $C=ay_*^2+b\mu^2$로 놓아요.</p>
+    <ol class="steps">
+      <li>지수부의 제곱합을 전개해요. $$a(y_*-z)^2+b(z-\mu)^2=Az^2-2Bz+C.$$</li>
+      <li>$z$의 중심을 $\bar z=B/A=(\nu y_*+\sigma^2\mu)/(\nu+\sigma^2)$라고 하면 $$Az^2-2Bz+C=A(z-\bar z)^2+C-\frac{B^2}{A}.$$</li>
+      <li>남은 상수를 계산해요. $$C-\frac{B^2}{A}=\frac{(y_*-\mu)^2}{\nu+\sigma^2},\qquad A=\frac{\nu+\sigma^2}{\sigma^2\nu}.$$</li>
+      <li>두 원래 밀도의 앞 계수는 $1/(2\pi\sqrt{\sigma^2\nu})$예요. $z$ 부분의 가우시안 적분은 $\sqrt{2\pi/A}$이므로 곱하면 $$\frac{1}{2\pi\sqrt{\sigma^2\nu}}\sqrt{\frac{2\pi}{A}}=\frac{1}{\sqrt{2\pi(\nu+\sigma^2)}}.$$ 이 계수가 전체 $y_*$ 밀도의 면적을 1로 만드는 정규화 상수예요.</li>
+    </ol>
+    <p>결론은 $$p(y_*\mid x_*,X,Y)=\mathcal N(y_*\mid\mu,\nu+\sigma^2)=\mathcal N(y_*\mid\phi_*^Tm_N,\phi_*^T S_N\phi_*+\sigma^2).$$ $\nu=0$이면 $z=\mu$가 확률 1인 퇴화 분포예요. 이때 $1/\nu$ 계산을 쓰지 않고 직접 $y_*=\mu+\epsilon$으로부터 $\mathcal N(y_*\mid\mu,\sigma^2)$를 얻어요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“얘도 스칼라고 얘도 스칼라잖아, 이제.”</blockquote><p>(1014 Part 07; 정확한 시각 없음) 적분의 결과를 예측분포로 연결했어요. 새 입력의 $\phi_*$와 훈련자료에서 구한 $m_N,S_N$의 역할을 구분해 설명했어요.</p></div>
+  <div class="sum" hidden><p class="sum-lead">파라미터를 평균내면 새 관측값의 예측분포가 나와요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">중간 분포</span>$$z\mid x_*,X,Y\sim\mathcal N(\mu,\nu)$$</li><li><span class="eq-name">예측분포</span>$$p(y_*\mid x_*,X,Y)=\mathcal N(y_*\mid\mu,\nu+\sigma^2)$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>주변화(marginalization)</dt><dd>관심 없는 중간 변수를 적분해 원하는 변수의 분포를 얻어요.</dd><dt>정규화(normalization)</dt><dd>밀도의 전체 면적이 1이 되도록 앞 계수를 맞춰요.</dd></dl></div>
+</article>
+
+<article class="topic" id="s2-uncertainty">
+  <h3>회색 띠와 남아 있는 잡음</h3>
+  <div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s15</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">길을 이미 걸어 본 곳에서는 예상 경로가 좁아질 수 있어요. 그래도 매번 달라지는 바람 때문에 도착점은 조금씩 흔들려요.</p>
+    <figure class="figure"><svg id="fig-s2-uncertainty-band" viewBox="0 0 560 190" role="img" aria-label="가운데 예측선 주위의 두 윤곽 띠가 왼쪽에서는 좁고 오른쪽으로 갈수록 넓어지는 그림">
+      <path class="axis" d="M34 18 L34 160 L532 160" fill="none" stroke-width="2"/>
+      <path class="fig-accent" d="M45 87 C200 65 340 74 525 64 M45 125 C200 119 340 135 525 167" fill="none" stroke-width="2"/>
+      <path class="fig-ink" d="M45 97 C200 83 340 96 525 77 M45 115 C200 104 340 116 525 149" fill="none" stroke-width="2"/>
+      <path class="fig-danger" d="M45 106 C200 94 340 106 525 113" fill="none" stroke-width="2"/>
+      <circle class="fig-dot" cx="126" cy="100" r="4"/><circle class="fig-dot" cx="190" cy="98" r="4"/>
+      <text class="fig-text" x="408" y="29" font-size="14">넓어지는 예상 범위</text>
+    </svg><figcaption>데이터 근처에서도 예상 범위가 완전히 사라지지는 않아요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>잡음 없는 함수값 $f(x_*)=z$의 조건부 평균은 $\mu$이고 분산은 $\nu=\phi_*^T S_N\phi_*$예요. 새 관측값 $y_*=z+\epsilon$의 분산은 독립인 잡음 때문에 $\nu+\sigma^2$예요. 따라서 파라미터 불확실성(parameter uncertainty) $\nu$와 관측 잡음(observation noise) $\sigma^2$를 구별해야 해요.</p>
+    <p>$\sigma^2\gt0$을 고정하면 관측값 예측분산은 $\nu+\sigma^2\geq\sigma^2$예요. 훈련 입력 근처에서 $\nu$가 작아져도 잡음 하한이 남아요. 잡음 없는 함수의 분산 $\nu$는 데이터와 모델에 따라 작아질 수 있어요. 정확히 관측한 점에서 불확실성이 0이라는 설명은 $\sigma^2\to0$ 같은 잡음 없는 극한과 충분한 식별 조건을 함께 전제해야 해요.</p>
+    <p>정규분포에서 평균 주위 $\pm1$ 표준편차와 $\pm2$ 표준편차 띠를 그릴 수 있어요. 관측값의 표준편차는 $\sqrt{\nu+\sigma^2}$이고 함수값의 표준편차는 $\sqrt{\nu}$예요. 가우시안의 평균 중심 1, 2 표준편차 구간에는 각각 약 68%, 95%가 들어가요. 슬라이드의 회색 띠는 위치에 따른 예측 불확실성을 나타내요. 띠가 어떤 대상을 그렸는지 확인한 뒤 해당 분산으로 폭을 해석해야 해요. 점추정 ML/MAP는 파라미터 한 점의 예측선을 주며, 이 모형의 MAP 예측선은 사후평균선 $\phi_*^T m_N$과 같아요.</p>
+    <p>파라미터 사후분포에서 서로 다른 $\theta$를 뽑아 $\phi(x)^T\theta$를 그리면 함수 표본들이 나와요. 수업의 생성 모델 언급은 “분포를 이용해 결과를 만든다”는 직관적 비유예요. Bayesian optimization에서 불확실성이 큰 곳을 살펴보는 것은 탐험의 한 방법이지만, 최대 분산 지점이 언제나 최선의 다음 실험이라는 뜻은 아니에요. 예상 성과와 탐험·활용의 균형도 판단에 들어가요.</p>
+    <div class="widget" id="widget-uncertainty"><h4>직접 해 보기: 파라미터 불확실성과 종 모양</h4>
+      <p class="widget-help">파라미터 불확실성을 움직이면 새 관측값의 분산과 종 모양의 폭이 어떻게 바뀌는지 볼 수 있어요.</p>
+      <div class="controls"><label for="uncertainty-nu">파라미터 분산 <input type="range" id="uncertainty-nu" min="0" max="4" step="1" value="1"> <b id="uncertainty-nu-val">1</b></label></div>
+      <svg id="uncertainty-plot" viewBox="0 0 560 300" role="img" aria-label="평균 0에서 파라미터 분산에 따라 폭이 바뀌는 새 관측값의 정규분포 곡선"></svg>
+      <p class="readout">고정 잡음 분산 1, 전체 분산 <b id="uncertainty-out">2</b>, 표준편차 <b id="uncertainty-sd">1.414</b></p>
+      <p class="legend"><span><span class="sw fit"></span>새 관측값의 밀도</span></p>
+      <div class="widget-static" hidden>
+        <figure class="figure"><svg id="widget-uncertainty-static-1" viewBox="0 0 560 300" role="img" aria-label="파라미터 분산 0, 전체 분산 1의 정규분포 곡선"><path class="axis" d="M35 250 L525 250 M280 35 L280 258" fill="none" stroke-width="2"/><text class="fig-text" x="520" y="273" font-size="13">관측값</text><text class="fig-text" x="287" y="272" font-size="13">0</text><path class="plot-post" d="M35.00 250.00 L38.50 250.00 L42.00 250.00 L45.50 250.00 L49.00 250.00 L52.50 250.00 L56.00 250.00 L59.50 250.00 L63.00 250.00 L66.50 250.00 L70.00 250.00 L73.50 250.00 L77.00 250.00 L80.50 250.00 L84.00 250.00 L87.50 250.00 L91.00 250.00 L94.50 250.00 L98.00 250.00 L101.50 250.00 L105.00 250.00 L108.50 250.00 L112.00 250.00 L115.50 250.00 L119.00 249.99 L122.50 249.99 L126.00 249.99 L129.50 249.98 L133.00 249.97 L136.50 249.96 L140.00 249.93 L143.50 249.90 L147.00 249.85 L150.50 249.79 L154.00 249.69 L157.50 249.56 L161.00 249.38 L164.50 249.14 L168.00 248.81 L171.50 248.37 L175.00 247.78 L178.50 247.02 L182.00 246.04 L185.50 244.79 L189.00 243.21 L192.50 241.24 L196.00 238.80 L199.50 235.84 L203.00 232.26 L206.50 228.01 L210.00 223.00 L213.50 217.19 L217.00 210.52 L220.50 202.98 L224.00 194.54 L227.50 185.24 L231.00 175.14 L234.50 164.32 L238.00 152.91 L241.50 141.07 L245.00 129.01 L248.50 116.96 L252.00 105.15 L255.50 93.87 L259.00 83.39 L262.50 73.97 L266.00 65.86 L269.50 59.31 L273.00 54.48 L276.50 51.52 L280.00 50.53 L283.50 51.52 L287.00 54.48 L290.50 59.31 L294.00 65.86 L297.50 73.97 L301.00 83.39 L304.50 93.87 L308.00 105.15 L311.50 116.96 L315.00 129.01 L318.50 141.07 L322.00 152.91 L325.50 164.32 L329.00 175.14 L332.50 185.24 L336.00 194.54 L339.50 202.98 L343.00 210.52 L346.50 217.19 L350.00 223.00 L353.50 228.01 L357.00 232.26 L360.50 235.84 L364.00 238.80 L367.50 241.24 L371.00 243.21 L374.50 244.79 L378.00 246.04 L381.50 247.02 L385.00 247.78 L388.50 248.37 L392.00 248.81 L395.50 249.14 L399.00 249.38 L402.50 249.56 L406.00 249.69 L409.50 249.79 L413.00 249.85 L416.50 249.90 L420.00 249.93 L423.50 249.96 L427.00 249.97 L430.50 249.98 L434.00 249.99 L437.50 249.99 L441.00 249.99 L444.50 250.00 L448.00 250.00 L451.50 250.00 L455.00 250.00 L458.50 250.00 L462.00 250.00 L465.50 250.00 L469.00 250.00 L472.50 250.00 L476.00 250.00 L479.50 250.00 L483.00 250.00 L486.50 250.00 L490.00 250.00 L493.50 250.00 L497.00 250.00 L500.50 250.00 L504.00 250.00 L507.50 250.00 L511.00 250.00 L514.50 250.00 L518.00 250.00 L521.50 250.00 L525.00 250.00" fill="none" stroke-width="3"/></svg><figcaption>파라미터 분산 0일 때도 잡음 때문에 폭이 남아요.</figcaption></figure>
+        <figure class="figure"><svg id="widget-uncertainty-static-2" viewBox="0 0 560 300" role="img" aria-label="파라미터 분산 1, 전체 분산 2의 정규분포 곡선"><path class="axis" d="M35 250 L525 250 M280 35 L280 258" fill="none" stroke-width="2"/><text class="fig-text" x="520" y="273" font-size="13">관측값</text><text class="fig-text" x="287" y="272" font-size="13">0</text><path class="plot-post" d="M35.00 250.00 L38.50 250.00 L42.00 250.00 L45.50 250.00 L49.00 250.00 L52.50 250.00 L56.00 249.99 L59.50 249.99 L63.00 249.99 L66.50 249.99 L70.00 249.98 L73.50 249.98 L77.00 249.97 L80.50 249.96 L84.00 249.94 L87.50 249.93 L91.00 249.90 L94.50 249.87 L98.00 249.84 L101.50 249.79 L105.00 249.73 L108.50 249.65 L112.00 249.56 L115.50 249.44 L119.00 249.29 L122.50 249.11 L126.00 248.88 L129.50 248.61 L133.00 248.29 L136.50 247.89 L140.00 247.42 L143.50 246.85 L147.00 246.18 L150.50 245.40 L154.00 244.48 L157.50 243.40 L161.00 242.16 L164.50 240.73 L168.00 239.10 L171.50 237.24 L175.00 235.13 L178.50 232.77 L182.00 230.13 L185.50 227.20 L189.00 223.97 L192.50 220.43 L196.00 216.58 L199.50 212.42 L203.00 207.94 L206.50 203.17 L210.00 198.11 L213.50 192.80 L217.00 187.25 L220.50 181.52 L224.00 175.63 L227.50 169.63 L231.00 163.59 L234.50 157.56 L238.00 151.59 L241.50 145.77 L245.00 140.15 L248.50 134.81 L252.00 129.81 L255.50 125.21 L259.00 121.09 L262.50 117.50 L266.00 114.48 L269.50 112.09 L273.00 110.36 L276.50 109.30 L280.00 108.95 L283.50 109.30 L287.00 110.36 L290.50 112.09 L294.00 114.48 L297.50 117.50 L301.00 121.09 L304.50 125.21 L308.00 129.81 L311.50 134.81 L315.00 140.15 L318.50 145.77 L322.00 151.59 L325.50 157.56 L329.00 163.59 L332.50 169.63 L336.00 175.63 L339.50 181.52 L343.00 187.25 L346.50 192.80 L350.00 198.11 L353.50 203.17 L357.00 207.94 L360.50 212.42 L364.00 216.58 L367.50 220.43 L371.00 223.97 L374.50 227.20 L378.00 230.13 L381.50 232.77 L385.00 235.13 L388.50 237.24 L392.00 239.10 L395.50 240.73 L399.00 242.16 L402.50 243.40 L406.00 244.48 L409.50 245.40 L413.00 246.18 L416.50 246.85 L420.00 247.42 L423.50 247.89 L427.00 248.29 L430.50 248.61 L434.00 248.88 L437.50 249.11 L441.00 249.29 L444.50 249.44 L448.00 249.56 L451.50 249.65 L455.00 249.73 L458.50 249.79 L462.00 249.84 L465.50 249.87 L469.00 249.90 L472.50 249.93 L476.00 249.94 L479.50 249.96 L483.00 249.97 L486.50 249.98 L490.00 249.98 L493.50 249.99 L497.00 249.99 L500.50 249.99 L504.00 249.99 L507.50 250.00 L511.00 250.00 L514.50 250.00 L518.00 250.00 L521.50 250.00 L525.00 250.00" fill="none" stroke-width="3"/></svg><figcaption>파라미터 분산이 1이면 곡선이 더 넓어요.</figcaption></figure>
+        <figure class="figure"><svg id="widget-uncertainty-static-3" viewBox="0 0 560 300" role="img" aria-label="파라미터 분산 4, 전체 분산 5의 정규분포 곡선"><path class="axis" d="M35 250 L525 250 M280 35 L280 258" fill="none" stroke-width="2"/><text class="fig-text" x="520" y="273" font-size="13">관측값</text><text class="fig-text" x="287" y="272" font-size="13">0</text><path class="plot-post" d="M35.00 249.34 L38.50 249.24 L42.00 249.12 L45.50 249.00 L49.00 248.86 L52.50 248.70 L56.00 248.52 L59.50 248.31 L63.00 248.09 L66.50 247.84 L70.00 247.56 L73.50 247.25 L77.00 246.91 L80.50 246.54 L84.00 246.12 L87.50 245.67 L91.00 245.17 L94.50 244.62 L98.00 244.03 L101.50 243.38 L105.00 242.68 L108.50 241.92 L112.00 241.09 L115.50 240.20 L119.00 239.25 L122.50 238.23 L126.00 237.13 L129.50 235.96 L133.00 234.71 L136.50 233.39 L140.00 231.99 L143.50 230.51 L147.00 228.95 L150.50 227.31 L154.00 225.59 L157.50 223.79 L161.00 221.92 L164.50 219.98 L168.00 217.96 L171.50 215.88 L175.00 213.73 L178.50 211.53 L182.00 209.27 L185.50 206.97 L189.00 204.63 L192.50 202.25 L196.00 199.85 L199.50 197.44 L203.00 195.02 L206.50 192.61 L210.00 190.20 L213.50 187.83 L217.00 185.48 L220.50 183.18 L224.00 180.94 L227.50 178.77 L231.00 176.67 L234.50 174.66 L238.00 172.76 L241.50 170.96 L245.00 169.28 L248.50 167.73 L252.00 166.32 L255.50 165.06 L259.00 163.95 L262.50 163.00 L266.00 162.21 L269.50 161.59 L273.00 161.15 L276.50 160.88 L280.00 160.79 L283.50 160.88 L287.00 161.15 L290.50 161.59 L294.00 162.21 L297.50 163.00 L301.00 163.95 L304.50 165.06 L308.00 166.32 L311.50 167.73 L315.00 169.28 L318.50 170.96 L322.00 172.76 L325.50 174.66 L329.00 176.67 L332.50 178.77 L336.00 180.94 L339.50 183.18 L343.00 185.48 L346.50 187.83 L350.00 190.20 L353.50 192.61 L357.00 195.02 L360.50 197.44 L364.00 199.85 L367.50 202.25 L371.00 204.63 L374.50 206.97 L378.00 209.27 L381.50 211.53 L385.00 213.73 L388.50 215.88 L392.00 217.96 L395.50 219.98 L399.00 221.92 L402.50 223.79 L406.00 225.59 L409.50 227.31 L413.00 228.95 L416.50 230.51 L420.00 231.99 L423.50 233.39 L427.00 234.71 L430.50 235.96 L434.00 237.13 L437.50 238.23 L441.00 239.25 L444.50 240.20 L448.00 241.09 L451.50 241.92 L455.00 242.68 L458.50 243.38 L462.00 244.03 L465.50 244.62 L469.00 245.17 L472.50 245.67 L476.00 246.12 L479.50 246.54 L483.00 246.91 L486.50 247.25 L490.00 247.56 L493.50 247.84 L497.00 248.09 L500.50 248.31 L504.00 248.52 L507.50 248.70 L511.00 248.86 L514.50 249.00 L518.00 249.12 L521.50 249.24 L525.00 249.34" fill="none" stroke-width="3"/></svg><figcaption>파라미터 분산이 4이면 곡선이 가장 넓어요.</figcaption></figure>
+        <div class="table-wrap"><table><thead><tr><th>파라미터 분산</th><th>잡음 분산</th><th>전체 분산</th><th>표준편차</th></tr></thead><tbody><tr><td>0</td><td>1</td><td>1</td><td>1.000</td></tr><tr><td>1</td><td>1</td><td>2</td><td>1.414</td></tr><tr><td>4</td><td>1</td><td>5</td><td>2.236</td></tr></tbody></table></div>
+      </div>
+    </div>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“노이즈가 있었잖아.”</blockquote><p>(1014 Part 08; 정확한 시각 없음) 훈련자료가 있는 곳에서도 관측 잡음이 남는다는 설명이에요.</p></div>
+  <div class="sum" hidden><p class="sum-lead">새 관측값의 불확실성은 파라미터 불확실성과 관측 잡음을 더한 값이에요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">관측값 분산</span>$$\nu+\sigma^2$$</li><li><span class="eq-name">잡음 없는 함수 분산</span>$$\nu=\phi_*^T S_N\phi_*$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>파라미터 불확실성(parameter uncertainty)</dt><dd>사후분포에 남은 파라미터 변동이 예측에 주는 흔들림이에요.</dd><dt>관측 잡음(observation noise)</dt><dd>같은 함수값에서도 새 관측값을 흔드는 오차예요.</dd></dl></div>
+</article>
+    </section>
+    <section id="s3"><h2>3. 요약 · 예고</h2>
+<article class="topic" id="s3-cheatsheet"><h3>한 장 요약</h3><div class="table-wrap"><table><thead><tr><th>계산 대상</th><th>결과와 의미</th></tr></thead><tbody><tr><td>사후분포</td><td>$\theta\mid X,Y\sim\mathcal N(m_N,S_N)$</td></tr><tr><td>사후 공분산</td><td>$S_N=(S_0^{-1}+\sigma^{-2}\Phi^T\Phi)^{-1}$</td></tr><tr><td>사후 평균</td><td>$m_N=S_N(S_0^{-1}m_0+\sigma^{-2}\Phi^Ty)$</td></tr><tr><td>예측분포</td><td>$y_*\mid x_*,X,Y\sim\mathcal N(\phi_*^Tm_N,\phi_*^TS_N\phi_*+\sigma^2)$</td></tr><tr><td>가중치의 불확실성</td><td>$\nu=\phi_*^TS_N\phi_*$</td></tr><tr><td>관측의 불확실성</td><td>$\nu+\sigma^2$로 잡음까지 포함해요.</td></tr></tbody></table></div><p>$\phi_*:=\phi(x_*)$, $\Phi\in\mathbb R^{N\times K}$, $m_N\in\mathbb R^K$, $S_N\in\mathbb R^{K\times K}$예요. 훈련 정답 $y$로 사후분포를 만들고, 새 입력 $x_*$로 예측분포를 계산해요.</p></article>
+<article class="topic" id="s3-next"><h3>다음 시간 예고</h3><ul><li>최대우도 추정의 직교투영 해석 — L04 s17–23, 다음 월요일 수업으로 예고했어요.</li><li>주변우도 — L04 s16, 이번 전사에서는 시작하지 않았어요.</li><li>Kalman 필터 — 마지막에 연결 방향만 언급했어요.</li></ul><p>Part 01에서 교수님은 이번 강의노트와 다음 월요일 직교투영 내용까지를 중간고사 범위로 예고했어요. 오늘 실제 진도와 시험 범위 예고를 구분해요.</p></article>
+<article class="topic" id="s3-links"><h3>함께 보면 좋은 자료</h3><p>이번 복습문제는 정규화와 계수 비교에 집중해요. BLR 종합 예제는 0930 팩에서 이어서 풀 수 있어요. 이전 팩과 출처 중복을 피하고 수업 범위를 지키기 위해 이번에는 2문항을 실었어요.</p><ul><li><a href="복습문제_1014_Bayesian_Posterior_Prediction.html">복습문제_1014_Bayesian_Posterior_Prediction</a></li><li><a href="../1007/정리노트_1007_Product_of_Gaussians.html">정리노트_1007_Product_of_Gaussians</a></li><li><a href="../1012/정리노트_1012_Several_Mathematical_Proofs.html">정리노트_1012_Several_Mathematical_Proofs</a></li><li><a href="../0930/복습문제_0930_Bayesian_Linear_Regression.html">복습문제_0930_Bayesian_Linear_Regression</a></li><li><a href="../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html">eli5_lecture10_statistical_inference_part1</a></li><li><a href="../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html">eli5_lecture11_statistical_inference_part2</a></li><li><a href="../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html">eli5_lecture12_statistical_inference_part3</a></li></ul><div class="review-pdf-links" data-range="1014"><p>복습문제 2문항</p><ul><li><a href="복습문제_1014_Bayesian_Posterior_Prediction-문제.pdf">문제지 PDF</a></li><li><a href="복습문제_1014_Bayesian_Posterior_Prediction-답안.pdf">해설지 PDF</a></li></ul></div></article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture04) · 수업 녹음 전사(1014) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 6·9장. STT에 분·초가 없어 인용은 Part로 표시해요.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-sub" id="sum-for">전체 흐름</p>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+  <script id="widget-uncertainty-ui">(function () {
+  const sigma2 = 1, mu = 0, baseline = 250;
+  const pdf = (x, nu) => Math.exp(-((x - mu) ** 2) / (2 * (nu + sigma2))) / Math.sqrt(2 * Math.PI * (nu + sigma2));
+  const path = nu => { const points = []; for (let i = 0; i <= 140; i++) { const x = -7 + 14 * i / 140, px = 35 + 490 * i / 140, py = baseline - pdf(x, nu) * 500; points.push((i ? 'L' : 'M') + px.toFixed(2) + ' ' + py.toFixed(2)); } return points.join(' '); };
+  const input = document.getElementById('uncertainty-nu'), plot = document.getElementById('uncertainty-plot');
+  if (!input || !plot) return;
+  const update = () => { const nu = Number(input.value), variance = nu + sigma2; document.getElementById('uncertainty-nu-val').textContent = String(nu); document.getElementById('uncertainty-out').textContent = String(variance); document.getElementById('uncertainty-sd').textContent = Math.sqrt(variance).toFixed(3); plot.innerHTML = '<path class="axis" d="M35 250 L525 250 M280 35 L280 258" fill="none" stroke-width="2"/><text class="fig-text" x="520" y="273" font-size="13">관측값</text><text class="fig-text" x="287" y="272" font-size="13">0</text><path class="plot-post" d="' + path(nu) + '" fill="none" stroke-width="3"/>'; };
+  input.addEventListener('input', update); update();
+})();</script>
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const sub = document.getElementById('aid-for');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
+          sub.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const sub = document.getElementById('sum-for');
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+</body>
+</html>

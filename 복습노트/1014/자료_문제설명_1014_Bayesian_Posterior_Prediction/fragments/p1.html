@@ -1,0 +1,16 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>첫째는 가능한 세 결과에 확률을 똑같이 나누는 문제예요. 둘째는 짧은 구간 전체의 넓이가 1이 되도록 일정한 밀도 높이를 정하는 문제예요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘세 상태에서 같은 확률’이라는 단서에서는 이산 균일분포(discrete uniform distribution)와 확률질량함수(PMF, probability mass function)를 떠올려요. $P(Z=z)$는 확률변수 $Z$가 특정 상태 $z$를 가질 확률이에요. 이산형에서는 가능한 모든 상태의 확률을 더해 1이 되어야 하므로, 상태가 $n$개이고 각각 같은 확률 $q$라면 $nq=1$이에요. 여기서는 가능한 상태가 정확히 세 개라서 이 규칙을 적용해요. 상태를 나타내는 숫자의 간격은 확률을 나누는 비율에 영향을 주지 않아요.</p><p>‘구간에서 균일’과 ‘밀도 높이’라는 단서에서는 연속 균일분포(continuous uniform distribution)와 확률밀도함수(PDF, probability density function)를 떠올려요. $p(x)$는 확률변수 $X$의 값 $x$에서의 밀도예요. 구간 $[a,b]$에서 높이가 $h$로 일정하고 밖에서 0이라면 정규화 조건은 $\int_a^b p(x)\,dx=h(b-a)=1$이에요. $a$와 $b$는 구간 양 끝이고 $b-a$는 폭이에요. 한 점의 밀도값 $h$ 자체가 그 점의 확률은 아니에요. 연속형에서는 구간 아래 넓이를 확률로 읽기 때문에 이 문제에서 적분을 써요. <a href="정리노트_1014_Bayesian_Posterior_Prediction.html#s0-normalize">정규화 설명</a>에서도 전체 넓이가 1인 조건을 확인할 수 있어요.</p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 쓰는 첫 줄</h4><p>(a)는 각 상태의 확률을 $q$라 두고 $3q=1$부터 적어요. (b)는 일정한 밀도 높이를 $h$라 두고 구간 폭을 계산해 $h(1.6-0.9)=1$부터 적어요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>세 상태가 모두 같은 확률을 갖고 다른 상태는 없으므로 각 확률을 $q$라고 놓아요. 전체 확률의 합이 1이어야 해요.</p>$$q+q+q=1$$<p>양변을 3으로 나누면 $q=\frac13$이에요. 따라서 상태별 확률은 다음과 같아요.</p><div class="table-wrap"><table><thead><tr><th>상태 $z$</th>
+<th>$P(Z=z)$</th>
+</tr></thead><tbody><tr><td>$-1.1$</td>
+<td>$\frac13$</td>
+</tr><tr><td>$0.3$</td>
+<td>$\frac13$</td>
+</tr><tr><td>$1.5$</td>
+<td>$\frac13$</td>
+</tr></tbody></table></div></div><div data-subpart="b"><h4>(b)</h4><p>구간 폭은 $1.6-0.9=0.7=\frac7{10}$이에요. 구간 안에서 일정한 밀도 $h$의 그래프는 폭 $\frac7{10}$, 높이 $h$인 직사각형이에요.</p>$$h\cdot\frac7{10}=1$$<p>따라서 $h=\frac{10}{7}$이에요. 구간 밖의 밀도는 조건대로 0이에요. 구간 안의 밀도는 $p(x)=\frac{10}{7}$이며, 전체 적분은 다음과 같아요.</p>$$\int_{0.9}^{1.6}p(x)\,dx=\frac{10}{7}\cdot\frac7{10}=1$$<p>밀도 높이 $\frac{10}{7}$이 1을 넘어도 괜찮아요. 연속형 확률은 높이가 아니라 구간 아래 넓이로 계산하기 때문이에요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>답은 세 상태 각각 $\frac13$이에요. PMF의 정규화 조건에 직접 대입하면 $\frac13+\frac13+\frac13=1$이고, 세 값이 모두 0 이상이에요. 상태를 나열한 순서를 바꾸어도 합과 확률은 그대로예요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>답은 구간 안 높이 $\frac{10}{7}$, 전체 적분 1이에요. 밀도값이 0 이상이고 구간 밖에서는 0인지 확인해요. 원시함수로 따로 계산해요.</p>$$\int_{0.9}^{1.6}\frac{10}{7}\,dx=\left[\frac{10}{7}x\right]_{0.9}^{1.6}$$ $$=\frac{10}{7}(1.6-0.9)=1$$<p>직사각형 넓이로 구한 값과 일치해요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 자주 헷갈려요</h4><p>이산 상태의 숫자 간격을 가중치로 쓰지 않아요. 연속형의 $\frac{10}{7}$을 ‘한 점의 확률’이라고 부르지 않아요. 그 값은 밀도이고 구간 확률은 적분으로 얻어요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>세 상태에 같은 미지수 하나를 놓고 합이 1인지 확인해요.</li><li>연속 구간의 폭을 구하고 높이와 곱해 1로 맞춰요.</li><li>두 답을 각각 합과 적분에 다시 넣어요.</li></ol></div>
+<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>PMF는 상태별 확률의 합이 1이에요. 일정한 PDF는 구간 폭과 밀도 높이의 곱이 1이에요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>(a) $3q=1$. (b) $h(1.6-0.9)=1$.</p></div><div class="summary-group"><h4>답과 검산</h4><p>(a) 각 $\frac13$, 합 1. (b) 높이 $\frac{10}{7}$, 적분 1.</p></div></div>
