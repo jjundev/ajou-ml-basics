@@ -52,6 +52,8 @@ def test_short_math_and_layer_spacing_remain_readable(tmp_path):
         for kind in ['understand','retry']:
             assert page.locator(f'#p1 [data-explanation="{kind}"]').evaluate('(e)=>parseFloat(getComputedStyle(e).marginTop)')>=24
         # The source matrix renders as a full readable block, not its own scrollbar.
+        page.locator('#p1 .problem-toggle').click()
+        page.wait_for_timeout(100)
         matrix=page.locator('#p1 [data-source-field="conditions"] .math-row').first
         assert matrix.count()==1
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

@@ -1,3 +1,4 @@
+from mpe_review_policy import POLICY_VERSION
 """Structural checks do not claim mathematical or visual correctness."""
 import hashlib
 import json
@@ -73,7 +74,7 @@ def validate_fragment(problem, fragment):
 def initial_reviews(pack, fragments):
     keys = [f'{p.id}:{s}' for p in pack.problems for s in p.subparts]
     pending = {'status': 'not_run', 'reviewer': '', 'evidence': ''}
-    return {'input_hash': payload_hash(pack, fragments), 'references': [],
+    return {'review_policy_version': POLICY_VERSION, 'input_hash': payload_hash(pack, fragments), 'references': [],
             'source_visual': dict(pending), 'browser': dict(pending),
             'content': {**pending, 'items': {k: dict(pending) for k in keys}},
             'independent': {**pending, 'items': {k: {**pending, 'method': '', 'conclusion': ''} for k in keys}}}
@@ -82,6 +83,8 @@ def validate_reviews(pack, fragments, reviews):
     errors = []
     if not isinstance(reviews, dict):
         return ['검토 기록은 JSON 객체여야 해요']
+    if reviews.get('review_policy_version') != POLICY_VERSION:
+        errors.append('검토 기준 변경: 현재 기준으로 실제 검토가 필요해요')
     if reviews.get('input_hash') != payload_hash(pack, fragments):
         errors.append('입력·조각 hash가 검토와 달라요')
     expected = {f'{p.id}:{s}' for p in pack.problems for s in p.subparts}

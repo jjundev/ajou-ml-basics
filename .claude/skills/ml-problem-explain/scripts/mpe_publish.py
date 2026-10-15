@@ -1,3 +1,5 @@
+from mpe_rerender import verified_references
+from mpe_review_policy import POLICY_VERSION
 """Gate publication, then reuse course locks, backups and rollback."""
 import json
 from pathlib import Path
@@ -19,6 +21,8 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
         if errors:
             raise ExplainError('발행 보류: ' + ' / '.join(errors))
         manifest = json.loads(artifacts.manifest.read_text(encoding='utf-8'))
+        if manifest.get('review_policy_version') != POLICY_VERSION:
+            raise ExplainError('발행 보류: manifest 검토 기준 불일치')
         if manifest['input_hash'] != payload_hash(pack, fragments):
             raise ExplainError('stage와 현재 조각 불일치')
         if not isinstance(reviews.get('artifact_hashes'), dict) or reviews['artifact_hashes'] != artifact_hashes(artifacts):
@@ -32,6 +36,8 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
             path = inside(Path(reference['path']), repo)
             if not path.is_file() or sha256(path) != reference['sha256']:
                 raise ExplainError('참조 자료 변경: ' + str(path))
+        if not verified_references(references,repo,repo)[1]:
+            raise ExplainError('발행 보류: 참조 그림을 포함한 모든 참조 hash 필요')
         stage_root = artifacts.html.parent.resolve()
         stem, fig_name, data_name = names(pack)
         allowed_files = {stem + '.html', md_name(pack)}

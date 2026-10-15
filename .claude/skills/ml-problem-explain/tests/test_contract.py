@@ -1,3 +1,4 @@
+from mpe_review_policy import POLICY_VERSION
 from copy import deepcopy
 import pytest
 from helpers import problem, fragment, pack
@@ -51,7 +52,7 @@ def test_nested_heading_only_recall_refused():
 def reviews():
     base = {'status': 'pass', 'reviewer': '검토자', 'evidence': '근거: MML p.1'}
     items = {f'p1:{s}': dict(base) for s in ('a', 'b')}
-    return {'input_hash': payload_hash(pack(), {'p1': fragment()}),
+    return {'review_policy_version': POLICY_VERSION, 'input_hash': payload_hash(pack(), {'p1': fragment()}),
             'source_visual': base, 'browser': base, 'content': {**base, 'items': items},
             'independent': {**base, 'items': {k: {**v, 'method': 'exact', 'conclusion': '1=1'} for k,v in items.items()}}}
 

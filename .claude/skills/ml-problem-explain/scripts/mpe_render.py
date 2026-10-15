@@ -1,3 +1,5 @@
+from mpe_review_policy import POLICY_VERSION
+from mpe_rerender import source_resources
 """Assemble explanation notes with local resources and auditable preservation."""
 import hashlib
 import html
@@ -58,10 +60,26 @@ def convert_markdown(html_path, md_path, ctx):
     finally:
         temporary.unlink(missing_ok=True)
 
-def resources(markup, problem, pack, repo, stage, fig_name, destination):
+SVG_STROKE_TAGS = ('rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'path', 'g', 'text')
+
+def _inside_svg(node):
+    parent = node.parent
+    while parent is not None:
+        if getattr(parent, 'tag', None) == 'svg':
+            return True
+        parent = getattr(parent, 'parent', None)
+    return False
+
+def resources(markup, problem, pack, repo, stage, fig_name, destination, scope=""):
     root = parse(markup)
     nodes = list(root.find_all(lambda n: True))
     errors = markup_errors(root, allow_summary=True)
+    for node in nodes:
+        value = node.attrs.get('style', '')
+        if (node.tag in SVG_STROKE_TAGS and _inside_svg(node)
+                and re.fullmatch(r'stroke-width:[0-9]+(\.[0-9]+)?(px)?;?',value)
+                and '허용하지 않는 속성: style' in errors):
+            errors.remove('허용하지 않는 속성: style')
     if errors:
         raise ExplainError(f'{problem.id}: 원문/설명 마크업 오류: ' + ' / '.join(errors))
     # Scope SVG identifiers per occurrence (original English and reading may repeat media).
@@ -71,7 +89,7 @@ def resources(markup, problem, pack, repo, stage, fig_name, destination):
         if len(ids) != len(set(ids)):
             raise ExplainError(f'{problem.id}: 중복 SVG ID')
         suffix = '' if index == 0 else f'-svg{index+1}'
-        mapping = {id_: f'{problem.id}{suffix}-{id_}' for id_ in ids}
+        mapping = {id_: f'{problem.id}{"-"+scope if scope else ""}{suffix}-{id_}' for id_ in ids}
         for node in all_svg:
             for key, value in list(node.attrs.items()):
                 if key == 'id':
@@ -134,10 +152,11 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
         reading = (f'<div class="layer formal" data-source-problem="{p.id}"><h4>주어진 조건</h4>'
                    + '<div data-source-field="conditions">' + p.conditions_html + '</div><h4>구할 것</h4>'
                    + '<div data-source-field="ask">' + p.ask_html + '</div>' + ''.join(p.figures_html) + '</div>')
-        if pack.profile == 'homework':
-            reading += '<div class="layer formal" data-original-problem="' + p.id + '"><h4>과제 원문</h4>' + p.original_html + '</div>'
-        # Validate each block separately: a summary remains a direct fragment child.
-        reading = resources(reading, p, pack, repo, stage, fig_name, pack.path.parent)
+        reading = resources(reading,p,pack,repo,stage,fig_name,pack.path.parent)
+        if p.original_html.strip():
+            original = resources(p.original_html,p,pack,repo,stage,fig_name,pack.path.parent,scope="original")
+            reading += f'<details class="original" data-original-problem="{p.id}"><summary>원문 보기</summary>'+original+'</details>'
+        reading = f'<div class="problem-pane" data-problem-for="{p.id}">'+reading+'</div>'
         normalized = normalize_subpart_labels(fragments[p.id])
         explanation = resources(normalized, p, pack, repo, stage, fig_name, pack.path.parent)
         original_link = quote(pack.path.name, safe='') + '#' + p.id
@@ -152,7 +171,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
               'TOC': '<ul class="toc-list">' + ''.join(toc) + '</ul>', 'TITLE': html.escape(title),
               'SUBTITLE': '주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.',
               'SECTIONS': '<section id="problems"><h2>문항별 설명</h2>' + ''.join(articles) + '</section>',
-              'FOOTER': '원 문제·정리노트·PDF는 보존해요.', 'SCRIPTS': '',
+              'FOOTER': '원 문제·정리노트·PDF는 보존해요.', 'SCRIPTS': '<script type="application/json" id="explain-choice-model">'+json.dumps({p.id:{'answer':p.choice.answer,'mode':p.choice.mode,'options':list(p.choice.option_ids)} for p in pack.problems if p.choice},ensure_ascii=False).replace('</','<\\/')+'</script>',
               'RANGE': f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}', 'VENDOR': data_name + '/vendor'}
     text = (ASSETS / 'note-template.html').read_text(encoding='utf-8')
     for key, value in values.items():
@@ -168,6 +187,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     files = tuple(sorted(p for p in stage.rglob('*') if p.is_file()))
     dump(manifest_path, {'version': 1, 'profile': pack.profile, 'range': pack.range, 'slug': pack.slug,
                          'source': str(pack.path), 'source_sha256': pack.sha256,
+                         'review_policy_version': POLICY_VERSION, 'source_resources': source_resources(pack,repo),
                          'input_hash': payload_hash(pack, fragments), 'reading_key': values['RANGE'],
                          'destination': str(pack.path.parent), 'repo': str(repo.resolve()),
                          'problems': [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems],

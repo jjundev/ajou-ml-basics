@@ -29,7 +29,8 @@ def approved(pack, fragments, artifacts=None):
     from mpe_render import artifact_hashes
     base = {'status': 'pass', 'reviewer': 'test fixture', 'evidence': 'fixture calculation at evidence.txt'}
     keys = [f'{p.id}:{s}' for p in pack.problems for s in p.subparts]
-    result = {'input_hash': payload_hash(pack, fragments),
+    from mpe_review_policy import POLICY_VERSION
+    result = {'review_policy_version': POLICY_VERSION, 'input_hash': payload_hash(pack, fragments),
               'source_visual': dict(base), 'browser': dict(base),
               'content': {**base, 'items': {k: dict(base) for k in keys}},
               'independent': {**base, 'items': {k: {**base, 'method': 'exact', 'conclusion': '1=1'} for k in keys}},

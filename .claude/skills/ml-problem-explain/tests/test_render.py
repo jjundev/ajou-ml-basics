@@ -59,7 +59,7 @@ def test_render_preserves_questions_and_math_offline(tmp_path, source):
     else:
         assert result.md.parent == result.html.parent
     assert f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}' in text
-    assert not list(root.find_all(lambda n: n.tag == 'details'))
+    assert not list(root.find_all(lambda n: n.tag == 'details' and 'original' not in n.classes))
     assert source.read_bytes() == before
     assert set(artifact_hashes(result)) == {str(p.relative_to(result.html.parent)).replace('\\', '/') for p in result.files}
 

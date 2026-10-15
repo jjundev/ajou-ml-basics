@@ -2,6 +2,7 @@
 import argparse
 from dataclasses import asdict
 import json
+import re
 from pathlib import Path
 import shutil
 import sys
@@ -39,6 +40,9 @@ def extract(repo, target, run):
             (folder / 'explanations').mkdir()
             (folder / 'evidence').mkdir()
             dump(folder / 'source.json', serialized(pack))
+            for problem in pack.problems:
+                if getattr(problem,'choice',None) is None and re.search(r'class=[\"\'][^\"\']*\bchoices\b',problem.conditions_html+problem.ask_html):
+                    print(f'{problem.id}: 보기 모델 없음/불일치 — 정적 표시',file=sys.stderr)
             buckets.append(name)
             print('extract:', folder / 'source.json')
         except ExplainError as exc:
@@ -114,6 +118,10 @@ def build(item, fragments):
     dump(folder / 'review.json', review)
     print('build:', artifacts.html)
 
+def rerender(repo,target,run):
+    from mpe_rerender import rerender as rebuild
+    return rebuild(repo,target,run)
+
 def main(argv=None):
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8')
@@ -124,10 +132,16 @@ def main(argv=None):
     extraction.add_argument('--repo', type=Path, required=True)
     extraction.add_argument('--target')
     extraction.add_argument('--run', type=Path, required=True)
+    rendering = commands.add_parser('rerender')
+    rendering.add_argument('--repo',type=Path,required=True)
+    rendering.add_argument('--target',required=True)
+    rendering.add_argument('--run',type=Path,required=True)
     for name in ('build', 'check', 'publish'):
         commands.add_parser(name).add_argument('--run', type=Path, required=True)
     args = parser.parse_args(argv)
     try:
+        if args.command == 'rerender':
+            return rerender(args.repo,args.target,args.run)
         if args.command == 'extract':
             return extract(args.repo, args.target, args.run)
         load_errors = []

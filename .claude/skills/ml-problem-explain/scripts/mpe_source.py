@@ -5,6 +5,7 @@ import re
 import unicodedata
 from datetime import datetime
 from pathlib import Path
+from mpe_choices import with_choices
 from mpe_types import ExplainError, Problem, SourcePack
 from mpe_shared import HOMEWORK, REVIEW, Node, ReviewPdfError, read_cards, normalize_cards, parse
 
@@ -15,14 +16,21 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def inside(path: Path, repo: Path) -> Path:
-    path = Path(path).absolute()
+    path, repo = Path(path).absolute(), Path(repo).absolute()
+    # Normalize unresolved spellings only; two existing NFC/NFD sibling directories are distinct.
+    if not repo.exists():
+        repo = existing_path(repo)
     try:
         path.resolve().relative_to(repo.resolve())
-    except ValueError as exc:
-        raise ExplainError(f'저장소 밖 경로: {path}') from exc
-    # Symlinks in the resource path are refused, except the repository's own root.
+    except ValueError:
+        try:
+            if not path.exists():
+                path = existing_path(path)
+            path.resolve().relative_to(repo.resolve())
+        except (ValueError, OSError) as exc:
+            raise ExplainError(f'저장소 밖 경로: {path}') from exc
     current = path
-    while current != repo.absolute() and current != current.parent:
+    while current != repo and current != current.parent:
         if current.is_symlink():
             raise ExplainError(f'심볼릭 링크 입력 금지: {current}')
         current = current.parent
@@ -73,7 +81,9 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
             match = re.fullmatch(profile.filename_re, nfc(path.name))
             if match:
                 candidates.append((profile.name, match[1], path))
-    if target and re.fullmatch(r'(?:과제|hw)\s*[1-9]\d*', target, re.I):
+    if target == 'all':
+        found = [path for kind, _, path in candidates if kind == 'review']
+    elif target and re.fullmatch(r'(?:과제|hw)\s*[1-9]\d*', target, re.I):
         number = str(int(re.search(r'\d+', target)[0]))
         found = [p for kind, value, p in candidates if kind == 'homework' and value == number]
         if not found:
@@ -109,7 +119,13 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
         by_range.setdefault(match[1], []).append(path)
     if any(len(group) > 1 for group in by_range.values()):
         raise ExplainError('여러 후보: HTML 경로를 명시하세요.\n' + '\n'.join(map(str, found)))
+    if target == 'all':
+        found.sort(key=lambda p: (re.fullmatch(REVIEW.filename_re,nfc(p.name))[1].split('-')[-1],nfc(p.name)),reverse=True)
+        return tuple(inside(path,repo) for path in found)
     return tuple(inside(path, repo) for path in sorted(found, key=lambda p: nfc(p.name)))
+
+def choice_container(node, root):
+    return bool({'choices','options'} & set(node.classes)) or any({'choices','options'} & set(a.classes) for a in ancestors(node,root))
 
 def subparts(ask: str, original: str) -> tuple[str, ...]:
     root = parse(ask)
@@ -117,7 +133,7 @@ def subparts(ask: str, original: str) -> tuple[str, ...]:
     parts = list(original_root.find_all(lambda n: 'part' in n.classes))
     marked = tuple(m[1] for n in parts if (m := re.match(r'\s*\(([a-z])\)', n.text())))
     lists = [n for n in root.find_all(lambda n: n.tag == 'ol')
-             if not any(a.tag in ('li', 'ol') for a in ancestors(n, root))]
+             if not choice_container(n,root) and not any(a.tag in ('li', 'ol') for a in ancestors(n, root))]
     if len(lists) > 1:
         raise ExplainError('질문 목록 여러 개: 소문항 구분을 확인하세요')
     if not lists:
@@ -157,6 +173,6 @@ def load_source(path: Path, repo: Path) -> SourcePack:
                                  n.card.original_html, n.conditions_html, n.ask_html,
                                  tuple(f.html for f in n.card.figures), n.card.steps, n.card.answer_html,
                                  subparts(n.ask_html, n.card.original_html)) for n in normalized)
-        return SourcePack(profile.name, pack.range, pack.slug, path, sha256(path), problems)
+        return SourcePack(profile.name, pack.range, pack.slug, path, sha256(path), with_choices(path,problems))
     except (ReviewPdfError, OSError, json.JSONDecodeError) as exc:
         raise ExplainError(str(exc)) from exc

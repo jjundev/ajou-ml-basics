@@ -6,6 +6,12 @@ class ExplainError(ValueError):
     pass
 
 @dataclass(frozen=True)
+class ChoiceModel:
+    answer: str
+    mode: str
+    option_ids: tuple[str, ...]
+
+@dataclass(frozen=True)
 class Problem:
     id: str
     number: int
@@ -18,6 +24,7 @@ class Problem:
     reference_steps: tuple[str, ...]
     reference_answer: str
     subparts: tuple[str, ...]
+    choice: ChoiceModel | None = None
 
 @dataclass(frozen=True)
 class SourcePack:
