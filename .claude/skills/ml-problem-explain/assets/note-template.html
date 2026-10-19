@@ -296,9 +296,22 @@
     .panel-tabs [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
     .probs, .orig-tab, .sum-tab { padding-top: var(--s2); }
     /* 문제 패널 머리: [이동] [문제 | 원문] … [왼쪽 | 오른쪽 | 띄우기] — 탭과 버튼 사이 빈 띠를 끌면 패널이 떨어진다 */
-    .panel-prob .panel-head { align-items: flex-end; border-bottom: 1px solid var(--line); }
+    .panel-prob .panel-head { align-items: center; min-height: 32px; margin-bottom: var(--s3); }
     .panel-prob .panel-tabs { flex: 0 1 auto; border-bottom: 0; }
     .panel-tabs [role="tab"] { white-space: nowrap; }
+    .problem-workspace { min-width: 0; }
+    .problem-workspace > .panel-tabs { flex-wrap: wrap; gap: var(--s2) var(--s3); padding-top: var(--s1); margin-bottom: var(--s4); border-bottom: 1px solid var(--line); }
+    .problem-workspace > .panel-tabs [role="tab"] { min-height: var(--tap); padding: var(--s2) var(--s3) var(--s3); line-height: 1.35; }
+    .problem-workspace > .probs, .problem-workspace > .orig-tab { padding-top: 0; }
+    .metadata-tab { font-size: var(--fs-panel); line-height: 1.75; }
+    .metadata-tab > [data-problem-panel] { margin-top: 0; }
+    .metadata-tab h4 { margin: 0 0 var(--s3); font-size: var(--fs-panel); }
+    .metadata-tab p { margin: 0 0 var(--s3); }
+    .metadata-tab .terms { margin: 0; }
+    .metadata-tab .terms dt { margin-top: var(--s4); }
+    .metadata-tab .terms dt:first-child { margin-top: 0; }
+    .metadata-tab .terms dd { font-size: var(--fs-panel); }
+    .topic > .problem-workspace { margin-top: var(--s3); padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); }
     .prob-dock { display: flex; align-self: center; gap: 2px; margin-left: auto; }
     .prob-dock button, .float-move { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0;
       border: 0; border-radius: 6px; background: transparent; color: var(--ink-2); cursor: pointer; }
@@ -524,21 +537,27 @@
       <div class="panel-inner">
         <div class="panel-head">
           <button class="float-move" type="button" aria-label="문제 창 이동. 화살표로 이동" title="끌어서 이동"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01" stroke-width="3"/></svg></button>
-          <h2 id="panel-prob-title" class="sr-only">문제, 원문</h2>
-          <div class="panel-tabs" role="tablist" aria-labelledby="panel-prob-title">
-            <button type="button" role="tab" id="tab-problem" data-tab="problem" aria-controls="tabpanel-problem" aria-selected="true">문제</button>
-            <button type="button" role="tab" id="tab-original" data-tab="original" aria-controls="tabpanel-original" aria-selected="false" tabindex="-1" hidden>원문</button>
-          </div>
+          <h2 id="panel-prob-title">문제 패널</h2>
           <div class="prob-dock" role="radiogroup" aria-label="문제 패널 위치">
             <button type="button" role="radio" data-dock="left" aria-checked="true" tabindex="0" aria-label="왼쪽에 붙이기" title="왼쪽에 붙이기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="7" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg></button>
             <button type="button" role="radio" data-dock="right" aria-checked="false" tabindex="-1" aria-label="오른쪽에 붙이기" title="오른쪽에 붙이기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="14" y="4" width="7" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg></button>
             <button type="button" role="radio" data-dock="float" aria-checked="false" tabindex="-1" aria-label="띄우기" title="띄우기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><rect class="strip" x="11" y="8" width="7" height="6" rx="1"/></svg></button>
           </div>
         </div>
+        <div class="problem-workspace" id="problem-workspace">
+        <div class="panel-tabs" role="tablist" aria-label="문제 자료">
+          <button type="button" role="tab" id="tab-problem" data-tab="problem" aria-controls="tabpanel-problem" aria-selected="true">문제</button>
+          <button type="button" role="tab" id="tab-original" data-tab="original" aria-controls="tabpanel-original" aria-selected="false" tabindex="-1" hidden>원문</button>
+          <button type="button" role="tab" id="tab-provenance" data-tab="provenance" aria-controls="tabpanel-provenance" aria-selected="false" tabindex="-1">출제 근거</button>
+          <button type="button" role="tab" id="tab-terms" data-tab="terms" aria-controls="tabpanel-terms" aria-selected="false" tabindex="-1">용어</button>
+        </div>
         <div class="probs" role="tabpanel" id="tabpanel-problem" aria-labelledby="tab-problem">
           <p class="panel-empty" id="prob-empty">문항을 고르면 여기에 문제가 나와요.</p>
         </div>
         <div class="orig-tab" role="tabpanel" id="tabpanel-original" aria-labelledby="tab-original" hidden></div>
+        <div class="metadata-tab" role="tabpanel" id="tabpanel-provenance" aria-labelledby="tab-provenance" hidden></div>
+        <div class="metadata-tab" role="tabpanel" id="tabpanel-terms" aria-labelledby="tab-terms" hidden></div>
+        </div>
       </div>
       <div class="float-resize" role="button" tabindex="0" aria-label="문제 창 크기 조절. 화살표로 조절, Enter로 기본 크기"></div>
     </aside>
@@ -1029,6 +1048,18 @@
         const probs = panels.prob.querySelector('.probs');
         const origTab = panels.prob.querySelector('.orig-tab');
         const origBtn = document.getElementById('tab-original');
+        const workspace = document.getElementById('problem-workspace');
+        const home = workspace.parentElement;
+        const metadata = {provenance: {}, terms: {}};
+        const metadataPanels = {};
+        const metadataEmpty = {};
+        Object.keys(metadata).forEach((kind) => {
+          metadataPanels[kind] = document.getElementById('tabpanel-' + kind);
+          const empty = document.createElement('p');
+          empty.className = 'panel-empty';
+          metadataPanels[kind].appendChild(empty);
+          metadataEmpty[kind] = empty;
+        });
         const tabList = panels.prob.querySelector('.panel-tabs');
         const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
         const sub = document.getElementById('sum-for');
@@ -1041,7 +1072,7 @@
         const expanded = new Set();
         let curId = null;
         const saved = store.get(TAB, 'problem');
-        let tab = ['problem', 'original'].includes(saved) ? saved : 'problem';
+        let tab = ['problem', 'original', 'provenance', 'terms'].includes(saved) ? saved : 'problem';
         // 보기 문항의 판정 문단((1), A, ㄱ, ① 로 시작)을 보기별 카드로 보인다
         const verdictRe = /^\(?([0-9]+|[A-Za-z]|[ㄱ-ㅎ]|[①-⑩])(\)|\.|\s)/;
         topics.filter((t) => t.querySelector('.choices')).forEach((t) => {
@@ -1058,10 +1089,14 @@
           pane.id = 'problem-' + t.id;
           const orig = pane.querySelector(':scope > details.original');
           if (orig) origs[t.id] = orig;
+          Object.keys(metadata).forEach((kind) => {
+            const node = t.querySelector(':scope > [data-problem-panel="' + kind + '"]');
+            if (node) metadata[kind][t.id] = node;
+          });
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'problem-toggle';
-          btn.setAttribute('aria-controls', pane.id);
+          btn.setAttribute('aria-controls', workspace.id);
           btn.addEventListener('click', () => {
             if (expanded.has(t.id)) expanded.delete(t.id); else expanded.add(t.id);
             paintToggle(t.id);
@@ -1074,7 +1109,7 @@
           const on = expanded.has(id);
           opens[id].setAttribute('aria-expanded', String(on));
           opens[id].textContent = on ? '문제 접기' : '문제 보기';
-          panes[id].hidden = !on;
+          if (!wideMq.matches && id === curId) workspace.hidden = !on;
         }
         // 저장된 탭이 원문인데 지금 문항에 원문이 없으면 문제 탭을 보이되 선호는 그대로 둔다
         const effective = (name) => (name === 'original' && !origs[curId] ? 'problem' : name);
@@ -1084,6 +1119,13 @@
           tabs.forEach((b) => { const on = b.dataset.tab === shown; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
           probs.hidden = shown !== 'problem';
           origTab.hidden = shown !== 'original';
+          Object.keys(metadata).forEach((kind) => {
+            metadataPanels[kind].hidden = shown !== kind;
+            Object.entries(metadata[kind]).forEach(([id, node]) => { node.hidden = id !== curId; });
+            metadataEmpty[kind].hidden = Boolean(metadata[kind][curId]);
+            metadataEmpty[kind].textContent = !curId ? '문항을 고르면 여기에 자료가 나와요.' :
+              (kind === 'terms' ? '이 문항에 등록된 용어가 없어요.' : '이 문항에 등록된 출제 근거가 없어요.');
+          });
           if (save) { tab = name; store.set(TAB, name); }
           window.mlLayoutMath?.();
         }
@@ -1094,23 +1136,31 @@
         function mountPanes() {
           const wide = wideMq.matches;
           const active = document.activeElement;
-          const refocus = !wide && lastFocus && panels.prob.contains(lastFocus) && (active === lastFocus || active === body || !active);
-          Object.keys(origs).forEach((id) => {
-            const orig = origs[id];
-            if (wide) { orig.open = true; origTab.appendChild(orig); orig.hidden = id !== curId; }
-            else { orig.open = false; orig.hidden = false; panes[id].appendChild(orig); }
+          const refocus = lastFocus && (panels.prob.contains(lastFocus) || workspace.contains(lastFocus)) &&
+            (active === lastFocus || active === body || !active);
+          Object.entries(origs).forEach(([id, orig]) => {
+            orig.open = true; origTab.appendChild(orig); orig.hidden = id !== curId;
           });
-          Object.keys(panes).forEach((id) => {
-            if (wide) { opens[id].remove(); probs.appendChild(panes[id]); panes[id].hidden = id !== curId; }
+          Object.entries(panes).forEach(([id, pane]) => {
+            probs.appendChild(pane); pane.hidden = id !== curId;
+            if (wide) opens[id].remove();
             else {
               const topic = document.getElementById(id);
-              (topic.querySelector(':scope > .panel-meta') || topic.querySelector('h3')).after(opens[id], panes[id]);
+              (topic.querySelector(':scope > .panel-meta') || topic.querySelector('h3')).after(opens[id]);
               paintToggle(id);
             }
           });
+          Object.keys(metadata).forEach((kind) => {
+            Object.values(metadata[kind]).forEach((node) => metadataPanels[kind].appendChild(node));
+          });
+          if (wide || !curId) home.appendChild(workspace);
+          else opens[curId].after(workspace);
+          workspace.hidden = !wide && (!curId || !expanded.has(curId));
           probEmpty.hidden = Boolean(curId && panes[curId]);
           showTab(tab, false);
-          if (refocus && opens[curId]) opens[curId].focus();
+          if (refocus && wide && workspace.contains(lastFocus) && lastFocus.getClientRects().length) {
+            lastFocus.focus({preventScroll: true});
+          } else if (refocus && !wide && opens[curId]) opens[curId].focus();
         }
         // ---------- 보기 클릭: 복습노트와 같은 판정·알림·스크롤, 넓은 화면은 해설 판정 문단으로 이동 (선택은 메모리에만) ----------
         let model = {};
@@ -1316,12 +1366,17 @@
 
         // ---------- 인쇄: 문제를 모든 문항의 해설 위에 펼친다 ----------
         function mountForPrint() {
+          workspace.hidden = true;
           Object.keys(panes).forEach((id) => {
             const topic = document.getElementById(id);
             opens[id].remove();
             (topic.querySelector(':scope > .panel-meta') || topic.querySelector('h3')).after(panes[id]);
             panes[id].hidden = false;
             if (origs[id]) { panes[id].appendChild(origs[id]); origs[id].open = true; origs[id].hidden = false; }
+            Object.keys(metadata).forEach((kind) => {
+              const node = metadata[kind][id];
+              if (node) { topic.appendChild(node); node.hidden = false; }
+            });
           });
         }
         const printMq = matchMedia('print');
@@ -1331,12 +1386,13 @@
 
         tabs.forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab, true)));
         tabList.addEventListener('keydown', (e) => {
-          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
           e.preventDefault();
           e.stopPropagation();
-          const order = ['problem'].concat(origs[curId] ? ['original'] : []);
+          const order = ['problem'].concat(origs[curId] ? ['original'] : [], ['provenance', 'terms']);
           const at = order.indexOf(effective(tab));
-          const next = order[(at + (e.key === 'ArrowRight' ? 1 : order.length - 1)) % order.length];
+          const next = e.key === 'Home' ? order[0] : e.key === 'End' ? order[order.length - 1] :
+            order[(at + (e.key === 'ArrowRight' ? 1 : order.length - 1)) % order.length];
           showTab(next, true);
           tabs.find((b) => b.dataset.tab === next).focus();
         });
@@ -1348,11 +1404,7 @@
           empty.hidden = Boolean(sums[key]);
           if (key === 'intro') sub.textContent = '전체 흐름';
           else sub.innerHTML = (s.querySelector('h3') || {}).innerHTML || ''; // preserve rendered title math
-          if (wideMq.matches) {
-            Object.keys(panes).forEach((id) => { panes[id].hidden = id !== curId; });
-            Object.keys(origs).forEach((id) => { origs[id].hidden = id !== curId; });
-            showTab(tab, false);
-          }
+          mountPanes();
           probEmpty.hidden = Boolean(curId && panes[curId]);
           if (curId && !read.has(curId)) { read.add(curId); store.set(KEY, Array.from(read)); }
           panels.prob.querySelector('.panel-inner').scrollTop = 0;
@@ -1500,7 +1552,7 @@
       }
       function layout() {
         queued = false;
-        document.querySelectorAll('main .katex, .sums .katex, .probs .katex').forEach((math) => {
+        document.querySelectorAll('main .katex, .sums .katex, .problem-workspace .katex').forEach((math) => {
           if (!math.getClientRects().length) return;
           const tex = math.querySelector('annotation')?.textContent || '';
           const display = math.parentElement.classList.contains('katex-display');

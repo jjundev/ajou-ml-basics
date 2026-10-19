@@ -1,0 +1,301 @@
+{
+  "revision": "derivation-2026-10-19",
+  "status": "pass",
+  "comparison": "root independently compared every blind conclusion against authored solution; all match",
+  "items": {
+    "p1:a": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$v_3=v_1+v_2$이므로 $v_1+v_2-v_3=0$. 계수 $(1,1,-1)$은 비영이어서 세 열은 선형종속이다. $v_1,v_2$는 첫째·둘째 성분으로 독립임을 바로 확인한다.",
+      "evidence": "evidence/blind-solutions.md round 1 p1:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p1:b": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "첫 두 행은 $\\alpha_1+\\alpha_3=2$, $\\alpha_2+\\alpha_3=1$을 준다. 셋째 행은 이 둘의 합이므로 $\\alpha=(2-s,1-s,s)^\\top$, $s\\in\\mathbb R$가 모든 해다. 모든 열의 셋째 성분이 첫 두 성분의 합이므로 열공간은 $\\{(u,v,u+v)^\\top\\}$. $c=(2,1,4)^\\top$는 이 평면 밖이어서 해가 없다.",
+      "evidence": "evidence/blind-solutions.md round 1 p1:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p1:c": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$U^\\top U=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$이고 행렬식이 $3$이므로 $(U^\\top U)^{-1}=\\frac13\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$. $V^\\top V=\\begin{pmatrix}2&1&3\\\\1&2&3\\\\3&3&6\\end{pmatrix}$는 비영 벡터 $(1,1,-1)^\\top$를 영벡터로 보내므로 역행렬이 없다. Gram 행렬의 가역성은 행이 아니라 열의 독립성에 달렸다.",
+      "evidence": "evidence/blind-solutions.md round 1 p1:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p2:a": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$J_f(x)=\\begin{pmatrix}2x_1&1\\\\x_2&x_1\\end{pmatrix}$, $J_f(1,2)=\\begin{pmatrix}2&1\\\\2&1\\end{pmatrix}$. 두 입력·두 출력이므로 모두 $2\\times2$이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p2:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p2:b": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$q=2x_1^2+x_1x_2+x_2^2-x_1$. 따라서 열 gradient는 $\\nabla q=(4x_1+x_2-1,\\ x_1+2x_2)^\\top\\in\\mathbb R^2$, Hessian은 $\\nabla^2q=A=\\begin{pmatrix}4&1\\\\1&2\\end{pmatrix}\\in\\mathbb R^{2\\times2}$이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p2:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p2:c": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "$4x_1+x_2=1$, $x_1+2x_2=0$에서 $x_*=(2/7,-1/7)^\\top$. $A$의 선행 주행렬식은 $4>0$, $\\det A=7>0$이어서 양의 정부호다. $q(x)-q(x_*)=\\frac12(x-x_*)^\\top A(x-x_*)>0$ ($x\\ne x_*$)이므로 유일한 전역 최소점이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p2:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p3:a": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$z^2+(z-2)^2/3=\\frac43z^2-\\frac43z+\\frac43=\\frac43(z-\\frac12)^2+1$. 따라서 $g(z)=\\frac1{2\\pi\\sqrt3}e^{-1/2}\\exp[-\\frac23(z-\\frac12)^2]$.",
+      "evidence": "evidence/blind-solutions.md round 1 p3:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p3:b": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "정밀도가 $4/3$이므로 평균 $1/2$, 분산 $3/4$다. $q(z)=\\frac1{\\sqrt{2\\pi(3/4)}}\\exp[-(z-1/2)^2/(2(3/4))]=\\sqrt{\\frac2{3\\pi}}\\exp[-\\frac23(z-1/2)^2]$. 이 앞 계수는 Gaussian 적분에 의해 적분값을 1로 만든다.",
+      "evidence": "evidence/blind-solutions.md round 1 p3:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p3:c": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$\\int\\exp[-\\frac23(z-1/2)^2]dz=\\sqrt{3\\pi/2}$이므로 $Z=\\frac{e^{-1/2}}{\\sqrt{8\\pi}}=\\mathcal N(2\\mid0,4)$. $Z\\ne1$이므로 비음수인 $g$ 자체는 정규화된 확률밀도가 아니다. $g/Z$가 밀도다.",
+      "evidence": "evidence/blind-solutions.md round 1 p3:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p4:a": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$\\Phi=\\begin{pmatrix}1&-1\\\\1&0\\\\1&1\\end{pmatrix}\\in\\mathbb R^{3\\times2}$, $y=(0,1,4)^\\top$, $\\Phi^\\top\\Phi=\\operatorname{diag}(3,2)$, $\\Phi^\\top y=(5,4)^\\top$.",
+      "evidence": "evidence/blind-solutions.md round 1 p4:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p4:b": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "분산 1의 독립 Gaussian 우도의 최대화는 잔차제곱합 최소화다. $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에서 $\\theta_{ML}=(5/3,2)^\\top$. $\\phi(2)=(1,2)^\\top$이므로 평균 예측은 $5/3+2\\cdot2=17/3$.",
+      "evidence": "evidence/blind-solutions.md round 1 p4:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p4:c": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "음의 로그 posterior의 가변항은 $\\frac12\\|y-\\Phi\\theta\\|^2+\\frac12\\|\\theta\\|^2$. 따라서 $(\\Phi^\\top\\Phi+I)\\theta=\\Phi^\\top y$, $\\theta_{MAP}=(5/4,4/3)^\\top$. 평균 예측은 $5/4+2(4/3)=47/12$. 영평균 prior의 이차벌점이 절편과 기울기를 모두 0 방향으로 수축시킨다.",
+      "evidence": "evidence/blind-solutions.md round 1 p4:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p5:a": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$\\mu_X=(2/3,2/3)^\\top$. $E[XX^\\top]=\\operatorname{diag}(4/3,4/3)$이므로 $\\Sigma_X=E[XX^\\top]-\\mu_X\\mu_X^\\top=\\begin{pmatrix}8/9&-4/9\\\\-4/9&8/9\\end{pmatrix}$. 이는 분모 3을 쓴 결과이며 불편표본공분산의 분모 2와 다르다.",
+      "evidence": "evidence/blind-solutions.md round 1 p5:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p5:b": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$Y-\\mu_Y=A(X-\\mu_X)$에서 $\\mu_Y=A\\mu_X+b=(7/3,-1)^\\top$, $\\Sigma_Y=A\\Sigma_XA^\\top=\\operatorname{diag}(8/9,8/3)$. 정의된 교차공분산의 순서에 따라 $C_{XY}=\\Sigma_XA^\\top=\\begin{pmatrix}4/9&4/3\\\\4/9&-4/3\\end{pmatrix}$이며 세 행렬은 모두 $2\\times2$다. 이동 $b$는 공분산에 영향을 주지 않는다.",
+      "evidence": "evidence/blind-solutions.md round 1 p5:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p5:c": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "가능한 $Y$는 $(1,-1)^\\top,(3,1)^\\top,(3,-3)^\\top$이고 각각 확률 $1/3$이다. 공분산의 비대각 원소가 0이므로 무상관이다. 그러나 $P(Y_1=1)=1/3$, $P(Y_2=1)=1/3$인데 $P(Y_1=1,Y_2=1)=0\\ne1/9$. 따라서 독립은 아니다. 이산분포에 Gaussian의 무상관-독립 정리를 적용할 수 없다.",
+      "evidence": "evidence/blind-solutions.md round 1 p5:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p6:a": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "$y_n\\mid x_n,\\theta\\sim\\mathcal N(\\theta_0+\\theta_1x_n,\\sigma^2)$. 입력과 모수를 고정하면 각 $y_n$은 서로 독립인 $\\epsilon_n$에 각각 상수만 더한 값이므로 조건부 독립이다. 따라서 결합밀도는 각 조건부 밀도의 곱이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p6:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p6:b": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$p(y\\mid\\Phi,\\theta)=\\prod_{n=1}^N\\frac1{\\sqrt{2\\pi\\sigma^2}}e^{-(y_n-\\phi(x_n)^\\top\\theta)^2/(2\\sigma^2)}=(2\\pi\\sigma^2)^{-N/2}e^{-\\|y-\\Phi\\theta\\|^2/(2\\sigma^2)}$. $\\mathcal L(\\theta)=\\frac N2\\log(2\\pi\\sigma^2)+\\frac1{2\\sigma^2}\\|y-\\Phi\\theta\\|^2$. $\\Phi$는 $N\\times2$, $y$는 $N\\times1$이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p6:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p6:c": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "$\\mathcal L(\\theta)=C+\\frac{N}{2\\sigma^2}\\widehat R(\\theta)$, $C=\\frac N2\\log(2\\pi\\sigma^2)$. $\\sigma^2>0$, $N>0$이고 $C$는 모수와 무관하므로 양의 상수배와 상수 이동은 최소점 집합을 보존한다. 따라서 ML은 제곱손실 경험위험 최소화와 같다.",
+      "evidence": "evidence/blind-solutions.md round 1 p6:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p6:d": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$Q=\\|y-\\Phi\\theta\\|^2=y^\\top y-2\\theta^\\top\\Phi^\\top y+\\theta^\\top\\Phi^\\top\\Phi\\theta$. $G=\\Phi^\\top\\Phi$는 대칭이므로 $\\nabla_\\theta Q=-2\\Phi^\\top y+2G\\theta\\in\\mathbb R^2$. 따라서 $G\\theta=\\Phi^\\top y$가 정규방정식이다. 경험위험의 gradient는 이 식을 $N$으로 나눈 것이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p6:d; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p6:e": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "열독립에 의해 비영 $h$에 대해 $h^\\top Gh=\\|\\Phi h\\|^2>0$이므로 $G$는 가역이며 $\\theta_{ML}=G^{-1}\\Phi^\\top y$. Hessian $2G$가 양의 정부호이므로 유일한 전역 최소점이다. $(1,x,x^2)^\\top$로 바꾸면 평균은 $\\theta_0+\\theta_1x+\\theta_2x^2$로 입력에는 비선형이지만 미지 계수에는 선형이어서 선형 회귀다. 새 특징행렬에 대한 해의 유일성은 새 열들의 독립성을 별도로 요구한다.",
+      "evidence": "evidence/blind-solutions.md round 1 p6:e; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p7:a": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "Bayes 정리에서 $p(\\theta\\mid y,\\Phi)=p(y\\mid\\Phi,\\theta)p(\\theta)/p(y\\mid\\Phi)\\propto p(y\\mid\\Phi,\\theta)p(\\theta)$. Evidence $p(y\\mid\\Phi)=\\int_{\\mathbb R^K}p(y\\mid\\Phi,\\vartheta)p(\\vartheta)d\\vartheta$는 모수를 적분한 값으로 현재의 $\\theta$에는 의존하지 않는다.",
+      "evidence": "evidence/blind-solutions.md round 1 p7:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p7:b": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "곱은 $(2\\pi\\sigma^2)^{-N/2}(2\\pi\\tau^2)^{-K/2}\\exp[-\\|y-\\Phi\\theta\\|^2/(2\\sigma^2)-\\|\\theta-m_0\\|^2/(2\\tau^2)]$. 따라서 음의 로그 posterior는 $\\frac1{2\\sigma^2}\\|y-\\Phi\\theta\\|^2+\\frac1{2\\tau^2}\\|\\theta-m_0\\|^2+C$, $C=\\frac N2\\log(2\\pi\\sigma^2)+\\frac K2\\log(2\\pi\\tau^2)+\\log p(y\\mid\\Phi)$. $C$는 $\\theta$와 무관하다.",
+      "evidence": "evidence/blind-solutions.md round 1 p7:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p7:c": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "첫 이차항의 열 gradient는 $\\sigma^{-2}\\Phi^\\top(\\Phi\\theta-y)$이고, 둘째는 $\\tau^{-2}(\\theta-m_0)$. 합을 0으로 두면 $(\\sigma^{-2}\\Phi^\\top\\Phi+\\tau^{-2}I_K)\\theta=\\sigma^{-2}\\Phi^\\top y+\\tau^{-2}m_0$. 양변은 $K\\times1$이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p7:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p7:d": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$\\lambda=\\sigma^2/\\tau^2>0$로 두면 $\\theta_{MAP}=(\\Phi^\\top\\Phi+\\lambda I_K)^{-1}(\\Phi^\\top y+\\lambda m_0)$. 음의 로그 posterior를 $2\\sigma^2$배 하면 가변항이 $\\|y-\\Phi\\theta\\|^2+\\lambda\\|\\theta-m_0\\|^2$가 된다. 따라서 이 합에서 상대 벌점계수는 $\\lambda=\\sigma^2/\\tau^2$다.",
+      "evidence": "evidence/blind-solutions.md round 1 p7:d; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p7:e": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "임의의 비영 $h\\in\\mathbb R^K$에 대해 $h^\\top(\\Phi^\\top\\Phi+\\lambda I_K)h=\\|\\Phi h\\|^2+\\lambda\\|h\\|^2>0$. 따라서 행렬은 양의 정부호여서 열독립 없이도 가역이고 MAP은 유일하다. 핵심 조건은 $\\lambda>0$이며 $\\lambda=0$에는 이 증명이 적용되지 않는다.",
+      "evidence": "evidence/blind-solutions.md round 1 p7:e; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p7:f": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$G=\\begin{pmatrix}5&5\\\\5&5\\end{pmatrix}$, $\\Phi^\\top y=(5,5)^\\top$. $\\lambda=1$에서 $(G+I)^{-1}=\\frac1{11}\\begin{pmatrix}6&-5\\\\-5&6\\end{pmatrix}$이므로 $\\theta_{MAP}=(5/11,5/11)^\\top$. $\\lambda=0$이면 $\\theta_1+\\theta_2=1$인 모든 벡터가 최소제곱해이므로 유일하지 않다. $\\lambda>0$의 해는 $(5/(10+\\lambda),5/(10+\\lambda))^\\top$로 $\\lambda\\to\\infty$에 $(0,0)^\\top=m_0$로 간다. 참고로 $\\lambda\\to0^+$에서는 $(1/2,1/2)^\\top$인 최소노름 해를 고른다.",
+      "evidence": "evidence/blind-solutions.md round 1 p7:f; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p8:a": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "모수에 조건부로 관측들이 독립이므로 곱은 $\\mathcal N(2\\mid\\theta,2)\\mathcal N(0\\mid\\theta,2)\\mathcal N(\\theta\\mid1,2)=(4\\pi)^{-3/2}\\exp[-\\{(2-\\theta)^2+\\theta^2+(\\theta-1)^2\\}/4]$. 모수와 무관한 양의 앞 계수를 제외하면 뒤 지수식이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p8:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p8:b": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "제곱합은 $3\\theta^2-6\\theta+5$. 따라서 지수는 $-\\frac12[\\frac32\\theta^2-2(\\frac32)\\theta+\\frac52]$로 $A=3/2$, $b=3/2$, $c=5/2$. $A>0$이므로 정규화 가능한 Gaussian 핵이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p8:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p8:c": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$A\\theta^2-2b\\theta+c=\\frac32(\\theta-1)^2+1$. 모수와 무관한 $e^{-1/2}$는 정규화 시 사라진다. $\\int e^{-3(\\theta-1)^2/4}d\\theta=\\sqrt{4\\pi/3}$이므로 $p(\\theta\\mid D)=\\sqrt{\\frac3{4\\pi}}e^{-3(\\theta-1)^2/4}=\\mathcal N(\\theta\\mid1,2/3)$. 평균 1, 분산 $2/3$다.",
+      "evidence": "evidence/blind-solutions.md round 1 p8:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p8:d": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "선형변환 $f_*=2\\theta$는 Gaussian을 보존한다. $E[f_*\\mid D]=2E[\\theta\\mid D]=2$, $\\operatorname{Var}(f_*\\mid D)=4\\operatorname{Var}(\\theta\\mid D)=8/3$. 따라서 $f_*\\mid D\\sim\\mathcal N(2,8/3)$. 밀도 계수는 $1/\\sqrt{2\\pi(8/3)}$이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p8:d; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p8:e": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "독립 미래 잡음의 평균은 0, 분산은 2이므로 $E[y_*\\mid D]=2$, $\\operatorname{Var}(y_*\\mid D)=8/3+2=14/3$. 두 독립 Gaussian의 합이어서 $y_*\\mid D\\sim\\mathcal N(2,14/3)$이며 정규화 계수는 $1/\\sqrt{2\\pi(14/3)}$이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p8:e; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p8:f": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "Gaussian posterior의 유일한 최빈값은 평균과 같아 $\\theta_{MAP}=1$. 이를 고정하면 $y_*\\mid\\theta_{MAP}\\sim\\mathcal N(2,2)$. 완전한 posterior 예측 $\\mathcal N(2,14/3)$와 평균은 같지만 분산은 $8/3$ 작다. 이 차이는 $\\operatorname{Var}(E[y_*\\mid\\theta,D]\\mid D)=4\\operatorname{Var}(\\theta\\mid D)=8/3$, 즉 모수의 사후 불확실성이다.",
+      "evidence": "evidence/blind-solutions.md round 1 p8:f; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p9:a": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$p(y\\mid M_j)=\\int_{\\mathbb R}\\mathcal N(y\\mid\\theta,1)\\mathcal N(\\theta\\mid0,v_j)d\\theta$. 이는 결합밀도 $p(y,\\theta\\mid M_j)$를 주변화한 것이므로 prior로 가중한다. 같은 데이터를 이미 조건화한 posterior를 넣으면 이 주변화 정의와 달라져 데이터를 이중 사용하게 된다.",
+      "evidence": "evidence/blind-solutions.md round 1 p9:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p9:b": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$v=v_j>0$로 두면 $(y-\\theta)^2+\\theta^2/v=\\frac{v+1}{v}(\\theta-\\frac{v y}{v+1})^2+\\frac{y^2}{v+1}$. 곱의 앞 계수는 $1/(2\\pi\\sqrt v)$, 완전제곱 핵의 적분은 $\\sqrt{2\\pi v/(v+1)}$. 따라서 $p(y\\mid M_j)=\\frac1{\\sqrt{2\\pi(v_j+1)}}e^{-y^2/[2(v_j+1)]}=\\mathcal N(y\\mid0,v_j+1)$.",
+      "evidence": "evidence/blind-solutions.md round 1 p9:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p9:c": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$y=0$에서 $p(0\\mid M_1)=1/\\sqrt{4\\pi}=1/(2\\sqrt\\pi)$, $p(0\\mid M_2)=1/\\sqrt{10\\pi}$. 이 값들은 연속관측의 밀도값이며 $P(y=0)$라는 점확률은 아니다.",
+      "evidence": "evidence/blind-solutions.md round 1 p9:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p9:d": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$B_{12}=p(0\\mid M_1)/p(0\\mid M_2)=\\sqrt{5/2}>1$. 따라서 관측 데이터 자체의 evidence 비교는 $M_1$을 지지한다.",
+      "evidence": "evidence/blind-solutions.md round 1 p9:d; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p9:e": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "$P(M_j\\mid y)=p(y\\mid M_j)P(M_j)/p(y)$를 나누면 $\\frac{P(M_1\\mid y)}{P(M_2\\mid y)}=B_{12}\\frac{P(M_1)}{P(M_2)}=\\frac12\\sqrt{5/2}=\\sqrt{5/8}<1$. 따라서 $P(M_1\\mid0)=\\frac{\\sqrt5}{\\sqrt5+2\\sqrt2}$, $P(M_2\\mid0)=\\frac{2\\sqrt2}{\\sqrt5+2\\sqrt2}$이다. posterior 최대확률 기준의 선택은 $M_2$다. 모델 공간이 두 모델임을 전제로 정규화했다.",
+      "evidence": "evidence/blind-solutions.md round 1 p9:e; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p10:a": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "$r=y-\\Phi\\widehat\\theta$라 하면 $\\|r-t\\Phi h\\|^2=\\|r\\|^2-2t h^\\top\\Phi^\\top r+t^2\\|\\Phi h\\|^2$. 최근접점에서 모든 $h\\in\\mathbb R^K$에 대해 도함수 $-2h^\\top\\Phi^\\top r=0$. 특히 $h=\\Phi^\\top r$를 택하면 $\\Phi^\\top r=0$, 즉 잔차는 열공간의 모든 벡터에 직교한다.",
+      "evidence": "evidence/blind-solutions.md round 1 p10:a; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p10:b": {
+      "status": "pass",
+      "method": "symbolic",
+      "conclusion": "$\\Phi^\\top(y-\\Phi\\widehat\\theta)=0$에서 $\\Phi^\\top\\Phi\\widehat\\theta=\\Phi^\\top y$. 열독립이면 $G=\\Phi^\\top\\Phi$가 양의 정부호로 가역이므로 $\\widehat\\theta=G^{-1}\\Phi^\\top y\\in\\mathbb R^K$. 이 문제에서 $N=3,K=2$.",
+      "evidence": "evidence/blind-solutions.md round 1 p10:b; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p10:c": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "대입하면 $P=\\Phi(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top\\in\\mathbb R^{N\\times N}$이고 $\\widehat y=Py$. $G$가 대칭이어서 $(G^{-1})^\\top=G^{-1}$, 따라서 $P^\\top=P$. 또한 $P^2=\\Phi G^{-1}(\\Phi^\\top\\Phi)G^{-1}\\Phi^\\top=P$. 주어진 문제에서 차원은 $3\\times3$이며 rank는 2다.",
+      "evidence": "evidence/blind-solutions.md round 1 p10:c; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p10:d": {
+      "status": "pass",
+      "method": "exact",
+      "conclusion": "$G=\\operatorname{diag}(3,2)$, $\\Phi^\\top y=(4,2)^\\top$이므로 $\\widehat\\theta=(4/3,1)^\\top$. $P=\\begin{pmatrix}1/3&1/3&1/3\\\\1/3&5/6&-1/6\\\\1/3&-1/6&5/6\\end{pmatrix}$, $\\widehat y=(4/3,7/3,1/3)^\\top$, $r=(2/3,-1/3,-1/3)^\\top$. 실제 $\\Phi^\\top r=(2/3-1/3-1/3,\\ -1/3+1/3)^\\top=0$.",
+      "evidence": "evidence/blind-solutions.md round 1 p10:d; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    },
+    "p10:e": {
+      "status": "pass",
+      "method": "proof",
+      "conclusion": "$u,\\widehat y\\in\\operatorname{col}(\\Phi)$이므로 $\\widehat y-u$도 열공간에 있고 $r^\\top(\\widehat y-u)=0$. 따라서 $\\|y-u\\|^2=\\|r+(\\widehat y-u)\\|^2=\\|r\\|^2+\\|\\widehat y-u\\|^2\\ge\\|r\\|^2$. 등호는 $u=\\widehat y$일 때만 성립한다. 이는 (a)의 필요조건을 충분조건으로 완성하고 열공간 내 최근접점의 유일성도 보인다.",
+      "evidence": "evidence/blind-solutions.md round 1 p10:e; root compared against solutions.json; evidence/math-check.py and math-check-result.json supplemental exact/symbolic identities",
+      "reviewer": "blind_derivation (fresh problem-only solver); root compared against authored solution"
+    }
+  }
+}
