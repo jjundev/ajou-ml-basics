@@ -6,7 +6,11 @@
 
 <a id="s0-learning-map"></a>
 
-## 먼저 큰 그림: 가우시안 계산에 필요한 세 도구를 증명해요
+### 가우시안 계산에 필요한 세 도구를 증명해요
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
 
 **오늘의 질문.** 다음에 사후분포와 예측분포를 계산할 수 있도록, 평균·공분산의 변환과 가우시안 밀도의 모양을 확인해요.
 
@@ -20,10 +24,19 @@
 
 **구할 결과.** 이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.
 
+결과를 가져가는 순서는 **아핀 변환에서 $\Sigma=LL^\top$ 구하기 → 그 Σ를 가우시안 PDF의 지수·계수에 넣기 → 가우시안 곱의 지수에서 새 평균·공분산 읽기**예요. 세 증명은 각각 다음 계산의 재료를 만들어요.
+
 **수식이 하는 일.** 평균의 선형성은 중심을 옮기고, 공분산의 양쪽 행렬은 흔들림의 전달을 계산해요. 행렬식은 부피 배율을, 완전제곱은 분포의 중심과 퍼짐을 찾아요.
 
 **헷갈리기 쉬운 점.** 분산은 표준편차가 아니에요. 행렬 공분산에는 양쪽 계수와 전치가 필요하고, 밀도 변환에는 절대 부피 배율이 필요해요.
 
+이어서 읽기: [분산은 양쪽에 A와 A의 전치](#s0-variance) · [determinant는 크기 배율, 일반화는 Jacobian](#s1-jacobian) · [두 다변량 가우시안의 곱](#s2-product)
+
+**페이지 요약**
+
+이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.
+
+---
 
 **목차**
 
@@ -189,6 +202,7 @@ $$
    \mathbf{Y} - \mathbb{E}[\mathbf{Y}] = \mathbf{A}\mathbf{X} + \mathbf{b} - (\mathbf{A}\mathbb{E}[\mathbf{X}] + \mathbf{b})
    $$
 
+
    $$
    \mathbf{Y} - \mathbb{E}[\mathbf{Y}] = \mathbf{A}(\mathbf{X} - \mathbb{E}[\mathbf{X}])
    $$
@@ -203,6 +217,7 @@ $$
    (\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T
    $$
 
+
    $$
    \mathrm{Var}[\mathbf{Y}] = \mathbb{E}\left[\mathbf{A}(\mathbf{X}-\boldsymbol{\mu}_X)(\mathbf{X}-\boldsymbol{\mu}_X)^T\mathbf{A}^T\right]
    $$
@@ -211,6 +226,7 @@ $$
    $$
    \mathrm{Var}[\mathbf{Y}] = \mathbf{A}\,\mathbb{E}\left[(\mathbf{X}-\boldsymbol{\mu}_X)(\mathbf{X}-\boldsymbol{\mu}_X)^T\right]\mathbf{A}^T
    $$
+
 
    $$
    \mathrm{Var}[\mathbf{Y}] = \mathbf{A}\,\mathrm{Var}[\mathbf{X}]\,\mathbf{A}^T = \mathbf{A}\boldsymbol{\Sigma}_X\mathbf{A}^T
@@ -243,6 +259,8 @@ $$
 가운데 항 $12$는 $\mathrm{Cov}(X_1,X_2)=1$에서 나와요. 이를 빼고 $97$로 계산했다면 대각 밖 원소를 빠뜨린 거예요.
 
 **크기 검사.** $\mathbf{A}\in\mathbb{R}^{m\times n}$이면 $(m\times n)(n\times n)(n\times m)$이라 $\mathrm{Var}[\mathbf{Y}]$는 $m\times m$이에요. $\mathbf{Y}$ 성분끼리의 표이므로 $(i,j)$ 원소는 $\mathrm{Cov}(Y_i,Y_j)$예요. 같은 벡터끼리의 공분산(자기 공분산)이라 대칭이에요. 크기가 맞는다는 것만으로 식이 옳다고 증명되지는 않으니, 유도의 점검 도구로 써요.
+
+[다변량 가우시안 만들기](#s1-lz)에서 이 규칙을 다시 쓸 때는 일반식의 입력을 Z, 계수를 L, 원래 공분산을 I로 바꿔요. 그러면 $\operatorname{Cov}(LZ+\mu)=LIL^\top=LL^\top$예요. 모멘트 공식 자체에는 가우시안 가정이 필요 없고, 뒤의 밀도 유도에서 가우시안 가정을 사용해요.
 
 **교수님 말씀**
 
@@ -335,6 +353,7 @@ $$
    \mathrm{Cov}(\mathbf{X},\mathbf{Y}) = \mathbb{E}\left[(\mathbf{X}-\boldsymbol{\mu}_X)(\mathbf{X}-\boldsymbol{\mu}_X)^T\right]\mathbf{A}^T
    $$
 
+
    $$
    \mathrm{Cov}(\mathbf{X},\mathbf{Y}) = \boldsymbol{\Sigma}_X\mathbf{A}^T
    $$
@@ -350,6 +369,7 @@ $$
 $$
 \mathrm{Cov}(X_1,Y) = 2\,\mathrm{Var}(X_1) + 3\,\mathrm{Cov}(X_1,X_2) = 8 + 3 = 11
 $$
+
 
 $$
 \mathrm{Cov}(X_2,Y) = 2\,\mathrm{Cov}(X_2,X_1) + 3\,\mathrm{Var}(X_2) = 2 + 27 = 29
@@ -390,6 +410,8 @@ $$
 부호(같이 커지는지 반대로 가는지)는 둘이 같아요. 크기는 covariance는 단위에 따라 달라지고, correlation은 $-1$에서 $1$ 사이로 맞춰져요.
 
 **스스로 확인해 볼 점.** $(i,j)$ 원소가 어느 성분끼리의 공분산인지, 결과가 $n\times m$인지 $m\times n$인지, $\mathbf{A}^T$가 왜 오른쪽에 붙는지를 기호 없이 말로 설명할 수 있는지 점검해요.
+
+**두 입력 자리로 복원해요.** $\operatorname{Cov}(\mathbf X,\mathbf A\mathbf X)$는 둘째 입력만 변환되어 $\Sigma_X\mathbf A^\top$, $\operatorname{Cov}(\mathbf A\mathbf X,\mathbf A\mathbf X)$는 둘 다 변환되어 $\mathbf A\Sigma_X\mathbf A^\top$예요. 위의 성분·정의 유도를 이 자리 대응으로 다시 떠올리면 돼요.
 
 **교수님 말씀**
 
@@ -587,6 +609,7 @@ $$
 X_1 = 2Z_1 + 1
 $$
 
+
 $$
 X_2 = Z_1 + 3Z_2 - 1
 $$
@@ -604,12 +627,14 @@ $$
    \mathrm{Var}(X_2) = 1^2 \cdot 1 + 3^2 \cdot 1 + 2 \cdot 1 \cdot 3\,\mathrm{Cov}(Z_1, Z_2)
    $$
 
+
    $$
    = 1 + 9 + 0 = 10
    $$
 3. $$
    \mathrm{Cov}(X_1, X_2) = \mathrm{Cov}(2Z_1 + 1,\, Z_1 + 3Z_2 - 1)
    $$
+
 
    $$
    = 2 \cdot 1\,\mathrm{Var}(Z_1) + 2 \cdot 3\,\mathrm{Cov}(Z_1, Z_2) = 2
@@ -620,6 +645,8 @@ $$
 **관찰.** $Z_1$과 $Z_2$는 독립이지만, $X_1$과 $X_2$는 둘 다 $Z_1$을 포함해서 독립이 아니에요. 공분산 행렬의 off-diagonal 원소 2가 그 증거예요. affine 변환을 거치면 독립이던 성분 사이에 상관이 생길 수 있어요. 그래서 공분산 행렬의 off-diagonal 원소를 0이라고 가정하면 안 돼요.
 
 (수업 중 "$z_1$은 2배로… $z_2$는 3배로"라고 말한 부분은, $z_1$이 $x_1$에 2배, $x_2$에 1배로 들어가고 $z_2$가 $x_2$에 3배로 들어간다는 뜻이에요.)
+
+방금 얻은 $\boldsymbol\Sigma=\mathbf L\mathbf L^\top$는 다음 증명에서 두 번 쓰여요. [지수부](#s1-inverse)에서는 $(\mathbf L^{-1})^\top\mathbf L^{-1}$을 Σ의 역으로, [앞 계수](#s1-det)에서는 $|\det\mathbf L|$을 Σ의 행렬식으로 바꿔요. 같은 Σ를 재사용해 최종 PDF에서 L을 없애는 것이 목적이에요.
 
 **교수님 말씀**
 
@@ -925,6 +952,8 @@ $$
 
 (STT의 "d에 대한 치환"은 $\mathbf{z}$에 대한 치환이에요.)
 
+여기서 기억할 것은 새 전개 전체보다 **역변환을 대입 → 전치 순서 뒤집기 → $(LL^\top)^{-1}$로 묶기**예요. 결과가 $\Sigma^{-1}$이므로 다음 단계에는 앞 계수만 남아요. 일반적으로 $(LL^\top)^{-1}$을 $L^{-1}(L^{-1})^\top$로 순서를 바꿔 쓰면 안 돼요.
+
 **교수님 말씀**
 
 조교 슬라이드는 $(\mathbf{L}^{-1})^T\mathbf{L}^{-1}$에 빨간 밑줄을 긋고, 그 아래 줄에서 이 부분을 $\boldsymbol{\Sigma}^{-1}$로 정리했어요. 지수부를 정리한 뒤에는 아직 끝이 아니라고 짚었어요.
@@ -991,6 +1020,7 @@ z를 x로 되돌려 넣으면 지수부 zᵀz가 (x−μ)ᵀΣ⁻¹(x−μ)가 �
    \det(\boldsymbol{\Sigma}) = \det(\mathbf{L})^2
    $$
 
+
    $$
    \sqrt{|\boldsymbol{\Sigma}|} = |\det(\mathbf{L})|
    $$
@@ -1002,11 +1032,14 @@ z를 x로 되돌려 넣으면 지수부 zᵀz가 (x−μ)ᵀΣ⁻¹(x−μ)가 �
    f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{|\boldsymbol{\Sigma}|}}\cdot\frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}
    $$
 
+
    $$
    = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}|}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}
    $$
 
 이 증명에 쓴 것은 affine 변환의 성질, 그리고 determinant를 크기 배율로 쓰는 scaling 두 가지뿐이에요([목표 식과 표준정규에서 출발](#s1-goal)).
+
+**PDF 복원:** 앞 토픽에서 만든 지수부에는 Σ⁻¹을, 이 토픽에서 만든 앞 계수에는 $\sqrt{\det\Sigma}$를 넣어요. 두 곳이 같은 공분산에서 나왔으므로 중심·퍼짐과 전체 적분값 1을 함께 맞춰요. 여기서는 L이 가역이고 Σ가 양의 정부호인 경우를 다뤄요.
 
 **교수님 말씀**
 
@@ -1044,6 +1077,7 @@ det Σ가 (det L)²이라서 1/|det L|을 1/√|Σ|로 바꾸면 목표 식이 �
   $$
   \det(\boldsymbol{\Sigma}) = \det(\mathbf{L})^2
   $$
+
 
   $$
   \sqrt{|\boldsymbol{\Sigma}|} = |\det(\mathbf{L})|
@@ -1342,6 +1376,8 @@ $$
 
 스칼라판과 나란히 보면 $\alpha \leftrightarrow \mathbf{A}$, $\beta \leftrightarrow \mathbf{b}$예요. $\mu = \frac{\beta}{\alpha}$가 ${\boldsymbol{\mu} = \mathbf{A}^{-1}\mathbf{b}}$로, $\frac{1}{\sigma^2} = \alpha$가 $\boldsymbol{\Sigma}^{-1} = \mathbf{A}$로 바뀌어요.
 
+이제 다음 곱 증명에서는 완전제곱을 반복하지 않아요. **이차항 계수 A와 일차항 벡터 b를 찾은 뒤 $\Sigma=A^{-1}$, $\mu=A^{-1}b$에 대입**하면 돼요. 이 A,b는 이차식 계수의 임시 이름으로, 앞 아핀 변환의 계수와 구별해요. 바로 다음 토픽이 실제 대입이에요.
+
 **교수님 말씀**
 
 조교는 중학교 때 2차함수를 일반형에서 표준형으로 바꾸던 연습을 떠올리라고 했어요. 전개한 뒤 가장 닮은 완전제곱 꼴로 묶는 일을 벡터와 행렬에서 똑같이 한다는 거예요(1012 Part 05 ~04:13).
@@ -1406,6 +1442,7 @@ $$
 p_0(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}_0|}}\exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_0)^T\boldsymbol{\Sigma}_0^{-1}(\mathbf{x}-\boldsymbol{\mu}_0)\right]
 $$
 
+
 $$
 p_1(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}_1|}}\exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_1)^T\boldsymbol{\Sigma}_1^{-1}(\mathbf{x}-\boldsymbol{\mu}_1)\right]
 $$
@@ -1430,6 +1467,7 @@ $$
    $$
    (1) + (2) = \mathbf{x}^T(\boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1})\mathbf{x} - 2(\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1)^T\mathbf{x} + \gamma
    $$
+
 
    $$
    \gamma = \boldsymbol{\mu}_0^T\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\mu}_1^T\boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1
@@ -1459,6 +1497,8 @@ $$
 순서는 스칼라 때와 같아요. 곱하고, 2차 형태로 묶고, Lemma 공식에 넣어요. 스칼라 ${\alpha = \frac{1}{\nu_0} + \frac{1}{\nu_1}}$이 ${\mathbf{A} = \boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1}}$로, ${\beta = \frac{\mu_0}{\nu_0} + \frac{\mu_1}{\nu_1}}$이 $\mathbf{b}$로 바뀌었어요.
 
 TA1 s18 슬라이드의 (2)항과 전개식 좌변에는 첫 괄호의 전치 $^T$가 빠져 있어요. 여기서는 $(\mathbf{x}-\boldsymbol{\mu}_1)^T$처럼 바로잡아 적었어요.
+
+앞 렘마와의 대응은 $A\leftarrow\Sigma_0^{-1}+\Sigma_1^{-1}$, $b\leftarrow\Sigma_0^{-1}\mu_0+\Sigma_1^{-1}\mu_1$예요. 이 두 자리를 찾았으면 공분산과 평균은 앞의 규칙으로 복원해요. [다음 강의자료 모양](#s2-rewrite)은 이 결과를 다른 순서의 인수분해로 다시 쓰는 것이며 새 분포가 아니에요.
 
 **교수님 말씀**
 
@@ -1595,6 +1635,8 @@ L04 s11의 "Compare… Why?"는 스칼라 결과와 비교하라는 질문이었
 
 조교는 $(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-T}$를 두고 "정방이니까 transpose해도 자기 자신"이라고 했어요. 정방행렬이라서 전치가 같아지는 것은 아니에요. 옳은 근거는 symmetric 행렬의 역행렬도 symmetric이라는 점이에요.
 
+**동치식 복원 규칙:** 역행렬 안에서 양끝 인수를 묶고 → 곱 전체의 역을 취할 때 순서를 뒤집고 → 필요한 항을 지울 수 있는 모양을 골라 대입해요. Σ₀와 Σ₁이 서로 교환된다고 가정한 단계는 없어요. 평균의 두 항에서 서로 다른 모양의 공분산 식을 쓴 이유는 지우려는 역행렬이 오른쪽에 오게 하기 위해서예요.
+
 **교수님 말씀**
 
 한 학생이 강의자료의 식과 다르다고 하자, 조교는 강의자료에는 조금 다르게 나왔다고 답했어요(1012 Part 06 ~04:48). 그래서 이 재표현을 보여 줬어요.
@@ -1661,6 +1703,7 @@ L04 s11의 "Compare… Why?"는 스칼라 결과와 비교하라는 질문이었
 | 행렬판 Lemma | 지수 안이 ${\mathbf{x}^T\mathbf{A}\mathbf{x} - 2\mathbf{b}^T\mathbf{x} + \gamma}$이면 $\boldsymbol{\mu} = \mathbf{A}^{-1}\mathbf{b}$, $\boldsymbol{\Sigma}^{-1} = \mathbf{A}$ | [행렬판 Lemma](#s2-matrix-lemma) |
 | 다변량 가우시안의 곱 (Lemma 대입) | ${\boldsymbol{\Sigma} = (\boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1})^{-1}}$, ${\boldsymbol{\mu} = \boldsymbol{\Sigma}(\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1)}$ | [두 다변량 가우시안의 곱](#s2-product) |
 | 다변량 가우시안의 곱 (강의자료 모양) | ${\boldsymbol{\Sigma} = \boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\Sigma}_0}$, ${\boldsymbol{\mu} = \boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_0(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\mu}_1}$ | [강의자료 모양으로 다시 쓰기](#s2-rewrite) |
+| 증명 연결 복원 | 아핀 변환의 Σ=LLᵀ → PDF의 지수·계수. 이차식의 A,b → 공분산 A⁻¹·평균 A⁻¹b. 가우시안 곱에도 같은 계수 읽기를 적용해요. |  |
 
 두 표현은 값이 같고 모양만 달라요.
 
