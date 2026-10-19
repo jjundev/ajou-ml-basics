@@ -1,0 +1,184 @@
+[
+  {
+    "understand": "세 벡터로 만들 수 있는 방향을 읽는 문제예요. 벡터가 세 개라는 사실만으로 3차원 전체를 만들 수 있는 것은 아니에요. 같은 방향을 중복해서 넣었는지 먼저 확인해요.",
+    "recall": "“선형독립”을 보면 $V\\alpha=0$의 해를 떠올려요. 영벡터를 만드는 계수가 $\\alpha=0$뿐이어야 독립이에요. “모든 해”를 구할 때는 자유변수를 남겨야 해요. Gram 행렬 $U^\\top U$는 열벡터 사이의 내적을 모은 행렬이에요. $z^\\top U^\\top Uz=\\|Uz\\|^2$이므로 열독립일 때에만 가역이에요.",
+    "start": "$v_3=v_1+v_2$인지 성분별로 써 봐요. 이어서 $V\\alpha=(\\alpha_1+\\alpha_3,\\alpha_2+\\alpha_3,\\alpha_1+\\alpha_2+2\\alpha_3)^\\top$로 적어요.",
+    "solve": [
+      "$v_1+v_2-v_3=0$이에요. 계수 $(1,1,-1)$는 영벡터가 아니므로 세 벡터는 선형종속이에요. 반면 $av_1+bv_2=0$의 첫째·둘째 성분에서 $a=b=0$이므로 앞의 두 벡터는 독립이에요.",
+      "$V\\alpha=b$에서 $\\alpha_1+\\alpha_3=2$, $\\alpha_2+\\alpha_3=1$이에요. 셋째 식은 앞의 두 식의 합이므로 새 제약이 아니에요. $t=\\alpha_3\\in\\mathbb R$로 두면 $$\\alpha=(2-t,1-t,t)^\\top.$$ 모든 열벡터는 셋째 성분이 첫째와 둘째의 합이에요. $c$는 $4\\ne2+1$이므로 해가 없어요.",
+      "내적을 채우면 $$U^\\top U=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix},\\quad (U^\\top U)^{-1}=\\tfrac13\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}.$$ 행렬식은 $3$이에요. $a=(1,1,-1)^\\top\\ne0$에 대해 $Va=0$이므로 $V^\\top Va=0$이고, $V^\\top V$는 특이행렬이에요."
+    ],
+    "verify": [
+      "계수 $1,1,-1$을 원래 세 벡터에 직접 곱하면 세 성분 모두 0이에요. 독립이라고 결론 내릴 수 없어요.",
+      "일반해를 대입하면 첫째 성분 $2-t+t=2$, 둘째 $1-t+t=1$, 셋째 $3$이에요. $t=0$과 $t=1$도 서로 다른 해예요. $c$는 공간을 정의하는 관계 $z_3=z_1+z_2$를 위반해요.",
+      "$\\frac13\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}=I_2$예요. $V$의 영공간에 0이 아닌 벡터가 있으므로 Gram 행렬도 역행렬을 가질 수 없어요."
+    ],
+    "pitfall": "열이 많다고 해가 유일한 것은 아니에요. 또 $V\\alpha=b$가 해를 여러 개 갖는 것과, 다른 우변 $c$에는 해가 없는 것은 모순이 아니에요. 우변이 열공간에 들어오는지부터 나누어 판단해요.",
+    "summary": "독립: $V\\alpha=0\\Rightarrow\\alpha=0$. Gram: $U^\\top U$ 가역 $\\Leftrightarrow$ 열독립. 일반해 $(2-t,1-t,t)^\\top$.",
+    "id": "p1"
+  },
+  {
+    "understand": "벡터 출력 $f$에는 Jacobian, 스칼라 출력 $q$에는 gradient를 써요. 행렬 모양을 먼저 정하면 미분한 값을 어디에 놓을지 헷갈리지 않아요.",
+    "recall": "Jacobian은 출력 하나마다 한 행, 입력 하나마다 한 열이에요. 여기서는 $2\\times2$예요. Gradient는 이 과제의 약속에 따라 $2\\times1$ 열벡터예요. 대칭 $A$에 대해 $\\nabla(\\frac12x^\\top Ax)=Ax$이고 Hessian은 $A$예요. 대칭 $2\\times2$ 행렬은 첫 선도 주행렬식과 전체 행렬식이 양수이면 양의 정부호예요.",
+    "start": "$q=2x_1^2+x_1x_2+x_2^2-x_1$로 먼저 전개해요. 이 한 줄에서 교차항과 $1/2$가 제대로 반영됐는지 확인할 수 있어요.",
+    "solve": [
+      "성분마다 미분하면 $$J_f(x)=\\begin{pmatrix}2x_1&1\\\\x_2&x_1\\end{pmatrix},\\quad J_f(1,2)=\\begin{pmatrix}2&1\\\\2&1\\end{pmatrix}.$$ 출력 2개, 입력 2개이므로 $2\\times2$예요.",
+      "$q=2x_1^2+x_1x_2+x_2^2-x_1$이므로 $$\\nabla q=\\begin{pmatrix}4x_1+x_2-1\\\\x_1+2x_2\\end{pmatrix}=Ax-b,\\quad H_q=\\begin{pmatrix}4&1\\\\1&2\\end{pmatrix}.$$ 두 번째 미분은 $x$와 무관해요.",
+      "$4x_1+x_2=1$, $x_1+2x_2=0$을 풀면 $$x_*=(2/7,-1/7)^\\top.$$ $4>0$, $\\det A=7>0$이므로 $A\\succ0$이에요. 따라서 $q$는 엄격볼록이고 이 정지점이 유일한 전역 최소점이에요."
+    ],
+    "verify": [
+      "$f_1$은 $x_1$ 방향으로 $2x_1$, $x_2$ 방향으로 1만큼 변해요. 이 값들이 첫째 행에 있는지 확인해요.",
+      "$\\frac12x^\\top Ax$의 교차항은 $\\frac12(x_1x_2+x_2x_1)=x_1x_2$예요. 미분하면 두 교차 편미분이 모두 1이 되어 Hessian이 대칭이에요.",
+      "$A(2/7,-1/7)^\\top=(1,0)^\\top=b$예요. 또 $q(x)-q(x_*)=\\frac12(x-x_*)^\\top A(x-x_*)>0$은 $x\\ne x_*$에서 성립하므로 전역성과 유일성이 함께 확인돼요."
+    ],
+    "pitfall": "$x^\\top Ax$와 $\\frac12x^\\top Ax$의 gradient는 2배 차이가 나요. Jacobian의 행과 열을 바꾸거나 gradient를 행벡터로 쓰지 않도록 문제의 표기 약속을 따라요.",
+    "summary": "$J_f$: 출력×입력. 대칭 $A$이면 $\\nabla q=Ax-b$, $H=A$. 최소점 $(2/7,-1/7)^\\top$.",
+    "id": "p2"
+  },
+  {
+    "understand": "두 밀도를 곱하면 “같은 $z$를 두 밀도가 함께 얼마나 지지하는지”를 나타내요. 곱의 적분은 자동으로 1이 되지 않으므로 $Z$로 나누는 과정이 필요해요.",
+    "recall": "“가우시안 곱”과 “완전제곱”이 단서예요. $a(z-m)^2$에서 precision은 $a$, 분산은 $1/a$예요. 평균은 제곱 안의 중심 $m$이에요. $\\mathcal N(z\\mid m,v)$의 앞 계수는 $1/\\sqrt{2\\pi v}$예요. 분산과 표준편차를 구분하고, 지수의 상수항도 $Z$ 계산에서는 남겨요.",
+    "start": "$z^2+(z-2)^2/3=\\frac43z^2-\\frac43z+\\frac43$로 지수를 한 이차식으로 모아요.",
+    "solve": [
+      "중심을 $1/2$로 맞추면 $$z^2+\\frac{(z-2)^2}{3}=\\frac43(z-\\tfrac12)^2+1.$$ 따라서 $$g(z)=\\frac{e^{-1/2}}{2\\pi\\sqrt3}\\exp\\!\\left[-\\frac23(z-\\tfrac12)^2\\right].$$",
+      "$-\\frac23(z-1/2)^2=-\\frac{(z-1/2)^2}{2(3/4)}$이므로 평균 $1/2$, 분산 $3/4$예요. $$q(z)=\\sqrt{\\frac{2}{3\\pi}}\\exp\\!\\left[-\\frac23(z-\\tfrac12)^2\\right]=\\mathcal N(z\\mid\\tfrac12,\\tfrac34).$$",
+      "$\\int\\exp[-\\frac23(z-1/2)^2]dz=\\sqrt{3\\pi/2}$이므로 $$Z=\\frac{e^{-1/2}}{\\sqrt{8\\pi}}.$$ $Z\\ne1$이므로 $g$ 자체는 정규화된 밀도가 아니에요. $g=Zq$로 구분해요."
+    ],
+    "verify": [
+      "$\\frac43(z-1/2)^2+1$을 전개하면 $\\frac43z^2-\\frac43z+\\frac43$이어서 원래 식과 일치해요.",
+      "precision을 따로 더해도 $v^{-1}=1+1/3=4/3$, $m=v(0/1+2/3)=1/2$예요. 앞 계수 $\\sqrt{2/(3\\pi)}=1/\\sqrt{2\\pi(3/4)}$도 일치해요.",
+      "곱의 적분 항등식으로도 $Z=\\mathcal N(0\\mid2,1+3)=e^{-1/2}/\\sqrt{8\\pi}$예요. $g$를 이 값으로 나누면 (b)의 앞 계수가 나와요."
+    ],
+    "pitfall": "중심 $1/2$를 구한 뒤 상수항 $+1$을 버리면 정규화된 모양은 찾을 수 있지만 $Z$는 틀려요. “비례한다”와 “같다”를 구분해요.",
+    "summary": "precision 합산: $v^{-1}=v_0^{-1}+v_1^{-1}$. $m=1/2$, $v=3/4$, $Z=e^{-1/2}/\\sqrt{8\\pi}$.",
+    "id": "p3"
+  },
+  {
+    "understand": "먼저 세 관측을 행으로 모아 $3\\times2$ 특징행렬을 만들어요. 같은 데이터에 대해 ML은 잔차만, MAP은 잔차와 prior를 함께 고려해요.",
+    "recall": "“고정 특징·Gaussian 잡음”은 최소제곱을 떠올리는 단서예요. $\\Phi\\in\\mathbb R^{N\\times K}$이고 열독립이면 $\\theta_{\\mathrm{ML}}=(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$예요. 평균 0, 공분산 $I$인 prior와 잡음분산 1이면 MAP의 Gram 행렬에 $I$를 더해요. 이 문제는 절편에도 prior를 적용하므로 두 대각성분을 모두 바꿔요.",
+    "start": "$\\Phi=\\begin{pmatrix}1&-1\\\\1&0\\\\1&1\\end{pmatrix}$와 $y=(0,1,4)^\\top$부터 적어요. 각 행이 관측 하나라는 뜻이에요.",
+    "solve": [
+      "<p>각 관측의 특징벡터를 행으로 놓으면 $$\\Phi=\\begin{pmatrix}1&-1\\\\1&0\\\\1&1\\end{pmatrix}.$$</p>열별 내적과 출력의 내적은 $$\\Phi^\\top\\Phi=\\begin{pmatrix}3&0\\\\0&2\\end{pmatrix},\\quad\\Phi^\\top y=\\begin{pmatrix}5\\\\4\\end{pmatrix}.$$ $x_n$의 합이 0이므로 비대각성분이 0이에요.",
+      "$\\operatorname{diag}(3,2)\\theta=(5,4)^\\top$에서 $$\\theta_{\\mathrm{ML}}=(5/3,2)^\\top.$$ $x_*=2$의 평균 예측은 $5/3+2\\cdot2=17/3$이에요.",
+      "prior의 음의 로그가 $\\frac12\\theta^\\top\\theta+\\mathrm{const}$이므로 $\\lambda=1$이에요. $\\operatorname{diag}(4,3)\\theta=(5,4)^\\top$에서 $$\\theta_{\\mathrm{MAP}}=(5/4,4/3)^\\top.$$ 평균 예측은 $5/4+2(4/3)=47/12$예요. 계수가 prior 평균 0 쪽으로 작아졌어요."
+    ],
+    "verify": [
+      "$\\Phi^\\top y=(0+1+4,-1\\cdot0+0\\cdot1+1\\cdot4)^\\top=(5,4)^\\top$로 직접 확인해요.",
+      "ML의 학습 예측은 $(-1/3,5/3,11/3)^\\top$이고 잔차는 $(1/3,-2/3,1/3)^\\top$예요. 잔차 합과 $x$가중 잔차 합이 모두 0이므로 정규방정식을 만족해요.",
+      "$(\\Phi^\\top\\Phi+I)\\theta_{\\mathrm{MAP}}=(5,4)^\\top$예요. 또한 $17/3=68/12$이므로 MAP 예측 $47/12$가 수치적으로도 더 작아요."
+    ],
+    "pitfall": "데이터 순서를 바꾸었다면 $\\Phi$와 $y$를 같은 순서로 바꿔야 해요. 절편의 prior를 빼는 다른 ridge 관습을 이 문제에 적용하면 답이 달라져요.",
+    "summary": "Gram $\\operatorname{diag}(3,2)$, ML $(5/3,2)$, MAP $(5/4,4/3)$. 모든 계수에 prior 적용.",
+    "id": "p4"
+  },
+  {
+    "understand": "$X$는 세 점을 똑같은 확률로 고르는 확률벡터예요. 그래서 분모 3인 공분산이 곧 이 분포의 공분산이에요. 변환 뒤 독립 여부는 공분산만 보고 끝내지 않아요.",
+    "recall": "“아핀 변환”은 $E[AX+b]=A\\mu_X+b$, $\\operatorname{Cov}(AX+b)=A\\Sigma_XA^\\top$를 떠올리게 해요. 교차공분산은 첫 변수가 $X$이므로 $C_{XY}=\\Sigma_XA^\\top$예요. 상수 $b$는 평균에는 들어가지만 중심화할 때 사라져요. 비대각 공분산 0은 무상관이며, Gaussian 공동분포가 없으면 독립을 뜻하지 않아요.",
+    "start": "$\\mu_X=(2/3,2/3)^\\top$와 $E[XX^\\top]=\\operatorname{diag}(4/3,4/3)$를 써요. $\\Sigma_X=E[XX^\\top]-\\mu_X\\mu_X^\\top$로 계산하면 짧아요.",
+    "solve": [
+      "$$\\mu_X=\\begin{pmatrix}2/3\\\\2/3\\end{pmatrix},\\quad \\Sigma_X=\\frac19\\begin{pmatrix}8&-4\\\\-4&8\\end{pmatrix}.$$ 예를 들어 $(1,2)$ 성분은 $E[X_1X_2]-E[X_1]E[X_2]=0-4/9=-4/9$예요.",
+      "$$\\mu_Y=\\begin{pmatrix}7/3\\\\-1\\end{pmatrix},\\quad\\Sigma_Y=\\begin{pmatrix}8/9&0\\\\0&8/3\\end{pmatrix}.$$ 교차공분산은 $$C_{XY}=\\Sigma_XA^\\top=\\begin{pmatrix}4/9&4/3\\\\4/9&-4/3\\end{pmatrix}.$$ 좌우 순서는 $X$의 차원×$Y$의 차원을 따라요.",
+      "가능한 $Y$는 $(1,-1)^\\top,(3,1)^\\top,(3,-3)^\\top$이고 각각 확률 $1/3$이에요. 공분산이 0이므로 두 성분은 무상관이에요. 하지만 $P(Y_1=1,Y_2=1)=0$인 반면 $P(Y_1=1)P(Y_2=1)=1/9$이므로 독립은 아니에요."
+    ],
+    "verify": [
+      "세 중심화 벡터 $(-2/3,-2/3)$, $(4/3,-2/3)$, $(-2/3,4/3)$의 외적을 합해 3으로 나누어도 같은 행렬이에요.",
+      "변환된 세 점의 평균은 $(7/3,-1)$이에요. 첫째 성분 편차는 $(-4/3,2/3,2/3)$, 둘째는 $(0,2,-2)$여서 공분산은 0, 분산은 각각 $8/9,8/3$이에요.",
+      "$Y_1=1$인 경우에는 $Y_2=-1$만 가능해요. 조건부확률 $P(Y_2=1\\mid Y_1=1)=0$은 주변확률 $1/3$과 다르므로 독립이 아니에요."
+    ],
+    "pitfall": "분모를 $N-1=2$로 바꾸지 않아요. “무상관이면 독립”은 일반 법칙이 아니에요. 여기서는 실제 결합확률 하나를 비교하면 독립이 아님을 보일 수 있어요.",
+    "summary": "$\\mu_Y=A\\mu_X+b$, $\\Sigma_Y=A\\Sigma_XA^\\top$, $C_{XY}=\\Sigma_XA^\\top$. 무상관이지만 독립 아님.",
+    "id": "p5"
+  },
+  {
+    "understand": "잡음에 대한 확률 가정에서 출발해 실제 학습 목표인 제곱오차로 이어 가는 문제예요. “확률을 크게 한다”와 “손실을 작게 한다”가 같은 계산이 되는 이유를 밝혀요.",
+    "recall": "“서로 독립인 Gaussian 잡음”은 조건부 우도를 곱으로 쓰는 단서예요. 입력과 $\\theta$가 주어졌을 때 각 출력의 평균은 $\\phi_n^\\top\\theta$, 분산은 $\\sigma^2$예요. 경험위험(empirical risk)은 관측 손실의 평균이에요. $\\theta$와 무관한 상수나 양의 배수는 최소화 위치를 바꾸지 않아요. 알려진 고정 $\\sigma^2$라는 조건이 이 연결에 필요해요.",
+    "start": "$p(y\\mid\\Phi,\\theta)=\\prod_{n=1}^N\\mathcal N(y_n\\mid\\phi_n^\\top\\theta,\\sigma^2)$를 첫 줄로 적어요. 독립 가정을 곱셈으로 바꾼 줄이에요.",
+    "solve": [
+      "조건부 독립으로 각 밀도를 곱하면 $$p(y\\mid\\Phi,\\theta)=(2\\pi\\sigma^2)^{-N/2}\\exp\\!\\left[-\\frac1{2\\sigma^2}\\sum_{n=1}^N(y_n-\\phi_n^\\top\\theta)^2\\right].$$ 입력을 고정했으므로 $p(x_n)$을 추가로 학습할 필요는 없어요. $\\theta$를 주변화한 뒤의 $y_n$들이 독립이라는 주장과는 달라요.",
+      "음의 로그를 취하면 $$\\mathcal L(\\theta)=\\frac N2\\log(2\\pi\\sigma^2)+\\frac1{2\\sigma^2}\\|y-\\Phi\\theta\\|^2.$$ 따라서 $\\mathcal L=\\mathrm{const}+\\frac{N}{2\\sigma^2}\\widehat R$예요. 계수가 양수이므로 우도 최대화, NLL 최소화, 제곱손실 ERM이 같은 $\\theta$를 선택해요.",
+      "$$\\nabla_\\theta\\mathcal L=\\sigma^{-2}\\Phi^\\top(\\Phi\\theta-y).$$ 0으로 놓으면 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$이고 열독립으로 Gram 행렬이 가역이므로 $$\\theta_{\\mathrm{ML}}=(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y.$$ $\\phi(x)=(1,x,x^2)^\\top$여도 $\\theta$에 선형이므로 선형 회귀예요. 입력 $x$에 1차식이어야 한다는 뜻은 아니에요."
+    ],
+    "verify": [
+      "$N=1$로 놓으면 평범한 1차원 Gaussian 밀도로 돌아가요. 벡터 평균은 $N\\times1$, 공분산은 $N\\times N$인지도 확인해요.",
+      "$\\mathcal L(\\theta_a)-\\mathcal L(\\theta_b)=\\frac{N}{2\\sigma^2}(\\widehat R(\\theta_a)-\\widehat R(\\theta_b))$예요. 두 목적함수의 대소관계가 항상 같아서 최소점 집합도 같아요.",
+      "잔차 $r=y-\\Phi\\theta_{\\mathrm{ML}}$에 대해 $\\Phi^\\top r=0$이에요. Hessian은 $\\sigma^{-2}\\Phi^\\top\\Phi\\succ0$이므로 정지점이 유일한 최소점이에요. 다항 특징에서도 계수에 대한 미분은 같은 모양이에요."
+    ],
+    "pitfall": "조건부 독립과 주변 독립을 혼동하지 않아요. $\\sigma^2$도 함께 추정하는 문제라면 그 항을 상수라고 버릴 수 없어요. 여기서는 알려진 분산으로 고정했어요.",
+    "summary": "독립 Gaussian → 곱 우도 → NLL $=\\mathrm{const}+\\mathrm{SSE}/(2\\sigma^2)$ → ERM. 선형성은 계수 $\\theta$ 기준.",
+    "id": "p6"
+  },
+  {
+    "understand": "데이터만으로는 계수를 하나로 정하지 못하는 경우에도, 양의 분산을 갖는 Gaussian prior가 유일한 MAP을 만드는 과정을 봐요. prior 평균이 0이 아닐 수도 있다는 점을 유지해요.",
+    "recall": "Bayes 정리에서 posterior는 likelihood×prior에 비례해요. 음의 로그를 취하면 잔차 벌점과 prior 중심에서의 거리 벌점이 더해져요. $\\lambda=\\sigma^2/\\tau^2$는 두 벌점의 상대 세기예요. $\\Phi^\\top\\Phi$는 양의 준정부호이고 $\\lambda I$를 더하면 모든 방향의 곡률이 양수가 돼요.",
+    "start": "$-\\log p(\\theta\\mid y,\\Phi)=\\frac1{2\\sigma^2}\\|y-\\Phi\\theta\\|^2+\\frac1{2\\tau^2}\\|\\theta-m_0\\|^2+C$부터 적어요. $C$만 $\\theta$와 무관해요.",
+    "solve": [
+      "<p>Bayes 정리에서 음의 로그를 취하면 $$-\\log p(\\theta\\mid y,\\Phi)=\\frac{\\|y-\\Phi\\theta\\|^2}{2\\sigma^2}+\\frac{\\|\\theta-m_0\\|^2}{2\\tau^2}+C.$$ $C$는 $\\theta$와 무관해요.</p>$2\\sigma^2$를 곱하면 $\\|y-\\Phi\\theta\\|^2+\\lambda\\|\\theta-m_0\\|^2$, $\\lambda=\\sigma^2/\\tau^2$예요. 미분해 0으로 놓으면 $$(\\Phi^\\top\\Phi+\\lambda I)\\theta=\\Phi^\\top y+\\lambda m_0.$$ 따라서 $$\\theta_{\\mathrm{MAP}}=(\\Phi^\\top\\Phi+\\lambda I)^{-1}(\\Phi^\\top y+\\lambda m_0).$$",
+      "임의의 $v\\ne0$에 대해 $$v^\\top(\\Phi^\\top\\Phi+\\lambda I)v=\\|\\Phi v\\|^2+\\lambda\\|v\\|^2>0.$$ 따라서 대칭 양의 정부호이며 가역이에요. $\\Phi v=0$인 방향에도 두 번째 항이 양수라서 열독립을 따로 가정할 필요가 없어요.",
+      "$\\Phi^\\top\\Phi=\\begin{pmatrix}5&5\\\\5&5\\end{pmatrix}$, $\\Phi^\\top y=(5,5)^\\top$예요. $\\lambda=1$이면 $$\\theta_{\\mathrm{MAP}}=(5/11,5/11)^\\top.$$ $\\lambda=0$일 때는 $\\theta_1+\\theta_2=1$인 모든 계수가 잔차 0을 만들어 유일하지 않아요. 일반 $\\lambda>0$에서는 두 성분이 $5/(10+\\lambda)$여서 $\\lambda\\to\\infty$이면 $0=m_0$로 가요."
+    ],
+    "verify": [
+      "$m_0=0$으로 놓으면 익숙한 ridge 공식으로 줄어들어요. $\\lambda m_0$를 우변에 남겨야 0이 아닌 prior 평균 쪽으로 수축해요.",
+      "만약 이 행렬에 0이 아닌 영벡터 방향 $v$가 있다면 왼쪽 이차형식은 0이어야 해요. 방금 모든 $v\\ne0$에서 양수임을 보였으므로 그런 방향은 없어요.",
+      "$\\begin{pmatrix}6&5\\\\5&6\\end{pmatrix}(5/11,5/11)^\\top=(5,5)^\\top$예요. $\\lambda\\downarrow0$의 MAP 극한은 $(1/2,1/2)$로 특정 최소노름 해에 가지만, $\\lambda=0$ 최소제곱 자체의 해는 여전히 여러 개예요."
+    ],
+    "pitfall": "$m_0\\ne0$일 때 우변의 $\\lambda m_0$를 빠뜨리지 않아요. 정규화는 계수를 prior 쪽으로 제약하지만 시험·새 데이터 오차가 항상 좋아진다는 보장은 없어요. 지나치게 큰 $\\lambda$는 데이터 정보를 거의 무시해요.",
+    "summary": "$\\lambda=\\sigma^2/\\tau^2>0$. $G+\\lambda I\\succ0$. MAP $=(G+\\lambda I)^{-1}(\\Phi^\\top y+\\lambda m_0)$.",
+    "id": "p7"
+  },
+  {
+    "understand": "학습 뒤의 $\\theta$ 자체가 분포를 갖는다는 점이 핵심이에요. 새 예측에서는 그 계수의 불확실성과 새 측정 잡음이 각각 분산을 더해요.",
+    "recall": "Gaussian prior와 Gaussian likelihood를 곱하면 사후분포도 Gaussian이에요. 분산의 역수인 precision을 모으면 $S_N^{-1}=S_0^{-1}+\\sigma^{-2}\\sum x_n^2$, $m_N=S_N(S_0^{-1}m_0+\\sigma^{-2}\\sum x_ny_n)$예요. 새 잡음이 독립일 때 $\\operatorname{Var}(y_*\\mid D)=x_*^2S_N+\\sigma^2$예요. 잠재 함수 $f_*$에는 마지막 잡음항이 없어요.",
+    "start": "$S_0=2$, $m_0=1$, $\\sigma^2=2$, $\\sum x_n^2=2$, $\\sum x_ny_n=2$를 따로 적어요. 표준편차가 아닌 분산을 역수로 바꾸어요.",
+    "solve": [
+      "$$S_N^{-1}=\\tfrac12+\\tfrac12(1^2+1^2)=\\tfrac32,\\quad S_N=\\tfrac23.$$ $$m_N=\\tfrac23\\left(\\tfrac12\\cdot1+\\tfrac12(1\\cdot2+1\\cdot0)\\right)=1.$$ 따라서 $p(\\theta\\mid D)=\\mathcal N(\\theta\\mid1,2/3)$예요.",
+      "$x_*=2$이므로 평균은 둘 다 $2m_N=2$예요. $$f_*\\mid D\\sim\\mathcal N(2,8/3),\\qquad y_*\\mid D\\sim\\mathcal N(2,14/3).$$ $14/3=8/3+2$이며 마지막 2는 새 관측 잡음이에요.",
+      "Gaussian 사후분포의 최빈값은 평균과 같아서 $\\theta_{\\mathrm{MAP}}=1$이에요. 이를 고정하면 $p(y_*\\mid\\theta_{\\mathrm{MAP}})=\\mathcal N(2,2)$예요. 사후예측은 $\\mathcal N(2,14/3)$이므로 평균은 같아도 불확실성이 달라요. 계수 분포를 평균내는 사후예측이 더 큰 분산을 갖고 있어요."
+    ],
+    "verify": [
+      "지수를 따로 모으면 $(\\theta-1)^2/2+[(2-\\theta)^2+\\theta^2]/2=\\frac32(\\theta-1)^2+1$이에요. 앞에 공통 $-1/2$가 있으므로 분산 $2/3$을 다시 확인해요.",
+      "총분산 법칙으로 $\\operatorname{Var}(y_*\\mid D)=E[\\operatorname{Var}(y_*\\mid\\theta,D)]+\\operatorname{Var}(E[y_*\\mid\\theta,D])=2+4(2/3)=14/3$이에요.",
+      "고정 계수에서는 $\\operatorname{Var}(2\\theta_{\\mathrm{MAP}})=0$이에요. 사후분포를 유지하면 $\\operatorname{Var}(2\\theta\\mid D)=8/3>0$이라서 두 예측 분포가 같을 수 없어요."
+    ],
+    "pitfall": "prior 분산 2를 precision 2로 쓰지 않아요. $x_*=2$를 분산에 곱할 때는 제곱해서 4를 곱해요. 새 관측 $y_*$와 잡음 없는 함수 $f_*$를 구분해요.",
+    "summary": "$\\theta\\mid D\\sim\\mathcal N(1,2/3)$. 잠재분산 $8/3$, 관측분산 $14/3$. MAP 고정 예측은 $\\mathcal N(2,2)$.",
+    "id": "p8"
+  },
+  {
+    "understand": "데이터가 각 모델 아래에서 얼마나 그럴듯한지 계산한 뒤, 원래 모델을 얼마나 믿었는지까지 곱해 비교해요. 두 순위가 꼭 같지는 않아요.",
+    "recall": "Evidence(주변우도)는 아직 특정 계수를 고르기 전 모델이 데이터에 부여하는 밀도예요. 그래서 $p(\\theta\\mid M)$라는 prior로 우도를 평균내요. 독립 Gaussian의 합은 평균과 분산을 각각 더해요. Bayes factor는 evidence 비이고 posterior odds는 prior odds×Bayes factor예요. 연속 관측의 evidence 값은 점의 확률이 아닌 밀도값이에요.",
+    "start": "$y=\\theta+\\epsilon$이므로 $\\operatorname{Var}(y\\mid M_1)=1+1=2$, $\\operatorname{Var}(y\\mid M_2)=4+1=5$부터 적어요.",
+    "solve": [
+      "$M_1$ 아래에서 $y\\sim\\mathcal N(0,2)$, $M_2$ 아래에서 $y\\sim\\mathcal N(0,5)$예요. 따라서 $$p(0\\mid M_1)=\\frac1{\\sqrt{4\\pi}},\\qquad p(0\\mid M_2)=\\frac1{\\sqrt{10\\pi}}.$$ 적분은 데이터를 보기 전 계수 불확실성에 대해 모델을 평균내는 것이므로 prior를 써요. 같은 데이터로 구한 posterior를 대신 넣으면 evidence의 정의가 아니에요.",
+      "$$B_{12}=\\frac{1/\\sqrt{4\\pi}}{1/\\sqrt{10\\pi}}=\\sqrt{5/2}>1.$$ 데이터의 evidence 비만 보면 $M_1$을 지지해요. 같은 중심 0에서는 분산이 작은 모델의 밀도가 더 높아요.",
+      "prior odds는 $(1/3)/(2/3)=1/2$이므로 $$\\frac{P(M_1\\mid0)}{P(M_2\\mid0)}=\\frac12\\sqrt{5/2}=\\frac{\\sqrt{10}}4<1.$$ $$P(M_1\\mid0)=\\frac{\\sqrt{10}}{4+\\sqrt{10}}\\approx0.4415.$$ 따라서 사후확률로 선택하면 $M_2$예요. $M_2$의 prior가 두 배여서 evidence의 우위를 역전시켰어요."
+    ],
+    "verify": [
+      "각 evidence 분포의 적분은 1이에요. prior 예측분산을 $1+1$, $4+1$로 더한 값이 양수인지 확인해요.",
+      "비를 제곱하면 $B_{12}^2=10\\pi/(4\\pi)=5/2$예요. 분자를 반대로 놓으면 어느 모델 지지인지도 반대로 해석하게 돼요.",
+      "정규화 전 가중치는 $(1/3)/\\sqrt{4\\pi}$와 $(2/3)/\\sqrt{10\\pi}$예요. 첫 가중치를 둘의 합으로 나누어도 $\\sqrt{10}/(4+\\sqrt{10})$이고, 두 사후확률의 합은 1이에요."
+    ],
+    "pitfall": "Bayes factor가 1보다 크다고 곧바로 $M_1$의 사후확률이 더 크다고 결론 내리지 않아요. prior odds를 반드시 곱해요. Evidence와 사후예측은 둘 다 적분이지만 평균내는 계수 분포가 달라요.",
+    "summary": "evidence: prior 평균. $B_{12}=\\sqrt{5/2}$, posterior odds $=\\sqrt{10}/4$. 사후 선택 $M_2$.",
+    "id": "p9"
+  },
+  {
+    "understand": "계수는 $\\mathbb R^2$에 있고 예측·잔차는 관측 공간 $\\mathbb R^3$에 있어요. 직교투영은 $y$를 $\\Phi$의 두 열이 만드는 평면 위의 가장 가까운 점으로 옮겨요.",
+    "recall": "직교 조건은 열마다 $\\phi_k^\\top r=0$이므로 모아서 $\\Phi^\\top r=0$이에요. 열독립이면 $G=\\Phi^\\top\\Phi$가 가역이고 $P=\\Phi G^{-1}\\Phi^\\top$가 투영행렬이에요. 직교투영은 대칭·멱등을 만족해요. 마지막 최소거리 주장은 직교벡터의 제곱노름이 더해지는 피타고라스 성질로 보여요.",
+    "start": "$\\Phi^\\top(y-\\Phi\\widehat\\theta)=0$을 적어요. 이것은 계수 공간의 방정식이며, $y$ 자체를 역행렬로 나누는 식이 아니에요.",
+    "solve": [
+      "잔차가 두 열 모두에 직교하면 $\\Phi^\\top(y-\\Phi\\widehat\\theta)=0$이에요. 따라서 $$\\Phi^\\top\\Phi\\widehat\\theta=\\Phi^\\top y.$$ 열독립으로 $\\widehat\\theta=(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$가 유일해요.",
+      "$G=\\operatorname{diag}(3,2)$, $\\Phi^\\top y=(4,2)^\\top$이므로 $$\\widehat\\theta=(4/3,1)^\\top,\\quad \\widehat y=(4/3,7/3,1/3)^\\top.$$ $$r=(2/3,-1/3,-1/3)^\\top.$$ 잔차 합은 0, 둘째 열과의 내적도 $-1/3+1/3=0$이에요.",
+      "$$P=\\frac16\\begin{pmatrix}2&2&2\\\\2&5&-1\\\\2&-1&5\\end{pmatrix}.$$ 대칭은 원소로 확인돼요. $G=\\Phi^\\top\\Phi$로 쓰면 $$P^2=\\Phi G^{-1}GG^{-1}\\Phi^\\top=P.$$ $P$는 $3\\times3$, $\\widehat\\theta$는 $2\\times1$이에요. 투영 결과 $Py$는 $3\\times1$로 관측 공간에 남아요.",
+      "$y-u=r+(\\widehat y-u)$예요. $\\widehat y-u\\in\\operatorname{col}(\\Phi)$이고 $r$는 그 공간에 직교하므로 교차항이 0이에요. $$\\|y-u\\|^2=\\|r\\|^2+\\|\\widehat y-u\\|^2\\ge\\|r\\|^2.$$ 등호는 $u=\\widehat y$일 때뿐이어서 유일한 가장 가까운 점이에요."
+    ],
+    "verify": [
+      "$\\Phi^\\top r$의 모양은 $2\\times1$이에요. “열공간에 직교”를 $\\Phi r=0$으로 쓰면 차원부터 맞지 않아요.",
+      "$\\widehat y+r=(2,2,0)^\\top=y$예요. $\\|r\\|^2=4/9+1/9+1/9=2/3$이고 두 열과의 내적도 정확히 0이에요.",
+      "$M=6P$라 두면 $M^2=6M$을 직접 곱해서 확인할 수 있어요. 따라서 $P^2=M^2/36=P$예요. $Py=(4/3,7/3,1/3)^\\top$도 일치해요.",
+      "$u=0$이면 $\\|y\\|^2=8$이고 $\\|\\widehat y\\|^2=22/3$이므로 $8=2/3+22/3$이에요. 일반적인 최소거리의 근거는 위의 직교 교차항 증명이며, 이 수치는 그 증명의 검산이에요."
+    ],
+    "pitfall": "$P$를 계수 추정 행렬 $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top$와 혼동하지 않아요. 전자는 $3\\times3$, 후자는 $2\\times3$이에요. 이 공식은 열독립 가정 아래에서 사용해요.",
+    "summary": "$\\Phi^\\top r=0$, $P=\\Phi(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top$, $P^\\top=P^2=P$. 최소 잔차제곱 $2/3$.",
+    "id": "p10"
+  }
+]
