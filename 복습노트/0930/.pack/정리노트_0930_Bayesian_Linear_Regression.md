@@ -6,7 +6,11 @@
 
 <a id="s0-learning-map"></a>
 
-## 먼저 큰 그림: 파라미터의 분포에서 예측의 분포로 가요
+### 파라미터의 분포에서 예측의 분포로 가요
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
 
 **오늘의 질문.** 관측 데이터로 가능한 파라미터들의 분포를 갱신하고, 이를 새 출력의 예측에 반영하려 해요.
 
@@ -20,10 +24,19 @@ MAP과 FB는 모두 파라미터에 사전분포를 부여해요. MAP은 사후�
 
 **구할 결과.** 파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.
 
+앞부분은 **무엇을 평균내는가**, 뒷부분은 **그 평균과 흔들림을 변환하면 어떻게 되는가**를 준비해요. 마지막 아핀 변환 공식은 나중에 θ의 불확실성을 출력으로 옮길 때 재사용할 도구예요.
+
 **수식이 하는 일.** 주변화는 파라미터를 합쳐 없애는 과정이고, 아핀 변환의 평균·공분산 공식은 파라미터의 흔들림이 출력으로 어떻게 전달되는지 계산할 도구예요.
 
 **헷갈리기 쉬운 점.** FB가 파라미터 평균 하나만 골라 대입한다는 뜻은 아니에요. 가능한 예측분포 전체를 가중해 모아요.
 
+이어서 읽기: [풀리 베이지안: 결정을 유보한다](#s0-fully-bayesian) · [사후 예측분포 유도와 두 가지 가정](#s2-predictive) · [아핀 변환의 평균과 공분산](#s4-affine)
+
+**페이지 요약**
+
+파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.
+
+---
 
 **목차**
 
@@ -786,6 +799,8 @@ $$
 
 수업은 이 적분식까지 유도했어요. 뒤 항과 적분을 실제로 계산하는 일은 [다음 시간 예고 (아직 안 배움)](#s5-next)로 남았어요.
 
+**대입 순서:** 궁금한 예측분포에 θ를 넣어 joint의 적분으로 쓰고, 곱 규칙으로 조건부 예측×posterior로 나눈 뒤, 명시한 독립 가정을 써요. 적분 후 없어지는 변수는 θ이고 예측할 $y_*$는 남아요. 이 결과식을 다음 [기댓값 공식](#s2-cond-expectation)의 자리에 넣어요.
+
 **교수님 말씀**
 
 > "여기서 이제 뭐가 필요해요? 모델 또는 가정이 필요해요." (0930 Part 04 ~00:37)
@@ -859,6 +874,7 @@ $$
 \mathbb{E}[X \mid Y = 3] = \sum_x x\,p_{X \mid Y}(x \mid 3)
 $$
 
+
 $$
 \mathbb{E}[X \mid Y = 3] = \int x\,f_{X \mid Y}(x \mid 3)\,dx
 $$
@@ -892,6 +908,7 @@ $$
 $$
 
 아래 위젯은 이 예시를 그림으로 옮긴 거예요. 새 입력 하나를 고정하고, 세 후보의 likelihood를 평균이 $-2, 0, 2$이고 표준편차가 $0.6$인 [스칼라 가우시안: 숫자 두 개로 전하는 종 모양](#s3-gaussian-scalar)으로 두었어요. 이 숫자들은 그림을 위해 이 노트가 정한 값이에요. 실제 $\boldsymbol{\theta}$는 연속이라 합이 아니라 적분이에요.
+
 
 <a id="widget-mix"></a>
 
@@ -929,6 +946,8 @@ $$
 **풀리 베이지안의 결과물.** 적분으로 $\boldsymbol{\theta}$의 영향만 사라지고, $y_*$의 불확실성은 PDF로 남아요. 값 하나가 필요하면 그 PDF의 최대점이나 평균으로 마지막에 한 번 결정(decision making)해요.
 
 **남은 일.** likelihood가 정규분포라는 것은 이미 배웠어요. 남은 것은 별표로 표시해 둔 부분, 곧 뒤 항 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$와 적분의 계산이에요. 수업은 이 계산에 쓸 가우시안 복습으로 넘어갔고, 계산 자체는 [다음 시간 예고 (아직 안 배움)](#s5-next)로 남았어요.
+
+일반식 $\mathbb E[g(Z)\mid D]=\int g(z)p(z\mid D)\,dz$에 $Z=\boldsymbol\theta$, $D=(\mathcal X,\mathcal Y)$, $g(\boldsymbol\theta)=p(y_*\mid\mathbf x_*,\boldsymbol\theta)$를 넣으면 위 예측식이에요. 여기서 $y_*$는 밀도를 평가할 위치로 고정하고, θ에 따라 달라지는 밀도값을 평균내요. **θ 평균 한 점을 넣는 것이 아니라, θ별 예측분포를 가중해서 모으는 것**이에요.
 
 **교수님 말씀**
 
@@ -1253,6 +1272,8 @@ $\mathbf{x}$의 성분이 $n$개, $\mathbf{y}$의 성분이 $m$개이면 결과�
 | $(2, 1)$ | $\mathbb{E}[X_2Y_1]$ | $\mathbb{E}[X_2]\,\mathbb{E}[Y_1]$ | $\operatorname{Cov}[X_2, Y_1]$ |
 | $(2, 2)$ | $\mathbb{E}[X_2Y_2]$ | $\mathbb{E}[X_2]\,\mathbb{E}[Y_2]$ | $\operatorname{Cov}[X_2, Y_2]$ |
 
+스칼라에서 기억할 $\operatorname{Cov}(U,V)=\mathbb E[(U-\mathbb EU)(V-\mathbb EV)]$를 성분마다 적용한 표예요. 첫 입력의 성분 번호가 행, 둘째 입력의 성분 번호가 열을 정해요. 그래서 [자기 자신의 공분산](#s3-variance-matrix)을 구할 때는 두 입력 자리에 같은 벡터를 넣으면 돼요.
+
 **교수님 말씀**
 
 공분산의 동기는 미국 대학 랭킹과 연봉의 상관관계예요. 이 관계를 숫자 하나로 표현하고 싶다는 거예요.
@@ -1349,6 +1370,8 @@ $\mathbf{x} \in \mathbb{R}^n$이면 $\mathbb{V}[\mathbf{x}]$는 $n \times n$ 정
 
 정리하면 공분산 행렬은 대칭이고 정방행렬이에요. 이 행렬이 합과 선형 변환에서 어떻게 바뀌는지는 [합의 평균과 분산: 조건이 필요해요](#s4-sum)와 [아핀 변환의 평균과 공분산](#s4-affine)으로 이어져요.
 
+즉 일반 교차공분산의 두 자리에 모두 x를 넣어 얻은 것이 $\boldsymbol\Sigma_x=\operatorname{Cov}(\mathbf x,\mathbf x)$예요. 대각선은 각 성분의 분산이고, 비대각 성분은 함께 움직이는 정도예요. [아핀 변환](#s4-affine)에서는 이 표를 버리지 않고 양쪽 계수 사이에 그대로 넣어요.
+
 **교수님 말씀**
 
 두 집 비유를 "우리 집안"으로 바꿨어요. 첫째가 자기 자신과, 첫째가 둘째와, 둘째가 첫째와, 둘째가 자기 자신과 얼마나 친한가의 네 경우예요.
@@ -1419,7 +1442,7 @@ $$
 \mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]
 $$
 
-이 식이 늘 성립하는 것은 아니에요. 아래 두 조건 가운데 하나가 있어야 해요.
+이 식이 늘 성립하는 것은 아니에요. 아래 두 조건 가운데 하나이면 충분해요.
 
 - $\mathbf{x}$와 $\mathbf{y}$가 통계적으로 독립(statistically independent)이에요.
 - 적어도 두 벡터 사이의 공분산 행렬이 영행렬이에요. 즉 $\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$이에요.
@@ -1427,6 +1450,8 @@ $$
 $\operatorname{Cov}[\mathbf{x}, \mathbf{y}]$는 성분 쌍마다 공분산을 모은 행렬이에요. 정의는 [공분산에서 공분산 행렬로](#s3-covariance)에 있어요.
 
 이 조건은 슬라이드에 없고 교수님이 말로 덧붙인 내용이에요. 교수님은 강의노트에 이 내용이 빠져 있을 것 같다고 했어요.
+
+위의 두 조건은 분산을 그냥 더해도 되는 **충분조건**이에요. 평균에는 독립성이 필요 없고, 분산에는 일반적으로 교차공분산 항이 남아요. 실제 문제에서 두 분산을 더하기 전에 “교차항이 왜 없어지는가”를 먼저 확인해요. 정의에서의 상세 전개는 이 토픽의 기존 보충을 참고해요.
 
 **교수님 말씀**
 
@@ -1475,6 +1500,7 @@ $$
    \mathbb{E}[\mathbf{x}\mathbf{x}^\top] - \mathbb{E}[\mathbf{x}]\,\mathbb{E}[\mathbf{x}]^\top = \mathbb{V}[\mathbf{x}]
    $$
 
+
    $$
    \mathbb{E}[\mathbf{y}\mathbf{y}^\top] - \mathbb{E}[\mathbf{y}]\,\mathbb{E}[\mathbf{y}]^\top = \mathbb{V}[\mathbf{y}]
    $$
@@ -1483,6 +1509,7 @@ $$
    $$
    \mathbb{E}[\mathbf{x}\mathbf{y}^\top] - \mathbb{E}[\mathbf{x}]\,\mathbb{E}[\mathbf{y}]^\top = \operatorname{Cov}[\mathbf{x}, \mathbf{y}]
    $$
+
 
    $$
    \mathbb{E}[\mathbf{y}\mathbf{x}^\top] - \mathbb{E}[\mathbf{y}]\,\mathbb{E}[\mathbf{x}]^\top = \operatorname{Cov}[\mathbf{y}, \mathbf{x}]
@@ -1509,6 +1536,7 @@ $$
 \mathbb{E}[X_i Y_j] = \mathbb{E}[X_i]\,\mathbb{E}[Y_j]
 $$
 
+
 $$
 \operatorname{Cov}[X_i, Y_j] = \mathbb{E}[X_i Y_j] - \mathbb{E}[X_i]\,\mathbb{E}[Y_j] = 0
 $$
@@ -1531,7 +1559,7 @@ $$
   $$
   \mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]
   $$
-- 필요한 조건
+- 간단한 충분조건
 
   $$
   \operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}
@@ -1626,6 +1654,24 @@ $$
 여기서 $\mathbf{x}\mathbf{x}^\top$는 행렬이고, 양옆에 행벡터와 열벡터가 곱해져 전체는 스칼라예요. 모든 $(i, j)$를 모으면 $\mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top$가 돼요. 수업은 여기까지 하고 나머지 정리는 직접 해 보라고 남겼어요.
 
 **숙제.** $\mathbf{x}$와 $\mathbf{A}\mathbf{x} + \mathbf{b}$ 사이의 공분산 행렬이 왜 슬라이드의 식처럼 주어지는지 확인하는 것을 숙제로 남겼어요. 수업에서는 그 식을 다루지 않았어요. [다음 시간 예고 (아직 안 배움)](#s5-next)에 이어져요.
+
+#### 스칼라 규칙의 자리에 실제 가중합을 넣어 봐요
+
+기억할 규칙은 $\mathbb E[\mathbf A\mathbf x+\mathbf b]=\mathbf A\mathbb E[\mathbf x]+\mathbf b$, $\operatorname{Cov}(\mathbf A\mathbf x+\mathbf b)=\mathbf A\boldsymbol\Sigma_x\mathbf A^\top$예요. 다음은 이 규칙을 읽기 위한 보충 대입 예시예요.
+
+1. 스칼라 출력을 만드는 행렬을 $\mathbf A=[a_1\;a_2]$로 두면 $Y=a_1X_1+a_2X_2+b$예요.
+2. 가운데 공분산을 그대로 두고 양쪽에서 곱해요.
+
+   $$
+   \operatorname{Var}(Y)=[a_1\;a_2]\begin{bmatrix}\operatorname{Var}(X_1)&\operatorname{Cov}(X_1,X_2)\\\operatorname{Cov}(X_2,X_1)&\operatorname{Var}(X_2)\end{bmatrix}\begin{bmatrix}a_1\\a_2\end{bmatrix}
+   $$
+3. 곱을 풀면 익숙한 가중합 분산이에요.
+
+   $$
+   \operatorname{Var}(Y)=a_1^2\operatorname{Var}(X_1)+2a_1a_2\operatorname{Cov}(X_1,X_2)+a_2^2\operatorname{Var}(X_2)
+   $$
+
+고정 계수와 유한한 이차 모멘트가 필요하고, 이 모멘트 공식에 가우시안 가정은 필요 없어요. **평균은 계수를 그대로, 공분산은 원래 공분산을 양쪽에서 감싼다**고 복원해요. 이 도구를 실제 사후분포에 대입하는 후속 적용은 [1019 예측분포](../../1019/정리노트_1019_Prediction_and_Projection.html#s0-predictive)에서 확인할 수 있어요.
 
 **교수님 말씀**
 
@@ -1779,6 +1825,7 @@ $$
 | [아핀 평균](#s4-affine) | $\mathbb{E}[\mathbf{y}] = \mathbf{A}\,\mathbb{E}[\mathbf{x}] + \mathbf{b}$ | 상수 행렬은 기댓값 밖으로 나가요. |
 | [아핀 분산](#s4-affine) | $\mathbb{V}[\mathbf{y}] = \mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top$ | 상수 $\mathbf{b}$는 분산에 영향이 없고, $\mathbf{A}$는 좌우에 붙어 나와요. |
 | [스칼라 분산](#s4-affine) | $\mathbb{V}[aX] = a^2\,\mathbb{V}[X]$ | 곱해진 상수는 제곱해서 나와요. 아핀 분산의 스칼라 대응이에요. |
+| 불확실성 전달 복원 | 원래 평균·공분산을 먼저 확인 → 고정 변환행렬 대입 → 독립 잡음이면 분산 추가. 공분산의 위치와 교차항을 잃지 않아요. |  |
 
 ---
 

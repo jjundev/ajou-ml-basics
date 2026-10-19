@@ -367,6 +367,7 @@
 <tr><td>예측분포</td><td>새 관측값의 불확실성</td><td>모든 가능한 파라미터의 예측을 모은 결과</td></tr>
 </tbody></table></div>
 <p data-map="result"><b>구할 결과.</b> 파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.</p>
+<p>앞부분은 <b>무엇을 평균내는가</b>, 뒷부분은 <b>그 평균과 흔들림을 변환하면 어떻게 되는가</b>를 준비해요. 마지막 아핀 변환 공식은 나중에 θ의 불확실성을 출력으로 옮길 때 재사용할 도구예요.</p>
 <p data-map="formula"><b>수식이 하는 일.</b> 주변화는 파라미터를 합쳐 없애는 과정이고, 아핀 변환의 평균·공분산 공식은 파라미터의 흔들림이 출력으로 어떻게 전달되는지 계산할 도구예요.</p>
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> FB가 파라미터 평균 하나만 골라 대입한다는 뜻은 아니에요. 가능한 예측분포 전체를 가중해 모아요.</p>
 <p>이어서 읽기: <a href="#s0-fully-bayesian">풀리 베이지안: 결정을 유보한다</a> · <a href="#s2-predictive">사후 예측분포 유도와 두 가지 가정</a> · <a href="#s4-affine">아핀 변환의 평균과 공분산</a></p>
@@ -917,7 +918,9 @@
     <p><b>ML · MAP과의 차이.</b> ML과 MAP은 학습 데이터에서 $\boldsymbol{\theta}$를 값 하나로 결정했어요. 풀리 베이지안은 그 결정을 유보해요. "이럴 수도, 저럴 수도 있다"는 여지를 PDF로 남기고 $\boldsymbol{\theta}$ 전체에 대해 적분해요. 결정을 유보한다는 뜻은 <a href="#s0-fully-bayesian">풀리 베이지안: 결정을 유보한다</a>에 있어요.</p>
     <p>유도 전체에 쓴 도구는 조건부확률의 정의 하나뿐이에요. 나머지는 모델에서 나온 두 가정이에요.</p>
     <p>수업은 이 적분식까지 유도했어요. 뒤 항과 적분을 실제로 계산하는 일은 <a href="#s5-next">다음 시간 예고 (아직 안 배움)</a>로 남았어요.</p>
-  </div>
+
+<p><b>대입 순서:</b> 궁금한 예측분포에 θ를 넣어 joint의 적분으로 쓰고, 곱 규칙으로 조건부 예측×posterior로 나눈 뒤, 명시한 독립 가정을 써요. 적분 후 없어지는 변수는 θ이고 예측할 $y_*$는 남아요. 이 결과식을 다음 <a href="#s2-cond-expectation">기댓값 공식</a>의 자리에 넣어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <blockquote>"여기서 이제 뭐가 필요해요? 모델 또는 가정이 필요해요." (0930 Part 04 ~00:37)</blockquote>
     <p><b>스스로 묻고 답하기 1</b>: "그럼 $\mathcal{X}$, $\mathcal{Y}$는 없어도 되나요?" 답은 "없어도 돼요. 세타가 주어지는 순간."이었어요. "그러면 아무 역할이 없나요?"에는 "세타 자체를 만드는 데 걔가 좋은 역할을 한 거야."라고 답했어요.</p>
@@ -1011,7 +1014,9 @@
     <p><b>ML · MAP은 특수한 경우.</b> $\boldsymbol{\theta}$를 $\boldsymbol{\theta}_{\text{ML}}$이나 $\boldsymbol{\theta}_{\text{MAP}}$ 하나로 결정해 버리는 것은 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$를 그 값에만 서 있는 델타 함수로 두는 것과 같아요. 이때는 평균 낼 후보가 하나뿐이라 그 값에서의 likelihood, 예를 들어 $p(y_* \mid \mathbf{x}_*, \boldsymbol{\theta}_{\text{MAP}})$만 계산해요. 분산을 0으로 보내면 PDF가 델타 함수가 된다는 이야기는 <a href="#s0-fully-bayesian">풀리 베이지안: 결정을 유보한다</a>에 있어요.</p>
     <p><b>풀리 베이지안의 결과물.</b> 적분으로 $\boldsymbol{\theta}$의 영향만 사라지고, $y_*$의 불확실성은 PDF로 남아요. 값 하나가 필요하면 그 PDF의 최대점이나 평균으로 마지막에 한 번 결정(decision making)해요.</p>
     <p><b>남은 일.</b> likelihood가 정규분포라는 것은 이미 배웠어요. 남은 것은 별표로 표시해 둔 부분, 곧 뒤 항 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$와 적분의 계산이에요. 수업은 이 계산에 쓸 가우시안 복습으로 넘어갔고, 계산 자체는 <a href="#s5-next">다음 시간 예고 (아직 안 배움)</a>로 남았어요.</p>
-  </div>
+
+<p>일반식 $\mathbb E[g(Z)\mid D]=\int g(z)p(z\mid D)\,dz$에 $Z=\boldsymbol\theta$, $D=(\mathcal X,\mathcal Y)$, $g(\boldsymbol\theta)=p(y_*\mid\mathbf x_*,\boldsymbol\theta)$를 넣으면 위 예측식이에요. 여기서 $y_*$는 밀도를 평가할 위치로 고정하고, θ에 따라 달라지는 밀도값을 평균내요. <b>θ 평균 한 점을 넣는 것이 아니라, θ별 예측분포를 가중해서 모으는 것</b>이에요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p><b>색안경</b>: 적분식을 그냥 보지 말고, "이 식이 무슨 일을 하는가"라는 색안경을 끼고 보라고 했어요. 그러면 조건부 기댓값이 보여요.</p>
     <blockquote>"색안경을 딱 끼고 이 수식을 잘 봐야 돼. … 어 벌써 소름." (0930 Part 04 ~07:19)</blockquote>
@@ -1198,7 +1203,9 @@
       <tr><td>$(2, 1)$</td><td>$\mathbb{E}[X_2Y_1]$</td><td>$\mathbb{E}[X_2]\,\mathbb{E}[Y_1]$</td><td>$\operatorname{Cov}[X_2, Y_1]$</td></tr>
       <tr><td>$(2, 2)$</td><td>$\mathbb{E}[X_2Y_2]$</td><td>$\mathbb{E}[X_2]\,\mathbb{E}[Y_2]$</td><td>$\operatorname{Cov}[X_2, Y_2]$</td></tr>
     </table></div>
-  </div>
+
+<p>스칼라에서 기억할 $\operatorname{Cov}(U,V)=\mathbb E[(U-\mathbb EU)(V-\mathbb EV)]$를 성분마다 적용한 표예요. 첫 입력의 성분 번호가 행, 둘째 입력의 성분 번호가 열을 정해요. 그래서 <a href="#s3-variance-matrix">자기 자신의 공분산</a>을 구할 때는 두 입력 자리에 같은 벡터를 넣으면 돼요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>공분산의 동기는 미국 대학 랭킹과 연봉의 상관관계예요. 이 관계를 숫자 하나로 표현하고 싶다는 거예요.</p>
     <p>벡터로 넓힐 때는 두 집 비유를 썼어요. 이 집에 아들 둘, 저 집에 딸 둘이 있어요. "두 집이 얼마나 친한가"는 너무 추상적이에요. 첫째 아들과 첫째 딸, 첫째 아들과 둘째 딸, 둘째 아들과 첫째 딸, 둘째 아들과 둘째 딸을 각각 계산해 행렬로 만들어야 완전한 답이에요.</p>
@@ -1254,7 +1261,9 @@
       <li>모든 $(i, j)$에서 같으므로 $$\mathbb{V}[\mathbf{x}]^\top = \mathbb{V}[\mathbf{x}]$$</li>
     </ol>
     <p>정리하면 공분산 행렬은 대칭이고 정방행렬이에요. 이 행렬이 합과 선형 변환에서 어떻게 바뀌는지는 <a href="#s4-sum">합의 평균과 분산: 조건이 필요해요</a>와 <a href="#s4-affine">아핀 변환의 평균과 공분산</a>으로 이어져요.</p>
-  </div>
+
+<p>즉 일반 교차공분산의 두 자리에 모두 x를 넣어 얻은 것이 $\boldsymbol\Sigma_x=\operatorname{Cov}(\mathbf x,\mathbf x)$예요. 대각선은 각 성분의 분산이고, 비대각 성분은 함께 움직이는 정도예요. <a href="#s4-affine">아핀 변환</a>에서는 이 표를 버리지 않고 양쪽 계수 사이에 그대로 넣어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>두 집 비유를 "우리 집안"으로 바꿨어요. 첫째가 자기 자신과, 첫째가 둘째와, 둘째가 첫째와, 둘째가 자기 자신과 얼마나 친한가의 네 경우예요.</p>
     <p>첨자를 바꿔도 같은 식이 되는 것은 "by definition으로 같아요"라고 했어요.</p>
@@ -1295,14 +1304,16 @@
     <p>기댓값이 선형 연산자(linear operator)이기 때문이에요. 벡터의 기댓값은 성분마다 기댓값을 낸 것이라서, $i$번째 성분이 $\mathbb{E}[X_i + Y_i] = \mathbb{E}[X_i] + \mathbb{E}[Y_i]$로 하나씩 맞아요.</p>
     <p><b>합의 분산</b>은 $\mathbf{z} = \mathbf{x} + \mathbf{y}$의 공분산 행렬(covariance matrix)을 묻는 거예요. 공분산 행렬의 정의는 <a href="#s3-variance-matrix">자기 자신의 공분산 행렬과 대칭성</a>에 있어요.</p>
     $$\mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]$$
-    <p>이 식이 늘 성립하는 것은 아니에요. 아래 두 조건 가운데 하나가 있어야 해요.</p>
+    <p>이 식이 늘 성립하는 것은 아니에요. 아래 두 조건 가운데 하나이면 충분해요.</p>
     <ul>
       <li>$\mathbf{x}$와 $\mathbf{y}$가 통계적으로 독립(statistically independent)이에요.</li>
       <li>적어도 두 벡터 사이의 공분산 행렬이 영행렬이에요. 즉 $\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$이에요.</li>
     </ul>
     <p>$\operatorname{Cov}[\mathbf{x}, \mathbf{y}]$는 성분 쌍마다 공분산을 모은 행렬이에요. 정의는 <a href="#s3-covariance">공분산에서 공분산 행렬로</a>에 있어요.</p>
     <p>이 조건은 슬라이드에 없고 교수님이 말로 덧붙인 내용이에요. 교수님은 강의노트에 이 내용이 빠져 있을 것 같다고 했어요.</p>
-  </div>
+
+<p>위의 두 조건은 분산을 그냥 더해도 되는 <b>충분조건</b>이에요. 평균에는 독립성이 필요 없고, 분산에는 일반적으로 교차공분산 항이 남아요. 실제 문제에서 두 분산을 더하기 전에 “교차항이 왜 없어지는가”를 먼저 확인해요. 정의에서의 상세 전개는 이 토픽의 기존 보충을 참고해요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>평균 식은 기댓값이 linear operator라서 당연하다고 짧게 넘어갔어요. 분산 식에서 멈춰 조건을 강조했어요.</p>
     <blockquote>"이 두 번째 게 중요한데" (0930 Part 07 ~02:52)</blockquote>
@@ -1348,7 +1359,7 @@
     <ul class="eq-list">
       <li><span class="eq-name">합의 평균 (조건 없음)</span>$$\mathbb{E}[\mathbf{x} + \mathbf{y}] = \mathbb{E}[\mathbf{x}] + \mathbb{E}[\mathbf{y}]$$</li>
       <li><span class="eq-name">합의 분산 (조건 필요)</span>$$\mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]$$</li>
-      <li><span class="eq-name">필요한 조건</span>$$\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$$</li>
+      <li><span class="eq-name">간단한 충분조건</span>$$\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$$</li>
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms">
@@ -1417,7 +1428,16 @@
     $$\operatorname{Cov}[Y_i, Y_j] = \mathbb{E}[\mathbf{a}_i^\top\mathbf{x}\mathbf{x}^\top\mathbf{a}_j] - \mathbb{E}[\mathbf{a}_i^\top\mathbf{x}]\,\mathbb{E}[\mathbf{x}^\top\mathbf{a}_j]$$
     <p>여기서 $\mathbf{x}\mathbf{x}^\top$는 행렬이고, 양옆에 행벡터와 열벡터가 곱해져 전체는 스칼라예요. 모든 $(i, j)$를 모으면 $\mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top$가 돼요. 수업은 여기까지 하고 나머지 정리는 직접 해 보라고 남겼어요.</p>
     <p><b>숙제.</b> $\mathbf{x}$와 $\mathbf{A}\mathbf{x} + \mathbf{b}$ 사이의 공분산 행렬이 왜 슬라이드의 식처럼 주어지는지 확인하는 것을 숙제로 남겼어요. 수업에서는 그 식을 다루지 않았어요. <a href="#s5-next">다음 시간 예고 (아직 안 배움)</a>에 이어져요.</p>
-  </div>
+
+<h4>스칼라 규칙의 자리에 실제 가중합을 넣어 봐요</h4>
+<p>기억할 규칙은 $\mathbb E[\mathbf A\mathbf x+\mathbf b]=\mathbf A\mathbb E[\mathbf x]+\mathbf b$, $\operatorname{Cov}(\mathbf A\mathbf x+\mathbf b)=\mathbf A\boldsymbol\Sigma_x\mathbf A^\top$예요. 다음은 이 규칙을 읽기 위한 보충 대입 예시예요.</p>
+<ol class="steps"><li>스칼라 출력을 만드는 행렬을 $\mathbf A=[a_1\;a_2]$로 두면 $Y=a_1X_1+a_2X_2+b$예요.</li>
+<li>가운데 공분산을 그대로 두고 양쪽에서 곱해요.
+$$\operatorname{Var}(Y)=[a_1\;a_2]\begin{bmatrix}\operatorname{Var}(X_1)&amp;\operatorname{Cov}(X_1,X_2)\\\operatorname{Cov}(X_2,X_1)&amp;\operatorname{Var}(X_2)\end{bmatrix}\begin{bmatrix}a_1\\a_2\end{bmatrix}$$</li>
+<li>곱을 풀면 익숙한 가중합 분산이에요.
+$$\operatorname{Var}(Y)=a_1^2\operatorname{Var}(X_1)+2a_1a_2\operatorname{Cov}(X_1,X_2)+a_2^2\operatorname{Var}(X_2)$$</li></ol>
+<p>고정 계수와 유한한 이차 모멘트가 필요하고, 이 모멘트 공식에 가우시안 가정은 필요 없어요. <b>평균은 계수를 그대로, 공분산은 원래 공분산을 양쪽에서 감싼다</b>고 복원해요. 이 도구를 실제 사후분포에 대입하는 후속 적용은 <a href="../1019/정리노트_1019_Prediction_and_Projection.html#s0-predictive">1019 예측분포</a>에서 확인할 수 있어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>합의 분산 다음에 바로 이 성질로 넘어가면서 더 무게를 뒀어요.</p>
     <blockquote>"자, 그다음에 더 중요한 게 있어요." (0930 Part 07 ~04:01)</blockquote>
@@ -1514,7 +1534,7 @@
       <tr><td><a href="#s4-affine">아핀 평균</a></td><td>$\mathbb{E}[\mathbf{y}] = \mathbf{A}\,\mathbb{E}[\mathbf{x}] + \mathbf{b}$</td><td>상수 행렬은 기댓값 밖으로 나가요.</td></tr>
       <tr><td><a href="#s4-affine">아핀 분산</a></td><td>$\mathbb{V}[\mathbf{y}] = \mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top$</td><td>상수 $\mathbf{b}$는 분산에 영향이 없고, $\mathbf{A}$는 좌우에 붙어 나와요.</td></tr>
       <tr><td><a href="#s4-affine">스칼라 분산</a></td><td>$\mathbb{V}[aX] = a^2\,\mathbb{V}[X]$</td><td>곱해진 상수는 제곱해서 나와요. 아핀 분산의 스칼라 대응이에요.</td></tr>
-    </tbody>
+    <tr><td>불확실성 전달 복원</td><td colspan="2">원래 평균·공분산을 먼저 확인 → 고정 변환행렬 대입 → 독립 잡음이면 분산 추가. 공분산의 위치와 교차항을 잃지 않아요.</td></tr></tbody>
   </table></div>
 </article>
 
