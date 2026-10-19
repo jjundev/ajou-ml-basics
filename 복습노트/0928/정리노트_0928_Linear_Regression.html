@@ -367,6 +367,7 @@
 <tr><td>MAP · 일반 가우시안 사전</td><td>방향별 제약과 사전평균 반영</td><td>행렬 항과 사전평균 항 변경</td></tr>
 </tbody></table></div>
 <p data-map="result"><b>구할 결과.</b> 특징행렬 Φ는 곡선의 재료를 모으고, 사전분포는 계수가 어디에 얼마나 모이길 기대하는지 나타내요.</p>
+<p>아는 ML 정상조건에 prior의 미분만 더하면 MAP으로 갈 수 있어요. <b>왼쪽 행렬에 추가되는 항</b>과 <b>오른쪽 데이터 벡터가 그대로인 이유</b>를 비교하고, 마지막에 특수 사전분포를 일반형에 대입해 확인해요.</p>
 <p data-map="formula"><b>수식이 하는 일.</b> MAP의 정상조건은 데이터에 맞추려는 항과 사전평균 쪽으로 끌어당기는 항의 합이 0이라는 뜻이에요. 사전평균이 0이면 오른쪽의 사전평균 항만 사라져요.</p>
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> N(0, b²I)와 N(m₀, S₀)는 특수형과 일반형의 관계예요. 이를 MAP과 FB의 차이로 구분하면 안 돼요. 일반형은 MAP에도 쓸 수 있어요.</p>
 <p>이어서 읽기: <a href="#s2-feature-matrix">특징행렬 Φ와 최대우도 해</a> · <a href="#s4-ml-vs-map">ML vs MAP: σ²/b² 한 항의 차이</a> · <a href="#s5-general-prior">일반 가우시안 사전분포: 다음 시간을 위한 포석</a></p>
@@ -650,7 +651,9 @@
     </ol>
     <p>마지막 식에서 $(\mathbf{y}^\top - \boldsymbol{\theta}^\top \boldsymbol{\Phi}^\top)$는 $1 \times N$, $\boldsymbol{\Phi}$는 $N \times D$예요.</p>
     <p>표기: 특징 함수 $\phi$가 항등(identity) 함수이면 $\boldsymbol{\Phi} = \mathbf{X}$예요. s16은 일반화하려고 $\boldsymbol{\Phi}$로 썼고, s11의 칠판 유도는 같은 식을 $\mathbf{X}$로 썼어요.</p>
-  </div>
+
+<p>이제 연쇄법칙의 두 자리가 정해졌어요. 잔차에 대한 미분은 $1\times N$, 잔차를 θ로 미분한 것은 $N\times K$이므로 곱한 결과는 $1\times K$예요(특징행렬 $\boldsymbol\Phi$의 열 수를 K로 쓸 때). 이후 MAP에서도 <b>이 데이터 항의 미분을 그대로 재사용</b>하고 prior의 미분만 더해요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>지난주 설명 때 학생들 표정이 어두워서, 미분 과정을 보여 주려고 강의노트에 s12–s16을 새로 넣으셨어요. 그래디언트와 자코비안을 "재료"로 먼저 손질하고, 여기서 그 재료로 요리를 한 셈이에요.</p>
     <blockquote>"자 이제 재료 손질이 끝났어요." (0928 Part 04 ~05:25)</blockquote>
@@ -703,7 +706,9 @@
     <p><b>대칭행렬(symmetric matrix)</b>: $\mathbf{A}^\top = \mathbf{A}$인 정방행렬이에요. 예를 들어 대각성분이 1, 1이고 비대각성분이 둘 다 3인 $2 \times 2$ 행렬은 대각선을 기준으로 접으면 같은 값이 겹쳐요. $\mathbf{X}^\top \mathbf{X}$는 항상 대칭이에요.</p>
     <p><b>유사역행렬(pseudo-inverse)</b>: $(\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top$를 가리켜요. $\mathbf{X}$는 $N \times D$라 정방행렬이 아니어서 역행렬이 없어요. 그래도 이 행렬이 역행렬과 비슷한 역할을 해서 "유사(pseudo)"라고 불러요. 결국 최대우도(ML) 추정은 유사역행렬을 구하는 문제예요.</p>
     <p>특징행렬로 쓰면 같은 해가 $\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$예요(<a href="#s2-feature-matrix">특징행렬 Φ와 최대우도 해</a>). MML (9.12)도 같은 순서로 유도해요.</p>
-  </div>
+
+<p><b>이후에도 유지할 뼈대:</b> 행벡터 식 $\boldsymbol\theta^\top\mathbf X^\top\mathbf X=\mathbf y^\top\mathbf X$를 전치하면 $\mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y$예요. 왼쪽은 계수에 곱하는 행렬, 오른쪽은 데이터 벡터예요. 역행렬 해에는 X의 full column rank가 필요해요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>칠판에서 전치를 취한 뒤, 바깥 전치가 왜 사라지는지를 대칭행렬로 설명하셨어요.</p>
     <blockquote>"X 트랜스포즈 X라는 거는 시메트릭 매트릭스가 되거든요." (0928 Part 05 ~01:50)</blockquote>
@@ -929,7 +934,9 @@
     <p>해는 $\boldsymbol{\Phi}$의 유사역행렬(pseudo-inverse)을 $\mathbf{y}$에 곱한 값이에요. 이름은 추정(estimation)이지만 실제로는 $\boldsymbol{\theta}$를 학습하는 일이고, 그 계산을 역행렬 같은 선형대수로 할 뿐이에요.</p>
     <p>원자료 대신 $\boldsymbol{\Phi}$를 쓰는 이유는 알맞은 도메인으로 바꾸면 학습이 잘 안 되던 문제도 잘 풀릴 수 있기 때문이에요.</p>
     <p class="fn">(수업 중 크기를 "K by N by K"처럼 말했지만 $\boldsymbol{\Phi}$는 $N \times K$예요.)</p>
-  </div>
+
+<p>새로운 ML 유도가 필요한 것이 아니에요. <a href="#s1-theta-ml">앞 정상조건</a>의 X 자리에 특징행렬 Φ를 넣어 $\boldsymbol\Phi^\top\boldsymbol\Phi\boldsymbol\theta=\boldsymbol\Phi^\top\mathbf y$로 바꾸면 돼요. 이 역행렬 표현에는 Φ의 full column rank가 필요해요. 이 두 덩어리를 다음 MAP 비교에서도 그대로 써요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>교수님이 학생 입장에서 두 가지를 묻고 답했어요.</p>
     <blockquote>"그냥 x로 합시다, 뭘 파이로 바꿉니까." (0928 Part 06 ~01:50)</blockquote>
@@ -1192,7 +1199,9 @@
       <li>뒤 항: $\boldsymbol{\theta}^\top \boldsymbol{\theta}$를 미분하면 $2\boldsymbol{\theta}^\top$이고 2가 약분돼요. $$\frac{d}{d\boldsymbol{\theta}} \left(\frac{1}{2b^2} \boldsymbol{\theta}^\top \boldsymbol{\theta}\right) = \frac{1}{b^2} \boldsymbol{\theta}^\top$$</li>
       <li>더하기(MML 식 9.29): $$-\frac{d \log p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})}{d\boldsymbol{\theta}} = \frac{1}{\sigma^2} (\boldsymbol{\theta}^\top \boldsymbol{\Phi}^\top \boldsymbol{\Phi} - \mathbf{y}^\top \boldsymbol{\Phi}) + \frac{1}{b^2} \boldsymbol{\theta}^\top$$</li>
     </ol>
-  </div>
+
+<p>ML의 데이터 항 $\frac1{2\sigma^2}\|\mathbf y-\boldsymbol\Phi\boldsymbol\theta\|^2$은 그대로이고, 평균 0의 prior가 $\frac1{2b^2}\|\boldsymbol\theta\|^2$를 추가해요. 둘을 θ로 미분한 행벡터를 더하는 것이 <a href="#s4-ml-vs-map">다음 MAP 정상조건</a>이에요. posterior 전체를 먼저 정규화할 필요는 없어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>학생이 물을 법한 질문을 스스로 던지고 답하셨어요. (0928 Part 07 ~04:15)</p>
     <ul>
@@ -1278,7 +1287,19 @@
     <div class="table-wrap"><table><tr><th>설정</th><th>$\frac{\sigma^2}{b^2}$</th><th>$\|\boldsymbol{\theta}_{\text{MAP}}\|$</th><th>참 함수와의 RMSE</th><th>곡선 모습</th></tr><tr><td>$b = 10000$</td><td>4.0e-10</td><td>197.64</td><td>1.338</td><td>MAP 곡선이 ML 곡선과 겹쳐요. 점은 거의 모두 지나지만 양 끝에서 크게 휘어요.</td></tr><tr><td>$b = 32$</td><td>4.0e-5</td><td>21.59</td><td>0.229</td><td>점 근처를 매끈하게 지나요. 참 함수와 가장 가까워요.</td></tr><tr><td>$b = 1.0$</td><td>0.0400</td><td>4.19</td><td>0.366</td><td>더 매끈해지고 봉우리가 낮아져 가운데 점들을 비껴가요.</td></tr><tr><td>$b = 0.010$</td><td>400</td><td>0.01</td><td>0.856</td><td>거의 $y = 0$인 평평한 선으로 눌려요. 점을 따라가지 못해요.</td></tr><tr><td>ML(비교)</td><td>0</td><td>197.73</td><td>1.339</td><td>훈련점 10개를 거의 그대로 지나지만 양 끝에서 크게 휘어요.</td></tr></table></div>
   </div>
     </div>
-  </div>
+
+<h4>두 해보다, 두 정상조건을 나란히 기억해요</h4>
+<p>위 유도를 연결한 재표현이에요. $J$는 θ와 무관한 상수를 뺀 음의 로그사후 목적함수예요.</p>
+$$\frac{\partial J}{\partial\boldsymbol\theta}=-\frac1{\sigma^2}(\mathbf y-\boldsymbol\Phi\boldsymbol\theta)^\top\boldsymbol\Phi+\frac1{b^2}\boldsymbol\theta^\top=\mathbf0^\top$$
+<ol class="steps"><li>$\sigma^2$을 곱해 데이터 항과 prior 항을 모아요.
+$$\boldsymbol\theta^\top\left(\boldsymbol\Phi^\top\boldsymbol\Phi+\frac{\sigma^2}{b^2}\mathbf I\right)=\mathbf y^\top\boldsymbol\Phi$$</li>
+<li>양변을 전치해 열벡터 정상조건을 얻어요.
+$$\left(\boldsymbol\Phi^\top\boldsymbol\Phi+\frac{\sigma^2}{b^2}\mathbf I\right)\boldsymbol\theta=\boldsymbol\Phi^\top\mathbf y$$</li></ol>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>ML</th><th>MAP에서 바뀐 것</th></tr></thead><tbody>
+<tr><td>왼쪽 행렬</td><td>$\boldsymbol\Phi^\top\boldsymbol\Phi$</td><td>$+(\sigma^2/b^2)\mathbf I$</td></tr>
+<tr><td>오른쪽 벡터</td><td>$\boldsymbol\Phi^\top\mathbf y$</td><td>그대로: prior 평균이 0이기 때문</td></tr>
+</tbody></table></div><p>$\sigma^2,b^2\gt0$이면 추가 항 덕분에 왼쪽 행렬은 양의 정부호예요. <b>ML의 왼쪽에 항을 더하고, 전치한 뒤 역행렬로 푼다</b>고 복원해요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p><b>머니볼</b>: 영화 속 콜라만 마시는 데이터 사이언티스트는 야구인의 감각을 버리고 데이터만 봐요. 이것이 $b \to \infty$, 곧 ML만 하겠다는 태도예요. (0928 Part 07 ~09:00)</p>
     <p><b>아시안게임의 김도영</b>: KBO 데이터만 보면 잘해야 해요. 하지만 병역 면제와 메이저리그 계약이 걸린 심리적 부담 때문에 "잘 못할 거야"라고 예상했어요. 데이터에 이런 사전 의도를 섞는 것이 MAP이에요. (0928 Part 07 ~09:30)</p>
@@ -1336,7 +1357,11 @@
     </ol>
     <p>이것이 $\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$ 사전분포의 정규화항이에요. 그래서 앞 슬라이드의 사전분포는 이 일반형의 특수한 경우예요.</p>
     <p>수업에서는 식만 보여 줬어요. 이 사전분포로 사후분포를 구하는 계산은 다음 시간에 다뤄요.</p>
-  </div>
+
+<p>앞의 prior로 돌아가려면 일반형의 두 자리에 $\mathbf m_0=\mathbf0$, $\mathbf S_0=b^2\mathbf I$를 대입해요.</p>
+$$\frac12(\boldsymbol\theta-\mathbf0)^\top(b^2\mathbf I)^{-1}(\boldsymbol\theta-\mathbf0)=\frac1{2b^2}\boldsymbol\theta^\top\boldsymbol\theta$$
+<p>이것은 prior의 <b>특수형/일반형</b> 관계이며 MAP/FB의 구분이 아니에요. 일반형의 전체 해는 이 날짜의 유도로 추가하지 않고, 후속 <a href="../1014/정리노트_1014_Bayesian_Posterior_Prediction.html#s1-expand">1014 MAP·사후분포 연결</a>에서 이어 읽어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>교수님은 이 슬라이드를 "다음 시간을 위한 포석"이라고 소개하고 짧게 넘어갔어요 (0928 Part 08 ~01:55).</p>
     <blockquote>"이게 그것의 제너럴 케이스고, 앞장에서 배웠던 게 이거의 스페셜 케이스다." (0928 Part 08 ~04:00)</blockquote>
@@ -1412,7 +1437,9 @@
       <li>MAP은 <a href="#s5-general-prior">일반 가우시안 사전분포</a>처럼 더 복잡한 공분산에도 쓸 수 있어요.</li>
       <li>그래서 MAP 하나로 ML도 포함하고 릿지(ridge)도 설명돼요.</li>
     </ul>
-  </div>
+
+<p>0914처럼 평균손실 $\frac1N\|\mathbf y-\boldsymbol\Phi\boldsymbol\theta\|^2+\lambda\|\boldsymbol\theta\|^2$로 쓴다면 전체에 N을 곱한 뒤 비교해요. 이 경우 $N\lambda=\sigma^2/b^2$여야 위 MAP과 같은 최소점을 가져요. 이 토픽의 제곱합 관례에서는 $\lambda=\sigma^2/b^2$예요. <b>λ 숫자를 외우기 전에 데이터 항의 배율부터 맞춰요.</b></p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <blockquote>"그래서 사실은 맵이나 익스플리시트한 레귤러라이저가 사실은 같은 문제다." (0928 Part 08 ~07:20)</blockquote>
     <p>RLS 해는 "이 문제를 풀면 이렇게 되거든요"라며 결과만 보여 줬어요 (0928 Part 08 ~05:40). 직접 유도는 "나중에 그것도 설명할 기회가 있을 거예요"라며 미뤘어요 (0928 Part 08 ~08:55).</p>
@@ -1471,7 +1498,7 @@
       <tr><td><a href="#s4-ml-vs-map">ML vs MAP</a></td><td>$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \mathbf{I}\right)^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$</td><td>$\frac{\sigma^2}{b^2} \mathbf{I}$ 한 항만 달라요. $b \to \infty$이면 ML과 같아져요(머니볼). 이 항이 정규화 역할을 해요.</td></tr>
       <tr><td><a href="#s5-general-prior">일반 가우시안 사전분포</a></td><td>$p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$</td><td>앞의 사전분포는 이 일반형의 특수한 경우예요. 해는 <a href="#s6-next">다음 시간 예고</a>로 넘어가요.</td></tr>
       <tr><td><a href="#s5-rls">정규화 최소제곱(RLS)</a></td><td>$\|\mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$, $\boldsymbol{\theta}_{\text{RLS}} = (\boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \lambda \mathbf{I})^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$</td><td>릿지(ridge)라고도 해요. $\lambda = \frac{\sigma^2}{b^2}$이면 MAP 해와 같아서 두 방법은 같은 문제예요.</td></tr>
-    </tbody>
+    <tr><td>MAP 복원 규칙</td><td colspan="2">ML 정상조건 왼쪽에 $(\sigma^2/b^2)\mathbf I$ 추가, 오른쪽 유지 → 전치 → 역행렬. λ 비교는 데이터 항의 1/N 여부부터 확인해요.</td></tr></tbody>
   </table></div>
 </article>
 <article class="topic" id="s6-next"><h3>다음 시간 예고 (아직 안 배움)</h3><div class="tags"><span class="tag date">0928 수업</span><span class="tag slide">L03 로드맵 · s12, s23–s25</span></div>
