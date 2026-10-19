@@ -1,13 +1,3 @@
-# Problem-panel tabs revision 2026-10-19
-
-Current stage HTML SHA256: 2c531dc68c8b6c54ad29cfe585723123faf56a93dfb82db32311f3e2d62c3009.
-- 10 problems: provenance paragraphs relocated byte-identically; 7 core explanations identical except removal of that paragraph. Question/source/answer JSON, source HTML and both PDFs byte-identical to80d29c1.
-- 62 terminology entries: definition, notation, per-question role reviewed by root and fresh panel_tabs_final_review; no numeric answer leakage.
-- Current real Chrome:60 question/viewport/theme combinations, all3tabs; no console/KaTeX/resource/overflow defects. 1280x900,1024x900,375x812, light/dark; docking,keyboardmove/resize,persistence,breakpoint,focusedmobiletab->desktop,printall10+metadata+restore checked.
-- Root visually inspected all20 desktop terminology-panel upper sections across both rounds, provenance-panel sample, mobile dark and floating panels. All final screenshots retained under tmp/ml-panel-tabs/native/roundN/screenshots.
-- Core math: unchanged problem-only blind input and answer payload compared; prior independent86subparts preserved; current exact/symbolic checks rerun27+29pass. This UI revision does not claim a new problem-only blind run. Fresh reviewer independently checked new definitions and UI.
-- Shared full suite: see panel-final-disposition.md;4existingfailures reproduced with HEAD modules in baseline-failures.log. Legacy1014/1019MD/layout and macOS canonical sibling-directory creation are outside this revision.
-- New UI regressions: original/nooriginal,metadatafallback,keyboard,screenbreakpoint,print,accessiblelongformula,focustransfer.
-- User spacing hotfix: actual12pxintertabgap,48pxtabheight,16pxbodygap; root desktop/mobile screenshot inspection and18layout/panel tests pass; current120case browser sweep rerun.
-
-Screenshots and root visual reinspection completed before publication.
+# 새 HTML 화면 검토 (2026-10-20)
+Chromium 실제 렌더링으로 1280×900,1024×900,375×812 각 light/dark의 p1~p10을 이동했다. 전체 42개 solve 소문항을 스크롤해 측정했고, KaTeX·본문·표시 수식의 너비, 문서 가로 넘침, 콘솔/페이지 오류, 외부 요청, 누락 자원을 검사했다. browser-check.json에 현재 HTML SHA와 60개 결과가 있다.
+대표 6스크린샷(expansion-1280-light-p4 등)을 작성자가 직접 시각 확인했다. 테마 대비·행렬 괄호·분수·문단 배치가 읽히고 겹침이 없다. 목차/이전/다음/요약/테마, desktop 문제 패널 좌/우/float, 용어·출제근거 탭, 원문 없는 문항의 원문 탭 숨김을 확인했다. 1023→1024 목차 기본 닫힘→열림 및 사용자가 닫은 문제 패널의 reload 보존을 검사했다. 모바일 요약은 패널 내부 닫기로 닫았다. print 매체의 본문 수식 존속을 확인했다.

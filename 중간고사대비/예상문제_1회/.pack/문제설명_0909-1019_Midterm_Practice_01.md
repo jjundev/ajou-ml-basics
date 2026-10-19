@@ -54,27 +54,53 @@ $v_3=v_1+v_2$인지 성분별로 써 봐요. 이어서 $V\alpha=(\alpha_1+\alpha
 
 #### (a)
 
-$v_1+v_2-v_3=0$이에요. 계수 $(1,1,-1)$는 영벡터가 아니므로 세 벡터는 선형종속이에요. 반면 $av_1+bv_2=0$의 첫째·둘째 성분에서 $a=b=0$이므로 앞의 두 벡터는 독립이에요.
+먼저 $V=[v_1\ v_2\ v_3]$는 세 열벡터를 옆으로 놓은 $3\times3$ 행렬이에요. 계수 $\alpha=(\alpha_1,\alpha_2,\alpha_3)^\top$를 곱한다는 것은 $V\alpha=\alpha_1v_1+\alpha_2v_2+\alpha_3v_3$라는 선형결합을 만든다는 뜻이에요. 아래첨자 1, 2, 3은 여기서는 벡터의 번호예요.
+
+선형독립인지 묻기 때문에, 모두 0은 아닌 계수로 영벡터를 만들 수 있는지 찾아요. 실제로 더하면
+
+$$
+v_1+v_2=\begin{pmatrix}1+0\\0+1\\1+1\end{pmatrix}=\begin{pmatrix}1\\1\\2\end{pmatrix}=v_3.
+$$
+
+따라서 $v_1+v_2-v_3=(1-1,1-1,2-2)^\top=0$이에요. 결과 벡터는 0이지만 사용한 계수 $(1,1,-1)^\top$는 0이 아니므로 세 벡터는 선형종속이에요. 한편 $av_1+bv_2=(a,b,a+b)^\top=0$이면 첫 두 성분에서 $a=b=0$이에요. 앞의 두 열은 독립이므로 열공간의 차원은 2예요.
 
 #### (b)
 
-$V\alpha=b$에서 $\alpha_1+\alpha_3=2$, $\alpha_2+\alpha_3=1$이에요. 셋째 식은 앞의 두 식의 합이므로 새 제약이 아니에요. $t=\alpha_3\in\mathbb R$로 두면
+이번에는 영벡터가 아니라 주어진 $b=(2,1,3)^\top$를 만드는 계수를 모두 찾아요. 행렬 곱의 각 행을 읽으면
 
 $$
-\alpha=(2-t,1-t,t)^\top.
+\alpha_1+\alpha_3=2,\qquad\alpha_2+\alpha_3=1,
 $$
 
-모든 열벡터는 셋째 성분이 첫째와 둘째의 합이에요. $c$는 $4\ne2+1$이므로 해가 없어요.
+$$
+\alpha_1+\alpha_2+2\alpha_3=3.
+$$
+
+셋째 식은 첫째 식과 둘째 식을 더한 것이라 독립된 제약이 아니에요. $\alpha_3=t$를 아무 실수로 정하면 $\alpha_1=2-t$, $\alpha_2=1-t$이므로 모든 해는 $\alpha=(2-t,1-t,t)^\top$예요. 자유변수는 해를 빼먹지 않고 표현하는 장치예요. 실제로 셋째 성분은 $(2-t)+(1-t)+2t=3$으로 항상 맞아요.
+
+이와 달리 $c=(2,1,4)^\top$를 넣으면 첫 두 식의 합은 3인데 셋째 식은 4를 요구해요. 모든 열과 그 선형결합은 $z_3=z_1+z_2$라는 평면 안에 있고, $b$는 그 평면 위, $c$는 밖에 있어요. 따라서 $b$에는 무수히 많은 해가 있고 $c$에는 해가 없어요.
 
 #### (c)
 
-내적을 채우면
+$U=[v_1\ v_2]$는 $3\times2$이고 $U^\top U$는 $2\times2$예요. $(i,j)$ 원소가 $v_i^\top v_j$인 이유는 $U^\top$의 $i$번째 행과 $U$의 $j$번째 열을 내적하기 때문이에요.
 
 $$
-U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix},\quad (U^\top U)^{-1}=\tfrac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}.
+v_1^\top v_1=1^2+0^2+1^2=2,\quad v_1^\top v_2=1\cdot0+0\cdot1+1\cdot1=1.
 $$
 
-행렬식은 $3$이에요. $a=(1,1,-1)^\top\ne0$에 대해 $Va=0$이므로 $V^\top Va=0$이고, $V^\top V$는 특이행렬이에요.
+나머지 두 내적은 $v_2^\top v_1=1$, $v_2^\top v_2=0^2+1^2+1^2=2$예요. 따라서
+
+$$
+U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}.
+$$
+
+일반적인 $2\times2$ 역행렬은 행렬식 $ad-bc\ne0$일 때 $\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$예요. 여기서는 $2\cdot2-1\cdot1=3$이므로
+
+$$
+(U^\top U)^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}.
+$$
+
+$V^\top V$에는 같은 공식을 적용할 수 없어요. (a)의 $a=(1,1,-1)^\top\ne0$가 $Va=0$을 만족하므로 $V^\top Va=0$도 만족해요. 만약 역행렬이 있다면 양변에 곱해 $a=0$이어야 하므로 모순이에요. 즉 $V^\top V$는 특이행렬이에요.
 
 #### 완성 답과 검산
 
@@ -96,9 +122,9 @@ $\frac13\begin{pmatrix}2&1\\1&2\end{pmatrix}\begin{pmatrix}2&-1\\-1&2\end{pmatri
 
 #### 설명을 닫고 다시 풀어요
 
-- 조건과 미지수의 차원을 직접 적어요.
-- 첫 식에서 완성 답까지 도움 없이 이어 써요.
-- 각 소문항의 검산을 다시 수행해요.
+- 비영 계수로 영벡터를 만드는 식을 성분별로 써요.
+- 일반해의 자유변수를 바꾸어 두 해를 만들고 c가 열공간 밖인 이유를 말해요.
+- 두 Gram 행렬의 역행렬 존재 여부를 열독립과 연결해 설명해요.
 
 **페이지 요약**
 
@@ -165,33 +191,59 @@ $q=2x_1^2+x_1x_2+x_2^2-x_1$로 먼저 전개해요. 이 한 줄에서 교차항�
 
 #### (a)
 
-성분마다 미분하면
+이 문제의 $x=(x_1,x_2)^\top$는 하나의 입력 벡터이고, $x_1,x_2$는 그 벡터의 두 성분이에요. $f(x)=(f_1(x),f_2(x))^\top$도 벡터지만 각각 $f_1=x_1^2+x_2$, $f_2=x_1x_2$라는 스칼라 함수로 나누어 미분해요.
+
+편미분에서는 미분하지 않는 성분을 상수로 취급해요. 네 자리를 하나씩 계산하면
 
 $$
-J_f(x)=\begin{pmatrix}2x_1&1\\x_2&x_1\end{pmatrix},\quad J_f(1,2)=\begin{pmatrix}2&1\\2&1\end{pmatrix}.
+\frac{\partial f_1}{\partial x_1}=2x_1,\qquad\frac{\partial f_1}{\partial x_2}=1,
 $$
 
-출력 2개, 입력 2개이므로 $2\times2$예요.
+$$
+\frac{\partial f_2}{\partial x_1}=x_2,\qquad\frac{\partial f_2}{\partial x_2}=x_1.
+$$
+
+Jacobian은 출력 번호가 행, 입력 성분 번호가 열인 약속이에요. 따라서 두 출력의 미분을 각각 한 행에 놓아요.
+
+$$
+J_f(x)=\begin{pmatrix}2x_1&1\\x_2&x_1\end{pmatrix}.
+$$
+
+점 $(1,2)$에서 평가한다는 말은 이 식에 $x_1=1,x_2=2$를 넣으라는 뜻이에요. 그래서 $J_f(1,2)=\begin{pmatrix}2&1\\2&1\end{pmatrix}$예요. 입력의 작은 변화 $\Delta x$에 대해 $\Delta f\approx J_f\Delta x$가 $2\times1$로 나오는지도 확인해요.
 
 #### (b)
 
-$q=2x_1^2+x_1x_2+x_2^2-x_1$이므로
+$q$는 벡터를 받아 스칼라 하나를 내는 함수예요. $x^\top Ax$의 크기는 $(1\times2)(2\times2)(2\times1)=1\times1$이에요. 공식만 외우기 전에 곱을 전개해요.
 
 $$
-\nabla q=\begin{pmatrix}4x_1+x_2-1\\x_1+2x_2\end{pmatrix}=Ax-b,\quad H_q=\begin{pmatrix}4&1\\1&2\end{pmatrix}.
+Ax=\begin{pmatrix}4x_1+x_2\\x_1+2x_2\end{pmatrix},
 $$
 
-두 번째 미분은 $x$와 무관해요.
+$$
+x^\top Ax=x_1(4x_1+x_2)+x_2(x_1+2x_2).
+$$
+
+교차항 $x_1x_2$가 두 번 나와요. $b^\top x=x_1$이고 앞의 $1/2$를 곱하면 $q=2x_1^2+x_1x_2+x_2^2-x_1$이에요. 이를 각 성분에 대해 미분한 값을 세로로 모으면
+
+$$
+\nabla q=\begin{pmatrix}4x_1+x_2-1\\x_1+2x_2\end{pmatrix}=Ax-b.
+$$
+
+첫째 미분식을 $x_1,x_2$로 다시 미분하면 $(4,1)$, 둘째 식을 미분하면 $(1,2)$예요. 따라서 Hessian은 $H_q=\begin{pmatrix}4&1\\1&2\end{pmatrix}=A$예요. 이 문제의 $A$가 대칭이라 $\nabla(\frac12x^\top Ax)=Ax$가 성립해요.
 
 #### (c)
 
-$4x_1+x_2=1$, $x_1+2x_2=0$을 풀면
+최소점 후보는 먼저 gradient가 0인 정지점에서 찾아요. (b)의 두 성분을 각각 0으로 놓으면 $4x_1+x_2=1$, $x_1+2x_2=0$이에요. 둘째 식에서 $x_1=-2x_2$를 첫째 식에 넣으면 $-8x_2+x_2=1$이므로 $x_2=-1/7$, $x_1=2/7$이에요.
+
+하지만 기울기가 0이라는 사실만으로 최소점이라고 확정할 수는 없어요. Hessian $A$가 대칭이고 첫 선도 주행렬식 $4>0$, 전체 행렬식 $4\cdot2-1\cdot1=7>0$이므로 양의 정부호예요. 이는 0이 아닌 모든 방향 $d$에서 $d^\top Ad>0$이라는 뜻이에요.
+
+정지점 $x_*=(2/7,-1/7)^\top$에서는 $Ax_*=b$이므로 이차식을 중심 이동해
 
 $$
-x_*=(2/7,-1/7)^\top.
+q(x)-q(x_*)=\tfrac12(x-x_*)^\top A(x-x_*)
 $$
 
-$4>0$, $\det A=7>0$이므로 $A\succ0$이에요. 따라서 $q$는 엄격볼록이고 이 정지점이 유일한 전역 최소점이에요.
+로 쓸 수 있어요. $x\ne x_*$이면 오른쪽이 양수이므로 다른 모든 점의 함수값이 더 커요. 이로써 유일한 전역 최소점임을 확인해요.
 
 #### 완성 답과 검산
 
@@ -213,9 +265,9 @@ $x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian
 
 #### 설명을 닫고 다시 풀어요
 
-- 조건과 미지수의 차원을 직접 적어요.
-- 첫 식에서 완성 답까지 도움 없이 이어 써요.
-- 각 소문항의 검산을 다시 수행해요.
+- x의 성분과 f의 출력 번호를 구분하며 네 편미분 자리를 채워요.
+- 이차형식을 전개해 1/2와 교차항을 확인해요.
+- 정지점만으로 최소성을 결론 낼 수 없는 이유와 이 문제의 충분조건을 말해요.
 
 **페이지 요약**
 
@@ -276,55 +328,85 @@ $z^2+(z-2)^2/3=\frac43z^2-\frac43z+\frac43$로 지수를 한 이차식으로 모
 
 #### (a)
 
-중심을 $1/2$로 맞추면
+$z$는 적분할 스칼라이고 $\mathcal N(z\mid m,v)$의 둘째 인수 $v$는 분산이에요. 같은 $z$에서 두 밀도의 높이를 곱하므로 각각의 일반식부터 대입해요.
+
+$$
+p_0(z)=\frac1{\sqrt{2\pi}}e^{-z^2/2},\qquad p_1(z)=\frac1{\sqrt{6\pi}}e^{-(z-2)^2/6}.
+$$
+
+앞 계수의 곱은 $1/(\sqrt{2\pi}\sqrt{6\pi})=1/(2\pi\sqrt3)$이고, 지수함수의 곱은 지수의 합이에요. 따라서
+
+$$
+g(z)=\frac1{2\pi\sqrt3}\exp\!\left[-\frac12\left(z^2+\frac{(z-2)^2}{3}\right)\right].
+$$
+
+가우시안의 평균과 분산을 읽으려면 제곱 하나로 묶어야 해요. $(z-2)^2=z^2-4z+4$를 넣으면 괄호 안은 $\frac43z^2-\frac43z+\frac43$이에요. 한편 $\frac43(z-\frac12)^2=\frac43z^2-\frac43z+\frac13$이므로 원래 상수 $4/3$를 맞추려면 1을 더해야 해요.
 
 $$
 z^2+\frac{(z-2)^2}{3}=\frac43(z-\tfrac12)^2+1.
 $$
 
-따라서
+바깥의 $-1/2$를 두 항 모두에 곱하면 상수 $-1/2$가 남아요. $e^{a+b}=e^ae^b$로 분리하면
 
 $$
-g(z)=\frac{e^{-1/2}}{2\pi\sqrt3}\exp\!\left[-\frac23(z-\tfrac12)^2\right].
+g(z)=\frac{e^{-1/2}}{2\pi\sqrt3}\exp[-\tfrac23(z-\tfrac12)^2].
 $$
+
+이 앞 계수는 아직 전체 적분이 1이 되도록 정한 계수가 아니에요. (b)에서는 정규화된 밀도의 모양을, (c)에서는 버리지 않은 상수를 포함해 전체 넓이를 구해요.
 
 #### (b)
 
 정규분포의 지수는 $-(z-\mu)^2/(2\sigma^2)$예요. 이 문제의 지수 $-\frac23(z-\frac12)^2$와 비교하면 평균은 $\mu=1/2$이고, 분산은 다음처럼 구해요.
 
-$$\frac{1}{2\sigma^2}=\frac23\quad\Rightarrow\quad 2\sigma^2=\frac32\quad\Rightarrow\quad\boxed{\sigma^2=\frac34}.$$
+$$
+\frac{1}{2\sigma^2}=\frac23\quad\Rightarrow\quad 2\sigma^2=\frac32\quad\Rightarrow\quad\boxed{\sigma^2=\frac34}.
+$$
 
 **$4/3$은 분산이 아니라 분산의 역수(precision)예요.** 정규분포의 앞 계수는 $2\pi\sigma^2$ 자체가 아니라 그 제곱근의 역수예요. 분산 $3/4$를 넣어 한 단계씩 정리하면
 
-$$\begin{aligned}\frac{1}{\sqrt{2\pi\sigma^2}}&=\frac{1}{\sqrt{2\pi\cdot\frac34}}\\&=\frac{1}{\sqrt{3\pi/2}}\\&=\sqrt{\frac{2}{3\pi}}.\end{aligned}$$
+$$
+\begin{aligned}\frac{1}{\sqrt{2\pi\sigma^2}}&=\frac{1}{\sqrt{2\pi\cdot\frac34}}\\&=\frac{1}{\sqrt{3\pi/2}}\\&=\sqrt{\frac{2}{3\pi}}.\end{aligned}
+$$
 
 따라서 전체 넓이가 1인 밀도는 다음과 같아요.
 
-$$q(z)=\sqrt{\frac{2}{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right]=\mathcal N(z\mid\tfrac12,\tfrac34).$$
+$$
+q(z)=\sqrt{\frac{2}{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right]=\mathcal N(z\mid\tfrac12,\tfrac34).
+$$
 
 #### (c)
 
 **먼저 $Z$는 $g(z)$ 그래프 아래의 전체 넓이예요.** (a)의 식을 적분하고, $z$와 무관한 앞 계수를 밖으로 꺼내요.
 
-$$Z=\frac{e^{-1/2}}{2\pi\sqrt3}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz.$$
+$$
+Z=\frac{e^{-1/2}}{2\pi\sqrt3}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz.
+$$
 
 **남은 적분은 (b)의 정규분포가 전체 넓이 1을 갖는다는 성질로 구해요.** $\int_{-\infty}^{\infty}q(z)\,dz=1$에 (b)의 식을 대입하면
 
-$$\sqrt{\frac{2}{3\pi}}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=1.$$
+$$
+\sqrt{\frac{2}{3\pi}}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=1.
+$$
 
 양변을 앞 계수 $\sqrt{2/(3\pi)}$로 나누므로 지수함수 부분의 적분은 그 계수의 역수예요.
 
-$$\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=\sqrt{\frac{3\pi}{2}}.$$
+$$
+\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=\sqrt{\frac{3\pi}{2}}.
+$$
 
 이를 $Z$의 식에 넣으면
 
-$$\begin{aligned}Z&=\frac{e^{-1/2}}{2\pi\sqrt3}\sqrt{\frac{3\pi}{2}}\\&=\frac{e^{-1/2}}{2\sqrt{2\pi}}\\&=\boxed{\frac{e^{-1/2}}{\sqrt{8\pi}}}\approx0.121.\end{aligned}$$
+$$
+\begin{aligned}Z&=\frac{e^{-1/2}}{2\pi\sqrt3}\sqrt{\frac{3\pi}{2}}\\&=\frac{e^{-1/2}}{2\sqrt{2\pi}}\\&=\boxed{\frac{e^{-1/2}}{\sqrt{8\pi}}}\approx0.121.\end{aligned}
+$$
 
 **확률밀도는 비음수이고 전체 적분이 1이어야 해요.** $g=p_0p_1$은 비음수이지만 전체 적분이 $Z\ne1$이므로 그대로는 확률밀도가 아니에요. 각각의 적분이 1이어도 곱의 적분이 1이 되는 것은 아니에요. 곱의 적분과 각 적분의 곱은 일반적으로 달라요.
 
 그래서 전체 넓이 $Z$로 나누어 정규화해요.
 
-$$q(z)=\frac{g(z)}{Z},\qquad\int_{-\infty}^{\infty}q(z)\,dz=\frac1Z\int_{-\infty}^{\infty}g(z)\,dz=\frac ZZ=1.$$
+$$
+q(z)=\frac{g(z)}{Z},\qquad\int_{-\infty}^{\infty}q(z)\,dz=\frac1Z\int_{-\infty}^{\infty}g(z)\,dz=\frac ZZ=1.
+$$
 
 $g$는 가우시안 모양을 가진 함수이고, 그 높이를 조절해 전체 넓이를 1로 만든 것이 확률밀도 $q$예요. $g=Zq$로 구분해요.
 
@@ -348,9 +430,9 @@ precision을 따로 더해도 $v^{-1}=1+1/3=4/3$, $m=v(0/1+2/3)=1/2$예요. 앞 
 
 #### 설명을 닫고 다시 풀어요
 
-- 조건과 미지수의 차원을 직접 적어요.
-- 첫 식에서 완성 답까지 도움 없이 이어 써요.
-- 각 소문항의 검산을 다시 수행해요.
+- 지수가 $-3(z-m)^2$이면 분산과 정규화 앞 계수를 직접 구해요.
+- $g$, $Z$, $q$ 각각의 의미와 적분값을 말해요.
+- 완전제곱의 상수항을 남겨 Z를 다시 구해요.
 
 **페이지 요약**
 
@@ -410,39 +492,95 @@ $\Phi=\begin{pmatrix}1&-1\\1&0\\1&1\end{pmatrix}$와 $y=(0,1,4)^\top$부터 적�
 
 #### (a)
 
-각 관측의 특징벡터를 행으로 놓으면
+여기서 $x_1=-1,x_2=0,x_3=1$은 서로 다른 세 관측의 스칼라 입력이에요. 아래첨자는 관측 번호예요. 여러 값을 $X$라는 벡터로 모아 적을 수 있어도 $\phi(x_n)$에 넣는 것은 그중 하나인 스칼라예요.
+
+$\phi$ 자체는 입력을 특징으로 바꾸는 함수이고, $\phi(x)$는 그 함수를 계산한 결과인 $2\times1$ 열벡터예요. 하나씩 대입하면
 
 $$
-\Phi=\begin{pmatrix}1&-1\\1&0\\1&1\end{pmatrix}.
+\phi(x_1)=\begin{pmatrix}1\\-1\end{pmatrix},\quad\phi(x_2)=\begin{pmatrix}1\\0\end{pmatrix},\quad\phi(x_3)=\begin{pmatrix}1\\1\end{pmatrix}.
 $$
 
-열별 내적과 출력의 내적은
+$\theta=(\theta_0,\theta_1)^\top$도 $2\times1$ 열벡터예요. $\phi(x_n)^\top\theta=1\theta_0+x_n\theta_1$에서 $\theta_0$는 절편, $\theta_1$은 기울기예요. 열벡터 두 개를 그대로 곱하지 않고, 첫 벡터를 전치해 $(1\times2)(2\times1)$ 내적을 만들어요.
+
+모든 관측의 예측을 세로로 모으기 위해 **관측 하나를 한 행에 두는 약속**을 사용해요. 그러므로 열벡터 $\phi(x_n)$를 전치한 행을 아래로 쌓아요.
 
 $$
-\Phi^\top\Phi=\begin{pmatrix}3&0\\0&2\end{pmatrix},\quad\Phi^\top y=\begin{pmatrix}5\\4\end{pmatrix}.
+\Phi=\begin{pmatrix}\phi(x_1)^\top\\\phi(x_2)^\top\\\phi(x_3)^\top\end{pmatrix}=\begin{pmatrix}1&-1\\1&0\\1&1\end{pmatrix}.
 $$
 
-$x_n$의 합이 0이므로 비대각성분이 0이에요.
+$\Phi$는 하나의 벡터가 아니라 $3\times2$ 행렬이에요. $[\phi(x_1)\ \phi(x_2)\ \phi(x_3)]$처럼 열로 나란히 놓으면 $2\times3$인 $\Phi^\top$가 돼요. 다른 배치 약속도 가능하지만 그 경우 곱셈식도 함께 바꿔야 해요. 현재 약속에서는
+
+$$
+\Phi\theta=\begin{pmatrix}\theta_0-\theta_1\\\theta_0\\\theta_0+\theta_1\end{pmatrix}
+$$
+
+가 $y=(0,1,4)^\top$와 같은 $3\times1$이 되어 바로 비교할 수 있어요.
+
+$\Phi$의 두 열은 $(1,1,1)^\top$, $(-1,0,1)^\top$예요. 열끼리 내적해 Gram 행렬을 채우면
+
+$$
+\Phi^\top\Phi=\begin{pmatrix}1+1+1&-1+0+1\\-1+0+1&(-1)^2+0^2+1^2\end{pmatrix}=\begin{pmatrix}3&0\\0&2\end{pmatrix}.
+$$
+
+각 열과 $y$의 내적도 계산해요.
+
+$$
+\Phi^\top y=\begin{pmatrix}1\cdot0+1\cdot1+1\cdot4\\(-1)\cdot0+0\cdot1+1\cdot4\end{pmatrix}=\begin{pmatrix}5\\4\end{pmatrix}.
+$$
+
+각 결과의 크기는 $2\times2$, $2\times1$이에요. 비대각 원소가 0인 것은 여기서 입력의 합이 0이기 때문이지, 모든 특징행렬에서 성립하는 규칙은 아니에요.
 
 #### (b)
 
-$\operatorname{diag}(3,2)\theta=(5,4)^\top$에서
+ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.
 
 $$
-\theta_{\mathrm{ML}}=(5/3,2)^\top.
+\theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y,
 $$
 
-$x_*=2$의 평균 예측은 $5/3+2\cdot2=17/3$이에요.
+$$
+\theta_{\mathrm{ML}}=\begin{pmatrix}1/3&0\\0&1/2\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/3\\2\end{pmatrix}.
+$$
+
+이제 $x_*=2$는 학습에 사용한 세 입력과 별개인 새 입력이에요. 별표는 새 예측 지점을 표시해요. 적합한 직선은 $f(x)=5/3+2x$이고, 새 입력의 특징은 $\phi(2)=(1,2)^\top$예요.
+
+$$
+\widehat\mu_*^{\mathrm{ML}}=\phi(2)^\top\theta_{\mathrm{ML}}=1\cdot\frac53+2\cdot2=\frac53+\frac{12}3=\frac{17}3.
+$$
+
+‘평균 예측’은 $y_*=\phi(2)^\top\theta+\epsilon_*$에서 평균 0인 잡음을 평균내어 얻은 중심값이에요. $x_*=2$에서 나온 관측들을 평균한다는 뜻이 아니에요. 실제 관측은 잡음 때문에 이 중심과 달라질 수 있어요. 여기서는 추정한 계수 한 점을 대입한 평균을 구한 것이에요.
 
 #### (c)
 
-prior의 음의 로그가 $\frac12\theta^\top\theta+\mathrm{const}$이므로 $\lambda=1$이에요. $\operatorname{diag}(4,3)\theta=(5,4)^\top$에서
+MAP에는 데이터 적합도에 더해 $\theta$의 prior가 들어가요. $\mathcal N(0,I_2)$에서 0은 $2\times1$ 평균벡터이고, $I_2=\begin{pmatrix}1&0\\0&1\end{pmatrix}$는 공분산이에요. 이 문제에서는 절편과 기울기 모두 사전분산이 1이에요.
+
+일반적인 prior $\mathcal N(0,\Sigma_0)$의 음의 로그에는 $\frac12\theta^\top\Sigma_0^{-1}\theta$가 들어가요. **공분산 자체가 아니라 역행렬이 들어가요.** 잡음분산 $\sigma^2$를 포함한 목적함수는
 
 $$
-\theta_{\mathrm{MAP}}=(5/4,4/3)^\top.
+J(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac12\theta^\top\Sigma_0^{-1}\theta+C.
 $$
 
-평균 예측은 $5/4+2(4/3)=47/12$예요. 계수가 prior 평균 0 쪽으로 작아졌어요.
+미분해 0으로 놓고 $\sigma^2$를 곱하면
+
+$$
+(\Phi^\top\Phi+\sigma^2\Sigma_0^{-1})\theta=\Phi^\top y.
+$$
+
+$\Sigma_0=b^2I_2$라면 $\Sigma_0^{-1}=(1/b^2)I_2$이므로 더하는 행렬은 $(\sigma^2/b^2)I_2=\lambda I_2$예요. 즉 $b^2$는 분모에 들어간다는 기억과 정확히 일치해요. $b^2$는 사전분산의 표기이고 $b$는 표준편차예요.
+
+지금은 $\sigma^2=1$, $b^2=1$이라 $\lambda=1/1=1$이에요. 그래서 대각선이 1인 행렬 $I_2$가 나타나요.
+
+$$
+\Phi^\top\Phi+I_2=\begin{pmatrix}3+1&0\\0&2+1\end{pmatrix}=\begin{pmatrix}4&0\\0&3\end{pmatrix}.
+$$
+
+따라서 $4\theta_0=5$, $3\theta_1=4$를 풀어 $\theta_{\mathrm{MAP}}=(5/4,4/3)^\top$를 얻어요. 새 입력에서 평균은
+
+$$
+\widehat\mu_*^{\mathrm{MAP}}=\frac54+2\cdot\frac43=\frac{15}{12}+\frac{32}{12}=\frac{47}{12}.
+$$
+
+확인 예로, 잡음분산은 1이고 사전 공분산이 $2I_2$였다면 사전분산 $b^2=2$이므로 $\lambda=1/2$, 더하는 행렬은 $\frac12I_2$예요. 일반 공분산이 $b^2I_2$ 모양이 아닐 때는 단일 $\lambda$ 대신 $\sigma^2\Sigma_0^{-1}$를 그대로 사용해요. 여기서는 주어진 prior가 절편에도 적용되므로 두 대각 원소를 모두 바꿔요.
 
 #### 완성 답과 검산
 
@@ -464,9 +602,9 @@ $(\Phi^\top\Phi+I)\theta_{\mathrm{MAP}}=(5,4)^\top$예요. 또한 $17/3=68/12$�
 
 #### 설명을 닫고 다시 풀어요
 
-- 조건과 미지수의 차원을 직접 적어요.
-- 첫 식에서 완성 답까지 도움 없이 이어 써요.
-- 각 소문항의 검산을 다시 수행해요.
+- 세 스칼라에 $\phi$를 적용한 열벡터를 적고 전치해 $\Phi$를 만들어요.
+- $\Phi\theta$의 세 성분과 새 입력에서 평균 예측의 뜻을 말해요.
+- 잡음분산 1, 사전 공분산 $2I_2$에서 더하는 행렬을 유도해요.
 
 **페이지 요약**
 
@@ -529,29 +667,75 @@ $\mu_X=(2/3,2/3)^\top$와 $E[XX^\top]=\operatorname{diag}(4/3,4/3)$를 써요. $
 
 #### (a)
 
+$x_1=(0,0)^\top,x_2=(2,0)^\top,x_3=(0,2)^\top$는 벡터 관측 세 개예요. $X$는 이 셋 중 하나를 확률 $1/3$씩 고르는 확률벡터이고, $X_1,X_2$는 선택된 벡터의 첫째·둘째 성분이에요. 관측 번호 $x_n$과 성분 번호 $X_i$를 구분해요.
+
+균등 선택의 기대값은 세 벡터의 평균이에요.
+
 $$
-\mu_X=\begin{pmatrix}2/3\\2/3\end{pmatrix},\quad \Sigma_X=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}.
+\mu_X=\frac13\left[\begin{pmatrix}0\\0\end{pmatrix}+\begin{pmatrix}2\\0\end{pmatrix}+\begin{pmatrix}0\\2\end{pmatrix}\right]=\begin{pmatrix}2/3\\2/3\end{pmatrix}.
 $$
 
-예를 들어 $(1,2)$ 성분은 $E[X_1X_2]-E[X_1]E[X_2]=0-4/9=-4/9$예요.
+평균을 뺀 벡터 $d_n=x_n-\mu_X$는 $d_1=(-2/3,-2/3)^\top$, $d_2=(4/3,-2/3)^\top$, $d_3=(-2/3,4/3)^\top$예요. 공분산은 이 편차의 외적을 평균내요. 외적은 $(2\times1)(1\times2)$라서 $2\times2$이고, 예를 들어 $d_1d_1^\top$의 네 원소는 편차 성분의 쌍별 곱이에요.
+
+$$
+d_1d_1^\top=\frac19\begin{pmatrix}4&4\\4&4\end{pmatrix},\qquad d_2d_2^\top=\frac19\begin{pmatrix}16&-8\\-8&4\end{pmatrix},
+$$
+
+$$
+d_3d_3^\top=\frac19\begin{pmatrix}4&-8\\-8&16\end{pmatrix}.
+$$
+
+따라서 $\Sigma_X=\frac13\sum_nd_nd_n^\top=\frac1{27}\begin{pmatrix}24&-12\\-12&24\end{pmatrix}=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}$예요. 대각은 각 성분의 분산, 비대각은 두 성분의 공분산이에요. 이 문제의 분모 3은 실제 확률 $1/3$에서 나와요. 불편 표본공분산의 분모 $N-1$로 바꾸면 다른 양을 계산하게 돼요.
 
 #### (b)
 
-$$
-\mu_Y=\begin{pmatrix}7/3\\-1\end{pmatrix},\quad\Sigma_Y=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.
-$$
-
-교차공분산은
+$Y=AX+b$에서 $A=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$는 두 성분을 섞는 변환, $b=(1,-1)^\top$는 일정한 평행이동이에요. 평균에는 둘 다 들어가요.
 
 $$
-C_{XY}=\Sigma_XA^\top=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
+\mu_Y=A\mu_X+b=\begin{pmatrix}2/3+2/3+1\\2/3-2/3-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix}.
 $$
 
-좌우 순서는 $X$의 차원×$Y$의 차원을 따라요.
+중심화하면 $Y-\mu_Y=AX+b-(A\mu_X+b)=A(X-\mu_X)$여서 $b$가 사라져요. 전치가 곱의 순서를 뒤집으므로 공분산은
+
+$$
+\Sigma_Y=E[A(X-\mu_X)(X-\mu_X)^\top A^\top]=A\Sigma_XA^\top.
+$$
+
+실제 곱을 두 단계로 계산해요.
+
+$$
+A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix},
+$$
+
+$$
+\Sigma_Y=\frac19\begin{pmatrix}4+4&4-4\\12-12&12+12\end{pmatrix}=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.
+$$
+
+교차공분산은 $X$를 먼저 적었으므로 $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$예요. 뒤쪽에만 변환이 있어
+
+$$
+C_{XY}=\Sigma_XA^\top=\frac19\begin{pmatrix}8-4&8+4\\-4+8&-4-8\end{pmatrix}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
+$$
+
+모두 $2\times2$이지만 순서는 바꿀 수 없어요. $C_{YX}=C_{XY}^\top$이며 교차공분산 자체가 대칭일 필요는 없어요.
 
 #### (c)
 
-가능한 $Y$는 $(1,-1)^\top,(3,1)^\top,(3,-3)^\top$이고 각각 확률 $1/3$이에요. 공분산이 0이므로 두 성분은 무상관이에요. 하지만 $P(Y_1=1,Y_2=1)=0$인 반면 $P(Y_1=1)P(Y_2=1)=1/9$이므로 독립은 아니에요.
+(b)의 $\Sigma_Y$에서 비대각 성분이 0이므로 $Y_1,Y_2$는 무상관이에요. 독립은 더 강한 조건으로, 모든 가능한 값 $a,b$에 대해 $P(Y_1=a,Y_2=b)=P(Y_1=a)P(Y_2=b)$여야 해요. 이 분포는 세 점에만 확률을 두므로 공동 Gaussian이라는 조건도 없어요.
+
+각 입력을 실제로 변환하면 $(0,0)^\top\mapsto(1,-1)^\top$, $(2,0)^\top\mapsto(3,1)^\top$, $(0,2)^\top\mapsto(3,-3)^\top$이고 각각 확률은 $1/3$이에요.
+
+$Y_1=1$은 첫 점에서, $Y_2=1$은 둘째 점에서 가능하지만 두 사건이 동시에 일어나는 점은 없어요. 따라서
+
+$$
+P(Y_1=1,Y_2=1)=0,
+$$
+
+$$
+P(Y_1=1)P(Y_2=1)=\frac13\cdot\frac13=\frac19.
+$$
+
+한 쌍에서라도 독립 조건이 깨졌으므로 독립이 아니에요. 첫 성분이 1이라는 정보를 알면 둘째 성분은 반드시 $-1$이라는 사실도 같은 결론을 보여 줘요. 공분산 0은 이런 의존관계 전체를 검사하는 조건이 아니에요.
 
 #### 완성 답과 검산
 
@@ -573,9 +757,9 @@ $Y_1=1$인 경우에는 $Y_2=-1$만 가능해요. 조건부확률 $P(Y_2=1\mid Y
 
 #### 설명을 닫고 다시 풀어요
 
-- 조건과 미지수의 차원을 직접 적어요.
-- 첫 식에서 완성 답까지 도움 없이 이어 써요.
-- 각 소문항의 검산을 다시 수행해요.
+- $x_n$의 관측 번호와 $X_i$의 성분 번호를 구분해요.
+- 편차 외적 하나를 네 원소로 펼치고 분모가 3인 이유를 말해요.
+- 무상관을 계산한 뒤 독립 조건이 깨지는 사건 한 쌍을 찾아요.
 
 **페이지 요약**
 
@@ -636,69 +820,89 @@ $y_n\mid\Phi,\theta\sim\mathcal N(\phi_n^\top\theta,\sigma^2)$부터 적고, 다
 
 #### (a)
 
-주어진 식에서 $y_n$은 고정값 $\phi_n^\top\theta$에 Gaussian 잡음을 더한 값이에요. 따라서
+입력 $x_n$은 고정된 스칼라, $y_n$은 그 입력의 출력이고 $n$은 관측 번호예요. $\phi_n=(1,x_n)^\top$와 $\theta=(\theta_0,\theta_1)^\top$는 $2\times1$이므로 $\phi_n^\top\theta=\theta_0+\theta_1x_n$은 스칼라예요. $\Phi$는 이 전치 특징을 행으로 모은 $N\times2$ 행렬이에요.
+
+잡음 모형 $y_n=\phi_n^\top\theta+\epsilon_n$에서 입력과 계수를 주어진 값으로 고정해요. 그러면 무작위인 것은 $\epsilon_n\sim\mathcal N(0,\sigma^2)$뿐이에요. 상수를 더하면 평균만 이동하므로
 
 $$
 y_n\mid\Phi,\theta\sim\mathcal N(\phi_n^\top\theta,\sigma^2).
 $$
 
-각 출력의 무작위성은 서로 독립인 $\epsilon_n$에서만 오므로 입력과 $\theta$를 고정하면 출력들도 독립이에요.
+독립인 잡음마다 서로 다른 출력을 하나씩 만들기 때문에 이 조건 아래 출력들도 독립이에요. 모수의 분포까지 적분해 없앤 뒤의 주변 독립을 주장하는 것은 아니에요. 이 조건부 독립이 (b)에서 밀도를 곱할 근거예요.
 
 #### (b)
 
-(a)의 독립성으로 곱을 만들어요.
+관측한 $y=(y_1,\ldots,y_N)^\top$와 $\Phi$를 고정하고 미지수 $\theta$를 바꾸어 평가하는 함수를 우도(likelihood)라고 해요. (a)의 독립성 때문에 결합밀도를 개별 밀도의 곱으로 쓸 수 있어요.
 
 $$
-p(y\mid\Phi,\theta)=(2\pi\sigma^2)^{-N/2}\exp\!\left[-\frac{\sum_n(y_n-\phi_n^\top\theta)^2}{2\sigma^2}\right].
+p(y\mid\Phi,\theta)=\prod_{n=1}^N\frac1{\sqrt{2\pi\sigma^2}}\exp\!\left[-\frac{(y_n-\phi_n^\top\theta)^2}{2\sigma^2}\right].
 $$
 
-음의 로그를 취하면 곱의 정규화 상수도 남아요.
+같은 앞 계수를 $N$번 곱하면 $(2\pi\sigma^2)^{-N/2}$이고 지수는 합쳐져요. 잔차벡터 $r=y-\Phi\theta$의 $n$번째 성분이 괄호 안의 오차이므로 $\sum_nr_n^2=\|r\|^2$예요.
 
 $$
-\mathcal L=\frac N2\log(2\pi\sigma^2)+\frac{\|y-\Phi\theta\|^2}{2\sigma^2}.
+p(y\mid\Phi,\theta)=(2\pi\sigma^2)^{-N/2}\exp\!\left[-\frac{\|y-\Phi\theta\|^2}{2\sigma^2}\right].
 $$
+
+로그는 곱을 합으로, 지수함수를 지수로 바꿔요. 앞에 음수를 붙이면 최대화가 최소화로 바뀌어요.
+
+$$
+\mathcal L(\theta)=-\log p(y\mid\Phi,\theta)=\frac N2\log(2\pi\sigma^2)+\frac{\|y-\Phi\theta\|^2}{2\sigma^2}.
+$$
+
+여기까지는 정규화 계수도 보존한 정확한 등식이에요. 우도는 $y$에 대한 밀도식에서 출발했지만, 최적화할 때에는 $y$를 고정하고 $\theta$의 함수로 보는 점에 주의해요.
 
 #### (c)
 
-(b)의 합은 $N\widehat R$예요. 따라서
+경험위험 $\widehat R(\theta)=\frac1N\sum_n(y_n-\phi_n^\top\theta)^2$은 이 문제에서 제곱손실의 평균이에요. (b)의 잔차제곱합은 평균이 아니라 합이므로 $N\widehat R$이에요. 이를 대입하면
 
 $$
-\mathcal L=C+\frac{N}{2\sigma^2}\widehat R.
+\mathcal L(\theta)=C+\frac{N}{2\sigma^2}\widehat R(\theta),\qquad C=\frac N2\log(2\pi\sigma^2).
 $$
 
-$C$는 $\theta$와 무관하고 배율은 양수예요. 두 후보의 위험 대소관계가 그대로 보존되어 우도 최대화와 경험위험 최소화가 같은 모수를 골라요.
+최적화 변수는 $\theta$이며 $N,\Phi,y,\sigma^2$는 고정이에요. 따라서 $C$는 어떤 후보를 골라도 같고 $N/(2\sigma^2)>0$이에요. 두 후보의 위험 차이가 양수이면 음의 로그우도 차이도 양수이므로 순위와 최소점이 같아요.
+
+로그가 증가함수라는 사실까지 연결하면 우도 최대화 = 음의 로그우도 최소화 = 경험위험 최소화예요. 이때 버릴 수 있다는 것은 최소점 위치를 구하는 목적에 한정해요. 밀도값이나 evidence 자체를 계산할 때 정규화 계수를 지워도 된다는 뜻은 아니에요.
 
 #### (d)
 
-(c)의 제곱오차를 전개하면
+최소점이 같으므로 미분하기 쉬운 $Q(\theta)=\|y-\Phi\theta\|^2$를 사용해요. 노름 제곱을 내적으로 바꾸고 분배법칙으로 네 항을 펼쳐요.
 
 $$
-Q=y^\top y-2\theta^\top\Phi^\top y+\theta^\top\Phi^\top\Phi\theta.
+Q=(y-\Phi\theta)^\top(y-\Phi\theta),
 $$
 
-대칭인 Gram 행렬을 이용하면
-
 $$
-\nabla Q=2\Phi^\top\Phi\theta-2\Phi^\top y.
+Q=y^\top y-y^\top\Phi\theta-\theta^\top\Phi^\top y+\theta^\top\Phi^\top\Phi\theta.
 $$
 
-이를0으로 놓아
+$y^\top\Phi\theta$는 스칼라여서 전치해도 같고, 전치한 식이 $\theta^\top\Phi^\top y$예요. 두 교차항을 합하면 $Q=y^\top y-2\theta^\top\Phi^\top y+\theta^\top G\theta$, $G=\Phi^\top\Phi$예요.
+
+$y^\top y$는 상수, 선형항의 열 gradient는 $-2\Phi^\top y$, 대칭행렬 $G$의 이차항 gradient는 $2G\theta$예요. 그러므로
 
 $$
-\Phi^\top\Phi\theta=\Phi^\top y
+\nabla_\theta Q=-2\Phi^\top y+2\Phi^\top\Phi\theta.
 $$
 
-를 얻어요.
+이를 0으로 놓고 2로 나누면 정규방정식 $\Phi^\top\Phi\theta=\Phi^\top y$를 얻어요. 양변은 계수 두 개에 대응하는 $2\times1$이에요. 아직 역행렬을 곱하지 않았으므로 이 단계 자체는 열독립 없이도 성립해요.
 
 #### (e)
 
-(d)에서 열독립이므로 Gram 행렬이 가역이에요.
+주어진 열독립 조건은 $\Phi v=0$이면 $v=0$이라는 뜻이에요. 따라서 $v\ne0$일 때
+
+$$
+v^\top(\Phi^\top\Phi)v=(\Phi v)^\top(\Phi v)=\|\Phi v\|^2>0.
+$$
+
+즉 $G=\Phi^\top\Phi$는 양의 정부호이고 역행렬이 있어요. (d)의 양변 왼쪽에 $G^{-1}$를 곱하면
 
 $$
 \theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y.
 $$
 
-비영 $v$에 대해 $v^\top\Phi^\top\Phi v=\|\Phi v\|^2>0$이므로 이차 목적함수는 엄격히 볼록하고 해는 유일해요. 다항 특징도 $\theta_0+\theta_1x+\theta_2x^2$처럼 모수에 선형이므로 선형 회귀예요.
+곱 순서는 $(2\times2)(2\times N)(N\times1)$이라 결과는 $2\times1$이에요. 목적함수의 Hessian $2G$가 양의 정부호이므로 구한 해는 유일한 전역 최소점이에요. 열종속이면 이 역행렬 공식과 유일성을 그대로 사용할 수 없어요.
+
+선형 회귀의 ‘선형’은 입력 $x$가 아니라 모수 $\theta$에 대한 말이에요. 예를 들어 특징을 $(1,x,x^2)^\top$로 바꾸면 예측은 $\theta_0+\theta_1x+\theta_2x^2$로 곡선이지만, 미지수인 각 계수가 일차로 더해지므로 여전히 모수에 선형이에요. 그때에는 $\Phi$가 $N\times3$이 되고 같은 유도를 적용해요.
 
 #### 완성 답과 검산
 
@@ -728,9 +932,9 @@ $\mathcal L(\theta_a)-\mathcal L(\theta_b)=N(\widehat R(\theta_a)-\widehat R(\th
 
 #### 설명을 닫고 다시 풀어요
 
-- 각 소문항에서 얻은 식을 다음 소문항의 첫 줄로 옮겨요.
-- 모델에서 시작해 최종 공식을 보지 않고 유도해요.
-- 독립성·차원·역행렬 조건을 설명하며 검산해요.
+- 조건부 Gaussian 한 개에서 시작해 곱 우도와 음의 로그를 유도해요.
+- 최적화에서 무엇이 고정이고 어떤 항을 생략하는지 설명해요.
+- 제곱노름을 전개해 정규방정식을 얻고 역행렬 조건을 말해요.
 
 **페이지 요약**
 
@@ -793,69 +997,95 @@ $-\log p(\theta\mid y,\Phi)=\frac1{2\sigma^2}\|y-\Phi\theta\|^2+\frac1{2\tau^2}\
 
 #### (a)
 
-Bayes 정리에서
+고정된 것은 관측 $y$, 특징행렬 $\Phi$, 잡음분산 $\sigma^2$, prior의 평균 $m_0$와 분산 $\tau^2$예요. 찾는 것은 $K\times1$ 계수벡터 $\theta$예요. Prior는 데이터를 보기 전의 모수 분포, likelihood는 주어진 모수에서 관측을 설명하는 밀도, posterior는 데이터를 반영한 모수 분포예요.
 
 $$
 p(\theta\mid y,\Phi)=\frac{p(y\mid\Phi,\theta)p(\theta)}{p(y\mid\Phi)}.
 $$
 
-분모는 모수를 적분한 값이므로 현재 최적화 변수 $\theta$에 의존하지 않아요. 따라서 분자의 곱을 최대화해도 같은 MAP를 얻어요.
+분모를 $\int p(y\mid\Phi,u)p(u)\,du$로 쓰면 $u$는 적분 뒤 사라지는 임시 변수예요. 따라서 분모는 지금 비교하는 $\theta$에 따라 달라지지 않아요. 고정된 양수로 나누어도 최대가 되는 위치는 같으므로 분자의 곱을 최대화해도 MAP가 같아요.
+
+그러나 분모를 없앤 곱이 곧 정규화된 사후밀도라는 뜻은 아니에요. 여기서 분모를 생략하는 이유는 사후밀도값 전체가 아니라 최대점 하나를 구하기 때문이에요.
 
 #### (b)
 
-(a)의 두 Gaussian 지수에 음의 로그를 적용해요.
+Gaussian의 지수는 공분산의 역행렬을 사용해요. $\Sigma_0=\tau^2I_K$라면 $\Sigma_0^{-1}=(1/\tau^2)I_K$이므로 prior 밀도는
 
 $$
--\log p(\theta\mid y,\Phi)=J=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac{\|\theta-m_0\|^2}{2\tau^2}+C.
+p(\theta)=(2\pi\tau^2)^{-K/2}\exp\!\left[-\frac{\|\theta-m_0\|^2}{2\tau^2}\right].
 $$
 
-두 분산은 고정값이고 $C$에만 정규화 상수와 evidence를 모았어요.
+따라서 사전분산이 분모에 들어가요. 큰 분산은 같은 거리에도 약한 벌점을, 작은 분산은 강한 벌점을 줘요. Likelihood의 지수에는 잡음분산 $\sigma^2$가 분모에 있어요. (a)의 곱에 음의 로그를 취하면 두 지수의 부호가 바뀌어 더해져요.
+
+$$
+J(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac{\|\theta-m_0\|^2}{2\tau^2}+C.
+$$
+
+$C$는 정규화 계수의 로그와 evidence의 로그를 모은 $\theta$ 무관 상수예요. 첫 항은 데이터에서의 오차, 둘째 항은 prior 중심으로부터의 제곱거리예요. $m_0$를 임의로 0으로 바꾸면 다른 prior를 푸는 것이므로 그대로 남겨요.
 
 #### (c)
 
-(b)에서 열 gradient는
+(b)를 $\theta$에 대해 미분해요. 제곱노름에서 나온 2가 분모의 2와 소거돼요.
 
 $$
-\nabla J=\frac{\Phi^\top(\Phi\theta-y)}{\sigma^2}+\frac{\theta-m_0}{\tau^2}.
+\nabla_\theta J=\frac{\Phi^\top\Phi\theta-\Phi^\top y}{\sigma^2}+\frac{\theta-m_0}{\tau^2}.
 $$
 
-0으로 놓고 양변에 $\sigma^2$를 곱하면
+이를 0으로 놓은 뒤 모든 항에 $\sigma^2$를 곱하면
 
 $$
-(\Phi^\top\Phi+\lambda I)\theta=\Phi^\top y+\lambda m_0,
+\Phi^\top\Phi\theta-\Phi^\top y+\frac{\sigma^2}{\tau^2}\theta-\frac{\sigma^2}{\tau^2}m_0=0.
 $$
 
-여기서 $\lambda=\sigma^2/\tau^2$예요.
+즉 사전분산은 여전히 분모에 있고 잡음분산이 분자로 올라와요. $\lambda=\sigma^2/\tau^2$로 이름을 붙이고 $\theta=I_K\theta$를 사용하면
+
+$$
+(\Phi^\top\Phi+\lambda I_K)\theta=\Phi^\top y+\lambda m_0.
+$$
+
+왼쪽의 $\lambda I_K$는 행렬과 벡터를 곱하기 위해 나타난 것이에요. 오른쪽의 $\lambda m_0$는 $-\lambda m_0$를 이항한 결과예요. 앞 문제에서 사전분산을 $b^2$라고 썼다면 여기의 $\tau^2$와 같은 역할이에요.
 
 #### (d)
 
-(c)의 역행렬을 곱하면
+(c)는 $K\times K$ 행렬과 $K\times1$ 벡터의 선형방정식이에요. 그 행렬이 가역이면 양변 왼쪽에 역행렬을 곱해요.
 
 $$
-\theta_{\mathrm{MAP}}=(\Phi^\top\Phi+\lambda I)^{-1}(\Phi^\top y+\lambda m_0).
+\theta_{\mathrm{MAP}}=(\Phi^\top\Phi+\lambda I_K)^{-1}(\Phi^\top y+\lambda m_0).
 $$
 
-(b)에 양수 $2\sigma^2$를 곱해도 최소점은 같으므로 상대 벌점은 $\lambda=\sigma^2/\tau^2$예요.
+가역성은 다음 소문항에서 $\lambda>0$으로 확인해요. 목적함수 관점에서도 (b)에 양수 $2\sigma^2$를 곱하면
+
+$$
+\|y-\Phi\theta\|^2+\lambda\|\theta-m_0\|^2+2\sigma^2C
+$$
+
+가 되어 같은 최소점을 가져요. $m_0=0$이면 익숙한 ridge 제곱벌점이에요. 잡음이 클수록 데이터의 상대 신뢰가 낮아져 $\lambda$가 커지고, prior 분산이 클수록 prior의 제약이 약해져 $\lambda$가 작아져요. 일반 공분산 $\Sigma_0$에서는 $\lambda I_K$ 대신 $\sigma^2\Sigma_0^{-1}$를 써야 해요.
 
 #### (e)
 
-(d)의 행렬을 $A$라 하면
+$\Phi$의 열이 종속이어도 Gram 행렬의 이차형식은 제곱노름이라 음수가 될 수 없어요. 문제는 어떤 비영 방향에서 0이 될 수 있다는 점이에요. $A=\Phi^\top\Phi+\lambda I_K$로 두고 모든 $v\ne0$를 생각하면
 
 $$
-v^\top Av=\|\Phi v\|^2+\lambda\|v\|^2>0\quad(v\ne0).
+v^\top Av=\|\Phi v\|^2+\lambda\|v\|^2.
 $$
 
-$\lambda>0$이면 첫 항이0이어도 둘째 항이 양수예요. 따라서 $A$는 양의 정부호이고 가역이며 MAP는 유일해요.
+첫 항은 0 이상이고, 둘째 항은 $\lambda>0$와 $\|v\|^2>0$ 때문에 반드시 양수예요. 따라서 합은 양수이고 $A$는 양의 정부호예요. 만약 $Av=0$인 비영 벡터가 있으면 $v^\top Av=0$이 되어 모순이므로 역행렬도 존재해요.
+
+또한 (b)의 Hessian은 $A/\sigma^2$이고 $\sigma^2>0$이므로 양의 정부호예요. 따라서 정지점은 유일한 전역 최소점, 즉 유일한 MAP예요. 여기서 열독립을 별도로 가정할 필요가 없는 이유는 $\lambda\|v\|^2$가 모든 비영 방향에 양의 곡률을 더하기 때문이에요.
 
 #### (f)
 
-$G=\begin{pmatrix}5&5\\5&5\end{pmatrix}$, $\Phi^\top y=(5,5)^\top$예요. (d)는
+수치 예의 $\Phi=\begin{pmatrix}1&1\\2&2\end{pmatrix}$는 두 열이 같아 열종속이에요. $y=(1,2)^\top$와 내적하면 $G=\begin{pmatrix}5&5\\5&5\end{pmatrix}$, $\Phi^\top y=(5,5)^\top$예요. $m_0=0$, $\lambda=1$을 넣으면
 
 $$
-\begin{pmatrix}6&5\\5&6\end{pmatrix}\theta=(5,5)^\top
+6\theta_1+5\theta_2=5,\qquad5\theta_1+6\theta_2=5.
 $$
 
-이므로 $\theta_{\mathrm{MAP}}=(5/11,5/11)^\top$예요. $\lambda=0$에서는 $\theta_1+\theta_2=1$인 모든 해가 최소제곱 해여서 유일하지 않아요. $m_0=0$에서 $\lambda\to\infty$이면 추정량은0으로 가요.
+두 식을 빼면 $\theta_1-\theta_2=0$이에요. 같은 값을 첫 식에 넣어 $11\theta_1=5$이므로 $\theta=(5/11,5/11)^\top$예요. 이 소문항의 두 계수는 $\theta_1,\theta_2$라는 표기를 따라요.
+
+$\lambda=0$이면 두 방정식 모두 $5(\theta_1+\theta_2)=5$가 돼요. 예측은 $(\theta_1+\theta_2)(1,2)^\top$이므로 합이 1인 모든 계수가 잔차 0을 만들어요. 따라서 최소제곱 해는 유일하지 않아요.
+
+일반 $\lambda>0$에서는 식의 차가 $\lambda(\theta_1-\theta_2)=0$이 되어 두 계수가 같고, $(10+\lambda)\theta_1=5$예요. 따라서 각 계수는 $5/(10+\lambda)$이며 $\lambda\to\infty$이면 둘 다 prior 평균 0으로 가요. 이 대칭 예의 성분별 감소를 모든 ridge 문제의 성분별 법칙으로 일반화하지 않아요.
 
 #### 완성 답과 검산
 
@@ -885,13 +1115,13 @@ $(6+5)5/11=5$로 양 행을 만족해요. 일반 $\lambda>0$에서는 두 성분
 
 #### 여기서 헷갈리기 쉬워요
 
-$m_0\ne0$일 때 우변의 $\lambda m_0$를 빠뜨리지 않아요. 정규화는 계수를 prior 쪽으로 제약하지만 시험·새 데이터 오차가 항상 좋아진다는 보장은 없어요. 지나치게 큰 $\lambda$는 데이터 정보를 거의 무시해요.
+$m_0\ne0$일 때 우변의 $\lambda m_0$를 빠뜨리지 않아요. 규제(regularization)는 계수를 prior 쪽으로 제약하지만 시험·새 데이터 오차가 항상 좋아진다는 보장은 없어요. 지나치게 큰 $\lambda$는 데이터 정보를 거의 무시해요.
 
 #### 설명을 닫고 다시 풀어요
 
-- 각 소문항에서 얻은 식을 다음 소문항의 첫 줄로 옮겨요.
-- 모델에서 시작해 최종 공식을 보지 않고 유도해요.
-- 독립성·차원·역행렬 조건을 설명하며 검산해요.
+- 두 분산의 분모를 남긴 미분식에서 $\lambda$와 $\lambda m_0$를 유도해요.
+- 열종속이어도 양의 벌점이 유일성을 보장하는 이유를 임의 방향으로 증명해요.
+- 수치 예의 두 식을 빼서 같은 계수를 얻고 벌점의 두 극한을 설명해요.
 
 **페이지 요약**
 
@@ -955,69 +1185,91 @@ $g(\theta)=p(\theta)p(2\mid\theta)p(0\mid\theta)$부터 적어요. 이 곱의 �
 
 #### (a)
 
-Prior와 두 likelihood의 곱이에요.
+여기서 $\theta$는 벡터가 아니라 스칼라 계수예요. 관측은 $(x_1,y_1)=(1,2)$, $(x_2,y_2)=(1,0)$이고 모형은 $y_n=x_n\theta+\epsilon_n$이에요. 입력이 둘 다 1이므로 각 조건부 평균은 $\theta$예요. 두 출력값을 평균이나 prior 평균과 혼동하지 않아요.
+
+Prior와 두 관측의 조건부 밀도를 곱해 정규화 전의 함수를 만들어요.
 
 $$
 g(\theta)=\mathcal N(\theta\mid1,2)\mathcal N(2\mid\theta,2)\mathcal N(0\mid\theta,2).
 $$
 
-따라서
+세 분산은 모두 2라서 일반 Gaussian 지수의 분모 $2v$가 $2\cdot2=4$예요. 각각의 앞 계수는 $1/\sqrt{4\pi}$이므로 정확한 곱은
 
 $$
-g(\theta)\propto\exp\!\left[-\frac{(\theta-1)^2+(2-\theta)^2+\theta^2}{4}\right].
+g(\theta)=(4\pi)^{-3/2}\exp\!\left[-\frac{(\theta-1)^2+(2-\theta)^2+\theta^2}{4}\right].
 $$
 
-독립 관측이므로 두 likelihood를 곱했어요.
+모양만 비교할 때는 $\theta$와 무관한 앞 계수를 생략해 비례 기호를 쓸 수 있어요. 두 likelihood를 곱한 근거는 $\theta$와 입력이 주어졌을 때 관측 잡음이 독립이라는 조건이에요. $g$의 적분은 아직 1이라고 가정하지 않아요.
 
 #### (b)
 
-(a)의 세 제곱을 전개하면 $3\theta^2-6\theta+5$예요.
+(a)의 제곱항을 각각 펼쳐요. $(\theta-1)^2=\theta^2-2\theta+1$, $(2-\theta)^2=\theta^2-4\theta+4$, 마지막은 $\theta^2$이에요. 따라서 합은 $3\theta^2-6\theta+5$예요.
+
+문제가 요구한 $-\frac12(A\theta^2-2b\theta+c)$와 비교하려면 바깥의 $-1/2$를 먼저 맞춰야 해요.
 
 $$
 -\frac{3\theta^2-6\theta+5}{4}=-\frac12\left(\frac32\theta^2-3\theta+\frac52\right).
 $$
 
-따라서 $A=3/2$, $b=3/2$, $c=5/2$예요.
+이차항에서 $A=3/2$, 일차항에서 $-2b=-3$이므로 $b=3/2$, 상수항에서 $c=5/2$예요. 여기의 $b$는 이차식을 정리하기 위한 계수로, 앞 문항에서 사전분산을 표시한 $b^2$와는 다른 역할이에요. $A$가 정밀도 역할을 하는 것도 바깥의 $-1/2$까지 맞췄기 때문이에요.
 
 #### (c)
 
-(b)에서
+(b)의 이차식을 평균 중심의 제곱으로 바꿔요.
 
 $$
-A\theta^2-2b\theta+c=\frac32(\theta-1)^2+1.
+A\theta^2-2b\theta+c=\frac32(\theta^2-2\theta)+\frac52,
 $$
 
-$\theta$와 무관한 항을 정규화 인자로 흡수하면 평균은 $b/A=1$, 분산은 $A^{-1}=2/3$이에요.
-
 $$
-p(\theta\mid D)=\sqrt{\frac3{4\pi}}\exp[-3(\theta-1)^2/4].
+=\frac32\big[(\theta-1)^2-1\big]+\frac52=\frac32(\theta-1)^2+1.
 $$
 
-적분1인 Gaussian 밀도로 정규화했어요.
+따라서 전체 지수는 $-\frac34(\theta-1)^2-\frac12$예요. 상수 $e^{-1/2}$는 정규화할 때 앞 계수와 함께 나누어지므로 모양은 $e^{-3(\theta-1)^2/4}$예요. 일반식 $e^{-(\theta-\mu)^2/(2v)}$와 비교해 $\mu=1$, $1/(2v)=3/4$를 얻어요. 역수를 취하면 $2v=4/3$이므로 $v=2/3$이에요.
+
+정규화된 밀도의 앞 계수도 계산해요.
+
+$$
+\frac1{\sqrt{2\pi v}}=\frac1{\sqrt{2\pi\cdot2/3}}=\frac1{\sqrt{4\pi/3}}=\sqrt{\frac3{4\pi}}.
+$$
+
+그러므로 $p(\theta\mid D)=\sqrt{3/(4\pi)}\exp[-3(\theta-1)^2/4]$이고 $\theta\mid D\sim\mathcal N(1,2/3)$예요. 적분 $\int e^{-3(\theta-1)^2/4}d\theta=\sqrt{4\pi/3}$과 앞 계수를 곱하면 1이 되어 정규화도 확인돼요. 사후 정밀도 $3/2$는 prior의 $1/2$와 두 관측의 $1/2+1/2$를 더한 값이에요.
 
 #### (d)
 
-(c)에서 $x_*=2$예요. 상수배의 평균은2배, 분산은4배이므로
+$x_*=2$는 새 입력이고, $f_*=x_*\theta=2\theta$는 잡음 없는 잠재 함수값이에요. 여기서는 $\theta$를 한 점으로 고정하지 않고 (c)의 사후분포를 가진 확률변수로 다뤄요.
 
 $$
-E[f_*\mid D]=2,\quad\operatorname{Var}(f_*\mid D)=8/3.
+E[f_*\mid D]=2E[\theta\mid D]=2\cdot1=2.
 $$
 
-Gaussian의 선형변환이어서 $f_*\mid D\sim\mathcal N(2,8/3)$예요.
+분산은 평균으로부터의 거리의 제곱을 평균낸 값이에요. 중심화하면 $f_*-2=2(\theta-1)$이므로
+
+$$
+\operatorname{Var}(f_*\mid D)=E[\{2(\theta-1)\}^2\mid D]=4\operatorname{Var}(\theta\mid D)=4\cdot\frac23=\frac83.
+$$
+
+평균에는 2를 곱하지만 분산에는 $2^2=4$를 곱하는 이유가 이 제곱이에요. Gaussian의 상수배는 Gaussian이므로 $f_*\mid D\sim\mathcal N(2,8/3)$예요. 아직 새 관측의 잡음은 더하지 않았어요.
 
 #### (e)
 
-(d)의 $f_*$에 평균0, 분산2의 독립 잡음을 더해요. 교차 공분산은0이므로
+실제로 관측할 값은 $y_*=f_*+\epsilon_*$예요. 새 잡음은 평균 0, 분산 2이며 사후 모수와 독립이라는 가정을 사용해요. 따라서 평균은 $E[y_*\mid D]=2+0=2$예요.
+
+합의 분산은 일반적으로 두 분산과 교차공분산의 2배를 더한 것이에요. 여기서는 독립성 때문에 교차항이 0이 되어
 
 $$
-E[y_*\mid D]=2,\quad\operatorname{Var}(y_*\mid D)=8/3+2=14/3.
+\operatorname{Var}(y_*\mid D)=\frac83+2=\frac83+\frac63=\frac{14}3.
 $$
 
-독립 Gaussian의 합이어서 $y_*\mid D\sim\mathcal N(2,14/3)$예요.
+독립 Gaussian의 합이므로 $y_*\mid D\sim\mathcal N(2,14/3)$예요. $8/3$은 계수의 불확실성이 새 입력으로 전달된 부분, 2는 계수를 정확히 알아도 남는 새 관측 잡음이에요. 적분식으로는 $p(y_*\mid D)=\int p(y_*\mid\theta)p(\theta\mid D)d\theta$이며, 이 적분이 모수 불확실성을 평균내는 연산이에요.
 
 #### (f)
 
-(c)의 Gaussian은 평균에서 최대이므로 $\theta_{\mathrm{MAP}}=1$이에요. 이 값을 고정하면 $y_*=2+\epsilon_*$여서 $\mathcal N(2,2)$예요. (e)와 평균은 같지만 분산은 $8/3$ 작아요. 고정 대입은 $x_*^2\operatorname{Var}(\theta\mid D)$라는 모수 불확실성을 제거해요.
+(c)의 사후밀도는 $\exp[-3(\theta-1)^2/4]$에 비례해요. 제곱이 0인 $\theta=1$에서 가장 높으므로 $\theta_{\mathrm{MAP}}=1$이에요.
+
+이 한 점을 고정 대입하면 $f_*=2\cdot1=2$는 더 이상 무작위가 아니에요. 그러나 새 관측 잡음까지 사라지는 것은 아니므로 $y_*=2+\epsilon_*$이고 $y_*\mid\theta_{\mathrm{MAP}}\sim\mathcal N(2,2)$예요.
+
+전체 사후예측은 $\mathcal N(2,14/3)$, MAP 대입 예측은 $\mathcal N(2,2)$예요. 이 예에서는 평균이 같지만 분산 차이는 $14/3-2=8/3$이에요. 이는 (d)의 잠재 분산과 같아요. MAP가 모수 불확실성을 한 점으로 바꾸었기 때문에 빠진 부분이에요. 평균 예측 하나를 묻는 문제와 예측분포 전체를 묻는 문제를 구별해요.
 
 #### 완성 답과 검산
 
@@ -1051,9 +1303,9 @@ prior 분산 2를 precision 2로 쓰지 않아요. $x_*=2$를 분산에 곱할 �
 
 #### 설명을 닫고 다시 풀어요
 
-- 각 소문항에서 얻은 식을 다음 소문항의 첫 줄로 옮겨요.
-- 모델에서 시작해 최종 공식을 보지 않고 유도해요.
-- 독립성·차원·역행렬 조건을 설명하며 검산해요.
+- 세 Gaussian 인자의 평균·분산과 지수 분모 4의 이유를 말해요.
+- 제곱 전개·완전제곱·계수 비교로 사후분산을 다시 구해요.
+- 잠재값·새 관측·MAP 고정 대입의 세 분산을 구별해요.
 
 **페이지 요약**
 
@@ -1116,63 +1368,79 @@ $p(y\mid M_j)=\int p(y\mid\theta,M_j)p(\theta\mid M_j)d\theta$를 적고 두 Gau
 
 #### (a)
 
-모델이 정해지면 아직 관측을 반영하지 않은 모수 분포로 평균내요.
+$M_1,M_2$는 모형의 이름이고 $j$는 그 번호예요. 이 문항에서 $\theta,y$는 모두 스칼라예요. $v_j$는 모형 $M_j$ 아래 모수의 사전분산이고, 관측 잡음의 분산은 별도로 1이에요.
+
+Evidence는 ‘계수를 어느 값으로 정했을 때’의 적합도가 아니라 ‘이 모형의 prior에서 가능한 모든 계수를 고려했을 때’의 관측 밀도예요. 우도에 prior를 가중치로 곱해 적분해요.
 
 $$
-p(y\mid M_j)=\int\mathcal N(y\mid\theta,1)\mathcal N(\theta\mid0,v_j)d\theta.
+p(y\mid M_j)=\int_{-\infty}^{\infty}\mathcal N(y\mid\theta,1)\mathcal N(\theta\mid0,v_j)\,d\theta.
 $$
 
-Posterior는 이미 $y$를 반영한 분포여서 이 적분의 prior를 대신할 수 없어요.
+적분 중에는 $y$를 고정하고 $\theta$를 움직여요. 적분이 끝나면 $\theta$는 사라지고 $y$의 함수가 남아요. 이를 모수의 주변화라고 해요. Prior 대신 posterior를 넣으면 이미 데이터를 반영한 다른 양을 계산하게 돼요. 최적의 한 계수만 골라 우도를 계산하는 ML과도 다른 연산이에요.
 
 #### (b)
 
-(a)의 지수에 등장하는 제곱합은
+두 Gaussian의 일반식을 대입하면 앞 계수는 $1/(\sqrt{2\pi}\sqrt{2\pi v_j})=1/(2\pi\sqrt{v_j})$예요. 지수 안의 제곱합을 먼저 전개해요.
 
 $$
-(y-\theta)^2+\theta^2/v_j=A(\theta-y/A)^2+\frac{y^2}{1+v_j},
+(y-\theta)^2+\frac{\theta^2}{v_j}=\left(1+\frac1{v_j}\right)\theta^2-2y\theta+y^2.
 $$
 
-여기서 $A=1+1/v_j$예요. 곱의 앞 계수는 $1/(2\pi\sqrt{v_j})$이고 제곱항 적분은 $\sqrt{2\pi/A}$예요. 따라서
+$A=1+1/v_j>0$로 두면 완전제곱은 $A(\theta-y/A)^2+y^2-y^2/A$예요. $1/A=v_j/(1+v_j)$이므로 남은 상수는 $y^2(1-v_j/(1+v_j))=y^2/(1+v_j)$예요.
 
 $$
-p(y\mid M_j)=\frac{\exp[-y^2/(2(1+v_j))]}{\sqrt{2\pi(1+v_j)}}.
+p(y\mid M_j)=\frac{e^{-y^2/[2(1+v_j)]}}{2\pi\sqrt{v_j}}\int e^{-A(\theta-y/A)^2/2}\,d\theta.
 $$
 
-즉 관측의 주변분포는 $\mathcal N(0,1+v_j)$예요.
+적분 안은 분산 $1/A$인 Gaussian에서 앞 계수를 뺀 모양이에요. 정규화된 밀도의 적분이 1이므로 이 적분은 $\sqrt{2\pi/A}$예요. 따라서 앞 계수까지 정리하면
+
+$$
+\frac1{2\pi\sqrt{v_j}}\sqrt{\frac{2\pi}{A}}=\frac1{\sqrt{2\pi v_jA}}=\frac1{\sqrt{2\pi(1+v_j)}}.
+$$
+
+결국 $p(y\mid M_j)=\frac1{\sqrt{2\pi(1+v_j)}}e^{-y^2/[2(1+v_j)]}$이며 $y\mid M_j\sim\mathcal N(0,1+v_j)$예요. Evidence에서는 모형에 따라 앞 계수가 달라지므로 지수 모양만 남기면 안 돼요.
 
 #### (c)
 
-(b)에서 $v_1=1,v_2=4$를 넣으면 관측 분산은2와5예요. $y=0$에서는 지수항이1이므로
+이제 $v_1=1$, $v_2=4$를 (b)에 넣어요. 관측의 분산은 prior 분산과 잡음분산을 더한 $1+v_1=2$, $1+v_2=5$예요. $y=0$이면 $e^{-0^2/[2(1+v_j)]}=1$이라 앞 계수만 남아요.
 
 $$
-p(0\mid M_1)=1/\sqrt{4\pi},\quad p(0\mid M_2)=1/\sqrt{10\pi}.
+p(0\mid M_1)=\frac1{\sqrt{2\pi\cdot2}}=\frac1{\sqrt{4\pi}},
 $$
+
+$$
+p(0\mid M_2)=\frac1{\sqrt{2\pi\cdot5}}=\frac1{\sqrt{10\pi}}.
+$$
+
+이 수치는 $P(y=0\mid M_j)$라는 한 점의 확률이 아니라 0에서 평가한 확률밀도예요. 연속분포에서 정확히 한 점의 확률은 0이며, 구간의 확률은 밀도를 적분해 구해요. 여기서는 같은 관측값에서 두 모형의 밀도를 비교해요.
 
 #### (d)
 
-(c)의 밀도 비는
+Bayes factor의 아래첨자 12는 분자에 $M_1$, 분모에 $M_2$를 놓는 순서예요. (c)의 두 evidence를 나누면 분수의 나눗셈 때문에 분모의 역수를 곱해요.
 
 $$
-B_{12}=\sqrt{5/2}>1.
+B_{12}=\frac{1/\sqrt{4\pi}}{1/\sqrt{10\pi}}=\frac{\sqrt{10\pi}}{\sqrt{4\pi}}=\sqrt{\frac52}.
 $$
 
-동일한 관측에 더 큰 evidence를 주는 $M_1$을 데이터가 지지해요. 이는 모델 prior를 아직 반영하지 않은 비교예요.
+이는 약 1.581이고 1보다 커요. 따라서 관측 $y=0$ 자체는 $M_1$에 더 큰 상대 지지를 줘요. 두 모형의 관측 평균은 모두 0이지만 더 좁은 분포인 $M_1$이 중심 0에 더 큰 밀도를 부여했기 때문이에요. 아직 모형 자체의 사전확률은 반영하지 않았으므로 최종 선택은 (e)에서 결정해요.
 
 #### (e)
 
-Bayes 정리의 공통 분모 $p(y)$가 소거돼요.
+모형 prior $P(M_1)=1/3$, $P(M_2)=2/3$는 ‘어느 모형인가’의 확률이에요. 모수 prior $p(\theta\mid M_j)$와 대상이 달라요. Bayes 정리에서 두 모형의 공통 분모 $p(y)$를 나누어 소거하면
 
 $$
-\frac{P(M_1\mid y)}{P(M_2\mid y)}=\frac{p(y\mid M_1)}{p(y\mid M_2)}\frac{P(M_1)}{P(M_2)}.
+\frac{P(M_1\mid y)}{P(M_2\mid y)}=B_{12}\frac{P(M_1)}{P(M_2)}.
 $$
 
-Prior odds는 $1/2$이므로 posterior odds는 $O=\sqrt{5/2}/2<1$이에요.
+Prior odds는 $(1/3)/(2/3)=1/2$예요. 따라서 posterior odds $O=\sqrt{5/2}/2\approx0.79057<1$이에요. 데이터는 $M_1$ 쪽으로 비율을 올렸지만 시작 비율이 $1/2$였으므로 사후에도 $M_2$의 확률이 더 커요.
+
+오즈 $O$는 확률 자체가 아니에요. $p=P(M_1\mid0)$라 두면 두 모형뿐이므로 $P(M_2\mid0)=1-p$이고 $O=p/(1-p)$예요. 이를 풀면 $p=O/(1+O)$예요.
 
 $$
-P(M_1\mid0)=\frac O{1+O}=\frac{\sqrt{5/2}}{2+\sqrt{5/2}}\simeq0.44152.
+P(M_1\mid0)=\frac{\sqrt{5/2}}{2+\sqrt{5/2}}\approx0.44152.
 $$
 
-사후확률은 $M_2$가 더 커요.
+나머지 $P(M_2\mid0)\approx0.55848$이므로 사후확률이 큰 모형을 고르면 $M_2$예요. Bayes factor와 최종 사후 선택이 서로 다른 단계를 답한다는 점을 확인해요.
 
 #### 완성 답과 검산
 
@@ -1202,9 +1470,9 @@ Bayes factor가 1보다 크다고 곧바로 $M_1$의 사후확률이 더 크다�
 
 #### 설명을 닫고 다시 풀어요
 
-- 각 소문항에서 얻은 식을 다음 소문항의 첫 줄로 옮겨요.
-- 모델에서 시작해 최종 공식을 보지 않고 유도해요.
-- 독립성·차원·역행렬 조건을 설명하며 검산해요.
+- prior로 적분하는 이유와 사라지는 변수를 말해요.
+- 완전제곱 뒤 남은 상수와 앞 계수까지 정리해 evidence를 구해요.
+- Bayes factor에 prior odds를 곱한 뒤 오즈를 확률로 바꿔요.
 
 **페이지 요약**
 
@@ -1270,79 +1538,101 @@ $r=y-\Phi\widehat\theta$와 $\|r-t\Phi h\|^2$를 적고, $t$에 대한 미분부
 
 #### (a)
 
-$r=y-\Phi\widehat\theta$로 두면 거리제곱은
+$\theta$는 계수공간 $\mathbb R^K$의 벡터이고, $\Phi\theta$는 예측공간 $\mathbb R^N$의 벡터예요. 수치 예에서는 $K=2,N=3$이므로 두 공간의 차원이 달라요. $\widehat\theta$는 최소점 후보, $h\in\mathbb R^K$는 계수를 움직일 방향, $t\in\mathbb R$는 그 방향으로 움직일 양이에요.
+
+계수를 $\widehat\theta+th$로 바꾸면 예측은 $\Phi\widehat\theta+t\Phi h$가 돼요. $r=y-\Phi\widehat\theta$라 두면 새로운 잔차는 $r-t\Phi h$예요. 거리제곱을 전개하면
 
 $$
-\|r-t\Phi h\|^2=\|r\|^2-2t h^\top\Phi^\top r+t^2\|\Phi h\|^2.
+F(t)=\|r\|^2-2t h^\top\Phi^\top r+t^2\|\Phi h\|^2.
 $$
 
-$t=0$의 도함수는 $-2h^\top\Phi^\top r$예요. 모든 $h$에서0이므로
+최소점에서 어떤 방향으로도 일차적으로 줄어들 수 없으므로 모든 $h$에 대해 $F'(0)=-2h^\top\Phi^\top r=0$이어야 해요. $a=\Phi^\top r$라 두고 $h=a$도 선택할 수 있으므로 $a^\top a=0$, 따라서 $a=0$이에요.
 
 $$
 \Phi^\top r=0.
 $$
 
-즉 잔차가 모든 열에 직교해요.
+이 식의 각 성분은 ‘특징행렬의 한 열과 잔차의 내적이 0’이라는 뜻이에요. 그러므로 잔차는 열공간 전체에 직교해요. 지금은 최소점의 필요조건을 얻었고 (e)에서 충분성도 확인해요.
 
 #### (b)
 
-(a)에 잔차를 대입하면
+(a)의 직교조건에 잔차 정의를 대입해요.
 
 $$
-\Phi^\top(y-\Phi\widehat\theta)=0.
+\Phi^\top(y-\Phi\widehat\theta)=0\quad\Rightarrow\quad\Phi^\top\Phi\widehat\theta=\Phi^\top y.
 $$
 
-따라서 $G\widehat\theta=\Phi^\top y$, $G=\Phi^\top\Phi$예요. 열독립으로 $G$가 가역이므로
+이것이 정규방정식이에요. 왼쪽에서 $N$차원의 잔차를 $K$개의 열과 내적하여 계수공간의 조건 $K$개로 바꾼 셈이에요. $G=\Phi^\top\Phi$는 $K\times K$이고, 주어진 열독립 조건에서 비영 $v$에 대해 $v^\top Gv=\|\Phi v\|^2>0$이므로 가역이에요.
+
+양변 왼쪽에 $G^{-1}$를 곱하면 $G^{-1}G=I_K$이므로
 
 $$
-\widehat\theta=G^{-1}\Phi^\top y.
+\widehat\theta=(\Phi^\top\Phi)^{-1}\Phi^\top y.
 $$
+
+여기서 직사각형 $\Phi$ 자체를 역행렬로 ‘나눈’ 것이 아니에요. 역행렬을 취한 대상은 열독립으로 가역성이 확인된 정사각 Gram 행렬이에요. 곱 순서는 $(K\times K)(K\times N)(N\times1)$이에요.
 
 #### (c)
 
-(b)의 추정식을 예측식에 넣어요.
+(b)의 결과는 계수이고, 열공간 위의 점을 얻으려면 앞에 $\Phi$를 한 번 더 곱해야 해요.
 
 $$
-\widehat y=\Phi G^{-1}\Phi^\top y,\quad P=\Phi G^{-1}\Phi^\top.
+\widehat y=\Phi\widehat\theta=\Phi G^{-1}\Phi^\top y=Py,\qquad P=\Phi G^{-1}\Phi^\top.
 $$
 
-$\Phi$가 $N\times K$이면 $P$는 $N\times N$이에요. $G^{-1}$가 대칭이라 $P^\top=P$이고
+계수 추정 행렬 $G^{-1}\Phi^\top$는 $K\times N$으로 관측을 계수로 옮겨요. 투영행렬 $P$는 $N\times N$으로 관측을 같은 관측공간 안의 예측벡터로 옮겨요. 수치 예에서는 각각 $2\times3$, $3\times3$이에요.
+
+전치는 곱 순서를 뒤집어요. $G^\top=G$이면 $(G^{-1})^\top=(G^\top)^{-1}=G^{-1}$이므로
 
 $$
-P^2=\Phi G^{-1}G G^{-1}\Phi^\top=P.
+P^\top=(\Phi G^{-1}\Phi^\top)^\top=\Phi G^{-1}\Phi^\top=P.
 $$
 
-추정량 $\widehat\theta$의 차원 $K\times1$과 구별해요.
+또한 두 $P$ 사이의 $\Phi^\top\Phi$를 $G$로 묶으면
+
+$$
+P^2=\Phi G^{-1}(\Phi^\top\Phi)G^{-1}\Phi^\top=\Phi G^{-1}GG^{-1}\Phi^\top=P.
+$$
+
+대칭성은 유클리드 직교투영의 성질이고, 멱등성은 이미 투영한 점을 다시 투영해도 그대로라는 뜻이에요. 실제로 $P\Phi=\Phi$라 열공간의 모든 점이 고정돼요.
 
 #### (d)
 
-$G=\operatorname{diag}(3,2)$, $\Phi^\top y=(4,2)^\top$예요. 따라서 $\widehat\theta=(4/3,1)^\top$이고
+주어진 $\Phi$의 열은 $(1,1,1)^\top$, $(0,1,-1)^\top$이고 $y=(2,2,0)^\top$예요. 각 열의 제곱합과 내적을 계산하면
+
+$$
+G=\begin{pmatrix}1+1+1&0+1-1\\0+1-1&0+1+1\end{pmatrix}=\begin{pmatrix}3&0\\0&2\end{pmatrix},
+$$
+
+$$
+\Phi^\top y=\begin{pmatrix}2+2+0\\0\cdot2+1\cdot2-1\cdot0\end{pmatrix}=\begin{pmatrix}4\\2\end{pmatrix}.
+$$
+
+$G^{-1}=\operatorname{diag}(1/3,1/2)$를 곱하면 $\widehat\theta=(4/3,1)^\top$예요. 투영행렬은 열의 외적으로도 계산할 수 있어요. $a=(1,1,1)^\top$, $b=(0,1,-1)^\top$라 두면 $P=\frac13aa^\top+\frac12bb^\top$예요. 예를 들어 $P_{22}=1/3+1/2=5/6$, $P_{23}=1/3-1/2=-1/6$이에요. 전체는
 
 $$
 P=\frac16\begin{pmatrix}2&2&2\\2&5&-1\\2&-1&5\end{pmatrix}.
 $$
 
-$$
-\widehat y=(4/3,7/3,1/3)^\top,\quad r=(2/3,-1/3,-1/3)^\top.
-$$
+계수를 각 행에 넣으면 예측은 $\widehat y=(4/3,4/3+1,4/3-1)^\top=(4/3,7/3,1/3)^\top$이에요. 잔차는 각 관측에서 이를 빼서 $r=(2/3,-1/3,-1/3)^\top$예요. 따라서 $\mathrm{SSE}=(2/3)^2+(-1/3)^2+(-1/3)^2=6/9=2/3$이에요.
 
-열별 내적은 $2/3-1/3-1/3=0$과 $-1/3+1/3=0$이에요.
+직교도 직접 확인해요. 첫 열과의 내적은 $2/3-1/3-1/3=0$, 둘째 열과의 내적은 $0-1/3+1/3=0$이므로 $\Phi^\top r=0$이에요.
 
 #### (e)
 
-$\widehat y-u$는 열공간 안에 있어 (a)의 $r$와 직교해요.
+열공간의 임의의 다른 점을 $u=\Phi\beta$로 두어요. 예측 $\widehat y=\Phi\widehat\theta$와의 차이는 $\widehat y-u=\Phi(\widehat\theta-\beta)$라 역시 열공간 안에 있어요. (a)의 잔차는 그 공간에 직교하므로
 
 $$
-y-u=r+(\widehat y-u).
+r^\top(\widehat y-u)=(\Phi^\top r)^\top(\widehat\theta-\beta)=0.
 $$
 
-내적 교차항이0이므로
+$y-u=(y-\widehat y)+(\widehat y-u)=r+(\widehat y-u)$로 나누고 노름을 제곱해요. 일반적으로는 교차항 $2r^\top(\widehat y-u)$가 있지만 방금 확인한 직교성 때문에 사라져요.
 
 $$
 \|y-u\|^2=\|r\|^2+\|\widehat y-u\|^2\ge\|r\|^2.
 $$
 
-등호는 $u=\widehat y$일 때뿐이므로 이 점이 유일한 최근접점이에요. 필요조건에서 시작한 (a)의 논증에 충분성도 더했어요.
+제곱노름은 음수가 될 수 없으므로 어떤 $u$도 $\widehat y$보다 가까울 수 없어요. 등호는 $\|\widehat y-u\|^2=0$, 즉 $u=\widehat y$일 때만 성립하므로 최근접 예측점은 유일해요. 수치 예에서 최소 거리제곱은 (d)의 $2/3$이에요. 이 기하학적 논증은 임의의 $u$ 전체에 적용되므로 몇 점을 대입한 확인보다 강한 최소성 증명이에요. 계수의 유일성까지 얻는 데에는 열독립 조건을 함께 사용해요.
 
 #### 완성 답과 검산
 
@@ -1372,9 +1662,9 @@ $P$를 계수 추정 행렬 $(\Phi^\top\Phi)^{-1}\Phi^\top$와 혼동하지 않�
 
 #### 설명을 닫고 다시 풀어요
 
-- 각 소문항에서 얻은 식을 다음 소문항의 첫 줄로 옮겨요.
-- 모델에서 시작해 최종 공식을 보지 않고 유도해요.
-- 독립성·차원·역행렬 조건을 설명하며 검산해요.
+- 계수와 예측의 공간을 구분하고 h와 t의 역할을 말해요.
+- 모든 h에서 방향 미분이 0이면 직교조건을 얻는 이유를 증명해요.
+- 투영행렬의 대칭·멱등성과 임의 u에 대한 최소거리 논증을 다시 써요.
 
 **페이지 요약**
 

@@ -1,8 +1,4 @@
-# 원문·PDF 시각 대조 (2026-10-19 개정)
-검토자 root. 현재 범위 STT/1019 머러기.md 244–258 및 312–314 재독.
-실제 MML PDF298–300(ML),307–309(MAP/ridge),312–314(posterior 완전제곱/예측),318–320(evidence/투영)을 새로 추출·읽었다. Lecture04 rev_HO PDF14/17/23도 실제 재렌더/열람했다.
-실제 시각 열람: MML300,308,314,318,320 및 정확한 Lecture04 rev_HO14,17,23. 이미지 RUN/source-*.png. 과제 PDF3–9 텍스트 재독; 1–5는 기존 입력과 픽셀 동일.
-각 회차6–10은 교과서와 강의 공식을 연결한 새 유도형 문제이며 원 교과서의 문항을 그대로 옮긴 것으로 표시하지 않았다.
-2회6번은 1019의 알려진 분산 스칼라 선형회귀로 교체. 이전 미지분산 경계 문제의 출처 연결 문제도 사라졌다. ML공식 MML300/319, 투영320과 STT248–258을 대조했다.
-현재 회차 문제지10쪽·해설지10쪽 전부 렌더하여 root가 시각 확인했다. 양식16:9(1440×810pt), 하단 흰 여백 유지. 잘림·겹침·누락 없음. 전체 비교시트와 긴6/8/10 풀이 확대본 RUN/round1/에 있다.
-이전 pagination-stress.json은 원 생성기의 과거 별도 긴문항 검사 기록이며 현재 PDF 검수의 대용으로 사용하지 않았다. 새 결과는 pdf-validation.json 및 pdf-pixel-comparison.json이다.
+# 원문·이론 대조 (2026-10-20)
+원 예상문제 PDF의 10페이지(p1~p10)와 문제 전용 blind-input.html 및 질문 조건을 대조했다. 각 문항의 조건·소문항 수·표기·수치는 그대로다. expansion-problems-1~5.png는 원 PDF 렌더링이다.
+MML PDF p46 선형결합/독립, p155 벡터 출력의 미분과 Jacobian, p207 Gaussian 곱/변환, p302 특징벡터의 전치를 행으로 놓는 특징행렬, p308 ridge, p196 공분산/교차공분산, p312 posterior/evidence, p319 주변우도/직교투영, p88 투영의 멱등성을 시각 대조했다. Lecture04 PDF p17의 evidence 적분 및 posterior odds를 대조했다. expansion-theory-1~5.png에 실제 페이지를 보존했다.
+원본에서 MML의 gradient 행 표기와 달리 이 시험은 열 gradient를 명시하므로 해당 시험의 약속을 따랐다. 새 문항은 blueprint에 명시된 theory application이며 교재와 같은 수치를 요구하지 않는다. Gaussian 둘째 인수는 분산, prior의 역공분산과 잡음분산 비율, 독립성 및 열독립 적용 조건을 본문에서 확인했다. 원 문제·답안 PDF는 재생성하지 않았다.
