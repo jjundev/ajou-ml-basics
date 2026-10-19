@@ -357,7 +357,20 @@
     </div>
     <section id="s0"><h2>0. 큰 그림: 왜 베이지안인가</h2>
 <article class="topic" id="s0-factory"><h3>ML · MAP · 풀리 베이지안: 장군님께 보고하기</h3><div class="tags"><span class="tag date">1007 수업</span><span class="tag slide">L04 s5 · L03 s22</span></div>
-  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+  <div class="layer formal" data-learning-map="v1"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 데이터를 본 뒤의 파라미터 분포를 실제로 구하려 해요. 가우시안을 쓰면 이 계산을 평균과 공분산으로 정리할 수 있어요.</p>
+<p data-map="bridge">ML은 고정된 미지의 파라미터를 추정해요. MAP과 FB는 사전분포를 두지만, MAP은 최고점 하나를 고르고 FB는 분포 전체를 유지해요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>ML</td><td>데이터의 우도 최대화</td><td>파라미터 하나</td></tr>
+<tr><td>MAP</td><td>우도와 사전분포로 최고점 선택</td><td>파라미터 하나</td></tr>
+<tr><td>FB</td><td>사후분포를 계산하고 예측에 반영</td><td>평균과 공분산을 포함한 분포</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> 가우시안 사후분포를 구하면 평균과 공분산이 핵심 결과예요. 이 경우에 한해 사후평균과 MAP 위치가 같아요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 우도와 사전분포의 곱을 펼치면 지수 안의 이차식이 돼요. 완전제곱과 계수 비교로 새 가우시안의 평균·공분산을 읽으려는 것이 오늘 계산의 목적이에요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 파라미터에 관한 가우시안들의 곱은 정규화 상수를 제외하면 가우시안 모양이에요. 곱 자체가 이미 적분값 1인 밀도라고 가정하면 안 돼요.</p>
+<p>이어서 읽기: <a href="#s0-predictive">θ를 넣었다 빼기: 사후예측분포</a> · <a href="#s3-product-matrix">행렬판 곱과 스칼라와의 대응</a> · <a href="#s4-posterior">사후분포도 가우시안이다</a></p>
+</div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
     <p class="lead">곡선을 통째로 만들어 두면, 장군님이 원할 때 답 하나도 언제든 뽑아 드릴 수 있어요.</p>
     <figure class="figure">
       <svg id="fig-factory-general" viewBox="0 0 560 240" role="img" aria-label="왼쪽에 공장이라고 적힌 테두리 상자 안에 종 모양 선이 있고, 상자에서 나온 화살표 세 개가 데이터만 본 답 하나, 바람을 섞은 답 하나, 곡선 통째로라고 적힌 테두리 상자로 가며, 세 상자에서 다시 화살표가 오른쪽의 장군님 테두리 상자로 모이는 그림">
@@ -393,16 +406,16 @@
     <ul>
       <li><b>ML</b>(maximum likelihood): 데이터만 보고 $\boldsymbol{\theta}$ 값 하나를 정해요. $$\boldsymbol{\theta}_{\text{ML}} = \arg\max_{\boldsymbol{\theta}}\, p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta})$$</li>
       <li><b>MAP</b>(maximum a posteriori): 데이터가 말하는 것에 "$\boldsymbol{\theta}$는 이랬으면 좋겠다"는 선호(prior) $p(\boldsymbol{\theta})$를 섞어 값 하나를 정해요(L03 s22). $$\boldsymbol{\theta}_{\text{MAP}} = \arg\min_{\boldsymbol{\theta}} \big(-\log p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}) - \log p(\boldsymbol{\theta})\big)$$</li>
-      <li><b>풀리 베이지안</b>(fully Bayesian): 값 하나를 고르지 않고 PDF 자체를 원자료(raw data)로 넘겨요. 넘기는 것은 처음 보는 입력 $\mathbf{x}_*$에 대한 예측의 PDF예요. $$p(y_* \mid \mathbf{x}_*, \mathbf{X}, \mathbf{y})$$</li>
+      <li><b>풀리 베이지안</b>(fully Bayesian): 값 하나를 고르지 않고 PDF 자체를 분포로 유지해 예측에 반영해요. 넘기는 것은 처음 보는 입력 $\mathbf{x}_*$에 대한 예측의 PDF예요. $$p(y_* \mid \mathbf{x}_*, \mathbf{X}, \mathbf{y})$$</li>
     </ul>
     <p><b>왜 공장인가.</b> PDF를 통째로 가지고 있으면 값 하나는 거기서 언제든 뽑을 수 있어요.</p>
     <ul>
       <li>MAP은 파라미터 사후분포 $p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})$가 가장 큰 $\boldsymbol{\theta}$예요.</li>
-      <li>ML은 prior를 넣지 않은(모든 $\boldsymbol{\theta}$를 똑같이 보는) 경우예요.</li>
-      <li>그래서 fully Bayesian 학습을 해 두면 ML도 MAP도 만들어 낼 수 있어요.</li>
+      <li>ML은 사전분포 없이 우도를 최대화해요. 사전밀도가 상수이면 MAP의 최적점도 ML과 같아져요. 무한한 공간의 상수 밀도는 정규화된 사전분포가 아닐 수 있어요.</li>
+      <li>사후분포를 알면 그 최고점으로 MAP을 얻을 수 있어요. ML과 MAP의 위치가 같아지는 것은 사전밀도가 상수여서 최적점에 영향을 주지 않는 등의 조건이 있을 때예요.</li>
     </ul>
-    <p>(수업 중 "사후예측분포가 최대가 되는 점이 MAP"이라고 말했지만, MAP은 파라미터 사후분포 $p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})$의 최댓값이에요.)</p>
-    <p><b>왜 가우시안인가.</b> 베이지안 기법은 거의 가우시안 분포를 써요. 가우시안은 곱하거나, 더하거나, 선형 변환해도 가우시안으로 남아서 분석이 닫힌 식으로 끝나요. 가우시안이 아니면 이 계산이 잘 되지 않아요. 그 성질은 <a href="#s2-closure">무엇을 해도 가우시안</a>에서 정리해요.</p>
+    <p>(수업 중 "사후예측분포가 최대가 되는 점이 MAP"이라고 말했지만, MAP은 파라미터 사후분포 $p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})$의 밀도가 최대가 되는 파라미터 위치예요.)</p>
+    <p><b>왜 가우시안인가.</b> 이번 수업의 선형 가우시안 모형은 사후분포와 예측분포를 닫힌 식으로 구할 수 있어요. 가우시안 밀도의 곱은 정규화 전 가우시안 모양이고, 결합 가우시안 벡터의 선형결합도 가우시안이에요. FB 자체가 가우시안 분포에 한정되는 것은 아니에요. 그 성질은 <a href="#s2-closure">무엇을 해도 가우시안</a>에서 정리해요.</p>
     <p>풀리 베이지안이 왜 결정을 유보하는지, ML과 MAP이 어떻게 포함 관계인지는 0930 수업에서 자세히 다뤘어요. 1007 수업은 그 내용을 "공장"이라는 한 단어로 다시 묶었어요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
@@ -420,7 +433,7 @@
     <p>중간고사 전에 여기까지 이해하는 데 필요한 수학 문제를 골라 숙제로 내고 풀어 주겠다고 했어요. 퀴즈는 보지 않기로 했어요 (1007 Part 01 ~07:22).</p>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">풀리 베이지안은 값 하나 대신 PDF 자체를 건네는 공장이라서, ML과 MAP을 거기서 찍어 낼 수 있어요.</p>
+    <p class="sum-lead">풀리 베이지안은 사후분포를 유지해 예측에 반영하고, MAP은 같은 사후분포에서 최고점 하나를 골라요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">ML</span>$$\boldsymbol{\theta}_{\text{ML}} = \arg\max_{\boldsymbol{\theta}}\, p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta})$$</li>
@@ -879,7 +892,7 @@
     </svg><figcaption>왼쪽은 한 줄 위의 언덕이고, 오른쪽 테두리 고리들은 같은 높이끼리 이은 선이에요.</figcaption></figure>
   </div>
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-    <p><b>설정.</b> 랜덤 벡터 $\mathbf{X} = (X_1, X_2, \dots, X_n)^\top$의 평균 벡터를 $\boldsymbol{\mu} = (\mathbb{E}[X_1], \dots, \mathbb{E}[X_n])^\top$, 공분산 행렬(covariance matrix)을 $\Sigma$라고 해요. 베이지안에서는 거의 가우시안을 쓰고, 가우시안은 평균 벡터와 공분산 행렬만 있으면 정해져요. 지금까지 랜덤 벡터의 평균과 공분산을 배운 이유가 이거예요.</p>
+    <p><b>설정.</b> 랜덤 벡터 $\mathbf{X} = (X_1, X_2, \dots, X_n)^\top$의 평균 벡터를 $\boldsymbol{\mu} = (\mathbb{E}[X_1], \dots, \mathbb{E}[X_n])^\top$, 공분산 행렬(covariance matrix)을 $\Sigma$라고 해요. 이번 수업에서는 가우시안을 사용하며, 가우시안은 평균 벡터와 공분산 행렬만 있으면 정해져요. 지금까지 랜덤 벡터의 평균과 공분산을 배운 이유가 이거예요.</p>
     <p><b>정의.</b> $\mathbf{X}$의 결합 PDF(joint pdf)가 아래 꼴이면 $\mathbf{X}$를 가우시안 랜덤 벡터(Gaussian random vector)라고 해요. 여기서 $\Sigma$는 대칭(symmetric)이고 양의 정부호(positive definite)예요.</p>
     $$f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\Sigma|}}\exp\!\Big(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top\Sigma^{-1}(\mathbf{x} - \boldsymbol{\mu})\Big)$$
     <p>이것을 $\mathbf{X} \sim \mathcal{N}(\boldsymbol{\mu}, \Sigma)$ 또는 $p_{\mathbf{X}}(\mathbf{x}) = \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \Sigma)$로 써요. $X_1, \dots, X_n$이 함께 있는 분포라서 "결합(joint)"이라는 말이 붙어요.</p>

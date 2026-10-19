@@ -356,6 +356,23 @@
       <p>정방철 교수님 머신러닝기초 · 0930 수업 (Lecture04 앞부분, MML 9.3절 · 6.4~6.5절)</p>
     </div>
     <section id="s0"><h2>0. 준비: 조건부확률과 풀리 베이지안</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>파라미터의 분포에서 예측의 분포로 가요</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 관측 데이터로 가능한 파라미터들의 분포를 갱신하고, 이를 새 출력의 예측에 반영하려 해요.</p>
+<p data-map="bridge">MAP과 FB는 모두 파라미터에 사전분포를 부여해요. MAP은 사후분포의 최고점 하나를 고르고, FB는 분포를 유지해 예측할 때 파라미터를 적분해 없애요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>사전분포</td><td>데이터를 보기 전 파라미터의 불확실성</td><td>입력으로 둔 가정</td></tr>
+<tr><td>사후분포</td><td>데이터를 본 뒤 파라미터의 불확실성</td><td>학습으로 갱신한 분포</td></tr>
+<tr><td>예측분포</td><td>새 관측값의 불확실성</td><td>모든 가능한 파라미터의 예측을 모은 결과</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> 파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 주변화는 파라미터를 합쳐 없애는 과정이고, 아핀 변환의 평균·공분산 공식은 파라미터의 흔들림이 출력으로 어떻게 전달되는지 계산할 도구예요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> FB가 파라미터 평균 하나만 골라 대입한다는 뜻은 아니에요. 가능한 예측분포 전체를 가중해 모아요.</p>
+<p>이어서 읽기: <a href="#s0-fully-bayesian">풀리 베이지안: 결정을 유보한다</a> · <a href="#s2-predictive">사후 예측분포 유도와 두 가지 가정</a> · <a href="#s4-affine">아핀 변환의 평균과 공분산</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.</p></div>
+</article>
 <article class="topic" id="s0-cond-prob"><h3>조건부확률 복습: 곱셈 법칙의 확장</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · 칠판</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
     <p class="lead">두 가지가 함께 일어날 가능성은, 하나가 일어날 가능성에 그때 다른 하나도 일어날 가능성을 곱한 거예요.</p>

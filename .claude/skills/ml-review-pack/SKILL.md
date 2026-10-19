@@ -21,6 +21,14 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - `RUN` = `<scratchpad>/review-pack/<range>/`
 - 셸 상태는 Bash 호출 사이에 이어지지 않는다. 아래 명령의 `$SKILL`, `$RUN`, `$REPO`는 실행할 때마다 실제 절대 경로로 바꿔 쓰거나, 같은 명령 앞에 `SKILL=… RUN=… REPO=…`를 붙여 설정한다. `cd`는 쓰지 않고 파일도 절대 경로로 넘긴다.
 
+## 기존 정리노트 설명만 개선하는 경우
+사용자가 큰 그림·개념 연결·기호 설명 등 기존 정리노트의 설명 개선을 요청하면 이 경로를 쓴다. 복습문제·답안 PDF·문제설명·영상의 내용이 바뀌지 않으면 전체 복습팩을 재생성하지 않는다.
+1. `references/big-picture-first.md`를 읽고 대상 HTML·MD·기존 첫 토픽·연결을 확인한다. 기존 ID, 수식, 위젯, PDF·인터랙티브 링크를 보존한다.
+2. 원자료와 기존 설명을 대조해 도입·유도 연결을 작성한다. 대상 HTML과 모든 대응 MD를 RUN에 백업하고 stage에서 수정한다. 큰 그림이 이미 있으면 중복 토픽 대신 기존 도입을 보강한다.
+3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 레퍼런스의 검토 질문에 답한다.
+4. 375px·데스크톱, 두 테마에서 도입의 실제 가시성·수식·줄바꿈·목차·화면 이동·기존 링크를 확인하고 검증된 HTML·MD만 함께 반영한다. 실패하면 해당 노트는 기존 파일을 보존한다.
+5. 변경 날짜, 설명의 차이, 검사 결과, 백업·RUN과 미해결을 보고한다. PDF와 문제의 재검증을 이번 설명 수정의 검증인 것처럼 보고하지 않는다.
+
 ## 절차
 
 ### 0. 준비
@@ -54,6 +62,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
    - 관련 토픽과 사용할 설명 연결·미확인 지점을 정하고, 2단계 manifest에서 확정한 토픽 id로 3단계의 해당 섹션 작성자와 6단계 리뷰어 브리프에 전달한다. 파일이 없거나 읽을 수 없으면 일반 규칙으로 진행하고 9단계에 참고 누락을 보고한다. `lite`에서도 읽기와 작성자 전달을 생략하지 않는다.
 
 ### 2. manifest
+- **큰 그림 먼저**: `references/big-picture-first.md`를 전체 읽고 `RUN/learning-map.json`에 질문·개념 관계·결과·유도 목적·예상 혼동과 근거를 정한다. 첫 학습 토픽은 이 큰 그림으로 계획한다. 위젯·비유·상세 유도보다 먼저 이 목표를 확정한다.
 - 요약들의 슬라이드 대조표와 용어·식 목록으로 `RUN/manifest.json`을 쓴다. 규칙은 `references/manifest-guide.md`에 있다.
 - 문제 선별은 `references/problem-selection.md`를 따른다.
   - 정답은 `RUN/answers.py`(`fractions`)로 계산한다.
@@ -61,6 +70,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 검증: `python3 "$SKILL/scripts/manifest.py" "$RUN/manifest.json"` 결과가 `OK`여야 한다.
 
 ### 3. 작성
+- 모든 정리노트 작성자에게 큰 그림 브리프와 `references/big-picture-first.md`를 전달한다. 첫 토픽 작성자는 도입을 작성하고, 다른 작성자는 자기 유도의 목적과 처음 등장하는 기호를 설명한다. lite도 동일하다.
 - 섹션마다 작성자 1명을 띄운다. 브리프는 `references/content-rules.md`, 위젯 규칙은 `references/widget-rules.md`에 있다.
 - 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다.
 - 모두 **한 메시지에서 병렬로** 띄운다. 모델은 opus, `lite`이면 sonnet이다. Claude가 아닌 경우(GPT)에는 opus 대신 sol, sonnet 대신 luna를 쓴다.
@@ -109,6 +119,7 @@ python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습�
 ```
 
 ### 5. 기계 검사
+- 정리노트에는 추가로 `python3 SKILL/scripts/check_learning_map.py <stage의 정리노트 HTML>`을 실행한다. 구조 검사는 의미 검토를 대체하지 않는다.
 ```bash
 python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
 ```
@@ -117,6 +128,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 고친 뒤 4단계부터 다시 한다. 최대 2회까지이며, 그래도 남으면 "미해결"로 보고한다.
 
 ### 6. 리뷰 (`lite`면 생략)
+- 리뷰어에게 `RUN/learning-map.json`과 `references/big-picture-first.md`를 전달해, 도입만으로 학습 목표·비교 축·결과를 설명할 수 있는지 검토하게 한다. lite에서는 작성자가 같은 질문으로 자기 검토한다.
 - 리뷰어 1명을 띄운다. 브리프는 `references/review-prompt.md`에 있다.
 - 리뷰어 브리프의 `<학습 레퍼런스>`에는 3단계에서 전달한 적용 토픽 id와 필수 읽기 경로를 넣는다. 적용 대상이 없으면 `적용 없음`, 읽지 못했으면 `참고 누락: <원인>`으로 채운다. `lite`에서는 해당 섹션 작성자의 자기 검사로 공분산 설명을 확인한다.
 - Critical과 Important는 모두, Minor는 쉬운 것만 고친다.

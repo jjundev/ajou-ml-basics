@@ -356,6 +356,23 @@
       <p>정방철 교수님 머신러닝기초 · 1014 수업 (Lecture04 s5–15, MML 6·9장)</p>
     </div>
     <section id="s0"><h2>0. 정규화와 확률 모델</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>θ의 사후분포를 구하고, 새 y의 분포로 옮겨요</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 정규화와 이차식 전개는 목적 자체가 아니에요. 데이터로 갱신한 파라미터 분포와 새 관측값의 예측분포를 구하려는 계산이에요.</p>
+<p data-map="bridge">ML은 고정된 미지의 θ를 추정해요. MAP과 FB는 θ에 사전분포를 부여해요. MAP은 사후분포의 최고점 하나, FB는 분포 전체를 이용해요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>ML</td><td>데이터의 우도 최대화</td><td>θ 하나</td></tr>
+<tr><td>MAP</td><td>사후분포의 밀도가 최고인 위치</td><td>θ_MAP 하나</td></tr>
+<tr><td>FB</td><td>사후분포를 유지해 주변화</td><td>θ의 분포와 y의 예측분포</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> 가우시안 사후분포의 평균 mₙ은 MAP 위치와 같아요. FB는 여기에 사후공분산 Sₙ을 남겨 예측의 불확실성에 반영해요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 정규화는 밀도의 적분값을 1로 맞춰요. 이차식의 계수 비교는 mₙ과 Sₙ을 찾고, 가중합의 평균·분산 공식은 이를 새 y의 평균·분산으로 옮겨요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> N(0, b²I)와 N(m₀, S₀)의 차이는 사전분포의 선택이지 MAP과 FB의 구분이 아니에요. 선형 가우시안 모형에서는 예측평균이 같아도 예측분산은 달라요.</p>
+<p>이어서 읽기: <a href="#s0-model">고정된 입력, 불확실한 가중치</a> · <a href="#s1-match">계수를 맞춰 평균과 공분산을 찾아요</a> · <a href="#s2-uncertainty">회색 띠와 남아 있는 잡음</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">가우시안 사후분포의 평균 mₙ은 MAP 위치와 같아요. FB는 여기에 사후공분산 Sₙ을 남겨 예측의 불확실성에 반영해요.</p></div>
+</article>
 <article class="topic" id="s0-normalize"><h3>종 모양의 넓이를 1로 맞춰요</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s6·s8·s10–11</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">종 모양의 선을 그대로 두고 높이만 조절해서, 선 아래의 넓이를 딱 하나로 맞춰요.</p>
     <figure class="figure"><svg id="fig-s0-normalize-area" viewBox="0 0 480 180" role="img" aria-label="같은 모양의 종 곡선 두 개가 있고, 오른쪽 곡선은 낮아져 선 아래 넓이가 하나가 된다"><path class="fig-ink" d="M22 145H220 M264 145H462"/><path class="fig-danger" d="M30 144 C72 142 82 34 120 25 C158 34 168 142 210 144"/><path class="fig-accent" d="M272 144 C312 142 326 70 363 65 C400 70 414 142 454 144"/><text class="fig-muted" x="70" y="167" font-size="13">조절 전</text><text class="fig-text" x="331" y="167" font-size="13">넓이 하나</text></svg><figcaption>높이를 맞추면 선 아래 넓이가 하나가 돼요.</figcaption></figure>
@@ -426,7 +443,7 @@
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">같은 그림을 두 장의 설명서로 그렸다면, 같은 자리의 숫자도 같아야 해요.</p>
     <figure class="figure"><svg id="fig-s1-match-coefficients" viewBox="0 0 480 135" role="img" aria-label="왼쪽 설명서와 오른쪽 설명서의 위아래 빈칸을 서로 잇는 선 그림"><rect class="fig-ink" x="24" y="17" width="170" height="102" rx="8"/><rect class="fig-accent" x="286" y="17" width="170" height="102" rx="8"/><path class="fig-accent" d="M194 47 H286 M194 88 H286"/><text font-size="13" class="fig-text" x="109" y="50" text-anchor="middle">첫 번째 설명서</text><text font-size="13" class="fig-text" x="371" y="50" text-anchor="middle">두 번째 설명서</text><text font-size="13" class="fig-muted" x="109" y="93" text-anchor="middle">위칸 · 아래칸</text><text font-size="13" class="fig-muted" x="371" y="93" text-anchor="middle">위칸 · 아래칸</text></svg><figcaption>같은 칸끼리 맞추면 숨은 값을 찾을 수 있어요.</figcaption></figure>
   </div>
-  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span><p>이번 계수 비교가 구하는 것은 θ의 사후평균과 사후공분산이에요. 일반 MAP 식과 평균 식은 $(cA)^{-1}=c^{-1}A^{-1}$로 연결돼요. 평균에서는 앞의 $\sigma^2$와 뒤의 $1/\sigma^2$가 상쇄되지만, 공분산에는 뒤의 벡터가 없어서 $S_N=\sigma^2[\Phi^T\Phi+\sigma^2S_0^{-1}]^{-1}$의 앞 계수가 남아요. A와 q로 줄여 쓰는 표기는 각각 행렬 대괄호와 오른쪽 벡터의 임시 이름일 뿐이에요.</p>
     <p><a href="#s1-expand">음의 로그 전개</a>에서 얻은 $\theta$의 이차식과 가우시안의 이차식을 비교해요. 사후평균 $m_N\in\mathbb R^K$와 사후공분산 $S_N\in\mathbb R^{K\times K}$를 아직 모르는 값으로 두어요. $S_N^{-1}$는 정밀도(precision), 즉 공분산의 역행렬이에요. 아래에서 $A:=S_0^{-1}+\sigma^{-2}\Phi^T\Phi$, $b:=S_0^{-1}m_0+\sigma^{-2}\Phi^Ty$로 줄여 써요.</p>
     <ol class="steps">
       <li><p>완전제곱을 목표로 하는 사후 가우시안의 음의 로그를 네 항으로 펼쳐요. $S_N^{-1}$는 대칭이에요.</p>$$-\log\mathcal N(\theta\mid m_N,S_N)=\frac12(\theta-m_N)^TS_N^{-1}(\theta-m_N)+\mathrm{const}$$ $$=\frac12\left(\theta^TS_N^{-1}\theta-\theta^TS_N^{-1}m_N-m_N^TS_N^{-1}\theta+m_N^TS_N^{-1}m_N\right)+\mathrm{const}$$</li>

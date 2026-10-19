@@ -355,6 +355,23 @@
       <p>정방철 교수님 머신러닝기초 · 0916 수업 (Lecture01~02, MML 8장)</p>
     </div>
     <section id="s0"><h2>0. MLE 다시 보기: −log와 i.i.d.</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>데이터만 볼까, 사전 지식도 반영할까?</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 같은 데이터에서도 파라미터를 고르는 기준과 불확실성을 보존하는 방식에 따라 답이 달라져요.</p>
+<p data-map="bridge">ML은 고정된 미지의 파라미터를 추정해요. MAP과 Fully Bayesian(FB)은 파라미터에 사전분포를 부여하고, 데이터로 갱신한 사후분포를 이용해요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>ML</td><td>데이터의 우도 최대화</td><td>파라미터 값 하나</td></tr>
+<tr><td>MAP</td><td>사후분포의 밀도가 최고인 위치 선택</td><td>파라미터 값 하나</td></tr>
+<tr><td>FB</td><td>사후분포 전체를 유지</td><td>분포를 이용한 추론·예측</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> MAP은 확률변수로 모델링한 파라미터에서 한 점을 고르고, FB는 가능한 값들의 불확실성을 계속 반영해요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 베이즈 정리는 사전분포와 우도를 사후분포로 연결해요. 음의 로그를 취하면 MAP의 목적함수에 데이터 항과 사전분포 항이 더해져요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> MAP이라고 사후분포 전체를 먼저 계산해야 하는 것은 아니에요. 최고점을 찾을 수 있으면 돼요. 사전분포를 쓰는 것과 분포 전체를 유지하는 것은 다른 선택이에요.</p>
+<p>이어서 읽기: <a href="#s1-posterior">Posterior와 베이즈 룰</a> · <a href="#s1-map">MAP = MLE + log prior</a> · <a href="#s3-three-ways">세 가지 답: ML · MAP · Fully Bayesian</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">MAP은 확률변수로 모델링한 파라미터에서 한 점을 고르고, FB는 가능한 값들의 불확실성을 계속 반영해요.</p></div>
+</article>
 <article class="topic" id="s0-nll"><h3>Likelihood = 그럴듯함, 그리고 −log</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L01 s14</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">여러 설명 중에서 데이터를 가장 그럴듯하게 만드는 설명을 골라요.</p>
           <figure class="figure"><svg id="fig-nll-closeup" viewBox="0 0 360 150" role="img" aria-label="왼쪽 막대 끝에 두 점이 거의 붙어 있고, 돋보기처럼 확대한 오른쪽 막대에서는 같은 두 점이 멀리 떨어져 보이는 그림">

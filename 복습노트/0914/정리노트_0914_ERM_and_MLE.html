@@ -355,6 +355,23 @@
       <p>정방철 교수님 머신러닝기초 · 0914 수업 (Lecture01, MML 8장)</p>
     </div>
     <section id="s0"><h2>0. 모델은 가정이다</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>좋은 파라미터를 고르는 기준을 만들어요</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 정답 규칙을 모르니, 관측한 데이터에서 틀린 정도를 계산해 파라미터를 고르려 해요.</p>
+<p data-map="bridge">경험적 위험 최소화(ERM)는 손실을 줄이고, 최대우도(ML)는 관측 데이터가 그럴듯해지도록 해요. 서로 다른 출발점이 같은 계산으로 이어질 수 있어요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>ERM</td><td>데이터의 평균 손실 최소화</td><td>파라미터 하나</td></tr>
+<tr><td>ML</td><td>주어진 파라미터에서 데이터의 우도 최대화</td><td>파라미터 하나</td></tr>
+<tr><td>정규화</td><td>데이터 적합에 복잡도 제약 추가</td><td>과적합을 줄일 선택 기준</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> 가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 음의 로그는 우도 최대화를 최소화 문제로 바꾸고, 독립 가정은 곱을 합으로 바꿔요. 그 결과가 최소제곱 손실이에요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 입력이 고정되고 파라미터가 정해져도 관측 잡음이 있으면 출력은 확률변수예요. ML에서 파라미터는 고정되어 있지만 모르는 값으로 다뤄요.</p>
+<p>이어서 읽기: <a href="#s1-erm-name">Empirical · Risk · Minimization이라는 이름</a> · <a href="#s4-mle-ls">가우시안 노이즈면 MLE = 최소제곱</a> · <a href="#s3-reg">Overfitting과 정규화 최소제곱</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.</p></div>
+</article>
 <article class="topic" id="s0-suppose"><h3>모델은 suppose, 그리고 선호의 문제</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s7</span><span class="tag slide">L01 s5</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
     <p class="lead">데이터를 설명하는 틀은 정답이 아니라 "아마 이렇게 생겼을 거야" 하는 짐작이에요.</p>

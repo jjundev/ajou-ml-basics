@@ -356,6 +356,23 @@
       <p>정방철 교수님 머신러닝기초 · 0928 수업 (Lecture03, MML 5장 · 9장)</p>
     </div>
     <section id="s0"><h2>0. 스칼라를 벡터로 미분하기: 그래디언트와 자코비안</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>ML 해에 사전분포를 반영하면 무엇이 바뀔까?</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 특징을 늘리면 더 복잡한 곡선을 맞출 수 있지만 과적합도 쉬워져요. 데이터 적합에 사전분포의 제약을 함께 반영해 봐요.</p>
+<p data-map="bridge">ML은 데이터의 우도로 파라미터 하나를 찾고, MAP은 사전분포까지 반영한 사후분포의 최고점 하나를 찾아요. 둘 다 최종 추정값은 한 점이에요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>ML</td><td>사전분포 없이 데이터 항 사용</td><td>최소제곱 해</td></tr>
+<tr><td>MAP · 평균 0의 등방 사전</td><td>모든 방향에 같은 강도의 제약</td><td>역행렬 안에 정규화 항 추가</td></tr>
+<tr><td>MAP · 일반 가우시안 사전</td><td>방향별 제약과 사전평균 반영</td><td>행렬 항과 사전평균 항 변경</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> 특징행렬 Φ는 곡선의 재료를 모으고, 사전분포는 계수가 어디에 얼마나 모이길 기대하는지 나타내요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> MAP의 정상조건은 데이터에 맞추려는 항과 사전평균 쪽으로 끌어당기는 항의 합이 0이라는 뜻이에요. 사전평균이 0이면 오른쪽의 사전평균 항만 사라져요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> N(0, b²I)와 N(m₀, S₀)는 특수형과 일반형의 관계예요. 이를 MAP과 FB의 차이로 구분하면 안 돼요. 일반형은 MAP에도 쓸 수 있어요.</p>
+<p>이어서 읽기: <a href="#s2-feature-matrix">특징행렬 Φ와 최대우도 해</a> · <a href="#s4-ml-vs-map">ML vs MAP: σ²/b² 한 항의 차이</a> · <a href="#s5-general-prior">일반 가우시안 사전분포: 다음 시간을 위한 포석</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">특징행렬 Φ는 곡선의 재료를 모으고, 사전분포는 계수가 어디에 얼마나 모이길 기대하는지 나타내요.</p></div>
+</article>
 <article class="topic" id="s0-recap"><h3>복습: 음의 로그우도에서 최소제곱까지</h3><div class="tags"><span class="tag date">0928 수업</span><span class="tag slide">L03 s6–s11</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
     <p class="lead">가장 잘 맞힐 것 같은 답을 찾는 일은, 틀린 만큼을 모두 모은 값을 가장 작게 만드는 일과 같아요.</p>
@@ -1303,7 +1320,7 @@
       <text class="fig-text" x="390" y="212" text-anchor="middle" font-size="13">고른 자리, 고른 모양</text>
     </svg><figcaption>왼쪽 둥근 원은 오른쪽 타원을 가운데에 둥글게 놓은 한 가지 경우예요.</figcaption></figure>
   </div>
-  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span><p>일반 사전분포에서도 구하려는 것은 MAP 한 점이에요. 식을 $A_g\theta=q_g$로 줄여 쓰면 $A_g=\Phi^T\Phi+\sigma^2S_0^{-1}$는 제약의 강도를 모은 행렬이고, $q_g=\Phi^Ty+\sigma^2S_0^{-1}m_0$는 데이터와 사전평균의 방향을 모은 벡터예요. 평균 0, 공분산 $b^2I$를 넣으면 $A_b=\Phi^T\Phi+(\sigma^2/b^2)I$, $q_b=\Phi^Ty$로 돌아와요. 여기서 A와 q는 이 긴 식의 두 덩어리에 붙인 임시 이름이에요.</p>
     <p>앞에서는 사전분포를 $p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, b^2\mathbf{I})$로 뒀어요. 이번에는 평균과 공분산을 자유롭게 둔 켤레(conjugate) 가우시안 사전분포를 써요.</p>
     $$p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$$
     <p>모델은 그대로 $y = \boldsymbol{\phi}^\top(\mathbf{x})\boldsymbol{\theta} + \epsilon,\ \epsilon \sim \mathcal{N}(0, \sigma^2)$예요. 음의 로그사후확률(negative log-posterior)은 이렇게 돼요.</p>

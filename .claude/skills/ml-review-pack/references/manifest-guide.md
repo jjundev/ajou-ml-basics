@@ -19,6 +19,8 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 | `sessions` | 날짜별 `{date, stt, summary, slides}` |
 
 ## sections / topics
+- `big-picture-first.md`에 따라 첫 학습 토픽은 `s0-learning-map` 같은 ID로 학습 목표와 개념 관계를 먼저 제시한다. 기존 큰 그림 토픽이 있으면 그것을 보강한다. 별도 manifest 키를 추가하지 않는다.
+- 이 토픽만 `layers: ["formal"]`, `supp: false`로 쓸 수 있다. 기호 사용이 가능하며 eli5·prof 레이어는 요구하지 않는다. 기타 개념 토픽에는 아래 기본 규칙을 적용한다.
 - 섹션 id는 `s0`, `s1`, … 순서. 마지막 섹션은 항상 "요약 · 예고"이며 토픽 `s<N>-cheatsheet`, `s<N>-next`, `s<N>-links`를 둔다.
 - 섹션은 **개념 순서(슬라이드 로드맵)** 로 묶는다. 날짜는 토픽 태그로만 드러낸다.
 - 토픽 id는 `s<n>-<kebab>`(영문 소문자). 토픽 하나 = 슬라이드 1~3장 또는 칠판 유도 하나.
