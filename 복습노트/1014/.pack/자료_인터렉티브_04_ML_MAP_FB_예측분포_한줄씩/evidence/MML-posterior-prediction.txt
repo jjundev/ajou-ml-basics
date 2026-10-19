@@ -1,0 +1,434 @@
+9.3.3 Posterior Distribution
+                      Given a training set of inputs xn ∈ RD and corresponding observations
+                      yn ∈ R, n = 1, . . . , N , we compute the posterior over the parameters
+                      using Bayes’ theorem as
+                                                                p(Y | X , θ)p(θ)
+                                               p(θ | X , Y) =                    ,                     (9.41)
+                                                                   p(Y | X )
+                      where X is the set of training inputs and Y the collection of correspond-
+                      ing training targets. Furthermore, p(Y | X , θ) is the likelihood, p(θ) the
+                      parameter prior, and
+                                          Z
+                               p(Y | X ) = p(Y | X , θ)p(θ)dθ = Eθ [p(Y | X , θ)]          (9.42)
+
+marginal likelihood   the marginal likelihood/evidence, which is independent of the parameters
+evidence              θ and ensures that the posterior is normalized, i.e., it integrates to 1. We
+The marginal          can think of the marginal likelihood as the likelihood averaged over all
+likelihood is the
+                      possible parameter settings (with respect to the prior distribution p(θ)).
+expected likelihood
+under the parameter   Theorem 9.1 (Parameter Posterior). In our model (9.35), the parameter
+prior.
+                      posterior (9.41) can be computed in closed form as
+                                                                     
+                                        p(θ | X , Y) = N θ | mN , S N ,             (9.43a)
+                                                  S N = (S −1
+                                                           0 +σ
+                                                                −2 ⊤
+                                                                  Φ Φ)−1 ,                           (9.43b)
+                                                  mN = S N (S −1
+                                                              0 m0 + σ
+                                                                       −2 ⊤
+                                                                         Φ y) ,                      (9.43c)
+                      where the subscript N indicates the size of the training set.
+                      Proof Bayes’ theorem tells us that the posterior p(θ | X , Y) is propor-
+                      tional to the product of the likelihood p(Y | X , θ) and the prior p(θ):
+                                                                 p(Y | X , θ)p(θ)
+                                  Posterior       p(θ | X , Y) =                                     (9.44a)
+                                                                    p(Y | X )
+                                                   p(Y | X , θ) = N y | Φθ, σ 2 I
+                                                                                  
+                                  Likelihood                                                         (9.44b)
+                                                                         
+                                  Prior           p(θ) = N θ | m0 , S 0 .                            (9.44c)
+                        Instead of looking at the product of the prior and the likelihood, we
+                      can transform the problem into log-space and solve for the mean and
+                      covariance of the posterior by completing the squares.
+                        The sum of the log-prior and the log-likelihood is
+                        log N y | Φθ, σ 2 I + log N θ | m0 , S 0
+                                                                
+                                                                                       (9.45a)
+                             1
+                        = − σ −2 (y − Φθ)⊤ (y − Φθ) + (θ − m0 )⊤ S −1
+                                                                                   
+                                                                        0 (θ − m0 ) + const
+                             2
+                                                                                      (9.45b)
+
+                      Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+9.3 Bayesian Linear Regression                                                             307
+
+where the constant contains terms independent of θ . We will ignore the
+constant in the following. We now factorize (9.45b), which yields
+       1 −2 ⊤
+      −  σ y y − 2σ −2 y ⊤ Φθ + θ ⊤ σ −2 Φ⊤ Φθ + θ ⊤ S −1
+                                                       0 θ
+       2                                                     (9.46a)
+              −1      ⊤ −1
+     − 2m⊤
+                                 
+          0 S 0  θ + m0 S 0  m 0
+       1 ⊤ −2 ⊤
+   = − θ (σ Φ Φ + S −1                 −2 ⊤
+                                         Φ y + S −1     ⊤
+                                                           
+                            0 )θ − 2(σ           0 m0 ) θ + const ,
+       2
+                                                             (9.46b)
+where the constant contains the black terms in (9.46a), which are inde-
+pendent of θ . The orange terms are terms that are linear in θ , and the
+blue terms are the ones that are quadratic in θ . Inspecting (9.46b), we
+find that this equation is quadratic in θ . The fact that the unnormalized
+log-posterior distribution is a (negative) quadratic form implies that the
+posterior is Gaussian, i.e.,
+   p(θ | X , Y) = exp(log p(θ | X , Y)) ∝ exp(log p(Y | X , θ) + log p(θ))
+                                                                  (9.47a)
+                1                                                 
+   ∝ exp        − θ ⊤ (σ −2 Φ⊤ Φ + S −1
+                                     0 )θ − 2(σ
+                                                −2 ⊤
+                                                  Φ y + S −1    ⊤
+                                                          0 m0 ) θ    ,
+                 2
+                                                                  (9.47b)
+where we used (9.46b) in the last expression.
+   The remaining task is it to bring this (unnormalized)
+                                                        Gaussian into the
+form that is proportional to N θ | mN , S N , i.e., we need to identify the
+mean mN and the covariance matrix S N . To do this, we use the concept
+of completing the squares. The desired log-posterior is                                            completing the
+                                                                                                   squares
+                          1
+   log N θ | mN , S N = − (θ − mN )⊤ S −1
+                     
+                                       N (θ − mN ) + const (9.48a)
+                          2
+          1
+       = − θ ⊤ S −1        ⊤ −1      ⊤ −1
+                                              
+                  N θ − 2mN S N θ + mN S N mN .            (9.48b)
+          2
+Here, we factorized the quadratic form (θ − mN )⊤ S −1    N (θ − mN ) into a                       Since p(θ | X , Y) =
+                                                                                                                 
+term that is quadratic in θ alone (blue), a term that is linear in θ (orange),                     N mN , S N , it
+                                                                                                   holds that
+and a constant term (black). This allows us now to find S N and mN by
+                                                                                                   θ MAP = mN .
+matching the colored expressions in (9.46b) and (9.48b), which yields
+                                 S −1   ⊤ −2
+                                   N = Φ σ   IΦ + S −1
+                                                    0                                 (9.49a)
+                           ⇐⇒ S N = (σ −2 Φ⊤ Φ + S −1
+                                                   0 )
+                                                       −1
+                                                                                      (9.49b)
+and
+                                  −1     −2 ⊤
+                             m⊤
+                              N S N = (σ   Φ y + S −1
+                                                   0 m0 )
+                                                         ⊤
+                                                                                      (9.50a)
+                                                    ⊤
+                      ⇐⇒ mN = S N (σ −2 Φ               y + S −1
+                                                              0 m0 ) .                (9.50b)
+
+
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+                       308                                                                  Linear Regression
+
+                       Remark (General Approach to Completing the Squares). If we are given
+                       an equation
+
+                                                   x⊤ Ax − 2a⊤ x + const1 ,                             (9.51)
+
+                       where A is symmetric and positive definite, which we wish to bring into
+                       the form
+
+                                                (x − µ)⊤ Σ(x − µ) + const2 ,                            (9.52)
+
+                       we can do this by setting
+
+                                                            Σ := A ,                                    (9.53)
+                                                            µ := Σ−1 a                                  (9.54)
+
+                       and const2 = const1 − µ⊤ Σµ.                                                          ♢
+                         We can see that the terms inside the exponential in (9.47b) are of the
+                       form (9.51) with
+
+                                                   A := σ −2 Φ⊤ Φ + S −1
+                                                                      0 ,                               (9.55)
+                                                   a := σ −2 Φ⊤ y + S −1
+                                                                      0 m0 .                            (9.56)
+
+                       Since A, a can be difficult to identify in equations like (9.46a), it is of-
+                       ten helpful to bring these equations into the form (9.51) that decouples
+                       quadratic term, linear terms, and constants, which simplifies finding the
+                       desired solution.
+
+
+                                                 9.3.4 Posterior Predictions
+                       In (9.37), we computed the predictive distribution of y∗ at a test input
+                       x∗ using the parameter prior p(θ). In principle, predicting with the pa-
+                       rameter posterior p(θ | X , Y) is not fundamentally different given that
+                       in our conjugate model the prior and posterior are both Gaussian (with
+                       different parameters). Therefore, by following the same reasoning as in
+                       Section 9.3.2, we obtain the (posterior) predictive distribution
+                                              Z
+                         p(y∗ | X , Y, x∗ ) = p(y∗ | x∗ , θ)p(θ | X , Y)dθ                   (9.57a)
+                                              Z
+                                            = N y∗ | ϕ⊤ (x∗ )θ, σ 2 N θ | mN , S N dθ (9.57b)
+                                                                                     
+
+
+                                            = N y∗ | ϕ⊤ (x∗ )mN , ϕ⊤ (x∗ )S N ϕ(x∗ ) + σ 2 . (9.57c)
+                                                                                          
+
+
+E[y∗ | X , Y, x∗ ] =   The term ϕ⊤ (x∗ )S N ϕ(x∗ ) reflects the posterior uncertainty associated
+ϕ⊤ (x∗ )mN =           with the parameters θ . Note that S N depends on the training inputs
+ϕ⊤ (x∗ )θ MAP .
+                       through Φ; see (9.43b). The predictive mean ϕ⊤ (x∗ )mN coincides with
+                       the predictions made with the MAP estimate θ MAP .
+
+                       Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+9.3 Bayesian Linear Regression                                                             309
+
+Remark (Marginal Likelihood and Posterior Predictive Distribution). By
+replacing the integral in (9.57a), the predictive distribution can be equiv-
+alently written as the expectation Eθ | X ,Y [p(y∗ | x∗ , θ)], where the expec-
+tation is taken with respect to the parameter posterior p(θ | X , Y).
+   Writing the posterior predictive distribution in this way highlights a
+close resemblance to the marginal likelihood (9.42). The key difference
+between the marginal likelihood and the posterior predictive distribution
+are (i) the marginal likelihood can be thought of predicting the training
+targets y and not the test targets y∗ , and (ii) the marginal likelihood av-
+erages with respect to the parameter prior and not the parameter poste-
+rior.                                                                        ♢
+Remark (Mean and Variance of Noise-Free Function Values). In many
+cases, we are not interested in the predictive distribution p(y∗ | X , Y, x∗ )
+of a (noisy) observation y∗ . Instead, we would like to obtain the distribu-
+tion of the (noise-free) function values f (x∗ ) = ϕ⊤ (x∗ )θ . We determine
+the corresponding moments by exploiting the properties of means and
+variances, which yields
+    E[f (x∗ ) | X , Y] = Eθ [ϕ⊤ (x∗ )θ | X , Y] = ϕ⊤ (x∗ )Eθ [θ | X , Y]
+                                                                                       (9.58)
+                        = ϕ⊤ (x∗ )mN = m⊤
+                                        N ϕ(x∗ ) ,
+
+    Vθ [f (x∗ ) | X , Y] = Vθ [ϕ⊤ (x∗ )θ | X , Y]
+                          = ϕ⊤ (x∗ )Vθ [θ | X , Y]ϕ(x∗ )                               (9.59)
+                                ⊤
+                          = ϕ (x∗ )S N ϕ(x∗ ) .
+We see that the predictive mean is the same as the predictive mean for
+noisy observations as the noise has mean 0, and the predictive variance
+only differs by σ 2 , which is the variance of the measurement noise: When
+we predict noisy function values, we need to include σ 2 as a source of
+uncertainty, but this term is not needed for noise-free predictions. Here,
+the only remaining uncertainty stems from the parameter posterior.       ♢                         Integrating out
+Remark (Distribution over Functions). The fact that we integrate out the                           parameters induces
+parameters θ induces a distribution over functions: If we sample θ i ∼                             a distribution over
+                                                                                                   functions.
+p(θ | X , Y) from the parameter posterior, we obtain a single function re-
+alization θ ⊤
+            i ϕ(·). The mean function, i.e., the set of all expected function                      mean function
+values Eθ [f (·) | θ, X , Y], of this distribution over functions is m⊤ N ϕ(·).
+The (marginal) variance, i.e., the variance of the function f (·), is given by
+ϕ⊤ (·)S N ϕ(·).                                                              ♢
+
+Example 9.8 (Posterior over Functions)
+Let us revisit the Bayesian linear regression problem with polynomials
+of degree 5. We choose a parameter prior p(θ) = N 0, 41 I . Figure 9.9
+visualizes the prior over functions induced by the parameter prior and
+sample functions from this prior.
+
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+                     310                                                                                    Linear Regression
+
+
+                        Figure 9.10 shows the posterior over functions that we obtain via
+                     Bayesian linear regression. The training dataset is shown in panel (a);
+                     panel (b) shows the posterior distribution over functions, including the
+                     functions we would obtain via maximum likelihood and MAP estimation.
+                     The function we obtain using the MAP estimate also corresponds to the
+                     posterior mean function in the Bayesian linear regression setting. Panel (c)
+                     shows some plausible realizations (samples) of functions under that pos-
+                     terior over functions.
+Figure 9.10
+Bayesian linear           4                                  4                                     4
+
+regression and            2                                  2                                     2
+posterior over
+                          0                                  0                                     0
+                     y
+
+
+
+
+                                                        y
+
+
+
+
+                                                                                              y
+functions.                                                            Training data
+                         −2                                 −2        MLE                         −2
+(a) training data;                                                    MAP
+(b) posterior            −4                                 −4        BLR                         −4
+
+                              −4   −2                            −4      −2                            −4   −2
+distribution over                       0
+                                        x
+                                             2     4                              0
+                                                                                  x
+                                                                                      2   4                      0
+                                                                                                                 x
+                                                                                                                     2   4
+
+functions;
+                              (a) Training data.       (b) Posterior over functions rep- (c) Samples from the posterior
+(c) Samples from
+                                                       resented by the marginal uncer- over functions, which are in-
+the posterior over
+                                                       tainties (shaded) showing the duced by the samples from the
+functions.
+                                                       67% and 95% predictive con- parameter posterior.
+                                                       fidence bounds, the maximum
+                                                       likelihood estimate (MLE) and
+                                                       the MAP estimate (MAP), the
+                                                       latter of which is identical to
+                                                       the posterior mean function.
+
+
+
+
+                        Figure 9.11 shows some posterior distributions over functions induced
+                     by the parameter posterior. For different polynomial degrees M , the left
+                     panels show the maximum likelihood function θ ⊤       ML ϕ(·), the MAP func-
+                     tion θ ⊤
+                            MAP ϕ(·) (which is identical to the posterior mean  function), and the
+                     67% and 95% predictive confidence bounds obtained by Bayesian linear
+                     regression, represented by the shaded areas.
+                        The right panels show samples from the posterior over functions: Here,
+                     we sampled parameters θ i from the parameter posterior and computed
+                     the function ϕ⊤ (x∗ )θ i , which is a single realization of a function under
+                     the posterior distribution over functions. For low-order polynomials, the
+                     parameter posterior does not allow the parameters to vary much: The
+                     sampled functions are nearly identical. When we make the model more
+                     flexible by adding more parameters (i.e., we end up with a higher-order
+                     polynomial), these parameters are not sufficiently constrained by the pos-
+                     terior, and the sampled functions can be easily visually separated. We also
+                     see in the corresponding panels on the left how the uncertainty increases,
+                     especially at the boundaries.
+                        Although for a seventh-order polynomial the MAP estimate yields a rea-
+                     sonable fit, the Bayesian linear regression model additionally tells us that
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+9.3 Bayesian Linear Regression                                                              311
+                                                                                                   Figure 9.11
+        4                                             4                                            Bayesian linear
+                                                                                                   regression. Left
+        2                                             2                                            panels: Shaded
+                                                                                                   areas indicate the
+        0                                             0
+   y
+
+
+
+
+                                                 y
+                                                                                                   67% (dark gray)
+                 Training data
+                                                                                                   and 95% (light
+       −2        MLE                                 −2
+                 MAP
+                                                                                                   gray) predictive
+                 BLR                                                                               confidence bounds.
+       −4                                            −4
+                                                                                                   The mean of the
+            −4      −2       0    2        4              −4    −2      0       2       4          Bayesian linear
+                             x                                          x
+                                                                                                   regression model
+ (a) Posterior distribution for polynomials of degree M = 3 (left) and samples from the pos-       coincides with the
+ terior over functions (right).                                                                    MAP estimate. The
+                                                                                                   predictive
+                                                                                                   uncertainty is the
+        4                                             4                                            sum of the noise
+                                                                                                   term and the
+        2                                             2
+                                                                                                   posterior parameter
+                                                                                                   uncertainty, which
+        0                                             0
+   y
+
+
+
+
+                                                 y
+
+
+
+
+                 Training data                                                                     depends on the
+       −2        MLE                                 −2                                            location of the test
+                 MAP                                                                               input. Right panels:
+       −4        BLR                                 −4                                            sampled functions
+                                                                                                   from the posterior
+            −4      −2       0    2        4              −4    −2      0       2       4
+                             x                                          x                          distribution.
+
+ (b) Posterior distribution for polynomials of degree M = 5 (left) and samples from the
+ posterior over functions (right).
+
+
+        4                        Training data        4
+                                 MLE
+        2                        MAP                  2
+                                 BLR
+        0                                             0
+   y
+
+
+
+
+                                                 y
+
+
+
+
+       −2                                            −2
+
+       −4                                            −4
+
+            −4      −2       0    2        4              −4    −2      0       2       4
+                             x                                          x
+
+ (c) Posterior distribution for polynomials of degree M = 7 (left) and samples from the pos-
+ terior over functions (right).
+
+
+
+
+the posterior uncertainty is huge. This information can be critical when
+we use these predictions in a decision-making system, where bad deci-
+sions can have significant consequences (e.g., in reinforcement learning
+or robotics).
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+                         312                                                                  Linear Regression
+
+                                         9.3.5 Computing the Marginal Likelihood
+                         In Section 8.6.2, we highlighted the importance of the marginal likelihood
+                         for Bayesian model selection. In the following, we compute the marginal
+                         likelihood for Bayesian linear regression with a conjugate Gaussian prior
+                         on the parameters, i.e., exactly the setting we have been discussing in this
+                         chapter.
+                            Just to recap, we consider the following generative process:

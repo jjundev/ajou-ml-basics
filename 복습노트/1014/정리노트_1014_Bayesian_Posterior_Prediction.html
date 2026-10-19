@@ -436,6 +436,8 @@
     </ol>
     <p>우도 $p(Y\mid X,\theta)$는 고정된 $\theta$에서 $y$에 관해 정규화된 밀도예요. 이를 $\theta$의 함수로 본 것만으로는 $\theta$에 관해 정규화된 밀도가 되지 않아요. 사전분포와 곱하고 정규화한 결과가 사후분포예요.</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_04_ML_MAP_FB_%EC%98%88%EC%B8%A1%EB%B6%84%ED%8F%AC_%ED%95%9C%EC%A4%84%EC%94%A9.html">행벡터 미분부터 사후분포와 예측분포까지 이어지는 과정을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_04_ML_MAP_FB_%EC%98%88%EC%B8%A1%EB%B6%84%ED%8F%AC_%ED%95%9C%EC%A4%84%EC%94%A9.html" target="_blank" rel="noopener noreferrer">ML → MAP → FB → 예측분포 수식 노트</a>에서 한 줄씩 전개해 보세요.</p>
+
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><p>교수님은 네 항씩 직접 펼쳐 $\theta$의 차수별로 묶고, 손으로 계산해 보라고 권했어요. “이거 어렵지 않아요, 복잡할 뿐이지.” (1014 Part 04; 정확한 시각 없음)</p></div>
   <div class="sum" hidden><p class="sum-lead">두 이차식을 펼쳐 같은 교차항을 합치면 계수 비교가 쉬워져요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">음의 로그</span>$$-\log p(\theta\mid X,Y)=\frac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)+\mathrm{const}$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>스칼라(scalar)</dt><dd>행렬 곱의 결과로 얻는 숫자 하나예요.</dd><dt>우도(likelihood)</dt><dd>주어진 파라미터에서 관측값의 밀도를 나타내요.</dd></dl></div>
 </article>

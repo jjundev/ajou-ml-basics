@@ -1,0 +1,320 @@
+                      Since the posterior explicitly depends on the parameter prior p(θ), the
+                      prior will have an effect on the parameter vector we find as the maximizer
+                      of the posterior. We will see this more explicitly in the following. The
+                      parameter vector θ MAP that maximizes the posterior (9.24) is the MAP
+                      estimate.
+                        To find the MAP estimate, we follow steps that are similar in flavor
+                      to maximum likelihood estimation. We start with the log-transform and
+                      compute the log-posterior as
+                              log p(θ | X , Y) = log p(Y | X , θ) + log p(θ) + const ,                      (9.25)
+
+                      Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+9.2 Parameter Estimation                                                                   301
+
+where the constant comprises the terms that are independent of θ . We see
+that the log-posterior in (9.25) is the sum of the log-likelihood p(Y | X , θ)
+and the log-prior log p(θ) so that the MAP estimate will be a “compromise”
+between the prior (our suggestion for plausible parameter values before
+observing data) and the data-dependent likelihood.
+  To find the MAP estimate θ MAP , we minimize the negative log-posterior
+distribution with respect to θ , i.e., we solve
+                 θ MAP ∈ arg min{− log p(Y | X , θ) − log p(θ)} .                      (9.26)
+                                  θ
+
+The gradient of the negative log-posterior with respect to θ is
+         d log p(θ | X , Y)    d log p(Y | X , θ) d log p(θ)
+        −                   =−                   −             ,     (9.27)
+                dθ                    dθ               dθ
+where we identify the first term on the right-hand side as the gradient of
+the negative log-likelihood from (9.11c).               
+   With a (conjugate) Gaussian prior p(θ) = N 0, b2 I on the parameters
+θ , the negative log-posterior for the linear regression setting (9.13), we
+obtain the negative log posterior
+                       1                            1
+− log p(θ | X , Y) =       (y − Φθ)⊤ (y − Φθ) + 2 θ ⊤ θ + const . (9.28)
+                      2σ 2                         2b
+Here, the first term corresponds to the contribution from the log-likelihood,
+and the second term originates from the log-prior. The gradient of the log-
+posterior with respect to the parameters θ is then
+             d log p(θ | X , Y)   1                      1
+         −                      = 2 (θ ⊤ Φ⊤ Φ − y ⊤ Φ) + 2 θ ⊤ .                       (9.29)
+                    dθ           σ                      b
+We will find the MAP estimate θ MAP by setting this gradient to 0⊤ and
+solving for θ MAP . We obtain
+                  1 ⊤ ⊤                    1
+                   2
+                     (θ Φ Φ − y ⊤ Φ) + 2 θ ⊤ = 0⊤                                     (9.30a)
+                 σ                     b
+                   ⊤   1 ⊤         1        1
+              ⇐⇒ θ       2
+                           Φ Φ + 2 I − 2 y ⊤ Φ = 0⊤                                   (9.30b)
+                       σ           b       σ
+                                 2
+                                    
+                               σ
+              ⇐⇒ θ ⊤ Φ⊤ Φ + 2 I = y ⊤ Φ                                               (9.30c)
+                               b
+                                             −1
+                                        σ2
+                             
+                   ⊤       ⊤     ⊤
+              ⇐⇒ θ = y Φ Φ Φ + 2 I                                                   (9.30d)
+                                        b
+so that the MAP estimate is (by transposing both sides of the last equality)                       Φ⊤ Φ is symmetric,
+                                           −1                                                     positive semi
+                                       σ2
+                             
+                                 ⊤                                                                 definite. The
+                    θ MAP = Φ Φ + 2 I          Φ⊤ y .                (9.31)                        additional term
+                                       b
+                                                                                                   in (9.31) is strictly
+Comparing the MAP estimate in (9.31) with the maximum likelihood es-                               positive definite so
+timate in (9.19), we see that the only difference between both solutions                           that the inverse
+                         2                                                                         exists.
+is the additional term σb2 I in the inverse matrix. This term ensures that
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+                     302                                                                          Linear Regression
+                                    2
+                     Φ⊤ Φ + σb2 I is symmetric and strictly positive definite (i.e., its inverse
+                     exists and the MAP estimate is the unique solution of a system of linear
+                     equations). Moreover, it reflects the impact of the regularizer.
+
+                     Example 9.6 (MAP Estimation for Polynomial Regression)
+                     In the polynomial regression
+                                                 example from Section 9.2.1, we place a Gaus-
+                     sian prior p(θ) = N 0, I on the parameters θ and determine the MAP
+                     estimates according to (9.31). In Figure 9.7, we show both the maximum
+                     likelihood and the MAP estimates for polynomials of degree 6 (left) and
+                     degree 8 (right). The prior (regularizer) does not play a significant role
+                     for the low-degree polynomial, but keeps the function relatively smooth
+                     for higher-degree polynomials. Although the MAP estimate can push the
+                     boundaries of overfitting, it is not a general solution to this problem, so
+                     we need a more principled approach to tackle overfitting.
+
+Figure 9.7
+Polynomial                 4                                               4                           Training data
+regression:                                                                                            MLE
+maximum likelihood         2                                               2                           MAP
+and MAP estimates.
+                           0                                               0
+                      y
+
+
+
+
+                                                                      y
+
+
+
+
+(a) Polynomials of
+degree 6;
+                          −2        Training data                         −2
+(b) polynomials of                  MLE
+degree 8.                 −4        MAP                                   −4
+
+                               −4       −2          0   2     4                −4     −2      0        2        4
+                                                    x                                         x
+
+                               (a) Polynomials of degree 6.                    (b) Polynomials of degree 8.
+
+
+
+
+                                           9.2.4 MAP Estimation as Regularization
+                     Instead of placing a prior distribution on the parameters θ , it is also pos-
+                     sible to mitigate the effect of overfitting by penalizing the amplitude of
+regularization       the parameter by means of regularization. In regularized least squares, we
+regularized least    consider the loss function
+squares                                                           2             2
+                                                        ∥y − Φθ∥ + λ ∥θ∥2 ,                                   (9.32)
+                     which we minimize with respect to θ (see Section 8.2.3). Here, the first
+data-fit term        term is a data-fit term (also called misfit term), which is proportional to
+misfit term          the negative log-likelihood; see (9.10b). The second term is called the
+regularizer          regularizer, and the regularization parameter λ ⩾ 0 controls the “strict-
+regularization       ness” of the regularization.
+parameter
+                     Remark. Instead of the Euclidean norm ∥·∥2 , we can choose any p-norm
+                     ∥·∥p in (9.32). In practice, smaller values for p lead to sparser solutions.
+                     Here, “sparse” means that many parameter values θd = 0, which is also
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+9.3 Bayesian Linear Regression                                                             303
+
+useful for variable selection. For p = 1, the regularizer is called LASSO                          LASSO
+(least absolute shrinkage and selection operator) and was proposed by Tib-
+shirani (1996).                                                         ♢
+                               2
+   The regularizer λ ∥θ∥2 in (9.32) can be interpreted as a negative log-
+Gaussian prior, which we use in MAP estimation; see (9.26). More specif-
+ically, with a Gaussian prior p(θ) = N 0, b2 I , we obtain the negative
+log-Gaussian prior
+                                       1     2
+                            − log p(θ) =  ∥θ∥2 + const                (9.33)
+                                      2b2
+so that for λ = 2b12 the regularization term and the negative log-Gaussian
+prior are identical.
+   Given that the regularized least-squares loss function in (9.32) consists
+of terms that are closely related to the negative log-likelihood plus a neg-
+ative log-prior, it is not surprising that, when we minimize this loss, we
+obtain a solution that closely resembles the MAP estimate in (9.31). More
+specifically, minimizing the regularized least-squares loss function yields
+                             θ RLS = (Φ⊤ Φ + λI)−1 Φ⊤ y ,                              (9.34)
+                                                                             2
+which is identical to the MAP estimate in (9.31) for λ = σb2 , where σ 2 is
+                          2
+the noise variance and b the variance of the (isotropic) Gaussian prior
+               2
+p(θ) = N 0, b I .                                                                                  A point estimate is a
+   So far, we have covered parameter estimation using maximum likeli-                              single specific
+                                                                                                   parameter value,
+hood and MAP estimation where we found point estimates θ ∗ that op-
+                                                                                                   unlike a distribution
+timize an objective function (likelihood or posterior). We saw that both                           over plausible
+maximum likelihood and MAP estimation can lead to overfitting. In the                              parameter settings.
+next section, we will discuss Bayesian linear regression, where we use
+Bayesian inference (Section 8.4) to find a posterior distribution over the
+unknown parameters, which we subsequently use to make predictions.
+More specifically, for predictions we will average over all plausible sets of
+parameters instead of focusing on a point estimate.
+
+
+                         9.3 Bayesian Linear Regression
+Previously, we looked at linear regression models where we estimated the
+model parameters θ , e.g., by means of maximum likelihood or MAP esti-
+mation. We discovered that MLE can lead to severe overfitting, in particu-
+lar, in the small-data regime. MAP addresses this issue by placing a prior
+on the parameters that plays the role of a regularizer.                                            Bayesian linear
+   Bayesian linear regression pushes the idea of the parameter prior a step                        regression
+further and does not even attempt to compute a point estimate of the
+parameters, but instead the full posterior distribution over the parameters
+is taken into account when making predictions. This means we do not fit
+any parameters, but we compute a mean over all plausible parameters
+settings (according to the posterior).
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+                      304                                                                  Linear Regression
+
+                                                         9.3.1 Model
+                      In Bayesian linear regression, we consider the model
+                                                                   
+                                    prior        p(θ) = N m0 , S 0 ,
+                                                                                                       (9.35)
+                                      likelihood p(y | x, θ) = N y | ϕ⊤ (x)θ, σ 2 ,
+                                                                                 
+
+                                                                                           
+Figure 9.8            where we now explicitly place a Gaussian prior p(θ) = N m0 , S 0 on θ ,
+Graphical model for   which turns the parameter vector into a random variable. This allows us
+Bayesian linear
+                      to write down the corresponding graphical model in Figure 9.8, where we
+regression.
+                      made the parameters of the Gaussian prior on θ explicit. The full proba-
+m0              S0    bilistic model, i.e., the joint distribution of observed and unobserved ran-
+                      dom variables, y and θ , respectively, is
+         θ
+                 σ                              p(y, θ | x) = p(y | x, θ)p(θ) .                        (9.36)
+
+ x       y
+                                                  9.3.2 Prior Predictions
+                      In practice, we are usually not so much interested in the parameter values
+                      θ themselves. Instead, our focus often lies in the predictions we make
+                      with those parameter values. In a Bayesian setting, we take the parameter
+                      distribution and average over all plausible parameter settings when we
+                      make predictions. More specifically, to make predictions at an input x∗ ,
+                      we integrate out θ and obtain
+                                          Z
+                             p(y∗ | x∗ ) = p(y∗ | x∗ , θ)p(θ)dθ = Eθ [p(y∗ | x∗ , θ)] ,   (9.37)
+
+                      which we can interpret as the average prediction of y∗ | x∗ , θ for all plau-
+                      sible parameters θ according to the prior distribution p(θ). Note that pre-
+                      dictions using the prior distribution only require us to specify the input
+                      x∗ , but no training data.
+                         In our model (9.35), we chose a conjugate (Gaussian) prior on θ so
+                      that the predictive distribution is Gaussian as well (and can be computed
+                      in closed form): With the prior distribution p(θ) = N m0 , S 0 , we obtain
+                      the predictive distribution as
+                              p(y∗ | x∗ ) = N ϕ⊤ (x∗ )m0 , ϕ⊤ (x∗ )S 0 ϕ(x∗ ) + σ 2 ,
+                                                                                   
+                                                                                            (9.38)
+                      where we exploited that (i) the prediction is Gaussian due to conjugacy
+                      (see Section 6.6) and the marginalization property of Gaussians (see Sec-
+                      tion 6.5), (ii) the Gaussian noise is independent so that
+                                               V[y∗ ] = Vθ [ϕ⊤ (x∗ )θ] + Vϵ [ϵ] ,                      (9.39)
+                      and (iii) y∗ is a linear transformation of θ so that we can apply the rules
+                      for computing the mean and covariance of the prediction analytically by
+                      using (6.50) and (6.51), respectively. In (9.38), the term ϕ⊤ (x∗ )S 0 ϕ(x∗ )
+                      in the predictive variance explicitly accounts for the uncertainty associated
+
+                      Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+9.3 Bayesian Linear Regression                                                               305
+
+with the parameters θ , whereas σ 2 is the uncertainty contribution due to
+the measurement noise.
+  If we are interested in predicting noise-free function values f (x∗ ) =
+ϕ⊤ (x∗ )θ instead of the noise-corrupted targets y∗ we obtain
+              p(f (x∗ )) = N ϕ⊤ (x∗ )m0 , ϕ⊤ (x∗ )S 0 ϕ(x∗ ) ,
+                                                            
+                                                                    (9.40)
+which only differs from (9.38) in the omission of the noise variance σ 2 in
+the predictive variance.
+Remark (Distribution over Functions). Since we can represent the distri-                           The parameter
+bution p(θ) using a set of samples θ i and every sample θ i gives rise to a                        distribution p(θ)
+                                                                                                   induces a
+function fi (·) = θ ⊤
+                    i ϕ(·), it follows that the parameter distribution p(θ)                        distribution over
+induces a distribution p(f (·)) over functions. Here we use the notation (·)                       functions.
+to explicitly denote a functional relationship.                           ♢
+
+
+Example 9.7 (Prior over Functions)
+                                                                                                   Figure 9.9 Prior
+                                                                                                   over functions.
+      4                                               4
+                                                                                                   (a) Distribution over
+                                                                                                   functions
+      2                                               2
+                                                                                                   represented by the
+      0                                               0                                            mean function
+ y
+
+
+
+
+                                                 y
+
+
+
+
+                                                                                                   (black line) and the
+     −2                                              −2                                            marginal
+                                                                                                   uncertainties
+     −4                                              −4                                            (shaded),
+                                                                                                   representing the
+          −4      −2       0       2       4              −4     −2       0      2       4
+                           x                                              x                        67% and 95%
+                                                                                                   confidence bounds,
+      (a) Prior distribution over functions.    (b) Samples from the prior distribution over       respectively;
+                                                functions.                                         (b) samples from
+                                                                                                   the prior over
+   Let us consider a Bayesian linear regression problem withpolynomials
+                                                                                                   functions, which are
+of degree 5. We choose a parameter prior p(θ) = N 0, 41 I . Figure 9.9                             induced by the
+visualizes the induced prior distribution over functions (shaded area: dark                        samples from the
+gray: 67% confidence bound; light gray: 95% confidence bound) induced                              parameter prior.
+by this parameter prior, including some function samples from this prior.
+   A function sample is obtained by first sampling a parameter vector
+θ i ∼ p(θ) and then computing fi (·) = θ ⊤   i ϕ(·). We used 200 input lo-
+cations x∗ ∈ [−5, 5] to which we apply the feature function ϕ(·). The
+uncertainty (represented by the shaded area) in Figure 9.9 is solely due to
+the parameter uncertainty because we considered the noise-free predictive
+distribution (9.40).
+
+  So far, we looked at computing predictions using the parameter prior
+p(θ). However, when we have a parameter posterior (given some train-
