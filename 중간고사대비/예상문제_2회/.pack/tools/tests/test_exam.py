@@ -36,7 +36,7 @@ def test_subparts_and_blind_input():
  bad=copy.deepcopy(checks);bad[next(iter(bad))]['status']='disputed';assert validate_answer_checks(pack,bad)
  root=parse((OUT/'.pack/evidence/blind-input.html').read_text())
  assert not list(root.find_all(lambda n: bool(n.classes & {'solution','answer','hint'})))
- assert len(list(root.find_all(lambda n:'problem' in n.classes)))==10
+ assert len(list(root.find_all(lambda n:n.tag=='article')))==10
 
 def test_problem_payload_has_no_solution_or_hint():
  from exam_adapter import EXAM,STEM

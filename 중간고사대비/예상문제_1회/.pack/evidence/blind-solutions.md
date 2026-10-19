@@ -1,217 +1,372 @@
-# 독립 풀이: 중간고사 예상문제 1회
+# 독립 수학 검산 결과
 
-입력: `blind-input.html`만 읽고 독립적으로 풀었다. 총 10문항, 31개 소문항이다. 답안 대조 또는 정답 비교 통과 판정은 하지 않았다.
+입력: `blind-1.html`, `blind-2.html`만을 문제 자료로 사용. 다른 풀이·참고답·보고서나 다른 에이전트의 수학 결과는 읽지 않았다. 각 문항은 직접 유도했고 일부 수치행렬을 SymPy 유리수 연산으로 교차검산했다.
 
-## p1
+풀이 소문항 수: 1회 42개, 2회 44개, 총 86개.
 
-### (a)
+## 입력 SHA-256
 
-선형종속이다. $v_1+v_2-v_3=0$.
+- `blind-1.html`: `791f33d4fb97158abddcdca88f8b89b0989b7ca424f50d14aba81ea65f1e10fe`
+- `blind-2.html`: `053c607c2f0e047d9e4e4a474c3d6787e10c5b91f6181b32024e0bf245c3a33e`
 
-각 좌표를 더하면 $(1,0,1)^\top+(0,1,1)^\top-(1,1,2)^\top=(0,0,0)^\top$이다. 계수 $(1,1,-1)^\top$는 영벡터가 아니므로 선형종속이다. 한편 $s v_1+t v_2=(s,t,s+t)^\top=0$이면 $s=t=0$이므로 처음 두 열은 독립이고 $\operatorname{rank}V=2$이다.
+## 1회
 
-### (b)
+### p1:a (exact)
 
-$\alpha=(2-t,1-t,t)^\top$, $t\in\mathbb R$. $c=(2,1,4)^\top$에는 해가 없다.
+$v_3=v_1+v_2$이므로 $v_1+v_2-v_3=0$. 계수 $(1,1,-1)$은 비영이어서 세 열은 선형종속이다. $v_1,v_2$는 첫째·둘째 성분으로 독립임을 바로 확인한다.
 
-$V\alpha=(\alpha_1+\alpha_3,\alpha_2+\alpha_3,\alpha_1+\alpha_2+2\alpha_3)^\top$이다. 첫 두 방정식에서 $\alpha_3=t$라 두면 $\alpha_1=2-t$, $\alpha_2=1-t$이고 셋째 식은 항상 $3$이다. 따라서 이 식이 모든 해다. 열공간은 $\{(s,t,s+t)^\top:s,t\in\mathbb R\}$이므로 $c$의 셋째 좌표 $4$는 첫 두 좌표 합 $3$과 달라 해가 없다.
+### p1:b (exact)
 
-### (c)
+첫 두 행은 $\alpha_1+\alpha_3=2$, $\alpha_2+\alpha_3=1$을 준다. 셋째 행은 이 둘의 합이므로 $\alpha=(2-s,1-s,s)^\top$, $s\in\mathbb R$가 모든 해다. 모든 열의 셋째 성분이 첫 두 성분의 합이므로 열공간은 $\{(u,v,u+v)^\top\}$. $c=(2,1,4)^\top$는 이 평면 밖이어서 해가 없다.
 
-$U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}$, $(U^\top U)^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$. $V^\top V$는 비가역이다.
+### p1:c (exact)
 
-$v_1^\top v_1=v_2^\top v_2=2$, $v_1^\top v_2=1$이므로 위 Gram 행렬을 얻고 행렬식은 $4-1=3\ne0$이다. 반면 $V^\top V=\begin{pmatrix}2&1&3\\1&2&3\\3&3&6\end{pmatrix}$이고 $(1,1,-1)^\top$에 곱하면 $0$이다. 따라서 $V^\top V$는 영이 아닌 영공간 벡터를 가지며 역행렬이 없다.
+$U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}$이고 행렬식이 $3$이므로 $(U^\top U)^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$. $V^\top V=\begin{pmatrix}2&1&3\\1&2&3\\3&3&6\end{pmatrix}$는 비영 벡터 $(1,1,-1)^\top$를 영벡터로 보내므로 역행렬이 없다. Gram 행렬의 가역성은 행이 아니라 열의 독립성에 달렸다.
 
-## p2
+### p2:a (symbolic)
 
-### (a)
+$J_f(x)=\begin{pmatrix}2x_1&1\\x_2&x_1\end{pmatrix}$, $J_f(1,2)=\begin{pmatrix}2&1\\2&1\end{pmatrix}$. 두 입력·두 출력이므로 모두 $2\times2$이다.
 
-$J_f(x)=\begin{pmatrix}2x_1&1\\x_2&x_1\end{pmatrix}$, $J_f(1,2)=\begin{pmatrix}2&1\\2&1\end{pmatrix}$, 둘 다 $2\times2$.
+### p2:b (symbolic)
 
-첫 행은 첫 출력 $x_1^2+x_2$를 $x_1,x_2$로 각각 미분한 $(2x_1,1)$이고, 둘째 행은 둘째 출력 $x_1x_2$의 편미분 $(x_2,x_1)$이다. 출력 차원 2와 입력 차원 2에 따라 Jacobian은 $2\times2$다.
+$q=2x_1^2+x_1x_2+x_2^2-x_1$. 따라서 열 gradient는 $\nabla q=(4x_1+x_2-1,\ x_1+2x_2)^\top\in\mathbb R^2$, Hessian은 $\nabla^2q=A=\begin{pmatrix}4&1\\1&2\end{pmatrix}\in\mathbb R^{2\times2}$이다.
 
-### (b)
+### p2:c (proof)
 
-$q=2x_1^2+x_1x_2+x_2^2-x_1$, $\nabla q=(4x_1+x_2-1,x_1+2x_2)^\top$, $\nabla^2q=A$.
+$4x_1+x_2=1$, $x_1+2x_2=0$에서 $x_*=(2/7,-1/7)^\top$. $A$의 선행 주행렬식은 $4>0$, $\det A=7>0$이어서 양의 정부호다. $q(x)-q(x_*)=\frac12(x-x_*)^\top A(x-x_*)>0$ ($x\ne x_*$)이므로 유일한 전역 최소점이다.
 
-$x^\top Ax=4x_1^2+2x_1x_2+2x_2^2$이고 $b^\top x=x_1$이다. 성분별 미분하면 열 gradient $\begin{pmatrix}4x_1+x_2-1\\x_1+2x_2\end{pmatrix}$를 얻는다. 다시 미분하면 $\begin{pmatrix}4&1\\1&2\end{pmatrix}=A$이며, 대칭 $A$에 대한 일반식 $\nabla q=Ax-b$와 일치한다.
+### p3:a (exact)
 
-### (c)
+$z^2+(z-2)^2/3=\frac43z^2-\frac43z+\frac43=\frac43(z-\frac12)^2+1$. 따라서 $g(z)=\frac1{2\pi\sqrt3}e^{-1/2}\exp[-\frac23(z-\frac12)^2]$.
 
-$x_*=(2/7,-1/7)^\top$는 유일한 전역 최소점이다.
+### p3:b (exact)
 
-$4x_1+x_2=1$, $x_1+2x_2=0$에서 $x_1=-2x_2$를 대입하면 $-7x_2=1$이므로 위 해다. 임의의 $h\ne0$에 대해 $h^\top Ah=4(h_1+h_2/4)^2+(7/4)h_2^2>0$이다. $x=x_*+h$를 전개하면 $q(x)-q(x_*)=\frac12h^\top Ah$이고 $h\ne0$일 때 양수이므로 유일한 전역 최소점이다. 최소값은 $q(x_*)=-\frac12b^\top x_*=-1/7$이다.
+정밀도가 $4/3$이므로 평균 $1/2$, 분산 $3/4$다. $q(z)=\frac1{\sqrt{2\pi(3/4)}}\exp[-(z-1/2)^2/(2(3/4))]=\sqrt{\frac2{3\pi}}\exp[-\frac23(z-1/2)^2]$. 이 앞 계수는 Gaussian 적분에 의해 적분값을 1로 만든다.
 
-## p3
+### p3:c (exact)
 
-### (a)
+$\int\exp[-\frac23(z-1/2)^2]dz=\sqrt{3\pi/2}$이므로 $Z=\frac{e^{-1/2}}{\sqrt{8\pi}}=\mathcal N(2\mid0,4)$. $Z\ne1$이므로 비음수인 $g$ 자체는 정규화된 확률밀도가 아니다. $g/Z$가 밀도다.
 
-$z^2+(z-2)^2/3=\frac43(z-\frac12)^2+1$.
+### p4:a (exact)
 
-왼쪽을 전개하면 $\frac43z^2-\frac43z+\frac43=\frac43(z^2-z+\frac14)+1$이다. 그러므로 완전제곱은 $\frac43(z-\frac12)^2+1$이다.
+$\Phi=\begin{pmatrix}1&-1\\1&0\\1&1\end{pmatrix}\in\mathbb R^{3\times2}$, $y=(0,1,4)^\top$, $\Phi^\top\Phi=\operatorname{diag}(3,2)$, $\Phi^\top y=(5,4)^\top$.
 
-### (b)
+### p4:b (exact)
 
-$q=\mathcal N(z\mid1/2,3/4)$이며 $q(z)=\sqrt{2/(3\pi)}\exp[-\frac23(z-\frac12)^2]$.
+분산 1의 독립 Gaussian 우도의 최대화는 잔차제곱합 최소화다. $\Phi^\top\Phi\theta=\Phi^\top y$에서 $\theta_{ML}=(5/3,2)^\top$. $\phi(2)=(1,2)^\top$이므로 평균 예측은 $5/3+2\cdot2=17/3$.
 
-곱 밀도는 $g(z)=\frac{1}{2\pi\sqrt3}\exp[-\frac12\{\frac43(z-\frac12)^2+1\}]=\frac{e^{-1/2}}{2\pi\sqrt3}\exp[-\frac23(z-\frac12)^2]$다. 지수의 $1/(2v)=2/3$에서 분산은 $v=3/4$, 중심에서 평균은 $m=1/2$이다. 정규화한 Gaussian 계수는 $1/\sqrt{2\pi(3/4)}=\sqrt{2/(3\pi)}$이다.
+### p4:c (exact)
 
-### (c)
+음의 로그 posterior의 가변항은 $\frac12\|y-\Phi\theta\|^2+\frac12\|\theta\|^2$. 따라서 $(\Phi^\top\Phi+I)\theta=\Phi^\top y$, $\theta_{MAP}=(5/4,4/3)^\top$. 평균 예측은 $5/4+2(4/3)=47/12$. 영평균 prior의 이차벌점이 절편과 기울기를 모두 0 방향으로 수축시킨다.
 
-$Z=e^{-1/2}/\sqrt{8\pi}$이며 $g$ 자체는 정규화된 확률밀도가 아니다.
+### p5:a (exact)
 
-Gaussian 적분으로 $Z=\frac{e^{-1/2}}{2\pi\sqrt3}\sqrt{\frac{3\pi}{2}}=\frac{e^{-1/2}}{2\sqrt{2\pi}}$이다. 이는 $\mathcal N(0\mid2,4)$와도 같다. $g\ge0$이지만 적분이 $1$이 아니므로 그대로 확률밀도라고 부를 수 없고 $q=g/Z$가 밀도다.
+$\mu_X=(2/3,2/3)^\top$. $E[XX^\top]=\operatorname{diag}(4/3,4/3)$이므로 $\Sigma_X=E[XX^\top]-\mu_X\mu_X^\top=\begin{pmatrix}8/9&-4/9\\-4/9&8/9\end{pmatrix}$. 이는 분모 3을 쓴 결과이며 불편표본공분산의 분모 2와 다르다.
 
-## p4
+### p5:b (exact)
 
-### (a)
+$Y-\mu_Y=A(X-\mu_X)$에서 $\mu_Y=A\mu_X+b=(7/3,-1)^\top$, $\Sigma_Y=A\Sigma_XA^\top=\operatorname{diag}(8/9,8/3)$. 정의된 교차공분산의 순서에 따라 $C_{XY}=\Sigma_XA^\top=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}$이며 세 행렬은 모두 $2\times2$다. 이동 $b$는 공분산에 영향을 주지 않는다.
 
-$\Phi=\begin{pmatrix}1&-1\\1&0\\1&1\end{pmatrix}$, $\Phi^\top\Phi=\operatorname{diag}(3,2)$, $\Phi^\top y=(5,4)^\top$.
+### p5:c (proof)
 
-각 행은 $(1,x_n)$이므로 위 $3\times2$ 행렬이다. $\sum1=3$, $\sum x_n=0$, $\sum x_n^2=2$이고, $\sum y_n=5$, $\sum x_ny_n=(-1)0+0\cdot1+1\cdot4=4$다.
+가능한 $Y$는 $(1,-1)^\top,(3,1)^\top,(3,-3)^\top$이고 각각 확률 $1/3$이다. 공분산의 비대각 원소가 0이므로 무상관이다. 그러나 $P(Y_1=1)=1/3$, $P(Y_2=1)=1/3$인데 $P(Y_1=1,Y_2=1)=0\ne1/9$. 따라서 독립은 아니다. 이산분포에 Gaussian의 무상관-독립 정리를 적용할 수 없다.
 
-### (b)
+### p6:a (proof)
 
-$\theta_{\rm ML}=(5/3,2)^\top$, $\widehat y(2)=17/3$.
+$y_n\mid x_n,\theta\sim\mathcal N(\theta_0+\theta_1x_n,\sigma^2)$. 입력과 모수를 고정하면 각 $y_n$은 서로 독립인 $\epsilon_n$에 각각 상수만 더한 값이므로 조건부 독립이다. 따라서 결합밀도는 각 조건부 밀도의 곱이다.
 
-잡음 분산이 1인 독립 Gaussian 우도의 최대화는 $\|y-\Phi\theta\|^2$의 최소화다. 정규방정식으로 $\theta_{\rm ML}=(\Phi^\top\Phi)^{-1}\Phi^\top y=\operatorname{diag}(1/3,1/2)(5,4)^\top=(5/3,2)^\top$. 평균 예측은 $(1,2)\theta_{\rm ML}=5/3+4=17/3$이다.
+### p6:b (symbolic)
 
-### (c)
+$p(y\mid\Phi,\theta)=\prod_{n=1}^N\frac1{\sqrt{2\pi\sigma^2}}e^{-(y_n-\phi(x_n)^\top\theta)^2/(2\sigma^2)}=(2\pi\sigma^2)^{-N/2}e^{-\|y-\Phi\theta\|^2/(2\sigma^2)}$. $\mathcal L(\theta)=\frac N2\log(2\pi\sigma^2)+\frac1{2\sigma^2}\|y-\Phi\theta\|^2$. $\Phi$는 $N\times2$, $y$는 $N\times1$이다.
 
-$\theta_{\rm MAP}=(5/4,4/3)^\top$, $\widehat y_{\rm MAP}(2)=47/12$.
+### p6:c (proof)
 
-prior가 절편까지 포함한 $\mathcal N(0,I_2)$이고 잡음 분산도 1이므로 음의 로그 사후밀도는 상수 외에 $\frac12\|y-\Phi\theta\|^2+\frac12\|\theta\|^2$다. 따라서 $(\Phi^\top\Phi+I_2)\theta=\Phi^\top y$이고 $\theta=(5/4,4/3)^\top$. 예측은 $5/4+2(4/3)=47/12$다. prior가 두 계수를 0 쪽으로 축소하는 벌점을 더하여 ML과 달라진다.
+$\mathcal L(\theta)=C+\frac{N}{2\sigma^2}\widehat R(\theta)$, $C=\frac N2\log(2\pi\sigma^2)$. $\sigma^2>0$, $N>0$이고 $C$는 모수와 무관하므로 양의 상수배와 상수 이동은 최소점 집합을 보존한다. 따라서 ML은 제곱손실 경험위험 최소화와 같다.
 
-## p5
+### p6:d (symbolic)
 
-### (a)
+$Q=\|y-\Phi\theta\|^2=y^\top y-2\theta^\top\Phi^\top y+\theta^\top\Phi^\top\Phi\theta$. $G=\Phi^\top\Phi$는 대칭이므로 $\nabla_\theta Q=-2\Phi^\top y+2G\theta\in\mathbb R^2$. 따라서 $G\theta=\Phi^\top y$가 정규방정식이다. 경험위험의 gradient는 이 식을 $N$으로 나눈 것이다.
 
-$\mu_X=(2/3,2/3)^\top$, $\Sigma_X=\begin{pmatrix}8/9&-4/9\\-4/9&8/9\end{pmatrix}$.
+### p6:e (proof)
 
-$E[X]=(x_1+x_2+x_3)/3=(2/3,2/3)^\top$이고 $E[XX^\top]=\operatorname{diag}(4/3,4/3)$이다. 따라서 $\Sigma_X=E[XX^\top]-\mu_X\mu_X^\top=\operatorname{diag}(4/3,4/3)-\frac49\begin{pmatrix}1&1\\1&1\end{pmatrix}$로 주어진다. 이는 분모 3의 공분산이며 분모 2의 불편 표본 공분산을 쓰지 않았다.
+열독립에 의해 비영 $h$에 대해 $h^\top Gh=\|\Phi h\|^2>0$이므로 $G$는 가역이며 $\theta_{ML}=G^{-1}\Phi^\top y$. Hessian $2G$가 양의 정부호이므로 유일한 전역 최소점이다. $(1,x,x^2)^\top$로 바꾸면 평균은 $\theta_0+\theta_1x+\theta_2x^2$로 입력에는 비선형이지만 미지 계수에는 선형이어서 선형 회귀다. 새 특징행렬에 대한 해의 유일성은 새 열들의 독립성을 별도로 요구한다.
 
-### (b)
+### p7:a (symbolic)
 
-$\mu_Y=(7/3,-1)^\top$, $\Sigma_Y=\operatorname{diag}(8/9,8/3)$, $C_{XY}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}$.
+Bayes 정리에서 $p(\theta\mid y,\Phi)=p(y\mid\Phi,\theta)p(\theta)/p(y\mid\Phi)\propto p(y\mid\Phi,\theta)p(\theta)$. Evidence $p(y\mid\Phi)=\int_{\mathbb R^K}p(y\mid\Phi,\vartheta)p(\vartheta)d\vartheta$는 모수를 적분한 값으로 현재의 $\theta$에는 의존하지 않는다.
 
-$E[Y]=A\mu_X+b=(4/3,0)^\top+(1,-1)^\top=(7/3,-1)^\top$. 중심화하면 $Y-\mu_Y=A(X-\mu_X)$이므로 $\Sigma_Y=A\Sigma_XA^\top$이고 $C_{XY}=\Sigma_XA^\top$다. 실제 곱셈은 $\Sigma_XA^\top=\frac19\begin{pmatrix}4&12\\4&-12\end{pmatrix}$, $A\Sigma_XA^\top=\frac19\begin{pmatrix}8&0\\0&24\end{pmatrix}$다. 이동 $b$는 공분산에 영향을 주지 않는다.
+### p7:b (symbolic)
 
-### (c)
+곱은 $(2\pi\sigma^2)^{-N/2}(2\pi\tau^2)^{-K/2}\exp[-\|y-\Phi\theta\|^2/(2\sigma^2)-\|\theta-m_0\|^2/(2\tau^2)]$. 따라서 음의 로그 posterior는 $\frac1{2\sigma^2}\|y-\Phi\theta\|^2+\frac1{2\tau^2}\|\theta-m_0\|^2+C$, $C=\frac N2\log(2\pi\sigma^2)+\frac K2\log(2\pi\tau^2)+\log p(y\mid\Phi)$. $C$는 $\theta$와 무관하다.
 
-$Y_1,Y_2$는 무상관이지만 독립은 아니다.
+### p7:c (symbolic)
 
-가능한 $Y$는 각각 확률 $1/3$로 $(1,-1)^\top$, $(3,1)^\top$, $(3,-3)^\top$다. $\Sigma_Y$의 비대각항이 0이므로 무상관이다. 그러나 $P(Y_1=1)=1/3$, $P(Y_2=1)=1/3$인 반면 $P(Y_1=1,Y_2=1)=0\ne1/9$다. 따라서 독립 조건이 깨진다. 이 분포는 세 점에 질량을 가진 이산분포이므로 Gaussian의 무상관-독립 성질을 적용할 수 없다.
+첫 이차항의 열 gradient는 $\sigma^{-2}\Phi^\top(\Phi\theta-y)$이고, 둘째는 $\tau^{-2}(\theta-m_0)$. 합을 0으로 두면 $(\sigma^{-2}\Phi^\top\Phi+\tau^{-2}I_K)\theta=\sigma^{-2}\Phi^\top y+\tau^{-2}m_0$. 양변은 $K\times1$이다.
 
-## p6
+### p7:d (symbolic)
 
-### (a)
+$\lambda=\sigma^2/\tau^2>0$로 두면 $\theta_{MAP}=(\Phi^\top\Phi+\lambda I_K)^{-1}(\Phi^\top y+\lambda m_0)$. 음의 로그 posterior를 $2\sigma^2$배 하면 가변항이 $\|y-\Phi\theta\|^2+\lambda\|\theta-m_0\|^2$가 된다. 따라서 이 합에서 상대 벌점계수는 $\lambda=\sigma^2/\tau^2$다.
 
-$p(y\mid\Phi,\theta)=(2\pi\sigma^2)^{-N/2}\exp[-\|y-\Phi\theta\|^2/(2\sigma^2)]$.
+### p7:e (proof)
 
-고정 입력에서 $y_n\mid x_n,\theta\sim\mathcal N(\theta_0+\theta_1x_n,\sigma^2)$다. 잡음의 독립으로 관측은 $\theta,\Phi$를 조건으로 독립이므로 결합우도가 $\prod_{n=1}^N p(y_n\mid x_n,\theta)$로 분해된다. 각 인자는 $(2\pi\sigma^2)^{-1/2}\exp[-(y_n-\theta_0-\theta_1x_n)^2/(2\sigma^2)]$이고, 곱의 상수와 지수를 모으면 위 식이다.
+임의의 비영 $h\in\mathbb R^K$에 대해 $h^\top(\Phi^\top\Phi+\lambda I_K)h=\|\Phi h\|^2+\lambda\|h\|^2>0$. 따라서 행렬은 양의 정부호여서 열독립 없이도 가역이고 MAP은 유일하다. 핵심 조건은 $\lambda>0$이며 $\lambda=0$에는 이 증명이 적용되지 않는다.
 
-### (b)
+### p7:f (exact)
 
-$-\log p=\frac N2\log(2\pi\sigma^2)+\frac{1}{2\sigma^2}\sum_n(y_n-\phi(x_n)^\top\theta)^2$이며 ERM과 같은 최소점을 준다.
+$G=\begin{pmatrix}5&5\\5&5\end{pmatrix}$, $\Phi^\top y=(5,5)^\top$. $\lambda=1$에서 $(G+I)^{-1}=\frac1{11}\begin{pmatrix}6&-5\\-5&6\end{pmatrix}$이므로 $\theta_{MAP}=(5/11,5/11)^\top$. $\lambda=0$이면 $\theta_1+\theta_2=1$인 모든 벡터가 최소제곱해이므로 유일하지 않다. $\lambda>0$의 해는 $(5/(10+\lambda),5/(10+\lambda))^\top$로 $\lambda\to\infty$에 $(0,0)^\top=m_0$로 간다. 참고로 $\lambda\to0^+$에서는 $(1/2,1/2)^\top$인 최소노름 해를 고른다.
 
-우도의 로그를 취하고 부호를 바꾸면 정규화 상수에서 $\frac N2\log(2\pi\sigma^2)$, 지수에서 $\frac1{2\sigma^2}\|y-\Phi\theta\|^2$를 얻는다. 경험위험 $\widehat R=\|y-\Phi\theta\|^2/N$이므로 $-\log p=\frac N2\log(2\pi\sigma^2)+\frac N{2\sigma^2}\widehat R$. 알려진 $\sigma^2>0$에서 앞 항은 $\theta$와 무관하고 위험 앞 계수는 양수이므로 argmin이 같다.
+### p8:a (symbolic)
 
-### (c)
+모수에 조건부로 관측들이 독립이므로 곱은 $\mathcal N(2\mid\theta,2)\mathcal N(0\mid\theta,2)\mathcal N(\theta\mid1,2)=(4\pi)^{-3/2}\exp[-\{(2-\theta)^2+\theta^2+(\theta-1)^2\}/4]$. 모수와 무관한 양의 앞 계수를 제외하면 뒤 지수식이다.
 
-$\Phi^\top\Phi\theta=\Phi^\top y$, $\theta_{\rm ML}=(\Phi^\top\Phi)^{-1}\Phi^\top y$. 다항 특징도 계수에 대해 선형이므로 선형 회귀다.
+### p8:b (exact)
 
-열 gradient는 $\nabla_\theta[-\log p]=\sigma^{-2}\Phi^\top(\Phi\theta-y)\in\mathbb R^{2}$이다. 이를 0으로 놓으면 정규방정식이다. 열독립 가정으로 임의의 $v\ne0$에 대해 $v^\top\Phi^\top\Phi v=\|\Phi v\|^2>0$이므로 역행렬이 있고 위 유일해를 얻는다. $\phi(x)=(1,x,x^2)^\top$라면 평균은 $\theta_0+\theta_1x+\theta_2x^2$로 입력에는 비선형일 수 있으나 미지 계수 $\theta$에는 선형이다. 새 특징행렬의 열독립까지 자동 보장되는 것은 아니며, 유일한 역행렬식 해를 쓰려면 그 열독립을 별도로 확인해야 한다.
+제곱합은 $3\theta^2-6\theta+5$. 따라서 지수는 $-\frac12[\frac32\theta^2-2(\frac32)\theta+\frac52]$로 $A=3/2$, $b=3/2$, $c=5/2$. $A>0$이므로 정규화 가능한 Gaussian 핵이다.
 
-## p7
+### p8:c (exact)
 
-### (a)
+$A\theta^2-2b\theta+c=\frac32(\theta-1)^2+1$. 모수와 무관한 $e^{-1/2}$는 정규화 시 사라진다. $\int e^{-3(\theta-1)^2/4}d\theta=\sqrt{4\pi/3}$이므로 $p(\theta\mid D)=\sqrt{\frac3{4\pi}}e^{-3(\theta-1)^2/4}=\mathcal N(\theta\mid1,2/3)$. 평균 1, 분산 $2/3$다.
 
-$L(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac{\|\theta-m_0\|^2}{2\tau^2}+C$, $\lambda=\sigma^2/\tau^2$, $\theta_{\rm MAP}=(\Phi^\top\Phi+\lambda I_K)^{-1}(\Phi^\top y+\lambda m_0)$.
+### p8:d (exact)
 
-Bayes 법칙에서 사후밀도는 우도와 prior의 곱에 비례한다. 둘의 지수를 더하고 음의 로그를 취하면 주어진 $L$이 나온다. 정확히는 $C=\frac N2\log(2\pi\sigma^2)+\frac K2\log(2\pi\tau^2)+\log p(y\mid\Phi)$이며 $\theta$와 무관하다. 목적함수에 양수 $2\sigma^2$를 곱하면 $\|y-\Phi\theta\|^2+\lambda\|\theta-m_0\|^2$. 미분하여 $\Phi^\top(\Phi\theta-y)+\lambda(\theta-m_0)=0$을 풀면 위 해다. 절편도 prior가 적용되므로 해당 좌표 역시 벌점에 포함한다.
+선형변환 $f_*=2\theta$는 Gaussian을 보존한다. $E[f_*\mid D]=2E[\theta\mid D]=2$, $\operatorname{Var}(f_*\mid D)=4\operatorname{Var}(\theta\mid D)=8/3$. 따라서 $f_*\mid D\sim\mathcal N(2,8/3)$. 밀도 계수는 $1/\sqrt{2\pi(8/3)}$이다.
 
-### (b)
+### p8:e (exact)
 
-$\lambda>0$이면 $\Phi^\top\Phi+\lambda I_K$는 양의 정부호이므로 가역이다.
+독립 미래 잡음의 평균은 0, 분산은 2이므로 $E[y_*\mid D]=2$, $\operatorname{Var}(y_*\mid D)=8/3+2=14/3$. 두 독립 Gaussian의 합이어서 $y_*\mid D\sim\mathcal N(2,14/3)$이며 정규화 계수는 $1/\sqrt{2\pi(14/3)}$이다.
 
-임의의 $v\in\mathbb R^K\setminus\{0\}$에 대해 $v^\top(\Phi^\top\Phi+\lambda I_K)v=\|\Phi v\|^2+\lambda\|v\|^2>0$이다. 첫 항은 0 이상이고 둘째 항은 엄격히 양수다. 만일 행렬이 비가역이면 영이 아닌 $v$에 대해 행렬 곱이 0이므로 이차형식도 0이 되어 모순이다. 따라서 $\Phi$의 열독립 없이도 가역이고 MAP은 유일하다.
+### p8:f (proof)
 
-### (c)
+Gaussian posterior의 유일한 최빈값은 평균과 같아 $\theta_{MAP}=1$. 이를 고정하면 $y_*\mid\theta_{MAP}\sim\mathcal N(2,2)$. 완전한 posterior 예측 $\mathcal N(2,14/3)$와 평균은 같지만 분산은 $8/3$ 작다. 이 차이는 $\operatorname{Var}(E[y_*\mid\theta,D]\mid D)=4\operatorname{Var}(\theta\mid D)=8/3$, 즉 모수의 사후 불확실성이다.
 
-$\lambda=1$의 MAP은 $(5/11,5/11)^\top$. $\lambda=0$에서는 $\theta_1+\theta_2=1$인 모든 벡터가 해다. $\lambda\to\infty$이면 $(0,0)^\top$.
+### p9:a (symbolic)
 
-$\Phi^\top\Phi=\begin{pmatrix}5&5\\5&5\end{pmatrix}$, $\Phi^\top y=(5,5)^\top$. $\lambda=1$이면 $\begin{pmatrix}6&5\\5&6\end{pmatrix}\theta=(5,5)^\top$이며 두 식을 빼면 $\theta_1=\theta_2$, 따라서 $11\theta_1=5$다. $\lambda=0$에서는 $\Phi\theta=(\theta_1+\theta_2,2(\theta_1+\theta_2))^\top$이므로 잔차제곱은 $5(1-\theta_1-\theta_2)^2$이고 해가 무한히 많다. 일반 $\lambda>0$에서는 $\theta_\lambda=\frac5{10+\lambda}(1,1)^\top$이므로 $\lambda\to\infty$에서 0, 즉 prior 평균으로 간다. 참고로 $\lambda\downarrow0$의 극한은 비유일한 최소제곱해 중 최소 노름인 $(1/2,1/2)^\top$다.
+$p(y\mid M_j)=\int_{\mathbb R}\mathcal N(y\mid\theta,1)\mathcal N(\theta\mid0,v_j)d\theta$. 이는 결합밀도 $p(y,\theta\mid M_j)$를 주변화한 것이므로 prior로 가중한다. 같은 데이터를 이미 조건화한 posterior를 넣으면 이 주변화 정의와 달라져 데이터를 이중 사용하게 된다.
 
-## p8
+### p9:b (symbolic)
 
-### (a)
+$v=v_j>0$로 두면 $(y-\theta)^2+\theta^2/v=\frac{v+1}{v}(\theta-\frac{v y}{v+1})^2+\frac{y^2}{v+1}$. 곱의 앞 계수는 $1/(2\pi\sqrt v)$, 완전제곱 핵의 적분은 $\sqrt{2\pi v/(v+1)}$. 따라서 $p(y\mid M_j)=\frac1{\sqrt{2\pi(v_j+1)}}e^{-y^2/[2(v_j+1)]}=\mathcal N(y\mid0,v_j+1)$.
 
-$p(\theta\mid D)=\mathcal N(\theta\mid1,2/3)$.
+### p9:c (exact)
 
-사후 precision은 prior $1/2$와 두 관측의 $x_n^2/2=1/2$를 더한 $3/2$이므로 분산은 $2/3$이다. 평균의 precision 가중 분자는 $m_0/v_0+\sum x_ny_n/2=1/2+(2+0)/2=3/2$여서 평균은 $1$이다. 직접 지수를 모으면 $p(\theta\mid D)\propto\exp[-\{(\theta-1)^2+(2-\theta)^2+(0-\theta)^2\}/4]$. 중괄호는 $3(\theta-1)^2+2$이므로 정규화 후 $\sqrt{3/(4\pi)}\exp[-3(\theta-1)^2/4]$가 된다.
+$y=0$에서 $p(0\mid M_1)=1/\sqrt{4\pi}=1/(2\sqrt\pi)$, $p(0\mid M_2)=1/\sqrt{10\pi}$. 이 값들은 연속관측의 밀도값이며 $P(y=0)$라는 점확률은 아니다.
 
-### (b)
+### p9:d (exact)
 
-$f_*\mid D\sim\mathcal N(2,8/3)$, $y_*\mid D\sim\mathcal N(2,14/3)$.
+$B_{12}=p(0\mid M_1)/p(0\mid M_2)=\sqrt{5/2}>1$. 따라서 관측 데이터 자체의 evidence 비교는 $M_1$을 지지한다.
 
-$f_*=2\theta$이므로 사후 평균은 $2E[\theta\mid D]=2$이고 분산은 $2^2\operatorname{Var}(\theta\mid D)=4(2/3)=8/3$이다. 새 잡음은 평균 0, 분산 2이고 사후의 $\theta$와 독립이므로 $E[y_*\mid D]=2$, $\operatorname{Var}(y_*\mid D)=8/3+2=14/3$이다. 두 Gaussian의 합 역시 Gaussian이다. 두 분산 차이 2는 새 관측 잡음이며 $8/3$은 계수 불확실성이 함수값으로 전달된 부분이다.
+### p9:e (proof)
 
-### (c)
+$P(M_j\mid y)=p(y\mid M_j)P(M_j)/p(y)$를 나누면 $\frac{P(M_1\mid y)}{P(M_2\mid y)}=B_{12}\frac{P(M_1)}{P(M_2)}=\frac12\sqrt{5/2}=\sqrt{5/8}<1$. 따라서 $P(M_1\mid0)=\frac{\sqrt5}{\sqrt5+2\sqrt2}$, $P(M_2\mid0)=\frac{2\sqrt2}{\sqrt5+2\sqrt2}$이다. posterior 최대확률 기준의 선택은 $M_2$다. 모델 공간이 두 모델임을 전제로 정규화했다.
 
-$\theta_{\rm MAP}=1$. 대입 예측은 $\mathcal N(2,2)$이며 사후예측 $\mathcal N(2,14/3)$와 다르다.
+### p10:a (proof)
 
-정규 사후분포는 평균에서 유일하게 최대이므로 MAP은 1이다. 이 값을 고정하면 $y_*=2+\epsilon_*$만 남아 분산은 2다. 사후예측은 $\int p(y_*\mid\theta)p(\theta\mid D)\,d\theta$로 모든 가능한 $\theta$의 불확실성을 적분하므로 분산이 $2+8/3$이다. 두 분포의 평균은 2로 같지만 분산 및 구간확률과 예측구간 폭이 다르므로 같은 예측분포라고 할 수 없다.
+$r=y-\Phi\widehat\theta$라 하면 $\|r-t\Phi h\|^2=\|r\|^2-2t h^\top\Phi^\top r+t^2\|\Phi h\|^2$. 최근접점에서 모든 $h\in\mathbb R^K$에 대해 도함수 $-2h^\top\Phi^\top r=0$. 특히 $h=\Phi^\top r$를 택하면 $\Phi^\top r=0$, 즉 잔차는 열공간의 모든 벡터에 직교한다.
 
-## p9
+### p10:b (symbolic)
 
-### (a)
+$\Phi^\top(y-\Phi\widehat\theta)=0$에서 $\Phi^\top\Phi\widehat\theta=\Phi^\top y$. 열독립이면 $G=\Phi^\top\Phi$가 양의 정부호로 가역이므로 $\widehat\theta=G^{-1}\Phi^\top y\in\mathbb R^K$. 이 문제에서 $N=3,K=2$.
 
-$y\mid M_1\sim\mathcal N(0,2)$, $y\mid M_2\sim\mathcal N(0,5)$; $p(0\mid M_1)=1/\sqrt{4\pi}$, $p(0\mid M_2)=1/\sqrt{10\pi}$.
+### p10:c (proof)
 
-Evidence는 해당 데이터를 관측하기 전 모델이 부여하는 주변 예측밀도다. 미지 $\theta$를 데이터 관측 전 분포인 $p(\theta\mid M_j)$로 적분 제거하므로 prior를 쓴다. 같은 $y$를 반영한 posterior로 대신 평균내면 원래의 결합밀도 $p(y,\theta\mid M_j)=p(y\mid\theta,M_j)p(\theta\mid M_j)$를 주변화하는 계산이 아니다. 독립 Gaussian 합 $y=\theta+\epsilon$의 평균은 0, 분산은 prior 분산에 잡음 분산 1을 더한 값이므로 각각 2와 5다. Gaussian 정규화 계수를 $y=0$에서 평가하면 주어진 값이 나온다.
+대입하면 $P=\Phi(\Phi^\top\Phi)^{-1}\Phi^\top\in\mathbb R^{N\times N}$이고 $\widehat y=Py$. $G$가 대칭이어서 $(G^{-1})^\top=G^{-1}$, 따라서 $P^\top=P$. 또한 $P^2=\Phi G^{-1}(\Phi^\top\Phi)G^{-1}\Phi^\top=P$. 주어진 문제에서 차원은 $3\times3$이며 rank는 2다.
 
-### (b)
+### p10:d (exact)
 
-$B_{12}=\sqrt{5/2}>1$이므로 데이터의 상대 evidence는 $M_1$을 지지한다.
+$G=\operatorname{diag}(3,2)$, $\Phi^\top y=(4,2)^\top$이므로 $\widehat\theta=(4/3,1)^\top$. $P=\begin{pmatrix}1/3&1/3&1/3\\1/3&5/6&-1/6\\1/3&-1/6&5/6\end{pmatrix}$, $\widehat y=(4/3,7/3,1/3)^\top$, $r=(2/3,-1/3,-1/3)^\top$. 실제 $\Phi^\top r=(2/3-1/3-1/3,\ -1/3+1/3)^\top=0$.
 
-$B_{12}=(1/\sqrt{4\pi})/(1/\sqrt{10\pi})=\sqrt{10/4}=\sqrt{5/2}\approx1.58114$. 따라서 0 부근의 이 관측은 $M_2$보다 $M_1$에서 더 높은 밀도를 받는다. Bayes factor는 모델 사전확률 비를 포함하지 않는 데이터의 상대 지지다.
+### p10:e (proof)
 
-### (c)
+$u,\widehat y\in\operatorname{col}(\Phi)$이므로 $\widehat y-u$도 열공간에 있고 $r^\top(\widehat y-u)=0$. 따라서 $\|y-u\|^2=\|r+(\widehat y-u)\|^2=\|r\|^2+\|\widehat y-u\|^2\ge\|r\|^2$. 등호는 $u=\widehat y$일 때만 성립한다. 이는 (a)의 필요조건을 충분조건으로 완성하고 열공간 내 최근접점의 유일성도 보인다.
 
-$\frac{P(M_1\mid0)}{P(M_2\mid0)}=\frac12\sqrt{5/2}=\sqrt{10}/4$; $P(M_1\mid0)=\frac{\sqrt5}{\sqrt5+2\sqrt2}\approx0.44152$. 선택은 $M_2$.
 
-사후 odds는 Bayes factor와 사전 odds의 곱이다. 사전 odds는 $(1/3)/(2/3)=1/2$여서 사후 odds $r=\sqrt{5/2}/2\approx0.790569<1$. 따라서 $P(M_1\mid0)=r/(1+r)=\sqrt5/(\sqrt5+2\sqrt2)\approx0.441518$, $P(M_2\mid0)\approx0.558482$다. 사후확률로 고르면 $M_2$다. 데이터가 $M_1$에 주는 약 1.58배 지지가 사전의 $M_2$에 대한 2배 선호를 뒤집지 못해 (b)와 선택 기준 및 결과가 다르다.
+## 2회
 
-## p10
+### p1:a (symbolic)
 
-### (a)
+$V(t)=\begin{pmatrix}1&0&1\\0&1&1\\1&1&t\end{pmatrix}$. 셋째 행에서 첫째·둘째 행을 빼면 마지막 대각원소가 $t-2$인 상삼각행렬이 되므로 $\det V(t)=t-2$. 따라서 세 열이 $\mathbb R^3$의 기저가 되는 필요충분조건은 $t\ne2$다.
 
-$\Phi^\top(y-\Phi\widehat\theta)=0$, 따라서 $\Phi^\top\Phi\widehat\theta=\Phi^\top y$.
+### p1:b (exact)
 
-열공간의 모든 벡터는 $\Phi a$ 꼴이다. 잔차 $r$가 이 공간에 직교하려면 모든 $a\in\mathbb R^2$에 대해 $(\Phi a)^\top r=a^\top\Phi^\top r=0$이어야 한다. 이는 $\Phi^\top r=0$과 동치다. $r=y-\Phi\widehat\theta$를 대입하고 정리하면 정규방정식이 나온다.
+$t=2$에서 셋째 열은 앞 두 열의 합. 첫 두 행이 $\alpha_1+\alpha_3=1$, $\alpha_2+\alpha_3=2$이므로 $\alpha=(1-s,2-s,s)^\top$ ($s\in\mathbb R$). 셋째 성분은 항상 첫 두 성분의 합 3이어서 $(1,2,4)^\top$는 열공간 밖이며 해가 없다.
 
-### (b)
+### p1:c (exact)
 
-$\widehat\theta=(4/3,1)^\top$, $\widehat y=(4/3,7/3,1/3)^\top$, $r=(2/3,-1/3,-1/3)^\top$이며 $\Phi^\top r=0$.
+앞 두 행으로 $\alpha_1=1-\alpha_3$, $\alpha_2=2-\alpha_3$. 셋째 행에 넣으면 $3+\alpha_3=4$이므로 $\alpha=(0,1,1)^\top$. $t=3$이면 행렬식 1로 열공간이 $\mathbb R^3$ 전체지만 $t=2$이면 $z=x+y$ 평면이다. 따라서 같은 우변도 전자는 유일해, 후자는 해 없음이다.
 
-$\Phi^\top\Phi=\operatorname{diag}(3,2)$이고 $\Phi^\top y=(4,2)^\top$이므로 역행렬을 곱하면 위 $\widehat\theta$다. 이를 $\Phi$에 곱하면 $(4/3,4/3+1,4/3-1)^\top$가 되고 $y$에서 빼면 위 잔차다. 직접 확인하면 $\Phi^\top r=(2/3-1/3-1/3,(-1/3)-(-1/3))^\top=(0,0)^\top$이다.
+### p2:a (symbolic)
 
-### (c)
+$J_f(x)=\begin{pmatrix}1&1\\x_2&x_1\end{pmatrix}$, $J_f(1,2)=\begin{pmatrix}1&1\\2&1\end{pmatrix}$. 둘 다 $2\times2$다.
 
-$P=\frac16\begin{pmatrix}2&2&2\\2&5&-1\\2&-1&5\end{pmatrix}\in\mathbb R^{3\times3}$, $P^\top=P$, $P^2=P$. $\widehat\theta\in\mathbb R^{2\times1}$.
+### p2:b (symbolic)
 
-열벡터 $c_1=(1,1,1)^\top$, $c_2=(0,1,-1)^\top$를 이용하면 $P=\frac13c_1c_1^\top+\frac12c_2c_2^\top$이므로 위 수치 행렬이다. $M=6P$라고 쓰면 $M^\top=M$이며 직접 곱해 $M^2=\begin{pmatrix}12&12&12\\12&30&-6\\12&-6&30\end{pmatrix}=6M$이다. 따라서 $P^\top=P$이고 $P^2=M^2/36=M/6=P$이다. $P$는 관측공간 $\mathbb R^3$에서 $y$를 $\widehat y$로 보내는 $3\times3$ 투영행렬이다. $\widehat\theta$는 두 계수를 가진 $2\times1$ 열벡터이며, $y$에서 계수로 보내는 행렬 $(\Phi^\top\Phi)^{-1}\Phi^\top$의 차원은 $2\times3$이다.
+$\nabla_z\ell(z)=z-(1,2)^\top$, $f(1,2)=(3,2)^\top$이다. 열 gradient의 연쇄법칙은 $\nabla_xL=J_f^\top\nabla_z\ell(f(x))$이므로 점 $(1,2)$에서 $J_f^\top(2,0)^\top=(2,2)^\top$. 직접 전개하면 $L=\frac12[(x_1+x_2-1)^2+(x_1x_2-2)^2]$이고 gradient는 $(a+x_2b,\ a+x_1b)^\top$, $a=x_1+x_2-1,b=x_1x_2-2$로 같은 결과다.
 
-### (d)
+### p2:c (proof)
 
-$\|y-u\|^2=\|r\|^2+\|\widehat y-u\|^2$이며 $\widehat y$는 열공간에서 유일하게 가장 가까운 벡터다.
+$D_dL=\nabla L(1,2)^\top d=(2,2)(1,-1)^\top=0$. 직접 경로에서는 $L(1+h,2-h)=2+\frac12(h-h^2)^2$로 미분값 0이다. 그러나 gradient $(2,2)^\top\ne0$여서 정지점은 아니다. 한 방향의 미분이 0이라는 것은 gradient와 그 방향이 직교한다는 뜻이며 모든 방향의 미분이 0인 조건보다 약하다.
 
-$u,\widehat y\in\operatorname{col}(\Phi)$이므로 $\widehat y-u$도 그 공간 안에 있다. 앞서 구한 $r$는 이 공간 전체에 직교하므로 $r^\top(\widehat y-u)=0$. $y-u=r+(\widehat y-u)$를 제곱하면 $\|y-u\|^2=\|r\|^2+2r^\top(\widehat y-u)+\|\widehat y-u\|^2$에서 중간 항이 사라진다. 따라서 거리는 최소한 $\|r\|^2=4/9+1/9+1/9=2/3$이고, 등호는 $u=\widehat y$일 때에만 성립한다. 이것이 직교투영의 유일한 최근접점 성질이다.
+### p3:a (exact)
 
-## 가정 및 표기 주의
+$E[Y]=A\mu+b=(0,4)^\top$. $\operatorname{Cov}(Y)=A\Sigma A^\top=\begin{pmatrix}6&0\\0&2\end{pmatrix}$. 이들은 각각 $2\times1$, $2\times2$이며 $\det A=-2\ne0$이어서 변환 후에도 비퇴화 Gaussian이다.
 
-- 문제의 모든 Gaussian 둘째 인수를 분산으로 사용했다. Gradient는 열벡터, Jacobian은 출력별 행을 사용하는 명시된 관례를 따랐다.
-- p9의 p(y=0|M)는 연속형 관측의 밀도 평가값을 뜻한다. 정확히 한 점을 관측할 확률 P(y=0|M)는 두 모델 모두 0이다. 통상적인 evidence 표기로는 문제가 없으나 밀도와 확률은 구별해야 한다.
-- p6에서 다항 특징으로 바꾸어도 계수에 대해 선형이라는 설명은 성립한다. 다항 특징행렬의 열독립과 역행렬 존재까지 기존 두 열의 독립에서 따라오지는 않는다.
-- p5는 X가 세 점에 확률 1/3인 실제 분포이므로 분모 3 공분산이다. 제목의 표본 공분산만 보고 분모 N-1을 사용하지 않았다.
-- 주어진 수치 및 가정에 내적 모순은 발견하지 않았다. 참조 답안과 비교하지 않았고 비교 통과 여부를 판정하지 않았다.
+### p3:b (exact)
+
+$Y_1\sim\mathcal N(0,6)$, $Y_2\sim\mathcal N(4,2)$로 주변밀도는 각각 $\frac1{\sqrt{12\pi}}e^{-y_1^2/12}$, $\frac1{\sqrt{4\pi}}e^{-(y_2-4)^2/4}$. 결합 공분산 행렬식은 12이므로 $p_Y(y_1,y_2)=\frac1{2\pi\sqrt{12}}e^{-\frac12[y_1^2/6+(y_2-4)^2/2]}=\frac1{4\pi\sqrt3}e^{-y_1^2/12-(y_2-4)^2/4}$.
+
+### p3:c (proof)
+
+$Y$는 Gaussian의 아핀변환이므로 결합 Gaussian이며 공분산이 대각이다. (b)의 결합밀도가 주변밀도의 곱으로 분해되어 $Y_1,Y_2$는 독립이다. 반면 $\operatorname{Cov}(X_1,X_2)=1\ne0$이므로 $X_1,X_2$는 독립일 수 없다. 유한 이차모멘트를 가진 독립 확률변수라면 공분산이 0이어야 하기 때문이다.
+
+### p4:a (exact)
+
+$g(\theta)=\frac1{4\pi}\exp[-\frac12\{(\theta+1)^2/2+(3-\theta)^2/2\}]$. 중괄호 안은 $\theta^2-2\theta+5=(\theta-1)^2+4$. 따라서 $g(\theta)=\frac{e^{-2}}{4\pi}e^{-(\theta-1)^2/2}$.
+
+### p4:b (exact)
+
+$\int e^{-(\theta-1)^2/2}d\theta=\sqrt{2\pi}$이므로 posterior는 $p(\theta\mid3)=\frac1{\sqrt{2\pi}}e^{-(\theta-1)^2/2}=\mathcal N(\theta\mid1,1)$. 평균 1, 분산 1이다. 우도만 최대화하면 $\theta_{ML}=3$이고 posterior 최빈값은 $\theta_{MAP}=1$.
+
+### p4:c (exact)
+
+$Z=e^{-2}\sqrt{2\pi}/(4\pi)=e^{-2}/\sqrt{8\pi}=\mathcal N(3\mid-1,4)$. Evidence는 모수에 대해 적분한 결과로, 고정 관측 $y=3$에 대한 하나의 밀도값이다. Posterior는 관측을 고정하고 모수 $\theta$에 대한 적분값이 1인 함수이다. $Z$는 관측 $y$를 변수로 보면 정규화된 주변밀도의 한 값이며 모수 posterior 자체와는 다르다.
+
+### p5:a (exact)
+
+$\Phi=\begin{pmatrix}1&1\\1&0\\1&1\end{pmatrix}$, $G=\Phi^\top\Phi=\begin{pmatrix}3&2\\2&2\end{pmatrix}$, $\Phi^\top y=(6,6)^\top$. $\det G=6-4=2>0$이므로 가역이고 $G^{-1}=\frac12\begin{pmatrix}2&-2\\-2&3\end{pmatrix}$. 두 행의 중복은 열독립을 방해하지 않는다. 실제 열 $(1,1,1)^\top,(1,0,1)^\top$는 독립이다.
+
+### p5:b (exact)
+
+$\theta_{ML}=G^{-1}(6,6)^\top=(0,3)^\top$, $\widehat y=(3,0,3)^\top$. 잔차를 $r=y-\widehat y$로 두면 $r=(-1,0,1)^\top$이고 RSS는 $1+0+1=2$. $\phi(2)=(1,4)^\top$에서 평균 예측은 $12$.
+
+### p5:c (exact)
+
+$(G+I)\theta_{MAP}=(6,6)^\top$이며 $G+I=\begin{pmatrix}4&2\\2&3\end{pmatrix}$, 역행렬은 $\frac18\begin{pmatrix}3&-2\\-2&4\end{pmatrix}$. 따라서 $\theta_{MAP}=(3/4,3/2)^\top$, 평균 예측은 $3/4+4(3/2)=27/4$. 모델 평균 $\theta_0+\theta_1x^2$가 미지 계수에 선형이므로 선형 회귀다.
+
+### p6:a (symbolic)
+
+$y_n\mid x_n,\theta\sim\mathcal N(\theta x_n,\sigma^2)$. 서로 독립 잡음에 각각 고정 평균을 더한 관측은 조건부 독립이므로 $p(y\mid x,\theta)=(2\pi\sigma^2)^{-N/2}\exp[-\sum_n(y_n-\theta x_n)^2/(2\sigma^2)]$. $x,y$는 $N\times1$이고 $\theta$는 스칼라다.
+
+### p6:b (symbolic)
+
+음의 로그우도는 $\frac N2\log(2\pi\sigma^2)+\frac1{2\sigma^2}\sum_n(y_n-\theta x_n)^2$. 첫 항은 모수와 무관하고 둘째 항의 상수배는 양수이므로 ML은 $Q(\theta)=\sum_n(y_n-\theta x_n)^2$ 최소화와 같다.
+
+### p6:c (symbolic)
+
+$Q=y^\top y-2\theta\sum_nx_ny_n+\theta^2\sum_nx_n^2$. $Q'=-2\sum_nx_ny_n+2\theta\sum_nx_n^2=0$에서 $\widehat\theta=\frac{\sum_nx_ny_n}{\sum_nx_n^2}$. 주어진 $\sum_nx_n^2>0$가 분모를 보장한다. 이 조건이 없으면 실수 입력 전부가 0이고 목적함수는 모수와 무관해진다.
+
+### p6:d (proof)
+
+$Q''=2\sum_nx_n^2>0$이므로 스칼라 이차함수는 엄격히 볼록하고 (c)의 점이 유일한 전역 최소점이다. 음의 로그우도의 이계미분도 $\sigma^{-2}\sum_nx_n^2>0$. 내적 표기로 $\widehat\theta=(x^\top y)/(x^\top x)$다.
+
+### p6:e (proof)
+
+$\widehat y=x(x^\top y)/(x^\top x)=Py$, $P=xx^\top/(x^\top x)\in\mathbb R^{N\times N}$. 따라서 $x^\top(y-\widehat y)=x^\top y-(x^\top x)(x^\top y)/(x^\top x)=0$. 잔차는 $x$가 생성하는 1차원 열공간에 직교한다. $P^\top=P$, $P^2=P$도 즉시 확인된다.
+
+### p6:f (exact)
+
+$x^\top x=6$, $x^\top y=7$이므로 $\widehat\theta=7/6$, $\widehat y=(7/6,7/3,-7/6)^\top$. 잔차는 $(-1/6,2/3,7/6)^\top$이며 RSS $=1/36+4/9+49/36=11/6$. $P=\frac16\begin{pmatrix}1&2&-1\\2&4&-2\\-1&-2&1\end{pmatrix}$를 $y$에 곱해도 같은 예측을 얻는다.
+
+### p7:a (symbolic)
+
+Likelihood는 $(2\pi\sigma^2)^{-1}e^{-\|y-\Phi\theta\|^2/(2\sigma^2)}$, prior는 $(2\pi)^{-1}|S_0|^{-1/2}e^{-(\theta-m_0)^\top S_0^{-1}(\theta-m_0)/2}$이다. Bayes 정리로 $-\log p(\theta\mid y,\Phi)=\frac1{2\sigma^2}\|y-\Phi\theta\|^2+\frac12(\theta-m_0)^\top S_0^{-1}(\theta-m_0)+C$. 여기서 $C=\log(2\pi\sigma^2)+\log(2\pi)+\frac12\log|S_0|+\log p(y\mid\Phi)$는 모수와 무관하다.
+
+### p7:b (symbolic)
+
+두 항의 열 gradient는 각각 $\sigma^{-2}\Phi^\top(\Phi\theta-y)$와 $S_0^{-1}(\theta-m_0)$다. Gaussian 지수의 거리척도가 공분산 역행렬인 정밀도이기 때문에 미분 후에도 $S_0^{-1}$가 등장한다. $S_0^{-1}=\operatorname{diag}(1/4,1)$이므로 둘째 계수의 prior 편차에 더 큰 벌점이 붙는다.
+
+### p7:c (symbolic)
+
+합을 0으로 두면 $(\sigma^{-2}\Phi^\top\Phi+S_0^{-1})\theta=\sigma^{-2}\Phi^\top y+S_0^{-1}m_0$. 따라서 $\theta_{MAP}=(\sigma^{-2}\Phi^\top\Phi+S_0^{-1})^{-1}(\sigma^{-2}\Phi^\top y+S_0^{-1}m_0)$. 동치형은 $(\Phi^\top\Phi+\sigma^2 S_0^{-1})^{-1}(\Phi^\top y+\sigma^2 S_0^{-1}m_0)$. 행렬은 $2\times2$, 벡터는 $2\times1$이다.
+
+### p7:d (proof)
+
+비영 $h\in\mathbb R^2$에 대해 $h^\top(\sigma^{-2}\Phi^\top\Phi+S_0^{-1})h=\sigma^{-2}\|\Phi h\|^2+h^\top S_0^{-1}h>0$. $S_0=\operatorname{diag}(4,1)$은 양의 정부호이고 $\sigma^2>0$이므로 Hessian이 양의 정부호다. 따라서 계수행렬이 가역이고 MAP은 유일한 전역 최소점이다.
+
+### p7:e (exact)
+
+$\Phi^\top\Phi=2I_2$, $\Phi^\top y=(4,4)^\top$, $S_0^{-1}m_0=(1/2,0)^\top$. $\sigma^2=1$에서 계수행렬은 $\operatorname{diag}(9/4,3)$, 우변 $(9/2,4)^\top$이므로 $\theta_{MAP}=(2,4/3)^\top$. $\phi(2)=(1,2)^\top$의 평균은 $14/3$. ML은 $(2,2)^\top$이며 같은 입력의 평균은 6이다. 첫 계수는 ML과 prior 평균이 모두 2여서 그대로이고 둘째 계수는 prior 평균 0 쪽으로 수축한다.
+
+### p7:f (symbolic)
+
+$s=\sigma^2>0$로 쓰면 첫 성분은 $(4+s/2)/(2+s/4)=2$, 둘째는 $4/(2+s)$. 따라서 $\theta_{MAP}(s)=(2,4/(2+s))^\top$. $s\to0^+$에서는 $(2,2)^\top=\theta_{ML}$, $s\to\infty$에서는 $(2,0)^\top=m_0$. 잡음분산이 작으면 우도에, 크면 prior에 상대적으로 큰 무게가 실린다.
+
+### p8:a (symbolic)
+
+곱은 $(4\pi)^{-1}(2\pi)^{-1}\exp[-\frac12\{\frac12(y-\Phi\theta)^\top(y-\Phi\theta)+\theta^\top\theta\}]$. 전개하면 $B=I_2+\frac12\Phi^\top\Phi$, $b=\frac12\Phi^\top y$, $c=\frac12y^\top y$이고 지수는 $-\frac12(\theta^\top B\theta-2b^\top\theta+c)$. $B$는 $2\times2$, $b$는 $2\times1$, $c$는 스칼라다.
+
+### p8:b (proof)
+
+$B$는 $I_2$와 양의 준정부호 Gram 항의 합이므로 양의 정부호다. $m=B^{-1}b$, $S=B^{-1}$로 놓으면 $\theta^\top B\theta-2b^\top\theta+c=(\theta-m)^\top B(\theta-m)+c-b^\top B^{-1}b$. 마지막 항은 정규화 시 상쇄되어 $p(\theta\mid y)=\frac1{(2\pi)^{2/2}|S|^{1/2}}\exp[-\frac12(\theta-m)^\top S^{-1}(\theta-m)]$. 정규화 계수는 $|B|^{1/2}/(2\pi)$와 같다.
+
+### p8:c (exact)
+
+$\Phi^\top\Phi=2I_2$, $\Phi^\top y=(2,2)^\top$, $y^\top y=4$. 따라서 $B=2I_2$, $b=(1,1)^\top$, $c=2$, $m=(1/2,1/2)^\top$, $S=\frac12I_2$. 완전제곱의 상수 잔여항은 $c-b^\top B^{-1}b=1$이다. 정규화된 posterior는 $p(\theta\mid y)=\pi^{-1}\exp[-\|\theta-(1/2,1/2)^\top\|^2]$.
+
+### p8:d (symbolic)
+
+Gaussian의 선형함수이므로 $f_*\mid y\sim\mathcal N(\phi_*^\top m,\phi_*^\top S\phi_*)$. 평균식은 기대값의 선형성에서, 분산식은 $E[\phi_*^\top(\theta-m)(\theta-m)^\top\phi_*\mid y]$에서 나온다. 이 데이터에서는 $\phi(x)=(1,x)^\top$일 때 평균 $(1+x)/2$, 분산 $(1+x^2)/2$. $x_*=1$에서는 $f_*\mid y\sim\mathcal N(1,1)$. 임의의 영벡터 $\phi_*=0$이면 분산 0의 퇴화 점질량으로 해석한다.
+
+### p8:e (proof)
+
+독립 미래 잡음의 분산 2를 더하면 $y_*\mid y\sim\mathcal N(\phi_*^\top m,2+\phi_*^\top S\phi_*)$. $x_*=1$에서는 $\mathcal N(1,3)$. MAP은 $m=(1/2,1/2)^\top$이므로 이를 고정 대입한 분포는 $\mathcal N(1,2)$다. 완전한 예측의 추가 분산 1은 $\phi_*^\top S\phi_*$인 모수의 사후 불확실성이다.
+
+### p8:f (proof)
+
+서로 다른 두 미래 잡음은 조건부 교차공분산 0이고 모수와 독립이다. 따라서 $\operatorname{Cov}(y_{0}^{new},y_{1}^{new}\mid y)=\operatorname{Cov}(\phi(0)^\top\theta,\phi(1)^\top\theta\mid y)=\phi(0)^\top S\phi(1)=1/2$. 전체공분산 법칙으로도 $E[0\mid y]+\operatorname{Cov}(\phi(0)^\top\theta,\phi(1)^\top\theta\mid y)$이다. 두 미래 관측의 결합분포는 평균 $(1/2,1)^\top$, 공분산 $\begin{pmatrix}5/2&1/2\\1/2&3\end{pmatrix}$의 Gaussian. 모수를 고정하면 독립이지만 같은 미지 모수를 적분한 후에는 이 문제에서 독립이 유지되지 않는다.
+
+### p9:a (symbolic)
+
+$M_1$: $B_1=(1,1)^\top\in\mathbb R^{2\times1}$, $\vartheta_1=\theta\sim\mathcal N(0,1)$. $M_2$: $B_2=I_2$, $\vartheta_2=(\theta_1,\theta_2)^\top\sim\mathcal N(0,I_2)$. 두 경우 모두 $p(y\mid M_i)=\int_{\mathbb R^{d_i}}\mathcal N_2(y\mid B_i\vartheta_i,I_2)\mathcal N_{d_i}(\vartheta_i\mid0,I_{d_i})d\vartheta_i$이며 $d_1=1,d_2=2$다.
+
+### p9:b (proof)
+
+$E[y]=B_iE[\vartheta_i]+E[\epsilon]=0$. 정의에서 중심화한 곱을 전개하면 독립성과 영평균으로 교차항이 사라져 $C_i=E[yy^\top]=B_iE[\vartheta_i\vartheta_i^\top]B_i^\top+E[\epsilon\epsilon^\top]=B_iB_i^\top+I_2$. 따라서 $C_1=\begin{pmatrix}2&1\\1&2\end{pmatrix}$, $C_2=2I_2$. 독립 Gaussian 모수·잡음을 함께 쌓은 벡터가 결합 Gaussian이고 $y$는 그 선형변환이므로 Gaussian이다.
+
+### p9:c (exact)
+
+일반 밀도는 $p(y\mid M_i)=(2\pi)^{-1}|C_i|^{-1/2}\exp[-\frac12y^\top C_i^{-1}y]$. $M_1$에서 $|C_1|=3$, $C_1^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$이고 $y=(1,-1)^\top$에 대한 이차형식은 2다. 따라서 $E_1=e^{-1}/(2\pi\sqrt3)$. $M_2$에서는 $|C_2|=4$, $C_2^{-1}=I_2/2$, 이차형식 1이므로 $E_2=e^{-1/2}/(4\pi)$.
+
+### p9:d (exact)
+
+$B_{12}=E_1/E_2=\frac2{\sqrt3}e^{-1/2}<1$. 실제 $B_{12}^2=4/(3e)<1$이다. 따라서 관측 데이터만의 evidence는 서로 반대 부호의 관측을 더 잘 허용하는 $M_2$를 지지한다.
+
+### p9:e (proof)
+
+각 모델의 Bayes 식을 나누면 $\frac{P(M_1\mid y)}{P(M_2\mid y)}=\frac{p(y\mid M_1)}{p(y\mid M_2)}\frac{P(M_1)}{P(M_2)}=2\sqrt3e^{-1/2}>1$. 두 모델만 있으므로 $P(M_1\mid y)=\frac{2\sqrt3e^{-1/2}}{1+2\sqrt3e^{-1/2}}=\frac{2\sqrt3}{\sqrt e+2\sqrt3}$이고 $P(M_2\mid y)=\frac{\sqrt e}{\sqrt e+2\sqrt3}$. posterior 최대확률로는 prior odds가 더해져 $M_1$을 선택한다.
+
+### p10:a (symbolic)
+
+$Q(\theta)=\frac12y^\top y-\theta^\top\Phi^\top y+\frac12\theta^\top G\theta$. $G=\Phi^\top\Phi$가 대칭이므로 $\nabla Q=G\theta-\Phi^\top y$. 따라서 정규방정식은 $G\widehat\theta=\Phi^\top y$이며 $\Phi^\top(y-\Phi\widehat\theta)=0$과 동치다.
+
+### p10:b (exact)
+
+일반적으로 열독립이면 $\widehat\theta=(\Phi^\top\Phi)^{-1}\Phi^\top y$. 주어진 $G=\begin{pmatrix}2&1\\1&2\end{pmatrix}$, $G^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$, $\Phi^\top y=(1,2)^\top$이므로 $\widehat\theta=(0,1)^\top$, $\widehat y=(0,1,1)^\top$, $r=(1,1,-1)^\top$. $\det G=3>0$이고 선행 주행렬식도 2이므로 양의 정부호여서 해는 유일하다.
+
+### p10:c (proof)
+
+$P=\Phi G^{-1}\Phi^\top=\frac13\begin{pmatrix}2&-1&1\\-1&2&1\\1&1&2\end{pmatrix}\in\mathbb R^{3\times3}$. 수치행렬은 대칭이다. $M=3P$라 하면 $M^2=3M$이므로 $P^2=P$. 일반식으로도 $P^2=\Phi G^{-1}GG^{-1}\Phi^\top=P$다. 따라서 열공간으로의 직교투영행렬이다.
+
+### p10:d (exact)
+
+Ridge 목적함수 gradient는 $G\theta-\Phi^\top y+\theta$. 따라서 $(G+I_2)\theta_R=\Phi^\top y$, $\theta_R=(G+I_2)^{-1}\Phi^\top y$. 여기서 $G+I_2=\begin{pmatrix}3&1\\1&3\end{pmatrix}$, 역행렬은 $\frac18\begin{pmatrix}3&-1\\-1&3\end{pmatrix}$이므로 $\theta_R=(1/8,5/8)^\top$. Hessian $G+I_2$는 양의 정부호다.
+
+### p10:e (exact)
+
+$H=\Phi(G+I_2)^{-1}\Phi^\top=\frac18\begin{pmatrix}3&-1&2\\-1&3&2\\2&2&4\end{pmatrix}$, $\widehat y_R=(1/8,5/8,3/4)^\top$, $r_R=(7/8,11/8,-3/4)^\top$. Ridge 정규방정식은 $\Phi^\top r_R=\theta_R$를 준다. 실제 첫 성분 $7/8-3/4=1/8$, 둘째 $11/8-3/4=5/8$. 따라서 여기서는 잔차가 열공간에 직교하지 않으며, 최소제곱의 $\Phi^\top r=0$과 다르다.
+
+### p10:f (proof)
+
+$v=\Phi(1,1)^\top=(1,1,2)^\top$. $Hv=(3/4)v=(3/4,3/4,3/2)^\top$, $H^2v=(9/16)v=(9/16,9/16,9/8)^\top$. $v\ne0$이고 $3/4\ne9/16$이어서 $H^2\ne H$. 반면 $Pv=v$와 $P^2=P$다. $H$는 대칭이지만 멱등이 아니므로 직교투영행렬이 아니다. 대칭성만으로는 부족하고 멱등성이 함께 필요하다.
+
+## 별도 findings
+
+- **rounds 1 and 2 / all subquestions** [info]: 각 유도 사슬은 주어진 가정 및 앞 소문항에서 순서대로 진행 가능했다. 계산을 막는 누락된 차원·정규화 조건·역행렬 조건은 발견하지 못했다.
+- **1:p10:a and 1:p10:e** [info]: (a)는 최근접점이라는 임시 가정에서 잔차 직교성의 필요조건을 얻고 (e)는 그 직교성에서 충분성을 증명한다. 이는 순환논증이 아니라 필요조건과 충분조건의 분리다.
+- **1:p9:e and 2:p9:e** [info]: 선택할 모델은 posterior 최대확률을 기준으로 해석했다. 별도의 오분류 비용이나 손실함수가 주어지지 않았으므로 이 해석은 합리적이나 문항에 선택 기준을 명시하면 더 정확하다.
+- **2:p8:d** [info]: 임의의 phi_*에 영벡터도 포함하면 f_*는 분산 0의 점질량이 되어 일반적인 Lebesgue Gaussian 밀도는 없다. phi(x)=(1,x)^T로 한정하면 항상 비영이어서 이 퇴화 문제는 생기지 않는다.
+- **1:p6:e** [info]: 특징을 (1,x,x^2)^T로 바꾸어도 계수에 선형이라는 결론은 항상 가능하다. 그러나 원래 두 특징의 열독립만으로 새 세 특징의 열독립까지 보장되지는 않으므로 새 ML해의 유일성은 별도 가정이 필요하다.
+- **all numerical derivation prompts** [info]: 문제의 목표 결론을 조건으로 미리 제공하여 유도를 대신하게 만드는 치명적인 답 노출은 발견하지 못했다. Gram의 열독립, 잡음의 알려진 양의 분산, Gaussian prior의 양의 정부호 공분산은 유도에 필요한 정당한 가정이다.
+
+## 최종 검증
+
+SymPy 정확연산 검증과 입력/결과 개수 검증에서 55개 assertion을 통과했다. 모든 86개 레코드의 conclusion과 method를 확인했으며 작업 종료 시점의 입력 SHA-256을 다시 계산했다.

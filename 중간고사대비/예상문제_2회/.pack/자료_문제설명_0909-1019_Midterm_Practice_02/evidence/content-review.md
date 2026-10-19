@@ -1,6 +1,8 @@
-# 2회 내용 검토
-검토자 root. 작성한 questions/solutions/explanations를 전부 읽고 p1:a-p10:d 31소문항을 별도 blind-solutions.md와 대조: 결과 불일치0. exact/symbolic 계산28개 별도 PASS. 숫자 대조만으로 일반 증명을 승인하지 않았다.
-
-p1 determinant와 열공간/모든 해; p2 column-gradient transpose/방향 미분과 정지점 차이; p3 affine mean/covariance·정규화·joint Gaussian 독립조건; p4 outer -1/2·evidence상수·ML/MAP; p5 explicit Phi·열독립·MAP와 두 예측; p6 전체 log s 항·전역 ML·N/N-1·SSE0 열린경계; p7 inverse covariance·nonzero mean RHS·SPD 증명·극한; p8 full posterior covariance·latent/observed/MAP 예측·shared parameter marginal dependence; p9 covariance offdiagonal·determinant·Bayes factor와 priorodds·정규화; p10 정규방정식·P symmetric/idempotent·ridge residual·counterexample 모두 확인했다.
-
-모든 문제설명은 7구역, 31 solve와31 verify, 단서→개념/기호/조건→첫줄→계산/이유→검산→오류→재시도와 우측요약을 갖는다. 소문항 표지는 제목에 한번씩 남기고 본문 반복 표지는 없다. p9 모델 공간 완결 가정을 명시하고 블라인드 검산자가 현재 입력을 재확인했다. p6 원문 카드에서 raw less-than 기호가 HTML로 파싱된 문제는 LaTeX lt로 수정해 구조검사 통과를 확인했다. 원문 질문의 수학적 의미는 바뀌지 않았다.
+# 단계별 유도형 개정 내용 검토 (2026-10-19)
+검토자: root, 별도 블라인드 검산자 blind_derivation. 전체 44 소문항 대조 완료.
+1–5번 문제/풀이 JSON·카드 원본과 PDF 첫5쪽 픽셀이 개정 전과 동일하다. 기존 이론도 원문에서 재확인했다.
+6–10번은 단계별 연결을 읽고 실제로 각 식을 유도했다. 최종 공식을 문제 조건에서 제공하거나 posterior 공식 대입으로 우회하는 선택지는 없다.
+근거는 derivation-map.json, blind-input.html, blind-solutions.md와 각 소문항 answer-checks.json이다.
+각 solve/verify 키와 문제 소문항이 일치한다. 조건부 독립·공동 Gaussian·공분산 순서·정규화 상수·열 gradient·가역 조건·일반 증명을 확인했다.
+블라인드 풀이의 수치와 일반식이 저작 해설과 모두 일치했다. 새로운 math-check.py는 first5와 유도 불변식을 다시 계산해 29개 통과했다. 계산 검사 수와 소문항 수는 다르다.
+검산자 정보성 주석: 모델 선택은 요청한 사후확률 비교로 해석; 임의 특징 영벡터의 평균·분산 공식은 유효하고 실제 phi=(1,x)는 비영; 다항 특징의 선형성 설명은 새 열독립/유일성을 주장하지 않음; 최근접점 필요조건 후 충분성 증명은 순환논증이 아님.

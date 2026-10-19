@@ -213,12 +213,15 @@
     "ask_html": "<ol type=\"a\"><li>$\\Phi$, $\\Phi^\\top\\Phi$, $\\Phi^\\top y$를 구하라. $x=-1$과 $x=1$의 행이 같아도 Gram 행렬이 가역인지 판단하라.</li><li>$\\theta_{\\mathrm{ML}}$, 잔차벡터, 잔차제곱합을 구하고 $x_*=2$에서 평균을 예측하라.</li><li>$\\theta_{\\mathrm{MAP}}$와 $x_*=2$에서의 평균 예측을 구하라. 이 모델을 선형 회귀라고 부르는 이유를 설명하라.</li></ol>"
   },
   {
-    "title": "평균과 잡음분산을 함께 ML 추정하기",
-    "conditions": "<p>$y_n=\\theta+\\epsilon_n$이며 $\\epsilon_n$은 독립 $\\mathcal N(0,s)$를 따른다. $\\theta\\in\\mathbb R$와 분산 $s>0$가 모두 미지수이고, 관측 수 $N\\ge2$이다.</p>",
+    "title": "스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2>0$는 알려져 있고 $\\sum_n x_n^2>0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
     "asks": [
-      "상수항을 포함한 음의 로그우도 $\\mathcal L(\\theta,s)$를 유도하라. 표본값들이 모두 같지 않을 때 공동 ML 추정 $\\widehat\\theta,\\widehat s$를 구하라.",
-      "관측 $y=(1,2,6)^\\top$에서 두 추정값을 구하라. 분산을 구할 때 분모를 $N-1$로 바꾼 값과 비교하라.",
-      "관측값이 전부 $c$로 같다면 $s>0$인 모수공간에서 공동 ML 추정값이 존재하는가? 우도의 경계 거동을 이용해 설명하라."
+      "입력과 $\\theta$가 주어졌을 때 각 $y_n$의 분포를 쓰고, 독립성을 이용해 결합우도 $p(y\\mid x,\\theta)$를 정규화 상수까지 구성하라.",
+      "소문항 (a)에 음의 로그를 취하라. $\\theta$와 무관한 항을 분리해 제곱오차 최소화와 연결하라.",
+      "소문항 (b)의 제곱오차를 $\\theta$에 대해 전개하고 미분하여 ML 추정식과 분모 조건을 도출하라.",
+      "소문항 (c)의 정지점이 유일한 최소점임을 이계미분으로 보여라. $x,y\\in\\mathbb R^N$의 내적으로 추정식을 다시 써라.",
+      "소문항 (d)의 식을 $\\widehat y=x\\widehat\\theta$에 대입해 $\\widehat y=Py$의 행렬 $P$를 도출하고 $x^\\top(y-\\widehat y)=0$을 보여라.",
+      "$x=(1,2,-1)^\\top$, $y=(1,3,0)^\\top$에서 (c), (e)의 추정값·예측·잔차제곱합을 계산하라."
     ],
     "id": "p6",
     "origin": {
@@ -227,17 +230,22 @@
       "subparts": [
         "a",
         "b",
-        "c"
+        "c",
+        "d",
+        "e",
+        "f"
       ],
       "origin_kind": "theory_application",
-      "origin_ref": "MML 9.2 maximum likelihood; unknown noise variance",
+      "origin_ref": "MML 9.2 ML; 1019 scalar linear model and projection",
       "theory_refs": [
         {
           "source": "mml",
           "pdf_pages": [
             298,
             299,
-            300
+            300,
+            319,
+            320
           ]
         },
         {
@@ -252,25 +260,28 @@
       ],
       "course_evidence": [
         {
-          "source": "stt0909",
+          "source": "stt1019",
           "lines": [
-            1669,
-            1672
+            244,
+            258
           ],
-          "scope": "Gaussian mean/variance as two parameters to optimize; derive new scalar likelihood with elementary differentiation"
+          "scope": "scalar linear ML from Gaussian regression; projection connection"
         }
       ],
-      "assumptions": "미지 s>0; N>=2; 잔차0 경계 별도"
+      "assumptions": "알려진 sigma^2>0; 고정 입력; sum x_n^2>0; 스칼라 모수"
     },
-    "ask_html": "<ol type=\"a\"><li>상수항을 포함한 음의 로그우도 $\\mathcal L(\\theta,s)$를 유도하라. 표본값들이 모두 같지 않을 때 공동 ML 추정 $\\widehat\\theta,\\widehat s$를 구하라.</li><li>관측 $y=(1,2,6)^\\top$에서 두 추정값을 구하라. 분산을 구할 때 분모를 $N-1$로 바꾼 값과 비교하라.</li><li>관측값이 전부 $c$로 같다면 $s>0$인 모수공간에서 공동 ML 추정값이 존재하는가? 우도의 경계 거동을 이용해 설명하라.</li></ol>"
+    "ask_html": "<ol type=\"a\"><li>입력과 $\\theta$가 주어졌을 때 각 $y_n$의 분포를 쓰고, 독립성을 이용해 결합우도 $p(y\\mid x,\\theta)$를 정규화 상수까지 구성하라.</li><li>소문항 (a)에 음의 로그를 취하라. $\\theta$와 무관한 항을 분리해 제곱오차 최소화와 연결하라.</li><li>소문항 (b)의 제곱오차를 $\\theta$에 대해 전개하고 미분하여 ML 추정식과 분모 조건을 도출하라.</li><li>소문항 (c)의 정지점이 유일한 최소점임을 이계미분으로 보여라. $x,y\\in\\mathbb R^N$의 내적으로 추정식을 다시 써라.</li><li>소문항 (d)의 식을 $\\widehat y=x\\widehat\\theta$에 대입해 $\\widehat y=Py$의 행렬 $P$를 도출하고 $x^\\top(y-\\widehat y)=0$을 보여라.</li><li>$x=(1,2,-1)^\\top$, $y=(1,3,0)^\\top$에서 (c), (e)의 추정값·예측·잔차제곱합을 계산하라.</li></ol>"
   },
   {
     "title": "서로 다른 prior 분산과 MAP",
     "conditions": "<p>$\\Phi=\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2>0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
     "asks": [
-      "$\\theta$와 무관한 상수를 뺀 음의 로그 posterior와 MAP 정규방정식을 $\\sigma^2$를 남겨 유도하라.",
-      "$\\sigma^2=1$에서 $\\theta_{\\mathrm{MAP}}$과 $x_*=2$, $\\phi(x_*)=(1,2)^\\top$에서의 평균 예측을 구하라. ML과 비교하라.",
-      "왜 해가 유일한지 증명하라. $\\sigma^2\\to0^+$와 $\\sigma^2\\to\\infty$에서 MAP가 각각 무엇으로 수렴하는지 구하라."
+      "likelihood와 prior를 곱하고 Bayes 정리를 이용해 음의 로그 posterior를 $\\theta$와 무관한 상수와 두 이차항으로 나타내라.",
+      "소문항 (a)의 두 이차항을 각각 열 gradient로 미분하라. $S_0^{-1}$가 등장하는 이유도 설명하라.",
+      "소문항 (b)를0으로 놓아 MAP 정규방정식과 추정식을 도출하라. 이 단계에서는 $\\sigma^2,m_0,S_0$를 기호로 남겨라.",
+      "소문항 (c)의 계수행렬이 양의 정부호임을 이차형식으로 보여 해의 유일성을 설명하라.",
+      "$\\sigma^2=1$을 (c)에 대입해 MAP과 $x_*=2$, $\\phi(x_*)=(1,2)^\\top$에서 평균 예측을 구하라. ML과 비교하라.",
+      "소문항 (c)를 이용해 이 데이터에서 MAP의 두 성분을 $\\sigma^2$의 함수로 구하고, $\\sigma^2\\to0^+$와 $\\sigma^2\\to\\infty$의 극한을 해석하라."
     ],
     "id": "p7",
     "origin": {
@@ -279,7 +290,10 @@
       "subparts": [
         "a",
         "b",
-        "c"
+        "c",
+        "d",
+        "e",
+        "f"
       ],
       "origin_kind": "theory_application",
       "origin_ref": "MML 9.2.3 Gaussian MAP with diagonal prior",
@@ -310,15 +324,18 @@
       ],
       "assumptions": "proper diagonal prior; sigma^2>0; full rank Phi"
     },
-    "ask_html": "<ol type=\"a\"><li>$\\theta$와 무관한 상수를 뺀 음의 로그 posterior와 MAP 정규방정식을 $\\sigma^2$를 남겨 유도하라.</li><li>$\\sigma^2=1$에서 $\\theta_{\\mathrm{MAP}}$과 $x_*=2$, $\\phi(x_*)=(1,2)^\\top$에서의 평균 예측을 구하라. ML과 비교하라.</li><li>왜 해가 유일한지 증명하라. $\\sigma^2\\to0^+$와 $\\sigma^2\\to\\infty$에서 MAP가 각각 무엇으로 수렴하는지 구하라.</li></ol>"
+    "ask_html": "<ol type=\"a\"><li>likelihood와 prior를 곱하고 Bayes 정리를 이용해 음의 로그 posterior를 $\\theta$와 무관한 상수와 두 이차항으로 나타내라.</li><li>소문항 (a)의 두 이차항을 각각 열 gradient로 미분하라. $S_0^{-1}$가 등장하는 이유도 설명하라.</li><li>소문항 (b)를0으로 놓아 MAP 정규방정식과 추정식을 도출하라. 이 단계에서는 $\\sigma^2,m_0,S_0$를 기호로 남겨라.</li><li>소문항 (c)의 계수행렬이 양의 정부호임을 이차형식으로 보여 해의 유일성을 설명하라.</li><li>$\\sigma^2=1$을 (c)에 대입해 MAP과 $x_*=2$, $\\phi(x_*)=(1,2)^\\top$에서 평균 예측을 구하라. ML과 비교하라.</li><li>소문항 (c)를 이용해 이 데이터에서 MAP의 두 성분을 $\\sigma^2$의 함수로 구하고, $\\sigma^2\\to0^+$와 $\\sigma^2\\to\\infty$의 극한을 해석하라.</li></ol>"
   },
   {
     "title": "사후 불확실성과 두 미래 관측의 관계",
     "conditions": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
     "asks": [
-      "완전제곱 또는 Gaussian posterior 공식으로 $p(\\theta\\mid y)$의 평균과 공분산을 구하라.",
-      "$x_*=1$에서 $f_*$와 $y_*$의 사후예측분포를 각각 구하라. MAP를 대입한 관측 예측분포와 비교하라.",
-      "같은 posterior로 예측하는 두 미래 관측 $y_*^{(0)}$와 $y_*^{(1)}$은 각각 $x=0,1$에 대응한다. 이 둘의 $y$를 조건으로 한 공분산을 구하라. $\\theta$까지 주면 독립인데도 $y$만 주었을 때 독립인지 설명하라."
+      "likelihood와 prior의 곱을 쓰고 $\\theta$에 대한 지수를 전개하라. $-\\tfrac12(\\theta^\\top B\\theta-2b^\\top\\theta+c)$ 형태의 $B,b,c$를 구하라.",
+      "소문항 (a)를 $\\theta-m$에 대한 완전제곱으로 바꾸어 $m$과 posterior 공분산 $S$를 $B,b$로 표현하라. 정규화된 posterior 밀도도 써라.",
+      "주어진 $\\Phi,y$에 대해 (a), (b)의 행렬과 벡터를 계산하여 posterior 평균·공분산을 구하라.",
+      "소문항 (c)를 이용해 임의의 $\\phi_*$에 대한 $f_*=\\phi_*^\\top\\theta$의 평균·분산을 도출하라. $x_*=1$에서 분포를 구하라.",
+      "소문항 (d)에 미래 잡음을 더해 관측의 사후예측분포를 도출하라. $x_*=1$에서 MAP 고정 대입과 비교하라.",
+      "소문항 (d), (e)의 논리를 두 미래 관측 $x=0,1$에 적용해 $y$를 조건으로 한 교차 공분산을 도출·계산하라. 모수를 주었을 때의 독립성이 모수 적분 후에도 유지되는가?"
     ],
     "id": "p8",
     "origin": {
@@ -327,7 +344,10 @@
       "subparts": [
         "a",
         "b",
-        "c"
+        "c",
+        "d",
+        "e",
+        "f"
       ],
       "origin_kind": "theory_application",
       "origin_ref": "MML 9.3.3-9.3.4 posterior predictive; affine covariance",
@@ -359,15 +379,17 @@
       ],
       "assumptions": "독립 미래 잡음; 공통 posterior의 theta 적분"
     },
-    "ask_html": "<ol type=\"a\"><li>완전제곱 또는 Gaussian posterior 공식으로 $p(\\theta\\mid y)$의 평균과 공분산을 구하라.</li><li>$x_*=1$에서 $f_*$와 $y_*$의 사후예측분포를 각각 구하라. MAP를 대입한 관측 예측분포와 비교하라.</li><li>같은 posterior로 예측하는 두 미래 관측 $y_*^{(0)}$와 $y_*^{(1)}$은 각각 $x=0,1$에 대응한다. 이 둘의 $y$를 조건으로 한 공분산을 구하라. $\\theta$까지 주면 독립인데도 $y$만 주었을 때 독립인지 설명하라.</li></ol>"
+    "ask_html": "<ol type=\"a\"><li>likelihood와 prior의 곱을 쓰고 $\\theta$에 대한 지수를 전개하라. $-\\tfrac12(\\theta^\\top B\\theta-2b^\\top\\theta+c)$ 형태의 $B,b,c$를 구하라.</li><li>소문항 (a)를 $\\theta-m$에 대한 완전제곱으로 바꾸어 $m$과 posterior 공분산 $S$를 $B,b$로 표현하라. 정규화된 posterior 밀도도 써라.</li><li>주어진 $\\Phi,y$에 대해 (a), (b)의 행렬과 벡터를 계산하여 posterior 평균·공분산을 구하라.</li><li>소문항 (c)를 이용해 임의의 $\\phi_*$에 대한 $f_*=\\phi_*^\\top\\theta$의 평균·분산을 도출하라. $x_*=1$에서 분포를 구하라.</li><li>소문항 (d)에 미래 잡음을 더해 관측의 사후예측분포를 도출하라. $x_*=1$에서 MAP 고정 대입과 비교하라.</li><li>소문항 (d), (e)의 논리를 두 미래 관측 $x=0,1$에 적용해 $y$를 조건으로 한 교차 공분산을 도출·계산하라. 모수를 주었을 때의 독립성이 모수 적분 후에도 유지되는가?</li></ol>"
   },
   {
     "title": "공유 모수 모델과 독립 모수 모델의 evidence",
     "conditions": "<p>두 관측 $y=(1,-1)^\\top$를 비교한다. $M_1$은 공통 $\\theta\\sim\\mathcal N(0,1)$와 $y_n=\\theta+\\epsilon_n$을, $M_2$는 서로 독립 $\\theta_n\\sim\\mathcal N(0,1)$와 $y_n=\\theta_n+\\epsilon_n$을 사용한다. 두 모델에서 $\\epsilon_1,\\epsilon_2\\overset{\\mathrm{ind}}\\sim\\mathcal N(0,1)$이고 잡음과 모든 모수는 독립이다. 모델 공간은 $M_1,M_2$ 두 모델로만 구성된다. 모델 prior odds는 $P(M_1)/P(M_2)=3$이다.</p>",
     "asks": [
-      "모수를 prior로 적분한 $p(y\\mid M_i)$의 평균벡터와 공분산행렬을 각각 구하라.",
-      "주어진 관측에서 두 evidence를 정규화 상수까지 계산하고 Bayes factor $B_{12}$를 구하라. 데이터만으로 어느 모델을 지지하는가?",
-      "posterior odds와 $P(M_1\\mid y)$를 구해 사후확률이 큰 모델을 선택하라. (b)의 결론과 달라지는 이유를 설명하라."
+      "각 모델을 $y=B_i\\vartheta_i+\\epsilon$로 표현하라. $B_i$, 모수벡터 $\\vartheta_i$의 prior와 $p(y\\mid M_i)$의 적분식을 써라.",
+      "소문항 (a)의 모수와 잡음의 독립성을 이용해 관측 주변분포의 평균·공분산을 정의에서 구하라. 주변분포가 Gaussian인 이유도 설명하라.",
+      "소문항 (b)의 Gaussian 밀도를 정규화 상수까지 써라. 주어진 $y$에 대해 각 행렬식과 이차형식을 계산하여 두 evidence를 구하라.",
+      "소문항 (c)의 evidence 비에서 Bayes factor $B_{12}$를 구하고 데이터가 지지하는 모델을 판단하라.",
+      "Bayes 정리로 posterior odds를 evidence 비와 prior odds로 표현하는 공식을 유도하라. (d)를 사용해 $P(M_1\\mid y)$와 최종 선택을 구하라."
     ],
     "id": "p9",
     "origin": {
@@ -376,7 +398,9 @@
       "subparts": [
         "a",
         "b",
-        "c"
+        "c",
+        "d",
+        "e"
       ],
       "origin_kind": "theory_application",
       "origin_ref": "MML 9.3.5 evidence; shared versus separate parameters",
@@ -410,16 +434,18 @@
       ],
       "assumptions": "모델별 독립 관계와 prior odds=3"
     },
-    "ask_html": "<ol type=\"a\"><li>모수를 prior로 적분한 $p(y\\mid M_i)$의 평균벡터와 공분산행렬을 각각 구하라.</li><li>주어진 관측에서 두 evidence를 정규화 상수까지 계산하고 Bayes factor $B_{12}$를 구하라. 데이터만으로 어느 모델을 지지하는가?</li><li>posterior odds와 $P(M_1\\mid y)$를 구해 사후확률이 큰 모델을 선택하라. (b)의 결론과 달라지는 이유를 설명하라.</li></ol>"
+    "ask_html": "<ol type=\"a\"><li>각 모델을 $y=B_i\\vartheta_i+\\epsilon$로 표현하라. $B_i$, 모수벡터 $\\vartheta_i$의 prior와 $p(y\\mid M_i)$의 적분식을 써라.</li><li>소문항 (a)의 모수와 잡음의 독립성을 이용해 관측 주변분포의 평균·공분산을 정의에서 구하라. 주변분포가 Gaussian인 이유도 설명하라.</li><li>소문항 (b)의 Gaussian 밀도를 정규화 상수까지 써라. 주어진 $y$에 대해 각 행렬식과 이차형식을 계산하여 두 evidence를 구하라.</li><li>소문항 (c)의 evidence 비에서 Bayes factor $B_{12}$를 구하고 데이터가 지지하는 모델을 판단하라.</li><li>Bayes 정리로 posterior odds를 evidence 비와 prior odds로 표현하는 공식을 유도하라. (d)를 사용해 $P(M_1\\mid y)$와 최종 선택을 구하라.</li></ol>"
   },
   {
     "title": "직교투영과 ridge 예측의 차이",
-    "conditions": "<p>$$\\Phi=\\begin{pmatrix}1&0\\\\0&1\\\\1&1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정을 $\\widehat\\theta$라 하고 $P=\\Phi G^{-1}\\Phi^\\top$로 둔다. Ridge에서는 절편 구별 없이 두 계수에 같은 벌점을 주어 $\\frac12\\|y-\\Phi\\theta\\|^2+\\frac12\\|\\theta\\|^2$를 최소화한다. 그 해를 $\\theta_R$, 예측행렬을 $H=\\Phi(G+I_2)^{-1}\\Phi^\\top$라 한다.</p>",
+    "conditions": "<p>$$\\Phi=\\begin{pmatrix}1&0\\\\0&1\\\\1&1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
     "asks": [
-      "직교 잔차 조건으로 정규방정식을 유도하고 $\\widehat\\theta$, $\\widehat y$, $r=y-\\widehat y$를 구하라.",
-      "$P$를 수치로 구하고 $P^\\top=P$, $P^2=P$를 확인하라.",
-      "$\\theta_R$와 $\\Phi^\\top(y-\\Phi\\theta_R)$를 구하라. Ridge 잔차도 열공간에 직교하는가?",
-      "$v=\\Phi(1,1)^\\top$에 $H$와 $H^2$를 적용해 비교하라. $H$가 대칭이라는 사실만으로 직교투영행렬인지 판단할 수 있는가?"
+      "최소제곱 목적함수 $Q(\\theta)=\\tfrac12\\|y-\\Phi\\theta\\|^2$를 전개·미분해 정규방정식을 도출하라.",
+      "소문항 (a)를 풀어 일반적인 추정식을 도출한 뒤 주어진 수치의 $\\widehat\\theta$, $\\widehat y$, $r$를 구하라. 해의 유일성 조건을 확인하라.",
+      "소문항 (b)를 예측식에 대입해 $\\widehat y=Py$의 $P$를 도출하라. 수치행렬과 대칭성·멱등성을 확인하라.",
+      "Ridge 목적함수 $\\tfrac12\\|y-\\Phi\\theta\\|^2+\\tfrac12\\|\\theta\\|^2$를 미분하고, (a)와 비교해 정규방정식 및 해 $\\theta_R$를 도출·계산하라.",
+      "소문항 (d)를 예측식에 대입해 $\\widehat y_R=Hy$의 $H$를 도출하라. Ridge의 잔차 조건을 얻고 수치로 확인해, (a)의 잔차 직교성과 비교하라.",
+      "$v=\\Phi(1,1)^\\top$에 (e)의 $H,H^2$를 적용하라. (c)와 비교해 대칭만으로 직교투영행렬이라고 할 수 있는지 설명하라."
     ],
     "id": "p10",
     "origin": {
@@ -429,7 +455,9 @@
         "a",
         "b",
         "c",
-        "d"
+        "d",
+        "e",
+        "f"
       ],
       "origin_kind": "theory_application",
       "origin_ref": "MML 3.8 / 9.4 projections; ridge comparison",
@@ -462,6 +490,6 @@
       ],
       "assumptions": "G 가역; ridge lambda1; 모든 계수 벌점"
     },
-    "ask_html": "<ol type=\"a\"><li>직교 잔차 조건으로 정규방정식을 유도하고 $\\widehat\\theta$, $\\widehat y$, $r=y-\\widehat y$를 구하라.</li><li>$P$를 수치로 구하고 $P^\\top=P$, $P^2=P$를 확인하라.</li><li>$\\theta_R$와 $\\Phi^\\top(y-\\Phi\\theta_R)$를 구하라. Ridge 잔차도 열공간에 직교하는가?</li><li>$v=\\Phi(1,1)^\\top$에 $H$와 $H^2$를 적용해 비교하라. $H$가 대칭이라는 사실만으로 직교투영행렬인지 판단할 수 있는가?</li></ol>"
+    "ask_html": "<ol type=\"a\"><li>최소제곱 목적함수 $Q(\\theta)=\\tfrac12\\|y-\\Phi\\theta\\|^2$를 전개·미분해 정규방정식을 도출하라.</li><li>소문항 (a)를 풀어 일반적인 추정식을 도출한 뒤 주어진 수치의 $\\widehat\\theta$, $\\widehat y$, $r$를 구하라. 해의 유일성 조건을 확인하라.</li><li>소문항 (b)를 예측식에 대입해 $\\widehat y=Py$의 $P$를 도출하라. 수치행렬과 대칭성·멱등성을 확인하라.</li><li>Ridge 목적함수 $\\tfrac12\\|y-\\Phi\\theta\\|^2+\\tfrac12\\|\\theta\\|^2$를 미분하고, (a)와 비교해 정규방정식 및 해 $\\theta_R$를 도출·계산하라.</li><li>소문항 (d)를 예측식에 대입해 $\\widehat y_R=Hy$의 $H$를 도출하라. Ridge의 잔차 조건을 얻고 수치로 확인해, (a)의 잔차 직교성과 비교하라.</li><li>$v=\\Phi(1,1)^\\top$에 (e)의 $H,H^2$를 적용하라. (c)와 비교해 대칭만으로 직교투영행렬이라고 할 수 있는지 설명하라.</li></ol>"
   }
 ]

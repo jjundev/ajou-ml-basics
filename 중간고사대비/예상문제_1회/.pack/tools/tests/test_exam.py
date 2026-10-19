@@ -36,7 +36,7 @@ def test_subparts_and_blind_input():
  bad=copy.deepcopy(checks);bad[next(iter(bad))]['status']='disputed';assert validate_answer_checks(pack,bad)
  root=parse((OUT/'.pack/evidence/blind-input.html').read_text())
  assert not list(root.find_all(lambda n: bool(n.classes & {'solution','answer','hint'})))
- assert len(list(root.find_all(lambda n:'problem' in n.classes)))==10
+ assert len(list(root.find_all(lambda n:n.tag=='article')))==10
 
 def test_problem_payload_has_no_solution_or_hint():
  from exam_adapter import EXAM,STEM
@@ -112,8 +112,8 @@ def test_answer_pdf_source_includes_every_requested_intermediate(id_):
  from exam_adapter import read_cards,EXAM,STEM
  import html
  cards={c.id:c for c in read_cards(OUT/(STEM+'.html'),EXAM).cards}
- first={k:html.unescape(v.steps[0]) for k,v in cards.items()}
- # Both were requested in (a), and must be in the PDF's solution payload, not only HTML 'start'.
+ first={k:html.unescape(v.steps[1 if k=='p7' else 0]) for k,v in cards.items()}
+ # p4 asks its matrix in (a); revised p7 derives the objective in (b). Both must be in the PDF solution payload.
  if id_=='p4':
   assert r'\Phi=\begin{pmatrix}1&-1\\1&0\\1&1\end{pmatrix}' in first['p4']
  else:
