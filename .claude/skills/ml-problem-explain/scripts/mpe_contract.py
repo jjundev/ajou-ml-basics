@@ -42,6 +42,12 @@ def _body_text(node):
 def validate_fragment(problem, fragment):
     root = parse(fragment)
     errors = markup_errors(root, allow_summary=True)
+    panels = list(root.find_all(lambda n: 'data-problem-panel' in n.attrs))
+    panel_counts = Counter(n.attrs['data-problem-panel'] for n in panels)
+    if any(key not in ('provenance', 'terms') or count != 1 for key, count in panel_counts.items()):
+        errors.append('문제 패널은 provenance/terms를 각각 최대 한 번 작성하세요')
+    if any(n.parent is not root or not _body_text(n).strip() for n in panels):
+        errors.append('문제 패널은 내용이 있는 직계 영역이어야 해요')
     sections = list(root.find_all(lambda n: 'data-explanation' in n.attrs))
     counts = Counter(n.attrs['data-explanation'] for n in sections)
     if counts != Counter(KEYS):
