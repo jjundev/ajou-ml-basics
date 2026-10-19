@@ -365,6 +365,7 @@
 <tr><td>학습·평가</td><td>파라미터 선택·새 데이터 성능 확인</td><td>외운 정도와 일반화 구분</td></tr>
 </tbody></table></div>
 <p data-map="result"><b>구할 결과.</b> 학습의 결과는 선택한 모델의 파라미터예요. 좋은 결과인지는 훈련 데이터 밖에서 확인해요.</p>
+<p>한 모델로 끝까지 따라가면 <b>직선이라는 꼴 선택 → 데이터로 기울기·절편 학습 → 새 입력에 대입 → 새 데이터의 오차로 평가</b>예요. 아래에서 같은 직선 식을 계속 재사용해요.</p>
 <p data-map="formula"><b>수식이 하는 일.</b> 함수식은 모델의 모양, 손실은 맞지 않는 정도, 최적화는 손실을 줄일 파라미터를 찾는 방법을 나타내요.</p>
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 훈련 오차가 가장 작다는 사실만으로 가장 좋은 모델이라고 결론 내릴 수는 없어요.</p>
 <p>이어서 읽기: <a href="#s0-components">머신러닝의 세 구성요소와 빅데이터의 임계점</a> · <a href="#s2-induction">오늘의 메인 레슨: 머신러닝은 귀납이다</a> · <a href="#s3-three-phases">학습 알고리즘의 세 단계 (거꾸로 읽기)</a></p>
@@ -814,7 +815,9 @@
           <p>$\boldsymbol{\theta}$와 $\theta_0$의 값은 나중에 최적화해요. 딥러닝에서 쓰는 gradient descent가 그 방법의 하나예요.</p>
           <p>1차식의 예로 $y=ax+b$, 그리고 입력 $(x_1,x_2)$를 받는 평면의 방정식 $y=a_1x_1+a_2x_2+b$가 있어요. 데이터를 가장 잘 설명하는 $a_1,a_2,b$를 정하는 과정이 수학적으로 학습(러닝, 트레이닝)이에요.</p>
           <p>선형으로 설명되는 데이터는 많아요. linear regression에서 배운 이론은 커널 함수로 2차·3차·로그·지수 식까지 넓힐 수 있고(kernel expansion), 그 바탕도 선형 방정식이에요.</p>
-        </div>
+
+<p><a href="#s2-fitting">다음 피팅</a>에서는 위 식의 입력 차원은 두고 계수만 골라요. 식의 꼴을 정하는 일과 그 안의 값을 찾는 일은 구별해요. 데이터로 정한 뒤의 계수를 새 입력에 넣으면 예측에 쓸 수 있어요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <blockquote>"우리 공장에 입장하실 거면 리얼 넘버 D개를 가지고 있는 벡터의 모양으로 입장하셔야 돼요." (0909 37:48)</blockquote>
           <p>$\boldsymbol{\theta}^\top\mathbf{x}$가 스칼라가 되고 $\theta_0$를 더해 실수가 되는 걸 두고 차원이 "딱 맞아떨어진다"고 하셨어요 (0909 40:00).</p>
@@ -858,7 +861,15 @@
             <li>손실 함수를 어떻게 정의하느냐에 따라 무엇을 중요하게 볼지가 달라져요.</li>
             <li>손실 함수는 우리가 설계할 수 있어요. 수학은 정의에서 시작해요.</li>
           </ul>
-        </div>
+
+<h4>같은 식에서 무엇을 정하고, 무엇을 바꾸나요?</h4>
+<div class="table-wrap"><table><thead><tr><th>단계</th><th>정하는 것</th><th>다음 단계에 남기는 것</th></tr></thead><tbody>
+<tr><td>모델 꼴 선택</td><td>직선 $y=\theta_1x+\theta_0$을 쓸지 정해요.</td><td>학습할 두 계수의 자리</td></tr>
+<tr><td>피팅</td><td>훈련 데이터의 손실을 작게 할 $\theta_1,\theta_0$을 골라요.</td><td>선택된 계수 $\hat\theta_1,\hat\theta_0$</td></tr>
+<tr><td>예측</td><td>새 입력 $x_*$를 넣어요.</td><td>$\hat y_*=\hat\theta_1x_*+\hat\theta_0$</td></tr>
+<tr><td>평가</td><td>새 데이터의 실제 값과 예측을 비교해요.</td><td>처음 보는 데이터에서의 성능</td></tr>
+</tbody></table></div><p>이 표는 수업 흐름을 연결한 재구성이에요. 모자를 쓴 계수는 데이터로 고른 값, 별표는 새 입력을 구별하는 표시예요. <b>꼴을 정하고 → 값을 맞추고 → 새 입력에 넣고 → 오차를 확인한다</b>고 복원하면 돼요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>어휘가 많으면 말이 유창해지는 것에 비유하셨어요. 유치원생은 "밥 줘, 배고파"라고 말하지만 대학생은 고급 언어를 써요. 파라미터가 많을수록 표현력이 좋은 것과 같아요 (0909 49:04).</p>
           <p>영화를 평가할 때 러닝타임만 보는 사람도, 액션 비중만 보는 사람도 있어요. 그 평가 기준이 곧 손실 함수예요 (0909 50:54).</p>
@@ -997,7 +1008,7 @@
           <p>슬라이드의 번호는 ① Prediction or inference ② Training or parameters estimation ③ Model selection이에요. 수업에서는 3번부터 거꾸로 설명했고, 이것이 실제 작업 순서예요.</p>
           <ol class="steps">
             <li>③ model selection: 하이퍼파라미터를 골라 모델의 꼴을 정해요(<a href="#s3-hyperparam">모델 선택과 하이퍼파라미터</a>).</li>
-            <li>② training(파라미터 추정): 정해진 모델 안의 파라미터를 데이터로 최적화해요. 파라미터를 고정값으로 보는 비확률적 방법(예: empirical risk minimization)과, 베이지안(Bayesian) 관점의 확률적 방법(예: ML, MAP)이 있어요(<a href="#s3-estimation">파라미터 추정: 격자 탐색에서 gradient descent까지</a>).</li>
+            <li>② training(파라미터 추정): 정해진 모델 안의 파라미터를 데이터로 최적화해요. 손실로 값을 고르는 ERM과 확률모델의 우도로 값을 고르는 ML, 사전분포까지 반영하는 베이지안 추정인 MAP 등을 뒤에서 배워요. ML도 확률모델을 쓰지만 θ에 사전분포를 주는 베이지안 추정과는 구별해요(<a href="#s3-estimation">파라미터 추정: 격자 탐색에서 gradient descent까지</a>).</li>
             <li>① prediction/inference: 모델과 파라미터가 정해지면 unseen data를 넣어 테스트해요. 함수 모델이면 출력값을, 확률 모델이면 분포를 내놓아요.</li>
           </ol>
         </div>
@@ -1038,7 +1049,7 @@
             <li>뉴럴넷은 선형 가중합(weighted sum) 뒤에 비선형 활성화 함수(activation function)를 붙인 층을 여러 겹 결합한 합성 모델(composite function)이에요. 활성화 함수의 예는 sigmoid, ReLU, Leaky ReLU예요.</li>
           </ul>
           <p>모델이 필요 이상으로 복잡하면 안 돼요. 그래서 층 수와 뉴런 수도 최적화 대상이고, 모델 선택(model selection)이 매우 중요해요.</p>
-          <p>하이퍼파라미터(hyperparameter)는 바뀌면 모델 자체가 바뀌는 값이에요. 슬라이드 s8은 둘을 이렇게 나눠요.</p>
+          <p>하이퍼파라미터(hyperparameter)는 파라미터를 학습하는 과정 밖에서 정하는 설정이에요. 클러스터 개수처럼 모델의 꼴을 바꾸기도 하고, learning rate처럼 같은 모델의 학습 과정을 바꾸기도 해요. 슬라이드 s8은 둘을 이렇게 나눠요.</p>
           <ul>
             <li>파라미터(parameter): 훈련 데이터로 학습해요(예: weight, bias).</li>
             <li>하이퍼파라미터: 훈련 전에 정해 학습 과정을 조절해요(예: learning rate, regularization strength).</li>
@@ -1056,12 +1067,12 @@
           <blockquote>"클러스터 몇 개로 클러스터링할 거야?라는 거를 바꾸는 거는 모델을 바꾸는 겁니다, 거의." (0909 66:46)</blockquote>
         </div>
         <div class="sum" hidden>
-          <p class="sum-lead">하이퍼파라미터는 바뀌면 모델 자체가 바뀌는 값이라, 먼저 고르고 그다음 파라미터를 맞춰요.</p>
+          <p class="sum-lead">하이퍼파라미터는 모델의 꼴이나 학습 과정을 정하는 설정이고, 그 설정 아래에서 파라미터를 맞춰요.</p>
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list"><li><span class="eq-name">클러스터 개수 예(6비트)</span>$$2^6 = 64$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms">
-            <dt>하이퍼파라미터(hyperparameter)</dt><dd>훈련 전에 정하며, 바뀌면 모델 자체가 바뀌는 값</dd>
+            <dt>하이퍼파라미터(hyperparameter)</dt><dd>모델의 꼴이나 학습 과정을 정하는 설정</dd>
             <dt>합성 모델(composite function)</dt><dd>가중합과 활성화 함수(activation function)를 여러 층 결합한 뉴럴넷</dd>
           </dl>
         </div>
@@ -1130,9 +1141,9 @@
             <tr><td><a href="#s2-prob">확률 모델</a></td><td>$p(y \mid \mathbf{x})$, $\mathcal{N}(100, \sigma^2)$, MLE</td><td>노이즈를 분포로 두고, 한 값을 골라야 하면 가장 그럴듯한 값을 골라요.</td></tr>
             <tr><td><a href="#s3-good-model">좋은 모델</a></td><td>unseen data, good</td><td>옳고 그름이 아니라 처음 보는 데이터에서 잘하면 좋은 모델이에요.</td></tr>
             <tr><td><a href="#s3-three-phases">학습 세 단계</a></td><td>prediction · training · model selection</td><td>모델 선택, 파라미터 추정(피팅), 예측(테스트) 순서로 돌아가요.</td></tr>
-            <tr><td><a href="#s3-hyperparam">하이퍼파라미터</a></td><td>hyperparameter, sigmoid, ReLU, $2^6 = 64$</td><td>바꾸면 모델 자체가 바뀌는 값이에요(예: 클러스터 개수).</td></tr>
+            <tr><td><a href="#s3-hyperparam">하이퍼파라미터</a></td><td>hyperparameter, sigmoid, ReLU, $2^6 = 64$</td><td>모델의 꼴(클러스터 개수)이나 학습 과정(learning rate)을 정하는 설정이에요.</td></tr>
             <tr><td><a href="#s3-estimation">파라미터 추정</a></td><td>grid search, gradient descent, least squares</td><td>격자 탐색은 확실하지만 비싸서 더 효율적인 방법을 써요.</td></tr>
-          </tbody>
+          <tr><td>흐름 복원</td><td colspan="2">직선 꼴 선택 → 계수 학습 → 새 입력 대입 → 새 데이터 오차 확인. 자세한 대응은 <a href="#s2-fitting">같은 식의 네 단계</a>에 있어요.</td></tr></tbody>
         </table></div>
       </article>
       <article class="topic" id="s4-next"><h3>다음 시간 예고 (아직 안 배움)</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s9–s17</span></div>
