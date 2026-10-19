@@ -6,7 +6,11 @@
 
 <a id="s0-learning-map"></a>
 
-## 먼저 큰 그림: 데이터만 볼까, 사전 지식도 반영할까?
+### 데이터만 볼까, 사전 지식도 반영할까?
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
 
 **오늘의 질문.** 같은 데이터에서도 파라미터를 고르는 기준과 불확실성을 보존하는 방식에 따라 답이 달라져요.
 
@@ -20,10 +24,19 @@ ML은 고정된 미지의 파라미터를 추정해요. MAP과 Fully Bayesian(FB
 
 **구할 결과.** MAP은 확률변수로 모델링한 파라미터에서 한 점을 고르고, FB는 가능한 값들의 불확실성을 계속 반영해요.
 
+앞서 만든 음의 로그우도는 그대로 두고, MAP에서는 사전분포의 음의 로그를 더해요. **목적함수에 어떤 항이 추가되는가**와 **θ 한 점을 남기는가, 분포를 남기는가**를 나누어 비교해요.
+
 **수식이 하는 일.** 베이즈 정리는 사전분포와 우도를 사후분포로 연결해요. 음의 로그를 취하면 MAP의 목적함수에 데이터 항과 사전분포 항이 더해져요.
 
 **헷갈리기 쉬운 점.** MAP이라고 사후분포 전체를 먼저 계산해야 하는 것은 아니에요. 최고점을 찾을 수 있으면 돼요. 사전분포를 쓰는 것과 분포 전체를 유지하는 것은 다른 선택이에요.
 
+이어서 읽기: [Posterior와 베이즈 룰](#s1-posterior) · [MAP = MLE + log prior](#s1-map) · [세 가지 답: ML · MAP · Fully Bayesian](#s3-three-ways)
+
+**페이지 요약**
+
+MAP은 확률변수로 모델링한 파라미터에서 한 점을 고르고, FB는 가능한 값들의 불확실성을 계속 반영해요.
+
+---
 
 **목차**
 
@@ -399,6 +412,16 @@ MAP(maximum a posteriori)는 [Posterior와 베이즈 룰](#s1-posterior)의 post
 
 교과서(MML 8.3.2)는 이를 "negative log-posterior를 최소화한다"고 표현하고, 0 평균 가우시안 prior를 주면 직선의 기울기가 덜 가파르게 끌려간다고 보여 줘요(Fig 8.6).
 
+#### ML에서 기억한 목적함수의 어느 자리가 달라질까요?
+
+위 베이즈 식의 분모 $P(x)$는 관측 x가 주어지면 θ와 무관해요. $P(x)\gt0$인 경우 최고점 계산에서만 빼도 돼요. 앞에서 쓴 ML 목적함수를 $J_{\rm ML}(\theta):=-\log P(x\mid\theta)$로 줄여 쓰면,
+
+$$
+-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)
+$$
+
+마지막 상수를 빼고 최소화하면 $J_{\rm ML}(\theta)-\log P(\theta)$가 돼요. **ML 데이터 항은 유지하고 prior 항 하나를 더한다**고 복원해요. uniform prior라면 그 지지집합 안에서 prior 항이 상수예요. 따라서 같은 영역 안의 ML과 같고, 영역 밖까지 허용한 ML과 항상 같은 것은 아니에요.
+
 **교수님 말씀**
 
 > "사후 확률을 맥시마이즈 하게 만드는 세타 … 우리의 얼티메이트 골 오브 인퍼런스" (0916 25:04)
@@ -451,6 +474,8 @@ $$
 - prior $P(\theta)$는 데이터를 보기 전의 notion, 편견, bias, preference, intention이에요.
 
 prior가 정확히 어떻게 $\lambda\|\theta\|^2$ 항이 되는지는 나중에 설명하겠다고 미뤘어요.
+
+[MAP의 두 항](#s1-map) 중 데이터 항은 이전 최소제곱이고, prior의 음의 로그가 패널티 역할을 해요. 이 날짜에서는 연결을 소개했고, 정확한 가우시안 계수 대입은 기존 보충 설명으로 구별해요. “분포를 가정한다”와 “분포 전체를 답으로 유지한다”는 별도 선택이에요.
 
 **교수님 말씀**
 
@@ -789,6 +814,8 @@ $$
 
 이 연결의 유도는 수업에서 뒤로 미뤘어요([보충: 가우시안 prior = L2 정규화](#s1-map-reg)).
 
+같은 joint를 재사용하는 순서는 **prior×likelihood로 joint 만들기 → θ에 대해 적분해 $P(x)$ 만들기 → joint를 그 값으로 나누기**예요. 이때 남은 θ의 함수가 posterior예요. MAP에서는 분모가 최고점 위치를 바꾸지 않지만, posterior를 밀도로 보고할 때는 적분값이 1이 되도록 정규화해야 해요.
+
 **교수님 말씀**
 
 $\theta$가 원래부터 key information을 담고 있다는 연역적 생각은 버리라고 했어요.
@@ -848,7 +875,7 @@ prior와 likelihood를 곱해 joint를 만들고, joint 하나로 marginal likel
 
 ![세 칸 그림. 왼쪽 칸 '데이터만 믿기'와 가운데 칸 '생각도 섞기'는 테두리 상자 안에 '뒷면' 한마디만 있고, 오른쪽 칸 '전부 보여 주기'는 앞면 막대는 낮고 뒷면 막대는 높은 색칠된 막대 두 개를 그대로 보여 준다.](figures_0916/fig-three-answers.svg)
 
-*왼쪽 둘은 한마디로 답하고, 오른쪽은 막대 전체를 그대로 보여 줘요.*
+*그림은 수업의 단답 비유예요. 수학적으로는 세 방법 모두 예측확률을 낼 수 있고, 차이는 θ 한 점을 쓰는지 분포를 유지하는지예요.*
 
 **정확히 말하면**
 
@@ -860,6 +887,7 @@ prior와 likelihood를 곱해 joint를 만들고, joint 하나로 marginal likel
    \theta_{\text{ML}}=\arg\max_\theta P(X\mid\theta)
    $$
 
+
    $$
    P(A\mid X)\approx P(A\mid\theta_{\text{ML}})
    $$
@@ -868,6 +896,7 @@ prior와 likelihood를 곱해 joint를 만들고, joint 하나로 marginal likel
    $$
    \theta_{\text{MAP}}=\arg\max_\theta P(\theta\mid X)
    $$
+
 
    $$
    P(A\mid X)\approx P(A\mid\theta_{\text{MAP}})
@@ -880,13 +909,13 @@ prior와 likelihood를 곱해 joint를 만들고, joint 하나로 marginal likel
 
    식이 나오는 과정은 [보충: Posterior predictive와 조건부 독립](#s3-predictive)에서 이어서 봐요.
 
-| 방식 | 무엇을 믿나 | 답의 모양 | 동전 예(10번 중 앞면 2번) |
-|---|---|---|---|
-| ML | 데이터만 | 단답(Yes/No) | 앞면 확률 0.2, 그래서 "뒷면" |
-| MAP | 데이터 + prior | 단답(Yes/No) | "모름지기 반반"을 섞어 0.3 정도, 그래서 "뒷면" |
-| Fully Bayesian | posterior 전체 | 분포(PMF/PDF) 그대로 | "앞면 확률 얼마, 뒷면 확률 얼마" |
+| 방법 | 파라미터 추론에서 남기는 것 | 예측에 쓰는 법 |
+|---|---|---|
+| ML | 우도를 크게 하는 θ 한 점 | 그 점을 조건부 관측 모형에 대입 |
+| MAP | posterior 밀도가 높은 θ 한 점 | 그 점을 조건부 관측 모형에 대입 |
+| Fully Bayesian | θ의 posterior 전체 | 조건부 예측을 posterior로 가중해 적분 |
 
-ML과 MAP는 점 추정(point estimate)이라 답이 짧아요. Fully Bayesian은 계산한 PMF나 PDF를 결론 없이 그대로 보고해요. 정확하지만 말이 길어요.
+ML과 MAP는 θ를 한 점으로 추정해요. 그 점을 확률모형에 넣으면 관측값의 예측분포도 얻을 수 있어요. FB는 가능한 θ들의 예측을 posterior로 가중해 합쳐 파라미터 불확실성도 반영해요. Yes/No 결정은 이렇게 얻은 확률에 별도의 결정 기준을 적용한 결과예요. 교수님의 단답 비유와 수학적 구분은 이렇게 연결해 읽어요.
 
 MML 8.4.2도 같은 구분을 해요. ML·MAP의 핵심 계산은 최적화이고, Fully Bayesian의 핵심 계산은 적분이에요.
 
@@ -908,7 +937,7 @@ MML 8.4.2도 같은 구분을 해요. ML·MAP의 핵심 계산은 최적화이�
 
 **페이지 요약**
 
-ML과 MAP는 $\theta$ 하나로 단답을 내고, Fully Bayesian은 posterior 전체로 예측해요.
+ML·MAP은 $\theta$ 한 점을 예측모형에 넣고, FB는 θ의 posterior 전체로 예측을 가중해요. 모두 관측값의 예측분포를 낼 수 있어요.
 
 *핵심 식*
 
@@ -1187,7 +1216,7 @@ Fully Bayesian 예측은 posterior로 가중평균한 predictive distribution이
 | [i.i.d.로 곱을 합으로](#s0-iid) | $\mathcal{L}(\theta) = -\sum_{n=1}^{N}\log P(y_n\mid x_n,\theta)$ | i.i.d. 가정이면 곱이 되고, $\log(ab)=\log a+\log b$로 합이 돼요. |
 | [MLE = Least Squares](#s0-mle-ls) | $y_n = x_n^\top\theta + \epsilon,\ \epsilon\sim\mathcal{N}(0,\sigma^2)$ | 가우시안 노이즈면 NLL이 $\Vert y-X\theta\Vert ^2$에 비례해요. |
 | [Posterior와 베이즈 룰](#s1-posterior) | $P(\theta\mid x)\propto P(x\mid\theta)P(\theta)$ | 데이터를 본 뒤의 확률(사후)이에요. 분모 $P(x)$는 $\theta$와 무관해요. |
-| [MAP](#s1-map) | $\theta_{\text{MAP}}=\arg\min_\theta\big[-\log P(x\mid\theta)-\log P(\theta)\big]$ | MAP = MLE + log prior예요. prior가 uniform이면 MAP = MLE예요. |
+| [MAP](#s1-map) | $\theta_{\text{MAP}}=\arg\min_\theta\big[-\log P(x\mid\theta)-\log P(\theta)\big]$ | MAP = MLE + log prior예요. 같은 지지집합 안에서 prior가 uniform이면 MAP = MLE예요. |
 | [가우시안 prior = L2 정규화](#s1-map-reg) | $\lambda = \frac{\sigma^2}{N b^2}$ | prior $\mathcal{N}(0, b^2 I)$를 넣으면 $\lambda\Vert \theta\Vert ^2$ 항이 생겨요. |
 | [Model fitting](#s1-fitting) | $M^*$ vs $M_{\theta^*}$ | 데이터 수에 비해 모델(파라미터 수)이 너무 크면 overfitting, 너무 작으면 underfitting이에요. |
 | [Generative process](#s2-generative) | $y_n\sim\mathcal{N}(c_n,\sigma^2),\ c_n = x_n^\top\theta$ | 데이터가 "이렇게 만들어졌을 거야"라고 과정을 가정해요. |
@@ -1196,6 +1225,7 @@ Fully Bayesian 예측은 posterior로 가중평균한 predictive distribution이
 | [ML · MAP · Fully Bayesian](#s3-three-ways) | $\theta_{\text{ML}}=\arg\max_\theta P(X\mid\theta)$ | ML과 MAP은 $\theta$ 하나를 골라요. Fully Bayesian은 분포 전체를 써요. |
 | [동전 예시](#s3-coin) | $\hat\theta_{\text{ML}}=0.2$ | 10번 중 앞면 2번이면 ML은 0.2예요. MAP은 prior 쪽으로 당겨져 0.2보다 커요. |
 | [Posterior predictive](#s3-predictive) | $P(A\mid X)=\int P(A\mid\theta)P(\theta\mid X)\,d\theta$ | 조건부 독립 가정으로 $P(A\mid\theta,X)=P(A\mid\theta)$가 돼요. |
+| 복원 순서 | 우도 → prior를 곱해 posterior의 모양 → MAP은 최고점, FB는 전체 분포. 예측의 Yes/No와 θ의 점 추정은 구별해요. |  |
 
 ---
 
