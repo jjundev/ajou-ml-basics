@@ -266,7 +266,7 @@ $g(z)=p_0(z)p_1(z)$, $Z=\int_{-\infty}^{\infty}g(z)\,dz$, $q(z)=g(z)/Z$로 둔�
 
 #### 이 문제를 봤을 때 떠올릴 개념과 공식
 
-“가우시안 곱”과 “완전제곱”이 단서예요. $a(z-m)^2$에서 precision은 $a$, 분산은 $1/a$예요. 평균은 제곱 안의 중심 $m$이에요. $\mathcal N(z\mid m,v)$의 앞 계수는 $1/\sqrt{2\pi v}$예요. 분산과 표준편차를 구분하고, 지수의 상수항도 $Z$ 계산에서는 남겨요.
+“가우시안 곱”과 “완전제곱”이 단서예요. 지수가 $-\frac12a(z-m)^2$ 형태일 때 precision(분산의 역수)은 $a=1/\sigma^2$, 분산은 $\sigma^2=1/a$예요. 지수에 곱해진 $-1/2$까지 함께 비교해야 해요. 평균은 제곱 안의 중심 $m$이에요. $\mathcal N(z\mid m,v)$의 앞 계수는 $1/\sqrt{2\pi v}$예요. 분산과 표준편차를 구분하고, 지수의 상수항도 $Z$ 계산에서는 남겨요.
 
 #### 종이에 쓸 첫 줄
 
@@ -290,21 +290,43 @@ $$
 
 #### (b)
 
-$-\frac23(z-1/2)^2=-\frac{(z-1/2)^2}{2(3/4)}$이므로 평균 $1/2$, 분산 $3/4$예요.
+정규분포의 지수는 $-(z-\mu)^2/(2\sigma^2)$예요. 이 문제의 지수 $-\frac23(z-\frac12)^2$와 비교하면 평균은 $\mu=1/2$이고, 분산은 다음처럼 구해요.
 
-$$
-q(z)=\sqrt{\frac{2}{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right]=\mathcal N(z\mid\tfrac12,\tfrac34).
-$$
+$$\frac{1}{2\sigma^2}=\frac23\quad\Rightarrow\quad 2\sigma^2=\frac32\quad\Rightarrow\quad\boxed{\sigma^2=\frac34}.$$
+
+**$4/3$은 분산이 아니라 분산의 역수(precision)예요.** 정규분포의 앞 계수는 $2\pi\sigma^2$ 자체가 아니라 그 제곱근의 역수예요. 분산 $3/4$를 넣어 한 단계씩 정리하면
+
+$$\begin{aligned}\frac{1}{\sqrt{2\pi\sigma^2}}&=\frac{1}{\sqrt{2\pi\cdot\frac34}}\\&=\frac{1}{\sqrt{3\pi/2}}\\&=\sqrt{\frac{2}{3\pi}}.\end{aligned}$$
+
+따라서 전체 넓이가 1인 밀도는 다음과 같아요.
+
+$$q(z)=\sqrt{\frac{2}{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right]=\mathcal N(z\mid\tfrac12,\tfrac34).$$
 
 #### (c)
 
-$\int\exp[-\frac23(z-1/2)^2]dz=\sqrt{3\pi/2}$이므로
+**먼저 $Z$는 $g(z)$ 그래프 아래의 전체 넓이예요.** (a)의 식을 적분하고, $z$와 무관한 앞 계수를 밖으로 꺼내요.
 
-$$
-Z=\frac{e^{-1/2}}{\sqrt{8\pi}}.
-$$
+$$Z=\frac{e^{-1/2}}{2\pi\sqrt3}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz.$$
 
-$Z\ne1$이므로 $g$ 자체는 정규화된 밀도가 아니에요. $g=Zq$로 구분해요.
+**남은 적분은 (b)의 정규분포가 전체 넓이 1을 갖는다는 성질로 구해요.** $\int_{-\infty}^{\infty}q(z)\,dz=1$에 (b)의 식을 대입하면
+
+$$\sqrt{\frac{2}{3\pi}}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=1.$$
+
+양변을 앞 계수 $\sqrt{2/(3\pi)}$로 나누므로 지수함수 부분의 적분은 그 계수의 역수예요.
+
+$$\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=\sqrt{\frac{3\pi}{2}}.$$
+
+이를 $Z$의 식에 넣으면
+
+$$\begin{aligned}Z&=\frac{e^{-1/2}}{2\pi\sqrt3}\sqrt{\frac{3\pi}{2}}\\&=\frac{e^{-1/2}}{2\sqrt{2\pi}}\\&=\boxed{\frac{e^{-1/2}}{\sqrt{8\pi}}}\approx0.121.\end{aligned}$$
+
+**확률밀도는 비음수이고 전체 적분이 1이어야 해요.** $g=p_0p_1$은 비음수이지만 전체 적분이 $Z\ne1$이므로 그대로는 확률밀도가 아니에요. 각각의 적분이 1이어도 곱의 적분이 1이 되는 것은 아니에요. 곱의 적분과 각 적분의 곱은 일반적으로 달라요.
+
+그래서 전체 넓이 $Z$로 나누어 정규화해요.
+
+$$q(z)=\frac{g(z)}{Z},\qquad\int_{-\infty}^{\infty}q(z)\,dz=\frac1Z\int_{-\infty}^{\infty}g(z)\,dz=\frac ZZ=1.$$
+
+$g$는 가우시안 모양을 가진 함수이고, 그 높이를 조절해 전체 넓이를 1로 만든 것이 확률밀도 $q$예요. $g=Zq$로 구분해요.
 
 #### 완성 답과 검산
 
