@@ -6,7 +6,11 @@
 
 <a id="s0-learning-map"></a>
 
-## 먼저 큰 그림: 좋은 파라미터를 고르는 기준을 만들어요
+### 좋은 파라미터를 고르는 기준을 만들어요
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
 
 **오늘의 질문.** 정답 규칙을 모르니, 관측한 데이터에서 틀린 정도를 계산해 파라미터를 고르려 해요.
 
@@ -20,10 +24,19 @@
 
 **구할 결과.** 가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.
 
+핵심 연결은 **예측들을 쌓아 $\mathbf X\boldsymbol\theta$로 쓰기 → 잔차의 제곱합 만들기 → 같은 제곱합을 가우시안 음의 로그우도에서 다시 찾기**예요. 서로 다른 답을 외우는 대신 같은 데이터 항을 확인해요.
+
 **수식이 하는 일.** 음의 로그는 우도 최대화를 최소화 문제로 바꾸고, 독립 가정은 곱을 합으로 바꿔요. 그 결과가 최소제곱 손실이에요.
 
 **헷갈리기 쉬운 점.** 입력이 고정되고 파라미터가 정해져도 관측 잡음이 있으면 출력은 확률변수예요. ML에서 파라미터는 고정되어 있지만 모르는 값으로 다뤄요.
 
+이어서 읽기: [Empirical · Risk · Minimization이라는 이름](#s1-erm-name) · [가우시안 노이즈면 MLE = 최소제곱](#s4-mle-ls) · [Overfitting과 정규화 최소제곱](#s3-reg)
+
+**페이지 요약**
+
+가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.
+
+---
 
 **목차**
 
@@ -445,6 +458,8 @@ $$
 
 (수업 중 $b$를 "곱한다"고 말했지만, 바이어스는 더하는 것이 맞아요.)
 
+이제 바이어스도 계수 벡터 안에 들어갔어요. [제곱 손실의 행렬 표현](#s2-squared)에서는 이 예측식의 $\mathbf x_n^\top$을 행으로 쌓아 $\hat{\mathbf y}=\mathbf X\boldsymbol\theta$를 만들어요. 새 모델을 가정한 게 아니라 같은 예측을 한꺼번에 적는 거예요.
+
 **교수님 말씀**
 
 > "가장 중요한 컨셉이 뭐냐라고 묻는다면 저는 이 수식을 만드는 거라고 생각해요." (0914 26:00)
@@ -615,6 +630,8 @@ $$
 - 바꾸는 대상은 $\boldsymbol{\theta}$예요. $\mathbf{X}$와 $\mathbf{y}$는 데이터로 고정돼 있어요.
 - 추정치를 모은 벡터는 $\hat{\mathbf{y}} = \mathbf{X}\boldsymbol{\theta}$이고 크기는 $N \times 1$이에요. 식에서 $\mathbf{X}\boldsymbol{\theta}$ 자리가 원래 $\hat{y}_n$들이 있던 자리예요.
 
+**복원 순서:** 관측 하나의 잔차 $y_n-\hat y_n$를 먼저 쓰고, 예측 자리에 $\mathbf x_n^\top\boldsymbol\theta$를 넣어요. 잔차들을 열로 쌓으면 $\mathbf y-\mathbf X\boldsymbol\theta$, 원소 제곱의 합은 그 벡터의 노름 제곱이에요. 이 데이터 항을 [정규화](#s3-reg)와 [가우시안 ML](#s4-mle-ls)에서 그대로 재사용해요.
+
 **교수님 말씀**
 
 김밥을 예쁘게 말려면 재료를 먼저 손질해 둬야 해요. $\mathbf{X}$를 미리 그렇게 정의해 둔 것이 재료 손질이에요 (0914 38:01).
@@ -784,6 +801,8 @@ $\lambda$ 값에 따라 목적 함수가 이렇게 달라져요.
 1. $\lambda = 0$: 패널티 항이 사라져요. $\min_{\boldsymbol{\theta}}\frac{1}{N}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2$, 경험적 위험만 최소화해서 과적합되기 쉬워요.
 2. $\lambda \gt 0$(예: $\lambda=1$): 학습 데이터에 가까워지려는 첫째 항과, $\boldsymbol{\theta}$가 원점에서 먼 정도를 재는 $\lambda \|\boldsymbol{\theta}\|^2$ 사이에서 균형을 잡아요.
 
+앞에서 만든 $\frac1N\|\mathbf y-\mathbf X\boldsymbol\theta\|^2$는 그대로예요. 바뀐 것은 $\lambda\|\boldsymbol\theta\|^2$를 더해 값을 고르는 기준을 바꾼 점이에요. 예측식 $\mathbf X\boldsymbol\theta$ 자체를 바꾼 것은 아니며, $\lambda=0$이면 원래 ERM으로 돌아와요.
+
 **교수님 말씀**
 
 > "아, 내가 너무 오버했네." 그게 오버피팅이에요. (0914 46:59)
@@ -793,6 +812,7 @@ $\lambda$ 값에 따라 목적 함수가 이렇게 달라져요.
 > $\lambda = 0$이면 "딱 과적합되기 좋지." (0914 48:44–49:13)
 
 $\lambda=1$처럼 양수를 주면 학습 데이터에 맞추면서도 $\boldsymbol{\theta}$가 원점에서 얼마나 먼지를 함께 따져 균형을 잡는다고 하셨어요. (0914 49:16–49:53)
+
 
 <a id="widget-reg"></a>
 
@@ -1110,6 +1130,29 @@ i.i.d.면 전체 우도가 곱으로 쪼개지고, 로그를 씌우면 합이 �
 
 최소제곱의 닫힌 해는 수업에서 다음 주로 미뤘어요.
 
+#### 이미 만든 ERM 식을 우도 안에서 찾아요
+
+위 유도와 [행렬 제곱 손실](#s2-squared)을 연결하는 동치 재표현이에요. 분산 $\sigma^2\gt0$는 θ와 함께 최적화하지 않는 고정값이에요.
+
+1. 관측별 제곱합을 행렬식으로 바꿔요.
+
+   $$
+   \mathcal L(\boldsymbol\theta)=C+\frac1{2\sigma^2}\|\mathbf y-\mathbf X\boldsymbol\theta\|^2$$
+$$C=\frac N2\log(2\pi\sigma^2)
+   $$
+2. $R_{\rm emp}(\boldsymbol\theta)=\frac1N\|\mathbf y-\mathbf X\boldsymbol\theta\|^2$를 대입해요.
+
+   $$
+   \mathcal L(\boldsymbol\theta)=C+\frac N{2\sigma^2}R_{\rm emp}(\boldsymbol\theta)
+   $$
+3. C는 θ에 무관하고 남은 배율은 양수여서 최소점을 바꾸지 않아요.
+
+   $$
+   \arg\min_{\boldsymbol\theta}\mathcal L(\boldsymbol\theta)=\arg\min_{\boldsymbol\theta}R_{\rm emp}(\boldsymbol\theta)
+   $$
+
+**같은 것은 함수값이 아니라 최소화하는 θ예요.** 상수 생략은 근사가 아니며, 잡음 가정을 바꾸면 같은 제곱오차로 이어진다는 보장도 없어져요.
+
 **교수님 말씀**
 
 > "발음을 촌스럽게 서포즈 자꾸 강조하잖아요? 이게 지금 강조하고 있는 거야." (0914 66:25)
@@ -1245,6 +1288,7 @@ MLE가 최소제곱과 같아진 것은 노이즈를 가우시안으로 가정�
 | [i.i.d.: 곱을 합으로](#s4-iid) | $-\sum_{n=1}^{N}\log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$ | 독립이면 곱으로 쪼개지고, 로그를 씌우면 합이 돼요. |
 | [가우시안 노이즈면 MLE = 최소제곱](#s4-mle-ls) | $\frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top\boldsymbol{\theta})^2$ | 노이즈를 가우시안으로 가정하면 MLE와 최소제곱의 해가 같아요. |
 | [확률 모델은 결정론적 모델을 품는다](#s4-contains) | 상수 = 델타 PDF | 결정론적 모델은 확률 모델의 특수한 경우라서 확률 모델이 대세예요. |
+| 두 기준 복원 | 같은 잔차 제곱합을 찾고 θ 무관 상수·양의 배율을 확인해요. $\mathcal L=C+\frac N{2\sigma^2}R_{\rm emp}$이므로 최소점이 같아요. [대입 과정](#s4-mle-ls) 참조. |  |
 
 ---
 
