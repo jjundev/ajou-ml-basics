@@ -366,6 +366,7 @@
 <tr><td>FB</td><td>사후분포를 계산하고 예측에 반영</td><td>평균과 공분산을 포함한 분포</td></tr>
 </tbody></table></div>
 <p data-map="result"><b>구할 결과.</b> 가우시안 사후분포를 구하면 평균과 공분산이 핵심 결과예요. 이 경우에 한해 사후평균과 MAP 위치가 같아요.</p>
+<p>오늘 외울 연결은 <b>지수의 이차항·일차항을 모으기 → 완전제곱으로 중심·퍼짐 읽기 → 두 가우시안의 곱에 대입</b>이에요. 뒤의 사후분포 예고도 이 결과를 재사용한다는 점을 연결해서 봐요.</p>
 <p data-map="formula"><b>수식이 하는 일.</b> 우도와 사전분포의 곱을 펼치면 지수 안의 이차식이 돼요. 완전제곱과 계수 비교로 새 가우시안의 평균·공분산을 읽으려는 것이 오늘 계산의 목적이에요.</p>
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 파라미터에 관한 가우시안들의 곱은 정규화 상수를 제외하면 가우시안 모양이에요. 곱 자체가 이미 적분값 1인 밀도라고 가정하면 안 돼요.</p>
 <p>이어서 읽기: <a href="#s0-predictive">θ를 넣었다 빼기: 사후예측분포</a> · <a href="#s3-product-matrix">행렬판 곱과 스칼라와의 대응</a> · <a href="#s4-posterior">사후분포도 가우시안이다</a></p>
@@ -817,7 +818,9 @@
     </table></div>
     <p><b>숙제.</b> 두 식 $\mathrm{var}(\mathbf{A}\mathbf{X} + \mathbf{b}) = \mathbf{A}\Sigma_{\mathbf{X}}\mathbf{A}^\top$와 $\mathrm{cov}(\mathbf{X}, \mathbf{Y}) = \Sigma_{\mathbf{X}}\mathbf{A}^\top$의 증명은 이번 주 숙제로 남았어요. 다음 시간에 조교가 첫 번째 토픽으로 증명해요. 1007 수업에서는 유도하지 않았어요.</p>
     <p>0930 수업에서 칠판에 그린 분산 식의 증명 스케치는 <a href="../0930/정리노트_0930_Bayesian_Linear_Regression.html#s4-affine">0930 정리노트 · 아핀 변환의 평균과 공분산</a>에 있어요.</p>
-  </div>
+
+<p>평균·공분산 규칙을 이후 밀도 계산의 준비물로 가져가요. 변환계수는 고정값이고 이차 모멘트가 존재해야 하며, 모멘트 규칙 자체에는 가우시안 가정이 필요 없어요. 가우시안이라고 가정하면 평균·공분산에서 분포 전체의 모양까지 결정할 수 있다는 것이 다음 단계의 차이예요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>머신러닝에서는 선형(아핀) 형태가 많이 나온다며 이 성질을 짚었어요. $\mathbf{A}$와 $\mathbf{b}$는 상수이고 $\mathbf{X}$만 랜덤이라고 강조했어요.</p>
     <p>평균은 "상수를 곱하면 평균에도 상수가 곱해진다"는 스칼라 경우와 똑같다고 했어요.</p>
@@ -1065,7 +1068,9 @@
     </ol>
     <p>읽는 법: $x^2$의 계수 $\alpha$가 분산 $\frac{1}{\alpha}$을 정하고, $x$의 계수 $-2\beta$가 평균 $\frac{\beta}{\alpha}$를 정해요. 상수항 $\gamma$는 $c$에 흡수되어 모양에 영향을 주지 않아요.</p>
     <p>교과서 9.3절의 Remark(완전제곱의 일반적 방법, 식 9.51–9.54)는 같은 일을 벡터로 해요. $\mathbf{x}^\top A\mathbf{x} - 2\mathbf{a}^\top\mathbf{x} + \text{const}$를 $(\mathbf{x} - \boldsymbol{\mu})^\top A(\mathbf{x} - \boldsymbol{\mu}) + \text{const}$로 바꾸면 $\boldsymbol{\mu} = A^{-1}\mathbf{a}$예요. 스칼라로 줄이면 $A = \alpha$, $\mathbf{a} = \beta$라서 평균 $\frac{\beta}{\alpha}$, 분산 $\frac{1}{\alpha}$과 같아요.</p>
-  </div>
+
+<p><b>다음 증명에 가져갈 결과:</b> 지수의 괄호가 $\alpha x^2-2\beta x+\gamma$이면 $\alpha\gt0$에서 평균은 $\beta/\alpha$, 분산은 $1/\alpha$예요. 두 가우시안의 곱에서는 새 완전제곱을 처음부터 외우지 않고, <a href="#s3-product-scalar">곱한 지수의 계수</a>를 α와 β 자리에 넣으면 돼요. 정규화 전 함수의 모양과 적분값 1인 밀도는 앞의 상수로 구별해요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>렘마를 코스 요리에 빗댔어요. 진짜 증명이 메인 디시이고, 렘마는 그 앞에 나오는 전채 요리라는 뜻이에요.</p>
     <blockquote>"진짜 메인 디시가 있는데, 전채 요리, 에피타이저." (1007 Part 07 ~01:30)</blockquote>
@@ -1152,7 +1157,9 @@
         </table></div>
       </div>
     </div>
-  </div>
+
+<p>앞 렘마의 자리에 $\alpha=1/\nu_0+1/\nu_1$, $\beta=\mu_0/\nu_0+\mu_1/\nu_1$를 넣은 결과예요. 여기서 $\nu_0,\nu_1$은 표준편차가 아니라 <b>분산</b>이에요. 따라서 <b>분산의 역수를 더한 뒤 다시 역수, 평균은 그 분산에 일차항 계수를 곱한다</b>고 복원할 수 있어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>정규화 상수를 어떻게 하느냐는 가상의 질문에, 스케일링으로 나중에 맞추면 되니 일단 무시하자고 답했어요.</p>
     <blockquote>"교수님, $c_1$과 $c_2$는요?" 나중에 스케일링으로 튜닝해 줄 수 있으니 무시하자. (1007 Part 07 ~05:57)</blockquote>
@@ -1224,7 +1231,14 @@
     <p>평균은 두 항 모두 "상대편 분산 × 자기 평균"으로 엇갈려(cross) 곱해요. 행렬은 곱하는 순서를 바꿀 수 없어서, 나누기 대신 역행렬 $(\Sigma_0 + \Sigma_1)^{-1}$을 두 행렬 사이에 끼워요.</p>
     <p>교과서 6.5.2절은 같은 곱을 $\mathcal{N}(\mathbf{x} \mid \mathbf{a}, A)\,\mathcal{N}(\mathbf{x} \mid \mathbf{b}, B) = c\,\mathcal{N}(\mathbf{x} \mid \mathbf{c}, C)$로 쓰고, $C = (A^{-1} + B^{-1})^{-1}$, $\mathbf{c} = C(A^{-1}\mathbf{a} + B^{-1}\mathbf{b})$를 줘요(식 6.74–6.75). 스칼라로 줄이면 $\frac{1}{C} = \frac{1}{\nu_0} + \frac{1}{\nu_1}$이라서 수업의 $\alpha$, $\beta$와 같은 꼴이에요. 앞의 상수 $c$는 식 (6.76)이고, 수업에서 "스케일만 맞추면"이라고 한 부분이에요.</p>
     <p><b>미룬 유도.</b> 행렬판 결과가 왜 이렇게 되는지는 다음 시간에 조교가 세 번째 토픽으로 증명해요. 미리 해 와도 좋다고 했어요.</p>
-  </div>
+
+<h4>스칼라에서 기억한 두 자리를 행렬로 바꿔요</h4>
+<p>강의 공식을 연결하기 위한 재표현이에요. 임시 계수 $A=\Sigma_0^{-1}+\Sigma_1^{-1}$, $\mathbf b=\Sigma_0^{-1}\boldsymbol\mu_0+\Sigma_1^{-1}\boldsymbol\mu_1$를 두면 지수의 괄호가 $\mathbf x^\top A\mathbf x-2\mathbf b^\top\mathbf x+\text{const}$가 돼요. A는 대칭 양의 정부호인 행렬, b는 열벡터예요. 이 A,b는 아핀 변환의 계수와 다른 임시 이름이에요.</p>
+<div class="table-wrap"><table><thead><tr><th>읽을 자리</th><th>스칼라</th><th>행렬</th></tr></thead><tbody>
+<tr><td>이차항 계수의 역</td><td>분산 $1/\alpha$</td><td>공분산 $A^{-1}$</td></tr>
+<tr><td>위 결과×일차항 계수</td><td>평균 $(1/\alpha)\beta$</td><td>평균 $A^{-1}\mathbf b$</td></tr>
+</tbody></table></div><p>행렬에서는 곱 순서를 바꿀 수 없어요. 완전제곱과 강의 표기로의 상세 변형은 후속 <a href="../1012/정리노트_1012_Several_Mathematical_Proofs.html#s2-product">1012 행렬 곱 증명</a>에서 이어져요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <blockquote>"우리 조교가 세 번째 토픽으로 다음 시간에 요거를 증명해 줄 거예요." (1007 Part 07 ~09:10)</blockquote>
     <blockquote>"요 증명을 사실 여러분들이 미리 해와도 좋겠죠?" (1007 Part 07 ~09:17)</blockquote>
@@ -1270,7 +1284,9 @@
     <p>수업에서 증명해 오라고 한 것들(아핀 변환, 가우시안 곱 등)을 해 보면 이 결과는 자연스럽게 유도돼요. 수업에서는 이 결론만 말하고 식은 읽지 않았어요.</p>
     <p>같은 방법으로 L04 s14의 사후예측분포(posterior predictive distribution) $p(y_* \mid \mathbf{x}_*, \mathbf{X}, \mathbf{y})$도 가우시안 PDF가 돼요(<a href="#s0-predictive">θ를 넣었다 빼기: 사후예측분포</a>). $y_*$가 스칼라라서 스칼라 평균과 분산 하나씩을 갖는 가우시안이에요.</p>
     <p><strong>결론:</strong> 베이지안 선형회귀(Bayesian linear regression, BLR)는 추정치를 값 하나가 아니라 평균과 분산을 갖는 가우시안 랜덤 변수로 줘요.</p>
-  </div>
+
+<p>이 토픽의 기존 사후분포 식은 후속 계산을 위한 예고·보충이에요. 앞 렘마의 자리에 넣을 이차항 계수는 $\mathbf S_0^{-1}+\sigma^{-2}\boldsymbol\Phi^\top\boldsymbol\Phi$, 일차항 벡터는 $\mathbf S_0^{-1}\mathbf m_0+\sigma^{-2}\boldsymbol\Phi^\top\mathbf y$예요. <b>첫 계수를 역행렬로 바꾸면 S_N, 그것을 둘째 벡터에 곱하면 m_N</b>으로 읽어요. likelihood가 θ에 관한 정규화된 밀도일 필요는 없고, 양의 정부호 prior와 고정 $\sigma^2\gt0$가 사후 이차항을 양의 정부호로 만들어요. 실제 전개는 <a href="../1014/정리노트_1014_Bayesian_Posterior_Prediction.html#s1-match">1014 사후평균·공분산</a>에서 이어 읽어요.</p>
+</div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>장군님 입에 정답 하나만 넣어 드리지 말고, 확률밀도함수를 통째로 드리자고 했던 이야기의 결론이에요(<a href="#s0-factory">ML · MAP · 풀리 베이지안: 장군님께 보고하기</a>). 장군님께 드리는 것은 평균과 분산을 갖는 가우시안 하나예요.</p>
     <blockquote>"그 증명 한번 해 보시면 이거는 그냥 자연스럽게 유도돼요." (1007 Part 08 ~02:55)</blockquote>
@@ -1394,7 +1410,7 @@
       <tr><td><a href="#s4-posterior">사후분포</a></td><td>$p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y}) = \mathcal{N}(\boldsymbol{\theta} \mid \mathbf{m}_N, \mathbf{S}_N)$</td><td>데이터를 본 뒤의 $\boldsymbol{\theta}$도 가우시안 랜덤 벡터예요.</td></tr>
       <tr><td><a href="#s4-posterior">사후 공분산</a></td><td>$\mathbf{S}_N = (\mathbf{S}_0^{-1} + \sigma^{-2}\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}$</td><td>교과서 (9.43b) 식이에요(슬라이드의 σ²는 오타라 σ⁻²로 고쳤어요). 유도는 수업에서 하지 않았어요.</td></tr>
       <tr><td><a href="#s4-blr-figure">회색 띠</a></td><td>$\pm 1\sigma \approx 68\%, \quad \pm 2\sigma \approx 95\%$</td><td>짙은 회색은 1σ, 옅은 회색은 2σ 구간이에요. 훈련 데이터 근처에서 띠가 좁아져요.</td></tr>
-    </tbody>
+    <tr><td>계수에서 복원</td><td colspan="2">곱한 지수의 이차항 계수를 역으로 → 공분산. 그 공분산×일차항 벡터 → 평균. 정규화 상수는 별도로 맞춰요.</td></tr></tbody>
   </table></div>
 </article>
 
