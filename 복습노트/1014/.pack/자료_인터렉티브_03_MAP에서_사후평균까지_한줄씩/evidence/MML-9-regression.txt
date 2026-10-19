@@ -1,0 +1,1075 @@
+                     302                                                                          Linear Regression
+                                    2
+                     Φ⊤ Φ + σb2 I is symmetric and strictly positive definite (i.e., its inverse
+                     exists and the MAP estimate is the unique solution of a system of linear
+                     equations). Moreover, it reflects the impact of the regularizer.
+
+                     Example 9.6 (MAP Estimation for Polynomial Regression)
+                     In the polynomial regression
+                                                 example from Section 9.2.1, we place a Gaus-
+                     sian prior p(θ) = N 0, I on the parameters θ and determine the MAP
+                     estimates according to (9.31). In Figure 9.7, we show both the maximum
+                     likelihood and the MAP estimates for polynomials of degree 6 (left) and
+                     degree 8 (right). The prior (regularizer) does not play a significant role
+                     for the low-degree polynomial, but keeps the function relatively smooth
+                     for higher-degree polynomials. Although the MAP estimate can push the
+                     boundaries of overfitting, it is not a general solution to this problem, so
+                     we need a more principled approach to tackle overfitting.
+
+Figure 9.7
+Polynomial                 4                                               4                           Training data
+regression:                                                                                            MLE
+maximum likelihood         2                                               2                           MAP
+and MAP estimates.
+                           0                                               0
+                      y
+
+
+
+
+                                                                      y
+
+
+
+
+(a) Polynomials of
+degree 6;
+                          −2        Training data                         −2
+(b) polynomials of                  MLE
+degree 8.                 −4        MAP                                   −4
+
+                               −4       −2          0   2     4                −4     −2      0        2        4
+                                                    x                                         x
+
+                               (a) Polynomials of degree 6.                    (b) Polynomials of degree 8.
+
+
+
+
+                                           9.2.4 MAP Estimation as Regularization
+                     Instead of placing a prior distribution on the parameters θ , it is also pos-
+                     sible to mitigate the effect of overfitting by penalizing the amplitude of
+regularization       the parameter by means of regularization. In regularized least squares, we
+regularized least    consider the loss function
+squares                                                           2             2
+                                                        ∥y − Φθ∥ + λ ∥θ∥2 ,                                   (9.32)
+                     which we minimize with respect to θ (see Section 8.2.3). Here, the first
+data-fit term        term is a data-fit term (also called misfit term), which is proportional to
+misfit term          the negative log-likelihood; see (9.10b). The second term is called the
+regularizer          regularizer, and the regularization parameter λ ⩾ 0 controls the “strict-
+regularization       ness” of the regularization.
+parameter
+                     Remark. Instead of the Euclidean norm ∥·∥2 , we can choose any p-norm
+                     ∥·∥p in (9.32). In practice, smaller values for p lead to sparser solutions.
+                     Here, “sparse” means that many parameter values θd = 0, which is also
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.3 Bayesian Linear Regression                                                             303
+
+useful for variable selection. For p = 1, the regularizer is called LASSO                          LASSO
+(least absolute shrinkage and selection operator) and was proposed by Tib-
+shirani (1996).                                                         ♢
+                               2
+   The regularizer λ ∥θ∥2 in (9.32) can be interpreted as a negative log-
+Gaussian prior, which we use in MAP estimation; see (9.26). More specif-
+ically, with a Gaussian prior p(θ) = N 0, b2 I , we obtain the negative
+log-Gaussian prior
+                                       1     2
+                            − log p(θ) =  ∥θ∥2 + const                (9.33)
+                                      2b2
+so that for λ = 2b12 the regularization term and the negative log-Gaussian
+prior are identical.
+   Given that the regularized least-squares loss function in (9.32) consists
+of terms that are closely related to the negative log-likelihood plus a neg-
+ative log-prior, it is not surprising that, when we minimize this loss, we
+obtain a solution that closely resembles the MAP estimate in (9.31). More
+specifically, minimizing the regularized least-squares loss function yields
+                             θ RLS = (Φ⊤ Φ + λI)−1 Φ⊤ y ,                              (9.34)
+                                                                             2
+which is identical to the MAP estimate in (9.31) for λ = σb2 , where σ 2 is
+                          2
+the noise variance and b the variance of the (isotropic) Gaussian prior
+               2
+p(θ) = N 0, b I .                                                                                  A point estimate is a
+   So far, we have covered parameter estimation using maximum likeli-                              single specific
+                                                                                                   parameter value,
+hood and MAP estimation where we found point estimates θ ∗ that op-
+                                                                                                   unlike a distribution
+timize an objective function (likelihood or posterior). We saw that both                           over plausible
+maximum likelihood and MAP estimation can lead to overfitting. In the                              parameter settings.
+next section, we will discuss Bayesian linear regression, where we use
+Bayesian inference (Section 8.4) to find a posterior distribution over the
+unknown parameters, which we subsequently use to make predictions.
+More specifically, for predictions we will average over all plausible sets of
+parameters instead of focusing on a point estimate.
+
+
+                         9.3 Bayesian Linear Regression
+Previously, we looked at linear regression models where we estimated the
+model parameters θ , e.g., by means of maximum likelihood or MAP esti-
+mation. We discovered that MLE can lead to severe overfitting, in particu-
+lar, in the small-data regime. MAP addresses this issue by placing a prior
+on the parameters that plays the role of a regularizer.                                            Bayesian linear
+   Bayesian linear regression pushes the idea of the parameter prior a step                        regression
+further and does not even attempt to compute a point estimate of the
+parameters, but instead the full posterior distribution over the parameters
+is taken into account when making predictions. This means we do not fit
+any parameters, but we compute a mean over all plausible parameters
+settings (according to the posterior).
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                      304                                                                  Linear Regression
+
+                                                         9.3.1 Model
+                      In Bayesian linear regression, we consider the model
+                                                                   
+                                    prior        p(θ) = N m0 , S 0 ,
+                                                                                                       (9.35)
+                                      likelihood p(y | x, θ) = N y | ϕ⊤ (x)θ, σ 2 ,
+                                                                                 
+
+                                                                                           
+Figure 9.8            where we now explicitly place a Gaussian prior p(θ) = N m0 , S 0 on θ ,
+Graphical model for   which turns the parameter vector into a random variable. This allows us
+Bayesian linear
+                      to write down the corresponding graphical model in Figure 9.8, where we
+regression.
+                      made the parameters of the Gaussian prior on θ explicit. The full proba-
+m0              S0    bilistic model, i.e., the joint distribution of observed and unobserved ran-
+                      dom variables, y and θ , respectively, is
+         θ
+                 σ                              p(y, θ | x) = p(y | x, θ)p(θ) .                        (9.36)
+
+ x       y
+                                                  9.3.2 Prior Predictions
+                      In practice, we are usually not so much interested in the parameter values
+                      θ themselves. Instead, our focus often lies in the predictions we make
+                      with those parameter values. In a Bayesian setting, we take the parameter
+                      distribution and average over all plausible parameter settings when we
+                      make predictions. More specifically, to make predictions at an input x∗ ,
+                      we integrate out θ and obtain
+                                          Z
+                             p(y∗ | x∗ ) = p(y∗ | x∗ , θ)p(θ)dθ = Eθ [p(y∗ | x∗ , θ)] ,   (9.37)
+
+                      which we can interpret as the average prediction of y∗ | x∗ , θ for all plau-
+                      sible parameters θ according to the prior distribution p(θ). Note that pre-
+                      dictions using the prior distribution only require us to specify the input
+                      x∗ , but no training data.
+                         In our model (9.35), we chose a conjugate (Gaussian) prior on θ so
+                      that the predictive distribution is Gaussian as well (and can be computed
+                      in closed form): With the prior distribution p(θ) = N m0 , S 0 , we obtain
+                      the predictive distribution as
+                              p(y∗ | x∗ ) = N ϕ⊤ (x∗ )m0 , ϕ⊤ (x∗ )S 0 ϕ(x∗ ) + σ 2 ,
+                                                                                   
+                                                                                            (9.38)
+                      where we exploited that (i) the prediction is Gaussian due to conjugacy
+                      (see Section 6.6) and the marginalization property of Gaussians (see Sec-
+                      tion 6.5), (ii) the Gaussian noise is independent so that
+                                               V[y∗ ] = Vθ [ϕ⊤ (x∗ )θ] + Vϵ [ϵ] ,                      (9.39)
+                      and (iii) y∗ is a linear transformation of θ so that we can apply the rules
+                      for computing the mean and covariance of the prediction analytically by
+                      using (6.50) and (6.51), respectively. In (9.38), the term ϕ⊤ (x∗ )S 0 ϕ(x∗ )
+                      in the predictive variance explicitly accounts for the uncertainty associated
+
+                      Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.3 Bayesian Linear Regression                                                               305
+
+with the parameters θ , whereas σ 2 is the uncertainty contribution due to
+the measurement noise.
+  If we are interested in predicting noise-free function values f (x∗ ) =
+ϕ⊤ (x∗ )θ instead of the noise-corrupted targets y∗ we obtain
+              p(f (x∗ )) = N ϕ⊤ (x∗ )m0 , ϕ⊤ (x∗ )S 0 ϕ(x∗ ) ,
+                                                            
+                                                                    (9.40)
+which only differs from (9.38) in the omission of the noise variance σ 2 in
+the predictive variance.
+Remark (Distribution over Functions). Since we can represent the distri-                           The parameter
+bution p(θ) using a set of samples θ i and every sample θ i gives rise to a                        distribution p(θ)
+                                                                                                   induces a
+function fi (·) = θ ⊤
+                    i ϕ(·), it follows that the parameter distribution p(θ)                        distribution over
+induces a distribution p(f (·)) over functions. Here we use the notation (·)                       functions.
+to explicitly denote a functional relationship.                           ♢
+
+
+Example 9.7 (Prior over Functions)
+                                                                                                   Figure 9.9 Prior
+                                                                                                   over functions.
+      4                                               4
+                                                                                                   (a) Distribution over
+                                                                                                   functions
+      2                                               2
+                                                                                                   represented by the
+      0                                               0                                            mean function
+ y
+
+
+
+
+                                                 y
+
+
+
+
+                                                                                                   (black line) and the
+     −2                                              −2                                            marginal
+                                                                                                   uncertainties
+     −4                                              −4                                            (shaded),
+                                                                                                   representing the
+          −4      −2       0       2       4              −4     −2       0      2       4
+                           x                                              x                        67% and 95%
+                                                                                                   confidence bounds,
+      (a) Prior distribution over functions.    (b) Samples from the prior distribution over       respectively;
+                                                functions.                                         (b) samples from
+                                                                                                   the prior over
+   Let us consider a Bayesian linear regression problem withpolynomials
+                                                                                                   functions, which are
+of degree 5. We choose a parameter prior p(θ) = N 0, 41 I . Figure 9.9                             induced by the
+visualizes the induced prior distribution over functions (shaded area: dark                        samples from the
+gray: 67% confidence bound; light gray: 95% confidence bound) induced                              parameter prior.
+by this parameter prior, including some function samples from this prior.
+   A function sample is obtained by first sampling a parameter vector
+θ i ∼ p(θ) and then computing fi (·) = θ ⊤   i ϕ(·). We used 200 input lo-
+cations x∗ ∈ [−5, 5] to which we apply the feature function ϕ(·). The
+uncertainty (represented by the shaded area) in Figure 9.9 is solely due to
+the parameter uncertainty because we considered the noise-free predictive
+distribution (9.40).
+
+  So far, we looked at computing predictions using the parameter prior
+p(θ). However, when we have a parameter posterior (given some train-
+ing data X , Y ), the same principles for prediction and inference hold
+as in (9.37) – we just need to replace the prior p(θ) with the posterior
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                      306                                                                  Linear Regression
+
+                      p(θ | X , Y). In the following, we will derive the posterior distribution in
+                      detail before using it to make predictions.
+
+
+                                               9.3.3 Posterior Distribution
+                      Given a training set of inputs xn ∈ RD and corresponding observations
+                      yn ∈ R, n = 1, . . . , N , we compute the posterior over the parameters
+                      using Bayes’ theorem as
+                                                                p(Y | X , θ)p(θ)
+                                               p(θ | X , Y) =                    ,                     (9.41)
+                                                                   p(Y | X )
+                      where X is the set of training inputs and Y the collection of correspond-
+                      ing training targets. Furthermore, p(Y | X , θ) is the likelihood, p(θ) the
+                      parameter prior, and
+                                          Z
+                               p(Y | X ) = p(Y | X , θ)p(θ)dθ = Eθ [p(Y | X , θ)]          (9.42)
+
+marginal likelihood   the marginal likelihood/evidence, which is independent of the parameters
+evidence              θ and ensures that the posterior is normalized, i.e., it integrates to 1. We
+The marginal          can think of the marginal likelihood as the likelihood averaged over all
+likelihood is the
+                      possible parameter settings (with respect to the prior distribution p(θ)).
+expected likelihood
+under the parameter   Theorem 9.1 (Parameter Posterior). In our model (9.35), the parameter
+prior.
+                      posterior (9.41) can be computed in closed form as
+                                                                     
+                                        p(θ | X , Y) = N θ | mN , S N ,             (9.43a)
+                                                  S N = (S −1
+                                                           0 +σ
+                                                                −2 ⊤
+                                                                  Φ Φ)−1 ,                           (9.43b)
+                                                  mN = S N (S −1
+                                                              0 m0 + σ
+                                                                       −2 ⊤
+                                                                         Φ y) ,                      (9.43c)
+                      where the subscript N indicates the size of the training set.
+                      Proof Bayes’ theorem tells us that the posterior p(θ | X , Y) is propor-
+                      tional to the product of the likelihood p(Y | X , θ) and the prior p(θ):
+                                                                 p(Y | X , θ)p(θ)
+                                  Posterior       p(θ | X , Y) =                                     (9.44a)
+                                                                    p(Y | X )
+                                                   p(Y | X , θ) = N y | Φθ, σ 2 I
+                                                                                  
+                                  Likelihood                                                         (9.44b)
+                                                                         
+                                  Prior           p(θ) = N θ | m0 , S 0 .                            (9.44c)
+                        Instead of looking at the product of the prior and the likelihood, we
+                      can transform the problem into log-space and solve for the mean and
+                      covariance of the posterior by completing the squares.
+                        The sum of the log-prior and the log-likelihood is
+                        log N y | Φθ, σ 2 I + log N θ | m0 , S 0
+                                                                
+                                                                                       (9.45a)
+                             1
+                        = − σ −2 (y − Φθ)⊤ (y − Φθ) + (θ − m0 )⊤ S −1
+                                                                                   
+                                                                        0 (θ − m0 ) + const
+                             2
+                                                                                      (9.45b)
+
+                      Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.3 Bayesian Linear Regression                                                             307
+
+where the constant contains terms independent of θ . We will ignore the
+constant in the following. We now factorize (9.45b), which yields
+       1 −2 ⊤
+      −  σ y y − 2σ −2 y ⊤ Φθ + θ ⊤ σ −2 Φ⊤ Φθ + θ ⊤ S −1
+                                                       0 θ
+       2                                                     (9.46a)
+              −1      ⊤ −1
+     − 2m⊤
+                                 
+          0 S 0  θ + m0 S 0  m 0
+       1 ⊤ −2 ⊤
+   = − θ (σ Φ Φ + S −1                 −2 ⊤
+                                         Φ y + S −1     ⊤
+                                                           
+                            0 )θ − 2(σ           0 m0 ) θ + const ,
+       2
+                                                             (9.46b)
+where the constant contains the black terms in (9.46a), which are inde-
+pendent of θ . The orange terms are terms that are linear in θ , and the
+blue terms are the ones that are quadratic in θ . Inspecting (9.46b), we
+find that this equation is quadratic in θ . The fact that the unnormalized
+log-posterior distribution is a (negative) quadratic form implies that the
+posterior is Gaussian, i.e.,
+   p(θ | X , Y) = exp(log p(θ | X , Y)) ∝ exp(log p(Y | X , θ) + log p(θ))
+                                                                  (9.47a)
+                1                                                 
+   ∝ exp        − θ ⊤ (σ −2 Φ⊤ Φ + S −1
+                                     0 )θ − 2(σ
+                                                −2 ⊤
+                                                  Φ y + S −1    ⊤
+                                                          0 m0 ) θ    ,
+                 2
+                                                                  (9.47b)
+where we used (9.46b) in the last expression.
+   The remaining task is it to bring this (unnormalized)
+                                                        Gaussian into the
+form that is proportional to N θ | mN , S N , i.e., we need to identify the
+mean mN and the covariance matrix S N . To do this, we use the concept
+of completing the squares. The desired log-posterior is                                            completing the
+                                                                                                   squares
+                          1
+   log N θ | mN , S N = − (θ − mN )⊤ S −1
+                     
+                                       N (θ − mN ) + const (9.48a)
+                          2
+          1
+       = − θ ⊤ S −1        ⊤ −1      ⊤ −1
+                                              
+                  N θ − 2mN S N θ + mN S N mN .            (9.48b)
+          2
+Here, we factorized the quadratic form (θ − mN )⊤ S −1    N (θ − mN ) into a                       Since p(θ | X , Y) =
+                                                                                                                 
+term that is quadratic in θ alone (blue), a term that is linear in θ (orange),                     N mN , S N , it
+                                                                                                   holds that
+and a constant term (black). This allows us now to find S N and mN by
+                                                                                                   θ MAP = mN .
+matching the colored expressions in (9.46b) and (9.48b), which yields
+                                 S −1   ⊤ −2
+                                   N = Φ σ   IΦ + S −1
+                                                    0                                 (9.49a)
+                           ⇐⇒ S N = (σ −2 Φ⊤ Φ + S −1
+                                                   0 )
+                                                       −1
+                                                                                      (9.49b)
+and
+                                  −1     −2 ⊤
+                             m⊤
+                              N S N = (σ   Φ y + S −1
+                                                   0 m0 )
+                                                         ⊤
+                                                                                      (9.50a)
+                                                    ⊤
+                      ⇐⇒ mN = S N (σ −2 Φ               y + S −1
+                                                              0 m0 ) .                (9.50b)
+
+
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                       308                                                                  Linear Regression
+
+                       Remark (General Approach to Completing the Squares). If we are given
+                       an equation
+
+                                                   x⊤ Ax − 2a⊤ x + const1 ,                             (9.51)
+
+                       where A is symmetric and positive definite, which we wish to bring into
+                       the form
+
+                                                (x − µ)⊤ Σ(x − µ) + const2 ,                            (9.52)
+
+                       we can do this by setting
+
+                                                            Σ := A ,                                    (9.53)
+                                                            µ := Σ−1 a                                  (9.54)
+
+                       and const2 = const1 − µ⊤ Σµ.                                                          ♢
+                         We can see that the terms inside the exponential in (9.47b) are of the
+                       form (9.51) with
+
+                                                   A := σ −2 Φ⊤ Φ + S −1
+                                                                      0 ,                               (9.55)
+                                                   a := σ −2 Φ⊤ y + S −1
+                                                                      0 m0 .                            (9.56)
+
+                       Since A, a can be difficult to identify in equations like (9.46a), it is of-
+                       ten helpful to bring these equations into the form (9.51) that decouples
+                       quadratic term, linear terms, and constants, which simplifies finding the
+                       desired solution.
+
+
+                                                 9.3.4 Posterior Predictions
+                       In (9.37), we computed the predictive distribution of y∗ at a test input
+                       x∗ using the parameter prior p(θ). In principle, predicting with the pa-
+                       rameter posterior p(θ | X , Y) is not fundamentally different given that
+                       in our conjugate model the prior and posterior are both Gaussian (with
+                       different parameters). Therefore, by following the same reasoning as in
+                       Section 9.3.2, we obtain the (posterior) predictive distribution
+                                              Z
+                         p(y∗ | X , Y, x∗ ) = p(y∗ | x∗ , θ)p(θ | X , Y)dθ                   (9.57a)
+                                              Z
+                                            = N y∗ | ϕ⊤ (x∗ )θ, σ 2 N θ | mN , S N dθ (9.57b)
+                                                                                     
+
+
+                                            = N y∗ | ϕ⊤ (x∗ )mN , ϕ⊤ (x∗ )S N ϕ(x∗ ) + σ 2 . (9.57c)
+                                                                                          
+
+
+E[y∗ | X , Y, x∗ ] =   The term ϕ⊤ (x∗ )S N ϕ(x∗ ) reflects the posterior uncertainty associated
+ϕ⊤ (x∗ )mN =           with the parameters θ . Note that S N depends on the training inputs
+ϕ⊤ (x∗ )θ MAP .
+                       through Φ; see (9.43b). The predictive mean ϕ⊤ (x∗ )mN coincides with
+                       the predictions made with the MAP estimate θ MAP .
+
+                       Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.3 Bayesian Linear Regression                                                             309
+
+Remark (Marginal Likelihood and Posterior Predictive Distribution). By
+replacing the integral in (9.57a), the predictive distribution can be equiv-
+alently written as the expectation Eθ | X ,Y [p(y∗ | x∗ , θ)], where the expec-
+tation is taken with respect to the parameter posterior p(θ | X , Y).
+   Writing the posterior predictive distribution in this way highlights a
+close resemblance to the marginal likelihood (9.42). The key difference
+between the marginal likelihood and the posterior predictive distribution
+are (i) the marginal likelihood can be thought of predicting the training
+targets y and not the test targets y∗ , and (ii) the marginal likelihood av-
+erages with respect to the parameter prior and not the parameter poste-
+rior.                                                                        ♢
+Remark (Mean and Variance of Noise-Free Function Values). In many
+cases, we are not interested in the predictive distribution p(y∗ | X , Y, x∗ )
+of a (noisy) observation y∗ . Instead, we would like to obtain the distribu-
+tion of the (noise-free) function values f (x∗ ) = ϕ⊤ (x∗ )θ . We determine
+the corresponding moments by exploiting the properties of means and
+variances, which yields
+    E[f (x∗ ) | X , Y] = Eθ [ϕ⊤ (x∗ )θ | X , Y] = ϕ⊤ (x∗ )Eθ [θ | X , Y]
+                                                                                       (9.58)
+                        = ϕ⊤ (x∗ )mN = m⊤
+                                        N ϕ(x∗ ) ,
+
+    Vθ [f (x∗ ) | X , Y] = Vθ [ϕ⊤ (x∗ )θ | X , Y]
+                          = ϕ⊤ (x∗ )Vθ [θ | X , Y]ϕ(x∗ )                               (9.59)
+                                ⊤
+                          = ϕ (x∗ )S N ϕ(x∗ ) .
+We see that the predictive mean is the same as the predictive mean for
+noisy observations as the noise has mean 0, and the predictive variance
+only differs by σ 2 , which is the variance of the measurement noise: When
+we predict noisy function values, we need to include σ 2 as a source of
+uncertainty, but this term is not needed for noise-free predictions. Here,
+the only remaining uncertainty stems from the parameter posterior.       ♢                         Integrating out
+Remark (Distribution over Functions). The fact that we integrate out the                           parameters induces
+parameters θ induces a distribution over functions: If we sample θ i ∼                             a distribution over
+                                                                                                   functions.
+p(θ | X , Y) from the parameter posterior, we obtain a single function re-
+alization θ ⊤
+            i ϕ(·). The mean function, i.e., the set of all expected function                      mean function
+values Eθ [f (·) | θ, X , Y], of this distribution over functions is m⊤ N ϕ(·).
+The (marginal) variance, i.e., the variance of the function f (·), is given by
+ϕ⊤ (·)S N ϕ(·).                                                              ♢
+
+Example 9.8 (Posterior over Functions)
+Let us revisit the Bayesian linear regression problem with polynomials
+of degree 5. We choose a parameter prior p(θ) = N 0, 41 I . Figure 9.9
+visualizes the prior over functions induced by the parameter prior and
+sample functions from this prior.
+
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                     310                                                                                    Linear Regression
+
+
+                        Figure 9.10 shows the posterior over functions that we obtain via
+                     Bayesian linear regression. The training dataset is shown in panel (a);
+                     panel (b) shows the posterior distribution over functions, including the
+                     functions we would obtain via maximum likelihood and MAP estimation.
+                     The function we obtain using the MAP estimate also corresponds to the
+                     posterior mean function in the Bayesian linear regression setting. Panel (c)
+                     shows some plausible realizations (samples) of functions under that pos-
+                     terior over functions.
+Figure 9.10
+Bayesian linear           4                                  4                                     4
+
+regression and            2                                  2                                     2
+posterior over
+                          0                                  0                                     0
+                     y
+
+
+
+
+                                                        y
+
+
+
+
+                                                                                              y
+functions.                                                            Training data
+                         −2                                 −2        MLE                         −2
+(a) training data;                                                    MAP
+(b) posterior            −4                                 −4        BLR                         −4
+
+                              −4   −2                            −4      −2                            −4   −2
+distribution over                       0
+                                        x
+                                             2     4                              0
+                                                                                  x
+                                                                                      2   4                      0
+                                                                                                                 x
+                                                                                                                     2   4
+
+functions;
+                              (a) Training data.       (b) Posterior over functions rep- (c) Samples from the posterior
+(c) Samples from
+                                                       resented by the marginal uncer- over functions, which are in-
+the posterior over
+                                                       tainties (shaded) showing the duced by the samples from the
+functions.
+                                                       67% and 95% predictive con- parameter posterior.
+                                                       fidence bounds, the maximum
+                                                       likelihood estimate (MLE) and
+                                                       the MAP estimate (MAP), the
+                                                       latter of which is identical to
+                                                       the posterior mean function.
+
+
+
+
+                        Figure 9.11 shows some posterior distributions over functions induced
+                     by the parameter posterior. For different polynomial degrees M , the left
+                     panels show the maximum likelihood function θ ⊤       ML ϕ(·), the MAP func-
+                     tion θ ⊤
+                            MAP ϕ(·) (which is identical to the posterior mean  function), and the
+                     67% and 95% predictive confidence bounds obtained by Bayesian linear
+                     regression, represented by the shaded areas.
+                        The right panels show samples from the posterior over functions: Here,
+                     we sampled parameters θ i from the parameter posterior and computed
+                     the function ϕ⊤ (x∗ )θ i , which is a single realization of a function under
+                     the posterior distribution over functions. For low-order polynomials, the
+                     parameter posterior does not allow the parameters to vary much: The
+                     sampled functions are nearly identical. When we make the model more
+                     flexible by adding more parameters (i.e., we end up with a higher-order
+                     polynomial), these parameters are not sufficiently constrained by the pos-
+                     terior, and the sampled functions can be easily visually separated. We also
+                     see in the corresponding panels on the left how the uncertainty increases,
+                     especially at the boundaries.
+                        Although for a seventh-order polynomial the MAP estimate yields a rea-
+                     sonable fit, the Bayesian linear regression model additionally tells us that
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.3 Bayesian Linear Regression                                                              311
+                                                                                                   Figure 9.11
+        4                                             4                                            Bayesian linear
+                                                                                                   regression. Left
+        2                                             2                                            panels: Shaded
+                                                                                                   areas indicate the
+        0                                             0
+   y
+
+
+
+
+                                                 y
+                                                                                                   67% (dark gray)
+                 Training data
+                                                                                                   and 95% (light
+       −2        MLE                                 −2
+                 MAP
+                                                                                                   gray) predictive
+                 BLR                                                                               confidence bounds.
+       −4                                            −4
+                                                                                                   The mean of the
+            −4      −2       0    2        4              −4    −2      0       2       4          Bayesian linear
+                             x                                          x
+                                                                                                   regression model
+ (a) Posterior distribution for polynomials of degree M = 3 (left) and samples from the pos-       coincides with the
+ terior over functions (right).                                                                    MAP estimate. The
+                                                                                                   predictive
+                                                                                                   uncertainty is the
+        4                                             4                                            sum of the noise
+                                                                                                   term and the
+        2                                             2
+                                                                                                   posterior parameter
+                                                                                                   uncertainty, which
+        0                                             0
+   y
+
+
+
+
+                                                 y
+
+
+
+
+                 Training data                                                                     depends on the
+       −2        MLE                                 −2                                            location of the test
+                 MAP                                                                               input. Right panels:
+       −4        BLR                                 −4                                            sampled functions
+                                                                                                   from the posterior
+            −4      −2       0    2        4              −4    −2      0       2       4
+                             x                                          x                          distribution.
+
+ (b) Posterior distribution for polynomials of degree M = 5 (left) and samples from the
+ posterior over functions (right).
+
+
+        4                        Training data        4
+                                 MLE
+        2                        MAP                  2
+                                 BLR
+        0                                             0
+   y
+
+
+
+
+                                                 y
+
+
+
+
+       −2                                            −2
+
+       −4                                            −4
+
+            −4      −2       0    2        4              −4    −2      0       2       4
+                             x                                          x
+
+ (c) Posterior distribution for polynomials of degree M = 7 (left) and samples from the pos-
+ terior over functions (right).
+
+
+
+
+the posterior uncertainty is huge. This information can be critical when
+we use these predictions in a decision-making system, where bad deci-
+sions can have significant consequences (e.g., in reinforcement learning
+or robotics).
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                         312                                                                  Linear Regression
+
+                                         9.3.5 Computing the Marginal Likelihood
+                         In Section 8.6.2, we highlighted the importance of the marginal likelihood
+                         for Bayesian model selection. In the following, we compute the marginal
+                         likelihood for Bayesian linear regression with a conjugate Gaussian prior
+                         on the parameters, i.e., exactly the setting we have been discussing in this
+                         chapter.
+                            Just to recap, we consider the following generative process:
+                                                                           
+                                                            θ ∼ N m0 , S 0                  (9.60a)
+                                                                    ⊤     2
+                                                                            
+                                                  yn | xn , θ ∼ N xn θ, σ ,                 (9.60b)
+The marginal             n = 1, . . . , N . The marginal likelihood is given by
+likelihood can be                               Z
+interpreted as the                p(Y | X ) = p(Y | X , θ)p(θ)dθ                                        (9.61a)
+expected likelihood
+under the prior, i.e.,
+                                                Z
+                                              = N y | Xθ, σ 2 I N θ | m0 , S 0 dθ ,
+                                                                               
+Eθ [p(Y | X , θ)].                                                                                      (9.61b)
+
+                         where we integrate out the model parameters θ . We compute the marginal
+                         likelihood in two steps: First, we show that the marginal likelihood is
+                         Gaussian (as a distribution in y ); second, we compute the mean and co-
+                         variance of this Gaussian.
+                         1. The marginal likelihood is Gaussian: From Section 6.5.2, we know that
+                            (i) the product of two Gaussian random variables is an (unnormalized)
+                            Gaussian distribution, and (ii) a linear transformation of a Gaussian
+                            random variable is Gaussian distributed. In (9.61b), we require a linear
+                                                                                                 
+                            transformation to bring N y | Xθ, σ 2 I into the form N θ | µ, Σ for
+                            some µ, Σ. Once this is done, the integral can be solved in closed form.
+                            The result is the normalizing constant of the product of the two Gaus-
+                            sians. The normalizing constant itself has Gaussian shape; see (6.76).
+                         2. Mean and covariance. We compute the mean and covariance matrix
+                            of the marginal likelihood by exploiting the standard results for means
+                            and covariances of affine transformations of random variables; see Sec-
+                            tion 6.4.4. The mean of the marginal likelihood is computed as
+                                    E[Y | X ] = Eθ,ϵ [Xθ + ϵ] = X Eθ [θ] = Xm0 .          (9.62)
+                                                      
+                            Note that ϵ ∼ N 0, σ 2 I is a vector of i.i.d. random variables. The
+                            covariance matrix is given as
+                                Cov[Y|X ] = Covθ,ϵ [Xθ + ϵ] = Covθ [Xθ] + σ 2 I                         (9.63a)
+                                                                 ⊤      2               ⊤      2
+                                             = X Covθ [θ]X + σ I = XS 0 X + σ I .                       (9.63b)
+                         Hence, the marginal likelihood is
+                                                N                              1
+                           p(Y | X ) = (2π)− 2 det(XS 0 X ⊤ + σ 2 I)− 2                   (9.64a)
+                                        · exp − 12 (y − Xm0 )⊤ (XS 0 X ⊤ + σ 2 I)−1 (y − Xm0 )
+                                                                                              
+
+
+                         Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.4 Maximum Likelihood as Orthogonal Projection                                                 313
+      4                                                 4                                                Figure 9.12
+                                                                                                         Geometric
+      2                                                 2                                                interpretation of
+                                                                                                         least squares.
+      0                                                 0                                                (a) Dataset;
+ y
+
+
+
+
+                                                   y
+                                                                                                         (b) maximum
+                                                                       Projection                        likelihood solution
+     −2                                                −2
+                                                                       Observations                      interpreted as a
+                                                                       Maximum likelihood estimate
+                                                                                                         projection.
+     −4                                                −4
+      −4      −2         0         2        4           −4      −2         0           2             4
+                         x                                                 x
+
+(a) Regression dataset consisting of noisy ob-    (b) The orange dots are the projections of
+servations yn (blue) of function values f (xn )   the noisy observations (blue dots) onto the
+at input locations xn .                           line θML x. The maximum likelihood solution to
+                                                  a linear regression problem finds a subspace
+                                                  (line) onto which the overall projection er-
+                                                  ror (orange lines) of the observations is mini-
+                                                  mized.
+
+
+
+
+              = N y | Xm0 , XS 0 X ⊤ + σ 2 I .
+                                            
+                                                                                           (9.64b)
+Given the close connection with the posterior predictive distribution (see
+Remark on Marginal Likelihood and Posterior Predictive Distribution ear-
+lier in this section), the functional form of the marginal likelihood should
+not be too surprising.
+
+
+           9.4 Maximum Likelihood as Orthogonal Projection
+Having crunched through much algebra to derive maximum likelihood
+and MAP estimates, we will now provide a geometric interpretation of
+maximum likelihood estimation. Let us consider a simple linear regression
+setting
+                    y = xθ + ϵ, ϵ ∼ N 0, σ 2 ,
+                                                
+                                                                   (9.65)
+in which we consider linear functions f : R → R that go through the
+origin (we omit features here for clarity). The parameter θ determines the
+slope of the line. Figure 9.12(a) shows a one-dimensional dataset.
+   With a training data set {(x1 , y1 ), . . . , (xN , yN )} we recall the results
+from Section 9.2.1 and obtain the maximum likelihood estimator for the
+slope parameter as
+                                                  X ⊤y
+                       θML = (X ⊤ X)−1 X ⊤ y =              ∈ R,    (9.66)
+                                                 X ⊤X
+where X = [x1 , . . . , xN ]⊤ ∈ RN , y = [y1 , . . . , yN ]⊤ ∈ RN .
+   This means for the training inputs X we obtain the optimal (maximum
+likelihood) reconstruction of the training targets as
+                                           X ⊤y   XX ⊤
+                             XθML = X           =      y,                                   (9.67)
+                                           X ⊤X   X ⊤X
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                       314                                                                  Linear Regression
+
+                       i.e., we obtain the approximation with the minimum least-squares error
+                       between y and Xθ.
+                          As we are looking for a solution of y = Xθ, we can think of linear
+Linear regression      regression as a problem for solving systems of linear equations. There-
+can be thought of as   fore, we can relate to concepts from linear algebra and analytic geometry
+a method for solving
+                       that we discussed in Chapters 2 and 3. In particular, looking carefully
+systems of linear
+equations.             at (9.67) we see that the maximum likelihood estimator θML in our ex-
+                       ample from (9.65) effectively does an orthogonal projection of y onto
+Maximum                the one-dimensional subspace spanned by X . Recalling the results on or-
+                                                                               ⊤
+likelihood linear      thogonal projections from Section 3.8, we identify XX     as the projection
+regression performs                                                         X⊤X
+an orthogonal
+                       matrix, θML as the coordinates of the projection onto the one-dimensional
+projection.            subspace of RN spanned by X and XθML as the orthogonal projection of
+                       y onto this subspace.
+                          Therefore, the maximum likelihood solution provides also a geometri-
+                       cally optimal solution by finding the vectors in the subspace spanned by
+                       X that are “closest” to the corresponding observations y , where “clos-
+                       est” means the smallest (squared) distance of the function values yn to
+                       xn θ. This is achieved by orthogonal projections. Figure 9.12(b) shows the
+                       projection of the noisy observations onto the subspace that minimizes the
+                       squared distance between the original dataset and its projection (note that
+                       the x-coordinate is fixed), which corresponds to the maximum likelihood
+                       solution.
+                          In the general linear regression case where
+                                            y = ϕ⊤ (x)θ + ϵ, ϵ ∼ N 0, σ 2
+                                                                             
+                                                                                            (9.68)
+                       with vector-valued features ϕ(x) ∈ RK , we again can interpret the maxi-
+                       mum likelihood result
+                                                        y ≈ Φθ ML ,                                     (9.69)
+                                                                 ⊤     −1   ⊤
+                                                      θ ML = (Φ Φ) Φ y                                  (9.70)
+                       as a projection onto a K -dimensional subspace of RN , which is spanned
+                       by the columns of the feature matrix Φ; see Section 3.8.2.
+                          If the feature functions ϕk that we use to construct the feature ma-
+                       trix Φ are orthonormal (see Section 3.7), we obtain a special case where
+                       the columns of Φ form an orthonormal basis (see Section 3.5), such that
+                       Φ⊤ Φ = I . This will then lead to the projection
+                                                                       K
+                                                                               !
+                                                                      X      ⊤
+                                      Φ(Φ⊤ Φ)−1 Φ⊤ y = ΦΦ⊤ y =           ϕk ϕk y          (9.71)
+                                                                                k=1
+
+                       so that the maximum likelihood projection is simply the sum of projections
+                       of y onto the individual basis vectors ϕk , i.e., the columns of Φ. Further-
+                       more, the coupling between different features has disappeared due to the
+                       orthogonality of the basis. Many popular basis functions in signal process-
+                       ing, such as wavelets and Fourier bases, are orthogonal basis functions.
+
+                       Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+9.5 Further Reading                                                                        315
+
+When the basis is not orthogonal, one can convert a set of linearly inde-
+pendent basis functions to an orthogonal basis by using the Gram-Schmidt
+process; see Section 3.8.3 and (Strang, 2003).
+
+
+                                 9.5 Further Reading
+In this chapter, we discussed linear regression for Gaussian likelihoods
+and conjugate Gaussian priors on the parameters of the model. This al-
+lowed for closed-form Bayesian inference. However, in some applications
+we may want to choose a different likelihood function. For example, in
+a binary classification setting, we observe only two possible (categorical)                        classification
+outcomes, and a Gaussian likelihood is inappropriate in this setting. In-
+stead, we can choose a Bernoulli likelihood that will return a probability of
+the predicted label to be 1 (or 0). We refer to the books by Barber (2012),
+Bishop (2006), and Murphy (2012) for an in-depth introduction to classifi-
+cation problems. A different example where non-Gaussian likelihoods are
+important is count data. Counts are non-negative integers, and in this case
+a Binomial or Poisson likelihood would be a better choice than a Gaussian.
+All these examples fall into the category of generalized linear models, a flex-                    generalized linear
+ible generalization of linear regression that allows for response variables                        model
+that have error distributions other than a Gaussian distribution. The GLM                          Generalized linear
+generalizes linear regression by allowing the linear model to be related                           models are the
+                                                                                                   building blocks of
+to the observed values via a smooth and invertible function σ(·) that may
+                                                                                                   deep neural
+be nonlinear so that y = σ(f (x)), where f (x) = θ ⊤ ϕ(x) is the linear                            networks.
+regression model from (9.13). We can therefore think of a generalized
+linear model in terms of function composition y = σ ◦ f , where f is a
+linear regression model and σ the activation function. Note that although
+we are talking about “generalized linear models”, the outputs y are no
+longer linear in the parameters θ . In logistic regression, we choose the                          logistic regression
+                              1
+logistic sigmoid σ(f ) = 1+exp(−f )
+                                    ∈ [0, 1], which can be interpreted as the                      logistic sigmoid
+probability of observing y = 1 of a Bernoulli random variable y ∈ {0, 1}.
+The function σ(·) is called transfer function or activation function, and its                      transfer function
+inverse is called the canonical link function. From this perspective, it is                        activation function
+                                                                                                   canonical link
+also clear that generalized linear models are the building blocks of (deep)
+                                                                                                   function
+feedforward neural networks: If we consider a generalized linear model                             For ordinary linear
+y = σ(Ax + b), where A is a weight matrix and b a bias vector, we iden-                            regression the
+tify this generalized linear model as a single-layer neural network with                           activation function
+activation function σ(·). We can now recursively compose these functions                           would simply be the
+                                                                                                   identity.
+via
+                                                                                                   A great post on the
+                                  xk+1 = f k (xk )                                                 relation between
+                                                                                       (9.72)      GLMs and deep
+                               f k (xk ) = σk (Ak xk + bk )
+                                                                                                   networks is
+for k = 0, . . . , K − 1, where x0 are the input features and xK = y are                           available at
+the observed outputs, such that f K−1 ◦ · · · ◦ f 0 is a K -layer deep neural                      https://tinyurl.
+                                                                                                   com/glm-dnn.
+network. Therefore, the building blocks of this deep neural network are
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                     316                                                                  Linear Regression
+
+                     the generalized linear models defined in (9.72). Neural networks (Bishop,
+                     1995; Goodfellow et al., 2016) are significantly more expressive and flexi-
+                     ble than linear regression models. However, maximum likelihood parame-
+                     ter estimation is a non-convex optimization problem, and marginalization
+                     of the parameters in a fully Bayesian setting is analytically intractable.
+                        We briefly hinted at the fact that a distribution over parameters in-
+Gaussian process     duces a distribution over regression functions. Gaussian processes (Ras-
+                     mussen and Williams, 2006) are regression models where the concept of
+                     a distribution over function is central. Instead of placing a distribution
+                     over parameters, a Gaussian process places a distribution directly on the
+                     space of functions without the “detour” via the parameters. To do so, the
+kernel trick         Gaussian process exploits the kernel trick (Schölkopf and Smola, 2002),
+                     which allows us to compute inner products between two function values
+                     f (xi ), f (xj ) only by looking at the corresponding input xi , xj . A Gaus-
+                     sian process is closely related to both Bayesian linear regression and sup-
+                     port vector regression but can also be interpreted as a Bayesian neural
+                     network with a single hidden layer where the number of units tends to
+                     infinity (Neal, 1996; Williams, 1997). Excellent introductions to Gaussian
+                     processes can be found in MacKay (1998) and Rasmussen and Williams
+                     (2006).
+                        We focused on Gaussian parameter priors in the discussions in this chap-
+                     ter, because they allow for closed-form inference in linear regression mod-
+                     els. However, even in a regression setting with Gaussian likelihoods, we
+                     may choose a non-Gaussian prior. Consider a setting, where the inputs are
+                     x ∈ RD and our training set is small and of size N ≪ D. This means that
+                     the regression problem is underdetermined. In this case, we can choose
+                     a parameter prior that enforces sparsity, i.e., a prior that tries to set as
+variable selection   many parameters to 0 as possible (variable selection). This prior provides
+                     a stronger regularizer than the Gaussian prior, which often leads to an in-
+                     creased prediction accuracy and interpretability of the model. The Laplace
+                     prior is one example that is frequently used for this purpose. A linear re-
+                     gression model with the Laplace prior on the parameters is equivalent to
+LASSO                linear regression with L1 regularization (LASSO) (Tibshirani, 1996). The
+                     Laplace distribution is sharply peaked at zero (its first derivative is discon-
+                     tinuous) and it concentrates its probability mass closer to zero than the
+                     Gaussian distribution, which encourages parameters to be 0. Therefore,
+                     the nonzero parameters are relevant for the regression problem, which is
+                     the reason why we also speak of “variable selection”.
+
+
+
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+                                                10
+
+       Dimensionality Reduction with Principal
+               Component Analysis
+
+Working directly with high-dimensional data, such as images, comes with                             A 640 × 480 pixel
+some difficulties: It is hard to analyze, interpretation is difficult, visualiza-                   color image is a data
+                                                                                                    point in a
+tion is nearly impossible, and (from a practical point of view) storage of
+                                                                                                    million-dimensional
+the data vectors can be expensive. However, high-dimensional data often                             space, where every
+has properties that we can exploit. For example, high-dimensional data is                           pixel responds to
+often overcomplete, i.e., many dimensions are redundant and can be ex-                              three dimensions,
+                                                                                                    one for each color
+plained by a combination of other dimensions. Furthermore, dimensions
+                                                                                                    channel (red, green,
+in high-dimensional data are often correlated so that the data possesses an                         blue).
+intrinsic lower-dimensional structure. Dimensionality reduction exploits
+structure and correlation and allows us to work with a more compact rep-
+resentation of the data, ideally without losing information. We can think
+of dimensionality reduction as a compression technique, similar to jpeg or
+mp3, which are compression algorithms for images and music.
+   In this chapter, we will discuss principal component analysis (PCA), an                          principal component
+algorithm for linear dimensionality reduction. PCA, proposed by Pearson                             analysis
+(1901) and Hotelling (1933), has been around for more than 100 years                                PCA
+                                                                                                    dimensionality
+and is still one of the most commonly used techniques for data compres-                             reduction
+sion and data visualization. It is also used for the identification of simple
+patterns, latent factors, and structures of high-dimensional data. In the
+
+                                                                                                    Figure 10.1
+                                                                                                    Illustration:
+       4                                                 4
+                                                                                                    dimensionality
+                                                                                                    reduction. (a) The
+       2                                                 2                                          original dataset
+                                                                                                    does not vary much
+                                                                                                    along the x2
+ x2
+
+
+
+
+                                                   x2
+
+
+
+
+       0                                                 0
+                                                                                                    direction. (b) The
+                                                                                                    data from (a) can be
+      −2                                                −2
+                                                                                                    represented using
+                                                                                                    the x1 -coordinate
+      −4                                                −4                                          alone with nearly no
+                                                                                                    loss.
+           −5.0   −2.5    0.0      2.5      5.0              −5.0   −2.5   0.0     2.5      5.0
+                          x1                                               x1
+
+      (a) Dataset with x1 and x2 coordinates.     (b) Compressed dataset where only the x1 coor-
+                                                  dinate is relevant.
+
+
+
+                                                                                            317
+This material is published by Cambridge University Press as Mathematics for Machine Learning by
+Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong (2020). This version is free to view
+and download for personal use only. Not for re-distribution, re-sale, or use in derivative works.
+©by M. P. Deisenroth, A. A. Faisal, and C. S. Ong, 2024. https://mml-book.com.
+                       318                 Dimensionality Reduction with Principal Component Analysis
+
+Karhunen-Loève        signal processing community, PCA is also known as the Karhunen-Loève
+transform              transform. In this chapter, we derive PCA from first principles, drawing on
+                       our understanding of basis and basis change (Sections 2.6.1 and 2.7.2),
+                       projections (Section 3.8), eigenvalues (Section 4.2), Gaussian distribu-
+                       tions (Section 6.5), and constrained optimization (Section 7.2).
+                          Dimensionality reduction generally exploits a property of high-dimen-
+                       sional data (e.g., images) that it often lies on a low-dimensional subspace.
+                       Figure 10.1 gives an illustrative example in two dimensions. Although
+                       the data in Figure 10.1(a) does not quite lie on a line, the data does not
+                       vary much in the x2 -direction, so that we can express it as if it were on
+                       a line – with nearly no loss; see Figure 10.1(b). To describe the data in
+                       Figure 10.1(b), only the x1 -coordinate is required, and the data lies in a
+                       one-dimensional subspace of R2 .
+
+
+                                                    10.1 Problem Setting
+                       In PCA, we are interested in finding projections x̃n of data points xn that
+                       are as similar to the original data points as possible, but which have a sig-
+                       nificantly lower intrinsic dimensionality. Figure 10.1 gives an illustration
+                       of what this could look like.
+                          More concretely, we consider an i.i.d. dataset X = {x1 , . . . , xN }, xn ∈
+data covariance        RD , with mean 0 that possesses the data covariance matrix (6.42)
+matrix
+                                                                  N
+                                                              1 X
+                                                       S=           xn x⊤
+                                                                        n .                             (10.1)
+                                                              N n=1
+                       Furthermore, we assume there exists a low-dimensional compressed rep-
+                       resentation (code)
+                                                       z n = B ⊤ xn ∈ RM                                (10.2)
+                       of xn , where we define the projection matrix
+                                                 B := [b1 , . . . , bM ] ∈ RD×M .                       (10.3)
+                       We assume that the columns of B are orthonormal (Definition 3.7) so that
+The columns            b⊤                                         ⊤
+                         i bj = 0 if and only if i ̸= j and bi bi = 1. We seek an M -dimensional
+b1 , . . . , bM of B   subspace U ⊆ RD , dim(U ) = M < D onto which we project the data. We
+form a basis of the
+                       denote the projected data by x̃n ∈ U , and their coordinates (with respect
+M -dimensional
+subspace in which      to the basis vectors b1 , . . . , bM of U ) by z n . Our aim is to find projections
+the projected data     x̃n ∈ RD (or equivalently the codes z n and the basis vectors b1 , . . . , bM )
+x̃ = BB ⊤ x ∈ RD       so that they are as similar to the original data xn and minimize the loss
+live.
+                       due to compression.
+
+                       Example 10.1 (Coordinate Representation/Code)
+                       Consider R2 with the canonical basis e1 = [1, 0]⊤ , e2 = [0, 1]⊤ . From
+
+
+                       Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+

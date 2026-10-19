@@ -38,7 +38,7 @@ test('missing shell piece', () => assert.ok(check(mutate((s) => s.replace('class
 test('unknown hole', () => assert.ok(check(mutate((s) => s.replace('{{themeLabel}}"', '{{themLabel}}"')), A).errors.includes('HOLE_UNKNOWN:themLabel')));
 
 test('loop variable outside its sc-for is unknown', () => {
-  const r = check(mutate((s) => s.replace('<h3 class="sec-title">꼭 기억해요</h3>', '<h3 class="sec-title">꼭 기억해요</h3>{{md.label}}')), A);
+  const r = check(mutate((s) => s.replace('<summary>꼭 기억할 점</summary>', '<summary>꼭 기억할 점</summary>{{md.label}}')), A);
   assert.ok(r.errors.includes('HOLE_UNKNOWN:md'));
 });
 
@@ -76,7 +76,7 @@ test('cli exit codes', () => {
 test('hole syntax the runtime cannot parse', () => {
   const r1 = check(mutate((s) => s.replace('<sc-if value="{{hasSteps}}"', '<sc-if value="{{!hasSteps}}"')), A);
   assert.ok(r1.errors.includes('HOLE_SYNTAX:!hasSteps'), r1.errors.join());
-  const r2 = check(mutate((s) => s.replace('<h3 class="sec-title">꼭 기억해요</h3>', '<h3 class="sec-title">꼭 기억해요</h3>{{isPlaying ? 1 : 2}}')), A);
+  const r2 = check(mutate((s) => s.replace('<summary>꼭 기억할 점</summary>', '<summary>꼭 기억할 점</summary>{{isPlaying ? 1 : 2}}')), A);
   assert.ok(r2.errors.includes('HOLE_SYNTAX:isPlaying ? 1 : 2'), r2.errors.join());
   const r3 = check(mutate((s) => s.replace('onClick="{{zoomIn}}"', 'onClick="x{{zoomIn}}"')), A);
   assert.ok(r3.errors.includes('HOLE_SYNTAX:onClick'), r3.errors.join());

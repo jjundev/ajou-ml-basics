@@ -66,6 +66,15 @@ function unknownHoles(markup, vals) {
 function topicChecks(topic, add) {
   const modes = topic.MODES || [];
   for (const m of modes) for (const k of ['cam', 'fit', 'D', 'canvasLabel']) if (m[k] == null) add('TOPIC_INVALID:MODES.' + m.key + '.' + k);
+  for(const m of modes){
+    if(m.view!=null && !['graph','formula'].includes(m.view))add('TOPIC_INVALID:MODES.'+m.key+'.view');
+    if(m.view==='formula'){
+      const rows=(topic.STEPS||[]).filter(s=>s.mode===m.key);
+      const text=v=>typeof v==='string'&&v.trim().length>0;
+      if(!rows.length||rows.some(s=>!text(s.title)||!(text(s.tex) ? !s.left && !s.right : text(s.left)&&text(s.right))))add('TOPIC_INVALID:MODES.'+m.key+'.formula');
+      if(m.playback || m.autoSpin || m.rotatable)add('TOPIC_INVALID:MODES.'+m.key+'.formula.motion');
+    }
+  }
   (topic.STEPS || []).forEach((s, i) => {
     const n = i + 1, m = modes.find((d) => d.key === s.mode);
     if (!m) add('TOPIC_INVALID:STEPS[' + n + '].mode');
@@ -140,7 +149,7 @@ function drawChecks(file, modes, add) {
         c.draw(0.016, (k + 1) * 16);
       }
       const end = calls.slice(last);
-      if (!end.some((x) => x.op === 'arc' || x.op === 'lineTo' || x.op === 'fillText')) add('SCENE_EMPTY:' + mode);
+      if (c.modeDef(mode).view !== 'formula' && !end.some((x) => x.op === 'arc' || x.op === 'lineTo' || x.op === 'fillText')) add('SCENE_EMPTY:' + mode);
       if (nonFinite(calls)) add('SCENE_NAN:' + mode);
       for (const t of c.renderVals().toggles) {
         t.toggle();

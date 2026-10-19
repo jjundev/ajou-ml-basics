@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>MAP에서 사후평균까지 · 한 줄씩 쓰는 수식 노트</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.app{--radius:8px;--tap:48px;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--dur:220ms;--dur-exit:150ms;--ease-out:cubic-bezier(.2,.8,.2,1);--scrim:rgba(0,0,0,.4);
+  height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;box-sizing:border-box;
+  background:var(--bg);color:var(--ink);font-family:'Pretendard',system-ui,sans-serif;font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+.app *,.app *::before,.app *::after{box-sizing:border-box}
+.app button{font-family:inherit;color:inherit}
+.app :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.num{font-variant-numeric:tabular-nums}
+
+.topbar{display:flex;align-items:center;gap:var(--s2);min-height:56px;padding:var(--s2) var(--s3);background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:17px;font-weight:700;white-space:nowrap}
+.text-btn{flex:none;min-height:44px;min-width:44px;padding:0 var(--s3);border:0;border-radius:var(--radius);background:transparent;color:var(--ink);font:600 14px/1 'Pretendard',system-ui,sans-serif;cursor:pointer}
+.panel-toggle{display:inline-flex;align-items:center;gap:var(--s1);padding:0 var(--s2)}
+.panel-toggle svg,.theme-toggle svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.panel-toggle .strip{fill:transparent;stroke:none;transition:fill 150ms ease-out}
+.panel-toggle[aria-expanded="true"]{color:var(--accent-ink)}
+.panel-toggle[aria-expanded="true"] .strip{fill:currentColor}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;padding:0}
+.seg{flex:none;display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:var(--radius)}
+.seg button{min-height:40px;padding:0 var(--s3);border:0;border-radius:6px;background:transparent;color:var(--ink-2);font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--btn-bg);color:var(--on-btn)}
+
+.layout{display:grid;grid-template-columns:auto minmax(320px,1fr) auto;min-height:0}
+.panel{position:relative;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--bg);color:var(--ink)}
+.panel-left{grid-column:1;width:clamp(260px,20vw,320px);border-right:1px solid var(--line)}
+.panel-right{grid-column:3;width:clamp(320px,24vw,400px);border-left:1px solid var(--line)}
+.panel-inner{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:var(--s4) var(--s4) var(--s6)}
+.panel-inner::-webkit-scrollbar{width:8px}
+.panel-inner::-webkit-scrollbar-track{background:transparent}
+.panel-inner::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:8px;border:2px solid var(--bg)}
+.panel-inner::-webkit-scrollbar-thumb:hover{background:var(--scroll-hover)}
+@supports (scrollbar-color:auto){.panel-inner{scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}}
+.panel-head{display:flex;align-items:center;gap:var(--s2);min-height:44px;margin-bottom:var(--s2)}
+.panel-head h2{flex:1 1 0;min-width:0;margin:0;font-size:22px;line-height:1.4}
+.stage{grid-column:2;position:relative;min-width:0;min-height:0;overflow:hidden;background:var(--bg)}
+.scrim{display:none}
+.panel-resize{display:none}
+
+.sec{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid var(--line)}
+.panel-head + .sec,.panel-head + div > .sec:first-child{margin-top:0;padding-top:0;border-top:0}
+.sec-title{display:block;margin:0 0 var(--s3);font-size:19px;font-weight:700;line-height:1.4;letter-spacing:-0.01em}
+.sub{margin:var(--s3) 0 0;font-size:14px;line-height:1.6;color:var(--ink-2)}
+
+.opt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+.btn{display:flex;align-items:center;gap:var(--s2);width:100%;min-height:var(--tap);padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink);font-size:14px;font-weight:600;line-height:1.3;text-align:left;cursor:pointer}
+.btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink)}
+.btn .box{flex:none;width:12px;height:12px;border-radius:3px;border:1.5px solid currentColor}
+.btn[aria-pressed="true"] .box{background:currentColor}
+.steps{display:flex;flex-direction:column;gap:var(--s2)}
+.steps .btn{padding:var(--s2) var(--s3);gap:var(--s3)}
+.step-num{flex:none;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:2px solid;font-size:12px;font-weight:700;color:var(--ink)}
+.step-txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.step-txt b{font-size:15px;font-weight:700}
+.step-txt span{font-size:13px;font-weight:500;color:var(--ink-2)}
+.detail{margin-top:var(--s3);padding:var(--s4);border-radius:var(--radius);background:var(--surface);font-size:15px;line-height:1.7}
+
+
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+.tiles.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tile{padding:var(--s3);border-radius:var(--radius);background:var(--surface)}
+.tile b{display:block;font-size:20px;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
+.tile span{display:block;font-size:13px;line-height:1.4;color:var(--ink-2)}
+.events{display:flex;flex-direction:column;gap:var(--s2)}
+.event{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.6}
+.dot{flex:none;width:10px;height:10px;margin-top:7px;border-radius:50%}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2) var(--s3);font-size:13px;color:var(--ink-2)}
+.legend div{display:flex;align-items:center;gap:var(--s2)}
+.sw{flex:none;width:16px;height:6px;border-radius:3px}
+.sw.ball{width:12px;height:12px;border-radius:50%}
+.sec.warn{border-top:0;padding:var(--s4);border-radius:var(--radius);background:var(--surface);font-size:15px;line-height:1.7}
+.warn .sec-title{color:var(--warn);font-size:17px}
+.mistake{margin-top:var(--s3)}
+.mistake b{display:block;font-weight:700}
+.mistake span{color:var(--ink-2)}
+
+.canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.canvas.is-fixed{cursor:default}
+.view-btns{position:absolute;top:var(--s3);right:var(--s3);display:flex;gap:6px}
+.icon-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink);cursor:pointer}
+.icon-btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink)}
+.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.float{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius)}
+.hover-card{position:absolute;left:var(--s3);bottom:var(--s3);display:flex;flex-direction:column;gap:2px;padding:var(--s3) var(--s4);pointer-events:none}
+.hover-card .k{font-size:13px;color:var(--ink-2)}
+.hover-card .v{font-size:18px;font-weight:700}
+.playbar{position:absolute;left:var(--s3);right:var(--s3);bottom:var(--s3);display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);padding:var(--s2) var(--s3)}
+.play{flex:none;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:var(--radius);background:var(--btn-bg);color:var(--on-btn) !important;cursor:pointer}
+.play svg{width:18px;height:18px;fill:currentColor}
+.scrub{flex:1 1 200px;min-width:160px;display:flex;flex-direction:column;gap:2px}
+.scrub span{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.scrub input{width:100%;height:24px;margin:0;accent-color:var(--accent)}
+.speeds{display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:var(--radius)}
+.speeds button{min-width:48px;height:40px;padding:0 var(--s2);border:0;border-radius:6px;background:transparent;color:var(--ink-2);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;cursor:pointer}
+.speeds button[aria-pressed="true"]{background:var(--btn-bg);color:var(--on-btn)}
+
+@media (hover:hover){.btn:hover,.icon-btn:hover{background:var(--surface)}.text-btn:hover{background:var(--surface)}}
+@media (min-width:1024px){
+  .panel-head{display:none}
+  .layout{--pl:var(--pl-user,clamp(260px,20vw,320px));--pr:var(--pr-user,clamp(320px,24vw,400px))}
+  .panel{width:0;border-width:0;visibility:hidden;transition:width var(--dur-exit) ease-in,visibility 0s linear var(--dur-exit)}
+  .panel-left.is-open{width:var(--pl)}
+  .panel-right.is-open{width:var(--pr)}
+  .panel.is-open{visibility:visible;border-width:1px;transition:width var(--dur) var(--ease-out)}
+  .panel-left .panel-inner{width:var(--pl)}
+  .panel-right .panel-inner{width:var(--pr);align-self:flex-end}
+  .layout.is-resizing .panel{transition:none}
+  .layout.is-resizing{cursor:col-resize;user-select:none}
+  .panel-resize{display:block;position:absolute;top:0;bottom:0;z-index:2;width:12px;padding:0;border:0;background:transparent;cursor:col-resize;touch-action:none}
+  .panel-left .panel-resize{right:0}
+  .panel-right .panel-resize{left:0}
+  .panel-resize::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--accent);opacity:0;transition:opacity 150ms ease-out}
+  .panel-left .panel-resize::after{right:0}
+  .panel-right .panel-resize::after{left:0}
+  .panel-resize:focus-visible{outline:none}
+  .panel-resize:focus-visible::after,.is-resizing .panel-resize:active::after{opacity:1}
+  @media (hover:hover){.panel-resize:hover::after{opacity:1}}
+}
+@media (max-width: 1023.98px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .stage{grid-column:1}
+  .panel{position:fixed;top:0;bottom:0;z-index:40;visibility:hidden;transition:transform var(--dur-exit) ease-in,visibility 0s linear var(--dur-exit)}
+  .panel-left{left:0;width:min(304px,88vw);transform:translateX(-100%)}
+  .panel-right{right:0;width:min(360px,88vw);transform:translateX(100%)}
+  .panel.is-open{visibility:visible;transform:none;transition:transform var(--dur) var(--ease-out)}
+  .panel-inner{padding-top:calc(var(--s3) + env(safe-area-inset-top));padding-bottom:calc(var(--s6) + env(safe-area-inset-bottom))}
+  .scrim{display:block;position:fixed;inset:0;z-index:35;background:var(--scrim);opacity:0;visibility:hidden;transition:opacity var(--dur-exit) ease-in,visibility 0s linear var(--dur-exit)}
+  .scrim.is-on{opacity:1;visibility:visible;transition:opacity var(--dur) var(--ease-out)}
+}
+@media (max-width:640px){.brand{display:none}.topbar{justify-content:space-between}}
+@media (max-width:480px){.panel-toggle span{display:none}.seg button{padding:0 var(--s2)}}
+@media (prefers-reduced-motion:reduce){.panel,.panel.is-open,.scrim,.scrim.is-on,.panel-toggle .strip,.panel-resize::after{transition:none}}
+</style>
+</helmet>
+<div class="app" onKeyDown="{{onKey}}" style="--bg: {{th.bg}}; --surface: {{th.surface}}; --ink: {{th.ink}}; --ink-2: {{th.ink2}}; --line: {{th.line}}; --accent: {{th.accent}}; --accent-ink: {{th.accentInk}}; --btn-bg: {{th.btnBg}}; --on-btn: {{th.onBtn}}; --warn: {{th.warn}}; --prof: {{th.prof}}; --supp: {{th.supp}}; --danger: {{th.danger}}; --scroll: {{th.scroll}}; --scroll-hover: {{th.scrollHover}}">
+<header class="topbar">
+<button class="text-btn panel-toggle" type="button" aria-label="조작 패널" aria-expanded="{{leftExpanded}}" onClick="{{toggleLeft}}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"></rect><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M9 4v16"></path></svg><span>조작</span></button>
+<strong class="brand">MAP에서 사후평균까지 · 한 줄씩 쓰는 수식 노트</strong>
+<sc-if value="{{hasModes}}" hint-placeholder-val="{{ true }}">
+<div class="seg" role="group" aria-label="보기 선택">
+<sc-for list="{{modes}}" as="md" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{md.pressed}}" onClick="{{md.pick}}">{{md.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+<button class="text-btn theme-toggle" type="button" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}">
+<sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+<sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if>
+</button>
+<button class="text-btn panel-toggle" type="button" aria-label="설명 패널" aria-expanded="{{rightExpanded}}" onClick="{{toggleRight}}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"></rect><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M15 4v16"></path></svg><span>설명</span></button>
+</header>
+
+<div class="layout {{layoutCls}}" style="{{layoutStyle}}">
+<aside class="panel panel-left {{leftCls}}" aria-label="조작">
+<div class="panel-resize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 기본 너비" aria-valuemin="220" aria-valuemax="480" aria-valuenow="{{leftWNow}}" ref="{{leftHandleRef}}"></div>
+<div class="panel-inner">
+<div class="panel-head"><h2>조작</h2><button class="text-btn" type="button" onClick="{{closePanels}}">닫기</button></div>
+
+<sc-if value="{{hasToggles}}" hint-placeholder-val="{{ true }}">
+<div class="sec">
+<h3 class="sec-title">보기 옵션</h3>
+<div class="opt">
+<sc-for list="{{toggles}}" as="t" hint-placeholder-count="2">
+<button class="btn" type="button" aria-pressed="{{t.pressed}}" onClick="{{t.toggle}}"><span class="box" aria-hidden="true"></span>{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<!-- SLOT:left -->
+
+<style>
+.notebook{position:absolute;inset:12px;z-index:3;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--bg);overflow:hidden;color:var(--ink)}
+.nb-head{padding:16px 24px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line)}
+.nb-kicker{font-size:12px;letter-spacing:.08em;color:var(--accent-ink);font-weight:700}
+.nb-head h1{flex:1;min-width:0;font-size:23px;line-height:1.35;margin:0;letter-spacing:-.04em}
+.nb-head p{font-size:14px;color:var(--ink-2);margin:0}
+.nb-scroll{flex:1;overflow:auto;overscroll-behavior:contain;padding:0 24px 24px;min-height:0}
+.nb-row{padding:18px 0;border-bottom:1px solid var(--line)}
+.nb-row:last-child{border:0}.nb-row.active{border-left:3px solid var(--accent);padding-left:14px}
+.nb-row-title{font-size:14px;font-weight:700;margin-bottom:10px}.nb-row p{font-size:14px;line-height:1.7;color:var(--ink-2);margin:9px 0 0}
+.nb-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}.nb-cell{min-width:0}
+.nb-cell small{font-size:12px;color:var(--ink-2);display:block;margin-bottom:7px}
+.nb-math{font-size:17px;overflow-x:auto;overflow-y:hidden;padding:8px 2px;max-width:100%}.nb-math .katex-display{margin:0;text-align:left}.nb-math .katex-display>.katex{text-align:left}
+.nb-nav{padding:12px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;background:var(--bg)}
+.nb-nav button{min-height:46px;padding:0 16px;border:1px solid var(--line);background:var(--bg);border-radius:6px;cursor:pointer;color:var(--ink);font-size:14px;font-weight:600}
+.nb-nav button.primary{background:var(--btn-bg);color:var(--on-btn);border-color:var(--btn-bg)}.nb-nav button:disabled{opacity:.45;cursor:default}.nb-progress{flex:1;font-size:12px;color:var(--ink-2);text-align:right}
+.nb-live{font-size:13px;color:var(--ink-2);padding:10px 24px;background:var(--surface)}
+.ml-input{width:100%;height:44px;accent-color:var(--accent);background:var(--bg);color:var(--ink);font:inherit;border:1px solid var(--line);border-radius:6px;padding:6px}
+.ml-label{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:14px}.ml-eq{overflow-x:auto;max-width:100%;padding:8px 0;font-size:16px}
+@media(max-width:1200px){.nb-pair{grid-template-columns:1fr}.nb-head{padding:16px}.nb-scroll{padding:0 16px 16px}.nb-head h1{font-size:22px}}
+@media(max-width:480px){.notebook{inset:8px}.nb-head h1{font-size:21px}.nb-math{font-size:16px}.nb-nav{padding:10px;gap:5px}.nb-nav button{padding:0 10px}.nb-progress{font-size:11px}.nb-live{padding:10px 16px}.nb-row{padding:16px 0}}
+@media(prefers-reduced-motion:no-preference){.nb-row.active{animation:write-line .25s ease-out}@keyframes write-line{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}}
+
+.app :is(.panel-inner,.nb-scroll,.nb-math,.ml-eq){scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}
+.app :is(.panel-inner,.nb-scroll,.nb-math,.ml-eq)::-webkit-scrollbar{width:8px;height:8px}
+.app :is(.panel-inner,.nb-scroll,.nb-math,.ml-eq)::-webkit-scrollbar-track{background:transparent}
+.app :is(.panel-inner,.nb-scroll,.nb-math,.ml-eq)::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:8px;border:2px solid var(--bg)}
+.app :is(.panel-inner,.nb-scroll,.nb-math,.ml-eq)::-webkit-scrollbar-thumb:hover{background:var(--scroll-hover)}
+.panel-left .panel-inner > .nb-start{margin-top:0;padding-top:0;border-top:0}
+.panel-left .detail,.step-txt > span,.stage > .view-btns,.panel-right .panel-inner > .warn{display:none}
+.nb-row > p{display:none}.nb-row.active > p{display:block}
+.nb-tools{display:flex;gap:6px;flex:none;align-items:center}
+.nb-tools .icon-btn{width:44px;height:44px}
+.notebook .nb-math{font-size:calc(17px * var(--math-scale,1))}
+.nb-fold{margin-top:24px;border-top:1px solid var(--line);padding-top:18px}
+.nb-fold summary{cursor:pointer;font-size:15px;font-weight:600;line-height:1.6;min-height:44px;display:list-item;align-content:center}
+.nb-fold .warn{margin-top:8px}.nb-fold .warn > .sec-title{display:none}
+@media(max-width:480px){.nb-head{gap:8px;padding:12px}.nb-head h1{font-size:18px}.nb-tools{gap:4px}.nb-tools .icon-btn{width:44px;height:44px}.notebook .nb-math{font-size:calc(16px * var(--math-scale,1))}}
+</style>
+
+<span ref="{{mountNotebook}}"></span>
+<div class="sec nb-start"><button class="btn" onClick="{{resetAll}}">처음부터</button></div>
+<div class="sec"><h3 class="sec-title">사전분포</h3>
+<p class="sub">y = θ + ε · 관측 4 · 잡음 분산 1</p>
+<label class="ml-label" for="prior-mean">사전평균 m₀</label><input id="prior-mean" class="ml-input" type="number" min="-4" max="4" step="0.5" value="{{meanInput}}" onChange="{{changeMean}}">
+<label class="ml-label" for="prior-var">사전분산 s₀</label><input id="prior-var" class="ml-input" type="number" min="0.25" max="4" step="0.25" value="{{varInput}}" onChange="{{changeVar}}">
+</div>
+
+<!-- /SLOT:left -->
+
+<sc-if value="{{hasSteps}}" hint-placeholder-val="{{ true }}">
+<div class="sec">
+<h3 class="sec-title">단계</h3>
+<div class="steps">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="2">
+<button class="btn" type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}"><span class="step-num num" style="border-color: {{s.c}}">{{s.num}}</span><span class="step-txt"><b>{{s.title}}</b><span>{{s.who}}</span></span></button>
+</sc-for>
+</div>
+<sc-if value="{{hasStep}}" hint-placeholder-val="{{ false }}">
+<div class="detail" aria-live="polite">{{stepDetail}}</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</aside>
+
+<section class="stage" aria-label="모형 보기">
+<canvas class="canvas {{canvasCls}}" ref="{{canvasRef}}" role="img" aria-label="{{canvasLabel}}"></canvas>
+<div class="view-btns">
+<button class="icon-btn" type="button" aria-label="확대" onClick="{{zoomIn}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+<button class="icon-btn" type="button" aria-label="축소" onClick="{{zoomOut}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+<button class="icon-btn" type="button" aria-label="시점 처음으로" onClick="{{resetView}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"></path><path d="M4 4v5h5"></path></svg></button>
+</div>
+
+<sc-if value="{{hasPlayback}}" hint-placeholder-val="{{ false }}">
+<div class="playbar float">
+<button class="play" type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}">
+<sc-if value="{{isPlaying}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg></sc-if>
+<sc-if value="{{notPlaying}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"></path></svg></sc-if>
+</button>
+<label class="scrub">
+<span>{{fLabel}}</span>
+<input type="range" min="0" max="{{fMax10}}" step="1" value="{{fInt}}" onChange="{{onScrub}}">
+</label>
+<div class="speeds" role="group" aria-label="재생 속도">
+<sc-for list="{{speeds}}" as="sp" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{sp.pressed}}" onClick="{{sp.pick}}">{{sp.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</section>
+
+<aside class="panel panel-right {{rightCls}}" aria-label="설명">
+<div class="panel-resize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 기본 너비" aria-valuemin="280" aria-valuemax="720" aria-valuenow="{{rightWNow}}" ref="{{rightHandleRef}}"></div>
+<div class="panel-inner">
+<div class="panel-head"><h2>설명</h2><button class="text-btn" type="button" onClick="{{closePanels}}">닫기</button></div>
+
+<!-- SLOT:right -->
+<div class="sec"><h3 class="sec-title">계산 결과</h3><div class="tiles"><div class="tile"><b>{{mapValue}}</b><span>MAP θ</span></div><div class="tile"><b>{{posteriorMean}}</b><span>사후평균 mₙ</span></div></div><p class="sub">사후분산 {{postVariance}}</p><div class="ml-eq" ref="{{numericFormula}}"></div><sc-if value="{{is.predict}}"><p class="sub">새 특징값 2 · 예측평균 {{predictMean}}<br>FB 분산 {{predictVariance}} · MAP 분산 1</p></sc-if></div>
+<details class="nb-fold"><summary>기호와 가정</summary><p class="sub">Φ: N×K 특징행렬 · y: N×1 관측 벡터 · θ, m₀, mₙ: K×1 · S₀, Sₙ: K×K 공분산행렬 · σ²: 잡음의 분산. S₀는 대칭 양의 정부호이고 σ² &gt; 0이에요.</p><p class="sub">사전평균 m₀만 바꾸면 이 모형의 사후분산은 변하지 않아요.</p></details>
+<details class="nb-fold"><summary>수업과 연결</summary><p class="sub">0928 · L03 p25: 일반 가우시안 사전분포.<br>1014 · L04 p12–14: 사후평균·공분산과 예측분포.<br>1019: 예측 평균과 분산 해석.</p><p class="sub">MAP 식의 등식 변환과 숫자 예시는 이해를 위한 보충이에요.</p></details>
+
+<details class="nb-fold"><summary>꼭 기억할 점</summary><sc-for list="{{mistakes}}" as="m"><div class="mistake"><b>{{m.title}}</b><span>{{m.text}}</span></div></sc-for></details>
+<!-- /SLOT:right -->
+
+<div class="sec warn">
+<h3 class="sec-title">꼭 기억해요</h3>
+<sc-for list="{{mistakes}}" as="m" hint-placeholder-count="3">
+<div class="mistake"><b>{{m.title}}</b><span>{{m.text}}</span></div>
+</sc-for>
+</div>
+</div>
+</aside>
+</div>
+<div class="scrim {{scrimCls}}" aria-hidden="true" onClick="{{closePanels}}"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  // ================= 주제 훅: 주제마다 바꾸는 곳은 이 네 메서드뿐이에요 =================
+  // 계약은 ml-interactive/references/scene-api.md에 있어요.
+
+
+  topic() {
+    const blue = '#1677ff', green = '#087f5b';
+    const rows = {
+      prior: [
+        {title:'출발 · 사전분포의 두 모양',left:String.raw`p(\theta)=\mathcal N(\mathbf 0,b^2 I)`,right:String.raw`p(\theta)=\mathcal N(m_0,S_0)`,why:'왼쪽은 오른쪽에서 m₀ = 0, S₀ = b²I를 선택한 특수한 경우예요. MAP과 FB의 구분이 아니에요.'},
+        {title:'1 · 분산을 뒤집어 정밀도로',left:String.raw`(b^2 I)^{-1}=\frac{1}{b^2}I`,right:String.raw`S_0^{-1}`,why:'스칼라의 1/b²를 행렬의 S₀⁻¹로 바꿔요. 공분산의 역행렬을 정밀도라고 불러요.'},
+        {title:'2 · 같은 데이터 항에 사전 항을 더해요',left:String.raw`A_b=\Phi^T\Phi+\color{#1677ff}{\frac{\sigma^2}{b^2}I}`,right:String.raw`A_g=\Phi^T\Phi+\color{#1677ff}{\sigma^2 S_0^{-1}}`,why:'역행렬 안에서 바뀌는 항이에요. 데이터의 ΦᵀΦ는 그대로예요. A_b와 A_g는 이 페이지의 임시 이름이에요.'},
+        {title:'3 · 사전평균 항을 더해요',left:String.raw`q_b=\Phi^T y+\underbrace{\frac{\sigma^2}{b^2}I\mathbf 0}_{=\,\mathbf 0}=\Phi^T y`,right:String.raw`q_g=\Phi^T y+\color{#087f5b}{\sigma^2 S_0^{-1}m_0}`,why:'기존 식에서 안 보이던 항은 사전평균이 0이라 사라졌던 거예요. 일반형에서는 이 항이 남아요.'},
+        {title:'4 · 두 조각을 결합하면 MAP',left:String.raw`\theta_{\rm MAP}=A_b^{-1}q_b`,right:String.raw`\theta_{\rm MAP}=A_g^{-1}q_g`,why:'외우는 순서: 역행렬 안에서 분산의 역수를 바꾸고, 오른쪽에 사전평균 항을 더해요. 아래 줄에서 임시 이름을 풀어 써요.'},
+        {title:'5 · 전체 식을 펼쳐 비교해요',left:String.raw`\theta_{\rm MAP}=\left[\Phi^T\Phi+\frac{\sigma^2}{b^2}I\right]^{-1}\Phi^T y`,right:String.raw`\begin{aligned}\theta_{\rm MAP}&=\left[\Phi^T\Phi+\color{#1677ff}{\sigma^2S_0^{-1}}\right]^{-1}\\&\quad\cdot\left[\Phi^Ty+\color{#087f5b}{\sigma^2S_0^{-1}m_0}\right]\end{aligned}`,why:'확인: 오른쪽에 m₀ = 0, S₀ = b²I를 대입하면 왼쪽 식으로 정확히 돌아와요.'}
+      ],
+      mean: [
+        {title:'출발 · 1014의 사후공분산과 평균',eq:String.raw`\begin{aligned}S_N&=\left[S_0^{-1}+\frac{1}{\sigma^2}\Phi^T\Phi\right]^{-1}\\m_N&=S_N\left[S_0^{-1}m_0+\frac{1}{\sigma^2}\Phi^Ty\right]\end{aligned}`,why:'θ | D ~ N(mₙ, Sₙ)이에요. Sₙ은 θ의 사후공분산이고, mₙ은 θ의 사후평균이에요.'},
+        {title:'1 · 평균 식에 Sₙ을 대입해요',eq:String.raw`\begin{aligned}m_N&=\left[S_0^{-1}+\frac{1}{\sigma^2}\Phi^T\Phi\right]^{-1}\\&\quad\cdot\left[S_0^{-1}m_0+\frac{1}{\sigma^2}\Phi^Ty\right]\end{aligned}`,why:'아직 계산한 것은 없어요. 평균 식의 Sₙ 자리에 바로 위의 공분산 식을 넣었어요.'},
+        {title:'2 · 양쪽 대괄호에서 1/σ²을 묶어요',eq:String.raw`\begin{aligned}m_N&=\left[\color{#1677ff}{\frac{1}{\sigma^2}}\left(\sigma^2S_0^{-1}+\Phi^T\Phi\right)\right]^{-1}\\&\quad\cdot\left[\color{#087f5b}{\frac{1}{\sigma^2}}\left(\sigma^2S_0^{-1}m_0+\Phi^Ty\right)\right]\end{aligned}`,why:'S₀⁻¹ = (1/σ²)(σ²S₀⁻¹)이므로 같은 식이에요. 오른쪽 사전평균 항에도 똑같이 적용해요.'},
+        {title:'3 · 역행렬 밖으로 나오면 σ²',eq:String.raw`\begin{aligned}\left[\frac{1}{\sigma^2}A\right]^{-1}&=\color{#1677ff}{\sigma^2}A^{-1}\\m_N&=\color{#1677ff}{\sigma^2}\left[\sigma^2S_0^{-1}+\Phi^T\Phi\right]^{-1}\\&\quad\cdot\color{#087f5b}{\frac{1}{\sigma^2}}\left[\sigma^2S_0^{-1}m_0+\Phi^Ty\right]\end{aligned}`,why:'기억할 변환: (cA)⁻¹ = c⁻¹A⁻¹. 여기서 c = 1/σ²라서 역행렬 밖에서는 σ²이 돼요. σ²은 스칼라이므로 행렬 사이를 이동할 수 있어요.'},
+        {title:'4 · σ² × 1/σ² = 1로 소거해요',eq:String.raw`\begin{aligned}m_N&=\left[\Phi^T\Phi+\sigma^2S_0^{-1}\right]^{-1}\\&\quad\cdot\left[\Phi^Ty+\sigma^2S_0^{-1}m_0\right]\\&=\boxed{\theta_{\rm MAP}}\end{aligned}`,why:'대괄호 안 덧셈의 순서만 바꾸면 일반형 MAP과 같아요. 행렬 곱의 순서를 바꾼 것이 아니에요. 가우시안 사후분포에서는 평균과 최고점이 같아요.'},
+        {title:'5 · 공분산에는 σ²이 남아요',eq:String.raw`\boxed{S_N=\sigma^2\left[\Phi^T\Phi+\sigma^2S_0^{-1}\right]^{-1}}`,why:'중요: 평균에서는 뒤의 1/σ²과 상쇄됐지만, 공분산 Sₙ에는 그 뒤 벡터가 없어요. 따라서 앞의 σ²을 지우면 안 돼요.'}
+      ],
+      predict: [
+        {title:'출발 · θ의 분포를 확보했어요',eq:String.raw`\theta\mid D\sim\mathcal N(m_N,S_N)`,why:'1014에서 구한 파라미터의 사후분포예요. MAP은 여기서 θ_MAP = mₙ 한 점을 골라요. FB는 Sₙ도 유지해요.'},
+        {title:'1 · 새 입력을 모델에 넣어요',eq:String.raw`y_*=\phi_*^T\theta+\epsilon,\qquad\epsilon\sim\mathcal N(0,\sigma^2)`,why:'φ★ = φ(x★)는 새 입력의 K×1 특징벡터예요. 새 관측 잡음 ε는 사후 θ와 독립이라고 가정해요.'},
+        {title:'2 · 평균: 선형변환 밖으로 꺼내요',eq:String.raw`\begin{aligned}E[y_*\mid D,x_*]&=\phi_*^TE[\theta\mid D]+E[\epsilon]\\&=\boxed{\phi_*^Tm_N}\\&=\phi_*^T\theta_{\rm MAP}\end{aligned}`,why:'이 선형 가우시안 모형에서는 FB 예측평균과 MAP을 넣은 예측평균이 같아요. 비선형 모형에서는 일반적으로 성립하지 않아요.'},
+        {title:'3 · 분산: 공분산을 양쪽에서 감싸요',eq:String.raw`\begin{aligned}\operatorname{Var}(y_*\mid D,x_*)&=\operatorname{Var}(\phi_*^T\theta\mid D)+\operatorname{Var}(\epsilon)\\&=\boxed{\phi_*^TS_N\phi_*+\sigma^2}\end{aligned}`,why:'앞 항은 θ의 불확실성이 전달된 분산, 뒤 항은 새 관측 잡음의 분산이에요. 독립이므로 두 분산을 더해요. 둘 다 표준편차가 아니에요.'},
+        {title:'4 · 평균이 같아도 예측분포는 달라요',eq:String.raw`\begin{aligned}{\rm FB}:\quad y_*\mid D,x_*&\sim\mathcal N\left(\phi_*^Tm_N,\ \phi_*^TS_N\phi_*+\sigma^2\right)\\{\rm MAP}:\quad y_*\mid x_*,\theta_{\rm MAP}&\sim\mathcal N\left(\phi_*^Tm_N,\ \sigma^2\right)\end{aligned}`,why:'1019에서 해석한 차이예요. MAP을 대입한 조건부 예측분포는 잡음은 포함하지만, θ 자체의 불확실성 항은 포함하지 않아요.'}
+      ]
+    };
+    const names={prior:'사전',mean:'평균',predict:'예측'};
+    const tips=[{title:'일반 사전분포 ≠ FB',text:'N(m₀, S₀)는 MAP과 FB 모두에 쓸 수 있어요.'},{title:'평균 = MAP은 조건부 사실',text:'여기서는 사후분포가 가우시안이라 같아요. 일반 분포에서는 최빈값과 평균이 다를 수 있어요.'},{title:'공분산의 σ²은 남아요',text:'평균의 소거를 공분산 식에 그대로 적용하지 않아요.'}];
+    return {ROWS:rows,MODES:Object.keys(rows).map(key=>({key,label:names[key],cam:{yaw:0,pitch:0,zoom:1},fit:[14,14],D:60,rotatable:false,autoSpin:false,playback:null,canvasLabel:()=>names[key]+'의 등식 전개를 한 줄씩 비교하는 수식 노트'})),STEPS:Object.entries(rows).flatMap(([mode,list])=>list.map((r,i)=>({mode,c:i%2?green:blue,title:r.title,who:'',text:r.why}))),MISTAKES:{prior:tips,mean:tips,predict:tips},PRESETS:[{m0:-4,s0:0.25},{m0:4,s0:4},{m0:2,s0:1},{m0:0,s0:4}],PAL:{light:{bg:'#ffffff',labelBg:'#f7f8fa',ink:'#111111',ring:blue,a:blue,b:green},dark:{bg:'#17171c',labelBg:'#212128',ink:'#f2f4f6',ring:'#6ea4ff',a:'#6ea4ff',b:'#5fd39a'}}};
+  }
+  buildScene(mode,I,O) {
+    const c=this.compute(this.state),p=this.pal();
+    I.push({k:1,p:[-4,-5,0],q:[4,-5,0],w:.03,c:p.ink});
+    I.push({k:0,p:[c.mean/2,-5,0],r:.12,c:p.a});
+  }
+  compute(st) {
+    const s=st.s0,m=st.m0;
+    if(!Number.isFinite(s)||s<.25||s>4||!Number.isFinite(m)||m< -4||m>4)throw new RangeError('prior input');
+    const precision=1/s+1,cov=1/precision,mean=cov*(m/s+4);
+    const map=(4+m/s)/(1+1/s);
+    const list=this.T.ROWS[st.mode],global=this.T.STEPS[st.step];
+    const index=global&&global.mode===st.mode?this.T.STEPS.filter((r,i)=>i<=st.step&&r.mode===st.mode).length-1:0;
+    return {mean,map,cov,error:Math.abs(mean-map),predictMean:2*mean,predictVariance:4*cov+1,index,total:list.length};
+  }
+  extraState() {return {m0:0,s0:1};}
+  extraVals(st) {
+    const c=this.compute(st),fmt=v=>Number(v.toFixed(4)).toString();
+    const go=i=>{const indices=this.T.STEPS.map((s,j)=>s.mode===this.state.mode?j:-1).filter(j=>j>=0);this.pickStep(indices[Math.max(0,Math.min(indices.length-1,i))]);};
+    const math=(el,tex)=>{if(el&&typeof window!=='undefined'&&window.katex){if(el.dataset.tex!==tex){window.katex.render(tex,el,{displayMode:true,throwOnError:true,strict:'error'});el.dataset.tex=tex;}}};
+    const updateBoard=()=>{
+      const b=this._notebook;if(!b)return;
+      const signature=st.mode+':'+c.index+':'+st.theme;
+      if(b.dataset.signature!==signature){
+        const oldMode=b.dataset.mode,oldTheme=b.dataset.theme;b.dataset.mode=st.mode;b.dataset.theme=st.theme;b.dataset.signature=signature;
+        const titles={prior:'사전분포를 바꾸면 어디가 달라질까?',mean:'다른 모양의 두 식, 같은 평균',predict:'θ의 평균·공분산이 y의 예측으로'};
+        b.querySelector('h1').textContent=titles[st.mode];
+        const scroll=b.querySelector('.nb-scroll');
+        if(oldMode!==st.mode||oldTheme!==st.theme)scroll.replaceChildren();
+        while(scroll.children.length>c.index+1)scroll.lastElementChild.remove();
+        Array.from(scroll.children).forEach(el=>el.classList.remove('active'));
+        const list=this.T.ROWS[st.mode];
+        for(let j=scroll.children.length;j<=c.index;j++){
+          const row=list[j],el=document.createElement('article'),colorTex=tex=>tex.replaceAll('#1677ff',this.pal().a).replaceAll('#087f5b',this.pal().b);el.className='nb-row';
+          const title=document.createElement('div');title.className='nb-row-title';title.textContent=row.title;el.appendChild(title);
+          if(row.eq){const eq=document.createElement('div');eq.className='nb-math';math(eq,colorTex(row.eq));el.appendChild(eq);}
+          else {const pair=document.createElement('div');pair.className='nb-pair';[['단순 사전분포',row.left],['일반 사전분포',row.right]].forEach(([label,tex])=>{const cell=document.createElement('div');cell.className='nb-cell';const caption=document.createElement('small');caption.textContent=label;const eq=document.createElement('div');eq.className='nb-math';math(eq,colorTex(tex));cell.append(caption,eq);pair.appendChild(cell);});el.appendChild(pair);}
+          const why=document.createElement('p');why.textContent=row.why;el.appendChild(why);scroll.appendChild(el);
+        }
+        const last=scroll.lastElementChild;last.classList.add('active');
+        if(oldMode===st.mode)scroll.scrollTop=last.offsetTop-scroll.offsetTop-12;else scroll.scrollTop=0;
+        b.querySelector('[data-action="prev"]').disabled=c.index===0;b.querySelector('[data-action="next"]').disabled=c.index===c.total-1;
+        b.querySelector('.nb-progress').textContent=(c.index+1)+' / '+c.total+' 줄';
+      }
+
+    };
+    updateBoard();
+    const input=(key,min,max,step)=>(e)=>{const raw=e.target.value,v=Number(raw);if(raw.trim()===''||!Number.isFinite(v)||v<min||v>max||Math.abs((v-min)/step-Math.round((v-min)/step))>1e-8){e.target.value=String(this.state[key]);return;}this.setState({[key]:v});};
+    return {meanInput:st.m0,varInput:st.s0,mapValue:fmt(c.map),posteriorMean:fmt(c.mean),difference:c.error.toExponential(1),postVariance:fmt(c.cov),predictMean:fmt(c.predictMean),predictVariance:fmt(c.predictVariance),changeMean:input('m0',-4,4,.5),changeVar:input('s0',.25,4,.25),resetAll:()=>{this.setMode('prior');this.setState({m0:0,s0:1});},numericFormula:el=>{this._numericFormula=el;math(el,String.raw`m_N=\frac{s_0\cdot4+m_0}{s_0+1}`);},mountNotebook:el=>{
+      if(!el||this._notebook)return;if(!document.querySelector('head link[rel=icon]')){const icon=document.createElement('link');icon.rel='icon';icon.href='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ctext y=%2225%22 font-size=%2226%22%3E%CE%B8%3C/text%3E%3C/svg%3E';document.head.appendChild(icon);}const stage=el.closest('.app').querySelector('.stage'),b=document.createElement('section');b.className='notebook';b.setAttribute('aria-label','한 줄씩 쓰는 수식 노트');
+      b.innerHTML='<header class="nb-head"><h1></h1><div class="nb-tools" role="group" aria-label="수식 크기"></div></header><div class="nb-scroll" tabindex="0" aria-label="지금까지 쓴 수식"></div><nav class="nb-nav" aria-label="수식 단계"><button data-action="prev" type="button">이전 줄</button><button data-action="next" type="button" class="primary">다음 줄 쓰기</button><span class="nb-progress" role="status"></span></nav>';
+      stage.appendChild(b);this._notebook=b;
+      let scale=1;const tools=b.querySelector('.nb-tools');
+      const originals=stage.querySelectorAll('.view-btns .icon-btn');
+      ['수식 확대','수식 축소','수식 크기 초기화'].forEach((label,i)=>{const btn=document.createElement('button');btn.className='icon-btn';btn.type='button';btn.setAttribute('aria-label',label);btn.title=label;btn.innerHTML=originals[i].innerHTML;btn.addEventListener('click',()=>{scale=i===0?Math.min(1.6,+(scale+.1).toFixed(1)):i===1?Math.max(.8,+(scale-.1).toFixed(1)):1;b.style.setProperty('--math-scale',String(scale));tools.children[0].disabled=scale>=1.6;tools.children[1].disabled=scale<=.8;});tools.appendChild(btn);});
+      b.querySelector('[data-action="prev"]').addEventListener('click',()=>go(this.compute(this.state).index-1));b.querySelector('[data-action="next"]').addEventListener('click',()=>go(this.compute(this.state).index+1));
+      b.addEventListener('keydown',e=>{if(e.target.matches('input'))return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();go(this.compute(this.state).index+(e.key==='ArrowRight'?1:-1));}});
+      updateBoard();
+    }};
+  }
+
+  // ================= 공통 셸: 아래는 주제와 무관해요. 고치지 않아요 =================
+  constructor(...args) {
+    super(...args);
+    let reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    let narrow = false;
+    try { narrow = window.matchMedia('(max-width: 1023.98px)').matches; } catch (e) {}
+    let saved = null;
+    try { saved = window.localStorage.getItem('od-theme'); } catch (e) {}
+    const PANEL_W = { left: { min: 220, max: 480 }, right: { min: 280, max: 720 } };
+    let widths = {};
+    try { widths = JSON.parse(window.localStorage.getItem('interactive-panel-w')) || {}; } catch (e) {}
+    const okW = (side) => { const v = widths[side]; return typeof v === 'number' && v >= PANEL_W[side].min && v <= PANEL_W[side].max ? v : null; };
+    this.T = this.topic();
+    this.state = Object.assign({
+      mode: this.T.MODES[0].key, f: 0, playing: false, speed: 1, step: -1, spin: !reduce,
+      theme: (saved === 'light' || saved === 'dark') ? saved : (this.systemDark() ? 'dark' : 'light'),
+      // leftOpen/rightOpen: docked panels on wide screens; drawer: the one open drawer on narrow screens
+      leftOpen: true, rightOpen: true, drawer: null, narrow: narrow,
+      // leftW/rightW: user-set docked widths in px (null = default); resizing: a handle is being dragged
+      leftW: okW('left'), rightW: okW('right'), resizing: false
+    }, this.extraState());
+    this.reduceMotion = reduce;
+    this.K = {
+      PANEL_W: PANEL_W, PANEL_W_KEY: 'interactive-panel-w', PANEL_DEFAULT: { left: 320, right: 400 },
+      THEMES: {
+        light: { bg: '#ffffff', surface: '#f7f8fa', ink: '#111111', ink2: '#6b7280', line: '#d9dee7', accent: '#1677ff', accentInk: '#1b64da', btnBg: '#1b64da', onBtn: '#ffffff', warn: '#b54708', prof: '#6941c6', supp: '#067647', danger: '#d92d20', scroll: '#c9d0db', scrollHover: '#9aa3b2' },
+        dark: { bg: '#17171c', surface: '#212128', ink: '#f2f4f6', ink2: '#a3abb8', line: '#34353d', accent: '#3182f6', accentInk: '#6ea4ff', btnBg: '#1b64da', onBtn: '#ffffff', warn: '#f5a15c', prof: '#b69cff', supp: '#5fd39a', danger: '#ff6b61', scroll: '#3f414b', scrollHover: '#5b5e6a' }
+      }
+    };
+    this.cam = Object.assign({}, this.modeDef().cam);
+    this.sim = { f: 0, cx: 0 };
+    this.pointer = { x: -1, y: -1, inside: false, drag: false, lx: 0, ly: 0 };
+    this.colorCache = {};
+    this._tick = (t) => this.tick(t);
+    this._canvasRef = (el) => this.attachCanvas(el);
+    this.handles = {};
+    this._handleRefL = (el) => this.attachHandle('left', el);
+    this._handleRefR = (el) => this.attachHandle('right', el);
+  }
+
+  componentWillUnmount() {
+    this.attachCanvas(null);
+    this.attachHandle('left', null);
+    this.attachHandle('right', null);
+  }
+
+  modeDef(key) {
+    const k = key || this.state.mode;
+    return this.T.MODES.find((m) => m.key === k) || this.T.MODES[0];
+  }
+  systemDark() {
+    try { return window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) { return false; }
+  }
+  isNarrow() {
+    try { return window.matchMedia('(max-width: 1023.98px)').matches; } catch (e) { return false; }
+  }
+  syncBreakpoint() { this.setState({ narrow: this.isNarrow(), drawer: null }); }
+  // In drawer mode only one panel is open at a time.
+  togglePanel(side) {
+    const st = this.state;
+    if (st.narrow) this.setState({ drawer: st.drawer === side ? null : side });
+    else if (side === 'left') this.setState({ leftOpen: !st.leftOpen });
+    else this.setState({ rightOpen: !st.rightOpen });
+  }
+  // Docked panel width: the canvas column always keeps at least 400px.
+  panelMax(side) {
+    const lim = this.K.PANEL_W[side], other = side === 'left' ? 'right' : 'left', st = this.state;
+    const h = this.handles[other];
+    const otherOpen = other === 'left' ? st.leftOpen : st.rightOpen;
+    const otherW = !otherOpen ? 0 : h ? h.el.parentElement.getBoundingClientRect().width
+      : (st[other + 'W'] || this.K.PANEL_DEFAULT[other]);
+    return Math.max(lim.min, Math.min(lim.max, (window.innerWidth || 1440) - otherW - 400));
+  }
+  setPanelWidth(side, px, save) {
+    const v = Math.round(Math.min(Math.max(px, this.K.PANEL_W[side].min), this.panelMax(side)));
+    this.setState({ [side + 'W']: v });
+    if (save) this.savePanelWidths(side, v);
+  }
+  resetPanelWidth(side) {
+    this.setState({ [side + 'W']: null });
+    this.savePanelWidths(side, null);
+  }
+  savePanelWidths(side, v) {
+    try {
+      const key = this.K.PANEL_W_KEY;
+      let w = {};
+      try { w = JSON.parse(window.localStorage.getItem(key)) || {}; } catch (e) {}
+      if (v == null) delete w[side]; else w[side] = v;
+      window.localStorage.setItem(key, JSON.stringify(w));
+    } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ }
+  }
+  // Re-fit user widths when the window shrinks (not saved).
+  refitPanels() {
+    ['left', 'right'].forEach((side) => {
+      const w = this.state[side + 'W'];
+      if (w != null && w > this.panelMax(side)) this.setPanelWidth(side, w, false);
+    });
+  }
+  attachHandle(side, el) {
+    const old = this.handles[side];
+    if (old && old.el === el) return;
+    if (old) {
+      Object.keys(old.on).forEach((ev) => old.el.removeEventListener(ev, old.on[ev]));
+      delete this.handles[side];
+      if (!Object.keys(this.handles).length) window.removeEventListener('resize', this._refit);
+    }
+    if (!el) return;
+    const dir = side === 'left' ? 1 : -1;
+    const width = () => el.parentElement.getBoundingClientRect().width;
+    let drag = null;
+    const on = {
+      pointerdown: (e) => {
+        if (this.state.narrow || e.button !== 0) return;
+        e.preventDefault();
+        drag = { x: e.clientX, w: width() };
+        try { el.setPointerCapture(e.pointerId); } catch (err) {}
+        this.setState({ resizing: true });
+      },
+      pointermove: (e) => { if (drag) this.setPanelWidth(side, drag.w + dir * (e.clientX - drag.x), false); },
+      pointerup: () => {
+        if (!drag) return;
+        drag = null;
+        this.setState({ resizing: false });
+        this.setPanelWidth(side, width(), true);
+      },
+      dblclick: () => this.resetPanelWidth(side),
+      keydown: (e) => {
+        const step = e.shiftKey ? 64 : 16;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault(); e.stopPropagation();
+          this.setPanelWidth(side, width() + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+        } else if (e.key === 'Home') { e.preventDefault(); e.stopPropagation(); this.resetPanelWidth(side); }
+      }
+    };
+    on.pointercancel = on.pointerup;
+    Object.keys(on).forEach((ev) => el.addEventListener(ev, on[ev]));
+    if (!Object.keys(this.handles).length) {
+      this._refit = this._refit || (() => this.refitPanels());
+      window.addEventListener('resize', this._refit);
+    }
+    this.handles[side] = { el: el, on: on };
+  }
+  textTone(hex) { return this.state.theme === 'light' ? this.mix(hex, '#000000', 0.4) : hex; }
+  pal() { return this.T.PAL[this.state.theme] || this.T.PAL.dark; }
+  setTheme(t) {
+    this.setState({ theme: t });
+    try {
+      if ((t === 'dark') === this.systemDark()) window.localStorage.removeItem('od-theme');
+      else window.localStorage.setItem('od-theme', t);
+    } catch (e) {}
+  }
+
+  attachCanvas(el) {
+    if (this.canvas === el) return;
+    if (this.canvas) {
+      const c = this.canvas;
+      c.removeEventListener('pointerdown', this._pd);
+      c.removeEventListener('pointermove', this._pm);
+      c.removeEventListener('pointerup', this._pu);
+      c.removeEventListener('pointercancel', this._pu);
+      c.removeEventListener('pointerleave', this._pl);
+      cancelAnimationFrame(this.raf);
+      try { this._mq.removeEventListener('change', this._mqH); } catch (err) {}
+    }
+    this.canvas = el || null;
+    if (!el) return;
+    this.ctx = el.getContext('2d');
+    const p = this.pointer;
+    this._pd = (e) => {
+      if (!this.modeDef().rotatable) return;
+      p.drag = true; p.lx = e.clientX; p.ly = e.clientY;
+      try { el.setPointerCapture(e.pointerId); } catch (err) {}
+      el.style.cursor = 'grabbing';
+    };
+    this._pm = (e) => {
+      const r = el.getBoundingClientRect();
+      p.x = e.clientX - r.left; p.y = e.clientY - r.top; p.inside = true;
+      if (p.drag && this.modeDef().rotatable) {
+        this.cam.yaw += (e.clientX - p.lx) * 0.008;
+        this.cam.pitch = Math.max(-1.45, Math.min(1.45, this.cam.pitch + (e.clientY - p.ly) * 0.008));
+        p.lx = e.clientX; p.ly = e.clientY;
+      }
+    };
+    this._pu = () => { p.drag = false; el.style.cursor = ''; };
+    this._pl = () => { p.inside = false; };
+    el.addEventListener('pointerdown', this._pd);
+    el.addEventListener('pointermove', this._pm);
+    el.addEventListener('pointerup', this._pu);
+    el.addEventListener('pointercancel', this._pu);
+    el.addEventListener('pointerleave', this._pl);
+    try {
+      this._mq = window.matchMedia('(max-width: 1023.98px)');
+      this._mqH = () => this.syncBreakpoint();
+      this._mq.addEventListener('change', this._mqH);
+    } catch (err) {}
+    this.last = 0;
+    this.raf = requestAnimationFrame(this._tick);
+  }
+
+  tick(t) {
+    if (!this.canvas) return;
+    const dt = this.last ? Math.min(0.05, (t - this.last) / 1000) : 0;
+    this.last = t;
+    const st = this.state, m = this.modeDef(), pb = m.playback;
+    if (m.autoSpin && st.spin && !this.pointer.drag) this.cam.yaw += dt * 0.3;
+    if (pb && st.playing) {
+      this.sim.f = Math.min(pb.fmax, this.sim.f + dt * pb.rate * st.speed);
+      if (this.sim.f >= pb.fmax) this.setState({ playing: false, f: this.sim.f });
+      else if (t - (this.lastPush || 0) > 120) { this.lastPush = t; this.setState({ f: this.sim.f }); }
+    }
+    // a broken scene keeps the page alive but is reported once for the browser check
+    try { this.draw(dt, t); } catch (err) { if (!this.drawErr) { this.drawErr = true; console.error(err); } }
+    this.raf = requestAnimationFrame(this._tick);
+  }
+
+  // ---------- math helpers (장면에서 써도 돼요) ----------
+  lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+  sm(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+  rgb(hex) { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+  mix(hex, to, amt) {
+    const a = this.rgb(hex), b = this.rgb(to);
+    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * amt) + ',' + Math.round(a[1] + (b[1] - a[1]) * amt) + ',' + Math.round(a[2] + (b[2] - a[2]) * amt) + ')';
+  }
+  rgba(hex, al) { const a = this.rgb(hex); return 'rgba(' + a[0] + ',' + a[1] + ',' + a[2] + ',' + al + ')'; }
+  shades(hex) {
+    let s = this.colorCache[hex];
+    if (!s) { s = { hi: this.mix(hex, '#FFFFFF', 0.55), mid: hex, lo: this.mix(hex, '#000000', 0.55) }; this.colorCache[hex] = s; }
+    return s;
+  }
+  proj(p, V) {
+    const x = p[0] - V.cx, y = p[1], z = p[2];
+    const x1 = x * V.cy + z * V.sy, z1 = -x * V.sy + z * V.cy;
+    const y2 = y * V.cp - z1 * V.sp, z2 = y * V.sp + z1 * V.cp;
+    const s = V.F / Math.max(2, V.D - z2);
+    return [V.ox + x1 * s, V.oy - y2 * s, z2, s];
+  }
+
+  // ---------- drawing ----------
+  draw(dt, now) {
+    const el = this.canvas, ctx = this.ctx, st = this.state, m = this.modeDef();
+    const dpr = window.devicePixelRatio || 1;
+    const W = el.clientWidth, H = el.clientHeight;
+    if (!W || !H) return;
+    if (el.width !== Math.round(W * dpr) || el.height !== Math.round(H * dpr)) { el.width = Math.round(W * dpr); el.height = Math.round(H * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const pal = this.pal();
+    ctx.fillStyle = pal.bg; ctx.fillRect(0, 0, W, H);
+
+    const I = [], O = [];
+    this.buildScene(st.mode, I, O);
+    const scale = Math.min(W / m.fit[0], H / m.fit[1]), D = m.D, z = this.cam.zoom;
+    const V = {
+      cx: this.sim.cx, cy: Math.cos(this.cam.yaw), sy: Math.sin(this.cam.yaw), cp: Math.cos(this.cam.pitch), sp: Math.sin(this.cam.pitch),
+      F: scale * z * D, D: D, ox: W / 2, oy: H / 2 - (m.playback ? 20 : 0)
+    };
+    let zmin = Infinity, zmax = -Infinity;
+    for (const it of I) {
+      it.A = this.proj(it.p, V);
+      if (it.q) { it.B = this.proj(it.q, V); it.z = (it.A[2] + it.B[2]) / 2; } else it.z = it.A[2];
+      if (it.z < zmin) zmin = it.z;
+      if (it.z > zmax) zmax = it.z;
+    }
+    I.sort((a, b) => a.z - b.z);
+    // depth fog; a flat scene (all items at one depth) is drawn without it
+    const span = zmax - zmin;
+    for (const it of I) {
+      const fog = span < 0.01 ? 1 : 0.42 + 0.58 * ((it.z - zmin) / span);
+      ctx.globalAlpha = Math.max(0, (it.a == null ? 1 : it.a) * fog);
+      if (ctx.globalAlpha < 0.01) continue;
+      const x = it.A[0], y = it.A[1], s = it.A[3];
+      if(it.k===6){
+        if(!Array.isArray(it.pts)||it.pts.length<3||it.pts.some(p=>!Array.isArray(p)||p.length!==3||!p.every(Number.isFinite)))throw new RangeError('invalid polygon points');
+        const points=it.pts.map(p=>this.proj(p,V));ctx.fillStyle=it.c;ctx.beginPath();
+        points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fill();
+      } else if (it.k === 0) {
+        const R = it.r * s;
+        if (R < 0.4) continue;
+        if (it.flat) { ctx.fillStyle = it.c; ctx.beginPath(); ctx.arc(x, y, Math.max(1.3, R), 0, 6.2832); ctx.fill(); }
+        else {
+          const sh = this.shades(it.c);
+          const g = ctx.createRadialGradient(x - R * 0.35, y - R * 0.4, R * 0.1, x, y, R);
+          g.addColorStop(0, sh.hi); g.addColorStop(0.5, sh.mid); g.addColorStop(1, sh.lo);
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
+        }
+      } else if (it.k === 1) {
+        const lw = Math.max(1, it.w * (s + it.B[3]) / 2);
+        ctx.lineCap = it.flat ? 'butt' : 'round';
+        if (it.rod) {
+          ctx.strokeStyle = this.shades(it.c).lo; ctx.lineWidth = lw + 2;
+          ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(it.B[0], it.B[1]); ctx.stroke();
+        }
+        ctx.strokeStyle = it.c; ctx.lineWidth = lw;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(it.B[0], it.B[1]); ctx.stroke();
+      } else if (it.k === 3) {
+        const fs = Math.max(8, Math.min(14, it.size * s / (scale * z) * 1.05));
+        ctx.font = '700 ' + fs + 'px "Pretendard", system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = it.c; ctx.fillText(it.text, x, y + 0.5);
+      } else if (it.k === 4) {
+        const ang = Math.atan2(it.B[1] - y, it.B[0] - x), mx = (x + it.B[0]) / 2, my = (y + it.B[1]) / 2, r = 6;
+        ctx.fillStyle = it.c; ctx.beginPath();
+        ctx.moveTo(mx + Math.cos(ang) * r, my + Math.sin(ang) * r);
+        ctx.lineTo(mx + Math.cos(ang + 2.5) * r, my + Math.sin(ang + 2.5) * r);
+        ctx.lineTo(mx + Math.cos(ang - 2.5) * r, my + Math.sin(ang - 2.5) * r);
+        ctx.closePath(); ctx.fill();
+      } else if (it.k === 5) {
+        // lit translucent sphere, highlight up-left like the solid spheres
+        const R = it.r * s, ba = pal.blobAlpha == null ? 0.3 : pal.blobAlpha;
+        const g = ctx.createRadialGradient(x - R * 0.35, y - R * 0.4, R * 0.1, x, y, R);
+        g.addColorStop(0, 'rgba(255,255,255,0.55)'); g.addColorStop(0.3, this.rgba(it.c, Math.min(1, ba + 0.15))); g.addColorStop(1, this.rgba(it.c, 0.18));
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
+        ctx.strokeStyle = it.c; ctx.lineWidth = it.focus ? 3 : 1.5; ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+    for (const o of O) this.drawOverlay(o, V, now);
+  }
+
+  drawOverlay(o, V, now) {
+    const ctx = this.ctx, A = this.proj(o.p, V), pal = this.pal();
+    if (o.t === 'ring') {
+      const r = Math.max(6, 0.32 * A[3]) * (1 + (this.reduceMotion ? 0 : 0.15 * Math.sin((now || 0) / 160)));
+      ctx.globalAlpha = 1; ctx.strokeStyle = pal.ring; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(A[0], A[1], r, 0, 6.2832); ctx.stroke();
+      ctx.font = '600 11px "Pretendard", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = pal.ring; ctx.fillText(o.text, A[0], A[1] + r + 10);
+      return;
+    }
+    const size = o.size || 12, x = A[0] + (o.dx || 0), y = A[1] + (o.dy || 0);
+    ctx.font = '600 ' + size + 'px "Pretendard", system-ui, sans-serif';
+    const tw = ctx.measureText(o.text).width, w = tw + 14, h = size + 10;
+    ctx.globalAlpha = o.a == null ? 1 : o.a;
+    if (o.lead) {
+      ctx.strokeStyle = this.rgba(o.c, 0.6); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(x, y); ctx.stroke();
+    }
+    ctx.fillStyle = pal.labelBg;
+    ctx.strokeStyle = this.rgba(o.c, 0.55); ctx.lineWidth = 1;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x - w / 2, y - h / 2, w, h, 6); else ctx.rect(x - w / 2, y - h / 2, w, h);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = pal.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(o.text, x, y + 0.5);
+    ctx.globalAlpha = 1;
+  }
+
+  setMode(mode) {
+    this.cam = Object.assign({}, this.modeDef(mode).cam);
+    this.sim.f = 0;
+    this.pointer.drag = false;
+    this.setState({ mode: mode, f: 0, playing: false, step: -1 });
+  }
+
+  pickStep(i) {
+    const s = (this.T.STEPS || [])[i];
+    if (!s) return;
+    if (s.mode !== this.state.mode) this.setMode(s.mode);
+    if(s.preset) this.setState({...s.preset});
+    if (s.f != null) this.sim.f = s.f;
+    this.setState({ f: this.sim.f, playing: false, step: i });
+  }
+
+  renderVals() {
+    const st = this.state, T = this.T, m = this.modeDef(), pb = m.playback;
+    const tg = T.TOGGLES ? (Array.isArray(T.TOGGLES) ? T.TOGGLES : (T.TOGGLES[st.mode] || [])) : [];
+    const togDefs = tg.concat(m.autoSpin ? [['spin', '자동 회전']] : []);
+    const toggles = togDefs.map((d) => ({
+      label: d[1], pressed: st[d[0]] ? 'true' : 'false',
+      toggle: () => { const o = {}; o[d[0]] = !st[d[0]]; this.setState(o); }
+    }));
+    const STEPS = T.STEPS || [];
+    const steps = STEPS.map((s, i) => ({ s: s, i: i })).filter((x) => x.s.mode === st.mode).map((x, k) => ({
+      num: k + 1, title: x.s.title, who: x.s.who, c: x.s.c, pressed: st.step === x.i ? 'true' : 'false',
+      pick: () => this.pickStep(x.i)
+    }));
+    const speeds = [0.5, 1, 2].map((v) => ({
+      label: v + '×', pressed: st.speed === v ? 'true' : 'false',
+      pick: () => this.setState({ speed: v })
+    }));
+    const is = {};
+    T.MODES.forEach((d) => { is[d.key] = d.key === st.mode; });
+    const f = st.f;
+    const isDark = st.theme === 'dark';
+    const leftOn = st.narrow ? st.drawer === 'left' : st.leftOpen, rightOn = st.narrow ? st.drawer === 'right' : st.rightOpen;
+    return Object.assign({
+      th: this.K.THEMES[st.theme], isDark: isDark, isLight: !isDark,
+      themeLabel: isDark ? '라이트 모드로 전환' : '다크 모드로 전환',
+      toggleTheme: () => this.setTheme(isDark ? 'light' : 'dark'),
+      canvasRef: this._canvasRef, canvasCls: m.rotatable ? '' : 'is-fixed',
+      hasModes: T.MODES.length > 1, is: is,
+      modes: T.MODES.map((d) => ({ label: d.label, pressed: d.key === st.mode ? 'true' : 'false', pick: () => { if (d.key !== this.state.mode) this.setMode(d.key); } })),
+      leftCls: leftOn ? 'is-open' : '', rightCls: rightOn ? 'is-open' : '',
+      leftExpanded: leftOn ? 'true' : 'false', rightExpanded: rightOn ? 'true' : 'false',
+      scrimCls: (st.narrow && st.drawer) ? 'is-on' : '',
+      toggleLeft: () => this.togglePanel('left'),
+      toggleRight: () => this.togglePanel('right'),
+      closePanels: () => this.setState({ drawer: null }),
+      layoutStyle: ((st.leftW ? '--pl-user: ' + st.leftW + 'px; ' : '') + (st.rightW ? '--pr-user: ' + st.rightW + 'px;' : '')).trim(),
+      layoutCls: st.resizing ? 'is-resizing' : '',
+      leftWNow: st.leftW ? String(st.leftW) : '', rightWNow: st.rightW ? String(st.rightW) : '',
+      leftHandleRef: this._handleRefL, rightHandleRef: this._handleRefR,
+      onKey: (e) => { if (e.key === 'Escape' && this.state.narrow && this.state.drawer) this.setState({ drawer: null }); },
+      hasToggles: toggles.length > 0, toggles: toggles,
+      hasSteps: steps.length > 0, steps: steps,
+      hasStep: st.step >= 0 && st.step < STEPS.length, stepDetail: st.step >= 0 && STEPS[st.step] ? STEPS[st.step].text : '',
+      mistakes: (T.MISTAKES && T.MISTAKES[st.mode]) || [],
+      canvasLabel: m.canvasLabel(f),
+      zoomIn: () => { this.cam.zoom = Math.min(3, this.cam.zoom * 1.2); },
+      zoomOut: () => { this.cam.zoom = Math.max(0.5, this.cam.zoom / 1.2); },
+      resetView: () => { this.cam = Object.assign({}, m.cam); },
+      hasPlayback: !!pb, isPlaying: st.playing, notPlaying: !st.playing, playLabel: st.playing ? '일시정지' : '재생',
+      togglePlay: () => {
+        if (!pb) return;
+        if (!st.playing && this.sim.f >= pb.fmax) this.sim.f = 0;
+        this.setState({ playing: !st.playing, step: -1, f: this.sim.f });
+      },
+      fInt: Math.round(f * 10), fLabel: pb ? pb.label(f) : '', fMax10: pb ? Math.round(pb.fmax * 10) : 0,
+      onScrub: (e) => { const v = Number(e.target.value) / 10; this.sim.f = v; this.setState({ f: v, playing: false, step: -1 }); },
+      speeds: speeds
+    }, this.extraVals(st));
+  }
+}
+</script>
+</body>
+</html>

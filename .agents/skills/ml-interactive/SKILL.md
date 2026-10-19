@@ -5,7 +5,7 @@ description: 머신러닝기초 날짜나 주제로 수치·분포·그래프를
 
 # 머신러닝 인터랙티브
 
-공통 Canvas 셸로 개념을 직접 조작하는 HTML을 만들고 정리노트의 해당 설명에 새 탭 링크를 연결한다. 원본은 `.agents/skills/ml-interactive`, `.claude/skills/ml-interactive`는 상대 심볼릭 링크다. Node.js 20 이상이 필요하다.
+공통 그래프·수식 전개 셸로 개념을 직접 조작하는 HTML을 만들고 정리노트의 해당 설명에 새 탭 링크를 연결한다. 원본은 `.agents/skills/ml-interactive`, `.claude/skills/ml-interactive`는 상대 심볼릭 링크다. Node.js 20 이상이 필요하다.
 
 ## 대상과 근거
 
@@ -24,9 +24,9 @@ node SKILL/scripts/resolve.cjs REPO '가우시안 곱'
 
 1. [주제 선정](references/topic-selection.md)을 읽는다. 날짜는 좋은 후보 2–4개, 특정 주제는 1개가 기본이다. 부족하면 억지로 채우지 않는다. existing의 제목과 HTML 내용을 읽어 같은 실험을 중복 생성하지 않는다.
 2. OS 임시 폴더에 새 RUN을 만든다. 주제별 brief.md에 목표·조작 변수·관찰할 변화·모드·출처·학습용 데이터·단순화를 적는다. 실행은 사용자가 선택한 방식과 실제 도구에 맞추며 모델이나 위임을 강제하지 않는다.
-3. assets/template.dc.html을 RUN/n/Main.dc.html로 복사한다. [장면 계약](references/scene-api.md)과 [디자인](references/design.md)에 따라 제목·슬롯·주제 훅을 저작한다. 평면 그래프는 정면 고정 시점, 의미 있는 시간 변화만 playback을 쓴다. compute(state)의 같은 결과에서 그래프와 패널을 만든다. K=2 회귀에는 MLMath를 재사용하고 다른 모델은 별도 순수 계산과 독립 정답을 준비한다.
+3. assets/template.dc.html을 RUN/n/Main.dc.html로 복사한다. [장면 계약](references/scene-api.md)과 [디자인](references/design.md)에 따라 제목·슬롯·주제 훅을 저작한다. 모드별 `view`는 그래프형(기본 `graph`) 또는 수식 전개형(`formula`)으로 고른다. 수식형은 STEPS의 수식 데이터로 공통 본문을 사용하고 DOM 삽입·버튼 복제 없이 작성한다. 제목과 도구 정렬·공통 스크롤바·간결한 설명을 기본으로 삼는다. 평면 그래프는 정면 고정 시점, 의미 있는 시간 변화만 playback을 쓴다. compute(state)의 같은 결과에서 그래프와 패널을 만든다. K=2 회귀에는 MLMath를 재사용하고 다른 모델은 별도 순수 계산과 독립 정답을 준비한다.
 4. check.cjs SOURCE가 ok여야 한다. steps.cjs SOURCE로 preset·수치·문구를 대조한다. [수학 검증](references/math-validation.md)에 따라 다른 계산 경로로 검산하고 행렬 차원·공분산·분산/표준편차·밀도/확률을 원자료에 대조한다. 근거와 결과는 evidence/에 둔다.
-5. build.cjs SOURCE PREVIEW로 로컬 수식·폰트 미리보기를 만든다. 실제 브라우저에서 1440×900·375×812, 두 테마·모든 모드, 입력 최소/최대/빈 값, 단계, 초기화, 키보드, drawer/Escape를 확인한다. 수식·콘솔 오류, 외부 리소스 요청, 가로 넘침이 없어야 한다. 캡처를 눈으로 확인한다.
+5. build.cjs SOURCE PREVIEW로 로컬 수식·폰트 미리보기를 만든다. 실제 브라우저에서 1440×900·375×812, 두 테마·모든 모드, 입력 최소/최대/빈 값, 단계, 초기화, 키보드, drawer/Escape를 확인한다. 수식·콘솔 오류, 외부 리소스 요청, 가로 넘침이 없어야 한다. 캡처를 눈으로 확인한다. 첫 콘텐츠의 불필요한 구분선, 모든 스크롤 영역의 스타일, 제목과 도구 정렬을 확인한다. 확대·축소·초기화는 현재 본문(그래프 또는 수식)에 작동해야 하며, 수식형은 단계 누적·현재 단계 설명·양 끝 버튼 비활성화도 검증한다.
 6. 통과한 주제만 save.cjs SOURCE DEST '한국어_이름'으로 저장한다. 반환한 nn/html/dir을 사용하고 번호를 하드코딩하거나 덮어쓰지 않는다. dir에 brief·evidence와 상대 note-links.json을 저장한 뒤 아래 연결을 수행한다. 최종 공개 경로에서도 수식·폰트를 확인한다.
 
 HTML은 날짜 폴더의 인터렉티브_NN_<이름>.html, 원본·근거는 .pack/자료_인터렉티브_NN_<이름>/이다. vendor는 .pack/vendor/ml-interactive/에 공유하고 provenance 해시 불일치는 중단한다. 다른 과목 저장소·vendor는 수정하지 않는다.
