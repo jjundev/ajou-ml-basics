@@ -366,6 +366,7 @@
 <tr><td>잡음·출력</td><td>계수가 주어져도 남는 무작위성</td><td>출력의 조건부 분포</td></tr>
 </tbody></table></div>
 <p data-map="result"><b>구할 결과.</b> ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.</p>
+<p>계산의 한 줄 흐름은 <b>조건부 가우시안 모형 → 잔차 제곱합 → 행벡터 미분을 0으로 → 전치한 정상조건 → 추정값을 예측식에 대입</b>이에요. 각 식을 별개로 외우지 않고 앞 식의 결과를 다음 줄에 넣어요.</p>
 <p data-map="formula"><b>수식이 하는 일.</b> 가우시안 우도의 음의 로그가 제곱 오차가 되고, 그 기울기를 0으로 놓으면 정규방정식을 얻어요. 역행렬 해에는 가역성 조건이 필요해요.</p>
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 선형회귀에서 선형이라는 말은 파라미터에 대한 선형성을 뜻해요. 잡음이 확률변수라는 사실과 파라미터를 확률변수로 다루는지는 별개예요.</p>
 <p>이어서 읽기: <a href="#s1-det-prob">결정론적 모델 vs 확률적 모델</a> · <a href="#s1-features">x에 대해 비선형이어도 선형회귀: 특징 벡터</a> · <a href="#s3-normal-eq">미분이 0이 되는 θ 찾기: 정규방정식</a></p>
@@ -901,7 +902,9 @@
           <p>$\hat{\mathbf{y}} := \mathbf{X}\boldsymbol{\theta}$는 모델의 예측치예요. 그래서 ML은 실측값 $\mathbf{y}$와 예측 벡터 $\hat{\mathbf{y}}$의 차이 노름을 최소화하는 문제가 돼요. 이것을 최소제곱(least squares) 문제라고 불러요.</p>
           <p>$$\boldsymbol{\theta}_{\text{ML}} = \arg\min_{\boldsymbol{\theta}} \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</p>
           <p class="note">(수업 중 "로그 a 곱하기 로그 b"로 말했다가 $\log ab = \log a + \log b$로 정정, 0923 56:09–56:40)</p>
-        </div>
+
+<p><a href="#s2-dataset">데이터 행렬</a>의 n번째 행이 $\mathbf x_n^\top$이므로 관측별 잔차들을 모으면 $\mathbf y-\mathbf X\boldsymbol\theta$예요. 위 합이 그 벡터의 노름 제곱이에요. 다음 미분에서는 데이터와 고정 잡음 분산은 두고 θ만 바꿔요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>확률을 최대화하는 것과 로그를 취하고 마이너스를 붙여 최소화하는 것은 같은 문제라고 했어요(0923 54:45). 로그와 지수가 사라지는 순간을 짚었어요.</p>
           <blockquote>"자연로그에다가 익스포넨셜이 있으니까 얘도 없어지잖아." (0923 57:04)</blockquote>
@@ -960,7 +963,9 @@
           </ol>
           <p>반대로 노이즈 $\epsilon'$의 PDF가 양수 $\lambda$ 근처에 몰려 있다고 해 봐요. 그러면 $y$를 받았을 때 실제 값은 $y - \lambda$ 근처였다고 보는 게 더 합리적이에요. 관측이 시프트된 셈이라, 이때는 ML과 단순 ERM이 달라질 수 있어요. 교수님도 이 예는 정확한 설명이 아니라 감을 잡기 위한 스케치라고 했어요.</p>
           <p>남은 일은 $L(\boldsymbol{\theta})$를 $\boldsymbol{\theta}$로 미분해 0이 되는 점을 찾는 거예요. 그 과정은 <a href="#s3-normal-eq">정규방정식</a>에서 이어져요.</p>
-        </div>
+
+<p>동일한 것은 음의 로그우도와 평균손실의 <b>최소점</b>이에요. θ와 무관한 상수를 뺀 뒤 양의 배율을 조정하면 같은 잔차 제곱합으로 돌아와요. <a href="#s3-normal-eq">정상조건</a>에서는 어느 쪽으로 시작해도 같은 식을 얻어요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>수업 앞부분에서 가우시안 PDF 모양을 길게 설명한 이유가 여기 있었다고 했어요.</p>
           <blockquote>"가우시안 노이즈 PDF의 꼬라지를 보여준 거예요. 이것 때문에 그래." (0923 63:00)</blockquote>
@@ -1031,7 +1036,16 @@
               <div class="table-wrap"><table><tr><th>$\theta$</th><th>$L(\theta)$</th><th>$\frac{dL}{d\theta}$</th><th>뜻</th></tr><tr><td>1</td><td>33.00</td><td>-42.0</td><td>직선이 낮아 θ를 키워야 해요</td></tr><tr><td>2.5</td><td>1.50</td><td>0.0</td><td>바닥: ML 해</td></tr><tr><td>4</td><td>33.00</td><td>42.0</td><td>직선이 높아 θ를 줄여야 해요</td></tr></table></div>
             </div>
           </div>
-        </div>
+
+<h4>행벡터로 나온 결과를 열벡터 방정식으로 옮겨요</h4>
+<p>위에서 얻은 $\boldsymbol\theta^\top\mathbf X^\top\mathbf X=\mathbf y^\top\mathbf X$의 양변은 $1\times D$예요. 이 식을 그대로 전치해요. 다음은 강의 정상조건의 동치 재표현이에요.</p>
+<ol class="steps"><li>곱의 전치는 순서를 뒤집어요.
+$$ (\boldsymbol\theta^\top\mathbf X^\top\mathbf X)^\top=(\mathbf y^\top\mathbf X)^\top$$
+$$ (\mathbf X^\top\mathbf X)^\top\boldsymbol\theta=\mathbf X^\top\mathbf y$$</li>
+<li>$\mathbf X^\top\mathbf X$는 대칭이므로 전치가 사라져요.
+$$\mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y$$</li></ol>
+<p>θ 자체는 열벡터 그대로예요. 미분 결과를 행벡터로 썼다가 <b>방정식 전체를 전치</b>한 것이고, 중간에 미분 관례를 바꾼 게 아니에요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>교수님은 손실이 스칼라라는 점부터 짚었어요. 벡터 $\mathbf{y} - \mathbf{X}\boldsymbol{\theta}$에 노름을 취했으니 출력은 숫자 하나이고, 입력만 벡터라는 거예요.</p>
           <p>미분 과정은 슬라이드를 짚으며 "이렇게, 이렇게" 하고 빠르게 넘어갔어요. 벡터 미분 유도는 보충 강의로 미뤘어요.</p>
@@ -1078,7 +1092,13 @@
           <p>결론: 최소제곱 문제의 해는 데이터 행렬 $\mathbf{X}$의 유사역행렬을 $\mathbf{y}$에 곱한 것이에요.</p>
           <p>숫자 예: $\mathbf{X} = [1, 2, 3]^\top$, $\mathbf{y} = [3, 4, 8]^\top$이면 $\mathbf{X}^\top\mathbf{X} = 14$, $\mathbf{X}^{+} = \frac{1}{14}[1, 2, 3]$이라 $\theta_{\text{ML}} = \frac{35}{14} = \frac{5}{2}$예요.</p>
           <p>계산할 때는 역행렬을 직접 구하기보다 $\mathbf{A}\boldsymbol{\theta} = \mathbf{b}$ 꼴 연립방정식($\mathbf{A} = \mathbf{X}^\top\mathbf{X}$, $\mathbf{b} = \mathbf{X}^\top\mathbf{y}$)을 풀면 돼요(MML 9.2.1 Remark).</p>
-        </div>
+
+<h4>정상조건의 해를 예측에 다시 넣어요</h4>
+<p>기억할 출발식은 <a href="#s3-normal-eq">$\mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y$</a>예요. $\mathbf X$의 열들이 선형독립일 때에만 $(\mathbf X^\top\mathbf X)^{-1}$로 푸는 위 식을 써요. 열들이 종속이면 이 역행렬은 없고 계수의 최소제곱 해가 여러 개일 수 있어요. 일반 Moore–Penrose 유사역행렬은 그 경우에도 정의되며 $\mathbf X^+\mathbf y$는 최소 노름 해를 줘요. 위의 역행렬 표현은 full column rank인 특수한 경우예요.</p>
+<p>학습한 $\hat{\boldsymbol\theta}=\mathbf X^+\mathbf y$는 끝난 결과가 아니라 예측식의 계수 자리에 들어가요.</p>
+$$\hat{\mathbf y}=\mathbf X\hat{\boldsymbol\theta},\qquad \hat y_*=\mathbf x_*^\top\hat{\boldsymbol\theta}$$
+<p><b>잔차 → 미분 → 전치 → 정상조건 → 계수 → 예측</b> 순서로 복원해요. 일반 유사역행렬의 최소 노름 성질은 위 가역성 조건을 구분하기 위한 보충 설명이에요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <blockquote>"리스트 스퀘어 프라블럼의 솔루션은 항상 X라는 매트릭스 데이터의 슈도 인버스로 주어지게 된다." (0923 68:14)</blockquote>
           <p>바로 이어서 "그러니까 이게 결론이에요"라고 못 박았어요.</p>
@@ -1138,7 +1158,9 @@
           <p>연쇄법칙으로도 같아요. $\mathbf{e} = \mathbf{y} - \mathbf{X}\boldsymbol{\theta}$라 두면 $\frac{d(\mathbf{e}^\top\mathbf{e})}{d\mathbf{e}} = 2\mathbf{e}^\top$, $\frac{d\mathbf{e}}{d\boldsymbol{\theta}} = -\mathbf{X}$라서 슬라이드 첫 줄 $-2(\mathbf{y} - \mathbf{X}\boldsymbol{\theta})^\top\mathbf{X}$가 나와요.</p>
           <p>이차형식 규칙 확인: $\boldsymbol{\theta}^\top\mathbf{A}\boldsymbol{\theta} = \sum_{i,j}\theta_i A_{ij}\theta_j$를 $\theta_k$로 미분하면 $\sum_j A_{kj}\theta_j + \sum_i \theta_i A_{ik}$예요. 이것을 한 줄로 모으면 $\boldsymbol{\theta}^\top(\mathbf{A} + \mathbf{A}^\top)$예요.</p>
           <p>$D = 1$이면 $\frac{dL}{d\theta} = \frac{1}{\sigma^2}\left(-\sum_n x_n y_n + \theta\sum_n x_n^2\right)$이에요. <a href="#s3-normal-eq">미분이 0이 되는 θ 찾기: 정규방정식</a>의 위젯 곡선 기울기가 이 값이에요.</p>
-        </div>
+
+<p>이 보충의 미분 결과를 <a href="#s3-normal-eq">본문 정상조건</a>의 왼쪽에 넣으면 돼요. 미분은 $1\times D$ 행벡터, θ는 $D\times1$ 열벡터이며, 해를 열벡터로 쓰기 위해 방정식을 전치해요. 같은 미분을 다른 형태로 새로 암기할 필요는 없어요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>스칼라를 벡터로, 벡터를 벡터로 미분하는 방법(그레이디언트, 벡터 미적분)은 이날 풀지 않았어요.</p>
           <p>교수님은 예전 인공지능 수학 강의 자료를 업데이트해 올려 주고, 추석 지나고 다음 주에 보충 강의로 가르치겠다고 했어요. 조교가 맡을 수도 있다고 했어요(0923 69:13–70:58).</p>
@@ -1222,7 +1244,7 @@
             <tr><td><a href="#s3-pinv">유사역행렬 해</a></td><td>$\boldsymbol{\theta}_{\text{ML}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$, pseudo-inverse</td><td>선형회귀의 답은 데이터 행렬의 pseudo-inverse로 주어져요.</td></tr>
             <tr><td><a href="#s3-vector-diff">벡터 미분 (보충)</a></td><td>$\frac{dL}{d\boldsymbol{\theta}} \in \mathbb{R}^{1 \times D}$</td><td>스칼라를 벡터로 미분하는 방법은 추석 뒤 보충 강의에서 배워요.</td></tr>
             <tr><td><a href="#s3-bias">상수항과 D+1 차원</a></td><td>$\tilde{\mathbf{x}} = [1, \mathbf{x}^\top]^\top \in \mathbb{R}^{D+1}$, $f(\mathbf{x}) = \tilde{\mathbf{x}}^\top\tilde{\boldsymbol{\theta}}$</td><td>입력 앞에 1을 붙이면 상수항도 같은 식으로 풀려요.</td></tr>
-          </tbody>
+          <tr><td>해 복원</td><td colspan="2">행벡터 정상조건을 전치 → $\mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y$ → 가역성 확인 → 해를 $\hat y_*=\mathbf x_*^\top\hat{\boldsymbol\theta}$에 대입해요.</td></tr></tbody>
         </table></div>
       </article>
       <article class="topic" id="s4-next"><h3>다음 시간 예고 (아직 안 배움)</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s12–s21</span></div>

@@ -6,7 +6,11 @@
 
 <a id="s0-learning-map"></a>
 
-## 먼저 큰 그림: 잡음을 가정하면 회귀의 학습 기준이 나와요
+### 잡음을 가정하면 회귀의 학습 기준이 나와요
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
 
 **오늘의 질문.** 숫자 출력을 예측할 직선이나 곡선을 데이터에 맞추려 해요. 먼저 데이터가 만들어지는 모형을 가정해야 해요.
 
@@ -20,10 +24,19 @@
 
 **구할 결과.** ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.
 
+계산의 한 줄 흐름은 **조건부 가우시안 모형 → 잔차 제곱합 → 행벡터 미분을 0으로 → 전치한 정상조건 → 추정값을 예측식에 대입**이에요. 각 식을 별개로 외우지 않고 앞 식의 결과를 다음 줄에 넣어요.
+
 **수식이 하는 일.** 가우시안 우도의 음의 로그가 제곱 오차가 되고, 그 기울기를 0으로 놓으면 정규방정식을 얻어요. 역행렬 해에는 가역성 조건이 필요해요.
 
 **헷갈리기 쉬운 점.** 선형회귀에서 선형이라는 말은 파라미터에 대한 선형성을 뜻해요. 잡음이 확률변수라는 사실과 파라미터를 확률변수로 다루는지는 별개예요.
 
+이어서 읽기: [결정론적 모델 vs 확률적 모델](#s1-det-prob) · [x에 대해 비선형이어도 선형회귀: 특징 벡터](#s1-features) · [미분이 0이 되는 θ 찾기: 정규방정식](#s3-normal-eq)
+
+**페이지 요약**
+
+ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.
+
+---
 
 **목차**
 
@@ -811,6 +824,8 @@ $$
 
 (수업 중 "로그 a 곱하기 로그 b"로 말했다가 $\log ab = \log a + \log b$로 정정, 0923 56:09–56:40)
 
+[데이터 행렬](#s2-dataset)의 n번째 행이 $\mathbf x_n^\top$이므로 관측별 잔차들을 모으면 $\mathbf y-\mathbf X\boldsymbol\theta$예요. 위 합이 그 벡터의 노름 제곱이에요. 다음 미분에서는 데이터와 고정 잡음 분산은 두고 θ만 바꿔요.
+
 **교수님 말씀**
 
 확률을 최대화하는 것과 로그를 취하고 마이너스를 붙여 최소화하는 것은 같은 문제라고 했어요(0923 54:45). 로그와 지수가 사라지는 순간을 짚었어요.
@@ -892,6 +907,8 @@ $L(\boldsymbol{\theta})$와 $R_{\text{emp}}(\boldsymbol{\theta})$는 양의 상�
 반대로 노이즈 $\epsilon'$의 PDF가 양수 $\lambda$ 근처에 몰려 있다고 해 봐요. 그러면 $y$를 받았을 때 실제 값은 $y - \lambda$ 근처였다고 보는 게 더 합리적이에요. 관측이 시프트된 셈이라, 이때는 ML과 단순 ERM이 달라질 수 있어요. 교수님도 이 예는 정확한 설명이 아니라 감을 잡기 위한 스케치라고 했어요.
 
 남은 일은 $L(\boldsymbol{\theta})$를 $\boldsymbol{\theta}$로 미분해 0이 되는 점을 찾는 거예요. 그 과정은 [정규방정식](#s3-normal-eq)에서 이어져요.
+
+동일한 것은 음의 로그우도와 평균손실의 **최소점**이에요. θ와 무관한 상수를 뺀 뒤 양의 배율을 조정하면 같은 잔차 제곱합으로 돌아와요. [정상조건](#s3-normal-eq)에서는 어느 쪽으로 시작해도 같은 식을 얻어요.
 
 **교수님 말씀**
 
@@ -994,6 +1011,7 @@ rank 조건은 슬라이드에만 적혀 있고 수업에서 말로 풀지는 �
 
 $\mathbf{x} = (1, 2, 3)$, $\mathbf{y} = (3, 4, 8)$이면 $\sum_n x_n y_n = 35$, $\sum_n x_n^2 = 14$라서 $\theta_{\text{ML}} = \frac{35}{14} = \frac{5}{2}$예요.
 
+
 <a id="widget-normaleq"></a>
 
 #### 직접 해 보기: 기울기가 0인 곳이 ML 해 *(정적 스냅샷 — 직접 조작은 HTML 버전)*
@@ -1021,6 +1039,28 @@ $\mathbf{x} = (1, 2, 3)$, $\mathbf{y} = (3, 4, 8)$이면 $\sum_n x_n y_n = 35$, 
 | 1 | 33.00 | -42.0 | 직선이 낮아 θ를 키워야 해요 |
 | 2.5 | 1.50 | 0.0 | 바닥: ML 해 |
 | 4 | 33.00 | 42.0 | 직선이 높아 θ를 줄여야 해요 |
+
+#### 행벡터로 나온 결과를 열벡터 방정식으로 옮겨요
+
+위에서 얻은 $\boldsymbol\theta^\top\mathbf X^\top\mathbf X=\mathbf y^\top\mathbf X$의 양변은 $1\times D$예요. 이 식을 그대로 전치해요. 다음은 강의 정상조건의 동치 재표현이에요.
+
+1. 곱의 전치는 순서를 뒤집어요.
+
+   $$
+   (\boldsymbol\theta^\top\mathbf X^\top\mathbf X)^\top=(\mathbf y^\top\mathbf X)^\top
+   $$
+
+
+   $$
+   (\mathbf X^\top\mathbf X)^\top\boldsymbol\theta=\mathbf X^\top\mathbf y
+   $$
+2. $\mathbf X^\top\mathbf X$는 대칭이므로 전치가 사라져요.
+
+   $$
+   \mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y
+   $$
+
+θ 자체는 열벡터 그대로예요. 미분 결과를 행벡터로 썼다가 **방정식 전체를 전치**한 것이고, 중간에 미분 관례를 바꾼 게 아니에요.
 
 **교수님 말씀**
 
@@ -1101,6 +1141,18 @@ $\mathbf{X}^{+}$를 $\mathbf{X}$의 유사역행렬(pseudo-inverse, 슈도 인�
 숫자 예: $\mathbf{X} = [1, 2, 3]^\top$, $\mathbf{y} = [3, 4, 8]^\top$이면 $\mathbf{X}^\top\mathbf{X} = 14$, $\mathbf{X}^{+} = \frac{1}{14}[1, 2, 3]$이라 $\theta_{\text{ML}} = \frac{35}{14} = \frac{5}{2}$예요.
 
 계산할 때는 역행렬을 직접 구하기보다 $\mathbf{A}\boldsymbol{\theta} = \mathbf{b}$ 꼴 연립방정식($\mathbf{A} = \mathbf{X}^\top\mathbf{X}$, $\mathbf{b} = \mathbf{X}^\top\mathbf{y}$)을 풀면 돼요(MML 9.2.1 Remark).
+
+#### 정상조건의 해를 예측에 다시 넣어요
+
+기억할 출발식은 [$\mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y$](#s3-normal-eq)예요. $\mathbf X$의 열들이 선형독립일 때에만 $(\mathbf X^\top\mathbf X)^{-1}$로 푸는 위 식을 써요. 열들이 종속이면 이 역행렬은 없고 계수의 최소제곱 해가 여러 개일 수 있어요. 일반 Moore–Penrose 유사역행렬은 그 경우에도 정의되며 $\mathbf X^+\mathbf y$는 최소 노름 해를 줘요. 위의 역행렬 표현은 full column rank인 특수한 경우예요.
+
+학습한 $\hat{\boldsymbol\theta}=\mathbf X^+\mathbf y$는 끝난 결과가 아니라 예측식의 계수 자리에 들어가요.
+
+$$
+\hat{\mathbf y}=\mathbf X\hat{\boldsymbol\theta},\qquad \hat y_*=\mathbf x_*^\top\hat{\boldsymbol\theta}
+$$
+
+**잔차 → 미분 → 전치 → 정상조건 → 계수 → 예측** 순서로 복원해요. 일반 유사역행렬의 최소 노름 성질은 위 가역성 조건을 구분하기 위한 보충 설명이에요.
 
 **교수님 말씀**
 
@@ -1206,6 +1258,8 @@ MML 식 (9.11)을 따라 한 줄씩 풀어요.
 이차형식 규칙 확인: $\boldsymbol{\theta}^\top\mathbf{A}\boldsymbol{\theta} = \sum_{i,j}\theta_i A_{ij}\theta_j$를 $\theta_k$로 미분하면 $\sum_j A_{kj}\theta_j + \sum_i \theta_i A_{ik}$예요. 이것을 한 줄로 모으면 $\boldsymbol{\theta}^\top(\mathbf{A} + \mathbf{A}^\top)$예요.
 
 $D = 1$이면 $\frac{dL}{d\theta} = \frac{1}{\sigma^2}\left(-\sum_n x_n y_n + \theta\sum_n x_n^2\right)$이에요. [미분이 0이 되는 θ 찾기: 정규방정식](#s3-normal-eq)의 위젯 곡선 기울기가 이 값이에요.
+
+이 보충의 미분 결과를 [본문 정상조건](#s3-normal-eq)의 왼쪽에 넣으면 돼요. 미분은 $1\times D$ 행벡터, θ는 $D\times1$ 열벡터이며, 해를 열벡터로 쓰기 위해 방정식을 전치해요. 같은 미분을 다른 형태로 새로 암기할 필요는 없어요.
 
 **교수님 말씀**
 
@@ -1349,6 +1403,7 @@ $[1, \mathbf{x}^\top]^\top$은 특징 벡터 $\boldsymbol{\phi}(\mathbf{x})$의 
 | [유사역행렬 해](#s3-pinv) | $\boldsymbol{\theta}_{\text{ML}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$, pseudo-inverse | 선형회귀의 답은 데이터 행렬의 pseudo-inverse로 주어져요. |
 | [벡터 미분 (보충)](#s3-vector-diff) | $\frac{dL}{d\boldsymbol{\theta}} \in \mathbb{R}^{1 \times D}$ | 스칼라를 벡터로 미분하는 방법은 추석 뒤 보충 강의에서 배워요. |
 | [상수항과 D+1 차원](#s3-bias) | $\tilde{\mathbf{x}} = [1, \mathbf{x}^\top]^\top \in \mathbb{R}^{D+1}$, $f(\mathbf{x}) = \tilde{\mathbf{x}}^\top\tilde{\boldsymbol{\theta}}$ | 입력 앞에 1을 붙이면 상수항도 같은 식으로 풀려요. |
+| 해 복원 | 행벡터 정상조건을 전치 → $\mathbf X^\top\mathbf X\boldsymbol\theta=\mathbf X^\top\mathbf y$ → 가역성 확인 → 해를 $\hat y_*=\mathbf x_*^\top\hat{\boldsymbol\theta}$에 대입해요. |  |
 
 ---
 
