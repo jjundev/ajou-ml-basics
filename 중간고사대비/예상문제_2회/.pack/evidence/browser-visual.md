@@ -1,0 +1,1 @@
+검토자 root. 현재 stage의51개 추가구역 캡처 중 recall/solve/verify/summary 전10문항 contact sheets 12장을 실제로 확인. 375 light p9 및1024 dark p8 원크기 화면도 확인. 문제 패널·수식·행렬·요약의 잘림과 겹침 없음. math-geometry.json 후보0. 기본 browser-check.json의60조합 검사와 동작 PASS.
