@@ -366,6 +366,7 @@
 <tr><td>모델 선택</td><td>후보 모델 사이를 비교</td><td>파라미터 추정과 별도 문제</td></tr>
 </tbody></table></div>
 <p data-map="result"><b>구할 결과.</b> FB의 예측 결과는 새 관측값의 분포예요. 모델 선택에서는 검증 성능이나 주변우도 등 서로 다른 기준을 사용할 수 있어요.</p>
+<p>오늘의 공통 도구는 <b>곱 규칙으로 joint를 나누고, 관심 없는 변수를 적분으로 없애는 것</b>이에요. 예측에서는 posterior로, 모델 증거에서는 prior로 가중한다는 차이를 뒤에서 비교해요.</p>
 <p data-map="formula"><b>수식이 하는 일.</b> 적분은 중간 변수의 가능한 값을 합쳐 제거하는 연산이에요. 조건부 독립 가정은 적분 안의 예측 항을 단순하게 만들어요.</p>
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 예측을 가중평균하는 것과 파라미터 평균 하나를 대입하는 것은 일반적으로 달라요. 선형성과 같은 조건이 있어야 특정 평균 계산이 일치해요.</p>
 <p>이어서 읽기: <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a> · <a href="#s1-expectation">4. 조건부 기댓값으로 읽기와 델타 함수</a> · <a href="#s3-validation">11. 모델 선택은 선택의 문제: 훈련·검증·테스트</a></p>
@@ -482,7 +483,9 @@
           </ul>
           <p>근사 없이 $P(A \mid X)$를 그대로 푸는 방법은 <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a>에서 이어져요.</p>
           <p class="footnote">(수업 중 이 학습 과정을 "프리트레이닝"이라고 부르셨는데, 딥러닝의 pre-training이 아니라 일반적인 파라미터 추정을 뜻해요.)</p>
-        </div>
+
+<p>여기서 근사하는 대상은 θ 자체만이 아니라 <b>θ의 불확실성을 반영한 예측</b>이에요. θ 한 점을 조건부 확률모형에 넣은 결과도 분포일 수 있어요. 다음 적분식과의 차이는 “분포냐 단답이냐”가 아니라, 가능한 θ들의 예측을 합치는지예요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>공장 $g$ 비유: 데이터를 모조리 공장에 넣어 $\theta$ 하나를 뽑아내고, 그것만 들고 다니는 과정이에요. 공짜 점심이 없다는 말은 성능과 계산 비용을 맞바꾼다는 뜻이에요.</p>
           <p>교수님이 스스로 묻고 답하며 정리하셨어요.</p>
@@ -557,7 +560,9 @@
             <li>$\theta$가 정해지면 과거 5개 결과는 있어도 되고 없어도 되는 정보예요. 이것이 조건부 독립이에요.</li>
           </ul>
           <p><small>(수업 중 $3/5$로 말씀하셨지만 앞면 확률은 $2/5$예요)</small></p>
-        </div>
+
+<p><b>유도 복원:</b> 주변화로 θ를 넣고 → 곱 규칙으로 예측 항과 posterior를 나누고 → 조건부 독립으로 예측 항에서만 X를 빼요. X가 모두 사라진 것이 아니고 가중치 $P(\theta\mid X)$에 남아요. 이미 위에서 구한 이 식을 <a href="#s1-expectation">기댓값의 자리</a>에 그대로 대입해요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>"수학을 잘하려면 뭘 잘해야 돼?"라는 물음에 한 학생이 "하나 마나 한…"이라고 답했어요. 교수님은 "이 친구 에이스네요"라고 했어요. 항등식으로 변수를 끼워 넣는 기술이 주변화예요. (0921 09:21)</p>
           <blockquote>"좋은 엔지니어들은 1번도 잘해야 되지만 2번을 할 줄 알아야 돼요." (0921 10:53)</blockquote>
@@ -621,7 +626,11 @@
             <li>$$P(A \mid X) \approx P(A \mid \hat{\theta})$$</li>
           </ol>
           <p>믿음을 한 점에 몰빵한 셈이에요. 그래서 ML/MAP 예측은 등호가 아니라 근사예요.</p>
-        </div>
+
+<h4>일반 기댓값에서 이번 식의 자리를 맞춰요</h4>
+<p>일반 규칙은 $\mathbb E[g(Z)\mid X]=\int g(z)p(z\mid X)\,dz$예요. 여기서 적분 변수 $Z=\theta$, 함수 $g(\theta)=P(A\mid\theta)$로 놓으면 앞서 구한 예측 적분이 돼요. 이때 A는 예측할 사건으로 고정돼 있고, 평균내는 것은 θ에 따른 그 사건의 확률이에요.</p>
+<p>한 점 $\hat\theta$의 delta 분포로 posterior를 <b>근사</b>하면 가중 적분이 $P(A\mid\hat\theta)$로 줄어요. $\mathbb E[g(\theta)]$와 $g(\mathbb E[\theta])$는 일반적으로 다르므로 “FB는 평균 θ 하나를 넣는다”로 바꾸지 않아요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <blockquote>"이런 거 하려고 여러분 확률 배운 거예요, 사실." (0921 16:43)</blockquote>
           <blockquote>"그 모든 것들을 하나도 놓치지 않고 다 모아서 평균을 내는 게 fully Bayesian" (0921 21:10)</blockquote>
@@ -982,7 +991,13 @@
           <p>균등 사전확률이면 $P(M_k)$가 모든 $k$에서 같아요. 그래서 MAP은 증거 $P(D \mid M_k)$를 최대화하는 것, 곧 ML과 같은 답을 내요.</p>
           <p>모델 선택도, 모델 안의 $\theta$도 같은 틀(Fully Bayesian, MAP, ML)로 판단해요. "가장 그럴듯한 답"이라는 머신러닝의 생각 자체가 확률의 생각이에요.</p>
           <p>복잡도도 따져야 해요. $P(M_1 \mid D)=0.25$, $P(M_2 \mid D)=0.23$처럼 차이가 작은데 $M_1$이 훨씬 복잡하면 $M_2$가 더 나은 선택일 수 있어요(<a href="#s3-validation">11. 모델 선택은 선택의 문제</a>의 오컴의 면도날). 이런 비교는 답 하나만 주는 MAP보다 모든 경우의 확률을 주는 Fully Bayesian이 잘해요.</p>
-        </div>
+
+<h4>예측 때와 같은 적분인데 가중치가 달라요</h4>
+<div class="table-wrap"><table><thead><tr><th>목표</th><th>평균내는 함수</th><th>θ의 가중분포</th></tr></thead><tbody>
+<tr><td>사후 예측 $P(A\mid X)$</td><td>$P(A\mid\theta)$</td><td>관측 뒤 $P(\theta\mid X)$</td></tr>
+<tr><td>모델 증거 $P(D\mid M_k)$</td><td>$P(D\mid\theta_k,M_k)$</td><td>관측 전 $P(\theta_k\mid M_k)$</td></tr>
+</tbody></table></div><p>수업의 두 적분을 연결한 비교예요. 기존 likelihood 표기에서 생략했던 모델 조건 $M_k$를 둘째 행에는 드러냈어요. 증거는 각 모델이 데이터를 얼마나 설명하는지 비교하고, 이미 그 데이터를 본 posterior로 다시 가중하는 계산이 아니에요. 이 증거를 <a href="#s3-bayes-factor">Bayes factor의 분자·분모</a>에 넣어요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>모델 선택까지 같은 확률의 틀로 풀리니 "베이지안으로 안 되는 게 없네"라고 했어요.</p>
           <blockquote>"내 손 안에 뭐가 있는지 … 컨디셔널 프로바빌리티로 만드는 게 제일 중요하다." (0921 49:34)</blockquote>
@@ -1037,7 +1052,9 @@
           <p>로그를 씌우면 로그 우도비(log likelihood ratio) $\log \frac{P(D \mid M_1)}{P(D \mid M_2)}$가 0보다 큰지 보는 것과 같아요.</p>
           <p>디지털통신의 비트 검출과 같은 구조예요. 받은 신호 $y$로 비트를 정할 때 MAP 검출이 항상 최적이에요. 1과 0이 같은 확률로 보내지면 사전확률이 균등하므로, ML 검출 $P(y \mid 1)$ 대 $P(y \mid 0)$ 비교와 같아져요.</p>
           <p>베이즈 팩터를 구하려면 증거 적분(<a href="#s3-bayes-ms">13. 베이지안 모델 선택</a>의 (***))을 풀어야 해요. 데이터가 커질수록 적분이 복잡해져서 MCMC(Markov chain Monte Carlo) 같은 근사를 써요. MCMC의 구체적 방법은 기말고사 무렵에 다룰 예정이에요.</p>
-        </div>
+
+<p><b>복원할 때는 각 모델의 베이즈 식부터 써요.</b> $P(M_k\mid D)=P(D\mid M_k)P(M_k)/P(D)$를 k=1,2에 대입한 뒤 나누면 공통 분모 $P(D)$가 소거돼요. 남은 prior 비와 evidence 비를 곱하면 posterior 비예요. prior odds가 1일 때에만 posterior odds가 Bayes factor 자체와 같아요.</p>
+</div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>디지털통신에서 비트를 검출할 때와 같은 판단이라고 연결했어요.</p>
           <blockquote>"이 확률이 큰 놈을 결정하는 게 optimal이다." (0921 56:40)</blockquote>
@@ -1077,7 +1094,7 @@
             <tr><td><a href="#s3-cv">12. 교차 검증</a></td><td>식 없음</td><td>검증 조각을 돌려 가며 바꿔 데이터를 재사용해요(cross validation).</td></tr>
             <tr><td><a href="#s3-bayes-ms">13. 베이지안 모델 선택</a></td><td>$P(M_k \mid D) \propto P(D \mid M_k)\, P(M_k)$<br>$P(D \mid M_k) = \int P(D \mid \theta_k)\, P(\theta_k \mid M_k)\, d\theta_k$</td><td>evidence(marginal likelihood)가 큰 모델을 골라요. 균등 prior이면 MAP과 ML이 같아요.</td></tr>
             <tr><td><a href="#s3-bayes-factor">14. 베이즈 팩터로 두 모델 비교</a></td><td>$\frac{P(D \mid M_1)}{P(D \mid M_2)}$</td><td>posterior odds = prior odds × Bayes factor예요. 1보다 크면 $M_1$을 골라요.</td></tr>
-          </tbody>
+          <tr><td>같은 적분의 두 역할</td><td colspan="2">예측은 posterior 가중, 증거는 prior 가중. 증거의 비를 prior odds에 곱해 posterior odds를 복원해요.</td></tr></tbody>
         </table></div>
       </article>
       <article class="topic" id="s4-next"><h3>다음 시간 예고 (아직 안 배움)</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s12–13 · L03</span></div>
