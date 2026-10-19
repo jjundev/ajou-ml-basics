@@ -1602,13 +1602,7 @@ $\mathbf{m}_0 = \mathbf{0},\ \mathbf{S}_0 = b^2\mathbf{I}$를 넣으면 뒤 항�
 
 수업에서는 식만 보여 줬어요. 이 사전분포로 사후분포를 구하는 계산은 다음 시간에 다뤄요.
 
-앞의 prior로 돌아가려면 일반형의 두 자리에 $\mathbf m_0=\mathbf0$, $\mathbf S_0=b^2\mathbf I$를 대입해요.
-
-$$
-\frac12(\boldsymbol\theta-\mathbf0)^\top(b^2\mathbf I)^{-1}(\boldsymbol\theta-\mathbf0)=\frac1{2b^2}\boldsymbol\theta^\top\boldsymbol\theta
-$$
-
-이것은 prior의 **특수형/일반형** 관계이며 MAP/FB의 구분이 아니에요. 일반형의 전체 해는 이 날짜의 유도로 추가하지 않고, 후속 [1014 MAP·사후분포 연결](../../1014/정리노트_1014_Bayesian_Posterior_Prediction.html#s1-expand)에서 이어 읽어요.
+위의 대입은 prior의 **특수형/일반형** 관계이며 MAP/FB의 구분이 아니에요. 일반형의 전체 해는 이 날짜의 유도로 추가하지 않고, 후속 [1014 MAP·사후분포 연결](../../1014/정리노트_1014_Bayesian_Posterior_Prediction.html#s1-expand)에서 이어 읽어요.
 
 **교수님 말씀**
 
