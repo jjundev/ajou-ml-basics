@@ -356,6 +356,23 @@
       <p>정방철 교수님 머신러닝기초 · 1012 조교 수업 (TA Lecture #1, Lecture04 s7–s11, MML 6장)</p>
     </div>
     <section id="s0"><h2>0. 아핀 변환의 평균·분산·교차공분산</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>가우시안 계산에 필요한 세 도구를 증명해요</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 다음에 사후분포와 예측분포를 계산할 수 있도록, 평균·공분산의 변환과 가우시안 밀도의 모양을 확인해요.</p>
+<p data-map="bridge">이번 시간의 증명은 서로 다른 역할을 해요. 선형변환은 불확실성의 전달, 변수변환은 밀도의 크기, 가우시안의 곱은 데이터와 사전분포의 결합을 담당해요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>아핀 변환</td><td>확률벡터를 늘리고 옮김</td><td>바뀐 평균·공분산</td></tr>
+<tr><td>변수변환</td><td>좌표의 부피가 바뀜</td><td>적분값을 보존하는 밀도</td></tr>
+<tr><td>가우시안의 곱</td><td>두 이차식을 결합</td><td>정규화 전 새 가우시안 모양</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> 이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 평균의 선형성은 중심을 옮기고, 공분산의 양쪽 행렬은 흔들림의 전달을 계산해요. 행렬식은 부피 배율을, 완전제곱은 분포의 중심과 퍼짐을 찾아요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 분산은 표준편차가 아니에요. 행렬 공분산에는 양쪽 계수와 전치가 필요하고, 밀도 변환에는 절대 부피 배율이 필요해요.</p>
+<p>이어서 읽기: <a href="#s0-variance">분산은 양쪽에 A와 A의 전치</a> · <a href="#s1-jacobian">determinant는 크기 배율, 일반화는 Jacobian</a> · <a href="#s2-product">두 다변량 가우시안의 곱</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.</p></div>
+</article>
 <article class="topic" id="s0-mean"><h3>평균은 같은 꼴로 따라가요</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s3</span><span class="tag slide">L04 s7</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
     <p class="lead">점 무리를 늘리고 옮기면, 무리의 가운데도 똑같이 늘리고 옮긴 자리로 가요.</p>

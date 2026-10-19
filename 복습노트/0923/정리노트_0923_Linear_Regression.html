@@ -355,6 +355,23 @@
       <p>정방철 교수님 머신러닝기초 · 0923 수업 (Lecture03, MML 9장)</p>
     </div>
     <section id="s0"><h2>0. 회귀 문제와 포뮬레이션</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>잡음을 가정하면 회귀의 학습 기준이 나와요</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 숫자 출력을 예측할 직선이나 곡선을 데이터에 맞추려 해요. 먼저 데이터가 만들어지는 모형을 가정해야 해요.</p>
+<p data-map="bridge">입력을 특징벡터로 바꾸고, 그 특징과 파라미터의 선형결합에 가우시안 잡음을 더해요. 이 가정에서 우도와 최소제곱 기준이 나와요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>입력·특징</td><td>관측한 입력에서 만드는 값</td><td>모형에 넣을 재료</td></tr>
+<tr><td>파라미터</td><td>고정되어 있지만 모르는 계수</td><td>학습으로 추정할 값</td></tr>
+<tr><td>잡음·출력</td><td>계수가 주어져도 남는 무작위성</td><td>출력의 조건부 분포</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 가우시안 우도의 음의 로그가 제곱 오차가 되고, 그 기울기를 0으로 놓으면 정규방정식을 얻어요. 역행렬 해에는 가역성 조건이 필요해요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 선형회귀에서 선형이라는 말은 파라미터에 대한 선형성을 뜻해요. 잡음이 확률변수라는 사실과 파라미터를 확률변수로 다루는지는 별개예요.</p>
+<p>이어서 읽기: <a href="#s1-det-prob">결정론적 모델 vs 확률적 모델</a> · <a href="#s1-features">x에 대해 비선형이어도 선형회귀: 특징 벡터</a> · <a href="#s3-normal-eq">미분이 0이 되는 θ 찾기: 정규방정식</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.</p></div>
+</article>
 <article class="topic" id="s0-regression"><h3>회귀 vs 분류: 숫자를 맞히기 vs 칸을 고르기</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s5</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
           <p class="lead">회귀는 자 위의 아무 눈금이나 짚는 놀이이고, 분류는 정해진 상자 몇 개 중 하나를 고르는 놀이예요.</p>

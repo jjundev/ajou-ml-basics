@@ -355,6 +355,23 @@
       <p>정방철 교수님 머신러닝기초 · 0921 수업 (Lecture02, MML 8장)</p>
     </div>
     <section id="s0"><h2>0. 통계적 추론: ML/MAP vs Fully Bayesian</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>모르는 값을 없애서, 궁금한 것의 분포를 구해요</h3>
+<div class="tags"><span class="tag">학습 길잡이 · 기존 내용 재구성</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal"><b>오늘의 질문.</b> 궁금한 것은 새 결과의 가능성이에요. 파라미터는 그 결과를 설명하기 위해 도입한 중간 변수예요.</p>
+<p data-map="bridge">ML·MAP은 파라미터 하나를 넣어 예측하고, FB는 가능한 파라미터의 예측을 사후분포로 가중해 합쳐요. 그래프는 그 계산에 필요한 독립 가정을 드러내요.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>무엇을 하나요?</th><th>무엇이 남나요?</th></tr></thead><tbody>
+<tr><td>ML·MAP 예측</td><td>선택한 파라미터를 모델에 대입</td><td>그 값에 조건을 건 예측</td></tr>
+<tr><td>FB 예측</td><td>파라미터를 사후분포로 주변화</td><td>파라미터 불확실성까지 반영</td></tr>
+<tr><td>모델 선택</td><td>후보 모델 사이를 비교</td><td>파라미터 추정과 별도 문제</td></tr>
+</tbody></table></div>
+<p data-map="result"><b>구할 결과.</b> FB의 예측 결과는 새 관측값의 분포예요. 모델 선택에서는 검증 성능이나 주변우도 등 서로 다른 기준을 사용할 수 있어요.</p>
+<p data-map="formula"><b>수식이 하는 일.</b> 적분은 중간 변수의 가능한 값을 합쳐 제거하는 연산이에요. 조건부 독립 가정은 적분 안의 예측 항을 단순하게 만들어요.</p>
+<p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 예측을 가중평균하는 것과 파라미터 평균 하나를 대입하는 것은 일반적으로 달라요. 선형성과 같은 조건이 있어야 특정 평균 계산이 일치해요.</p>
+<p>이어서 읽기: <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a> · <a href="#s1-expectation">4. 조건부 기댓값으로 읽기와 델타 함수</a> · <a href="#s3-validation">11. 모델 선택은 선택의 문제: 훈련·검증·테스트</a></p>
+</div>
+<div class="sum" hidden><p class="sum-lead">FB의 예측 결과는 새 관측값의 분포예요. 모델 선택에서는 검증 성능이나 주변우도 등 서로 다른 기준을 사용할 수 있어요.</p></div>
+</article>
 <article class="topic" id="s0-inference"><h3>1. 통계적 추론은 P(A | X) 하나로</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s5–s6</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
           <p class="lead">손에 쥔 기록을 보고 궁금한 일이 일어날 가능성을 따져 보는 게 추론이에요.</p>
