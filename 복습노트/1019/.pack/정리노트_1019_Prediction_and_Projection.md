@@ -6,24 +6,36 @@
 
 <a id="s0-learning-map"></a>
 
-## 먼저 큰 그림: 같은 예측평균이라도 불확실성은 다를 수 있어요
+### 같은 예측평균이라도 불확실성은 다를 수 있어요
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
 
 **오늘의 질문.** 새 관측값의 평균뿐 아니라 얼마나 흔들릴지도 이해하고, 이어서 모델 비교와 최소제곱의 기하학적 의미를 살펴봐요.
 
 가우시안 사후분포에서는 MAP과 사후평균이 같아요. 선형 예측의 평균도 같지만, FB는 파라미터의 불확실성을 예측분산에 추가로 반영해요.
 
-| 구분 | 무엇을 하나요? | 무엇이 남나요? |
+| 이미 구한 것 | 새 입력에 적용 | 무엇이 남나요? |
 |---|---|---|
-| MAP을 대입한 예측 | 파라미터를 한 점에 고정 | 관측 잡음의 분산 |
-| FB 예측 | 파라미터 분포를 유지 | 파라미터 불확실성 + 관측 잡음 |
-| Evidence·투영 | 모델 비교·최소제곱의 기하 | 각각 다른 질문을 푸는 도구 |
+| MAP 한 점 $\boldsymbol\theta_{\rm MAP}=\mathbf m_N$ | 관측 모형에 그 점을 대입 | 평균 $\boldsymbol\phi_*^{\mathsf T}\mathbf m_N$, 잡음 분산 $\sigma^2$ |
+| FB 사후분포 $\mathcal N(\mathbf m_N,\mathbf S_N)$ | 선형변환 후 독립 잡음 추가 | 같은 평균, 분산 $\boldsymbol\phi_*^{\mathsf T}\mathbf S_N\boldsymbol\phi_*+\sigma^2$ |
+
+출발점은 [1014의 사후평균·공분산](../../1014/정리노트_1014_Bayesian_Posterior_Prediction.html#s1-match)이에요. 관측 모형은 ML 때의 $y_*=\boldsymbol\phi_*^{\mathsf T}\boldsymbol\theta+\epsilon$ 그대로이고, 이제 θ 한 값 대신 그 사후분포를 넣어요. 평균·공분산의 선형변환 규칙을 적용하면 새 관측의 평균과 분산이 나와요.
 
 **구할 결과.** θ의 사후공분산과 y의 예측분산을 구별해요. 사영에서는 회귀계수 θ와 데이터 공간의 예측벡터도 구별해야 해요.
 
-**수식이 하는 일.** φ*ᵀSₙφ*는 파라미터 불확실성이 출력으로 전달된 분산이고, σ²은 새 관측 잡음이에요. Evidence는 파라미터를 적분해 모델을 비교하고, 정규방정식은 잔차의 직교 조건을 나타내요.
+**수식이 하는 일.** φ\*ᵀSₙφ\*는 파라미터 불확실성이 출력으로 전달된 분산이고, σ²은 새 관측 잡음이에요. Evidence는 파라미터를 적분해 모델을 비교하고, 정규방정식은 잔차의 직교 조건을 나타내요.
 
 **헷갈리기 쉬운 점.** FB에서 가중평균하는 대상은 예측분포예요. 파라미터 평균을 대입한 예측과 일반적으로 같지 않으며, 여기서는 선형성 때문에 예측평균만 일치해요.
 
+이어서 읽기: [예측의 평균과 두 가지 불확실성](#s0-predictive) · [파라미터를 적분하고 모델을 비교해요](#s1-evidence) · [회귀계수와 예측벡터를 구별해요](#s2-regression)
+
+**페이지 요약**
+
+θ의 사후공분산과 y의 예측분산을 구별해요. 사영에서는 회귀계수 θ와 데이터 공간의 예측벡터도 구별해야 해요.
+
+---
 
 **목차**
 
@@ -69,6 +81,7 @@ $$
 \boldsymbol{\phi}_*=\boldsymbol{\phi}(\mathbf{x}_*),\qquad y_*=\boldsymbol{\phi}_*^{\mathsf T}\boldsymbol{\theta}+\epsilon,\qquad \epsilon\sim\mathcal N(0,\sigma^2).
 $$
 
+
 $$
 p(\boldsymbol{\theta}\mid\mathcal D)=\mathcal N(\boldsymbol{\theta}\mid\mathbf m_N,\mathbf{S}_N).
 $$
@@ -78,15 +91,39 @@ $$
    $$
    p(y_*\mid\mathbf{x}_*,\mathcal D)=\int p(y_*\mid\mathbf{x}_*,\boldsymbol{\theta})p(\boldsymbol{\theta}\mid\mathcal D)\,d\boldsymbol{\theta}.
    $$
-2. 가우시안 사후분포를 선형변환하고 독립인 가우시안 잡음을 더하므로 결과도 가우시안이에요.
+2. #### 기억할 공식에 이번 문제를 대입해요
+
+   일반 선형변환 공식은 $\mathbb E[LZ+c]=L\mathbb E[Z]+c$, $\operatorname{Cov}(LZ+c)=L\operatorname{Cov}(Z)L^{\mathsf T}$예요. 여기서 일반 확률벡터 $Z=\boldsymbol\theta$, 고정 행렬 $L=\boldsymbol\phi_*^{\mathsf T}$로 놓고 학습 데이터에 조건을 걸어요. 상수 이동 $c$는 0이고, 랜덤 잡음은 별도로 더해요.
+
+   1. 평균은 선형변환 밖으로 계수를 꺼내요. 새 잡음의 평균은 0이에요.
+
+      $$
+      \mathbb E[y_*\mid\mathbf x_*,\mathcal D]=\boldsymbol\phi_*^{\mathsf T}\mathbb E[\boldsymbol\theta\mid\mathcal D]+\mathbb E[\epsilon]=\boldsymbol\phi_*^{\mathsf T}\mathbf m_N
+      $$
+   2. 공분산은 계수를 왼쪽과 전치한 오른쪽에 곱해요.
+
+      $$
+      \operatorname{Var}(\boldsymbol\phi_*^{\mathsf T}\boldsymbol\theta\mid\mathcal D)=\boldsymbol\phi_*^{\mathsf T}\mathbf S_N(\boldsymbol\phi_*^{\mathsf T})^{\mathsf T}=\boldsymbol\phi_*^{\mathsf T}\mathbf S_N\boldsymbol\phi_*
+      $$
+   3. 파라미터와 새 잡음이 독립이므로 두 분산을 더해요.
+
+      $$
+      \operatorname{Var}(y_*\mid\mathbf x_*,\mathcal D)=\boldsymbol\phi_*^{\mathsf T}\mathbf S_N\boldsymbol\phi_*+\sigma^2
+      $$
+
+   이 모멘트 공식 자체는 가우시안이 아니어도 이차 모멘트가 존재하면 성립해요. 분포 전체까지 가우시안이라고 결론 내릴 때는 가우시안 사후분포와 독립 가우시안 잡음이라는 가정이 필요해요.
+
+   가우시안 사후분포를 선형변환하고 독립인 가우시안 잡음을 더하므로 결과도 가우시안이에요.
 
    $$
    p(y_*\mid\mathbf{x}_*,\mathcal D)=\mathcal N(y_*\mid\mu_*,v_*).
    $$
 
+
    $$
    \mu_*=\boldsymbol{\phi}_*^{\mathsf T}\mathbf m_N.
    $$
+
 
    $$
    v_*=\boldsymbol{\phi}_*^{\mathsf T}\mathbf{S}_N\boldsymbol{\phi}_*+\sigma^2.
@@ -115,11 +152,30 @@ $$
 \boldsymbol{\phi}_*\in\mathbb R^M,\quad\mathbf{S}_N\in\mathbb R^{M\times M},\quad(1\times M)(M\times M)(M\times1)=1\times1.
 $$
 
-잡음 없는 $f_*$를 예측할 때는 이 분산만 쓰고, 실제 관측값 $y_*$를 예측할 때는 $\sigma^2$를 더해요. 이는 독립인 두 원인의 분산을 더한 결과예요.
+잡음 없는 $f_*$를 예측할 때는 이 분산만 쓰고, 실제 관측값 $y_*$를 예측할 때는 $\sigma^2$를 더해요. $\mathbf m_N,\mathbf S_N$ 안의 $\sigma^2$와 여기 더하는 $\sigma^2$는 같은 모형의 잡음 분산이에요. 앞에서는 학습 데이터의 신뢰도를 반영했고, 뒤에서는 새 관측에 생기는 독립 잡음을 반영하므로 이중 계산이 아니에요. 이는 독립인 두 원인의 분산을 더한 결과예요.
 
 최대우도(ML)와 최대사후확률(MAP)의 점추정은 파라미터 한 개를 골라 예측 곡선 하나를 만들어요. 이 가우시안 사후분포에서는 $\boldsymbol{\theta}_{\mathrm{MAP}}=\mathbf m_N$이므로 MAP 곡선과 베이지안 예측의 평균 곡선이 같아요. 평균이 같아도 전체 예측분포가 같다는 뜻은 아니에요. 점추정 파라미터를 우도에 넣어 잡음이 있는 분포를 만들 수도 있지만, 그 방식만으로는 위의 파라미터 불확실성 항을 적분하여 반영하지 않아요.
 
+#### MAP 결과를 기억한다면 여기까지 복원할 수 있어요
+
+이 문단은 강의 공식을 연결하기 위한 동치 재표현이에요. 임시 기호 $A_g=\boldsymbol\Phi^{\mathsf T}\boldsymbol\Phi+\sigma^2\mathbf S_0^{-1}$, $q_g=\boldsymbol\Phi^{\mathsf T}\mathbf y+\sigma^2\mathbf S_0^{-1}\mathbf m_0$를 쓰면, 앞서 구한 $\mathbf m_N=A_g^{-1}q_g$, $\mathbf S_N=\sigma^2A_g^{-1}$를 그대로 대입해요. $A_g$는 특징 개수만큼의 정방행렬, $q_g$는 같은 크기의 열벡터예요.
+
+$$
+\mu_*=\boldsymbol\phi_*^{\mathsf T}A_g^{-1}q_g
+$$
+
+
+$$
+v_*=\sigma^2\left(1+\boldsymbol\phi_*^{\mathsf T}A_g^{-1}\boldsymbol\phi_*\right)
+$$
+
+**평균은 사후평균에 특징 행벡터를 곱하고, 분산은 사후공분산을 특징벡터로 양쪽에서 감싼 뒤 새 잡음을 더해요.** θ를 정확히 알아 $\mathbf S_N$이 0으로 가도 새 관측의 분산 $\sigma^2$는 남아요.
+
 근거: Lecture04 rev_HO s14·16; MML 9.3.4, 식 (9.57)–(9.59), PDF 314–315쪽.
+
+행벡터 미분부터 사후분포와 예측분포까지 이어지는 과정을 [ML → MAP → FB → 예측분포 수식 노트](../../1014/%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_04_ML_MAP_FB_%EC%98%88%EC%B8%A1%EB%B6%84%ED%8F%AC_%ED%95%9C%EC%A4%84%EC%94%A9.html)에서 한 줄씩 전개해 보세요.
+
+MAP과 사후평균의 관계에서 예측 평균·분산까지 이어지는 식을 [한 줄씩 쓰는 수식 노트](../../1014/%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_MAP%EC%97%90%EC%84%9C_%EC%82%AC%ED%9B%84%ED%8F%89%EA%B7%A0%EA%B9%8C%EC%A7%80_%ED%95%9C%EC%A4%84%EC%94%A9.html)에서 비교해 보세요.
 
 **교수님 말씀**
 
@@ -742,6 +798,7 @@ $\mathbf{P}_{\Phi}\mathbf{y}$는 학습 입력에서 얻은 적합벡터예요. 
 | 주변우도 | $p(\mathbf y\mid\mathbf X,M)=\int p(\mathbf y\mid\mathbf X,\boldsymbol\theta,M)p(\boldsymbol\theta\mid M)\,d\boldsymbol\theta$ 모델의 사전분포로 가능도를 평균해요. |
 | 직교투영 | $\mathbf P=\mathbf B(\mathbf B^{\mathsf T}\mathbf B)^{-1}\mathbf B^{\mathsf T}$ 열이 독립인 기저 행렬에서 성립해요. 투영은 $\mathbf P\mathbf x$, 좌표는 $(\mathbf B^{\mathsf T}\mathbf B)^{-1}\mathbf B^{\mathsf T}\mathbf x$예요. |
 | 최소제곱 회귀 | $\widehat{\mathbf y}=\boldsymbol\Phi(\boldsymbol\Phi^{\mathsf T}\boldsymbol\Phi)^{-1}\boldsymbol\Phi^{\mathsf T}\mathbf y$ 훈련 정답 벡터를 특징행렬의 열공간으로 옮겨요. 새 입력의 예측은 별도로 $\boldsymbol\phi_*^{\mathsf T}\boldsymbol\theta_{\mathrm{ML}}$을 계산해요. |
+| MAP 식에서 예측 복원 | $\mu_*=\boldsymbol\phi_*^{\mathsf T}A_g^{-1}q_g$, $v_*=\sigma^2(1+\boldsymbol\phi_*^{\mathsf T}A_g^{-1}\boldsymbol\phi_*)$. 임시 기호의 정의와 대입은 [예측분포 본문](#s0-predictive)에 있어요. |
 
 ---
 
