@@ -1,0 +1,331 @@
+{
+  "course": "머신러닝기초",
+  "range": "1019",
+  "slug": "Prediction_and_Projection",
+  "note_title": "예측분포와 직교투영 — 5살도 이해하는 정리노트",
+  "note_subtitle": "정방철 교수님 머신러닝기초 · 1019 수업 (Lecture04 개정 HO s14·16–17·19–24, MML 9.3–9.4·3.8)",
+  "review_title": "복습문제 8선 — 1019 수업 범위",
+  "review_intro": "교과서 본문 예제 두 개의 원형·수치변형으로 구성한 직선 투영 4개와 평면 투영 4개예요. 먼저 풀어 보고, 막히면 힌트를 열어 보세요.",
+  "footer_note": "출처: 정방철 교수님 강의자료(Lecture04 개정 HO s14·16–17·19–24) · 수업 녹음 전사(1019) · Deisenroth, Faisal, Ong, Mathematics for Machine Learning (2020) 3·9장. 전사에 세부 시간이 없어 발언은 Part 번호로 표시해요.",
+  "footer_review": "출처: Deisenroth, Faisal, Ong, Mathematics for Machine Learning (Cambridge University Press, 2020). 풀이는 자체 작성이며 수치는 Python으로 검증했습니다.",
+  "sessions": [
+    {
+      "date": "1019",
+      "stt": "STT/1019 머러기.md",
+      "summary": "summaries/stt-1019.md",
+      "slides": "L04 rev_HO s14·16–17·19–24"
+    }
+  ],
+  "sections": [
+    {
+      "id": "s0",
+      "title": "1. 값 하나에서 예측분포로",
+      "short": "1 예측분포",
+      "topics": [
+        {
+          "id": "s0-predictive",
+          "title": "예측의 평균과 두 가지 불확실성",
+          "required_terms": [
+            "\\boldsymbol{\\phi}_*",
+            "\\mathbf{S}_N",
+            "\\sigma^2",
+            "분포"
+          ],
+          "layers": [
+            "eli5",
+            "formal",
+            "prof"
+          ],
+          "supp": false
+        },
+        {
+          "id": "s0-sampling",
+          "title": "함수를 뽑는다는 말의 뜻",
+          "required_terms": [
+            "히스토그램",
+            "장군님",
+            "생성"
+          ],
+          "layers": [
+            "eli5",
+            "formal",
+            "prof"
+          ],
+          "supp": false
+        }
+      ]
+    },
+    {
+      "id": "s1",
+      "title": "2. 주변우도로 모델 고르기",
+      "short": "2 모델 선택",
+      "topics": [
+        {
+          "id": "s1-evidence",
+          "title": "파라미터를 적분하고 모델을 비교해요",
+          "required_terms": [
+            "주변우도",
+            "Bayes factor",
+            "\\mathbf{S}_0",
+            "\\mathbf{C}"
+          ],
+          "layers": [
+            "eli5",
+            "formal",
+            "prof"
+          ],
+          "supp": false
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "title": "3. 최소제곱을 그림으로 보기",
+      "short": "3 직교투영",
+      "topics": [
+        {
+          "id": "s2-line",
+          "title": "직선 위에서 가장 가까운 점",
+          "required_terms": [
+            "직교",
+            "\\mathbf{b}",
+            "\\mathbf{P}",
+            "피타고라스"
+          ],
+          "layers": [
+            "eli5",
+            "formal",
+            "prof"
+          ],
+          "supp": false
+        },
+        {
+          "id": "s2-plane",
+          "title": "평면과 열공간으로 확장해요",
+          "required_terms": [
+            "\\mathbf{B}",
+            "\\boldsymbol{\\lambda}",
+            "\\mathbf{B}^{\\mathsf T}\\mathbf{B}",
+            "책상"
+          ],
+          "layers": [
+            "eli5",
+            "formal",
+            "prof"
+          ],
+          "supp": false
+        },
+        {
+          "id": "s2-regression",
+          "title": "회귀계수와 예측벡터를 구별해요",
+          "required_terms": [
+            "\\boldsymbol{\\theta}_{\\mathrm{ML}}",
+            "\\boldsymbol{\\Phi}",
+            "\\widehat{\\mathbf{y}}",
+            "유사역행렬"
+          ],
+          "layers": [
+            "eli5",
+            "formal",
+            "prof"
+          ],
+          "supp": false
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "title": "4. 요약 · 예고",
+      "short": "4 요약·예고",
+      "topics": [
+        {
+          "id": "s3-cheatsheet",
+          "title": "핵심 식 한 장",
+          "required_terms": [
+            "예측분포",
+            "직교투영",
+            "주변우도"
+          ],
+          "layers": [],
+          "supp": false
+        },
+        {
+          "id": "s3-next",
+          "title": "수업 마무리와 시험 안내",
+          "required_terms": [
+            "중간고사",
+            "숙제"
+          ],
+          "layers": [],
+          "supp": false
+        },
+        {
+          "id": "s3-links",
+          "title": "함께 보면 좋은 자료",
+          "required_terms": [
+            "복습문제"
+          ],
+          "layers": [],
+          "supp": false
+        }
+      ]
+    }
+  ],
+  "preview_topic": "s3-next",
+  "forbidden_outside_preview": [
+    "로지스틱 회귀",
+    "라플라스 사전",
+    "Gram-Schmidt"
+  ],
+  "parts": [
+    {
+      "id": "partA",
+      "title": "A. 교과서 예제로 익히는 투영",
+      "short": "A 직교투영"
+    }
+  ],
+  "problems": [
+    {
+      "id": "p1",
+      "part": "partA",
+      "source": "MML Example 3.10",
+      "variant": true,
+      "anchor": "s2-line",
+      "level": 1,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "5/9; 10/9; 10/9"
+    },
+    {
+      "id": "p2",
+      "part": "partA",
+      "source": "MML Example 3.10",
+      "variant": true,
+      "anchor": "s2-line",
+      "level": 1,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "2; 0; 0"
+    },
+    {
+      "id": "p3",
+      "part": "partA",
+      "source": "MML Example 3.10",
+      "variant": true,
+      "anchor": "s2-line",
+      "level": 1,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "0; 2; 0"
+    },
+    {
+      "id": "p4",
+      "part": "partA",
+      "source": "MML Example 3.10",
+      "variant": true,
+      "anchor": "s2-line",
+      "level": 1,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "3; 3; 3"
+    },
+    {
+      "id": "p5",
+      "part": "partA",
+      "source": "MML Example 3.11",
+      "variant": true,
+      "anchor": "s2-plane",
+      "level": 2,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "5; 2; -1"
+    },
+    {
+      "id": "p6",
+      "part": "partA",
+      "source": "MML Example 3.11",
+      "variant": true,
+      "anchor": "s2-plane",
+      "level": 2,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "2; 3; 0"
+    },
+    {
+      "id": "p7",
+      "part": "partA",
+      "source": "MML Example 3.11",
+      "variant": true,
+      "anchor": "s2-plane",
+      "level": 2,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "2; 2; 2"
+    },
+    {
+      "id": "p8",
+      "part": "partA",
+      "source": "MML Example 3.11",
+      "variant": true,
+      "anchor": "s2-plane",
+      "level": 3,
+      "date": "1019",
+      "terms": [
+        "\\mathbf{P}",
+        "\\mathbf{x}"
+      ],
+      "answer": "7/3; 4/3; 5/3"
+    }
+  ],
+  "links": [
+    {
+      "topic": "s3-links",
+      "href": "복습문제_1019_Prediction_and_Projection.html"
+    },
+    {
+      "topic": "s3-links",
+      "href": "../1014/정리노트_1014_Bayesian_Posterior_Prediction.html"
+    },
+    {
+      "topic": "s3-links",
+      "href": "../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html"
+    },
+    {
+      "topic": "s3-links",
+      "href": "../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html"
+    },
+    {
+      "topic": "s3-links",
+      "href": "../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html"
+    },
+    {
+      "topic": "s3-links",
+      "href": ".pack/복습문제_1019_Prediction_and_Projection-문제.pdf"
+    },
+    {
+      "topic": "s3-links",
+      "href": ".pack/복습문제_1019_Prediction_and_Projection-답안.pdf"
+    }
+  ]
+}
