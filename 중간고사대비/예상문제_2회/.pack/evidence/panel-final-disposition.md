@@ -19,3 +19,6 @@ No unresolved Critical/Important findings in this UI revision. No deferred Minor
 
 ## User-requested spacing hotfix before commit
 Root adjusted tab gap12px, button height56px with12/16px verticalpadding, headergap16px, bodygap24px and mobilepadding16px; metadata inherited48pxsectionmargin removed for consistent body spacing. Current real-Chrome120case/360tabstate sweep rerun PASS with currentHTMLhashes. Focus/layout/panel regressions18passed. Root inspected desktop and mobile screenshots and measured actual gaps/heights in spacing-metrics.json. This CSS-only hotfix was visually reviewed by root after the prior fresh whole-change review; no new independent reviewer run claimed. Content, PDFs and source questions unchanged.
+
+## Latest adjustment — reduce vertical spacing
+User requested slightly smaller vertical margins. Current values supersede the prior hotfix: headergap12px, tab-top4px, tabbutton48pxhigh with8/12pxverticalpadding, bodygap16px, mobileverticalpadding12px. Horizontal gap12px and horizontal padding unchanged. Root measured48pxheight/16pxbodygap/12pxintertabgap and visually inspected the actual desktop render. Current18layout/panel tests and120case/360tabstate Chrome sweep rerun PASS on these currentHTMLhashes. Content/PDF unchanged. No new independent review claimed for this CSS-only adjustment.
