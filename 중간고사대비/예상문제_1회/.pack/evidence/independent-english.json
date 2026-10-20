@@ -1,0 +1,237 @@
+{
+  "source": "blind-english.html",
+  "scope": "Independent solution using only the supplied English problems; no existing answer or review file was read.",
+  "conventions": {
+    "gradients": "All gradients of scalar objectives are row vectors; parameters are column vectors.",
+    "gaussian_second_parameter": "Variance, never standard deviation.",
+    "sample_covariance": "Denominator N=3."
+  },
+  "total_problems": 10,
+  "total_parts": 42,
+  "issues": [],
+  "answers": {
+    "p1:a": {
+      "method": "exact",
+      "conclusion": "The three vectors are linearly dependent.",
+      "evidence": "-v1-v2+v3=0, with coefficients (-1,-1,1) not all zero; v3=v1+v2."
+    },
+    "p1:b": {
+      "method": "exact",
+      "conclusion": "All solutions are alpha=(2-t,1-t,t)^T for t in R. There is no solution for c=(2,1,4)^T.",
+      "evidence": "The first two equations are alpha1+alpha3=2 and alpha2+alpha3=1; the third then equals 3. Every vector in col(V) satisfies coordinate3=coordinate1+coordinate2, whereas c has 4 != 2+1."
+    },
+    "p1:c": {
+      "method": "exact",
+      "conclusion": "U^T U=[[2,1],[1,2]], and its inverse is (1/3)[[2,-1],[-1,2]]. V^T V has no inverse.",
+      "evidence": "det(U^T U)=3. V^T V=[[2,1,3],[1,2,3],[3,3,6]], whose third column is the sum of the first two; it annihilates (-1,-1,1)^T."
+    },
+    "p2:a": {
+      "method": "symbolic",
+      "conclusion": "J_f(x)=[[2x1,1],[x2,x1]], and J_f(1,2)=[[2,1],[2,1]]. Both have dimensions 2 by 2.",
+      "evidence": "The first row differentiates f1=x1^2+x2 with respect to x1,x2; the second differentiates f2=x1*x2. Dimension audit: x is 2x1 and f is 2x1, so J_f is output-by-input 2x2, with entries partial f_i/partial x_j. There is no scalar stationary equation or transpose step in this part."
+    },
+    "p2:b": {
+      "method": "symbolic",
+      "conclusion": "q=2x1^2+x1*x2+x2^2-x1; row gradient=[4x1+x2-1, x1+2x2]; Hessian=[[4,1],[1,2]].",
+      "evidence": "Since A is symmetric, d(1/2 x^T A x)/dx=x^T A. Componentwise differentiation yields the displayed row vector and Hessian. Dimension audit: x,b are 2x1, A is 2x2, q is scalar, and its derivative x^T*A-b^T is 1x2: (1x2)(2x2)-(1x2). The Hessian is the 2x2 matrix defined componentwise by H_ij=partial^2 q/(partial x_i partial x_j), equivalently the Jacobian of (nabla q)^T; it is not inferred by treating the row gradient as a column."
+    },
+    "p2:c": {
+      "method": "proof",
+      "conclusion": "The stationary point is x*=(2/7,-1/7)^T, and it is the unique global minimizer.",
+      "evidence": "Ax*=b. The leading principal minors of A are 4 and 7, both positive, so A is positive definite; q(x)-q(x*)=1/2 (x-x*)^T A (x-x*)>0 for x != x*. Stationarity audit: set the 1x2 row derivative x^T*A-b^T=0_(1x2), hence x^T*A=b^T. Transpose both sides to obtain A^T*x=b, a 2x1 equation; symmetry gives A*x=b. The inverse (2x2) then multiplies b (2x1) on the left."
+    },
+    "p3:a": {
+      "method": "exact",
+      "conclusion": "z^2+(z-2)^2/3=(4/3)(z-1/2)^2+1.",
+      "evidence": "The left side expands to (4/3)z^2-(4/3)z+4/3. Expanding the right side gives the same polynomial."
+    },
+    "p3:b": {
+      "method": "exact",
+      "conclusion": "q=N(z|1/2,3/4), with q(z)=sqrt(2/(3*pi))*exp[-(2/3)(z-1/2)^2]. Mean=1/2 and variance=3/4.",
+      "evidence": "After completing the square, the z-dependent exponent is -1/2*(4/3)*(z-1/2)^2, hence precision=4/3 and variance=3/4. The constant is 1/sqrt(2*pi*(3/4))."
+    },
+    "p3:c": {
+      "method": "exact",
+      "conclusion": "Z=exp(-1/2)/sqrt(8*pi). The product g is not itself a probability density.",
+      "evidence": "g(z)=(1/(2*pi*sqrt(3)))*exp(-1/2)*exp[-(2/3)(z-1/2)^2]. The last factor integrates to sqrt(3*pi/2), giving Z, which is not 1."
+    },
+    "p4:a": {
+      "method": "exact",
+      "conclusion": "Phi=[[1,-1],[1,0],[1,1]], Phi^T Phi=[[3,0],[0,2]], and Phi^T y=(5,4)^T.",
+      "evidence": "The feature rows are (1,xn). Sum(y)=5, sum(x*y)=4, sum(x)=0, and sum(x^2)=2. Dimension audit: Phi is 3x2, theta is 2x1, y is 3x1, Phi^T*Phi is 2x2, and Phi^T*y is 2x1. This part only forms the design matrices, so no differentiation or transpose of a stationary equation is needed."
+    },
+    "p4:b": {
+      "method": "exact",
+      "conclusion": "theta_ML=(5/3,2)^T, with predicted mean 17/3 at x*=2.",
+      "evidence": "The normal equations are diag(3,2)*theta=(5,4)^T, and (1,2)*theta=5/3+4=17/3. Derivative audit: for J_ML=1/2*||y-Phi*theta||^2, the row derivative is (Phi*theta-y)^T*Phi=theta^T*Phi^T*Phi-y^T*Phi in R^(1x2); products have sizes (1x3)(3x2) and (1x2)(2x3)(3x2). Set it equal to 0_(1x2), giving theta^T*Phi^T*Phi=y^T*Phi. Transpose both sides to obtain Phi^T*Phi*theta=Phi^T*y in R^(2x1), then multiply on the left by the 2x2 Gram inverse."
+    },
+    "p4:c": {
+      "method": "exact",
+      "conclusion": "theta_MAP=(5/4,4/3)^T, with predicted mean 47/12 at x*=2. The prior shrinks both coefficients toward zero.",
+      "evidence": "Noise and prior variances are both 1, so the MAP equations are (Phi^T Phi+I)*theta=Phi^T y, giving diag(4,3)*theta=(5,4)^T. The row gradient of the negative log posterior, up to constants, is theta^T*(Phi^T Phi+I)-y^T*Phi. The intercept is also penalized. Derivative audit: theta is 2x1 and J_MAP=1/2*||y-Phi*theta||^2+1/2*theta^T*theta. Its derivative theta^T*(Phi^T*Phi+I)-y^T*Phi has size 1x2, with the Gram-plus-identity matrix 2x2. Set the row derivative to 0_(1x2): theta^T*(Phi^T*Phi+I)=y^T*Phi. Transpose both sides, using symmetry, to get (Phi^T*Phi+I)*theta=Phi^T*y in R^(2x1). This explicitly includes the intercept penalty."
+    },
+    "p5:a": {
+      "method": "exact",
+      "conclusion": "mu_X=(2/3,2/3)^T and Sigma_X=[[8/9,-4/9],[-4/9,8/9]].",
+      "evidence": "E[XX^T]=[[4/3,0],[0,4/3]], and mu_X*mu_X^T has all entries 4/9. Subtraction gives the covariance with denominator 3."
+    },
+    "p5:b": {
+      "method": "exact",
+      "conclusion": "mu_Y=(7/3,-1)^T; Sigma_Y=[[8/9,0],[0,8/3]]; C_XY=[[4/9,4/3],[4/9,-4/3]].",
+      "evidence": "Use mu_Y=A*mu_X+b, Sigma_Y=A*Sigma_X*A^T, and C_XY=Sigma_X*A^T. The cross covariance is ordered X then Y as specified."
+    },
+    "p5:c": {
+      "method": "proof",
+      "conclusion": "Y1 and Y2 are uncorrelated but not independent.",
+      "evidence": "Y takes (1,-1),(3,1),(3,-3), each with probability 1/3. Sigma_Y has zero off-diagonal. But P(Y1=1,Y2=-1)=1/3, while P(Y1=1)*P(Y2=-1)=1/9, violating independence."
+    },
+    "p6:a": {
+      "method": "qualitative",
+      "conclusion": "y_n|x_1,...,x_N,theta ~ N(theta0+theta1*x_n,sigma^2), and the observations are conditionally independent.",
+      "evidence": "With inputs and theta fixed, each observation is a deterministic shift of its own mutually independent Gaussian noise; deterministic shifts preserve independence. Dimension context: theta is 2x1, Phi is Nx2, y is Nx1, and each row phi(x_n)^T is 1x2, so phi(x_n)^T*theta is scalar. This part has no scalar-objective differentiation."
+    },
+    "p6:b": {
+      "method": "symbolic",
+      "conclusion": "p(y|Phi,theta)=(2*pi*sigma^2)^(-N/2)*exp[-||y-Phi*theta||^2/(2*sigma^2)]. L(theta)=N/2*log(2*pi*sigma^2)+||y-Phi*theta||^2/(2*sigma^2).",
+      "evidence": "Multiply the N scalar Gaussian densities using conditional independence, then take the negative logarithm. Dimension context: Phi*theta and y are Nx1 and their squared Euclidean norm and L(theta) are scalar. Multiplication order in the residual is Phi (Nx2) times theta (2x1). Differentiation and the transpose to normal equations are performed in (d)."
+    },
+    "p6:c": {
+      "method": "proof",
+      "conclusion": "L(theta)=N/2*log(2*pi*sigma^2)+N/(2*sigma^2)*Rhat(theta); they have the same minimizer.",
+      "evidence": "Rhat=SSE/N. The additive term does not depend on theta and the multiplier N/(2*sigma^2) is strictly positive. Dimension context: both Rhat and L are scalar functions of theta in R^(2x1); multiplying their row derivatives by the positive scalar N/(2*sigma^2) preserves their 1x2 shape and stationary points. The full stationary and transpose steps appear in (d)."
+    },
+    "p6:d": {
+      "method": "symbolic",
+      "conclusion": "SSE=y^T*y-2*theta^T*Phi^T*y+theta^T*Phi^T*Phi*theta; its row gradient is 2*theta^T*Phi^T*Phi-2*y^T*Phi. The normal equations are Phi^T*Phi*theta=Phi^T*y.",
+      "evidence": "Phi^T*Phi is symmetric. If 'squared error' denotes Rhat rather than SSE, both the expansion and row gradient are divided by N, leaving the same stationary equations. Derivative audit: theta is 2x1, Phi is Nx2, and y is Nx1. The displayed SSE gradient is 1x2: theta^T (1x2) times Phi^T*Phi (2x2), minus y^T (1xN) times Phi (Nx2). Set 2*theta^T*Phi^T*Phi-2*y^T*Phi=0_(1x2), simplify to theta^T*Phi^T*Phi=y^T*Phi, and transpose both sides to obtain Phi^T*Phi*theta=Phi^T*y, a 2x1 equation. Dividing by N for Rhat or by 2*sigma^2 for the theta-dependent NLL does not change this equation."
+    },
+    "p6:e": {
+      "method": "proof",
+      "conclusion": "theta_ML=(Phi^T*Phi)^(-1)*Phi^T*y is the unique minimizer. Features (1,x,x^2)^T still define linear regression because the prediction is linear in its coefficients.",
+      "evidence": "For nonzero h, h^T*Phi^T*Phi*h=||Phi*h||^2>0 by full column rank. Thus the squared-error Hessian 2*Phi^T*Phi is positive definite. Polynomial dependence on input does not change linear dependence on parameters. Dimension audit: (Phi^T*Phi)^(-1) is 2x2 and Phi^T*y is 2x1, so their ordered product yields the 2x1 estimator after the row-zero equation is transposed as in (d). The Hessian is defined by scalar second partials and is 2x2; for Rhat it is (2/N)*Phi^T*Phi and for L it is Phi^T*Phi/sigma^2. With polynomial features, the new parameter is 3x1 and design matrix Nx3; the prediction remains a scalar linear function of these three coefficients. Full rank of the expanded design is not asserted."
+    },
+    "p7:a": {
+      "method": "symbolic",
+      "conclusion": "p(theta|y,Phi)=p(y|Phi,theta)*p(theta)/p(y|Phi), proportional to likelihood times prior. The evidence does not depend on theta.",
+      "evidence": "p(y|Phi)=integral p(y|Phi,t)*p(t) dt integrates out the dummy parameter t and depends only on y, Phi, and fixed hyperparameters. Dimension context: Phi is NxK, theta and m0 are Kx1, and y is Nx1. The prior and posterior are densities over K-dimensional theta. No scalar derivative is taken in this part."
+    },
+    "p7:b": {
+      "method": "symbolic",
+      "conclusion": "-log p(theta|y,Phi)=||y-Phi*theta||^2/(2*sigma^2)+||theta-m0||^2/(2*tau^2)+C, where C=N/2*log(2*pi*sigma^2)+K/2*log(2*pi*tau^2)+log p(y|Phi).",
+      "evidence": "Likelihood density is (2*pi*sigma^2)^(-N/2)*exp[-SSE/(2*sigma^2)], and prior density is (2*pi*tau^2)^(-K/2)*exp[-||theta-m0||^2/(2*tau^2)]. The denominator in Bayes' theorem contributes +log evidence to the negative log posterior. Dimension context: Phi*theta-y is Nx1, theta-m0 is Kx1, and each quadratic term is scalar. Their derivatives must therefore be 1xK rows; the ordered products and row-zero/transposition steps are stated in (c)."
+    },
+    "p7:c": {
+      "method": "symbolic",
+      "conclusion": "The two row gradients are (theta^T*Phi^T*Phi-y^T*Phi)/sigma^2 and (theta-m0)^T/tau^2. MAP satisfies (Phi^T*Phi+(sigma^2/tau^2)*I)*theta=Phi^T*y+(sigma^2/tau^2)*m0.",
+      "evidence": "Set the sum of the displayed row vectors to zero, transpose, and multiply by sigma^2. Derivative audit: theta,m0 are Kx1, Phi is NxK, y is Nx1, and both derivatives are 1xK. The likelihood derivative (Phi*theta-y)^T*Phi/sigma^2 has product sizes (1xN)(NxK), equal to [theta^T*(Phi^T*Phi)-y^T*Phi]/sigma^2; the prior derivative (theta-m0)^T/tau^2 is 1xK. Set their sum to 0_(1xK). After multiplying by sigma^2, the row equation is theta^T*(Phi^T*Phi+lambda*I)=y^T*Phi+lambda*m0^T. Transpose both sides and use symmetry to obtain (Phi^T*Phi+lambda*I)*theta=Phi^T*y+lambda*m0 in R^(Kx1)."
+    },
+    "p7:d": {
+      "method": "symbolic",
+      "conclusion": "theta_MAP=(Phi^T*Phi+lambda*I)^(-1)*(Phi^T*y+lambda*m0), where lambda=sigma^2/tau^2.",
+      "evidence": "Multiplying the theta-dependent negative log posterior by 2*sigma^2 gives SSE+lambda*||theta-m0||^2. The penalty includes an intercept if present. Dimension audit: the inverse is KxK and its right-hand vector Phi^T*y+lambda*m0 is Kx1, so the inverse multiplies that vector on the left to produce theta_MAP in R^(Kx1). This solves the column normal equations obtained by transposing the row-zero derivative equation in (c); lambda is scalar."
+    },
+    "p7:e": {
+      "method": "proof",
+      "conclusion": "Phi^T*Phi+lambda*I is positive definite and hence invertible without any rank assumption on Phi.",
+      "evidence": "For every nonzero h, h^T*(Phi^T*Phi+lambda*I)*h=||Phi*h||^2+lambda*||h||^2>0 because lambda=sigma^2/tau^2>0. The associated MAP objective is strictly convex. Dimension audit: h is Kx1, Phi*h is Nx1, and h^T*(Phi^T*Phi+lambda*I)*h is scalar, with multiplication order (1xK)(KxK)(Kx1). The negative-log-posterior Hessian is Phi^T*Phi/sigma^2+I/tau^2, a positive definite KxK second-partial matrix. No new stationary transpose is required after (c)."
+    },
+    "p7:f": {
+      "method": "exact",
+      "conclusion": "For lambda=1 the unique MAP solution is (5/11,5/11)^T. For lambda=0 all pairs with theta1+theta2=1 minimize SSE, so the solution is not unique. As lambda tends to infinity the solution tends to (0,0)^T.",
+      "evidence": "Phi^T*Phi=[[5,5],[5,5]], Phi^T*y=(5,5)^T. For lambda>0, theta=(5/(10+lambda),5/(10+lambda))^T. At lambda=1, [[6,5],[5,6]]*(5/11,5/11)^T=(5,5)^T; at lambda=0 only the coefficient sum is identified. Dimension audit: here N=K=2, theta and y are 2x1, and the system matrix is 2x2. For lambda=1 the row stationary equation is theta^T*[[6,5],[5,6]]=[5,5]; setting the row derivative to 0_(1x2) and transposing both sides gives [[6,5],[5,6]]*theta=(5,5)^T. With lambda=0, singularity concerns coefficient uniqueness and does not change derivative orientation."
+    },
+    "p8:a": {
+      "method": "symbolic",
+      "conclusion": "p(D|theta)*p(theta)=(4*pi)^(-3/2)*exp[-((2-theta)^2+theta^2+(theta-1)^2)/4], hence proportional to that exponential.",
+      "evidence": "Each of the two independent likelihood factors and the prior has variance 2 and normalizer 1/sqrt(4*pi). The data inputs are both 1."
+    },
+    "p8:b": {
+      "method": "exact",
+      "conclusion": "A=3/2, b=3/2, c=5/2.",
+      "evidence": "The sum inside the numerator in (a) is 3*theta^2-6*theta+5; dividing by 4 equals (1/2)*[(3/2)*theta^2-3*theta+5/2]."
+    },
+    "p8:c": {
+      "method": "exact",
+      "conclusion": "theta|D ~ N(1,2/3), with posterior density sqrt(3/(4*pi))*exp[-3*(theta-1)^2/4].",
+      "evidence": "A*theta^2-2*b*theta+c=(3/2)*(theta-1)^2+1. The theta-dependent kernel integrates to sqrt(4*pi/3); the constant exp(-1/2) cancels in posterior normalization."
+    },
+    "p8:d": {
+      "method": "exact",
+      "conclusion": "f*|D ~ N(2,8/3), so its mean is 2 and variance is 8/3.",
+      "evidence": "f*=2*theta is a linear transform of a Gaussian: E[f*|D]=2*1 and Var(f*|D)=2^2*(2/3)."
+    },
+    "p8:e": {
+      "method": "exact",
+      "conclusion": "y*|D ~ N(2,14/3), with mean 2 and variance 14/3.",
+      "evidence": "The independent future Gaussian noise has mean zero and variance 2; Gaussian sums remain Gaussian, so Var(y*|D)=8/3+2=14/3."
+    },
+    "p8:f": {
+      "method": "qualitative",
+      "conclusion": "theta_MAP=1. Fixing theta at MAP gives y*|theta_MAP ~ N(2,2); its variance is 8/3 smaller than the full posterior predictive variance.",
+      "evidence": "The posterior is maximized at its mean 1. A fixed parameter contributes no uncertainty; the full posterior predictive adds Var(2*theta|D)=8/3 to the observation-noise variance 2."
+    },
+    "p9:a": {
+      "method": "symbolic",
+      "conclusion": "p(y|M_j)=integral N(y|theta,1)*N(theta|0,v_j) dtheta over R.",
+      "evidence": "The marginal likelihood averages the conditional sampling density over theta before conditioning on the observed y; the averaging law is the prior. A posterior already conditions on the same observed y and is not the marginalization distribution in this identity."
+    },
+    "p9:b": {
+      "method": "symbolic",
+      "conclusion": "p(y|M_j)=[2*pi*(1+v_j)]^(-1/2)*exp[-y^2/(2*(1+v_j))], i.e. y|M_j ~ N(0,1+v_j).",
+      "evidence": "(y-theta)^2+theta^2/v=((v+1)/v)*(theta-v*y/(v+1))^2+y^2/(v+1). Multiplying the joint normalizer 1/(2*pi*sqrt(v)) by the Gaussian integral sqrt(2*pi*v/(v+1)) gives the stated normalizer."
+    },
+    "p9:c": {
+      "method": "exact",
+      "conclusion": "p(0|M1)=1/sqrt(4*pi) and p(0|M2)=1/sqrt(10*pi).",
+      "evidence": "The marginal variances are respectively 1+1=2 and 1+4=5; at zero each Gaussian exponential equals 1."
+    },
+    "p9:d": {
+      "method": "exact",
+      "conclusion": "B12=sqrt(5/2)>1, so the data favor M1 on the Bayes-factor criterion.",
+      "evidence": "B12=[1/sqrt(4*pi)]/[1/sqrt(10*pi)]=sqrt(10/4)=sqrt(5/2)."
+    },
+    "p9:e": {
+      "method": "exact",
+      "conclusion": "Posterior odds M1:M2 = B12*(1/3)/(2/3)=sqrt(10)/4. P(M1|0)=sqrt(10)/(sqrt(10)+4), and P(M2|0)=4/(sqrt(10)+4). Select M2 by maximum posterior probability.",
+      "evidence": "Dividing Bayes' theorem for the two models cancels their shared data evidence: P(M1|y)/P(M2|y)=[p(y|M1)/p(y|M2)]*[P(M1)/P(M2)]. The odds are below 1, despite B12>1."
+    },
+    "p10:a": {
+      "method": "proof",
+      "conclusion": "Phi^T*r=0, so the residual is orthogonal to every vector in col(Phi).",
+      "evidence": "At t=0 the squared-distance derivative is -2*(Phi*h)^T*r=-2*h^T*Phi^T*r. Its being zero for every h forces Phi^T*r=0."
+    },
+    "p10:b": {
+      "method": "symbolic",
+      "conclusion": "Phi^T*Phi*theta_hat=Phi^T*y and theta_hat=(Phi^T*Phi)^(-1)*Phi^T*y.",
+      "evidence": "Insert r=y-Phi*theta_hat into Phi^T*r=0. Full column rank ensures Phi^T*Phi is invertible because its nonzero quadratic forms equal ||Phi*h||^2>0."
+    },
+    "p10:c": {
+      "method": "proof",
+      "conclusion": "P=Phi*(Phi^T*Phi)^(-1)*Phi^T is a 3 by 3 matrix (generally N by N), with P^T=P and P^2=P.",
+      "evidence": "The Gram inverse is symmetric, giving P^T=P. In P^2, the middle product (Phi^T*Phi)^(-1)*(Phi^T*Phi)*(Phi^T*Phi)^(-1) reduces to one Gram inverse."
+    },
+    "p10:d": {
+      "method": "exact",
+      "conclusion": "theta_hat=(4/3,1)^T; P=[[1/3,1/3,1/3],[1/3,5/6,-1/6],[1/3,-1/6,5/6]]; y_hat=(4/3,7/3,1/3)^T; r=(2/3,-1/3,-1/3)^T.",
+      "evidence": "Phi^T*Phi=diag(3,2) and Phi^T*y=(4,2)^T. P=(1/3)*(1,1,1)^T*(1,1,1)+(1/2)*(0,1,-1)^T*(0,1,-1). Phi^T*r=(2/3-1/3-1/3,-1/3+1/3)^T=(0,0)^T."
+    },
+    "p10:e": {
+      "method": "proof",
+      "conclusion": "For every u in col(Phi), ||y-u||^2=||y-y_hat||^2+||y_hat-u||^2 >= ||y-y_hat||^2; therefore y_hat is the unique nearest point.",
+      "evidence": "Write y-u=r+(y_hat-u). Since y_hat-u lies in col(Phi), r^T*(y_hat-u)=0 by (a), eliminating the cross term. Equality holds exactly at u=y_hat."
+    }
+  },
+  "derivative_review": {
+    "reference": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/.agents/skills/ml-review-pack/references/vector-derivative-convention.md",
+    "reference_read": "Entire file",
+    "variable_dimensions": "Explicitly recorded in p2/p4/p6/p7 evidence",
+    "derivative_dimensions": "Scalar objectives: 1xd; vector Jacobians: output x input; Hessians: component second-partial definition",
+    "multiplication_order": "Explicitly checked in the relevant evidence",
+    "zero_and_transpose": "Row gradient set to zero first; both sides then transposed to the column normal equation",
+    "authority": "Parent task explicitly authorizes updating only this independently generated JSON; the English problem source is preserved.",
+    "synchronized_files": [
+      "independent-english.json"
+    ],
+    "other_files": "No original answer, explanation, or prior review file was read; no other file modified."
+  }
+}

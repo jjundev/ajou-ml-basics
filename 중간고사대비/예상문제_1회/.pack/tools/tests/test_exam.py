@@ -89,6 +89,41 @@ def test_all_topics_and_responsive_panels():
  assert report['errors']==[]
  assert all(x['horizontal_overflow']==0 and x['katex_errors']==0 for x in report['screens'])
 
+def test_original_tabs_cover_every_english_problem():
+ from exam_adapter import sha
+ report=json.loads((OUT/'.pack/evidence/browser-check.json').read_text())
+ assert report['original_topic_ids']==[f'p{i}' for i in range(1,11)]
+ assert report['tab_order']==['problem','original','provenance','terms']
+ assert len(report['original_checks'])==60 and all(x['content_matches'] and x['active'] for x in report['original_checks'])
+ assert len(report['print_checks'])==6 and all(x['korean_visible']==10 and x['original_visible']==10 for x in report['print_checks'])
+ assert report['errors']==[]
+ assert report['html_sha256']==sha(OUT/'문제설명_0909-1019_Midterm_Practice_01.html')
+
+def test_final_english_pdf_and_original_content_match():
+ from english_source import load_english_problems,english_digests,english_fields
+ from exam_adapter import STEM,parse,inner,subparts,assemble_cards
+ from tempfile import TemporaryDirectory
+ source=OUT/(STEM+'.html');ps=load_english_problems(source,OUT/'.pack/blueprint.json',REPO)
+ with TemporaryDirectory() as tmp:
+  cards=assemble_cards(OUT/'.pack/cards',Path(tmp)/source.name)
+  assert english_digests(load_english_problems(cards,OUT/'.pack/blueprint.json',REPO))==english_digests(ps)
+ root=parse((OUT/'문제설명_0909-1019_Midterm_Practice_01.html').read_text())
+ originals=list(root.find_all(lambda n:'data-original-problem' in n.attrs))
+ assert len(originals)==10
+ for node,p in zip(originals,ps):
+  assert node.attrs['data-original-problem']==p.card.id
+  # Ignore only layout wrappers added around math; content/TeX must be identical.
+  fields=english_fields(inner(node),p.card.id,subparts(p.ask_html,''))
+  expected=[p.card.title,p.conditions_html,p.ask_html]
+  for a,b in zip(fields,expected):assert parse(a).text()==parse(b).text()
+ import fitz
+ report=json.loads((OUT/'.pack/evidence/english-pdf-validation.json').read_text())
+ assert report['english_digests']==english_digests(ps)
+ with fitz.open(OUT/(STEM+'-문제-English.pdf')) as doc:
+  for p in ps:
+   text=' '.join(doc[n-1].get_text() for n in report['pages'][p.card.id])
+   assert p.card.title in text and 'Problem '+p.card.id[1:] in text
+
 def test_delivery_missing_or_changed_file_is_rejected(tmp_path):
  from check_exam import check_file_hashes
  from exam_adapter import sha

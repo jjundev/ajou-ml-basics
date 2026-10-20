@@ -76,7 +76,8 @@ def build_explain(repo,output,run):
  return {'pack':pack,'artifacts':art,'review_path':review_path}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('command',choices=['base','explain']);ap.add_argument('--repo',type=Path,required=True);ap.add_argument('--out',type=Path,required=True);ap.add_argument('--run',type=Path,required=True);a=ap.parse_args()
- result=(build_base if a.command=='base' else build_explain)(a.repo,a.out,a.run)
+ from english_pdf import build_english_pdf
+ ap=argparse.ArgumentParser();ap.add_argument('command',choices=['base','explain','english']);ap.add_argument('--repo',type=Path,required=True);ap.add_argument('--out',type=Path,required=True);ap.add_argument('--run',type=Path,required=True);a=ap.parse_args()
+ result={'base':build_base,'explain':build_explain,'english':build_english_pdf}[a.command](a.repo,a.out,a.run)
  print(json.dumps({k:str(v) for k,v in result.items() if k not in ('pack','artifacts')},ensure_ascii=False,indent=2))
 if __name__=='__main__':main()

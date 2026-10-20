@@ -1,6 +1,6 @@
 {
   "review_policy_version": "problem-explain-2026-10-20-row-derivatives",
-  "input_hash": "a40974f73e54ea3169d766dde51449f6563cb120fdd9d4cbe83e6e8981887e8d",
+  "input_hash": "1921ef2c9c83bdfac5d696ffc7c97fb7800f1aea70d05fbfff3c9658bfa97b8a",
   "references": [
     {
       "path": "C:\\Users\\Hyunjun\\Desktop\\현준대학\\26-2\\ajou-ml-basics\\교과서\\Mathematics_for_Machine_Learning.pdf",
@@ -69,541 +69,545 @@
   ],
   "source_visual": {
     "status": "pass",
-    "reviewer": "current author verification",
-    "evidence": "evidence/source-visual.md; pdf-visual-review.json; contact-*.png"
+    "reviewer": "Native executor",
+    "evidence": "English PDF pages1–10 rendered by Poppler and visually read against all current Korean card conditions/tasks. Homework1 English problem-writing style checked. See evidence/english-content-review.md (42 rows), english-pdf-validation.json; all math assumptions and subpart references preserved."
   },
   "browser": {
     "status": "pass",
-    "reviewer": "current full browser check",
-    "evidence": "evidence/concise-explanations-browser.json (60 viewport/theme/topic combinations); tmp/exam-concise-browser-shots/changed-p4-c.png visually inspected"
+    "reviewer": "Native executor + real Chrome",
+    "evidence": "evidence/browser-check.json: all60 viewport/theme/topic comparisons pass; full English title/conditions/tasks, mobile, keyboard, docks, navigation, reload, fallback, print; 0 errors. Actual light/dark desktop/mobile PNGs visually inspected."
   },
   "content": {
     "status": "pass",
-    "reviewer": "current author verification",
-    "evidence": "evidence/content-review.md; independent-review.md; evidence/concise-explanations-verification.json",
+    "reviewer": "Native executor",
+    "evidence": "Read all42 Korean/English requirements, existing recall/solve/verify/pitfall/sum and compared blind independent answers. See evidence/english-content-review.md and independent-english.json. Fragments are byte-identical to baseline; all required concepts, assumptions, constants and intermediate derivations preserved.",
     "items": {
       "p1:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p1:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p1:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: The three vectors are linearly dependent. Dimension/multiplication audit: -v1-v2+v3=0, with coefficients (-1,-1,1) not all zero; v3=v1+v2."
       },
       "p1:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p1:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p1:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: All solutions are alpha=(2-t,1-t,t)^T for t in R. There is no solution for c=(2,1,4)^T. Dimension/multiplication audit: The first two equations are alpha1+alpha3=2 and alpha2+alpha3=1; the third then equals 3. Every vector in col(V) satisfies coordinate3=coordinate1+coordinate2, whereas c has 4 != 2+1."
       },
       "p1:c": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p1:c; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p1:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: U^T U=[[2,1],[1,2]], and its inverse is (1/3)[[2,-1],[-1,2]]. V^T V has no inverse. Dimension/multiplication audit: det(U^T U)=3. V^T V=[[2,1,3],[1,2,3],[3,3,6]], whose third column is the sum of the first two; it annihilates (-1,-1,1)^T."
       },
       "p2:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p2:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p2:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: J_f(x)=[[2x1,1],[x2,x1]], and J_f(1,2)=[[2,1],[2,1]]. Both have dimensions 2 by 2. Dimension/multiplication audit: The first row differentiates f1=x1^2+x2 with respect to x1,x2; the second differentiates f2=x1*x2. Dimension audit: x is 2x1 and f is 2x1, so J_f is output-by-input 2x2, with entries partial f_i/partial x_j. There is no scalar stationary equation or transpose step in this part."
       },
       "p2:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p2:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p2:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: q=2x1^2+x1*x2+x2^2-x1; row gradient=[4x1+x2-1, x1+2x2]; Hessian=[[4,1],[1,2]]. Dimension/multiplication audit: Since A is symmetric, d(1/2 x^T A x)/dx=x^T A. Componentwise differentiation yields the displayed row vector and Hessian. Dimension audit: x,b are 2x1, A is 2x2, q is scalar, and its derivative x^T*A-b^T is 1x2: (1x2)(2x2)-(1x2). The Hessian is the 2x2 matrix defined componentwise by H_ij=partial^2 q/(partial x_i partial x_j), equivalently the Jacobian of (nabla q)^T; it is not inferred by treating the row gradient as a column."
       },
       "p2:c": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p2:c; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p2:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: The stationary point is x*=(2/7,-1/7)^T, and it is the unique global minimizer. Dimension/multiplication audit: Ax*=b. The leading principal minors of A are 4 and 7, both positive, so A is positive definite; q(x)-q(x*)=1/2 (x-x*)^T A (x-x*)>0 for x != x*. Stationarity audit: set the 1x2 row derivative x^T*A-b^T=0_(1x2), hence x^T*A=b^T. Transpose both sides to obtain A^T*x=b, a 2x1 equation; symmetry gives A*x=b. The inverse (2x2) then multiplies b (2x1) on the left."
       },
       "p3:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p3:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p3:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: z^2+(z-2)^2/3=(4/3)(z-1/2)^2+1. Dimension/multiplication audit: The left side expands to (4/3)z^2-(4/3)z+4/3. Expanding the right side gives the same polynomial."
       },
       "p3:b": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p3:b; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p3:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: q=N(z|1/2,3/4), with q(z)=sqrt(2/(3*pi))*exp[-(2/3)(z-1/2)^2]. Mean=1/2 and variance=3/4. Dimension/multiplication audit: After completing the square, the z-dependent exponent is -1/2*(4/3)*(z-1/2)^2, hence precision=4/3 and variance=3/4. The constant is 1/sqrt(2*pi*(3/4))."
       },
       "p3:c": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p3:c; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p3:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Z=exp(-1/2)/sqrt(8*pi). The product g is not itself a probability density. Dimension/multiplication audit: g(z)=(1/(2*pi*sqrt(3)))*exp(-1/2)*exp[-(2/3)(z-1/2)^2]. The last factor integrates to sqrt(3*pi/2), giving Z, which is not 1."
       },
       "p4:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p4:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p4:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Phi=[[1,-1],[1,0],[1,1]], Phi^T Phi=[[3,0],[0,2]], and Phi^T y=(5,4)^T. Dimension/multiplication audit: The feature rows are (1,xn). Sum(y)=5, sum(x*y)=4, sum(x)=0, and sum(x^2)=2. Dimension audit: Phi is 3x2, theta is 2x1, y is 3x1, Phi^T*Phi is 2x2, and Phi^T*y is 2x1. This part only forms the design matrices, so no differentiation or transpose of a stationary equation is needed."
       },
       "p4:b": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p4:b; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p4:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta_ML=(5/3,2)^T, with predicted mean 17/3 at x*=2. Dimension/multiplication audit: The normal equations are diag(3,2)*theta=(5,4)^T, and (1,2)*theta=5/3+4=17/3. Derivative audit: for J_ML=1/2*||y-Phi*theta||^2, the row derivative is (Phi*theta-y)^T*Phi=theta^T*Phi^T*Phi-y^T*Phi in R^(1x2); products have sizes (1x3)(3x2) and (1x2)(2x3)(3x2). Set it equal to 0_(1x2), giving theta^T*Phi^T*Phi=y^T*Phi. Transpose both sides to obtain Phi^T*Phi*theta=Phi^T*y in R^(2x1), then multiply on the left by the 2x2 Gram inverse."
       },
       "p4:c": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p4:c; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p4:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta_MAP=(5/4,4/3)^T, with predicted mean 47/12 at x*=2. The prior shrinks both coefficients toward zero. Dimension/multiplication audit: Noise and prior variances are both 1, so the MAP equations are (Phi^T Phi+I)*theta=Phi^T y, giving diag(4,3)*theta=(5,4)^T. The row gradient of the negative log posterior, up to constants, is theta^T*(Phi^T Phi+I)-y^T*Phi. The intercept is also penalized. Derivative audit: theta is 2x1 and J_MAP=1/2*||y-Phi*theta||^2+1/2*theta^T*theta. Its derivative theta^T*(Phi^T*Phi+I)-y^T*Phi has size 1x2, with the Gram-plus-identity matrix 2x2. Set the row derivative to 0_(1x2): theta^T*(Phi^T*Phi+I)=y^T*Phi. Transpose both sides, using symmetry, to get (Phi^T*Phi+I)*theta=Phi^T*y in R^(2x1). This explicitly includes the intercept penalty."
       },
       "p5:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p5:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p5:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: mu_X=(2/3,2/3)^T and Sigma_X=[[8/9,-4/9],[-4/9,8/9]]. Dimension/multiplication audit: E[XX^T]=[[4/3,0],[0,4/3]], and mu_X*mu_X^T has all entries 4/9. Subtraction gives the covariance with denominator 3."
       },
       "p5:b": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p5:b; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p5:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: mu_Y=(7/3,-1)^T; Sigma_Y=[[8/9,0],[0,8/3]]; C_XY=[[4/9,4/3],[4/9,-4/3]]. Dimension/multiplication audit: Use mu_Y=A*mu_X+b, Sigma_Y=A*Sigma_X*A^T, and C_XY=Sigma_X*A^T. The cross covariance is ordered X then Y as specified."
       },
       "p5:c": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p5:c"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p5:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Y1 and Y2 are uncorrelated but not independent. Dimension/multiplication audit: Y takes (1,-1),(3,1),(3,-3), each with probability 1/3. Sigma_Y has zero off-diagonal. But P(Y1=1,Y2=-1)=1/3, while P(Y1=1)*P(Y2=-1)=1/9, violating independence."
       },
       "p6:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p6:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p6:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: y_n|x_1,...,x_N,theta ~ N(theta0+theta1*x_n,sigma^2), and the observations are conditionally independent. Dimension/multiplication audit: With inputs and theta fixed, each observation is a deterministic shift of its own mutually independent Gaussian noise; deterministic shifts preserve independence. Dimension context: theta is 2x1, Phi is Nx2, y is Nx1, and each row phi(x_n)^T is 1x2, so phi(x_n)^T*theta is scalar. This part has no scalar-objective differentiation."
       },
       "p6:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p6:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p6:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: p(y|Phi,theta)=(2*pi*sigma^2)^(-N/2)*exp[-||y-Phi*theta||^2/(2*sigma^2)]. L(theta)=N/2*log(2*pi*sigma^2)+||y-Phi*theta||^2/(2*sigma^2). Dimension/multiplication audit: Multiply the N scalar Gaussian densities using conditional independence, then take the negative logarithm. Dimension context: Phi*theta and y are Nx1 and their squared Euclidean norm and L(theta) are scalar. Multiplication order in the residual is Phi (Nx2) times theta (2x1). Differentiation and the transpose to normal equations are performed in (d)."
       },
       "p6:c": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p6:c"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p6:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: L(theta)=N/2*log(2*pi*sigma^2)+N/(2*sigma^2)*Rhat(theta); they have the same minimizer. Dimension/multiplication audit: Rhat=SSE/N. The additive term does not depend on theta and the multiplier N/(2*sigma^2) is strictly positive. Dimension context: both Rhat and L are scalar functions of theta in R^(2x1); multiplying their row derivatives by the positive scalar N/(2*sigma^2) preserves their 1x2 shape and stationary points. The full stationary and transpose steps appear in (d)."
       },
       "p6:d": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p6:d"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p6:d: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: SSE=y^T*y-2*theta^T*Phi^T*y+theta^T*Phi^T*Phi*theta; its row gradient is 2*theta^T*Phi^T*Phi-2*y^T*Phi. The normal equations are Phi^T*Phi*theta=Phi^T*y. Dimension/multiplication audit: Phi^T*Phi is symmetric. If 'squared error' denotes Rhat rather than SSE, both the expansion and row gradient are divided by N, leaving the same stationary equations. Derivative audit: theta is 2x1, Phi is Nx2, and y is Nx1. The displayed SSE gradient is 1x2: theta^T (1x2) times Phi^T*Phi (2x2), minus y^T (1xN) times Phi (Nx2). Set 2*theta^T*Phi^T*Phi-2*y^T*Phi=0_(1x2), simplify to theta^T*Phi^T*Phi=y^T*Phi, and transpose both sides to obtain Phi^T*Phi*theta=Phi^T*y, a 2x1 equation. Dividing by N for Rhat or by 2*sigma^2 for the theta-dependent NLL does not change this equation."
       },
       "p6:e": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p6:e"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p6:e: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta_ML=(Phi^T*Phi)^(-1)*Phi^T*y is the unique minimizer. Features (1,x,x^2)^T still define linear regression because the prediction is linear in its coefficients. Dimension/multiplication audit: For nonzero h, h^T*Phi^T*Phi*h=||Phi*h||^2>0 by full column rank. Thus the squared-error Hessian 2*Phi^T*Phi is positive definite. Polynomial dependence on input does not change linear dependence on parameters. Dimension audit: (Phi^T*Phi)^(-1) is 2x2 and Phi^T*y is 2x1, so their ordered product yields the 2x1 estimator after the row-zero equation is transposed as in (d). The Hessian is defined by scalar second partials and is 2x2; for Rhat it is (2/N)*Phi^T*Phi and for L it is Phi^T*Phi/sigma^2. With polynomial features, the new parameter is 3x1 and design matrix Nx3; the prediction remains a scalar linear function of these three coefficients. Full rank of the expanded design is not asserted."
       },
       "p7:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p7:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p7:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: p(theta|y,Phi)=p(y|Phi,theta)*p(theta)/p(y|Phi), proportional to likelihood times prior. The evidence does not depend on theta. Dimension/multiplication audit: p(y|Phi)=integral p(y|Phi,t)*p(t) dt integrates out the dummy parameter t and depends only on y, Phi, and fixed hyperparameters. Dimension context: Phi is NxK, theta and m0 are Kx1, and y is Nx1. The prior and posterior are densities over K-dimensional theta. No scalar derivative is taken in this part."
       },
       "p7:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p7:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p7:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: -log p(theta|y,Phi)=||y-Phi*theta||^2/(2*sigma^2)+||theta-m0||^2/(2*tau^2)+C, where C=N/2*log(2*pi*sigma^2)+K/2*log(2*pi*tau^2)+log p(y|Phi). Dimension/multiplication audit: Likelihood density is (2*pi*sigma^2)^(-N/2)*exp[-SSE/(2*sigma^2)], and prior density is (2*pi*tau^2)^(-K/2)*exp[-||theta-m0||^2/(2*tau^2)]. The denominator in Bayes' theorem contributes +log evidence to the negative log posterior. Dimension context: Phi*theta-y is Nx1, theta-m0 is Kx1, and each quadratic term is scalar. Their derivatives must therefore be 1xK rows; the ordered products and row-zero/transposition steps are stated in (c)."
       },
       "p7:c": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p7:c"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p7:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: The two row gradients are (theta^T*Phi^T*Phi-y^T*Phi)/sigma^2 and (theta-m0)^T/tau^2. MAP satisfies (Phi^T*Phi+(sigma^2/tau^2)*I)*theta=Phi^T*y+(sigma^2/tau^2)*m0. Dimension/multiplication audit: Set the sum of the displayed row vectors to zero, transpose, and multiply by sigma^2. Derivative audit: theta,m0 are Kx1, Phi is NxK, y is Nx1, and both derivatives are 1xK. The likelihood derivative (Phi*theta-y)^T*Phi/sigma^2 has product sizes (1xN)(NxK), equal to [theta^T*(Phi^T*Phi)-y^T*Phi]/sigma^2; the prior derivative (theta-m0)^T/tau^2 is 1xK. Set their sum to 0_(1xK). After multiplying by sigma^2, the row equation is theta^T*(Phi^T*Phi+lambda*I)=y^T*Phi+lambda*m0^T. Transpose both sides and use symmetry to obtain (Phi^T*Phi+lambda*I)*theta=Phi^T*y+lambda*m0 in R^(Kx1)."
       },
       "p7:d": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p7:d"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p7:d: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta_MAP=(Phi^T*Phi+lambda*I)^(-1)*(Phi^T*y+lambda*m0), where lambda=sigma^2/tau^2. Dimension/multiplication audit: Multiplying the theta-dependent negative log posterior by 2*sigma^2 gives SSE+lambda*||theta-m0||^2. The penalty includes an intercept if present. Dimension audit: the inverse is KxK and its right-hand vector Phi^T*y+lambda*m0 is Kx1, so the inverse multiplies that vector on the left to produce theta_MAP in R^(Kx1). This solves the column normal equations obtained by transposing the row-zero derivative equation in (c); lambda is scalar."
       },
       "p7:e": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p7:e"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p7:e: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Phi^T*Phi+lambda*I is positive definite and hence invertible without any rank assumption on Phi. Dimension/multiplication audit: For every nonzero h, h^T*(Phi^T*Phi+lambda*I)*h=||Phi*h||^2+lambda*||h||^2>0 because lambda=sigma^2/tau^2>0. The associated MAP objective is strictly convex. Dimension audit: h is Kx1, Phi*h is Nx1, and h^T*(Phi^T*Phi+lambda*I)*h is scalar, with multiplication order (1xK)(KxK)(Kx1). The negative-log-posterior Hessian is Phi^T*Phi/sigma^2+I/tau^2, a positive definite KxK second-partial matrix. No new stationary transpose is required after (c)."
       },
       "p7:f": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p7:f"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p7:f: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: For lambda=1 the unique MAP solution is (5/11,5/11)^T. For lambda=0 all pairs with theta1+theta2=1 minimize SSE, so the solution is not unique. As lambda tends to infinity the solution tends to (0,0)^T. Dimension/multiplication audit: Phi^T*Phi=[[5,5],[5,5]], Phi^T*y=(5,5)^T. For lambda>0, theta=(5/(10+lambda),5/(10+lambda))^T. At lambda=1, [[6,5],[5,6]]*(5/11,5/11)^T=(5,5)^T; at lambda=0 only the coefficient sum is identified. Dimension audit: here N=K=2, theta and y are 2x1, and the system matrix is 2x2. For lambda=1 the row stationary equation is theta^T*[[6,5],[5,6]]=[5,5]; setting the row derivative to 0_(1x2) and transposing both sides gives [[6,5],[5,6]]*theta=(5,5)^T. With lambda=0, singularity concerns coefficient uniqueness and does not change derivative orientation."
       },
       "p8:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p8:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p8:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: p(D|theta)*p(theta)=(4*pi)^(-3/2)*exp[-((2-theta)^2+theta^2+(theta-1)^2)/4], hence proportional to that exponential. Dimension/multiplication audit: Each of the two independent likelihood factors and the prior has variance 2 and normalizer 1/sqrt(4*pi). The data inputs are both 1."
       },
       "p8:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p8:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p8:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: A=3/2, b=3/2, c=5/2. Dimension/multiplication audit: The sum inside the numerator in (a) is 3*theta^2-6*theta+5; dividing by 4 equals (1/2)*[(3/2)*theta^2-3*theta+5/2]."
       },
       "p8:c": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p8:c"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p8:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta|D ~ N(1,2/3), with posterior density sqrt(3/(4*pi))*exp[-3*(theta-1)^2/4]. Dimension/multiplication audit: A*theta^2-2*b*theta+c=(3/2)*(theta-1)^2+1. The theta-dependent kernel integrates to sqrt(4*pi/3); the constant exp(-1/2) cancels in posterior normalization."
       },
       "p8:d": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p8:d"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p8:d: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: f*|D ~ N(2,8/3), so its mean is 2 and variance is 8/3. Dimension/multiplication audit: f*=2*theta is a linear transform of a Gaussian: E[f*|D]=2*1 and Var(f*|D)=2^2*(2/3)."
       },
       "p8:e": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p8:e; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p8:e: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: y*|D ~ N(2,14/3), with mean 2 and variance 14/3. Dimension/multiplication audit: The independent future Gaussian noise has mean zero and variance 2; Gaussian sums remain Gaussian, so Var(y*|D)=8/3+2=14/3."
       },
       "p8:f": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p8:f; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p8:f: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta_MAP=1. Fixing theta at MAP gives y*|theta_MAP ~ N(2,2); its variance is 8/3 smaller than the full posterior predictive variance. Dimension/multiplication audit: The posterior is maximized at its mean 1. A fixed parameter contributes no uncertainty; the full posterior predictive adds Var(2*theta|D)=8/3 to the observation-noise variance 2."
       },
       "p9:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p9:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p9:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: p(y|M_j)=integral N(y|theta,1)*N(theta|0,v_j) dtheta over R. Dimension/multiplication audit: The marginal likelihood averages the conditional sampling density over theta before conditioning on the observed y; the averaging law is the prior. A posterior already conditions on the same observed y and is not the marginalization distribution in this identity."
       },
       "p9:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p9:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p9:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: p(y|M_j)=[2*pi*(1+v_j)]^(-1/2)*exp[-y^2/(2*(1+v_j))], i.e. y|M_j ~ N(0,1+v_j). Dimension/multiplication audit: (y-theta)^2+theta^2/v=((v+1)/v)*(theta-v*y/(v+1))^2+y^2/(v+1). Multiplying the joint normalizer 1/(2*pi*sqrt(v)) by the Gaussian integral sqrt(2*pi*v/(v+1)) gives the stated normalizer."
       },
       "p9:c": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p9:c"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p9:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: p(0|M1)=1/sqrt(4*pi) and p(0|M2)=1/sqrt(10*pi). Dimension/multiplication audit: The marginal variances are respectively 1+1=2 and 1+4=5; at zero each Gaussian exponential equals 1."
       },
       "p9:d": {
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p9:d; evidence/concise-explanations-verification.json"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p9:d: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: B12=sqrt(5/2)>1, so the data favor M1 on the Bayes-factor criterion. Dimension/multiplication audit: B12=[1/sqrt(4*pi)]/[1/sqrt(10*pi)]=sqrt(10/4)=sqrt(5/2)."
       },
       "p9:e": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p9:e"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p9:e: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Posterior odds M1:M2 = B12*(1/3)/(2/3)=sqrt(10)/4. P(M1|0)=sqrt(10)/(sqrt(10)+4), and P(M2|0)=4/(sqrt(10)+4). Select M2 by maximum posterior probability. Dimension/multiplication audit: Dividing Bayes' theorem for the two models cancels their shared data evidence: P(M1|y)/P(M2|y)=[p(y|M1)/p(y|M2)]*[P(M1)/P(M2)]. The odds are below 1, despite B12>1."
       },
       "p10:a": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p10:a"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p10:a: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Phi^T*r=0, so the residual is orthogonal to every vector in col(Phi). Dimension/multiplication audit: At t=0 the squared-distance derivative is -2*(Phi*h)^T*r=-2*h^T*Phi^T*r. Its being zero for every h forces Phi^T*r=0."
       },
       "p10:b": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p10:b"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p10:b: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: Phi^T*Phi*theta_hat=Phi^T*y and theta_hat=(Phi^T*Phi)^(-1)*Phi^T*y. Dimension/multiplication audit: Insert r=y-Phi*theta_hat into Phi^T*r=0. Full column rank ensures Phi^T*Phi is invertible because its nonzero quadratic forms equal ||Phi*h||^2>0."
       },
       "p10:c": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p10:c"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p10:c: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: P=Phi*(Phi^T*Phi)^(-1)*Phi^T is a 3 by 3 matrix (generally N by N), with P^T=P and P^2=P. Dimension/multiplication audit: The Gram inverse is symmetric, giving P^T=P. In P^2, the middle product (Phi^T*Phi)^(-1)*(Phi^T*Phi)*(Phi^T*Phi)^(-1) reduces to one Gram inverse."
       },
       "p10:d": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p10:d"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p10:d: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: theta_hat=(4/3,1)^T; P=[[1/3,1/3,1/3],[1/3,5/6,-1/6],[1/3,-1/6,5/6]]; y_hat=(4/3,7/3,1/3)^T; r=(2/3,-1/3,-1/3)^T. Dimension/multiplication audit: Phi^T*Phi=diag(3,2) and Phi^T*y=(4,2)^T. P=(1/3)*(1,1,1)^T*(1,1,1)+(1/2)*(0,1,-1)^T*(0,1,-1). Phi^T*r=(2/3-1/3-1/3,-1/3+1/3)^T=(0,0)^T."
       },
       "p10:e": {
         "status": "pass",
-        "reviewer": "current author verification",
-        "evidence": "evidence/content-review.md; independent-review.md: p10:e"
+        "reviewer": "Native executor",
+        "evidence": "evidence/english-content-review.md row p10:e: Korean and English demands and references agree. Re-read matching solve/verify and recall/pitfall/sum. Independent conclusion agrees: For every u in col(Phi), ||y-u||^2=||y-y_hat||^2+||y_hat-u||^2 >= ||y-y_hat||^2; therefore y_hat is the unique nearest point. Dimension/multiplication audit: Write y-u=r+(y_hat-u). Since y_hat-u lies in col(Phi), r^T*(y_hat-u)=0 by (a), eliminating the cross term. Equality holds exactly at u=y_hat."
       }
     }
   },
   "independent": {
     "status": "pass",
-    "reviewer": "independent reviewer + fresh symbolic comparison",
-    "evidence": "evidence/independent-review.md; independent-checks.json; row-math-checks.json; evidence/concise-explanations-verification.json",
+    "reviewer": "independent_math (blind reviewer)",
+    "evidence": "evidence/independent-english.json: solved from blind-english.html before opening any existing answer/explanation. 42 results compared by Native executor to source answers and explanation fragments; no conflicts.",
     "items": {
       "p1:a": {
-        "method": "exact",
-        "conclusion": "선형종속. v1+v2-v3=0.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p1:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p1:a: -v1-v2+v3=0, with coefficients (-1,-1,1) not all zero; v3=v1+v2.",
+        "method": "exact",
+        "conclusion": "The three vectors are linearly dependent."
       },
       "p1:b": {
-        "method": "exact",
-        "conclusion": "모든 해 α=(2-t,1-t,t)^T, t∈R. c에 대해서는 해 없음.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p1:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p1:b: The first two equations are alpha1+alpha3=2 and alpha2+alpha3=1; the third then equals 3. Every vector in col(V) satisfies coordinate3=coordinate1+coordinate2, whereas c has 4 != 2+1.",
+        "method": "exact",
+        "conclusion": "All solutions are alpha=(2-t,1-t,t)^T for t in R. There is no solution for c=(2,1,4)^T."
       },
       "p1:c": {
-        "method": "exact",
-        "conclusion": "U^T U=[[2,1],[1,2]], 역행렬=(1/3)[[2,-1],[-1,2]]. V^T V는 역행렬 없음.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p1:c; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p1:c: det(U^T U)=3. V^T V=[[2,1,3],[1,2,3],[3,3,6]], whose third column is the sum of the first two; it annihilates (-1,-1,1)^T.",
+        "method": "exact",
+        "conclusion": "U^T U=[[2,1],[1,2]], and its inverse is (1/3)[[2,-1],[-1,2]]. V^T V has no inverse."
       },
       "p2:a": {
-        "method": "symbolic",
-        "conclusion": "J_f(x)=[[2x1,1],[x2,x1]], J_f(1,2)=[[2,1],[2,1]], 차원 2×2.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p2:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p2:a: The first row differentiates f1=x1^2+x2 with respect to x1,x2; the second differentiates f2=x1*x2. Dimension audit: x is 2x1 and f is 2x1, so J_f is output-by-input 2x2, with entries partial f_i/partial x_j. There is no scalar stationary equation or transpose step in this part.",
+        "method": "symbolic",
+        "conclusion": "J_f(x)=[[2x1,1],[x2,x1]], and J_f(1,2)=[[2,1],[2,1]]. Both have dimensions 2 by 2."
       },
       "p2:b": {
-        "method": "symbolic",
-        "conclusion": "행 gradient ∇q=(4x1+x2-1, x1+2x2)=x^T A-b^T, Hessian A.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p2:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p2:b: Since A is symmetric, d(1/2 x^T A x)/dx=x^T A. Componentwise differentiation yields the displayed row vector and Hessian. Dimension audit: x,b are 2x1, A is 2x2, q is scalar, and its derivative x^T*A-b^T is 1x2: (1x2)(2x2)-(1x2). The Hessian is the 2x2 matrix defined componentwise by H_ij=partial^2 q/(partial x_i partial x_j), equivalently the Jacobian of (nabla q)^T; it is not inferred by treating the row gradient as a column.",
+        "method": "symbolic",
+        "conclusion": "q=2x1^2+x1*x2+x2^2-x1; row gradient=[4x1+x2-1, x1+2x2]; Hessian=[[4,1],[1,2]]."
       },
       "p2:c": {
-        "method": "exact",
-        "conclusion": "유일한 전역 최소점 x=(2/7,-1/7)^T.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p2:c; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p2:c: Ax*=b. The leading principal minors of A are 4 and 7, both positive, so A is positive definite; q(x)-q(x*)=1/2 (x-x*)^T A (x-x*)>0 for x != x*. Stationarity audit: set the 1x2 row derivative x^T*A-b^T=0_(1x2), hence x^T*A=b^T. Transpose both sides to obtain A^T*x=b, a 2x1 equation; symmetry gives A*x=b. The inverse (2x2) then multiplies b (2x1) on the left.",
+        "method": "proof",
+        "conclusion": "The stationary point is x*=(2/7,-1/7)^T, and it is the unique global minimizer."
       },
       "p3:a": {
-        "method": "exact",
-        "conclusion": "z²+(z-2)²/3=(4/3)(z-1/2)²+1.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p3:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p3:a: The left side expands to (4/3)z^2-(4/3)z+4/3. Expanding the right side gives the same polynomial.",
+        "method": "exact",
+        "conclusion": "z^2+(z-2)^2/3=(4/3)(z-1/2)^2+1."
       },
       "p3:b": {
-        "method": "exact",
-        "conclusion": "q=N(1/2,3/4), q(z)=sqrt(2/(3π)) exp[-(2/3)(z-1/2)²].",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p3:b; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p3:b: After completing the square, the z-dependent exponent is -1/2*(4/3)*(z-1/2)^2, hence precision=4/3 and variance=3/4. The constant is 1/sqrt(2*pi*(3/4)).",
+        "method": "exact",
+        "conclusion": "q=N(z|1/2,3/4), with q(z)=sqrt(2/(3*pi))*exp[-(2/3)(z-1/2)^2]. Mean=1/2 and variance=3/4."
       },
       "p3:c": {
-        "method": "exact",
-        "conclusion": "Z=e^(-1/2)/sqrt(8π). g는 확률밀도가 아니다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p3:c; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p3:c: g(z)=(1/(2*pi*sqrt(3)))*exp(-1/2)*exp[-(2/3)(z-1/2)^2]. The last factor integrates to sqrt(3*pi/2), giving Z, which is not 1.",
+        "method": "exact",
+        "conclusion": "Z=exp(-1/2)/sqrt(8*pi). The product g is not itself a probability density."
       },
       "p4:a": {
-        "method": "exact",
-        "conclusion": "Φ=[[1,-1],[1,0],[1,1]], Φ^T Φ=[[3,0],[0,2]], Φ^T y=(5,4)^T.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p4:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p4:a: The feature rows are (1,xn). Sum(y)=5, sum(x*y)=4, sum(x)=0, and sum(x^2)=2. Dimension audit: Phi is 3x2, theta is 2x1, y is 3x1, Phi^T*Phi is 2x2, and Phi^T*y is 2x1. This part only forms the design matrices, so no differentiation or transpose of a stationary equation is needed.",
+        "method": "exact",
+        "conclusion": "Phi=[[1,-1],[1,0],[1,1]], Phi^T Phi=[[3,0],[0,2]], and Phi^T y=(5,4)^T."
       },
       "p4:b": {
-        "method": "exact",
-        "conclusion": "θ_ML=(5/3,2)^T, x*=2 평균=17/3.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p4:b; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p4:b: The normal equations are diag(3,2)*theta=(5,4)^T, and (1,2)*theta=5/3+4=17/3. Derivative audit: for J_ML=1/2*||y-Phi*theta||^2, the row derivative is (Phi*theta-y)^T*Phi=theta^T*Phi^T*Phi-y^T*Phi in R^(1x2); products have sizes (1x3)(3x2) and (1x2)(2x3)(3x2). Set it equal to 0_(1x2), giving theta^T*Phi^T*Phi=y^T*Phi. Transpose both sides to obtain Phi^T*Phi*theta=Phi^T*y in R^(2x1), then multiply on the left by the 2x2 Gram inverse.",
+        "method": "exact",
+        "conclusion": "theta_ML=(5/3,2)^T, with predicted mean 17/3 at x*=2."
       },
       "p4:c": {
-        "method": "exact",
-        "conclusion": "θ_MAP=(5/4,4/3)^T, 평균=47/12. 두 계수 모두 0 중심 prior 때문에 축소된다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p4:c; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p4:c: Noise and prior variances are both 1, so the MAP equations are (Phi^T Phi+I)*theta=Phi^T y, giving diag(4,3)*theta=(5,4)^T. The row gradient of the negative log posterior, up to constants, is theta^T*(Phi^T Phi+I)-y^T*Phi. The intercept is also penalized. Derivative audit: theta is 2x1 and J_MAP=1/2*||y-Phi*theta||^2+1/2*theta^T*theta. Its derivative theta^T*(Phi^T*Phi+I)-y^T*Phi has size 1x2, with the Gram-plus-identity matrix 2x2. Set the row derivative to 0_(1x2): theta^T*(Phi^T*Phi+I)=y^T*Phi. Transpose both sides, using symmetry, to get (Phi^T*Phi+I)*theta=Phi^T*y in R^(2x1). This explicitly includes the intercept penalty.",
+        "method": "exact",
+        "conclusion": "theta_MAP=(5/4,4/3)^T, with predicted mean 47/12 at x*=2. The prior shrinks both coefficients toward zero."
       },
       "p5:a": {
-        "method": "exact",
-        "conclusion": "μX=(2/3,2/3)^T, ΣX=[[8/9,-4/9],[-4/9,8/9]].",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p5:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p5:a: E[XX^T]=[[4/3,0],[0,4/3]], and mu_X*mu_X^T has all entries 4/9. Subtraction gives the covariance with denominator 3.",
+        "method": "exact",
+        "conclusion": "mu_X=(2/3,2/3)^T and Sigma_X=[[8/9,-4/9],[-4/9,8/9]]."
       },
       "p5:b": {
-        "method": "exact",
-        "conclusion": "μY=(7/3,-1)^T, ΣY=[[8/9,0],[0,8/3]], CXY=[[4/9,4/3],[4/9,-4/3]].",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p5:b; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p5:b: Use mu_Y=A*mu_X+b, Sigma_Y=A*Sigma_X*A^T, and C_XY=Sigma_X*A^T. The cross covariance is ordered X then Y as specified.",
+        "method": "exact",
+        "conclusion": "mu_Y=(7/3,-1)^T; Sigma_Y=[[8/9,0],[0,8/3]]; C_XY=[[4/9,4/3],[4/9,-4/3]]."
       },
       "p5:c": {
-        "method": "exact",
-        "conclusion": "Y1,Y2는 무상관이지만 독립은 아니다. 가능한 Y=(1,-1),(3,1),(3,-3), 각각 확률 1/3.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p5:c",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p5:c: Y takes (1,-1),(3,1),(3,-3), each with probability 1/3. Sigma_Y has zero off-diagonal. But P(Y1=1,Y2=-1)=1/3, while P(Y1=1)*P(Y2=-1)=1/9, violating independence.",
+        "method": "proof",
+        "conclusion": "Y1 and Y2 are uncorrelated but not independent."
       },
       "p6:a": {
-        "method": "proof",
-        "conclusion": "yn | xn,θ ~ N(θ0+θ1 xn,σ²). 고정 입력과 θ 조건하에 모든 yn은 조건부 독립.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p6:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p6:a: With inputs and theta fixed, each observation is a deterministic shift of its own mutually independent Gaussian noise; deterministic shifts preserve independence. Dimension context: theta is 2x1, Phi is Nx2, y is Nx1, and each row phi(x_n)^T is 1x2, so phi(x_n)^T*theta is scalar. This part has no scalar-objective differentiation.",
+        "method": "qualitative",
+        "conclusion": "y_n|x_1,...,x_N,theta ~ N(theta0+theta1*x_n,sigma^2), and the observations are conditionally independent."
       },
       "p6:b": {
-        "method": "symbolic",
-        "conclusion": "p(y|Φ,θ)=(2πσ²)^(-N/2) exp[-||y-Φθ||²/(2σ²)]. L(θ)=N/2 log(2πσ²)+||y-Φθ||²/(2σ²).",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p6:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p6:b: Multiply the N scalar Gaussian densities using conditional independence, then take the negative logarithm. Dimension context: Phi*theta and y are Nx1 and their squared Euclidean norm and L(theta) are scalar. Multiplication order in the residual is Phi (Nx2) times theta (2x1). Differentiation and the transpose to normal equations are performed in (d).",
+        "method": "symbolic",
+        "conclusion": "p(y|Phi,theta)=(2*pi*sigma^2)^(-N/2)*exp[-||y-Phi*theta||^2/(2*sigma^2)]. L(theta)=N/2*log(2*pi*sigma^2)+||y-Phi*theta||^2/(2*sigma^2)."
       },
       "p6:c": {
-        "method": "proof",
-        "conclusion": "L=N/2 log(2πσ²)+N/(2σ²) Rhat. 따라서 ML과 제곱손실 경험위험 최소화의 최소점은 같다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p6:c",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p6:c: Rhat=SSE/N. The additive term does not depend on theta and the multiplier N/(2*sigma^2) is strictly positive. Dimension context: both Rhat and L are scalar functions of theta in R^(2x1); multiplying their row derivatives by the positive scalar N/(2*sigma^2) preserves their 1x2 shape and stationary points. The full stationary and transpose steps appear in (d).",
+        "method": "proof",
+        "conclusion": "L(theta)=N/2*log(2*pi*sigma^2)+N/(2*sigma^2)*Rhat(theta); they have the same minimizer."
       },
       "p6:d": {
-        "method": "symbolic",
-        "conclusion": "행 gradient ∇Q=2θ^T Φ^T Φ-2y^T Φ. 0으로 놓고 양변 전치하면 Φ^T Φθ=Φ^T y.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p6:d",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p6:d: Phi^T*Phi is symmetric. If 'squared error' denotes Rhat rather than SSE, both the expansion and row gradient are divided by N, leaving the same stationary equations. Derivative audit: theta is 2x1, Phi is Nx2, and y is Nx1. The displayed SSE gradient is 1x2: theta^T (1x2) times Phi^T*Phi (2x2), minus y^T (1xN) times Phi (Nx2). Set 2*theta^T*Phi^T*Phi-2*y^T*Phi=0_(1x2), simplify to theta^T*Phi^T*Phi=y^T*Phi, and transpose both sides to obtain Phi^T*Phi*theta=Phi^T*y, a 2x1 equation. Dividing by N for Rhat or by 2*sigma^2 for the theta-dependent NLL does not change this equation.",
+        "method": "symbolic",
+        "conclusion": "SSE=y^T*y-2*theta^T*Phi^T*y+theta^T*Phi^T*Phi*theta; its row gradient is 2*theta^T*Phi^T*Phi-2*y^T*Phi. The normal equations are Phi^T*Phi*theta=Phi^T*y."
       },
       "p6:e": {
-        "method": "proof",
-        "conclusion": "θ_ML=(Φ^T Φ)^(-1)Φ^T y, 유일한 전역 최소점. (1,x,x²) 특징도 θ에 선형이므로 선형 회귀.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p6:e",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p6:e: For nonzero h, h^T*Phi^T*Phi*h=||Phi*h||^2>0 by full column rank. Thus the squared-error Hessian 2*Phi^T*Phi is positive definite. Polynomial dependence on input does not change linear dependence on parameters. Dimension audit: (Phi^T*Phi)^(-1) is 2x2 and Phi^T*y is 2x1, so their ordered product yields the 2x1 estimator after the row-zero equation is transposed as in (d). The Hessian is defined by scalar second partials and is 2x2; for Rhat it is (2/N)*Phi^T*Phi and for L it is Phi^T*Phi/sigma^2. With polynomial features, the new parameter is 3x1 and design matrix Nx3; the prediction remains a scalar linear function of these three coefficients. Full rank of the expanded design is not asserted.",
+        "method": "proof",
+        "conclusion": "theta_ML=(Phi^T*Phi)^(-1)*Phi^T*y is the unique minimizer. Features (1,x,x^2)^T still define linear regression because the prediction is linear in its coefficients."
       },
       "p7:a": {
-        "method": "symbolic",
-        "conclusion": "p(θ|y,Φ)=p(y|θ,Φ)p(θ)/p(y|Φ) ∝ p(y|θ,Φ)p(θ). Evidence는 θ에 의존하지 않는다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p7:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p7:a: p(y|Phi)=integral p(y|Phi,t)*p(t) dt integrates out the dummy parameter t and depends only on y, Phi, and fixed hyperparameters. Dimension context: Phi is NxK, theta and m0 are Kx1, and y is Nx1. The prior and posterior are densities over K-dimensional theta. No scalar derivative is taken in this part.",
+        "method": "symbolic",
+        "conclusion": "p(theta|y,Phi)=p(y|Phi,theta)*p(theta)/p(y|Phi), proportional to likelihood times prior. The evidence does not depend on theta."
       },
       "p7:b": {
-        "method": "symbolic",
-        "conclusion": "-log p(θ|y,Φ)=||y-Φθ||²/(2σ²)+||θ-m0||²/(2τ²)+C. C=N/2 log(2πσ²)+K/2 log(2πτ²)+log p(y|Φ).",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p7:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p7:b: Likelihood density is (2*pi*sigma^2)^(-N/2)*exp[-SSE/(2*sigma^2)], and prior density is (2*pi*tau^2)^(-K/2)*exp[-||theta-m0||^2/(2*tau^2)]. The denominator in Bayes' theorem contributes +log evidence to the negative log posterior. Dimension context: Phi*theta-y is Nx1, theta-m0 is Kx1, and each quadratic term is scalar. Their derivatives must therefore be 1xK rows; the ordered products and row-zero/transposition steps are stated in (c).",
+        "method": "symbolic",
+        "conclusion": "-log p(theta|y,Phi)=||y-Phi*theta||^2/(2*sigma^2)+||theta-m0||^2/(2*tau^2)+C, where C=N/2*log(2*pi*sigma^2)+K/2*log(2*pi*tau^2)+log p(y|Phi)."
       },
       "p7:c": {
-        "method": "symbolic",
-        "conclusion": "행 gradient ∇J=(Φθ-y)^T Φ/σ²+(θ-m0)^T/τ². 양변 전치하면 (Φ^T Φ+λI)θ=Φ^T y+λm0.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p7:c",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p7:c: Set the sum of the displayed row vectors to zero, transpose, and multiply by sigma^2. Derivative audit: theta,m0 are Kx1, Phi is NxK, y is Nx1, and both derivatives are 1xK. The likelihood derivative (Phi*theta-y)^T*Phi/sigma^2 has product sizes (1xN)(NxK), equal to [theta^T*(Phi^T*Phi)-y^T*Phi]/sigma^2; the prior derivative (theta-m0)^T/tau^2 is 1xK. Set their sum to 0_(1xK). After multiplying by sigma^2, the row equation is theta^T*(Phi^T*Phi+lambda*I)=y^T*Phi+lambda*m0^T. Transpose both sides and use symmetry to obtain (Phi^T*Phi+lambda*I)*theta=Phi^T*y+lambda*m0 in R^(Kx1).",
+        "method": "symbolic",
+        "conclusion": "The two row gradients are (theta^T*Phi^T*Phi-y^T*Phi)/sigma^2 and (theta-m0)^T/tau^2. MAP satisfies (Phi^T*Phi+(sigma^2/tau^2)*I)*theta=Phi^T*y+(sigma^2/tau^2)*m0."
       },
       "p7:d": {
-        "method": "symbolic",
-        "conclusion": "θ_MAP=(Φ^T Φ+λI)^(-1)(Φ^T y+λm0), λ=σ²/τ². 동등 목적함수 SSE+λ||θ-m0||².",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p7:d",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p7:d: Multiplying the theta-dependent negative log posterior by 2*sigma^2 gives SSE+lambda*||theta-m0||^2. The penalty includes an intercept if present. Dimension audit: the inverse is KxK and its right-hand vector Phi^T*y+lambda*m0 is Kx1, so the inverse multiplies that vector on the left to produce theta_MAP in R^(Kx1). This solves the column normal equations obtained by transposing the row-zero derivative equation in (c); lambda is scalar.",
+        "method": "symbolic",
+        "conclusion": "theta_MAP=(Phi^T*Phi+lambda*I)^(-1)*(Phi^T*y+lambda*m0), where lambda=sigma^2/tau^2."
       },
       "p7:e": {
-        "method": "proof",
-        "conclusion": "Φ^T Φ+λI는 양의정부호이고 가역이다. 따라서 열독립을 가정하지 않아도 MAP는 유일하다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p7:e",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p7:e: For every nonzero h, h^T*(Phi^T*Phi+lambda*I)*h=||Phi*h||^2+lambda*||h||^2>0 because lambda=sigma^2/tau^2>0. The associated MAP objective is strictly convex. Dimension audit: h is Kx1, Phi*h is Nx1, and h^T*(Phi^T*Phi+lambda*I)*h is scalar, with multiplication order (1xK)(KxK)(Kx1). The negative-log-posterior Hessian is Phi^T*Phi/sigma^2+I/tau^2, a positive definite KxK second-partial matrix. No new stationary transpose is required after (c).",
+        "method": "proof",
+        "conclusion": "Phi^T*Phi+lambda*I is positive definite and hence invertible without any rank assumption on Phi."
       },
       "p7:f": {
-        "method": "exact",
-        "conclusion": "λ=1에서 θ=(5/11,5/11)^T. λ=0의 모든 해는 (t,1-t)^T라 비유일. λ→∞에서 θ→(0,0)^T.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p7:f",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p7:f: Phi^T*Phi=[[5,5],[5,5]], Phi^T*y=(5,5)^T. For lambda>0, theta=(5/(10+lambda),5/(10+lambda))^T. At lambda=1, [[6,5],[5,6]]*(5/11,5/11)^T=(5,5)^T; at lambda=0 only the coefficient sum is identified. Dimension audit: here N=K=2, theta and y are 2x1, and the system matrix is 2x2. For lambda=1 the row stationary equation is theta^T*[[6,5],[5,6]]=[5,5]; setting the row derivative to 0_(1x2) and transposing both sides gives [[6,5],[5,6]]*theta=(5,5)^T. With lambda=0, singularity concerns coefficient uniqueness and does not change derivative orientation.",
+        "method": "exact",
+        "conclusion": "For lambda=1 the unique MAP solution is (5/11,5/11)^T. For lambda=0 all pairs with theta1+theta2=1 minimize SSE, so the solution is not unique. As lambda tends to infinity the solution tends to (0,0)^T."
       },
       "p8:a": {
-        "method": "symbolic",
-        "conclusion": "likelihood×prior=N(2|θ,2)N(0|θ,2)N(θ|1,2)=(4π)^(-3/2) exp[-((2-θ)²+θ²+(θ-1)²)/4].",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p8:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p8:a: Each of the two independent likelihood factors and the prior has variance 2 and normalizer 1/sqrt(4*pi). The data inputs are both 1.",
+        "method": "symbolic",
+        "conclusion": "p(D|theta)*p(theta)=(4*pi)^(-3/2)*exp[-((2-theta)^2+theta^2+(theta-1)^2)/4], hence proportional to that exponential."
       },
       "p8:b": {
-        "method": "exact",
-        "conclusion": "지수=-1/2[(3/2)θ²-3θ+5/2], A=3/2, b=3/2, c=5/2.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p8:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p8:b: The sum inside the numerator in (a) is 3*theta^2-6*theta+5; dividing by 4 equals (1/2)*[(3/2)*theta^2-3*theta+5/2].",
+        "method": "exact",
+        "conclusion": "A=3/2, b=3/2, c=5/2."
       },
       "p8:c": {
-        "method": "exact",
-        "conclusion": "Aθ²-2bθ+c=(3/2)(θ-1)²+1. posterior=N(1,2/3), p(θ|D)=sqrt(3/(4π)) exp[-3(θ-1)²/4].",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p8:c",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p8:c: A*theta^2-2*b*theta+c=(3/2)*(theta-1)^2+1. The theta-dependent kernel integrates to sqrt(4*pi/3); the constant exp(-1/2) cancels in posterior normalization.",
+        "method": "exact",
+        "conclusion": "theta|D ~ N(1,2/3), with posterior density sqrt(3/(4*pi))*exp[-3*(theta-1)^2/4]."
       },
       "p8:d": {
-        "method": "exact",
-        "conclusion": "f*=2θ | D ~ N(2,8/3). 평균 2, 분산 8/3.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p8:d",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p8:d: f*=2*theta is a linear transform of a Gaussian: E[f*|D]=2*1 and Var(f*|D)=2^2*(2/3).",
+        "method": "exact",
+        "conclusion": "f*|D ~ N(2,8/3), so its mean is 2 and variance is 8/3."
       },
       "p8:e": {
-        "method": "exact",
-        "conclusion": "y* | D ~ N(2,14/3). 평균 2, 분산 14/3.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p8:e; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p8:e: The independent future Gaussian noise has mean zero and variance 2; Gaussian sums remain Gaussian, so Var(y*|D)=8/3+2=14/3.",
+        "method": "exact",
+        "conclusion": "y*|D ~ N(2,14/3), with mean 2 and variance 14/3."
       },
       "p8:f": {
-        "method": "exact",
-        "conclusion": "MAP=1. 모수를 1로 고정한 관측 예측은 N(2,2). 완전 사후예측 N(2,14/3)보다 분산 8/3 작다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p8:f; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p8:f: The posterior is maximized at its mean 1. A fixed parameter contributes no uncertainty; the full posterior predictive adds Var(2*theta|D)=8/3 to the observation-noise variance 2.",
+        "method": "qualitative",
+        "conclusion": "theta_MAP=1. Fixing theta at MAP gives y*|theta_MAP ~ N(2,2); its variance is 8/3 smaller than the full posterior predictive variance."
       },
       "p9:a": {
-        "method": "proof",
-        "conclusion": "p(y|Mj)=∫ N(y|θ,1)N(θ|0,vj)dθ. prior로 적분한다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p9:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p9:a: The marginal likelihood averages the conditional sampling density over theta before conditioning on the observed y; the averaging law is the prior. A posterior already conditions on the same observed y and is not the marginalization distribution in this identity.",
+        "method": "symbolic",
+        "conclusion": "p(y|M_j)=integral N(y|theta,1)*N(theta|0,v_j) dtheta over R."
       },
       "p9:b": {
-        "method": "symbolic",
-        "conclusion": "(y-θ)²+θ²/v=((v+1)/v)(θ-vy/(v+1))²+y²/(v+1). p(y|Mj)=[2π(vj+1)]^(-1/2) exp[-y²/(2(vj+1))].",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p9:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p9:b: (y-theta)^2+theta^2/v=((v+1)/v)*(theta-v*y/(v+1))^2+y^2/(v+1). Multiplying the joint normalizer 1/(2*pi*sqrt(v)) by the Gaussian integral sqrt(2*pi*v/(v+1)) gives the stated normalizer.",
+        "method": "symbolic",
+        "conclusion": "p(y|M_j)=[2*pi*(1+v_j)]^(-1/2)*exp[-y^2/(2*(1+v_j))], i.e. y|M_j ~ N(0,1+v_j)."
       },
       "p9:c": {
-        "method": "exact",
-        "conclusion": "p(0|M1)=1/sqrt(4π), p(0|M2)=1/sqrt(10π).",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p9:c",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p9:c: The marginal variances are respectively 1+1=2 and 1+4=5; at zero each Gaussian exponential equals 1.",
+        "method": "exact",
+        "conclusion": "p(0|M1)=1/sqrt(4*pi) and p(0|M2)=1/sqrt(10*pi)."
       },
       "p9:d": {
-        "method": "exact",
-        "conclusion": "B12=p(0|M1)/p(0|M2)=sqrt(5/2)>1. 데이터는 M1을 지지한다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p9:d; evidence/concise-explanations-verification.json",
         "status": "pass",
-        "reviewer": "current formula-application review and exact symbolic verification"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p9:d: B12=[1/sqrt(4*pi)]/[1/sqrt(10*pi)]=sqrt(10/4)=sqrt(5/2).",
+        "method": "exact",
+        "conclusion": "B12=sqrt(5/2)>1, so the data favor M1 on the Bayes-factor criterion."
       },
       "p9:e": {
-        "method": "exact",
-        "conclusion": "posterior odds12=B12×prior odds12=sqrt(5/2)/2. P(M1|0)=sqrt(5/2)/(sqrt(5/2)+2)=sqrt(10)/(sqrt(10)+4)≈0.4415. P(M2|0)≈0.5585, posterior 최대 모델은 M2.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p9:e",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p9:e: Dividing Bayes' theorem for the two models cancels their shared data evidence: P(M1|y)/P(M2|y)=[p(y|M1)/p(y|M2)]*[P(M1)/P(M2)]. The odds are below 1, despite B12>1.",
+        "method": "exact",
+        "conclusion": "Posterior odds M1:M2 = B12*(1/3)/(2/3)=sqrt(10)/4. P(M1|0)=sqrt(10)/(sqrt(10)+4), and P(M2|0)=4/(sqrt(10)+4). Select M2 by maximum posterior probability."
       },
       "p10:a": {
-        "method": "proof",
-        "conclusion": "모든 h에 대해 -2h^T Φ^T r=0, 따라서 Φ^T r=0이고 r⊥col(Φ).",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p10:a",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p10:a: At t=0 the squared-distance derivative is -2*(Phi*h)^T*r=-2*h^T*Phi^T*r. Its being zero for every h forces Phi^T*r=0.",
+        "method": "proof",
+        "conclusion": "Phi^T*r=0, so the residual is orthogonal to every vector in col(Phi)."
       },
       "p10:b": {
-        "method": "symbolic",
-        "conclusion": "Φ^T Φ θhat=Φ^T y, θhat=(Φ^T Φ)^(-1)Φ^T y.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p10:b",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p10:b: Insert r=y-Phi*theta_hat into Phi^T*r=0. Full column rank ensures Phi^T*Phi is invertible because its nonzero quadratic forms equal ||Phi*h||^2>0.",
+        "method": "symbolic",
+        "conclusion": "Phi^T*Phi*theta_hat=Phi^T*y and theta_hat=(Phi^T*Phi)^(-1)*Phi^T*y."
       },
       "p10:c": {
-        "method": "proof",
-        "conclusion": "P=Φ(Φ^T Φ)^(-1)Φ^T, 차원 N×N(여기서는 3×3), P^T=P, P²=P.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p10:c",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p10:c: The Gram inverse is symmetric, giving P^T=P. In P^2, the middle product (Phi^T*Phi)^(-1)*(Phi^T*Phi)*(Phi^T*Phi)^(-1) reduces to one Gram inverse.",
+        "method": "proof",
+        "conclusion": "P=Phi*(Phi^T*Phi)^(-1)*Phi^T is a 3 by 3 matrix (generally N by N), with P^T=P and P^2=P."
       },
       "p10:d": {
-        "method": "exact",
-        "conclusion": "θhat=(4/3,1)^T. P=[[1/3,1/3,1/3],[1/3,5/6,-1/6],[1/3,-1/6,5/6]]. yhat=(4/3,7/3,1/3)^T, r=(2/3,-1/3,-1/3)^T. Φ^T r=(0,0)^T.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p10:d",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p10:d: Phi^T*Phi=diag(3,2) and Phi^T*y=(4,2)^T. P=(1/3)*(1,1,1)^T*(1,1,1)+(1/2)*(0,1,-1)^T*(0,1,-1). Phi^T*r=(2/3-1/3-1/3,-1/3+1/3)^T=(0,0)^T.",
+        "method": "exact",
+        "conclusion": "theta_hat=(4/3,1)^T; P=[[1/3,1/3,1/3],[1/3,5/6,-1/6],[1/3,-1/6,5/6]]; y_hat=(4/3,7/3,1/3)^T; r=(2/3,-1/3,-1/3)^T."
       },
       "p10:e": {
-        "method": "proof",
-        "conclusion": "임의 u∈col(Φ)에 대해 ||y-u||²=||r||²+||yhat-u||²≥||r||². 등호는 u=yhat일 때만 성립하므로 yhat은 유일한 최근접점이다.",
-        "evidence": "evidence/math-results.json; math-check-result.json; row-math-checks.json; independent-review.md; independent-checks.json: p10:e",
         "status": "pass",
-        "reviewer": "current exact/symbolic rerun + independent component review"
+        "reviewer": "independent_math (blind reviewer)",
+        "evidence": "evidence/independent-english.json p10:e: Write y-u=r+(y_hat-u). Since y_hat-u lies in col(Phi), r^T*(y_hat-u)=0 by (a), eliminating the cross term. Equality holds exactly at u=y_hat.",
+        "method": "proof",
+        "conclusion": "For every u in col(Phi), ||y-u||^2=||y-y_hat||^2+||y_hat-u||^2 >= ||y-y_hat||^2; therefore y_hat is the unique nearest point."
       }
     }
   },
   "artifact_hashes": {
-    ".pack/문제설명_0909-1019_Midterm_Practice_01.md": "3132550801f2ae86b7c20b16c305a3d8b792a0fc7064468e2f88f91aad909bb1",
+    ".pack/문제설명_0909-1019_Midterm_Practice_01.md": "e2c0f982e57bacbf269f9f54bb83605e5c03d85de5fcd9acf81514daf98f1f96",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/1280-light-p7.png": "235e02e4e88911d84c571b8258d14a38bb9aec9151067f9cd5e55562edfcc376",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/375-dark-p7.png": "6e6f3cfd70ba63889626784272d6dd6bc0e2f4ee07da24070305d00e12c9be13",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/answer-checks.json": "4e1e1bb9994ac71d7ac277dd59e7fc0933cd5c9aa310a9ca0ca9ee6ade5ff921",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/approved-review.json": "87968e31b75c5da4cfad2ad02a887b46d548b5dd5e45a0a20c05b413bc1adc28",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/blind-check.json": "4e1e1bb9994ac71d7ac277dd59e7fc0933cd5c9aa310a9ca0ca9ee6ade5ff921",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/blind-input.html": "066ffab4c814e1b04a40e1ac68aaebb2a5a714f5f56737034c5e3b4e354fff5c",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/browser-check.json": "2719c0339dc4b4a200a1102d1949a0bd791543a70720458347fa3ed3dc66aa90",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/browser-check.json": "f6e2cd714f98ce90be39092032da5875e0d99cfd11bdac06d8129842188ec69c",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/browser-extra.json": "eb5c6286fc70ce2c07324320e39c0145d304148bdc6b7317e1c6b1401bc6a0ba",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/concise-explanations-browser.json": "2568ae33f0316bc8c92ba09c1d9c9fd4a3f835066d4b962f5d1e8fedbb32aaf3",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/concise-explanations-update.json": "604db14f6b400ac4ab5ca5b90cd0fe24bc1cd249627d5b3f3c136f7da37512bc",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/concise-explanations-verification.json": "04c06735aaa277879446a0dc9777b24406bef4e752d089a18504a8222e0cb1de",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/contact-답안-1.png": "c46acdcef76a20d626d83d6b8c104e12f28f40e47d7d695c24d3a8df83dab3c1",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/contact-답안-2.png": "60fc02ff096b9002da3d0d8fde803ee540cd2775db144248a429784642b0be8b",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/contact-답안-3.png": "0dc316732415c74a4079b29d0e34226df851be20f0a6afaa89c2c9b6aa380674",
@@ -614,11 +618,19 @@
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/derivative-1280-p2.png": "85b710d1c3f2238ed79d3e510dee261cda8fce12fa1775a2a622fc38ac74c68f",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/derivative-1280-p7.png": "910a1f63862c4d8fe2c051711a58bdc1b7f2db6c624a175be795dbb5bdcda6cf",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/derivative-375-p6.png": "e1cb83fb0f6c6d1edcdda766084a8f4534827487d5dfd012054bf13a6af8945f",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/english-content-review.md": "4fb6f006df24f14a88a9b44e821f714f1a95353555c174cb28e9f69d755b3e77",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/english-pagination-stress.json": "18c4e44592bf1495ef2bc38a4fd019d661ac2b3eba086dfad37fb31c4fab172a",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/english-pdf-validation.json": "4950a146301a1c772eeca31244f3aac8eb2f689162df805a0c022442555e9a10",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/independent-checks.json": "b599fb3a7ed3c071946a064f99a537e8f6a48e9d5d2080d6b87a27f36e55be8b",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/independent-english.json": "49ee341f90a90772ba71f46cf61d19b19eae9a895f20c6a484c4964a0b60d876",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/independent-review.md": "c582e51e3357008147ad39a566b780c7d3b3dbdf65390f7f0d76b371148ae899",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/korean-pdf-binding.json": "1d2835783228dece4092dff7019aa6c82fca42fc8cae74d64d7b0e3162b3e57d",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/korean-pdf-source/중간고사예상_0909-1019_Midterm_Practice_01.html": "aeb8b8c4f2b42acac8019a391d2f0d6784fad41d9700757b93dd93dc2bd03a66",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/math-check-result.json": "a33e51243141ba8815945309eac4a1688a2fabe022adcecdffbdd3964f3a3d7d",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/math-check.py": "8cbb45ec2f15318f627fc9b7580d956c861c85d1fe5609d81d7961b9887a9bd5",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/math-results.json": "9d3447988c4a02e1d967be36d38d70e395d4dd288b6ae921af163fec9415985d",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/p8-d-formula-browser.json": "f205c9c777722b5d1b7161a958711eb4034b96fc698204bfd18c0fb99f52c3ad",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/p8-d-formula-update.json": "0f6a81d5758a139d0a97801286dc7156eec2c6c3046e0967c8bd65c67f1ad837",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/pagination-stress.json": "8bc66e03f6acff58cccb8c3b75b3b25cec8d1bd7b1f7dc099f604b145c987664",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/pdf-validation.json": "719dd5fd8f59ecbd39f36b75992a1be730fde786ab517b22f9fd8d02a23f6894",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/pdf-visual-review.json": "4c5c6405ab8b08f1ad9921ea0ea9d9ededb5b301602f91c31bc4150348d36bb5",
@@ -628,16 +640,16 @@
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/skill-review.md": "ba29d8fb2e2295a5ea8b018299d515d70ab97cff000aeb20551c88e48749179c",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/source-visual.md": "c730b3b8d182759bc8d1b3d349b5b0705472877aefa8042c37dc211c861ea02f",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/evidence/verify_expansion.py": "dff1153ab7c741ce6c175c77eabbcd22b5fe9c53327528f5f6eae4610347ade5",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p1.html": "04ae28363d28984f3e238b52a19e11e8d931e356ca10adab47d5b4aab4f7ba37",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p10.html": "d376d56074b8534a4218800720598a21f541695d99ff2f9f08d4747639cb8d1a",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p2.html": "f6e265c8ab84713820fdf6b66daabc543d40ef3b159a5fa257f93c5657f5cd51",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p3.html": "e67ace3c6a2665815210e93a28f58454efa59ce9995d59d47c8d90dbb103f4a9",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p4.html": "7c2f40857f9bb96fd45ac98f7af9ff879bbe0e3b3982724ff014e31c86b50283",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p5.html": "2d5c7752c26f2f51d429d984eb866643325496e6730eef9181d7c0d7d93dc91b",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p6.html": "c48046742530c734a2d555101fdc03a28cc79669a9be97453104275b7977fab1",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p7.html": "b525036ff796464b83c96b26c830ac79ec94d44a3b120b5d9ca9d7b4f846fcf0",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p8.html": "7204b31182e59ca980f6eb352fec6a8405d8e867f809930bc7fdcf2c45b29239",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p9.html": "738abb46eb63cd197a91fc5972629e2dd2827c169aecb405a7a4c978d0d31145",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p1.html": "ad39c4b315d1253d454f1281a1e75e208310702322717c5cc4546e65b406f33b",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p10.html": "b50be91bf667303176b4e5e5fa995e90c55eac97c7789b326c3e597ec299fe18",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p2.html": "1aeaef4a7a62df6f91b45eb12542473f4ea81145e8653ed6126281da0e59e460",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p3.html": "734ffd7b53f468ebffddbe5278c61eecfc234418dd978c5c1ff494716f6b6290",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p4.html": "4804cec7cb2a8eff7a3b2c9f5f6e6d9e1c3cb24de36aa13148e533bee3b232a7",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p5.html": "4c98a006f73f2eb23b9842a9e642c8110f558f19305e6187a619fcf3afc17147",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p6.html": "14729d82f7d6518209a3059cd815d1604bcf7b8fff2780ffe4f32b5a7fbddd4b",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p7.html": "fedb40f0e30f2f2d272bbd7f9c5f43c13514eb91e3dbe99202c17ca68a21bfc7",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p8.html": "a6fb7de6676dc378f9320772b85bbfb58124c850ad226b83e7c82ef7c4a77983",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/fragments/p9.html": "e4cf26d90178e22969ea4607640f585b7cf15343fc21495d26a8d0b26b873d10",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/template-provenance.json": "05d6b1f39a982d627297e6adc02e3687ae99d0cd8c096b1aa39a76d0e42684ca",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
@@ -724,14 +736,7 @@
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
     ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
-    "문제설명_0909-1019_Midterm_Practice_01.html": "3272f2df984db900f1781d5e7022a31b554a167b8bc101e832bd139274aacf6b",
-    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/manifest.json": "5cdbc69b65a1e8c7a5b0174b8ed6478a895ed330b6279ede0f1b503ddce2797c"
-  },
-  "amendment": {
-    "date": "2026-10-20",
-    "scope": "10 approved solve subparts simplified; all other content preserved against pre-edit backup",
-    "previous_input_hash": "ea30237ff36b78bbe28c8bb8d2575a8af0aff4256fe362440b4ffd338fe208da",
-    "evidence": "evidence/concise-explanations-verification.json",
-    "source_visual": "Problem/source markup, figures, and PDFs unchanged; prior source visual evidence retained."
+    "문제설명_0909-1019_Midterm_Practice_01.html": "bdb5ea6cb3b7258a57c5eed4ea2c7d926427486c84c52add105740e551ad67d4",
+    ".pack/자료_문제설명_0909-1019_Midterm_Practice_01/manifest.json": "0dc55dbbe49782bbed54d8aa2a29c51f9013a5725c2e274c1a431b4e9f0b688f"
   }
 }

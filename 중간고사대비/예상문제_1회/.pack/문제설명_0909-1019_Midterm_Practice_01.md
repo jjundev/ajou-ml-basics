@@ -38,6 +38,18 @@ EXAM Problem 1 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 2. $b=(2,1,3)^\top$에 대해 $V\alpha=b$의 모든 해를 구하라. $c=(2,1,4)^\top$로 우변을 바꾸면 해가 있는가?
 3. $U^\top U$와 그 역행렬을 구하라. $V^\top V$의 역행렬 존재 여부와 비교하라.
 
+<details><summary>원문 보기</summary>
+
+#### Linear Combinations and Uniqueness
+
+Let $v_1=(1,0,1)^\top$, $v_2=(0,1,1)^\top$, and $v_3=(1,1,2)^\top$ be column vectors. Define $V=[v_1\ v_2\ v_3]$ and $U=[v_1\ v_2]$.
+
+1. Determine whether $v_1,v_2,v_3$ are linearly independent by finding a linear relation with coefficients not all zero.
+2. Find all solutions of $V\alpha=b$ for $b=(2,1,3)^\top$. Does a solution exist if the right-hand side is replaced by $c=(2,1,4)^\top$?
+3. Compute $U^\top U$ and its inverse. Compare this with the existence of an inverse of $V^\top V$.
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
 세 벡터로 만들 수 있는 방향을 읽는 문제예요. 벡터가 세 개라는 사실만으로 3차원 전체를 만들 수 있는 것은 아니에요. 같은 방향을 중복해서 넣었는지 먼저 확인해요.
@@ -168,6 +180,26 @@ $$
 1. $J_f(x)$와 $J_f(1,2)$를 구하고 차원을 써라.
 2. $q(x)$를 성분으로 전개하고 $\nabla q(x)$와 Hessian을 구하라.
 3. 정지점 $\nabla q(x)=0$을 구하고, 유일한 전역 최소점인지 이유를 밝혀라.
+
+<details><summary>원문 보기</summary>
+
+#### Gradients, Jacobians, and a Quadratic Function
+
+For $x=(x_1,x_2)^\top$, define the following functions and matrices. Use row gradients and the convention $(J_f)_{ij}=\partial f_i/\partial x_j$.
+
+$$
+f(x)=\begin{pmatrix}x_1^2+x_2\\x_1x_2\end{pmatrix},\quad A=\begin{pmatrix}4&1\\1&2\end{pmatrix},\quad b=\begin{pmatrix}1\\0\end{pmatrix}.
+$$
+
+$$
+q(x)=\tfrac12 x^\top Ax-b^\top x.
+$$
+
+1. Compute $J_f(x)$ and $J_f(1,2)$, and state their dimensions.
+2. Expand $q(x)$ in components. Compute its gradient $\nabla q(x)$ and Hessian.
+3. Find the stationary point satisfying $\nabla q(x)=0$. Explain whether it is the unique global minimizer.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -302,6 +334,20 @@ $g(z)=p_0(z)p_1(z)$, $Z=\int_{-\infty}^{\infty}g(z)\,dz$, $q(z)=g(z)/Z$로 둔�
 2. 정규화된 $q(z)$의 평균·분산과 정규화 상수를 포함한 밀도를 구하라.
 3. $Z$를 계산하고 $g(z)$를 그대로 확률밀도라고 부를 수 있는지 설명하라.
 
+<details><summary>원문 보기</summary>
+
+#### Products of Gaussians and Normalization
+
+For $z\in\mathbb R$, let $p_0(z)=\mathcal N(z\mid0,1)$ and $p_1(z)=\mathcal N(z\mid2,3)$. The second parameter $v$ in $\mathcal N(z\mid m,v)$ denotes the variance.
+
+Define $g(z)=p_0(z)p_1(z)$, $Z=\int_{-\infty}^{\infty}g(z)\,dz$, and $q(z)=g(z)/Z$.
+
+1. Complete the square in $z^2+(z-2)^2/3$, which appears in the exponent of $g(z)$.
+2. Find the mean and variance of the normalized density $q(z)$, and write its density including the normalizing constant.
+3. Compute $Z$. Explain whether $g(z)$ itself is a probability density.
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
 두 밀도를 곱하면 “같은 $z$를 두 밀도가 함께 얼마나 지지하는지”를 나타내요. 곱의 적분은 자동으로 1이 되지 않으므로 $Z$로 나누는 과정이 필요해요.
@@ -433,6 +479,22 @@ MAP에서는 절편을 포함한 두 계수 모두에 $\theta\sim\mathcal N(0,I_
 1. $\Phi$, $\Phi^\top\Phi$, $\Phi^\top y$를 구하라.
 2. $\theta_{\mathrm{ML}}$을 구하고 $x_*=2$에서 평균 예측값을 구하라.
 3. $\theta_{\mathrm{MAP}}$과 $x_*=2$에서 평균 예측값을 구하라. ML과 달라진 이유를 설명하라.
+
+<details><summary>원문 보기</summary>
+
+#### ML and MAP with a Design Matrix
+
+Write derivatives of scalar objectives as row vectors. Parameter vectors themselves are column vectors.
+
+Consider observations $(x_n,y_n)=(-1,0),(0,1),(1,4)$ and features $\phi(x)=(1,x)^\top$. The model is $y_n=\phi(x_n)^\top\theta+\epsilon_n$, where the $\epsilon_n$ are independent $\mathcal N(0,1)$ random variables.
+
+For MAP estimation, use the prior $\theta\sim\mathcal N(0,I_2)$ on both coefficients, including the intercept. The $n$th row of $\Phi$ is $\phi(x_n)^\top$.
+
+1. Compute $\Phi$, $\Phi^\top\Phi$, and $\Phi^\top y$.
+2. Find $\theta_{\mathrm{ML}}$ and the predicted mean at $x_*=2$.
+3. Find $\theta_{\mathrm{MAP}}$ and the predicted mean at $x_*=2$. Explain why they differ from the ML results.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -587,6 +649,22 @@ $$
 2. $\mu_Y$, $\Sigma_Y$, $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$를 구하라.
 3. $Y_1,Y_2$는 무상관인가? 독립인가? 이 문제의 실제 세 가능한 $Y$값과 확률을 이용해 판단하라.
 
+<details><summary>원문 보기</summary>
+
+#### Sample Covariance and an Affine Transformation
+
+Let $x_1=(0,0)^\top$, $x_2=(2,0)^\top$, and $x_3=(0,2)^\top$. The random vector $X$ takes each of these values with probability $1/3$. Use denominator $N=3$ in computing the covariance.
+
+$$
+Y=AX+b,\quad A=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\quad b=\begin{pmatrix}1\\-1\end{pmatrix}.
+$$
+
+1. Compute $\mu_X=E[X]$ and $\Sigma_X=\frac13\sum_{n=1}^3(x_n-\mu_X)(x_n-\mu_X)^\top$.
+2. Compute $\mu_Y$, $\Sigma_Y$, and $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$.
+3. Are $Y_1$ and $Y_2$ uncorrelated? Are they independent? Justify your answers using the three possible values of $Y$ and their probabilities.
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
 $X$는 세 점을 똑같은 확률로 고르는 확률벡터예요. 그래서 분모 3인 공분산이 곧 이 분포의 공분산이에요. 변환 뒤 독립 여부는 공분산만 보고 끝내지 않아요.
@@ -733,6 +811,22 @@ EXAM Problem 6 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 3. 소문항 (b)의 목적함수를 제곱손실 경험위험 $\widehat R(\theta)=N^{-1}\sum_n(y_n-\phi(x_n)^\top\theta)^2$와 연결하라. 왜 최소점이 같은가?
 4. 소문항 (c)의 제곱오차를 $\theta$의 이차식으로 전개하고 행 gradient를 구해 정규방정식을 도출하라.
 5. 소문항 (d)를 풀어 $\theta_{\mathrm{ML}}$을 도출하고 유일한 최소점임을 보여라. 특징을 $(1,x,x^2)^\top$로 바꾸어도 선형 회귀인 이유를 설명하라.
+
+<details><summary>원문 보기</summary>
+
+#### From a Probabilistic Model to Empirical Risk Minimization
+
+Write derivatives of scalar objectives as row vectors. Parameter vectors themselves are column vectors.
+
+Consider fixed inputs $x_1,\ldots,x_N$ and the model $y_n=\theta_0+\theta_1x_n+\epsilon_n$, with $\theta=(\theta_0,\theta_1)^\top$. The noises $\epsilon_n$ are mutually independent $\mathcal N(0,\sigma^2)$ random variables, where $\sigma^2>0$ is known. The $n$th row of $\Phi$ is $(1,x_n)$, and its columns are linearly independent.
+
+1. Write the conditional distribution of $y_n$ given the fixed inputs and $\theta$. Explain why the observations are conditionally independent.
+2. Using (a), write the full likelihood $p(y\mid\Phi,\theta)$ and the negative log-likelihood $\mathcal L(\theta)$, including all normalizing constants.
+3. Relate the objective in (b) to the squared-loss empirical risk $\widehat R(\theta)=N^{-1}\sum_n(y_n-\phi(x_n)^\top\theta)^2$. Why do they have the same minimizer?
+4. Expand the squared error in (c) as a quadratic in $\theta$. Compute its row gradient and derive the normal equations.
+5. Solve (d) to derive $\theta_{\mathrm{ML}}$ and show that it is the unique minimizer. Explain why replacing the features by $(1,x,x^2)^\top$ still gives linear regression.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -912,6 +1006,23 @@ EXAM Problem 7 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 4. 소문항 (c)를 풀어 MAP 추정식을 도출하라. 제곱오차와 $\|\theta-m_0\|^2$의 합으로 쓸 때 상대 벌점계수 $\lambda$는 무엇인가?
 5. 소문항 (d)의 역행렬이 열독립 가정 없이도 존재하는 이유를 비영 벡터의 이차형식으로 증명하라.
 6. $\Phi=\begin{pmatrix}1&1\\2&2\end{pmatrix}$, $y=(1,2)^\top$, $m_0=0$, $\lambda=1$일 때 (d)의 해를 계산하라. $\lambda=0$의 해의 유일성 및 $\lambda\to\infty$의 극한과 비교하라.
+
+<details><summary>원문 보기</summary>
+
+#### A Gaussian Prior and Ridge Regression
+
+Write derivatives of scalar objectives as row vectors. Parameter vectors themselves are column vectors.
+
+For fixed $\Phi\in\mathbb R^{N\times K}$, consider $y\mid\theta\sim\mathcal N(\Phi\theta,\sigma^2 I_N)$ and $\theta\sim\mathcal N(m_0,\tau^2 I_K)$. The variances $\sigma^2,\tau^2>0$ are known. The prior also applies to the intercept coefficient, if present. Do not assume that the columns of $\Phi$ are linearly independent.
+
+1. Use Bayes' theorem to express $p(\theta\mid y,\Phi)$ as proportional to a product of likelihood and prior. Does the evidence depend on $\theta$?
+2. Substitute the Gaussian densities into (a). Derive the negative log-posterior, separating terms that do not depend on $\theta$.
+3. Differentiate each of the two quadratic terms in (b) and derive the MAP normal equations.
+4. Solve (c) to derive the MAP estimator. What is the relative penalty coefficient $\lambda$ when the objective is written as a sum of squared error and a penalty on $\|\theta-m_0\|^2$?
+5. Use a quadratic form evaluated at a nonzero vector to prove that the inverse in (d) exists even without linearly independent columns.
+6. Compute the solution in (d) for $\Phi=\begin{pmatrix}1&1\\2&2\end{pmatrix}$, $y=(1,2)^\top$, $m_0=0$, and $\lambda=1$. Compare with uniqueness when $\lambda=0$ and with the limit as $\lambda\to\infty$.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1101,6 +1212,23 @@ EXAM Problem 8 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 5. 소문항 (d)에 독립 미래 잡음을 더해 $y_*$의 사후예측 평균·분산과 분포를 도출하라.
 6. 소문항 (c)의 MAP 값을 구하고 그 값에 모수를 고정한 관측 예측분포를 (e)와 비교하라. 분산 차이는 어디서 오는가?
 
+<details><summary>원문 보기</summary>
+
+#### The Posterior and Prediction of a New Observation
+
+Consider the scalar regression model $y_n=x_n\theta+\epsilon_n$, with $\theta\sim\mathcal N(1,2)$ and mutually independent noises $\epsilon_n\sim\mathcal N(0,2)$. The noises are also independent of $\theta$. The observed data are $D=\{(1,2),(1,0)\}$. The second parameter of every Gaussian denotes its variance.
+
+For the new input $x_*=2$, define $f_*=x_*\theta$ and $y_*=f_*+\epsilon_*$. The future noise $\epsilon_*\sim\mathcal N(0,2)$ is independent of $\theta$, $D$, and the previous noises.
+
+1. Use independence to write the product of likelihood and prior. Find its exponential form up to a positive factor independent of $\theta$.
+2. Collect the exponent in (a) as $-\tfrac12(A\theta^2-2b\theta+c)$ and find $A,b,c$.
+3. Complete the square in (b) and normalize the density to integrate to one. Derive the posterior mean, variance, and density.
+4. Using the distribution in (c), derive the mean, variance, and distribution of $f_*=x_*\theta$.
+5. Add the independent future noise to (d). Derive the posterior predictive mean, variance, and distribution of $y_*$.
+6. Find the MAP value from (c). Fix the parameter at this value and compare the resulting predictive distribution for an observation with (e). What accounts for the difference in variance?
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
 사후분포와 새 관측의 예측: 주어진 모델에서 출발해 앞 소문항의 결과를 다음 단계에 사용해요. 마지막에는 Gaussian posterior와 사후예측분포에 도달해요.
@@ -1170,20 +1298,27 @@ $$
 #### (d)
 
 $f_*=2\theta$이므로 **상수배의 평균·분산 공식**을 바로 적용하면 돼요.
+
 $$
 E[aX]=aE[X],\qquad \operatorname{Var}(aX)=a^2\operatorname{Var}(X).
 $$
+
 (c)에서 구한 사후분포는 $\theta\mid D\sim\mathcal N(1,2/3)$이므로
+
 $$
 E[f_*\mid D]=2E[\theta\mid D]=2\cdot1=2.
 $$
+
 $$
 \operatorname{Var}(f_*\mid D)=2^2\operatorname{Var}(\theta\mid D)=4\cdot\frac23=\frac83.
 $$
+
 Gaussian의 상수배도 Gaussian이므로
+
 $$
 \boxed{f_*\mid D\sim\mathcal N(2,8/3)}.
 $$
+
 여기서는 **사후분산 $2/3$**을 사용하며, 새 관측 잡음은 (e)에서 더해요.
 
 #### (e)
@@ -1286,6 +1421,20 @@ EXAM Problem 9 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 3. 소문항 (b)에 $v_1=1,v_2=4$와 관측 $y=0$을 대입해 두 evidence를 정규화 상수까지 계산하라.
 4. 소문항 (c)의 비로 Bayes factor $B_{12}$를 구하고 데이터가 어느 모델을 지지하는지 판단하라.
 5. Bayes 정리의 두 모델 posterior를 나누어 posterior odds 공식을 유도하라. (d)와 모델 prior를 사용해 $P(M_1\mid y=0)$ 및 선택할 모델을 구하라.
+
+<details><summary>원문 보기</summary>
+
+#### Evidence, Bayes Factors, and Model Selection
+
+Two models share $y=\theta+\epsilon$, where $\epsilon\sim\mathcal N(0,1)$ is independent of $\theta$. Model $M_1$ uses $\theta\sim\mathcal N(0,1)$, and model $M_2$ uses $\theta\sim\mathcal N(0,4)$. Their prior probabilities are $P(M_1)=1/3$ and $P(M_2)=2/3$. There is one observation, $y=0$. The second Gaussian parameter denotes variance.
+
+1. Let $v_j$ be the prior variance under model $M_j$. Express $p(y\mid M_j)$ as an integral over $\theta$. Explain why the distribution integrated against the likelihood is the prior rather than the posterior.
+2. Complete the square in the $\theta$ terms in the exponent of the Gaussian product in (a). Evaluate the integral to obtain the evidence density for arbitrary $y$ in terms of $v_j$.
+3. Substitute $v_1=1$, $v_2=4$, and the observation $y=0$ into (b). Compute both evidence values, including the normalizing constants.
+4. Take the ratio of the results in (c) to obtain the Bayes factor $B_{12}$. Which model do the data favor?
+5. Divide the two model posteriors in Bayes' theorem to derive the posterior odds formula. Use (d) and the model priors to find $P(M_1\mid y=0)$ and select a model.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1456,6 +1605,26 @@ $\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\wi
 3. 소문항 (b)를 $\widehat y=\Phi\widehat\theta$에 대입하여 $\widehat y=Py$가 되는 행렬 $P$를 도출하라. 차원·대칭성·멱등성을 보여라.
 4. 주어진 수치에서 (b), (c)를 사용해 $\widehat\theta$, $P$, $\widehat y$, $r$를 계산하고 $\Phi^\top r=0$을 확인하라.
 5. 임의의 $u\in\operatorname{col}(\Phi)$에 대해 (a)의 직교성을 이용해 $\|y-u\|^2$를 두 제곱거리의 합으로 분해하라. 이로부터 최근접점이라는 결론을 완성하라.
+
+<details><summary>원문 보기</summary>
+
+#### Least Squares as an Orthogonal Projection
+
+Consider $y=\Phi\theta+\epsilon$ with independent Gaussian noises of the same known variance, where
+
+$$
+\Phi=\begin{pmatrix}1&0\\1&1\\1&-1\end{pmatrix},\quad y=\begin{pmatrix}2\\2\\0\end{pmatrix}.
+$$
+
+The columns of $\Phi$ are linearly independent. Use the Euclidean inner product. Define $\widehat y=\Phi\widehat\theta$ and $r=y-\widehat y$.
+
+1. Suppose $\widehat y=\Phi\widehat\theta$ is the nearest point to $y$ in $\operatorname{col}(\Phi)$. For every coefficient variation $h$, the derivative of $\|y-\Phi(\widehat\theta+th)\|^2$ at $t=0$ is zero. Use this to derive the residual orthogonality condition.
+2. Substitute $r=y-\Phi\widehat\theta$ into (a). Derive the normal equations and the general least-squares estimator.
+3. Substitute (b) into $\widehat y=\Phi\widehat\theta$ to derive the matrix $P$ such that $\widehat y=Py$. State its dimensions and show that it is symmetric and idempotent.
+4. For the given numerical data, use (b) and (c) to compute $\widehat\theta$, $P$, $\widehat y$, and $r$. Verify that $\Phi^\top r=0$.
+5. For arbitrary $u\in\operatorname{col}(\Phi)$, use the orthogonality in (a) to decompose $\|y-u\|^2$ as a sum of two squared distances. Complete the argument that $\widehat y$ is the nearest point.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
