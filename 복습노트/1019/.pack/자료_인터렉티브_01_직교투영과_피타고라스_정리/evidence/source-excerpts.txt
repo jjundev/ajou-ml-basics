@@ -1,0 +1,463 @@
+강의노트/Lecture04_Linear_Regression_Part2_rev_HO.pdf
+PDF page 19
+Introduction to Machine Learning
+Sept. 30, 2026
+ML as Orthogonal Projection (1)
+19
+ωML = arg min
+ω
+1
+2ω2 →y ↑Xω→2
+↑↓ωML = (X TX)
+→1X Ty
+Projection y onto x
+(y →ωMLx) ↑x,
+x ↓= 0.
+x→(y →ωMLx) = 0.
+ωML = x→y
+x→x = ↔y↔cos ε
+↔x↔
+.
+!y = ωMLx = xx→
+x→xy .
+→Orthogonal projection of y onto the one-dimensional subspace spanned by
+
+PDF page 20
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Projection onto Lines (1D Subspaces)
+20
+• Consider a 1D subspace U →Rn spanned by the basis b.
+• For x ↑Rn, what is its projection ωU(x) onto U (assume the dot product)?
+↓x ↔ωU(x), b↗= 0
+ωU(x)=εb
+↘↔↔↔↔↔≃↓x ↔εb, b↗= 0
+=⇐ε = ↓b, x↗
+⇒b⇒2 = bTx
+⇒b⇒2 , and ωU(x) = εb = bTx
+⇒b⇒2 b
+• Projection matrix Pω ↑Rn→n in ωU(x) = Pωx
+ωU(x) = εb = bε = bbT
+⇒b⇒2 x,
+Pω = bbT
+⇒b⇒2
+→bbT is a symmetric matrix (of rank 1) and ⇒b⇒2 is a scalar.
+• The projection ωU(x) ↑Rn is still an n-dimensional vector. However, we need only
+one coordinate to represent it with respect to the basis vector b.
+March 16, 2026
+27
+
+PDF page 21
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Projection onto Lines (1D Subspaces)
+21
+• b =
+
+
+1
+2
+2
+
+
+Pω = bbT
+→b→2 = 1
+9
+
+
+1
+2
+2
+
+%
+1 2 2
+&
+= 1
+9
+
+
+1 2 2
+2 4 4
+2 4 4
+
+
+For x =
+
+
+1
+1
+1
+
+,
+ωU(x) = Pωx = 1
+9
+
+
+1
+2
+2
+2
+4
+4
+2
+4
+4
+
+
+
+
+1
+1
+1
+
+= 1
+9
+
+
+5
+10
+10
+
+↑span[
+
+
+1
+2
+2
+
+]
+
+PDF page 24
+Introduction to Machine Learning
+Sept. 30, 2026
+ML as Orthogonal Projection (2)
+24
+ωML = arg min
+ω
+1
+2ω2 →y ↑Xω→2
+↑↓ωML = (X TX)
+→1X Ty
+ω →RD
+ω →RN
+y = !ω + ε
+• For f (x) = xTω + N(0, ω2), ωML = (X TX)→1X Ty = X Ty
+X TX →R
+XωML = XX T
+X TX y
+→Orthogonal projection of y onto the one-dimensional subspace spanned by X
+• For f (x) = εT(x)ω + N(0, ω2), ωML = (!T!)→1!Ty = !Ty
+!T! →R
+!ωML = !!T
+!T!y
+→Orthogonal projection of y onto the K-dimensional subspace spanned by columns of !
+
+
+교과서/Mathematics_for_Machine_Learning.pdf
+PDF page 88
+82
+Analytic Geometry
+Figure 3.9
+Orthogonal
+projection (orange
+dots) of a
+two-dimensional
+dataset (blue dots)
+onto a
+one-dimensional
+subspace (straight
+line).
+−4
+−2
+0
+2
+4
+x1
+−2
+−1
+0
+1
+2
+x2
+learning algorithms, such as principal component analysis (PCA) by Pear-
+son (1901) and Hotelling (1933) and deep neural networks (e.g., deep
+auto-encoders (Deng et al., 2010)), heavily exploit the idea of dimension-
+ality reduction. In the following, we will focus on orthogonal projections,
+which we will use in Chapter 10 for linear dimensionality reduction and
+in Chapter 12 for classification. Even linear regression, which we discuss
+in Chapter 9, can be interpreted using orthogonal projections. For a given
+lower-dimensional subspace, orthogonal projections of high-dimensional
+data retain as much information as possible and minimize the difference/
+error between the original data and the corresponding projection. An il-
+lustration of such an orthogonal projection is given in Figure 3.9. Before
+we detail how to obtain these projections, let us define what a projection
+actually is.
+Definition 3.10 (Projection). Let V be a vector space and U ⊆V a
+subspace of V . A linear mapping π : V →U is called a projection if
+projection
+π2 = π ◦π = π.
+Since linear mappings can be expressed by transformation matrices (see
+Section 2.7), the preceding definition applies equally to a special kind
+of transformation matrices, the projection matrices P π, which exhibit the
+projection matrix
+property that P 2
+π = P π.
+In the following, we will derive orthogonal projections of vectors in the
+inner product space (Rn, ⟨·, ·⟩) onto subspaces. We will start with one-
+dimensional subspaces, which are also called lines. If not mentioned oth-
+line
+erwise, we assume the dot product ⟨x, y⟩= x⊤y as the inner product.
+3.8.1 Projection onto One-Dimensional Subspaces (Lines)
+Assume we are given a line (one-dimensional subspace) through the ori-
+gin with basis vector b ∈Rn. The line is a one-dimensional subspace
+U ⊆Rn spanned by b. When we project x ∈Rn onto U, we seek the
+vector πU(x) ∈U that is closest to x. Using geometric arguments, let
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+PDF page 89
+3.8 Orthogonal Projections
+83
+Figure 3.10
+Examples of
+projections onto
+one-dimensional
+subspaces.
+b
+x
+πU(x)
+ω
+(a) Projection of x ∈R2 onto a subspace U
+with basis vector b.
+cos ω
+ω
+sin ω
+b
+x
+(b) Projection of a two-dimensional vector
+x with ∥x∥= 1 onto a one-dimensional
+subspace spanned by b.
+us characterize some properties of the projection πU(x) (Figure 3.10(a)
+serves as an illustration):
+The projection πU(x) is closest to x, where “closest” implies that the
+distance ∥x−πU(x)∥is minimal. It follows that the segment πU(x)−x
+from πU(x) to x is orthogonal to U, and therefore the basis vector b of
+U. The orthogonality condition yields ⟨πU(x) −x, b⟩= 0 since angles
+between vectors are defined via the inner product.
+λ is then the
+coordinate of πU(x)
+with respect to b.
+The projection πU(x) of x onto U must be an element of U and, there-
+fore, a multiple of the basis vector b that spans U. Hence, πU(x) = λb,
+for some λ ∈R.
+In the following three steps, we determine the coordinate λ, the projection
+πU(x) ∈U, and the projection matrix P π that maps any x ∈Rn onto U:
+1. Finding the coordinate λ. The orthogonality condition yields
+⟨x −πU(x), b⟩= 0
+πU(x)=λb
+⇐⇒
+⟨x −λb, b⟩= 0 .
+(3.39)
+We can now exploit the bilinearity of the inner product and arrive at
+With a general inner
+product, we get
+λ = ⟨x, b⟩if
+∥b∥= 1.
+⟨x, b⟩−λ ⟨b, b⟩= 0 ⇐⇒λ = ⟨x, b⟩
+⟨b, b⟩= ⟨b, x⟩
+∥b∥2 .
+(3.40)
+In the last step, we exploited the fact that inner products are symmet-
+ric. If we choose ⟨·, ·⟩to be the dot product, we obtain
+λ = b⊤x
+b⊤b = b⊤x
+∥b∥2 .
+(3.41)
+If ∥b∥= 1, then the coordinate λ of the projection is given by b⊤x.
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+
+PDF page 90
+84
+Analytic Geometry
+2. Finding the projection point πU(x) ∈U. Since πU(x) = λb, we imme-
+diately obtain with (3.40) that
+πU(x) = λb = ⟨x, b⟩
+∥b∥2 b = b⊤x
+∥b∥2 b ,
+(3.42)
+where the last equality holds for the dot product only. We can also
+compute the length of πU(x) by means of Definition 3.1 as
+∥πU(x)∥= ∥λb∥= |λ| ∥b∥.
+(3.43)
+Hence, our projection is of length |λ| times the length of b. This also
+adds the intuition that λ is the coordinate of πU(x) with respect to the
+basis vector b that spans our one-dimensional subspace U.
+If we use the dot product as an inner product, we get
+∥πU(x)∥
+(3.42)
+=
+|b⊤x|
+∥b∥2 ∥b∥
+(3.25)
+= | cos ω| ∥x∥∥b∥∥b∥
+∥b∥2 = | cos ω| ∥x∥.
+(3.44)
+Here, ω is the angle between x and b. This equation should be familiar
+from trigonometry: If ∥x∥= 1, then x lies on the unit circle. It follows
+that the projection onto the horizontal axis spanned by b is exactly
+The horizontal axis
+is a one-dimensional
+subspace.
+cos ω, and the length of the corresponding vector πU(x) = |cos ω|. An
+illustration is given in Figure 3.10(b).
+3. Finding the projection matrix P π. We know that a projection is a lin-
+ear mapping (see Definition 3.10). Therefore, there exists a projection
+matrix P π, such that πU(x) = P πx. With the dot product as inner
+product and
+πU(x) = λb = bλ = b b⊤x
+∥b∥2 = bb⊤
+∥b∥2 x ,
+(3.45)
+we immediately see that
+P π = bb⊤
+∥b∥2 .
+(3.46)
+Note that bb⊤(and, consequently, P π) is a symmetric matrix (of rank
+Projection matrices
+are always
+symmetric.
+1), and ∥b∥2 = ⟨b, b⟩is a scalar.
+The projection matrix P π projects any vector x ∈Rn onto the line through
+the origin with direction b (equivalently, the subspace U spanned by b).
+Remark. The projection πU(x) ∈Rn is still an n-dimensional vector and
+not a scalar. However, we no longer require n coordinates to represent the
+projection, but only a single one if we want to express it with respect to
+the basis vector b that spans the subspace U: λ.
+♢
+Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
+PDF page 91
+3.8 Orthogonal Projections
+85
+Figure 3.11
+Projection onto a
+two-dimensional
+subspace U with
+basis b1, b2. The
+projection πU(x) of
+x ∈R3 onto U can
+be expressed as a
+linear combination
+of b1, b2 and the
+displacement vector
+x −πU(x) is
+orthogonal to both
+b1 and b2.
+0
+x
+b1
+b2
+U
+πU(x)
+x −πU(x)
+Example 3.10 (Projection onto a Line)
+Find the projection matrix P π onto the line through the origin spanned
+by b =
+1
+2
+2
+⊤. b is a direction and a basis of the one-dimensional
+subspace (line through origin).
+With (3.46), we obtain
+P π = bb⊤
+b⊤b = 1
+9
+
+
+1
+2
+2
+
+1
+2
+2
+ = 1
+9
+
+
+1
+2
+2
+2
+4
+4
+2
+4
+4
+
+.
+(3.47)
+Let us now choose a particular x and see whether it lies in the subspace
+spanned by b. For x =
+1
+1
+1
+⊤, the projection is
+πU(x) = P πx = 1
+9
+
+
+1
+2
+2
+2
+4
+4
+2
+4
+4
+
+
+
+
+1
+1
+1
+
+= 1
+9
+
+
+5
+10
+10
+
+∈span[
+
+
+1
+2
+2
+
+] .
+(3.48)
+Note that the application of P π to πU(x) does not change anything, i.e.,
+P ππU(x) = πU(x). This is expected because according to Definition 3.10,
+we know that a projection matrix P π satisfies P 2
+πx = P πx for all x.
+Remark. With the results from Chapter 4, we can show that πU(x) is an
+eigenvector of P π, and the corresponding eigenvalue is 1.
+♢
+3.8.2 Projection onto General Subspaces
+If U is given by a set
+of spanning vectors,
+which are not a
+basis, make sure
+you determine a
+basis b1, . . . , bm
+before proceeding.
+In the following, we look at orthogonal projections of vectors x ∈Rn
+onto lower-dimensional subspaces U ⊆Rn with dim(U) = m ⩾1. An
+illustration is given in Figure 3.11.
+Assume that (b1, . . . , bm) is an ordered basis of U. Any projection πU(x)
+onto U is necessarily an element of U. Therefore, they can be represented
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
