@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "packet_kind": "source_questions_only_blind_review",
+  "pack_id": "0923",
+  "questions": [
+    {
+      "id": "p1",
+      "title": "P1. 기울기 하나짜리 직선 맞추기",
+      "conditions_html": "원점을 지나는 직선 모델 $f(x) = \\theta x$에 가우시안 노이즈가 더해진다고 가정해요($y = \\theta x + \\epsilon$, $\\epsilon \\sim \\mathcal{N}(0, \\sigma^2)$). 기울기 $\\theta$ 하나만 모르는 값이에요. 훈련 데이터가 $(x_n, y_n) = (1, 2),\\ (2, 5),\\ (4, 7)$일 때, 입력을 세로로 쌓은 $\\mathbf{X} = [1, 2, 4]^\\top$와 $\\mathbf{y} = [2, 5, 7]^\\top$로 최대우도 기울기를 구해 보세요.\n    ",
+      "ask_html": "<ol><li>(a) $\\mathbf{X}^\\top\\mathbf{X}$를 계산해 보세요.</li><li>(b) $\\mathbf{X}^\\top\\mathbf{y}$를 계산해 보세요.</li><li>(c) $\\theta_{\\text{ML}} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$를 구해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b",
+        "c"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we aim to fit a straight line f(x) = θx, where θ is an unknown slope, to a dataset using maximum likelihood estimation.\" — Example 9.2",
+      "input_sha256": "dfc333d09cfa0e01c2ed68443e1ce068b7d7392b643fcd75df33730b75914cb5"
+    },
+    {
+      "id": "p2",
+      "title": "P2. 정규방정식으로 기울기 구하기",
+      "conditions_html": "원점을 지나는 직선 모델 $f(x) = \\theta x$로 데이터를 최대우도로 맞춰요. 훈련 데이터는 $(x_n, y_n) = (1, 1),\\ (1, 3),\\ (2, 4)$이고, $\\mathbf{X} = [1, 1, 2]^\\top$, $\\mathbf{y} = [1, 3, 4]^\\top$로 둬요.\n    ",
+      "ask_html": "<ol><li>(a) $\\mathbf{X}^\\top\\mathbf{X}$와 $\\mathbf{X}^\\top\\mathbf{y}$를 계산해 보세요.</li><li>(b) 미분이 0이 되는 조건인 정규방정식 $\\theta_{\\text{ML}}^\\top \\mathbf{X}^\\top\\mathbf{X} = \\mathbf{y}^\\top\\mathbf{X}$에 넣어 $\\theta_{\\text{ML}}$을 구해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we aim to fit a straight line f(x) = θx, where θ is an unknown slope, to a dataset using maximum likelihood estimation.\" — Example 9.2",
+      "input_sha256": "7594ac1c585bb617583f51e470d45e010ba875a2870267fa555ec8cdba35d2d3"
+    },
+    {
+      "id": "p3",
+      "title": "P3. 3차 다항식을 특징 벡터로 쓰기",
+      "conditions_html": "스칼라 입력 $x$를 특징 벡터 $\\boldsymbol{\\phi}(x) = [1, x, x^2, \\dots, x^{K-1}]^\\top \\in \\mathbb{R}^K$로 들어 올려요. 모델은 $f(x) = \\sum_{k=0}^{K-1} \\theta_k x^k = \\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$예요. $K = 4$이고 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2, \\theta_3]^\\top = [1, -2, 0, 1]^\\top$일 때,\n    ",
+      "ask_html": "<ol><li>(a) $\\boldsymbol{\\phi}(2)$를 적어 보세요.</li><li>(b) $f(2)$를 구해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we “lift” the original one-dimensional input space into a K-dimensional feature space consisting of all monomials\" — Example 9.3",
+      "input_sha256": "87a7742cce0dc577cbf8ec8ce7d05e07b4ba0eb0104ef6c21988b22e61a433b8"
+    },
+    {
+      "id": "p4",
+      "title": "P4. 2차 다항식을 특징 벡터로 쓰기",
+      "conditions_html": "스칼라 입력 $x$를 특징 벡터 $\\boldsymbol{\\phi}(x) = [1, x, \\dots, x^{K-1}]^\\top \\in \\mathbb{R}^K$로 들어 올리고, $f(x) = \\sum_{k=0}^{K-1} \\theta_k x^k = \\boldsymbol{\\phi}^\\top(x)\\boldsymbol{\\theta}$로 둬요. $K = 3$이고 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2]^\\top = [2, 0, -1]^\\top$일 때,\n    ",
+      "ask_html": "<ol><li>(a) $\\boldsymbol{\\phi}(3)$을 적어 보세요.</li><li>(b) $f(3)$을 구해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we “lift” the original one-dimensional input space into a K-dimensional feature space consisting of all monomials\" — Example 9.3",
+      "input_sha256": "7e3abe1d160c6395fec8833effbb82409ad70fa6707462e092aa5b5d418c4d72"
+    },
+    {
+      "id": "p5",
+      "title": "P5. 해가 없는 연립방정식",
+      "conditions_html": "",
+      "ask_html": "다음 $\\mathbf{A}\\mathbf{x} = \\mathbf{b}$의 모든 해의 집합 $S$를 구해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 1 &amp; 1 &amp; -1 &amp; -1 \\\\ 2 &amp; 5 &amp; -7 &amp; -5 \\\\ 2 &amp; -1 &amp; 1 &amp; 3 \\\\ 5 &amp; 2 &amp; -4 &amp; 2 \\end{bmatrix}, \\quad \\mathbf{b} = \\begin{bmatrix} 1 \\\\ -2 \\\\ 4 \\\\ 6 \\end{bmatrix}$$",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Find the set S of all solutions in x of the following inhomogeneous linear systems Ax = b\" — Exercise 2.5a",
+      "input_sha256": "4f2c356c214cf1aa9073a7da27d1cdb819782ccc347aacfc5a4b7108b48894c5"
+    },
+    {
+      "id": "p6",
+      "title": "P6. 역행렬이 있을까요",
+      "conditions_html": "",
+      "ask_html": "다음 행렬의 역행렬을 구해 보세요. 없다면 왜 없는지 설명해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 2 &amp; 3 &amp; 4 \\\\ 3 &amp; 4 &amp; 5 \\\\ 4 &amp; 5 &amp; 6 \\end{bmatrix}$$",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Determine the inverses of the following matrices if possible\" — Exercise 2.8a",
+      "input_sha256": "8d5a680908e7a4cd510df667d520a5677c37a6e92ca109f07d5bc421c6ff7ff0"
+    },
+    {
+      "id": "p7",
+      "title": "P7. 4×4 역행렬 구하기",
+      "conditions_html": "",
+      "ask_html": "다음 행렬의 역행렬 $\\mathbf{A}^{-1}$를 구해 보세요.\n  $$\\mathbf{A} = \\begin{bmatrix} 1 &amp; 0 &amp; 1 &amp; 0 \\\\ 0 &amp; 1 &amp; 1 &amp; 0 \\\\ 1 &amp; 1 &amp; 0 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 &amp; 0 \\end{bmatrix}$$",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Determine the inverses of the following matrices if possible\" — Exercise 2.8b",
+      "input_sha256": "338d9d56ff7c9f5380c0664ed544b8f162347ce2d8c167cbefa978c6514a4a03"
+    }
+  ],
+  "figure_resources": [],
+  "question_payload_sha256": "c167a52d4d412539ebd7885113a4c8340ce78059757c35bc0fa96945fe3db5de",
+  "packet_payload_sha256": "872d4ae0d5aed05d2e9511f492c84c74cf3a5ae32e7c05761f099b50e6f7fe53"
+}

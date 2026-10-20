@@ -1,337 +1,1575 @@
 {
-  "input_hash": "fa1deac0035429230d917cb2ac79ad0016cefac13016eb1181e89dd44a8dc06c",
+  "review_policy_version": "problem-explain-2026-10-15",
+  "input_hash": "8678596cd0a6ed23704490ac55eb8c967148511ca443311b8abd73a3f76e45cd",
   "references": [
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/교과서/Mathematics_for_Machine_Learning.pdf",
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/교과서/Mathematics_for_Machine_Learning.pdf",
       "sha256": "3f87b70c64a35d30ec4e565b4d5cfd18fe913002d3b3bed44691c7d0838911bc"
     },
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/강의노트/Lecture03_Linear_Regression_Part1_rev.pdf",
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/강의노트/Lecture03_Linear_Regression_Part1_rev.pdf",
       "sha256": "8cf6f4621fdcd8daa9be51e55e8a1121f62bbf58bc32d8252ffb840703ea2699"
     },
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/0928/복습문제_0928_Linear_Regression.html",
-      "sha256": "0d1a59eca8f365b04f22ca0529153516f55f1ef44b69c04af4bf1dbaa8fb25a4"
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/복습문제_0928_Linear_Regression.html",
+      "sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334"
     },
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/0928/정리노트_0928_Linear_Regression.md",
-      "sha256": "ce90858ab9b9f5ee8b8ba7bef2ac48b74d0855f16057307e11dd878d5838b85e"
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/정리노트_0928_Linear_Regression.md",
+      "sha256": "d3a59cf41352e5e8b22dd9b8f32eb78a1cefb701c0aaf4267044932b0c187415"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-recap-bowl.svg",
+      "sha256": "75f35dcf82c5a195d1f4d34ea5f2b0c9e204e5861825a7c33224167b15692d9d"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-gradient-knobs.svg",
+      "sha256": "4c8af30a57a4f578bd7237c2f0237a62146cc9cd841e80fc3cca0957ff0ffb3b"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-jacobian-factory.svg",
+      "sha256": "1096257ce718e45784c959d35fe24ba0ec28d8fac8ba9aa6190c641fc6339652"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-chain-boxes.svg",
+      "sha256": "df6c65b804ddd3eb859f14be2c7c529629f55aee7ac079a43ded7861e90f4ae1"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-thetaml-bowl.svg",
+      "sha256": "69b622b5f2f0a209b71a5d6ab5a90d3d6688a2c7a550a4c5b2d6df90fd1af0bd"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-feature-flow.svg",
+      "sha256": "c8f793213ce0b3521d2e34c3beda6d7b2ab706c54a340d3424287460bf276d2c"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-poly-lift.svg",
+      "sha256": "1e3d0305aab2da4b4ee3b8f3501de6ce08864a98dc203bf677467e3a80bf2c36"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-phi-grid.svg",
+      "sha256": "8f290c1e476e9ea662c5676d3fe1cee53beeca8933260c82e17d43b0b2168142"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-polyfit.svg",
+      "sha256": "23af1fce8e65c5a63a5d7cc9ad239a46353afe40a8219135a32b48ead2acd6f9"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-overfit-curve.svg",
+      "sha256": "edaccf65ec2ff84c12c53b0c0ec6812968e8c9a6e72f1f24f232a87f3f27cc61"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-overfit-static-1.svg",
+      "sha256": "5a7a76c2011e0b85cae00cc32a8d09a3382f066d8b4db7d364dfbb2d059a08e0"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-overfit-static-2.svg",
+      "sha256": "4463a3a1b0326103bf89424c74f70cd4bcdf06f0a6b6d960553f2b9c683c90fb"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-overfit-static-3.svg",
+      "sha256": "02ec586eb3a76979c5efc3f9acba7040df304072710bfea41ea5e49d245937c7"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-map-scale.svg",
+      "sha256": "35e904b1cca8d69f873301172977543b418beb1bf7508f9cc61123ee3fa1d958"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-gauss-prior-width.svg",
+      "sha256": "3e5a0349f6ad283ae80f00f10dbe72705eb1deae8f24e1b7fc228b33332ce891"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-mlmap-knob.svg",
+      "sha256": "ef8af696d4384881f3cbbd9e001678dcde8fe30e013b80f2fc45405e814dfa96"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-mapw-static-1.svg",
+      "sha256": "47106ee6e00f1299a983036f46265b2833dd4ca8945487a05ab1993b64e77efe"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-mapw-static-2.svg",
+      "sha256": "e2442e6613ff1bfcba8b657fea0366f087dbd04925921e40398d758f50151911"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-mapw-static-3.svg",
+      "sha256": "fdd2260feecb8c8b72741efdbdf1d42ca4bf6c4b60a5290d4e6aa8ed401ad533"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/widget-mapw-static-4.svg",
+      "sha256": "18e3e9961bf92af195972485d14a3519e34b3b7abf1de3b38a83f6cc59159021"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-general-prior.svg",
+      "sha256": "b40ed47aa66ef4dfb051feefd98aced16a2b943f2c573535d454fb63389cc3a5"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/figures_0928/fig-rls-same.svg",
+      "sha256": "42ede3cecff9435582b05bfe3c3275da3eab62349667fad0710216957dc1ca66"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json",
+      "sha256": "f1266456dbefea9950ec3ceffe7ad38ab274c48665590acc613558575f7d364e"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-controller-comparison/root-adjudication.json",
+      "sha256": "76711c9f90425607b03127ac06e6c55e6a4be90bea973b7831646884174d09c0"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-controller-comparison/findings.json",
+      "sha256": "77119252affba4c666513b44b6155b8c0b990659d6f46e92b582e2676dc3216f"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-group1/results.json",
+      "sha256": "a6daca0a50213c1975944399623d8e03c3962d1896f983aa48969d511f960368"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-group1/freeze-manifest.json",
+      "sha256": "b72142f104247b06d44392b3128b9aa9f605c3697c895071f0ec32d9201c02e8"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/evidence/task6c2-browser.json",
+      "sha256": "2dda17094eb433d03dddbe3519e1716af51b06ffb4287f5f78481f6b948d366c"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/browser-limitations.json",
+      "sha256": "aa5058eaacdb5d0cd93351cd1b169467bbd8f23e64464ba7ccd265eb1bb00ff8"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/evidence/task6c2-source-content-a.json",
+      "sha256": "923fa526a44130dcc07790fd02a7579bb11674e6adc4006d9931e811da23e2b0"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/source-content-a/results.json",
+      "sha256": "953897cbb038c52c6a6c61ff309ec55497250201a87dfae3f5936f81c6b10c1b"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/evidence/task6c2-independent.json",
+      "sha256": "9d5b0305e398e19d96b2a7cdb292855b9676410915ce3a3b1d85161770700d3d"
     }
   ],
   "source_visual": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/source-content-review.md: MML PDF page images inspected; tables, matrices and graphs compared; adapted card parameters kept distinct."
+    "reviewer": "ml_source_content_a",
+    "evidence": "evidence/task6c2-source-content-a.json: actual authentic source PDF pixels, current questions and adapted/source distinctions; full evidence copied unchanged at reports/task6-summary-evidence/academic/source-content-a/results.json."
   },
   "browser": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/browser-stage.json and stage-*.png: all 8 problems and summaries, 1280x900/375x812 light/dark; zero errors/missing/external/overflow. Current HTML SHA256 b9294b395573cf3347432fd841bde659251c58f8ca1577af912d5aa21fe12fa0."
+    "reviewer": "/root/task6c_ml_validation (actual browser executions); /root/task6c2_ml_finish (hash/owner-policy/limitation binding)",
+    "evidence": "evidence/task6c2-browser.json: actual6currentSHA cases,6current scrollercases; all actually applicable current MPE criteria pass; no figures in this pack."
   },
   "content": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/source-content-review.md and authored per-part fragments: seven sections, clue/concept/formula, first line, derivation, complete answers and caveats checked.",
+    "reviewer": "ml_source_content_a",
+    "meaning_of_pass": "Current mathematical claims are consistent subject to every retained item qualification; this does not remove underdetermination or supply unstated likelihood assumptions.",
+    "verdict_counts": {
+      "consistent": 7,
+      "qualified_consistent": 5
+    },
     "items": {
       "p1:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p1.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p1",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+        "current_fragment_sha256": "45e36c6b521b4a933430b40c6e986fa071bc89f462e55139d36ede29a120011a",
+        "conclusion_and_reasoning": "Putting one transposed feature vector in each row gives [1,-1,1],[1,1,1],[1,2,4]. The design matrix is 3x3 and Phi theta is 3x1; squaring -1 gives +1.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Stacking feature rows at -1,1,2 gives [[1,-1,1],[1,1,1],[1,2,4]], size 3x3.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "385c9743a500c6a60e19a6898bb9d6a5c110ce3e7f2a2e396b91b6ca7cc8bebc",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "0b48f14c54b71610f872ae1fb7a5b0f82beee4eafb64662deb71638a1022e049",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "2bc7b47ff330d90c116d30c059001ea789a42193e5940d86cadb143e14fdc57f",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "b882fa6ebf5bc557a59f2db208e0386994ee2084d07a1ea43de4c9d6151392f8",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "4823e874e870fd49b4bede8edcb91ef583d20a52a54588b0c9b67dcddde04902",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "1957325e2c5a0694079aee922011514d2f6b309a634446b323642e661bf987dc",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "3c0dbad122fd83563d0321a5713fe688ace79939826a0c15f4f7805362cfe855",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "2752677ff432afdcccaa2409d42befd135c7ee50436c2790e026f116bfed117e",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Putting one transposed feature vector in each row gives [1,-1,1],[1,1,1],[1,2,4]. The design matrix is 3x3 and Phi theta is 3x1; squaring -1 gives +1.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p1:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Putting one transposed feature vector in each row gives [1,-1,1],[1,1,1],[1,2,4]. The design matrix is 3x3 and Phi theta is 3x1; squaring -1 gives +1."
       },
       "p2:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p2.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "qualified_consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p2",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+        "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+        "conclusion_and_reasoning": "The current authoritative adaptation uses degree 3, hence four features [1,x,x^2,x^3]. MML Example 9.5 instead used degree 4; its historical quotation is not the current numerical question.",
+        "qualification": {
+          "issue": "Current degree 3 adaptation is explicit in current conditions and solve; the historical original quote degree 4 is different.",
+          "disclosed_status": "explicit_current_adaptation",
+          "limitation_fully_explicit_in_non_summary_baseline": true,
+          "related_condition_or_caveat_in_non_summary_baseline": true,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [
+          "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5."
+        ],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Current conditions explicitly ask for degree 3, giving four coefficients; historical original quotation says degree 4. Current reference also explicitly uses degree 3.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "604cd4770ebad5479dbb640e2797245e20258782d9ff710dd6c2dea61023c92c",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "3e42db417cdad4ce5c6d8fb390b669c8d0b7ae6c60b232800b9b6befc7b44358",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "009f1f0c02127ba346863b95a8cb1fe509ec96a19b9ef12369ce7e7719d5a0e0",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "4ae6894d082995d3c5861e038a7103bdb6b0ceb0453119c0357186d2b6f1cbe3",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "380d2bd45a43ec3c45bf6de9cde748bd7597298ccc8c1700b11ed361a44d749d",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "dc14044dd09f0e3f64a2a88ae02ecedce49672e1e5b75d5e3e23f4d703c5989d",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "34a729b7c26f77be3fdc5b8766c7bd6eecba90adc57bf7d180c8c8ba49e00aac",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "The current authoritative adaptation uses degree 3, hence four features [1,x,x^2,x^3]. MML Example 9.5 instead used degree 4; its historical quotation is not the current numerical question.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p2:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. The current authoritative adaptation uses degree 3, hence four features [1,x,x^2,x^3]. MML Example 9.5 instead used degree 4; its historical quotation is not the current numerical question."
       },
       "p2:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p2.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "qualified_consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p2",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+        "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+        "conclusion_and_reasoning": "For the current N=8, degree3 adaptation, Phi is 8x4. The original book figure uses N=10, degree4 and must not overwrite the stated current values.",
+        "qualification": {
+          "issue": "The 8x4 answer is for current degree 3, not historical degree 4.",
+          "disclosed_status": "explicit_current_adaptation",
+          "limitation_fully_explicit_in_non_summary_baseline": true,
+          "related_condition_or_caveat_in_non_summary_baseline": true,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "For the current degree-3 adaptation, 8 observations by 4 features gives an 8x4 design, not the historical degree-4 design 8x5.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "604cd4770ebad5479dbb640e2797245e20258782d9ff710dd6c2dea61023c92c",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "3e42db417cdad4ce5c6d8fb390b669c8d0b7ae6c60b232800b9b6befc7b44358",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "009f1f0c02127ba346863b95a8cb1fe509ec96a19b9ef12369ce7e7719d5a0e0",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "4ae6894d082995d3c5861e038a7103bdb6b0ceb0453119c0357186d2b6f1cbe3",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "380d2bd45a43ec3c45bf6de9cde748bd7597298ccc8c1700b11ed361a44d749d",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "dc14044dd09f0e3f64a2a88ae02ecedce49672e1e5b75d5e3e23f4d703c5989d",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "34a729b7c26f77be3fdc5b8766c7bd6eecba90adc57bf7d180c8c8ba49e00aac",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "For the current N=8, degree3 adaptation, Phi is 8x4. The original book figure uses N=10, degree4 and must not overwrite the stated current values.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p2:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. For the current N=8, degree3 adaptation, Phi is 8x4. The original book figure uses N=10, degree4 and must not overwrite the stated current values."
       },
       "p2:c": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p2.html, solve/verify c; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "qualified_consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p2",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+        "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+        "conclusion_and_reasoning": "For fixed positive Gaussian noise variance and full column rank 4, the normal equation yields (Phi^T Phi)^-1 Phi^T y. At least four distinct inputs suffice for these monomial columns; in rank-deficient cases the inverse formula and uniqueness fail, as disclosed.",
+        "qualification": {
+          "issue": "Inverse formula needs rank 4; current pitfall already supplies generalized inverse/nonunique alternative.",
+          "disclosed_status": "explicit_non_summary",
+          "limitation_fully_explicit_in_non_summary_baseline": true,
+          "related_condition_or_caveat_in_non_summary_baseline": true,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [
+          "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+        ],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "The normal equation and inverse formula agree only for full column rank. Current verify/pitfall disclose four distinct inputs as sufficient and a generalized inverse/nonuniqueness alternative when rank deficient. Marginal Uniform draws alone do not prove rank.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "604cd4770ebad5479dbb640e2797245e20258782d9ff710dd6c2dea61023c92c",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "3e42db417cdad4ce5c6d8fb390b669c8d0b7ae6c60b232800b9b6befc7b44358",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "009f1f0c02127ba346863b95a8cb1fe509ec96a19b9ef12369ce7e7719d5a0e0",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "4ae6894d082995d3c5861e038a7103bdb6b0ceb0453119c0357186d2b6f1cbe3",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "380d2bd45a43ec3c45bf6de9cde748bd7597298ccc8c1700b11ed361a44d749d",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "dc14044dd09f0e3f64a2a88ae02ecedce49672e1e5b75d5e3e23f4d703c5989d",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "34a729b7c26f77be3fdc5b8766c7bd6eecba90adc57bf7d180c8c8ba49e00aac",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "For fixed positive Gaussian noise variance and full column rank 4, the normal equation yields (Phi^T Phi)^-1 Phi^T y. At least four distinct inputs suffice for these monomial columns; in rank-deficient cases the inverse formula and uniqueness fail, as disclosed.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p2:c]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. For fixed positive Gaussian noise variance and full column rank 4, the normal equation yields (Phi^T Phi)^-1 Phi^T y. At least four distinct inputs suffice for these monomial columns; in rank-deficient cases the inverse formula and uniqueness fail, as disclosed."
       },
       "p3:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p3.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p3",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+        "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+        "conclusion_and_reasoning": "Noise variance is (0.2)^2=1/25 and prior variance is 1/4, so lambda=(1/25)/(1/4)=4/25=0.16. The adapted prior is I/4, whereas the inspected MML example uses I.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Noise variance 0.2^2=1/25 divided by the current prior variance 1/4 gives 4/25=0.16, with the identity matching feature dimension.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "365dc036384ee7df36921a61a6444046586df6c3bdd61e1e322fec07ab9964f6",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "0016a304a31e4c791813058c6b1d72e864bd53b09f328e1dc4c139290718bcd8",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "51ee308ff23eeac35da4466bee78e821489d17b15d1fc9873559bf984476edb3",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "fc2906c56aa3626021266b6a57fa1567f101c7183f257f41571a5c213cee994d",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "fcc30f6e58b63c4aaf66e43e1a91fa05a2beb466d31b7121429023c516dadf13",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "7fc59a03ff6280c94b11a3f71ef1f429faa030dca31de4bc89fe5ad2c20d3b65",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "3bcce88f8a5aadb1c63080348e664d1d7424dc3a883880cce70c3b0555243d63",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "372360d44991ac051d4891e69a85b3896d18c99107de0af13763256251cbfb42",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Noise variance is (0.2)^2=1/25 and prior variance is 1/4, so lambda=(1/25)/(1/4)=4/25=0.16. The adapted prior is I/4, whereas the inspected MML example uses I.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p3:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Noise variance is (0.2)^2=1/25 and prior variance is 1/4, so lambda=(1/25)/(1/4)=4/25=0.16. The adapted prior is I/4, whereas the inspected MML example uses I."
       },
       "p3:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p3.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "qualified_consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p3",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+        "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+        "conclusion_and_reasoning": "Figure9.7 illustrates greater regularization visibility for the historical degree8 fit than degree6. No realized design/labels or quantitative effect criterion is supplied for this adapted prior, so a universal ordering is underdetermined. y=0 gives zero estimates at both degrees. Current solve/verify/pitfall and summary disclose this; approve only the example-specific interpretation.",
+        "qualification": {
+          "issue": "Degree 8 effect is a historical/example tendency, not implied for every adapted dataset; y=0 is a disclosed counterexample.",
+          "disclosed_status": "explicit_non_summary",
+          "limitation_fully_explicit_in_non_summary_baseline": true,
+          "related_condition_or_caveat_in_non_summary_baseline": true,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [
+          "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+        ],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Degree 8 is an example-specific tendency, not a universal theorem: y=0 makes both estimates zero. Current solve/verify/pitfall disclose this. Actual MML Figure9.7 corroborates its historical 6/8-degree illustration, with prior I rather than the current adapted I/4.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "365dc036384ee7df36921a61a6444046586df6c3bdd61e1e322fec07ab9964f6",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "0016a304a31e4c791813058c6b1d72e864bd53b09f328e1dc4c139290718bcd8",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "51ee308ff23eeac35da4466bee78e821489d17b15d1fc9873559bf984476edb3",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "fc2906c56aa3626021266b6a57fa1567f101c7183f257f41571a5c213cee994d",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "fcc30f6e58b63c4aaf66e43e1a91fa05a2beb466d31b7121429023c516dadf13",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "7fc59a03ff6280c94b11a3f71ef1f429faa030dca31de4bc89fe5ad2c20d3b65",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "3bcce88f8a5aadb1c63080348e664d1d7424dc3a883880cce70c3b0555243d63",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "372360d44991ac051d4891e69a85b3896d18c99107de0af13763256251cbfb42",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Figure9.7 illustrates greater regularization visibility for the historical degree8 fit than degree6. No realized design/labels or quantitative effect criterion is supplied for this adapted prior, so a universal ordering is underdetermined. y=0 gives zero estimates at both degrees. Current solve/verify/pitfall and summary disclose this; approve only the example-specific interpretation.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p3:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Figure9.7 illustrates greater regularization visibility for the historical degree8 fit than degree6. No realized design/labels or quantitative effect criterion is supplied for this adapted prior, so a universal ordering is underdetermined. y=0 gives zero estimates at both degrees. Current solve/verify/pitfall and summary disclose this; approve only the example-specific interpretation."
       },
       "p4:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p4.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p4",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+        "current_fragment_sha256": "c0123c3b00d766ceccb1c4a427ba9f5cf3a843ec676a5d3600b54efbc748da71",
+        "conclusion_and_reasoning": "On real x≠0, product and chain rules give (4/x)sin(x^3)+3x^2 log(x^4)cos(x^3). The identity log(x^4)=4log|x| preserves negative x; replacing it by 4log x requires x>0.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Product/chain rules give 4sin(x^3)/x+3x^2 ln(x^4)cos(x^3), for x≠0. Current pitfall preserves 4ln|x| on the full real domain.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "6f04c1d3b668806dcdb7f6757f515d1c33bac895399c643a20a493a183404a62",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "a0791fcf117d10392baa1604cb2435de943df6c5809dbd0c8f799c28a24a3dd5",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "f94a317905c02ac182cd0df3bd54d5b5b8724caa2b2906f6a26c362696324ee6",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "edbb382bfff1b7a58f7a25a807c765d818127daab9c0c48a6afa5b1e5c6416a2",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "5ac9f57846e29505f5a09a309b381c67632827a8b14cb93c73f2537c2d0d95f7",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "c53214f7adba271d0b1c8289900fc60b8e2efa3cfa075d7108ee0b644bb74f84",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "329f55aade96188dd130d22134f64842b0162c5641e9e3e0ddc7fe511df6c310",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "6344af9cabc69b8b50ab002ad20c559b89135ae4b657f6a9fd96331055f3cb7b",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "On real x≠0, product and chain rules give (4/x)sin(x^3)+3x^2 log(x^4)cos(x^3). The identity log(x^4)=4log|x| preserves negative x; replacing it by 4log x requires x>0.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p4:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. On real x≠0, product and chain rules give (4/x)sin(x^3)+3x^2 log(x^4)cos(x^3). The identity log(x^4)=4log|x| preserves negative x; replacing it by 4log x requires x>0."
       },
       "p5:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p5.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "qualified_consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p5",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+        "current_fragment_sha256": "d0462d307ffc6134577c9357193af1b53a938a25ea17dcb3161da200adbc6248",
+        "conclusion_and_reasoning": "With fixed mu and sigma≠0, the inner derivative is -(x-mu)/sigma^2, multiplying the original exponential. Its sign changes from positive to negative at mu because sigma^2>0; sigma=0 in the overly broad original R condition is excluded explicitly.",
+        "qualification": {
+          "issue": "Original sigma∈R includes undefined sigma=0; result applies for sigma≠0, with sigma>0 in a standard-deviation interpretation.",
+          "disclosed_status": "explicit_non_summary",
+          "limitation_fully_explicit_in_non_summary_baseline": true,
+          "related_condition_or_caveat_in_non_summary_baseline": true,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [
+          "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+        ],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Chain rule gives -(x-mu)f(x)/sigma^2. Both are conditional on sigma≠0; current non-summary pitfall expressly flags undefined sigma=0, whereas original allows sigma∈R.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "877bd86e7cb2d5fff5240ec91e44b379ad3297acea230195dd8c224cca6dce09",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "04f301f4242aed8c137af34a1e05f9bedc878ebd00303e6205f50bf27006d752",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "e14618ef4a2831079575f3b6b766b17b6670ed51e8f179ff664dc44b62fe92f1",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "751a4d297a882cb22fa05d87bb504310145ee947a4481ea05ea17fc5034ce15f",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "28cca18be95b9c7b0bfaad3b6050b0bc522e780374edbd86b18ed18864796c98",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "1fe32139318024a4e4eecf6f2851a9d00f4689833d3832605794ea2e1f5d676b",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "c06f5f921f1e52ecf0455a5488f9da7a9bb2ecfa692cc66e4d06ea897d2f39f3",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "0f01bc6500e46e874a5752d24aadabffee03ecb4505fac43dd37023e4741f82c",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "With fixed mu and sigma≠0, the inner derivative is -(x-mu)/sigma^2, multiplying the original exponential. Its sign changes from positive to negative at mu because sigma^2>0; sigma=0 in the overly broad original R condition is excluded explicitly.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p5:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. With fixed mu and sigma≠0, the inner derivative is -(x-mu)/sigma^2, multiplying the original exponential. Its sign changes from positive to negative at mu because sigma^2>0; sigma=0 in the overly broad original R condition is excluded explicitly."
       },
       "p6:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p6.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p6",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+        "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+        "conclusion_and_reasoning": "For z=x^T x, df/dz is 1x1 and dz/dx=2x^T is 1xD; multiplying gives 2x^T/(1+x^T x). The logarithm is defined for all real x vectors because z≥0.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "The scalar chain 1x1 times 1xD gives 2x^T/(1+x^Tx); denominator is positive for all real x.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "12862683cb842e58538a56ee5a21d99e851aec94a819de9aba2481728889d51b",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "f6b1e1c9ba1141f96d330144ea97eb589281959668d7492502b3fedd8ff2a838",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "287d78a55df774222e1de20ffb68f3b3402d41bcb7822d8ce3ebb420abfbdf82",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "530a1f5007a2ba8409e498997a08584378ee0becfa6279af3c48d46c951a28b3",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "2895fbc9e643d32619a9fcc5a530df6d3c85323a19d4170d9fa601630d5f0851",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "83ea4c4e90c88491cf01d4256ae6f9c0b55b9b185c100a7c60775d75f85505af",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "c7fbeb2860fba40eb9f98820112badef7b9348eec9b69adf19567941489aaefb",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "c6b7b26d09087d5f1cc5923ee4a3f2a8c3ee77bb3fb06d141b38d366c95bbcb4",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "For z=x^T x, df/dz is 1x1 and dz/dx=2x^T is 1xD; multiplying gives 2x^T/(1+x^T x). The logarithm is defined for all real x vectors because z≥0.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p6:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. For z=x^T x, df/dz is 1x1 and dz/dx=2x^T is 1xD; multiplying gives 2x^T/(1+x^T x). The logarithm is defined for all real x vectors because z≥0."
       },
       "p6:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p6.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p6",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+        "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+        "conclusion_and_reasoning": "For componentwise sine, df/dz=diag(cos z) is ExE and dz/dx=A is ExD; product is ExD. Component differentiation gives cos(z_i)A_ij, confirming orientation.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Component derivative cos(z_i)A_ij agrees with diag(cos z)A, an ExD Jacobian with factors ExE and ExD.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "12862683cb842e58538a56ee5a21d99e851aec94a819de9aba2481728889d51b",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "f6b1e1c9ba1141f96d330144ea97eb589281959668d7492502b3fedd8ff2a838",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "287d78a55df774222e1de20ffb68f3b3402d41bcb7822d8ce3ebb420abfbdf82",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "530a1f5007a2ba8409e498997a08584378ee0becfa6279af3c48d46c951a28b3",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "2895fbc9e643d32619a9fcc5a530df6d3c85323a19d4170d9fa601630d5f0851",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "83ea4c4e90c88491cf01d4256ae6f9c0b55b9b185c100a7c60775d75f85505af",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "c7fbeb2860fba40eb9f98820112badef7b9348eec9b69adf19567941489aaefb",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "c6b7b26d09087d5f1cc5923ee4a3f2a8c3ee77bb3fb06d141b38d366c95bbcb4",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "For componentwise sine, df/dz=diag(cos z) is ExE and dz/dx=A is ExD; product is ExD. Component differentiation gives cos(z_i)A_ij, confirming orientation.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p6:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. For componentwise sine, df/dz=diag(cos z) is ExE and dz/dx=A is ExD; product is ExD. Component differentiation gives cos(z_i)A_ij, confirming orientation."
       },
       "p7:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p7.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p7",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+        "current_fragment_sha256": "9229e32ede529aacb05bca46894575e22f72b1c79aafbb72fafb74e0bbb6fdd8",
+        "conclusion_and_reasoning": "For componentwise tanh, df/dz=diag(1-tanh^2 z) is MxM, dz/dx=A is MxN, and the product is MxN with entries (1-tanh^2 z_i)A_ij. Bias is fixed and has zero derivative.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Elementwise tanh derivative is a diagonal MxM matrix, multiplied on the left of the MxN A; the MxN result and b derivative zero agree.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "88317550efcc83661d2fba8eb4fec5e95f81aec78f6e899f14feaa3e38a4936b",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "fe06e4991a8d67b0eac6382ea05b887e084baebf9ce07ea6cf6f9079e53ca6fd",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "2e48f3dd001924fc6fe221a3d4021993549d62dadf1bbc8c08524fe6007d320b",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "22198ad8d29460d222be967efd4479f874fbd499bccb5a45218ffbadef669931",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "94ce8b697a5dae271f06168683968bea6a6b2935d3339d952afd4e5094d2bbc6",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "d90d7bdac9d56542748d2fec2751f37651a2a62053bf6f94a60132e2a7c83a23",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "f10202f585e0809cf8840a15ba2847503cb6ccfd7e8ab8264a3e353ecfee0b69",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "c2c507254d63873d35ecf500120d757e6c52d348321453109a8740ce88cb4f61",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "For componentwise tanh, df/dz=diag(1-tanh^2 z) is MxM, dz/dx=A is MxN, and the product is MxN with entries (1-tanh^2 z_i)A_ij. Bias is fixed and has zero derivative.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p7:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. For componentwise tanh, df/dz=diag(1-tanh^2 z) is MxM, dz/dx=A is MxN, and the product is MxN with entries (1-tanh^2 z_i)A_ij. Bias is fixed and has zero derivative."
       },
       "p8:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p8.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p8",
+        "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+        "current_fragment_sha256": "5d81ac10b936fce8317a28d3b9904737b1743274e19f35e12ff8d8f3f2329e86",
+        "conclusion_and_reasoning": "Two chain-rule negatives cancel: fprime=e^-x/(1+e^-x)^2=f(1-f)>0. At x=0, f=1/2 and derivative=1/4; the domain is all real x.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "The two negative chain factors cancel, giving exp(-x)/(1+exp(-x))^2=f(1-f); at x=0 the derivative is 1/4.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "b85473365687fcd704f777050e910cdc06574ba56deec14e5df00c49c925cd1b",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "6ecea69e633578c4929d6d340c6cae207373e2718ccec1e8e3c72ecf8c98093c",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "fa7c94c4cf095ac223923cc84f3fcf33ac5ec34acaef4acf562c16e4018de251",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "157c346d663c138be0de6977c6a33ab695f308d0051bdc6359ac546a0ce85318",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "fc3959c6f3949f28f71a4836d248a5d8c2aa0cd110bc3033ee81453075bef03c",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "4b7006aca72a7ccb1a1c3547a4be0a4809da25b8aa1eab6eaf11bb79bee0a0b6",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "1938f5bfaa74f6f5d60d5c4b046af7182d974d8aad0de69266a82af7a48a489f",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "fd6383b66c6cf88904f23680daf2d21785518fd61460d2e22a0d2545689ff3c8",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Two chain-rule negatives cancel: fprime=e^-x/(1+e^-x)^2=f(1-f)>0. At x=0, f=1/2 and derivative=1/4; the domain is all real x.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0928-Linear_Regression content.items[p8:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Two chain-rule negatives cancel: fprime=e^-x/(1+e^-x)^2=f(1-f)>0. At x=0, f=1/2 and derivative=1/4; the domain is all real x."
       }
-    }
+    },
+    "evidence": "evidence/task6c2-source-content-a.json: actual allseven currentsections and all12parts. Qualified judgments remain conditional; no blanket pass for1007p3:b."
   },
   "independent": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/verify.py and independent-results.json: exact/symbolic calculations and general proof/qualitative review; not structural-only approval.",
+    "reviewer": "/root/ml_blind_dated_group1; comparison /root/ml_compare_dated; adjudication controller /root",
+    "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json and root-adjudication.json; 12 actual parts. Qualified results apply only under each item's recorded conditions; 1007 p3:b remains disputed.",
     "items": {
       "p1:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p1:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p1, subpart main; frozen dated-group1/results.json; root-adjudication.json. Stacking feature rows at -1,1,2 gives [[1,-1,1],[1,1,1],[1,2,4]], size 3x3.",
         "method": "exact",
-        "conclusion": "each row feature evaluation; matrix3x3"
+        "conclusion": "Phi=[[1,-1,1],[1,1,1],[1,2,4]].",
+        "derivation": [
+          "The nth row is phi(x_n)^T=(1,x_n,x_n^2).",
+          "For -1 the row is (1,-1,1); for 1 it is (1,1,1); for 2 it is (1,2,4)."
+        ],
+        "checks": [
+          "N=3 rows and K=3 columns, so Phi is 3x3.",
+          "The inputs are distinct; Vandermonde determinant (1-(-1))*(2-(-1))*(2-1)=6, confirming independence of the columns."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Stacking feature rows at -1,1,2 gives [[1,-1,1],[1,1,1],[1,2,4]], size 3x3.",
+        "current_fragment_sha256": "45e36c6b521b4a933430b40c6e986fa071bc89f462e55139d36ede29a120011a",
+        "current_sourcepack_input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p2:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p2:a; evidence/verify.py",
-        "method": "proof",
-        "conclusion": "degree3 has4 monomials; 8 samples give8x4. Differentiate SSE, normal equations; inverse valid under full column rank, >=4 distinct inputs ensures it."
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p2, subpart a; frozen dated-group1/results.json; root-adjudication.json. Current conditions explicitly ask for degree 3, giving four coefficients; historical original quotation says degree 4. Current reference also explicitly uses degree 3.",
+        "method": "exact",
+        "conclusion": "K=4; phi(x)=(1,x,x^2,x^3)^T.",
+        "derivation": [
+          "The explicit ask specifies a cubic polynomial, hence powers 0,1,2,3."
+        ],
+        "checks": [
+          "Polynomial degree 3 has four coefficients including the intercept."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [
+          "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5."
+        ],
+        "comparison_verdict": "qualified_consistent",
+        "comparison_condition": "Current conditions explicitly ask for degree 3, giving four coefficients; historical original quotation says degree 4. Current reference also explicitly uses degree 3.",
+        "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+        "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p2:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p2:b; evidence/verify.py",
-        "method": "proof",
-        "conclusion": "degree3 has4 monomials; 8 samples give8x4. Differentiate SSE, normal equations; inverse valid under full column rank, >=4 distinct inputs ensures it."
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p2, subpart b; frozen dated-group1/results.json; root-adjudication.json. For the current degree-3 adaptation, 8 observations by 4 features gives an 8x4 design, not the historical degree-4 design 8x5.",
+        "method": "exact",
+        "conclusion": "Phi has size 8x4.",
+        "derivation": [
+          "Stack N=8 row vectors phi(x_n)^T of length 4."
+        ],
+        "checks": [
+          "y is 8x1, theta is 4x1, and Phi theta is 8x1."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "qualified_consistent",
+        "comparison_condition": "For the current degree-3 adaptation, 8 observations by 4 features gives an 8x4 design, not the historical degree-4 design 8x5.",
+        "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+        "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p2:c": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p2:c; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p2, subpart c; frozen dated-group1/results.json; root-adjudication.json. The normal equation and inverse formula agree only for full column rank. Current verify/pitfall disclose four distinct inputs as sufficient and a generalized inverse/nonuniqueness alternative when rank deficient. Marginal Uniform draws alone do not prove rank.",
         "method": "proof",
-        "conclusion": "degree3 has4 monomials; 8 samples give8x4. Differentiate SSE, normal equations; inverse valid under full column rank, >=4 distinct inputs ensures it."
+        "conclusion": "Full-rank formula: theta_ML=(Phi^T Phi)^(-1)Phi^T y. In general use the stated pseudoinverse family.",
+        "derivation": [
+          "With independent common Gaussian observation variance sigma^2=0.04, negative log likelihood equals ||y-Phi theta||^2/(2sigma^2)+constant.",
+          "Its gradient is Phi^T(Phi theta-y)/sigma^2. Setting it to zero yields Phi^T Phi theta=Phi^T y.",
+          "If Phi has column rank 4, Phi^T Phi is invertible and theta_ML=(Phi^T Phi)^(-1)Phi^T y. If rank deficient, all least-squares minimizers are Phi^+y+(I_4-Phi^+Phi)w for arbitrary w in R^4."
+        ],
+        "checks": [
+          "Phi^T Phi is 4x4 and Phi^T y is 4x1.",
+          "At least four distinct x values suffice for the cubic Vandermonde matrix to have rank 4.",
+          "No actual input values or labels are provided, so a numerical theta is not identifiable."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [
+          "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+        ],
+        "comparison_verdict": "qualified_consistent",
+        "comparison_condition": "The normal equation and inverse formula agree only for full column rank. Current verify/pitfall disclose four distinct inputs as sufficient and a generalized inverse/nonuniqueness alternative when rank deficient. Marginal Uniform draws alone do not prove rank.",
+        "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+        "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p3:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p3:a; evidence/verify.py",
-        "method": "qualitative",
-        "conclusion": "ratio4/25; example tendency high-degree regularization, not universal coefficient norm ordering. y=0 counterexample removes categorical assertion."
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p3, subpart a; frozen dated-group1/results.json; root-adjudication.json. Noise variance 0.2^2=1/25 divided by the current prior variance 1/4 gives 4/25=0.16, with the identity matching feature dimension.",
+        "method": "exact",
+        "conclusion": "sigma^2/b^2=4/25=0.16.",
+        "derivation": [
+          "Observation variance sigma^2=0.2^2=0.04=1/25. Prior covariance b^2 I=(1/4)I, so b^2=1/4.",
+          "Divide variance by variance: (1/25)/(1/4)=4/25."
+        ],
+        "checks": [
+          "b=1/2 if taken as a positive standard deviation; using b^2=1/4 avoids confusing variance with standard deviation.",
+          "The ridge addition is (4/25)I_K, matching the KxK Gram matrix.",
+          "Prior negative log penalty is ||theta||^2/(2b^2); multiplying the MAP normal equation by sigma^2 yields the displayed coefficient."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Noise variance 0.2^2=1/25 divided by the current prior variance 1/4 gives 4/25=0.16, with the identity matching feature dimension.",
+        "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+        "current_sourcepack_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p3:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p3:b; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p3, subpart b; frozen dated-group1/results.json; root-adjudication.json. Degree 8 is an example-specific tendency, not a universal theorem: y=0 makes both estimates zero. Current solve/verify/pitfall disclose this. Actual MML Figure9.7 corroborates its historical 6/8-degree illustration, with prior I rather than the current adapted I/4.",
         "method": "qualitative",
-        "conclusion": "ratio4/25; example tendency high-degree regularization, not universal coefficient norm ordering. y=0 counterexample removes categorical assertion."
+        "conclusion": "Expected qualitative choice: degree 8 often shows more regularization; no unconditional ordering can be deduced from the supplied data.",
+        "derivation": [
+          "For Gram eigenvalue d>=0, ridge changes the unregularized eigen-direction coefficient by the shrinkage factor d/(d+lambda), lambda=4/25; smaller d is more strongly changed.",
+          "An eighth-degree polynomial has nine parameters; a sixth-degree polynomial has seven. Extra high-power directions often have weak data constraints, instability, or a large coefficient norm, so regularization commonly becomes more apparent at degree 8.",
+          "However the actual spectrum and Phi^T y depend on input values and labels; degree alone does not force a strictly larger effect. For instance, y=0 gives identical zero estimates for both degrees."
+        ],
+        "checks": [
+          "For any nonzero v, v^T(Phi^T Phi+lambda I)v=||Phi v||^2+lambda||v||^2>0, so the MAP system is invertible for lambda=0.16.",
+          "The prior shrinks coefficients in the supplied monomial coordinate system; no rescaling or coefficient exemption is assumed."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [
+          "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+        ],
+        "comparison_verdict": "qualified_consistent",
+        "comparison_condition": "Degree 8 is an example-specific tendency, not a universal theorem: y=0 makes both estimates zero. Current solve/verify/pitfall disclose this. Actual MML Figure9.7 corroborates its historical 6/8-degree illustration, with prior I rather than the current adapted I/4.",
+        "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+        "current_sourcepack_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p4:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p4:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p4, subpart main; frozen dated-group1/results.json; root-adjudication.json. Product/chain rules give 4sin(x^3)/x+3x^2 ln(x^4)cos(x^3), for x≠0. Current pitfall preserves 4ln|x| on the full real domain.",
         "method": "symbolic",
-        "conclusion": "product+chain derivative identity for real x!=0"
+        "conclusion": "f prime(x)=4 sin(x^3)/x+3x^2 ln(x^4) cos(x^3), for x!=0.",
+        "derivation": [
+          "Product rule: f prime=(d/dx ln(x^4))*sin(x^3)+ln(x^4)*(d/dx sin(x^3)).",
+          "For x!=0, chain rule gives (4x^3)/(x^4)=4/x and d sin(x^3)/dx=3x^2 cos(x^3)."
+        ],
+        "checks": [
+          "ln(x^4) is real for all nonzero real x, including negative x.",
+          "At x=0 the original function is undefined; no derivative there is asserted.",
+          "Own SymPy simplification of derivative minus formula is exactly zero on the stated domain."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Product/chain rules give 4sin(x^3)/x+3x^2 ln(x^4)cos(x^3), for x≠0. Current pitfall preserves 4ln|x| on the full real domain.",
+        "current_fragment_sha256": "c0123c3b00d766ceccb1c4a427ba9f5cf3a843ec676a5d3600b54efbc748da71",
+        "current_sourcepack_input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p5:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p5:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p5, subpart main; frozen dated-group1/results.json; root-adjudication.json. Chain rule gives -(x-mu)f(x)/sigma^2. Both are conditional on sigma≠0; current non-summary pitfall expressly flags undefined sigma=0, whereas original allows sigma∈R.",
         "method": "symbolic",
-        "conclusion": "Gaussian-shape derivative identity; sigma nonzero, peak atmu"
+        "conclusion": "f prime(x)=-(x-mu)/sigma^2 * exp(-(x-mu)^2/(2sigma^2)), for sigma!=0.",
+        "derivation": [
+          "Set h(x)=-(x-mu)^2/(2sigma^2). With constant sigma!=0, h prime=-(x-mu)/sigma^2.",
+          "Chain rule for exp(h) gives f prime=h prime exp(h)."
+        ],
+        "checks": [
+          "mu is any real constant. Negative nonzero sigma gives the same function since only sigma^2 occurs.",
+          "Own exact symbolic derivative minus formula is zero.",
+          "The function is only a Gaussian shape; no density normalizer was included in the supplied function."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [
+          "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+        ],
+        "comparison_verdict": "qualified_consistent",
+        "comparison_condition": "Chain rule gives -(x-mu)f(x)/sigma^2. Both are conditional on sigma≠0; current non-summary pitfall expressly flags undefined sigma=0, whereas original allows sigma∈R.",
+        "current_fragment_sha256": "d0462d307ffc6134577c9357193af1b53a938a25ea17dcb3161da200adbc6248",
+        "current_sourcepack_input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p6:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p6:a; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p6, subpart a; frozen dated-group1/results.json; root-adjudication.json. The scalar chain 1x1 times 1xD gives 2x^T/(1+x^Tx); denominator is positive for all real x.",
         "method": "symbolic",
-        "conclusion": "scalar derivative1xD and elementwise sine Jacobian ExD match direct component differentiation, general indices."
+        "conclusion": "df/dx=2x^T/(1+x^T x), size 1xD; equivalently column gradient is 2x/(1+x^T x).",
+        "derivation": [
+          "Use the Jacobian convention J_ij=partial output_i/partial input_j, so scalar derivatives with respect to a vector are rows.",
+          "df/dz=1/(1+z), size 1x1; dz/dx=2x^T, size 1xD.",
+          "Multiply in chain order: df/dx=(1/(1+x^T x))*2x^T."
+        ],
+        "checks": [
+          "x^T x>=0 implies 1+z>=1, so the logarithm domain is valid for every real x.",
+          "(1x1)(1xD) gives 1xD; no transpose ambiguity after fixing the convention."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "The scalar chain 1x1 times 1xD gives 2x^T/(1+x^Tx); denominator is positive for all real x.",
+        "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+        "current_sourcepack_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p6:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p6:b; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p6, subpart b; frozen dated-group1/results.json; root-adjudication.json. Component derivative cos(z_i)A_ij agrees with diag(cos z)A, an ExD Jacobian with factors ExE and ExD.",
         "method": "symbolic",
-        "conclusion": "scalar derivative1xD and elementwise sine Jacobian ExD match direct component differentiation, general indices."
+        "conclusion": "Jacobian diag(cos(Ax+b))A, size ExD.",
+        "derivation": [
+          "For componentwise sin, partial f_i/partial z_j=delta_ij cos(z_i), so df/dz=diag(cos(z)), size ExE.",
+          "For z=Ax+b, dz/dx=A, size ExD. Chain rule yields df/dx=diag(cos(Ax+b))A."
+        ],
+        "checks": [
+          "(ExE)(ExD) gives ExD.",
+          "Component (i,j) is cos((Ax+b)_i) A_ij; b contributes no derivative with respect to x."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Component derivative cos(z_i)A_ij agrees with diag(cos z)A, an ExD Jacobian with factors ExE and ExD.",
+        "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+        "current_sourcepack_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p7:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p7:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p7, subpart main; frozen dated-group1/results.json; root-adjudication.json. Elementwise tanh derivative is a diagonal MxM matrix, multiplied on the left of the MxN A; the MxN result and b derivative zero agree.",
         "method": "symbolic",
-        "conclusion": "each Jacobian entry(1-tanh²z_i)A_ij; dimensions MxN"
+        "conclusion": "df/dx=diag(1-tanh^2 z) A, size MxN, where z=Ax+b.",
+        "derivation": [
+          "For elementwise tanh, d f_i/d z_j=delta_ij(1-tanh^2 z_i). Thus df/dz=diag(1-tanh^2 z), MxM.",
+          "dz/dx=A, MxN. Chain rule df/dx=(df/dz)(dz/dx)=diag(1-tanh^2(Ax+b))A."
+        ],
+        "checks": [
+          "Jacobian convention: output coordinates index rows; input coordinates index columns.",
+          "(MxM)(MxN)=MxN; b is Mx1 and has zero derivative with respect to x.",
+          "Every real z_i is valid; 0<1-tanh^2 z_i<=1 for finite z_i."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Elementwise tanh derivative is a diagonal MxM matrix, multiplied on the left of the MxN A; the MxN result and b derivative zero agree.",
+        "current_fragment_sha256": "9229e32ede529aacb05bca46894575e22f72b1c79aafbb72fafb74e0bbb6fdd8",
+        "current_sourcepack_input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p8:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p8:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0928.json question p8, subpart main; frozen dated-group1/results.json; root-adjudication.json. The two negative chain factors cancel, giving exp(-x)/(1+exp(-x))^2=f(1-f); at x=0 the derivative is 1/4.",
         "method": "symbolic",
-        "conclusion": "sigmoid derivative f(1-f) identity; at0=1/4"
+        "conclusion": "f prime(x)=exp(-x)/(1+exp(-x))^2=f(x)(1-f(x)).",
+        "derivation": [
+          "Write f=(1+exp(-x))^(-1). Chain rule gives f prime=-(1+exp(-x))^(-2)*(-exp(-x))=exp(-x)/(1+exp(-x))^2.",
+          "Also 1-f=exp(-x)/(1+exp(-x)); multiplying by f gives the same derivative."
+        ],
+        "checks": [
+          "Denominator positive for all real x; derivative positive and at most 1/4 since t(1-t)<=1/4 for 0<t<1.",
+          "Own symbolic derivative minus f(1-f) simplifies exactly to zero."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "The two negative chain factors cancel, giving exp(-x)/(1+exp(-x))^2=f(1-f); at x=0 the derivative is 1/4.",
+        "current_fragment_sha256": "5d81ac10b936fce8317a28d3b9904737b1743274e19f35e12ff8d8f3f2329e86",
+        "current_sourcepack_input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+        "binding_actor": "/root/task6c2_ml_finish"
       }
     }
   },
   "artifact_hashes": {
-    "문제설명_0928_Linear_Regression.html": "b9294b395573cf3347432fd841bde659251c58f8ca1577af912d5aa21fe12fa0",
-    "문제설명_0928_Linear_Regression.md": "1ab52cfd40d707400af93ba5ea621c18a13c49179ba75a9cb8209373443c4734",
-    "자료_문제설명_0928_Linear_Regression/evidence/author.py": "70996ceb874ee9a84797791622e0b041e2e20bae4d36ccf50c3802eefc56056f",
-    "자료_문제설명_0928_Linear_Regression/evidence/browser-stage.json": "b9082c5a5596232e965844ed1b290afa806a6d4ebcddddff179cde8fe3b17b2e",
-    "자료_문제설명_0928_Linear_Regression/evidence/browser.py": "edb13d7d1a26e225eb00c2beda1911ecf349e2f1d2a1a4c99d63635cac9ec1e6",
-    "자료_문제설명_0928_Linear_Regression/evidence/content-data.py": "219883f0b6cbb74b55c7cc09a843ff8b2c810bd7eee3e7d237ac42623d0983cd",
-    "자료_문제설명_0928_Linear_Regression/evidence/independent-results.json": "4e97c2d12370a45ac846549b0c6bd5b7ad9e00cecb6e9cb79b5d3a5791bbaab4",
-    "자료_문제설명_0928_Linear_Regression/evidence/references.json": "665edee04bab121307e0bec3e8d026c653313e0f900317da9489d5d195aae7fe",
-    "자료_문제설명_0928_Linear_Regression/evidence/source-content-review.md": "41e7f9d74190a67b6fe8063484111b1ac29f58508006ce75bb9795eee30d335d",
-    "자료_문제설명_0928_Linear_Regression/evidence/source-snapshot.json": "8ed82daee3b92ce00344f318911626fdc38fff229757c343956063b228449037",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p1-1280-dark.png": "845b35cdf26f49aa79285b7ead276c65857ae92398d8711f1f61ec339da566d2",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p1-1280-light.png": "2a8d4e5d07d06f6902397ce40460706c85dfd0dd2f12224f498921712221ab7d",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p1-375-dark.png": "cae4c951e64bd5e8ca76606a899aef163c940381bcd587b3df948f48fd15ba38",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p1-375-light.png": "9f14baf63df68f63f49a8c581de1d48d607a65461bc4fab7d3445c0e4784cc09",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p2-1280-dark.png": "21912e52a80cd1a899e6b48ca030f4c96c227d134765dfa017ee0edacd7cdcd8",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p2-1280-light.png": "339f4bc6215c65a95dd3002ba679c7a6ab622c4c4ecd00fca01c4f7ba55b17af",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p2-375-dark.png": "c2a6923511987829110042e84a00cac57695eb400f8a2b54974639e52a2a87f5",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p2-375-light.png": "fbfada0f7ba30bf67e11763baae5b016c0cb350a152bb11a8676acf0f658ef18",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p3-1280-dark.png": "4bdb078c17608cb73a9f5246f99c9334298d7d8bf1a3ead832d40fee9ebeb47e",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p3-1280-light.png": "7b8afd91ed813f491569c4a72ed87689f4a6998eea0af35e9b226c63c0db0cfc",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p3-375-dark.png": "11328517394a40f5f8698bd80c4f706f24cea9f4526a6046049aa9a4c186eccf",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p3-375-light.png": "303f3cceac03bf932db5d0477476a5be15bb60b4f9416ac3638ee9781b4ff7e4",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p4-1280-dark.png": "aa58cadb611ac33f302455c57823320e85b21beaebda39d1224619fde95979ff",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p4-1280-light.png": "14fd11009f41c8571e6f5668f32f0eb3bd5a95eab89eaeafb99ae9752faa2378",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p4-375-dark.png": "0288b6d02899115a6de580287d8abf615cb432fe391146434f1f09d55876478a",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p4-375-light.png": "190f62844d8b8c13ab1804ed6cc6b3d84efaf283ae9109de510f12c995a36a20",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p5-1280-dark.png": "a61c4bc88f5d776a6a5c26e2b69f1e0ec487cfc5041064aad649a552fc3df372",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p5-1280-light.png": "462da7bc31272d1b6465a275e9a8ffc000cc0053cbc4123ad02713d1a5d3ff1c",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p5-375-dark.png": "e49535d8a531f126de36244b13471590ad73ab01950eba2c82728bfa1b6c1fa0",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p5-375-light.png": "5ab9578db0db9561afcf7e1705342cc707a1098c7281255b267a53a66b81ae2e",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p6-1280-dark.png": "e886251052b6ef363d77cdb08f42d420fa775429e2da68bfb65f5e4ec02c0527",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p6-1280-light.png": "5674fd566492f5f7ba2a7fcb8a0f678566706cb95c2adcbc909319017eabe177",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p6-375-dark.png": "496982bd7aa102bc9a6a9833624bfda4fea8792b9bfadb9e8ac58ada98bf4940",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p6-375-light.png": "cffd72cf39d149ecbdfaa30307167d1f62b611530e8b9ef65171439083b9d833",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p7-1280-dark.png": "531d3452dcce11f9e4732b9052350c79526e62d27c4fc90d0ee1a44fcbe417fe",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p7-1280-light.png": "26b997ebbc40391576ad2c4fa7345801355eae0823b7b480609ee6a005e55dc2",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p7-375-dark.png": "f0031d4fcfe2bb4f374fdbe117cb036253b176f4dee36f8a7d54d00cc3618258",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p7-375-light.png": "ab4878d819aea43ddd39bf84225ef09df3829809a2c2f6b8268fa1225a6079bc",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p8-1280-dark.png": "ebbca9cf67c331e65d3240e9a70b0f2053c96653b23b911ee2415c2bb608da46",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p8-1280-light.png": "a9567afcbe38786f27a264b627a5894f502a83b1e5b47b23b034ecf29d637052",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p8-375-dark.png": "650e84c061677f28b46e2bddffe7273519f8bec838c833c6b9e3100e0da08f77",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-p8-375-light.png": "74f160803f37cebe9475190267839a17751034ac7f8f4d92c7088220e21647dc",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-1280-dark.png": "a0dd1937c53046aa36e4fde2dc70132c25b871de97f90e0ba9b7164a5f90e66d",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-1280-light.png": "4ba27d01dfd0da8a00982bed0ac6bba23b4f9a757be86e9baa41e7db502a9d93",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-375-dark.png": "48bb203aba0b446f44439adf3da70e1bec0c74fcc31569e2632e2ae8e4df79a1",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-375-light.png": "383b69237ed1dc79952896b5e8ca68fdab512ffdf242ed52d0ec67027f5087c5",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-1280-dark.png": "bab24e9e545b924c3a11281ea9daa9eb75a65a27f8c40410e1dd68e1afd747d1",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-1280-light.png": "76c1439f447b71ad615b32b980ee6208456d0609217e42394e4db8b7e73d2585",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-375-dark.png": "46d9884c954cd6f40aca798890c6e657d6bf70242b309d1dfe5ac773477ab67b",
-    "자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-375-light.png": "11985ac18cbae94eb266c10dde8b855bea6143ce17c6dd9e6a5bc6680e492c69",
-    "자료_문제설명_0928_Linear_Regression/evidence/verify.py": "57560a03b553bc582c150cf563cc3057f75037e28e42c883101d0e74f3b5e116",
-    "자료_문제설명_0928_Linear_Regression/fragments/p1.html": "9ebc8b96c9ce63f1d2b128c2ad1ac4bf3633f234aab80b8c66ba678248e3e56e",
-    "자료_문제설명_0928_Linear_Regression/fragments/p2.html": "13382bedbc33fb8043893a4148058f2ee0bd6f2e34fe008034f8541aec6e4884",
-    "자료_문제설명_0928_Linear_Regression/fragments/p3.html": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
-    "자료_문제설명_0928_Linear_Regression/fragments/p4.html": "47af64650ef2b7e4dc8b4061261f057b04bbb8a0200e7a214113f0ed04f5b258",
-    "자료_문제설명_0928_Linear_Regression/fragments/p5.html": "989f3cb3d3648153d103ebf09e5c8bb8793a5a19ccae293da4a8ec325c56e067",
-    "자료_문제설명_0928_Linear_Regression/fragments/p6.html": "fd920d4fb905f74c026fd12f664fb9097f0d77c8aacd547ed43aed24a6b1e8e3",
-    "자료_문제설명_0928_Linear_Regression/fragments/p7.html": "a6f762e89887bb513ede0839f34f55a60821bdd1be9609692ca4f89d15ad990f",
-    "자료_문제설명_0928_Linear_Regression/fragments/p8.html": "63df35dbd47fa653bb9de76741b0923d90b01e399ade92bab3a1ed7f6c14169e",
-    "자료_문제설명_0928_Linear_Regression/template-provenance.json": "a376ae004fc7e8f20bc15f799d5ab43224813dfec2a3988cace02408cb719b75",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_AMS-Regular.woff": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_AMS-Regular.woff2": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Bold.ttf": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Bold.woff": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Bold.woff2": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Italic.ttf": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Italic.woff": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Italic.woff2": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Regular.ttf": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Regular.woff": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Regular.woff2": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-Italic.ttf": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-Italic.woff": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-Italic.woff2": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Script-Regular.ttf": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Script-Regular.woff": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Script-Regular.woff2": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size1-Regular.ttf": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size1-Regular.woff": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size1-Regular.woff2": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size2-Regular.ttf": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size2-Regular.woff": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size2-Regular.woff2": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size3-Regular.ttf": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size3-Regular.woff": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size3-Regular.woff2": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size4-Regular.ttf": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size4-Regular.woff": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size4-Regular.woff2": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/katex.min.css": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258",
-    "자료_문제설명_0928_Linear_Regression/vendor/katex/katex.min.js": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/LICENSE": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/pretendard.css": "74dbf94c1ab3cb1d166346878e03572d8004ac88d21ac84332a32b28a088f2bd",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Black.woff": "d8511e03d73b848d3df45d6f3d1166bb9532f7547b68da5f768d7b60df76faaa",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Bold.woff": "b02e6d7d8606f13f12682bc4d43575d403a9cbb2d662f6f4f137dba384633267",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-ExtraBold.woff": "1f43803fe4cb56b82061c7392eae37a9123e839b39cc0aa3c3f5b22edcb170d3",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-ExtraLight.woff": "f8c8f64cec9d0c4b2c675a5cac99b2cef9d34f4b485caf9ec47901314ff8c460",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Light.woff": "744e50b9780722eada9afc308712c7d1dc5176d8b46c315d010fa42fffb76fe6",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Medium.woff": "6231269ba695835ca13b03cf411b4e68379993039b4033c373e4e9940ee5370d",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Regular.woff": "3214d4fdb5bd41e10c9f0b5fa8c6ff2f1096b249665cdbf34948434ee7c51934",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-SemiBold.woff": "e476f124e88472078cf472ac09768331f93f76063a52183ff303a192adea800a",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Thin.woff": "1c760324692f0d4bdd46f6f2378ce73aaa37056b8673163d1463adaee8b3dee1",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Black.woff2": "c5fd0c3568fc1368a3edc0d0fbb36df029935954276e3573451b3bae09e27296",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Bold.woff2": "4609c3356e536fafe38f4add0daeceb3d8595d3057bce13c428c33ddbd43d362",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-ExtraBold.woff2": "dd7c1e156f508eb962acc7a33a7a1896d1e0b71e11156fad96e731689ceb6dc3",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-ExtraLight.woff2": "df43dc9165dff4542114674bcd8b79b7daae6dec004004586d5d076fec6fe2aa",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Light.woff2": "b7426635cce2ea2b95c9c802e43fba1c620e0dafaf25f737c069b8b4e09fa841",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Medium.woff2": "d03481330eeba0659ab5b87f25ceb504a35de377dd90a0d0aba2982eb2d05e2c",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Regular.woff2": "fad853f7f47c6c8b103171e7193fa095708cdcd70850a71d93aa5379e8a61d63",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
-    "자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
-    "자료_문제설명_0928_Linear_Regression/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
-    "자료_문제설명_0928_Linear_Regression/manifest.json": "68d87c2e2ed3b57491ce78b312ee37a5313815fe9026a06ca1634bb37d920185"
-  }
+    "문제설명_0928_Linear_Regression.html": "220900e1e3186be806502a86cb65565e68c88eb4dd683eb3b6b31a40a8673a75",
+    ".pack/문제설명_0928_Linear_Regression.md": "3f8c16c4c94bc1595591e5446080c699571f0a8ae0f7d87e05eef97a3c4fa5c9",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/author.py": "70996ceb874ee9a84797791622e0b041e2e20bae4d36ccf50c3802eefc56056f",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/browser-stage.json": "b9082c5a5596232e965844ed1b290afa806a6d4ebcddddff179cde8fe3b17b2e",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/browser.py": "edb13d7d1a26e225eb00c2beda1911ecf349e2f1d2a1a4c99d63635cac9ec1e6",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/content-data.py": "219883f0b6cbb74b55c7cc09a843ff8b2c810bd7eee3e7d237ac42623d0983cd",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/independent-results.json": "4e97c2d12370a45ac846549b0c6bd5b7ad9e00cecb6e9cb79b5d3a5791bbaab4",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/references.json": "665edee04bab121307e0bec3e8d026c653313e0f900317da9489d5d195aae7fe",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/source-content-review.md": "41e7f9d74190a67b6fe8063484111b1ac29f58508006ce75bb9795eee30d335d",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/source-snapshot.json": "8ed82daee3b92ce00344f318911626fdc38fff229757c343956063b228449037",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p1-1280-dark.png": "845b35cdf26f49aa79285b7ead276c65857ae92398d8711f1f61ec339da566d2",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p1-1280-light.png": "2a8d4e5d07d06f6902397ce40460706c85dfd0dd2f12224f498921712221ab7d",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p1-375-dark.png": "cae4c951e64bd5e8ca76606a899aef163c940381bcd587b3df948f48fd15ba38",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p1-375-light.png": "9f14baf63df68f63f49a8c581de1d48d607a65461bc4fab7d3445c0e4784cc09",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p2-1280-dark.png": "21912e52a80cd1a899e6b48ca030f4c96c227d134765dfa017ee0edacd7cdcd8",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p2-1280-light.png": "339f4bc6215c65a95dd3002ba679c7a6ab622c4c4ecd00fca01c4f7ba55b17af",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p2-375-dark.png": "c2a6923511987829110042e84a00cac57695eb400f8a2b54974639e52a2a87f5",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p2-375-light.png": "fbfada0f7ba30bf67e11763baae5b016c0cb350a152bb11a8676acf0f658ef18",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p3-1280-dark.png": "4bdb078c17608cb73a9f5246f99c9334298d7d8bf1a3ead832d40fee9ebeb47e",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p3-1280-light.png": "7b8afd91ed813f491569c4a72ed87689f4a6998eea0af35e9b226c63c0db0cfc",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p3-375-dark.png": "11328517394a40f5f8698bd80c4f706f24cea9f4526a6046049aa9a4c186eccf",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p3-375-light.png": "303f3cceac03bf932db5d0477476a5be15bb60b4f9416ac3638ee9781b4ff7e4",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p4-1280-dark.png": "aa58cadb611ac33f302455c57823320e85b21beaebda39d1224619fde95979ff",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p4-1280-light.png": "14fd11009f41c8571e6f5668f32f0eb3bd5a95eab89eaeafb99ae9752faa2378",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p4-375-dark.png": "0288b6d02899115a6de580287d8abf615cb432fe391146434f1f09d55876478a",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p4-375-light.png": "190f62844d8b8c13ab1804ed6cc6b3d84efaf283ae9109de510f12c995a36a20",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p5-1280-dark.png": "a61c4bc88f5d776a6a5c26e2b69f1e0ec487cfc5041064aad649a552fc3df372",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p5-1280-light.png": "462da7bc31272d1b6465a275e9a8ffc000cc0053cbc4123ad02713d1a5d3ff1c",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p5-375-dark.png": "e49535d8a531f126de36244b13471590ad73ab01950eba2c82728bfa1b6c1fa0",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p5-375-light.png": "5ab9578db0db9561afcf7e1705342cc707a1098c7281255b267a53a66b81ae2e",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p6-1280-dark.png": "e886251052b6ef363d77cdb08f42d420fa775429e2da68bfb65f5e4ec02c0527",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p6-1280-light.png": "5674fd566492f5f7ba2a7fcb8a0f678566706cb95c2adcbc909319017eabe177",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p6-375-dark.png": "496982bd7aa102bc9a6a9833624bfda4fea8792b9bfadb9e8ac58ada98bf4940",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p6-375-light.png": "cffd72cf39d149ecbdfaa30307167d1f62b611530e8b9ef65171439083b9d833",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p7-1280-dark.png": "531d3452dcce11f9e4732b9052350c79526e62d27c4fc90d0ee1a44fcbe417fe",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p7-1280-light.png": "26b997ebbc40391576ad2c4fa7345801355eae0823b7b480609ee6a005e55dc2",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p7-375-dark.png": "f0031d4fcfe2bb4f374fdbe117cb036253b176f4dee36f8a7d54d00cc3618258",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p7-375-light.png": "ab4878d819aea43ddd39bf84225ef09df3829809a2c2f6b8268fa1225a6079bc",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p8-1280-dark.png": "ebbca9cf67c331e65d3240e9a70b0f2053c96653b23b911ee2415c2bb608da46",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p8-1280-light.png": "a9567afcbe38786f27a264b627a5894f502a83b1e5b47b23b034ecf29d637052",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p8-375-dark.png": "650e84c061677f28b46e2bddffe7273519f8bec838c833c6b9e3100e0da08f77",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-p8-375-light.png": "74f160803f37cebe9475190267839a17751034ac7f8f4d92c7088220e21647dc",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-1280-dark.png": "a0dd1937c53046aa36e4fde2dc70132c25b871de97f90e0ba9b7164a5f90e66d",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-1280-light.png": "4ba27d01dfd0da8a00982bed0ac6bba23b4f9a757be86e9baa41e7db502a9d93",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-375-dark.png": "48bb203aba0b446f44439adf3da70e1bec0c74fcc31569e2632e2ae8e4df79a1",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p1-375-light.png": "383b69237ed1dc79952896b5e8ca68fdab512ffdf242ed52d0ec67027f5087c5",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-1280-dark.png": "bab24e9e545b924c3a11281ea9daa9eb75a65a27f8c40410e1dd68e1afd747d1",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-1280-light.png": "76c1439f447b71ad615b32b980ee6208456d0609217e42394e4db8b7e73d2585",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-375-dark.png": "46d9884c954cd6f40aca798890c6e657d6bf70242b309d1dfe5ac773477ab67b",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/stage-summary-p8-375-light.png": "11985ac18cbae94eb266c10dde8b855bea6143ce17c6dd9e6a5bc6680e492c69",
+    ".pack/자료_문제설명_0928_Linear_Regression/evidence/verify.py": "57560a03b553bc582c150cf563cc3057f75037e28e42c883101d0e74f3b5e116",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html": "45e36c6b521b4a933430b40c6e986fa071bc89f462e55139d36ede29a120011a",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html": "c0123c3b00d766ceccb1c4a427ba9f5cf3a843ec676a5d3600b54efbc748da71",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html": "d0462d307ffc6134577c9357193af1b53a938a25ea17dcb3161da200adbc6248",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html": "9229e32ede529aacb05bca46894575e22f72b1c79aafbb72fafb74e0bbb6fdd8",
+    ".pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html": "5d81ac10b936fce8317a28d3b9904737b1743274e19f35e12ff8d8f3f2329e86",
+    ".pack/자료_문제설명_0928_Linear_Regression/template-provenance.json": "a376ae004fc7e8f20bc15f799d5ab43224813dfec2a3988cace02408cb719b75",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_AMS-Regular.woff": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_AMS-Regular.woff2": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Bold.ttf": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Bold.woff": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Bold.woff2": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Italic.ttf": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Italic.woff": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Italic.woff2": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Regular.ttf": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Regular.woff": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Main-Regular.woff2": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-Italic.ttf": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-Italic.woff": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Math-Italic.woff2": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Script-Regular.ttf": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Script-Regular.woff": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Script-Regular.woff2": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size1-Regular.ttf": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size1-Regular.woff": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size1-Regular.woff2": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size2-Regular.ttf": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size2-Regular.woff": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size2-Regular.woff2": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size3-Regular.ttf": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size3-Regular.woff": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size3-Regular.woff2": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size4-Regular.ttf": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size4-Regular.woff": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Size4-Regular.woff2": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/katex.min.css": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/katex/katex.min.js": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/LICENSE": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/pretendard.css": "74dbf94c1ab3cb1d166346878e03572d8004ac88d21ac84332a32b28a088f2bd",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Black.woff": "d8511e03d73b848d3df45d6f3d1166bb9532f7547b68da5f768d7b60df76faaa",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Bold.woff": "b02e6d7d8606f13f12682bc4d43575d403a9cbb2d662f6f4f137dba384633267",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-ExtraBold.woff": "1f43803fe4cb56b82061c7392eae37a9123e839b39cc0aa3c3f5b22edcb170d3",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-ExtraLight.woff": "f8c8f64cec9d0c4b2c675a5cac99b2cef9d34f4b485caf9ec47901314ff8c460",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Light.woff": "744e50b9780722eada9afc308712c7d1dc5176d8b46c315d010fa42fffb76fe6",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Medium.woff": "6231269ba695835ca13b03cf411b4e68379993039b4033c373e4e9940ee5370d",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Regular.woff": "3214d4fdb5bd41e10c9f0b5fa8c6ff2f1096b249665cdbf34948434ee7c51934",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-SemiBold.woff": "e476f124e88472078cf472ac09768331f93f76063a52183ff303a192adea800a",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff/Pretendard-Thin.woff": "1c760324692f0d4bdd46f6f2378ce73aaa37056b8673163d1463adaee8b3dee1",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Black.woff2": "c5fd0c3568fc1368a3edc0d0fbb36df029935954276e3573451b3bae09e27296",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Bold.woff2": "4609c3356e536fafe38f4add0daeceb3d8595d3057bce13c428c33ddbd43d362",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-ExtraBold.woff2": "dd7c1e156f508eb962acc7a33a7a1896d1e0b71e11156fad96e731689ceb6dc3",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-ExtraLight.woff2": "df43dc9165dff4542114674bcd8b79b7daae6dec004004586d5d076fec6fe2aa",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Light.woff2": "b7426635cce2ea2b95c9c802e43fba1c620e0dafaf25f737c069b8b4e09fa841",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Medium.woff2": "d03481330eeba0659ab5b87f25ceb504a35de377dd90a0d0aba2982eb2d05e2c",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Regular.woff2": "fad853f7f47c6c8b103171e7193fa095708cdcd70850a71d93aa5379e8a61d63",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
+    ".pack/자료_문제설명_0928_Linear_Regression/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
+    ".pack/자료_문제설명_0928_Linear_Regression/manifest.json": "8ad97af86d127041e83939cfd4ee1029e6467e14623bfa98aa0a7c5e2b7fe993"
+  },
+  "history": [
+    {
+      "previous_validation_sha256": "5c8bee96bc8d03940888000e38238d8e3e364acaa6eb685194b3ea0f83cb46b6",
+      "previous_review_policy_version": null,
+      "evidence": ".task6c-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/validation.json",
+      "reason": "Changed semantic fragments/current source/reference bindings require actual new reviews; all four review gates pending"
+    },
+    {
+      "reason": "Current authored-note semantic line breaks and converter MD bytes verified; content/independent remain not_run",
+      "references": [
+        {
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/정리노트_0928_Linear_Regression.md",
+          "previous_sha256": "c793f6bc3b2c6eb8dc6b99e07a9bc8bdf715ef93a8f107650f55462d8e3008ea",
+          "current_sha256": "d3a59cf41352e5e8b22dd9b8f32eb78a1cefb701c0aaf4267044932b0c187415"
+        }
+      ],
+      "evidence": ".task6c-run-ml-01/formatting-applied.json"
+    },
+    {
+      "stage": "before_task6c2_independent_binding",
+      "independent": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": "",
+        "items": {
+          "p1:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p2:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p2:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p2:c": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p3:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p3:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p4:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p5:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p6:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p6:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p7:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p8:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          }
+        }
+      }
+    },
+    {
+      "stage": "before_task6c2_browser_binding",
+      "browser": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": ""
+      }
+    },
+    {
+      "stage": "before_task6c2_source_content_a",
+      "source_visual": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": ""
+      },
+      "content": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": "",
+        "items": {
+          "p1:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p2:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p2:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p2:c": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p3:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p3:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p4:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p5:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p6:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p6:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p7:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p8:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          }
+        }
+      }
+    }
+  ]
 }

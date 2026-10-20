@@ -1,0 +1,614 @@
+{
+  "schema_version": 1,
+  "pack_id": "hw1",
+  "packet_file_sha256": "59e8e3880e845b1048ceef2aaeb8adf7896637c080e53ef8ae0fa021b336f720",
+  "packet_payload_sha256": "8c02f22c5a5a39c0e13d72ab27d43e01d4f4d12f648b749209345aa0936e943b",
+  "question_payload_sha256": "e7b453fa0b51049544e26b2388e6d33e51edc3319dd4556baeba4146b17722ba",
+  "reviewer": {
+    "identity": "independent academic derivation agent /root/ml_blind_dated_group2",
+    "context_isolation": "Only group-2/{0930,1007,1012,1014,1019,hw1}/README.md and questions.json were read as academic inputs. No course source, solutions, reference answers, other reviewers, memory, web, or existing harnesses were consulted. Python/SymPy calculations below are reviewer-authored.",
+    "comparison_status": "not compared; no approval claimed"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "8163fc43377bd690562cc3b6952c0dfa2428999f9f38cd6dad201b2b7072ff2a",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "By (Aᵀ)ij=Aji, the three columns of A become three rows.",
+          "conclusion": "Aᵀ=[[1,0],[-2,4],[3,5]].",
+          "checks": "A is 2×3 and Aᵀ is 3×2; transposing twice returns A.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Exchange the 3×1 vector row and column positions.",
+          "conclusion": "bᵀ=[2,-1,4].",
+          "checks": "A 1×3 row; the entries retain their order.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "Rows of Cᵀ are columns of C.",
+          "conclusion": "Cᵀ=[[1,-1,5],[2,3,0],[0,4,-2]].",
+          "checks": "Both matrices are 3×3; for example (Cᵀ)13=C31=5.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "input_sha256": "42ffd86fcdb8802919b33c8f7123102ddfecfe03b8a3654d246c4caa6e03abba",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "xᵀy=1·2+(-2)·1+2·0.",
+          "conclusion": "xᵀy=0.",
+          "checks": "1×3 times 3×1 yields a scalar.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "||x||₂=√(1²+(-2)²+2²)=√9.",
+          "conclusion": "||x||₂=3.",
+          "checks": "Norm is nonnegative.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "||y||₂=√(2²+1²+0²).",
+          "conclusion": "||y||₂=√5.",
+          "checks": "Squared norm is 5.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "d",
+          "method": "proof",
+          "derivation": "The Euclidean definition of orthogonality is zero inner product. Part (a) gives xᵀy=0 with both vectors nonzero.",
+          "conclusion": "Yes, x and y are orthogonal.",
+          "checks": "The claim concerns the ordinary inner product specified by the formulas.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "input_sha256": "4d35b11503f64ff19b997cc5d34e3b1869527a51210b0c288187c8308c85eb6f",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "Use (AB)ij=ΣkAikBkj. Columns of AB are Acol1+Acol3, Acol1+Acol2, Acol2+Acol3. Rows of BA are Arow1+Arow2, Arow2+Arow3, Arow1+Arow3.",
+          "conclusion": "AB=[[4,3,5],[10,9,11],[16,15,17]]; BA=[[5,7,9],[11,13,15],[8,10,12]]; AB≠BA.",
+          "checks": "Both products are 3×3. The (1,1) entries 4 and 5 already distinguish the products.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "input_sha256": "d0a737b5e1e081b5565e137c30e4adabbc6540256956e9621daa8dd570e8c714",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "For a 2×2 matrix take the product of diagonal entries minus the product of off-diagonal entries: 3·4-1·2.",
+          "conclusion": "det A=10.",
+          "checks": "Nonzero determinant agrees with invertibility.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "det B=1·0-(-2)·3.",
+          "conclusion": "det B=6.",
+          "checks": "The minus sign on B12 changes the subtracted product into +6.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "A diagonal determinant is the product of its diagonal entries, 2·(-1)·3.",
+          "conclusion": "det C=-6.",
+          "checks": "Determinants can be negative; this is not an area magnitude.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "d",
+          "method": "exact",
+          "derivation": "First-row cofactor expansion: 1(4·4-6·2)-3(2·4-6·0)+5(2·2-4·0)=4-24+20=0. Sarrus: positive cyclic products 1·4·4+3·6·0+5·2·2=36; negative cyclic products 5·4·0+3·2·4+1·6·2=36; difference 0.",
+          "conclusion": "det D=0 by both first-row expansion and Sarrus.",
+          "checks": "The two independent expansions yield the same scalar; Drow3=2Drow1-Drow2 also proves row dependence.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "input_sha256": "9b03ed8f6e7c8e2cbeabdf1440883d0a6e67bfc644c30b65dbf9080ec122329a",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "det A=2·1-1·1=1. The adjugate swaps the diagonal and negates off-diagonal entries.",
+          "conclusion": "A⁻¹=[[1,-1],[-1,2]].",
+          "checks": "A A⁻¹=[[2-1,-2+2],[1-1,-1+2]]=I2.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "det B=1·1-(-2)·3=7. Divide its adjugate by 7.",
+          "conclusion": "B⁻¹=(1/7)[[1,2],[-3,1]].",
+          "checks": "B[[1,2],[-3,1]]=[[7,0],[0,7]], so multiplying by 1/7 gives I2.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "C is block diagonal with 2×2 block T=[[2,1],[1,2]] and scalar 2. det T=3, T⁻¹=(1/3)[[2,-1],[-1,2]] and inverse scalar=1/2.",
+          "conclusion": "C⁻¹=[[2/3,-1/3,0],[-1/3,2/3,0],[0,0,1/2]].",
+          "checks": "The first block product is I2 and last product is 1, so CC⁻¹=I3; det C=6≠0.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "input_sha256": "452b8c4a31423a200551a26ea71b4dd7dd5a20ec1a5195d02f19e3fc8200e1c4",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "Compute 2x1-x2=(4,-2,6)ᵀ-(1,1,-2)ᵀ=(3,-3,8)ᵀ=x3.",
+          "conclusion": "Linearly dependent: 2x1-x2-x3=0.",
+          "checks": "The coefficient vector (2,-1,-1) is nonzero; all three coordinate residuals are exactly 0.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "input_sha256": "fbab2c0f01bc7f01d8169cc15a6f9c6ebdd583cef9b5c13d7fa111f860462d93",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "Set y=a x1+b x2+c x3. Coordinate equations are a+b+2c=1, a+2b-c=-2, a+3b+c=5. Subtracting first from second and third gives b-3c=-3 and 2b-c=4. Thus c=2,b=3,a=-6.",
+          "conclusion": "y=-6x1+3x2+2x3.",
+          "checks": "Reconstruction=(-6,-6,-6)+(3,6,9)+(4,-2,2)=(1,-2,5). The coefficient matrix determinant=5≠0, so representation is unique.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "input_sha256": "9b71f01ac8322e7b45412174190c7bd8ddcbd210cdc419ab5d7955076ca3ccd2",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "The columns are (1,1,1)ᵀ and (-1,0,1)ᵀ. Their squared norms are 3 and 2 and their dot product is 0, giving AᵀA=diag(3,2).",
+          "conclusion": "AᵀA=[[3,0],[0,2]]; determinant=6; inverse=[[1/3,0],[0,1/2]].",
+          "checks": "diag(3,2)diag(1/3,1/2)=I2, so the requested multiplication verification holds.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p9",
+      "input_sha256": "40d7483f910a2f0ac8e5c6ef7bc9c7de1d25ebebaed4273bedb17a289a878511",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "Evaluate φ at -1,0,1 and put each transpose into a row. Multiplying θ gives 1+x+2x² at each input.",
+          "conclusion": "Φ=[[1,-1,1],[1,0,0],[1,1,1]]; ŷ=(2,1,4)ᵀ. It is linear regression because fθ(x)=θ0+θ1x+θ2x² is linear in the unknown coefficients.",
+          "checks": "Φ is 3×3 and θ is 3×1. Nonlinearity in the input x does not introduce products or nonlinear functions of parameters.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p10",
+      "input_sha256": "894d284bfff1f37a71b0601cdd675e186aee5f43262884869b9a079a3bede0bf",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "symbolic",
+          "derivation": "Differentiate u² and -2u with respect to u and 3v² and 4v with respect to v.",
+          "conclusion": "∇f=(2u-2,6v+4)ᵀ; ∇f(1,-1)=(0,-2)ᵀ.",
+          "checks": "Gradient is 2×1; mixed derivatives are both zero.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "symbolic",
+          "derivation": "The mixed term 2uv contributes 2v to ∂/∂u and 2u to ∂/∂v.",
+          "conclusion": "∇g=(2u+2v-4,2u+6v+2)ᵀ; ∇g(1,-1)=(-4,-2)ᵀ.",
+          "checks": "Gradient is 2×1; both mixed second derivatives are 2.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "symbolic",
+          "derivation": "Let r=u+2v-w-3. Chain rule gives ∇h=2r∇r=2r(1,2,-1)ᵀ. At (1,0,-1), r=-1.",
+          "conclusion": "∇h=(2r,4r,-2r)ᵀ; evaluated gradient=(-2,-4,2)ᵀ.",
+          "checks": "Gradient is 3×1; the negative w coefficient reverses the third component sign.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p11",
+      "input_sha256": "fe3e947c89414cec11a78f5831f7c3d800ae2d3a40d0dcb911830816c46cdf50",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "symbolic",
+          "derivation": "Use rows indexed by output coordinates and columns by input coordinates (u,v). The derivatives of u+2v are (1,2); those of 3u-v are (3,-1).",
+          "conclusion": "Jf=[[1,2],[3,-1]], also at (1,2).",
+          "checks": "Two outputs and two inputs require a 2×2 Jacobian; this linear map has constant derivative.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "symbolic",
+          "derivation": "Differentiate each output: u²+v→(2u,1), uv→(v,u), v²→(0,2v).",
+          "conclusion": "Jg=[[2u,1],[v,u],[0,2v]]; Jg(1,2)=[[2,1],[2,1],[0,4]].",
+          "checks": "Three outputs and two inputs require a 3×2 Jacobian.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p12",
+      "input_sha256": "a360c180da64468f9a7a96838472279d171bc7818b01e850d5f74b3666555f04",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "symbolic",
+          "derivation": "Expand xᵀQx=3x1²+x1x2+x2x1+2x2² and -2bᵀx=-2x1+2x2.",
+          "conclusion": "h=3x1²+2x1x2+2x2²-2x1+2x2; ∂h/∂x1=6x1+2x2-2; ∂h/∂x2=2x1+4x2+2.",
+          "checks": "The two cross terms combine because scalar multiplication commutes; ∇h=2Qx-2b since Q is symmetric.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Set derivatives to zero: 3x1+x2=1, x1+2x2=-1. From x2=1-3x1, substitution gives -5x1=-3.",
+          "conclusion": "x1=3/5, x2=-4/5.",
+          "checks": "Qx=b exactly. Q has positive leading minors 3 and det Q=5, so Hessian 2Q is positive definite and this is also the unique minimum.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p13",
+      "input_sha256": "d3b636a0aff3e8d68d4631d565bb01f730553b73d15e448e9f1210fface7797b",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "det Σ=4-1=3 and Σ⁻¹=(1/3)[[2,-1],[-1,2]]. With a=x1-1,b=x2+1, the exponent is -(a²-ab+b²)/3. Expanding gives a²-ab+b²=x1²-x1x2+x2²-3x1+3x2+3.",
+          "conclusion": "pX(x1,x2)=1/(2π√3) exp[-(x1²-x1x2+x2²-3x1+3x2+3)/3], on R².",
+          "checks": "Σ≻0 since its first leading minor is 2 and determinant is 3. Normalizer follows (2π)^(-2/2)|Σ|^(-1/2), so integral=1; quadratic at μ=(1,-1) is 0.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p14",
+      "input_sha256": "e64e219ca924a8432b5c11a9497651504981992d9e02defe77e26065e9546286",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "4z²-8z+7=4(z-1)²+3. Thus integral p=c e^(-3/2)∫exp[-2(z-1)²]dz=c e^(-3/2)√(π/2). Setting it to 1 yields c=e^(3/2)√(2/π). The exponent -2(z-1)² is -(z-1)²/(2·1/4).",
+          "conclusion": "c=e^(3/2)√(2/π)>0; mean=1, variance=1/4.",
+          "checks": "Normalized density becomes √(2/π) exp[-2(z-1)²], whose integral is 1. c alone is not the Gaussian prefactor until the e^(-3/2) term is combined.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p15",
+      "input_sha256": "641f6779f08ba7a99eb748bc6b527c0fbba3a5cb424760e92ed60404c6e6a18d",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Each independent residual εn=yn-θ0-θ1xn has density (2πσ²)^(-1/2)exp[-εn²/(2σ²)]. Multiply N densities: prefactors multiply to (2πσ²)^(-N/2), and exponent terms sum.",
+          "conclusion": "L(θ0,θ1)=(2πσ²)^(-N/2) exp[-Σn=1ᴺ(yn-θ0-θ1xn)²/(2σ²)].",
+          "checks": "Inputs are fixed, so this is the joint conditional data density as a function of parameters. σ²>0 ensures a positive finite normalizer.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p16",
+      "input_sha256": "9834b6c0449369f81a6a974d50918c3e5f930886607bcf3b4807d9e7aacfa5f4",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "The N-dimensional covariance determinant is (σ²)^N and inverse is I/σ². Taking minus the log of the Gaussian likelihood gives N log(2π)/2+N log(σ²)/2+||y-Φθ||²/(2σ²). The first terms are independent of θ and the SSE coefficient is positive.",
+          "conclusion": "-log L(θ)=N/2 log(2πσ²)+(1/(2σ²))||y-Φθ||₂². Therefore argmax L=argmin ||y-Φθ||₂².",
+          "checks": "Φ:N×K, θ:K×1, y:N×1; the norm is scalar. Since log is strictly increasing and negation reverses order, the optimization equivalence holds even if the minimizer is not unique.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p17",
+      "input_sha256": "a300c14033a5515664cce85693463a015460163010d3d3e0f4a99e0c947a4680",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "proof",
+          "derivation": "J=(y-Φθ)ᵀ(y-Φθ)=yᵀy-2θᵀΦᵀy+θᵀΦᵀΦθ. Because ΦᵀΦ is symmetric, ∇J=-2Φᵀy+2ΦᵀΦθ. Set to zero: ΦᵀΦθ=Φᵀy. For any nonzero v, vᵀΦᵀΦv=||Φv||²>0 under full column rank, so the matrix is invertible and Hessian 2ΦᵀΦ is positive definite.",
+          "conclusion": "θML=(ΦᵀΦ)⁻¹Φᵀy; normal equations ΦᵀΦθML=Φᵀy.",
+          "checks": "Gradient K×1 and Hessian K×K. Positive definiteness proves the unique global minimum, not merely stationarity.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Φ=[[1,-1],[1,0],[1,1]], ΦᵀΦ=diag(3,2), Φᵀy=(7,2)ᵀ. Solve to obtain (7/3,1)ᵀ. Predicted values are (7/3-1,7/3,7/3+1); residuals are (2/3,-4/3,2/3).",
+          "conclusion": "θML=(7/3,1)ᵀ; ŷ=(4/3,7/3,10/3)ᵀ; S=4/9+16/9+4/9=8/3.",
+          "checks": "Φᵀ(y-ŷ)=(0,0)ᵀ exactly, verifying the normal equations.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p18",
+      "input_sha256": "7df9d65654045b0cef421f2205c243cafd3583bd4fcdc8aee710ea68c3bfeb9d",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "Bayes gives -log posterior=||y-Φθ||²/(2σ²)+||θ||²/(2b²)+constant independent of θ. Its gradient is (ΦᵀΦθ-Φᵀy)/σ²+θ/b². Multiplication by σ² and setting zero yields (ΦᵀΦ+(σ²/b²)I)θ=Φᵀy. Multiplying the objective by the positive 2σ² gives SSE+(σ²/b²)||θ||².",
+          "conclusion": "λ=σ²/b²; θMAP=(ΦᵀΦ+λI_K)⁻¹Φᵀy.",
+          "checks": "λ>0. For v≠0, vᵀ(ΦᵀΦ+λI)v=||Φv||²+λ||v||²>0, so the inverse exists even without full rank. All coefficients, including the intercept, receive the penalty.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p19",
+      "input_sha256": "120f11a24bf428e02386f675de83ccbb04af1588b707082d0b6a775f7a20dfd0",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "ML solves diag(3,2)θ=(7,2)ᵀ. With σ²=b²=1, λ=1 and MAP solves diag(4,3)θ=(7,2)ᵀ.",
+          "conclusion": "θML=(7/3,1)ᵀ; θMAP at b²=1 is (7/4,2/3)ᵀ.",
+          "checks": "Both systems have nonzero diagonal entries, and substitution verifies both right-hand sides.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "For b²=1/4, λ=1/(1/4)=4. MAP solves diag(7,6)θ=(7,2)ᵀ. Both coordinates shrink as denominators increase.",
+          "conclusion": "θMAP at b²=1/4 is (1,1/3)ᵀ. Coordinatewise 1<7/4<7/3 and 1/3<2/3<1; smaller b² strengthens the zero-centered prior and shrinks both intercept and slope toward zero.",
+          "checks": "This comparison uses the supplied diagonal Gram matrix; in a general correlated basis shrinkage is most directly characterized along eigenvectors of ΦᵀΦ.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p20",
+      "input_sha256": "c08962ba8cb072f8ebd13afda502bda415e48708dbc3ebfeeaa2f771549e41f8",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Both columns equal (1,2)ᵀ; each column inner product is 1²+2²=5.",
+          "conclusion": "ΦᵀΦ=[[5,5],[5,5]], determinant=25-25=0.",
+          "checks": "Rank is 1, so the unregularized Gram matrix is singular.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Predictions depend only on θ1+θ2: Φθ=(θ1+θ2)(1,2)ᵀ. For A and B the sum is 3.",
+          "conclusion": "ΦθA=ΦθB=(3,6)ᵀ=y; both SSE values are 0.",
+          "checks": "Different parameters can yield identical fits because the columns are dependent.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "J=5(3-θ1-θ2)²+5(θ1²+θ2²). The gradient equations after dividing by 10 are 2θ1+θ2=3 and θ1+2θ2=3. Subtract to get θ1=θ2, hence both are 1. At this point SSE=5 and penalty=5(1+1)=10.",
+          "conclusion": "Unique minimizer (θ1,θ2)=(1,1); minimum J=15.",
+          "checks": "Hessian=2(ΦᵀΦ+5I)=[[20,10],[10,20]] has eigenvalues 10 and 30>0, proving global uniqueness; the exact gradient at (1,1) is zero.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p21",
+      "input_sha256": "27331836be2cd9cd445da45cadf09df6b43cddaec3770edad23a3c4901225ad0",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Sum coordinates: Σx=(1+1+3+3,1+3+3+5)ᵀ=(8,12)ᵀ; divide by 4.",
+          "conclusion": "x̄=(2,3)ᵀ.",
+          "checks": "Centered vectors sum to zero.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Centered vectors are (-1,-2),(-1,0),(1,0),(1,2). Their outer products sum to [[4,4],[4,8]]; divide by the specified 4.",
+          "conclusion": "S=[[1,1],[1,2]].",
+          "checks": "Symmetric 2×2 matrix with det=1>0. Denominator is 4 as requested, not the unbiased-estimator denominator 3.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p22",
+      "input_sha256": "aec66e299c476d9dff94109f8ec8b719cc9f6eb9342fff309424d6e31ef518b6",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Set μx=(1,2)ᵀ, Σx=[[4,1],[1,2]], A=[[1,2],[-1,1]], b=(1,-2)ᵀ. Since y-μy=A(x-μx), μy=Aμx+b, Σy=AΣxAᵀ and Cxy=ΣxAᵀ. Matrix multiplication gives the following.",
+          "conclusion": "μy=(6,-1)ᵀ; Σy=[[16,-1],[-1,4]]; Cxy=[[6,-3],[5,1]].",
+          "checks": "μy:2×1 and both covariance matrices:2×2. Σy is symmetric while Cxy need not be. det Σx=7 and det A=3 imply det Σy=63, agreeing with 16·4-1.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Let u=x1-1,v=x2+1. Exponent is -(u²-2uv+2v²)/2, with precision H=[[1,-1],[-1,2]]. Thus μx=(1,-1)ᵀ and Σx=H⁻¹=[[2,1],[1,1]]. det H=1 and H11=1>0 verify a normalized Gaussian prefactor 1/(2π). For A=[[2,-1],[1,1]], b=(-1,2)ᵀ, use μy=Aμx+b, Σy=AΣxAᵀ, Cxy=ΣxAᵀ.",
+          "conclusion": "μx=(1,-1)ᵀ, Σx=[[2,1],[1,1]]; μy=(2,2)ᵀ; Σy=[[5,4],[4,5]]; Cxy=[[3,3],[1,2]].",
+          "checks": "HΣx=I2. det Σy=9=(det A)²det Σx=3²·1. The supplied density prefactor is correct because det Σx=1.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "Cov(x1,x2)=E[x1x2]-E[x1]E[x2]=0-(1)(-1)=1, so Σx=[[2,1],[1,3]]. Set A=[[1,1],[1,-1]], e=(1,1)ᵀ, y=Ax+eε. Independence gives μy=A(1,-1)ᵀ, Σy=AΣxAᵀ+eeᵀVar ε, and Cxy=ΣxAᵀ. Before noise, AΣxAᵀ=[[7,-1],[-1,3]]; common noise adds [[1,1],[1,1]].",
+          "conclusion": "μy=(0,2)ᵀ; Σy=[[8,0],[0,4]]; Cxy=[[3,1],[4,-2]].",
+          "checks": "The same ε in both coordinates creates off-diagonal noise covariance 1, canceling the pre-noise covariance -1. Zero final covariance alone does not imply independence because Gaussianity is not given here.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p23",
+      "input_sha256": "e3ed5a9a607688ceacf90e1f1d574f08ec0fde97b40ade295084ec084e4d1e7e",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Multiply the two N(θxn,1) data densities.",
+          "conclusion": "L(θ)=(2π)⁻¹ exp[-{(2-θ)²+(3-2θ)²}/2].",
+          "checks": "Two independent unit-variance observations give prefactor (2π)^(-2/2).",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "-log L=log(2π)+(1/2)[5θ²-16θ+13]. Its derivative is 5θ-8, zero at 8/5.",
+          "conclusion": "θML=8/5.",
+          "checks": "Second derivative 5>0 proves the unique minimum of negative log likelihood.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "Adding prior N(0,1) adds θ²/2 plus a constant to the negative log posterior. Derivative becomes 6θ-8, so θMAP=8/6=4/3. Multiply both estimates by x=3.",
+          "conclusion": "θMAP=4/3; ŷML=24/5; ŷMAP=4.",
+          "checks": "Second derivative 6>0. MAP is closer to prior mean 0: 4/3<8/5.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p24",
+      "input_sha256": "02ee0fd1452040e90b89a3477b86b5a519e2aed89fea92f3194722250e369a3b",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Multiply three independent N(θ,1) densities.",
+          "conclusion": "L(θ)=(2π)^(-3/2) exp[-{(2-θ)²+(3-θ)²+(4-θ)²}/2].",
+          "checks": "Three unit-variance observations determine the prefactor.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "-log L=(3/2)log(2π)+(1/2)(3θ²-18θ+29). Differentiation gives 3θ-9.",
+          "conclusion": "θML=3.",
+          "checks": "Second derivative 3>0 ensures a unique optimum.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "The N(1,1) prior adds (θ-1)²/2 to the negative log posterior, so derivative is (3θ-9)+(θ-1)=4θ-10.",
+          "conclusion": "θMAP=5/2; MAP is closer to prior mean 1 because |5/2-1|=3/2<|3-1|=2.",
+          "checks": "Second derivative 4>0. The estimate (9+1)/(3+1)=5/2 also follows from combining three data precision units and one prior precision unit.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p25",
+      "input_sha256": "05797d24ffd68ab951beeadb0fcb9cb17dbab1ec44b932b09526ea0572f450f5",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "Σ0⁻¹=diag(1,1/2), Σ1⁻¹=(1/3)[[2,-1],[-1,2]]. Their sum H=[[5/3,-1/3],[-1/3,7/6]] has determinant 11/6. The linear term h=Σ0⁻¹μ0+Σ1⁻¹μ1=(1/3,1/3)ᵀ. Completing the square gives covariance C=H⁻¹=(1/11)[[7,2],[2,10]] and mean m=Ch=(3/11,4/11)ᵀ. With u=x1-3/11,v=x2-4/11, (x-m)ᵀH(x-m)=(5/3)u²-(2/3)uv+(7/6)v².",
+          "conclusion": "m=(3/11,4/11)ᵀ; C=(1/11)[[7,2],[2,10]]. q(x)=√(11/6)/(2π) exp[-(10u²-4uv+7v²)/12], u=x1-3/11, v=x2-4/11.",
+          "checks": "HC=I2 and Hm=h exactly. det C=6/11, so normalizer=(2π)^(-1)(det C)^(-1/2)=√(11/6)/(2π). H11=5/3>0 and det H=11/6>0 prove integrability and positive covariance; the normalized Gaussian integral is 1.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    }
+  ]
+}

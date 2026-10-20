@@ -136,6 +136,10 @@ $\frac13\begin{pmatrix}2&1\\1&2\end{pmatrix}\begin{pmatrix}2&-1\\-1&2\end{pmatri
 
 선형독립을 가정하지 않고 직접 판정; 모든 벡터는 열벡터
 
+#### 조건·구분
+
+실제 관계는 $v_1+v_2-v_3=0$이에요. $c=(2,1,4)^\top$는 $z_3=z_1+z_2$를 위반해 해가 없어요. $U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}$의 역행렬은 $\tfrac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$이고, $V^\top V$는 특이해요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
+
 #### 출제 근거
 
 출제 근거: 과제1 P6-P8 변형. MML PDF 46, 47쪽의 이론을 대조했어요. 과제의 수치·조건을 바꾼 변형 문제예요. 교수님의 세부 출제 확정 내용은 아니에요.
@@ -278,6 +282,10 @@ $J_f$: 출력×입력. 대칭 $A$이면 $\nabla q=Ax-b$, $H=A$. 최소점 $(2/7,
 #### 적용 조건
 
 gradient는 열벡터, Jacobian은 출력×입력, A는 대칭
+
+#### 조건·구분
+
+이 문제의 $J_f=\begin{pmatrix}2x_1&1\\x_2&x_1\end{pmatrix}$는 $2\times2$, 열 gradient는 $2\times1$이에요. $4>0$, $\det A=7>0$이므로 Hessian $A\succ0$이고 정지점은 유일한 전역 최소점이에요. $x^\top Ax$와 $\tfrac12x^\top Ax$의 미분은 2배 차이가 나요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
 
 #### 출제 근거
 
@@ -443,6 +451,10 @@ precision 합산: $v^{-1}=v_0^{-1}+v_1^{-1}$. $m=1/2$, $v=3/4$, $Z=e^{-1/2}/\sqr
 #### 적용 조건
 
 N의 둘째 인수는 분산; 정규화된 곱과 원래 곱을 구분
+
+#### 조건·구분
+
+완전제곱은 $z^2+(z-2)^2/3=\tfrac43(z-\tfrac12)^2+1$이에요. $q(z)=\sqrt{2/(3\pi)}e^{-2(z-1/2)^2/3}$이고 $g=Zq$예요. 상수항을 버리면 모양은 읽어도 $Z$는 구할 수 없어요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
 
 #### 출제 근거
 
@@ -616,6 +628,10 @@ Gram $\operatorname{diag}(3,2)$, ML $(5/3,2)$, MAP $(5/4,4/3)$. 모든 계수에
 
 잡음분산 1, 절편 포함 모든 계수에 N(0,I) prior
 
+#### 조건·구분
+
+$\Phi$는 $3\times2$, $\Phi^\top y=(5,4)^\top$예요. $x_*=2$ 평균 예측은 ML $17/3$, MAP $47/12$예요. 독립 잡음과 절편 prior 조건을 지키고, 관측 순서를 바꿀 때 $\Phi$와 $y$를 함께 바꿔요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
+
 #### 출제 근거
 
 출제 근거: 과제1 P17-P20 변형. MML PDF 300, 302, 307, 308쪽의 이론을 대조했어요. 과제의 수치·조건을 바꾼 변형 문제예요. 교수님의 세부 출제 확정 내용은 아니에요.
@@ -675,6 +691,62 @@ $$
 \mu_X=\frac13\left[\begin{pmatrix}0\\0\end{pmatrix}+\begin{pmatrix}2\\0\end{pmatrix}+\begin{pmatrix}0\\2\end{pmatrix}\right]=\begin{pmatrix}2/3\\2/3\end{pmatrix}.
 $$
 
+**공분산 행렬을 성분별 공식으로 계산해 볼게요.** $\Sigma_X$는 $X$의 공분산 행렬이고, 각 칸은 $\operatorname{Cov}(X_i,X_j)$예요. 대각선은 자기 자신과의 공분산, 즉 분산이에요.
+
+$$
+\Sigma_X=\begin{pmatrix}\operatorname{Var}(X_1)&\operatorname{Cov}(X_1,X_2)\\\operatorname{Cov}(X_2,X_1)&\operatorname{Var}(X_2)\end{pmatrix}.
+$$
+
+$$
+\operatorname{Cov}(X_i,X_j)=E[X_iX_j]-E[X_i]E[X_j].
+$$
+
+이것이 **곱의 평균 빼기 평균의 곱**이에요. 같은 좌표끼리 계산하면 분산 공식이 돼요.
+
+$$
+\operatorname{Var}(X_1)=E[X_1^2]-(E[X_1])^2.
+$$
+
+앞 항 $E[X_1^2]$는 **각 값을 먼저 제곱한 다음 평균낸 값**이에요. 첫째 좌표는 세 관측에서 각각 0, 2, 0이므로
+
+$$
+E[X_1^2]=\frac{0^2+2^2+0^2}{3}=\frac43.
+$$
+
+뒤 항 $(E[X_1])^2$는 **평균을 먼저 구한 다음 제곱한 값**이에요. 제곱과 평균의 순서가 달라요.
+
+$$
+(E[X_1])^2=\left(\frac{0+2+0}{3}\right)^2=\left(\frac23\right)^2=\frac49.
+$$
+
+따라서 분산은 **제곱의 평균 빼기 평균의 제곱**으로 구해요.
+
+$$
+\operatorname{Var}(X_1)=\frac43-\frac49=\frac89.
+$$
+
+$$
+\operatorname{Var}(X_2)=\frac{0^2+0^2+2^2}{3}-\left(\frac23\right)^2=\frac89.
+$$
+
+대각선 밖의 공분산에서는 같은 관측 안의 두 좌표를 곱해요. 세 점 모두 좌표의 곱이 0이므로
+
+$$
+E[X_1X_2]=\frac{0\cdot0+2\cdot0+0\cdot2}{3}=0.
+$$
+
+$$
+\operatorname{Cov}(X_1,X_2)=0-\frac23\cdot\frac23=-\frac49.
+$$
+
+반대쪽 공분산도 같으므로 다음 행렬을 얻어요.
+
+$$
+\Sigma_X=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}.
+$$
+
+아래의 편차 외적 계산은 같은 공분산 행렬을 구하는 또 다른 방법이에요.
+
 평균을 뺀 벡터 $d_n=x_n-\mu_X$는 $d_1=(-2/3,-2/3)^\top$, $d_2=(4/3,-2/3)^\top$, $d_3=(-2/3,4/3)^\top$예요. 공분산은 이 편차의 외적을 평균내요. 외적은 $(2\times1)(1\times2)$라서 $2\times2$이고, 예를 들어 $d_1d_1^\top$의 네 원소는 편차 성분의 쌍별 곱이에요.
 
 $$
@@ -701,23 +773,135 @@ $$
 \Sigma_Y=E[A(X-\mu_X)(X-\mu_X)^\top A^\top]=A\Sigma_XA^\top.
 $$
 
-실제 곱을 두 단계로 계산해요.
+**먼저 $A^\top$부터 구해요.** 전치는 행과 열을 맞바꾸는 연산이에요. $A$의 첫째 행 $(1,1)$을 첫째 열로, 둘째 행 $(1,-1)$을 둘째 열로 옮겨요.
 
 $$
-A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix},
+A=\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
 $$
 
 $$
-\Sigma_Y=\frac19\begin{pmatrix}4+4&4-4\\12-12&12+12\end{pmatrix}=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.
+A^\top=\begin{pmatrix}1&1\\1&-1\end{pmatrix}=A.
 $$
 
-교차공분산은 $X$를 먼저 적었으므로 $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$예요. 뒤쪽에만 변환이 있어
+이 문제의 $A$는 대칭행렬이라 전치해도 숫자의 배치가 같아요. 그래서 전치가 생략된 것처럼 보이지만, 오른쪽에 곱하는 행렬은 분명히 $A^\top$예요. 일반 행렬은 전치하면 달라질 수 있어요.
+
+이제 왼쪽 곱 $A\Sigma_X$부터 계산해요.
 
 $$
-C_{XY}=\Sigma_XA^\top=\frac19\begin{pmatrix}8-4&8+4\\-4+8&-4-8\end{pmatrix}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
+A\Sigma_X=\frac19\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}8&-4\\-4&8\end{pmatrix}.
 $$
 
-모두 $2\times2$이지만 순서는 바꿀 수 없어요. $C_{YX}=C_{XY}^\top$이며 교차공분산 자체가 대칭일 필요는 없어요.
+$$
+A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix}.
+$$
+
+이 결과의 **오른쪽에 $A^\top$**을 곱해요.
+
+$$
+\Sigma_Y=(A\Sigma_X)A^\top.
+$$
+
+$$
+\Sigma_Y=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+$$
+
+각 칸은 왼쪽 행렬의 행과 오른쪽 행렬의 열을 짝지어 곱한 뒤 더해요. $1/9$는 공통 인자로 바깥에 두고, 괄호 안 네 칸을 따로 계산하면 다음과 같아요.
+
+$$
+\begin{aligned}(1,1)&:\;4\cdot1+4\cdot1=8,\\(1,2)&:\;4\cdot1+4\cdot(-1)=0,\\(2,1)&:\;12\cdot1+(-12)\cdot1=0,\\(2,2)&:\;12\cdot1+(-12)\cdot(-1)=24.\end{aligned}
+$$
+
+특히 마지막 칸에서는 음수끼리의 곱이 양수가 되어 $12+12=24$가 돼요.
+
+$$
+\Sigma_Y=\frac19\begin{pmatrix}8&0\\0&24\end{pmatrix}.
+$$
+
+$$
+\Sigma_Y=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.
+$$
+
+**교차공분산은 $X$의 각 좌표와 $Y$의 각 좌표 사이의 공분산을 모은 행렬이에요.** $\Sigma_X$가 $X$ 내부의 관계를 본다면, $C_{XY}$는 $X$와 $Y$ 사이의 관계를 봐요. 행은 $X$의 좌표 번호, 열은 $Y$의 좌표 번호예요.
+
+$$
+C_{XY}=\begin{pmatrix}\operatorname{Cov}(X_1,Y_1)&\operatorname{Cov}(X_1,Y_2)\\\operatorname{Cov}(X_2,Y_1)&\operatorname{Cov}(X_2,Y_2)\end{pmatrix}.
+$$
+
+**스칼라에서 쓰던 공분산 규칙부터 연결해 볼게요.** $X_1$이 스칼라 확률변수이고 $a,b$가 상수라면 다음 풀이는 맞아요. 행렬 $A$와 구별하려고 스칼라 계수는 소문자 $a$로 써요.
+
+$$
+\begin{aligned}\operatorname{Cov}(X_1,aX_1+b)&=a\operatorname{Cov}(X_1,X_1)+\operatorname{Cov}(X_1,b)\\&=a\operatorname{Var}(X_1).\end{aligned}
+$$
+
+상수 $b$는 평균을 빼면 $b-E[b]=0$이므로 공분산에 기여하지 않아요. 또 자기 자신과의 공분산은 분산이에요. 따라서 상수항을 없애고 계수를 밖으로 꺼낸다는 생각은 맞아요.
+
+다만 이 문제의 $X_1$은 첫째 좌표인 스칼라이고, $X=(X_1,X_2)^\top$는 두 좌표를 모은 열벡터예요. $A$는 $2\times2$ 행렬이므로 $AX_1+b$를 이 문제의 $Y$로 쓸 수는 없어요. 올바른 변환은 $Y=AX+b$이며, 행렬 계수를 밖으로 꺼낼 때는 곱의 위치와 전치를 함께 확인해야 해요.
+
+$Y-\mu_Y=A(X-\mu_X)$를 교차공분산의 정의에 대입해요. 두 번째 벡터에 전치가 붙고, $(Au)^\top=u^\top A^\top$이므로 $A^\top$가 오른쪽으로 나와요.
+
+$$
+\begin{aligned}C_{XY}=\operatorname{Cov}(X,AX+b)&=E[(X-\mu_X)(Y-\mu_Y)^\top]\\&=E[(X-\mu_X)(A(X-\mu_X))^\top]\\&=E[(X-\mu_X)(X-\mu_X)^\top A^\top]\\&=\Sigma_XA^\top.\end{aligned}
+$$
+
+반대로 첫 번째 벡터를 변환하면 $A$가 왼쪽으로 나와요. 스칼라에서는 곱의 순서를 바꿔도 되지만, 행렬에서는 두 식을 구별해요.
+
+$$
+\operatorname{Cov}(X,AX+b)=\Sigma_XA^\top,\qquad\operatorname{Cov}(AX+b,X)=A\Sigma_X.
+$$
+
+이 문제에서는 $A^\top=A$이지만 $\Sigma_XA$와 $A\Sigma_X$는 달라요. 앞서 구한 $A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix}$는 $C_{YX}$이고, 구하려는 $C_{XY}$는 그 전치예요.
+
+이제 $Y=AX+b$를 좌표별로 풀어서 같은 결과가 나오는지 확인해요.
+
+$$
+Y_1=X_1+X_2+1.
+$$
+
+$$
+Y_2=X_1-X_2-1.
+$$
+
+계산할 때 두 규칙을 써요. 상수를 더해도 공분산은 변하지 않아요. 평균을 뺄 때 상수가 사라지기 때문이에요. 또 합과 차는 항별로 나눠 계산할 수 있어요.
+
+$$
+\operatorname{Cov}(U,V+c)=\operatorname{Cov}(U,V)\quad(c\text{는 상수}).
+$$
+
+$$
+\operatorname{Cov}(U,V+W)=\operatorname{Cov}(U,V)+\operatorname{Cov}(U,W).
+$$
+
+빼기 부호도 그대로 따라가요. 앞에서 구한 분산은 두 좌표 모두 $8/9$, 두 좌표 사이의 공분산은 $-4/9$예요. 자기 자신과의 공분산은 분산이라는 점도 사용해요.
+
+**첫째 행 첫째 칸:** $Y_1$에 $X_1+X_2+1$을 대입해요.
+
+$$
+\begin{aligned}\operatorname{Cov}(X_1,Y_1)&=\operatorname{Cov}(X_1,X_1+X_2+1)\\&=\operatorname{Var}(X_1)+\operatorname{Cov}(X_1,X_2)\\&=\frac89-\frac49=\frac49.\end{aligned}
+$$
+
+**첫째 행 둘째 칸:** $Y_2$의 $-X_2$ 때문에 공분산을 빼요. 공분산 자체가 음수이므로 마지막 계산은 덧셈이 돼요.
+
+$$
+\begin{aligned}\operatorname{Cov}(X_1,Y_2)&=\operatorname{Cov}(X_1,X_1-X_2-1)\\&=\operatorname{Var}(X_1)-\operatorname{Cov}(X_1,X_2)\\&=\frac89-\left(-\frac49\right)=\frac43.\end{aligned}
+$$
+
+**둘째 행 첫째 칸:** 이번에는 첫 변수가 $X_2$예요.
+
+$$
+\begin{aligned}\operatorname{Cov}(X_2,Y_1)&=\operatorname{Cov}(X_2,X_1)+\operatorname{Var}(X_2)\\&=-\frac49+\frac89=\frac49.\end{aligned}
+$$
+
+**둘째 행 둘째 칸:** $Y_2=X_1-X_2-1$이므로 두 번째 항을 빼요.
+
+$$
+\begin{aligned}\operatorname{Cov}(X_2,Y_2)&=\operatorname{Cov}(X_2,X_1)-\operatorname{Var}(X_2)\\&=-\frac49-\frac89=-\frac43.\end{aligned}
+$$
+
+네 칸을 모으면 다음과 같아요.
+
+$$
+C_{XY}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
+$$
 
 #### (c)
 
@@ -770,6 +954,10 @@ $\mu_Y=A\mu_X+b$, $\Sigma_Y=A\Sigma_XA^\top$, $C_{XY}=\Sigma_XA^\top$. 무상관
 #### 적용 조건
 
 공분산 분모 N=3; X는 세 관측을 균등 선택; Gaussian 가정 없음
+
+#### 조건·구분
+
+이 문제에서 $\mu_X=(2/3,2/3)^\top$, $\Sigma_X=\tfrac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}$이고 $\mu_Y=(7/3,-1)^\top$, $\Sigma_Y=\operatorname{diag}(8/9,8/3)$예요. $C_{XY}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}$는 X차원×Y차원 순서예요. 결합확률 $P(Y_1=1,Y_2=1)=0$은 주변확률 곱 $1/9$과 달라 독립이 아니에요. 상수 $b$는 공분산에서 사라져요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
 
 #### 출제 근거
 
@@ -945,6 +1133,10 @@ $\mathcal L(\theta_a)-\mathcal L(\theta_b)=N(\widehat R(\theta_a)-\widehat R(\th
 #### 적용 조건
 
 고정 입력; θ를 조건으로 독립인 동일분산 Gaussian 잡음; σ² 알려짐
+
+#### 조건·구분
+
+정규화 상수까지 NLL은 $\tfrac N2\log(2\pi\sigma^2)+\mathrm{SSE}/(2\sigma^2)$이고 $\mathcal L=C+N\widehat R/(2\sigma^2)$여서 최소점이 같아요. 열 gradient $2\Phi^\top\Phi\theta-2\Phi^\top y=0$에서 정규방정식을 얻어요. 열독립이면 비영 $v$에서 $\|\Phi v\|^2>0$으로 Gram이 양의 정부호라 ML 해는 유일하며 $K\times1$이에요. 조건부 독립을 주변 독립으로 바꾸지 않고, 분산까지 추정할 때는 그 항을 상수로 버리지 않아요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
 
 #### 출제 근거
 
@@ -1133,6 +1325,10 @@ $\lambda=\sigma^2/\tau^2>0$. $G+\lambda I\succ0$. MAP $=(G+\lambda I)^{-1}(\Phi^
 
 고정 입력; 모든 계수에 N(m0,τ²I) prior; σ²,τ²&gt;0
 
+#### 조건·구분
+
+음의 로그 posterior는 $\|y-\Phi\theta\|^2/(2\sigma^2)+\|\theta-m_0\|^2/(2\tau^2)+C$이고 evidence는 최적화 변수 $\theta$와 무관해요. 비영 $v$에 대해 $v^\top(G+\lambda I)v=\|\Phi v\|^2+\lambda\|v\|^2>0$이어서 열독립 없이 유일해요. 수치 해는 $(5/11,5/11)^\top$이고, $\lambda=0$에서는 $\theta_1+\theta_2=1$인 모든 해, $m_0=0$에서 $\lambda\to\infty$이면 0이에요. 새 데이터 오차 개선은 보장하지 않아요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
+
 #### 출제 근거
 
 출제 근거: MML 9.2.3-9.2.4 theory application. MML PDF 307, 308, 309쪽 및 범위 내 강의 개념을 연결한 새 유도형 연습 문제예요. 교수님의 세부 출제 확정 문항은 아니에요.
@@ -1317,6 +1513,10 @@ $\theta\mid D\sim\mathcal N(1,2/3)$. 잠재분산 $8/3$, 관측분산 $14/3$. MA
 
 서로 독립 잡음, prior와 독립; 새 잡음도 독립; 분산 표기
 
+#### 조건·구분
+
+완전제곱 계수는 $A=b=3/2$, $c=5/2$이고 posterior 밀도는 $\sqrt{3/(4\pi)}e^{-3(\theta-1)^2/4}$예요. $f_*\mid D\sim\mathcal N(2,8/3)$, $y_*\mid D\sim\mathcal N(2,14/3)$예요. $x_*=2$는 분산에 제곱해 곱하며, MAP 고정은 모수 불확실성 $8/3$을 제거해요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
+
 #### 출제 근거
 
 출제 근거: MML 9.3.3-9.3.4 theory application. MML PDF 312, 314, 315쪽 및 범위 내 강의 개념을 연결한 새 유도형 연습 문제예요. 교수님의 세부 출제 확정 문항은 아니에요.
@@ -1483,6 +1683,10 @@ evidence: prior 평균. $B_{12}=\sqrt{5/2}$, posterior odds $=\sqrt{10}/4$. 사�
 #### 적용 조건
 
 두 모델 prior probability 명시; evidence는 prior로 적분
+
+#### 조건·구분
+
+일반 evidence는 $p(y\mid M_j)=\mathcal N(y\mid0,1+v_j)$예요. 관측 0에서 $p_1=1/\sqrt{4\pi}$, $p_2=1/\sqrt{10\pi}$로 정규화 상수도 남겨요. 데이터는 $M_1$을 지지하지만 prior odds $1/2$를 곱해 $P(M_1\mid0)\simeq0.44152$이므로 사후 선택은 $M_2$예요. evidence는 관측의 밀도이며 사후예측의 posterior 가중과 달라요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
 
 #### 출제 근거
 
@@ -1675,6 +1879,10 @@ $\Phi^\top r=0$, $P=\Phi(\Phi^\top\Phi)^{-1}\Phi^\top$, $P^\top=P^2=P$. 최소 �
 #### 적용 조건
 
 Φ full column rank; 유클리드 내적, 알려진 동일 Gaussian 잡음분산
+
+#### 조건·구분
+
+모든 계수 변화 $h$에서 거리 도함수가 0이므로 $\Phi^\top r=0$이에요. $P$는 $N\times N$이고 계수 추정행렬은 $K\times N$이에요. 수치 해는 $\widehat\theta=(4/3,1)^\top$, $\widehat y=(4/3,7/3,1/3)^\top$, $r=(2/3,-1/3,-1/3)^\top$예요. $\|y-u\|^2=\|r\|^2+\|\widehat y-u\|^2$로 충분성을 보이며 등호는 $u=\widehat y$에서만 성립해요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
 
 #### 출제 근거
 

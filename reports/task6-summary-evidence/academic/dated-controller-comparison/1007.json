@@ -1,0 +1,1492 @@
+{
+  "pack_id": "1007",
+  "current_pack_id": "review-1007-Product_of_Gaussians",
+  "frozen_results_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/자구알/.superpowers/sdd/2026-10-20-course-html-summary-panels/academic/dated-group2/results.json",
+  "frozen_results_file_sha256": "11508b6219a0c23906a1971b780e970131a87b12001e0ea05a6ee8835d351030",
+  "source_packet_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-2/1007/questions.json",
+  "source_packet_file_sha256": "c89add3013f65fe5bfba475ca769ad4057a4fb339c80d51d69bee3bf50990d72",
+  "packet_payload_sha256": "1a3d9b34011fe13ff45c5e8070f5516cf191d7bdaa45fe731f3c3e20f9105b8a",
+  "question_payload_sha256": "fead155338118864ec4409fb65bc0009508173bc250fb9598290e68d4773ccaf",
+  "current_source_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/복습문제_1007_Product_of_Gaussians.html",
+  "current_source_sha256": "fd32f20f21c4492eef1130e37aa12a1649fd9915fc4dcc629211ce0172605e89",
+  "active_fragment_directory": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments",
+  "identity_and_coverage": "Verified canonical per-question, question-array, packet, and frozen file hashes; exact question ID and subpart sets; actual current SourcePack question fields byte-for-byte canonical identity.",
+  "questions": [
+    {
+      "id": "p1",
+      "source_question": {
+        "id": "p1",
+        "title": "P1. 사전분포가 만드는 함수들",
+        "conditions_html": "5차 다항식으로 베이지안 선형회귀를 해요. 특징 함수는 $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\\top$이고, 함수는 $f(x) = \\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$예요.\n  파라미터 사전분포는 $p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$로 골라요.\n  입력 $x_* \\in [-5, 5]$에서 200개 점을 골라 특징 함수를 적용하고, 노이즈 없는 함수값 $f(x_*) = \\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$의 분포를 그림으로 그려요. 그림에는 평균 함수(선), 음영 두 겹(진한 회색 67%, 옅은 회색 95% 신뢰 구간), 그리고 사전분포에서 뽑은 함수 표본 몇 개가 있어요.",
+        "ask_html": "<ol><li>(a) 함수 표본 하나를 얻는 두 단계를 적어 보세요.</li><li>(b) 파라미터 벡터 $\\boldsymbol{\\theta}$는 몇 차원인가요?</li><li>(c) 그림의 음영(불확실성)은 어디에서 오나요?</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"A function sample is obtained by first sampling a parameter vector $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta})$ and then computing $f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$.\" — Example 9.7",
+        "input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d"
+      },
+      "current_sourcepack_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+      "frozen_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+      "current_fragment_sha256": "2d65cec4a2fcd6d731f73723c556a0898b2af5fd4c82e337df7d8de11499569c",
+      "current_math_sha256": "a4877e8cdd91876cf2104e7e902d2f6704eb8a05e7bc2da7e7788ea26d63e378",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "010a4e23e1a6fa475763506345a586a835440c7d0c5a0659bb44bd4126c83105",
+      "current_summary_sha256": "e3f347eccf93993472de23c8cef5ade5abc04c6e802f7859f42fbd141bce2e86",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+        "baseline_math_sha256": "a4877e8cdd91876cf2104e7e902d2f6704eb8a05e7bc2da7e7788ea26d63e378",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "010a4e23e1a6fa475763506345a586a835440c7d0c5a0659bb44bd4126c83105",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+          "line_start": 4,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>함수 $f(x) = \\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$에서 랜덤한 것은 $\\boldsymbol{\\theta}$뿐이에요. $\\boldsymbol{\\phi}(x)$는 $x$만 알면 정해지는 값이에요.</p>\n<div data-subpart=\"a\"><h4>(a)</h4><p>그래서 먼저 사전분포에서 파라미터 벡터 하나를 뽑아요.\n    $$\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$$\n    다음으로 이 값을 넣어 함수 하나를 만들어요.\n    $$f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$$\n    200개 입력 $x_*$마다 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(x_*)$를 계산해 이으면 곡선 하나가 돼요.</p>\n</div><div data-subpart=\"b\"><h4>(b)</h4><p>$\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\\top$의 성분은 상수항부터 $x^5$까지 6개예요. 내적 $\\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$가 되려면 $\\boldsymbol{\\theta}$도 같은 크기여야 해요. 그래서 $\\boldsymbol{\\theta} \\in \\mathbb{R}^6$, 6차원이에요.</p>\n</div><div data-subpart=\"c\"><h4>(c)</h4><p>여기서 그린 것은 노이즈 없는 함수값 $f(x_*) = \\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$예요. 노이즈 분산 $\\sigma^2$이 들어가지 않아요.</p>\n<p>남은 랜덤한 재료는 $\\boldsymbol{\\theta}$ 하나뿐이에요. 따라서 음영의 불확실성은 모두 파라미터 $\\boldsymbol{\\theta}$의 불확실성에서 와요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 함수 $f(x) = \\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$에서 랜덤한 것은 $\\boldsymbol{\\theta}$뿐이에요. $\\boldsymbol{\\phi}(x)$는 $x$만 알면 정해지는 값이에요. (a) 그래서 먼저 사전분포에서 파라미터 벡터 하나를 뽑아요. $$\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$$ 다음으로 이 값을 넣어 함수 하나를 만들어요. $$f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$$ 200개 입력 $x_*$마다 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(x_*)$를 계산해 이으면 곡선 하나가 돼요. (b) $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\\top$의 성분은 상수항부터 $x^5$까지 6개예요. 내적 $\\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$가 되려면 $\\boldsymbol{\\theta}$도 같은 크기여야 해요. 그래서 $\\boldsymbol{\\theta} \\in \\mathbb{R}^6$, 6차원이에요. (c) 여기서 그린 것은 노이즈 없는 함수값 $f(x_*) = \\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$예요. 노이즈 분산 $\\sigma^2$이 들어가지 않아요. 남은 랜덤한 재료는 $\\boldsymbol{\\theta}$ 하나뿐이에요. 따라서 음영의 불확실성은 모두 파라미터 $\\boldsymbol{\\theta}$의 불확실성에서 와요.",
+          "sha256": "02e26952877f77084123cfedfcd093b4bcd68afd76c56b7ad6f449b813cd2075"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+          "line_start": 13,
+          "line_end": 17,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"a\"><h4>(a) 검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요.</p>\n</div><div data-subpart=\"b\"><h4>(b) 검산</h4><p>0차~5차 계수라6차원이에요.</p>\n</div><div data-subpart=\"c\"><h4>(c) 검산</h4><p>f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>\n</div><p>정답: (a) $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta})$를 뽑고 $f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$를 계산해요. (b) $\\boldsymbol{\\theta} \\in \\mathbb{R}^6$, 6차원이에요. (c) 노이즈 없는 함수값이라서 음영은 파라미터 불확실성에서만 와요.</p>\n</div>",
+          "quote_text": "완성 답과 검산 (a) 검산 하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. (b) 검산 0차~5차 계수라6차원이에요. (c) 검산 f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요. 정답: (a) $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta})$를 뽑고 $f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$를 계산해요. (b) $\\boldsymbol{\\theta} \\in \\mathbb{R}^6$, 6차원이에요. (c) 노이즈 없는 함수값이라서 음영은 파라미터 불확실성에서만 와요.",
+          "sha256": "569a1323228ae60d2cb6f5a402de3685554d85ca3412ac59a12958d0bf2520f3"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+          "line_start": 17,
+          "line_end": 18,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.",
+          "sha256": "25eda9a2e6354e7c63db2a14e2ccb3f3b4b37ef0ee2ffc73b27223ed9f741669"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+          "line_start": 18,
+          "line_end": 21,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>\n</div></div>",
+          "quote_text": "떠올릴 개념·공식 함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$ 첫 줄 $\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요. 검산 하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.",
+          "sha256": "e3f347eccf93993472de23c8cef5ade5abc04c6e802f7859f42fbd141bce2e86"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p1",
+          "subpart_id": "a",
+          "frozen_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+          "current_sourcepack_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+          "current_math_sha256": "a4877e8cdd91876cf2104e7e902d2f6704eb8a05e7bc2da7e7788ea26d63e378",
+          "current_fragment_sha256": "2d65cec4a2fcd6d731f73723c556a0898b2af5fd4c82e337df7d8de11499569c",
+          "verdict": "consistent",
+          "comparison_reason": "One six-vector prior draw shared across all 200 inputs defines one polynomial curve.",
+          "frozen_independent_result": {
+            "subpart_id": "a",
+            "method": "qualitative",
+            "derivation": "Draw one 6-vector θi~N(0,I6/4). Hold that single vector fixed and evaluate fi(xj)=φ(xj)ᵀθi at all 200 input locations.",
+            "conclusion": "A parameter draw followed by evaluation across the grid produces one function sample.",
+            "checks": "The same θi must be used at every xj; independent draws at each x would not produce one polynomial.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 5,
+              "line_end": 10,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a)</h4><p>그래서 먼저 사전분포에서 파라미터 벡터 하나를 뽑아요.\n    $$\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$$\n    다음으로 이 값을 넣어 함수 하나를 만들어요.\n    $$f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$$\n    200개 입력 $x_*$마다 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(x_*)$를 계산해 이으면 곡선 하나가 돼요.</p>\n</div>",
+              "quote_text": "(a) 그래서 먼저 사전분포에서 파라미터 벡터 하나를 뽑아요. $$\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$$ 다음으로 이 값을 넣어 함수 하나를 만들어요. $$f_i(\\cdot) = \\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$$ 200개 입력 $x_*$마다 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(x_*)$를 계산해 이으면 곡선 하나가 돼요.",
+              "sha256": "f21e04397059819fc1341f71c1debbb1ce662c9d7d5b103c14958d1ff746301e"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 13,
+              "line_end": 14,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a) 검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요.</p>\n</div>",
+              "quote_text": "(a) 검산 하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요.",
+              "sha256": "885ef46b2ac96f9dfe3923548a0d31376069a41a4cbc6c03099406c1ebc1b8ac"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 17,
+              "line_end": 18,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.",
+              "sha256": "25eda9a2e6354e7c63db2a14e2ccb3f3b4b37ef0ee2ffc73b27223ed9f741669"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 18,
+              "line_end": 21,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>\n</div></div>",
+              "quote_text": "떠올릴 개념·공식 함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$ 첫 줄 $\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요. 검산 하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.",
+              "sha256": "e3f347eccf93993472de23c8cef5ade5abc04c6e802f7859f42fbd141bce2e86"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "1007",
+          "question_id": "p1",
+          "subpart_id": "b",
+          "frozen_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+          "current_sourcepack_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+          "current_math_sha256": "a4877e8cdd91876cf2104e7e902d2f6704eb8a05e7bc2da7e7788ea26d63e378",
+          "current_fragment_sha256": "2d65cec4a2fcd6d731f73723c556a0898b2af5fd4c82e337df7d8de11499569c",
+          "verdict": "consistent",
+          "comparison_reason": "Degree 5 requires coefficients 0..5, so theta∈R6.",
+          "frozen_independent_result": {
+            "subpart_id": "b",
+            "method": "exact",
+            "derivation": "The monomials x⁰ through x⁵ require six coefficients.",
+            "conclusion": "θ∈R⁶.",
+            "checks": "φ(x) is 6×1, hence θᵀφ(x) is scalar.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 10,
+              "line_end": 11,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b)</h4><p>$\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\\top$의 성분은 상수항부터 $x^5$까지 6개예요. 내적 $\\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$가 되려면 $\\boldsymbol{\\theta}$도 같은 크기여야 해요. 그래서 $\\boldsymbol{\\theta} \\in \\mathbb{R}^6$, 6차원이에요.</p>\n</div>",
+              "quote_text": "(b) $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\\top$의 성분은 상수항부터 $x^5$까지 6개예요. 내적 $\\boldsymbol{\\theta}^\\top\\boldsymbol{\\phi}(x)$가 되려면 $\\boldsymbol{\\theta}$도 같은 크기여야 해요. 그래서 $\\boldsymbol{\\theta} \\in \\mathbb{R}^6$, 6차원이에요.",
+              "sha256": "5e5e45f01c0101ac5329ba72267af0e973d5e7ececb45353c7bd8e788eb474ae"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b) 검산</h4><p>0차~5차 계수라6차원이에요.</p>\n</div>",
+              "quote_text": "(b) 검산 0차~5차 계수라6차원이에요.",
+              "sha256": "90f883ca7407fb34eb18ddb07415692410879203fac8537d458c6414a4ac74f1"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 17,
+              "line_end": 18,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.",
+              "sha256": "25eda9a2e6354e7c63db2a14e2ccb3f3b4b37ef0ee2ffc73b27223ed9f741669"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 18,
+              "line_end": 21,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>\n</div></div>",
+              "quote_text": "떠올릴 개념·공식 함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$ 첫 줄 $\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요. 검산 하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.",
+              "sha256": "e3f347eccf93993472de23c8cef5ade5abc04c6e802f7859f42fbd141bce2e86"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "1007",
+          "question_id": "p1",
+          "subpart_id": "c",
+          "frozen_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+          "current_sourcepack_input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+          "current_math_sha256": "a4877e8cdd91876cf2104e7e902d2f6704eb8a05e7bc2da7e7788ea26d63e378",
+          "current_fragment_sha256": "2d65cec4a2fcd6d731f73723c556a0898b2af5fd4c82e337df7d8de11499569c",
+          "verdict": "consistent",
+          "comparison_reason": "At fixed x, phi^T(I/4)phi is parameter-induced prior uncertainty of noise-free f; the supplied credible levels are pointwise, not simultaneous curve coverage.",
+          "frozen_independent_result": {
+            "subpart_id": "c",
+            "method": "symbolic",
+            "derivation": "At fixed x, f=φ(x)ᵀθ has mean 0 and variance φᵀ(I6/4)φ=(1/4)Σk=0⁵ x^(2k). The shading comes from this prior parameter uncertainty propagated through the polynomial.",
+            "conclusion": "Pointwise prior credible intervals for noiseless function values, with supplied inner 67% and outer 95% levels.",
+            "checks": "No observation noise is included. Different x values are correlated through Cov(f(x),f(x′))=(1/4)Σk=0⁵(xx′)^k. Exact central Gaussian half-width for mass p is Φ⁻¹((1+p)/2) times the standard deviation; 67% is not exactly ±1σ.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 11,
+              "line_end": 13,
+              "quote_html": "<div data-subpart=\"c\"><h4>(c)</h4><p>여기서 그린 것은 노이즈 없는 함수값 $f(x_*) = \\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$예요. 노이즈 분산 $\\sigma^2$이 들어가지 않아요.</p>\n<p>남은 랜덤한 재료는 $\\boldsymbol{\\theta}$ 하나뿐이에요. 따라서 음영의 불확실성은 모두 파라미터 $\\boldsymbol{\\theta}$의 불확실성에서 와요.</p>\n</div>",
+              "quote_text": "(c) 여기서 그린 것은 노이즈 없는 함수값 $f(x_*) = \\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$예요. 노이즈 분산 $\\sigma^2$이 들어가지 않아요. 남은 랜덤한 재료는 $\\boldsymbol{\\theta}$ 하나뿐이에요. 따라서 음영의 불확실성은 모두 파라미터 $\\boldsymbol{\\theta}$의 불확실성에서 와요.",
+              "sha256": "67673930ba8f1f9759af01212cbd48269c9c80baf6dc4a001d2440d08d680858"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 15,
+              "line_end": 16,
+              "quote_html": "<div data-subpart=\"c\"><h4>(c) 검산</h4><p>f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>\n</div>",
+              "quote_text": "(c) 검산 f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.",
+              "sha256": "33f6a42748404ec986569d2b390f374216b9d4a2d679394d01908794fcd05612"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 17,
+              "line_end": 18,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 x마다 새 θ를 뽑으면 같은 함수 한 개의 표본이 아니에요. 노이즈 없는 f의 음영에 σ²를 더하지 않아요.",
+              "sha256": "25eda9a2e6354e7c63db2a14e2ccb3f3b4b37ef0ee2ffc73b27223ed9f741669"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p1.html",
+              "line_start": 18,
+              "line_end": 21,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.</p>\n</div></div>",
+              "quote_text": "떠올릴 개념·공식 함수 사전분포(function prior)는 계수를 한 번 뽑아 전체 입력 구간에 같은 계수를 써 만든 곡선들의 분포예요. $f(x)=\\phi(x)^\\top\\theta$ 첫 줄 $\\theta_i\\sim\\mathcal N(0,I/4)$를 먼저 뽑아요. 검산 하나의 θ를200개 입력에 공유해 계산하면 매끄러운5차 곡선 하나예요. 0차~5차 계수라6차원이에요. f에는 관측 잡음 ε가 없으므로 불확실성은 prior의 θ에서 와요.",
+              "sha256": "e3f347eccf93993472de23c8cef5ade5abc04c6e802f7859f42fbd141bce2e86"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "source_question": {
+        "id": "p2",
+        "title": "P2. 한 점에서 본 함수값의 평균과 분산",
+        "conditions_html": "5차 다항식으로 베이지안 선형회귀를 해요. 특징 함수는 $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^\\top$이에요.\n  파라미터 사전분포는 $p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{2}\\mathbf{I}\\right)$로 골라요.\n  노이즈 없는 함수값은 $f(x_*) = \\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$예요.",
+        "ask_html": "$f(x_*)$의 평균과 분산을 $x_* = 0$일 때와 $x_* = 1$일 때 각각 구해 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let us consider a Bayesian linear regression problem with polynomials of degree 5. We choose a parameter prior $p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$.\" — Example 9.7",
+        "input_sha256": "412f26924ef1500fb90d1c857798217f02c2df11c11f5b49a798509194a68675"
+      },
+      "current_sourcepack_input_sha256": "412f26924ef1500fb90d1c857798217f02c2df11c11f5b49a798509194a68675",
+      "frozen_input_sha256": "412f26924ef1500fb90d1c857798217f02c2df11c11f5b49a798509194a68675",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+      "current_fragment_sha256": "ec2da9f80c1ef03e38d47f331d54bbb61d0a935bd2cdbd9fc2f0039053984b18",
+      "current_math_sha256": "bf31388060b02fbf335aa19d853008f8c9bb405a347484674ca5d5bc97e7d3a0",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "2e406b710a0a512cd86e686d145e0c1489509591f304d34b789057704020eef1",
+      "current_summary_sha256": "efc2a40dbc0dd35e446fcf88b273179b745f2fff8ccf6b733ffa855044d4ac95",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+        "baseline_math_sha256": "bf31388060b02fbf335aa19d853008f8c9bb405a347484674ca5d5bc97e7d3a0",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "2e406b710a0a512cd86e686d145e0c1489509591f304d34b789057704020eef1",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+          "line_start": 4,
+          "line_end": 15,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$x_*$를 고정하면 $\\mathbf{A} = \\boldsymbol{\\phi}(x_*)^\\top$ ($1 \\times 6$ 행벡터), $\\mathbf{b} = 0$으로 놓을 수 있어요. 그러면 $f(x_*) = \\mathbf{A}\\boldsymbol{\\theta} + \\mathbf{b}$예요.</p>\n<p>평균은 $E[\\mathbf{A}\\mathbf{X} + \\mathbf{b}] = \\mathbf{A}E[\\mathbf{X}] + \\mathbf{b}$로 구해요.\n    $$E[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top E[\\boldsymbol{\\theta}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{0} = 0$$\n    어느 $x_*$에서든 평균은 0이에요.</p>\n<p>분산은 $\\mathbf{A}\\Sigma_{\\mathbf{X}}\\mathbf{A}^\\top$로 구해요. $\\Sigma_{\\boldsymbol{\\theta}} = \\frac{1}{2}\\mathbf{I}$이니까\n    $$\\mathrm{var}[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top\\left(\\frac{1}{2}\\mathbf{I}\\right)\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\sum_{k=0}^{5} x_*^{2k}$$</p>\n<p>$x_* = 0$이면 $\\boldsymbol{\\phi}(0) = [1, 0, 0, 0, 0, 0]^\\top$이라서 $\\boldsymbol{\\phi}(0)^\\top\\boldsymbol{\\phi}(0) = 1$이에요.\n    $$\\mathrm{var}[f(0)] = \\frac{1}{2} \\cdot 1 = \\frac{1}{2}$$</p>\n<p>$x_* = 1$이면 $\\boldsymbol{\\phi}(1) = [1, 1, 1, 1, 1, 1]^\\top$이라서 $\\boldsymbol{\\phi}(1)^\\top\\boldsymbol{\\phi}(1) = 6$이에요.\n    $$\\mathrm{var}[f(1)] = \\frac{1}{2} \\cdot 6 = 3$$</p>\n<p>가우시안의 아핀 변환은 가우시안이니까 $p(f(0)) = \\mathcal{N}\\left(0, \\frac{1}{2}\\right)$, $p(f(1)) = \\mathcal{N}(0, 3)$이에요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $x_*$를 고정하면 $\\mathbf{A} = \\boldsymbol{\\phi}(x_*)^\\top$ ($1 \\times 6$ 행벡터), $\\mathbf{b} = 0$으로 놓을 수 있어요. 그러면 $f(x_*) = \\mathbf{A}\\boldsymbol{\\theta} + \\mathbf{b}$예요. 평균은 $E[\\mathbf{A}\\mathbf{X} + \\mathbf{b}] = \\mathbf{A}E[\\mathbf{X}] + \\mathbf{b}$로 구해요. $$E[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top E[\\boldsymbol{\\theta}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{0} = 0$$ 어느 $x_*$에서든 평균은 0이에요. 분산은 $\\mathbf{A}\\Sigma_{\\mathbf{X}}\\mathbf{A}^\\top$로 구해요. $\\Sigma_{\\boldsymbol{\\theta}} = \\frac{1}{2}\\mathbf{I}$이니까 $$\\mathrm{var}[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top\\left(\\frac{1}{2}\\mathbf{I}\\right)\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\sum_{k=0}^{5} x_*^{2k}$$ $x_* = 0$이면 $\\boldsymbol{\\phi}(0) = [1, 0, 0, 0, 0, 0]^\\top$이라서 $\\boldsymbol{\\phi}(0)^\\top\\boldsymbol{\\phi}(0) = 1$이에요. $$\\mathrm{var}[f(0)] = \\frac{1}{2} \\cdot 1 = \\frac{1}{2}$$ $x_* = 1$이면 $\\boldsymbol{\\phi}(1) = [1, 1, 1, 1, 1, 1]^\\top$이라서 $\\boldsymbol{\\phi}(1)^\\top\\boldsymbol{\\phi}(1) = 6$이에요. $$\\mathrm{var}[f(1)] = \\frac{1}{2} \\cdot 6 = 3$$ 가우시안의 아핀 변환은 가우시안이니까 $p(f(0)) = \\mathcal{N}\\left(0, \\frac{1}{2}\\right)$, $p(f(1)) = \\mathcal{N}(0, 3)$이에요.",
+          "sha256": "aec06cb54d51af25ee6dfe234d57d2e77325868032016097f2709820b934e7de"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+          "line_start": 15,
+          "line_end": 17,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요.</p>\n</div><p>정답: 평균은 두 점 모두 $E[f(x_*)] = 0$이에요. 분산은 $\\mathrm{var}[f(0)] = \\frac{1}{2}$, $\\mathrm{var}[f(1)] = 3$이에요.</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요. 정답: 평균은 두 점 모두 $E[f(x_*)] = 0$이에요. 분산은 $\\mathrm{var}[f(0)] = \\frac{1}{2}$, $\\mathrm{var}[f(1)] = 3$이에요.",
+          "sha256": "31636bbd3c2aff23e920ca6ba2e1c443e95088797cdfba80846c11e4f999562a"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+          "line_start": 17,
+          "line_end": 18,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>분산1/2를 표준편차로 읽지 않아요. 특징 길이가6이라고 항상 분산3인 것도 아니에요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 분산1/2를 표준편차로 읽지 않아요. 특징 길이가6이라고 항상 분산3인 것도 아니에요.",
+          "sha256": "78aadd9eea6425cb0e638673028f20e5e6529ac1f2be3e03627560b1a2af6890"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+          "line_start": 18,
+          "line_end": 21,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>한 점의 함수값은 랜덤 계수의 스칼라 가중합이에요. $E[f]=\\phi^\\top E[\\theta]$, $Var(f)=\\phi^\\top S_0\\phi$이고 S0=I/2예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\phi(0)=[1,0,0,0,0,0]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>$1/2$는 계수 분산이지 표준편차가 아니에요. 입력을 고정해 $1\\times6$ 행벡터로 변환하며 특징 길이가 $6$이어도 입력값에 따라 함수 분산은 달라요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 한 점의 함수값은 랜덤 계수의 스칼라 가중합이에요. $E[f]=\\phi^\\top E[\\theta]$, $Var(f)=\\phi^\\top S_0\\phi$이고 S0=I/2예요. 첫 줄 $\\phi(0)=[1,0,0,0,0,0]^\\top$예요. 검산 0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요. 조건·구분 $1/2$는 계수 분산이지 표준편차가 아니에요. 입력을 고정해 $1\\times6$ 행벡터로 변환하며 특징 길이가 $6$이어도 입력값에 따라 함수 분산은 달라요.",
+          "sha256": "efc2a40dbc0dd35e446fcf88b273179b745f2fff8ccf6b733ffa855044d4ac95"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p2",
+          "subpart_id": "main",
+          "frozen_input_sha256": "412f26924ef1500fb90d1c857798217f02c2df11c11f5b49a798509194a68675",
+          "current_sourcepack_input_sha256": "412f26924ef1500fb90d1c857798217f02c2df11c11f5b49a798509194a68675",
+          "current_math_sha256": "bf31388060b02fbf335aa19d853008f8c9bb405a347484674ca5d5bc97e7d3a0",
+          "current_fragment_sha256": "ec2da9f80c1ef03e38d47f331d54bbb61d0a935bd2cdbd9fc2f0039053984b18",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "Current SourcePack explicitly uses I/2, giving means zero and variances 1/2 at 0 and 3 at 1. Current solve also explicitly uses I/2. Historical quote uses I/4 and would instead give 1/4 and 3/2. No unspoken precedence assumption is needed: both current conditions and reference disclose the adapted covariance.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "exact",
+            "derivation": "E[f]=φᵀ0=0. Var(f)=φᵀ(I6/2)φ=(1/2)Σk=0⁵x^(2k). At x=0, φ=(1,0,0,0,0,0)ᵀ; at x=1, φ=(1,1,1,1,1,1)ᵀ.",
+            "conclusion": "x*=0: mean 0, variance 1/2. x*=1: mean 0, variance 3.",
+            "checks": "Uses the question conditions covariance I/2, despite the optional original quotation mentioning I/4; these are different parameter choices, not algebraically interchangeable.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+              "line_start": 4,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$x_*$를 고정하면 $\\mathbf{A} = \\boldsymbol{\\phi}(x_*)^\\top$ ($1 \\times 6$ 행벡터), $\\mathbf{b} = 0$으로 놓을 수 있어요. 그러면 $f(x_*) = \\mathbf{A}\\boldsymbol{\\theta} + \\mathbf{b}$예요.</p>\n<p>평균은 $E[\\mathbf{A}\\mathbf{X} + \\mathbf{b}] = \\mathbf{A}E[\\mathbf{X}] + \\mathbf{b}$로 구해요.\n    $$E[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top E[\\boldsymbol{\\theta}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{0} = 0$$\n    어느 $x_*$에서든 평균은 0이에요.</p>\n<p>분산은 $\\mathbf{A}\\Sigma_{\\mathbf{X}}\\mathbf{A}^\\top$로 구해요. $\\Sigma_{\\boldsymbol{\\theta}} = \\frac{1}{2}\\mathbf{I}$이니까\n    $$\\mathrm{var}[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top\\left(\\frac{1}{2}\\mathbf{I}\\right)\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\sum_{k=0}^{5} x_*^{2k}$$</p>\n<p>$x_* = 0$이면 $\\boldsymbol{\\phi}(0) = [1, 0, 0, 0, 0, 0]^\\top$이라서 $\\boldsymbol{\\phi}(0)^\\top\\boldsymbol{\\phi}(0) = 1$이에요.\n    $$\\mathrm{var}[f(0)] = \\frac{1}{2} \\cdot 1 = \\frac{1}{2}$$</p>\n<p>$x_* = 1$이면 $\\boldsymbol{\\phi}(1) = [1, 1, 1, 1, 1, 1]^\\top$이라서 $\\boldsymbol{\\phi}(1)^\\top\\boldsymbol{\\phi}(1) = 6$이에요.\n    $$\\mathrm{var}[f(1)] = \\frac{1}{2} \\cdot 6 = 3$$</p>\n<p>가우시안의 아핀 변환은 가우시안이니까 $p(f(0)) = \\mathcal{N}\\left(0, \\frac{1}{2}\\right)$, $p(f(1)) = \\mathcal{N}(0, 3)$이에요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $x_*$를 고정하면 $\\mathbf{A} = \\boldsymbol{\\phi}(x_*)^\\top$ ($1 \\times 6$ 행벡터), $\\mathbf{b} = 0$으로 놓을 수 있어요. 그러면 $f(x_*) = \\mathbf{A}\\boldsymbol{\\theta} + \\mathbf{b}$예요. 평균은 $E[\\mathbf{A}\\mathbf{X} + \\mathbf{b}] = \\mathbf{A}E[\\mathbf{X}] + \\mathbf{b}$로 구해요. $$E[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top E[\\boldsymbol{\\theta}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{0} = 0$$ 어느 $x_*$에서든 평균은 0이에요. 분산은 $\\mathbf{A}\\Sigma_{\\mathbf{X}}\\mathbf{A}^\\top$로 구해요. $\\Sigma_{\\boldsymbol{\\theta}} = \\frac{1}{2}\\mathbf{I}$이니까 $$\\mathrm{var}[f(x_*)] = \\boldsymbol{\\phi}(x_*)^\\top\\left(\\frac{1}{2}\\mathbf{I}\\right)\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\phi}(x_*) = \\frac{1}{2}\\sum_{k=0}^{5} x_*^{2k}$$ $x_* = 0$이면 $\\boldsymbol{\\phi}(0) = [1, 0, 0, 0, 0, 0]^\\top$이라서 $\\boldsymbol{\\phi}(0)^\\top\\boldsymbol{\\phi}(0) = 1$이에요. $$\\mathrm{var}[f(0)] = \\frac{1}{2} \\cdot 1 = \\frac{1}{2}$$ $x_* = 1$이면 $\\boldsymbol{\\phi}(1) = [1, 1, 1, 1, 1, 1]^\\top$이라서 $\\boldsymbol{\\phi}(1)^\\top\\boldsymbol{\\phi}(1) = 6$이에요. $$\\mathrm{var}[f(1)] = \\frac{1}{2} \\cdot 6 = 3$$ 가우시안의 아핀 변환은 가우시안이니까 $p(f(0)) = \\mathcal{N}\\left(0, \\frac{1}{2}\\right)$, $p(f(1)) = \\mathcal{N}(0, 3)$이에요.",
+              "sha256": "aec06cb54d51af25ee6dfe234d57d2e77325868032016097f2709820b934e7de"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+              "line_start": 15,
+              "line_end": 17,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요.</p>\n</div><p>정답: 평균은 두 점 모두 $E[f(x_*)] = 0$이에요. 분산은 $\\mathrm{var}[f(0)] = \\frac{1}{2}$, $\\mathrm{var}[f(1)] = 3$이에요.</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요. 정답: 평균은 두 점 모두 $E[f(x_*)] = 0$이에요. 분산은 $\\mathrm{var}[f(0)] = \\frac{1}{2}$, $\\mathrm{var}[f(1)] = 3$이에요.",
+              "sha256": "31636bbd3c2aff23e920ca6ba2e1c443e95088797cdfba80846c11e4f999562a"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+              "line_start": 17,
+              "line_end": 18,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>분산1/2를 표준편차로 읽지 않아요. 특징 길이가6이라고 항상 분산3인 것도 아니에요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 분산1/2를 표준편차로 읽지 않아요. 특징 길이가6이라고 항상 분산3인 것도 아니에요.",
+              "sha256": "78aadd9eea6425cb0e638673028f20e5e6529ac1f2be3e03627560b1a2af6890"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p2.html",
+              "line_start": 18,
+              "line_end": 21,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>한 점의 함수값은 랜덤 계수의 스칼라 가중합이에요. $E[f]=\\phi^\\top E[\\theta]$, $Var(f)=\\phi^\\top S_0\\phi$이고 S0=I/2예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\phi(0)=[1,0,0,0,0,0]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>$1/2$는 계수 분산이지 표준편차가 아니에요. 입력을 고정해 $1\\times6$ 행벡터로 변환하며 특징 길이가 $6$이어도 입력값에 따라 함수 분산은 달라요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 한 점의 함수값은 랜덤 계수의 스칼라 가중합이에요. $E[f]=\\phi^\\top E[\\theta]$, $Var(f)=\\phi^\\top S_0\\phi$이고 S0=I/2예요. 첫 줄 $\\phi(0)=[1,0,0,0,0,0]^\\top$예요. 검산 0에서는 상수계수만 남아분산1/2예요. 1에서는 독립계수6개의 합이라6×1/2=3이에요. 평균은 두 점 모두0이에요. 조건·구분 $1/2$는 계수 분산이지 표준편차가 아니에요. 입력을 고정해 $1\\times6$ 행벡터로 변환하며 특징 길이가 $6$이어도 입력값에 따라 함수 분산은 달라요.",
+              "sha256": "efc2a40dbc0dd35e446fcf88b273179b745f2fff8ccf6b733ffa855044d4ac95"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Current adapted I/2 covariance and reference agree; historical quote I/4 would yield different variances.",
+            "disclosed_status": "explicit_current_adaptation",
+            "limitation_fully_explicit_in_non_summary_baseline": true,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "source_question": {
+        "id": "p3",
+        "title": "P3. 사후분포로 그린 함수 그림 읽기",
+        "conditions_html": "5차 다항식과 사전분포 $p(\\boldsymbol{\\theta}) = \\mathcal{N}\\left(\\mathbf{0}, \\frac{1}{4}\\mathbf{I}\\right)$로 베이지안 선형회귀(BLR)를 해요. 훈련 데이터 $\\mathbf{X}, \\mathbf{y}$를 보고 나면 파라미터 사후분포 $p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 얻어요. 이 사후분포는 가우시안 $\\mathcal{N}(\\boldsymbol{\\theta} \\mid \\mathbf{m}_N, \\mathbf{S}_N)$이에요.\n  결과 그림은 세 칸이에요. (a)는 훈련 데이터, (b)는 함수 위의 사후분포, (c)는 곡선 여러 개를 겹쳐 그린 그림이에요. (b)에는 최대가능도 추정으로 얻은 함수(MLE), MAP 추정으로 얻은 함수(MAP), BLR의 평균 함수가 선으로 있고, 그 둘레에 음영이 두 겹(진한 회색, 옅은 회색) 있어요.\n  ",
+        "ask_html": "<ol><li>(a) MAP 추정으로 얻은 함수 $\\boldsymbol{\\theta}_{\\mathrm{MAP}}^\\top\\boldsymbol{\\phi}(\\cdot)$는 BLR에서 무엇과 같나요?</li><li>(b) 그림 (b)의 음영 두 겹은 무엇을 뜻하나요?</li><li>(c) 그림 (c)의 곡선 여러 개는 무엇을 보여 주나요?</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [
+          "<figure class=\"figure\"><svg id=\"fig-p3-posterior-functions\" viewBox=\"0 0 360 210\" role=\"img\" aria-label=\"훈련 데이터 점들 위로 BLR 평균 함수 선이 지나가고, 그 둘레에 안쪽 경계 점선과 바깥쪽 경계 점선이 있는 그림. 데이터가 있는 가운데에서는 경계가 좁고 양 끝으로 갈수록 넓어져요.\">\n    <line class=\"fig-ink\" x1=\"20\" y1=\"190\" x2=\"345\" y2=\"190\"/>\n    <line class=\"fig-ink\" x1=\"20\" y1=\"190\" x2=\"20\" y2=\"15\"/>\n    <path class=\"fig-ink\" stroke-dasharray=\"2 4\" d=\"M25,20 C80,40 130,70 180,78 S280,40 340,15\"/>\n    <path class=\"fig-ink\" stroke-dasharray=\"2 4\" d=\"M25,185 C80,170 130,140 180,128 S280,160 340,188\"/>\n    <path class=\"fig-ink\" stroke-dasharray=\"6 4\" d=\"M25,55 C80,70 130,88 180,92 S280,75 340,55\"/>\n    <path class=\"fig-ink\" stroke-dasharray=\"6 4\" d=\"M25,150 C80,140 130,122 180,114 S280,125 340,150\"/>\n    <path class=\"fig-accent\" d=\"M25,102 C80,105 130,105 180,103 S280,100 340,102\"/>\n    <circle class=\"fig-dot\" cx=\"120\" cy=\"108\" r=\"4\"/>\n    <circle class=\"fig-dot\" cx=\"140\" cy=\"96\" r=\"4\"/>\n    <circle class=\"fig-dot\" cx=\"160\" cy=\"110\" r=\"4\"/>\n    <circle class=\"fig-dot\" cx=\"185\" cy=\"99\" r=\"4\"/>\n    <circle class=\"fig-dot\" cx=\"205\" cy=\"107\" r=\"4\"/>\n    <circle class=\"fig-dot\" cx=\"228\" cy=\"98\" r=\"4\"/>\n    <text class=\"fig-text\" x=\"300\" y=\"96\">평균</text>\n    <text class=\"fig-text\" x=\"290\" y=\"205\">x</text>\n    <text class=\"fig-text\" x=\"28\" y=\"14\">y</text>\n  </svg><figcaption>그림 (b)를 간단히 그린 것이에요. 색칠된 점은 훈련 데이터, 실선은 BLR 평균 함수예요. 긴 점선은 진한 음영의 경계, 짧은 점선은 옅은 음영의 경계예요.</figcaption></figure>"
+        ],
+        "original_question_html": "\"The function we obtain using the MAP estimate also corresponds to the posterior mean function\" — Example 9.8",
+        "input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec"
+      },
+      "current_sourcepack_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+      "frozen_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+      "current_fragment_sha256": "89ae2e9389bfa9a69d38dbce8b9488f27ef056ae1f5b0a3265093f01dd2c2631",
+      "current_math_sha256": "184dfeaed49014cecc6ec7c7281c0a4a7841191ee09f2404e4220af6a755e9d2",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "6f1d87ea04568bf7988e93985a524e35bcca8ab390bb49e03f7d54048af8affd",
+      "current_summary_sha256": "22ea662c98c8d2c707583ac034d70b2f78ec3d788de5a3f6b8d7d569e4ea534b",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+        "baseline_math_sha256": "184dfeaed49014cecc6ec7c7281c0a4a7841191ee09f2404e4220af6a755e9d2",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "6f1d87ea04568bf7988e93985a524e35bcca8ab390bb49e03f7d54048af8affd",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+          "line_start": 4,
+          "line_end": 11,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"a\"><h4>(a)</h4><p>MAP 추정값은 사후분포 $p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 가장 크게 하는 $\\boldsymbol{\\theta}$예요. 이 사후분포는 가우시안 $\\mathcal{N}(\\boldsymbol{\\theta} \\mid \\mathbf{m}_N, \\mathbf{S}_N)$이고, 가우시안은 평균에서 가장 높아요. 그래서 $\\boldsymbol{\\theta}_{\\mathrm{MAP}} = \\mathbf{m}_N$이에요.</p>\n<p>BLR의 평균 함수는 각 $x_*$에서 $\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$의 평균이에요. 아핀 변환의 평균 공식으로\n    $$E[\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{m}_N = \\boldsymbol{\\theta}_{\\mathrm{MAP}}^\\top\\boldsymbol{\\phi}(x_*)$$\n    그러니 MAP 함수는 BLR의 사후 평균 함수와 같아요. 사전분포를 쓰지 않는 MLE 함수 $\\boldsymbol{\\theta}_{\\mathrm{ML}}^\\top\\boldsymbol{\\phi}(\\cdot)$는 이것과 다를 수 있어요.</p>\n</div><div data-subpart=\"b\"><h4>(b)</h4><p>음영은 함수값이 얼마나 불확실한지 보여 줘요. 교과서는 진한 회색을 67%, 옅은 회색을 95% 예측 신뢰 구간이라고 적어요. 평균에서 표준편차 1배(1σ), 2배(2σ)만큼 벌린 구간이에요. 데이터가 있는 가운데에서는 좁고 양 끝으로 갈수록 넓어져요.</p>\n</div><div data-subpart=\"c\"><h4>(c)</h4><p>BLR은 함수 하나가 아니라 함수 위의 분포를 줘요. 그림 (c)의 곡선들은 이 사후분포 아래에서 그럴듯한 함수 표본(realization)들이에요.</p>\n<p>곡선 하나는 사후분포에서 파라미터 $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 뽑아 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$로 만든 것이에요. 데이터가 있는 곳에서는 곡선들이 서로 가깝고, 양 끝에서는 많이 벌어져요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 (a) MAP 추정값은 사후분포 $p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 가장 크게 하는 $\\boldsymbol{\\theta}$예요. 이 사후분포는 가우시안 $\\mathcal{N}(\\boldsymbol{\\theta} \\mid \\mathbf{m}_N, \\mathbf{S}_N)$이고, 가우시안은 평균에서 가장 높아요. 그래서 $\\boldsymbol{\\theta}_{\\mathrm{MAP}} = \\mathbf{m}_N$이에요. BLR의 평균 함수는 각 $x_*$에서 $\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$의 평균이에요. 아핀 변환의 평균 공식으로 $$E[\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{m}_N = \\boldsymbol{\\theta}_{\\mathrm{MAP}}^\\top\\boldsymbol{\\phi}(x_*)$$ 그러니 MAP 함수는 BLR의 사후 평균 함수와 같아요. 사전분포를 쓰지 않는 MLE 함수 $\\boldsymbol{\\theta}_{\\mathrm{ML}}^\\top\\boldsymbol{\\phi}(\\cdot)$는 이것과 다를 수 있어요. (b) 음영은 함수값이 얼마나 불확실한지 보여 줘요. 교과서는 진한 회색을 67%, 옅은 회색을 95% 예측 신뢰 구간이라고 적어요. 평균에서 표준편차 1배(1σ), 2배(2σ)만큼 벌린 구간이에요. 데이터가 있는 가운데에서는 좁고 양 끝으로 갈수록 넓어져요. (c) BLR은 함수 하나가 아니라 함수 위의 분포를 줘요. 그림 (c)의 곡선들은 이 사후분포 아래에서 그럴듯한 함수 표본(realization)들이에요. 곡선 하나는 사후분포에서 파라미터 $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 뽑아 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$로 만든 것이에요. 데이터가 있는 곳에서는 곡선들이 서로 가깝고, 양 끝에서는 많이 벌어져요.",
+          "sha256": "ceb64cb241499070b5e9630b865150beb3514f6a6b49dea0c1e7728bc57c88c5"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+          "line_start": 11,
+          "line_end": 15,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"a\"><h4>(a) 검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요.</p>\n</div><div data-subpart=\"b\"><h4>(b) 검산</h4><p>교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요.</p>\n</div><div data-subpart=\"c\"><h4>(c) 검산</h4><p>posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>\n</div><p>정답: (a) MAP 함수는 BLR의 사후 평균 함수 $\\mathbf{m}_N^\\top\\boldsymbol{\\phi}(\\cdot)$와 같아요. (b) 진한 음영은 67%, 옅은 음영은 95% 예측 신뢰 구간이에요. (c) 함수 위의 사후분포에서 나온 그럴듯한 함수 표본들이에요.</p>\n</div>",
+          "quote_text": "완성 답과 검산 (a) 검산 log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. (b) 검산 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. (c) 검산 posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요. 정답: (a) MAP 함수는 BLR의 사후 평균 함수 $\\mathbf{m}_N^\\top\\boldsymbol{\\phi}(\\cdot)$와 같아요. (b) 진한 음영은 67%, 옅은 음영은 95% 예측 신뢰 구간이에요. (c) 함수 위의 사후분포에서 나온 그럴듯한 함수 표본들이에요.",
+          "sha256": "bf212f4487e00e0f9f61978998d3c896be3190915387800fcd92fd7ffdce1755"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+          "line_start": 15,
+          "line_end": 16,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.",
+          "sha256": "158f39aaf9fb5d1a5dfb60bf87d8ea6b0f229cba97c49126d613fca1e272f22e"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+          "line_start": 16,
+          "line_end": 19,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_{MAP}=m_N$을 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요. 첫 줄 $\\theta_{MAP}=m_N$을 적어요. 검산 log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요. 조건·구분 음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.",
+          "sha256": "22ea662c98c8d2c707583ac034d70b2f78ec3d788de5a3f6b8d7d569e4ea534b"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p3",
+          "subpart_id": "a",
+          "frozen_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+          "current_sourcepack_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+          "current_math_sha256": "184dfeaed49014cecc6ec7c7281c0a4a7841191ee09f2404e4220af6a755e9d2",
+          "current_fragment_sha256": "89ae2e9389bfa9a69d38dbce8b9488f27ef056ae1f5b0a3265093f01dd2c2631",
+          "verdict": "consistent",
+          "comparison_reason": "For an ordinary Gaussian posterior, mode=mean=mN and the linear image mean equals the MAP function; MLE need not agree.",
+          "frozen_independent_result": {
+            "subpart_id": "a",
+            "method": "proof",
+            "derivation": "A nondegenerate Gaussian posterior is maximized at θ=mN because its negative log density differs from (θ-mN)ᵀSN⁻¹(θ-mN)/2 by a constant. Linearity of expectation gives E[f(x)|data]=φ(x)ᵀmN.",
+            "conclusion": "The MAP function equals the BLR posterior mean function.",
+            "checks": "φ,mN:6×1; if the posterior is degenerate, its Gaussian mean still determines the mean function, with mode interpreted on its support.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 4,
+              "line_end": 8,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a)</h4><p>MAP 추정값은 사후분포 $p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 가장 크게 하는 $\\boldsymbol{\\theta}$예요. 이 사후분포는 가우시안 $\\mathcal{N}(\\boldsymbol{\\theta} \\mid \\mathbf{m}_N, \\mathbf{S}_N)$이고, 가우시안은 평균에서 가장 높아요. 그래서 $\\boldsymbol{\\theta}_{\\mathrm{MAP}} = \\mathbf{m}_N$이에요.</p>\n<p>BLR의 평균 함수는 각 $x_*$에서 $\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$의 평균이에요. 아핀 변환의 평균 공식으로\n    $$E[\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{m}_N = \\boldsymbol{\\theta}_{\\mathrm{MAP}}^\\top\\boldsymbol{\\phi}(x_*)$$\n    그러니 MAP 함수는 BLR의 사후 평균 함수와 같아요. 사전분포를 쓰지 않는 MLE 함수 $\\boldsymbol{\\theta}_{\\mathrm{ML}}^\\top\\boldsymbol{\\phi}(\\cdot)$는 이것과 다를 수 있어요.</p>\n</div>",
+              "quote_text": "(a) MAP 추정값은 사후분포 $p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 가장 크게 하는 $\\boldsymbol{\\theta}$예요. 이 사후분포는 가우시안 $\\mathcal{N}(\\boldsymbol{\\theta} \\mid \\mathbf{m}_N, \\mathbf{S}_N)$이고, 가우시안은 평균에서 가장 높아요. 그래서 $\\boldsymbol{\\theta}_{\\mathrm{MAP}} = \\mathbf{m}_N$이에요. BLR의 평균 함수는 각 $x_*$에서 $\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta}$의 평균이에요. 아핀 변환의 평균 공식으로 $$E[\\boldsymbol{\\phi}(x_*)^\\top\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y}] = \\boldsymbol{\\phi}(x_*)^\\top\\mathbf{m}_N = \\boldsymbol{\\theta}_{\\mathrm{MAP}}^\\top\\boldsymbol{\\phi}(x_*)$$ 그러니 MAP 함수는 BLR의 사후 평균 함수와 같아요. 사전분포를 쓰지 않는 MLE 함수 $\\boldsymbol{\\theta}_{\\mathrm{ML}}^\\top\\boldsymbol{\\phi}(\\cdot)$는 이것과 다를 수 있어요.",
+              "sha256": "c0ce7ac59df0a20c8dda4f381f1e4ba90a808da0fdfdd76981a68af4a2a406cf"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 11,
+              "line_end": 12,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a) 검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요.</p>\n</div>",
+              "quote_text": "(a) 검산 log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요.",
+              "sha256": "5afb8c3bd035c86a685d3bdb72881310cd8c8b35b2e76d820a68ee57a0430c0b"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 15,
+              "line_end": 16,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.",
+              "sha256": "158f39aaf9fb5d1a5dfb60bf87d8ea6b0f229cba97c49126d613fca1e272f22e"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 16,
+              "line_end": 19,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_{MAP}=m_N$을 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요. 첫 줄 $\\theta_{MAP}=m_N$을 적어요. 검산 log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요. 조건·구분 음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.",
+              "sha256": "22ea662c98c8d2c707583ac034d70b2f78ec3d788de5a3f6b8d7d569e4ea534b"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "1007",
+          "question_id": "p3",
+          "subpart_id": "b",
+          "frozen_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+          "current_sourcepack_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+          "current_math_sha256": "184dfeaed49014cecc6ec7c7281c0a4a7841191ee09f2404e4220af6a755e9d2",
+          "current_fragment_sha256": "89ae2e9389bfa9a69d38dbce8b9488f27ef056ae1f5b0a3265093f01dd2c2631",
+          "verdict": "disagreement",
+          "comparison_reason": "Posterior uncertainty bands and authentic MML Figure9.10 caption agree on 67%/95%. Packet alone omitted these labels. However current solve additionally equates them to exactly ±1σ/±2σ; central Gaussian coverages are 68.268949% and 95.449974%, so that exact equivalence disagrees with the frozen precise quantile check.",
+          "frozen_independent_result": {
+            "subpart_id": "b",
+            "method": "qualitative",
+            "derivation": "A Gaussian linear image has f(x)|data~N(φᵀmN,φᵀSNφ). Narrow and wide bands therefore express smaller and larger posterior credible ranges for the latent function at each x. The supplied SVG shows narrower bounds near training points and wider bounds toward the ends.",
+            "conclusion": "Inner and outer pointwise uncertainty bands about the posterior mean function.",
+            "checks": "The figure depicts function uncertainty; adding observation noise would increase the variance by its noise variance.",
+            "assumptions": [],
+            "unresolved": [
+              "The packet does not assign numerical posterior coverage levels to the two bands. 67% and 95% cannot be confirmed for this specific plot from the provided conditions or SVG."
+            ]
+          },
+          "frozen_unresolved_retained": [
+            "The packet does not assign numerical posterior coverage levels to the two bands. 67% and 95% cannot be confirmed for this specific plot from the provided conditions or SVG."
+          ],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 8,
+              "line_end": 9,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b)</h4><p>음영은 함수값이 얼마나 불확실한지 보여 줘요. 교과서는 진한 회색을 67%, 옅은 회색을 95% 예측 신뢰 구간이라고 적어요. 평균에서 표준편차 1배(1σ), 2배(2σ)만큼 벌린 구간이에요. 데이터가 있는 가운데에서는 좁고 양 끝으로 갈수록 넓어져요.</p>\n</div>",
+              "quote_text": "(b) 음영은 함수값이 얼마나 불확실한지 보여 줘요. 교과서는 진한 회색을 67%, 옅은 회색을 95% 예측 신뢰 구간이라고 적어요. 평균에서 표준편차 1배(1σ), 2배(2σ)만큼 벌린 구간이에요. 데이터가 있는 가운데에서는 좁고 양 끝으로 갈수록 넓어져요.",
+              "sha256": "69d4d5c4a97f95310cd38f6ca23917fae0a30ddd37cc2b0edc375b1eb59301c7"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b) 검산</h4><p>교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요.</p>\n</div>",
+              "quote_text": "(b) 검산 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요.",
+              "sha256": "3b24761105ad4e2b2a6b8967d04fd1c78baacb552cc65d2e5d7f087cbbaa3df6"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 15,
+              "line_end": 16,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.",
+              "sha256": "158f39aaf9fb5d1a5dfb60bf87d8ea6b0f229cba97c49126d613fca1e272f22e"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 16,
+              "line_end": 19,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_{MAP}=m_N$을 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요. 첫 줄 $\\theta_{MAP}=m_N$을 적어요. 검산 log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요. 조건·구분 음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.",
+              "sha256": "22ea662c98c8d2c707583ac034d70b2f78ec3d788de5a3f6b8d7d569e4ea534b"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Authentic caption resolves packet missing levels, but current solve exact 67%/95% = ±1σ/±2σ assertion is not exact Gaussian coverage. Credible versus confidence and pointwise scope are disclosed separately.",
+            "disclosed_status": "partial_non_summary_no_exact_sigma_warning",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "1007",
+          "question_id": "p3",
+          "subpart_id": "c",
+          "frozen_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+          "current_sourcepack_input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+          "current_math_sha256": "184dfeaed49014cecc6ec7c7281c0a4a7841191ee09f2404e4220af6a755e9d2",
+          "current_fragment_sha256": "89ae2e9389bfa9a69d38dbce8b9488f27ef056ae1f5b0a3265093f01dd2c2631",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "The posterior draw construction in current solve agrees with frozen conditional interpretation. Authentic MML p316 Figure9.10(c) and its caption now verify the sampling provenance that was absent from the blind packet; this controller-only check does not retroactively make the packet complete.",
+          "frozen_independent_result": {
+            "subpart_id": "c",
+            "method": "qualitative",
+            "derivation": "The posterior distribution on θ induces a distribution on entire functions. A representative sample curve is generated with θi~N(mN,SN), then fi(x)=φ(x)ᵀθi at all x. Overlaying these illustrates plausible functions and their variation after observing data.",
+            "conclusion": "The natural posterior-function interpretation is several posterior parameter draws evaluated as complete curves.",
+            "checks": "Each complete curve uses one shared θi. The supplied SVG only renders panel (b).",
+            "assumptions": [],
+            "unresolved": [
+              "Panel (c) itself and an explicit statement of its sampling construction are not supplied; the posterior-sample reading is the standard interpretation, not visually verified provenance."
+            ]
+          },
+          "frozen_unresolved_retained": [
+            "Panel (c) itself and an explicit statement of its sampling construction are not supplied; the posterior-sample reading is the standard interpretation, not visually verified provenance."
+          ],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 9,
+              "line_end": 11,
+              "quote_html": "<div data-subpart=\"c\"><h4>(c)</h4><p>BLR은 함수 하나가 아니라 함수 위의 분포를 줘요. 그림 (c)의 곡선들은 이 사후분포 아래에서 그럴듯한 함수 표본(realization)들이에요.</p>\n<p>곡선 하나는 사후분포에서 파라미터 $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 뽑아 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$로 만든 것이에요. 데이터가 있는 곳에서는 곡선들이 서로 가깝고, 양 끝에서는 많이 벌어져요.</p>\n</div>",
+              "quote_text": "(c) BLR은 함수 하나가 아니라 함수 위의 분포를 줘요. 그림 (c)의 곡선들은 이 사후분포 아래에서 그럴듯한 함수 표본(realization)들이에요. 곡선 하나는 사후분포에서 파라미터 $\\boldsymbol{\\theta}_i \\sim p(\\boldsymbol{\\theta} \\mid \\mathbf{X}, \\mathbf{y})$를 뽑아 $\\boldsymbol{\\theta}_i^\\top\\boldsymbol{\\phi}(\\cdot)$로 만든 것이에요. 데이터가 있는 곳에서는 곡선들이 서로 가깝고, 양 끝에서는 많이 벌어져요.",
+              "sha256": "b86cb3625fba8c98c4b4f7c4f1ee006bc1dc65624beb386d32622d2aef399518"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 13,
+              "line_end": 14,
+              "quote_html": "<div data-subpart=\"c\"><h4>(c) 검산</h4><p>posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>\n</div>",
+              "quote_text": "(c) 검산 posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.",
+              "sha256": "aafc34db36b41e5911d0409c519578a9ab4c1d5c7795c7e3168e57078cd63ffa"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 15,
+              "line_end": 16,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 점별 구간이 전체 함수가 동시에 그 띠 안에 있을 확률과 같지는 않아요. Bayesian 구간은 엄밀히 credible interval로 읽어요.",
+              "sha256": "158f39aaf9fb5d1a5dfb60bf87d8ea6b0f229cba97c49126d613fca1e272f22e"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p3.html",
+              "line_start": 16,
+              "line_end": 19,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\theta_{MAP}=m_N$을 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 가우시안 posterior는 양의 정부호 공분산일 때 평균이 mode예요. 첫 줄 $\\theta_{MAP}=m_N$을 적어요. 검산 log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. 교과서에서 진한 구간은약67%, 옅은 구간은95%예요. 함수 f의 구간과 잡음을 더한 관측 y의 예측구간을 구별해요. posterior에서 θ를 뽑아 각 곡선 전체에 공유하므로 데이터와 prior를 반영한 함수들의 표본이에요. 조건·구분 음영은 각 입력점의 Bayesian credible interval로 읽으며, 함수 전체가 동시에 띠 안에 있을 확률과 같지는 않아요. 사전분포를 쓰지 않는 MLE 함수는 MAP·사후평균 함수와 다를 수 있어요.",
+              "sha256": "22ea662c98c8d2c707583ac034d70b2f78ec3d788de5a3f6b8d7d569e4ea534b"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Blind packet omitted panel(c)/caption; authentic current MML Figure9.10(c) now corroborates posterior sample provenance. Packet incompleteness remains recorded.",
+            "disclosed_status": "authentic_source_resolves_packet_gap",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "source_question": {
+        "id": "p4",
+        "title": "P4. 2차원 가우시안에서 한 변수만 보기",
+        "conditions_html": "두 변수 $x_1, x_2$의 결합분포가 2차원 가우시안이에요.\n  $$p(x_1, x_2) = \\mathcal{N}\\left(\\left[\\begin{matrix}1 \\\\ 2\\end{matrix}\\right], \\left[\\begin{matrix}0.5 \\\\ -1\\end{matrix}\\;\\;\\begin{matrix}-1 \\\\ 4\\end{matrix}\\right]\\right)$$\n  결합 가우시안에서 한 변수만 남긴 주변분포는 가우시안이고, 평균은 평균 벡터의 해당 성분, 분산은 공분산 행렬의 해당 대각 성분이라고 알려져 있어요. 그대로 써도 돼요.",
+        "ask_html": "$x_2$를 적분해서 없앤 주변분포 $p(x_1)$을 구해 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"The marginal distribution $p(x_1)$, in contrast, can be obtained by applying (6.68)\" — Example 6.6",
+        "input_sha256": "ac5d319edff021554a95e86c45b4751bea74f2852f80ffaf833dfe62b2098d31"
+      },
+      "current_sourcepack_input_sha256": "ac5d319edff021554a95e86c45b4751bea74f2852f80ffaf833dfe62b2098d31",
+      "frozen_input_sha256": "ac5d319edff021554a95e86c45b4751bea74f2852f80ffaf833dfe62b2098d31",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+      "current_fragment_sha256": "63f5dd32b989d7260c2661562396ebaf7d82557cef468daad231af28e21bf592",
+      "current_math_sha256": "d2af888a61ff2d424d39674c8484934a8190b8b406f80dfbf873b526cfc60b96",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "5fe5ded1c85be24b59ca14cb4181b1cba87beafc3ec0bb796b3d8ec0aa87aedf",
+      "current_summary_sha256": "f1d3af09403e5962011dc84aa10471954276711cb88f6182690478760bf14196",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+        "baseline_math_sha256": "d2af888a61ff2d424d39674c8484934a8190b8b406f80dfbf873b526cfc60b96",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "5fe5ded1c85be24b59ca14cb4181b1cba87beafc3ec0bb796b3d8ec0aa87aedf",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+          "line_start": 4,
+          "line_end": 10,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>결합 가우시안을 주변화해도 가우시안이에요. 그래서 $p(x_1)$은 평균과 분산만 정하면 돼요.</p>\n<p>평균 벡터 $E[\\mathbf{x}] = [E[x_1], E[x_2]]^\\top$의 첫 성분이 $x_1$의 평균이에요. $E[x_1] = 1$이에요.</p>\n<p>공분산 행렬의 대각 성분은 각 변수의 분산이에요. $(1,1)$ 성분이 $\\mathrm{cov}(x_1, x_1) = \\mathrm{var}[x_1] = 0.5$예요.</p>\n<p>비대각 성분 $-1$은 $x_1$과 $x_2$의 관계를 나타내요. $x_2$를 적분해 없애면 이 관계는 $x_1$만의 분포에 남지 않아요.</p>\n<p>따라서\n    $$p(x_1) = \\mathcal{N}(1, 0.5)$$</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 결합 가우시안을 주변화해도 가우시안이에요. 그래서 $p(x_1)$은 평균과 분산만 정하면 돼요. 평균 벡터 $E[\\mathbf{x}] = [E[x_1], E[x_2]]^\\top$의 첫 성분이 $x_1$의 평균이에요. $E[x_1] = 1$이에요. 공분산 행렬의 대각 성분은 각 변수의 분산이에요. $(1,1)$ 성분이 $\\mathrm{cov}(x_1, x_1) = \\mathrm{var}[x_1] = 0.5$예요. 비대각 성분 $-1$은 $x_1$과 $x_2$의 관계를 나타내요. $x_2$를 적분해 없애면 이 관계는 $x_1$만의 분포에 남지 않아요. 따라서 $$p(x_1) = \\mathcal{N}(1, 0.5)$$",
+          "sha256": "7c73298847a22f167bca8d87726da2c893ed61cbd815b366490870faa1cefd91"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+          "line_start": 10,
+          "line_end": 12,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요.</p>\n</div><p>정답: $p(x_1) = \\mathcal{N}(1, 0.5)$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요. 정답: $p(x_1) = \\mathcal{N}(1, 0.5)$",
+          "sha256": "855f100f9e8a8ab7192ac77a1a934e618b88985b595dbc4f8eb25fa6b9cbdd72"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+          "line_start": 12,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>조건부분산의 Schur complement를 주변분산에 쓰지 않아요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 조건부분산의 Schur complement를 주변분산에 쓰지 않아요.",
+          "sha256": "7ee62bc533ad49b401f438a2ef3833b73324aa826ccbc695232a16d0b43a3496"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+          "line_start": 13,
+          "line_end": 16,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>가우시안 주변화(Gaussian marginalization)는 관심 성분의 평균과 공분산 대각을 남겨요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\mu_1=1$, $\\Sigma_{11}=0.5$를 원 행렬에서 읽어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>다른 변수의 값을 조건으로 준 것이 아니라 적분으로 없앤 주변분포예요. 조건부분산의 Schur complement를 쓰지 않아요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 가우시안 주변화(Gaussian marginalization)는 관심 성분의 평균과 공분산 대각을 남겨요. 첫 줄 $\\mu_1=1$, $\\Sigma_{11}=0.5$를 원 행렬에서 읽어요. 검산 x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요. 조건·구분 다른 변수의 값을 조건으로 준 것이 아니라 적분으로 없앤 주변분포예요. 조건부분산의 Schur complement를 쓰지 않아요.",
+          "sha256": "f1d3af09403e5962011dc84aa10471954276711cb88f6182690478760bf14196"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p4",
+          "subpart_id": "main",
+          "frozen_input_sha256": "ac5d319edff021554a95e86c45b4751bea74f2852f80ffaf833dfe62b2098d31",
+          "current_sourcepack_input_sha256": "ac5d319edff021554a95e86c45b4751bea74f2852f80ffaf833dfe62b2098d31",
+          "current_math_sha256": "d2af888a61ff2d424d39674c8484934a8190b8b406f80dfbf873b526cfc60b96",
+          "current_fragment_sha256": "63f5dd32b989d7260c2661562396ebaf7d82557cef468daad231af28e21bf592",
+          "verdict": "consistent",
+          "comparison_reason": "Marginalization retains mean entry 1 and variance entry 1/2; determinant 1 and leading minor 1/2 confirm a valid joint Gaussian.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "exact",
+            "derivation": "Marginalizing a Gaussian retains mean entry μ1=1 and covariance entry Σ11=1/2.",
+            "conclusion": "p(x1)=N(x1|1,1/2)=π^(-1/2)exp[-(x1-1)²].",
+            "checks": "Σ=[[1/2,-1],[-1,4]] has determinant 1>0 and positive first leading minor. The marginal integrates to 1 by the Gaussian integral.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+              "line_start": 4,
+              "line_end": 10,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>결합 가우시안을 주변화해도 가우시안이에요. 그래서 $p(x_1)$은 평균과 분산만 정하면 돼요.</p>\n<p>평균 벡터 $E[\\mathbf{x}] = [E[x_1], E[x_2]]^\\top$의 첫 성분이 $x_1$의 평균이에요. $E[x_1] = 1$이에요.</p>\n<p>공분산 행렬의 대각 성분은 각 변수의 분산이에요. $(1,1)$ 성분이 $\\mathrm{cov}(x_1, x_1) = \\mathrm{var}[x_1] = 0.5$예요.</p>\n<p>비대각 성분 $-1$은 $x_1$과 $x_2$의 관계를 나타내요. $x_2$를 적분해 없애면 이 관계는 $x_1$만의 분포에 남지 않아요.</p>\n<p>따라서\n    $$p(x_1) = \\mathcal{N}(1, 0.5)$$</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 결합 가우시안을 주변화해도 가우시안이에요. 그래서 $p(x_1)$은 평균과 분산만 정하면 돼요. 평균 벡터 $E[\\mathbf{x}] = [E[x_1], E[x_2]]^\\top$의 첫 성분이 $x_1$의 평균이에요. $E[x_1] = 1$이에요. 공분산 행렬의 대각 성분은 각 변수의 분산이에요. $(1,1)$ 성분이 $\\mathrm{cov}(x_1, x_1) = \\mathrm{var}[x_1] = 0.5$예요. 비대각 성분 $-1$은 $x_1$과 $x_2$의 관계를 나타내요. $x_2$를 적분해 없애면 이 관계는 $x_1$만의 분포에 남지 않아요. 따라서 $$p(x_1) = \\mathcal{N}(1, 0.5)$$",
+              "sha256": "7c73298847a22f167bca8d87726da2c893ed61cbd815b366490870faa1cefd91"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+              "line_start": 10,
+              "line_end": 12,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요.</p>\n</div><p>정답: $p(x_1) = \\mathcal{N}(1, 0.5)$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요. 정답: $p(x_1) = \\mathcal{N}(1, 0.5)$",
+              "sha256": "855f100f9e8a8ab7192ac77a1a934e618b88985b595dbc4f8eb25fa6b9cbdd72"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>조건부분산의 Schur complement를 주변분산에 쓰지 않아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 조건부분산의 Schur complement를 주변분산에 쓰지 않아요.",
+              "sha256": "7ee62bc533ad49b401f438a2ef3833b73324aa826ccbc695232a16d0b43a3496"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p4.html",
+              "line_start": 13,
+              "line_end": 16,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>가우시안 주변화(Gaussian marginalization)는 관심 성분의 평균과 공분산 대각을 남겨요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\mu_1=1$, $\\Sigma_{11}=0.5$를 원 행렬에서 읽어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>다른 변수의 값을 조건으로 준 것이 아니라 적분으로 없앤 주변분포예요. 조건부분산의 Schur complement를 쓰지 않아요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 가우시안 주변화(Gaussian marginalization)는 관심 성분의 평균과 공분산 대각을 남겨요. 첫 줄 $\\mu_1=1$, $\\Sigma_{11}=0.5$를 원 행렬에서 읽어요. 검산 x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 그대로 가진 가우시안이에요. 비대각 공분산은 둘 사이의 관계지만 한 변수의 주변분산을 바꾸지 않아요. 조건·구분 다른 변수의 값을 조건으로 준 것이 아니라 적분으로 없앤 주변분포예요. 조건부분산의 Schur complement를 쓰지 않아요.",
+              "sha256": "f1d3af09403e5962011dc84aa10471954276711cb88f6182690478760bf14196"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "source_question": {
+        "id": "p5",
+        "title": "P5. 독립인 가우시안의 가중합 구하기",
+        "conditions_html": "서로 독립인 두 가우시안 확률변수가 있어요.\n  $$x \\sim \\mathcal{N}(1, 2), \\qquad y \\sim \\mathcal{N}(-1, 3)$$\n  상수 $a = 2$, $b = -1$로 가중합 $ax + by = 2x - y$를 만들어요.",
+        "ask_html": "$2x - y$의 분포를 구해 보세요. 평균과 분산을 함께 적어 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Since expectations are linear operations, we can obtain the weighted sum of independent Gaussian random variables\" — Example 6.7",
+        "input_sha256": "8cb33e916d882b42417be4df2a319adc34984c8e26dfd237ddc3e7594b9b27b2"
+      },
+      "current_sourcepack_input_sha256": "8cb33e916d882b42417be4df2a319adc34984c8e26dfd237ddc3e7594b9b27b2",
+      "frozen_input_sha256": "8cb33e916d882b42417be4df2a319adc34984c8e26dfd237ddc3e7594b9b27b2",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+      "current_fragment_sha256": "ca19e79f35c5c9f0b8b3f61898377619813837bef4e1fbc52663bcdf78ee497b",
+      "current_math_sha256": "3ad4bc9a850aa314efca8e074a673c0610bc37b95310db543e3c4fa3bc060b6f",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "b8d810250d512d0d96e8d3b14e587a84d2185896a7c82389fc5e34a644b48d1b",
+      "current_summary_sha256": "c81b824a4021b3728968d0bcec1fc81ef84b30dad9e2614788ecb0271d6d0d9a",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+        "baseline_math_sha256": "3ad4bc9a850aa314efca8e074a673c0610bc37b95310db543e3c4fa3bc060b6f",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "b8d810250d512d0d96e8d3b14e587a84d2185896a7c82389fc5e34a644b48d1b",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+          "line_start": 4,
+          "line_end": 12,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$2x$와 $-y$는 각각 가우시안의 상수배라서 가우시안이고, 서로 독립이에요. 독립인 가우시안의 합도 가우시안이니까 $2x - y$는 가우시안이에요. 평균과 분산만 구하면 돼요.</p>\n<p>기댓값은 선형이에요.\n    $$E[2x - y] = 2E[x] - E[y] = 2 \\cdot 1 - (-1) = 3$$</p>\n<p>상수배는 분산에서 제곱해서 나와요. $\\mathrm{var}[2x] = 2^2 \\cdot 2 = 8$, $\\mathrm{var}[-y] = (-1)^2 \\cdot 3 = 3$이에요.</p>\n<p>$x$와 $y$가 독립이라 공분산이 0이에요. 그래서 합의 분산은 분산의 합이에요.\n    $$\\mathrm{var}[2x - y] = a^2\\sigma_x^2 + b^2\\sigma_y^2 = 8 + 3 = 11$$</p>\n<p>따라서\n    $$2x - y \\sim \\mathcal{N}(3, 11)$$</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $2x$와 $-y$는 각각 가우시안의 상수배라서 가우시안이고, 서로 독립이에요. 독립인 가우시안의 합도 가우시안이니까 $2x - y$는 가우시안이에요. 평균과 분산만 구하면 돼요. 기댓값은 선형이에요. $$E[2x - y] = 2E[x] - E[y] = 2 \\cdot 1 - (-1) = 3$$ 상수배는 분산에서 제곱해서 나와요. $\\mathrm{var}[2x] = 2^2 \\cdot 2 = 8$, $\\mathrm{var}[-y] = (-1)^2 \\cdot 3 = 3$이에요. $x$와 $y$가 독립이라 공분산이 0이에요. 그래서 합의 분산은 분산의 합이에요. $$\\mathrm{var}[2x - y] = a^2\\sigma_x^2 + b^2\\sigma_y^2 = 8 + 3 = 11$$ 따라서 $$2x - y \\sim \\mathcal{N}(3, 11)$$",
+          "sha256": "b8ea25804072f2ab2670051b5f91f44ddfcefff49c5a19f4f0e318c912904e4e"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+          "line_start": 12,
+          "line_end": 14,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.</p>\n</div><p>정답: $2x - y \\sim \\mathcal{N}(3, 11)$ (평균 $3$, 분산 $11$)</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요. 정답: $2x - y \\sim \\mathcal{N}(3, 11)$ (평균 $3$, 분산 $11$)",
+          "sha256": "648d2bca0ad18b63e431dff884bf4171743de4fb272a9f69fea3557f28520ad7"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+          "line_start": 14,
+          "line_end": 15,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>빼기라고 분산3을 빼지 않아요. 독립이라 교차항이0이에요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 빼기라고 분산3을 빼지 않아요. 독립이라 교차항이0이에요.",
+          "sha256": "c77827c1f522cab4ffe9853d86bb0a53a80b2bde1c12d53efc8afe7608ac521d"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+          "line_start": 15,
+          "line_end": 18,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>독립 가우시안의 가중합은 가우시안이고 평균은 선형, 분산은 계수의 제곱으로 계산해요. $Var(2X-Y)=4Var(X)+Var(Y)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$E[2X-Y]=2E[X]-E[Y]$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.</p>\n</div></div>",
+          "quote_text": "떠올릴 개념·공식 독립 가우시안의 가중합은 가우시안이고 평균은 선형, 분산은 계수의 제곱으로 계산해요. $Var(2X-Y)=4Var(X)+Var(Y)$ 첫 줄 $E[2X-Y]=2E[X]-E[Y]$예요. 검산 조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.",
+          "sha256": "c81b824a4021b3728968d0bcec1fc81ef84b30dad9e2614788ecb0271d6d0d9a"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p5",
+          "subpart_id": "main",
+          "frozen_input_sha256": "8cb33e916d882b42417be4df2a319adc34984c8e26dfd237ddc3e7594b9b27b2",
+          "current_sourcepack_input_sha256": "8cb33e916d882b42417be4df2a319adc34984c8e26dfd237ddc3e7594b9b27b2",
+          "current_math_sha256": "3ad4bc9a850aa314efca8e074a673c0610bc37b95310db543e3c4fa3bc060b6f",
+          "current_fragment_sha256": "ca19e79f35c5c9f0b8b3f61898377619813837bef4e1fbc52663bcdf78ee497b",
+          "verdict": "consistent",
+          "comparison_reason": "Independent Gaussian mean 2(1)-(-1)=3 and variance 4(2)+3=11 agree, including the squared negative coefficient.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "exact",
+            "derivation": "E[2x-y]=2·1-(-1)=3. Independence gives Var(2x-y)=4·2+(-1)²·3=11. Independent Gaussian sums are Gaussian.",
+            "conclusion": "2x-y~N(3,11).",
+            "checks": "The second Gaussian parameter is interpreted as variance; the squared negative coefficient contributes positive variance.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+              "line_start": 4,
+              "line_end": 12,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$2x$와 $-y$는 각각 가우시안의 상수배라서 가우시안이고, 서로 독립이에요. 독립인 가우시안의 합도 가우시안이니까 $2x - y$는 가우시안이에요. 평균과 분산만 구하면 돼요.</p>\n<p>기댓값은 선형이에요.\n    $$E[2x - y] = 2E[x] - E[y] = 2 \\cdot 1 - (-1) = 3$$</p>\n<p>상수배는 분산에서 제곱해서 나와요. $\\mathrm{var}[2x] = 2^2 \\cdot 2 = 8$, $\\mathrm{var}[-y] = (-1)^2 \\cdot 3 = 3$이에요.</p>\n<p>$x$와 $y$가 독립이라 공분산이 0이에요. 그래서 합의 분산은 분산의 합이에요.\n    $$\\mathrm{var}[2x - y] = a^2\\sigma_x^2 + b^2\\sigma_y^2 = 8 + 3 = 11$$</p>\n<p>따라서\n    $$2x - y \\sim \\mathcal{N}(3, 11)$$</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $2x$와 $-y$는 각각 가우시안의 상수배라서 가우시안이고, 서로 독립이에요. 독립인 가우시안의 합도 가우시안이니까 $2x - y$는 가우시안이에요. 평균과 분산만 구하면 돼요. 기댓값은 선형이에요. $$E[2x - y] = 2E[x] - E[y] = 2 \\cdot 1 - (-1) = 3$$ 상수배는 분산에서 제곱해서 나와요. $\\mathrm{var}[2x] = 2^2 \\cdot 2 = 8$, $\\mathrm{var}[-y] = (-1)^2 \\cdot 3 = 3$이에요. $x$와 $y$가 독립이라 공분산이 0이에요. 그래서 합의 분산은 분산의 합이에요. $$\\mathrm{var}[2x - y] = a^2\\sigma_x^2 + b^2\\sigma_y^2 = 8 + 3 = 11$$ 따라서 $$2x - y \\sim \\mathcal{N}(3, 11)$$",
+              "sha256": "b8ea25804072f2ab2670051b5f91f44ddfcefff49c5a19f4f0e318c912904e4e"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+              "line_start": 12,
+              "line_end": 14,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.</p>\n</div><p>정답: $2x - y \\sim \\mathcal{N}(3, 11)$ (평균 $3$, 분산 $11$)</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요. 정답: $2x - y \\sim \\mathcal{N}(3, 11)$ (평균 $3$, 분산 $11$)",
+              "sha256": "648d2bca0ad18b63e431dff884bf4171743de4fb272a9f69fea3557f28520ad7"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>빼기라고 분산3을 빼지 않아요. 독립이라 교차항이0이에요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 빼기라고 분산3을 빼지 않아요. 독립이라 교차항이0이에요.",
+              "sha256": "c77827c1f522cab4ffe9853d86bb0a53a80b2bde1c12d53efc8afe7608ac521d"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p5.html",
+              "line_start": 15,
+              "line_end": 18,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>독립 가우시안의 가중합은 가우시안이고 평균은 선형, 분산은 계수의 제곱으로 계산해요. $Var(2X-Y)=4Var(X)+Var(Y)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$E[2X-Y]=2E[X]-E[Y]$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.</p>\n</div></div>",
+              "quote_text": "떠올릴 개념·공식 독립 가우시안의 가중합은 가우시안이고 평균은 선형, 분산은 계수의 제곱으로 계산해요. $Var(2X-Y)=4Var(X)+Var(Y)$ 첫 줄 $E[2X-Y]=2E[X]-E[Y]$예요. 검산 조건의 평균으로2μx−μy=3, 분산으로4×2+3=11이므로 N(3,11)이에요.",
+              "sha256": "c81b824a4021b3728968d0bcec1fc81ef84b30dad9e2614788ecb0271d6d0d9a"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "source_question": {
+        "id": "p6",
+        "title": "P6. 가우시안 혼합의 차원별 주변분포",
+        "conditions_html": "두 가우시안을 섞은 2차원 분포 $\\mathbf{x} = [x_1, x_2]^\\top$가 있어요.\n  $$p(\\mathbf{x}) = 0.4\\,\\mathcal{N}\\left(\\left[\\begin{matrix}10 \\\\ 2\\end{matrix}\\right], \\left[\\begin{matrix}1 \\\\ 0\\end{matrix}\\;\\;\\begin{matrix}0 \\\\ 1\\end{matrix}\\right]\\right) + 0.6\\,\\mathcal{N}\\left(\\left[\\begin{matrix}0 \\\\ 0\\end{matrix}\\right], \\left[\\begin{matrix}8.4 \\\\ 2.0\\end{matrix}\\;\\;\\begin{matrix}2.0 \\\\ 1.7\\end{matrix}\\right]\\right)$$\n  이 식은 성분 가우시안 둘을 $p_1(\\mathbf{x})$, $p_2(\\mathbf{x})$라 할 때 $p(\\mathbf{x}) = 0.4\\,p_1(\\mathbf{x}) + 0.6\\,p_2(\\mathbf{x})$라는 뜻이에요. $\\mathbf{x}$가 40% 확률로 첫째 성분에서, 60% 확률로 둘째 성분에서 나온다는 말이에요. 이런 가중합에 대한 적분과 기댓값은 각 성분에 대한 적분과 기댓값의 가중합으로 나뉘어요.\n  결합 가우시안에서 한 변수만 남긴 주변분포는 가우시안이고, 평균은 평균 벡터의 해당 성분, 분산은 공분산 행렬의 해당 대각 성분이라고 알려져 있어요. 그대로 써도 돼요.",
+        "ask_html": "각 차원의 주변분포 $p(x_1)$과 $p(x_2)$를 구해 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Consider a mixture of two Gaussian distributions\" … \"a. Compute the marginal distributions for each dimension.\" — Exercise 6.2",
+        "input_sha256": "0e1ade754d230f9684dd03b4aca3b2759a2bf79aec66b2d63b4064d2865ff975"
+      },
+      "current_sourcepack_input_sha256": "0e1ade754d230f9684dd03b4aca3b2759a2bf79aec66b2d63b4064d2865ff975",
+      "frozen_input_sha256": "0e1ade754d230f9684dd03b4aca3b2759a2bf79aec66b2d63b4064d2865ff975",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+      "current_fragment_sha256": "9c4041d845d47dae278375f697acc90b53e5f6d68d81f01ab6daa621aa4c139f",
+      "current_math_sha256": "5f786dbb0cd6f669b278eb3a7e24746829269a56a7e12ec0a2f100f779299601",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "9c1dd6da280482288906aa36d3c079adf6ec102021a86e28bbafadb3b516a99c",
+      "current_summary_sha256": "59a3e52791937147de5ec1948f3c35cefa2f377d952f085f0762750e0d616f7e",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+        "baseline_math_sha256": "5f786dbb0cd6f669b278eb3a7e24746829269a56a7e12ec0a2f100f779299601",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "9c1dd6da280482288906aa36d3c079adf6ec102021a86e28bbafadb3b516a99c",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+          "line_start": 4,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$p(x_1)$은 $x_2$를 적분해서 얻어요. 적분은 선형이라서 가중치가 그대로 밖으로 나와요.\n    $$p(x_1) = \\int p(\\mathbf{x})\\,dx_2 = 0.4\\int \\mathcal{N}_1(\\mathbf{x})\\,dx_2 + 0.6\\int \\mathcal{N}_2(\\mathbf{x})\\,dx_2$$\n    여기서 $\\mathcal{N}_1$, $\\mathcal{N}_2$는 첫째, 둘째 성분 가우시안이에요.</p>\n<p>결합 가우시안을 주변화하면 가우시안이고, 평균 벡터의 해당 성분과 공분산 행렬의 해당 대각 성분을 그대로 가져와요.</p>\n<p>첫째 성분에서 $x_1$의 평균은 $10$, 분산은 $1$이에요. 둘째 성분에서는 평균 $0$, 분산 $8.4$예요. 그래서\n    $$p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$$</p>\n<p>$x_2$도 같은 방법으로 $x_1$을 적분해요. 첫째 성분에서 평균 $2$, 분산 $1$, 둘째 성분에서 평균 $0$, 분산 $1.7$이에요. 그래서\n    $$p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$$</p>\n<p>비대각 성분 $2.0$은 $x_1$과 $x_2$의 관계라서 한 차원만 남긴 주변분포에는 들어가지 않아요. 두 결과 모두 가중치 합이 $0.4 + 0.6 = 1$이라 확률분포가 맞아요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $p(x_1)$은 $x_2$를 적분해서 얻어요. 적분은 선형이라서 가중치가 그대로 밖으로 나와요. $$p(x_1) = \\int p(\\mathbf{x})\\,dx_2 = 0.4\\int \\mathcal{N}_1(\\mathbf{x})\\,dx_2 + 0.6\\int \\mathcal{N}_2(\\mathbf{x})\\,dx_2$$ 여기서 $\\mathcal{N}_1$, $\\mathcal{N}_2$는 첫째, 둘째 성분 가우시안이에요. 결합 가우시안을 주변화하면 가우시안이고, 평균 벡터의 해당 성분과 공분산 행렬의 해당 대각 성분을 그대로 가져와요. 첫째 성분에서 $x_1$의 평균은 $10$, 분산은 $1$이에요. 둘째 성분에서는 평균 $0$, 분산 $8.4$예요. 그래서 $$p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$$ $x_2$도 같은 방법으로 $x_1$을 적분해요. 첫째 성분에서 평균 $2$, 분산 $1$, 둘째 성분에서 평균 $0$, 분산 $1.7$이에요. 그래서 $$p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$$ 비대각 성분 $2.0$은 $x_1$과 $x_2$의 관계라서 한 차원만 남긴 주변분포에는 들어가지 않아요. 두 결과 모두 가중치 합이 $0.4 + 0.6 = 1$이라 확률분포가 맞아요.",
+          "sha256": "441d2bb66b15744b6d9309f6225e42d4a0f294fb0bdda8b165ffd4c4297989a0"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+          "line_start": 13,
+          "line_end": 15,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요.</p>\n</div><p>정답: $p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$, $p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요. 정답: $p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$, $p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$",
+          "sha256": "2b7430ab084157a9ae340c28838975106cdf7101a5d75625e63c5ebb2aaab700"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+          "line_start": 15,
+          "line_end": 16,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>혼합 가중치0.4,0.6을 분산으로 곱한 단일가우시안으로 바꾸지 않아요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 혼합 가중치0.4,0.6을 분산으로 곱한 단일가우시안으로 바꾸지 않아요.",
+          "sha256": "7268ad3dc46b32e34ff82ce9e83abac15a4dc4d27ace5ec0f8285f702abf1722"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+          "line_start": 16,
+          "line_end": 19,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>혼합분포(mixture)의 주변화는 적분의 선형성으로 각 성분을 주변화한 뒤 같은 가중치로 섞어요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$p(x_1)=0.4\\int p_1(x)dx_2+0.6\\int p_2(x)dx_2$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>같은 가중치로 섞인 두 주변 가우시안의 혼합이며, 혼합 가중치를 분산에 곱한 단일 가우시안으로 바꾸지 않아요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 혼합분포(mixture)의 주변화는 적분의 선형성으로 각 성분을 주변화한 뒤 같은 가중치로 섞어요. 첫 줄 $p(x_1)=0.4\\int p_1(x)dx_2+0.6\\int p_2(x)dx_2$예요. 검산 x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요. 조건·구분 같은 가중치로 섞인 두 주변 가우시안의 혼합이며, 혼합 가중치를 분산에 곱한 단일 가우시안으로 바꾸지 않아요.",
+          "sha256": "59a3e52791937147de5ec1948f3c35cefa2f377d952f085f0762750e0d616f7e"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p6",
+          "subpart_id": "main",
+          "frozen_input_sha256": "0e1ade754d230f9684dd03b4aca3b2759a2bf79aec66b2d63b4064d2865ff975",
+          "current_sourcepack_input_sha256": "0e1ade754d230f9684dd03b4aca3b2759a2bf79aec66b2d63b4064d2865ff975",
+          "current_math_sha256": "5f786dbb0cd6f669b278eb3a7e24746829269a56a7e12ec0a2f100f779299601",
+          "current_fragment_sha256": "9c4041d845d47dae278375f697acc90b53e5f6d68d81f01ab6daa621aa4c139f",
+          "verdict": "consistent",
+          "comparison_reason": "Integrating each mixture component retains weights .4,.6 and marginal parameters (10,1)/(0,8.4) and (2,1)/(0,1.7). Each mixture normalizes to one.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "symbolic",
+            "derivation": "Integrate each mixture component over the discarded coordinate using linearity of integration and Gaussian marginalization. The mixture weights are unaffected because each integrated component remains normalized.",
+            "conclusion": "p(x1)=0.4N(x1|10,1)+0.6N(x1|0,8.4); p(x2)=0.4N(x2|2,1)+0.6N(x2|0,1.7).",
+            "checks": "Weights 0.4+0.6=1. Both component variances are positive. Second covariance determinant=8.4·1.7-4=10.28>0.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+              "line_start": 4,
+              "line_end": 13,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$p(x_1)$은 $x_2$를 적분해서 얻어요. 적분은 선형이라서 가중치가 그대로 밖으로 나와요.\n    $$p(x_1) = \\int p(\\mathbf{x})\\,dx_2 = 0.4\\int \\mathcal{N}_1(\\mathbf{x})\\,dx_2 + 0.6\\int \\mathcal{N}_2(\\mathbf{x})\\,dx_2$$\n    여기서 $\\mathcal{N}_1$, $\\mathcal{N}_2$는 첫째, 둘째 성분 가우시안이에요.</p>\n<p>결합 가우시안을 주변화하면 가우시안이고, 평균 벡터의 해당 성분과 공분산 행렬의 해당 대각 성분을 그대로 가져와요.</p>\n<p>첫째 성분에서 $x_1$의 평균은 $10$, 분산은 $1$이에요. 둘째 성분에서는 평균 $0$, 분산 $8.4$예요. 그래서\n    $$p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$$</p>\n<p>$x_2$도 같은 방법으로 $x_1$을 적분해요. 첫째 성분에서 평균 $2$, 분산 $1$, 둘째 성분에서 평균 $0$, 분산 $1.7$이에요. 그래서\n    $$p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$$</p>\n<p>비대각 성분 $2.0$은 $x_1$과 $x_2$의 관계라서 한 차원만 남긴 주변분포에는 들어가지 않아요. 두 결과 모두 가중치 합이 $0.4 + 0.6 = 1$이라 확률분포가 맞아요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $p(x_1)$은 $x_2$를 적분해서 얻어요. 적분은 선형이라서 가중치가 그대로 밖으로 나와요. $$p(x_1) = \\int p(\\mathbf{x})\\,dx_2 = 0.4\\int \\mathcal{N}_1(\\mathbf{x})\\,dx_2 + 0.6\\int \\mathcal{N}_2(\\mathbf{x})\\,dx_2$$ 여기서 $\\mathcal{N}_1$, $\\mathcal{N}_2$는 첫째, 둘째 성분 가우시안이에요. 결합 가우시안을 주변화하면 가우시안이고, 평균 벡터의 해당 성분과 공분산 행렬의 해당 대각 성분을 그대로 가져와요. 첫째 성분에서 $x_1$의 평균은 $10$, 분산은 $1$이에요. 둘째 성분에서는 평균 $0$, 분산 $8.4$예요. 그래서 $$p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$$ $x_2$도 같은 방법으로 $x_1$을 적분해요. 첫째 성분에서 평균 $2$, 분산 $1$, 둘째 성분에서 평균 $0$, 분산 $1.7$이에요. 그래서 $$p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$$ 비대각 성분 $2.0$은 $x_1$과 $x_2$의 관계라서 한 차원만 남긴 주변분포에는 들어가지 않아요. 두 결과 모두 가중치 합이 $0.4 + 0.6 = 1$이라 확률분포가 맞아요.",
+              "sha256": "441d2bb66b15744b6d9309f6225e42d4a0f294fb0bdda8b165ffd4c4297989a0"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+              "line_start": 13,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요.</p>\n</div><p>정답: $p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$, $p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요. 정답: $p(x_1) = 0.4\\,\\mathcal{N}(10, 1) + 0.6\\,\\mathcal{N}(0, 8.4)$, $p(x_2) = 0.4\\,\\mathcal{N}(2, 1) + 0.6\\,\\mathcal{N}(0, 1.7)$",
+              "sha256": "2b7430ab084157a9ae340c28838975106cdf7101a5d75625e63c5ebb2aaab700"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+              "line_start": 15,
+              "line_end": 16,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>혼합 가중치0.4,0.6을 분산으로 곱한 단일가우시안으로 바꾸지 않아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 혼합 가중치0.4,0.6을 분산으로 곱한 단일가우시안으로 바꾸지 않아요.",
+              "sha256": "7268ad3dc46b32e34ff82ce9e83abac15a4dc4d27ace5ec0f8285f702abf1722"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p6.html",
+              "line_start": 16,
+              "line_end": 19,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>혼합분포(mixture)의 주변화는 적분의 선형성으로 각 성분을 주변화한 뒤 같은 가중치로 섞어요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$p(x_1)=0.4\\int p_1(x)dx_2+0.6\\int p_2(x)dx_2$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>같은 가중치로 섞인 두 주변 가우시안의 혼합이며, 혼합 가중치를 분산에 곱한 단일 가우시안으로 바꾸지 않아요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 혼합분포(mixture)의 주변화는 적분의 선형성으로 각 성분을 주변화한 뒤 같은 가중치로 섞어요. 첫 줄 $p(x_1)=0.4\\int p_1(x)dx_2+0.6\\int p_2(x)dx_2$예요. 검산 x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은가중치합1이고 성분평균·대각분산이 보존돼요. 조건·구분 같은 가중치로 섞인 두 주변 가우시안의 혼합이며, 혼합 가중치를 분산에 곱한 단일 가우시안으로 바꾸지 않아요.",
+              "sha256": "59a3e52791937147de5ec1948f3c35cefa2f377d952f085f0762750e0d616f7e"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "source_question": {
+        "id": "p7",
+        "title": "P7. 가우시안 혼합의 평균",
+        "conditions_html": "두 가우시안을 섞은 2차원 분포 $\\mathbf{x} = [x_1, x_2]^\\top$가 있어요.\n  $$p(\\mathbf{x}) = 0.4\\,\\mathcal{N}\\left(\\left[\\begin{matrix}10 \\\\ 2\\end{matrix}\\right], \\left[\\begin{matrix}1 \\\\ 0\\end{matrix}\\;\\;\\begin{matrix}0 \\\\ 1\\end{matrix}\\right]\\right) + 0.6\\,\\mathcal{N}\\left(\\left[\\begin{matrix}0 \\\\ 0\\end{matrix}\\right], \\left[\\begin{matrix}8.4 \\\\ 2.0\\end{matrix}\\;\\;\\begin{matrix}2.0 \\\\ 1.7\\end{matrix}\\right]\\right)$$\n  이 식은 성분 가우시안 둘을 $p_1(\\mathbf{x})$, $p_2(\\mathbf{x})$라 할 때 $p(\\mathbf{x}) = 0.4\\,p_1(\\mathbf{x}) + 0.6\\,p_2(\\mathbf{x})$라는 뜻이에요. $\\mathbf{x}$가 40% 확률로 첫째 성분에서, 60% 확률로 둘째 성분에서 나온다는 말이에요. 이런 가중합에 대한 적분과 기댓값은 각 성분에 대한 적분과 기댓값의 가중합으로 나뉘어요.",
+        "ask_html": "<ol><li>(a) 각 차원의 평균 $E[x_1]$, $E[x_2]$를 구해 보세요.</li><li>(b) 2차원 분포의 평균 벡터 $E[\\mathbf{x}]$를 적어 보세요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Consider a mixture of two Gaussian distributions\" … \"Compute the mean\" — Exercise 6.2",
+        "input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6"
+      },
+      "current_sourcepack_input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+      "frozen_input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+      "current_fragment_sha256": "0717da79320746df8fc93eb58806fcff53439a6fa4cb7d20579a71547d024d6d",
+      "current_math_sha256": "db2c03a7fc04a54b394d53fd086efe48858c33b6889c90169bf550d883d6cdbd",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "2b515ad9cdf593d1cee5e57d589a895b932ed79502d23a2d4fb788480bdb8c2d",
+      "current_summary_sha256": "c69c61d0104de10bde55ba0e327a3c6ba568860a9019de889b6aab9e58fdfe78",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+        "baseline_math_sha256": "db2c03a7fc04a54b394d53fd086efe48858c33b6889c90169bf550d883d6cdbd",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "2b515ad9cdf593d1cee5e57d589a895b932ed79502d23a2d4fb788480bdb8c2d",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+          "line_start": 4,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><p>평균의 정의에 혼합식을 넣고, 적분의 선형성으로 나눠요.\n    $$E[\\mathbf{x}] = \\int \\mathbf{x}\\,p(\\mathbf{x})\\,d\\mathbf{x} = 0.4\\int \\mathbf{x}\\,\\mathcal{N}_1(\\mathbf{x})\\,d\\mathbf{x} + 0.6\\int \\mathbf{x}\\,\\mathcal{N}_2(\\mathbf{x})\\,d\\mathbf{x}$$</p>\n<p>각 적분은 성분 가우시안의 평균 벡터예요. 그래서\n    $$E[\\mathbf{x}] = 0.4\\left[\\begin{matrix}10 \\\\ 2\\end{matrix}\\right] + 0.6\\left[\\begin{matrix}0 \\\\ 0\\end{matrix}\\right]$$</p>\n<div data-subpart=\"a\"><h4>(a)</h4><p>랜덤 벡터의 평균은 성분마다 평균이에요. 성분별로 계산하면\n    $$E[x_1] = 0.4 \\cdot 10 + 0.6 \\cdot 0 = 4$$\n    $$E[x_2] = 0.4 \\cdot 2 + 0.6 \\cdot 0 = 0.8$$</p>\n</div><div data-subpart=\"b\"><h4>(b)</h4><p>두 값을 세로로 모으면 평균 벡터예요.\n    $$E[\\mathbf{x}] = [4, 0.8]^\\top$$</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 평균의 정의에 혼합식을 넣고, 적분의 선형성으로 나눠요. $$E[\\mathbf{x}] = \\int \\mathbf{x}\\,p(\\mathbf{x})\\,d\\mathbf{x} = 0.4\\int \\mathbf{x}\\,\\mathcal{N}_1(\\mathbf{x})\\,d\\mathbf{x} + 0.6\\int \\mathbf{x}\\,\\mathcal{N}_2(\\mathbf{x})\\,d\\mathbf{x}$$ 각 적분은 성분 가우시안의 평균 벡터예요. 그래서 $$E[\\mathbf{x}] = 0.4\\left[\\begin{matrix}10 \\\\ 2\\end{matrix}\\right] + 0.6\\left[\\begin{matrix}0 \\\\ 0\\end{matrix}\\right]$$ (a) 랜덤 벡터의 평균은 성분마다 평균이에요. 성분별로 계산하면 $$E[x_1] = 0.4 \\cdot 10 + 0.6 \\cdot 0 = 4$$ $$E[x_2] = 0.4 \\cdot 2 + 0.6 \\cdot 0 = 0.8$$ (b) 두 값을 세로로 모으면 평균 벡터예요. $$E[\\mathbf{x}] = [4, 0.8]^\\top$$",
+          "sha256": "0b7a2ad4a25febe9a4186438afa73a3eabef746059bc15812035a7e2cef4b4d4"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+          "line_start": 13,
+          "line_end": 16,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"a\"><h4>(a) 검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요.</p>\n</div><div data-subpart=\"b\"><h4>(b) 검산</h4><p>두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>\n</div><p>정답: (a) $E[x_1] = 4$, $E[x_2] = 0.8$ (b) $E[\\mathbf{x}] = [4, 0.8]^\\top$</p>\n</div>",
+          "quote_text": "완성 답과 검산 (a) 검산 각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. (b) 검산 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요. 정답: (a) $E[x_1] = 4$, $E[x_2] = 0.8$ (b) $E[\\mathbf{x}] = [4, 0.8]^\\top$",
+          "sha256": "9b39bbba8885e62147f37a0a073b89265ece96e2da546e6f556e16f2ca749d7b"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+          "line_start": 16,
+          "line_end": 17,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.",
+          "sha256": "b07d458a6ac082a8dec5202475f2fcd271bf7e58306afbd09cec1e43bb79765d"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+          "line_start": 17,
+          "line_end": 20,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\\sum_k\\pi_k\\mu_k$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$E[x]=0.4[10,2]^\\top+0.6[0,0]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>선택확률로 평균을 가중하는 규칙을 공분산에 그대로 쓰지 않아요. 성분 사이 평균 차이도 분산에 기여하지만 이 문제는 평균만 구해요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\\sum_k\\pi_k\\mu_k$ 첫 줄 $E[x]=0.4[10,2]^\\top+0.6[0,0]^\\top$예요. 검산 각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요. 조건·구분 선택확률로 평균을 가중하는 규칙을 공분산에 그대로 쓰지 않아요. 성분 사이 평균 차이도 분산에 기여하지만 이 문제는 평균만 구해요.",
+          "sha256": "c69c61d0104de10bde55ba0e327a3c6ba568860a9019de889b6aab9e58fdfe78"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p7",
+          "subpart_id": "a",
+          "frozen_input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+          "current_sourcepack_input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+          "current_math_sha256": "db2c03a7fc04a54b394d53fd086efe48858c33b6889c90169bf550d883d6cdbd",
+          "current_fragment_sha256": "0717da79320746df8fc93eb58806fcff53439a6fa4cb7d20579a71547d024d6d",
+          "verdict": "consistent",
+          "comparison_reason": "Mixture-weighted means are 4 and .8.",
+          "frozen_independent_result": {
+            "subpart_id": "a",
+            "method": "exact",
+            "derivation": "Linearity over the mixture gives E[x1]=0.4·10+0.6·0 and E[x2]=0.4·2+0.6·0.",
+            "conclusion": "E[x1]=4, E[x2]=0.8.",
+            "checks": "The weights sum to one; covariance entries do not change these first moments.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 8,
+              "line_end": 11,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a)</h4><p>랜덤 벡터의 평균은 성분마다 평균이에요. 성분별로 계산하면\n    $$E[x_1] = 0.4 \\cdot 10 + 0.6 \\cdot 0 = 4$$\n    $$E[x_2] = 0.4 \\cdot 2 + 0.6 \\cdot 0 = 0.8$$</p>\n</div>",
+              "quote_text": "(a) 랜덤 벡터의 평균은 성분마다 평균이에요. 성분별로 계산하면 $$E[x_1] = 0.4 \\cdot 10 + 0.6 \\cdot 0 = 4$$ $$E[x_2] = 0.4 \\cdot 2 + 0.6 \\cdot 0 = 0.8$$",
+              "sha256": "6ca57516941de5c10ebb940796df73c9df09e328957c513ea016992b566ee8d0"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 13,
+              "line_end": 14,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a) 검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요.</p>\n</div>",
+              "quote_text": "(a) 검산 각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요.",
+              "sha256": "045140fbc8a82b9d78ca95a8ebbbec6bc85d610bd85cd32494abac7f892c5108"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 16,
+              "line_end": 17,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.",
+              "sha256": "b07d458a6ac082a8dec5202475f2fcd271bf7e58306afbd09cec1e43bb79765d"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 17,
+              "line_end": 20,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\\sum_k\\pi_k\\mu_k$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$E[x]=0.4[10,2]^\\top+0.6[0,0]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>선택확률로 평균을 가중하는 규칙을 공분산에 그대로 쓰지 않아요. 성분 사이 평균 차이도 분산에 기여하지만 이 문제는 평균만 구해요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\\sum_k\\pi_k\\mu_k$ 첫 줄 $E[x]=0.4[10,2]^\\top+0.6[0,0]^\\top$예요. 검산 각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요. 조건·구분 선택확률로 평균을 가중하는 규칙을 공분산에 그대로 쓰지 않아요. 성분 사이 평균 차이도 분산에 기여하지만 이 문제는 평균만 구해요.",
+              "sha256": "c69c61d0104de10bde55ba0e327a3c6ba568860a9019de889b6aab9e58fdfe78"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "1007",
+          "question_id": "p7",
+          "subpart_id": "b",
+          "frozen_input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+          "current_sourcepack_input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+          "current_math_sha256": "db2c03a7fc04a54b394d53fd086efe48858c33b6889c90169bf550d883d6cdbd",
+          "current_fragment_sha256": "0717da79320746df8fc93eb58806fcff53439a6fa4cb7d20579a71547d024d6d",
+          "verdict": "consistent",
+          "comparison_reason": "Stacking these coordinate means gives [4,.8]^T, a 2x1 vector.",
+          "frozen_independent_result": {
+            "subpart_id": "b",
+            "method": "exact",
+            "derivation": "Expectation of a vector is the vector of coordinate expectations.",
+            "conclusion": "E[x]=(4,0.8)ᵀ.",
+            "checks": "2×1 column vector.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 11,
+              "line_end": 13,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b)</h4><p>두 값을 세로로 모으면 평균 벡터예요.\n    $$E[\\mathbf{x}] = [4, 0.8]^\\top$$</p>\n</div>",
+              "quote_text": "(b) 두 값을 세로로 모으면 평균 벡터예요. $$E[\\mathbf{x}] = [4, 0.8]^\\top$$",
+              "sha256": "382c76c0645e39d3e3425e08491a5a7af7e9e975679bca6445e14bcd8c693138"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b) 검산</h4><p>두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>\n</div>",
+              "quote_text": "(b) 검산 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.",
+              "sha256": "7b3f7bd0664384bb636a1017b52a4464b2db546dfbef8d795be9a64c0084e859"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 16,
+              "line_end": 17,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 성분 간 평균 차이가 분산에도 기여하지만 이 문제는 평균만 구해요.",
+              "sha256": "b07d458a6ac082a8dec5202475f2fcd271bf7e58306afbd09cec1e43bb79765d"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p7.html",
+              "line_start": 17,
+              "line_end": 20,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\\sum_k\\pi_k\\mu_k$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$E[x]=0.4[10,2]^\\top+0.6[0,0]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>선택확률로 평균을 가중하는 규칙을 공분산에 그대로 쓰지 않아요. 성분 사이 평균 차이도 분산에 기여하지만 이 문제는 평균만 구해요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 혼합의 평균은 성분 선택변수에 대한 반복 기댓값이에요. $E[X]=\\sum_k\\pi_k\\mu_k$ 첫 줄 $E[x]=0.4[10,2]^\\top+0.6[0,0]^\\top$예요. 검산 각 차원은4와0.8이에요. 주변혼합에서 평균을 따로 계산해도 같아요. 두 평균을 열벡터로 모으면[4,0.8]ᵀ예요. 공분산 행렬의 비대각은 평균 계산에 들어가지 않아요. 조건·구분 선택확률로 평균을 가중하는 규칙을 공분산에 그대로 쓰지 않아요. 성분 사이 평균 차이도 분산에 기여하지만 이 문제는 평균만 구해요.",
+              "sha256": "c69c61d0104de10bde55ba0e327a3c6ba568860a9019de889b6aab9e58fdfe78"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "source_question": {
+        "id": "p8",
+        "title": "P8. 두 가우시안 밀도의 곱: 완전제곱식으로 유도하기",
+        "conditions_html": "$\\mathbf{x} \\in \\mathbb{R}^D$에 대한 두 가우시안 밀도 $\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})$와 $\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B})$가 있어요. $\\mathbf{A}$, $\\mathbf{B}$는 공분산 행렬이라 대칭이고 역행렬이 있어요. $\\mathbf{A}^{-1} + \\mathbf{B}^{-1}$도 대칭이고 양의 정부호(그래서 역행렬이 있음)라는 사실은 그대로 써도 돼요.\n  두 밀도의 곱은 정규화되지 않은 가우시안이에요.\n  $$\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})\\,\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B}) \\propto \\mathcal{N}(\\mathbf{x} \\mid \\mathbf{c}, \\mathbf{C})$$\n  여기서 $\\propto$는 \"$\\mathbf{x}$와 무관한 상수 배를 빼면 같다\"는 뜻이에요.",
+        "ask_html": "완전제곱식을 만들어서 아래 두 식이 성립함을 보여 보세요.\n  $$\\mathbf{C} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$$\n  $$\\mathbf{c} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$$",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"The product of two Gaussians $\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})\\,\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B})$ is an unnormalized Gaussian distribution\" … \"a. By completing the square\" — Exercise 6.10",
+        "input_sha256": "81ee2920b26221f6245981786286990bef48678cb596bb667aa667a391774c7f"
+      },
+      "current_sourcepack_input_sha256": "81ee2920b26221f6245981786286990bef48678cb596bb667aa667a391774c7f",
+      "frozen_input_sha256": "81ee2920b26221f6245981786286990bef48678cb596bb667aa667a391774c7f",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+      "current_fragment_sha256": "2333a209e85b84ef63776e85064795f8444c1d086596b43391cb63fcc721382a",
+      "current_math_sha256": "c67aae2288419601e6265be6abcdf3b1e80df8a9a40389e730ca74e23a53feb8",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "8642bdd7b540189e8db56ae8f9094806f2a83cdd180816fee446ebaf9701cd78",
+      "current_summary_sha256": "8233cc118fe4cf328b0c1334b98e19651ee1b08b66f0d293c7e50ede0faef291",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+        "baseline_math_sha256": "c67aae2288419601e6265be6abcdf3b1e80df8a9a40389e730ca74e23a53feb8",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "8642bdd7b540189e8db56ae8f9094806f2a83cdd180816fee446ebaf9701cd78",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/문제설명_1007_Product_of_Gaussians.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+          "line_start": 4,
+          "line_end": 25,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>두 이차형식을 따로 이름 붙여요. $$Q_A=(\\mathbf{x}-\\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x}-\\mathbf{a})$$ $$Q_B=(\\mathbf{x}-\\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x}-\\mathbf{b})$$ 두 밀도의 곱을 $P(\\mathbf{x})$라고 하면, 입력과 무관한 정규화 상수를 제외하고 $$P(\\mathbf{x})\\propto\\exp\\left(-\\frac12(Q_A+Q_B)\\right)$$예요. 곱의 지수를 더한다는 뜻이에요.</p>\n<p>첫째 이차형식을 펼쳐요. $\\mathbf{A}^{-1}$이 대칭이라 $\\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{a} = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{x}$예요.\n    $$(\\mathbf{x} - \\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x} - \\mathbf{a}) = \\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{x} - 2(\\mathbf{A}^{-1}\\mathbf{a})^\\top\\mathbf{x} + \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a}$$\n    둘째도 같은 꼴이에요.\n    $$(\\mathbf{x} - \\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x} - \\mathbf{b}) = \\mathbf{x}^\\top\\mathbf{B}^{-1}\\mathbf{x} - 2(\\mathbf{B}^{-1}\\mathbf{b})^\\top\\mathbf{x} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$</p>\n<p>더해서 묶어요. $\\boldsymbol{\\Lambda} = \\mathbf{A}^{-1} + \\mathbf{B}^{-1}$, $\\boldsymbol{\\eta} = \\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b}$로 두면\n    $$[\\cdots] = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma$$이고, 상수항은 $$\\gamma = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$\n    스칼라 렘마의 $\\alpha$ 자리에 $\\boldsymbol{\\Lambda}$, $\\beta$ 자리에 $\\boldsymbol{\\eta}$가 왔어요.</p>\n<p>완전제곱식을 만들어요. $\\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$로 두고 펼쳐 봐요. $\\boldsymbol{\\Lambda}$가 대칭이라 $\\mathbf{m}^\\top\\boldsymbol{\\Lambda} = \\boldsymbol{\\eta}^\\top$이에요.\n    $$(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$$\n    그래서 같은 수를 더하고 빼면\n    $$\\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma = (\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) + \\left(\\gamma - \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}\\right)$$</p>\n<p>괄호 안 상수는 $\\mathbf{x}$와 무관하니 앞쪽 상수로 넘겨요.\n    $$\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})\\,\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B}) \\propto \\exp\\left(-\\frac{1}{2}(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m})\\right)$$</p>\n<p>가우시안 PDF의 지수 $-\\frac{1}{2}(\\mathbf{x} - \\boldsymbol{\\mu})^\\top\\Sigma^{-1}(\\mathbf{x} - \\boldsymbol{\\mu})$와 맞춰 보면 $\\Sigma^{-1} = \\boldsymbol{\\Lambda}$, $\\boldsymbol{\\mu} = \\mathbf{m}$이에요. 그러니\n    $$\\mathbf{C} = \\boldsymbol{\\Lambda}^{-1} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$$\n    $$\\mathbf{c} = \\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$$</p>\n<p>1차원으로 확인해요. $\\mathbf{A} = \\nu_0$, $\\mathbf{B} = \\nu_1$, $\\mathbf{a} = \\mu_0$, $\\mathbf{b} = \\mu_1$을 넣으면\n    $$C = \\left(\\frac{1}{\\nu_0} + \\frac{1}{\\nu_1}\\right)^{-1} = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}$$\n    $$c = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}\\left(\\frac{\\mu_0}{\\nu_0} + \\frac{\\mu_1}{\\nu_1}\\right) = \\frac{\\nu_1\\mu_0 + \\nu_0\\mu_1}{\\nu_0 + \\nu_1}$$\n    스칼라 곱 공식과 같은 결과가 나와요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 두 이차형식을 따로 이름 붙여요. $$Q_A=(\\mathbf{x}-\\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x}-\\mathbf{a})$$ $$Q_B=(\\mathbf{x}-\\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x}-\\mathbf{b})$$ 두 밀도의 곱을 $P(\\mathbf{x})$라고 하면, 입력과 무관한 정규화 상수를 제외하고 $$P(\\mathbf{x})\\propto\\exp\\left(-\\frac12(Q_A+Q_B)\\right)$$예요. 곱의 지수를 더한다는 뜻이에요. 첫째 이차형식을 펼쳐요. $\\mathbf{A}^{-1}$이 대칭이라 $\\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{a} = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{x}$예요. $$(\\mathbf{x} - \\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x} - \\mathbf{a}) = \\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{x} - 2(\\mathbf{A}^{-1}\\mathbf{a})^\\top\\mathbf{x} + \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a}$$ 둘째도 같은 꼴이에요. $$(\\mathbf{x} - \\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x} - \\mathbf{b}) = \\mathbf{x}^\\top\\mathbf{B}^{-1}\\mathbf{x} - 2(\\mathbf{B}^{-1}\\mathbf{b})^\\top\\mathbf{x} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$ 더해서 묶어요. $\\boldsymbol{\\Lambda} = \\mathbf{A}^{-1} + \\mathbf{B}^{-1}$, $\\boldsymbol{\\eta} = \\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b}$로 두면 $$[\\cdots] = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma$$이고, 상수항은 $$\\gamma = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$ 스칼라 렘마의 $\\alpha$ 자리에 $\\boldsymbol{\\Lambda}$, $\\beta$ 자리에 $\\boldsymbol{\\eta}$가 왔어요. 완전제곱식을 만들어요. $\\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$로 두고 펼쳐 봐요. $\\boldsymbol{\\Lambda}$가 대칭이라 $\\mathbf{m}^\\top\\boldsymbol{\\Lambda} = \\boldsymbol{\\eta}^\\top$이에요. $$(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$$ 그래서 같은 수를 더하고 빼면 $$\\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma = (\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) + \\left(\\gamma - \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}\\right)$$ 괄호 안 상수는 $\\mathbf{x}$와 무관하니 앞쪽 상수로 넘겨요. $$\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})\\,\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B}) \\propto \\exp\\left(-\\frac{1}{2}(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m})\\right)$$ 가우시안 PDF의 지수 $-\\frac{1}{2}(\\mathbf{x} - \\boldsymbol{\\mu})^\\top\\Sigma^{-1}(\\mathbf{x} - \\boldsymbol{\\mu})$와 맞춰 보면 $\\Sigma^{-1} = \\boldsymbol{\\Lambda}$, $\\boldsymbol{\\mu} = \\mathbf{m}$이에요. 그러니 $$\\mathbf{C} = \\boldsymbol{\\Lambda}^{-1} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$$ $$\\mathbf{c} = \\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$$ 1차원으로 확인해요. $\\mathbf{A} = \\nu_0$, $\\mathbf{B} = \\nu_1$, $\\mathbf{a} = \\mu_0$, $\\mathbf{b} = \\mu_1$을 넣으면 $$C = \\left(\\frac{1}{\\nu_0} + \\frac{1}{\\nu_1}\\right)^{-1} = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}$$ $$c = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}\\left(\\frac{\\mu_0}{\\nu_0} + \\frac{\\mu_1}{\\nu_1}\\right) = \\frac{\\nu_1\\mu_0 + \\nu_0\\mu_1}{\\nu_0 + \\nu_1}$$ 스칼라 곱 공식과 같은 결과가 나와요.",
+          "sha256": "5f95bead130559cecb375c52386e063c56c15c2ee17efefb8465bf009f466982"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+          "line_start": 25,
+          "line_end": 27,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.</p>\n</div><p>정답: $\\mathbf{C} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$, $\\mathbf{c} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요. 정답: $\\mathbf{C} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$, $\\mathbf{c} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$",
+          "sha256": "7abaf85d20a5cf5453fb21baac883fdb97bd6fe9fb28af377b24fac2b9d85704"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+          "line_start": 27,
+          "line_end": 28,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.",
+          "sha256": "1d8d89c200158952ee7b74d11e9348747830e4371473c7c5abcf8d141566be2b"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+          "line_start": 28,
+          "line_end": 31,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\Lambda=A^{-1}+B^{-1}$, $\\eta=A^{-1}a+B^{-1}b$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>양의 정부호 공분산과 정밀도 합의 역행렬 조건을 써요. 밀도 곱은 일반적으로 적분 $1$이 아니므로 $\\propto$를 $=$로 바꾸지 않아요. 공분산은 $A+B$가 아니라 정밀도 합의 역행렬이에요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요. 첫 줄 $\\Lambda=A^{-1}+B^{-1}$, $\\eta=A^{-1}a+B^{-1}b$예요. 검산 m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요. 조건·구분 양의 정부호 공분산과 정밀도 합의 역행렬 조건을 써요. 밀도 곱은 일반적으로 적분 $1$이 아니므로 $\\propto$를 $=$로 바꾸지 않아요. 공분산은 $A+B$가 아니라 정밀도 합의 역행렬이에요.",
+          "sha256": "8233cc118fe4cf328b0c1334b98e19651ee1b08b66f0d293c7e50ede0faef291"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "1007",
+          "question_id": "p8",
+          "subpart_id": "main",
+          "frozen_input_sha256": "81ee2920b26221f6245981786286990bef48678cb596bb667aa667a391774c7f",
+          "current_sourcepack_input_sha256": "81ee2920b26221f6245981786286990bef48678cb596bb667aa667a391774c7f",
+          "current_math_sha256": "c67aae2288419601e6265be6abcdf3b1e80df8a9a40389e730ca74e23a53feb8",
+          "current_fragment_sha256": "2333a209e85b84ef63776e85064795f8444c1d086596b43391cb63fcc721382a",
+          "verdict": "consistent",
+          "comparison_reason": "General symmetric positive-definite precision sum and vector eta give C=(A^-1+B^-1)^-1 and c=C eta. Both complete-square derivations preserve matrix order and an x-independent constant, correctly retaining proportionality rather than equality.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "proof",
+            "derivation": "Let H=A⁻¹+B⁻¹, h=A⁻¹a+B⁻¹b and k=aᵀA⁻¹a+bᵀB⁻¹b. Expanding both exponents gives xᵀHx-2hᵀx+k. Set C=H⁻¹ and c=Ch, so Hc=h. Then xᵀHx-2hᵀx+k=(x-c)ᵀH(x-c)+k-cᵀHc. The final two terms are independent of x, so normalizing the product leaves Gaussian N(c,C).",
+            "conclusion": "C=(A⁻¹+B⁻¹)⁻¹; c=C(A⁻¹a+B⁻¹b).",
+            "checks": "C is D×D and positive definite, c:D×1. Normalized density is (2π)^(-D/2)|C|^(-1/2) exp[-(x-c)ᵀC⁻¹(x-c)/2]. No commutativity of A and B was used.",
+            "assumptions": [],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+              "line_start": 4,
+              "line_end": 25,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>두 이차형식을 따로 이름 붙여요. $$Q_A=(\\mathbf{x}-\\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x}-\\mathbf{a})$$ $$Q_B=(\\mathbf{x}-\\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x}-\\mathbf{b})$$ 두 밀도의 곱을 $P(\\mathbf{x})$라고 하면, 입력과 무관한 정규화 상수를 제외하고 $$P(\\mathbf{x})\\propto\\exp\\left(-\\frac12(Q_A+Q_B)\\right)$$예요. 곱의 지수를 더한다는 뜻이에요.</p>\n<p>첫째 이차형식을 펼쳐요. $\\mathbf{A}^{-1}$이 대칭이라 $\\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{a} = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{x}$예요.\n    $$(\\mathbf{x} - \\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x} - \\mathbf{a}) = \\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{x} - 2(\\mathbf{A}^{-1}\\mathbf{a})^\\top\\mathbf{x} + \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a}$$\n    둘째도 같은 꼴이에요.\n    $$(\\mathbf{x} - \\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x} - \\mathbf{b}) = \\mathbf{x}^\\top\\mathbf{B}^{-1}\\mathbf{x} - 2(\\mathbf{B}^{-1}\\mathbf{b})^\\top\\mathbf{x} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$</p>\n<p>더해서 묶어요. $\\boldsymbol{\\Lambda} = \\mathbf{A}^{-1} + \\mathbf{B}^{-1}$, $\\boldsymbol{\\eta} = \\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b}$로 두면\n    $$[\\cdots] = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma$$이고, 상수항은 $$\\gamma = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$\n    스칼라 렘마의 $\\alpha$ 자리에 $\\boldsymbol{\\Lambda}$, $\\beta$ 자리에 $\\boldsymbol{\\eta}$가 왔어요.</p>\n<p>완전제곱식을 만들어요. $\\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$로 두고 펼쳐 봐요. $\\boldsymbol{\\Lambda}$가 대칭이라 $\\mathbf{m}^\\top\\boldsymbol{\\Lambda} = \\boldsymbol{\\eta}^\\top$이에요.\n    $$(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$$\n    그래서 같은 수를 더하고 빼면\n    $$\\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma = (\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) + \\left(\\gamma - \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}\\right)$$</p>\n<p>괄호 안 상수는 $\\mathbf{x}$와 무관하니 앞쪽 상수로 넘겨요.\n    $$\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})\\,\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B}) \\propto \\exp\\left(-\\frac{1}{2}(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m})\\right)$$</p>\n<p>가우시안 PDF의 지수 $-\\frac{1}{2}(\\mathbf{x} - \\boldsymbol{\\mu})^\\top\\Sigma^{-1}(\\mathbf{x} - \\boldsymbol{\\mu})$와 맞춰 보면 $\\Sigma^{-1} = \\boldsymbol{\\Lambda}$, $\\boldsymbol{\\mu} = \\mathbf{m}$이에요. 그러니\n    $$\\mathbf{C} = \\boldsymbol{\\Lambda}^{-1} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$$\n    $$\\mathbf{c} = \\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$$</p>\n<p>1차원으로 확인해요. $\\mathbf{A} = \\nu_0$, $\\mathbf{B} = \\nu_1$, $\\mathbf{a} = \\mu_0$, $\\mathbf{b} = \\mu_1$을 넣으면\n    $$C = \\left(\\frac{1}{\\nu_0} + \\frac{1}{\\nu_1}\\right)^{-1} = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}$$\n    $$c = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}\\left(\\frac{\\mu_0}{\\nu_0} + \\frac{\\mu_1}{\\nu_1}\\right) = \\frac{\\nu_1\\mu_0 + \\nu_0\\mu_1}{\\nu_0 + \\nu_1}$$\n    스칼라 곱 공식과 같은 결과가 나와요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 두 이차형식을 따로 이름 붙여요. $$Q_A=(\\mathbf{x}-\\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x}-\\mathbf{a})$$ $$Q_B=(\\mathbf{x}-\\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x}-\\mathbf{b})$$ 두 밀도의 곱을 $P(\\mathbf{x})$라고 하면, 입력과 무관한 정규화 상수를 제외하고 $$P(\\mathbf{x})\\propto\\exp\\left(-\\frac12(Q_A+Q_B)\\right)$$예요. 곱의 지수를 더한다는 뜻이에요. 첫째 이차형식을 펼쳐요. $\\mathbf{A}^{-1}$이 대칭이라 $\\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{a} = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{x}$예요. $$(\\mathbf{x} - \\mathbf{a})^\\top\\mathbf{A}^{-1}(\\mathbf{x} - \\mathbf{a}) = \\mathbf{x}^\\top\\mathbf{A}^{-1}\\mathbf{x} - 2(\\mathbf{A}^{-1}\\mathbf{a})^\\top\\mathbf{x} + \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a}$$ 둘째도 같은 꼴이에요. $$(\\mathbf{x} - \\mathbf{b})^\\top\\mathbf{B}^{-1}(\\mathbf{x} - \\mathbf{b}) = \\mathbf{x}^\\top\\mathbf{B}^{-1}\\mathbf{x} - 2(\\mathbf{B}^{-1}\\mathbf{b})^\\top\\mathbf{x} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$ 더해서 묶어요. $\\boldsymbol{\\Lambda} = \\mathbf{A}^{-1} + \\mathbf{B}^{-1}$, $\\boldsymbol{\\eta} = \\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b}$로 두면 $$[\\cdots] = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma$$이고, 상수항은 $$\\gamma = \\mathbf{a}^\\top\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{b}^\\top\\mathbf{B}^{-1}\\mathbf{b}$$ 스칼라 렘마의 $\\alpha$ 자리에 $\\boldsymbol{\\Lambda}$, $\\beta$ 자리에 $\\boldsymbol{\\eta}$가 왔어요. 완전제곱식을 만들어요. $\\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$로 두고 펼쳐 봐요. $\\boldsymbol{\\Lambda}$가 대칭이라 $\\mathbf{m}^\\top\\boldsymbol{\\Lambda} = \\boldsymbol{\\eta}^\\top$이에요. $$(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) = \\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}$$ 그래서 같은 수를 더하고 빼면 $$\\mathbf{x}^\\top\\boldsymbol{\\Lambda}\\mathbf{x} - 2\\boldsymbol{\\eta}^\\top\\mathbf{x} + \\gamma = (\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m}) + \\left(\\gamma - \\boldsymbol{\\eta}^\\top\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta}\\right)$$ 괄호 안 상수는 $\\mathbf{x}$와 무관하니 앞쪽 상수로 넘겨요. $$\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{a}, \\mathbf{A})\\,\\mathcal{N}(\\mathbf{x} \\mid \\mathbf{b}, \\mathbf{B}) \\propto \\exp\\left(-\\frac{1}{2}(\\mathbf{x} - \\mathbf{m})^\\top\\boldsymbol{\\Lambda}(\\mathbf{x} - \\mathbf{m})\\right)$$ 가우시안 PDF의 지수 $-\\frac{1}{2}(\\mathbf{x} - \\boldsymbol{\\mu})^\\top\\Sigma^{-1}(\\mathbf{x} - \\boldsymbol{\\mu})$와 맞춰 보면 $\\Sigma^{-1} = \\boldsymbol{\\Lambda}$, $\\boldsymbol{\\mu} = \\mathbf{m}$이에요. 그러니 $$\\mathbf{C} = \\boldsymbol{\\Lambda}^{-1} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$$ $$\\mathbf{c} = \\mathbf{m} = \\boldsymbol{\\Lambda}^{-1}\\boldsymbol{\\eta} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$$ 1차원으로 확인해요. $\\mathbf{A} = \\nu_0$, $\\mathbf{B} = \\nu_1$, $\\mathbf{a} = \\mu_0$, $\\mathbf{b} = \\mu_1$을 넣으면 $$C = \\left(\\frac{1}{\\nu_0} + \\frac{1}{\\nu_1}\\right)^{-1} = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}$$ $$c = \\frac{\\nu_0\\nu_1}{\\nu_0 + \\nu_1}\\left(\\frac{\\mu_0}{\\nu_0} + \\frac{\\mu_1}{\\nu_1}\\right) = \\frac{\\nu_1\\mu_0 + \\nu_0\\mu_1}{\\nu_0 + \\nu_1}$$ 스칼라 곱 공식과 같은 결과가 나와요.",
+              "sha256": "5f95bead130559cecb375c52386e063c56c15c2ee17efefb8465bf009f466982"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+              "line_start": 25,
+              "line_end": 27,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.</p>\n</div><p>정답: $\\mathbf{C} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$, $\\mathbf{c} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요. 정답: $\\mathbf{C} = (\\mathbf{A}^{-1} + \\mathbf{B}^{-1})^{-1}$, $\\mathbf{c} = \\mathbf{C}(\\mathbf{A}^{-1}\\mathbf{a} + \\mathbf{B}^{-1}\\mathbf{b})$",
+              "sha256": "7abaf85d20a5cf5453fb21baac883fdb97bd6fe9fb28af377b24fac2b9d85704"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+              "line_start": 27,
+              "line_end": 28,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.",
+              "sha256": "1d8d89c200158952ee7b74d11e9348747830e4371473c7c5abcf8d141566be2b"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/1007/.pack/자료_문제설명_1007_Product_of_Gaussians/fragments/p8.html",
+              "line_start": 28,
+              "line_end": 31,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\Lambda=A^{-1}+B^{-1}$, $\\eta=A^{-1}a+B^{-1}b$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>양의 정부호 공분산과 정밀도 합의 역행렬 조건을 써요. 밀도 곱은 일반적으로 적분 $1$이 아니므로 $\\propto$를 $=$로 바꾸지 않아요. 공분산은 $A+B$가 아니라 정밀도 합의 역행렬이에요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요. 첫 줄 $\\Lambda=A^{-1}+B^{-1}$, $\\eta=A^{-1}a+B^{-1}b$예요. 검산 m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요. 조건·구분 양의 정부호 공분산과 정밀도 합의 역행렬 조건을 써요. 밀도 곱은 일반적으로 적분 $1$이 아니므로 $\\propto$를 $=$로 바꾸지 않아요. 공분산은 $A+B$가 아니라 정밀도 합의 역행렬이에요.",
+              "sha256": "8233cc118fe4cf328b0c1334b98e19651ee1b08b66f0d293c7e50ede0faef291"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "questions": 8,
+    "subparts": 13
+  },
+  "frozen_pack_unresolved_retained": [],
+  "status": "comparison_complete_no_product_approval"
+}

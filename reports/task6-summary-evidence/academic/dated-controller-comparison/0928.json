@@ -1,0 +1,1521 @@
+{
+  "pack_id": "0928",
+  "current_pack_id": "review-0928-Linear_Regression",
+  "frozen_results_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/자구알/.superpowers/sdd/2026-10-20-course-html-summary-panels/academic/dated-group1/results.json",
+  "frozen_results_file_sha256": "a6daca0a50213c1975944399623d8e03c3962d1896f983aa48969d511f960368",
+  "source_packet_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0928/questions.json",
+  "source_packet_file_sha256": "8b9d98456fdf0513cada7a328c98b6120222a80b7bb103d472ccd74213c0b5ed",
+  "packet_payload_sha256": "6483420e88252aabf685d9c62cb6f29e6717b59ee72fbf5a2076fa2348490756",
+  "question_payload_sha256": "dbd98d5122eeb68e10c0a9c0a7e4b92aa6f098d6b05bce0682220c5f75b8e759",
+  "current_source_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/복습문제_0928_Linear_Regression.html",
+  "current_source_sha256": "73ec702cd6ce6531c2e4ba32bbb1502d80fe0c964fe48e7e4450e494c27aa334",
+  "active_fragment_directory": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments",
+  "identity_and_coverage": "Verified canonical per-question, question-array, packet, and frozen file hashes; exact question ID and subpart sets; actual current SourcePack question fields byte-for-byte canonical identity.",
+  "questions": [
+    {
+      "id": "p1",
+      "source_question": {
+        "id": "p1",
+        "title": "P1. 2차 다항식의 특징행렬 쓰기",
+        "conditions_html": "입력이 스칼라인 훈련 데이터 $N = 3$개가 있어요: $x_1 = -1$, $x_2 = 1$, $x_3 = 2$.\n  ",
+        "ask_html": "2차 다항식 특징 $\\boldsymbol{\\phi}(x) = [1, x, x^2]^\\top$을 쓸 때, 특징행렬 $\\boldsymbol{\\Phi}$를 숫자로 적어 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"For a second-order polynomial and $N$ training points $x_n \\in \\mathbb{R}$, $n = 1, \\dots, N$, the feature matrix is\" — Example 9.4",
+        "input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421"
+      },
+      "current_sourcepack_input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+      "frozen_input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+      "current_fragment_sha256": "45e36c6b521b4a933430b40c6e986fa071bc89f462e55139d36ede29a120011a",
+      "current_math_sha256": "9feae97ee9e65c1e86e354cc6448528409d6bed660d7ecd7e8457e80b4baa911",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "62148b8e8b3358b260d77261b9a80c35aa9a9d6b0ba3cf508ab9631d2d43aea2",
+      "current_summary_sha256": "60a43a710b73022b43ad155e49ea15d882a5526a8aa712fbc1f10c177bbe9113",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+        "baseline_math_sha256": "9feae97ee9e65c1e86e354cc6448528409d6bed660d7ecd7e8457e80b4baa911",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "62148b8e8b3358b260d77261b9a80c35aa9a9d6b0ba3cf508ab9631d2d43aea2",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+          "line_start": 4,
+          "line_end": 10,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>특징이 $1, x, x^2$ 세 개라서 $K = 3$이고, 행은 데이터 수만큼 $N = 3$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{3 \\times 3}$이에요.</p>\n<p>$\\Phi_{ij} = \\phi_j(x_i)$이므로 $i$번째 행에 $[1, x_i, x_i^2]$를 적어요.</p>\n<p>$x_1 = -1$이면 $[1, -1, 1]$, $x_2 = 1$이면 $[1, 1, 1]$, $x_3 = 2$이면 $[1, 2, 4]$예요.</p>\n<p>세 행을 위에서부터 쌓아요.\n    $$\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 &amp; -1 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 \\\\ 1 &amp; 2 &amp; 4 \\end{bmatrix}$$</p>\n<p>수업과의 연결: 0928 수업에서 \"첫 행은 $\\mathbf{x}_1$로, 마지막 행은 $\\mathbf{x}_N$으로 만든다\"고 한 특징행렬 $\\Phi_{ij} = \\phi_j(\\mathbf{x}_i)$를 숫자로 채워 본 거예요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 특징이 $1, x, x^2$ 세 개라서 $K = 3$이고, 행은 데이터 수만큼 $N = 3$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{3 \\times 3}$이에요. $\\Phi_{ij} = \\phi_j(x_i)$이므로 $i$번째 행에 $[1, x_i, x_i^2]$를 적어요. $x_1 = -1$이면 $[1, -1, 1]$, $x_2 = 1$이면 $[1, 1, 1]$, $x_3 = 2$이면 $[1, 2, 4]$예요. 세 행을 위에서부터 쌓아요. $$\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 & -1 & 1 \\\\ 1 & 1 & 1 \\\\ 1 & 2 & 4 \\end{bmatrix}$$ 수업과의 연결: 0928 수업에서 \"첫 행은 $\\mathbf{x}_1$로, 마지막 행은 $\\mathbf{x}_N$으로 만든다\"고 한 특징행렬 $\\Phi_{ij} = \\phi_j(\\mathbf{x}_i)$를 숫자로 채워 본 거예요.",
+          "sha256": "b882fa6ebf5bc557a59f2db208e0386994ee2084d07a1ea43de4c9d6151392f8"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+          "line_start": 10,
+          "line_end": 12,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>\n</div><p>정답: $\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 &amp; -1 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 \\\\ 1 &amp; 2 &amp; 4 \\end{bmatrix}$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요. 정답: $\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 & -1 & 1 \\\\ 1 & 1 & 1 \\\\ 1 & 2 & 4 \\end{bmatrix}$",
+          "sha256": "4823e874e870fd49b4bede8edcb91ef583d20a52a54588b0c9b67dcddde04902"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+          "line_start": 12,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>−1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 −1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.",
+          "sha256": "1957325e2c5a0694079aee922011514d2f6b309a634446b323642e661bf987dc"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+          "line_start": 13,
+          "line_end": 16,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\\Phi_{ij}=\\phi_j(x_i)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>2차식은 상수항까지 $K=3$이므로 $N=3$일 때 $\\Phi$는 $3\\times3$이에요. 데이터별 특징을 열로 쌓으면 전치된 다른 행렬이 돼요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\\Phi_{ij}=\\phi_j(x_i)$ 첫 줄 첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요. 검산 각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요. 조건·구분 2차식은 상수항까지 $K=3$이므로 $N=3$일 때 $\\Phi$는 $3\\times3$이에요. 데이터별 특징을 열로 쌓으면 전치된 다른 행렬이 돼요.",
+          "sha256": "60a43a710b73022b43ad155e49ea15d882a5526a8aa712fbc1f10c177bbe9113"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p1",
+          "subpart_id": "main",
+          "frozen_input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+          "current_sourcepack_input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+          "current_math_sha256": "9feae97ee9e65c1e86e354cc6448528409d6bed660d7ecd7e8457e80b4baa911",
+          "current_fragment_sha256": "45e36c6b521b4a933430b40c6e986fa071bc89f462e55139d36ede29a120011a",
+          "verdict": "consistent",
+          "comparison_reason": "Stacking feature rows at -1,1,2 gives [[1,-1,1],[1,1,1],[1,2,4]], size 3x3.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "exact",
+            "derivation": [
+              "The nth row is phi(x_n)^T=(1,x_n,x_n^2).",
+              "For -1 the row is (1,-1,1); for 1 it is (1,1,1); for 2 it is (1,2,4)."
+            ],
+            "conclusion": "Phi=[[1,-1,1],[1,1,1],[1,2,4]].",
+            "checks": [
+              "N=3 rows and K=3 columns, so Phi is 3x3.",
+              "The inputs are distinct; Vandermonde determinant (1-(-1))*(2-(-1))*(2-1)=6, confirming independence of the columns."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+              "line_start": 4,
+              "line_end": 10,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>특징이 $1, x, x^2$ 세 개라서 $K = 3$이고, 행은 데이터 수만큼 $N = 3$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{3 \\times 3}$이에요.</p>\n<p>$\\Phi_{ij} = \\phi_j(x_i)$이므로 $i$번째 행에 $[1, x_i, x_i^2]$를 적어요.</p>\n<p>$x_1 = -1$이면 $[1, -1, 1]$, $x_2 = 1$이면 $[1, 1, 1]$, $x_3 = 2$이면 $[1, 2, 4]$예요.</p>\n<p>세 행을 위에서부터 쌓아요.\n    $$\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 &amp; -1 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 \\\\ 1 &amp; 2 &amp; 4 \\end{bmatrix}$$</p>\n<p>수업과의 연결: 0928 수업에서 \"첫 행은 $\\mathbf{x}_1$로, 마지막 행은 $\\mathbf{x}_N$으로 만든다\"고 한 특징행렬 $\\Phi_{ij} = \\phi_j(\\mathbf{x}_i)$를 숫자로 채워 본 거예요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 특징이 $1, x, x^2$ 세 개라서 $K = 3$이고, 행은 데이터 수만큼 $N = 3$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{3 \\times 3}$이에요. $\\Phi_{ij} = \\phi_j(x_i)$이므로 $i$번째 행에 $[1, x_i, x_i^2]$를 적어요. $x_1 = -1$이면 $[1, -1, 1]$, $x_2 = 1$이면 $[1, 1, 1]$, $x_3 = 2$이면 $[1, 2, 4]$예요. 세 행을 위에서부터 쌓아요. $$\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 & -1 & 1 \\\\ 1 & 1 & 1 \\\\ 1 & 2 & 4 \\end{bmatrix}$$ 수업과의 연결: 0928 수업에서 \"첫 행은 $\\mathbf{x}_1$로, 마지막 행은 $\\mathbf{x}_N$으로 만든다\"고 한 특징행렬 $\\Phi_{ij} = \\phi_j(\\mathbf{x}_i)$를 숫자로 채워 본 거예요.",
+              "sha256": "b882fa6ebf5bc557a59f2db208e0386994ee2084d07a1ea43de4c9d6151392f8"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+              "line_start": 10,
+              "line_end": 12,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>\n</div><p>정답: $\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 &amp; -1 &amp; 1 \\\\ 1 &amp; 1 &amp; 1 \\\\ 1 &amp; 2 &amp; 4 \\end{bmatrix}$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요. 정답: $\\boldsymbol{\\Phi} = \\begin{bmatrix} 1 & -1 & 1 \\\\ 1 & 1 & 1 \\\\ 1 & 2 & 4 \\end{bmatrix}$",
+              "sha256": "4823e874e870fd49b4bede8edcb91ef583d20a52a54588b0c9b67dcddde04902"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>−1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 −1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.",
+              "sha256": "1957325e2c5a0694079aee922011514d2f6b309a634446b323642e661bf987dc"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p1.html",
+              "line_start": 13,
+              "line_end": 16,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\\Phi_{ij}=\\phi_j(x_i)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>2차식은 상수항까지 $K=3$이므로 $N=3$일 때 $\\Phi$는 $3\\times3$이에요. 데이터별 특징을 열로 쌓으면 전치된 다른 행렬이 돼요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\\Phi_{ij}=\\phi_j(x_i)$ 첫 줄 첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요. 검산 각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요. 조건·구분 2차식은 상수항까지 $K=3$이므로 $N=3$일 때 $\\Phi$는 $3\\times3$이에요. 데이터별 특징을 열로 쌓으면 전치된 다른 행렬이 돼요.",
+              "sha256": "60a43a710b73022b43ad155e49ea15d882a5526a8aa712fbc1f10c177bbe9113"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "source_question": {
+        "id": "p2",
+        "title": "P2. 3차 다항식 최대우도 적합 준비하기",
+        "conditions_html": "데이터셋이 $N = 8$개의 쌍 $(x_n, y_n)$으로 이뤄져 있어요. $x_n \\sim \\mathcal{U}[-5, 5]$이고 $y_n = -\\sin(x_n/5) + \\cos(x_n) + \\epsilon$, $\\epsilon \\sim \\mathcal{N}(0, 0.2^2)$이에요.\n  ",
+        "ask_html": "이 데이터에 3차 다항식을 최대우도 추정으로 맞추려고 해요.\n  <ol><li>(a) 특징 벡터 $\\boldsymbol{\\phi}(x)$의 길이 $K$는 얼마인가요?</li><li>(b) 특징행렬 $\\boldsymbol{\\Phi}$의 크기는 얼마인가요?</li><li>(c) 최대우도 해 $\\boldsymbol{\\theta}_{\\text{ML}}$을 $\\boldsymbol{\\Phi}$와 $\\mathbf{y}$로 적어 보세요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"We fit a polynomial of degree 4 using maximum likelihood estimation\" — Example 9.5",
+        "input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002"
+      },
+      "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+      "frozen_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+      "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+      "current_math_sha256": "58b692bcfd9937057db885fa029714b7fbdf16e9c626ff068f9a2662bd4c313c",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "836f14fba179d020d8f46ca0c5c96525b35663ea1baa66c372b4765c154a0d97",
+      "current_summary_sha256": "0dc582fc51dbf9fa71bcc2860408a9ce17f93224428825152cbe715b2aa2bbc0",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+        "baseline_math_sha256": "58b692bcfd9937057db885fa029714b7fbdf16e9c626ff068f9a2662bd4c313c",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "836f14fba179d020d8f46ca0c5c96525b35663ea1baa66c372b4765c154a0d97",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+          "line_start": 4,
+          "line_end": 10,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"a\"><h4>(a)</h4><p>3차 다항식의 특징은 $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3]^\\top$이에요. 항이 네 개라서 $K = 4$예요.</p>\n</div><div data-subpart=\"b\"><h4>(b)</h4><p>행은 데이터 수 $N = 8$개, 열은 특징 수 $K = 4$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{8 \\times 4}$이고, $n$번째 행은 $[1, x_n, x_n^2, x_n^3]$이에요.</p>\n</div><div data-subpart=\"c\"><h4>(c)</h4><p>음의 로그우도는 $\\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|^2 + \\text{const}$예요. 이걸 $\\boldsymbol{\\theta}$로 미분해 0으로 두면\n    $$\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$</p>\n<p>이때 $\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi}$는 $4 \\times 4$라서 역행렬 계산이 작아요.</p>\n<p>수업과의 연결: 0928 수업에서 \"3차면 $K = 4$\"라고 한 말과, $\\mathbf{X}$ 자리에 $\\boldsymbol{\\Phi}$를 넣은 유사역행렬 해를 그대로 쓴 거예요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 (a) 3차 다항식의 특징은 $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3]^\\top$이에요. 항이 네 개라서 $K = 4$예요. (b) 행은 데이터 수 $N = 8$개, 열은 특징 수 $K = 4$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{8 \\times 4}$이고, $n$번째 행은 $[1, x_n, x_n^2, x_n^3]$이에요. (c) 음의 로그우도는 $\\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|^2 + \\text{const}$예요. 이걸 $\\boldsymbol{\\theta}$로 미분해 0으로 두면 $$\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$ 이때 $\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi}$는 $4 \\times 4$라서 역행렬 계산이 작아요. 수업과의 연결: 0928 수업에서 \"3차면 $K = 4$\"라고 한 말과, $\\mathbf{X}$ 자리에 $\\boldsymbol{\\Phi}$를 넣은 유사역행렬 해를 그대로 쓴 거예요.",
+          "sha256": "4ae6894d082995d3c5861e038a7103bdb6b0ceb0453119c0357186d2b6f1cbe3"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+          "line_start": 10,
+          "line_end": 14,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"a\"><h4>(a) 검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요.</p>\n</div><div data-subpart=\"b\"><h4>(b) 검산</h4><p>8개 입력에 각각4특징을 만들므로8×4예요.</p>\n</div><div data-subpart=\"c\"><h4>(c) 검산</h4><p>미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>\n</div><p>정답: (a) $K = 4$ (b) $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{8 \\times 4}$ (c) $\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$</p>\n</div>",
+          "quote_text": "완성 답과 검산 (a) 검산 최고차수가3이어도 상수항 포함 K=4예요. (b) 검산 8개 입력에 각각4특징을 만들므로8×4예요. (c) 검산 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요. 정답: (a) $K = 4$ (b) $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{8 \\times 4}$ (c) $\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$",
+          "sha256": "380d2bd45a43ec3c45bf6de9cde748bd7597298ccc8c1700b11ed361a44d749d"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+          "line_start": 14,
+          "line_end": 15,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.",
+          "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+          "line_start": 15,
+          "line_end": 18,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\phi(x)=[1,x,x^2,x^3]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$ 첫 줄 $\\phi(x)=[1,x,x^2,x^3]^\\top$예요. 검산 최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요. 조건·구분 표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.",
+          "sha256": "0dc582fc51dbf9fa71bcc2860408a9ce17f93224428825152cbe715b2aa2bbc0"
+        }
+      },
+      "frozen_question_unresolved": [
+        "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5.",
+        "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+      ],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p2",
+          "subpart_id": "a",
+          "frozen_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "current_math_sha256": "58b692bcfd9937057db885fa029714b7fbdf16e9c626ff068f9a2662bd4c313c",
+          "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "Current conditions explicitly ask for degree 3, giving four coefficients; historical original quotation says degree 4. Current reference also explicitly uses degree 3.",
+          "frozen_independent_result": {
+            "subpart_id": "a",
+            "method": "exact",
+            "derivation": [
+              "The explicit ask specifies a cubic polynomial, hence powers 0,1,2,3."
+            ],
+            "conclusion": "K=4; phi(x)=(1,x,x^2,x^3)^T.",
+            "checks": [
+              "Polynomial degree 3 has four coefficients including the intercept."
+            ],
+            "unresolved": [
+              "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5."
+            ]
+          },
+          "frozen_unresolved_retained": [
+            "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5."
+          ],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 4,
+              "line_end": 5,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a)</h4><p>3차 다항식의 특징은 $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3]^\\top$이에요. 항이 네 개라서 $K = 4$예요.</p>\n</div>",
+              "quote_text": "(a) 3차 다항식의 특징은 $\\boldsymbol{\\phi}(x) = [1, x, x^2, x^3]^\\top$이에요. 항이 네 개라서 $K = 4$예요.",
+              "sha256": "3731b7fbf23e41a76818dac1a3ac27ac24e6edf235b4b771d83ed9daca3a3a3c"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 10,
+              "line_end": 11,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a) 검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요.</p>\n</div>",
+              "quote_text": "(a) 검산 최고차수가3이어도 상수항 포함 K=4예요.",
+              "sha256": "63912a402455e78b5f9727c060653a04b644a419d891b08428d2360b3da1eb5c"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.",
+              "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 15,
+              "line_end": 18,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\phi(x)=[1,x,x^2,x^3]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$ 첫 줄 $\\phi(x)=[1,x,x^2,x^3]^\\top$예요. 검산 최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요. 조건·구분 표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.",
+              "sha256": "0dc582fc51dbf9fa71bcc2860408a9ce17f93224428825152cbe715b2aa2bbc0"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Current degree 3 adaptation is explicit in current conditions and solve; the historical original quote degree 4 is different.",
+            "disclosed_status": "explicit_current_adaptation",
+            "limitation_fully_explicit_in_non_summary_baseline": true,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "0928",
+          "question_id": "p2",
+          "subpart_id": "b",
+          "frozen_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "current_math_sha256": "58b692bcfd9937057db885fa029714b7fbdf16e9c626ff068f9a2662bd4c313c",
+          "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "For the current degree-3 adaptation, 8 observations by 4 features gives an 8x4 design, not the historical degree-4 design 8x5.",
+          "frozen_independent_result": {
+            "subpart_id": "b",
+            "method": "exact",
+            "derivation": [
+              "Stack N=8 row vectors phi(x_n)^T of length 4."
+            ],
+            "conclusion": "Phi has size 8x4.",
+            "checks": [
+              "y is 8x1, theta is 4x1, and Phi theta is 8x1."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 5,
+              "line_end": 6,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b)</h4><p>행은 데이터 수 $N = 8$개, 열은 특징 수 $K = 4$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{8 \\times 4}$이고, $n$번째 행은 $[1, x_n, x_n^2, x_n^3]$이에요.</p>\n</div>",
+              "quote_text": "(b) 행은 데이터 수 $N = 8$개, 열은 특징 수 $K = 4$개예요. 그래서 $\\boldsymbol{\\Phi} \\in \\mathbb{R}^{8 \\times 4}$이고, $n$번째 행은 $[1, x_n, x_n^2, x_n^3]$이에요.",
+              "sha256": "992c176494e9d9e0d9b01c85d5b704669fb81d205ea667c22c1e435527610220"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 11,
+              "line_end": 12,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b) 검산</h4><p>8개 입력에 각각4특징을 만들므로8×4예요.</p>\n</div>",
+              "quote_text": "(b) 검산 8개 입력에 각각4특징을 만들므로8×4예요.",
+              "sha256": "4b0a0fb6ac834471b70037ccbcca567b90c8958c9eb94645df823a18d15013ae"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.",
+              "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 15,
+              "line_end": 18,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\phi(x)=[1,x,x^2,x^3]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$ 첫 줄 $\\phi(x)=[1,x,x^2,x^3]^\\top$예요. 검산 최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요. 조건·구분 표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.",
+              "sha256": "0dc582fc51dbf9fa71bcc2860408a9ce17f93224428825152cbe715b2aa2bbc0"
+            }
+          ],
+          "source_qualification": {
+            "issue": "The 8x4 answer is for current degree 3, not historical degree 4.",
+            "disclosed_status": "explicit_current_adaptation",
+            "limitation_fully_explicit_in_non_summary_baseline": true,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "0928",
+          "question_id": "p2",
+          "subpart_id": "c",
+          "frozen_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "current_sourcepack_input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "current_math_sha256": "58b692bcfd9937057db885fa029714b7fbdf16e9c626ff068f9a2662bd4c313c",
+          "current_fragment_sha256": "e40f4cf63ca62aaaa8a489a2c355b575467c693f24eec1e7a7bf3e9e6e2fab2f",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "The normal equation and inverse formula agree only for full column rank. Current verify/pitfall disclose four distinct inputs as sufficient and a generalized inverse/nonuniqueness alternative when rank deficient. Marginal Uniform draws alone do not prove rank.",
+          "frozen_independent_result": {
+            "subpart_id": "c",
+            "method": "proof",
+            "derivation": [
+              "With independent common Gaussian observation variance sigma^2=0.04, negative log likelihood equals ||y-Phi theta||^2/(2sigma^2)+constant.",
+              "Its gradient is Phi^T(Phi theta-y)/sigma^2. Setting it to zero yields Phi^T Phi theta=Phi^T y.",
+              "If Phi has column rank 4, Phi^T Phi is invertible and theta_ML=(Phi^T Phi)^(-1)Phi^T y. If rank deficient, all least-squares minimizers are Phi^+y+(I_4-Phi^+Phi)w for arbitrary w in R^4."
+            ],
+            "conclusion": "Full-rank formula: theta_ML=(Phi^T Phi)^(-1)Phi^T y. In general use the stated pseudoinverse family.",
+            "checks": [
+              "Phi^T Phi is 4x4 and Phi^T y is 4x1.",
+              "At least four distinct x values suffice for the cubic Vandermonde matrix to have rank 4.",
+              "No actual input values or labels are provided, so a numerical theta is not identifiable."
+            ],
+            "unresolved": [
+              "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+            ]
+          },
+          "frozen_unresolved_retained": [
+            "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+          ],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 6,
+              "line_end": 10,
+              "quote_html": "<div data-subpart=\"c\"><h4>(c)</h4><p>음의 로그우도는 $\\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|^2 + \\text{const}$예요. 이걸 $\\boldsymbol{\\theta}$로 미분해 0으로 두면\n    $$\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$</p>\n<p>이때 $\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi}$는 $4 \\times 4$라서 역행렬 계산이 작아요.</p>\n<p>수업과의 연결: 0928 수업에서 \"3차면 $K = 4$\"라고 한 말과, $\\mathbf{X}$ 자리에 $\\boldsymbol{\\Phi}$를 넣은 유사역행렬 해를 그대로 쓴 거예요.</p>\n</div>",
+              "quote_text": "(c) 음의 로그우도는 $\\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|^2 + \\text{const}$예요. 이걸 $\\boldsymbol{\\theta}$로 미분해 0으로 두면 $$\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$ 이때 $\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi}$는 $4 \\times 4$라서 역행렬 계산이 작아요. 수업과의 연결: 0928 수업에서 \"3차면 $K = 4$\"라고 한 말과, $\\mathbf{X}$ 자리에 $\\boldsymbol{\\Phi}$를 넣은 유사역행렬 해를 그대로 쓴 거예요.",
+              "sha256": "e674cb19386d8a3d09dfdead4c2f8539e0ceecac402439692a596d40f8e1c252"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div data-subpart=\"c\"><h4>(c) 검산</h4><p>미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>\n</div>",
+              "quote_text": "(c) 검산 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.",
+              "sha256": "4f6f20f9ca023606ed11c0117418d524a99c00d97d4f18d106be37a8454858dd"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.",
+              "sha256": "5c5504d8cd0f076dedb49126d02a537ed4d67444d3d55fbf5e6feb81d48c1258"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p2.html",
+              "line_start": 15,
+              "line_end": 18,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\phi(x)=[1,x,x^2,x^3]^\\top$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 3차 다항식은 θ0부터θ3까지4계수예요. $(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y$ 첫 줄 $\\phi(x)=[1,x,x^2,x^3]^\\top$예요. 검산 최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요. 조건·구분 표시한 역행렬 공식은 $\\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.",
+              "sha256": "0dc582fc51dbf9fa71bcc2860408a9ce17f93224428825152cbe715b2aa2bbc0"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Inverse formula needs rank 4; current pitfall already supplies generalized inverse/nonunique alternative.",
+            "disclosed_status": "explicit_non_summary",
+            "limitation_fully_explicit_in_non_summary_baseline": true,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "source_question": {
+        "id": "p3",
+        "title": "P3. 사전분포를 바꾼 다항회귀 MAP",
+        "conditions_html": "잡음이 $\\epsilon \\sim \\mathcal{N}(0, 0.2^2)$인 다항회귀 데이터에서 파라미터에 가우시안 사전분포 $p(\\boldsymbol{\\theta}) = \\mathcal{N}(\\mathbf{0}, \\frac{1}{4}\\mathbf{I})$를 두고 MAP 추정을 해요. MAP 해는 아래와 같아요.\n  $$\\boldsymbol{\\theta}_{\\text{MAP}} = \\left(\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi} + \\frac{\\sigma^2}{b^2} \\mathbf{I}\\right)^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$\n  ",
+        "ask_html": "<ol><li>(a) 이 식에 들어가는 $\\frac{\\sigma^2}{b^2}$ 값을 구해 보세요.</li><li>(b) 6차 다항식과 8차 다항식 중 어느 쪽에서 사전분포(정규화)의 효과가 크게 드러날까요? 이유도 말해 보세요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"The prior (regularizer) does not play a significant role for the low-degree polynomial\" — Example 9.6",
+        "input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f"
+      },
+      "current_sourcepack_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+      "frozen_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+      "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+      "current_math_sha256": "1069c25427a2fa55e13d7de337609a571b8ae2ed0e82ac6b54fe12daca048430",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "4fb89d11c2e2d5ded7aeb0835e457854feb10aeb0bfe475bda751ea46fdb63e3",
+      "current_summary_sha256": "e8ba66afca2caa8a232b1dde14c9892f80da7de4080c5e96216a1832db445f40",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+        "baseline_math_sha256": "1069c25427a2fa55e13d7de337609a571b8ae2ed0e82ac6b54fe12daca048430",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "4fb89d11c2e2d5ded7aeb0835e457854feb10aeb0bfe475bda751ea46fdb63e3",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+          "line_start": 4,
+          "line_end": 9,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"a\"><h4>(a)</h4><p>잡음 표준편차가 $0.2$라서 $\\sigma^2 = 0.04 = \\frac{1}{25}$이에요.</p>\n<p>사전분포 $\\mathcal{N}(\\mathbf{0}, \\frac{1}{4}\\mathbf{I})$를 $\\mathcal{N}(\\mathbf{0}, b^2 \\mathbf{I})$와 맞춰 보면 $b^2 = \\frac{1}{4}$이에요.</p>\n<p>나누면 $\\frac{\\sigma^2}{b^2} = \\frac{1/25}{1/4} = \\frac{4}{25} = 0.16$이에요.</p>\n<p>수업과의 연결: 0928 수업에서 ML과 MAP는 $\\frac{\\sigma^2}{b^2}\\mathbf{I}$ 한 항만 다르고 이 항이 정규화(regularizer) 역할을 한다고 했어요. $b^2$를 $\\frac{1}{4}$로 작게 잡을수록 이 항이 커져 선호를 더 강하게 반영해요.</p>\n</div><div data-subpart=\"b\"><h4>(b)</h4><p>교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 (a) 잡음 표준편차가 $0.2$라서 $\\sigma^2 = 0.04 = \\frac{1}{25}$이에요. 사전분포 $\\mathcal{N}(\\mathbf{0}, \\frac{1}{4}\\mathbf{I})$를 $\\mathcal{N}(\\mathbf{0}, b^2 \\mathbf{I})$와 맞춰 보면 $b^2 = \\frac{1}{4}$이에요. 나누면 $\\frac{\\sigma^2}{b^2} = \\frac{1/25}{1/4} = \\frac{4}{25} = 0.16$이에요. 수업과의 연결: 0928 수업에서 ML과 MAP는 $\\frac{\\sigma^2}{b^2}\\mathbf{I}$ 한 항만 다르고 이 항이 정규화(regularizer) 역할을 한다고 했어요. $b^2$를 $\\frac{1}{4}$로 작게 잡을수록 이 항이 커져 선호를 더 강하게 반영해요. (b) 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.",
+          "sha256": "fc2906c56aa3626021266b6a57fa1567f101c7183f257f41571a5c213cee994d"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+          "line_start": 9,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"a\"><h4>(a) 검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요.</p>\n</div><div data-subpart=\"b\"><h4>(b) 검산</h4><p>교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div><p>정답: (a) $\\frac{\\sigma^2}{b^2} = \\frac{4}{25} = 0.16$ (b) 8차 다항식. 차수가 높을수록 최대우도 계수가 커지므로 사전분포(정규화) 효과가 더 크게 드러나요.</p>\n<p>원 참고 답의8차 선택은 해당 예제의 경향으로 읽어요. 모든 데이터에서 계수가 반드시 더 크다는 주장은 성립하지 않아요.</p>\n</div>",
+          "quote_text": "완성 답과 검산 (a) 검산 (1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. (b) 검산 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요. 정답: (a) $\\frac{\\sigma^2}{b^2} = \\frac{4}{25} = 0.16$ (b) 8차 다항식. 차수가 높을수록 최대우도 계수가 커지므로 사전분포(정규화) 효과가 더 크게 드러나요. 원 참고 답의8차 선택은 해당 예제의 경향으로 읽어요. 모든 데이터에서 계수가 반드시 더 크다는 주장은 성립하지 않아요.",
+          "sha256": "fcc30f6e58b63c4aaf66e43e1a91fa05a2beb466d31b7121429023c516dadf13"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+          "line_start": 13,
+          "line_end": 14,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.",
+          "sha256": "7fc59a03ff6280c94b11a3f71ef1f429faa030dca31de4bc89fe5ad2c20d3b65"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+          "line_start": 14,
+          "line_end": 17,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\\lambda=\\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div></div>",
+          "quote_text": "떠올릴 개념·공식 MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\\lambda=\\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요. 첫 줄 $\\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요. 검산 (1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.",
+          "sha256": "e8ba66afca2caa8a232b1dde14c9892f80da7de4080c5e96216a1832db445f40"
+        }
+      },
+      "frozen_question_unresolved": [
+        "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+      ],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p3",
+          "subpart_id": "a",
+          "frozen_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+          "current_sourcepack_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+          "current_math_sha256": "1069c25427a2fa55e13d7de337609a571b8ae2ed0e82ac6b54fe12daca048430",
+          "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+          "verdict": "consistent",
+          "comparison_reason": "Noise variance 0.2^2=1/25 divided by the current prior variance 1/4 gives 4/25=0.16, with the identity matching feature dimension.",
+          "frozen_independent_result": {
+            "subpart_id": "a",
+            "method": "exact",
+            "derivation": [
+              "Observation variance sigma^2=0.2^2=0.04=1/25. Prior covariance b^2 I=(1/4)I, so b^2=1/4.",
+              "Divide variance by variance: (1/25)/(1/4)=4/25."
+            ],
+            "conclusion": "sigma^2/b^2=4/25=0.16.",
+            "checks": [
+              "b=1/2 if taken as a positive standard deviation; using b^2=1/4 avoids confusing variance with standard deviation.",
+              "The ridge addition is (4/25)I_K, matching the KxK Gram matrix.",
+              "Prior negative log penalty is ||theta||^2/(2b^2); multiplying the MAP normal equation by sigma^2 yields the displayed coefficient."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 4,
+              "line_end": 8,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a)</h4><p>잡음 표준편차가 $0.2$라서 $\\sigma^2 = 0.04 = \\frac{1}{25}$이에요.</p>\n<p>사전분포 $\\mathcal{N}(\\mathbf{0}, \\frac{1}{4}\\mathbf{I})$를 $\\mathcal{N}(\\mathbf{0}, b^2 \\mathbf{I})$와 맞춰 보면 $b^2 = \\frac{1}{4}$이에요.</p>\n<p>나누면 $\\frac{\\sigma^2}{b^2} = \\frac{1/25}{1/4} = \\frac{4}{25} = 0.16$이에요.</p>\n<p>수업과의 연결: 0928 수업에서 ML과 MAP는 $\\frac{\\sigma^2}{b^2}\\mathbf{I}$ 한 항만 다르고 이 항이 정규화(regularizer) 역할을 한다고 했어요. $b^2$를 $\\frac{1}{4}$로 작게 잡을수록 이 항이 커져 선호를 더 강하게 반영해요.</p>\n</div>",
+              "quote_text": "(a) 잡음 표준편차가 $0.2$라서 $\\sigma^2 = 0.04 = \\frac{1}{25}$이에요. 사전분포 $\\mathcal{N}(\\mathbf{0}, \\frac{1}{4}\\mathbf{I})$를 $\\mathcal{N}(\\mathbf{0}, b^2 \\mathbf{I})$와 맞춰 보면 $b^2 = \\frac{1}{4}$이에요. 나누면 $\\frac{\\sigma^2}{b^2} = \\frac{1/25}{1/4} = \\frac{4}{25} = 0.16$이에요. 수업과의 연결: 0928 수업에서 ML과 MAP는 $\\frac{\\sigma^2}{b^2}\\mathbf{I}$ 한 항만 다르고 이 항이 정규화(regularizer) 역할을 한다고 했어요. $b^2$를 $\\frac{1}{4}$로 작게 잡을수록 이 항이 커져 선호를 더 강하게 반영해요.",
+              "sha256": "f1ae5fc021b08ae2ddd3cdbec1cd808364e2f7f5c38ff1e07245739778359fef"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 9,
+              "line_end": 10,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a) 검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요.</p>\n</div>",
+              "quote_text": "(a) 검산 (1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요.",
+              "sha256": "bcba2e71f3ee3a916a386d2b52cce51328b540e5ab141bfb683d2c35b6ca65b5"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 13,
+              "line_end": 14,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.",
+              "sha256": "7fc59a03ff6280c94b11a3f71ef1f429faa030dca31de4bc89fe5ad2c20d3b65"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 14,
+              "line_end": 17,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\\lambda=\\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div></div>",
+              "quote_text": "떠올릴 개념·공식 MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\\lambda=\\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요. 첫 줄 $\\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요. 검산 (1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.",
+              "sha256": "e8ba66afca2caa8a232b1dde14c9892f80da7de4080c5e96216a1832db445f40"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "0928",
+          "question_id": "p3",
+          "subpart_id": "b",
+          "frozen_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+          "current_sourcepack_input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+          "current_math_sha256": "1069c25427a2fa55e13d7de337609a571b8ae2ed0e82ac6b54fe12daca048430",
+          "current_fragment_sha256": "0d16c3e6f718f5107ed2f8aaf128a876d241f681ff78e7b64f6f8ede1fcb676f",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "Degree 8 is an example-specific tendency, not a universal theorem: y=0 makes both estimates zero. Current solve/verify/pitfall disclose this. Actual MML Figure9.7 corroborates its historical 6/8-degree illustration, with prior I rather than the current adapted I/4.",
+          "frozen_independent_result": {
+            "subpart_id": "b",
+            "method": "qualitative",
+            "derivation": [
+              "For Gram eigenvalue d>=0, ridge changes the unregularized eigen-direction coefficient by the shrinkage factor d/(d+lambda), lambda=4/25; smaller d is more strongly changed.",
+              "An eighth-degree polynomial has nine parameters; a sixth-degree polynomial has seven. Extra high-power directions often have weak data constraints, instability, or a large coefficient norm, so regularization commonly becomes more apparent at degree 8.",
+              "However the actual spectrum and Phi^T y depend on input values and labels; degree alone does not force a strictly larger effect. For instance, y=0 gives identical zero estimates for both degrees."
+            ],
+            "conclusion": "Expected qualitative choice: degree 8 often shows more regularization; no unconditional ordering can be deduced from the supplied data.",
+            "checks": [
+              "For any nonzero v, v^T(Phi^T Phi+lambda I)v=||Phi v||^2+lambda||v||^2>0, so the MAP system is invertible for lambda=0.16.",
+              "The prior shrinks coefficients in the supplied monomial coordinate system; no rescaling or coefficient exemption is assumed."
+            ],
+            "unresolved": [
+              "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+            ]
+          },
+          "frozen_unresolved_retained": [
+            "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+          ],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 8,
+              "line_end": 9,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b)</h4><p>교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div>",
+              "quote_text": "(b) 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.",
+              "sha256": "56f5e65e5e5cc207c6610467e69993b0ac05f244cc44e28022914f91b6d1ac54"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 10,
+              "line_end": 11,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b) 검산</h4><p>교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div>",
+              "quote_text": "(b) 검산 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.",
+              "sha256": "1c093af7a4c909f300a1a26dfd02b2bd5bd75224bc12b237dda0366ba6bf7f5b"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 13,
+              "line_end": 14,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 8차의 효과가 항상 더 크다는 정리는 없어요. 해당 교과서 예제의 경향과 보편적 명제를 구별해요.",
+              "sha256": "7fc59a03ff6280c94b11a3f71ef1f429faa030dca31de4bc89fe5ad2c20d3b65"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p3.html",
+              "line_start": 14,
+              "line_end": 17,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\\lambda=\\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$\\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>(1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.</p>\n</div></div>",
+              "quote_text": "떠올릴 개념·공식 MAP의 정규화 계수는 잡음 분산과 prior 분산의 비율이에요. $\\lambda=\\sigma^2/b^2$에서0.2는 표준편차,1/4은 prior 공분산의 계수예요. 첫 줄 $\\sigma^2=(0.2)^2=1/25$, $b^2=1/4$예요. 검산 (1/25)/(1/4)=4/25=0.16이에요. 표준편차0.2를 그대로 나누면 잘못돼요. 교과서 비교 그림에서는8차의 큰 ML 계수가 prior에 의해 줄어드는 효과를 기대해요. 하지만 입력·출력 실현값이 없으므로 이 문제의 모든 데이터에 대한 엄밀한 순위는 정할 수 없어요. 예를 들어 y=0이면 두 차수 모두 MAP=0으로 같아요.",
+              "sha256": "e8ba66afca2caa8a232b1dde14c9892f80da7de4080c5e96216a1832db445f40"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Degree 8 effect is a historical/example tendency, not implied for every adapted dataset; y=0 is a disclosed counterexample.",
+            "disclosed_status": "explicit_non_summary",
+            "limitation_fully_explicit_in_non_summary_baseline": true,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "source_question": {
+        "id": "p4",
+        "title": "P4. 곱의 미분과 치환 미분",
+        "conditions_html": "",
+        "ask_html": "아래 함수의 도함수 $f'(x)$를 구해 보세요. $\\log$는 자연로그예요.\n  $$f(x) = \\log(x^4) \\sin(x^3)$$",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Compute the derivative $f'(x)$ for $f(x) = \\log(x^4) \\sin(x^3)$.\" — Exercise 5.1",
+        "input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d"
+      },
+      "current_sourcepack_input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+      "frozen_input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+      "current_fragment_sha256": "c0123c3b00d766ceccb1c4a427ba9f5cf3a843ec676a5d3600b54efbc748da71",
+      "current_math_sha256": "40b0fce00fea994fddd5a60267f1a997a44c530d71d06a22a571ba1048132708",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "673d76f2b1e2e0927a211ca9110d60453305ddb92ac64587a71649e61b982393",
+      "current_summary_sha256": "e8c57bd384b0145de7082dcea7e0cd81ca8ff1fd891aa5db2055fe21df8fcc7e",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+        "baseline_math_sha256": "40b0fce00fea994fddd5a60267f1a997a44c530d71d06a22a571ba1048132708",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "673d76f2b1e2e0927a211ca9110d60453305ddb92ac64587a71649e61b982393",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+          "line_start": 4,
+          "line_end": 10,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>곱의 미분: $f'(x) = [\\log(x^4)]' \\sin(x^3) + \\log(x^4) [\\sin(x^3)]'$이에요.</p>\n<p>$u = x^4$로 두면 $[\\log u]' = \\frac{1}{u} \\cdot 4x^3 = \\frac{4x^3}{x^4} = \\frac{4}{x}$예요.</p>\n<p>$v = x^3$으로 두면 $[\\sin v]' = \\cos v \\cdot 3x^2 = 3x^2 \\cos(x^3)$이에요.</p>\n<p>합치면\n    $$f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$$</p>\n<p>수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$을 $y$로 미분할 때 쓴 치환 미분이 여기서도 두 번 쓰였어요. 교수님 말대로 $\\log$는 자연로그(ln)예요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 곱의 미분: $f'(x) = [\\log(x^4)]' \\sin(x^3) + \\log(x^4) [\\sin(x^3)]'$이에요. $u = x^4$로 두면 $[\\log u]' = \\frac{1}{u} \\cdot 4x^3 = \\frac{4x^3}{x^4} = \\frac{4}{x}$예요. $v = x^3$으로 두면 $[\\sin v]' = \\cos v \\cdot 3x^2 = 3x^2 \\cos(x^3)$이에요. 합치면 $$f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$$ 수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$을 $y$로 미분할 때 쓴 치환 미분이 여기서도 두 번 쓰였어요. 교수님 말대로 $\\log$는 자연로그(ln)예요.",
+          "sha256": "edbb382bfff1b7a58f7a25a807c765d818127daab9c0c48a6afa5b1e5c6416a2"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+          "line_start": 10,
+          "line_end": 12,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>\n</div><p>정답: $f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요. 정답: $f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$",
+          "sha256": "5ac9f57846e29505f5a09a309b381c67632827a8b14cb93c73f2537c2d0d95f7"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+          "line_start": 12,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>log(x⁴)=4log(x)는 x>0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 log(x⁴)=4log(x)는 x>0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.",
+          "sha256": "5a9ab950a9c45faf5be89f2dcd0b483bfcada7fb44401390e8c173d651661981"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+          "line_start": 13,
+          "line_end": 16,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>곱의 미분(product rule)은 $(uv)\\prime=u\\prime v+uv\\prime$예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$u=\\log(x^4)$, $v=\\sin(x^3)$로 나눠요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>실수 정의역은 $x\\ne0$이고 전체 정의역에서 $\\log(x^4)=4\\log|x|$예요. $4\\log x$로 바꾸는 것은 $x>0$에서만 가능해요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 곱의 미분(product rule)은 $(uv)\\prime=u\\prime v+uv\\prime$예요. 첫 줄 $u=\\log(x^4)$, $v=\\sin(x^3)$로 나눠요. 검산 독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요. 조건·구분 실수 정의역은 $x\\ne0$이고 전체 정의역에서 $\\log(x^4)=4\\log|x|$예요. $4\\log x$로 바꾸는 것은 $x>0$에서만 가능해요.",
+          "sha256": "e8c57bd384b0145de7082dcea7e0cd81ca8ff1fd891aa5db2055fe21df8fcc7e"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p4",
+          "subpart_id": "main",
+          "frozen_input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+          "current_sourcepack_input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+          "current_math_sha256": "40b0fce00fea994fddd5a60267f1a997a44c530d71d06a22a571ba1048132708",
+          "current_fragment_sha256": "c0123c3b00d766ceccb1c4a427ba9f5cf3a843ec676a5d3600b54efbc748da71",
+          "verdict": "consistent",
+          "comparison_reason": "Product/chain rules give 4sin(x^3)/x+3x^2 ln(x^4)cos(x^3), for x≠0. Current pitfall preserves 4ln|x| on the full real domain.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "symbolic",
+            "derivation": [
+              "Product rule: f prime=(d/dx ln(x^4))*sin(x^3)+ln(x^4)*(d/dx sin(x^3)).",
+              "For x!=0, chain rule gives (4x^3)/(x^4)=4/x and d sin(x^3)/dx=3x^2 cos(x^3)."
+            ],
+            "conclusion": "f prime(x)=4 sin(x^3)/x+3x^2 ln(x^4) cos(x^3), for x!=0.",
+            "checks": [
+              "ln(x^4) is real for all nonzero real x, including negative x.",
+              "At x=0 the original function is undefined; no derivative there is asserted.",
+              "Own SymPy simplification of derivative minus formula is exactly zero on the stated domain."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+              "line_start": 4,
+              "line_end": 10,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>곱의 미분: $f'(x) = [\\log(x^4)]' \\sin(x^3) + \\log(x^4) [\\sin(x^3)]'$이에요.</p>\n<p>$u = x^4$로 두면 $[\\log u]' = \\frac{1}{u} \\cdot 4x^3 = \\frac{4x^3}{x^4} = \\frac{4}{x}$예요.</p>\n<p>$v = x^3$으로 두면 $[\\sin v]' = \\cos v \\cdot 3x^2 = 3x^2 \\cos(x^3)$이에요.</p>\n<p>합치면\n    $$f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$$</p>\n<p>수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$을 $y$로 미분할 때 쓴 치환 미분이 여기서도 두 번 쓰였어요. 교수님 말대로 $\\log$는 자연로그(ln)예요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 곱의 미분: $f'(x) = [\\log(x^4)]' \\sin(x^3) + \\log(x^4) [\\sin(x^3)]'$이에요. $u = x^4$로 두면 $[\\log u]' = \\frac{1}{u} \\cdot 4x^3 = \\frac{4x^3}{x^4} = \\frac{4}{x}$예요. $v = x^3$으로 두면 $[\\sin v]' = \\cos v \\cdot 3x^2 = 3x^2 \\cos(x^3)$이에요. 합치면 $$f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$$ 수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$을 $y$로 미분할 때 쓴 치환 미분이 여기서도 두 번 쓰였어요. 교수님 말대로 $\\log$는 자연로그(ln)예요.",
+              "sha256": "edbb382bfff1b7a58f7a25a807c765d818127daab9c0c48a6afa5b1e5c6416a2"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+              "line_start": 10,
+              "line_end": 12,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>\n</div><p>정답: $f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요. 정답: $f'(x) = \\frac{4}{x} \\sin(x^3) + 3x^2 \\log(x^4) \\cos(x^3)$",
+              "sha256": "5ac9f57846e29505f5a09a309b381c67632827a8b14cb93c73f2537c2d0d95f7"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>log(x⁴)=4log(x)는 x>0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 log(x⁴)=4log(x)는 x>0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.",
+              "sha256": "5a9ab950a9c45faf5be89f2dcd0b483bfcada7fb44401390e8c173d651661981"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p4.html",
+              "line_start": 13,
+              "line_end": 16,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>곱의 미분(product rule)은 $(uv)\\prime=u\\prime v+uv\\prime$예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$u=\\log(x^4)$, $v=\\sin(x^3)$로 나눠요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>실수 정의역은 $x\\ne0$이고 전체 정의역에서 $\\log(x^4)=4\\log|x|$예요. $4\\log x$로 바꾸는 것은 $x>0$에서만 가능해요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 곱의 미분(product rule)은 $(uv)\\prime=u\\prime v+uv\\prime$예요. 첫 줄 $u=\\log(x^4)$, $v=\\sin(x^3)$로 나눠요. 검산 독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요. 조건·구분 실수 정의역은 $x\\ne0$이고 전체 정의역에서 $\\log(x^4)=4\\log|x|$예요. $4\\log x$로 바꾸는 것은 $x>0$에서만 가능해요.",
+              "sha256": "e8c57bd384b0145de7082dcea7e0cd81ca8ff1fd891aa5db2055fe21df8fcc7e"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "source_question": {
+        "id": "p5",
+        "title": "P5. 가우시안 모양 함수 미분하기",
+        "conditions_html": "$\\mu, \\sigma \\in \\mathbb{R}$은 상수예요. ",
+        "ask_html": "아래 함수의 도함수 $f'(x)$를 구해 보세요.\n  $$f(x) = \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$$",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Compute the derivative $f'(x)$ of the function … where $\\mu, \\sigma \\in \\mathbb{R}$ are constants.\" — Exercise 5.3",
+        "input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d"
+      },
+      "current_sourcepack_input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+      "frozen_input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+      "current_fragment_sha256": "d0462d307ffc6134577c9357193af1b53a938a25ea17dcb3161da200adbc6248",
+      "current_math_sha256": "7381ecf259ad49be7b186ddd866bd150e9199e2d32be2a27ffafb6cfcb15b1c2",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "20e393fae818c03d128011b7a30e1446101a6e0cd37c2c50507721e8fa624c74",
+      "current_summary_sha256": "7b4460e56c8c301cbd2787e3bd9e784b507cbe782ea9793dadaf814678ac3d67",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+        "baseline_math_sha256": "7381ecf259ad49be7b186ddd866bd150e9199e2d32be2a27ffafb6cfcb15b1c2",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "20e393fae818c03d128011b7a30e1446101a6e0cd37c2c50507721e8fa624c74",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+          "line_start": 4,
+          "line_end": 10,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$u = -\\frac{1}{2\\sigma^2}(x - \\mu)^2$로 두면 $f = \\exp(u)$예요.</p>\n<p>$\\frac{du}{dx} = -\\frac{1}{2\\sigma^2} \\cdot 2(x - \\mu) = -\\frac{x - \\mu}{\\sigma^2}$예요.</p>\n<p>연쇄법칙으로 곱하면\n    $$f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$$</p>\n<p>$x = \\mu$에서 도함수가 0이라 여기가 봉우리예요.</p>\n<p>수업과의 연결: 0928 수업에서 가우시안 PDF의 지수 부분 $-\\frac{(y - \\mathbf{x}^\\top\\boldsymbol{\\theta})^2}{2\\sigma^2}$을 다뤘어요. 같은 꼴을 치환 미분으로 직접 미분해 본 거예요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $u = -\\frac{1}{2\\sigma^2}(x - \\mu)^2$로 두면 $f = \\exp(u)$예요. $\\frac{du}{dx} = -\\frac{1}{2\\sigma^2} \\cdot 2(x - \\mu) = -\\frac{x - \\mu}{\\sigma^2}$예요. 연쇄법칙으로 곱하면 $$f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$$ $x = \\mu$에서 도함수가 0이라 여기가 봉우리예요. 수업과의 연결: 0928 수업에서 가우시안 PDF의 지수 부분 $-\\frac{(y - \\mathbf{x}^\\top\\boldsymbol{\\theta})^2}{2\\sigma^2}$을 다뤘어요. 같은 꼴을 치환 미분으로 직접 미분해 본 거예요.",
+          "sha256": "751a4d297a882cb22fa05d87bb504310145ee947a4481ea05ea17fc5034ce15f"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+          "line_start": 10,
+          "line_end": 12,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>\n</div><p>정답: $f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요. 정답: $f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$",
+          "sha256": "766231dcd7a9c0e45730c1e65e58effcca0a55f630b4ea8b1a7d36ae5b4f731d"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+          "line_start": 12,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ>0으로 두어요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ>0으로 두어요.",
+          "sha256": "5ca365d80f27910c00e8b8572df2abfa304f1411e3274dbfd262416001fea945"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+          "line_start": 13,
+          "line_end": 16,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$u=-(x-\\mu)^2/(2\\sigma^2)$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>$\\mu,\\sigma$는 고정 상수이며 $\\sigma=0$에서는 함수가 정의되지 않아요. 분산 모형에서는 $\\sigma>0$으로 두어요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요. 첫 줄 $u=-(x-\\mu)^2/(2\\sigma^2)$예요. 검산 독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요. 조건·구분 $\\mu,\\sigma$는 고정 상수이며 $\\sigma=0$에서는 함수가 정의되지 않아요. 분산 모형에서는 $\\sigma>0$으로 두어요.",
+          "sha256": "7b4460e56c8c301cbd2787e3bd9e784b507cbe782ea9793dadaf814678ac3d67"
+        }
+      },
+      "frozen_question_unresolved": [
+        "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+      ],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p5",
+          "subpart_id": "main",
+          "frozen_input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+          "current_sourcepack_input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+          "current_math_sha256": "7381ecf259ad49be7b186ddd866bd150e9199e2d32be2a27ffafb6cfcb15b1c2",
+          "current_fragment_sha256": "d0462d307ffc6134577c9357193af1b53a938a25ea17dcb3161da200adbc6248",
+          "verdict": "qualified_consistent",
+          "comparison_reason": "Chain rule gives -(x-mu)f(x)/sigma^2. Both are conditional on sigma≠0; current non-summary pitfall expressly flags undefined sigma=0, whereas original allows sigma∈R.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "symbolic",
+            "derivation": [
+              "Set h(x)=-(x-mu)^2/(2sigma^2). With constant sigma!=0, h prime=-(x-mu)/sigma^2.",
+              "Chain rule for exp(h) gives f prime=h prime exp(h)."
+            ],
+            "conclusion": "f prime(x)=-(x-mu)/sigma^2 * exp(-(x-mu)^2/(2sigma^2)), for sigma!=0.",
+            "checks": [
+              "mu is any real constant. Negative nonzero sigma gives the same function since only sigma^2 occurs.",
+              "Own exact symbolic derivative minus formula is zero.",
+              "The function is only a Gaussian shape; no density normalizer was included in the supplied function."
+            ],
+            "unresolved": [
+              "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+            ]
+          },
+          "frozen_unresolved_retained": [
+            "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+          ],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+              "line_start": 4,
+              "line_end": 10,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$u = -\\frac{1}{2\\sigma^2}(x - \\mu)^2$로 두면 $f = \\exp(u)$예요.</p>\n<p>$\\frac{du}{dx} = -\\frac{1}{2\\sigma^2} \\cdot 2(x - \\mu) = -\\frac{x - \\mu}{\\sigma^2}$예요.</p>\n<p>연쇄법칙으로 곱하면\n    $$f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$$</p>\n<p>$x = \\mu$에서 도함수가 0이라 여기가 봉우리예요.</p>\n<p>수업과의 연결: 0928 수업에서 가우시안 PDF의 지수 부분 $-\\frac{(y - \\mathbf{x}^\\top\\boldsymbol{\\theta})^2}{2\\sigma^2}$을 다뤘어요. 같은 꼴을 치환 미분으로 직접 미분해 본 거예요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $u = -\\frac{1}{2\\sigma^2}(x - \\mu)^2$로 두면 $f = \\exp(u)$예요. $\\frac{du}{dx} = -\\frac{1}{2\\sigma^2} \\cdot 2(x - \\mu) = -\\frac{x - \\mu}{\\sigma^2}$예요. 연쇄법칙으로 곱하면 $$f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$$ $x = \\mu$에서 도함수가 0이라 여기가 봉우리예요. 수업과의 연결: 0928 수업에서 가우시안 PDF의 지수 부분 $-\\frac{(y - \\mathbf{x}^\\top\\boldsymbol{\\theta})^2}{2\\sigma^2}$을 다뤘어요. 같은 꼴을 치환 미분으로 직접 미분해 본 거예요.",
+              "sha256": "751a4d297a882cb22fa05d87bb504310145ee947a4481ea05ea17fc5034ce15f"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+              "line_start": 10,
+              "line_end": 12,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>\n</div><p>정답: $f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요. 정답: $f'(x) = -\\frac{x - \\mu}{\\sigma^2} \\exp\\left(-\\frac{1}{2\\sigma^2}(x - \\mu)^2\\right)$",
+              "sha256": "766231dcd7a9c0e45730c1e65e58effcca0a55f630b4ea8b1a7d36ae5b4f731d"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ>0으로 두어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ>0으로 두어요.",
+              "sha256": "5ca365d80f27910c00e8b8572df2abfa304f1411e3274dbfd262416001fea945"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p5.html",
+              "line_start": 13,
+              "line_end": 16,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$u=-(x-\\mu)^2/(2\\sigma^2)$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>$\\mu,\\sigma$는 고정 상수이며 $\\sigma=0$에서는 함수가 정의되지 않아요. 분산 모형에서는 $\\sigma>0$으로 두어요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요. 첫 줄 $u=-(x-\\mu)^2/(2\\sigma^2)$예요. 검산 독립 미분과 일치하며 x=μ에서는0이에요. σ²>0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요. 조건·구분 $\\mu,\\sigma$는 고정 상수이며 $\\sigma=0$에서는 함수가 정의되지 않아요. 분산 모형에서는 $\\sigma>0$으로 두어요.",
+              "sha256": "7b4460e56c8c301cbd2787e3bd9e784b507cbe782ea9793dadaf814678ac3d67"
+            }
+          ],
+          "source_qualification": {
+            "issue": "Original sigma∈R includes undefined sigma=0; result applies for sigma≠0, with sigma>0 in a standard-deviation interpretation.",
+            "disclosed_status": "explicit_non_summary",
+            "limitation_fully_explicit_in_non_summary_baseline": true,
+            "related_condition_or_caveat_in_non_summary_baseline": true,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "source_question": {
+        "id": "p6",
+        "title": "P6. 연쇄법칙과 편미분의 차원",
+        "conditions_html": "",
+        "ask_html": "연쇄법칙으로 $\\frac{df}{d\\mathbf{x}}$를 구해 보세요. 각 편미분의 차원도 함께 적어요.\n  <ol><li>(a) $f(z) = \\log(1 + z)$, $z = \\mathbf{x}^\\top \\mathbf{x}$, $\\mathbf{x} \\in \\mathbb{R}^D$</li><li>(b) $\\mathbf{f}(\\mathbf{z}) = \\sin(\\mathbf{z})$, $\\mathbf{z} = \\mathbf{A}\\mathbf{x} + \\mathbf{b}$, $\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$, $\\mathbf{x} \\in \\mathbb{R}^D$, $\\mathbf{b} \\in \\mathbb{R}^E$. 여기서 $\\sin$은 $\\mathbf{z}$의 성분마다 따로 적용해요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Compute the derivatives df/dx of the following functions by using the chain rule. Provide the dimensions of every single partial derivative.\" — Exercise 5.7",
+        "input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0"
+      },
+      "current_sourcepack_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+      "frozen_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+      "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+      "current_math_sha256": "4d92a29740a82278a0a09a15de07fc60ac44fbd58bf2e2ad84830295df6a88ea",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "d6795f3489625e6ffa220a03aba5a692ce5951cf3f94918e36f10dc090d13800",
+      "current_summary_sha256": "d289510eb0c660d1056cb1f538f7398fcdb63de3f2555216db054e69f27ad3d6",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+        "baseline_math_sha256": "4d92a29740a82278a0a09a15de07fc60ac44fbd58bf2e2ad84830295df6a88ea",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "d6795f3489625e6ffa220a03aba5a692ce5951cf3f94918e36f10dc090d13800",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+          "line_start": 4,
+          "line_end": 11,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"a\"><h4>(a)</h4><p>$\\frac{df}{dz} = \\frac{1}{1 + z}$이고, 스칼라라서 차원은 $1 \\times 1$이에요.</p>\n<p>$z = \\mathbf{x}^\\top \\mathbf{x} = x_1^2 + \\dots + x_D^2$이므로 $\\frac{dz}{d\\mathbf{x}} = 2\\mathbf{x}^\\top \\in \\mathbb{R}^{1 \\times D}$예요.</p>\n<p>곱하면 $\\frac{df}{d\\mathbf{x}} = \\frac{2\\mathbf{x}^\\top}{1 + \\mathbf{x}^\\top \\mathbf{x}} \\in \\mathbb{R}^{1 \\times D}$예요.</p>\n</div><div data-subpart=\"b\"><h4>(b)</h4><p>$\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $\\cos z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(\\cos \\mathbf{z}) \\in \\mathbb{R}^{E \\times E}$예요.</p>\n<p>$\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $\\mathbf{b}$는 $\\mathbf{x}$와 상관없어서 미분하면 0이에요.</p>\n<p>곱하면 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(\\cos \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $(E \\times E)(E \\times D)$라 차원이 맞아요.</p>\n<p>수업과의 연결: 0928 수업의 $\\frac{\\partial L}{\\partial \\mathbf{e}} = 2\\mathbf{e}^\\top$, $\\frac{d(\\mathbf{A}\\mathbf{x})}{d\\mathbf{x}} = \\mathbf{A}$를 연쇄법칙으로 이어 붙이고, \"디멘션만 맞추면 된다\"는 말대로 차원을 확인한 거예요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 (a) $\\frac{df}{dz} = \\frac{1}{1 + z}$이고, 스칼라라서 차원은 $1 \\times 1$이에요. $z = \\mathbf{x}^\\top \\mathbf{x} = x_1^2 + \\dots + x_D^2$이므로 $\\frac{dz}{d\\mathbf{x}} = 2\\mathbf{x}^\\top \\in \\mathbb{R}^{1 \\times D}$예요. 곱하면 $\\frac{df}{d\\mathbf{x}} = \\frac{2\\mathbf{x}^\\top}{1 + \\mathbf{x}^\\top \\mathbf{x}} \\in \\mathbb{R}^{1 \\times D}$예요. (b) $\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $\\cos z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(\\cos \\mathbf{z}) \\in \\mathbb{R}^{E \\times E}$예요. $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $\\mathbf{b}$는 $\\mathbf{x}$와 상관없어서 미분하면 0이에요. 곱하면 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(\\cos \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $(E \\times E)(E \\times D)$라 차원이 맞아요. 수업과의 연결: 0928 수업의 $\\frac{\\partial L}{\\partial \\mathbf{e}} = 2\\mathbf{e}^\\top$, $\\frac{d(\\mathbf{A}\\mathbf{x})}{d\\mathbf{x}} = \\mathbf{A}$를 연쇄법칙으로 이어 붙이고, \"디멘션만 맞추면 된다\"는 말대로 차원을 확인한 거예요.",
+          "sha256": "530a1f5007a2ba8409e498997a08584378ee0becfa6279af3c48d46c951a28b3"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+          "line_start": 11,
+          "line_end": 14,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"a\"><h4>(a) 검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요.</p>\n</div><div data-subpart=\"b\"><h4>(b) 검산</h4><p>f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>\n</div><p>정답: (a) $\\frac{df}{d\\mathbf{x}} = \\frac{2\\mathbf{x}^\\top}{1 + \\mathbf{x}^\\top \\mathbf{x}} \\in \\mathbb{R}^{1 \\times D}$ (b) $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(\\cos \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$</p>\n</div>",
+          "quote_text": "완성 답과 검산 (a) 검산 성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. (b) 검산 f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요. 정답: (a) $\\frac{df}{d\\mathbf{x}} = \\frac{2\\mathbf{x}^\\top}{1 + \\mathbf{x}^\\top \\mathbf{x}} \\in \\mathbb{R}^{1 \\times D}$ (b) $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(\\cos \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$",
+          "sha256": "2895fbc9e643d32619a9fcc5a530df6d3c85323a19d4170d9fa601630d5f0851"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+          "line_start": 14,
+          "line_end": 15,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.",
+          "sha256": "83ea4c4e90c88491cf01d4256ae6f9c0b55b9b185c100a7c60775d75f85505af"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+          "line_start": 15,
+          "line_end": 18,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\\operatorname{diag}(\\cos z)$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>(a)의 연쇄 차원은 $(1\\times1)(1\\times D)$, (b)는 $(E\\times E)(E\\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$ 첫 줄 (a) $df/dz=1/(1+z)$, (b) $J_{fz}=\\operatorname{diag}(\\cos z)$예요. 검산 성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요. 조건·구분 (a)의 연쇄 차원은 $(1\\times1)(1\\times D)$, (b)는 $(E\\times E)(E\\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.",
+          "sha256": "d289510eb0c660d1056cb1f538f7398fcdb63de3f2555216db054e69f27ad3d6"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p6",
+          "subpart_id": "a",
+          "frozen_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+          "current_sourcepack_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+          "current_math_sha256": "4d92a29740a82278a0a09a15de07fc60ac44fbd58bf2e2ad84830295df6a88ea",
+          "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+          "verdict": "consistent",
+          "comparison_reason": "The scalar chain 1x1 times 1xD gives 2x^T/(1+x^Tx); denominator is positive for all real x.",
+          "frozen_independent_result": {
+            "subpart_id": "a",
+            "method": "symbolic",
+            "derivation": [
+              "Use the Jacobian convention J_ij=partial output_i/partial input_j, so scalar derivatives with respect to a vector are rows.",
+              "df/dz=1/(1+z), size 1x1; dz/dx=2x^T, size 1xD.",
+              "Multiply in chain order: df/dx=(1/(1+x^T x))*2x^T."
+            ],
+            "conclusion": "df/dx=2x^T/(1+x^T x), size 1xD; equivalently column gradient is 2x/(1+x^T x).",
+            "checks": [
+              "x^T x>=0 implies 1+z>=1, so the logarithm domain is valid for every real x.",
+              "(1x1)(1xD) gives 1xD; no transpose ambiguity after fixing the convention."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 4,
+              "line_end": 7,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a)</h4><p>$\\frac{df}{dz} = \\frac{1}{1 + z}$이고, 스칼라라서 차원은 $1 \\times 1$이에요.</p>\n<p>$z = \\mathbf{x}^\\top \\mathbf{x} = x_1^2 + \\dots + x_D^2$이므로 $\\frac{dz}{d\\mathbf{x}} = 2\\mathbf{x}^\\top \\in \\mathbb{R}^{1 \\times D}$예요.</p>\n<p>곱하면 $\\frac{df}{d\\mathbf{x}} = \\frac{2\\mathbf{x}^\\top}{1 + \\mathbf{x}^\\top \\mathbf{x}} \\in \\mathbb{R}^{1 \\times D}$예요.</p>\n</div>",
+              "quote_text": "(a) $\\frac{df}{dz} = \\frac{1}{1 + z}$이고, 스칼라라서 차원은 $1 \\times 1$이에요. $z = \\mathbf{x}^\\top \\mathbf{x} = x_1^2 + \\dots + x_D^2$이므로 $\\frac{dz}{d\\mathbf{x}} = 2\\mathbf{x}^\\top \\in \\mathbb{R}^{1 \\times D}$예요. 곱하면 $\\frac{df}{d\\mathbf{x}} = \\frac{2\\mathbf{x}^\\top}{1 + \\mathbf{x}^\\top \\mathbf{x}} \\in \\mathbb{R}^{1 \\times D}$예요.",
+              "sha256": "e5854b5156d7c9c850f5e30aadb6ae0e9a3b1125268f29c68c2a1fd7d4ea09a4"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 11,
+              "line_end": 12,
+              "quote_html": "<div data-subpart=\"a\"><h4>(a) 검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요.</p>\n</div>",
+              "quote_text": "(a) 검산 성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요.",
+              "sha256": "843e54c22030f49fdb996ddc63867049ded24565e874cb5b714aee94f2eaf36e"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.",
+              "sha256": "83ea4c4e90c88491cf01d4256ae6f9c0b55b9b185c100a7c60775d75f85505af"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 15,
+              "line_end": 18,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\\operatorname{diag}(\\cos z)$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>(a)의 연쇄 차원은 $(1\\times1)(1\\times D)$, (b)는 $(E\\times E)(E\\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$ 첫 줄 (a) $df/dz=1/(1+z)$, (b) $J_{fz}=\\operatorname{diag}(\\cos z)$예요. 검산 성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요. 조건·구분 (a)의 연쇄 차원은 $(1\\times1)(1\\times D)$, (b)는 $(E\\times E)(E\\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.",
+              "sha256": "d289510eb0c660d1056cb1f538f7398fcdb63de3f2555216db054e69f27ad3d6"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        },
+        {
+          "pack_id": "0928",
+          "question_id": "p6",
+          "subpart_id": "b",
+          "frozen_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+          "current_sourcepack_input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+          "current_math_sha256": "4d92a29740a82278a0a09a15de07fc60ac44fbd58bf2e2ad84830295df6a88ea",
+          "current_fragment_sha256": "0a67a9feb9cb2810828be98970e435b7a027841c1458d6ea27f895551a282978",
+          "verdict": "consistent",
+          "comparison_reason": "Component derivative cos(z_i)A_ij agrees with diag(cos z)A, an ExD Jacobian with factors ExE and ExD.",
+          "frozen_independent_result": {
+            "subpart_id": "b",
+            "method": "symbolic",
+            "derivation": [
+              "For componentwise sin, partial f_i/partial z_j=delta_ij cos(z_i), so df/dz=diag(cos(z)), size ExE.",
+              "For z=Ax+b, dz/dx=A, size ExD. Chain rule yields df/dx=diag(cos(Ax+b))A."
+            ],
+            "conclusion": "Jacobian diag(cos(Ax+b))A, size ExD.",
+            "checks": [
+              "(ExE)(ExD) gives ExD.",
+              "Component (i,j) is cos((Ax+b)_i) A_ij; b contributes no derivative with respect to x."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 7,
+              "line_end": 11,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b)</h4><p>$\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $\\cos z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(\\cos \\mathbf{z}) \\in \\mathbb{R}^{E \\times E}$예요.</p>\n<p>$\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $\\mathbf{b}$는 $\\mathbf{x}$와 상관없어서 미분하면 0이에요.</p>\n<p>곱하면 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(\\cos \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $(E \\times E)(E \\times D)$라 차원이 맞아요.</p>\n<p>수업과의 연결: 0928 수업의 $\\frac{\\partial L}{\\partial \\mathbf{e}} = 2\\mathbf{e}^\\top$, $\\frac{d(\\mathbf{A}\\mathbf{x})}{d\\mathbf{x}} = \\mathbf{A}$를 연쇄법칙으로 이어 붙이고, \"디멘션만 맞추면 된다\"는 말대로 차원을 확인한 거예요.</p>\n</div>",
+              "quote_text": "(b) $\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $\\cos z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(\\cos \\mathbf{z}) \\in \\mathbb{R}^{E \\times E}$예요. $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $\\mathbf{b}$는 $\\mathbf{x}$와 상관없어서 미분하면 0이에요. 곱하면 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(\\cos \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$예요. $(E \\times E)(E \\times D)$라 차원이 맞아요. 수업과의 연결: 0928 수업의 $\\frac{\\partial L}{\\partial \\mathbf{e}} = 2\\mathbf{e}^\\top$, $\\frac{d(\\mathbf{A}\\mathbf{x})}{d\\mathbf{x}} = \\mathbf{A}$를 연쇄법칙으로 이어 붙이고, \"디멘션만 맞추면 된다\"는 말대로 차원을 확인한 거예요.",
+              "sha256": "73e7190dca5c5ee1d91b5def38339225552038cfcf6721149fac1a451e9cb8e5"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 12,
+              "line_end": 13,
+              "quote_html": "<div data-subpart=\"b\"><h4>(b) 검산</h4><p>f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>\n</div>",
+              "quote_text": "(b) 검산 f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.",
+              "sha256": "9f90916788e30cac2dc55f63f284f9c89ad028ab85c4fbf005bddbf5207f0357"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 14,
+              "line_end": 15,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.",
+              "sha256": "83ea4c4e90c88491cf01d4256ae6f9c0b55b9b185c100a7c60775d75f85505af"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p6.html",
+              "line_start": 15,
+              "line_end": 18,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\\operatorname{diag}(\\cos z)$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>(a)의 연쇄 차원은 $(1\\times1)(1\\times D)$, (b)는 $(E\\times E)(E\\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$ 첫 줄 (a) $df/dz=1/(1+z)$, (b) $J_{fz}=\\operatorname{diag}(\\cos z)$예요. 검산 성분 j로 직접 미분해도 $2x_j/(1+\\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요. 조건·구분 (a)의 연쇄 차원은 $(1\\times1)(1\\times D)$, (b)는 $(E\\times E)(E\\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.",
+              "sha256": "d289510eb0c660d1056cb1f538f7398fcdb63de3f2555216db054e69f27ad3d6"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "source_question": {
+        "id": "p7",
+        "title": "P7. tanh 층의 자코비안 차원",
+        "conditions_html": "",
+        "ask_html": "아래 함수에서 연쇄법칙으로 $\\frac{d\\mathbf{f}}{d\\mathbf{x}}$를 구해 보세요. 각 편미분의 차원도 적어요. 두 편미분의 곱을 끝까지 계산하지 않아도 돼요.\n  $$\\mathbf{f} = \\tanh(\\mathbf{z}) \\in \\mathbb{R}^M, \\quad \\mathbf{z} = \\mathbf{A}\\mathbf{x} + \\mathbf{b}, \\quad \\mathbf{x} \\in \\mathbb{R}^N,\\ \\mathbf{A} \\in \\mathbb{R}^{M \\times N},\\ \\mathbf{b} \\in \\mathbb{R}^M$$\n  여기서 $\\tanh$는 $\\mathbf{z}$의 성분마다 따로 적용해요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"You do not need to compute the product of the partial derivatives explicitly.\" — Exercise 5.8",
+        "input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa"
+      },
+      "current_sourcepack_input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+      "frozen_input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+      "current_fragment_sha256": "9229e32ede529aacb05bca46894575e22f72b1c79aafbb72fafb74e0bbb6fdd8",
+      "current_math_sha256": "4089bdeb86ec16eca236f3c63605368f2341a16419ee7d7bac2cb0ea787bc831",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "5c267cbcc139139a95d3d5385d1ccf927983b10e716b3a042c97f100274be652",
+      "current_summary_sha256": "1aa7342c8ee6decf8a717743273f738b26ede117557180eace01310dfea31e2d",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+        "baseline_math_sha256": "4089bdeb86ec16eca236f3c63605368f2341a16419ee7d7bac2cb0ea787bc831",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "5c267cbcc139139a95d3d5385d1ccf927983b10e716b3a042c97f100274be652",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+          "line_start": 4,
+          "line_end": 9,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\frac{d\\mathbf{f}}{d\\mathbf{z}}\\frac{d\\mathbf{z}}{d\\mathbf{x}}$로 나눠요.</p>\n<p>$\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $1 - \\tanh^2 z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$예요.</p>\n<p>$\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요. $\\mathbf{b}$는 상수라 사라져요.</p>\n<p>곱은 $(M \\times M)(M \\times N)$이므로 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요.</p>\n<p>수업과의 연결: 0928 수업에서 $\\mathbb{R}^n \\to \\mathbb{R}^m$ 함수의 자코비안은 $m \\times n$이라고 했어요. 여기서도 $\\mathbb{R}^N \\to \\mathbb{R}^M$이라 결과가 $M \\times N$이에요. 수업에서 말한 DNN 가중치 학습도 이런 층의 연쇄법칙이에요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\frac{d\\mathbf{f}}{d\\mathbf{z}}\\frac{d\\mathbf{z}}{d\\mathbf{x}}$로 나눠요. $\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $1 - \\tanh^2 z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$예요. $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요. $\\mathbf{b}$는 상수라 사라져요. 곱은 $(M \\times M)(M \\times N)$이므로 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요. 수업과의 연결: 0928 수업에서 $\\mathbb{R}^n \\to \\mathbb{R}^m$ 함수의 자코비안은 $m \\times n$이라고 했어요. 여기서도 $\\mathbb{R}^N \\to \\mathbb{R}^M$이라 결과가 $M \\times N$이에요. 수업에서 말한 DNN 가중치 학습도 이런 층의 연쇄법칙이에요.",
+          "sha256": "22198ad8d29460d222be967efd4479f874fbd499bccb5a45218ffbadef669931"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+          "line_start": 9,
+          "line_end": 11,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>\n</div><p>정답: $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$, $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$, $\\frac{d\\mathbf{f}}{d\\mathbf{x}} \\in \\mathbb{R}^{M \\times N}$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요. 정답: $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$, $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$, $\\frac{d\\mathbf{f}}{d\\mathbf{x}} \\in \\mathbb{R}^{M \\times N}$",
+          "sha256": "94ce8b697a5dae271f06168683968bea6a6b2935d3339d952afd4e5094d2bbc6"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+          "line_start": 11,
+          "line_end": 12,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.",
+          "sha256": "d90d7bdac9d56542748d2fec2751f37651a2a62053bf6f94a60132e2a7c83a23"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+          "line_start": 12,
+          "line_end": 15,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>성분별 tanh 층의 Jacobian은 $\\operatorname{diag}(1-\\tanh^2z)$예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>성분별 도함수 벡터 $1-\\tanh^2z$를 그대로 곱하지 않고 $M\\times M$ 대각행렬로 만들어 $M\\times N$인 $A$에 왼쪽에서 곱해요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 성분별 tanh 층의 Jacobian은 $\\operatorname{diag}(1-\\tanh^2z)$예요. 첫 줄 $J_{fx}=J_{fz}A$로 연쇄를 적어요. 검산 성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요. 조건·구분 성분별 도함수 벡터 $1-\\tanh^2z$를 그대로 곱하지 않고 $M\\times M$ 대각행렬로 만들어 $M\\times N$인 $A$에 왼쪽에서 곱해요.",
+          "sha256": "1aa7342c8ee6decf8a717743273f738b26ede117557180eace01310dfea31e2d"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p7",
+          "subpart_id": "main",
+          "frozen_input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+          "current_sourcepack_input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+          "current_math_sha256": "4089bdeb86ec16eca236f3c63605368f2341a16419ee7d7bac2cb0ea787bc831",
+          "current_fragment_sha256": "9229e32ede529aacb05bca46894575e22f72b1c79aafbb72fafb74e0bbb6fdd8",
+          "verdict": "consistent",
+          "comparison_reason": "Elementwise tanh derivative is a diagonal MxM matrix, multiplied on the left of the MxN A; the MxN result and b derivative zero agree.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "symbolic",
+            "derivation": [
+              "For elementwise tanh, d f_i/d z_j=delta_ij(1-tanh^2 z_i). Thus df/dz=diag(1-tanh^2 z), MxM.",
+              "dz/dx=A, MxN. Chain rule df/dx=(df/dz)(dz/dx)=diag(1-tanh^2(Ax+b))A."
+            ],
+            "conclusion": "df/dx=diag(1-tanh^2 z) A, size MxN, where z=Ax+b.",
+            "checks": [
+              "Jacobian convention: output coordinates index rows; input coordinates index columns.",
+              "(MxM)(MxN)=MxN; b is Mx1 and has zero derivative with respect to x.",
+              "Every real z_i is valid; 0<1-tanh^2 z_i<=1 for finite z_i."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+              "line_start": 4,
+              "line_end": 9,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\frac{d\\mathbf{f}}{d\\mathbf{z}}\\frac{d\\mathbf{z}}{d\\mathbf{x}}$로 나눠요.</p>\n<p>$\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $1 - \\tanh^2 z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$예요.</p>\n<p>$\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요. $\\mathbf{b}$는 상수라 사라져요.</p>\n<p>곱은 $(M \\times M)(M \\times N)$이므로 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요.</p>\n<p>수업과의 연결: 0928 수업에서 $\\mathbb{R}^n \\to \\mathbb{R}^m$ 함수의 자코비안은 $m \\times n$이라고 했어요. 여기서도 $\\mathbb{R}^N \\to \\mathbb{R}^M$이라 결과가 $M \\times N$이에요. 수업에서 말한 DNN 가중치 학습도 이런 층의 연쇄법칙이에요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\frac{d\\mathbf{f}}{d\\mathbf{z}}\\frac{d\\mathbf{z}}{d\\mathbf{x}}$로 나눠요. $\\frac{\\partial f_i}{\\partial z_j}$는 $i = j$일 때 $1 - \\tanh^2 z_i$, 아니면 0이에요. 그래서 $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$예요. $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요. $\\mathbf{b}$는 상수라 사라져요. 곱은 $(M \\times M)(M \\times N)$이므로 $\\frac{d\\mathbf{f}}{d\\mathbf{x}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z})\\,\\mathbf{A} \\in \\mathbb{R}^{M \\times N}$예요. 수업과의 연결: 0928 수업에서 $\\mathbb{R}^n \\to \\mathbb{R}^m$ 함수의 자코비안은 $m \\times n$이라고 했어요. 여기서도 $\\mathbb{R}^N \\to \\mathbb{R}^M$이라 결과가 $M \\times N$이에요. 수업에서 말한 DNN 가중치 학습도 이런 층의 연쇄법칙이에요.",
+              "sha256": "22198ad8d29460d222be967efd4479f874fbd499bccb5a45218ffbadef669931"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+              "line_start": 9,
+              "line_end": 11,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>\n</div><p>정답: $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$, $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$, $\\frac{d\\mathbf{f}}{d\\mathbf{x}} \\in \\mathbb{R}^{M \\times N}$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요. 정답: $\\frac{d\\mathbf{f}}{d\\mathbf{z}} = \\operatorname{diag}(1 - \\tanh^2 \\mathbf{z}) \\in \\mathbb{R}^{M \\times M}$, $\\frac{d\\mathbf{z}}{d\\mathbf{x}} = \\mathbf{A} \\in \\mathbb{R}^{M \\times N}$, $\\frac{d\\mathbf{f}}{d\\mathbf{x}} \\in \\mathbb{R}^{M \\times N}$",
+              "sha256": "94ce8b697a5dae271f06168683968bea6a6b2935d3339d952afd4e5094d2bbc6"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+              "line_start": 11,
+              "line_end": 12,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.",
+              "sha256": "d90d7bdac9d56542748d2fec2751f37651a2a62053bf6f94a60132e2a7c83a23"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p7.html",
+              "line_start": 12,
+              "line_end": 15,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>성분별 tanh 층의 Jacobian은 $\\operatorname{diag}(1-\\tanh^2z)$예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>성분별 도함수 벡터 $1-\\tanh^2z$를 그대로 곱하지 않고 $M\\times M$ 대각행렬로 만들어 $M\\times N$인 $A$에 왼쪽에서 곱해요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 성분별 tanh 층의 Jacobian은 $\\operatorname{diag}(1-\\tanh^2z)$예요. 첫 줄 $J_{fx}=J_{fz}A$로 연쇄를 적어요. 검산 성분 미분은 $(1-\\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요. 조건·구분 성분별 도함수 벡터 $1-\\tanh^2z$를 그대로 곱하지 않고 $M\\times M$ 대각행렬로 만들어 $M\\times N$인 $A$에 왼쪽에서 곱해요.",
+              "sha256": "1aa7342c8ee6decf8a717743273f738b26ede117557180eace01310dfea31e2d"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "source_question": {
+        "id": "p8",
+        "title": "P8. 로지스틱 시그모이드 미분하기",
+        "conditions_html": "",
+        "ask_html": "로지스틱 시그모이드 함수의 도함수 $f'(x)$를 구해 보세요. 구한 결과를 $f(x)$로도 나타내 보세요.\n  $$f(x) = \\frac{1}{1 + \\exp(-x)}$$",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Compute the derivative $f'(x)$ of the logistic sigmoid\" — Exercise 5.2",
+        "input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb"
+      },
+      "current_sourcepack_input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+      "frozen_input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+      "current_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+      "current_fragment_sha256": "5d81ac10b936fce8317a28d3b9904737b1743274e19f35e12ff8d8f3f2329e86",
+      "current_math_sha256": "63c925c5610f892b4413db3beb6c8c74e9da183b9c97c3242a5265d5706efc5f",
+      "math_sha_definition": "SHA256 of canonical UTF-8 JSON array [{section,html}] for exact solve, verify, pitfall outer HTML, in that order.",
+      "current_non_summary_sha256": "c2ed9b89ab3afc5034afc77135c1f624d343c155ef0feb2d58b4d479f5557e96",
+      "current_summary_sha256": "78ceae198508f33658af02eb36b43c78504d3268886051eac05bd900a0f58d08",
+      "baseline_protection": {
+        "baseline_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6-run-ml-01/before/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+        "baseline_math_sha256": "63c925c5610f892b4413db3beb6c8c74e9da183b9c97c3242a5265d5706efc5f",
+        "math_bytes_identical": true,
+        "all_non_summary_bytes_identical_after_mask_only_summary_inner_content": true,
+        "baseline_non_summary_sha256": "c2ed9b89ab3afc5034afc77135c1f624d343c155ef0feb2d58b4d479f5557e96",
+        "current_generated_html": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/문제설명_0928_Linear_Regression.html",
+        "generated_math_text_equations_equal_active_fragment": true
+      },
+      "current_reference_evidence": {
+        "solve": {
+          "section": "solve",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+          "line_start": 4,
+          "line_end": 11,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$u = 1 + \\exp(-x)$로 두면 $f = u^{-1}$이고, $\\frac{df}{du} = -u^{-2}$예요.</p>\n<p>$\\frac{du}{dx} = -\\exp(-x)$예요.</p>\n<p>곱하면 부호 두 개가 상쇄돼요.\n    $$f'(x) = -\\frac{1}{(1 + \\exp(-x))^2} \\cdot (-\\exp(-x)) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2}$$</p>\n<p>분자를 $\\exp(-x) = (1 + \\exp(-x)) - 1$로 쪼개요. 그러면 $\\frac{\\exp(-x)}{1 + \\exp(-x)} = 1 - f(x)$예요.</p>\n<p>그래서 $f'(x) = \\frac{1}{1 + \\exp(-x)} \\cdot \\frac{\\exp(-x)}{1 + \\exp(-x)} = f(x)(1 - f(x))$예요. 함숫값만 알면 도함수가 바로 나와요.</p>\n<p>수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$에 쓴 치환 미분 그대로예요. 교수님이 DNN 가중치를 학습할 때 연쇄법칙을 많이 쓴다고 했는데, 시그모이드의 이 도함수가 그 연쇄에 자주 들어가요.</p>\n</div></div>",
+          "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $u = 1 + \\exp(-x)$로 두면 $f = u^{-1}$이고, $\\frac{df}{du} = -u^{-2}$예요. $\\frac{du}{dx} = -\\exp(-x)$예요. 곱하면 부호 두 개가 상쇄돼요. $$f'(x) = -\\frac{1}{(1 + \\exp(-x))^2} \\cdot (-\\exp(-x)) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2}$$ 분자를 $\\exp(-x) = (1 + \\exp(-x)) - 1$로 쪼개요. 그러면 $\\frac{\\exp(-x)}{1 + \\exp(-x)} = 1 - f(x)$예요. 그래서 $f'(x) = \\frac{1}{1 + \\exp(-x)} \\cdot \\frac{\\exp(-x)}{1 + \\exp(-x)} = f(x)(1 - f(x))$예요. 함숫값만 알면 도함수가 바로 나와요. 수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$에 쓴 치환 미분 그대로예요. 교수님이 DNN 가중치를 학습할 때 연쇄법칙을 많이 쓴다고 했는데, 시그모이드의 이 도함수가 그 연쇄에 자주 들어가요.",
+          "sha256": "157c346d663c138be0de6977c6a33ab695f308d0051bdc6359ac546a0ce85318"
+        },
+        "verify": {
+          "section": "verify",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+          "line_start": 11,
+          "line_end": 13,
+          "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>\n</div><p>정답: $f'(x) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2} = f(x)(1 - f(x))$</p>\n</div>",
+          "quote_text": "완성 답과 검산 검산 별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요. 정답: $f'(x) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2} = f(x)(1 - f(x))$",
+          "sha256": "fc3959c6f3949f28f71a4836d248a5d8c2aa0cd110bc3033ee81453075bef03c"
+        },
+        "pitfall": {
+          "section": "pitfall",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+          "line_start": 13,
+          "line_end": 14,
+          "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.</p>\n</div>",
+          "quote_text": "여기서 주의해요 안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.",
+          "sha256": "4b7006aca72a7ccb1a1c3547a4be0a4809da25b8aa1eab6eaf11bb79bee0a0b6"
+        },
+        "summary": {
+          "section": "summary",
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+          "line_start": 14,
+          "line_end": 17,
+          "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$u=1+e^{-x}$, $f=u^{-1}$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>역수 미분과 안쪽 $e^{-x}$ 미분의 두 음수가 상쇄되어 $f^\\prime(x)=f(x)(1-f(x))>0$이에요. 안쪽의 $-1$을 빠뜨리지 않아요.</p></div></div>",
+          "quote_text": "떠올릴 개념·공식 시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요. 첫 줄 $u=1+e^{-x}$, $f=u^{-1}$예요. 검산 별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요. 조건·구분 역수 미분과 안쪽 $e^{-x}$ 미분의 두 음수가 상쇄되어 $f^\\prime(x)=f(x)(1-f(x))>0$이에요. 안쪽의 $-1$을 빠뜨리지 않아요.",
+          "sha256": "78ceae198508f33658af02eb36b43c78504d3268886051eac05bd900a0f58d08"
+        }
+      },
+      "frozen_question_unresolved": [],
+      "subparts": [
+        {
+          "pack_id": "0928",
+          "question_id": "p8",
+          "subpart_id": "main",
+          "frozen_input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+          "current_sourcepack_input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+          "current_math_sha256": "63c925c5610f892b4413db3beb6c8c74e9da183b9c97c3242a5265d5706efc5f",
+          "current_fragment_sha256": "5d81ac10b936fce8317a28d3b9904737b1743274e19f35e12ff8d8f3f2329e86",
+          "verdict": "consistent",
+          "comparison_reason": "The two negative chain factors cancel, giving exp(-x)/(1+exp(-x))^2=f(1-f); at x=0 the derivative is 1/4.",
+          "frozen_independent_result": {
+            "subpart_id": "main",
+            "method": "symbolic",
+            "derivation": [
+              "Write f=(1+exp(-x))^(-1). Chain rule gives f prime=-(1+exp(-x))^(-2)*(-exp(-x))=exp(-x)/(1+exp(-x))^2.",
+              "Also 1-f=exp(-x)/(1+exp(-x)); multiplying by f gives the same derivative."
+            ],
+            "conclusion": "f prime(x)=exp(-x)/(1+exp(-x))^2=f(x)(1-f(x)).",
+            "checks": [
+              "Denominator positive for all real x; derivative positive and at most 1/4 since t(1-t)<=1/4 for 0<t<1.",
+              "Own symbolic derivative minus f(1-f) simplifies exactly to zero."
+            ],
+            "unresolved": []
+          },
+          "frozen_unresolved_retained": [],
+          "current_reference_evidence": [
+            {
+              "section": "solve",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+              "line_start": 4,
+              "line_end": 11,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"solve\"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart=\"main\"><h4>풀이</h4><p>$u = 1 + \\exp(-x)$로 두면 $f = u^{-1}$이고, $\\frac{df}{du} = -u^{-2}$예요.</p>\n<p>$\\frac{du}{dx} = -\\exp(-x)$예요.</p>\n<p>곱하면 부호 두 개가 상쇄돼요.\n    $$f'(x) = -\\frac{1}{(1 + \\exp(-x))^2} \\cdot (-\\exp(-x)) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2}$$</p>\n<p>분자를 $\\exp(-x) = (1 + \\exp(-x)) - 1$로 쪼개요. 그러면 $\\frac{\\exp(-x)}{1 + \\exp(-x)} = 1 - f(x)$예요.</p>\n<p>그래서 $f'(x) = \\frac{1}{1 + \\exp(-x)} \\cdot \\frac{\\exp(-x)}{1 + \\exp(-x)} = f(x)(1 - f(x))$예요. 함숫값만 알면 도함수가 바로 나와요.</p>\n<p>수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$에 쓴 치환 미분 그대로예요. 교수님이 DNN 가중치를 학습할 때 연쇄법칙을 많이 쓴다고 했는데, 시그모이드의 이 도함수가 그 연쇄에 자주 들어가요.</p>\n</div></div>",
+              "quote_text": "왜 이렇게 푸는지 함께 따라가요 풀이 $u = 1 + \\exp(-x)$로 두면 $f = u^{-1}$이고, $\\frac{df}{du} = -u^{-2}$예요. $\\frac{du}{dx} = -\\exp(-x)$예요. 곱하면 부호 두 개가 상쇄돼요. $$f'(x) = -\\frac{1}{(1 + \\exp(-x))^2} \\cdot (-\\exp(-x)) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2}$$ 분자를 $\\exp(-x) = (1 + \\exp(-x)) - 1$로 쪼개요. 그러면 $\\frac{\\exp(-x)}{1 + \\exp(-x)} = 1 - f(x)$예요. 그래서 $f'(x) = \\frac{1}{1 + \\exp(-x)} \\cdot \\frac{\\exp(-x)}{1 + \\exp(-x)} = f(x)(1 - f(x))$예요. 함숫값만 알면 도함수가 바로 나와요. 수업과의 연결: 0928 수업에서 $(x + 2y^3)^2$에 쓴 치환 미분 그대로예요. 교수님이 DNN 가중치를 학습할 때 연쇄법칙을 많이 쓴다고 했는데, 시그모이드의 이 도함수가 그 연쇄에 자주 들어가요.",
+              "sha256": "157c346d663c138be0de6977c6a33ab695f308d0051bdc6359ac546a0ce85318"
+            },
+            {
+              "section": "verify",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+              "line_start": 11,
+              "line_end": 13,
+              "quote_html": "<div class=\"layer formal\" data-explanation=\"verify\"><h4>완성 답과 검산</h4><div data-subpart=\"main\"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>\n</div><p>정답: $f'(x) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2} = f(x)(1 - f(x))$</p>\n</div>",
+              "quote_text": "완성 답과 검산 검산 별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요. 정답: $f'(x) = \\frac{\\exp(-x)}{(1 + \\exp(-x))^2} = f(x)(1 - f(x))$",
+              "sha256": "fc3959c6f3949f28f71a4836d248a5d8c2aa0cd110bc3033ee81453075bef03c"
+            },
+            {
+              "section": "pitfall",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+              "line_start": 13,
+              "line_end": 14,
+              "quote_html": "<div class=\"layer warn\" data-explanation=\"pitfall\"><h4>여기서 주의해요</h4><p>안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.</p>\n</div>",
+              "quote_text": "여기서 주의해요 안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.",
+              "sha256": "4b7006aca72a7ccb1a1c3547a4be0a4809da25b8aa1eab6eaf11bb79bee0a0b6"
+            },
+            {
+              "section": "summary",
+              "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0928/.pack/자료_문제설명_0928_Linear_Regression/fragments/p8.html",
+              "line_start": 14,
+              "line_end": 17,
+              "quote_html": "<div class=\"sum\" hidden><div class=\"summary-group\"><h4>떠올릴 개념·공식</h4><p>시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요.</p>\n</div><div class=\"summary-group\"><h4>첫 줄</h4><p>$u=1+e^{-x}$, $f=u^{-1}$예요.</p>\n</div><div class=\"summary-group\"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>\n</div><div class=\"summary-group\"><h4>조건·구분</h4><p>역수 미분과 안쪽 $e^{-x}$ 미분의 두 음수가 상쇄되어 $f^\\prime(x)=f(x)(1-f(x))>0$이에요. 안쪽의 $-1$을 빠뜨리지 않아요.</p></div></div>",
+              "quote_text": "떠올릴 개념·공식 시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요. 첫 줄 $u=1+e^{-x}$, $f=u^{-1}$예요. 검산 별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요. 조건·구분 역수 미분과 안쪽 $e^{-x}$ 미분의 두 음수가 상쇄되어 $f^\\prime(x)=f(x)(1-f(x))>0$이에요. 안쪽의 $-1$을 빠뜨리지 않아요.",
+              "sha256": "78ceae198508f33658af02eb36b43c78504d3268886051eac05bd900a0f58d08"
+            }
+          ],
+          "source_qualification": {
+            "issue": null,
+            "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+            "limitation_fully_explicit_in_non_summary_baseline": false,
+            "related_condition_or_caveat_in_non_summary_baseline": false,
+            "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+            "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+          }
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "questions": 8,
+    "subparts": 12
+  },
+  "frozen_pack_unresolved_retained": [
+    {
+      "id": "p2",
+      "items": [
+        "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5.",
+        "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+      ]
+    },
+    {
+      "id": "p3",
+      "items": [
+        "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+      ]
+    },
+    {
+      "id": "p5",
+      "items": [
+        "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+      ]
+    }
+  ],
+  "status": "comparison_complete_no_product_approval"
+}

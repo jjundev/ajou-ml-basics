@@ -397,7 +397,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$Cov(X,X^2)=E[X^3]-E[X]E[X^2]$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>공분산0에서 독립을 결론내리지 않아요. Y=X²여도 X²가 상수인 퇴화 사례는 독립일 수 있어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>공분산(covariance)은 $Cov(X,Y)=E[XY]-E[X]E[Y]$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$Cov(X,X^2)=E[X^3]-E[X]E[X^2]$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>주어진 두 모멘트가0이므로 공분산은0이에요. 종속의 예로 X가−1,0,1을 각각1/3로 가지면 X²가 변하며 X에서 결정돼 독립이 아니에요. 반면 X=±1만 가지면 Y=1로 상수예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>관련 기댓값은 유한하다고 전제해요. 공분산 $0$에서 독립을 결론내리지 않으며, $X^2$가 상수인 퇴화 사례와 구별해요.</p></div></div>
 </article><article class="topic" id="p2"><h3>P2. 독립인 가우시안의 가중합</h3><p class="panel-meta">MML Example 6.7 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">서로 독립인 가우시안 확률변수 $\mathbf{x}$와 $\mathbf{y}$가 있어요. $\mathbf{x}$의 평균은 $\boldsymbol{\mu}_x$, 공분산 행렬은 $\boldsymbol{\Sigma}_x$이고, $\mathbf{y}$의 평균은 $\boldsymbol{\mu}_y$, 공분산 행렬은 $\boldsymbol{\Sigma}_y$예요.
   상수 $a$, $b$로 가중합 $a\mathbf{x} + b\mathbf{y}$를 만들어요. 이 가중합도 가우시안이라는 사실은 주어진 것으로 써요.
   </div><h4>구할 것</h4><div data-source-field="ask">가중합의 평균과 공분산 행렬을 구해서 $p(a\mathbf{x} + b\mathbf{y})$를 적어 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>독립인 가우시안의 가중합를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -422,7 +422,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$E[aX+bY]=a\mu_x+b\mu_y$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>분산에 a,b를 그대로 곱하지 않아요. 같은 차원이라도 공분산 순서를 임의로 바꾸지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>기댓값은 계수를 그대로 통과하지만 분산은 두 편차를 곱하므로 계수가 제곱돼요. 같은 차원의 독립 벡터에 대해 $Var(aX+bY)=a^2\Sigma_x+b^2\Sigma_y$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$E[aX+bY]=a\mu_x+b\mu_y$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>편차 a(X−μx)+b(Y−μy)의 외적을 펼치면 자기항2개와 교차항2개예요. 독립으로 교차항이0이라 제시한 평균·공분산이 남아요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>가중합이 가우시안이라는 사실은 문제에서 주어졌어요. 같은 차원의 독립 벡터이므로 교차항이 $0$이고, 평균은 $a\mu_x+b\mu_y$, 공분산은 $a^2\Sigma_x+b^2\Sigma_y$예요.</p></div></div>
 </article><article class="topic" id="p3"><h3>P3. 시계열 모델에서 한 걸음 앞 예측하기</h3><p class="panel-meta">MML Exercise 6.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">시간에 따라 변하는 상태 $\mathbf{x}_t$를 아래 시계열 모델로 나타내요.
   $$\mathbf{x}_{t+1} = \mathbf{A}\mathbf{x}_t + \mathbf{w}, \quad \mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$$
   $$\mathbf{y}_t = \mathbf{C}\mathbf{x}_t + \mathbf{v}, \quad \mathbf{v} \sim \mathcal{N}(\mathbf{0}, \mathbf{R})$$
@@ -451,7 +451,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$x_{t+1}-A\mu_t=A(x_t-\mu_t)+w$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>아직 다음 관측을 보지 않았으므로 R이나 C를 상태 예측분산에 더하지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>한 걸음 예측(predictive distribution)은 현재 posterior를 선형 변환하고 새 독립 잡음을 더해요. $\mu_{t+1}=A\mu_t$, $P=A\Sigma_tA^\top+Q$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$x_{t+1}-A\mu_t=A(x_t-\mu_t)+w$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>편차 외적의 교차항은 새 잡음과 과거 상태의 조건부 독립으로0이에요. A=I,Q=0이면 현재 평균·공분산이 그대로 복원돼요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>모든 평균·공분산은 시각 $t$까지 관측한 측정값을 조건으로 해요. 아직 다음 관측을 보지 않았으므로 상태 예측분산에는 $Q$를 더하며 $R$이나 $C$를 더하지 않아요.</p></div></div>
 </article><article class="topic" id="p4"><h3>P4. 분산은 제곱의 평균 빼기 평균의 제곱</h3><p class="panel-meta">MML Exercise 6.6 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$의 평균을 $\mu = \mathbb{E}[x]$라고 해요. 분산의 정의는 평균에서 벗어난 정도를 제곱해 평균 낸 값이에요.
   $$\mathbb{V}[x] = \mathbb{E}[(x - \mu)^2]$$
   </div><h4>구할 것</h4><div data-source-field="ask">이 정의에서 출발해 아래 식을 증명해 보세요.
@@ -473,7 +473,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$(x-\mu)^2=x^2-2\mu x+\mu^2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>E[X²]와(E[X])²는 일반적으로 달라요. E[X²]를 먼저 평균의 제곱으로 바꾸면 안 돼요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>분산(variance)은 편차제곱의 평균이에요. μ=E[X]가 상수라서 $E[(X-\mu)^2]$를 전개하면 $E[X^2]-\mu^2$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$(x-\mu)^2=x^2-2\mu x+\mu^2$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>선형성으로 E[X²]−2μE[X]+μ²=E[X²]−μ²예요. 정의와 같으므로0이상이며 상수변수이면0이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>이차 모멘트가 유한하다고 전제해요. $E[X^2]$와 $(E[X])^2$는 일반적으로 달라요.</p></div></div>
 </article><article class="topic" id="p5"><h3>P5. 노이즈가 섞인 선형 변환의 가능도</h3><p class="panel-meta">MML Exercise 6.12 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$가 있어요($\mathbf{x} \in \mathbb{R}^D$). 여기에 상수 행렬 $\mathbf{A}$를 곱하고 상수 벡터 $\mathbf{b}$와 노이즈 $\mathbf{w}$를 더해요.
   $$\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$$
   $\mathbf{y} \in \mathbb{R}^E$이고, $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
@@ -495,7 +495,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y\mid x)=\mathcal N(y\mid Ax+b,Q)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>조건부에 AΣxAᵀ를 더하지 않아요. 그 항은 x까지 랜덤하게 평균낸 주변분포에서 나와요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>조건부 likelihood는 x가 주어졌을 때 잡음 w만 변하는 분포예요. $y=Ax+b+w$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$p(y\mid x)=\mathcal N(y\mid Ax+b,Q)$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>x를 고정하면 y−(Ax+b)=w예요. 따라서 평균0, 공분산Q를 평행이동한 가우시안이 맞아요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>잡음은 입력과 독립이므로 입력을 고정해도 공분산은 $Q$예요. $A\Sigma_xA^{\top}$는 입력까지 랜덤하게 평균낸 주변분포에서 생기는 항이라 조건부 가능도에 더하지 않아요.</p></div></div>
 </article><article class="topic" id="p6"><h3>P6. 노이즈가 섞인 선형 변환의 평균과 공분산</h3><p class="panel-meta">MML Exercise 6.12 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$가 있어요($\mathbf{x} \in \mathbb{R}^D$). 여기에 상수 행렬 $\mathbf{A}$를 곱하고 상수 벡터 $\mathbf{b}$와 노이즈 $\mathbf{w}$를 더해요.
   $$\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$$
   $\mathbf{y} \in \mathbb{R}^E$이고, $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
@@ -520,7 +520,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$y-E[y]=A(x-\mu_x)+w$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>AΣxAᵀ를 AAᵀΣx로 바꾸지 않아요. 독립 잡음의 Q만 별도로 더해요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>아핀 변환(affine transformation)은 상수 이동 b가 평균에는 남고 편차에서는 사라져요. $Var(AX)=A\Sigma_xA^\top$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$y-E[y]=A(x-\mu_x)+w$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>성분(i,j)은 ∑kl A_ik Cov(x_k,x_l)A_jl+Q_ij예요. 이것이 AΣxAᵀ+Q의 칸과 같아요. 차원은 E×E이고 b는 사라져요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>독립인 잡음으로 교차항이 사라져 $\mu_y=A\mu_x+b$, $\Sigma_y=A\Sigma_xA^{\top}+Q$예요. 행렬 곱 순서를 지키며 $A\Sigma_xA^{\top}$를 $AA^{\top}\Sigma_x$로 바꾸지 않아요.</p></div></div>
 </article><article class="topic" id="p7"><h3>P7. 한 번 더 변환해서 측정하기</h3><p class="panel-meta">MML Exercise 6.12 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p7">원 문제 보기</a></p><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$로 $\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$를 만들어요. $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
   이때 $\mathbf{y}$는 평균이 $\boldsymbol{\mu}_y = \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}$, 공분산 행렬이 $\boldsymbol{\Sigma}_y = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}$인 가우시안이에요. 이 결과는 주어진 것으로 써요.
   이제 $\mathbf{y}$를 상수 행렬 $\mathbf{C}$로 한 번 더 변환해서 측정해요.
@@ -549,7 +549,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>(a)는 z−Cy=v, (b)는 z−Cμy=C(y−μy)+v예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>측정 잡음 R을 C로 다시 감싸지 않아요. R은 C 뒤에서 더해져요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>같은 변환 규칙을 측정 단계에도 써요. y 고정이면 z의 공분산은 R, y까지 랜덤하면 CΣyCᵀ+R예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>(a)는 z−Cy=v, (b)는 z−Cμy=C(y−μy)+v예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>y 고정 뒤 v만 변하므로 N(Cy,R)예요. 평균은 Cμy이고 편차 외적은 CΣyCᵀ+R예요. 이를 y의 식에 넣으면 원 카드의 두 단계 변환 식과 일치해요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>측정 잡음은 $C$로 변환한 뒤 더하므로 $R$을 다시 $C$로 감싸지 않아요. 조건부는 $\mathcal{N}(Cy,R)$, 주변 공분산은 $C\Sigma_yC^{\top}+R$예요.</p></div></div>
 </article><article class="topic" id="p8"><h3>P8. 쌍끼리의 차이로 보는 분산</h3><p class="panel-meta">MML Exercise 6.7 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p8">원 문제 보기</a></p><div class="layer formal" data-source-problem="p8"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$에서 얻은 관측값 $x_1, \dots, x_N$이 있어요. 모든 쌍 $(x_i, x_j)$의 차이를 제곱해 평균 내면, "제곱의 평균 빼기 평균의 제곱"의 두 배가 돼요.
   $$\frac{1}{N^2}\sum_{i,j=1}^{N}(x_i - x_j)^2 = 2\left[\frac{1}{N}\sum_{i=1}^{N} x_i^2 - \left(\frac{1}{N}\sum_{i=1}^{N} x_i\right)^2\right]$$
   </div><h4>구할 것</h4><div data-source-field="ask">이 식을 증명해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>쌍끼리의 차이로 보는 분산를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -574,7 +574,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$(x_i-x_j)^2=x_i^2-2x_ix_j+x_j^2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>표본 불편분산의 N−1로 바꾸지 않아요. 이 식은 분모N인 경험분산의 항등식이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>쌍별 제곱차(pairwise squared difference)는 이중합을 전개해요. $\sum_{ij}x_i^2=N\sum_i x_i^2$, $\sum_{ij}x_ix_j=(\sum_i x_i)^2$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$(x_i-x_j)^2=x_i^2-2x_ix_j+x_j^2$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>두 제곱항은 각각N번씩 반복되고 교차항은 합의 제곱으로 분리돼요. 따라서2N∑x_i²−2(∑x_i)²를N²으로 나누면 정확한 우변이에요. 모든 실수 관측에 대한 대수 증명이며 숫자 예제만으로 끝낸 것이 아니에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$N>0$이고 모든 순서쌍을 포함해요. 분모 $N$인 경험분산의 항등식이므로 불편분산의 $N-1$로 바꾸지 않아요.</p></div></div>
 </article></section>
   </main>
   <footer>원 문제·정리노트·PDF는 보존해요.</footer>
@@ -586,9 +586,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -806,7 +805,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -838,8 +836,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -862,17 +858,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
-          const heading = s.querySelector('h3');
-          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
-            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

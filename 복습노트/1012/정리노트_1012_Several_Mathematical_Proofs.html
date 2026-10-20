@@ -372,7 +372,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 분산은 표준편차가 아니에요. 행렬 공분산에는 양쪽 계수와 전치가 필요하고, 밀도 변환에는 절대 부피 배율이 필요해요.</p>
 <p>이어서 읽기: <a href="#s0-variance">분산은 양쪽에 A와 A의 전치</a> · <a href="#s1-jacobian">determinant는 크기 배율, 일반화는 Jacobian</a> · <a href="#s2-product">두 다변량 가우시안의 곱</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.</p></div>
+<div class="sum" hidden><p class="sum-lead">이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.</p><div class="summary-group"><h4>조건·구분</h4><p>아핀 변환은 평균·공분산의 전달, 변수변환은 적분값을 보존하는 밀도 조절, 가우시안 곱은 정규화 전 분포 결합을 맡아요. 분산과 표준편차를 구별하고 공분산에는 양쪽 계수와 전치, 밀도에는 절대 부피 배율을 써요.</p></div></div>
 </article>
 <article class="topic" id="s0-mean"><h3>평균은 같은 꼴로 따라가요</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s3</span><span class="tag slide">L04 s7</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -442,7 +442,7 @@
       <dt>선형 연산자(linear operator)</dt><dd>합을 나누고 상수를 밖으로 꺼낼 수 있는 연산이에요.</dd>
       <dt>상수(deterministic)</dt><dd>랜덤하지 않은 값으로, 기댓값 밖으로 나와요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf X\in\mathbb R^n$의 평균·공분산이 유한하고 $\mathbf A\in\mathbb R^{m\times n}$, $\mathbf b\in\mathbb R^m$가 상수일 때의 식이에요. 결과 평균은 $m\times1$이에요.</p></div></div>
 </article>
 
 <article class="topic" id="s0-variance"><h3>분산은 양쪽에 A와 A의 전치</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s4</span><span class="tag slide">L04 s7</span></div>
@@ -531,7 +531,7 @@
     <dl class="terms">
       <dt>2차(quadratic)</dt><dd>분산은 A가 두 번 곱해져 A에 대해 2차로 커지고, b와는 무관해요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf A\boldsymbol\Sigma_X\mathbf A^T$는 $(m\times n)(n\times n)(n\times m)$인 $m\times m$ 자기 공분산이며 대칭이에요. 가운데 $\boldsymbol\Sigma_X$를 옮기면 안 되고, 차원 검사는 증명 자체가 아니에요.</p><p>수업 밖 확인 예제에서는 $\mathrm{Var}(2X_1+3X_2)=16+12+81=109$예요. 교차공분산 항 $12$를 버리면 $97$이 되어 틀려요.</p></div></div>
 </article>
 
 <article class="topic" id="s0-cross"><h3>교차공분산은 A의 전치가 한 번</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s5</span><span class="tag slide">L04 s7</span></div>
@@ -617,7 +617,7 @@
       <dt>교차공분산(cross-covariance)</dt><dd>서로 다른 두 확률벡터의 성분끼리 공분산을 모은 표예요.</dd>
       <dt>상관(correlation)</dt><dd>covariance를 두 표준편차로 나눠 정규화한 값이에요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>수업 밖 확인에서는 $\mathrm{Cov}(\mathbf Y,\mathbf X)=\mathbf A\boldsymbol\Sigma_X\in\mathbb R^{m\times n}$이고, 가중합 예의 두 방향은 $[11,29]^T$와 $[11,29]$예요. 자기 공분산은 정사각·대칭이지만 교차공분산은 그렇지 않을 수 있어요. covariance는 단위에 따라 크기가 달라지고 correlation은 표준편차로 정규화해 $[-1,1]$로 맞춰요.</p></div></div>
 </article>
     </section>
     <section id="s1"><h2>1. 다변량 가우시안 PDF 유도</h2>
@@ -673,7 +673,7 @@
       <dt>표준 가우시안(standard Gaussian)</dt><dd>평균 0, 분산 1인 정규분포</dd>
       <dt>positive-definite</dt><dd>공분산 행렬 Σ가 가져야 하는 성질</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>여기서 $\boldsymbol\mu\in\mathbb R^n$, $\boldsymbol\Sigma\in\mathbb R^{n\times n}$은 양의 정부호이고, 출발점 $Z_i$들은 서로 독립인 $\mathcal N(0,1)$이에요. 독립성으로 결합밀도를 곱하며 $\sum_i z_i^2=\mathbf z^T\mathbf z$로 묶어요. TA1 s6의 두 번째 $Z_1$은 $Z_2$의 오타예요.</p></div></div>
 </article>
 
 <article class="topic" id="s1-lz"><h3>X = LZ + μ로 원하는 가우시안 만들기</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s7</span><span class="tag slide">TA1 s8</span></div>
@@ -737,7 +737,7 @@
       <dt>off-diagonal 원소</dt><dd>서로 다른 성분 사이의 공분산, 0이 아니면 두 성분이 닮아 움직여요</dd>
       <dt>가역 행렬(invertible matrix)</dt><dd>역행렬이 있어 변환을 되돌릴 수 있는 행렬</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf L\in\mathbb R^{n\times n}$은 가역이고 $\boldsymbol\mu$는 상수예요. $\mathbf L\mathbf L^T$는 원래 공분산이 $\mathbf I$라서 생긴 특별한 꼴이며, 일반적으로는 가운데 공분산을 유지해요. 예에서 $X_1,X_2$는 $Z_1$을 공유해 공분산이 $2$이므로 독립이 아니고, 변환 후 대각 밖 원소를 $0$이라 가정하면 안 돼요.</p></div></div>
 </article>
 
 <article class="topic" id="s1-area"><h3>넓이가 6배면 밀도는 6분의 1</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s9</span></div>
@@ -812,7 +812,7 @@
       <dt>단위정사각형(unit square)</dt><dd>z-공간에서 넓이 1인 기준 영역</dd>
       <dt>평행사변형(parallelogram)</dt><dd>단위정사각형이 L로 옮겨진 모양</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>PDF 높이는 확률 자체가 아니고 영역 적분이 확률이에요. 가역 변환에서 대응 영역의 확률과 전체 적분 $1$을 보존해요. 위젯의 $\mathbf L=[[a,0],[c,d]]$에서 $c$만 바꾸면 기울기와 공분산 $ac$는 바뀌지만 넓이 $|ad|$는 같아요.</p></div></div>
 </article>
 
 <article class="topic" id="s1-jacobian"><h3>determinant는 크기 배율, 일반화는 Jacobian</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s9</span></div>
@@ -872,7 +872,7 @@
       <dt>행렬식(determinant)</dt><dd>변환된 공간의 크기 배율</dd>
       <dt>Jacobian</dt><dd>각 출력을 각 입력으로 편미분해 모은 행렬</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>크기 배율은 $|\det\mathbf J|$이며 각 방향의 늘어남을 따로 알려 주지는 않아요. 이 아핀 변환에서는 $\mathbf J=\partial\mathbf x/\partial\mathbf z=\mathbf L$이므로 밀도에 $1/|\det\mathbf L|$을 곱해요.</p></div></div>
 </article>
 
 <article class="topic" id="s1-inverse"><h3>역변환으로 지수부 정리</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s10</span></div>
@@ -920,7 +920,7 @@
       <li><span class="eq-name">가운데 행렬</span>$$(\mathbf{L}^T)^{-1}\mathbf{L}^{-1} = (\mathbf{L}\mathbf{L}^T)^{-1} = \boldsymbol{\Sigma}^{-1}$$</li>
       <li><span class="eq-name">지수부</span>$$\mathbf{z}^T\mathbf{z} = (\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})$$</li>
     </ul>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf L$이 가역이어야 역변환을 쓸 수 있어요. $(\mathbf L^{-1})^T=(\mathbf L^T)^{-1}$와 역행렬 곱 순서를 지켜 $\boldsymbol\Sigma^{-1}$로 묶어요. 이 단계에는 앞 계수 $1/|\det\mathbf L|$가 남아 있어 정규화 계수까지 바꿔야 완성이에요.</p></div></div>
 </article>
 
 <article class="topic" id="s1-det"><h3>det Σ = (det L)²로 완성</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s11</span><span class="tag slide">L04 s8</span></div>
@@ -969,7 +969,7 @@
       <li><span class="eq-name">계수 바꾸기</span>$$\det(\boldsymbol{\Sigma}) = \det(\mathbf{L})^2$$ $$\sqrt{|\boldsymbol{\Sigma}|} = |\det(\mathbf{L})|$$</li>
       <li><span class="eq-name">다변량 가우시안 PDF</span>$$f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}|}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}$$</li>
     </ul>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\boldsymbol\Sigma$가 양의 정부호라 $\det\boldsymbol\Sigma\gt0$이며 $\sqrt{\det\boldsymbol\Sigma}=|\det\mathbf L|$예요.</p><p>수업에서 유도하지 않은 보충 검산은 $\det[[4,2],[2,10]]=36=6^2$로, $\sqrt{36}=6$을 확인해요.</p></div></div>
 </article>
     </section>
     <section id="s2"><h2>2. 두 가우시안의 곱</h2>
@@ -1021,7 +1021,7 @@
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>완전제곱(completing the square)</dt><dd>2차식을 제곱 한 덩어리와 상수로 바꾸는 것</dd><dt>정규화 상수(normalization constant)</dt><dd>적분이 1이 되게 맞추는 상수 $c$</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\alpha\gt0$, $\beta,\gamma\in\mathbb R$가 조건이에요. $x$와 무관한 $\gamma-\beta^2/\alpha$는 평균·분산에는 영향이 없지만 정규화 상수에 포함해야 해요. 정규화 전에는 가우시안에 비례하는 함수예요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-scalar"><h3>스칼라 가우시안 두 개의 곱</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s13</span><span class="tag slide">TA1 s14</span><span class="tag slide">L04 s10</span></div>
@@ -1065,7 +1065,7 @@
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>2차식</dt><dd>지수 안이 $x^2$, $x$, 상수로 이루어진 식</dd><dt>비례($\propto$)</dt><dd>상수배만 다르다는 뜻</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\nu_0,\nu_1$은 표준편차가 아닌 분산이에요. 같은 $x$의 밀도곱은 정규화 전에는 새 PDF와 등호가 아닌 $\propto$로 연결돼요. 새 분산은 두 분산보다 작고 새 평균은 분산이 작은 쪽에 더 큰 가중치를 줘요. TA1 s13의 $\nu_i^2$ 표기는 여기의 분산 $\nu_i$로 바로잡았어요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-matrix-lemma"><h3>행렬판 Lemma</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s15</span><span class="tag slide">TA1 s16</span><span class="tag slide">TA1 s17</span></div>
@@ -1128,7 +1128,7 @@
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>symmetric</dt><dd>$\mathbf{A}^T = \mathbf{A}$인 행렬</dd><dt>표준형</dt><dd>$(\mathbf{x}-\boldsymbol{\mu})^T\mathbf{A}(\mathbf{x}-\boldsymbol{\mu})$처럼 완전제곱으로 묶은 꼴</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>여기의 $\mathbf A\in\mathbb R^{n\times n}$은 대칭 양의 정부호, $\mathbf b\in\mathbb R^n$는 상수이고 $\gamma$는 스칼라예요. 아핀 변환의 같은 이름 계수와 구별해요. 스칼라 $\mathbf x^T\mathbf A\boldsymbol\mu$의 전치와 $\mathbf A^T=\mathbf A$로 두 교차항을 합쳐요.</p><p>$\mathbf A$는 공분산이 아닌 정밀도이고 $\boldsymbol\Sigma=\mathbf A^{-1}$이에요. $\mathbf x$와 무관한 나머지는 정규화로 처리하며, 정규화 상수의 상세 식은 조교가 중요하지 않다며 넘긴 범위예요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-product"><h3>두 다변량 가우시안의 곱</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s18</span><span class="tag slide">TA1 s19</span><span class="tag slide">L04 s11</span></div>
@@ -1178,13 +1178,13 @@
     <p class="sum-lead">두 가우시안을 곱해 2차 형태로 묶고 행렬판 Lemma에 넣으면 새 평균과 공분산이 나와요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
-      <li><span class="eq-name">계수 맞추기</span>$$\mathbf{A} = \boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1}, \qquad \mathbf{b} = \boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1$$</li>
+      <li><span class="eq-name">계수 맞추기</span>$$\begin{aligned}\mathbf A&=\boldsymbol\Sigma_0^{-1}+\boldsymbol\Sigma_1^{-1},\\\mathbf b&=\boldsymbol\Sigma_0^{-1}\boldsymbol\mu_0\\&\quad+\boldsymbol\Sigma_1^{-1}\boldsymbol\mu_1\end{aligned}$$</li>
       <li><span class="eq-name">새 공분산</span>$$\boldsymbol{\Sigma} = (\boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1})^{-1}$$</li>
-      <li><span class="eq-name">새 평균</span>$$\boldsymbol{\mu} = (\boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1})^{-1}(\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1)$$</li>
+      <li><span class="eq-name">새 평균</span>$$\begin{aligned}\boldsymbol\mu={}&(\boldsymbol\Sigma_0^{-1}+\boldsymbol\Sigma_1^{-1})^{-1}\\&{}\cdot(\boldsymbol\Sigma_0^{-1}\boldsymbol\mu_0\\&\quad+\boldsymbol\Sigma_1^{-1}\boldsymbol\mu_1)\end{aligned}$$</li>
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>이차형식(quadratic form)</dt><dd>$\mathbf{x}^T\mathbf{A}\mathbf{x}$처럼 벡터 양쪽에 행렬을 끼운 2차식</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>같은 변수 $\mathbf x$에 대한 두 밀도를 곱하는 계산이며 정규화 전에는 $\propto$예요. 대칭 정밀도로 교차항을 모으되 행렬 곱 순서는 그대로 유지해요. TA1 s18의 (2)항에 빠진 첫 괄호 전치는 본문처럼 $(\mathbf x-\boldsymbol\mu_1)^T$로 읽어요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-rewrite"><h3>강의자료 모양으로 다시 쓰기</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s20</span><span class="tag slide">L04 s11</span></div>
@@ -1242,12 +1242,12 @@
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">역행렬 순서 규칙</span>$$(\mathbf{A}\mathbf{B}\mathbf{C})^{-1} = \mathbf{C}^{-1}\mathbf{B}^{-1}\mathbf{A}^{-1}$$</li>
-      <li><span class="eq-name">공분산 다시 쓰기</span>$$\boldsymbol{\Sigma} = \left[\boldsymbol{\Sigma}_0^{-1}(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)\boldsymbol{\Sigma}_1^{-1}\right]^{-1} = \boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\Sigma}_0$$</li>
-      <li><span class="eq-name">강의자료 모양의 결과</span>$$p_0(\mathbf{x})p_1(\mathbf{x}) \propto \mathcal{N}\left(\boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_0(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\mu}_1,\ \boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\Sigma}_0\right)$$</li>
+      <li><span class="eq-name">공분산 다시 쓰기</span>$$\begin{aligned}\boldsymbol\Sigma&=\bigl[\boldsymbol\Sigma_0^{-1}\\&\quad{}\cdot(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)\boldsymbol\Sigma_1^{-1}\bigr]^{-1}\\&=\boldsymbol\Sigma_1(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}\boldsymbol\Sigma_0\end{aligned}$$</li>
+      <li><span class="eq-name">강의자료 모양의 결과</span>$$\begin{aligned}p_0(\mathbf x)p_1(\mathbf x)&\propto\mathcal N(\boldsymbol\mu,\boldsymbol\Sigma),\\\boldsymbol\mu&=\boldsymbol\Sigma_1(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}\boldsymbol\mu_0\\&\quad+\boldsymbol\Sigma_0(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}\boldsymbol\mu_1\end{aligned}$$</li>
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>하나마나 한 짓</dt><dd>값은 그대로 두고 표현만 바꾸는 계산(조교의 말)</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>행렬은 곱 순서를 바꾸지 않아요. 둘째 평균 항을 소거할 때 공분산을 전치한 동등한 꼴로 써요. $(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-T}=(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}$의 근거는 정방이라는 사실이 아니라 대칭행렬의 역행렬도 대칭이라는 점이에요.</p></div></div>
 </article>
     </section>
     <section id="s3"><h2>3. 요약 · 예고</h2>
@@ -1301,9 +1301,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1605,7 +1604,6 @@ function lmapSvg(a, c, d) {
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1637,8 +1635,6 @@ function lmapSvg(a, c, d) {
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1661,14 +1657,12 @@ function lmapSvg(a, c, d) {
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

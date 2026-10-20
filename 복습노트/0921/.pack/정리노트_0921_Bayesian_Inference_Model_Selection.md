@@ -4,6 +4,36 @@
 
 > `정리노트_0921_Bayesian_Inference_Model_Selection.html`를 마크다운으로 옮겼어요. 그림은 `figures_0921/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
+**목차**
+
+- [0. 통계적 추론: ML/MAP vs Fully Bayesian](#s0)
+  - [모르는 값을 없애서, 궁금한 것의 분포를 구해요](#s0-learning-map)
+  - [1. 통계적 추론은 P(A | X) 하나로](#s0-inference)
+  - [2. ML/MAP은 공장 g를 거친 근사](#s0-approx)
+- [1. Fully Bayesian 추론](#s1)
+  - [3. 주변화 → 곱셈 규칙 → 조건부 독립](#s1-derivation)
+  - [4. 조건부 기댓값으로 읽기와 델타 함수](#s1-expectation)
+  - [5. Fully Bayesian이 어려운 이유와 근사 기법](#s1-hardness)
+- [2. 방향 그래피컬 모델](#s2)
+  - [6. 왜 그래프인가: 독립과 조건부 독립](#s2-motivation)
+  - [7. 그래프 시맨틱스와 인수분해 (가족 그래프)](#s2-semantics)
+  - [8. N번 동전 던지기와 하이퍼프라이어](#s2-coin)
+  - [9. 헬스케어 예제: LUCAS 인과 그래프](#s2-healthcare)
+  - [10. 생일 예로 본 ML vs MAP, 그리고 방향 그래프](#s2-birthday)
+- [3. 모델 선택](#s3)
+  - [11. 모델 선택은 선택의 문제: 훈련·검증·테스트](#s3-validation)
+  - [12. 교차 검증](#s3-cv)
+  - [13. 베이지안 모델 선택](#s3-bayes-ms)
+  - [14. 베이즈 팩터로 두 모델 비교](#s3-bayes-factor)
+- [4. 한 장 요약 · 다음 시간 예고](#s4)
+  - [한 장 치트시트](#s4-cheatsheet)
+  - [다음 시간 예고 (아직 안 배움)](#s4-next)
+  - [함께 보면 좋은 자료](#s4-links)
+
+<a id="s0"></a>
+
+## 0. 통계적 추론: ML/MAP vs Fully Bayesian
+
 <a id="s0-learning-map"></a>
 
 ### 모르는 값을 없애서, 궁금한 것의 분포를 구해요
@@ -36,38 +66,11 @@ ML·MAP은 파라미터 하나를 넣어 예측하고, FB는 가능한 파라미
 
 FB의 예측 결과는 새 관측값의 분포예요. 모델 선택에서는 검증 성능이나 주변우도 등 서로 다른 기준을 사용할 수 있어요.
 
+#### 조건·구분
+
+FB는 파라미터의 예측을 사후분포로 가중해 주변화해요. 이 가중평균은 일반적으로 파라미터 평균 하나를 대입하는 것과 다르며, 후자가 같으려면 선형성 같은 조건이 필요해요.
+
 ---
-
-**목차**
-
-- [먼저 큰 그림](#s0-learning-map)
-
-- [0. 통계적 추론: ML/MAP vs Fully Bayesian](#s0)
-  - [1. 통계적 추론은 P(A | X) 하나로](#s0-inference)
-  - [2. ML/MAP은 공장 g를 거친 근사](#s0-approx)
-- [1. Fully Bayesian 추론](#s1)
-  - [3. 주변화 → 곱셈 규칙 → 조건부 독립](#s1-derivation)
-  - [4. 조건부 기댓값으로 읽기와 델타 함수](#s1-expectation)
-  - [5. Fully Bayesian이 어려운 이유와 근사 기법](#s1-hardness)
-- [2. 방향 그래피컬 모델](#s2)
-  - [6. 왜 그래프인가: 독립과 조건부 독립](#s2-motivation)
-  - [7. 그래프 시맨틱스와 인수분해 (가족 그래프)](#s2-semantics)
-  - [8. N번 동전 던지기와 하이퍼프라이어](#s2-coin)
-  - [9. 헬스케어 예제: LUCAS 인과 그래프](#s2-healthcare)
-  - [10. 생일 예로 본 ML vs MAP, 그리고 방향 그래프](#s2-birthday)
-- [3. 모델 선택](#s3)
-  - [11. 모델 선택은 선택의 문제: 훈련·검증·테스트](#s3-validation)
-  - [12. 교차 검증](#s3-cv)
-  - [13. 베이지안 모델 선택](#s3-bayes-ms)
-  - [14. 베이즈 팩터로 두 모델 비교](#s3-bayes-factor)
-- [4. 한 장 요약 · 다음 시간 예고](#s4)
-  - [한 장 치트시트](#s4-cheatsheet)
-  - [다음 시간 예고 (아직 안 배움)](#s4-next)
-  - [함께 보면 좋은 자료](#s4-links)
-
-<a id="s0"></a>
-
-## 0. 통계적 추론: ML/MAP vs Fully Bayesian
 
 <a id="s0-inference"></a>
 
@@ -157,6 +160,10 @@ MLE와 MAP의 자세한 차이는 따로 올린 강의노트와 강의 동영상
 - **통계적 추론(statistical inference)** — 가진 것을 조건으로 궁금한 것의 확률을 구하는 문제
 - **모델(suppose)** — 데이터가 이렇게 만들어졌다고 내가 가정한 규칙
 
+#### 조건·구분
+
+ML은 데이터 우도만, MAP은 prior를 반영한 사후분포를 최대화해요. 둘 다 가정한 모델 안에서 파라미터 하나를 선택해요.
+
 ---
 
 <a id="s0-approx"></a>
@@ -185,7 +192,6 @@ ML/MAP 추론은 원시 데이터 $X$를 직접 쓰지 않아요. 단계는 이�
    $$
    P(A \mid X) \approx P(A \mid \theta_{\text{ML}})
    $$
-
 
    $$
    P(A \mid X) \approx P(A \mid \theta_{\text{MAP}})
@@ -241,6 +247,10 @@ ML/MAP은 데이터를 공장에서 $\theta$ 하나로 줄인 뒤 쓰므로 근�
 
 - **잠재 파라미터(latent parameter)** — 데이터 뒤에 숨어 직접 보이지 않는 $\theta$
 - **There is no free lunch** — 더 정확한 방법은 그만큼 계산 비용이 든다
+
+#### 조건·구분
+
+파라미터를 먼저 추정해 들고 다니면 계산 비용을 줄이지만 추정 오류가 예측으로 이어질 수 있어요. 수업의 “프리트레이닝”은 여기서 일반적인 파라미터 추정을 뜻해요.
 
 ---
 
@@ -298,7 +308,6 @@ $$
    $$
    P(A \mid X) = \int P(A, \theta \mid X)\, d\theta = \int P(A \mid \theta, X)\, P(\theta \mid X)\, d\theta
    $$
-
 
    $$
    P(A \mid X) = \int P(A \mid \theta)\, P(\theta \mid X)\, d\theta
@@ -377,11 +386,9 @@ $$
 E[X] = \int x\, f(x)\, dx
 $$
 
-
 $$
 E[g(X)] = \int g(x)\, f(x)\, dx
 $$
-
 
 $$
 E[g(X) \mid Y=y] = \int g(x)\, f(x \mid y)\, dx
@@ -543,6 +550,10 @@ Fully Bayesian이 더 좋아 보여도 계산 비용을 치러야 한다는 뜻�
 - **MCMC(Markov chain Monte Carlo)** — 샘플로 분포를 근사하는 기법
 - **Laplace approximation** — 봉우리 주변을 가우시안으로 피팅하는 근사
 
+#### 조건·구분
+
+정규화 상수와 예측에 각각 적분이 있고, 작은 값의 곱은 수치 언더플로를 일으킬 수 있어요. ML·MAP의 핵심은 최적화, FB의 핵심은 적분이에요. variational inference와 expectation propagation은 이름만 언급했어요.
+
 ---
 
 <a id="s2"></a>
@@ -697,6 +708,10 @@ $$
 - **인수분해(factorization)** — 결합분포를 조건부 확률의 곱으로 나눠 쓰기
 - **parent / child** — 화살표가 나가는 노드 / 들어오는 노드
 
+#### 조건·구분
+
+확률 곱셈 규칙으로 다른 순서의 등식도 쓸 수 있지만, 주어진 그래프의 부모 목록을 읽으려면 그 구조에 맞춘 인수분해를 써요.
+
 ---
 
 <a id="s2-coin"></a>
@@ -808,6 +823,10 @@ $$
 - **LUCAS** — 폐암 관련 요인을 그린 헬스케어 인과 그래프 예제
 - **검증할 수 없는 관계** — 화살표를 넣지 않아요(예: 손 없는 날)
 
+#### 조건·구분
+
+이 예에서 기침은 폐암과 알레르기 둘 다의 자식이므로 기침만으로 폐암을 단정하지 않아요. 생일 노드는 다른 노드와 연결되지 않아요.
+
 ---
 
 <a id="s2-birthday"></a>
@@ -854,6 +873,10 @@ ML의 문제는 데이터가 작으면 전체 현상을 대변하지 못한다�
 - **정규화(regularization)** — 데이터만 믿는 판단을 사전 지식으로 조정하기
 - **사전확률(prior probability)** — 데이터로 설명할 수 없는 전문가의 믿음 $P(\theta)$
 - **directed graphical model** — 조건부 확률로 관계를 나타내는 방향 그래프
+
+#### 조건·구분
+
+ML 약 0.8, MAP 약 0.55는 수업이 든 설명용 숫자예요. 실제 prior 분포를 계산해 얻은 보편적인 비율로 읽지 않아요. 수업에서는 방향 그래프만 다뤘어요.
 
 ---
 
@@ -922,6 +945,10 @@ ML의 문제는 데이터가 작으면 전체 현상을 대변하지 못한다�
 - **test set** — 끝까지 숨겨 뒀다가 최종 성능을 보고하는 데이터
 - **trade-off** — model complexity와 data fit 사이의 균형, 넘치면 overfitting
 
+#### 조건·구분
+
+예시의 60개로 파라미터를 학습하고 20개로 후보 모델을 선택한 뒤, 끝까지 남긴 test 20개로 최종 성능을 보고해요. 성능이 비슷하면 더 단순한 모델을 고르는 것이 오컴의 면도날이에요.
+
 ---
 
 <a id="s3-cv"></a>
@@ -971,6 +998,10 @@ training 80개를 학습 60개와 검증 20개로 나누는 60:20은 정답이 �
 - **교차 검증(cross validation)** — training을 4조각으로 나눠 3개로 학습, 1개로 검증을 돌아가며 반복
 - **validation set** — 가장 좋은 모델을 고르는 데 쓰는 데이터
 - **일반화(generalization)** — test set으로 추정하는, 처음 보는 데이터에서의 성능
+
+#### 조건·구분
+
+예시에서는 training 80개를 4조각으로 나누고, 3조각 학습·1조각 검증을 4번 반복해 검증 성능을 모아요. 60:20은 고정된 정답 비율이 아니며 test는 모델 선택에 쓰지 않아요.
 
 ---
 
@@ -1075,7 +1106,7 @@ $$
 - 증거
 
   $$
-  P(D \mid M_k) = \int P(D \mid \theta_k)\, P(\theta_k \mid M_k)\, d\theta_k = \mathbb{E}_{\theta_k \mid M_k}\!\left[P(D \mid \theta_k)\right]
+  \begin{aligned}P(D\mid M_k)&=\int P(D\mid\theta_k)\\&\quad{}\cdot P(\theta_k\mid M_k)\,d\theta_k\\&=\mathbb E_{\theta_k\mid M_k}\\&\quad\left[P(D\mid\theta_k)\right]\end{aligned}
   $$
 - 모델의 MAP
 
@@ -1087,6 +1118,10 @@ $$
 
 - **증거(evidence)** — 주변 우도(marginal likelihood), 모델이 데이터를 설명하는 정도의 평균
 - **균등 사전확률(uniform prior)** — $P(M_k) = 1/K$, 이때 MAP은 ML과 같아요
+
+#### 조건·구분
+
+증거는 해당 모델의 파라미터 prior로 우도를 평균낸 값이에요. 균등 모델 prior이면 posterior 최대화와 증거 최대화가 같고, 점수가 비슷하면 복잡도도 함께 따져요.
 
 ---
 
@@ -1158,6 +1193,10 @@ $$
 - **베이즈 팩터(Bayes factor)** — 두 모델의 증거의 비, 균등 사전확률이면 이것만 보면 돼요
 - **MCMC** — 증거 적분이 어려울 때 쓰는 근사 방법
 
+#### 조건·구분
+
+균등 prior이면 prior odds=1이라 Bayes factor가 1보다 큰지, 로그비가 0보다 큰지 비교해요. 일반 prior에서는 prior odds도 곱해야 하며, 증거 적분의 MCMC 계산은 뒤 시간 범위예요.
+
 ---
 
 <a id="s4"></a>
@@ -1219,12 +1258,12 @@ $$
 - [Lecture 11 · Statistical Inference Part 2 (쉬운 설명)](../../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
 - [Lecture 12 · Statistical Inference Part 3 (쉬운 설명)](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 - [복습문제 6선 풀러 가기 (0921 수업 범위)](복습문제_0921_Bayesian_Inference_Model_Selection.md)
+- [지난 정리노트: 0916 MAP and Generative Models](../../0916/정리노트_0916_MAP_and_Generative_Models.html)
 
 복습문제 6문항
 
 - [문제지 PDF](복습문제_0921_Bayesian_Inference_Model_Selection-문제.pdf)
 - [해설지 PDF](복습문제_0921_Bayesian_Inference_Model_Selection-답안.pdf)
-- [지난 정리노트: 0916 MAP and Generative Models](../../0916/정리노트_0916_MAP_and_Generative_Models.html)
 
 ---
 

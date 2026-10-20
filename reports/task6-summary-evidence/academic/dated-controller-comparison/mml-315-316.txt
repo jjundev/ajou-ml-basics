@@ -1,0 +1,122 @@
+9.3 Bayesian Linear Regression                                                             309
+
+Remark (Marginal Likelihood and Posterior Predictive Distribution). By
+replacing the integral in (9.57a), the predictive distribution can be equiv-
+alently written as the expectation Eθ | X ,Y [p(y∗ | x∗ , θ)], where the expec-
+tation is taken with respect to the parameter posterior p(θ | X , Y).
+   Writing the posterior predictive distribution in this way highlights a
+close resemblance to the marginal likelihood (9.42). The key difference
+between the marginal likelihood and the posterior predictive distribution
+are (i) the marginal likelihood can be thought of predicting the training
+targets y and not the test targets y∗ , and (ii) the marginal likelihood av-
+erages with respect to the parameter prior and not the parameter poste-
+rior.                                                                        ♢
+Remark (Mean and Variance of Noise-Free Function Values). In many
+cases, we are not interested in the predictive distribution p(y∗ | X , Y, x∗ )
+of a (noisy) observation y∗ . Instead, we would like to obtain the distribu-
+tion of the (noise-free) function values f (x∗ ) = ϕ⊤ (x∗ )θ . We determine
+the corresponding moments by exploiting the properties of means and
+variances, which yields
+    E[f (x∗ ) | X , Y] = Eθ [ϕ⊤ (x∗ )θ | X , Y] = ϕ⊤ (x∗ )Eθ [θ | X , Y]
+                                                                                       (9.58)
+                        = ϕ⊤ (x∗ )mN = m⊤
+                                        N ϕ(x∗ ) ,
+
+    Vθ [f (x∗ ) | X , Y] = Vθ [ϕ⊤ (x∗ )θ | X , Y]
+                          = ϕ⊤ (x∗ )Vθ [θ | X , Y]ϕ(x∗ )                               (9.59)
+                                ⊤
+                          = ϕ (x∗ )S N ϕ(x∗ ) .
+We see that the predictive mean is the same as the predictive mean for
+noisy observations as the noise has mean 0, and the predictive variance
+only differs by σ 2 , which is the variance of the measurement noise: When
+we predict noisy function values, we need to include σ 2 as a source of
+uncertainty, but this term is not needed for noise-free predictions. Here,
+the only remaining uncertainty stems from the parameter posterior.       ♢                         Integrating out
+Remark (Distribution over Functions). The fact that we integrate out the                           parameters induces
+parameters θ induces a distribution over functions: If we sample θ i ∼                             a distribution over
+                                                                                                   functions.
+p(θ | X , Y) from the parameter posterior, we obtain a single function re-
+alization θ ⊤
+            i ϕ(·). The mean function, i.e., the set of all expected function                      mean function
+values Eθ [f (·) | θ, X , Y], of this distribution over functions is m⊤ N ϕ(·).
+The (marginal) variance, i.e., the variance of the function f (·), is given by
+ϕ⊤ (·)S N ϕ(·).                                                              ♢
+
+Example 9.8 (Posterior over Functions)
+Let us revisit the Bayesian linear regression problem with polynomials
+of degree 5. We choose a parameter prior p(θ) = N 0, 41 I . Figure 9.9
+visualizes the prior over functions induced by the parameter prior and
+sample functions from this prior.
+
+
+©2024 M. P. Deisenroth, A. A. Faisal, C. S. Ong. Published by Cambridge University Press (2020).
+                     310                                                                                    Linear Regression
+
+
+                        Figure 9.10 shows the posterior over functions that we obtain via
+                     Bayesian linear regression. The training dataset is shown in panel (a);
+                     panel (b) shows the posterior distribution over functions, including the
+                     functions we would obtain via maximum likelihood and MAP estimation.
+                     The function we obtain using the MAP estimate also corresponds to the
+                     posterior mean function in the Bayesian linear regression setting. Panel (c)
+                     shows some plausible realizations (samples) of functions under that pos-
+                     terior over functions.
+Figure 9.10
+Bayesian linear           4                                  4                                     4
+
+regression and            2                                  2                                     2
+posterior over       y    0                             y    0                                y    0
+functions.                                                            Training data
+                         −2                                 −2        MLE                         −2
+(a) training data;                                                    MAP
+(b) posterior            −4                                 −4        BLR                         −4
+
+                              −4   −2                            −4      −2                            −4   −2
+distribution over                       0
+                                        x
+                                             2     4                              0
+                                                                                  x
+                                                                                      2   4                      0
+                                                                                                                 x
+                                                                                                                     2   4
+
+functions;
+                              (a) Training data.       (b) Posterior over functions rep- (c) Samples from the posterior
+(c) Samples from
+                                                       resented by the marginal uncer- over functions, which are in-
+the posterior over
+                                                       tainties (shaded) showing the duced by the samples from the
+functions.
+                                                       67% and 95% predictive con- parameter posterior.
+                                                       fidence bounds, the maximum
+                                                       likelihood estimate (MLE) and
+                                                       the MAP estimate (MAP), the
+                                                       latter of which is identical to
+                                                       the posterior mean function.
+
+
+
+
+                        Figure 9.11 shows some posterior distributions over functions induced
+                     by the parameter posterior. For different polynomial degrees M , the left
+                     panels show the maximum likelihood function θ ⊤       ML ϕ(·), the MAP func-
+                     tion θ ⊤
+                            MAP ϕ(·) (which is identical to the posterior mean  function), and the
+                     67% and 95% predictive confidence bounds obtained by Bayesian linear
+                     regression, represented by the shaded areas.
+                        The right panels show samples from the posterior over functions: Here,
+                     we sampled parameters θ i from the parameter posterior and computed
+                     the function ϕ⊤ (x∗ )θ i , which is a single realization of a function under
+                     the posterior distribution over functions. For low-order polynomials, the
+                     parameter posterior does not allow the parameters to vary much: The
+                     sampled functions are nearly identical. When we make the model more
+                     flexible by adding more parameters (i.e., we end up with a higher-order
+                     polynomial), these parameters are not sufficiently constrained by the pos-
+                     terior, and the sampled functions can be easily visually separated. We also
+                     see in the corresponding panels on the left how the uncertainty increases,
+                     especially at the boundaries.
+                        Although for a seventh-order polynomial the MAP estimate yields a rea-
+                     sonable fit, the Bayesian linear regression model additionally tells us that
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+

@@ -4,25 +4,6 @@
 
 > `정리노트_1007_Product_of_Gaussians.html`를 마크다운으로 옮겼어요. 그림은 `figures_1007/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
-## 먼저 큰 그림: 분포를 남겨 두려면, 분포의 곱을 계산해야 해요
-
-**오늘의 질문.** 데이터를 본 뒤의 파라미터 분포를 실제로 구하려 해요. 가우시안을 쓰면 이 계산을 평균과 공분산으로 정리할 수 있어요.
-
-ML은 고정된 미지의 파라미터를 추정해요. MAP과 FB는 사전분포를 두지만, MAP은 최고점 하나를 고르고 FB는 분포 전체를 유지해요.
-
-| 구분 | 무엇을 하나요? | 무엇이 남나요? |
-|---|---|---|
-| ML | 데이터의 우도 최대화 | 파라미터 하나 |
-| MAP | 우도와 사전분포로 최고점 선택 | 파라미터 하나 |
-| FB | 사후분포를 계산하고 예측에 반영 | 평균과 공분산을 포함한 분포 |
-
-**구할 결과.** 가우시안 사후분포를 구하면 평균과 공분산이 핵심 결과예요. 이 경우에 한해 사후평균과 MAP 위치가 같아요.
-
-**수식이 하는 일.** 우도와 사전분포의 곱을 펼치면 지수 안의 이차식이 돼요. 완전제곱과 계수 비교로 새 가우시안의 평균·공분산을 읽으려는 것이 오늘 계산의 목적이에요.
-
-**헷갈리기 쉬운 점.** 파라미터에 관한 가우시안들의 곱은 정규화 상수를 제외하면 가우시안 모양이에요. 곱 자체가 이미 적분값 1인 밀도라고 가정하면 안 돼요.
-
-
 **목차**
 
 - [0. 큰 그림: 왜 베이지안인가](#s0)
@@ -173,6 +154,10 @@ ML은 고정된 미지의 파라미터를 추정해요. MAP과 FB는 사전분�
 - **풀리 베이지안(fully Bayesian)** — 값 하나 대신 PDF 자체를 원자료로 넘기는 방법
 - **MAP(maximum a posteriori)** — 데이터에 선호(prior)를 섞어 정한 값 하나
 
+#### 조건·구분
+
+MAP은 출력의 사후예측분포가 아니라 파라미터 사후분포의 최고점이에요. 사전밀도가 상수여서 최적점에 영향이 없을 때 MAP과 ML이 같아지며, 무한 공간의 상수 밀도는 정규화된 prior가 아닐 수 있어요. 가우시안 사후분포인 이 경우에 평균과 MAP 위치가 같고, FB 자체가 가우시안에 한정되지는 않아요.
+
 ---
 
 <a id="s0-features"></a>
@@ -257,6 +242,10 @@ $\boldsymbol{\phi}$ 자리에는 다항식 말고도 가우시안, 지수, 로�
 
 - **특징 함수(features)** — 입력을 새 공간으로 올리는 함수, 비선형이어도 돼요
 - **선형회귀(linear regression)** — $\boldsymbol{\theta}$에 대해 선형인 회귀 모델
+
+#### 조건·구분
+
+여기서 특징 함수 $\phi$와 커널 방법의 $k(\mathbf{x},\mathbf{x}^\prime)$는 달라요. $\boldsymbol{\theta}$는 학습 파라미터이며 prior의 $\mathbf{m}_0,\mathbf{S}_0$와 잡음의 $\sigma^2$가 하이퍼파라미터 쪽이에요.
 
 ---
 
@@ -390,6 +379,10 @@ $$
 - **주변화(marginalization)** — joint PDF를 한 변수로 적분해 그 변수를 없애는 일
 - **사후예측분포(posterior predictive distribution)** — 훈련 데이터를 보고 난 뒤 새 입력의 출력에 대한 PDF
 - **파라미터 사후분포(parameter posterior)** — 데이터를 어떤 $\boldsymbol{\theta}$가 잘 설명하는지 나타내는 분포
+
+#### 조건·구분
+
+joint 분해의 $p(\boldsymbol{\theta}\mid\mathbf{x})$를 prior로 바꾸는 것은 입력만으로 믿음이 바뀌지 않는다는 가정이에요. 예측 적분에서는 $\boldsymbol{\theta}$가 주어지면 새 출력은 훈련자료와 무관하고, 새 입력만으로는 파라미터 posterior가 바뀌지 않는다는 가정을 써요.
 
 ---
 
@@ -628,18 +621,22 @@ $$
 - 두 랜덤 벡터의 공분산
 
   $$
-  \mathrm{cov}(\mathbf{X}, \mathbf{Y}) = E[\mathbf{X}\mathbf{Y}^\top] - E[\mathbf{X}]E[\mathbf{Y}]^\top \in \mathbb{R}^{n \times m}
+  \begin{aligned}\mathrm{cov}(\mathbf X,\mathbf Y)&=E[\mathbf X\mathbf Y^\top]\\&-E[\mathbf X]E[\mathbf Y]^\top\\&\in\mathbb R^{n\times m}\end{aligned}
   $$
 - 공분산 행렬
 
   $$
-  \Sigma_{\mathbf{X}} := \mathrm{var}(\mathbf{X}) = \mathrm{cov}(\mathbf{X}, \mathbf{X}) \in \mathbb{R}^{n \times n}, \qquad [\Sigma_{\mathbf{X}}]_{ij} = \mathrm{cov}(X_i, X_j)
+  \begin{aligned}\Sigma_{\mathbf X}&:=\mathrm{var}(\mathbf X)\\&=\mathrm{cov}(\mathbf X,\mathbf X)\\&\in\mathbb R^{n\times n},\\{}[\Sigma_{\mathbf X}]_{ij}&=\mathrm{cov}(X_i,X_j)\end{aligned}
   $$
 
 *용어*
 
 - **공분산 행렬(covariance matrix)** — 대각은 분산, 비대각은 연관도인 대칭 행렬
 - **대칭(symmetric)** — $\mathrm{cov}(X_1, X_2) = \mathrm{cov}(X_2, X_1)$이라서 성립해요
+
+#### 조건·구분
+
+벡터에서는 $\mathrm{cov}(\mathbf{X},\mathbf{Y})=\mathrm{cov}(\mathbf{Y},\mathbf{X})^\top$으로 입력 순서를 바꾸면 전치돼요. 합의 평균은 더해지고, 합의 분산을 더하는 식에는 독립 또는 영교차공분산 조건이 있어요. 수업 외 보충은 실수 열벡터와 유한한 이차 모멘트에서 편차의 외적을 쓰며, 내적 하나나 성분별 분산만으로는 성분 사이의 공분산 표를 대신하지 못함을 보여요.
 
 ---
 
@@ -791,7 +788,6 @@ $$
 \mathrm{cov}(X_1,2X_1+3X_2)=2\cdot4+3\cdot1=11
 $$
 
-
 $$
 \mathrm{cov}(X_2,2X_1+3X_2)=2\cdot1+3\cdot9=29
 $$
@@ -830,6 +826,10 @@ $$
 
 - **아핀 변환(affine transformation)** — 상수 행렬을 곱하고 상수 벡터를 더하는 변환 $\mathbf{Y} = \mathbf{A}\mathbf{X} + \mathbf{b}$
 - **숙제** — 분산·교차 공분산 식의 증명. 다음 시간 조교가 첫 토픽으로 증명
+
+#### 조건·구분
+
+상수 $\mathbf{A}:m\times n$, $\mathbf{b}:m$에서 자기분산 $\mathbf{A}\Sigma\mathbf{A}^\top$는 $m\times m$, 교차공분산 $\Sigma\mathbf{A}^\top$는 $n\times m$예요. 수업 외 보충의 일반형은 $\mathrm{cov}(A\mathbf{X}+b,B\mathbf{Y}+c)=A\mathrm{cov}(\mathbf{X},\mathbf{Y})B^\top$이며, 이동은 편차에서 사라져요. 상수 계수와 유한 이차 모멘트를 전제하며 차원이 맞는 것만으로 증명되지는 않아요. 비교 예제의 열·행 공분산은 각각 $[11,29]^\top$, $[11,29]$이고 자기분산은 $109$예요. 교차항을 빼면 $97$이므로 독립을 가정하지 않은 예에서 교차항을 버리지 않아요.
 
 ---
 
@@ -969,6 +969,10 @@ $$
 - **행렬식(determinant)** — $|\Sigma|$, $2 \times 2$에서는 $ad - bc$
 - **양의 정부호(positive definite)** — 고유값이 모두 $0$보다 커서 $|\Sigma| \gt 0$인 대칭 행렬
 
+#### 조건·구분
+
+일반 공분산은 양의 준정부호까지만 보장돼요. 이 역행렬·행렬식 PDF를 쓰려면 대칭 양의 정부호여서 $|\Sigma|\gt0$이어야 해요. 행렬식은 절댓값이 아닌 스칼라이고 지수의 이차형식도 $(1\times n)(n\times n)(n\times1)$인 스칼라예요. 예제의 앞 계수는 $1/(2\pi\sqrt{2.99})$로 루트와 $2\pi$를 빠뜨리지 않아요.
+
 ---
 
 <a id="s2-closure"></a>
@@ -1047,6 +1051,10 @@ $$
 - **주변분포(marginal)** — 결합 가우시안에서 일부 변수를 적분해 없앤 분포, 여전히 가우시안
 - **조건부분포(conditional)** — 일부 변수의 값을 알고 본 나머지의 분포, 여전히 가우시안
 - **밀도의 곱(product of densities)** — 두 가우시안 밀도 함수의 곱, 상수배를 맞추면 가우시안
+
+#### 조건·구분
+
+곱하는 것은 같은 변수에 대한 밀도 함수예요. 랜덤 변수의 곱 $X_1X_2$는 일반적으로 가우시안이 아니며 밀도 곱에는 독립 조건이 필요하지 않아요. 주변·조건부 성질은 결합 가우시안에 대한 것이고, 제시한 가중합 공식에는 두 가우시안의 독립을 써요.
 
 ---
 
@@ -1146,6 +1154,10 @@ $$
 - **렘마(lemma)** — 본 증명 전에 알아 둘 보조 정리예요.
 - **완전제곱식(completing the square)** — 같은 수를 더하고 빼서 $(x - \cdot)^2$ 꼴을 만드는 방법이에요.
 
+#### 조건·구분
+
+$\alpha\gt0$이어야 분산 $1/\alpha$인 적분 가능한 가우시안이 돼요. 상수항 $\gamma$는 모양이 아니라 정규화 상수 $c$에 반영돼요.
+
 ---
 
 <a id="s3-product-scalar"></a>
@@ -1220,7 +1232,6 @@ $$
   \frac{\nu_0\nu_1}{\nu_0 + \nu_1} = \nu_0\cdot\frac{\nu_1}{\nu_0 + \nu_1} \lt \nu_0, \qquad \frac{\nu_0\nu_1}{\nu_0 + \nu_1} \lt \nu_1
   $$
 - 분산의 역수인 정밀도(precision)끼리 더해져요: $\alpha = \frac{1}{\nu_0} + \frac{1}{\nu_1}$. 교과서 식 (6.74) $C = (A^{-1} + B^{-1})^{-1}$의 스칼라판이에요.
-
 
 <a id="widget-gprod"></a>
 
@@ -1385,6 +1396,10 @@ $$
 
 - **공분산 행렬(covariance matrix)** — 스칼라 분산 $\nu$ 자리에 들어가는 $n\times n$ 행렬 $\Sigma$예요.
 
+#### 조건·구분
+
+같은 변수의 두 PDF 곱은 상수배를 맞춘 결과이고, 평균은 $n$벡터·공분산은 $n\times n$이에요. 행렬 곱 순서를 바꾸지 않아요. 본문의 정밀도 형태는 $C=(A^{-1}+B^{-1})^{-1}$, $\mathbf{c}=C(A^{-1}\mathbf{a}+B^{-1}\mathbf{b})$예요.
+
 ---
 
 <a id="s4"></a>
@@ -1448,7 +1463,6 @@ $$
 \mathbf{S}_N = (\mathbf{S}_0^{-1} + \sigma^{-2}\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}
 $$
 
-
 $$
 \mathbf{m}_N = \mathbf{S}_N(\mathbf{S}_0^{-1}\mathbf{m}_0 + \sigma^{-2}\boldsymbol{\Phi}^\top\mathbf{y})
 $$
@@ -1483,6 +1497,10 @@ $$
 
 - **파라미터 사후분포(parameter posterior distribution)** — 데이터를 본 뒤 파라미터의 분포
 - **사후예측분포(posterior predictive distribution)** — 새 입력의 출력에 대한 분포, 스칼라 가우시안
+
+#### 조건·구분
+
+수업 외 보충 결과는 $\mathbf{S}_N=(\mathbf{S}_0^{-1}+\sigma^{-2}\Phi^\top\Phi)^{-1}$, $\mathbf{m}_N=\mathbf{S}_N(\mathbf{S}_0^{-1}\mathbf{m}_0+\sigma^{-2}\Phi^\top\mathbf{y})$예요. 슬라이드의 $\sigma^2$ 대신 전개식·교과서에 맞는 $\sigma^{-2}$를 쓰며, 이 식과 유도는 수업에서 읽지 않았어요. 가능도는 $\boldsymbol{\theta}$의 밀도가 아니므로 같은 변수의 밀도곱 공식을 바로 쓰지 않고 이차식을 비교해요. 이 가우시안에서 $\theta_{\mathrm{MAP}}=\mathbf{m}_N$이고, 예측평균은 $\phi_*^\top\mathbf{m}_N$, 분산은 $\phi_*^\top\mathbf{S}_N\phi_*+\sigma^2$로 파라미터 불확실성과 측정잡음을 구별해요.
 
 ---
 
@@ -1564,6 +1582,10 @@ MLE·MAP은 선 하나를 주고, BLR은 평균 둘레의 띠로 불확실성까
 
 - **불확실성(uncertainty)** — 예측분포의 퍼짐, 데이터 근처에서 작아요
 - **MLE · MAP** — 값 하나(함수 하나)를 주는 점추정
+
+#### 조건·구분
+
+그림의 빨간 곡선은 posterior에서 뽑은 함수 표본이에요. 이 그림에서 훈련점 근처 띠는 좁고 데이터 없는 양 끝은 넓으며, 띠 가운데는 예측평균이자 이 모형의 MAP 곡선이에요. $3\sigma$ 구간은 약 $0.997$이고 밖은 약 $0.3\%$예요.
 
 ---
 

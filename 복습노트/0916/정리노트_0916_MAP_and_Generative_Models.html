@@ -371,7 +371,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> MAP이라고 사후분포 전체를 먼저 계산해야 하는 것은 아니에요. 최고점을 찾을 수 있으면 돼요. 사전분포를 쓰는 것과 분포 전체를 유지하는 것은 다른 선택이에요.</p>
 <p>이어서 읽기: <a href="#s1-posterior">Posterior와 베이즈 룰</a> · <a href="#s1-map">MAP = MLE + log prior</a> · <a href="#s3-three-ways">세 가지 답: ML · MAP · Fully Bayesian</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">MAP은 확률변수로 모델링한 파라미터에서 한 점을 고르고, FB는 가능한 값들의 불확실성을 계속 반영해요.</p></div>
+<div class="sum" hidden><p class="sum-lead">MAP은 확률변수로 모델링한 파라미터에서 한 점을 고르고, FB는 가능한 값들의 불확실성을 계속 반영해요.</p><div class="summary-group"><h4>조건·구분</h4><p>ML은 고정된 미지의 파라미터에서 우도를, MAP은 사전분포를 부여한 파라미터에서 사후밀도를 최대화해요. MAP은 최고점만 찾으면 되고 사후분포 전체 계산이 먼저 필요한 것은 아니에요.</p></div></div>
 </article>
 <article class="topic" id="s0-nll"><h3>Likelihood = 그럴듯함, 그리고 −log</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L01 s14</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">여러 설명 중에서 데이터를 가장 그럴듯하게 만드는 설명을 골라요.</p>
@@ -418,7 +418,7 @@
           <ul class="eq-list"><li><span class="eq-name">negative log-likelihood</span>$$\mathcal{L}(\theta) = -\log P(x\mid\theta)$$</li><li><span class="eq-name">지수분포 PDF</span>$$f(x)=\lambda e^{-\lambda x}$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>likelihood</dt><dd>그럴듯함, 파라미터가 데이터를 만들 확률</dd><dt>단조 증가</dt><dd>$\log$가 대소 관계를 보존하는 성질</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>로그는 가우시안의 $\exp$를 풀고 작은 값의 차이를 드러내요. PDF 높이는 1보다 클 수 있으며 전체 적분이 1이라는 조건과 구별해요.</p></div></div>
       </article>
       <article class="topic" id="s0-iid"><h3>i.i.d. 가정으로 곱을 합으로</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L01 s15</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">모든 데이터가 같은 공장에서 같은 방식으로 찍혀 나왔다고 믿어요.</p>
@@ -468,7 +468,7 @@
           <ul class="eq-list"><li><span class="eq-name">출발식</span>$$\mathcal{L}(\theta) = -\log P(\mathcal{Y}\mid\mathcal{X},\theta)$$</li><li><span class="eq-name">i.i.d. 적용 후</span>$$-\sum_{n=1}^{N}\log P(y_n\mid x_n,\theta)$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>i.i.d.</dt><dd>independent and identically distributed, 서로 독립이고 같은 분포</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>독립이면 예제별 우도를 곱으로 나누고, 동일 분포이면 공통 $\theta$를 써요. 곱을 합으로 바꾸는 단계는 $\log(ab)=\log a+\log b$예요.</p></div></div>
       </article>
       <article class="topic" id="s0-mle-ls"><h3>가우시안 노이즈면 MLE = Least Squares</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L01 s15</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">흔들림이 종 모양이라고 믿으면, 가장 그럴듯한 선은 점들과 가장 가까운 선이에요.</p>
@@ -506,7 +506,7 @@
           <ul class="eq-list"><li><span class="eq-name">모델</span>$$y_n = x_n^\top\theta + \epsilon,\qquad \epsilon\sim\mathcal{N}(0,\sigma^2)$$</li><li><span class="eq-name">NLL의 핵심</span>$$\mathcal{L}(\theta)\propto\frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n-x_n^\top\theta)^2$$</li><li><span class="eq-name">노름 표기</span>$$\sum_{n=1}^{N}(y_n-x_n^\top\theta)^2=\|y-X\theta\|^2$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>least squares</dt><dd>오차 제곱합을 최소화하는 방법</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>여기서는 i.i.d.와 공통 가우시안 잡음을 가정하고, $\sigma^2$를 $\theta$와 무관한 값으로 두어요. NLL에서 $\theta$와 무관한 상수항을 제외하고 남은 양의 배율의 오차 제곱합을 최소화하므로 해가 같아요.</p></div></div>
       </article>
     </section>
     <section id="s1"><h2>1. MAP와 모델 피팅</h2>
@@ -558,7 +558,7 @@
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>사후 확률(posterior)</dt><dd>데이터를 본 뒤의 $\theta$ 확률</dd><dt>argmax</dt><dd>최댓값을 만드는 변수 값</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>분모 $P(x)$는 $\theta$와 무관해 최고점 선택에서 제외해요. $\max$는 최고 밀도값이고 $\arg\max$는 그 값을 만드는 파라미터예요.</p></div></div>
       </article>
       <article class="topic" id="s1-map"><h3>MAP = MLE + log prior</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L01 s16</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -604,12 +604,12 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           <p>구체적인 회귀 예제는 다음 주부터 제대로 된 regression을 하면서 보여 주겠다고 했어요. (0916 28:19)</p>
         </div>
         <div class="sum" hidden>
-          <p class="sum-lead">MAP는 MLE 항에 log prior를 더해 최소화해요. prior가 uniform이면 MAP = MLE예요.</p>
+          <p class="sum-lead">MAP는 음의 로그우도에 음의 로그 prior를 더해 최소화해요. prior가 uniform이면 MAP = MLE예요.</p>
           <p class="panel-label">핵심 식</p>
-          <ul class="eq-list"><li><span class="eq-name">MAP</span>$$\theta_{\text{MAP}}=\arg\min_\theta\big[-\log P(x\mid\theta)-\log P(\theta)\big]$$</li></ul>
+          <ul class="eq-list"><li><span class="eq-name">MAP</span>$$\begin{aligned}\theta_{\text{MAP}}&=\arg\min_\theta\bigl[\\&-\log P(x\mid\theta)\\&-\log P(\theta)\bigr]\end{aligned}$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>사전 확률(prior)</dt><dd>데이터를 보기 전 $\theta$에 대한 믿음</dd><dt>uniform prior</dt><dd>모든 $\theta$를 똑같이 보는 상수 prior</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>정확한 최소화 항은 NLL에 <b>음의 로그 prior</b> $-\log P(\theta)$를 더한 것이에요. 확률로 쓰면 likelihood와 prior의 곱이에요.</p></div></div>
       </article>
       <article class="topic" id="s1-map-reg"><h3>보충: 가우시안 prior = L2 정규화</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L02 s5</span><span class="tag slide">L01 s12</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -661,7 +661,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           <ul class="eq-list"><li><span class="eq-name">L2 정규화</span>$$\min_\theta\frac{1}{N}\|y-X\theta\|^2+\lambda\|\theta\|^2$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>정규화(regularization)</dt><dd>선호를 벌점 항으로 목적함수에 더하는 것</dd><dt>$\lambda=0$</dt><dd>prior를 고려하지 않는 경우</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>보충(MML Example 8.6): 가우시안 likelihood와 $\theta\sim\mathcal N(0,b^2I)$, $b^2>0$인 가우시안 prior에서 $\lambda=\sigma^2/(Nb^2)$예요. 벡터 성분은 분산 $b^2$, 교차 공분산 0이며 공동 가우시안이라 독립이에요. 이 유도는 수업에서 미룬 부분이고, prior 폭이 좁을수록 벌점이 강해져요.</p></div></div>
       </article>
       <article class="topic" id="s1-fitting"><h3>Model fitting: 과적합 · 과소적합 · 적정적합</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L01 s17</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -740,7 +740,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
             <dt>과소적합(underfitting)</dt><dd>모델이 너무 단순해 가진 데이터도 못 맞힘</dd>
             <dt>모델 사이즈</dt><dd>최적화할 파라미터 개수</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>과적합은 훈련에는 잘 맞고 새 데이터에는 어긋나며, 과소적합은 훈련 데이터도 잘 설명하지 못해요. 적정적합은 양쪽을 잘 설명해야 하므로 학습 데이터로 테스트하지 않아요.</p></div></div>
       </article>
     </section>
     <section id="s2"><h2>2. 확률적 모델링: 생성 과정과 joint</h2>
@@ -825,7 +825,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
             <dt>생성 과정(generative process)</dt><dd>관측 데이터가 만들어졌다고 가정하는 (랜덤) 과정</dd>
             <dt>확률 모형(probabilistic model)</dt><dd>데이터 속 노이즈를 확률변수로 두는 모형</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>이 유도는 입력과 미지의 계수를 고정해 $c_n=x_n^\top\theta$를 상수로 보아요. 가우시안 잡음에 상수를 더하면 평균만 $c_n$으로 옮겨지고 분산 $\sigma^2$는 유지돼요.</p></div></div>
       </article>
       <article class="topic" id="s2-joint"><h3>Joint · Marginal · Latent</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L02 s5</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">보이는 것과 숨은 핵심을 한 표에 함께 적으면 가장 많은 걸 알 수 있어요.</p>
@@ -925,7 +925,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
             <dt>주변 분포(marginal)</dt><dd>joint에서 다른 변수를 적분해 없앤 분포</dd>
             <dt>잠재 변수(latent variable)</dt><dd>$x$를 만드는 숨은 $\theta$, 확률론에서는 hidden parameter</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>joint는 변수 사이 관계까지 담아요. 관심 없는 변수를 적분해 marginal을 얻을 수 있지만 marginal 둘만으로 원래 joint를 복원할 수는 없어요.</p></div></div>
       </article>
       <article class="topic" id="s2-posterior"><h3>Prior × Likelihood → Marginal Likelihood → Posterior</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L02 s5</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">처음 생각에 데이터가 알려 준 것을 곱해서 생각을 고쳐요.</p>
@@ -1037,7 +1037,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           <p>오늘은 요약본으로 설명하니, 지난 학기 확률 강의 영상을 꼭 찾아 보라고 당부했어요. "오늘 가서 꼭 … 강의 수강할 거야." (0916 60:09)</p>
         </div>
         <div class="sum" hidden>
-          <p class="sum-lead">ML·MAP은 $\theta$ 한 점을 예측모형에 넣고, FB는 θ의 posterior 전체로 예측을 가중해요. 모두 관측값의 예측분포를 낼 수 있어요.</p>
+          <p class="sum-lead">ML과 MAP는 $\theta$ 하나로 단답을 내고, Fully Bayesian은 posterior 전체로 예측해요.</p>
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list">
             <li><span class="eq-name">ML</span>$$\theta_{\text{ML}}=\arg\max_\theta P(X\mid\theta)$$</li>
@@ -1046,7 +1046,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>Fully Bayesian</dt><dd>$\theta$를 하나로 정하지 않고 분포 전체로 예측하는 방식</dd><dt>점 추정(point estimate)</dt><dd>$\theta$를 값 하나로 정하는 것(ML, MAP)</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>ML은 likelihood 최적화, MAP은 prior를 반영한 posterior 최적화이고 둘 다 점 추정이에요. FB의 핵심 계산은 posterior로 가중한 적분이며, 표시한 예측식의 조건부 독립 가정은 뒤 보충에서 풀어요.</p></div></div>
       </article>
       <article class="topic" id="s3-coin"><h3>보충: 동전으로 보는 ML과 MAP</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L02 s6</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">숫자만 보는 사람과 "내가 해 봐서 아는데" 하는 사람의 생각을 섞으면, 답은 둘 사이 어딘가에 놓여요.</p>
@@ -1134,7 +1134,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>Beta 분포(Beta distribution)</dt><dd>0과 1 사이 확률값 $\theta$에 대한 분포, $a$가 클수록 믿음이 강함</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>보충의 대칭 Beta$(a,a)$ prior 계산은 수업에서 유도하지 않았어요. $a=1$이면 MAP도 0.2이고 $a=4$이면 $5/16=0.3125$예요. 수업의 “0.3 정도”는 $a=4$를 지정한 결과가 아니에요.</p></div></div>
       </article>
       <article class="topic" id="s3-predictive"><h3>보충: Posterior predictive와 조건부 독립</h3><div class="tags"><span class="tag date">0916 수업</span><span class="tag slide">L02 s6</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">후보 한 명의 말만 듣지 않고, 믿을 만한 만큼씩 모든 후보의 말을 섞어서 예측해요.</p>
@@ -1201,7 +1201,7 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>predictive distribution</dt><dd>posterior 전체로 평균 내어 얻은 예측 분포</dd><dt>mixed Gaussian</dt><dd>봉우리가 여러 개인 분포를 가우시안 여러 개의 합으로 설명한 것</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$P(A\mid\theta,X)=P(A\mid\theta)$는 조건부 독립 <b>가정</b>이에요. 보충의 Beta posterior 예에서 $a=4$이면 다음 앞면 확률은 $1/3$으로 MAP $5/16$과 다르고, $a=1$에서도 예측 $1/4$은 ML·MAP $1/5$과 달라요. 이 상세 전개는 수업 밖 보충이에요.</p></div></div>
       </article>
     </section>
     <section id="s4"><h2>4. 요약 · 예고</h2>
@@ -1265,9 +1265,8 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1541,7 +1540,6 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1573,8 +1571,6 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1597,14 +1593,12 @@ $$-\log P(\theta\mid x)=J_{\rm ML}(\theta)-\log P(\theta)+\log P(x)$$
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

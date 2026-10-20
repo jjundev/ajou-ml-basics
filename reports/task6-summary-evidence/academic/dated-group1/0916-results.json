@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "pack_id": "0916",
+  "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0916/questions.json",
+  "source_packet_file_sha256": "d158701c174be4c53451f7cb6ae24ac1ff95c2d24abf95e2ecf768b5fb8a51d4",
+  "packet_payload_sha256": "8a74d0230989749259b5ff53b0b23355a8195807e54033f017cd1cd372bb60f8",
+  "question_payload_sha256": "99f6eccd329ee8472621a4e2a8e7a435578b115f1815ef9f563e618094993c7c",
+  "reviewer": {
+    "identity": "/root/ml_blind_dated_group1",
+    "role": "independent mathematical derivation reviewer",
+    "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+    "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+    "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "ed41116b58a1f4713606188711df5047cc2930c9b79d6915cd980d0d692d2067",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "symbolic",
+          "derivation": [
+            "Take minus log of the supplied multivariate Gaussian density. The exponential gives +(1/2)theta^T Sigma^(-1)theta. The reciprocal prefactor gives (D/2)ln(2pi)+(1/2)ln|Sigma|."
+          ],
+          "conclusion": "-ln p(theta)=(1/2)theta^T Sigma^(-1)theta+(D/2)ln(2pi)+(1/2)ln|Sigma|.",
+          "checks": [
+            "theta is Dx1; Sigma and its inverse are DxD; the quadratic is scalar.",
+            "The displayed ordinary density requires symmetric positive definite Sigma, hence positive determinant and invertibility."
+          ],
+          "unresolved": [
+            "Sigma is called a covariance matrix but positive definiteness is not explicit. For singular covariance the supplied inverse/determinant density is undefined; the displayed result applies to the nondegenerate case."
+          ]
+        },
+        {
+          "subpart_id": "b",
+          "method": "proof",
+          "derivation": [
+            "Bayes gives -ln p(theta|X,y)=-ln p(y|X,theta)-ln p(theta)+ln p(y|X). The evidence is independent of theta.",
+            "Minimize L(theta)+(1/2)theta^T Sigma^(-1)theta+C, where L is the negative log likelihood and C=(D/2)ln(2pi)+(1/2)ln|Sigma|.",
+            "If the Gaussian observation noise is independent with a common fixed positive variance sigma^2, L=SSE/(2sigma^2)+(N/2)ln(2pi sigma^2). Constants may be omitted in the argmin."
+          ],
+          "conclusion": "theta_MAP=argmin_theta {-ln p(y|X,theta)+(1/2)theta^T Sigma^(-1)theta}; including the prior normalization constant gives the same argmin.",
+          "checks": [
+            "Gaussian prior normalization is preserved before dropping constants.",
+            "For a design X of size NxD, SSE=||y-Xtheta||^2 is scalar.",
+            "No numerical noise variance was supplied; the likelihood remains symbolic."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": [
+        "Sigma is called a covariance matrix but positive definiteness is not explicit. For singular covariance the supplied inverse/determinant density is undefined; the displayed result applies to the nondegenerate case."
+      ]
+    },
+    {
+      "id": "p2",
+      "input_sha256": "06256f108060472168d2cfb33221c836b2d42670f833ba74f92f005a16e2247a",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "Sum each column over the three Y rows: .01+.05+.10=.16; .02+.10+.05=.17; .03+.05+.03=.11; .10+.07+.05=.22; .10+.20+.04=.34."
+          ],
+          "conclusion": "p_X(x1..x5)=(.16,.17,.11,.22,.34).",
+          "checks": [
+            "All probabilities nonnegative; exact sum (16+17+11+22+34)/100=1.",
+            "The top row is y1 and columns are x1 through x5."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p3",
+      "input_sha256": "b53397bca23a192bb11a185468b4343a5196db7a4933c0e531bb5963044bdfe6",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "Sum each row over X: y1 has (1+2+3+10+10)/100=26/100; y2 has (5+10+5+7+20)/100=47/100; y3 has (10+5+3+5+4)/100=27/100."
+          ],
+          "conclusion": "p_Y(y1..y3)=(.26,.47,.27).",
+          "checks": [
+            "Nonnegative entries and (26+47+27)/100=1."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p4",
+      "input_sha256": "7d9b42f56ea503fbd786ff08008751105d8dd311d6dab878213e130c19cc8021",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "Use p(x_i|y1)=p(x_i,y1)/p(y1), with p(y1)=26/100.",
+            "Divide the y1 row (1,2,3,10,10)/100 by 26/100, giving (1,2,3,10,10)/26."
+          ],
+          "conclusion": "p(X|Y=y1)=(1/26,1/13,3/26,5/13,5/13).",
+          "checks": [
+            "Conditioning mass 26/100>0.",
+            "Numerators 1+2+3+10+10=26, so the conditional vector sums exactly to 1."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p5",
+      "input_sha256": "808d3240270f2aea26ac5a4677e9661a920fe9db3fc7f3296492441230efbc68",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "Use p(y_j|x3)=p(x3,y_j)/p(x3), with p(x3)=(3+5+3)/100=11/100.",
+            "The x3 column in y1,y2,y3 order is (3,5,3)/100."
+          ],
+          "conclusion": "p(Y|X=x3)=(3/11,5/11,3/11).",
+          "checks": [
+            "Conditioning mass 11/100>0; conditional sum (3+5+3)/11=1."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p6",
+      "input_sha256": "129a39d2a6ecbf0ea8efbfab6ae4748e23dc0b47ef81cc28fc66d6493613eeff",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": [
+            "Let s=sum_n x_n count successes. Independence yields likelihood mu^s (1-mu)^(N-s).",
+            "Multiplying the Beta prior gives posterior kernel mu^(alpha+s-1)(1-mu)^(beta+N-s-1), for 0<mu<1.",
+            "Define a=alpha+s and b=beta+N-s. Integrating the kernel gives B(a,b), so normalization is 1/B(a,b)=Gamma(a+b)/(Gamma(a)Gamma(b))."
+          ],
+          "conclusion": "mu | x_1..x_N ~ Beta(alpha+s,beta+N-s), with density mu^(alpha+s-1)(1-mu)^(beta+N-s-1)/B(alpha+s,beta+N-s) on (0,1).",
+          "checks": [
+            "A proper Beta prior means alpha>0,beta>0; then posterior parameters remain positive for 0<=s<=N.",
+            "The density integrates to 1 by definition of the beta function.",
+            "No MAP formula is requested; boundary modes do not affect posterior validity."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "p1",
+      "items": [
+        "Sigma is called a covariance matrix but positive definiteness is not explicit. For singular covariance the supplied inverse/determinant density is undefined; the displayed result applies to the nondegenerate case."
+      ]
+    }
+  ]
+}

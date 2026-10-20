@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "packet_kind": "source_questions_only_blind_review",
+  "pack_id": "0930",
+  "questions": [
+    {
+      "id": "p1",
+      "title": "P1. 종속인데 공분산이 0인 경우",
+      "conditions_html": "확률변수 $X$는 평균이 0이고($\\mathbb{E}[x] = 0$), 세제곱의 평균도 0이에요($\\mathbb{E}[x^3] = 0$).\n  새 확률변수를 $y = x^2$으로 만들어요. $y$는 $x$로 정해지니까 $Y$는 $X$에 종속이에요.\n  ",
+      "ask_html": "이때 $X$와 $Y$의 공분산 $\\operatorname{Cov}[x, y]$를 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Let $y = x^2$ (hence, $Y$ is dependent on $X$)\" — Example 6.5",
+      "input_sha256": "1a15b68f123e7d1e8b69b6b01a0c974aea7cffa51e22296d5546690f400fc583"
+    },
+    {
+      "id": "p2",
+      "title": "P2. 독립인 가우시안의 가중합",
+      "conditions_html": "서로 독립인 가우시안 확률변수 $\\mathbf{x}$와 $\\mathbf{y}$가 있어요. $\\mathbf{x}$의 평균은 $\\boldsymbol{\\mu}_x$, 공분산 행렬은 $\\boldsymbol{\\Sigma}_x$이고, $\\mathbf{y}$의 평균은 $\\boldsymbol{\\mu}_y$, 공분산 행렬은 $\\boldsymbol{\\Sigma}_y$예요.\n  상수 $a$, $b$로 가중합 $a\\mathbf{x} + b\\mathbf{y}$를 만들어요. 이 가중합도 가우시안이라는 사실은 주어진 것으로 써요.\n  ",
+      "ask_html": "가중합의 평균과 공분산 행렬을 구해서 $p(a\\mathbf{x} + b\\mathbf{y})$를 적어 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we can obtain the weighted sum of independent Gaussian random variables\" — Example 6.7",
+      "input_sha256": "54440fff35d62369dbdf647b16360353596892fd20d1727a7ea3cd1b7a4ba081"
+    },
+    {
+      "id": "p3",
+      "title": "P3. 시계열 모델에서 한 걸음 앞 예측하기",
+      "conditions_html": "시간에 따라 변하는 상태 $\\mathbf{x}_t$를 아래 시계열 모델로 나타내요.\n  $$\\mathbf{x}_{t+1} = \\mathbf{A}\\mathbf{x}_t + \\mathbf{w}, \\quad \\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$$\n  $$\\mathbf{y}_t = \\mathbf{C}\\mathbf{x}_t + \\mathbf{v}, \\quad \\mathbf{v} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R})$$\n  $\\mathbf{A}$, $\\mathbf{C}$는 상수 행렬이고, $\\mathbf{w}$, $\\mathbf{v}$는 상태와 독립인 가우시안 노이즈예요. $\\mathbf{y}_t$는 상태를 측정한 값이에요.\n  시각 $t$까지의 측정값을 본 뒤 $\\mathbf{x}_t$의 분포가 $p(\\mathbf{x}_t \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t) = \\mathcal{N}(\\boldsymbol{\\mu}_t, \\boldsymbol{\\Sigma}_t)$라고 해요.\n  ",
+      "ask_html": "같은 측정값만 가지고 다음 상태의 분포 $p(\\mathbf{x}_{t+1} \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t)$를 구해 보세요. 이 분포가 가우시안이라는 사실은 주어진 것으로 써요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Compute $p(\\mathbf{x}_{t+1} \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t)$.\" — Exercise 6.5",
+      "input_sha256": "a8cb7622c3062310b09b3bce431811fe4dccc931802e036ec0a11e7f144ec4a7"
+    },
+    {
+      "id": "p4",
+      "title": "P4. 분산은 제곱의 평균 빼기 평균의 제곱",
+      "conditions_html": "확률변수 $X$의 평균을 $\\mu = \\mathbb{E}[x]$라고 해요. 분산의 정의는 평균에서 벗어난 정도를 제곱해 평균 낸 값이에요.\n  $$\\mathbb{V}[x] = \\mathbb{E}[(x - \\mu)^2]$$\n  ",
+      "ask_html": "이 정의에서 출발해 아래 식을 증명해 보세요.\n  $$\\mathbb{V}[x] = \\mathbb{E}[x^2] - (\\mathbb{E}[x])^2$$",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Prove the relationship in (6.44)\" — Exercise 6.6",
+      "input_sha256": "244a3f59fe61eb5d74660079a892cec6e142d751721b84a8922a48f48be6f634"
+    },
+    {
+      "id": "p5",
+      "title": "P5. 노이즈가 섞인 선형 변환의 가능도",
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$가 있어요($\\mathbf{x} \\in \\mathbb{R}^D$). 여기에 상수 행렬 $\\mathbf{A}$를 곱하고 상수 벡터 $\\mathbf{b}$와 노이즈 $\\mathbf{w}$를 더해요.\n  $$\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$$\n  $\\mathbf{y} \\in \\mathbb{R}^E$이고, $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$는 $\\mathbf{x}$와 독립인 가우시안 노이즈예요.\n ",
+      "ask_html": " $\\mathbf{x}$ 값이 주어졌을 때 $\\mathbf{y}$의 분포, 즉 가능도(likelihood) $p(\\mathbf{y} \\mid \\mathbf{x})$를 적어 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Write down the likelihood $p(\\mathbf{y} \\mid \\mathbf{x})$.\" — Exercise 6.12",
+      "input_sha256": "f9a1e4c5b7d28832bfc6abe4cdffb2a58b7990094c02ea4f03df842eecee3a7e"
+    },
+    {
+      "id": "p6",
+      "title": "P6. 노이즈가 섞인 선형 변환의 평균과 공분산",
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$가 있어요($\\mathbf{x} \\in \\mathbb{R}^D$). 여기에 상수 행렬 $\\mathbf{A}$를 곱하고 상수 벡터 $\\mathbf{b}$와 노이즈 $\\mathbf{w}$를 더해요.\n  $$\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$$\n  $\\mathbf{y} \\in \\mathbb{R}^E$이고, $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$는 $\\mathbf{x}$와 독립인 가우시안 노이즈예요.\n ",
+      "ask_html": " $\\mathbf{y}$의 분포 $p(\\mathbf{y})$가 가우시안이라는 사실은 주어진 것으로 써요. 그 평균 $\\boldsymbol{\\mu}_y$와 공분산 행렬 $\\boldsymbol{\\Sigma}_y$를 단계별로 유도해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Compute the mean $\\boldsymbol{\\mu}_y$ and the covariance $\\boldsymbol{\\Sigma}_y$. Derive your result in detail.\" — Exercise 6.12",
+      "input_sha256": "65badfa78dec27026ea4f516cef55f5a5a4c4d1abef9825982a8a9f709e807a1"
+    },
+    {
+      "id": "p7",
+      "title": "P7. 한 번 더 변환해서 측정하기",
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$로 $\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$를 만들어요. $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$는 $\\mathbf{x}$와 독립인 가우시안 노이즈예요.\n  이때 $\\mathbf{y}$는 평균이 $\\boldsymbol{\\mu}_y = \\mathbf{A}\\boldsymbol{\\mu}_x + \\mathbf{b}$, 공분산 행렬이 $\\boldsymbol{\\Sigma}_y = \\mathbf{A}\\boldsymbol{\\Sigma}_x\\mathbf{A}^\\top + \\mathbf{Q}$인 가우시안이에요. 이 결과는 주어진 것으로 써요.\n  이제 $\\mathbf{y}$를 상수 행렬 $\\mathbf{C}$로 한 번 더 변환해서 측정해요.\n  $$\\mathbf{z} = \\mathbf{C}\\mathbf{y} + \\mathbf{v}$$\n  $\\mathbf{v} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R})$은 $\\mathbf{y}$와 독립인 가우시안 측정 노이즈예요. $p(\\mathbf{z})$가 가우시안이라는 사실도 주어진 것으로 써요.\n  ",
+      "ask_html": "<ol><li>(a) $p(\\mathbf{z} \\mid \\mathbf{y})$를 적어 보세요.</li><li>(b) $p(\\mathbf{z})$의 평균 $\\boldsymbol{\\mu}_z$와 공분산 행렬 $\\boldsymbol{\\Sigma}_z$를 단계별로 유도해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Write down $p(\\mathbf{z} \\mid \\mathbf{y})$. Compute $p(\\mathbf{z})$\" — Exercise 6.12",
+      "input_sha256": "5bf530dbb975bbaab9be0d84982d6e611449bda89bb08ac47151a32efa640fc0"
+    },
+    {
+      "id": "p8",
+      "title": "P8. 쌍끼리의 차이로 보는 분산",
+      "conditions_html": "확률변수 $X$에서 얻은 관측값 $x_1, \\dots, x_N$이 있어요. 모든 쌍 $(x_i, x_j)$의 차이를 제곱해 평균 내면, \"제곱의 평균 빼기 평균의 제곱\"의 두 배가 돼요.\n  $$\\frac{1}{N^2}\\sum_{i,j=1}^{N}(x_i - x_j)^2 = 2\\left[\\frac{1}{N}\\sum_{i=1}^{N} x_i^2 - \\left(\\frac{1}{N}\\sum_{i=1}^{N} x_i\\right)^2\\right]$$\n  ",
+      "ask_html": "이 식을 증명해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Prove the relationship in (6.45)\" — Exercise 6.7",
+      "input_sha256": "9e25638b4185b304bf22f1c1efd8e1f113821f85c21ed5a6efa0e37a51ed181f"
+    }
+  ],
+  "figure_resources": [],
+  "question_payload_sha256": "94b1877c889fdb79e7bb6cdcc62d195e5568efd2de93544485b8d4cb27a87e52",
+  "packet_payload_sha256": "9c3f86c4cdc0fe2bae5ff375853c31ebd8771008c77d52b4bfde46572f04e9d5"
+}

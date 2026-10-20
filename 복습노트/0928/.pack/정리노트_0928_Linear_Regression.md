@@ -4,6 +4,39 @@
 
 > `정리노트_0928_Linear_Regression.html`를 마크다운으로 옮겼어요. 그림은 `figures_0928/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
+**목차**
+
+- [0. 스칼라를 벡터로 미분하기: 그래디언트와 자코비안](#s0)
+  - [ML 해에 사전분포를 반영하면 무엇이 바뀔까?](#s0-learning-map)
+  - [복습: 음의 로그우도에서 최소제곱까지](#s0-recap)
+  - [그래디언트: 편미분을 가로로 모은 것](#s0-gradient)
+  - [자코비안과 Ax의 미분](#s0-jacobian)
+- [1. 연쇄법칙으로 최대우도 해 완성하기](#s1)
+  - [연쇄법칙으로 손실을 파라미터로 미분하기](#s1-chain)
+  - [기울기를 0으로: 대칭행렬과 유사역행렬](#s1-theta-ml)
+- [2. 특징 함수와 다항회귀](#s2)
+  - [특징 함수: θ에 대해서만 선형이면 선형회귀](#s2-features)
+  - [다항회귀: 입력을 K차원으로 올리기](#s2-polynomial)
+  - [특징행렬 Φ와 최대우도 해](#s2-feature-matrix)
+- [3. 다항 적합과 과적합](#s3)
+  - [차수를 바꿔 가며 곡선 맞추기](#s3-polyfit)
+  - [과적합: 훈련 오차와 테스트 오차](#s3-overfitting)
+- [4. MAP 추정: 사전분포로 과적합 막기](#s4)
+  - [MAP: 베이즈 정리와 한 가지 가정](#s4-map-bayes)
+  - [가우시안 사전분포와 음의 로그사후확률](#s4-gaussian-prior)
+  - [ML vs MAP: σ²/b² 한 항의 차이](#s4-ml-vs-map)
+- [5. 정규화 최소제곱과 MAP은 같은 문제](#s5)
+  - [일반 가우시안 사전분포: 다음 시간을 위한 포석](#s5-general-prior)
+  - [정규화 최소제곱(RLS)과 MAP의 동치](#s5-rls)
+- [6. 한 장 요약 · 다음 시간 예고](#s6)
+  - [한 장 치트시트](#s6-cheatsheet)
+  - [다음 시간 예고 (아직 안 배움)](#s6-next)
+  - [함께 보면 좋은 자료](#s6-links)
+
+<a id="s0"></a>
+
+## 0. 스칼라를 벡터로 미분하기: 그래디언트와 자코비안
+
 <a id="s0-learning-map"></a>
 
 ### ML 해에 사전분포를 반영하면 무엇이 바뀔까?
@@ -36,41 +69,11 @@ ML은 데이터의 우도로 파라미터 하나를 찾고, MAP은 사전분포�
 
 특징행렬 Φ는 곡선의 재료를 모으고, 사전분포는 계수가 어디에 얼마나 모이길 기대하는지 나타내요.
 
+#### 조건·구분
+
+ML은 우도를, MAP은 사후분포를 최대화하지만 둘 다 최종 계수는 한 점이에요. $\mathcal N(0,b^2I)$는 $\mathcal N(m_0,S_0)$의 특수형이고, 이 두 사전분포를 MAP과 FB의 차이로 나누지 않아요.
+
 ---
-
-**목차**
-
-- [먼저 큰 그림](#s0-learning-map)
-
-- [0. 스칼라를 벡터로 미분하기: 그래디언트와 자코비안](#s0)
-  - [복습: 음의 로그우도에서 최소제곱까지](#s0-recap)
-  - [그래디언트: 편미분을 가로로 모은 것](#s0-gradient)
-  - [자코비안과 Ax의 미분](#s0-jacobian)
-- [1. 연쇄법칙으로 최대우도 해 완성하기](#s1)
-  - [연쇄법칙으로 손실을 파라미터로 미분하기](#s1-chain)
-  - [기울기를 0으로: 대칭행렬과 유사역행렬](#s1-theta-ml)
-- [2. 특징 함수와 다항회귀](#s2)
-  - [특징 함수: θ에 대해서만 선형이면 선형회귀](#s2-features)
-  - [다항회귀: 입력을 K차원으로 올리기](#s2-polynomial)
-  - [특징행렬 Φ와 최대우도 해](#s2-feature-matrix)
-- [3. 다항 적합과 과적합](#s3)
-  - [차수를 바꿔 가며 곡선 맞추기](#s3-polyfit)
-  - [과적합: 훈련 오차와 테스트 오차](#s3-overfitting)
-- [4. MAP 추정: 사전분포로 과적합 막기](#s4)
-  - [MAP: 베이즈 정리와 한 가지 가정](#s4-map-bayes)
-  - [가우시안 사전분포와 음의 로그사후확률](#s4-gaussian-prior)
-  - [ML vs MAP: σ²/b² 한 항의 차이](#s4-ml-vs-map)
-- [5. 정규화 최소제곱과 MAP은 같은 문제](#s5)
-  - [일반 가우시안 사전분포: 다음 시간을 위한 포석](#s5-general-prior)
-  - [정규화 최소제곱(RLS)과 MAP의 동치](#s5-rls)
-- [6. 한 장 요약 · 다음 시간 예고](#s6)
-  - [한 장 치트시트](#s6-cheatsheet)
-  - [다음 시간 예고 (아직 안 배움)](#s6-next)
-  - [함께 보면 좋은 자료](#s6-links)
-
-<a id="s0"></a>
-
-## 0. 스칼라를 벡터로 미분하기: 그래디언트와 자코비안
 
 <a id="s0-recap"></a>
 
@@ -189,6 +192,10 @@ $y_n$을 만드는 데는 $\mathbf{x}_n$과 $\boldsymbol{\theta}$가 모두 필�
 - **최소제곱(least squares)** — 오차 제곱의 합을 최소화하는 문제예요.
 - **볼록(convex)** — 2차식이라 미분이 0인 점이 최솟점이에요.
 
+#### 조건·구분
+
+입력·계수가 주어지면 잡음만 불확실해요. 공통 가우시안 분산을 계수와 무관하게 두면 i.i.d. 우도의 곱을 자연로그로 합으로 바꾸고, 계수와 무관한 상수를 제외해 최소제곱을 얻어요.
+
 ---
 
 <a id="s0-gradient"></a>
@@ -295,6 +302,10 @@ $$
 - **편미분(partial derivative)** — 변수 하나만 움직이고 나머지는 상수로 둔 미분이에요.
 - **그래디언트(gradient)** — 편미분들을 행벡터로 모은 거예요.
 - **gradient descent** — 그래디언트가 내려가는 방향으로 파라미터를 바꾸는 학습 방법이에요.
+
+#### 조건·구분
+
+행벡터는 이 수업의 관례이며 열벡터로 정의하는 관례도 가능해요. 편미분은 다른 변수를 고정한 국소 변화이고, 딥러닝 가중치의 손실 변화와 경사하강법 연결은 슬라이드 밖 수업 설명이에요.
 
 ---
 
@@ -412,6 +423,10 @@ $\mathbf{A}\mathbf{x}$의 자코비안이 $\mathbf{A}$라는 것까지 보인 �
 - **벡터값 함수(vector-valued function)** — 같은 입력으로 여러 함수를 계산해 세로로 쌓은 함수예요.
 - **자코비안(Jacobian)** — 모든 $\partial f_i / \partial x_j$를 모은 $m \times n$ 행렬이에요.
 
+#### 조건·구분
+
+입력 $n$, 출력 $m$인 자코비안은 $m\times n$이고 $m=1$이면 행 그래디언트예요. $A\in\mathbb R^{m\times n}$가 고정이면 $(Ax)_i=\sum_j A_{ij}x_j$의 편미분이 $A_{ij}$이므로 자코비안이 $A$예요.
+
 ---
 
 <a id="s1"></a>
@@ -527,6 +542,10 @@ s16에서 굳이 $\boldsymbol{\Phi}$를 쓴 이유는 나중에 특징 함수로
 *용어*
 
 - **연쇄법칙(chain rule)** — 중간 변수로 치환해 미분을 곱으로 나누는 규칙, 곧 치환 미분
+
+#### 조건·구분
+
+$e=y-\Phi\theta$에서 $y$는 계수와 무관하고 $de/d\theta=-\Phi$예요. $(1\times N)(N\times D)=1\times D$ 순서로 곱하며, 특징 함수가 항등이면 $\Phi=X$예요.
 
 ---
 
@@ -668,6 +687,10 @@ $\mathbf{A} = \mathbf{X}^\top \mathbf{X}$를 넣으면 $\left((\mathbf{X}^\top \
 - **대칭행렬(symmetric matrix)** — $\mathbf{A}^\top = \mathbf{A}$인 정방행렬
 - **유사역행렬(pseudo-inverse)** — 정방이 아닌 $\mathbf{X}$에 대해 역행렬 역할을 하는 $(\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top$
 
+#### 조건·구분
+
+역행렬이 존재하는 대칭행렬의 역행렬도 대칭이어서 전치를 지워요. 보충의 전치·역행렬 증명과 $\operatorname{rk}(X)=D$이면 $X^\top X$가 양의 정부호라는 조건은 수업에서 유도하지 않았어요.
+
 ---
 
 <a id="s2"></a>
@@ -767,6 +790,10 @@ $$
 - **특징(feature)** — 입력을 함수로 바꾼 값, 비선형이어도 돼요.
 - **피처 추출(feature extraction)** — 원자료를 특징 벡터로 바꾸는 과정이에요.
 
+#### 조건·구분
+
+$\phi(x)$와 $\theta$는 모두 길이 $K$라 내적 평균은 스칼라예요. 특징 함수는 $\mathbb R^D\to\mathbb R^K$이고, 결과 곡선이 직선일 필요는 없어요.
+
 ---
 
 <a id="s2-polynomial"></a>
@@ -845,6 +872,10 @@ $\boldsymbol{\theta}$는 데이터로 학습하는 파라미터(parameter)예요
 - **확장(expansion)** — 입력 차원을 늘리는 것이에요.
 - **모델 복잡도(model complexity)** — 차수, 곧 K의 크기예요. 정답이 없어요.
 
+#### 조건·구분
+
+상수항을 포함하므로 최고 차수는 $K-1$이에요. $\theta$는 데이터로 배우는 파라미터이고 차수·$K$는 미리 고르는 하이퍼파라미터이며, 더 큰 차수가 더 좋은지는 데이터로 따져요.
+
 ---
 
 <a id="s2-feature-matrix"></a>
@@ -868,7 +899,6 @@ $\boldsymbol{\theta}$는 데이터로 학습하는 파라미터(parameter)예요
 $$
 \boldsymbol{\Phi} := \begin{bmatrix} \boldsymbol{\phi}(\mathbf{x}_1)^\top \\ \vdots \\ \boldsymbol{\phi}(\mathbf{x}_N)^\top \end{bmatrix}, \qquad \boldsymbol{\Phi} \in \mathbb{R}^{N \times K}
 $$
-
 
 $$
 \Phi_{ij} = \phi_j(\mathbf{x}_i), \qquad \phi_j : \mathbb{R}^D \to \mathbb{R}
@@ -960,6 +990,10 @@ $\sigma^2\mathbf I_N$는 $N$개 관측 잡음의 공분산이고, [사전분포�
 - **특징행렬(feature matrix)** — N개 특징 벡터를 행으로 쌓은 N×K 행렬이에요.
 - **항등(identity) 함수** — 특징 함수가 입력을 그대로 내보내면 Φ는 X가 돼요.
 
+#### 조건·구분
+
+한 행은 한 데이터, 한 열은 한 특징이라 $\Phi$는 $N\times K$예요. 보충에서는 독립·동일 분산 $\sigma^2$의 가우시안 잡음을 묶어 $\sigma^2I_N$인 $N\times N$ 조건부 공분산을 얻어요. 계수까지 고정한 이 공분산을 파라미터 불확실성까지 합친 예측 공분산이나 사전의 $b^2I_K$와 구별해요. 이 설명은 수업 밖 보충이에요.
+
 ---
 
 <a id="s3"></a>
@@ -1034,12 +1068,12 @@ $M \ge N$이면 파라미터가 점보다 많아 $\boldsymbol{\Phi}^\top \boldsy
 - 데이터 생성
 
   $$
-  x_n \sim \mathcal{U}[-5, 5], \qquad y_n = -\sin(x_n/5) + \cos(x_n) + \epsilon, \qquad \epsilon \sim \mathcal{N}(0, 0.2^2)
+  \begin{aligned}x_n&\sim\mathcal U[-5,5],\\y_n&=-\sin(x_n/5)\\&\quad+\cos(x_n)+\epsilon,\\\epsilon&\sim\mathcal N(0,0.2^2)\end{aligned}
   $$
 - 차수 M 모델
 
   $$
-  f(x) = \theta_0 + \theta_1 x + \theta_2 x^2 + \dots + \theta_M x^M = \boldsymbol{\phi}(x)^\top \boldsymbol{\theta}
+  \begin{aligned}f(x)&=\theta_0+\theta_1x\\&\quad+\theta_2x^2+\dots+\theta_Mx^M\\&=\boldsymbol\phi(x)^\top\boldsymbol\theta\end{aligned}
   $$
 - 최대우도 해
 
@@ -1050,6 +1084,10 @@ $M \ge N$이면 파라미터가 점보다 많아 $\boldsymbol{\Phi}^\top \boldsy
 *용어*
 
 - **차수(degree) M** — 다항식의 가장 높은 거듭제곱. $M = 0$은 상수, $M = 1$은 직선이에요.
+
+#### 조건·구분
+
+$K=M+1$이고 $\Phi$는 $10\times(M+1)$이에요. 이 예의 $M=9$는 열 개 점을 보간하지만 점 사이에서 출렁이고, $M\ge10$이면 $\Phi^\top\Phi$가 가역이 아니어서 표시한 역행렬 식을 쓸 수 없어요. 잡음의 0.2는 표준편차이고 분산은 0.04예요.
 
 ---
 
@@ -1166,6 +1204,10 @@ $\frac{1}{N}$로 나눠서 데이터 수가 달라도 비교할 수 있어요. �
 - **훈련 오차(training error)** — 훈련점에서 잰 RMSE. 차수를 올리면 줄기만 해요.
 - **테스트 오차(test error)** — 새 점에서 잰 RMSE. 어느 차수부터 커져요.
 
+#### 조건·구분
+
+상위 차수 모델이 새 계수를 0으로 두어 하위 모델을 포함하므로 최적 훈련 오차는 늘 수 없어요. RMSE는 제곱합을 데이터 수로 평균하고 제곱근을 취해 출력과 단위를 맞춰요. 여기 테스트 오차는 예제에서 새로 만든 비교점에서 잰 값이며 표본에 따른 국소 흔들림도 있어요.
+
 ---
 
 <a id="s4"></a>
@@ -1269,6 +1311,10 @@ MAP은 우도에 사전분포를 곱한 사후분포를 가장 크게 만드는 
 - **MAP(maximum a posteriori)** — 사후분포를 최대화하는 $\boldsymbol{\theta}$를 고르는 추정
 - **사전분포(prior)** — 데이터를 보기 전 그럴듯한 $\boldsymbol{\theta}$에 대한 믿음 $p(\boldsymbol{\theta})$
 
+#### 조건·구분
+
+$p(\theta\mid\mathcal X)=p(\theta)$는 입력만으로 사전 믿음이 바뀌지 않는다는 **가정**이에요. 이 가정에서 계수와 무관한 분모를 제외하고 NLL과 음의 로그 prior의 합을 최소화해요.
+
 ---
 
 <a id="s4-gaussian-prior"></a>
@@ -1357,7 +1403,6 @@ $$
 \mathrm{var}(\theta_1)=\mathrm{var}(\theta_2)=b^2,\qquad \mathrm{cov}(\theta_1,\theta_2)=0
 $$
 
-
 $$
 \mathrm{cov}(\boldsymbol{\theta})=\begin{bmatrix}b^2&0\\0&b^2\end{bmatrix}=b^2\mathbf I_2
 $$
@@ -1393,6 +1438,10 @@ $$
 *용어*
 
 - **켤레(conjugate) 사전분포** — 우도와 곱했을 때 사후분포가 같은 꼴(여기서는 가우시안)이 되는 사전분포
+
+#### 조건·구분
+
+$b^2>0$인 사전 $\mathcal N(0,b^2I_K)$에서 $\theta$는 길이 $K$, 공분산은 $K\times K$이고 음의 로그 prior 벌점은 $\|\theta\|^2/(2b^2)$예요. 보충: 비대각 공분산 0에서 독립을 결론 내리는 데는 **공동 가우시안** 조건이 필요하며 일반 분포에는 성립하지 않아요. 대각/비대각의 분산·공분산 설명은 수업 밖 보충이에요.
 
 ---
 
@@ -1457,7 +1506,6 @@ $$
 아래 위젯은 [차수를 바꿔 가며 곡선 맞추기](#s3-polyfit)와 같은 방식($x_n \sim \mathcal{U}[-5, 5]$, $y_n = -\sin(x_n/5) + \cos(x_n) + \epsilon$, $\sigma = 0.2$)으로 고정 시드에서 뽑은 훈련점 10개에 8차 다항식을 맞춰요. 수치 안정을 위해 $z = x/5$로 스케일한 특징 $\boldsymbol{\phi}(x) = [1, z, \dots, z^8]^\top$를 써서, 사전분포도 이 특징의 계수에 걸려요.
 
 훈련점은 [과적합: 훈련 오차와 테스트 오차](#s3-overfitting)의 위젯과는 다른 표본이에요(같은 생성 방식).
-
 
 <a id="widget-mapw"></a>
 
@@ -1552,6 +1600,10 @@ MAP 해는 ML 해의 역행렬 안에 $\frac{\sigma^2}{b^2} \mathbf{I}$ 한 항�
 
 - **정규화(regularizer)** — $\frac{\sigma^2}{b^2} \mathbf{I}$ 항처럼 $\boldsymbol{\theta}$의 크기를 억눌러 곡선을 매끈하게 만드는 항
 
+#### 조건·구분
+
+양의 $\sigma^2/b^2$ 항은 행렬을 양의 정부호로 만들어 역행렬을 보장하고, $b^2\to0$이면 계수를 0 쪽으로 눌러요. 이 양의 정부호 성질은 슬라이드에 있고 수업에서는 말하지 않았어요. 교과서도 MAP을 과적합의 일반 해결책으로 보지는 않아요.
+
 ---
 
 <a id="s5"></a>
@@ -1620,7 +1672,6 @@ $$
 \mathbf m_0=E[\boldsymbol{\theta}]\in\mathbb R^K
 $$
 
-
 $$
 \mathbf S_0=\mathrm{cov}(\boldsymbol{\theta})\in\mathbb R^{K\times K}
 $$
@@ -1649,6 +1700,10 @@ $\mathbf S_0$의 대각은 각 파라미터의 분산이고, 비대각은 파라
 *용어*
 
 - **음의 로그사후확률(negative log-posterior)** — 데이터 항과 선험적 의도 항의 합이에요.
+
+#### 조건·구분
+
+일반 사전분포도 MAP 한 점에 사용할 수 있어요. 보충에서 $m_0\in\mathbb R^K$, $S_0\in\mathbb R^{K\times K}$이고, 표시한 $S_0^{-1}$을 쓰려면 양의 정부호 공분산을 가정해요. 대각은 분산, 비대각은 공분산이며 이 성분 설명은 수업 밖 보충이고 사후분포 계산은 다음 시간 범위예요.
 
 ---
 
@@ -1774,6 +1829,10 @@ MAP 유도와 단계가 같고, $\frac{\sigma^2}{b^2}$ 자리에 $\lambda$가 �
 
 - **정규화 최소제곱(regularized least squares)** — 데이터 손실에 파라미터 크기 벌점을 더해 최소화하는 방법이에요.
 - **릿지(ridge)** — 정규화 최소제곱의 다른 이름이에요.
+
+#### 조건·구분
+
+여기의 데이터 항은 제곱합이므로 $\lambda=\sigma^2/b^2$이고, 슬라이드의 $1/(2b^2)$는 음의 로그 prior 항 자체의 계수예요. 목적함수 전체의 양의 배율을 맞춰 비교해야 해요. 보충의 직접 미분과 $\lambda>0$에서 $\|\Phi v\|^2+\lambda\|v\|^2>0$인 증명은 수업에서 유도하지 않았으며, 이 조건에서 역행렬과 유일해가 보장돼요.
 
 ---
 

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "packet_kind": "source_questions_only_blind_review",
+  "pack_id": "1012",
+  "questions": [
+    {
+      "id": "p1",
+      "title": "P1. 행렬식으로 평행사변형 넓이 재기",
+      "conditions_html": "두 벡터 $\\mathbf{b}, \\mathbf{g} \\in \\mathbb{R}^2$를 열로 세운 행렬을 ${\\mathbf{A} = [\\mathbf{b}, \\mathbf{g}]}$라고 해요. 꼭짓점이 $\\mathbf{0}$, $\\mathbf{b}$, $\\mathbf{g}$, $\\mathbf{b} + \\mathbf{g}$인 평행사변형의 넓이는 $|\\det(\\mathbf{A})|$예요. $2 \\times 2$ 행렬의 행렬식은 ${\\det\\begin{bmatrix}a_{11} &amp; a_{12} \\\\ a_{21} &amp; a_{22}\\end{bmatrix} = a_{11}a_{22} - a_{12}a_{21}}$예요.",
+      "ask_html": "<ol><li>(a) ${\\mathbf{b} = \\begin{bmatrix}2 \\\\ 1\\end{bmatrix}}$, ${\\mathbf{g} = \\begin{bmatrix}0 \\\\ 3\\end{bmatrix}}$일 때 평행사변형의 넓이를 구해 보세요.</li><li>(b) ${\\mathbf{b} = \\begin{bmatrix}2 \\\\ 1\\end{bmatrix}}$, ${\\mathbf{g} = \\begin{bmatrix}4 \\\\ 2\\end{bmatrix}}$일 때 넓이를 구하고, 왜 그런 값이 나오는지 설명해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"the absolute value of the determinant of A is the area of the parallelogram with vertices 0, b, g, b + g\" — Example 4.2",
+      "input_sha256": "f00e97da7af6883cf23be9154b9b028e750093638b5716d63f4442b99d6a3e1b"
+    },
+    {
+      "id": "p2",
+      "title": "P2. 행렬식으로 역행렬 판정하기",
+      "conditions_html": "$2 \\times 2$ 행렬 ${\\mathbf{A} = \\begin{bmatrix}a_{11} &amp; a_{12} \\\\ a_{21} &amp; a_{22}\\end{bmatrix}}$의 역행렬은 다음과 같아요.\n  $$\\mathbf{A}^{-1} = \\frac{1}{a_{11}a_{22} - a_{12}a_{21}}\\begin{bmatrix}a_{22} &amp; -a_{12} \\\\ -a_{21} &amp; a_{11}\\end{bmatrix} \\qquad (4.2)$$\n  그래서 $\\mathbf{A}$는 $a_{11}a_{22} - a_{12}a_{21} \\ne 0$일 때만 역행렬을 가져요. 이 값이 행렬식 $\\det(\\mathbf{A})$예요.\n  이제 다음 행렬을 봐요.\n  $$\\boldsymbol{\\Sigma} = \\begin{bmatrix}4 &amp; 2 \\\\ 2 &amp; 10\\end{bmatrix}$$",
+      "ask_html": "<ol><li>(a) $\\det(\\boldsymbol{\\Sigma})$를 구하고, $\\boldsymbol{\\Sigma}$가 역행렬을 갖는지 판정해 보세요.</li><li>(b) (4.2)로 $\\boldsymbol{\\Sigma}^{-1}$을 구해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Let us begin with exploring if a square matrix A is invertible\" — Example 4.1",
+      "input_sha256": "1c43dfce1125c7c76722ab25136da79463f23312540245abd3cbe0411c2640f3"
+    },
+    {
+      "id": "p3",
+      "title": "P3. 선형 변환한 확률변수의 밀도 유도",
+      "conditions_html": "상태가 ${\\mathbf{x} = \\begin{bmatrix}x_1 \\\\ x_2\\end{bmatrix}}$인 2변수 확률변수 $X$의 밀도는 다음과 같아요.\n  $$f(\\mathbf{x}) = \\frac{1}{2\\pi}\\exp\\left(-\\frac{1}{2}\\mathbf{x}^\\top\\mathbf{x}\\right) \\qquad (6.145)$$\n  행렬 ${\\mathbf{A} = \\begin{bmatrix}a &amp; b \\\\ c &amp; d\\end{bmatrix}}$로 변환한 확률변수 $Y$의 상태는 $\\mathbf{y} = \\mathbf{A}\\mathbf{x}$예요. $ad - bc \\ne 0$이라 $\\mathbf{A}$는 역행렬을 가져요. $\\mathbf{A}^{-\\top}$는 $(\\mathbf{A}^{-1})^\\top$을 뜻해요.",
+      "ask_html": "변수변환(change of variables)으로 $Y$의 밀도 $f(\\mathbf{y})$를 유도해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"We are interested in finding the probability density function of the transformed bivariate random variable Y with states y = Ax.\" — Example 6.17",
+      "input_sha256": "70203ffbad6cc9f32af9930353d7998314b647943b67a9da99237a96162d6b5b"
+    },
+    {
+      "id": "p4",
+      "title": "P4. 축을 늘리는 변환과 밀도",
+      "conditions_html": "상태가 ${\\mathbf{x} = \\begin{bmatrix}x_1 \\\\ x_2\\end{bmatrix}}$인 2변수 확률변수 $X$의 밀도는 다음과 같아요.\n  $$f(\\mathbf{x}) = \\frac{1}{2\\pi}\\exp\\left(-\\frac{1}{2}\\mathbf{x}^\\top\\mathbf{x}\\right)$$\n  행렬 ${\\mathbf{A} = \\begin{bmatrix}3 &amp; 0 \\\\ 0 &amp; 2\\end{bmatrix}}$로 변환한 확률변수 $Y$의 상태는 $\\mathbf{y} = \\mathbf{A}\\mathbf{x}$예요.",
+      "ask_html": "변수변환으로 $Y$의 밀도 $f(\\mathbf{y})$를 구해 보세요. 원점에서의 값 $f(\\mathbf{0})$도 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"We use the change-of-variable technique from Theorem 6.16 to derive the effect of a linear transformation\" — Example 6.17",
+      "input_sha256": "38542bfe1d1dbef51499511d42c9fcfa45c3e1b0b53b9ed5703e2e7e8943028e"
+    },
+    {
+      "id": "p5",
+      "title": "P5. 기울이는 변환과 밀도",
+      "conditions_html": "상태가 ${\\mathbf{x} = \\begin{bmatrix}x_1 \\\\ x_2\\end{bmatrix}}$인 2변수 확률변수 $X$의 밀도는 다음과 같아요.\n  $$f(\\mathbf{x}) = \\frac{1}{2\\pi}\\exp\\left(-\\frac{1}{2}\\mathbf{x}^\\top\\mathbf{x}\\right)$$\n  행렬 ${\\mathbf{A} = \\begin{bmatrix}1 &amp; 1 \\\\ 0 &amp; 2\\end{bmatrix}}$로 변환한 확률변수 $Y$의 상태는 $\\mathbf{y} = \\mathbf{A}\\mathbf{x}$예요.",
+      "ask_html": "<ol><li>(a) 역변환 $\\mathbf{x} = \\mathbf{A}^{-1}\\mathbf{y}$를 구해 보세요.</li><li>(b) Jacobian $\\frac{\\partial \\mathbf{x}}{\\partial \\mathbf{y}}$의 행렬식을 구해 보세요.</li><li>(c) $Y$의 밀도 $f(\\mathbf{y})$를 구해 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b",
+        "c"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Recall that for change of variables we require the inverse transformation of x as a function of y.\" — Example 6.17",
+      "input_sha256": "516ab758e56c447297ec9d17426bb9881df13622787eee740df56e9dc8a76a5b"
+    },
+    {
+      "id": "p6",
+      "title": "P6. 잡음이 섞인 아핀 변환의 교차공분산",
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\mathbf{x} \\mid \\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$가 있고 $\\mathbf{x} \\in \\mathbb{R}^D$예요. 여기에\n  $$\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$$\n  를 만들어요. $\\mathbf{y} \\in \\mathbb{R}^E$, $\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$, $\\mathbf{b} \\in \\mathbb{R}^E$이고, $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{w} \\mid \\mathbf{0}, \\mathbf{Q})$는 독립인 가우시안 잡음이에요. 독립이란 $\\mathbf{x}$와 $\\mathbf{w}$가 서로 독립이고 $\\mathbf{Q}$가 대각 행렬이라는 뜻이에요.",
+      "ask_html": "교차공분산 $\\mathrm{Cov}_{x,y}[\\mathbf{x}, \\mathbf{y}]$와 $\\mathrm{Cov}_{y,x}[\\mathbf{y}, \\mathbf{x}]$를 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"This also requires us to compute the cross-covariances $\\mathrm{Cov}_{x,y}[\\mathbf{x}, \\mathbf{y}]$ and $\\mathrm{Cov}_{y,x}[\\mathbf{y}, \\mathbf{x}]$.\" — Exercise 6.12 (d) Hint",
+      "input_sha256": "dfac192fabb0a3100bdb9dfb87cbde6acd5b19e5b212974c3a9f3eb484bfb608"
+    },
+    {
+      "id": "p7",
+      "title": "P7. 결합 가우시안 p(x, y) 세우기",
+      "conditions_html": "가우시안 확률변수 $\\mathbf{x} \\sim \\mathcal{N}(\\mathbf{x} \\mid \\boldsymbol{\\mu}_x, \\boldsymbol{\\Sigma}_x)$가 있고 $\\mathbf{x} \\in \\mathbb{R}^D$예요. 여기에\n  $$\\mathbf{y} = \\mathbf{A}\\mathbf{x} + \\mathbf{b} + \\mathbf{w}$$\n  를 만들어요. $\\mathbf{y} \\in \\mathbb{R}^E$, $\\mathbf{A} \\in \\mathbb{R}^{E \\times D}$, $\\mathbf{b} \\in \\mathbb{R}^E$이고, $\\mathbf{w} \\sim \\mathcal{N}(\\mathbf{w} \\mid \\mathbf{0}, \\mathbf{Q})$는 독립인 가우시안 잡음이에요. 독립이란 $\\mathbf{x}$와 $\\mathbf{w}$가 서로 독립이고 $\\mathbf{Q}$가 대각 행렬이라는 뜻이에요. 결합분포 $p(\\mathbf{x}, \\mathbf{y})$는 가우시안이에요. 교차공분산은 다음과 같이 주어져요.\n  $$\\mathrm{Cov}_{x,y}[\\mathbf{x}, \\mathbf{y}] = \\boldsymbol{\\Sigma}_x\\mathbf{A}^\\top, \\qquad \\mathrm{Cov}_{y,x}[\\mathbf{y}, \\mathbf{x}] = \\mathbf{A}\\boldsymbol{\\Sigma}_x$$",
+      "ask_html": "$\\mathbf{y}$의 평균과 공분산 $\\mathrm{Var}[\\mathbf{y}]$를 구해서, 결합분포 $p(\\mathbf{x}, \\mathbf{y})$의 평균 벡터와 공분산 행렬(블록 행렬)을 완성해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Start by explicitly computing the joint Gaussian p(x, y).\" — Exercise 6.12 (d) Hint",
+      "input_sha256": "3d6bf988e84db329730743916c2858a3694717ce175f97232e98dfab2794ee3a"
+    },
+    {
+      "id": "p8",
+      "title": "P8. 시계열 모델의 다음 상태와 관측",
+      "conditions_html": "다음 시계열 모델을 봐요.\n  $$\\mathbf{x}_{t+1} = \\mathbf{A}\\mathbf{x}_t + \\mathbf{w}, \\qquad \\mathbf{w} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q})$$\n  $$\\mathbf{y}_t = \\mathbf{C}\\mathbf{x}_t + \\mathbf{v}, \\qquad \\mathbf{v} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R})$$\n  $\\mathbf{w}$와 $\\mathbf{v}$는 i.i.d. 가우시안 잡음이에요. 또 ${p(\\mathbf{x}_0) = \\mathcal{N}(\\boldsymbol{\\mu}_0, \\boldsymbol{\\Sigma}_0)}$이에요.\n  지금까지의 관측으로 본 현재 상태가 다음과 같다고 해요.\n  $$p(\\mathbf{x}_t \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t) = \\mathcal{N}(\\boldsymbol{\\mu}_t, \\boldsymbol{\\Sigma}_t)$$\n  $p(\\mathbf{x}_{t+1}, \\mathbf{y}_{t+1} \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t)$는 가우시안이에요.",
+      "ask_html": "$p(\\mathbf{x}_{t+1}, \\mathbf{y}_{t+1} \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t)$를 구해 보세요. 평균 벡터와 공분산 행렬(블록 행렬)을 구하면 돼요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Compute $p(\\mathbf{x}_{t+1}, \\mathbf{y}_{t+1} \\mid \\mathbf{y}_1, \\dots, \\mathbf{y}_t)$.\" — Exercise 6.5 (b) 2",
+      "input_sha256": "047c2367d4edfdff09fcbd28de3c412b32c13b7e80075c323846bec85b63f38a"
+    }
+  ],
+  "figure_resources": [],
+  "question_payload_sha256": "aa9890c0adf6ea49b3374048907332e51505112ad56acc6648316677bd3e2697",
+  "packet_payload_sha256": "94d40a7075cfe48243b6c0060e7615d1c96505a18fa5f5cc5a6c14b892cccf27"
+}

@@ -1,0 +1,1293 @@
+{
+  "schema_version": 1,
+  "reviewer": {
+    "identity": "/root/ml_blind_dated_group1",
+    "role": "independent mathematical derivation reviewer",
+    "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+    "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+    "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+  },
+  "scope": {
+    "pack_ids": [
+      "0909",
+      "0914",
+      "0916",
+      "0921",
+      "0923",
+      "0928"
+    ],
+    "question_count": 39,
+    "subpart_count": 62
+  },
+  "freeze_state": "independent_results_frozen_before_reference_comparison",
+  "packs": [
+    {
+      "schema_version": 1,
+      "pack_id": "0909",
+      "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0909/questions.json",
+      "source_packet_file_sha256": "ae10cf54447ef79b243e07daefc181552e16d573da42987d00dc88c49f2e5318",
+      "packet_payload_sha256": "74508b4062cb606a71dcc5119aa34615cf3b623b015a9fb8a6eff616b1b0a2ab",
+      "question_payload_sha256": "b96542d962115e9b1133cf120b03be718e431f3aed8cefdb288d4021f361ae61",
+      "reviewer": {
+        "identity": "/root/ml_blind_dated_group1",
+        "role": "independent mathematical derivation reviewer",
+        "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+        "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+        "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+      },
+      "results": [
+        {
+          "id": "p1",
+          "input_sha256": "095cc4bcb6d1779db6eff9696ba2298dd8da6cd1c74d9b970925852cfd4abd38",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "Insert x=10 into theta*x: (-1)*10=-10; (1/2)*10=5; 2*10=20."
+              ],
+              "conclusion": "f(10)=-10,5,20 in the listed parameter order.",
+              "checks": [
+                "All inputs, parameters and outputs are real scalars."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "qualitative",
+              "derivation": [
+                "The signed slope theta is rise/run; geometric steepness is |theta|. The three magnitudes are 1,1/2,2."
+              ],
+              "conclusion": "theta=2 gives the steepest line.",
+              "checks": [
+                "All lines pass through the origin; a negative slope means falling rather than greater absolute steepness."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p2",
+          "input_sha256": "24e00b310632d4043bc36f44cfb63dca5abefd99727d1ca17d267641e08b1539",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "The first displayed matrix has columns (1,4,7)^T and (2,5,8)^T, hence size 3x2. The second has three columns of length 3, hence size 3x3. A row-column dot product would need 2=3 inner entries, which fails."
+              ],
+              "conclusion": "The displayed product is undefined.",
+              "checks": [
+                "Inner dimensions 2 and 3 differ; reversing order would be a different product."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p3",
+          "input_sha256": "c14f502e28e134230449fbbb9312a13290faf1a3ffe0745cb89b5735260957d3",
+          "subparts": [
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "A=[[1,2,3],[4,5,6],[7,8,9]], B=[[1,1,0],[0,1,1],[1,0,1]].",
+                "Column j of AB is A times column j of B. These columns are A[:,1]+A[:,3]=(4,10,16)^T; A[:,1]+A[:,2]=(3,9,15)^T; A[:,2]+A[:,3]=(5,11,17)^T."
+              ],
+              "conclusion": "AB=[[4,3,5],[10,9,11],[16,15,17]].",
+              "checks": [
+                "3x3 times 3x3 gives 3x3.",
+                "Exact SymPy multiplication independently reproduces every integer."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "exact",
+              "derivation": [
+                "Row 1 of BA adds rows 1 and 2 of A: (5,7,9). Row 2 adds rows 2 and 3: (11,13,15). Row 3 adds rows 1 and 3: (8,10,12)."
+              ],
+              "conclusion": "BA=[[5,7,9],[11,13,15],[8,10,12]].",
+              "checks": [
+                "3x3 result; exact SymPy multiplication agrees.",
+                "AB and BA differ, as allowed for matrices."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p4",
+          "input_sha256": "0ce292ff5b7455104cbb9200871a6d715eb8233b6e2e6fbbb974197c2d434e3e",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "C has rows (1,2,1,2) and (4,1,-1,-4); D has columns (0,1,2,5)^T and (3,-1,1,2)^T.",
+                "Four dot products: 0+2+2+10=14; 3-2+1+4=6; 0+1-2-20=-21; 12-1-1-8=2."
+              ],
+              "conclusion": "CD=[[14,6],[-21,2]], size 2x2.",
+              "checks": [
+                "(2x4)(4x2) is defined.",
+                "Exact SymPy result equals the row-column calculation."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p5",
+          "input_sha256": "565891704b702f50a60fe57aea3ef4e2684306b9546506f97acd453eeca0c9ad",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Each row of DC is a linear combination of C rows: 0*C1+3*C2; C1-C2; 2*C1+C2; 5*C1+2*C2.",
+                "These evaluate respectively to (12,3,-3,-12), (-3,1,2,6), (6,5,1,0), (13,12,3,2)."
+              ],
+              "conclusion": "DC=[[12,3,-3,-12],[-3,1,2,6],[6,5,1,0],[13,12,3,2]], size 4x4.",
+              "checks": [
+                "(4x2)(2x4) gives 4x4.",
+                "Exact integer multiplication independently agrees."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "schema_version": 1,
+      "pack_id": "0914",
+      "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0914/questions.json",
+      "source_packet_file_sha256": "11b35abf44b4c87e4a3f39353ecaebeb42f7a7b8047f28fbecb6f7fffeedaad3",
+      "packet_payload_sha256": "ff5ca59b545952ab63a1acd2d1040258e94ed8189d63773cac39d19f6763ab06",
+      "question_payload_sha256": "ffdf4a953faea5ebb4e011d4b46cdac51e4556094c536282ac13b1e895cbf16b",
+      "reviewer": {
+        "identity": "/root/ml_blind_dated_group1",
+        "role": "independent mathematical derivation reviewer",
+        "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+        "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+        "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+      },
+      "results": [
+        {
+          "id": "p1",
+          "input_sha256": "2b0e5c9c7f4cc70983e2066154e55623b36e7af1b598dfa862461fe3c8d7c067",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "Prepend the constant feature 1 to the two observed features 2 and -1."
+              ],
+              "conclusion": "x_n=(1,2,-1)^T, length D+1=3.",
+              "checks": [
+                "Feature vector and theta are both 3x1."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "theta^T x_n=(1/2)*1+3*2+2*(-1)=1/2+6-2."
+              ],
+              "conclusion": "Prediction 9/2=4.5.",
+              "checks": [
+                "(1x3)(3x1) is a scalar; intercept contributes once."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p2",
+          "input_sha256": "7a49e205be689c0033982d3a047e74ffedf84abe97e185c24c10d6615cf671da",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "Each row of X is (1,x_n); collect y in matching data order."
+              ],
+              "conclusion": "X=[[1,0],[1,1],[1,2]], y=(1,4,4)^T.",
+              "checks": [
+                "X is 3x2, theta 2x1, y 3x1; N=3."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "For A, X theta_A=(1,3,5)^T, residual y-X theta_A=(0,1,-1)^T, SSE=0+1+1=2.",
+                "For B, X theta_B=(3/2,3,9/2)^T, residual=(-1/2,1,-1/2)^T, SSE=1/4+1+1/4=3/2. Divide each SSE by N=3."
+              ],
+              "conclusion": "Mean squared losses: A=2/3, B=1/2.",
+              "checks": [
+                "Both use the same mean-loss convention 1/N, with no extra 1/2."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "exact",
+              "derivation": [
+                "2/3-1/2=1/6>0."
+              ],
+              "conclusion": "B has smaller mean loss.",
+              "checks": [
+                "Positive exact difference; candidate comparison, not a claim that B is the global minimizer."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p3",
+          "input_sha256": "27bd1e1ab535187a3fe768b39831410077598d4815e216079b33f4625ffc48e2",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "A predicts (1,3,5), residual zero, ||theta_A||^2=1+4=5. B predicts (1,2,3), residual (0,1,2), mean SSE=5/3, ||theta_B||^2=2.",
+                "Hence J_A=5 lambda and J_B=5/3+2 lambda. At lambda=0 these are 0 and 5/3."
+              ],
+              "conclusion": "At lambda=0, J_A=0, J_B=5/3; choose A.",
+              "checks": [
+                "N=3; the stated norm includes both intercept and slope."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "Using the same formulas, at lambda=1: J_A=5; J_B=5/3+2=11/3.",
+                "J_A-J_B=4/3>0."
+              ],
+              "conclusion": "At lambda=1, choose B (11/3<5).",
+              "checks": [
+                "Training error and regularization are scaled exactly as specified."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p4",
+          "input_sha256": "c2ba2bc9a5a7242a125adf40eb6c0d57e6dee6ec3770b9662bea22c56500ea97",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "The random label is deterministic mean plus zero-mean noise. Mean x_n^T theta=1*1+2*2=5; adding a constant does not change variance."
+              ],
+              "conclusion": "y_n | x_n,theta ~ N(5,1): mean 5, variance 1.",
+              "checks": [
+                "Both vectors 2x1; scalar inner product.",
+                "Variance is sigma^2=1, strictly positive; Gaussian density normalizes."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p5",
+          "input_sha256": "a414f668c33db2f3901ff08c3f63e6b82a70e38733c98d4a3501b23b3dc479de",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "proof",
+              "derivation": [
+                "With sigma^2=1, each density is (2pi)^(-1/2) exp(-(y_n-x_n^T theta)^2/2).",
+                "Independence gives a product; minus its natural logarithm gives L(theta)=(1/2) sum_n (y_n-x_n^T theta)^2+(N/2)ln(2pi). Here N=3."
+              ],
+              "conclusion": "L(theta)=||y-Xtheta||^2/2+(3/2)ln(2pi).",
+              "checks": [
+                "The additive term is independent of theta; exponent scaling is 1/(2 sigma^2)."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "numerical",
+              "derivation": [
+                "A residual (0,1,-1) has SSE=2, so L_A=1+(3/2)ln(2pi)=3.756815599614018.",
+                "B residual (-1/2,1,-1/2) has SSE=3/2, so L_B=3/4+(3/2)ln(2pi)=3.506815599614018.",
+                "Round each value to three digits after the decimal."
+              ],
+              "conclusion": "L_A=3.757; L_B=3.507.",
+              "checks": [
+                "Rounding tolerance 0.0005>0; |3.757-L_A|=0.000184400385982<0.0005 and |3.507-L_B|=0.000184400385982<0.0005.",
+                "Natural logarithm used."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "exact",
+              "derivation": [
+                "L_A-L_B=(2-3/2)/2=1/4>0. A common positive scaling and additive constant preserve the SSE order."
+              ],
+              "conclusion": "B is smaller, matching the squared-loss-sum ranking.",
+              "checks": [
+                "Same known noise variance for both candidates is essential to this ranking argument."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p6",
+          "input_sha256": "50e546fe0e32ccdfbf27dabf01504008ab0674b519c437dd0fc78bc21f6c78d3",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "x-y=(2,3,3)^T. The Euclidean norm is sqrt((x-y)^T(x-y))=sqrt(4+9+9)."
+              ],
+              "conclusion": "Distance sqrt(22).",
+              "checks": [
+                "Squared norm 22 is nonnegative; vector difference has dimension 3x1."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p7",
+          "input_sha256": "14e877b4b6b74f829a898290f78e58340dbbdfce8369272724d946b17f683325",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "symbolic",
+              "derivation": [
+                "f prime=3x^2+12x-3=3((x+2)^2-5). Thus stationary x=-2-sqrt(5) and -2+sqrt(5).",
+                "f double prime=6x+12. At the first root it is -6sqrt(5)<0 (strict local maximum); at the second it is +6sqrt(5)>0 (strict local minimum).",
+                "Writing t=x+2 gives f=t^3-15t+17; t=±sqrt(5) gives heights 17∓10sqrt(5)."
+              ],
+              "conclusion": "Local maximum (-2-sqrt(5),17+10sqrt(5)); local minimum (-2+sqrt(5),17-10sqrt(5)); no stationary saddle point.",
+              "checks": [
+                "Derivative vanishes exactly at both roots.",
+                "Both second derivatives nonzero. These are local extrema; a cubic is unbounded in both directions."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "schema_version": 1,
+      "pack_id": "0916",
+      "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0916/questions.json",
+      "source_packet_file_sha256": "d158701c174be4c53451f7cb6ae24ac1ff95c2d24abf95e2ecf768b5fb8a51d4",
+      "packet_payload_sha256": "8a74d0230989749259b5ff53b0b23355a8195807e54033f017cd1cd372bb60f8",
+      "question_payload_sha256": "99f6eccd329ee8472621a4e2a8e7a435578b115f1815ef9f563e618094993c7c",
+      "reviewer": {
+        "identity": "/root/ml_blind_dated_group1",
+        "role": "independent mathematical derivation reviewer",
+        "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+        "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+        "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+      },
+      "results": [
+        {
+          "id": "p1",
+          "input_sha256": "ed41116b58a1f4713606188711df5047cc2930c9b79d6915cd980d0d692d2067",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "symbolic",
+              "derivation": [
+                "Take minus log of the supplied multivariate Gaussian density. The exponential gives +(1/2)theta^T Sigma^(-1)theta. The reciprocal prefactor gives (D/2)ln(2pi)+(1/2)ln|Sigma|."
+              ],
+              "conclusion": "-ln p(theta)=(1/2)theta^T Sigma^(-1)theta+(D/2)ln(2pi)+(1/2)ln|Sigma|.",
+              "checks": [
+                "theta is Dx1; Sigma and its inverse are DxD; the quadratic is scalar.",
+                "The displayed ordinary density requires symmetric positive definite Sigma, hence positive determinant and invertibility."
+              ],
+              "unresolved": [
+                "Sigma is called a covariance matrix but positive definiteness is not explicit. For singular covariance the supplied inverse/determinant density is undefined; the displayed result applies to the nondegenerate case."
+              ]
+            },
+            {
+              "subpart_id": "b",
+              "method": "proof",
+              "derivation": [
+                "Bayes gives -ln p(theta|X,y)=-ln p(y|X,theta)-ln p(theta)+ln p(y|X). The evidence is independent of theta.",
+                "Minimize L(theta)+(1/2)theta^T Sigma^(-1)theta+C, where L is the negative log likelihood and C=(D/2)ln(2pi)+(1/2)ln|Sigma|.",
+                "If the Gaussian observation noise is independent with a common fixed positive variance sigma^2, L=SSE/(2sigma^2)+(N/2)ln(2pi sigma^2). Constants may be omitted in the argmin."
+              ],
+              "conclusion": "theta_MAP=argmin_theta {-ln p(y|X,theta)+(1/2)theta^T Sigma^(-1)theta}; including the prior normalization constant gives the same argmin.",
+              "checks": [
+                "Gaussian prior normalization is preserved before dropping constants.",
+                "For a design X of size NxD, SSE=||y-Xtheta||^2 is scalar.",
+                "No numerical noise variance was supplied; the likelihood remains symbolic."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": [
+            "Sigma is called a covariance matrix but positive definiteness is not explicit. For singular covariance the supplied inverse/determinant density is undefined; the displayed result applies to the nondegenerate case."
+          ]
+        },
+        {
+          "id": "p2",
+          "input_sha256": "06256f108060472168d2cfb33221c836b2d42670f833ba74f92f005a16e2247a",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Sum each column over the three Y rows: .01+.05+.10=.16; .02+.10+.05=.17; .03+.05+.03=.11; .10+.07+.05=.22; .10+.20+.04=.34."
+              ],
+              "conclusion": "p_X(x1..x5)=(.16,.17,.11,.22,.34).",
+              "checks": [
+                "All probabilities nonnegative; exact sum (16+17+11+22+34)/100=1.",
+                "The top row is y1 and columns are x1 through x5."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p3",
+          "input_sha256": "b53397bca23a192bb11a185468b4343a5196db7a4933c0e531bb5963044bdfe6",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Sum each row over X: y1 has (1+2+3+10+10)/100=26/100; y2 has (5+10+5+7+20)/100=47/100; y3 has (10+5+3+5+4)/100=27/100."
+              ],
+              "conclusion": "p_Y(y1..y3)=(.26,.47,.27).",
+              "checks": [
+                "Nonnegative entries and (26+47+27)/100=1."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p4",
+          "input_sha256": "7d9b42f56ea503fbd786ff08008751105d8dd311d6dab878213e130c19cc8021",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Use p(x_i|y1)=p(x_i,y1)/p(y1), with p(y1)=26/100.",
+                "Divide the y1 row (1,2,3,10,10)/100 by 26/100, giving (1,2,3,10,10)/26."
+              ],
+              "conclusion": "p(X|Y=y1)=(1/26,1/13,3/26,5/13,5/13).",
+              "checks": [
+                "Conditioning mass 26/100>0.",
+                "Numerators 1+2+3+10+10=26, so the conditional vector sums exactly to 1."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p5",
+          "input_sha256": "808d3240270f2aea26ac5a4677e9661a920fe9db3fc7f3296492441230efbc68",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Use p(y_j|x3)=p(x3,y_j)/p(x3), with p(x3)=(3+5+3)/100=11/100.",
+                "The x3 column in y1,y2,y3 order is (3,5,3)/100."
+              ],
+              "conclusion": "p(Y|X=x3)=(3/11,5/11,3/11).",
+              "checks": [
+                "Conditioning mass 11/100>0; conditional sum (3+5+3)/11=1."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p6",
+          "input_sha256": "129a39d2a6ecbf0ea8efbfab6ae4748e23dc0b47ef81cc28fc66d6493613eeff",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "proof",
+              "derivation": [
+                "Let s=sum_n x_n count successes. Independence yields likelihood mu^s (1-mu)^(N-s).",
+                "Multiplying the Beta prior gives posterior kernel mu^(alpha+s-1)(1-mu)^(beta+N-s-1), for 0<mu<1.",
+                "Define a=alpha+s and b=beta+N-s. Integrating the kernel gives B(a,b), so normalization is 1/B(a,b)=Gamma(a+b)/(Gamma(a)Gamma(b))."
+              ],
+              "conclusion": "mu | x_1..x_N ~ Beta(alpha+s,beta+N-s), with density mu^(alpha+s-1)(1-mu)^(beta+N-s-1)/B(alpha+s,beta+N-s) on (0,1).",
+              "checks": [
+                "A proper Beta prior means alpha>0,beta>0; then posterior parameters remain positive for 0<=s<=N.",
+                "The density integrates to 1 by definition of the beta function.",
+                "No MAP formula is requested; boundary modes do not affect posterior validity."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": [
+        {
+          "id": "p1",
+          "items": [
+            "Sigma is called a covariance matrix but positive definiteness is not explicit. For singular covariance the supplied inverse/determinant density is undefined; the displayed result applies to the nondegenerate case."
+          ]
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "pack_id": "0921",
+      "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0921/questions.json",
+      "source_packet_file_sha256": "163e8c249b7612c1b98ff0dcf347499baa644091a3010a9537bc15d08ff30ef4",
+      "packet_payload_sha256": "ea757b0816925f5afa9c3096cd16d74211b99e45f30afca3114399b3c98a092c",
+      "question_payload_sha256": "1ae7190b2f7f8b6a9a9577dea5093acf8b43558c01f84ec8b0fc3a3ab0ae1212",
+      "reviewer": {
+        "identity": "/root/ml_blind_dated_group1",
+        "role": "independent mathematical derivation reviewer",
+        "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+        "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+        "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+      },
+      "results": [
+        {
+          "id": "p1",
+          "input_sha256": "b48fa14b26fcb4f02fe5a1e31633fa8024ecaa2f939a7c66771c6bf25423f646",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "qualitative",
+              "derivation": [
+                "The local factor for c is p(c|a,b), so its conditioning/parent variables are a and b."
+              ],
+              "conclusion": "In the represented DAG, c has parents a and b.",
+              "checks": [
+                "A factorization specifies the permitted graphical dependence; it does not alone prove nonzero statistical or causal effects."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "qualitative",
+              "derivation": [
+                "The local factor for b is p(b|a)."
+              ],
+              "conclusion": "b has parent a.",
+              "checks": [
+                "Direct parent read from this factorization."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "qualitative",
+              "derivation": [
+                "The factor p(a) has no conditioning argument."
+              ],
+              "conclusion": "a has no parent in this representation.",
+              "checks": [
+                "A root can still be statistically dependent on descendants; root does not mean marginal independence from every other variable."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p2",
+          "input_sha256": "d8c8ba3dc69f6ca46d5c70a0776799fa77dd2903f9106a8fcafabc260246fa12",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "qualitative",
+              "derivation": [
+                "For each local factor p(node|parents), draw one arrow from every parent into the node. Factors p(c|a,b),p(b|a),p(a) therefore give a to c, b to c, a to b."
+              ],
+              "conclusion": "Arrows: a -> b; a -> c; b -> c.",
+              "checks": [
+                "Order a,b,c is acyclic."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "There are three unordered node pairs: {a,b},{a,c},{b,c}. Each is connected by the corresponding arrow."
+              ],
+              "conclusion": "Three arrows; all node pairs are connected.",
+              "checks": [
+                "Complete three-node skeleton; no self arrows or duplicate arrows."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p3",
+          "input_sha256": "8a0b8c6ae81aa21214a90903a69a4971cf0396edb157a4a6e398e25b16119484",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "A DAG joint density has one local probability factor per node. The inline SVG contains x1,x2,x3,x4,x5."
+              ],
+              "conclusion": "Five factors (including two root marginals).",
+              "checks": [
+                "Count nodes rather than arrows."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "qualitative",
+              "derivation": [
+                "Trace the SVG endpoint geometry and caption: x1->x3, x2->x3, x5->x2, x2->x4.",
+                "Collect incoming arrows: x1 none; x2 from x5; x3 from x1 and x2; x4 from x2; x5 none."
+              ],
+              "conclusion": "pa(x1)=empty; pa(x2)={x5}; pa(x3)={x1,x2}; pa(x4)={x2}; pa(x5)=empty.",
+              "checks": [
+                "Inline line/polyline arrowheads agree with the supplied caption and accessibility label.",
+                "The order x1,x5,x2,x3,x4 is topological."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "qualitative",
+              "derivation": [
+                "Only x2 has an arrow into x4. The local factor conditions on all and only the represented parents."
+              ],
+              "conclusion": "p(x4|x2).",
+              "checks": [
+                "One local scalar probability/density factor per node value."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p4",
+          "input_sha256": "bb71ff9afec55a25206de6389e8591c7cef0ee5c3b9d36c81a345a1029ad49cf",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "proof",
+              "derivation": [
+                "Read the same supplied arrow set: x1->x3, x2->x3, x5->x2, x2->x4.",
+                "Root factors are p(x1),p(x5); nonroots give p(x2|x5),p(x3|x1,x2),p(x4|x2). Multiply these five factors."
+              ],
+              "conclusion": "p(x1,x2,x3,x4,x5)=p(x1)p(x5)p(x2|x5)p(x3|x1,x2)p(x4|x2).",
+              "checks": [
+                "Five local factors, one per node.",
+                "If each local distribution is normalized, summing/integrating leaves x3,x4 first, then x2, then roots yields total mass 1."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p5",
+          "input_sha256": "01a7fea5512999b82e091cbaf8177be971dd67697a97532dfc76fdf8df9b82ec",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Let B2 mean bag 2 and M mean mango. P(B1)=3/5,P(B2)=2/5; P(M|B1)=4/6=2/3; P(M|B2)=4/8=1/2.",
+                "P(M)=(3/5)(2/3)+(2/5)(1/2)=2/5+1/5=3/5.",
+                "Bayes: P(B2|M)=P(M|B2)P(B2)/P(M)=(1/5)/(3/5)=1/3."
+              ],
+              "conclusion": "Probability 1/3.",
+              "checks": [
+                "The two disjoint mango paths sum to 3/5>0.",
+                "Posterior bag1 probability 2/3 plus bag2 1/3 equals 1."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p6",
+          "input_sha256": "e1d9d09abda71f1a08a5cd49ecd8ed7c3ab04a72125a80057555ab7cb59c4a91",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "proof",
+              "derivation": [
+                "Under the finite-expectation condition integral integral |x| p(x,y) dx dy<infinity, conditional expectation is integrable and Fubini applies.",
+                "E_Y[E_X[X|Y]]=integral p_Y(y)[integral x p(x|y) dx]dy = integral integral x p(x,y) dx dy.",
+                "For p_Y(y)=0 choose any conditional version, since its contribution is zero. Swap order by absolute integrability and use integral p(x,y)dy=p_X(x).",
+                "The result is integral x p_X(x)dx=E_X[X]."
+              ],
+              "conclusion": "E_X[X]=E_Y[E_X[X|Y]] whenever X is integrable; the law also extends to nonnegative X in the extended-value sense.",
+              "checks": [
+                "p(x|y)p_Y(y)=p(x,y) for p_Y-almost every y.",
+                "Normalization alone does not ensure signed expectations exist; no unjustified exchange of divergent integrals."
+              ],
+              "unresolved": [
+                "The packet does not explicitly assume E|X|<infinity or nonnegative X. For arbitrary signed nonintegrable X the displayed expectations may be undefined, so the universal claim needs an existence/integrability condition."
+              ]
+            }
+          ],
+          "unresolved": [
+            "The packet does not explicitly assume E|X|<infinity or nonnegative X. For arbitrary signed nonintegrable X the displayed expectations may be undefined, so the universal claim needs an existence/integrability condition."
+          ]
+        }
+      ],
+      "unresolved": [
+        {
+          "id": "p6",
+          "items": [
+            "The packet does not explicitly assume E|X|<infinity or nonnegative X. For arbitrary signed nonintegrable X the displayed expectations may be undefined, so the universal claim needs an existence/integrability condition."
+          ]
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "pack_id": "0923",
+      "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0923/questions.json",
+      "source_packet_file_sha256": "29688080a4557890cb51dfc6fe5ffdeb8321afda515b5582810c41ed80f8ebdb",
+      "packet_payload_sha256": "872d4ae0d5aed05d2e9511f492c84c74cf3a5ae32e7c05761f099b50e6f7fe53",
+      "question_payload_sha256": "c167a52d4d412539ebd7885113a4c8340ce78059757c35bc0fa96945fe3db5de",
+      "reviewer": {
+        "identity": "/root/ml_blind_dated_group1",
+        "role": "independent mathematical derivation reviewer",
+        "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+        "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+        "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+      },
+      "results": [
+        {
+          "id": "p1",
+          "input_sha256": "dfc333d09cfa0e01c2ed68443e1ce068b7d7392b643fcd75df33730b75914cb5",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "X=(1,2,4)^T, hence X^T X=1^2+2^2+4^2=1+4+16."
+              ],
+              "conclusion": "X^T X=21.",
+              "checks": [
+                "(1x3)(3x1) is 1x1; positive scalar so inverse exists."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "X^T y=1*2+2*5+4*7=2+10+28."
+              ],
+              "conclusion": "X^T y=40.",
+              "checks": [
+                "Input and label order match."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "exact",
+              "derivation": [
+                "Use the stipulated estimator: theta_ML=21^(-1)*40=40/21.",
+                "Alternatively SSE(theta)=(2-theta)^2+(5-2theta)^2+(7-4theta)^2 has derivative 42theta-80. Its zero is 40/21, with second derivative 42>0.",
+                "Residual at this slope is (2/21,25/21,-13/21); X^T residual=(2+50-52)/21=0."
+              ],
+              "conclusion": "theta_ML=40/21.",
+              "checks": [
+                "Normal-equation residual exactly zero and positive curvature give the unique least-squares solution.",
+                "ML interpretation uses the stated Gaussian straight-line setting, with independent common positive noise variance as usual; the explicitly supplied estimator is calculable regardless."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p2",
+          "input_sha256": "7594ac1c585bb617583f51e470d45e010ba875a2870267fa555ec8cdba35d2d3",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "X^T X=1^2+1^2+2^2=6. X^T y=1*1+1*3+2*4=12."
+              ],
+              "conclusion": "X^T X=6, X^T y=12.",
+              "checks": [
+                "Both 1x1; y^T X=12 also by scalar transpose symmetry."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "Theta is scalar, so theta^T=theta. The supplied equation reduces to 6theta=12, hence theta=2.",
+                "Predictions (2,2,4); residual (-1,1,0); X^T residual=-1+1+0=0. SSE curvature=2 X^T X=12>0."
+              ],
+              "conclusion": "theta_ML=2 as defined by the supplied normal equation.",
+              "checks": [
+                "Unique least-squares minimizer.",
+                "Calling this the maximum-likelihood estimate requires a suitable likelihood such as independent fixed-variance Gaussian errors; no different likelihood is invented."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p3",
+          "input_sha256": "87a7742cce0dc577cbf8ec8ce7d05e07b4ba0eb0104ef6c21988b22e61a433b8",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "K=4 supplies powers 0,1,2,3. At x=2 these are 1,2,4,8."
+              ],
+              "conclusion": "phi(2)=(1,2,4,8)^T.",
+              "checks": [
+                "Length K=4, with constant feature."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "Dot phi(2) with theta=(1,-2,0,1)^T: 1-4+0+8=5."
+              ],
+              "conclusion": "f(2)=5.",
+              "checks": [
+                "(1x4)(4x1) is scalar; direct polynomial 1-2x+x^3 gives the same value."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p4",
+          "input_sha256": "7e3abe1d160c6395fec8833effbb82409ad70fa6707462e092aa5b5d418c4d72",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "K=3 supplies powers 0,1,2. At x=3 these are 1,3,9."
+              ],
+              "conclusion": "phi(3)=(1,3,9)^T.",
+              "checks": [
+                "Feature length 3."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "f(3)=2*1+0*3-1*9=2-9."
+              ],
+              "conclusion": "f(3)=-7.",
+              "checks": [
+                "Direct polynomial 2-x^2 agrees; scalar output."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p5",
+          "input_sha256": "4f2c356c214cf1aa9073a7da27d1cdb819782ccc347aacfc5a4b7108b48894c5",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "proof",
+              "derivation": [
+                "Let w=(1,-1,-2,1)^T. A necessary condition for Ax=b is w^T b=0 whenever w^T A=0.",
+                "Compute row1-row2-2row3+row4 of A: each component is zero. On b the same combination is 1-(-2)-2*4+6=1.",
+                "Multiplying a hypothetical equation Ax=b by w^T therefore yields 0=1, a contradiction."
+              ],
+              "conclusion": "S is the empty set; no solution.",
+              "checks": [
+                "Exact left-null certificate w^T A=(0,0,0,0), w^T b=1.",
+                "Own SymPy elimination independently gives an augmented RREF row (0,0,0,0|1).",
+                "A is 4x4; the contradiction proves nonexistence for all candidate x, not just sampled vectors."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p6",
+          "input_sha256": "8d5a680908e7a4cd510df667d520a5677c37a6e92ca109f07d5bc421c6ff7ff0",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "proof",
+              "derivation": [
+                "For A=[[2,3,4],[3,4,5],[4,5,6]], take v=(1,-2,1)^T, which is nonzero.",
+                "Av=(2-6+4,3-8+5,4-10+6)^T=(0,0,0)^T. If an inverse existed, v=A^(-1)Av=0 would follow, a contradiction."
+              ],
+              "conclusion": "No inverse; A is singular.",
+              "checks": [
+                "Rows also satisfy row1-2row2+row3=0.",
+                "The upper-left 2x2 minor is 8-9=-1, so rank is exactly 2, and determinant is zero."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p7",
+          "input_sha256": "338d9d56ff7c9f5380c0664ed544b8f162347ce2d8c167cbefa978c6514a4a03",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "Solve Ax=u. Equations are x1+x3=u1; x2+x3=u2; x1+x2+x4=u3; x1+x2+x3=u4.",
+                "Subtract the second equation from the fourth: x1=u4-u2. Subtract the first from the fourth: x2=u4-u1.",
+                "Then x3=u1+u2-u4; x4=u3-x1-x2=u1+u2+u3-2u4.",
+                "Read coefficients of u to form the inverse."
+              ],
+              "conclusion": "A^(-1)=[[0,-1,0,1],[-1,0,0,1],[1,1,0,-1],[1,1,1,-2]].",
+              "checks": [
+                "A and inverse are 4x4.",
+                "Own exact calculation yields det(A)=1, A A^(-1)-I=0_(4x4), A^(-1) A-I=0_(4x4).",
+                "Deriving x for arbitrary u proves the formula without reliance on numerical probes."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "schema_version": 1,
+      "pack_id": "0928",
+      "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0928/questions.json",
+      "source_packet_file_sha256": "8b9d98456fdf0513cada7a328c98b6120222a80b7bb103d472ccd74213c0b5ed",
+      "packet_payload_sha256": "6483420e88252aabf685d9c62cb6f29e6717b59ee72fbf5a2076fa2348490756",
+      "question_payload_sha256": "dbd98d5122eeb68e10c0a9c0a7e4b92aa6f098d6b05bce0682220c5f75b8e759",
+      "reviewer": {
+        "identity": "/root/ml_blind_dated_group1",
+        "role": "independent mathematical derivation reviewer",
+        "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+        "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+        "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+      },
+      "results": [
+        {
+          "id": "p1",
+          "input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "exact",
+              "derivation": [
+                "The nth row is phi(x_n)^T=(1,x_n,x_n^2).",
+                "For -1 the row is (1,-1,1); for 1 it is (1,1,1); for 2 it is (1,2,4)."
+              ],
+              "conclusion": "Phi=[[1,-1,1],[1,1,1],[1,2,4]].",
+              "checks": [
+                "N=3 rows and K=3 columns, so Phi is 3x3.",
+                "The inputs are distinct; Vandermonde determinant (1-(-1))*(2-(-1))*(2-1)=6, confirming independence of the columns."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p2",
+          "input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "The explicit ask specifies a cubic polynomial, hence powers 0,1,2,3."
+              ],
+              "conclusion": "K=4; phi(x)=(1,x,x^2,x^3)^T.",
+              "checks": [
+                "Polynomial degree 3 has four coefficients including the intercept."
+              ],
+              "unresolved": [
+                "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5."
+              ]
+            },
+            {
+              "subpart_id": "b",
+              "method": "exact",
+              "derivation": [
+                "Stack N=8 row vectors phi(x_n)^T of length 4."
+              ],
+              "conclusion": "Phi has size 8x4.",
+              "checks": [
+                "y is 8x1, theta is 4x1, and Phi theta is 8x1."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "c",
+              "method": "proof",
+              "derivation": [
+                "With independent common Gaussian observation variance sigma^2=0.04, negative log likelihood equals ||y-Phi theta||^2/(2sigma^2)+constant.",
+                "Its gradient is Phi^T(Phi theta-y)/sigma^2. Setting it to zero yields Phi^T Phi theta=Phi^T y.",
+                "If Phi has column rank 4, Phi^T Phi is invertible and theta_ML=(Phi^T Phi)^(-1)Phi^T y. If rank deficient, all least-squares minimizers are Phi^+y+(I_4-Phi^+Phi)w for arbitrary w in R^4."
+              ],
+              "conclusion": "Full-rank formula: theta_ML=(Phi^T Phi)^(-1)Phi^T y. In general use the stated pseudoinverse family.",
+              "checks": [
+                "Phi^T Phi is 4x4 and Phi^T y is 4x1.",
+                "At least four distinct x values suffice for the cubic Vandermonde matrix to have rank 4.",
+                "No actual input values or labels are provided, so a numerical theta is not identifiable."
+              ],
+              "unresolved": [
+                "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+              ]
+            }
+          ],
+          "unresolved": [
+            "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5.",
+            "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+          ]
+        },
+        {
+          "id": "p3",
+          "input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "exact",
+              "derivation": [
+                "Observation variance sigma^2=0.2^2=0.04=1/25. Prior covariance b^2 I=(1/4)I, so b^2=1/4.",
+                "Divide variance by variance: (1/25)/(1/4)=4/25."
+              ],
+              "conclusion": "sigma^2/b^2=4/25=0.16.",
+              "checks": [
+                "b=1/2 if taken as a positive standard deviation; using b^2=1/4 avoids confusing variance with standard deviation.",
+                "The ridge addition is (4/25)I_K, matching the KxK Gram matrix.",
+                "Prior negative log penalty is ||theta||^2/(2b^2); multiplying the MAP normal equation by sigma^2 yields the displayed coefficient."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "qualitative",
+              "derivation": [
+                "For Gram eigenvalue d>=0, ridge changes the unregularized eigen-direction coefficient by the shrinkage factor d/(d+lambda), lambda=4/25; smaller d is more strongly changed.",
+                "An eighth-degree polynomial has nine parameters; a sixth-degree polynomial has seven. Extra high-power directions often have weak data constraints, instability, or a large coefficient norm, so regularization commonly becomes more apparent at degree 8.",
+                "However the actual spectrum and Phi^T y depend on input values and labels; degree alone does not force a strictly larger effect. For instance, y=0 gives identical zero estimates for both degrees."
+              ],
+              "conclusion": "Expected qualitative choice: degree 8 often shows more regularization; no unconditional ordering can be deduced from the supplied data.",
+              "checks": [
+                "For any nonzero v, v^T(Phi^T Phi+lambda I)v=||Phi v||^2+lambda||v||^2>0, so the MAP system is invertible for lambda=0.16.",
+                "The prior shrinks coefficients in the supplied monomial coordinate system; no rescaling or coefficient exemption is assumed."
+              ],
+              "unresolved": [
+                "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+              ]
+            }
+          ],
+          "unresolved": [
+            "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+          ]
+        },
+        {
+          "id": "p4",
+          "input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "symbolic",
+              "derivation": [
+                "Product rule: f prime=(d/dx ln(x^4))*sin(x^3)+ln(x^4)*(d/dx sin(x^3)).",
+                "For x!=0, chain rule gives (4x^3)/(x^4)=4/x and d sin(x^3)/dx=3x^2 cos(x^3)."
+              ],
+              "conclusion": "f prime(x)=4 sin(x^3)/x+3x^2 ln(x^4) cos(x^3), for x!=0.",
+              "checks": [
+                "ln(x^4) is real for all nonzero real x, including negative x.",
+                "At x=0 the original function is undefined; no derivative there is asserted.",
+                "Own SymPy simplification of derivative minus formula is exactly zero on the stated domain."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p5",
+          "input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "symbolic",
+              "derivation": [
+                "Set h(x)=-(x-mu)^2/(2sigma^2). With constant sigma!=0, h prime=-(x-mu)/sigma^2.",
+                "Chain rule for exp(h) gives f prime=h prime exp(h)."
+              ],
+              "conclusion": "f prime(x)=-(x-mu)/sigma^2 * exp(-(x-mu)^2/(2sigma^2)), for sigma!=0.",
+              "checks": [
+                "mu is any real constant. Negative nonzero sigma gives the same function since only sigma^2 occurs.",
+                "Own exact symbolic derivative minus formula is zero.",
+                "The function is only a Gaussian shape; no density normalizer was included in the supplied function."
+              ],
+              "unresolved": [
+                "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+              ]
+            }
+          ],
+          "unresolved": [
+            "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+          ]
+        },
+        {
+          "id": "p6",
+          "input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+          "subparts": [
+            {
+              "subpart_id": "a",
+              "method": "symbolic",
+              "derivation": [
+                "Use the Jacobian convention J_ij=partial output_i/partial input_j, so scalar derivatives with respect to a vector are rows.",
+                "df/dz=1/(1+z), size 1x1; dz/dx=2x^T, size 1xD.",
+                "Multiply in chain order: df/dx=(1/(1+x^T x))*2x^T."
+              ],
+              "conclusion": "df/dx=2x^T/(1+x^T x), size 1xD; equivalently column gradient is 2x/(1+x^T x).",
+              "checks": [
+                "x^T x>=0 implies 1+z>=1, so the logarithm domain is valid for every real x.",
+                "(1x1)(1xD) gives 1xD; no transpose ambiguity after fixing the convention."
+              ],
+              "unresolved": []
+            },
+            {
+              "subpart_id": "b",
+              "method": "symbolic",
+              "derivation": [
+                "For componentwise sin, partial f_i/partial z_j=delta_ij cos(z_i), so df/dz=diag(cos(z)), size ExE.",
+                "For z=Ax+b, dz/dx=A, size ExD. Chain rule yields df/dx=diag(cos(Ax+b))A."
+              ],
+              "conclusion": "Jacobian diag(cos(Ax+b))A, size ExD.",
+              "checks": [
+                "(ExE)(ExD) gives ExD.",
+                "Component (i,j) is cos((Ax+b)_i) A_ij; b contributes no derivative with respect to x."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p7",
+          "input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "symbolic",
+              "derivation": [
+                "For elementwise tanh, d f_i/d z_j=delta_ij(1-tanh^2 z_i). Thus df/dz=diag(1-tanh^2 z), MxM.",
+                "dz/dx=A, MxN. Chain rule df/dx=(df/dz)(dz/dx)=diag(1-tanh^2(Ax+b))A."
+              ],
+              "conclusion": "df/dx=diag(1-tanh^2 z) A, size MxN, where z=Ax+b.",
+              "checks": [
+                "Jacobian convention: output coordinates index rows; input coordinates index columns.",
+                "(MxM)(MxN)=MxN; b is Mx1 and has zero derivative with respect to x.",
+                "Every real z_i is valid; 0<1-tanh^2 z_i<=1 for finite z_i."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        },
+        {
+          "id": "p8",
+          "input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+          "subparts": [
+            {
+              "subpart_id": "main",
+              "method": "symbolic",
+              "derivation": [
+                "Write f=(1+exp(-x))^(-1). Chain rule gives f prime=-(1+exp(-x))^(-2)*(-exp(-x))=exp(-x)/(1+exp(-x))^2.",
+                "Also 1-f=exp(-x)/(1+exp(-x)); multiplying by f gives the same derivative."
+              ],
+              "conclusion": "f prime(x)=exp(-x)/(1+exp(-x))^2=f(x)(1-f(x)).",
+              "checks": [
+                "Denominator positive for all real x; derivative positive and at most 1/4 since t(1-t)<=1/4 for 0<t<1.",
+                "Own symbolic derivative minus f(1-f) simplifies exactly to zero."
+              ],
+              "unresolved": []
+            }
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": [
+        {
+          "id": "p2",
+          "items": [
+            "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5.",
+            "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+          ]
+        },
+        {
+          "id": "p3",
+          "items": [
+            "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+          ]
+        },
+        {
+          "id": "p5",
+          "items": [
+            "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+          ]
+        }
+      ]
+    }
+  ]
+}

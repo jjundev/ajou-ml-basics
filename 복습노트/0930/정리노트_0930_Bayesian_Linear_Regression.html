@@ -372,7 +372,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> FB가 파라미터 평균 하나만 골라 대입한다는 뜻은 아니에요. 가능한 예측분포 전체를 가중해 모아요.</p>
 <p>이어서 읽기: <a href="#s0-fully-bayesian">풀리 베이지안: 결정을 유보한다</a> · <a href="#s2-predictive">사후 예측분포 유도와 두 가지 가정</a> · <a href="#s4-affine">아핀 변환의 평균과 공분산</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.</p></div>
+<div class="sum" hidden><p class="sum-lead">파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.</p><div class="summary-group"><h4>조건·구분</h4><p>MAP은 사후분포의 최고점 하나를 고르고, FB는 파라미터 분포를 유지해 가능한 예측분포를 가중해 모아요. 파라미터 평균 하나만 대입한다는 뜻은 아니에요.</p></div></div>
 </article>
 <article class="topic" id="s0-cond-prob"><h3>조건부확률 복습: 곱셈 법칙의 확장</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · 칠판</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -493,7 +493,7 @@
       <dt>확률밀도함수(PDF)</dt><dd>확률변수의 특성이 고스란히 들어 있는 함수</dd>
       <dt>베이지안 선형회귀(Bayesian linear regression)</dt><dd>모델은 선형으로 두고 확률을 도입한 회귀</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>이 회귀의 선형성은 $\boldsymbol{\theta}$에 대한 선형성이에요. ML·MAP은 파라미터 값 하나를 구했고, 베이지안 선형회귀는 분포 전체를 써서 예측해요.</p></div></div>
 </article>
 
 <article class="topic" id="s0-fully-bayesian"><h3>풀리 베이지안: 결정을 유보한다</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · MML 9.3</span></div>
@@ -634,7 +634,7 @@
       <dt>latent variable(hidden parameter)</dt><dd>보이지 않는 $\boldsymbol{\theta}$예요. $\mathbf{x}$를 $y$로 바꾸는 재료예요.</dd>
       <dt>$\mathbf{m}_0$, $\mathbf{S}_0$</dt><dd>$\boldsymbol{\theta}$가 가우시안일 때의 평균(벡터)과 공분산(행렬)이에요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$y$는 관측 출력, $\boldsymbol{\theta}$는 숨은 모델 파라미터예요. $\mathbf{m}_0$, $\mathbf{S}_0$, $\sigma$는 분포 모양을 밖에서 정하는 하이퍼파라미터 쪽이에요.</p></div></div>
 </article>
 <article class="topic" id="s1-prior-likelihood"><h3>사전분포와 가능도</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · MML 9.3.1</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -688,7 +688,7 @@
       <dt>가능도(likelihood)</dt><dd>$\mathbf{x}$와 $\boldsymbol{\theta}$가 주어졌을 때 $y$의 분포예요.</dd>
       <dt>labeled data</dt><dd>$(\mathbf{x}, y)$가 쌍으로 묶인 데이터예요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>입력과 $\boldsymbol{\theta}$를 고정하면 가능도의 평균은 $\boldsymbol{\phi}^{\top}(\mathbf{x})\boldsymbol{\theta}$, 분산은 $\sigma^2$예요. 평균 $0$인 것은 잡음이에요. 피처 함수는 비선형이어도 $\boldsymbol{\theta}$에 대해 선형이면 선형회귀예요.</p></div></div>
 </article>
 <article class="topic" id="s1-joint"><h3>조인트 분포와 독립 가정</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · MML 9.3.1</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -745,7 +745,7 @@
       <dt>조인트 분포(joint distribution)</dt><dd>관측되는 $y$와 관측되지 않는 $\boldsymbol{\theta}$를 함께 적은 전체 확률 모델이에요.</dd>
       <dt>통계적으로 독립</dt><dd>입력 $\mathbf{x}$만으로는 $\boldsymbol{\theta}$가 영향을 받지 않는다는 가정이에요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>독립 가정 전의 정확한 둘째 항은 $p(\boldsymbol{\theta}\mid\mathbf{x})$예요. 이 항을 $p(\boldsymbol{\theta})$로 바꾸는 것은 모델에 따라 달라지는 가정이에요.</p></div></div>
 </article>
     </section>
     <section id="s2"><h2>2. 사후 예측분포</h2>
@@ -876,7 +876,7 @@
       <dt>주변화(marginalization)</dt><dd>조인트 PDF를 한 변수로 적분해 그 변수를 없애는 일</dd>
       <dt>잠재 변수(latent variable)</dt><dd>원래 식에는 없다가 일부러 도입하는 변수</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>조건 $z$는 고정해 남겨 두고 결과 자리의 $y$를 적분해 없애요. 수업 외 보충 증명은 $p(z)\gt0$에서 조건부 정의를 풀고 $p(z)$를 적분 밖으로 꺼낸 뒤 $\int p(x,y,z)\,dy=p(x,z)$를 써요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-predictive"><h3>사후 예측분포 유도와 두 가지 가정</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · MML 9.3.4</span></div>
@@ -932,9 +932,9 @@
     <p class="sum-lead">조인트를 곱셈 법칙으로 쪼개고 두 가정을 넣으면, 사후 예측분포는 likelihood와 $\boldsymbol{\theta}$의 조건부 PDF를 곱해 $\boldsymbol{\theta}$로 적분한 식이 돼요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
-      <li><span class="eq-name">가정 ①</span>$$p(y_* \mid \boldsymbol{\theta}, \mathbf{x}_*, \mathcal{X}, \mathcal{Y}) = p(y_* \mid \mathbf{x}_*, \boldsymbol{\theta})$$</li>
-      <li><span class="eq-name">가정 ②</span>$$p(\boldsymbol{\theta} \mid \mathbf{x}_*, \mathcal{X}, \mathcal{Y}) = p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$$</li>
-      <li><span class="eq-name">사후 예측분포</span>$$p(y_* \mid \mathbf{x}_*, \mathcal{X}, \mathcal{Y}) = \int p(y_* \mid \mathbf{x}_*, \boldsymbol{\theta})\,p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})\,d\boldsymbol{\theta}$$</li>
+      <li><span class="eq-name">가정 ①</span>$$\begin{aligned}&p(y_*\mid\boldsymbol\theta,\mathbf x_*,\mathcal X,\mathcal Y)\\&=p(y_*\mid\mathbf x_*,\boldsymbol\theta)\end{aligned}$$</li>
+      <li><span class="eq-name">가정 ②</span>$$\begin{aligned}&p(\boldsymbol\theta\mid\mathbf x_*,\mathcal X,\mathcal Y)\\&=p(\boldsymbol\theta\mid\mathcal X,\mathcal Y)\end{aligned}$$</li>
+      <li><span class="eq-name">사후 예측분포</span>$$\begin{aligned}&p(y_*\mid\mathbf x_*,\mathcal X,\mathcal Y)\\&=\int p(y_*\mid\mathbf x_*,\boldsymbol\theta)\\&\quad{}\cdot p(\boldsymbol\theta\mid\mathcal X,\mathcal Y)\,d\boldsymbol\theta\end{aligned}$$</li>
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms">
@@ -1038,7 +1038,7 @@
       <dt>조건부 기댓값(conditional expectation)</dt><dd>조건부 확률을 가중치로 쓴 기댓값</dd>
       <dt>델타 함수</dt><dd>값 하나에만 서 있는 PDF. $\boldsymbol{\theta}$를 하나로 결정한 경우</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>적분으로 사라지는 것은 $\boldsymbol{\theta}$이고 새 출력 $y_*$의 불확실성은 PDF로 남아요. 값 하나가 필요하면 마지막에 이 PDF의 최대점이나 평균으로 결정해요. 세 후보의 평균 $-2,0,2$와 표준편차 $0.6$은 위젯을 위해 노트가 정한 예시예요.</p></div></div>
 </article>
     </section>
     <section id="s3"><h2>3. 가우시안과 랜덤 벡터</h2>
@@ -1108,7 +1108,7 @@
     <ul class="eq-list"><li><span class="eq-name">가우시안 PDF</span>$$p(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\Big(-\frac{(x - \mu)^2}{2\sigma^2}\Big)$$</li><li><span class="eq-name">표준정규</span>$$p(x) = \frac{1}{\sqrt{2\pi}}\exp\!\Big(-\frac{x^2}{2}\Big)$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>종 모양(bell shape)</dt><dd>꼭대기 위치가 평균, 너비가 분산인 가우시안 PDF의 모양</dd><dt>표준정규(standard normal)</dt><dd>평균 0, 분산 1인 가우시안 $\mathcal{N}(0, 1)$</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>꼭대기는 $\mu$, 높이는 $1/\sqrt{2\pi\sigma^2}$예요. 표준편차 $\sigma$를 줄이면 좁고 높아져요. 본문 예의 $\sigma=0.1$과 분산 $\sigma^2$를 구별해요.</p></div></div>
 </article>
 
 <article class="topic" id="s3-random-vector"><h3>랜덤 벡터, 조인트 PDF, 평균 벡터</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · MML 6.4.1</span></div>
@@ -1275,7 +1275,7 @@
     <ul class="eq-list"><li><span class="eq-name">공분산 행렬</span>$$\mathbb{V}[\mathbf{x}] = \operatorname{Cov}[\mathbf{x}, \mathbf{x}] = \mathbb{E}[\mathbf{x}\mathbf{x}^\top] - \mathbb{E}[\mathbf{x}]\,\mathbb{E}[\mathbf{x}]^\top$$</li><li><span class="eq-name">대칭성</span>$$\mathbb{V}[\mathbf{x}]^\top = \mathbb{V}[\mathbf{x}]$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>공분산 행렬(covariance matrix)</dt><dd>$(i, j)$ 원소가 $\operatorname{Cov}[X_i, X_j]$인 $n \times n$ 정방행렬</dd><dt>대칭(symmetric)</dt><dd>$\mathbf{A}^\top = \mathbf{A}$, 주대각선을 기준으로 마주 보는 원소가 같음</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>대각 원소는 각 성분의 분산이에요. 대칭은 마주 보는 공분산이 같다는 뜻이며 대각행렬·대각화와는 달라요.</p></div></div>
 </article>
     </section>
     <section id="s4"><h2>4. 합과 아핀 변환</h2>
@@ -1359,14 +1359,14 @@
     <ul class="eq-list">
       <li><span class="eq-name">합의 평균 (조건 없음)</span>$$\mathbb{E}[\mathbf{x} + \mathbf{y}] = \mathbb{E}[\mathbf{x}] + \mathbb{E}[\mathbf{y}]$$</li>
       <li><span class="eq-name">합의 분산 (조건 필요)</span>$$\mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]$$</li>
-      <li><span class="eq-name">간단한 충분조건</span>$$\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$$</li>
+      <li><span class="eq-name">충분조건</span>$$\operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}$$</li>
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>선형 연산자(linear operator)</dt><dd>합을 넣으면 각각의 결과를 더한 값이 나오는 연산이에요. 기댓값이 여기에 속해요.</dd>
       <dt>통계적 독립(statistically independent)</dt><dd>이 조건이 있으면 두 벡터 사이의 공분산 행렬이 영행렬이 돼요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>수업 외 보충의 일반형에는 $\operatorname{Cov}[\mathbf{x},\mathbf{y}]+\operatorname{Cov}[\mathbf{y},\mathbf{x}]$가 더 붙어요. 분산을 그냥 더하려면 이 두 교차항의 합이 영행렬이어야 해요. 교차공분산 자체가 영행렬이면 충분하고 독립도 충분하지만, 공분산이 영행렬이라고 독립인 것은 아니에요.</p></div></div>
 </article>
 
 <article class="topic" id="s4-affine"><h3>아핀 변환의 평균과 공분산</h3><div class="tags"><span class="tag date">0930 수업</span><span class="tag slide">L04 · MML 6.4.4</span></div>
@@ -1489,7 +1489,7 @@ $$\operatorname{Var}(Y)=a_1^2\operatorname{Var}(X_1)+2a_1a_2\operatorname{Cov}(X
       <dt>아핀 변환(affine transformation)</dt><dd>상수 행렬을 곱하고 상수 벡터를 더하는 변환이에요.</dd>
       <dt>상수 행렬(constant matrix)</dt><dd>확률변수가 아닌 고정된 행렬이에요. 기댓값 밖으로 꺼낼 수 있어요.</dd>
     </dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf{x}\in\mathbb{R}^n$, $\mathbf{A}\in\mathbb{R}^{m\times n}$, $\mathbf{b}\in\mathbb{R}^m$이고 $\mathbf{A},\mathbf{b}$는 상수예요. 평균에서 $\mathbf{b}$를 빼면 이동이 지워져 분산에 영향이 없어요. 행렬 곱 순서를 지켜 $\mathbf{A}\Sigma\mathbf{A}^{\top}$로 쓰며 일반적으로 $\mathbf{A}\mathbf{A}^{\top}\Sigma$로 바꾸지 않아요. 수업 외 보충은 각 공분산 원소를 $\mathbf{a}_i^{\top}\mathbb{V}[\mathbf{x}]\mathbf{a}_j$로 모아 행렬식을 완성하고, 스칼라에서는 $a^2\mathbb{V}[X]$가 됨을 증명해요.</p></div></div>
 </article>
     </section>
     <section id="s5"><h2>5. 요약 · 예고</h2>
@@ -1578,9 +1578,8 @@ $$\operatorname{Var}(Y)=a_1^2\operatorname{Var}(X_1)+2a_1a_2\operatorname{Cov}(X
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1928,7 +1927,6 @@ function mixMath() {
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1960,8 +1958,6 @@ function mixMath() {
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1984,14 +1980,12 @@ function mixMath() {
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

@@ -1,344 +1,1626 @@
 {
-  "input_hash": "1bcb166020c3b32802b33e24f847239398b36a120bf73e4be3eaedee4dafc1e3",
+  "review_policy_version": "problem-explain-2026-10-15",
+  "input_hash": "e351a4c021912b9db31388aef5b91e30b1beaa46c34261a17a0774aef09aea2e",
   "references": [
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/교과서/Mathematics_for_Machine_Learning.pdf",
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/교과서/Mathematics_for_Machine_Learning.pdf",
       "sha256": "3f87b70c64a35d30ec4e565b4d5cfd18fe913002d3b3bed44691c7d0838911bc"
     },
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/강의노트/Lecture01_When_Models_Meet_Data_Part1.pdf",
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/강의노트/Lecture01_When_Models_Meet_Data_Part1.pdf",
       "sha256": "d57b0be0190cdf0f25f3836f2a38183d74db0c8a856b6d4b8c468bfa1f063583"
     },
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/0914/복습문제_0914_ERM_and_MLE.html",
-      "sha256": "17fdd50d5cf2b847094a929f20d0e0395878e9783842164ee83161bfba9d1393"
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/복습문제_0914_ERM_and_MLE.html",
+      "sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e"
     },
     {
-      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/0914/정리노트_0914_ERM_and_MLE.md",
-      "sha256": "f5952deeccaee7e97315ca43a639c3dd3f21d0bee9512ffd59c6ee344cdba738"
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/정리노트_0914_ERM_and_MLE.md",
+      "sha256": "e4dea75f536bc6a2ac62fe81a5a5c0746753163ca83a433723a4d77c97bffebb"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-suppose-choices.svg",
+      "sha256": "a25e47d867e89fe67e0498d29f9b7e2e14ce9093347e9e630bd2ffef89e3ecbd"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-two-models.svg",
+      "sha256": "17f5f856507671e38fb25f84beca53eca59b4fafc08bf7b571c8ba2fb573c3c5"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-erm-flow.svg",
+      "sha256": "724f57561f99c265a4cad63627177eec79ae1611d1b362c626c4f5413b0a8fca"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-data-columns.svg",
+      "sha256": "ffff661ba8364c82013b4bbcbc64b1b1eb4e5cc3c14844e8c8a946f90503fc00"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-forall.svg",
+      "sha256": "77eb3fdf290c1d04d5cb8d767695490127493f1d4833f522a6d9cf8ae6f27621"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-bias-one.svg",
+      "sha256": "2a7f1d74532fe1c1eeacd66f4184e13cc823d53271ffd9460a46ce0e3a8de222"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-remp-average.svg",
+      "sha256": "7f3f0781b4af49642f0e32ba72a9ce71070c1aeb26eae0d0b344b245481b1f54"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-squared-kimbap.svg",
+      "sha256": "f313899bbd74d1242d5b24b3e37f0f8603b19bf540b134840fa349b5e63a24f0"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-true-risk-unseen.svg",
+      "sha256": "b21902121bb5c93aa386c01b4f21ec43079f53787ddba4377e5b7091ddb029d7"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-reg-wiggle.svg",
+      "sha256": "39c824840d7e94ac147e6e0005a09a4693811d85ac5bed5aa064b915c699f059"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/widget-reg-static-1.svg",
+      "sha256": "02d3d1aba4bfe7d80be08d4321f17f66c69a65d2ac945cad0c6c898618f48e06"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/widget-reg-static-2.svg",
+      "sha256": "99028365e8a02df99a9392d6f5819123f54d53bf0270c8cd5d9e5dce3322f3f7"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/widget-reg-static-3.svg",
+      "sha256": "694e33b117685ef4aafe0a41c753a07fdc8ee4c85851c501a8b24f9790922277"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-norm-routes.svg",
+      "sha256": "58dbcdbf55296422deb7711def435a8251d5dba415d0c22e3107beab253b8d76"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-s4-bells.svg",
+      "sha256": "3077c067a5d0da5f336f389fb8a82b1924c394bd86ccb025824d725fdd924453"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-s4-iid.svg",
+      "sha256": "9a2257256515a271ac64f62956f24aa623faab25f90cafa41d19ef5e109fb48a"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-s4-noise.svg",
+      "sha256": "9ea53daeecb85a16f3cd87773a36e38d91e2980ee3144f36cb909e3cb775835b"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/figures_0914/fig-s4-delta.svg",
+      "sha256": "fafef02526aa3851272dc30fa014cb63ecbd77ab553831ec96344f4abfb841df"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json",
+      "sha256": "94892e791f40ee3a5b7c61c251d8f3ac409582c51bafe342525d9d1bed9cc5dd"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-controller-comparison/root-adjudication.json",
+      "sha256": "76711c9f90425607b03127ac06e6c55e6a4be90bea973b7831646884174d09c0"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-controller-comparison/findings.json",
+      "sha256": "77119252affba4c666513b44b6155b8c0b990659d6f46e92b582e2676dc3216f"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-group1/results.json",
+      "sha256": "a6daca0a50213c1975944399623d8e03c3962d1896f983aa48969d511f960368"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/dated-group1/freeze-manifest.json",
+      "sha256": "b72142f104247b06d44392b3128b9aa9f605c3697c895071f0ec32d9201c02e8"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/evidence/task6c2-browser.json",
+      "sha256": "b5171db7ca1d23caab76b5885849b54fc2b83d90fa85546cbb835daa11907fbd"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/browser-limitations.json",
+      "sha256": "aa5058eaacdb5d0cd93351cd1b169467bbd8f23e64464ba7ccd265eb1bb00ff8"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/evidence/task6c2-source-content-a.json",
+      "sha256": "426e093f75ca06cad677f2c2adc2c3851adc2ab7dc02044d0f1c78f89e56a5eb"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/reports/task6-summary-evidence/academic/source-content-a/results.json",
+      "sha256": "953897cbb038c52c6a6c61ff309ec55497250201a87dfae3f5936f81c6b10c1b"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/evidence/task6c2-independent.json",
+      "sha256": "64a94774a6a8cdb5b047928c0c63b569fadbb5ade213b415c539b0e5b65a138e"
     }
   ],
   "source_visual": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/source-content-review.md: MML PDF page images inspected; tables, matrices and graphs compared; adapted card parameters kept distinct."
+    "reviewer": "ml_source_content_a",
+    "evidence": "evidence/task6c2-source-content-a.json: actual authentic source PDF pixels, current questions and adapted/source distinctions; full evidence copied unchanged at reports/task6-summary-evidence/academic/source-content-a/results.json."
   },
   "browser": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/browser-stage.json and stage-*.png: all 7 problems and summaries, 1280x900/375x812 light/dark; zero errors/missing/external/overflow. Current HTML SHA256 eac49421ffcc9890f80134cffd6ce52f5aa94035509a9aa45915707e501823ce."
+    "reviewer": "/root/task6c_ml_validation (actual browser executions); /root/task6c2_ml_finish (hash/owner-policy/limitation binding)",
+    "evidence": "evidence/task6c2-browser.json: actual6currentSHA cases,6current scrollercases; all actually applicable current MPE criteria pass; no figures in this pack."
   },
   "content": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/source-content-review.md and authored per-part fragments: seven sections, clue/concept/formula, first line, derivation, complete answers and caveats checked.",
+    "reviewer": "ml_source_content_a",
+    "meaning_of_pass": "Current mathematical claims are consistent subject to every retained item qualification; this does not remove underdetermination or supply unstated likelihood assumptions.",
+    "verdict_counts": {
+      "consistent": 13
+    },
     "items": {
       "p1:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p1.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p1",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p1.html",
+        "current_fragment_sha256": "eb760b1651f21c58dd72b67359465e4490afa0cd410da46536f41f06620164ec",
+        "conclusion_and_reasoning": "Appending the unit feature to (2,-1) gives [1,2,-1]^T, length D+1=3, matching the coefficient length.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Bias augmentation gives [1,2,-1]^T of length three, matching the parameter length.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "03d6e749f129eaaf4cf9f625bf0314ac1dde5f7b0bee35678256ba0b8ea902f8",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "da8dabd2b9c94c89a45f727794551422a4a19c01b9f9bb128a1d864a1e5e78d8",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "3614b3a4310331f45a8824c6bfb37830e8687de06fa03bd266f3bfeb2e7aab76",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "7d4165d2257636ca9d74d6080d55a2ab5e43ac9cfaee9cf81110e786866e89c6",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "e93d7c67c4da2764d2efd3c1f8217836bc415fda50cd8fc4d5eed2c796fb1f44",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "8484f1e0738e96d94951e53169c299a31359b962b4a634f0927b6c50ce9fc68d",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "480178a3282b0c242368d594db182e56e55149d6d8b7947d8ba1e6272deba308",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "a0144cdf704e4a5fc29d0285c1ca69e3e0318f917c86807a659e0fae09d185ce",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Appending the unit feature to (2,-1) gives [1,2,-1]^T, length D+1=3, matching the coefficient length.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p1:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Appending the unit feature to (2,-1) gives [1,2,-1]^T, length D+1=3, matching the coefficient length."
       },
       "p1:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p1.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p1",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p1.html",
+        "current_fragment_sha256": "eb760b1651f21c58dd72b67359465e4490afa0cd410da46536f41f06620164ec",
+        "conclusion_and_reasoning": "The ordered inner product is 1/2+6-2=9/2; the affine form produces the same scalar.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "The 1x3 by 3x1 inner product is 1/2+6-2=9/2.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "03d6e749f129eaaf4cf9f625bf0314ac1dde5f7b0bee35678256ba0b8ea902f8",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "da8dabd2b9c94c89a45f727794551422a4a19c01b9f9bb128a1d864a1e5e78d8",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "3614b3a4310331f45a8824c6bfb37830e8687de06fa03bd266f3bfeb2e7aab76",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "7d4165d2257636ca9d74d6080d55a2ab5e43ac9cfaee9cf81110e786866e89c6",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "e93d7c67c4da2764d2efd3c1f8217836bc415fda50cd8fc4d5eed2c796fb1f44",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "8484f1e0738e96d94951e53169c299a31359b962b4a634f0927b6c50ce9fc68d",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "480178a3282b0c242368d594db182e56e55149d6d8b7947d8ba1e6272deba308",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "a0144cdf704e4a5fc29d0285c1ca69e3e0318f917c86807a659e0fae09d185ce",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "The ordered inner product is 1/2+6-2=9/2; the affine form produces the same scalar.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p1:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. The ordered inner product is 1/2+6-2=9/2; the affine form produces the same scalar."
       },
       "p2:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p2.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p2",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p2.html",
+        "current_fragment_sha256": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+        "conclusion_and_reasoning": "Each data point is one row: X=[[1,0],[1,1],[1,2]], y=[1,4,4]^T; X is 3x2.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Both use three observation rows [1,0],[1,1],[1,2], y=[1,4,4]^T.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "2f010261822384266d9e954f25acd423df708c8b69eca1e664068a3c3f1b6332",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "e4ebdbd31d352225b0e65633786fac6576c621e2331c3cb27f3044631b28ad72",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "40e2f669e37d6105370ed8a49352ff157bb0ee0dbf2beae2212bb6928f235bc1",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "17556c27fc38f4ca1ce7ba5da09b6829ba2f53600edd8cb0863bed87392e86e9",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "13048320fdbd513d44e40b00a8130abab4448697b7c51f4494a92c290c2cf95b",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "20021aa3e3bfaf8b8cf7be658526709e08f64c8757f64ef8e643feb5f96cdf22",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "cb25281808c1fe2cbc2407cca95bb438bf3984cad29d28a4fad7fd35f4ae8730",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "f6f2509f35803fc6790804f8f3552a99dfe0c51c26e06f7fae3bb14eb057ecb3",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Each data point is one row: X=[[1,0],[1,1],[1,2]], y=[1,4,4]^T; X is 3x2.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p2:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Each data point is one row: X=[[1,0],[1,1],[1,2]], y=[1,4,4]^T; X is 3x2."
       },
       "p2:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p2.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p2",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p2.html",
+        "current_fragment_sha256": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+        "conclusion_and_reasoning": "A predicts [1,3,5] with squared residual sum 2; B predicts [3/2,3,9/2] with sum 3/2; division by N=3 gives 2/3 and 1/2.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Residuals [0,1,-1] and [-1/2,1,-1/2] give SSE 2 and 3/2, then divide by N=3 to get 2/3 and 1/2.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "2f010261822384266d9e954f25acd423df708c8b69eca1e664068a3c3f1b6332",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "e4ebdbd31d352225b0e65633786fac6576c621e2331c3cb27f3044631b28ad72",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "40e2f669e37d6105370ed8a49352ff157bb0ee0dbf2beae2212bb6928f235bc1",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "17556c27fc38f4ca1ce7ba5da09b6829ba2f53600edd8cb0863bed87392e86e9",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "13048320fdbd513d44e40b00a8130abab4448697b7c51f4494a92c290c2cf95b",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "20021aa3e3bfaf8b8cf7be658526709e08f64c8757f64ef8e643feb5f96cdf22",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "cb25281808c1fe2cbc2407cca95bb438bf3984cad29d28a4fad7fd35f4ae8730",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "f6f2509f35803fc6790804f8f3552a99dfe0c51c26e06f7fae3bb14eb057ecb3",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "A predicts [1,3,5] with squared residual sum 2; B predicts [3/2,3,9/2] with sum 3/2; division by N=3 gives 2/3 and 1/2.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p2:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. A predicts [1,3,5] with squared residual sum 2; B predicts [3/2,3,9/2] with sum 3/2; division by N=3 gives 2/3 and 1/2."
       },
       "p2:c": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p2.html, solve/verify c; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p2",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p2.html",
+        "current_fragment_sha256": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+        "conclusion_and_reasoning": "B is the better of these candidates because 2/3-1/2=1/6>0. The text correctly avoids asserting that this candidate comparison alone proves a global optimum.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Difference 1/6>0 selects candidate B. Current body expressly limits this to the two candidates, not global optimality.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "2f010261822384266d9e954f25acd423df708c8b69eca1e664068a3c3f1b6332",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "e4ebdbd31d352225b0e65633786fac6576c621e2331c3cb27f3044631b28ad72",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "40e2f669e37d6105370ed8a49352ff157bb0ee0dbf2beae2212bb6928f235bc1",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "17556c27fc38f4ca1ce7ba5da09b6829ba2f53600edd8cb0863bed87392e86e9",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "13048320fdbd513d44e40b00a8130abab4448697b7c51f4494a92c290c2cf95b",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "20021aa3e3bfaf8b8cf7be658526709e08f64c8757f64ef8e643feb5f96cdf22",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "cb25281808c1fe2cbc2407cca95bb438bf3984cad29d28a4fad7fd35f4ae8730",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "f6f2509f35803fc6790804f8f3552a99dfe0c51c26e06f7fae3bb14eb057ecb3",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "B is the better of these candidates because 2/3-1/2=1/6>0. The text correctly avoids asserting that this candidate comparison alone proves a global optimum.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p2:c]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. B is the better of these candidates because 2/3-1/2=1/6>0. The text correctly avoids asserting that this candidate comparison alone proves a global optimum."
       },
       "p3:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p3.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p3",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p3.html",
+        "current_fragment_sha256": "13bf206ad09a9d5e6e76d5e00e1788f18d2661bbb4250c9a64888ad2fc6f684e",
+        "conclusion_and_reasoning": "At lambda=0, A has loss 0 and B 5/3, so A wins.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "SSE/N is 0 versus 5/3, squared parameter norms 5 versus 2, hence at lambda=0 candidate A.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "f1f546a6880edfbb4da1933bf66dea635254d893cb1dbb7b87ae8d3cb585d7e5",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "f0eaff6782ab83f1d260d1a1d07c14a9b80df97966a53bdafcb2262b2c180812",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "c1b70195d25df69e29a314f35b02ac716b0c90e99ba55da4dcb92ffea5ab7e95",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "f7a5b499a41eb31f15320d813e889683d8c0395637a921ea75cea20cb34a8dd9",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "ec8f6cf6c336f205e7a395306e402ada3c63375f5e923ed3dc43ee9331685a11",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "3c76916d521b04b11d80c01582c06578b1932c99d5b92d972eca167c16c1e80f",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "0f779d5fa71f813c8842ace4ac0ecf90beaf5a17d885d0f1d601e50ae7b01bc2",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "1e874bf5c8ae10bffb06e7e5548d5067720ce3776143306bb61a39f7954709b0",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "At lambda=0, A has loss 0 and B 5/3, so A wins.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p3:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. At lambda=0, A has loss 0 and B 5/3, so A wins."
       },
       "p3:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p3.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p3",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p3.html",
+        "current_fragment_sha256": "13bf206ad09a9d5e6e76d5e00e1788f18d2661bbb4250c9a64888ad2fc6f684e",
+        "conclusion_and_reasoning": "Including the bias in the specified penalty gives norms squared 5 and 2: at lambda=1 scores are 5 and 11/3, so B wins. The crossover is lambda=5/9.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "At lambda=1 the objectives are 5 and 11/3, selecting B. The crossover lambda=5/9 and the penalty scaling match.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "f1f546a6880edfbb4da1933bf66dea635254d893cb1dbb7b87ae8d3cb585d7e5",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "f0eaff6782ab83f1d260d1a1d07c14a9b80df97966a53bdafcb2262b2c180812",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "c1b70195d25df69e29a314f35b02ac716b0c90e99ba55da4dcb92ffea5ab7e95",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "f7a5b499a41eb31f15320d813e889683d8c0395637a921ea75cea20cb34a8dd9",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "ec8f6cf6c336f205e7a395306e402ada3c63375f5e923ed3dc43ee9331685a11",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "3c76916d521b04b11d80c01582c06578b1932c99d5b92d972eca167c16c1e80f",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "0f779d5fa71f813c8842ace4ac0ecf90beaf5a17d885d0f1d601e50ae7b01bc2",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "1e874bf5c8ae10bffb06e7e5548d5067720ce3776143306bb61a39f7954709b0",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Including the bias in the specified penalty gives norms squared 5 and 2: at lambda=1 scores are 5 and 11/3, so B wins. The crossover is lambda=5/9.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p3:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Including the bias in the specified penalty gives norms squared 5 and 2: at lambda=1 scores are 5 and 11/3, so B wins. The crossover is lambda=5/9."
       },
       "p4:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p4.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p4",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p4.html",
+        "current_fragment_sha256": "0b18c81ec244d5ae3b7e4998890cd192a44d46b6b4d27015197ea5766c1b753b",
+        "conclusion_and_reasoning": "Conditioning on fixed x and theta, x^T theta=5 shifts zero-mean noise and leaves its variance 1: the result is N(5,1).",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Conditioning fixes both vectors; their inner product is 5 and the remaining Gaussian noise variance is 1.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "3dc51a9521a51bf528a8dca3e43f6fbdce7972224c8806ebfa406d283a9b33f4",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "7bba00c77bdaac06ba47f744cf55d71e5ce7c37fe37647e0835a090a13ff5400",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "342620524126c15cca9a0feb9a00e7449c16505c2b4cf0e859da0695936eae76",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "de1b8c3f17b172501f434a5fc3c534e233e47ceee3255d01a2b8b2cbefaeec8d",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "c970fe02168aa4d96d0b9dc9739890a421fb32f1efcb5fdebecf909e93388524",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "245ca5533fc2601114142600175bcbef353bbc0ae52350570a29cbf55e0a0cf3",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "e266cf376c7a07c33eab6b5950330be8db52fd2210ead4c182b1782ebd68d6bf",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "bea594d22f041c41dc8f8895eb7db80c363e605eed90d55e60fa7dd1bc69fe59",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Conditioning on fixed x and theta, x^T theta=5 shifts zero-mean noise and leaves its variance 1: the result is N(5,1).",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p4:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Conditioning on fixed x and theta, x^T theta=5 shifts zero-mean noise and leaves its variance 1: the result is N(5,1)."
       },
       "p5:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p5.html, solve/verify a; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p5",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p5.html",
+        "current_fragment_sha256": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+        "conclusion_and_reasoning": "For independent common fixed variance Gaussian noise, -log likelihood=SSE/(2 sigma^2)+N log(2 pi sigma^2)/2; sigma^2=1,N=3 gives the constant 3 log(2pi)/2.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Product of three unit-variance densities gives NLL=SSE/2+(3/2)ln(2pi); normalization constants and sign agree.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "7ec94e49ee434bcd8d5bdeba7bce6ba4ab967dd28f3aad234082033cdf6a3ed9",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "8c0599814a1bb49150d439eb4f21cd914aad11befd8609dffcec1be50ecfdf55",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "fd99d2627e0c43c398182c500c6f56293fcf134af7259ec468ad9b0950cab951",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "76d8dee90cbbe5a7807ae6ede3657bb4c3ee3a330f3d8088d244eb87032f7a57",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "91ca2ddfe7bc24f1112e258b01008f16ae7ede0ecbabce34f342831fc3aefe53",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "99a49ea38ee936875ea6c54a489118645ae0aabd8bafa8e41aa8636a67b8f1b3",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "98c010c76fee6770addde00b76200fe9ff632895c7dcead11882040e93090853",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "3c0fb1361ee4856c1815a76ca4b04129499449f81d207f118882c78738461791",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "For independent common fixed variance Gaussian noise, -log likelihood=SSE/(2 sigma^2)+N log(2 pi sigma^2)/2; sigma^2=1,N=3 gives the constant 3 log(2pi)/2.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p5:a]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. For independent common fixed variance Gaussian noise, -log likelihood=SSE/(2 sigma^2)+N log(2 pi sigma^2)/2; sigma^2=1,N=3 gives the constant 3 log(2pi)/2."
       },
       "p5:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p5.html, solve/verify b; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p5",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p5.html",
+        "current_fragment_sha256": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+        "conclusion_and_reasoning": "Using SSE 2 and 3/2 gives NLLs 3.7568156... and 3.5068156..., correctly rounded to 3.757 and 3.507.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "SSE 2 and 3/2 give 3.7568156 and 3.5068156, rounded to 3.757 and 3.507.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "7ec94e49ee434bcd8d5bdeba7bce6ba4ab967dd28f3aad234082033cdf6a3ed9",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "8c0599814a1bb49150d439eb4f21cd914aad11befd8609dffcec1be50ecfdf55",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "fd99d2627e0c43c398182c500c6f56293fcf134af7259ec468ad9b0950cab951",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "76d8dee90cbbe5a7807ae6ede3657bb4c3ee3a330f3d8088d244eb87032f7a57",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "91ca2ddfe7bc24f1112e258b01008f16ae7ede0ecbabce34f342831fc3aefe53",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "99a49ea38ee936875ea6c54a489118645ae0aabd8bafa8e41aa8636a67b8f1b3",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "98c010c76fee6770addde00b76200fe9ff632895c7dcead11882040e93090853",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "3c0fb1361ee4856c1815a76ca4b04129499449f81d207f118882c78738461791",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Using SSE 2 and 3/2 gives NLLs 3.7568156... and 3.5068156..., correctly rounded to 3.757 and 3.507.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p5:b]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Using SSE 2 and 3/2 gives NLLs 3.7568156... and 3.5068156..., correctly rounded to 3.757 and 3.507."
       },
       "p5:c": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p5.html, solve/verify c; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p5",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p5.html",
+        "current_fragment_sha256": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+        "conclusion_and_reasoning": "A-B=1/4>0; identical positive scale and additive constant preserve SSE candidate ordering, so B wins.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "The NLL difference is 1/4>0; fixed common positive noise variance preserves the SSE ordering.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "7ec94e49ee434bcd8d5bdeba7bce6ba4ab967dd28f3aad234082033cdf6a3ed9",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "8c0599814a1bb49150d439eb4f21cd914aad11befd8609dffcec1be50ecfdf55",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "fd99d2627e0c43c398182c500c6f56293fcf134af7259ec468ad9b0950cab951",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "76d8dee90cbbe5a7807ae6ede3657bb4c3ee3a330f3d8088d244eb87032f7a57",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "91ca2ddfe7bc24f1112e258b01008f16ae7ede0ecbabce34f342831fc3aefe53",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "99a49ea38ee936875ea6c54a489118645ae0aabd8bafa8e41aa8636a67b8f1b3",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "98c010c76fee6770addde00b76200fe9ff632895c7dcead11882040e93090853",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "3c0fb1361ee4856c1815a76ca4b04129499449f81d207f118882c78738461791",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "A-B=1/4>0; identical positive scale and additive constant preserve SSE candidate ordering, so B wins.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p5:c]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. A-B=1/4>0; identical positive scale and additive constant preserve SSE candidate ordering, so B wins."
       },
       "p6:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p6.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p6",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p6.html",
+        "current_fragment_sha256": "1e84dfe2006e3b1f3e1c5ea01383440813b2111b560a5fac4dc8a76ef21f1578",
+        "conclusion_and_reasoning": "x-y=[2,3,3]^T; its squared Euclidean norm is 4+9+9=22, so distance is sqrt(22), not 22. Reversing the difference leaves the result unchanged.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Difference [2,3,3]^T has squared norm 22; both give the distance sqrt(22), not 22.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "02d7fcd81b62867644529c14bff4994ffafedc0112f31cab49112c0bdb59b550",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "333e00640717bb831aaf56cc9251ce9d517bb1a8fe8a03efb7815836ec68756b",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "3cb7974d66394b3221b059d6ab88f6e772b9992823667626f49755aabaa36864",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "1d46c0611eabf6e3624e64dd3bbb5d8d2b79d7ae6f8ffa75055777219f668203",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "b7feecdecc9e0677d6028a30a0a9b5220065ef0efff341bfa607f3a3baaf62ef",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "957318b548187a9d351e45d1adc8baee8435258b3b420aa2ee115a22c0c65fd2",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "6d599b2a323c701a5a14c2c0a6e1ab01395e06fb008a7e51ba193d734157c3ac",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "6712237dc8d867b07adc758a60909060d811b0358f006f7c6a951d6c10ae51a9",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "x-y=[2,3,3]^T; its squared Euclidean norm is 4+9+9=22, so distance is sqrt(22), not 22. Reversing the difference leaves the result unchanged.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p6:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. x-y=[2,3,3]^T; its squared Euclidean norm is 4+9+9=22, so distance is sqrt(22), not 22. Reversing the difference leaves the result unchanged."
       },
       "p7:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/source-content-review.md; fragment p7.html, solve/verify main; full answer, dimensions/assumptions/caveats compared with independent derivation."
+        "verdict": "consistent",
+        "reviewer": "ml_source_content_a",
+        "source_visual_question": "p7",
+        "current_source_sha256": "21eca2b247d7e4c3da3bde948bebe4425d598a63d223225bdb1815a1fd1bfc0e",
+        "current_fragment_path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/fragments/p7.html",
+        "current_fragment_sha256": "ad2c019d340c54e11ee5f8496b1eb804d21d8edb49ba964bbfaade4afe188f1f",
+        "conclusion_and_reasoning": "Derivative 3x^2+12x-3 has roots -2±sqrt5; second derivative at those roots is ±6sqrt5. Thus the minus root is a local maximum, plus root a local minimum; values are 17±10sqrt5. The cubic is unbounded in both directions, so these are not global extrema.",
+        "qualification": {
+          "issue": null,
+          "disclosed_status": "not_applicable_no_unresolved_source_qualification",
+          "limitation_fully_explicit_in_non_summary_baseline": false,
+          "related_condition_or_caveat_in_non_summary_baseline": false,
+          "preservation_proof": "Current exact solve/verify/pitfall bytes and masked non-summary fragment bytes compared directly to .task6-run-ml-01/before; this is not inferred from old approval metadata.",
+          "scope_note": "consistent means agreement within the actual stated mathematical object and source conventions; it is not a product approval."
+        },
+        "frozen_unresolved_retained": [],
+        "current_recall_covariance_disclosure": null,
+        "comparison_disclosure_scope_note": null,
+        "comparison_reason": "Derivative roots -2±sqrt(5) and second derivative signs ±6sqrt(5) agree, as do heights 17∓10sqrt(5). Both limit these to local extrema and find no stationary saddle.",
+        "seven_sections_reviewed": {
+          "understand": {
+            "sha256": "7be6a38b45c65408b454621e9192152ea4ddabe211a7aef469d00aaa52a08a48",
+            "published_fragment_match": true
+          },
+          "recall": {
+            "sha256": "f11703b8e02623a7785d07ab1aa97c3df7a7760d8974d0e66d53d42fe53d7f00",
+            "published_fragment_match": true
+          },
+          "start": {
+            "sha256": "94accf5dc71096ad2576bd6a878a6adde853b79a9efc30af89e4cc98cbedfc3c",
+            "published_fragment_match": true
+          },
+          "solve": {
+            "sha256": "ef68722a9cc41ec5ad58233c2f3f84505a868d57ac3f5ccb081c3fc3687e334a",
+            "published_fragment_match": true
+          },
+          "verify": {
+            "sha256": "1a9e69f55df28d69ad86eda1833f7f94f986ed301c82ce4c9d28b886d948d10b",
+            "published_fragment_match": true
+          },
+          "pitfall": {
+            "sha256": "633ce756f98c1b5ec74e82e035551e57696d0beb3e124f8c43117147c6b65916",
+            "published_fragment_match": true
+          },
+          "retry": {
+            "sha256": "6908e51ea2ba04f94ea102351d6b038ff39f8550a73c164cd27f7701baa80b67",
+            "published_fragment_match": true
+          }
+        },
+        "summary_sha256": "589c20d5264a1b943271d8f0b50cfa6f00dff027e7084982596260a79fd96da6",
+        "summary_matches_published": true,
+        "content_criteria": {
+          "understand": "Names the requested current problem and includes every listed source subpart; prose is generic but does not change the task.",
+          "recall": "Read the actual conceptual cue, formula/definition, symbol roles and application assumptions; it is more than a title and is shorter than the full solution.",
+          "start": "The stated first calculation/setup is valid for current values and matches the full solution.",
+          "solve_verify": "Derivative 3x^2+12x-3 has roots -2±sqrt5; second derivative at those roots is ±6sqrt5. Thus the minus root is a local maximum, plus root a local minimum; values are 17±10sqrt5. The cubic is unbounded in both directions, so these are not global extrema.",
+          "pitfall": "The current warning identifies a concrete incorrect inference and is consistent with the reasoning and qualifications.",
+          "retry": "Reuses the valid first action and warning without adding a new mathematical claim.",
+          "sum": "Read its actual current formula, first line, check and condition/distinction text; each claim is present in the same fragment body and no source qualification is erased."
+        },
+        "evidence": "reports/task6-summary-evidence/academic/source-content-a/results.json review-0914-ERM_and_MLE content.items[p7:main]; actual seven-section reading and authentic source evidence attributed to ml_source_content_a. Derivative 3x^2+12x-3 has roots -2±sqrt5; second derivative at those roots is ±6sqrt5. Thus the minus root is a local maximum, plus root a local minimum; values are 17±10sqrt5. The cubic is unbounded in both directions, so these are not global extrema."
       }
-    }
+    },
+    "evidence": "evidence/task6c2-source-content-a.json: actual allseven currentsections and all13parts. Qualified judgments remain conditional; no blanket pass for1007p3:b."
   },
   "independent": {
     "status": "pass",
-    "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-    "evidence": "evidence/verify.py and independent-results.json: exact/symbolic calculations and general proof/qualitative review; not structural-only approval.",
+    "reviewer": "/root/ml_blind_dated_group1; comparison /root/ml_compare_dated; adjudication controller /root",
+    "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json and root-adjudication.json; 13 actual parts. Qualified results apply only under each item's recorded conditions; 1007 p3:b remains disputed.",
     "items": {
       "p1:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p1:a; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p1, subpart a; frozen dated-group1/results.json; root-adjudication.json. Bias augmentation gives [1,2,-1]^T of length three, matching the parameter length.",
         "method": "exact",
-        "conclusion": "augmented feature length3; affine and dot product=9/2"
+        "conclusion": "x_n=(1,2,-1)^T, length D+1=3.",
+        "derivation": [
+          "Prepend the constant feature 1 to the two observed features 2 and -1."
+        ],
+        "checks": [
+          "Feature vector and theta are both 3x1."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Bias augmentation gives [1,2,-1]^T of length three, matching the parameter length.",
+        "current_fragment_sha256": "eb760b1651f21c58dd72b67359465e4490afa0cd410da46536f41f06620164ec",
+        "current_sourcepack_input_sha256": "2b0e5c9c7f4cc70983e2066154e55623b36e7af1b598dfa862461fe3c8d7c067",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p1:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p1:b; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p1, subpart b; frozen dated-group1/results.json; root-adjudication.json. The 1x3 by 3x1 inner product is 1/2+6-2=9/2.",
         "method": "exact",
-        "conclusion": "augmented feature length3; affine and dot product=9/2"
+        "conclusion": "Prediction 9/2=4.5.",
+        "derivation": [
+          "theta^T x_n=(1/2)*1+3*2+2*(-1)=1/2+6-2."
+        ],
+        "checks": [
+          "(1x3)(3x1) is a scalar; intercept contributes once."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "The 1x3 by 3x1 inner product is 1/2+6-2=9/2.",
+        "current_fragment_sha256": "eb760b1651f21c58dd72b67359465e4490afa0cd410da46536f41f06620164ec",
+        "current_sourcepack_input_sha256": "2b0e5c9c7f4cc70983e2066154e55623b36e7af1b598dfa862461fe3c8d7c067",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p2:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p2:a; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p2, subpart a; frozen dated-group1/results.json; root-adjudication.json. Both use three observation rows [1,0],[1,1],[1,2], y=[1,4,4]^T.",
         "method": "exact",
-        "conclusion": "residual vectors and means 2/3,1/2; B smaller"
+        "conclusion": "X=[[1,0],[1,1],[1,2]], y=(1,4,4)^T.",
+        "derivation": [
+          "Each row of X is (1,x_n); collect y in matching data order."
+        ],
+        "checks": [
+          "X is 3x2, theta 2x1, y 3x1; N=3."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Both use three observation rows [1,0],[1,1],[1,2], y=[1,4,4]^T.",
+        "current_fragment_sha256": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+        "current_sourcepack_input_sha256": "7a49e205be689c0033982d3a047e74ffedf84abe97e185c24c10d6615cf671da",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p2:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p2:b; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p2, subpart b; frozen dated-group1/results.json; root-adjudication.json. Residuals [0,1,-1] and [-1/2,1,-1/2] give SSE 2 and 3/2, then divide by N=3 to get 2/3 and 1/2.",
         "method": "exact",
-        "conclusion": "residual vectors and means 2/3,1/2; B smaller"
+        "conclusion": "Mean squared losses: A=2/3, B=1/2.",
+        "derivation": [
+          "For A, X theta_A=(1,3,5)^T, residual y-X theta_A=(0,1,-1)^T, SSE=0+1+1=2.",
+          "For B, X theta_B=(3/2,3,9/2)^T, residual=(-1/2,1,-1/2)^T, SSE=1/4+1+1/4=3/2. Divide each SSE by N=3."
+        ],
+        "checks": [
+          "Both use the same mean-loss convention 1/N, with no extra 1/2."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Residuals [0,1,-1] and [-1/2,1,-1/2] give SSE 2 and 3/2, then divide by N=3 to get 2/3 and 1/2.",
+        "current_fragment_sha256": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+        "current_sourcepack_input_sha256": "7a49e205be689c0033982d3a047e74ffedf84abe97e185c24c10d6615cf671da",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p2:c": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p2:c; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p2, subpart c; frozen dated-group1/results.json; root-adjudication.json. Difference 1/6>0 selects candidate B. Current body expressly limits this to the two candidates, not global optimality.",
         "method": "exact",
-        "conclusion": "residual vectors and means 2/3,1/2; B smaller"
+        "conclusion": "B has smaller mean loss.",
+        "derivation": [
+          "2/3-1/2=1/6>0."
+        ],
+        "checks": [
+          "Positive exact difference; candidate comparison, not a claim that B is the global minimizer."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Difference 1/6>0 selects candidate B. Current body expressly limits this to the two candidates, not global optimality.",
+        "current_fragment_sha256": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+        "current_sourcepack_input_sha256": "7a49e205be689c0033982d3a047e74ffedf84abe97e185c24c10d6615cf671da",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p3:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p3:a; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p3, subpart a; frozen dated-group1/results.json; root-adjudication.json. SSE/N is 0 versus 5/3, squared parameter norms 5 versus 2, hence at lambda=0 candidate A.",
         "method": "exact",
-        "conclusion": "objectives A=5lambda,B=5/3+2lambda; crossover5/9"
+        "conclusion": "At lambda=0, J_A=0, J_B=5/3; choose A.",
+        "derivation": [
+          "A predicts (1,3,5), residual zero, ||theta_A||^2=1+4=5. B predicts (1,2,3), residual (0,1,2), mean SSE=5/3, ||theta_B||^2=2.",
+          "Hence J_A=5 lambda and J_B=5/3+2 lambda. At lambda=0 these are 0 and 5/3."
+        ],
+        "checks": [
+          "N=3; the stated norm includes both intercept and slope."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "SSE/N is 0 versus 5/3, squared parameter norms 5 versus 2, hence at lambda=0 candidate A.",
+        "current_fragment_sha256": "13bf206ad09a9d5e6e76d5e00e1788f18d2661bbb4250c9a64888ad2fc6f684e",
+        "current_sourcepack_input_sha256": "27bd1e1ab535187a3fe768b39831410077598d4815e216079b33f4625ffc48e2",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p3:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p3:b; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p3, subpart b; frozen dated-group1/results.json; root-adjudication.json. At lambda=1 the objectives are 5 and 11/3, selecting B. The crossover lambda=5/9 and the penalty scaling match.",
         "method": "exact",
-        "conclusion": "objectives A=5lambda,B=5/3+2lambda; crossover5/9"
+        "conclusion": "At lambda=1, choose B (11/3<5).",
+        "derivation": [
+          "Using the same formulas, at lambda=1: J_A=5; J_B=5/3+2=11/3.",
+          "J_A-J_B=4/3>0."
+        ],
+        "checks": [
+          "Training error and regularization are scaled exactly as specified."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "At lambda=1 the objectives are 5 and 11/3, selecting B. The crossover lambda=5/9 and the penalty scaling match.",
+        "current_fragment_sha256": "13bf206ad09a9d5e6e76d5e00e1788f18d2661bbb4250c9a64888ad2fc6f684e",
+        "current_sourcepack_input_sha256": "27bd1e1ab535187a3fe768b39831410077598d4815e216079b33f4625ffc48e2",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p4:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p4:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p4, subpart main; frozen dated-group1/results.json; root-adjudication.json. Conditioning fixes both vectors; their inner product is 5 and the remaining Gaussian noise variance is 1.",
         "method": "exact",
-        "conclusion": "conditional mean5 variance1"
+        "conclusion": "y_n | x_n,theta ~ N(5,1): mean 5, variance 1.",
+        "derivation": [
+          "The random label is deterministic mean plus zero-mean noise. Mean x_n^T theta=1*1+2*2=5; adding a constant does not change variance."
+        ],
+        "checks": [
+          "Both vectors 2x1; scalar inner product.",
+          "Variance is sigma^2=1, strictly positive; Gaussian density normalizes."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Conditioning fixes both vectors; their inner product is 5 and the remaining Gaussian noise variance is 1.",
+        "current_fragment_sha256": "0b18c81ec244d5ae3b7e4998890cd192a44d46b6b4d27015197ea5766c1b753b",
+        "current_sourcepack_input_sha256": "c2ba2bc9a5a7242a125adf40eb6c0d57e6dee6ec3770b9662bea22c56500ea97",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p5:a": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p5:a; evidence/verify.py",
-        "method": "symbolic",
-        "conclusion": "Gaussian log density yields SSE/2+3log(2pi)/2; rounded values3.757,3.507"
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p5, subpart a; frozen dated-group1/results.json; root-adjudication.json. Product of three unit-variance densities gives NLL=SSE/2+(3/2)ln(2pi); normalization constants and sign agree.",
+        "method": "proof",
+        "conclusion": "L(theta)=||y-Xtheta||^2/2+(3/2)ln(2pi).",
+        "derivation": [
+          "With sigma^2=1, each density is (2pi)^(-1/2) exp(-(y_n-x_n^T theta)^2/2).",
+          "Independence gives a product; minus its natural logarithm gives L(theta)=(1/2) sum_n (y_n-x_n^T theta)^2+(N/2)ln(2pi). Here N=3."
+        ],
+        "checks": [
+          "The additive term is independent of theta; exponent scaling is 1/(2 sigma^2)."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Product of three unit-variance densities gives NLL=SSE/2+(3/2)ln(2pi); normalization constants and sign agree.",
+        "current_fragment_sha256": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+        "current_sourcepack_input_sha256": "a414f668c33db2f3901ff08c3f63e6b82a70e38733c98d4a3501b23b3dc479de",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p5:b": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p5:b; evidence/verify.py",
-        "method": "symbolic",
-        "conclusion": "Gaussian log density yields SSE/2+3log(2pi)/2; rounded values3.757,3.507"
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p5, subpart b; frozen dated-group1/results.json; root-adjudication.json. SSE 2 and 3/2 give 3.7568156 and 3.5068156, rounded to 3.757 and 3.507.",
+        "method": "numerical",
+        "conclusion": "L_A=3.757; L_B=3.507.",
+        "derivation": [
+          "A residual (0,1,-1) has SSE=2, so L_A=1+(3/2)ln(2pi)=3.756815599614018.",
+          "B residual (-1/2,1,-1/2) has SSE=3/2, so L_B=3/4+(3/2)ln(2pi)=3.506815599614018.",
+          "Round each value to three digits after the decimal."
+        ],
+        "checks": [
+          "Rounding tolerance 0.0005>0; |3.757-L_A|=0.000184400385982<0.0005 and |3.507-L_B|=0.000184400385982<0.0005.",
+          "Natural logarithm used."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "SSE 2 and 3/2 give 3.7568156 and 3.5068156, rounded to 3.757 and 3.507.",
+        "current_fragment_sha256": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+        "current_sourcepack_input_sha256": "a414f668c33db2f3901ff08c3f63e6b82a70e38733c98d4a3501b23b3dc479de",
+        "binding_actor": "/root/task6c2_ml_finish",
+        "tolerance": 0.0005,
+        "residual": 0.00018440038598210862,
+        "numeric_binding_check": {
+          "actor": "/root/task6c2_ml_finish",
+          "role": "answer-aware reproduction of recorded frozen rounding check, not independent derivation",
+          "formula_A": "1+1.5*ln(2*pi)",
+          "formula_B": ".75+1.5*ln(2*pi)",
+          "value_A": 3.756815599614018,
+          "value_B": 3.506815599614018
+        }
       },
       "p5:c": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p5:c; evidence/verify.py",
-        "method": "symbolic",
-        "conclusion": "Gaussian log density yields SSE/2+3log(2pi)/2; rounded values3.757,3.507"
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p5, subpart c; frozen dated-group1/results.json; root-adjudication.json. The NLL difference is 1/4>0; fixed common positive noise variance preserves the SSE ordering.",
+        "method": "exact",
+        "conclusion": "B is smaller, matching the squared-loss-sum ranking.",
+        "derivation": [
+          "L_A-L_B=(2-3/2)/2=1/4>0. A common positive scaling and additive constant preserve the SSE order."
+        ],
+        "checks": [
+          "Same known noise variance for both candidates is essential to this ranking argument."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "The NLL difference is 1/4>0; fixed common positive noise variance preserves the SSE ordering.",
+        "current_fragment_sha256": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+        "current_sourcepack_input_sha256": "a414f668c33db2f3901ff08c3f63e6b82a70e38733c98d4a3501b23b3dc479de",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p6:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p6:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p6, subpart main; frozen dated-group1/results.json; root-adjudication.json. Difference [2,3,3]^T has squared norm 22; both give the distance sqrt(22), not 22.",
         "method": "exact",
-        "conclusion": "distance squared22; distance sqrt22"
+        "conclusion": "Distance sqrt(22).",
+        "derivation": [
+          "x-y=(2,3,3)^T. The Euclidean norm is sqrt((x-y)^T(x-y))=sqrt(4+9+9)."
+        ],
+        "checks": [
+          "Squared norm 22 is nonnegative; vector difference has dimension 3x1."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Difference [2,3,3]^T has squared norm 22; both give the distance sqrt(22), not 22.",
+        "current_fragment_sha256": "1e84dfe2006e3b1f3e1c5ea01383440813b2111b560a5fac4dc8a76ef21f1578",
+        "current_sourcepack_input_sha256": "50e546fe0e32ccdfbf27dabf01504008ab0674b519c437dd0fc78bc21f6c78d3",
+        "binding_actor": "/root/task6c2_ml_finish"
       },
       "p7:main": {
         "status": "pass",
-        "reviewer": "Codex Native executor (separate source/content and independent derivation passes)",
-        "evidence": "evidence/independent-results.json#p7:main; evidence/verify.py",
+        "reviewer": "/root/ml_blind_dated_group1; actual comparison /root/ml_compare_dated; adjudication controller /root",
+        "evidence": "reports/task6-summary-evidence/academic/dated-controller-comparison/0914.json question p7, subpart main; frozen dated-group1/results.json; root-adjudication.json. Derivative roots -2±sqrt(5) and second derivative signs ±6sqrt(5) agree, as do heights 17∓10sqrt(5). Both limit these to local extrema and find no stationary saddle.",
         "method": "symbolic",
-        "conclusion": "derivative roots -2±sqrt5; Hessian signs ±6sqrt5; extrema17∓10sqrt5"
+        "conclusion": "Local maximum (-2-sqrt(5),17+10sqrt(5)); local minimum (-2+sqrt(5),17-10sqrt(5)); no stationary saddle point.",
+        "derivation": [
+          "f prime=3x^2+12x-3=3((x+2)^2-5). Thus stationary x=-2-sqrt(5) and -2+sqrt(5).",
+          "f double prime=6x+12. At the first root it is -6sqrt(5)<0 (strict local maximum); at the second it is +6sqrt(5)>0 (strict local minimum).",
+          "Writing t=x+2 gives f=t^3-15t+17; t=±sqrt(5) gives heights 17∓10sqrt(5)."
+        ],
+        "checks": [
+          "Derivative vanishes exactly at both roots.",
+          "Both second derivatives nonzero. These are local extrema; a cubic is unbounded in both directions."
+        ],
+        "assumptions": [],
+        "unresolved_in_frozen": [],
+        "comparison_verdict": "consistent",
+        "comparison_condition": "Derivative roots -2±sqrt(5) and second derivative signs ±6sqrt(5) agree, as do heights 17∓10sqrt(5). Both limit these to local extrema and find no stationary saddle.",
+        "current_fragment_sha256": "ad2c019d340c54e11ee5f8496b1eb804d21d8edb49ba964bbfaade4afe188f1f",
+        "current_sourcepack_input_sha256": "14e877b4b6b74f829a898290f78e58340dbbdfce8369272724d946b17f683325",
+        "binding_actor": "/root/task6c2_ml_finish"
       }
     }
   },
   "artifact_hashes": {
-    "문제설명_0914_ERM_and_MLE.html": "eac49421ffcc9890f80134cffd6ce52f5aa94035509a9aa45915707e501823ce",
-    "문제설명_0914_ERM_and_MLE.md": "f7ba60cc03565186859ae74cd0e2d3dd17ee78303bcadc945d900ed25b5fcab9",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/author.py": "70996ceb874ee9a84797791622e0b041e2e20bae4d36ccf50c3802eefc56056f",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/browser-stage.json": "283349a62bb1a9e57313863c1243605fb23c519f8c60d44215ae267259c6e12e",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/browser.py": "edb13d7d1a26e225eb00c2beda1911ecf349e2f1d2a1a4c99d63635cac9ec1e6",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/content-data.py": "219883f0b6cbb74b55c7cc09a843ff8b2c810bd7eee3e7d237ac42623d0983cd",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/independent-results.json": "23c2a419c8ddc625a221c305926e60e3351422c4d43d37ad67dd3aeac396f8e5",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/references.json": "a7eb0cac79996f15efcd64235dcb9d8dc8cebf33376104bcd818e75a4b8d65cc",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/source-content-review.md": "5241bd82890df211152d8c7fe7408a3be926f94901db6c829d573bbd001a2c7f",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/source-snapshot.json": "a2735077ab1ab0a823eaa453fe20b378ddd0de6aef155407aca0d13ea639efea",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-1280-dark.png": "5c776986d4902405c999c73414fdd31dbb08213c1004ce13bb33f6ecb0b6cbe4",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-1280-light.png": "9841d07fb1091da1c892d0c15d213379756feaff2b33dea6182d2b809cf715e3",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-375-dark.png": "a0e7b8b6fce454d4c9c0bd79c58faa702cab31977b5f6449c603e57f40f3e3b4",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-375-light.png": "4e06a180fcdde875ed666ab9b1eed1b3199020dca0dcc0cac0a38bf76c57ef5f",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-1280-dark.png": "50f2403842b6676d3a04e820beecd605db175b925ad6b90f99db775b5f927a7e",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-1280-light.png": "f091f686f9943691c626cf70f8b0d66b135bfbe63751d1b75a67733418ee7adf",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-375-dark.png": "f1902f99bf5e8f0d02ce41b3112b54c93e31489ce03e540db678c242d486eed5",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-375-light.png": "1a80895c579e8595cf4c543db884c4640ab321b12475218549283fab96e3cc55",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-1280-dark.png": "1f13c9f78241dd9b0c6e981e2863e964c4bf9fdebca6affdb7f52a75b8b94b64",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-1280-light.png": "4352073fc3e0946f4b26da5498a751198df0d83519a25e76964b73e066ab80b6",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-375-dark.png": "c9c1934607ffdd216f1ad85dfbb822886373e513ac864fb45d189afd6e0f81d1",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-375-light.png": "8c358a2e0cc6857970183a1c8796c5a41328e0bf818a075f6dc89433f984a1e8",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-1280-dark.png": "61c2bac3721f2f904a53b33880a40506ba6bc60e896e20113581ad9b76968547",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-1280-light.png": "0d68f312fc2a477cc74acab5a76bc384e9389fe8072e87eb01c4aaeedc83c2f8",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-375-dark.png": "48e1c1a993fcc7b97e80f3ed67266e56294bde5f4d4b9ef1b918bec86fd70477",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-375-light.png": "34a77ceff7d1a428d5409b6dd25f848d7990aecc6e8fd0df4f3be103e9d1e901",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-1280-dark.png": "b4ce173cd1d179149b905119af551d129ef545310ffc7245e5b344d02e6d0656",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-1280-light.png": "ee00f464164009a6af26fe6fd39d55d6dfb165648d0d939ada8e4fa0525f5a62",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-375-dark.png": "c2fc889495beddf85eb55da4c1e5e41417a4c62cd87005b13e067bb903e4bf2d",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-375-light.png": "aa4caffffa445e29d71bee509fdabfee9739338433041e1f33e1f4c6ed8b4eb8",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-1280-dark.png": "337b3dd08c3d31dff23adcde5a9327d875b5fbf9326b884787ed19ece38b9b97",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-1280-light.png": "1b76c8c513f8f8e7fd0d5dd537d88eb51f9ba5a8f99b1c0494f2b3ccf802204d",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-375-dark.png": "6736998019c0d35747819037a95e47a95f8ed6a1ab79062693e31271df8927e6",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-375-light.png": "00a2fc7fdc801e01734ba9bf11e8cc3d65ce6401c831779cacf3bba7729c47e9",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-1280-dark.png": "a8d3ada7d88b2e9c3877e5e95ea4583df5fa3992117d62f45ed28e547dcd88e8",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-1280-light.png": "34aa9520578bc5dd017fae66cdc47ac547b6e363d269b959624c3197a0bcc9ed",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-375-dark.png": "c192bb5ad6e3e0c4523012f17927395081f1856047b3401bc07482733589c78b",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-375-light.png": "495601918bef0719f999ca08e761d053ece7bed6233ba5236d82ccf36b510802",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-1280-dark.png": "75c347b9eca9c39d6e3b22d6b1f72ca49e78fcf957575accbf1a06ce0db0e953",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-1280-light.png": "17cbe0ac24c6e22020fd85a5b139469de4a832d3ab3b67e33fea3b7192f46816",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-375-dark.png": "f4d2ed2a83834a84515a9533294bb0f6141e1e7b3b78714867cfdd2ca1c9efa1",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-375-light.png": "d641332f005bf188c166cc153790c79fa238a12190bd437eba90f1d360815029",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-1280-dark.png": "ac84869ed8f2ac5231018e5caa6dbfa6c00762eb3c45d82906bbe0affe6575cf",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-1280-light.png": "f780e6024417edddb01447bd61465274208777191fb6eca19361db700a9a40d7",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-375-dark.png": "d10eb2d0fb0a29d911c6249f10ce73a5f9da5cfdfe63d4450ef3aabc1d96c9ab",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-375-light.png": "6358a0b04c0de05e0214b513f97041f204352c510b4444dab9e4928cb1416187",
-    "자료_문제설명_0914_ERM_and_MLE/evidence/verify.py": "57560a03b553bc582c150cf563cc3057f75037e28e42c883101d0e74f3b5e116",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p1.html": "eb760b1651f21c58dd72b67359465e4490afa0cd410da46536f41f06620164ec",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p2.html": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p3.html": "844d5a6658a08065787ccf3c8b2a5abd8aced2b914804961b7aee05549bb3371",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p4.html": "425b8b34d32e82e975828cc814e419273aaaf6d9afdc55900670a091c89fcb12",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p5.html": "0526a531cbf5a761c7736abe8eeb9c101c803345d03cbc6b545c39800f10e081",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p6.html": "a5854cb7aeb8835a95878aa7342aa54601b36ad83f5bbeb0da4cbcf9fa13fcac",
-    "자료_문제설명_0914_ERM_and_MLE/fragments/p7.html": "f8a2a9fcc76421166cf036ca39bc92bd38c2728aa709703917a44f18a579f6aa",
-    "자료_문제설명_0914_ERM_and_MLE/template-provenance.json": "a376ae004fc7e8f20bc15f799d5ab43224813dfec2a3988cace02408cb719b75",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_AMS-Regular.woff": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_AMS-Regular.woff2": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Bold.ttf": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Bold.woff": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Bold.woff2": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Italic.ttf": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Italic.woff": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Italic.woff2": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Regular.ttf": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Regular.woff": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Regular.woff2": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-Italic.ttf": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-Italic.woff": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-Italic.woff2": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Script-Regular.ttf": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Script-Regular.woff": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Script-Regular.woff2": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size1-Regular.ttf": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size1-Regular.woff": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size1-Regular.woff2": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size2-Regular.ttf": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size2-Regular.woff": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size2-Regular.woff2": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size3-Regular.ttf": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size3-Regular.woff": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size3-Regular.woff2": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size4-Regular.ttf": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size4-Regular.woff": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size4-Regular.woff2": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/katex.min.css": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/katex/katex.min.js": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/LICENSE": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/pretendard.css": "74dbf94c1ab3cb1d166346878e03572d8004ac88d21ac84332a32b28a088f2bd",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Black.woff": "d8511e03d73b848d3df45d6f3d1166bb9532f7547b68da5f768d7b60df76faaa",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Bold.woff": "b02e6d7d8606f13f12682bc4d43575d403a9cbb2d662f6f4f137dba384633267",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-ExtraBold.woff": "1f43803fe4cb56b82061c7392eae37a9123e839b39cc0aa3c3f5b22edcb170d3",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-ExtraLight.woff": "f8c8f64cec9d0c4b2c675a5cac99b2cef9d34f4b485caf9ec47901314ff8c460",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Light.woff": "744e50b9780722eada9afc308712c7d1dc5176d8b46c315d010fa42fffb76fe6",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Medium.woff": "6231269ba695835ca13b03cf411b4e68379993039b4033c373e4e9940ee5370d",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Regular.woff": "3214d4fdb5bd41e10c9f0b5fa8c6ff2f1096b249665cdbf34948434ee7c51934",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-SemiBold.woff": "e476f124e88472078cf472ac09768331f93f76063a52183ff303a192adea800a",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Thin.woff": "1c760324692f0d4bdd46f6f2378ce73aaa37056b8673163d1463adaee8b3dee1",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Black.woff2": "c5fd0c3568fc1368a3edc0d0fbb36df029935954276e3573451b3bae09e27296",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Bold.woff2": "4609c3356e536fafe38f4add0daeceb3d8595d3057bce13c428c33ddbd43d362",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-ExtraBold.woff2": "dd7c1e156f508eb962acc7a33a7a1896d1e0b71e11156fad96e731689ceb6dc3",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-ExtraLight.woff2": "df43dc9165dff4542114674bcd8b79b7daae6dec004004586d5d076fec6fe2aa",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Light.woff2": "b7426635cce2ea2b95c9c802e43fba1c620e0dafaf25f737c069b8b4e09fa841",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Medium.woff2": "d03481330eeba0659ab5b87f25ceb504a35de377dd90a0d0aba2982eb2d05e2c",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Regular.woff2": "fad853f7f47c6c8b103171e7193fa095708cdcd70850a71d93aa5379e8a61d63",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
-    "자료_문제설명_0914_ERM_and_MLE/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
-    "자료_문제설명_0914_ERM_and_MLE/manifest.json": "affcc4d650f189bba65dc027fa030872a1f38361434aee791f016c3ae6919440"
-  }
+    "문제설명_0914_ERM_and_MLE.html": "821e45cfc93e3db98e4b799e4c024953cd847b50530afa64d2c066ae05b1a3ba",
+    ".pack/문제설명_0914_ERM_and_MLE.md": "1a2e1a613660cde2cf2abdb827f350b703b7e9e4fdeb82c90a24f283d5790c7f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/author.py": "70996ceb874ee9a84797791622e0b041e2e20bae4d36ccf50c3802eefc56056f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/browser-stage.json": "283349a62bb1a9e57313863c1243605fb23c519f8c60d44215ae267259c6e12e",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/browser.py": "edb13d7d1a26e225eb00c2beda1911ecf349e2f1d2a1a4c99d63635cac9ec1e6",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/content-data.py": "219883f0b6cbb74b55c7cc09a843ff8b2c810bd7eee3e7d237ac42623d0983cd",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/independent-results.json": "23c2a419c8ddc625a221c305926e60e3351422c4d43d37ad67dd3aeac396f8e5",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/references.json": "a7eb0cac79996f15efcd64235dcb9d8dc8cebf33376104bcd818e75a4b8d65cc",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/source-content-review.md": "5241bd82890df211152d8c7fe7408a3be926f94901db6c829d573bbd001a2c7f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/source-snapshot.json": "a2735077ab1ab0a823eaa453fe20b378ddd0de6aef155407aca0d13ea639efea",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-1280-dark.png": "5c776986d4902405c999c73414fdd31dbb08213c1004ce13bb33f6ecb0b6cbe4",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-1280-light.png": "9841d07fb1091da1c892d0c15d213379756feaff2b33dea6182d2b809cf715e3",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-375-dark.png": "a0e7b8b6fce454d4c9c0bd79c58faa702cab31977b5f6449c603e57f40f3e3b4",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p1-375-light.png": "4e06a180fcdde875ed666ab9b1eed1b3199020dca0dcc0cac0a38bf76c57ef5f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-1280-dark.png": "50f2403842b6676d3a04e820beecd605db175b925ad6b90f99db775b5f927a7e",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-1280-light.png": "f091f686f9943691c626cf70f8b0d66b135bfbe63751d1b75a67733418ee7adf",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-375-dark.png": "f1902f99bf5e8f0d02ce41b3112b54c93e31489ce03e540db678c242d486eed5",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p2-375-light.png": "1a80895c579e8595cf4c543db884c4640ab321b12475218549283fab96e3cc55",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-1280-dark.png": "1f13c9f78241dd9b0c6e981e2863e964c4bf9fdebca6affdb7f52a75b8b94b64",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-1280-light.png": "4352073fc3e0946f4b26da5498a751198df0d83519a25e76964b73e066ab80b6",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-375-dark.png": "c9c1934607ffdd216f1ad85dfbb822886373e513ac864fb45d189afd6e0f81d1",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p3-375-light.png": "8c358a2e0cc6857970183a1c8796c5a41328e0bf818a075f6dc89433f984a1e8",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-1280-dark.png": "61c2bac3721f2f904a53b33880a40506ba6bc60e896e20113581ad9b76968547",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-1280-light.png": "0d68f312fc2a477cc74acab5a76bc384e9389fe8072e87eb01c4aaeedc83c2f8",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-375-dark.png": "48e1c1a993fcc7b97e80f3ed67266e56294bde5f4d4b9ef1b918bec86fd70477",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p4-375-light.png": "34a77ceff7d1a428d5409b6dd25f848d7990aecc6e8fd0df4f3be103e9d1e901",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-1280-dark.png": "b4ce173cd1d179149b905119af551d129ef545310ffc7245e5b344d02e6d0656",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-1280-light.png": "ee00f464164009a6af26fe6fd39d55d6dfb165648d0d939ada8e4fa0525f5a62",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-375-dark.png": "c2fc889495beddf85eb55da4c1e5e41417a4c62cd87005b13e067bb903e4bf2d",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p5-375-light.png": "aa4caffffa445e29d71bee509fdabfee9739338433041e1f33e1f4c6ed8b4eb8",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-1280-dark.png": "337b3dd08c3d31dff23adcde5a9327d875b5fbf9326b884787ed19ece38b9b97",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-1280-light.png": "1b76c8c513f8f8e7fd0d5dd537d88eb51f9ba5a8f99b1c0494f2b3ccf802204d",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-375-dark.png": "6736998019c0d35747819037a95e47a95f8ed6a1ab79062693e31271df8927e6",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p6-375-light.png": "00a2fc7fdc801e01734ba9bf11e8cc3d65ce6401c831779cacf3bba7729c47e9",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-1280-dark.png": "a8d3ada7d88b2e9c3877e5e95ea4583df5fa3992117d62f45ed28e547dcd88e8",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-1280-light.png": "34aa9520578bc5dd017fae66cdc47ac547b6e363d269b959624c3197a0bcc9ed",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-375-dark.png": "c192bb5ad6e3e0c4523012f17927395081f1856047b3401bc07482733589c78b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-p7-375-light.png": "495601918bef0719f999ca08e761d053ece7bed6233ba5236d82ccf36b510802",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-1280-dark.png": "75c347b9eca9c39d6e3b22d6b1f72ca49e78fcf957575accbf1a06ce0db0e953",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-1280-light.png": "17cbe0ac24c6e22020fd85a5b139469de4a832d3ab3b67e33fea3b7192f46816",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-375-dark.png": "f4d2ed2a83834a84515a9533294bb0f6141e1e7b3b78714867cfdd2ca1c9efa1",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p1-375-light.png": "d641332f005bf188c166cc153790c79fa238a12190bd437eba90f1d360815029",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-1280-dark.png": "ac84869ed8f2ac5231018e5caa6dbfa6c00762eb3c45d82906bbe0affe6575cf",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-1280-light.png": "f780e6024417edddb01447bd61465274208777191fb6eca19361db700a9a40d7",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-375-dark.png": "d10eb2d0fb0a29d911c6249f10ce73a5f9da5cfdfe63d4450ef3aabc1d96c9ab",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/stage-summary-p7-375-light.png": "6358a0b04c0de05e0214b513f97041f204352c510b4444dab9e4928cb1416187",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/evidence/verify.py": "57560a03b553bc582c150cf563cc3057f75037e28e42c883101d0e74f3b5e116",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p1.html": "eb760b1651f21c58dd72b67359465e4490afa0cd410da46536f41f06620164ec",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p2.html": "ffc042968dd1c6a89d4b937861df7c9ae4a5d57dec2219f4f116692cb0ead0d4",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p3.html": "13bf206ad09a9d5e6e76d5e00e1788f18d2661bbb4250c9a64888ad2fc6f684e",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p4.html": "0b18c81ec244d5ae3b7e4998890cd192a44d46b6b4d27015197ea5766c1b753b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p5.html": "fda80356f59d5353eed8573703108af6cecbef9b5af4a66defcf819ca30692d3",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p6.html": "1e84dfe2006e3b1f3e1c5ea01383440813b2111b560a5fac4dc8a76ef21f1578",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/fragments/p7.html": "ad2c019d340c54e11ee5f8496b1eb804d21d8edb49ba964bbfaade4afe188f1f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/template-provenance.json": "a376ae004fc7e8f20bc15f799d5ab43224813dfec2a3988cace02408cb719b75",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_AMS-Regular.woff": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_AMS-Regular.woff2": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Bold.ttf": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Bold.woff": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Bold.woff2": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Italic.ttf": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Italic.woff": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Italic.woff2": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Regular.ttf": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Regular.woff": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Main-Regular.woff2": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-Italic.ttf": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-Italic.woff": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Math-Italic.woff2": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Script-Regular.ttf": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Script-Regular.woff": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Script-Regular.woff2": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size1-Regular.ttf": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size1-Regular.woff": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size1-Regular.woff2": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size2-Regular.ttf": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size2-Regular.woff": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size2-Regular.woff2": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size3-Regular.ttf": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size3-Regular.woff": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size3-Regular.woff2": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size4-Regular.ttf": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size4-Regular.woff": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Size4-Regular.woff2": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/katex.min.css": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/katex/katex.min.js": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/LICENSE": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/pretendard.css": "74dbf94c1ab3cb1d166346878e03572d8004ac88d21ac84332a32b28a088f2bd",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Black.woff": "d8511e03d73b848d3df45d6f3d1166bb9532f7547b68da5f768d7b60df76faaa",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Bold.woff": "b02e6d7d8606f13f12682bc4d43575d403a9cbb2d662f6f4f137dba384633267",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-ExtraBold.woff": "1f43803fe4cb56b82061c7392eae37a9123e839b39cc0aa3c3f5b22edcb170d3",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-ExtraLight.woff": "f8c8f64cec9d0c4b2c675a5cac99b2cef9d34f4b485caf9ec47901314ff8c460",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Light.woff": "744e50b9780722eada9afc308712c7d1dc5176d8b46c315d010fa42fffb76fe6",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Medium.woff": "6231269ba695835ca13b03cf411b4e68379993039b4033c373e4e9940ee5370d",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Regular.woff": "3214d4fdb5bd41e10c9f0b5fa8c6ff2f1096b249665cdbf34948434ee7c51934",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-SemiBold.woff": "e476f124e88472078cf472ac09768331f93f76063a52183ff303a192adea800a",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff/Pretendard-Thin.woff": "1c760324692f0d4bdd46f6f2378ce73aaa37056b8673163d1463adaee8b3dee1",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Black.woff2": "c5fd0c3568fc1368a3edc0d0fbb36df029935954276e3573451b3bae09e27296",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Bold.woff2": "4609c3356e536fafe38f4add0daeceb3d8595d3057bce13c428c33ddbd43d362",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-ExtraBold.woff2": "dd7c1e156f508eb962acc7a33a7a1896d1e0b71e11156fad96e731689ceb6dc3",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-ExtraLight.woff2": "df43dc9165dff4542114674bcd8b79b7daae6dec004004586d5d076fec6fe2aa",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Light.woff2": "b7426635cce2ea2b95c9c802e43fba1c620e0dafaf25f737c069b8b4e09fa841",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Medium.woff2": "d03481330eeba0659ab5b87f25ceb504a35de377dd90a0d0aba2982eb2d05e2c",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Regular.woff2": "fad853f7f47c6c8b103171e7193fa095708cdcd70850a71d93aa5379e8a61d63",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
+    ".pack/자료_문제설명_0914_ERM_and_MLE/manifest.json": "150fef9f0eb9ba2ec9f8a89485318ac0a1d8a6e961947001008c420c132e7304"
+  },
+  "history": [
+    {
+      "previous_validation_sha256": "a4cc71b16f5e5c2f153198bced972920dd979463528e528011b6d61d4fe84c4e",
+      "previous_review_policy_version": null,
+      "evidence": ".task6c-run-ml-01/before/복습노트/0914/.pack/자료_문제설명_0914_ERM_and_MLE/validation.json",
+      "reason": "Changed semantic fragments/current source/reference bindings require actual new reviews; all four review gates pending"
+    },
+    {
+      "reason": "Current authored-note semantic line breaks and converter MD bytes verified; content/independent remain not_run",
+      "references": [
+        {
+          "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/복습노트/0914/.pack/정리노트_0914_ERM_and_MLE.md",
+          "previous_sha256": "70958d670bf5230f71e4678c350c9313341f6afeb8ac21e06f646f21e5e9ad55",
+          "current_sha256": "e4dea75f536bc6a2ac62fe81a5a5c0746753163ca83a433723a4d77c97bffebb"
+        }
+      ],
+      "evidence": ".task6c-run-ml-01/formatting-applied.json"
+    },
+    {
+      "stage": "before_task6c2_independent_binding",
+      "independent": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": "",
+        "items": {
+          "p1:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p1:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p2:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p2:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p2:c": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p3:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p3:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p4:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p5:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p5:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p5:c": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p6:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          },
+          "p7:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": "",
+            "method": "",
+            "conclusion": ""
+          }
+        }
+      }
+    },
+    {
+      "stage": "before_task6c2_browser_binding",
+      "browser": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": ""
+      }
+    },
+    {
+      "stage": "before_task6c2_source_content_a",
+      "source_visual": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": ""
+      },
+      "content": {
+        "status": "not_run",
+        "reviewer": "",
+        "evidence": "",
+        "items": {
+          "p1:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p1:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p2:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p2:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p2:c": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p3:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p3:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p4:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p5:a": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p5:b": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p5:c": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p6:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          },
+          "p7:main": {
+            "status": "not_run",
+            "reviewer": "",
+            "evidence": ""
+          }
+        }
+      }
+    }
+  ]
 }

@@ -4,6 +4,28 @@
 
 > `정리노트_1014_Bayesian_Posterior_Prediction.html`를 마크다운으로 옮겼어요. 그림은 `figures_1014/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
+**목차**
+
+- [0. 정규화와 확률 모델](#s0)
+  - [θ의 사후분포를 구하고, 새 y의 분포로 옮겨요](#s0-learning-map)
+  - [종 모양의 넓이를 1로 맞춰요](#s0-normalize)
+  - [고정된 입력, 불확실한 가중치](#s0-model)
+- [1. 사후분포를 직접 구해요](#s1)
+  - [음의 로그를 이차식으로 펼쳐요](#s1-expand)
+  - [계수를 맞춰 평균과 공분산을 찾아요](#s1-match)
+- [2. 새 입력의 예측분포](#s2)
+  - [가중합의 분산을 행렬로 묶어요](#s2-weighted)
+  - [벡터 적분을 스칼라 하나로 줄여요](#s2-integral)
+  - [회색 띠와 남아 있는 잡음](#s2-uncertainty)
+- [3. 요약 · 예고](#s3)
+  - [한 장 요약](#s3-cheatsheet)
+  - [다음 시간 예고](#s3-next)
+  - [함께 보면 좋은 자료](#s3-links)
+
+<a id="s0"></a>
+
+## 0. 정규화와 확률 모델
+
 <a id="s0-learning-map"></a>
 
 ### θ의 사후분포를 구하고, 새 y의 분포로 옮겨요
@@ -39,30 +61,11 @@ $A_g:=\Phi^T\Phi+\sigma^2S_0^{-1}$는 $K\times K$ 행렬, $q_g:=\Phi^Ty+\sigma^2
 
 가우시안 사후분포의 평균 mₙ은 MAP 위치와 같아요. FB는 여기에 사후공분산 Sₙ을 남겨 예측의 불확실성에 반영해요.
 
+#### 조건·구분
+
+$\mathcal{N}(0,b^2I)$와 $\mathcal{N}(m_0,S_0)$는 사전분포 선택의 차이예요. MAP·FB를 나누는 기준은 최고점 하나를 고르는지, 사후분포를 유지해 주변화하는지예요.
+
 ---
-
-**목차**
-
-- [먼저 큰 그림](#s0-learning-map)
-
-- [0. 정규화와 확률 모델](#s0)
-  - [종 모양의 넓이를 1로 맞춰요](#s0-normalize)
-  - [고정된 입력, 불확실한 가중치](#s0-model)
-- [1. 사후분포를 직접 구해요](#s1)
-  - [음의 로그를 이차식으로 펼쳐요](#s1-expand)
-  - [계수를 맞춰 평균과 공분산을 찾아요](#s1-match)
-- [2. 새 입력의 예측분포](#s2)
-  - [가중합의 분산을 행렬로 묶어요](#s2-weighted)
-  - [벡터 적분을 스칼라 하나로 줄여요](#s2-integral)
-  - [회색 띠와 남아 있는 잡음](#s2-uncertainty)
-- [3. 요약 · 예고](#s3)
-  - [한 장 요약](#s3-cheatsheet)
-  - [다음 시간 예고](#s3-next)
-  - [함께 보면 좋은 자료](#s3-links)
-
-<a id="s0"></a>
-
-## 0. 정규화와 확률 모델
 
 <a id="s0-normalize"></a>
 
@@ -161,6 +164,10 @@ $$
 - **확률밀도함수(PDF)** — 음이 아니며 전체 적분값이 1인 함수예요.
 - **정규화** — 함수의 전체 넓이를 1로 맞추는 일이에요.
 
+#### 조건·구분
+
+PDF 값은 스칼라 밀도이며 한 점의 확률이 아니에요. 스칼라는 $\sigma^2\gt0$, $d$차원은 $\Sigma\in\mathbb{R}^{d\times d}$ 대칭 양의 정부호를 전제해요. $|\Sigma|$와 이차형식은 스칼라예요. 스칼라 곱에서는 $v=(v_0^{-1}+v_1^{-1})^{-1}$, $m=v(\mu_0/v_0+\mu_1/v_1)$이고 $c=\int p_0(x)p_1(x)\,dx$예요. 곱의 전체면적 $c$와 정규화된 가우시안 자체의 앞 계수 $1/\sqrt{2\pi v}$를 구별해요.
+
 ---
 
 <a id="s0-model"></a>
@@ -231,6 +238,10 @@ $y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새
 - **특징벡터(feature vector)** — 주어진 입력에서 결정적으로 만든 $K$차원 벡터예요.
 - **사전분포(prior)** — 훈련자료를 보기 전 가중치에 둔 확률분포예요.
 - **사후분포(posterior)** — 훈련자료를 본 뒤 가중치에 대해 갱신한 확률분포예요.
+
+#### 조건·구분
+
+$\theta,\phi(x)\in\mathbb{R}^K$, $\Phi\in\mathbb{R}^{N\times K}$이며 각 행은 $\phi(x_i)^T$예요. 피처가 입력에 비선형이어도 가중치에 선형이면 선형회귀예요. 우도는 관측값에 대한 밀도이지 $\theta$에 관해 정규화된 PDF가 아니에요. 예측 적분의 두 밀도는 서로 다른 변수에 관한 것이므로 같은 변수의 가우시안 곱 공식만으로 끝나지 않아요.
 
 ---
 
@@ -338,13 +349,17 @@ $y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새
 - 음의 로그
 
   $$
-  -\log p(\theta\mid X,Y)=\frac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)+\mathrm{const}
+  \begin{aligned}&-\log p(\theta\mid X,Y)\\&=\tfrac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta\\&\quad-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)\\&\quad+\mathrm{const}\end{aligned}
   $$
 
 *용어*
 
 - **스칼라(scalar)** — 행렬 곱의 결과로 얻는 숫자 하나예요.
 - **우도(likelihood)** — 주어진 파라미터에서 관측값의 밀도를 나타내요.
+
+#### 조건·구분
+
+$\sigma^2\gt0$, $S_0$ 대칭 양의 정부호에서 우도 공분산은 $\sigma^2I_N$, 사전 공분산은 $K\times K$인 $S_0$예요. 두 교차항은 스칼라의 전치와 $S_0^{-1}$의 대칭성으로 같아요. 이차계수는 $K\times K$, 일차계수는 $K\times1$이며 const는 $\theta$와 무관해요.
 
 ---
 
@@ -374,7 +389,6 @@ $y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새
    -\log\mathcal N(\theta\mid m_N,S_N)=\frac12(\theta-m_N)^TS_N^{-1}(\theta-m_N)+\mathrm{const}
    $$
 
-
    $$
    =\frac12\left(\theta^TS_N^{-1}\theta-\theta^TS_N^{-1}m_N-m_N^TS_N^{-1}\theta+m_N^TS_N^{-1}m_N\right)+\mathrm{const}
    $$
@@ -395,7 +409,6 @@ $y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새
    S_N^{-1}=S_0^{-1}+\sigma^{-2}\Phi^T\Phi
    $$
 
-
    $$
    S_N=(S_0^{-1}+\sigma^{-2}\Phi^T\Phi)^{-1}
    $$
@@ -406,7 +419,6 @@ $y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새
    $$
    S_N^{-1}m_N=S_0^{-1}m_0+\sigma^{-2}\Phi^Ty
    $$
-
 
    $$
    m_N=S_N(S_0^{-1}m_0+\sigma^{-2}\Phi^Ty)
@@ -476,6 +488,10 @@ MAP 식을 사후평균 식으로 바꾸는 과정을 [한 줄씩 쓰는 수식 
 - **정밀도(precision)** — 공분산 행렬의 역행렬이에요.
 - **완전제곱(completing the square)** — 이차식의 중심과 퍼짐을 드러내는 정리예요.
 
+#### 조건·구분
+
+$S_0$가 양의 정부호이고 $\sigma^2\gt0$이면 $S_0^{-1}+\sigma^{-2}\Phi^T\Phi$도 양의 정부호라 역행렬이 존재해요. 슬라이드 머리의 잡음 표기와 달리 여기 필요한 계수는 $\sigma^{-2}=1/\sigma^2$예요. 평균을 MAP 식으로 바꿀 때는 앞뒤 $\sigma^2$가 상쇄되지만, 공분산은 $S_N=\sigma^2[\Phi^T\Phi+\sigma^2S_0^{-1}]^{-1}$의 앞 계수가 남아요.
+
 ---
 
 <a id="s2"></a>
@@ -529,7 +545,6 @@ $$
    \operatorname{Var}(z)=\mathbb{E}[(\phi_*^T\widetilde{\theta})(\phi_*^T\widetilde{\theta})]
    $$
 
-
    $$
    =\phi_*^T\mathbb{E}[\widetilde{\theta}\widetilde{\theta}^T]\phi_*=\phi_*^T S_N\phi_*.
    $$
@@ -570,6 +585,10 @@ $$
 *용어*
 
 - **자기 공분산(self-covariance)** — 한 벡터의 성분들이 함께 움직이는 정도를 나타내는 행렬이에요.
+
+#### 조건·구분
+
+$K=2$이면 분산은 $a^2S_{11}+2abS_{12}+b^2S_{22}$로 교차항을 버리지 않아요. 상수 변환의 교차공분산은 $\operatorname{Cov}(A\mathbf{X}+b,B\mathbf{Y}+c)=A\operatorname{Cov}(\mathbf{X},\mathbf{Y})B^T$이며 결과 차원은 $p\times q$예요. $\operatorname{Cov}(\theta,z)=S_N\phi_*\in\mathbb{R}^{K\times1}$와 스칼라 자기분산 $\phi_*^TS_N\phi_*$를 구별해요. $\theta$와 독립인 관측잡음을 더하면 분산에 $\sigma^2$를 더해요.
 
 ---
 
@@ -674,6 +693,10 @@ $\nu=0$이면 $z=\mu$가 확률 1인 퇴화 분포예요. 이때 $1/\nu$ 계산�
 - **주변화(marginalization)** — 관심 없는 중간 변수를 적분해 원하는 변수의 분포를 얻어요.
 - **정규화(normalization)** — 밀도의 전체 면적이 1이 되도록 앞 계수를 맞춰요.
 
+#### 조건·구분
+
+$z=\phi_*^T\theta$의 유도분포는 $\mu=\phi_*^Tm_N$, $\nu=\phi_*^TS_N\phi_*$예요. 여러 $\theta$가 같은 $z$를 만들 수 있어 일대일 Jacobian 하나를 붙이는 변환이 아니에요. 독립 잡음과의 합성곱 $\int\mathcal{N}(y_*\mid z,\sigma^2)\mathcal{N}(z\mid\mu,\nu)\,dz$를 계산해 분산 $\nu+\sigma^2$를 얻어요. $\nu\gt0$일 때 완전제곱과 정규화 상수를 쓰며, $\nu=0$이면 $1/\nu$ 대신 $y_*=\mu+\epsilon$에서 직접 $\mathcal{N}(\mu,\sigma^2)$를 얻어요.
+
 ---
 
 <a id="s2-uncertainty"></a>
@@ -728,6 +751,8 @@ $\sigma^2\gt0$을 고정하면 관측값 예측분산은 $\nu+\sigma^2\geq\sigma
 | 1 | 1 | 2 | 1.414 |
 | 4 | 1 | 5 | 2.236 |
 
+입력 위치와 잡음 분산을 바꾸며 함수값과 새 관측값의 예측 띠를 [함수와 관측값의 예측분포 실험](%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%ED%95%A8%EC%88%98%EC%99%80_%EA%B4%80%EC%B8%A1%EA%B0%92%EC%9D%98_%EC%98%88%EC%B8%A1%EB%B6%84%ED%8F%AC.html)에서 비교해 보세요.
+
 **교수님 말씀**
 
 > “노이즈가 있었잖아.”
@@ -755,6 +780,10 @@ $\sigma^2\gt0$을 고정하면 관측값 예측분산은 $\nu+\sigma^2\geq\sigma
 
 - **파라미터 불확실성(parameter uncertainty)** — 사후분포에 남은 파라미터 변동이 예측에 주는 흔들림이에요.
 - **관측 잡음(observation noise)** — 같은 함수값에서도 새 관측값을 흔드는 오차예요.
+
+#### 조건·구분
+
+$\sigma^2\gt0$ 고정이면 관측분산 $\nu+\sigma^2\geq\sigma^2$로 잡음 하한이 남아요. 불확실성 $0$은 잡음 없는 극한과 식별 조건을 함께 확인해야 해요. 관측 띠의 표준편차는 $\sqrt{\nu+\sigma^2}$, 함수 띠는 $\sqrt{\nu}$이며 정규분포의 $\pm1,\pm2$ 표준편차는 약 68%, 95%예요. 이 모형의 MAP 예측선은 $\phi_*^Tm_N$과 같아요. 최대 분산 지점이 항상 최선의 다음 실험이라는 뜻은 아니며 탐험·활용의 균형도 필요해요.
 
 ---
 

@@ -395,7 +395,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>Σ나 분산도 최적화한다면 그것과 관련된 상수항은 버릴 수 없어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>MAP는 posterior의 봉우리를 찾아요. $p(\theta\mid X,y)\propto p(y\mid X,\theta)p(\theta)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$-\log p(\theta)=D\log(2\pi)/2+\log|\Sigma|/2+\theta^\top\Sigma^{-1}\theta/2$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>지수의 −1/2가 음의 로그에서 +1/2로 바뀌어요. Σ=I이면 θ의 제곱노름/2가 돼요. posterior의 분모 evidence는 θ와 무관해요. 따라서 NLL에 prior 이차항을 더하는 minimizer가 MAP예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$\Sigma$는 고정된 양의 정부호 $D\times D$ 공분산이고 $\theta\in\mathbb R^D$만 최적화해요. $\Sigma$나 분산도 최적화하면 관련 로그 상수항을 버릴 수 없어요.</p></div></div>
 </article><article class="topic" id="p2"><h3>P2. Joint 표에서 p(x) 구하기</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>$X$의 marginal distribution $p(x)$를 구해 보세요.</p></div><table>
 <thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
 <tbody>
@@ -416,7 +416,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>열마다 전체 확률1을 따로 맞추지 않아요. 주변확률 전체 합이1이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>주변화(marginalization)는 관심 없는 변수의 모든 경우를 합해요. $p(x_i)=\sum_jp(x_i,y_j)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$p(x_1)=0.01+0.05+0.10$으로 시작해요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>독립 분수 계산으로 [16,17,11,22,34]/100을 얻고 합이1이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$x$가 열, $y$가 행이므로 $p(x)$는 같은 열을 더해요. 열마다 별도로 1로 맞추는 것이 아니라 주변확률 다섯 개의 합이 1이에요.</p></div></div>
 </article><article class="topic" id="p3"><h3>P3. Joint 표에서 p(y) 구하기</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>$Y$의 marginal distribution $p(y)$를 구해 보세요.</p></div><table>
 <thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
 <tbody>
@@ -437,7 +437,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>X의 주변분포처럼 열을 더하면 다른 질문에 답하게 돼요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Y의 주변분포는 X를 없애요. $p(y_j)=\sum_ip(x_i,y_j)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$p(y_1)=0.01+0.02+0.03+0.10+0.10$이에요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>독립 분수 계산으로 [26,47,27]/100이고 세 행 합이1이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$p(y)$는 $x$를 없애는 행 합이에요. 열 합은 $p(x)$라는 다른 질문에 답해요.</p></div></div>
 </article><article class="topic" id="p4"><h3>P4. 조건부 분포 p(x | Y = y1)</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>조건부 분포 $p(x\mid Y=y_1)$를 분수로 구해 보세요.</p></div><table>
 <thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
 <tbody>
@@ -458,7 +458,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$p(y_1)=26/100$을 먼저 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>분모로 p(x)를 쓰면 조건의 방향이 바뀌어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>조건부 분포(conditional distribution)는 주어진 행 안에서 다시 정규화해요. $p(x_i\mid y_1)=p(x_i,y_1)/p(y_1)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$p(y_1)=26/100$을 먼저 적어요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>분자는 [1,2,3,10,10]/100, 공통 분모26/100이라 [1,2,3,10,10]/26이에요. 합1이고 각 조건부 값×0.26은 원 표의 칸을 복원해요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>분모는 조건으로 주어진 $p(y_1)=0.26>0$이에요. $p(x)$로 나누면 조건 방향이 달라져요.</p></div></div>
 </article><article class="topic" id="p5"><h3>P5. 조건부 분포 p(y | X = x3)</h3><p class="panel-meta">MML Exercise 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models.html#p5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">두 이산 확률변수 $X$($x_1,\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class="table-wrap"></div></div><h4>구할 것</h4><div data-source-field="ask"><p>조건부 분포 $p(y\mid X=x_3)$를 분수로 구해 보세요.</p></div><table>
 <thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>
 <tbody>
@@ -495,7 +495,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>성공확률 μ와 성공횟수 k를 구별해요. posterior의 평균과 MAP도 다른 값이에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Beta–Bernoulli 켤레성(conjugacy)은 likelihood와 prior의 거듭제곱 모양이 맞는다는 뜻이에요. $k=\sum x_n$은 성공 횟수, N−k는 실패 횟수예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$L(\mu)=\mu^k(1-\mu)^{N-k}$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>지수는 α+k−1과 β+N−k−1이라 Beta(α+k,β+N−k)의 정규화 적분이 존재해요. N=10,k=2,α=β=4일 때 Beta(6,12)이고 내부 mode는5/16, 평균은1/3으로 달라요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$\alpha,\beta>0$, $0<\mu<1$에서 posterior는 Beta$(\alpha+k,\beta+N-k)$예요. 성공확률 $\mu$와 횟수 $k$를 구별하고 posterior 평균과 MAP도 구별해요.</p></div></div>
 </article></section>
   </main>
   <footer>원 문제·정리노트·PDF는 보존해요.</footer>
@@ -507,9 +507,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -727,7 +726,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -759,8 +757,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -783,17 +779,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
-          const heading = s.querySelector('h3');
-          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
-            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

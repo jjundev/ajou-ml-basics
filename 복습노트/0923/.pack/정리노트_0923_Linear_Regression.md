@@ -4,6 +4,37 @@
 
 > `정리노트_0923_Linear_Regression.html`를 마크다운으로 옮겼어요. 그림은 `figures_0923/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
+**목차**
+
+- [0. 회귀 문제와 포뮬레이션](#s0)
+  - [잡음을 가정하면 회귀의 학습 기준이 나와요](#s0-learning-map)
+  - [회귀 vs 분류: 숫자를 맞히기 vs 칸을 고르기](#s0-regression)
+  - [가장 중요한 건 포뮬레이션, 그리고 로드맵](#s0-formulation)
+- [1. 확률적 회귀 모델: 가우시안 노이즈와 우도](#s1)
+  - [결정론적 모델 vs 확률적 모델](#s1-det-prob)
+  - [가우시안 노이즈와 종 모양 PDF](#s1-gaussian)
+  - [선형회귀 = "~일 거야"라는 가정 (순환논증 경고)](#s1-assume)
+  - [우도와 선형 모델: 내 안에 θ 있다](#s1-likelihood)
+  - [x에 대해 비선형이어도 선형회귀: 특징 벡터](#s1-features)
+- [2. 파라미터 추정: iid 우도에서 최소제곱까지](#s2)
+  - [훈련 집합과 데이터 행렬 X](#s2-dataset)
+  - [iid면 우도는 곱이 된다](#s2-iid)
+  - [ML → 음의 로그우도 → 최소제곱](#s2-nll)
+  - [가우시안 노이즈에서 ML = 경험적 위험 최소화](#s2-ml-erm)
+- [3. 미분해서 해 구하기: 정규방정식과 유사역행렬](#s3)
+  - [미분이 0이 되는 θ 찾기: 정규방정식](#s3-normal-eq)
+  - [선형회귀의 답은 유사역행렬](#s3-pinv)
+  - [보충: dL/dθ 벡터 미분 유도](#s3-vector-diff)
+  - [수업 후 질문: 상수항을 넣으면 D+1 차원](#s3-bias)
+- [4. 한 장 요약 · 다음 시간 예고](#s4)
+  - [한 장 치트시트](#s4-cheatsheet)
+  - [다음 시간 예고 (아직 안 배움)](#s4-next)
+  - [함께 보면 좋은 자료](#s4-links)
+
+<a id="s0"></a>
+
+## 0. 회귀 문제와 포뮬레이션
+
 <a id="s0-learning-map"></a>
 
 ### 잡음을 가정하면 회귀의 학습 기준이 나와요
@@ -36,39 +67,11 @@
 
 ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.
 
+#### 조건·구분
+
+입력·특징은 모형의 재료이고, ML의 파라미터는 고정된 미지의 계수, 잡음은 계수가 정해져도 남는 확률변수예요. 가우시안 NLL의 제곱오차를 미분하면 정규방정식이 나오며 역행렬 해에는 가역성 조건이 필요해요.
+
 ---
-
-**목차**
-
-- [먼저 큰 그림](#s0-learning-map)
-
-- [0. 회귀 문제와 포뮬레이션](#s0)
-  - [회귀 vs 분류: 숫자를 맞히기 vs 칸을 고르기](#s0-regression)
-  - [가장 중요한 건 포뮬레이션, 그리고 로드맵](#s0-formulation)
-- [1. 확률적 회귀 모델: 가우시안 노이즈와 우도](#s1)
-  - [결정론적 모델 vs 확률적 모델](#s1-det-prob)
-  - [가우시안 노이즈와 종 모양 PDF](#s1-gaussian)
-  - [선형회귀 = "~일 거야"라는 가정 (순환논증 경고)](#s1-assume)
-  - [우도와 선형 모델: 내 안에 θ 있다](#s1-likelihood)
-  - [x에 대해 비선형이어도 선형회귀: 특징 벡터](#s1-features)
-- [2. 파라미터 추정: iid 우도에서 최소제곱까지](#s2)
-  - [훈련 집합과 데이터 행렬 X](#s2-dataset)
-  - [iid면 우도는 곱이 된다](#s2-iid)
-  - [ML → 음의 로그우도 → 최소제곱](#s2-nll)
-  - [가우시안 노이즈에서 ML = 경험적 위험 최소화](#s2-ml-erm)
-- [3. 미분해서 해 구하기: 정규방정식과 유사역행렬](#s3)
-  - [미분이 0이 되는 θ 찾기: 정규방정식](#s3-normal-eq)
-  - [선형회귀의 답은 유사역행렬](#s3-pinv)
-  - [보충: dL/dθ 벡터 미분 유도](#s3-vector-diff)
-  - [수업 후 질문: 상수항을 넣으면 D+1 차원](#s3-bias)
-- [4. 한 장 요약 · 다음 시간 예고](#s4)
-  - [한 장 치트시트](#s4-cheatsheet)
-  - [다음 시간 예고 (아직 안 배움)](#s4-next)
-  - [함께 보면 좋은 자료](#s4-links)
-
-<a id="s0"></a>
-
-## 0. 회귀 문제와 포뮬레이션
 
 <a id="s0-regression"></a>
 
@@ -355,6 +358,10 @@ $$
 - **종 모양(bell-shaped)** — 평균에서 가장 높고 양옆으로 급격히 낮아지는 꼴
 - **중심극한정리(central limit theorem)** — 전기적 노이즈가 가우시안인 근거
 
+#### 조건·구분
+
+이 회귀 모형에서는 잡음 평균을 0, 분산을 $\sigma^2$로 두어요. 노이즈가 항상 가우시안인 것은 아니며 샷 노이즈나 라플라스 모형 등 도메인별 예외도 있어요.
+
 ---
 
 <a id="s1-assume"></a>
@@ -418,6 +425,10 @@ $$
 
 - **가정(assume = suppose)** — "~일 거야"라고 두고 푸는 것
 - **순환논증(circular reasoning)** — 선형으로 만든 데이터로 선형 가정을 정당화하는 오류
+
+#### 조건·구분
+
+선형이라는 말은 계수 $\boldsymbol\theta$에 대한 선형성이에요. 데이터에 잘 맞는다는 사실을 실제 생성 과정이 선형이었다는 증명으로 바꾸지 않아요.
 
 ---
 
@@ -499,6 +510,10 @@ $$
 
 - **우도(likelihood)** — 입력이 주어졌을 때 출력의 조건부 PDF
 - **스칼라(scalar)** — 같은 길이 벡터끼리 내적한 숫자 하나
+
+#### 조건·구분
+
+길이 $D$의 두 벡터 내적은 스칼라 평균이고, 입력과 계수·함수를 정하면 불확실성은 잡음에서만 와요. 평균만 내는 결정론적 예측과 분산까지 주는 확률적 예측을 구분해요.
 
 ---
 
@@ -671,6 +686,10 @@ $$
 - **데이터 행렬 $\mathbf{X}$** — 각 행이 $\mathbf{x}_n^\top$인 $N \times D$ 행렬
 - **판(plate)** — $n = 1, \dots, N$ 반복을 그림에서 묶어 나타낸 상자
 
+#### 조건·구분
+
+$\mathbf X$는 각 행이 입력 전치인 $N\times D$, $\theta$는 $D\times1$, 출력과 잡음은 $N\times1$이에요. $D\times N$으로 열을 나란히 세운 행렬은 한 번 전치해야 이 모델식에 맞아요.
+
 ---
 
 <a id="s2-iid"></a>
@@ -761,6 +780,10 @@ $y_2$도, $y_i$도 같은 꼴이고 서로 관련이 없다고 확인했어요. 
 *용어*
 
 - **i.i.d.** — 노이즈 $\epsilon_n$이 모두 같은 분포 $\mathcal{N}(0, \sigma^2)$를 따르고 서로 독립이라는 가정. 그래서 $y_n$은 $\mathbf{x}_n$이 주어지면 조건부 독립이에요
+
+#### 조건·구분
+
+동일 분포인 것은 잡음 $\epsilon_n$이에요. $y_n$은 입력마다 평균 $\mathbf x_n^\top\theta$가 달라 일반적으로 동일 분포가 아니며, 주어진 입력 아래 조건부 독립이어서 우도를 곱해요.
 
 ---
 
@@ -862,6 +885,10 @@ $\mathbf{X}\boldsymbol{\theta}$에 이름을 붙이고, 그 뜻을 최소제곱�
 - **음의 로그우도(negative log-likelihood)** — 우도에 로그를 취하고 마이너스를 붙인 값
 - **최소제곱(least squares)** — 실측값과 예측치 차이의 제곱 노름을 최소화하는 문제
 
+#### 조건·구분
+
+공통 가우시안 분산 $\sigma^2$를 $\theta$와 무관하게 두고 $\theta$만 바꿔요. NLL에서 계수와 무관한 상수 및 양의 배율을 제외해도 최소점은 같아요.
+
 ---
 
 <a id="s2-ml-erm"></a>
@@ -948,6 +975,10 @@ $L(\boldsymbol{\theta})$와 $R_{\text{emp}}(\boldsymbol{\theta})$는 양의 상�
 - **경험적 위험 최소화(empirical risk minimization)** — 훈련 데이터의 평균 손실을 최소화하는 방법
 - **제곱 손실(squared loss)** — $(y_n - \mathbf{x}_n^\top\boldsymbol{\theta})^2$처럼 오차를 제곱한 손실
 
+#### 조건·구분
+
+계산상의 이유는 $L$과 제곱손실 $R_{\mathrm{emp}}$가 양의 상수 배만 달라 같은 최소점을 갖는다는 것이에요. 치우친 잡음에서 관측을 옮겨 본다는 이야기는 교수님이 정확한 설명이 아닌 직관용 스케치로 한정했어요.
+
 ---
 
 <a id="s3"></a>
@@ -1011,7 +1042,6 @@ rank 조건은 슬라이드에만 적혀 있고 수업에서 말로 풀지는 �
 
 $\mathbf{x} = (1, 2, 3)$, $\mathbf{y} = (3, 4, 8)$이면 $\sum_n x_n y_n = 35$, $\sum_n x_n^2 = 14$라서 $\theta_{\text{ML}} = \frac{35}{14} = \frac{5}{2}$예요.
 
-
 <a id="widget-normaleq"></a>
 
 #### 직접 해 보기: 기울기가 0인 곳이 ML 해 *(정적 스냅샷 — 직접 조작은 HTML 버전)*
@@ -1049,7 +1079,6 @@ $\mathbf{x} = (1, 2, 3)$, $\mathbf{y} = (3, 4, 8)$이면 $\sum_n x_n y_n = 35$, 
    $$
    (\boldsymbol\theta^\top\mathbf X^\top\mathbf X)^\top=(\mathbf y^\top\mathbf X)^\top
    $$
-
 
    $$
    (\mathbf X^\top\mathbf X)^\top\boldsymbol\theta=\mathbf X^\top\mathbf y
@@ -1091,6 +1120,10 @@ $\mathbf{x} = (1, 2, 3)$, $\mathbf{y} = (3, 4, 8)$이면 $\sum_n x_n y_n = 35$, 
 
 - **정규방정식(normal equation)** — 기울기가 0이라는 조건을 정리한 연립방정식
 - **양의 정부호(positive definite)** — $\mathrm{rk}(\mathbf{X}) = D$이면 $\mathbf{X}^\top\mathbf{X}$가 갖는 성질, 역행렬이 있어요
+
+#### 조건·구분
+
+$L:\mathbb R^D\to\mathbb R$의 이 표기에서 미분은 $1\times D$ 행벡터예요. $\mathrm{rk}(\mathbf X)=D$이면 $\mathbf X^\top\mathbf X$와 Hessian이 양의 정부호라 가역이고, 정상점이 유일한 전역 최소점이에요. rank 조건은 슬라이드에 있고 수업에서는 말로 풀지 않았어요.
 
 ---
 
@@ -1185,6 +1218,10 @@ $$
 
 - **유사역행렬(pseudo-inverse)** — 정사각이 아닌 행렬에서 역행렬 역할을 하는 행렬
 
+#### 조건·구분
+
+표시한 $\mathbf X^+=(\mathbf X^\top\mathbf X)^{-1}\mathbf X^\top$ 식은 해당 역행렬이 있을 때 써요. $\mathbf X^+$는 $D\times N$, $\theta_{\mathrm{ML}}$은 $D\times1$이며, 계산은 역행렬을 직접 만들기보다 정규방정식 연립계를 풀 수 있어요.
+
 ---
 
 <a id="s3-vector-diff"></a>
@@ -1278,17 +1315,21 @@ $D = 1$이면 $\frac{dL}{d\theta} = \frac{1}{\sigma^2}\left(-\sum_n x_n y_n + \t
 - 전개
 
   $$
-  L = \frac{1}{2\sigma^2}\left(\mathbf{y}^\top\mathbf{y} - 2\mathbf{y}^\top\mathbf{X}\boldsymbol{\theta} + \boldsymbol{\theta}^\top\mathbf{X}^\top\mathbf{X}\boldsymbol{\theta}\right)
+  \begin{aligned}L=\frac1{2\sigma^2}\bigl(&\mathbf y^\top\mathbf y\\&-2\mathbf y^\top\mathbf X\boldsymbol\theta\\&+\boldsymbol\theta^\top\mathbf X^\top\mathbf X\boldsymbol\theta\bigr)\end{aligned}
   $$
 - 그레이디언트
 
   $$
-  \frac{dL}{d\boldsymbol{\theta}} = \frac{1}{2\sigma^2}\left(-2\mathbf{y}^\top\mathbf{X} + 2\boldsymbol{\theta}^\top\mathbf{X}^\top\mathbf{X}\right) = \frac{1}{\sigma^2}\left(-\mathbf{y}^\top\mathbf{X} + \boldsymbol{\theta}^\top\mathbf{X}^\top\mathbf{X}\right) \in \mathbb{R}^{1 \times D}
+  \begin{aligned}\frac{dL}{d\boldsymbol\theta}&=\frac1{2\sigma^2}\bigl(-2\mathbf y^\top\mathbf X\\&\quad+2\boldsymbol\theta^\top\mathbf X^\top\mathbf X\bigr)\\&=\frac1{\sigma^2}\bigl(-\mathbf y^\top\mathbf X\\&\quad+\boldsymbol\theta^\top\mathbf X^\top\mathbf X\bigr)\\&\in\mathbb R^{1\times D}\end{aligned}
   $$
 
 *용어*
 
 - **그레이디언트(gradient)** — 스칼라 함수를 벡터로 미분한 것, MML에서는 행 벡터
+
+#### 조건·구분
+
+보충(MML 식 9.11)이며 수업에서 이 유도를 하지 않았어요. 선형항의 미분은 $\mathbf a^\top$, 이차항은 $\theta^\top(A+A^\top)$이고 $A=X^\top X$가 대칭이라 두 배가 돼요. 상수 $y^\top y$의 미분은 0이며 결과는 $1\times D$ 행벡터예요.
 
 ---
 
@@ -1372,6 +1413,10 @@ $[1, \mathbf{x}^\top]^\top$은 특징 벡터 $\boldsymbol{\phi}(\mathbf{x})$의 
 - **affine(어파인)** — 선형 함수에 상수항을 더한 함수
 - **상수항(bias)** — 입력과 상관없이 더해지는 값
 
+#### 조건·구분
+
+계수도 $D+1$로 늘리고 데이터 행렬은 첫 열이 모두 1인 $N\times(D+1)$이 돼요. 이 확장행렬의 역행렬 해에는 $\mathrm{rk}(\tilde{\mathbf X})=D+1$ 조건이 필요해요.
+
 ---
 
 <a id="s4"></a>
@@ -1431,14 +1476,14 @@ $[1, \mathbf{x}^\top]^\top$은 특징 벡터 $\boldsymbol{\phi}(\mathbf{x})$의 
 ### 함께 보면 좋은 자료
 
 - [복습문제 풀러 가기 (0923 Linear Regression)](복습문제_0923_Linear_Regression.md)
+- [지난 시간 정리노트: 0921 Bayesian Inference · Model Selection](../../0921/정리노트_0921_Bayesian_Inference_Model_Selection.html)
+- [추가 강의 Lecture 10: Statistical Inference Part 1](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
+- [추가 강의 Lecture 12: Statistical Inference Part 3](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 복습문제 7문항
 
 - [문제지 PDF](복습문제_0923_Linear_Regression-문제.pdf)
 - [해설지 PDF](복습문제_0923_Linear_Regression-답안.pdf)
-- [지난 시간 정리노트: 0921 Bayesian Inference · Model Selection](../../0921/정리노트_0921_Bayesian_Inference_Model_Selection.html)
-- [추가 강의 Lecture 10: Statistical Inference Part 1](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
-- [추가 강의 Lecture 12: Statistical Inference Part 3](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 ---
 

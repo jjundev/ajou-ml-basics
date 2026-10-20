@@ -18,7 +18,7 @@
 
 ### P1. 확률의 합과 밀도의 넓이
 
-MML Example 6.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p1)
+MML Example 6.3 · [원 문제 보기](./%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p1)
 
 #### 주어진 조건
 
@@ -37,7 +37,7 @@ MML Example 6.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014
 
 ‘세 상태에서 같은 확률’이라는 단서에서는 이산 균일분포(discrete uniform distribution)와 확률질량함수(PMF, probability mass function)를 떠올려요. $P(Z=z)$는 확률변수 $Z$가 특정 상태 $z$를 가질 확률이에요. 이산형에서는 가능한 모든 상태의 확률을 더해 1이 되어야 하므로, 상태가 $n$개이고 각각 같은 확률 $q$라면 $nq=1$이에요. 여기서는 가능한 상태가 정확히 세 개라서 이 규칙을 적용해요. 상태를 나타내는 숫자의 간격은 확률을 나누는 비율에 영향을 주지 않아요.
 
-‘구간에서 균일’과 ‘밀도 높이’라는 단서에서는 연속 균일분포(continuous uniform distribution)와 확률밀도함수(PDF, probability density function)를 떠올려요. $p(x)$는 확률변수 $X$의 값 $x$에서의 밀도예요. 구간 $[a,b]$에서 높이가 $h$로 일정하고 밖에서 0이라면 정규화 조건은 $\int_a^b p(x)\,dx=h(b-a)=1$이에요. $a$와 $b$는 구간 양 끝이고 $b-a$는 폭이에요. 한 점의 밀도값 $h$ 자체가 그 점의 확률은 아니에요. 연속형에서는 구간 아래 넓이를 확률로 읽기 때문에 이 문제에서 적분을 써요. [정규화 설명](%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize)에서도 전체 넓이가 1인 조건을 확인할 수 있어요.
+‘구간에서 균일’과 ‘밀도 높이’라는 단서에서는 연속 균일분포(continuous uniform distribution)와 확률밀도함수(PDF, probability density function)를 떠올려요. $p(x)$는 확률변수 $X$의 값 $x$에서의 밀도예요. 구간 $[a,b]$에서 높이가 $h$로 일정하고 밖에서 0이라면 정규화 조건은 $\int_a^b p(x)\,dx=h(b-a)=1$이에요. $a$와 $b$는 구간 양 끝이고 $b-a$는 폭이에요. 한 점의 밀도값 $h$ 자체가 그 점의 확률은 아니에요. 연속형에서는 구간 아래 넓이를 확률로 읽기 때문에 이 문제에서 적분을 써요. [정규화 설명](./%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize)에서도 전체 넓이가 1인 조건을 확인할 수 있어요.
 
 #### 종이에 쓰는 첫 줄
 
@@ -121,13 +121,17 @@ PMF는 상태별 확률의 합이 1이에요. 일정한 PDF는 구간 폭과 밀
 
 (a) 각 $\frac13$, 합 1. (b) 높이 $\frac{10}{7}$, 적분 1.
 
+#### 조건·구분
+
+이산 상태의 숫자 간격은 같은 확률을 나누는 비율에 영향이 없어요. 연속 밀도 $10/7$은 한 점의 확률이 아니라 높이이므로 $1$을 넘을 수 있고, 구간 확률은 넓이로 계산해요.
+
 ---
 
 <a id="p2"></a>
 
 ### P2. 이차식에서 가우시안을 알아봐요
 
-MML Example 6.13 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p2)
+MML Example 6.13 · [원 문제 보기](./%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p2)
 
 #### 주어진 조건
 
@@ -153,7 +157,7 @@ $$
 
 완전제곱의 기준은 $x^2-2\mu x+\mu^2=(x-\mu)^2$예요. 이차항의 계수가 음수여야 $|x|$가 커질 때 지수값이 줄어 적분 가능한 종 모양을 만들어요. 여기서는 $\theta_2=-1/(2\sigma^2)$이고 $\sigma^2\gt0$이라 그 조건을 만족해요. $x$와 무관한 항은 $\propto$로 나타낸 비례 상수에 흡수할 수 있지만, 정규화된 PDF를 만들 때는 그 상수를 다시 계산해야 해요.
 
-정규분포 밀도의 중심형 커널은 $g(x)=\exp[-(x-\mu)^2/(2\sigma^2)]$예요. $\int_{-\infty}^{\infty}g(x)\,dx=\sqrt{2\pi\sigma^2}$이므로 $g$에 붙는 정규화 계수는 $1/\sqrt{2\pi\sigma^2}$예요. 이는 [가우시안 정규화](%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize)에서 쓴 조건이에요. 밀도의 전체 적분이 1이어야 한다는 이유로 이 공식을 선택해요.
+정규분포 밀도의 중심형 커널은 $g(x)=\exp[-(x-\mu)^2/(2\sigma^2)]$예요. $\int_{-\infty}^{\infty}g(x)\,dx=\sqrt{2\pi\sigma^2}$이므로 $g$에 붙는 정규화 계수는 $1/\sqrt{2\pi\sigma^2}$예요. 이는 [가우시안 정규화](./%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize)에서 쓴 조건이에요. 밀도의 전체 적분이 1이어야 한다는 이유로 이 공식을 선택해요.
 
 #### 종이에 쓰는 첫 줄
 
@@ -264,6 +268,10 @@ $E(x)=\mu x/\sigma^2-x^2/(2\sigma^2)$.
 #### 답과 검산
 
 정규화하면 $\mathcal N(x\mid\mu,\sigma^2)$예요. 원래 지수형의 정규화 계수에는 $\exp[-\mu^2/(2\sigma^2)]$가 더 들어가요.
+
+#### 조건·구분
+
+$\sigma^2\gt0$이어서 이차항 계수가 음수이고 적분 가능한 종 모양이에요. $\theta$는 평가변수가 아닌 두 계수의 모수벡터예요. 원래 $q(x)=\exp(E(x))$의 계수는 $C=\exp[-\mu^2/(2\sigma^2)]/\sqrt{2\pi\sigma^2}$로, 중심형 커널 앞 계수와 구별해요.
 
 ---
 

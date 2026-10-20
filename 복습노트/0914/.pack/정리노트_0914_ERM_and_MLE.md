@@ -4,6 +4,38 @@
 
 > `정리노트_0914_ERM_and_MLE.html`를 마크다운으로 옮겼어요. 그림은 `figures_0914/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
+**목차**
+
+- [0. 모델은 가정이다](#s0)
+  - [좋은 파라미터를 고르는 기준을 만들어요](#s0-learning-map)
+  - [모델은 suppose, 그리고 선호의 문제](#s0-suppose)
+  - [두 갈래 모델과 학습(트레이닝)의 뜻](#s0-two-models)
+- [1. Empirical Risk Minimization: 좋은 θ* 찾기](#s1)
+  - [Empirical · Risk · Minimization이라는 이름](#s1-erm-name)
+  - [데이터 표기: 볼드 소문자는 벡터](#s1-data)
+  - [좋은 파라미터 θ*와 for all의 뜻](#s1-goal)
+  - [가장 중요한 수식: 어파인 모델과 바이어스 흡수](#s1-affine)
+- [2. 손실 함수와 경험적 위험](#s2)
+  - [데이터 행렬 X와 평균 손실 R_emp](#s2-remp)
+  - [제곱 손실을 행렬 한 줄로 (김밥 재료 손질)](#s2-squared)
+  - [θ를 어떻게 찾나, 그리고 진짜 목표 R_true](#s2-true-risk)
+- [3. 과적합과 정규화](#s3)
+  - [Overfitting과 정규화 최소제곱](#s3-reg)
+  - [여러 가지 노름과 하이퍼파라미터 튜닝](#s3-norms)
+- [4. 확률 모델로: 최대우도추정(MLE)](#s4)
+  - [Likelihood = 그럴듯함, 그리고 −log](#s4-likelihood)
+  - [i.i.d.: 곱을 합으로](#s4-iid)
+  - [가우시안 노이즈면 MLE = 최소제곱](#s4-mle-ls)
+  - [확률 모델은 결정론적 모델을 품는다](#s4-contains)
+- [5. 한 장 요약 · 다음 시간 예고](#s5)
+  - [한 장 치트시트](#s5-cheatsheet)
+  - [다음 시간 예고 (아직 안 배움)](#s5-next)
+  - [함께 보면 좋은 자료](#s5-links)
+
+<a id="s0"></a>
+
+## 0. 모델은 가정이다
+
 <a id="s0-learning-map"></a>
 
 ### 좋은 파라미터를 고르는 기준을 만들어요
@@ -36,40 +68,11 @@
 
 가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.
 
+#### 조건·구분
+
+ERM은 평균 손실을 최소화하고 ML은 관측 우도를 최대화해요. 독립 가정으로 우도를 곱으로 나누고 로그로 합으로 바꾸며, ML의 파라미터는 고정된 미지의 값이에요.
+
 ---
-
-**목차**
-
-- [먼저 큰 그림](#s0-learning-map)
-
-- [0. 모델은 가정이다](#s0)
-  - [모델은 suppose, 그리고 선호의 문제](#s0-suppose)
-  - [두 갈래 모델과 학습(트레이닝)의 뜻](#s0-two-models)
-- [1. Empirical Risk Minimization: 좋은 θ* 찾기](#s1)
-  - [Empirical · Risk · Minimization이라는 이름](#s1-erm-name)
-  - [데이터 표기: 볼드 소문자는 벡터](#s1-data)
-  - [좋은 파라미터 θ*와 for all의 뜻](#s1-goal)
-  - [가장 중요한 수식: 어파인 모델과 바이어스 흡수](#s1-affine)
-- [2. 손실 함수와 경험적 위험](#s2)
-  - [데이터 행렬 X와 평균 손실 R_emp](#s2-remp)
-  - [제곱 손실을 행렬 한 줄로 (김밥 재료 손질)](#s2-squared)
-  - [θ를 어떻게 찾나, 그리고 진짜 목표 R_true](#s2-true-risk)
-- [3. 과적합과 정규화](#s3)
-  - [Overfitting과 정규화 최소제곱](#s3-reg)
-  - [여러 가지 노름과 하이퍼파라미터 튜닝](#s3-norms)
-- [4. 확률 모델로: 최대우도추정(MLE)](#s4)
-  - [Likelihood = 그럴듯함, 그리고 −log](#s4-likelihood)
-  - [i.i.d.: 곱을 합으로](#s4-iid)
-  - [가우시안 노이즈면 MLE = 최소제곱](#s4-mle-ls)
-  - [확률 모델은 결정론적 모델을 품는다](#s4-contains)
-- [5. 한 장 요약 · 다음 시간 예고](#s5)
-  - [한 장 치트시트](#s5-cheatsheet)
-  - [다음 시간 예고 (아직 안 배움)](#s5-next)
-  - [함께 보면 좋은 자료](#s5-links)
-
-<a id="s0"></a>
-
-## 0. 모델은 가정이다
 
 <a id="s0-suppose"></a>
 
@@ -313,7 +316,7 @@ $$
 
 **페이지 요약**
 
-볼드 소문자는 벡터, 라벨은 스칼라이고, 벡터를 세로로 이어 붙이면 D×N 행렬이 돼요.
+볼드 소문자는 벡터, 라벨은 스칼라이고, 열벡터를 옆으로 나란히 붙이면 D×N 행렬이 돼요.
 
 *핵심 식*
 
@@ -332,6 +335,10 @@ $$
 
 - **볼드 소문자** — 관례상 벡터를 뜻하는 표기
 - **지도학습(supervised learning)** — 입력마다 라벨이 붙은 데이터로 배우는 것
+
+#### 조건·구분
+
+각 열벡터를 옆으로 나란히 붙이면 $D\times N$이고, 이를 전치해 데이터 하나를 한 행에 두면 $N\times D$인 $\mathbf{X}$가 돼요.
 
 ---
 
@@ -394,7 +401,7 @@ LLM처럼 파라미터가 수십억 개가 넘는 모델도 결국 이 $\boldsym
 - ERM의 목표
 
   $$
-  f(\mathbf{x}_n, \boldsymbol{\theta}^*) = \hat{y}_n \approx y_n, \quad \text{for all } n = 1, \dots, N
+  \begin{aligned}f(\mathbf{x}_n,\boldsymbol{\theta}^*)&=\hat y_n\approx y_n,\\&\text{for all }n=1,\dots,N\end{aligned}
   $$
 
 *용어*
@@ -500,6 +507,10 @@ GPU가 딥러닝을 잘하는 이유도 여기 있어요. 원래 그래픽용으
 - **augmentation** — 데이터 벡터 앞에 1을 붙여 길이를 D+1로 늘리는 것
 - **활성화 함수(activation function)** — 어파인 함수 출력에 씌우는 sigmoid, ReLU 같은 함수
 
+#### 조건·구분
+
+입력과 계수 모두 길이 $D+1$로 맞춰요. 여기서 augmentation은 바이어스 흡수를 뜻하고, 뉴런은 어파인 출력에 비선형 활성화 함수를 적용해요.
+
 ---
 
 <a id="s2"></a>
@@ -582,6 +593,10 @@ $$
 
 - **경험적 위험(empirical risk)** — 학습 데이터에서 낸 손실의 평균
 - **추정치(estimate)** — 학습 중 모델이 낸 값 $\hat{y}_n$, 햇은 추정을 뜻함
+
+#### 조건·구분
+
+$\mathbf{X}$는 $N\times D$ 입력 행렬, $\mathbf{y}$는 $N\times1$ 라벨 벡터예요. 입력 앞에 1을 붙이면 행 길이는 $D+1$이고, 한 데이터의 손실은 음이 아닌 스칼라예요.
 
 ---
 
@@ -684,6 +699,10 @@ $$
 
 - **최소제곱 문제(least squares problem)** — 제곱 손실의 평균을 가장 작게 하는 θ 찾기
 
+#### 조건·구분
+
+$\mathbf{X},\mathbf{y}$는 고정하고 $\boldsymbol{\theta}$만 최소화해요. $\mathbf{X}\boldsymbol{\theta}$와 잔차는 $N\times1$이며 노름의 제곱은 잔차 성분 제곱의 합이에요. 보충의 $N=D=2$ 계산은 합과 행렬식이 같은지 확인한 것으로, 수업에서 유도하지 않았어요.
+
 ---
 
 <a id="s2-true-risk"></a>
@@ -754,6 +773,10 @@ $$
 - **기대 위험(expected risk)** — 가능한 모든 데이터에 대한 평균 손실
 - **pseudo-inverse** — 최소제곱 해를 체계적으로 구하는 도구, 다음 주에 배움
 
+#### 조건·구분
+
+학습 데이터의 적합이 새 데이터 예측으로 이어지려면 앞으로의 데이터가 지금 데이터와 크게 다르지 않아야 해요. 유한한 데이터에서는 $R_{\text{emp}}$만 직접 계산하고, 남겨 둔 테스트 데이터로 예측 성능을 확인해요.
+
 ---
 
 <a id="s3"></a>
@@ -813,7 +836,6 @@ $\lambda$ 값에 따라 목적 함수가 이렇게 달라져요.
 
 $\lambda=1$처럼 양수를 주면 학습 데이터에 맞추면서도 $\boldsymbol{\theta}$가 원점에서 얼마나 먼지를 함께 따져 균형을 잡는다고 하셨어요. (0914 49:16–49:53)
 
-
 <a id="widget-reg"></a>
 
 #### 직접 해 보기: 정규화 세기 λ *(정적 스냅샷 — 직접 조작은 HTML 버전)*
@@ -859,6 +881,10 @@ $\lambda=1$처럼 양수를 주면 학습 데이터에 맞추면서도 $\boldsym
 - **과적합(overfitting)** — 학습 데이터에 너무 가깝게 맞춰 새 데이터에서 틀리는 현상
 - **regularizer** — 패널티 항 $\|\boldsymbol{\theta}\|^2$
 - **hyperparameter** — 사람이 정하는 $\lambda$, 모델 자체는 바꾸지 않아요
+
+#### 조건·구분
+
+$\lambda=0$이면 경험적 위험만 최소화하고, $\lambda>0$이면 적합 오차와 파라미터 크기를 함께 줄여요. 이 $\lambda$는 함수 꼴을 바꾸는 대신 최소화할 목적함수를 조절해요.
 
 ---
 
@@ -938,6 +964,10 @@ MML은 1-노름을 맨해튼 노름(Manhattan norm), 2-노름을 유클리드 �
 - **희소해(sparse solution)** — 0이 아닌 원소가 적은 해, 1-노름 정규화가 만들어요
 - **Bayesian optimization** — Gaussian process로 하이퍼파라미터를 찾아가는 방법
 
+#### 조건·구분
+
+$\|\theta\|_2^2$은 성분 제곱합이고 $\|\theta\|_1$은 절댓값 합이에요. 보충(MML 3.1)의 노름 세 조건과 L1 영역의 꼭짓점에서 좌표가 0이 되는 직관은 수업에서 유도하지 않았어요. Bayesian optimization도 문제마다 성능이 달라요.
+
 ---
 
 <a id="s4"></a>
@@ -1012,6 +1042,10 @@ $$
 - **우도(likelihood)** — 그럴듯함. 데이터가 이 파라미터에서 나왔을 가능성
 - **단조증가** — $\log$는 단조증가라서 $-\log p$ 최소화가 $p$ 최대화와 같아요
 
+#### 조건·구분
+
+데이터는 고정하고 파라미터를 바꾸므로 우도는 파라미터의 함수이며 데이터에 대한 PDF와 읽는 방향이 달라요. 단조증가인 로그에 음수를 붙이면 우도 최대화가 NLL 최소화로 바뀌어요.
+
 ---
 
 <a id="s4-iid"></a>
@@ -1080,6 +1114,10 @@ i.i.d.면 전체 우도가 곱으로 쪼개지고, 로그를 씌우면 합이 �
 - **i.i.d.** — 독립이고 모두 같은 분포(같은 파라미터)를 따름
 - **일반식** — 분포 모양을 정하기 전까지 성립하는 식
 
+#### 조건·구분
+
+독립 가정이 곱 분해를, 동일 분포 가정이 같은 분포·파라미터 사용을 맡아요. 분포 모양을 아직 정하지 않은 일반식이며 다음 계산에는 노이즈 가정이 필요해요.
+
 ---
 
 <a id="s4-mle-ls"></a>
@@ -1137,8 +1175,11 @@ i.i.d.면 전체 우도가 곱으로 쪼개지고, 로그를 씌우면 합이 �
 1. 관측별 제곱합을 행렬식으로 바꿔요.
 
    $$
-   \mathcal L(\boldsymbol\theta)=C+\frac1{2\sigma^2}\|\mathbf y-\mathbf X\boldsymbol\theta\|^2$$
-$$C=\frac N2\log(2\pi\sigma^2)
+   \mathcal L(\boldsymbol\theta)=C+\frac1{2\sigma^2}\|\mathbf y-\mathbf X\boldsymbol\theta\|^2
+   $$
+
+   $$
+   C=\frac N2\log(2\pi\sigma^2)
    $$
 2. $R_{\rm emp}(\boldsymbol\theta)=\frac1N\|\mathbf y-\mathbf X\boldsymbol\theta\|^2$를 대입해요.
 
@@ -1203,6 +1244,10 @@ MML에 따르면 가우시안 우도에서는 이 문제에 닫힌 해가 있고
 - **가정(suppose)** — 일반식에서 더 내려가려면 노이즈 모양을 정해야 해요
 - **최소제곱(least squares)** — 제곱 손실 합을 최소화하는 문제
 
+#### 조건·구분
+
+i.i.d.이며 공통 가우시안 분산 $\sigma^2$를 주어진 값으로 두고 $\boldsymbol{\theta}$를 최적화하는 경우예요. $\boldsymbol{\theta}$와 무관한 상수항과 양의 배율을 제거해도 최소점이 같아요. 보충(MML Example 8.5)의 상수항·argmin 확인은 수업 밖 유도이고, 최소제곱의 닫힌 해는 다음 주 범위예요.
+
 ---
 
 <a id="s4-contains"></a>
@@ -1256,6 +1301,10 @@ MLE가 최소제곱과 같아진 것은 노이즈를 가우시안으로 가정�
 
 - **델타 함수 PDF** — 밀도가 한 점에 모여 불확실성이 없는 분포
 - **특수한 경우** — 가우시안 노이즈일 때 확률 모델의 해가 최소제곱 해와 같아요
+
+#### 조건·구분
+
+상수는 $\delta(x-c)$처럼 한 점에 질량이 모여 불확실성이 없는 경우로 봐요. 가우시안 잡음에서 MLE와 최소제곱 해가 같다는 사실과 이 포함 관계는 구분해요.
 
 ---
 
@@ -1317,15 +1366,15 @@ MLE가 최소제곱과 같아진 것은 노이즈를 가우시안으로 가정�
 *0914 수업*
 
 - [0914 복습문제 7선 풀러 가기](복습문제_0914_ERM_and_MLE.md)
+- [0909 정리노트: 데이터, 모델, 학습](../../0909/정리노트_0909_Data_Models_Learning.html)
+- [ELI5 Lecture 10: 통계적 추론 1부](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
+- [ELI5 Lecture 11: 통계적 추론 2부](../../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
+- [ELI5 Lecture 12: 통계적 추론 3부](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 복습문제 7문항
 
 - [문제지 PDF](복습문제_0914_ERM_and_MLE-문제.pdf)
 - [해설지 PDF](복습문제_0914_ERM_and_MLE-답안.pdf)
-- [0909 정리노트: 데이터, 모델, 학습](../../0909/정리노트_0909_Data_Models_Learning.html)
-- [ELI5 Lecture 10: 통계적 추론 1부](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
-- [ELI5 Lecture 11: 통계적 추론 2부](../../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
-- [ELI5 Lecture 12: 통계적 추론 3부](../../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)
 
 ---
 

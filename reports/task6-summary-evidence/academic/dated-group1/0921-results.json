@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "pack_id": "0921",
+  "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0921/questions.json",
+  "source_packet_file_sha256": "163e8c249b7612c1b98ff0dcf347499baa644091a3010a9537bc15d08ff30ef4",
+  "packet_payload_sha256": "ea757b0816925f5afa9c3096cd16d74211b99e45f30afca3114399b3c98a092c",
+  "question_payload_sha256": "1ae7190b2f7f8b6a9a9577dea5093acf8b43558c01f84ec8b0fc3a3ab0ae1212",
+  "reviewer": {
+    "identity": "/root/ml_blind_dated_group1",
+    "role": "independent mathematical derivation reviewer",
+    "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+    "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+    "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "b48fa14b26fcb4f02fe5a1e31633fa8024ecaa2f939a7c66771c6bf25423f646",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "qualitative",
+          "derivation": [
+            "The local factor for c is p(c|a,b), so its conditioning/parent variables are a and b."
+          ],
+          "conclusion": "In the represented DAG, c has parents a and b.",
+          "checks": [
+            "A factorization specifies the permitted graphical dependence; it does not alone prove nonzero statistical or causal effects."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "qualitative",
+          "derivation": [
+            "The local factor for b is p(b|a)."
+          ],
+          "conclusion": "b has parent a.",
+          "checks": [
+            "Direct parent read from this factorization."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "qualitative",
+          "derivation": [
+            "The factor p(a) has no conditioning argument."
+          ],
+          "conclusion": "a has no parent in this representation.",
+          "checks": [
+            "A root can still be statistically dependent on descendants; root does not mean marginal independence from every other variable."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p2",
+      "input_sha256": "d8c8ba3dc69f6ca46d5c70a0776799fa77dd2903f9106a8fcafabc260246fa12",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "qualitative",
+          "derivation": [
+            "For each local factor p(node|parents), draw one arrow from every parent into the node. Factors p(c|a,b),p(b|a),p(a) therefore give a to c, b to c, a to b."
+          ],
+          "conclusion": "Arrows: a -> b; a -> c; b -> c.",
+          "checks": [
+            "Order a,b,c is acyclic."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": [
+            "There are three unordered node pairs: {a,b},{a,c},{b,c}. Each is connected by the corresponding arrow."
+          ],
+          "conclusion": "Three arrows; all node pairs are connected.",
+          "checks": [
+            "Complete three-node skeleton; no self arrows or duplicate arrows."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p3",
+      "input_sha256": "8a0b8c6ae81aa21214a90903a69a4971cf0396edb157a4a6e398e25b16119484",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": [
+            "A DAG joint density has one local probability factor per node. The inline SVG contains x1,x2,x3,x4,x5."
+          ],
+          "conclusion": "Five factors (including two root marginals).",
+          "checks": [
+            "Count nodes rather than arrows."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "qualitative",
+          "derivation": [
+            "Trace the SVG endpoint geometry and caption: x1->x3, x2->x3, x5->x2, x2->x4.",
+            "Collect incoming arrows: x1 none; x2 from x5; x3 from x1 and x2; x4 from x2; x5 none."
+          ],
+          "conclusion": "pa(x1)=empty; pa(x2)={x5}; pa(x3)={x1,x2}; pa(x4)={x2}; pa(x5)=empty.",
+          "checks": [
+            "Inline line/polyline arrowheads agree with the supplied caption and accessibility label.",
+            "The order x1,x5,x2,x3,x4 is topological."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "qualitative",
+          "derivation": [
+            "Only x2 has an arrow into x4. The local factor conditions on all and only the represented parents."
+          ],
+          "conclusion": "p(x4|x2).",
+          "checks": [
+            "One local scalar probability/density factor per node value."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p4",
+      "input_sha256": "bb71ff9afec55a25206de6389e8591c7cef0ee5c3b9d36c81a345a1029ad49cf",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": [
+            "Read the same supplied arrow set: x1->x3, x2->x3, x5->x2, x2->x4.",
+            "Root factors are p(x1),p(x5); nonroots give p(x2|x5),p(x3|x1,x2),p(x4|x2). Multiply these five factors."
+          ],
+          "conclusion": "p(x1,x2,x3,x4,x5)=p(x1)p(x5)p(x2|x5)p(x3|x1,x2)p(x4|x2).",
+          "checks": [
+            "Five local factors, one per node.",
+            "If each local distribution is normalized, summing/integrating leaves x3,x4 first, then x2, then roots yields total mass 1."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p5",
+      "input_sha256": "01a7fea5512999b82e091cbaf8177be971dd67697a97532dfc76fdf8df9b82ec",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "Let B2 mean bag 2 and M mean mango. P(B1)=3/5,P(B2)=2/5; P(M|B1)=4/6=2/3; P(M|B2)=4/8=1/2.",
+            "P(M)=(3/5)(2/3)+(2/5)(1/2)=2/5+1/5=3/5.",
+            "Bayes: P(B2|M)=P(M|B2)P(B2)/P(M)=(1/5)/(3/5)=1/3."
+          ],
+          "conclusion": "Probability 1/3.",
+          "checks": [
+            "The two disjoint mango paths sum to 3/5>0.",
+            "Posterior bag1 probability 2/3 plus bag2 1/3 equals 1."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p6",
+      "input_sha256": "e1d9d09abda71f1a08a5cd49ecd8ed7c3ab04a72125a80057555ab7cb59c4a91",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": [
+            "Under the finite-expectation condition integral integral |x| p(x,y) dx dy<infinity, conditional expectation is integrable and Fubini applies.",
+            "E_Y[E_X[X|Y]]=integral p_Y(y)[integral x p(x|y) dx]dy = integral integral x p(x,y) dx dy.",
+            "For p_Y(y)=0 choose any conditional version, since its contribution is zero. Swap order by absolute integrability and use integral p(x,y)dy=p_X(x).",
+            "The result is integral x p_X(x)dx=E_X[X]."
+          ],
+          "conclusion": "E_X[X]=E_Y[E_X[X|Y]] whenever X is integrable; the law also extends to nonnegative X in the extended-value sense.",
+          "checks": [
+            "p(x|y)p_Y(y)=p(x,y) for p_Y-almost every y.",
+            "Normalization alone does not ensure signed expectations exist; no unjustified exchange of divergent integrals."
+          ],
+          "unresolved": [
+            "The packet does not explicitly assume E|X|<infinity or nonnegative X. For arbitrary signed nonintegrable X the displayed expectations may be undefined, so the universal claim needs an existence/integrability condition."
+          ]
+        }
+      ],
+      "unresolved": [
+        "The packet does not explicitly assume E|X|<infinity or nonnegative X. For arbitrary signed nonintegrable X the displayed expectations may be undefined, so the universal claim needs an existence/integrability condition."
+      ]
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "p6",
+      "items": [
+        "The packet does not explicitly assume E|X|<infinity or nonnegative X. For arbitrary signed nonintegrable X the displayed expectations may be undefined, so the universal claim needs an existence/integrability condition."
+      ]
+    }
+  ]
+}

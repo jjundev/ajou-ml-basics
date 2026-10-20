@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "pack_id": "1007",
+  "packet_file_sha256": "c89add3013f65fe5bfba475ca769ad4057a4fb339c80d51d69bee3bf50990d72",
+  "packet_payload_sha256": "1a3d9b34011fe13ff45c5e8070f5516cf191d7bdaa45fe731f3c3e20f9105b8a",
+  "question_payload_sha256": "fead155338118864ec4409fb65bc0009508173bc250fb9598290e68d4773ccaf",
+  "reviewer": {
+    "identity": "independent academic derivation agent /root/ml_blind_dated_group2",
+    "context_isolation": "Only group-2/{0930,1007,1012,1014,1019,hw1}/README.md and questions.json were read as academic inputs. No course source, solutions, reference answers, other reviewers, memory, web, or existing harnesses were consulted. Python/SymPy calculations below are reviewer-authored.",
+    "comparison_status": "not compared; no approval claimed"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "458ee0102fe56a64deafed52823a5097a2c88df3cd326b95e366f14c4b4d624d",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "qualitative",
+          "derivation": "Draw one 6-vector θi~N(0,I6/4). Hold that single vector fixed and evaluate fi(xj)=φ(xj)ᵀθi at all 200 input locations.",
+          "conclusion": "A parameter draw followed by evaluation across the grid produces one function sample.",
+          "checks": "The same θi must be used at every xj; independent draws at each x would not produce one polynomial.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "The monomials x⁰ through x⁵ require six coefficients.",
+          "conclusion": "θ∈R⁶.",
+          "checks": "φ(x) is 6×1, hence θᵀφ(x) is scalar.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "symbolic",
+          "derivation": "At fixed x, f=φ(x)ᵀθ has mean 0 and variance φᵀ(I6/4)φ=(1/4)Σk=0⁵ x^(2k). The shading comes from this prior parameter uncertainty propagated through the polynomial.",
+          "conclusion": "Pointwise prior credible intervals for noiseless function values, with supplied inner 67% and outer 95% levels.",
+          "checks": "No observation noise is included. Different x values are correlated through Cov(f(x),f(x′))=(1/4)Σk=0⁵(xx′)^k. Exact central Gaussian half-width for mass p is Φ⁻¹((1+p)/2) times the standard deviation; 67% is not exactly ±1σ.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "input_sha256": "412f26924ef1500fb90d1c857798217f02c2df11c11f5b49a798509194a68675",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "E[f]=φᵀ0=0. Var(f)=φᵀ(I6/2)φ=(1/2)Σk=0⁵x^(2k). At x=0, φ=(1,0,0,0,0,0)ᵀ; at x=1, φ=(1,1,1,1,1,1)ᵀ.",
+          "conclusion": "x*=0: mean 0, variance 1/2. x*=1: mean 0, variance 3.",
+          "checks": "Uses the question conditions covariance I/2, despite the optional original quotation mentioning I/4; these are different parameter choices, not algebraically interchangeable.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "input_sha256": "d3fba7efa6b6fd495e3d2936b165e08add8656d5a3fa6d02f49608ca3098eeec",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "proof",
+          "derivation": "A nondegenerate Gaussian posterior is maximized at θ=mN because its negative log density differs from (θ-mN)ᵀSN⁻¹(θ-mN)/2 by a constant. Linearity of expectation gives E[f(x)|data]=φ(x)ᵀmN.",
+          "conclusion": "The MAP function equals the BLR posterior mean function.",
+          "checks": "φ,mN:6×1; if the posterior is degenerate, its Gaussian mean still determines the mean function, with mode interpreted on its support.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "qualitative",
+          "derivation": "A Gaussian linear image has f(x)|data~N(φᵀmN,φᵀSNφ). Narrow and wide bands therefore express smaller and larger posterior credible ranges for the latent function at each x. The supplied SVG shows narrower bounds near training points and wider bounds toward the ends.",
+          "conclusion": "Inner and outer pointwise uncertainty bands about the posterior mean function.",
+          "checks": "The figure depicts function uncertainty; adding observation noise would increase the variance by its noise variance.",
+          "assumptions": [],
+          "unresolved": [
+            "The packet does not assign numerical posterior coverage levels to the two bands. 67% and 95% cannot be confirmed for this specific plot from the provided conditions or SVG."
+          ]
+        },
+        {
+          "subpart_id": "c",
+          "method": "qualitative",
+          "derivation": "The posterior distribution on θ induces a distribution on entire functions. A representative sample curve is generated with θi~N(mN,SN), then fi(x)=φ(x)ᵀθi at all x. Overlaying these illustrates plausible functions and their variation after observing data.",
+          "conclusion": "The natural posterior-function interpretation is several posterior parameter draws evaluated as complete curves.",
+          "checks": "Each complete curve uses one shared θi. The supplied SVG only renders panel (b).",
+          "assumptions": [],
+          "unresolved": [
+            "Panel (c) itself and an explicit statement of its sampling construction are not supplied; the posterior-sample reading is the standard interpretation, not visually verified provenance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "input_sha256": "ac5d319edff021554a95e86c45b4751bea74f2852f80ffaf833dfe62b2098d31",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "Marginalizing a Gaussian retains mean entry μ1=1 and covariance entry Σ11=1/2.",
+          "conclusion": "p(x1)=N(x1|1,1/2)=π^(-1/2)exp[-(x1-1)²].",
+          "checks": "Σ=[[1/2,-1],[-1,4]] has determinant 1>0 and positive first leading minor. The marginal integrates to 1 by the Gaussian integral.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "input_sha256": "8cb33e916d882b42417be4df2a319adc34984c8e26dfd237ddc3e7594b9b27b2",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "E[2x-y]=2·1-(-1)=3. Independence gives Var(2x-y)=4·2+(-1)²·3=11. Independent Gaussian sums are Gaussian.",
+          "conclusion": "2x-y~N(3,11).",
+          "checks": "The second Gaussian parameter is interpreted as variance; the squared negative coefficient contributes positive variance.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "input_sha256": "0e1ade754d230f9684dd03b4aca3b2759a2bf79aec66b2d63b4064d2865ff975",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Integrate each mixture component over the discarded coordinate using linearity of integration and Gaussian marginalization. The mixture weights are unaffected because each integrated component remains normalized.",
+          "conclusion": "p(x1)=0.4N(x1|10,1)+0.6N(x1|0,8.4); p(x2)=0.4N(x2|2,1)+0.6N(x2|0,1.7).",
+          "checks": "Weights 0.4+0.6=1. Both component variances are positive. Second covariance determinant=8.4·1.7-4=10.28>0.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "input_sha256": "e890ecfbac15145d20b129b2239a3fe2f725b20cdd63c88886b0b0e506f580d6",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Linearity over the mixture gives E[x1]=0.4·10+0.6·0 and E[x2]=0.4·2+0.6·0.",
+          "conclusion": "E[x1]=4, E[x2]=0.8.",
+          "checks": "The weights sum to one; covariance entries do not change these first moments.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Expectation of a vector is the vector of coordinate expectations.",
+          "conclusion": "E[x]=(4,0.8)ᵀ.",
+          "checks": "2×1 column vector.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "input_sha256": "81ee2920b26221f6245981786286990bef48678cb596bb667aa667a391774c7f",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "Let H=A⁻¹+B⁻¹, h=A⁻¹a+B⁻¹b and k=aᵀA⁻¹a+bᵀB⁻¹b. Expanding both exponents gives xᵀHx-2hᵀx+k. Set C=H⁻¹ and c=Ch, so Hc=h. Then xᵀHx-2hᵀx+k=(x-c)ᵀH(x-c)+k-cᵀHc. The final two terms are independent of x, so normalizing the product leaves Gaussian N(c,C).",
+          "conclusion": "C=(A⁻¹+B⁻¹)⁻¹; c=C(A⁻¹a+B⁻¹b).",
+          "checks": "C is D×D and positive definite, c:D×1. Normalized density is (2π)^(-D/2)|C|^(-1/2) exp[-(x-c)ᵀC⁻¹(x-c)/2]. No commutativity of A and B was used.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    }
+  ]
+}

@@ -371,7 +371,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 예측을 가중평균하는 것과 파라미터 평균 하나를 대입하는 것은 일반적으로 달라요. 선형성과 같은 조건이 있어야 특정 평균 계산이 일치해요.</p>
 <p>이어서 읽기: <a href="#s1-derivation">3. 주변화 → 곱셈 규칙 → 조건부 독립</a> · <a href="#s1-expectation">4. 조건부 기댓값으로 읽기와 델타 함수</a> · <a href="#s3-validation">11. 모델 선택은 선택의 문제: 훈련·검증·테스트</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">FB의 예측 결과는 새 관측값의 분포예요. 모델 선택에서는 검증 성능이나 주변우도 등 서로 다른 기준을 사용할 수 있어요.</p></div>
+<div class="sum" hidden><p class="sum-lead">FB의 예측 결과는 새 관측값의 분포예요. 모델 선택에서는 검증 성능이나 주변우도 등 서로 다른 기준을 사용할 수 있어요.</p><div class="summary-group"><h4>조건·구분</h4><p>FB는 파라미터의 예측을 사후분포로 가중해 주변화해요. 이 가중평균은 일반적으로 파라미터 평균 하나를 대입하는 것과 다르며, 후자가 같으려면 선형성 같은 조건이 필요해요.</p></div></div>
 </article>
 <article class="topic" id="s0-inference"><h3>1. 통계적 추론은 P(A | X) 하나로</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s5–s6</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -429,7 +429,7 @@
             <dt>통계적 추론(statistical inference)</dt><dd>가진 것을 조건으로 궁금한 것의 확률을 구하는 문제</dd>
             <dt>모델(suppose)</dt><dd>데이터가 이렇게 만들어졌다고 내가 가정한 규칙</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>ML은 데이터 우도만, MAP은 prior를 반영한 사후분포를 최대화해요. 둘 다 가정한 모델 안에서 파라미터 하나를 선택해요.</p></div></div>
       </article>
       <article class="topic" id="s0-approx"><h3>2. ML/MAP은 공장 g를 거친 근사</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s6</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -509,7 +509,7 @@
             <dt>잠재 파라미터(latent parameter)</dt><dd>데이터 뒤에 숨어 직접 보이지 않는 $\theta$</dd>
             <dt>There is no free lunch</dt><dd>더 정확한 방법은 그만큼 계산 비용이 든다</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>파라미터를 먼저 추정해 들고 다니면 계산 비용을 줄이지만 추정 오류가 예측으로 이어질 수 있어요. 수업의 “프리트레이닝”은 여기서 일반적인 파라미터 추정을 뜻해요.</p></div></div>
       </article>
     </section>
     <section id="s1"><h2>1. Fully Bayesian 추론</h2>
@@ -707,7 +707,7 @@
             <dt>MCMC(Markov chain Monte Carlo)</dt><dd>샘플로 분포를 근사하는 기법</dd>
             <dt>Laplace approximation</dt><dd>봉우리 주변을 가우시안으로 피팅하는 근사</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>정규화 상수와 예측에 각각 적분이 있고, 작은 값의 곱은 수치 언더플로를 일으킬 수 있어요. ML·MAP의 핵심은 최적화, FB의 핵심은 적분이에요. variational inference와 expectation propagation은 이름만 언급했어요.</p></div></div>
       </article>
     </section>
     <section id="s2"><h2>2. 방향 그래피컬 모델</h2>
@@ -770,7 +770,7 @@
 <ul class="eq-list"><li><span class="eq-name">세 노드 예</span>$$P(a,b,c) = P(c \mid a,b)\, P(b \mid a)\, P(a)$$</li><li><span class="eq-name">일반형</span>$$P(x_1, \dots, x_K) = \prod_{k=1}^{K} P(x_k \mid \mathrm{Pa}_k)$$</li></ul>
 <p class="panel-label">용어</p>
 <dl class="terms"><dt>인수분해(factorization)</dt><dd>결합분포를 조건부 확률의 곱으로 나눠 쓰기</dd><dt>parent / child</dt><dd>화살표가 나가는 노드 / 들어오는 노드</dd></dl>
-</div></article>
+<div class="summary-group"><h4>조건·구분</h4><p>확률 곱셈 규칙으로 다른 순서의 등식도 쓸 수 있지만, 주어진 그래프의 부모 목록을 읽으려면 그 구조에 맞춘 인수분해를 써요.</p></div></div></article>
 <article class="topic" id="s2-coin"><h3>8. N번 동전 던지기와 하이퍼프라이어</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s11</span></div>
 <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">동전 하나를 여러 번 던지면, 모든 결과는 "앞면이 나올 확률" 하나에만 달려 있어요.</p>
 <figure class="figure"><svg id="fig-coin-octopus" viewBox="0 0 400 215" role="img" aria-label="앞면이 나올 확률 상자 하나에서 색칠된 동그라미 여러 개로 화살표가 문어발처럼 뻗어 나가고, 동그라미끼리는 이어지지 않은 그림"><rect x="125.0" y="20.0" width="150" height="40" rx="6" class="fig-ink"/><text x="200" y="40" class="fig-text" text-anchor="middle" dominant-baseline="middle">앞면이 나올 확률</text><line x1="173.4" y1="61.2" x2="64.8" y2="148.1" class="fig-ink"/><polyline points="72.6,146.2 64.8,148.1 68.4,141.0" class="fig-ink"/><circle cx="50" cy="160" r="16" class="fig-dot"/><text x="50" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">첫째</text><line x1="186.4" y1="61.7" x2="135.1" y2="143.9" class="fig-ink"/><polyline points="141.8,139.5 135.1,143.9 136.0,135.9" class="fig-ink"/><circle cx="125" cy="160" r="16" class="fig-dot"/><text x="125" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">둘째</text><line x1="200.0" y1="62.0" x2="200.0" y2="141.0" class="fig-ink"/><polyline points="203.4,133.7 200.0,141.0 196.6,133.7" class="fig-ink"/><circle cx="200" cy="160" r="16" class="fig-dot"/><text x="200" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">셋째</text><text x="275" y="160" class="fig-text" text-anchor="middle" dominant-baseline="middle">…</text><line x1="226.6" y1="61.2" x2="335.2" y2="148.1" class="fig-ink"/><polyline points="331.6,141.0 335.2,148.1 327.4,146.2" class="fig-ink"/><circle cx="350" cy="160" r="16" class="fig-dot"/><text x="350" y="195" class="fig-text" text-anchor="middle" dominant-baseline="middle">마지막</text></svg><figcaption>문어발처럼 한 곳에서 뻗어 나가고, 던진 결과끼리는 서로 영향을 주지 않아요.</figcaption></figure></div>
@@ -822,7 +822,7 @@
 <p class="sum-lead">인과 그래프에는 데이터로 확인되는 관계만 화살표로 넣고, 연관이 작으면 선을 없애요.</p>
 <p class="panel-label">용어</p>
 <dl class="terms"><dt>LUCAS</dt><dd>폐암 관련 요인을 그린 헬스케어 인과 그래프 예제</dd><dt>검증할 수 없는 관계</dt><dd>화살표를 넣지 않아요(예: 손 없는 날)</dd></dl>
-</div></article>
+<div class="summary-group"><h4>조건·구분</h4><p>이 예에서 기침은 폐암과 알레르기 둘 다의 자식이므로 기침만으로 폐암을 단정하지 않아요. 생일 노드는 다른 노드와 연결되지 않아요.</p></div></div></article>
 <article class="topic" id="s2-birthday"><h3>10. 생일 예로 본 ML vs MAP, 그리고 방향 그래프</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s14–s15</span></div>
 <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">몇 명만 보고 "짝수 날 태어나면 산만하다"고 믿으면 성급해요.</p>
 <figure class="figure"><svg id="fig-birthday-bars" viewBox="0 0 430 215" role="img" aria-label="빨간 테두리 막대는 데이터만 믿은 판단으로 80퍼센트, 강조색 테두리 막대는 원래 믿음도 함께 본 판단으로 55퍼센트이고, 반반을 뜻하는 점선이 50퍼센트에 있는 막대그림"><line x1="40" y1="190" x2="380" y2="190" class="fig-ink"/><line x1="40" y1="90.0" x2="380" y2="90.0" class="fig-ink" stroke-dasharray="5 5"/><text x="385" y="90.0" class="fig-text" text-anchor="start" dominant-baseline="middle">반반</text><rect x="80" y="30.0" width="80" height="160.0" class="fig-danger"/><text x="120" y="18.0" class="fig-text" text-anchor="middle" dominant-baseline="middle">80%</text><text x="120" y="208" class="fig-text" text-anchor="middle" dominant-baseline="middle">데이터만 믿기</text><rect x="240" y="79.99999999999999" width="80" height="110.00000000000001" class="fig-accent"/><text x="280" y="67.99999999999999" class="fig-text" text-anchor="middle" dominant-baseline="middle">55%</text><text x="280" y="208" class="fig-text" text-anchor="middle" dominant-baseline="middle">원래 믿음도 함께</text></svg><figcaption>원래 알던 상식을 함께 보면 반반 근처로 조심스럽게 판단해요.</figcaption></figure></div>
@@ -843,7 +843,7 @@
 <p class="sum-lead">작은 데이터만 믿는 ML은 성급할 수 있어서, 사전확률로 판단을 조정하는 것이 MAP이에요.</p>
 <p class="panel-label">용어</p>
 <dl class="terms"><dt>정규화(regularization)</dt><dd>데이터만 믿는 판단을 사전 지식으로 조정하기</dd><dt>사전확률(prior probability)</dt><dd>데이터로 설명할 수 없는 전문가의 믿음 $P(\theta)$</dd><dt>directed graphical model</dt><dd>조건부 확률로 관계를 나타내는 방향 그래프</dd></dl>
-</div></article>
+<div class="summary-group"><h4>조건·구분</h4><p>ML 약 0.8, MAP 약 0.55는 수업이 든 설명용 숫자예요. 실제 prior 분포를 계산해 얻은 보편적인 비율로 읽지 않아요. 수업에서는 방향 그래프만 다뤘어요.</p></div></div></article>
     </section>
     <section id="s3"><h2>3. 모델 선택</h2>
 <article class="topic" id="s3-validation"><h3>11. 모델 선택은 선택의 문제: 훈련·검증·테스트</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s17</span></div>
@@ -906,7 +906,7 @@
             <dt>test set</dt><dd>끝까지 숨겨 뒀다가 최종 성능을 보고하는 데이터</dd>
             <dt>trade-off</dt><dd>model complexity와 data fit 사이의 균형, 넘치면 overfitting</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>예시의 60개로 파라미터를 학습하고 20개로 후보 모델을 선택한 뒤, 끝까지 남긴 test 20개로 최종 성능을 보고해요. 성능이 비슷하면 더 단순한 모델을 고르는 것이 오컴의 면도날이에요.</p></div></div>
       </article>
       <article class="topic" id="s3-cv"><h3>12. 교차 검증</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s17</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">연습 시험 문제를 한 묶음으로 고정하지 않고 돌아가며 바꿔 써요.</p>
@@ -950,7 +950,7 @@
             <dt>validation set</dt><dd>가장 좋은 모델을 고르는 데 쓰는 데이터</dd>
             <dt>일반화(generalization)</dt><dd>test set으로 추정하는, 처음 보는 데이터에서의 성능</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>예시에서는 training 80개를 4조각으로 나누고, 3조각 학습·1조각 검증을 4번 반복해 검증 성능을 모아요. 60:20은 고정된 정답 비율이 아니며 test는 모델 선택에 쓰지 않아요.</p></div></div>
       </article>
       <article class="topic" id="s3-bayes-ms"><h3>13. 베이지안 모델 선택</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s18</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">후보 모델마다 이 데이터를 얼마나 잘 설명하는지 점수를 매기고, 가장 높은 모델을 골라요.</p>
@@ -1010,7 +1010,7 @@
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list">
             <li><span class="eq-name">사후확률</span>$$P(M_k \mid D) \propto P(D \mid M_k)\, P(M_k)$$</li>
-            <li><span class="eq-name">증거</span>$$P(D \mid M_k) = \int P(D \mid \theta_k)\, P(\theta_k \mid M_k)\, d\theta_k = \mathbb{E}_{\theta_k \mid M_k}\!\left[P(D \mid \theta_k)\right]$$</li>
+            <li><span class="eq-name">증거</span>$$\begin{aligned}P(D\mid M_k)&=\int P(D\mid\theta_k)\\&\quad{}\cdot P(\theta_k\mid M_k)\,d\theta_k\\&=\mathbb E_{\theta_k\mid M_k}\\&\quad\left[P(D\mid\theta_k)\right]\end{aligned}$$</li>
             <li><span class="eq-name">모델의 MAP</span>$$M^\ast = \arg\max_{M_k} P(M_k \mid D)$$</li>
           </ul>
           <p class="panel-label">용어</p>
@@ -1018,7 +1018,7 @@
             <dt>증거(evidence)</dt><dd>주변 우도(marginal likelihood), 모델이 데이터를 설명하는 정도의 평균</dd>
             <dt>균등 사전확률(uniform prior)</dt><dd>$P(M_k) = 1/K$, 이때 MAP은 ML과 같아요</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>증거는 해당 모델의 파라미터 prior로 우도를 평균낸 값이에요. 균등 모델 prior이면 posterior 최대화와 증거 최대화가 같고, 점수가 비슷하면 복잡도도 함께 따져요.</p></div></div>
       </article>
       <article class="topic" id="s3-bayes-factor"><h3>14. 베이즈 팩터로 두 모델 비교</h3><div class="tags"><span class="tag date">0921 수업</span><span class="tag slide">L02 s19</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">후보가 둘뿐이면 순위를 매길 필요 없이 두 점수를 나눠 봐요.</p>
@@ -1071,7 +1071,7 @@
             <dt>베이즈 팩터(Bayes factor)</dt><dd>두 모델의 증거의 비, 균등 사전확률이면 이것만 보면 돼요</dd>
             <dt>MCMC</dt><dd>증거 적분이 어려울 때 쓰는 근사 방법</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>균등 prior이면 prior odds=1이라 Bayes factor가 1보다 큰지, 로그비가 0보다 큰지 비교해요. 일반 prior에서는 prior odds도 곱해야 하며, 증거 적분의 MCMC 계산은 뒤 시간 범위예요.</p></div></div>
       </article>
     </section>
     <section id="s4"><h2>4. 한 장 요약 · 다음 시간 예고</h2>
@@ -1132,9 +1132,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1352,7 +1351,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1384,8 +1382,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1408,14 +1404,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

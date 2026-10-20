@@ -4,6 +4,35 @@
 
 > `정리노트_1012_Several_Mathematical_Proofs.html`를 마크다운으로 옮겼어요. 그림은 `figures_1012/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
+**목차**
+
+- [0. 아핀 변환의 평균·분산·교차공분산](#s0)
+  - [가우시안 계산에 필요한 세 도구를 증명해요](#s0-learning-map)
+  - [평균은 같은 꼴로 따라가요](#s0-mean)
+  - [분산은 양쪽에 A와 A의 전치](#s0-variance)
+  - [교차공분산은 A의 전치가 한 번](#s0-cross)
+- [1. 다변량 가우시안 PDF 유도](#s1)
+  - [목표 식과 표준정규에서 출발](#s1-goal)
+  - [X = LZ + μ로 원하는 가우시안 만들기](#s1-lz)
+  - [넓이가 6배면 밀도는 6분의 1](#s1-area)
+  - [determinant는 크기 배율, 일반화는 Jacobian](#s1-jacobian)
+  - [역변환으로 지수부 정리](#s1-inverse)
+  - [det Σ = (det L)²로 완성](#s1-det)
+- [2. 두 가우시안의 곱](#s2)
+  - [스칼라 Lemma: 완전제곱](#s2-lemma)
+  - [스칼라 가우시안 두 개의 곱](#s2-scalar)
+  - [행렬판 Lemma](#s2-matrix-lemma)
+  - [두 다변량 가우시안의 곱](#s2-product)
+  - [강의자료 모양으로 다시 쓰기](#s2-rewrite)
+- [3. 요약 · 예고](#s3)
+  - [한 장 요약](#s3-cheatsheet)
+  - [다음에 이어질 내용 (아직 안 배움)](#s3-next)
+  - [함께 보면 좋은 자료](#s3-links)
+
+<a id="s0"></a>
+
+## 0. 아핀 변환의 평균·분산·교차공분산
+
 <a id="s0-learning-map"></a>
 
 ### 가우시안 계산에 필요한 세 도구를 증명해요
@@ -36,37 +65,11 @@
 
 이 공식을 암기하는 데서 끝내지 않고, 어느 계산에 어떤 도구가 필요한지 구별하는 것이 목표예요.
 
+#### 조건·구분
+
+아핀 변환은 평균·공분산의 전달, 변수변환은 적분값을 보존하는 밀도 조절, 가우시안 곱은 정규화 전 분포 결합을 맡아요. 분산과 표준편차를 구별하고 공분산에는 양쪽 계수와 전치, 밀도에는 절대 부피 배율을 써요.
+
 ---
-
-**목차**
-
-- [먼저 큰 그림](#s0-learning-map)
-
-- [0. 아핀 변환의 평균·분산·교차공분산](#s0)
-  - [평균은 같은 꼴로 따라가요](#s0-mean)
-  - [분산은 양쪽에 A와 A의 전치](#s0-variance)
-  - [교차공분산은 A의 전치가 한 번](#s0-cross)
-- [1. 다변량 가우시안 PDF 유도](#s1)
-  - [목표 식과 표준정규에서 출발](#s1-goal)
-  - [X = LZ + μ로 원하는 가우시안 만들기](#s1-lz)
-  - [넓이가 6배면 밀도는 6분의 1](#s1-area)
-  - [determinant는 크기 배율, 일반화는 Jacobian](#s1-jacobian)
-  - [역변환으로 지수부 정리](#s1-inverse)
-  - [det Σ = (det L)²로 완성](#s1-det)
-- [2. 두 가우시안의 곱](#s2)
-  - [스칼라 Lemma: 완전제곱](#s2-lemma)
-  - [스칼라 가우시안 두 개의 곱](#s2-scalar)
-  - [행렬판 Lemma](#s2-matrix-lemma)
-  - [두 다변량 가우시안의 곱](#s2-product)
-  - [강의자료 모양으로 다시 쓰기](#s2-rewrite)
-- [3. 요약 · 예고](#s3)
-  - [한 장 요약](#s3-cheatsheet)
-  - [다음에 이어질 내용 (아직 안 배움)](#s3-next)
-  - [함께 보면 좋은 자료](#s3-links)
-
-<a id="s0"></a>
-
-## 0. 아핀 변환의 평균·분산·교차공분산
 
 <a id="s0-mean"></a>
 
@@ -164,6 +167,10 @@ $$
 - **선형 연산자(linear operator)** — 합을 나누고 상수를 밖으로 꺼낼 수 있는 연산이에요.
 - **상수(deterministic)** — 랜덤하지 않은 값으로, 기댓값 밖으로 나와요.
 
+#### 조건·구분
+
+$\mathbf X\in\mathbb R^n$의 평균·공분산이 유한하고 $\mathbf A\in\mathbb R^{m\times n}$, $\mathbf b\in\mathbb R^m$가 상수일 때의 식이에요. 결과 평균은 $m\times1$이에요.
+
 ---
 
 <a id="s0-variance"></a>
@@ -202,7 +209,6 @@ $$
    \mathbf{Y} - \mathbb{E}[\mathbf{Y}] = \mathbf{A}\mathbf{X} + \mathbf{b} - (\mathbf{A}\mathbb{E}[\mathbf{X}] + \mathbf{b})
    $$
 
-
    $$
    \mathbf{Y} - \mathbb{E}[\mathbf{Y}] = \mathbf{A}(\mathbf{X} - \mathbb{E}[\mathbf{X}])
    $$
@@ -217,7 +223,6 @@ $$
    (\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T
    $$
 
-
    $$
    \mathrm{Var}[\mathbf{Y}] = \mathbb{E}\left[\mathbf{A}(\mathbf{X}-\boldsymbol{\mu}_X)(\mathbf{X}-\boldsymbol{\mu}_X)^T\mathbf{A}^T\right]
    $$
@@ -226,7 +231,6 @@ $$
    $$
    \mathrm{Var}[\mathbf{Y}] = \mathbf{A}\,\mathbb{E}\left[(\mathbf{X}-\boldsymbol{\mu}_X)(\mathbf{X}-\boldsymbol{\mu}_X)^T\right]\mathbf{A}^T
    $$
-
 
    $$
    \mathrm{Var}[\mathbf{Y}] = \mathbf{A}\,\mathrm{Var}[\mathbf{X}]\,\mathbf{A}^T = \mathbf{A}\boldsymbol{\Sigma}_X\mathbf{A}^T
@@ -302,6 +306,12 @@ $$
 
 - **2차(quadratic)** — 분산은 A가 두 번 곱해져 A에 대해 2차로 커지고, b와는 무관해요.
 
+#### 조건·구분
+
+$\mathbf A\boldsymbol\Sigma_X\mathbf A^T$는 $(m\times n)(n\times n)(n\times m)$인 $m\times m$ 자기 공분산이며 대칭이에요. 가운데 $\boldsymbol\Sigma_X$를 옮기면 안 되고, 차원 검사는 증명 자체가 아니에요.
+
+수업 밖 확인 예제에서는 $\mathrm{Var}(2X_1+3X_2)=16+12+81=109$예요. 교차공분산 항 $12$를 버리면 $97$이 되어 틀려요.
+
 ---
 
 <a id="s0-cross"></a>
@@ -353,7 +363,6 @@ $$
    \mathrm{Cov}(\mathbf{X},\mathbf{Y}) = \mathbb{E}\left[(\mathbf{X}-\boldsymbol{\mu}_X)(\mathbf{X}-\boldsymbol{\mu}_X)^T\right]\mathbf{A}^T
    $$
 
-
    $$
    \mathrm{Cov}(\mathbf{X},\mathbf{Y}) = \boldsymbol{\Sigma}_X\mathbf{A}^T
    $$
@@ -369,7 +378,6 @@ $$
 $$
 \mathrm{Cov}(X_1,Y) = 2\,\mathrm{Var}(X_1) + 3\,\mathrm{Cov}(X_1,X_2) = 8 + 3 = 11
 $$
-
 
 $$
 \mathrm{Cov}(X_2,Y) = 2\,\mathrm{Cov}(X_2,X_1) + 3\,\mathrm{Var}(X_2) = 2 + 27 = 29
@@ -457,6 +465,10 @@ $$
 
 - **교차공분산(cross-covariance)** — 서로 다른 두 확률벡터의 성분끼리 공분산을 모은 표예요.
 - **상관(correlation)** — covariance를 두 표준편차로 나눠 정규화한 값이에요.
+
+#### 조건·구분
+
+수업 밖 확인에서는 $\mathrm{Cov}(\mathbf Y,\mathbf X)=\mathbf A\boldsymbol\Sigma_X\in\mathbb R^{m\times n}$이고, 가중합 예의 두 방향은 $[11,29]^T$와 $[11,29]$예요. 자기 공분산은 정사각·대칭이지만 교차공분산은 그렇지 않을 수 있어요. covariance는 단위에 따라 크기가 달라지고 correlation은 표준편차로 정규화해 $[-1,1]$로 맞춰요.
 
 ---
 
@@ -559,6 +571,10 @@ $$
 - **표준 가우시안(standard Gaussian)** — 평균 0, 분산 1인 정규분포
 - **positive-definite** — 공분산 행렬 Σ가 가져야 하는 성질
 
+#### 조건·구분
+
+여기서 $\boldsymbol\mu\in\mathbb R^n$, $\boldsymbol\Sigma\in\mathbb R^{n\times n}$은 양의 정부호이고, 출발점 $Z_i$들은 서로 독립인 $\mathcal N(0,1)$이에요. 독립성으로 결합밀도를 곱하며 $\sum_i z_i^2=\mathbf z^T\mathbf z$로 묶어요. TA1 s6의 두 번째 $Z_1$은 $Z_2$의 오타예요.
+
 ---
 
 <a id="s1-lz"></a>
@@ -609,7 +625,6 @@ $$
 X_1 = 2Z_1 + 1
 $$
 
-
 $$
 X_2 = Z_1 + 3Z_2 - 1
 $$
@@ -627,14 +642,12 @@ $$
    \mathrm{Var}(X_2) = 1^2 \cdot 1 + 3^2 \cdot 1 + 2 \cdot 1 \cdot 3\,\mathrm{Cov}(Z_1, Z_2)
    $$
 
-
    $$
    = 1 + 9 + 0 = 10
    $$
 3. $$
    \mathrm{Cov}(X_1, X_2) = \mathrm{Cov}(2Z_1 + 1,\, Z_1 + 3Z_2 - 1)
    $$
-
 
    $$
    = 2 \cdot 1\,\mathrm{Var}(Z_1) + 2 \cdot 3\,\mathrm{Cov}(Z_1, Z_2) = 2
@@ -688,6 +701,10 @@ off-diagonal 원소는 두 성분이 얼마나 닮은지를 나타낸다고 설�
 
 - **off-diagonal 원소** — 서로 다른 성분 사이의 공분산, 0이 아니면 두 성분이 닮아 움직여요
 - **가역 행렬(invertible matrix)** — 역행렬이 있어 변환을 되돌릴 수 있는 행렬
+
+#### 조건·구분
+
+$\mathbf L\in\mathbb R^{n\times n}$은 가역이고 $\boldsymbol\mu$는 상수예요. $\mathbf L\mathbf L^T$는 원래 공분산이 $\mathbf I$라서 생긴 특별한 꼴이며, 일반적으로는 가운데 공분산을 유지해요. 예에서 $X_1,X_2$는 $Z_1$을 공유해 공분산이 $2$이므로 독립이 아니고, 변환 후 대각 밖 원소를 $0$이라 가정하면 안 돼요.
 
 ---
 
@@ -798,6 +815,10 @@ L이 넓이를 |det L|배로 키우니, 확률을 지키려면 밀도를 1/|det 
 - **단위정사각형(unit square)** — z-공간에서 넓이 1인 기준 영역
 - **평행사변형(parallelogram)** — 단위정사각형이 L로 옮겨진 모양
 
+#### 조건·구분
+
+PDF 높이는 확률 자체가 아니고 영역 적분이 확률이에요. 가역 변환에서 대응 영역의 확률과 전체 적분 $1$을 보존해요. 위젯의 $\mathbf L=[[a,0],[c,d]]$에서 $c$만 바꾸면 기울기와 공분산 $ac$는 바뀌지만 넓이 $|ad|$는 같아요.
+
 ---
 
 <a id="s1-jacobian"></a>
@@ -883,6 +904,10 @@ determinant는 길이·넓이·부피의 배율이고, 일반 변환에서는 Ja
 
 - **행렬식(determinant)** — 변환된 공간의 크기 배율
 - **Jacobian** — 각 출력을 각 입력으로 편미분해 모은 행렬
+
+#### 조건·구분
+
+크기 배율은 $|\det\mathbf J|$이며 각 방향의 늘어남을 따로 알려 주지는 않아요. 이 아핀 변환에서는 $\mathbf J=\partial\mathbf x/\partial\mathbf z=\mathbf L$이므로 밀도에 $1/|\det\mathbf L|$을 곱해요.
 
 ---
 
@@ -982,6 +1007,10 @@ z를 x로 되돌려 넣으면 지수부 zᵀz가 (x−μ)ᵀΣ⁻¹(x−μ)가 �
   \mathbf{z}^T\mathbf{z} = (\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})
   $$
 
+#### 조건·구분
+
+$\mathbf L$이 가역이어야 역변환을 쓸 수 있어요. $(\mathbf L^{-1})^T=(\mathbf L^T)^{-1}$와 역행렬 곱 순서를 지켜 $\boldsymbol\Sigma^{-1}$로 묶어요. 이 단계에는 앞 계수 $1/|\det\mathbf L|$가 남아 있어 정규화 계수까지 바꿔야 완성이에요.
+
 ---
 
 <a id="s1-det"></a>
@@ -1020,7 +1049,6 @@ z를 x로 되돌려 넣으면 지수부 zᵀz가 (x−μ)ᵀΣ⁻¹(x−μ)가 �
    \det(\boldsymbol{\Sigma}) = \det(\mathbf{L})^2
    $$
 
-
    $$
    \sqrt{|\boldsymbol{\Sigma}|} = |\det(\mathbf{L})|
    $$
@@ -1031,7 +1059,6 @@ z를 x로 되돌려 넣으면 지수부 zᵀz가 (x−μ)ᵀΣ⁻¹(x−μ)가 �
    $$
    f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{|\boldsymbol{\Sigma}|}}\cdot\frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}
    $$
-
 
    $$
    = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}|}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}
@@ -1078,7 +1105,6 @@ det Σ가 (det L)²이라서 1/|det L|을 1/√|Σ|로 바꾸면 목표 식이 �
   \det(\boldsymbol{\Sigma}) = \det(\mathbf{L})^2
   $$
 
-
   $$
   \sqrt{|\boldsymbol{\Sigma}|} = |\det(\mathbf{L})|
   $$
@@ -1087,6 +1113,12 @@ det Σ가 (det L)²이라서 1/|det L|을 1/√|Σ|로 바꾸면 목표 식이 �
   $$
   f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}|}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}
   $$
+
+#### 조건·구분
+
+$\boldsymbol\Sigma$가 양의 정부호라 $\det\boldsymbol\Sigma\gt0$이며 $\sqrt{\det\boldsymbol\Sigma}=|\det\mathbf L|$예요.
+
+수업에서 유도하지 않은 보충 검산은 $\det[[4,2],[2,10]]=36=6^2$로, $\sqrt{36}=6$을 확인해요.
 
 ---
 
@@ -1193,6 +1225,10 @@ TA1 s12의 "We identity"는 "We identify"의 오타예요.
 - **완전제곱(completing the square)** — 2차식을 제곱 한 덩어리와 상수로 바꾸는 것
 - **정규화 상수(normalization constant)** — 적분이 1이 되게 맞추는 상수 $c$
 
+#### 조건·구분
+
+$\alpha\gt0$, $\beta,\gamma\in\mathbb R$가 조건이에요. $x$와 무관한 $\gamma-\beta^2/\alpha$는 평균·분산에는 영향이 없지만 정규화 상수에 포함해야 해요. 정규화 전에는 가우시안에 비례하는 함수예요.
+
 ---
 
 <a id="s2-scalar"></a>
@@ -1282,6 +1318,10 @@ TA1 s13 슬라이드에는 $p_0$가 $\nu_0^2$로 적혀 있어요. $\nu_0$를 �
 
 - **2차식** — 지수 안이 $x^2$, $x$, 상수로 이루어진 식
 - **비례($\propto$)** — 상수배만 다르다는 뜻
+
+#### 조건·구분
+
+$\nu_0,\nu_1$은 표준편차가 아닌 분산이에요. 같은 $x$의 밀도곱은 정규화 전에는 새 PDF와 등호가 아닌 $\propto$로 연결돼요. 새 분산은 두 분산보다 작고 새 평균은 분산이 작은 쪽에 더 큰 가중치를 줘요. TA1 s13의 $\nu_i^2$ 표기는 여기의 분산 $\nu_i$로 바로잡았어요.
 
 ---
 
@@ -1418,6 +1458,12 @@ $$
 - **symmetric** — $\mathbf{A}^T = \mathbf{A}$인 행렬
 - **표준형** — $(\mathbf{x}-\boldsymbol{\mu})^T\mathbf{A}(\mathbf{x}-\boldsymbol{\mu})$처럼 완전제곱으로 묶은 꼴
 
+#### 조건·구분
+
+여기의 $\mathbf A\in\mathbb R^{n\times n}$은 대칭 양의 정부호, $\mathbf b\in\mathbb R^n$는 상수이고 $\gamma$는 스칼라예요. 아핀 변환의 같은 이름 계수와 구별해요. 스칼라 $\mathbf x^T\mathbf A\boldsymbol\mu$의 전치와 $\mathbf A^T=\mathbf A$로 두 교차항을 합쳐요.
+
+$\mathbf A$는 공분산이 아닌 정밀도이고 $\boldsymbol\Sigma=\mathbf A^{-1}$이에요. $\mathbf x$와 무관한 나머지는 정규화로 처리하며, 정규화 상수의 상세 식은 조교가 중요하지 않다며 넘긴 범위예요.
+
 ---
 
 <a id="s2-product"></a>
@@ -1441,7 +1487,6 @@ ${p_0(\mathbf{x}) = \mathcal{N}(\mathbf{x};\boldsymbol{\mu}_0,\boldsymbol{\Sigma
 $$
 p_0(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}_0|}}\exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_0)^T\boldsymbol{\Sigma}_0^{-1}(\mathbf{x}-\boldsymbol{\mu}_0)\right]
 $$
-
 
 $$
 p_1(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\boldsymbol{\Sigma}_1|}}\exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_1)^T\boldsymbol{\Sigma}_1^{-1}(\mathbf{x}-\boldsymbol{\mu}_1)\right]
@@ -1467,7 +1512,6 @@ $$
    $$
    (1) + (2) = \mathbf{x}^T(\boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1})\mathbf{x} - 2(\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1)^T\mathbf{x} + \gamma
    $$
-
 
    $$
    \gamma = \boldsymbol{\mu}_0^T\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\mu}_1^T\boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1
@@ -1523,7 +1567,7 @@ TA1 s18 슬라이드의 (2)항과 전개식 좌변에는 첫 괄호의 전치 $^
 - 계수 맞추기
 
   $$
-  \mathbf{A} = \boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1}, \qquad \mathbf{b} = \boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1
+  \begin{aligned}\mathbf A&=\boldsymbol\Sigma_0^{-1}+\boldsymbol\Sigma_1^{-1},\\\mathbf b&=\boldsymbol\Sigma_0^{-1}\boldsymbol\mu_0\\&\quad+\boldsymbol\Sigma_1^{-1}\boldsymbol\mu_1\end{aligned}
   $$
 - 새 공분산
 
@@ -1533,12 +1577,16 @@ TA1 s18 슬라이드의 (2)항과 전개식 좌변에는 첫 괄호의 전치 $^
 - 새 평균
 
   $$
-  \boldsymbol{\mu} = (\boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1})^{-1}(\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_1^{-1}\boldsymbol{\mu}_1)
+  \begin{aligned}\boldsymbol\mu={}&(\boldsymbol\Sigma_0^{-1}+\boldsymbol\Sigma_1^{-1})^{-1}\\&{}\cdot(\boldsymbol\Sigma_0^{-1}\boldsymbol\mu_0\\&\quad+\boldsymbol\Sigma_1^{-1}\boldsymbol\mu_1)\end{aligned}
   $$
 
 *용어*
 
 - **이차형식(quadratic form)** — $\mathbf{x}^T\mathbf{A}\mathbf{x}$처럼 벡터 양쪽에 행렬을 끼운 2차식
+
+#### 조건·구분
+
+같은 변수 $\mathbf x$에 대한 두 밀도를 곱하는 계산이며 정규화 전에는 $\propto$예요. 대칭 정밀도로 교차항을 모으되 행렬 곱 순서는 그대로 유지해요. TA1 s18의 (2)항에 빠진 첫 괄호 전치는 본문처럼 $(\mathbf x-\boldsymbol\mu_1)^T$로 읽어요.
 
 ---
 
@@ -1663,17 +1711,21 @@ L04 s11의 "Compare… Why?"는 스칼라 결과와 비교하라는 질문이었
 - 공분산 다시 쓰기
 
   $$
-  \boldsymbol{\Sigma} = \left[\boldsymbol{\Sigma}_0^{-1}(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)\boldsymbol{\Sigma}_1^{-1}\right]^{-1} = \boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\Sigma}_0
+  \begin{aligned}\boldsymbol\Sigma&=\bigl[\boldsymbol\Sigma_0^{-1}\\&\quad{}\cdot(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)\boldsymbol\Sigma_1^{-1}\bigr]^{-1}\\&=\boldsymbol\Sigma_1(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}\boldsymbol\Sigma_0\end{aligned}
   $$
 - 강의자료 모양의 결과
 
   $$
-  p_0(\mathbf{x})p_1(\mathbf{x}) \propto \mathcal{N}\left(\boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\mu}_0 + \boldsymbol{\Sigma}_0(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\mu}_1,\ \boldsymbol{\Sigma}_1(\boldsymbol{\Sigma}_0 + \boldsymbol{\Sigma}_1)^{-1}\boldsymbol{\Sigma}_0\right)
+  \begin{aligned}p_0(\mathbf x)p_1(\mathbf x)&\propto\mathcal N(\boldsymbol\mu,\boldsymbol\Sigma),\\\boldsymbol\mu&=\boldsymbol\Sigma_1(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}\boldsymbol\mu_0\\&\quad+\boldsymbol\Sigma_0(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}\boldsymbol\mu_1\end{aligned}
   $$
 
 *용어*
 
 - **하나마나 한 짓** — 값은 그대로 두고 표현만 바꾸는 계산(조교의 말)
+
+#### 조건·구분
+
+행렬은 곱 순서를 바꾸지 않아요. 둘째 평균 항을 소거할 때 공분산을 전치한 동등한 꼴로 써요. $(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-T}=(\boldsymbol\Sigma_0+\boldsymbol\Sigma_1)^{-1}$의 근거는 정방이라는 사실이 아니라 대칭행렬의 역행렬도 대칭이라는 점이에요.
 
 ---
 

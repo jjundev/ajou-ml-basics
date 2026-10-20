@@ -70,6 +70,10 @@
 - **평균(mean) $\mu$** — 분포의 중심
 - **분산(variance) $\sigma^2$** — 퍼진 정도
 
+#### 조건·구분
+
+이번 강의에서는 가우시안 잡음을 가정해 우도를 만들어요.
+
 ---
 
 <a id="s0-mle-map"></a>
@@ -89,12 +93,16 @@ ML 추정치 $\boldsymbol{\theta}_{\text{ML}}$은 음의 로그우도를 최소�
 
 **페이지 요약**
 
-ML은 우도만, MAP은 우도에 사전분포까지 더해 파라미터를 추정해요.
+ML은 우도를 최대화하고, MAP은 우도와 사전분포의 곱에 비례하는 사후분포를 최대화해 파라미터를 추정해요.
 
 *용어*
 
 - **ML 추정치 $\boldsymbol{\theta}_{\text{ML}}$** — 우도(likelihood)만 최대화한 값
 - **MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$** — 우도와 사전분포(prior)를 함께 반영한 값
+
+#### 조건·구분
+
+ML은 음의 로그우도를 최소화하고, MAP은 여기에 $-\log p(\boldsymbol{\theta})$를 더해 최소화해요.
 
 ---
 
@@ -180,7 +188,7 @@ $$
 
 **페이지 요약**
 
-잡음이 정규분포를 따른다고 가정하면, 선형·비선형 모델 모두 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.
+잡음은 정규분포로 가정해요. 이 노트의 입력 기반·특징 기반 모델은 모두 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.
 
 *핵심 식*
 
@@ -198,6 +206,10 @@ $$
 *용어*
 
 - **특징 함수 $\boldsymbol{\phi}(\mathbf{x})$(feature function)** — 입력을 비선형으로 변형하는 함수
+
+#### 조건·구분
+
+입력을 그대로 쓰거나 비선형 특징으로 변형해도, 여기의 모델은 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.
 
 ---
 
@@ -285,7 +297,7 @@ $$
 - 음의 로그우도
 
   $$
-  -\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \text{const}
+  \begin{aligned}&-\log p(\mathcal Y\mid\mathcal X,\boldsymbol\theta)\\&=\frac1{2\sigma^2}\|\mathbf y-\mathbf X\boldsymbol\theta\|^2\\&\quad+\text{const}\end{aligned}
   $$
 
 *용어*
@@ -334,6 +346,10 @@ $$
 
 - **$\mathcal{L}(\boldsymbol{\theta})$** — 제곱 손실로 정의한 경험적 위험(empirical risk)
 
+#### 조건·구분
+
+최적화하는 변수는 $\boldsymbol{\theta}$이며, $\boldsymbol{\theta}$와 무관한 상수는 최소점 위치를 바꾸지 않아요.
+
 ---
 
 <a id="s2-normal-eq"></a>
@@ -376,6 +392,10 @@ $$
 *용어*
 
 - **랭크 조건(rank condition)** — $\mathbf{X}^\top\mathbf{X}$가 역행렬을 가지려면 필요한 조건
+
+#### 조건·구분
+
+본문의 역행렬 조건은 $\operatorname{rk}(\mathbf X)=D$예요.
 
 ---
 
@@ -468,6 +488,10 @@ $f: \mathbb{R}^n \to \mathbb{R}^m$이면 야코비안 $\mathbf{J} = \frac{df}{dx
 
 - **야코비안(Jacobian)** — 벡터 출력 함수의 편미분을 모은 $m \times n$ 행렬
 
+#### 조건·구분
+
+행은 출력 성분, 열은 입력 성분이에요.
+
 ---
 
 <a id="s3-chain"></a>
@@ -508,6 +532,10 @@ $f: \mathbb{R}^n \to \mathbb{R}^m$이면 야코비안 $\mathbf{J} = \frac{df}{dx
 *용어*
 
 - **오차(error)** — $\mathbf{e} = \mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}$, 예측과 관측의 차이
+
+#### 조건·구분
+
+$L=\|\mathbf e\|^2$에서 $\partial L/\partial\mathbf e=2\mathbf e^\top$, $\partial\mathbf e/\partial\boldsymbol{\theta}=-\boldsymbol{\Phi}$를 순서대로 곱해요.
 
 ---
 
@@ -553,6 +581,10 @@ $f: \mathbb{R}^n \to \mathbb{R}^m$이면 야코비안 $\mathbf{J} = \frac{df}{dx
 - **특징 함수(feature) $\boldsymbol{\phi}(\mathbf{x})$** — 입력을 변형한 벡터
 - **다항 회귀(polynomial regression)** — 거듭제곱을 특징으로 쓰는 회귀
 
+#### 조건·구분
+
+다항 특징은 $\boldsymbol\phi(x)=[1,x,\dots,x^{K-1}]^\top$이며 $K$는 특징과 파라미터의 개수예요.
+
 ---
 
 <a id="s4-feature-matrix"></a>
@@ -592,6 +624,10 @@ $f: \mathbb{R}^n \to \mathbb{R}^m$이면 야코비안 $\mathbf{J} = \frac{df}{dx
 
 - **특징 행렬(feature matrix) $\boldsymbol{\Phi} \in \mathbb{R}^{N \times K}$** — 각 행이 한 데이터의 특징 벡터
 
+#### 조건·구분
+
+$\Phi_{ij}=\phi_j(x_i)$이고, $\boldsymbol\phi(\mathbf x)=\mathbf x$이면 앞의 $\mathbf X$가 되는 특수한 경우예요.
+
 ---
 
 <a id="s4-overfit"></a>
@@ -624,6 +660,10 @@ s19는 $N=10$개 데이터에 4차 다항식을 ML로 맞추는 예예요. s20�
 
 - **과적합(overfitting)** — 훈련 데이터에만 맞춰 새 데이터 성능이 떨어지는 현상
 - **테스트 오차(test error)** — 학습에 쓰지 않은 데이터에 대한 오차
+
+#### 조건·구분
+
+본문의 피팅 예는 $N=10$개 데이터에 4차 다항식을 ML로 맞추는 경우예요.
 
 ---
 
@@ -661,6 +701,10 @@ MAP은 음의 로그우도에 사전분포의 $-\log p(\boldsymbol{\theta})$ 항
 
 - **사후분포 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$** — 데이터를 본 뒤 파라미터에 대한 믿음
 - **MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$** — 사전분포까지 반영해 구한 값
+
+#### 조건·구분
+
+사후분포는 우도와 사전분포의 곱에 비례해요. 본문의 입력 독립 가정은 $p(\boldsymbol\theta\mid\mathcal X)=p(\boldsymbol\theta)$예요.
 
 ---
 
@@ -705,6 +749,10 @@ $$
 
 - **가우시안 사전분포 $\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$** — 평균 0, 분산 $b^2$인 사전 믿음
 
+#### 조건·구분
+
+사전분포 $\mathcal N(\mathbf0,b^2\mathbf I)$는 음의 로그에 $\boldsymbol\theta^\top\boldsymbol\theta/(2b^2)$를 더해요. 본문에서 $\sigma^2\mathbf I/b^2$는 계수행렬을 대칭·양의 정부호로 만들어 역행렬을 보장하는 역할이에요.
+
 ---
 
 <a id="s5-general-prior"></a>
@@ -725,11 +773,15 @@ $$
 
 **페이지 요약**
 
-사전분포의 평균과 분산을 임의로 둔 일반 가우시안도 MAP에 쓸 수 있어요.
+사전분포의 평균과 공분산을 둔 일반 가우시안도 MAP에 쓸 수 있어요.
 
 *용어*
 
 - **일반 가우시안 사전분포 $\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$** — 평균 $\mathbf{m}_0$, 공분산 $\mathbf{S}_0$인 사전분포
+
+#### 조건·구분
+
+음의 로그사후분포에는 $\tfrac12(\boldsymbol\theta-\mathbf m_0)^\top\mathbf S_0^{-1}(\boldsymbol\theta-\mathbf m_0)$가 더해져요.
 
 ---
 
@@ -762,6 +814,10 @@ $$
 *용어*
 
 - **정규화 항 $\lambda\|\boldsymbol{\theta}\|^2$** — 파라미터 크기를 누르는 벌점
+
+#### 조건·구분
+
+RLS는 오차제곱합에 $\lambda\|\boldsymbol\theta\|^2$를 더해 최소화해요. 교과서 보충(MML 9.2.4절)은 슬라이드의 $\lambda=1/(2b^2)$와 구별해 s24 식의 스케일에서는 $\lambda=\sigma^2/b^2$라고 설명해요.
 
 ---
 

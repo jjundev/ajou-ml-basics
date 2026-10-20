@@ -22,4 +22,4 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\mu_{t+1}=A\mu_t$, $P=A\Sigma_tA^\top+Q$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>현재 관측 y_t와 다음 관측 y_{t+1}를 구별해요. 아직 다음 관측으로 조건화하지 않아요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>시계열 예측에서 다음상태와 다음관측은 같은 미래 상태를 공유해 상관돼요. $P=A\Sigma_tA^\top+Q$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$\mu_{t+1}=A\mu_t$, $P=A\Sigma_tA^\top+Q$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>조건부 평균은[Aμt,CAμt]ᵀ이고 블록공분산은[[P,PCᵀ],[CP,CPCᵀ+R]]예요. 다음상태 잡음과 측정잡음의 독립으로 빠진 교차항이0이에요. 이전 joint 변환의 A를C,Σx를P로 놓아도 같은결과예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>모든 평균·공분산은 $\mathbf y_1,\ldots,\mathbf y_t$가 주어진 조건 아래예요. 새 잡음은 과거·상태에 독립이며, 아직 $\mathbf y_{t+1}$로 조건화한 갱신분포가 아니에요.</p></div></div>

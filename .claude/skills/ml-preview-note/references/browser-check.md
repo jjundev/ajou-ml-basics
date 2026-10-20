@@ -56,3 +56,7 @@ const textNodes = Array.from(document.querySelectorAll('main *, #panel-right *')
 
 ## 마무리
 `resize_window`(`preset: "desktop"`, `colorScheme: "light"`)로 되돌리고 서버를 종료한다.
+
+## 패널 동작 회귀
+
+임시 stage의 실제 생성 결과를 빈 로컬 HTTP 포트로 제공하여 1280×900 / 375×812, light / dark에서 확인한다. 서로 다른 두 토픽을 이동하면 중앙 h3는 보이고 우측에는 같은 제목이 없어야 한다. `#sum-for.sums`는 하나이며 현재 `.sum:not([hidden])`만 정확한 요약을 표시한다. 표지에는 기존 안내, 문제 카드에는 힌트·풀이와 푼 문제 토글을 확인한다. 문제설명은 문제·원문 탭, 이전/다음, 수식 제목과 긴 수식도 확인한다. 이동·새로고침 전후 read/solved의 실제 키와 ID 배열 payload를 비교하고 콘솔·KaTeX 오류가 0인지 확인한다. 기존 missing-sum 검사가 여전히 누락을 잡아야 한다. 서버·브라우저는 finally에서 종료한다. 고정 PDF 템플릿·인쇄 CSS는 변경하지 않는다.

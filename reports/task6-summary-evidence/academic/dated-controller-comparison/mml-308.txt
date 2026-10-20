@@ -1,0 +1,56 @@
+                     302                                                                          Linear Regression
+                                    2
+                     Φ⊤ Φ + σb2 I is symmetric and strictly positive definite (i.e., its inverse
+                     exists and the MAP estimate is the unique solution of a system of linear
+                     equations). Moreover, it reflects the impact of the regularizer.
+
+                     Example 9.6 (MAP Estimation for Polynomial Regression)
+                     In the polynomial regression
+                                                 example from Section 9.2.1, we place a Gaus-
+                     sian prior p(θ) = N 0, I on the parameters θ and determine the MAP
+                     estimates according to (9.31). In Figure 9.7, we show both the maximum
+                     likelihood and the MAP estimates for polynomials of degree 6 (left) and
+                     degree 8 (right). The prior (regularizer) does not play a significant role
+                     for the low-degree polynomial, but keeps the function relatively smooth
+                     for higher-degree polynomials. Although the MAP estimate can push the
+                     boundaries of overfitting, it is not a general solution to this problem, so
+                     we need a more principled approach to tackle overfitting.
+
+Figure 9.7
+Polynomial                 4                                               4                           Training data
+regression:                                                                                            MLE
+maximum likelihood         2                                               2                           MAP
+and MAP estimates.
+(a) Polynomials of    y    0                                          y    0
+degree 6;
+                          −2        Training data                         −2
+(b) polynomials of                  MLE
+degree 8.                 −4        MAP                                   −4
+
+                               −4       −2          0   2     4                −4     −2      0        2        4
+                                                    x                                         x
+
+                               (a) Polynomials of degree 6.                    (b) Polynomials of degree 8.
+
+
+
+
+                                           9.2.4 MAP Estimation as Regularization
+                     Instead of placing a prior distribution on the parameters θ , it is also pos-
+                     sible to mitigate the effect of overfitting by penalizing the amplitude of
+regularization       the parameter by means of regularization. In regularized least squares, we
+regularized least    consider the loss function
+squares                                                           2             2
+                                                        ∥y − Φθ∥ + λ ∥θ∥2 ,                                   (9.32)
+                     which we minimize with respect to θ (see Section 8.2.3). Here, the first
+data-fit term        term is a data-fit term (also called misfit term), which is proportional to
+misfit term          the negative log-likelihood; see (9.10b). The second term is called the
+regularizer          regularizer, and the regularization parameter λ ⩾ 0 controls the “strict-
+regularization       ness” of the regularization.
+parameter
+                     Remark. Instead of the Euclidean norm ∥·∥2 , we can choose any p-norm
+                     ∥·∥p in (9.32). In practice, smaller values for p lead to sparser solutions.
+                     Here, “sparse” means that many parameter values θd = 0, which is also
+
+                     Draft (2024-01-15) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+
