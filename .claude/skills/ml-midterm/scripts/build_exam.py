@@ -73,3 +73,61 @@ def korean_pdf_source(source,target,config):
  target.write_text(outer(root),encoding='utf-8')
  if korean_content_digest(source,config)!=korean_content_digest(target,config):raise ValueError('Korean PDF projection changed content')
  return target
+
+def build_explain(repo,output,run):
+ from mpe_render import build_explanation,artifact_hashes,dump
+ from mpe_contract import initial_reviews
+ from mpe_types import Artifacts
+ repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve()
+ config=config_for_output(repo,output)
+ errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
+ if errors:raise ValueError('; '.join(errors))
+ pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
+ fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text() for p in pack.problems}
+ errors=[f'{pid}: {e}' for pid,text in fragments.items() for e in check_text(text)]
+ if errors:raise ValueError('; '.join(errors))
+ stage=run/('explanation-'+uuid.uuid4().hex);art=build_explanation(pack,fragments,stage,repo)
+ # Keep this exam's requested reader-facing title across rebuilds.
+ for document in (art.html,art.md):
+  old=f'머신러닝기초 복습 {config.range_} 문제설명'
+  text=document.read_text()
+  if text.count(old)!=(2 if document==art.html else 1):raise ValueError('explanation title replacement mismatch')
+  document.write_text(text.replace(old,f'머신러닝기초 중간고사 모의평가 {config.round_number}회 문제설명'))
+ manifest=json.loads(art.manifest.read_text());files=tuple(sorted(p for p in stage.rglob('*') if p.is_file() and p!=art.manifest));manifest['files']={p.relative_to(stage).as_posix():sha(p) for p in files};dump(art.manifest,manifest)
+ art=Artifacts(art.html,art.md,art.manifest,files+(art.manifest,));review=initial_reviews(pack,fragments);review['artifact_hashes']=artifact_hashes(art)
+ bp=json.loads((output/'.pack/blueprint.json').read_text());refs=[resolve(repo,x['path']) for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
+ pins=json.loads((Path(__file__).resolve().parents[1]/'references/baseline.json').read_text())
+ refs+= [resolve(repo,rel) for rel in pins['files']]
+ refs=list(dict.fromkeys(refs))
+ review['references']=[{'path':str(p),'sha256':sha(p)} for p in refs];review_path=run/'review.json';dump(review_path,review)
+ dump(run/'explanation-result.json',{'stage':str(stage),'html':str(art.html),'md':str(art.md),'manifest':str(art.manifest),'files':[str(p) for p in art.files],'review_path':str(review_path),'source_sha256':pack.sha256,'fragments':{k:__import__('hashlib').sha256(v.encode()).hexdigest() for k,v in fragments.items()},'output':str(output)})
+ return {'pack':pack,'artifacts':art,'review_path':review_path}
+
+def publish_explain(repo,output,run):
+ from mpe_publish import publish_explanation
+ from mpe_types import Artifacts
+ from mpe_render import dump
+ import hashlib
+ repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve()
+ config=config_for_output(repo,output)
+ errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
+ if errors:raise ValueError('; '.join(errors))
+ index=json.loads((run/'explanation-result.json').read_text(encoding='utf-8'))
+ if Path(index['output']).resolve()!=output:raise ValueError('run output mismatch')
+ stage=resolve(repo,index['stage'])
+ if not stage.is_relative_to(run):raise ValueError('stage outside run')
+ fields=[resolve(repo,index[k]) for k in ('html','md','manifest')]
+ files=tuple(resolve(repo,p) for p in index['files'])
+ if any(not p.is_relative_to(stage) for p in fields+list(files)):raise ValueError('artifact outside stage')
+ art=Artifacts(*fields,files)
+ pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
+ fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text(encoding='utf-8') for p in pack.problems}
+ if pack.sha256!=index['source_sha256'] or index['fragments']!={k:hashlib.sha256(v.encode()).hexdigest() for k,v in fragments.items()}:
+  raise ValueError('stale source or fragments: rebuild and review')
+ review_path=resolve(repo,index['review_path'])
+ if not review_path.is_relative_to(run):raise ValueError('review outside run')
+ reviews=json.loads(review_path.read_text(encoding='utf-8'))
+ published=publish_explanation(pack,art,fragments,reviews,output,run/('explanation-backup-'+uuid.uuid4().hex))
+ dump(run/'publish-result.json',{'status':'explanation_published','files':[str(p) for p in published]})
+ return published
+
