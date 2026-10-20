@@ -1,0 +1,1175 @@
+{
+  "review_policy_version": "problem-explain-2026-10-20-row-derivatives",
+  "reviewer": "/root/round02_blind_math",
+  "reviewed_at": "2026-10-20T14:41:41.122407+00:00",
+  "scope": "Final .pack/cards/p1..p10.html and explanations/p1..p10.html plus current question-only input, with independently solved prior blind answers. No generated publication HTML/MD/PDF/browser review is claimed.",
+  "content": {
+    "status": "pass",
+    "reviewer": "/root/round02_blind_math",
+    "evidence": "All 35 subparts manually read; recall cue→concept→symbols/dimensions/assumptions, start, solve reasoning, actual verify, sum/terms, row convention/transpose, bilingual conditions and concise formula usage compared. Structural checks supplement and do not replace semantic review. Three discovered prose/terminology issues were fixed by controller and reread.",
+    "items": {
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p1.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p1.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "v1,v2 are linearly independent.",
+        "recall_review": "문제의 선형독립·선형결합 단서→영벡터 관계와 실수 계수→성분 비교와 두 표현을 빼는 유일성 논증을 연결한다. start는 실제 첫 식 (a,2b)^T를 써 개념 설명을 복제하지 않는다.",
+        "solve_text": "(a)$av_1+bv_2=0$은 $a=0$, $2b=0$이므로 $a=b=0$이에요. 따라서 $v_1,v_2$는 선형독립이에요.",
+        "verify_text": "(a) 검산$(a,2b)=(0,0)$의 두 성분을 따로 풀면 영해만 나와요. 두 벡터의 방향이 겹치지 않는다는 판정과 같아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p1.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p1.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "c=3 v1+2 v2; the coefficients are unique.",
+        "recall_review": "문제의 선형독립·선형결합 단서→영벡터 관계와 실수 계수→성분 비교와 두 표현을 빼는 유일성 논증을 연결한다. start는 실제 첫 식 (a,2b)^T를 써 개념 설명을 복제하지 않는다.",
+        "solve_text": "(b)$a=3$, $2b=4$에서 $b=2$예요. 따라서 $c=3v_1+2v_2$예요. 다른 계수 $a\\prime,b\\prime$도 같은 $c$를 만들면 $(a-a\\prime)v_1+(b-b\\prime)v_2=0$이에요. (a)의 독립성 때문에 두 계수 차이가 0이므로 유일해요.",
+        "verify_text": "(b) 검산$3(1,0)^\\top+2(0,2)^\\top=(3,4)^\\top$예요. 차이식에서 계수 차이가 0이라는 논증이 있으므로 단순히 한 표현을 찾은 데서 끝나지 않았어요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p1:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p1.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p1.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "They are linearly dependent; v1+v2-v3=0.",
+        "recall_review": "문제의 선형독립·선형결합 단서→영벡터 관계와 실수 계수→성분 비교와 두 표현을 빼는 유일성 논증을 연결한다. start는 실제 첫 식 (a,2b)^T를 써 개념 설명을 복제하지 않는다.",
+        "solve_text": "(c)$v_3=v_1+v_2$이므로 $v_1+v_2-v_3=0$이에요. 계수 $(1,1,-1)$는 모두 0이 아니므로 세 벡터는 선형종속이에요.",
+        "verify_text": "(c) 검산$(1,0)^\\top+(0,2)^\\top-(1,2)^\\top=(0,0)^\\top$예요. 0이 아닌 관계를 실제로 확인했어요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p2.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p2.html를 실제 읽고 독립답과 비교했다. 입력2×1/미분1×2이며 pitfall의 열 gradient는 의도적 오답 예시로 구별되어 있다.",
+        "conclusion": "∇_x f=[2(u-1),4(v+1)] (1×2); at (0,0), [-2,4].",
+        "recall_review": "行미분 단서→편미분을 가로로 모음→1×2; Jacobian J_ij=∂g_i/∂x_j에서 출력행·입력열과 두 제곱의 비음수성을 연결한다.",
+        "solve_text": "(a)$$\\nabla_xf=\\begin{pmatrix}2(u-1)&4(v+1)\\end{pmatrix}\\in\\mathbb R^{1\\times2}.$$ $(0,0)$에서는 $\\begin{pmatrix}-2&4\\end{pmatrix}$예요.",
+        "verify_text": "(a) 검산성분별 편미분이 $-2,4$이고 결과를 가로로 모았으므로 차원은 $1\\times2$예요. 입력의 열 방향과 구별해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. 입력2×1/미분1×2이며 pitfall의 열 gradient는 의도적 오답 예시로 구별되어 있다."
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p2.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p2.html를 실제 읽고 독립답과 비교했다. 최초 검토에서 동치인 J_g(u,v)^T와 J_gx를 다르다고 대비한 문장을 발견했다. 컨트롤러 수정 후 이 파일의 J_gx=g(x), (2×2)(2×1)=2×1 문장을 실제 재확인해 오류 해소를 확인했다.",
+        "conclusion": "J_g=[[1,1],[1,-2]], dimensions 2×2.",
+        "recall_review": "行미분 단서→편미분을 가로로 모음→1×2; Jacobian J_ij=∂g_i/∂x_j에서 출력행·입력열과 두 제곱의 비음수성을 연결한다.",
+        "solve_text": "(b)$g_1=u+v$의 두 미분을 첫 행에, $g_2=u-2v$의 두 미분을 둘째 행에 놓아요. $$J_g=\\begin{pmatrix}1&1\\\\1&-2\\end{pmatrix}\\in\\mathbb R^{2\\times2}.$$ 선형함수라 입력값에 의존하지 않아요.",
+        "verify_text": "(b) 검산$J_gx=(u+v,u-2v)^\\top=g(x)$예요. $2\\times2$ Jacobian과 $2\\times1$ 입력의 곱이 원래 $2\\times1$ 출력을 만들므로 출력 행·입력 열의 순서가 맞아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p2:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p2.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p2.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "x=(1,-1)^T, minimum f=0; the global minimizer is unique.",
+        "recall_review": "行미분 단서→편미분을 가로로 모음→1×2; Jacobian J_ij=∂g_i/∂x_j에서 출력행·입력열과 두 제곱의 비음수성을 연결한다.",
+        "solve_text": "(c)$f=(u-1)^2+2(v+1)^2\\ge0$예요. $u=1$, $v=-1$일 때 두 항이 모두 0이므로 $x_*=(1,-1)^\\top$, 최솟값은 0이에요. 0이 되려면 두 제곱이 각각 0이어야 하므로 이 전역 최소점은 유일해요.",
+        "verify_text": "(c) 검산$f(1,-1)=0$이고 모든 $x$에서 $f(x)\\ge0$예요. 정지점 확인에만 머물지 않고 전역성·유일성까지 확인했어요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p3:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p3.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p3.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "z²+(z-2)²=2(z-1)²+2.",
+        "recall_review": "Gaussian 곱 단서→완전제곱; N(z|m,v)의 m, 양의 분산v, 1/(2v) 및 Z 정규화 역할을 연결한다.",
+        "solve_text": "(a)$$z^2+(z-2)^2=2z^2-4z+4=2(z-1)^2+2.$$ 따라서 곱의 지수는 $-(z-1)^2/2-1/2$예요.",
+        "verify_text": "(a) 검산$z=0$에서 왼쪽은 4, 오른쪽도 $2+2=4$예요. 전개하면 두 다항식의 모든 계수가 같아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p3:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p3.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p3.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "q=N(1,1), q(z)=(2π)^(-1/2) exp(-(z-1)²/2).",
+        "recall_review": "Gaussian 곱 단서→완전제곱; N(z|m,v)의 m, 양의 분산v, 1/(2v) 및 Z 정규화 역할을 연결한다.",
+        "solve_text": "(b)$z$에 따른 모양은 $\\exp[-(z-1)^2/2]$예요. $1/(2v)=1/2$에서 $v=1$, 중심은 1이에요. $$q(z)=\\frac1{\\sqrt{2\\pi}}\\exp\\left[-\\frac{(z-1)^2}{2}\\right]=\\mathcal N(z\\mid1,1).$$",
+        "verify_text": "(b) 검산$q$의 앞 계수와 Gaussian 적분을 곱하면 1이에요. 정밀도도 $1/2+1/2=1$이므로 사후 곱의 분산 1과 일치해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p3:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p3.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p3.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Z=exp(-1/2)/sqrt(8π); p0p1 is not itself a probability density.",
+        "recall_review": "Gaussian 곱 단서→완전제곱; N(z|m,v)의 m, 양의 분산v, 1/(2v) 및 Z 정규화 역할을 연결한다.",
+        "solve_text": "(c)$$p_0p_1=\\frac{e^{-1/2}}{4\\pi}\\exp\\left[-\\frac{(z-1)^2}{2}\\right].$$ 뒤 지수함수의 적분은 $\\sqrt{2\\pi}$이므로 $$Z=\\frac{e^{-1/2}\\sqrt{2\\pi}}{4\\pi}=\\frac{e^{-1/2}}{\\sqrt{8\\pi}}.$$ $Z\\ne1$이므로 원래 곱은 정규화된 확률밀도가 아니에요.",
+        "verify_text": "(c) 검산$Zq(z)=e^{-1/2}\\exp[-(z-1)^2/2]/(4\\pi)$로 원래 곱과 같아요. $Z$는 약 $0.121$여서 1이 아니에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p4.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p4.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Φ=[[1,-1],[1,0],[1,1]], y=(1,2,3)^T.",
+        "recall_review": "φ(x)의 두 특징→φ(x_n):2×1, Φ:3×2, 관측행/특징열; 독립 동일분산 Gaussian/열독립과 단위 prior로 ML/MAP 공식 선택을 설명한다.",
+        "solve_text": "(a)$$\\Phi=\\begin{pmatrix}1&-1\\\\1&0\\\\1&1\\end{pmatrix},\\qquad y=\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}.$$ 행은 관측, 열은 절편·입력 특징이에요.",
+        "verify_text": "(a) 검산$\\Phi\\theta=(\\theta_0-\\theta_1,\\theta_0,\\theta_0+\\theta_1)^\\top$로 세 입력의 모델과 같아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p4.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p4.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Φ^TΦ=diag(3,2), Φ^Ty=(6,2)^T, θ_ML=(2,1)^T.",
+        "recall_review": "φ(x)의 두 특징→φ(x_n):2×1, Φ:3×2, 관측행/특징열; 독립 동일분산 Gaussian/열독립과 단위 prior로 ML/MAP 공식 선택을 설명한다.",
+        "solve_text": "(b)열끼리 내적하면 $$\\Phi^\\top\\Phi=\\begin{pmatrix}3&0\\\\0&2\\end{pmatrix},\\quad \\Phi^\\top y=\\begin{pmatrix}6\\\\2\\end{pmatrix}.$$ 따라서 $$\\hat\\theta_{\\rm ML}=\\begin{pmatrix}1/3&0\\\\0&1/2\\end{pmatrix}\\begin{pmatrix}6\\\\2\\end{pmatrix}=\\begin{pmatrix}2\\\\1\\end{pmatrix}.$$",
+        "verify_text": "(b) 검산$\\Phi(2,1)^\\top=(1,2,3)^\\top=y$이므로 오차 0이에요. Gram 행렬식은 $3\\cdot2=6>0$이라 ML이 유일해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p4:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p4.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p4.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "θ_MAP=(3/2,2/3)^T; mean prediction at x*=0 is 3/2.",
+        "recall_review": "φ(x)의 두 특징→φ(x_n):2×1, Φ:3×2, 관측행/특징열; 독립 동일분산 Gaussian/열독립과 단위 prior로 ML/MAP 공식 선택을 설명한다.",
+        "solve_text": "(c)$$\\hat\\theta_{\\rm MAP}=(\\Phi^\\top\\Phi+I_2)^{-1}\\Phi^\\top y=\\begin{pmatrix}6/4\\\\2/3\\end{pmatrix}=\\begin{pmatrix}3/2\\\\2/3\\end{pmatrix}.$$ $x_*=0$에서는 $\\phi(0)=(1,0)^\\top$이므로 평균 예측은 $\\phi(0)^\\top\\hat\\theta_{\\rm MAP}=3/2$예요. prior가 절편과 기울기 모두를 0 쪽으로 당기므로 절편도 줄어요.",
+        "verify_text": "(c) 검산$(\\Phi^\\top\\Phi+I_2)(3/2,2/3)^\\top=(6,2)^\\top$예요. $x_*=0$의 특징은 기울기 항을 0으로 만들므로 예측값이 절편과 같아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p5.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p5.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "E[X]=(1,1)^T.",
+        "recall_review": "확률1/4→기대값 평균; 중심화 외적→2×2 covariance; affine map과 X-first cross-covariance 곱순서 및 b소거를 연결한다.",
+        "solve_text": "(a)각 좌표의 합이 4이므로 $\\mu_X=(1,1)^\\top$예요.",
+        "verify_text": "(a) 검산각 좌표는 0과 2를 같은 확률로 가지므로 두 평균은 각각 1이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p5.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p5.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Σ_X=I2.",
+        "recall_review": "확률1/4→기대값 평균; 중심화 외적→2×2 covariance; affine map과 X-first cross-covariance 곱순서 및 b소거를 연결한다.",
+        "solve_text": "(b)중심화 벡터는 $(-1,-1)^\\top,(1,-1)^\\top,(-1,1)^\\top,(1,1)^\\top$이에요. 각 좌표의 제곱은 모두 1이고 좌표곱의 합은 $1-1-1+1=0$이에요. 따라서 $$\\Sigma_X=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}.$$",
+        "verify_text": "(b) 검산외적 네 개를 합하면 $\\operatorname{diag}(4,4)$이고 4로 나누면 $I_2$예요. 분모 3의 불편표본공분산을 계산한 것이 아니에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p5:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p5.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p5.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "E[Y]=(3,0)^T, Cov(Y)=diag(4,1), Cov(X,Y)=diag(2,1); b has no effect on any covariance.",
+        "recall_review": "확률1/4→기대값 평균; 중심화 외적→2×2 covariance; affine map과 X-first cross-covariance 곱순서 및 b소거를 연결한다.",
+        "solve_text": "(c)공식에 대입하면 $$E[Y]=A\\mu_X+b=\\begin{pmatrix}3\\\\0\\end{pmatrix},$$$$\\operatorname{Cov}(Y)=AI_2A^\\top=\\begin{pmatrix}4&0\\\\0&1\\end{pmatrix},$$$$\\operatorname{Cov}(X,Y)=I_2A^\\top=\\begin{pmatrix}2&0\\\\0&1\\end{pmatrix}.$$ $Y-E[Y]=A(X-\\mu_X)$라 이동 $b$는 두 공분산에 들어가지 않아요.",
+        "verify_text": "(c) 검산$Y$의 실제 네 값은 $(1,-1),(5,-1),(1,1),(5,1)$이에요. 평균 $(3,0)$에서의 차는 $(\\pm2,\\pm1)$이므로 분산 4,1과 교차항 0이 직접 확인돼요. $X$와 $Y$의 첫 좌표 중심곱은 항상 2, 둘째는 항상 1이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p6:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p6.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p6.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "p(y_n|x_n,θ)=(2π)^(-1/2) exp(-(y_n-θ0-x_nθ1)²/2); L(θ)=(2π)^(-1) exp(-[(1-θ0+θ1)²+(3-θ0-θ1)²]/2).",
+        "recall_review": "독립 Gaussian 잡음→고정 조건부 평균→독립 밀도 곱→NLL/SSE→row 정지식 후 transpose; Φ:2×2와 y,θ:2×1을 설명한다.",
+        "solve_text": "(a)잡음에 고정된 평균을 더하므로 $y_n\\mid x_n,\\theta\\sim\\mathcal N(\\theta_0+\\theta_1x_n,1)$이에요. 서로 다른 독립 잡음으로 만들어 조건부 출력들도 독립이에요. $$L(\\theta)=\\prod_{n=1}^2\\frac1{\\sqrt{2\\pi}}e^{-(y_n-\\phi(x_n)^\\top\\theta)^2/2}.$$ 따라서 $$L(\\theta)=\\frac1{2\\pi}\\exp\\left[-\\frac{(1-\\theta_0+\\theta_1)^2+(3-\\theta_0-\\theta_1)^2}{2}\\right].$$",
+        "verify_text": "(a) 검산두 조건부 평균은 $\\theta_0-\\theta_1$, $\\theta_0+\\theta_1$예요. 이를 각 $\\mathcal N(y_n\\mid\\mu_n,1)$에 넣으면 전개식과 같고 상수는 $(\\sqrt{2\\pi})^{-2}=1/(2\\pi)$예요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p6:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p6.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p6.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "-log L=log(2π)+Q(θ)/2, with Q=(1-θ0+θ1)²+(3-θ0-θ1)².",
+        "recall_review": "독립 Gaussian 잡음→고정 조건부 평균→독립 밀도 곱→NLL/SSE→row 정지식 후 transpose; Φ:2×2와 y,θ:2×1을 설명한다.",
+        "solve_text": "(b)두 제곱의 합을 $Q$라 하면 $$-\\log L=\\log(2\\pi)+\\frac12Q.$$ 경험위험은 관측 두 개의 평균 제곱손실 $\\widehat R=Q/2$예요. 따라서 NLL $=\\log(2\\pi)+\\widehat R$이고, 더한 항은 $\\theta$와 무관하므로 최소점이 같아요. 로그가 증가함수라 likelihood 최대화도 같은 점을 골라요.",
+        "verify_text": "(b) 검산$Q$가 2만큼 증가하면 NLL은 1, $\\widehat R$도 1만큼 증가해요. 고정된 상수를 더하는 연산만 남아 최소화 순서가 같아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p6:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p6.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p6.html를 실제 읽고 독립답과 비교했다. 변수θ2×1; row derivative1×2; θ^TG와 y^TΦ의 곱순서; 0_(1×2); 양변 transpose와 G대칭으로 Gθ=Φ^Ty를 모두 명시한다. sum/terms도 같은 전치 흐름이다.",
+        "conclusion": "∇_θ Q=-2(y-Φθ)^TΦ=-2y^TΦ+2θ^TΦ^TΦ=0_(1×2). Then θ^TΦ^TΦ=y^TΦ; transpose both sides to get Φ^TΦθ=Φ^Ty.",
+        "recall_review": "독립 Gaussian 잡음→고정 조건부 평균→독립 밀도 곱→NLL/SSE→row 정지식 후 transpose; Φ:2×2와 y,θ:2×1을 설명한다.",
+        "solve_text": "(c)$G=\\Phi^\\top\\Phi$로 놓고 제곱을 펼쳐요. $$Q=y^\\top y-2y^\\top\\Phi\\theta+\\theta^\\top G\\theta.$$ $G$는 대칭이므로 행 미분은 $$\\nabla_\\theta Q=-2y^\\top\\Phi+2\\theta^\\top G\\in\\mathbb R^{1\\times2}.$$ 이를 $0_{1\\times2}$로 놓으면 $\\theta^\\top G=y^\\top\\Phi$예요. 양변을 전치하고 $G^\\top=G$를 쓰면 $$G\\theta=\\Phi^\\top y\\in\\mathbb R^{2\\times1}.$$ 이것이 정규방정식이에요.",
+        "verify_text": "(c) 검산성분으로 직접 미분하면 $\\nabla_\\theta Q=(4\\theta_0-8,4\\theta_1-4)$예요. $G=2I_2$, $y^\\top\\Phi=(4,2)$를 행 식에 넣은 것과 같아요. 곱 $\\theta^\\top G$와 $y^\\top\\Phi$는 모두 $1\\times2$예요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. 변수θ2×1; row derivative1×2; θ^TG와 y^TΦ의 곱순서; 0_(1×2); 양변 transpose와 G대칭으로 Gθ=Φ^Ty를 모두 명시한다. sum/terms도 같은 전치 흐름이다."
+      },
+      "p6:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p6.html solve[d], verify[d], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p6.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Φ^TΦ=2I2, Φ^Ty=(4,2)^T; θ_ML=(2,1)^T and yhat=(1,3)^T; unique.",
+        "recall_review": "독립 Gaussian 잡음→고정 조건부 평균→독립 밀도 곱→NLL/SSE→row 정지식 후 transpose; Φ:2×2와 y,θ:2×1을 설명한다.",
+        "solve_text": "(d)$$\\Phi=\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\3\\end{pmatrix}.$$ 따라서 $G=2I_2$, $\\Phi^\\top y=(4,2)^\\top$예요. $$\\hat\\theta_{\\rm ML}=G^{-1}\\Phi^\\top y=\\begin{pmatrix}2\\\\1\\end{pmatrix},\\quad \\hat y=\\Phi\\hat\\theta_{\\rm ML}=\\begin{pmatrix}1\\\\3\\end{pmatrix}.$$ $G=2I_2$는 양의 정부호라 $Q$의 Hessian $2G=4I_2$도 양의 정부호이고 이 해가 유일한 전역 최소점이에요.",
+        "verify_text": "(d) 검산두 예측이 실제 y와 같아 $Q=0$이에요. $Q$는 항상 0 이상이고 $\\det\\Phi=2\\ne0$이므로 같은 예측을 만드는 다른 계수도 없어요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p7:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p7.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p7.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "p(θ|D) ∝ p(D|θ)p(θ) ∝ exp(-[(1-θ)²+(3-θ)²+θ²]/2).",
+        "recall_review": "prior/MAP→Bayes formula와 evidence가 θ와 무관함→Gaussian log의 제곱벌점; scalar 차원과 prior분산 역수의 ridge세기를 설명한다.",
+        "solve_text": "(a)Bayes 법칙에서 $p(D)=\\int p(D\\mid u)p(u)\\,du$는 $\\theta$와 무관해요. 그러므로 $$p(\\theta\\mid D)\\propto \\mathcal N(1\\mid\\theta,1)\\mathcal N(3\\mid\\theta,1)\\mathcal N(\\theta\\mid0,1).$$ 즉 $p(\\theta\\mid D)\\propto\\exp[-\\{(1-\\theta)^2+(3-\\theta)^2+\\theta^2\\}/2]$예요.",
+        "verify_text": "(a) 검산세 Gaussian의 지수 분모가 모두 2이므로 세 제곱이 동일한 가중치로 더해져요. 분모 evidence를 생략했으므로 등식 대신 비례식이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p7:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p7.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p7.html를 실제 읽고 독립답과 비교했다. J=Q/2+θ²/2와 2J=Q+θ²를 solve/verify에서 일관되게 다뤄 penalty 배율 모호함이 없다.",
+        "conclusion": "J(θ)=1/2[(1-θ)²+(3-θ)²]+θ²/2 + C. Equivalently, minimize SSE+θ².",
+        "recall_review": "prior/MAP→Bayes formula와 evidence가 θ와 무관함→Gaussian log의 제곱벌점; scalar 차원과 prior분산 역수의 ridge세기를 설명한다.",
+        "solve_text": "(b)상수항을 제외하면 $$J(\\theta)=\\frac12[(1-\\theta)^2+(3-\\theta)^2]+\\frac12\\theta^2.$$ 양수 2를 곱하면 데이터 제곱합 $Q$에 $\\theta^2$가 더해져요. 따라서 $Q+\\lambda\\theta^2$로 쓴 ridge 계수는 $\\lambda=1$이에요.",
+        "verify_text": "(b) 검산$2J=Q+\\theta^2$라 제곱오차 항과 벌점항의 상대계수가 1이에요. 양의 배수는 최소점을 바꾸지 않아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. J=Q/2+θ²/2와 2J=Q+θ²를 solve/verify에서 일관되게 다뤄 penalty 배율 모호함이 없다."
+      },
+      "p7:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p7.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p7.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "θ_MAP=4/3; θ_ML=2, so MAP is closer to the prior mean 0.",
+        "recall_review": "prior/MAP→Bayes formula와 evidence가 θ와 무관함→Gaussian log의 제곱벌점; scalar 차원과 prior분산 역수의 ridge세기를 설명한다.",
+        "solve_text": "(c)$$J\\prime(\\theta)=(\\theta-1)+(\\theta-3)+\\theta=3\\theta-4.$$ 0으로 놓으면 $\\hat\\theta_{\\rm MAP}=4/3$이에요. prior를 제외하면 $Q/2$의 미분은 $2\\theta-4$여서 $\\hat\\theta_{\\rm ML}=2$예요. $J\\prime\\prime=3>0$이고 데이터 항도 곡률 2가 양수라 두 최소점은 각각 유일해요. MAP가 prior 평균 0에 더 가까워요.",
+        "verify_text": "(c) 검산$3(4/3)-4=0$, $2\\cdot2-4=0$예요. 상수 곡률 3과 2는 양수라 정지점이 실제 최소점이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p7:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p7.html solve[d], verify[d], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p7.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "For prior N(0,1/4), θ_MAP=2/3; smaller prior variance increases shrinkage toward 0.",
+        "recall_review": "prior/MAP→Bayes formula와 evidence가 θ와 무관함→Gaussian log의 제곱벌점; scalar 차원과 prior분산 역수의 ridge세기를 설명한다.",
+        "solve_text": "(d)prior 분산이 $1/4$이면 prior 벌점은 $\\theta^2/(2\\cdot1/4)=2\\theta^2$예요. $$J_{1/4}\\prime=(\\theta-1)+(\\theta-3)+4\\theta=6\\theta-4.$$ 따라서 MAP는 $2/3$이에요. $Q$ 기준 벌점계수는 $\\lambda=4$로 커지고, $2>4/3>2/3>0$이므로 더 강하게 0 쪽으로 줄었어요.",
+        "verify_text": "(d) 검산$6(2/3)-4=0$이고 곡률 6은 양수예요. 분산의 역수 4가 미분의 prior 항에 들어간 것도 확인해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p8:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p8.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p8.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "p(y=2|θ)=(2π)^(-1/2) exp(-(2-θ)²/2).",
+        "recall_review": "잡음모델→조건부 likelihood와 Gaussian 곱→posterior; f*=2θ 단서로 a²Var 공식, 독립 새잡음으로 분산합을 선택한다.",
+        "solve_text": "(a)$y=\\theta+\\epsilon$에서 $\\theta$를 고정하면 $y$의 평균은 $\\theta$, 분산은 1이에요. 관측값 2를 대입하면 $$p(y=2\\mid\\theta)=\\mathcal N(2\\mid\\theta,1)=\\frac1{\\sqrt{2\\pi}}e^{-(2-\\theta)^2/2}.$$ 이는 점확률 $P(y=2\\mid\\theta)$가 아닌 밀도값이에요.",
+        "verify_text": "(a) 검산잔차 $2-\\theta$를 평균 0·분산1 잡음 밀도에 넣으면 같은 식이에요. 계수 2가 아니라 관측값 2인 점도 확인해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p8:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p8.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p8.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "θ|y=2 ∼ N(1,1/2), with density π^(-1/2)exp(-(θ-1)²).",
+        "recall_review": "잡음모델→조건부 likelihood와 Gaussian 곱→posterior; f*=2θ 단서로 a²Var 공식, 독립 새잡음으로 분산합을 선택한다.",
+        "solve_text": "(b)prior까지 곱하면 $$g(\\theta)=\\frac1{2\\pi}e^{-\\{(2-\\theta)^2+\\theta^2\\}/2}.$$ 완전제곱은 $(2-\\theta)^2+\\theta^2=2(\\theta-1)^2+2$예요. 따라서 모양은 $e^{-(\\theta-1)^2}$이고 분산은 $1/2$예요. 적분 $\\int e^{-(\\theta-1)^2}d\\theta=\\sqrt\\pi$로 정규화하면 $$p(\\theta\\mid y=2)=\\frac1{\\sqrt\\pi}e^{-(\\theta-1)^2},\\qquad \\theta\\mid y=2\\sim\\mathcal N(1,1/2).$$",
+        "verify_text": "(b) 검산정규화 계수 $1/\\sqrt\\pi$와 적분 $\\sqrt\\pi$의 곱은 1이에요. precision도 prior 1+관측 1=2여서 분산 $1/2$와 맞아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p8:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p8.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p8.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "f*|y=2 ∼ N(2,2), mean 2 and variance 2.",
+        "recall_review": "잡음모델→조건부 likelihood와 Gaussian 곱→posterior; f*=2θ 단서로 a²Var 공식, 독립 새잡음으로 분산합을 선택한다.",
+        "solve_text": "(c)공식에 (b)의 값을 대입해요. $$E[f_*\\mid y=2]=2\\cdot1=2,$$$$\\operatorname{Var}(f_*\\mid y=2)=2^2\\cdot\\frac12=2.$$ Gaussian의 선형변환도 Gaussian이므로 $f_*\\mid y=2\\sim\\mathcal N(2,2)$예요.",
+        "verify_text": "(c) 검산상수배는 분산에 제곱으로 들어가므로 $4\\cdot1/2=2$예요. 분포의 평균 2와 분산 2는 서로 다른 역할이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p8:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p8.html solve[d], verify[d], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p8.html를 실제 읽고 독립답과 비교했다. 새 noise는 (θ,ε)와 독립이어서 관측 조건 후에도 posterior parameter와 독립; variance2는 θ자체가 아니라 2θ로 전파된 성분이다. 발견한 표현을 컨트롤러가 수정한 뒤 최종 verify 문장을 재확인했다.",
+        "conclusion": "y*|y=2 ∼ N(2,3), mean 2 and variance 3.",
+        "recall_review": "잡음모델→조건부 likelihood와 Gaussian 곱→posterior; f*=2θ 단서로 a²Var 공식, 독립 새잡음으로 분산합을 선택한다.",
+        "solve_text": "(d)새 잡음은 관측과 모수로부터 독립이라 조건을 둔 뒤에도 더할 수 있어요. $$E[y_*\\mid y=2]=2+0=2,$$$$\\operatorname{Var}(y_*\\mid y=2)=2+1=3.$$ 따라서 $y_*\\mid y=2\\sim\\mathcal N(2,3)$예요. 분산 차이 1은 새로운 관측잡음의 불확실성이에요.",
+        "verify_text": "(d) 검산새 잡음 평균이 0이라 예측 평균은 그대로이고 분산만 1 증가해요. MAP $\\theta=1$에 고정했다면 분산 1만 남지만 여기서는 모수 불확실성에서 전파된 분산 2도 포함해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. 새 noise는 (θ,ε)와 독립이어서 관측 조건 후에도 posterior parameter와 독립; variance2는 θ자체가 아니라 2θ로 전파된 성분이다. 발견한 표현을 컨트롤러가 수정한 뒤 최종 verify 문장을 재확인했다."
+      },
+      "p9:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p9.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p9.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Under M0, y∼N(0,1). Under M1, y∼N(0,4).",
+        "recall_review": "모델비교→prior 평균 evidence적분→Gaussian 독립합→Bayes factor 및 prior odds; 관측을 넣기 전에 주변분포를 고르는 이유를 설명한다.",
+        "solve_text": "(a)$M_0$에서는 $y\\sim\\mathcal N(0,1)$이에요. $M_1$에서는 $$p(y\\mid M_1)=\\int\\mathcal N(y\\mid\\theta,1)\\mathcal N(\\theta\\mid0,3)d\\theta.$$ 독립인 두 Gaussian의 합이라 평균은 $0+0=0$, 분산은 $3+1=4$예요. 따라서 $p(y\\mid M_1)=\\mathcal N(y\\mid0,4)$예요. 이는 특정 $\\theta$를 선택하는 대신 prior의 모든 값으로 평균낸 결과예요.",
+        "verify_text": "(a) 검산$\\operatorname{Var}(\\theta+\\epsilon)=3+1+2\\operatorname{Cov}(\\theta,\\epsilon)=4$예요. 독립이라 공분산이 0인 조건을 사용했어요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p9:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p9.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p9.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "e0=p(0|M0)=1/sqrt(2π); e1=p(0|M1)=1/sqrt(8π).",
+        "recall_review": "모델비교→prior 평균 evidence적분→Gaussian 독립합→Bayes factor 및 prior odds; 관측을 넣기 전에 주변분포를 고르는 이유를 설명한다.",
+        "solve_text": "(b)관측 $y=0$을 두 밀도에 대입해요. $$p(0\\mid M_0)=\\frac1{\\sqrt{2\\pi}},\\qquad p(0\\mid M_1)=\\frac1{\\sqrt{8\\pi}}.$$ 평균에서 평가하므로 지수항은 둘 다 1이에요.",
+        "verify_text": "(b) 검산표준편차는 각각 1과 2라 평균 위치에서의 높이가 $1:1/2$예요. 두 밀도는 각각 전체 적분 1을 유지해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p9:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p9.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p9.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "B01=2; the observation favors M0.",
+        "recall_review": "모델비교→prior 평균 evidence적분→Gaussian 독립합→Bayes factor 및 prior odds; 관측을 넣기 전에 주변분포를 고르는 이유를 설명한다.",
+        "solve_text": "(c)$$B_{01}=\\frac{1/\\sqrt{2\\pi}}{1/\\sqrt{8\\pi}}=2.$$ 데이터가 $M_0$에 부여하는 밀도가 두 배라 $M_0$에 유리해요. evidence만의 비교와 모델 사후확률은 구분해요.",
+        "verify_text": "(c) 검산$p(0\\mid M_0)=2p(0\\mid M_1)$이므로 비의 방향 $01$과 값 2가 맞아요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p9:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p9.html solve[d], verify[d], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p9.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "Posterior odds M0:M1=2:1; P(M0|y=0)=2/3.",
+        "recall_review": "모델비교→prior 평균 evidence적분→Gaussian 독립합→Bayes factor 및 prior odds; 관측을 넣기 전에 주변분포를 고르는 이유를 설명한다.",
+        "solve_text": "(d)Bayes 식의 공통 분모 $p(y)$를 약분하면 $$\\frac{P(M_0\\mid y)}{P(M_1\\mid y)}=\\frac{P(M_0)}{P(M_1)}\\frac{p(y\\mid M_0)}{p(y\\mid M_1)}.$$ prior odds가 1이므로 posterior odds는 $2:1$이에요. 두 사후확률의 합이 1이라 $P(M_0\\mid0)=2/3$, $P(M_1\\mid0)=1/3$이에요. 연속형 y는 점확률이 0이지만 밀도는 0이 아니에요. 여기서 관측 자료의 likelihood/evidence로 쓰는 것은 밀도값이므로 점확률로 바꾸어 $0/0$을 만들지 않아요.",
+        "verify_text": "(d) 검산정규화 전 가중치는 $(1/2)/\\sqrt{2\\pi}$와 $(1/2)/\\sqrt{8\\pi}$예요. 합으로 나누면 $2/3,1/3$이고 두 값의 합이 1이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p10:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p10.html solve[a], verify[a], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p10.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "θhat=(b^Ty)/(b^Tb)=1.",
+        "recall_review": "수직 단서→b^T(y-bθ)=0; b≠0로 양의 분모, projection matrix와 직교 거리분해 및 Gaussian ML 연결을 설명한다.",
+        "solve_text": "(a)$b^\\top y=2$, $b^\\top b=2$이므로 $2-2\\theta=0$이에요. 따라서 $\\hat\\theta=1$이에요.",
+        "verify_text": "(a) 검산$b^\\top b=2>0$이므로 나눗셈이 가능하고 계수 해가 유일해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p10:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p10.html solve[b], verify[b], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p10.html를 실제 읽고 독립답과 비교했다. ",
+        "conclusion": "yhat=(1,1,0)^T; fitted residual r=(1,-1,1)^T; b^Tr=0.",
+        "recall_review": "수직 단서→b^T(y-bθ)=0; b≠0로 양의 분모, projection matrix와 직교 거리분해 및 Gaussian ML 연결을 설명한다.",
+        "solve_text": "(b)$$\\hat y=b\\hat\\theta=\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix},\\qquad r=y-\\hat y=\\begin{pmatrix}1\\\\-1\\\\1\\end{pmatrix}.$$ $b^\\top r=1-1+0=0$이라 직교해요.",
+        "verify_text": "(b) 검산$\\hat y+r=(2,0,1)^\\top=y$예요. 잔차를 직선 방향과 내적하면 정확히 0이에요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p10:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p10.html solve[c], verify[c], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p10.html를 실제 읽고 독립답과 비교했다. P²=P는 b^Tb를 결합하는 대수적 항등식으로 증명되며 몇 입력의 수치 예만으로 결론 내리지 않는다. verify의 행렬식→행렬곱 용어 수정을 재확인했다.",
+        "conclusion": "P=bb^T/(b^Tb)=[[1/2,1/2,0],[1/2,1/2,0],[0,0,0]]. It satisfies P^T=P and P²=P.",
+        "recall_review": "수직 단서→b^T(y-bθ)=0; b≠0로 양의 분모, projection matrix와 직교 거리분해 및 Gaussian ML 연결을 설명한다.",
+        "solve_text": "(c)$\\hat y=b(b^\\top y)/(b^\\top b)$에서 $$P=\\frac{bb^\\top}{b^\\top b}=\\frac12\\begin{pmatrix}1&1&0\\\\1&1&0\\\\0&0&0\\end{pmatrix}\\in\\mathbb R^{3\\times3}.$$ $bb^\\top$가 대칭이므로 $P^\\top=P$예요. 또한 $$P^2=\\frac{b(b^\\top b)b^\\top}{(b^\\top b)^2}=\\frac{bb^\\top}{b^\\top b}=P.$$",
+        "verify_text": "(c) 검산$Py=(1,1,0)^\\top$로 (b)와 같아요. $Pb=b$이고 마지막 좌표를 0으로 보내 직선 위의 벡터를 보존해요. 대칭·멱등은 (c)의 행렬곱 계산으로 모든 입력에 대해 성립해요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. "
+      },
+      "p10:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "evidence": "중간고사대비/예상문제_2회/.pack/explanations/p10.html solve[d], verify[d], recall, sum, terms 및 중간고사대비/예상문제_2회/.pack/cards/p10.html를 실제 읽고 독립답과 비교했다. r=y-yhat는 fitted residual로 질문(b)에 한영 명시되어 있고 임의θ의 오차분해에서 교차항0과 모든 실수θ에 대한 비음수성을 사용한다.",
+        "conclusion": "||y-bθ||²=||r||²+(θ-1)²||b||²=3+2(θ-1)². The minimum squared error is 3 at θ=1, which is also ML.",
+        "recall_review": "수직 단서→b^T(y-bθ)=0; b≠0로 양의 분모, projection matrix와 직교 거리분해 및 Gaussian ML 연결을 설명한다.",
+        "solve_text": "(d)임의의 $\\theta$에 대해 $y-b\\theta=r+b(\\hat\\theta-\\theta)$예요. $r^\\top b=0$이라 제곱노름을 펼친 교차항이 사라져요. 따라서 $$\\|y-b\\theta\\|^2=\\|r\\|^2+(\\theta-\\hat\\theta)^2\\|b\\|^2=3+2(\\theta-1)^2.$$ 최소 제곱오차는 3이고 $\\theta=1$에서만 달성돼요. 알려진 Gaussian 잡음분산 1에서 NLL은 $\\frac32\\log(2\\pi)+\\frac12\\|y-b\\theta\\|^2$이므로 같은 해가 ML이에요.",
+        "verify_text": "(d) 검산직접 성분 전개한 $(2-\\theta)^2+\\theta^2+1=2\\theta^2-4\\theta+5$도 $3+2(\\theta-1)^2$와 같아요. 모든 실수 $\\theta$에서 추가항이 0 이상이라 일부 수치 예만으로 최소라고 판단하지 않았어요.",
+        "card_solution_exact_text_sync": true,
+        "assumptions_and_dimensions": "Current question assumptions and bilingual conditions match; use row scalar derivatives for the newly authored questions. r=y-yhat는 fitted residual로 질문(b)에 한영 명시되어 있고 임의θ의 오차분해에서 교차항0과 모든 실수θ에 대한 비음수성을 사용한다."
+      }
+    }
+  },
+  "independent": {
+    "status": "pass",
+    "reviewer": "/root/round02_blind_math",
+    "evidence": "All 35 answers and derivations were recorded in blind-review.json before reading cards/explanations. Controller reported answer agreement; this reviewer subsequently compared final solution prose/formulas directly. Current p10 revision only clarifies fitted residual, leaving mathematical problem/solution unchanged. Proof cases use mathematical identities or quantified nonnegativity, not numerical scripts.",
+    "items": {
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "v1,v2 are linearly independent.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p1:a: a v1+b v2=(a,2b)^T=0 implies a=0 and b=0; thus only the trivial relation exists.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "c=3 v1+2 v2; the coefficients are unique.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p1:b: Matching coordinates gives a=3, 2b=4, hence b=2. If two representations existed, their difference would be a zero linear combination, and part (a) forces the coefficient differences to vanish.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p1:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "They are linearly dependent; v1+v2-v3=0.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p1:c: v1+v2=(1,2)^T=v3. The coefficient triple (1,1,-1) is not all zero.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "∇_x f=[2(u-1),4(v+1)] (1×2); at (0,0), [-2,4].",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p2:a: Differentiate each scalar coordinate: ∂f/∂u=2(u-1), ∂f/∂v=4(v+1). Assemble these as a row according to the explicitly stated convention. x is 2×1; its scalar derivative is 1×2.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "J_g=[[1,1],[1,-2]], dimensions 2×2.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p2:b: Rows index outputs (u+v,u-2v); columns index inputs (u,v). Thus the first row is [1,1] and second row [1,-2].",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p2:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "x=(1,-1)^T, minimum f=0; the global minimizer is unique.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p2:c: Both weighted squares are nonnegative, and both vanish at u=1,v=-1. Conversely f=0 requires both squares to be zero; hence the stated point is the sole minimizer.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p3:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "z²+(z-2)²=2(z-1)²+2.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p3:a: Expand: z²+z²-4z+4=2(z²-2z+1)+2.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p3:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "q=N(1,1), q(z)=(2π)^(-1/2) exp(-(z-1)²/2).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p3:b: Each original variance is 2, so p0p1=(4π)^(-1) exp(-[z²+(z-2)²]/4)=(4π)^(-1) exp(-1/2) exp(-(z-1)²/2). Its z-dependent exponent has mean 1 and variance 1; normalizing gives the displayed density.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p3:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "Z=exp(-1/2)/sqrt(8π); p0p1 is not itself a probability density.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p3:c: Integrating the expression from (b) gives Z=(4π)^(-1) exp(-1/2) sqrt(2π)=exp(-1/2)/(2sqrt(2π)). This is positive but not 1, so the nonnegative product lacks unit integral.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "Φ=[[1,-1],[1,0],[1,1]], y=(1,2,3)^T.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p4:a: The three row features are φ(-1)^T=(1,-1), φ(0)^T=(1,0), φ(1)^T=(1,1). Dimensions are Φ:3×2, y:3×1, θ:2×1.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "Φ^TΦ=diag(3,2), Φ^Ty=(6,2)^T, θ_ML=(2,1)^T.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p4:b: Σ1=3, Σx=0, Σx²=2; Σy=6 and Σxy=-1+3=2. Multiplication by diag(1/3,1/2) gives (2,1)^T. The diagonal entries 3 and 2 are positive, so the inverse exists and the solution is unique.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p4:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "θ_MAP=(3/2,2/3)^T; mean prediction at x*=0 is 3/2.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p4:c: The noise variance and prior coefficient variances are 1, including the intercept, so θ_MAP=(Φ^TΦ+I2)^(-1)Φ^Ty=diag(1/4,1/3)(6,2)^T. The prior contributes θ0² as well as θ1² to the equivalent penalized SSE; hence the intercept shrinks from 2 toward the prior mean 0. φ(0)^Tθ_MAP=[1,0]θ_MAP=3/2. Standard formulas are explicitly permitted; no derivative is required here.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "E[X]=(1,1)^T.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p5:a: Average the four vectors: ((0+2+0+2)/4,(0+0+2+2)/4)^T=(1,1)^T.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "Σ_X=I2.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p5:b: Centered vectors are (-1,-1)^T,(1,-1)^T,(-1,1)^T,(1,1)^T. Each diagonal centered square averages to 1; the off-diagonal products 1,-1,-1,1 average to 0. Hence Σ_X=[[1,0],[0,1]], using divisor 4.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p5:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "E[Y]=(3,0)^T, Cov(Y)=diag(4,1), Cov(X,Y)=diag(2,1); b has no effect on any covariance.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p5:c: E[Y]=A(1,1)^T+b=(2,1)^T+(1,-1)^T=(3,0)^T. Y-E[Y]=A(X-E[X]), so Cov(Y)=AΣ_XA^T=diag(4,1) and Cov(X,Y)=E[(X-μ_X)(Y-μ_Y)^T]=Σ_XA^T=diag(2,1). Translation cancels on centering. Dimensions and order: both X,Y are 2×1; both covariance products are 2×2. Gaussianity is unnecessary.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p6:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "p(y_n|x_n,θ)=(2π)^(-1/2) exp(-(y_n-θ0-x_nθ1)²/2); L(θ)=(2π)^(-1) exp(-[(1-θ0+θ1)²+(3-θ0-θ1)²]/2).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:a: Conditional on the fixed inputs and θ, y_n is the translation of an N(0,1) error by θ0+x_nθ1. Conditional independence makes the joint density the product of the two displayed univariate normal densities. This is a likelihood evaluated at fixed observed responses, not a density over θ.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p6:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "-log L=log(2π)+Q(θ)/2, with Q=(1-θ0+θ1)²+(3-θ0-θ1)².",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:b: The Gaussian product has factor (2π)^(-1), so its negative log is log(2π)+Q/2. Empirical mean squared error for N=2 is R_emp=Q/2; here the NLL equals log(2π)+R_emp. Additive constants and positive scaling leave minimizers unchanged.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p6:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "∇_θ Q=-2(y-Φθ)^TΦ=-2y^TΦ+2θ^TΦ^TΦ=0_(1×2). Then θ^TΦ^TΦ=y^TΦ; transpose both sides to get Φ^TΦθ=Φ^Ty.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:c: Let r=y-Φθ be 2×1. Expanding Q=y^Ty-2y^TΦθ+θ^TΦ^TΦθ and differentiating produces the displayed row, because Φ^TΦ is symmetric. Dimensions: θ 2×1, Φ 2×2, Q scalar, gradient 1×2, r^TΦ is (1×2)(2×2). Before transposition both normal-equation sides are 1×2; after transposition they are 2×1. This explicit transposition respects the new problem’s row convention.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p6:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "Φ^TΦ=2I2, Φ^Ty=(4,2)^T; θ_ML=(2,1)^T and yhat=(1,3)^T; unique.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:d: Φ=[[1,-1],[1,1]] and y=(1,3)^T. Direct products give diag(2,2) and (1+3,-1+3)^T=(4,2)^T. Thus θ=(1/2)(4,2)^T, with predictions [2-1,2+1]^T. For nonzero h, h^TΦ^TΦh=2||h||²>0, proving positive definiteness and uniqueness, beyond merely observing a numeric fit.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p7:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "p(θ|D) ∝ p(D|θ)p(θ) ∝ exp(-[(1-θ)²+(3-θ)²+θ²]/2).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:a: Bayes rule gives p(θ|D)=p(D|θ)p(θ)/∫p(D|t)p(t)dt. Independence supplies p(D|θ)=(2π)^(-1)exp(-[(1-θ)²+(3-θ)²]/2); prior p(θ)=(2π)^(-1/2)exp(-θ²/2). Their product is (2π)^(-3/2) times the displayed exponential. The denominator is independent of θ.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p7:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "J(θ)=1/2[(1-θ)²+(3-θ)²]+θ²/2 + C. Equivalently, minimize SSE+θ².",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:b: Take the negative log of the product in (a). In the NLL scaling the prior adds θ²/2 to half the data SSE; after multiplying the whole objective by 2 the penalty added to the unscaled data SSE is θ². State the scaling explicitly to avoid a factor-of-two ambiguity.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p7:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "θ_MAP=4/3; θ_ML=2, so MAP is closer to the prior mean 0.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:c: Differentiate J: J′=(θ-1)+(θ-3)+θ=3θ-4. It vanishes at 4/3; J″=3>0 guarantees a unique global minimum. Without the prior, J_ML′=(θ-1)+(θ-3)=2θ-4, giving 2 with curvature 2>0. The parameter is scalar, so there is no row/column mismatch.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p7:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "For prior N(0,1/4), θ_MAP=2/3; smaller prior variance increases shrinkage toward 0.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:d: Prior precision is 4, so J_new=1/2[(1-θ)²+(3-θ)²]+2θ²+C. J_new′=(θ-1)+(θ-3)+4θ=6θ-4, yielding 2/3 with J_new″=6>0. Data are unchanged; greater precision increases the prior penalty relative to the likelihood.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p8:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "p(y=2|θ)=(2π)^(-1/2) exp(-(2-θ)²/2).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:a: Given θ, y is N(θ,1). Evaluate that continuous density at 2. The notation p(y=2|θ) is explicitly stipulated to mean a density value, not the zero probability of a singleton.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p8:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "θ|y=2 ∼ N(1,1/2), with density π^(-1/2)exp(-(θ-1)²).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:b: Likelihood times prior=(2π)^(-1)exp(-[(2-θ)²+θ²]/2). Complete the square: (2-θ)²+θ²=2(θ-1)²+2. Thus the product is (2π)^(-1)e^(-1)exp(-(θ-1)²). Its integral is e^(-1)/(2sqrt(π)), because ∫exp(-(θ-1)²)dθ=sqrt(π). Division yields the stated normalized posterior. The normal exponent -(θ-1)²/(2s²) gives s²=1/2.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p8:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "f*|y=2 ∼ N(2,2), mean 2 and variance 2.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:c: An affine transform of the posterior Gaussian gives E[2θ|y]=2·1=2 and Var(2θ|y)=2²·(1/2)=2.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p8:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "y*|y=2 ∼ N(2,3), mean 2 and variance 3.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:d: ε* is independent of (θ,ε), and y is a function of (θ,ε). Thus p(ε*,θ|y)=p(ε*)p(θ|y): conditioning on y preserves independence of ε* from the posterior parameter and leaves ε*∼N(0,1). Sum the independent posterior Gaussian 2θ∼N(2,2) and ε*∼N(0,1), giving N(2,2+1). The added 1 is fresh observation noise uncertainty.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p9:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "symbolic",
+        "conclusion": "Under M0, y∼N(0,1). Under M1, y∼N(0,4).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:a: p(y|M1)=∫p(y|θ,M1)p(θ|M1)dθ=∫N(y|θ,1)N(θ|0,3)dθ. This averages the conditional density over the prior parameter. Equivalently, independent Gaussian θ+ε has mean 0+0=0 and variance 3+1=4. Under M0 the response is just ε. The second normal parameter is variance in the stated model.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p9:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "e0=p(0|M0)=1/sqrt(2π); e1=p(0|M1)=1/sqrt(8π).",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:b: Evaluate a normal density (2πs²)^(-1/2) exp(-y²/(2s²)) at zero. The exponential is 1; the standard deviations are 1 and 2 respectively.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p9:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "B01=2; the observation favors M0.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:c: B01=e0/e1=[1/sqrt(2π)]/[1/sqrt(8π)]=2. This ratio is in the explicitly declared M0-over-M1 direction.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p9:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "Posterior odds M0:M1=2:1; P(M0|y=0)=2/3.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:d: Posterior odds equal Bayes factor times prior odds: 2×[(1/2)/(1/2)]=2. Normalizing gives e0/(e0+e1)=2/3 and P(M1|0)=1/3. Although both point probabilities P(Y=0|Mi) are zero, the observation is represented by densities with respect to the same measure. For a small interval (-δ/2,δ/2), its probability is e_i δ+o(δ); their ratio tends to e0/e1. Replacing both evidences by zero would discard the information carried by the local densities and produce an undefined ratio.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p10:a": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "θhat=(b^Ty)/(b^Tb)=1.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:a: Orthogonality b^T(y-bθ)=0 gives b^Ty-θ b^Tb=0. Here b^Ty=2 and b^Tb=2>0, so θhat=1.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p10:b": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "exact",
+        "conclusion": "yhat=(1,1,0)^T; fitted residual r=(1,-1,1)^T; b^Tr=0.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:b: Multiply b by θhat=1 and subtract from (2,0,1)^T. The dot product equals 1·1+1·(-1)+0·1=0.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p10:c": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "P=bb^T/(b^Tb)=[[1/2,1/2,0],[1/2,1/2,0],[0,0,0]]. It satisfies P^T=P and P²=P.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:c: For any vector z, projection onto span(b) is b(b^Tz)/(b^Tb), giving P. Transposition leaves bb^T unchanged, so P is symmetric. Algebraically P²=bb^Tbb^T/(b^Tb)²=b(b^Tb)b^T/(b^Tb)²=P. This exact identity proves idempotence without relying on numerical testing. Multiplication by y gives (1,1,0)^T. Dimensions: b 3×1, P 3×3, Py 3×1.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      },
+      "p10:d": {
+        "status": "pass",
+        "reviewer": "/root/round02_blind_math",
+        "method": "proof",
+        "conclusion": "||y-bθ||²=||r||²+(θ-1)²||b||²=3+2(θ-1)². The minimum squared error is 3 at θ=1, which is also ML.",
+        "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:d: Here r is the fitted residual y-bθhat from (b). Decompose y-bθ=r+b(θhat-θ). Expansion gives ||r||²+2(θhat-θ)b^Tr+(θhat-θ)²||b||². The cross term vanishes by b^Tr=0. Since ||r||²=1+1+1=3 and ||b||²=2>0, the unique global minimum occurs at θ=1. For ε∼N(0,I3), L(θ)=(2π)^(-3/2)exp(-||y-bθ||²/2); maximizing this strictly decreasing function of the squared error yields the same θ.",
+        "blind_result_precedes_answer_review": true,
+        "comparison_to_final_card_and_explanation": "pass"
+      }
+    }
+  },
+  "source_visual": {
+    "status": "pass",
+    "reviewer": "/root/round02_blind_math",
+    "evidence": "source-review.md; source-evidence/contact-1.png..contact-7.png opened with view_image. 27 complete PDF pages visually inspected and 34 page texts read; exact page lists and formula mappings recorded. MML207 is the direct Gaussian-product source; MML208 is contextual mixture material. Lecture04p24 matrix-division shorthand is not propagated into generated solutions.",
+    "visual_pages": {
+      "mml": [
+        46,
+        153,
+        156,
+        198,
+        200,
+        207,
+        208,
+        300,
+        302,
+        307,
+        308,
+        312,
+        314,
+        315,
+        319,
+        320
+      ],
+      "hw": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "l04": [
+        14,
+        17,
+        20,
+        24
+      ]
+    },
+    "text_pages": {
+      "mml": [
+        46,
+        47,
+        153,
+        155,
+        156,
+        194,
+        196,
+        198,
+        200,
+        207,
+        208,
+        298,
+        299,
+        300,
+        302,
+        307,
+        308,
+        309,
+        312,
+        314,
+        315,
+        319,
+        320
+      ],
+      "hw": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "l04": [
+        14,
+        17,
+        20,
+        24
+      ]
+    }
+  },
+  "per_problem_checks": [
+    {
+      "problem_id": "p1",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p2",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p3",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p4",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p5",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p6",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p7",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p8",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p9",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    },
+    {
+      "problem_id": "p10",
+      "sections": "7 required sections in order, single hidden sum",
+      "solve_verify_subparts": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "recall_semantic_review": "pass",
+      "sum_terms_sync": "pass",
+      "card_explanation_solution_sync": "pass",
+      "bilingual_current_question": "pass",
+      "formula_application_and_proof_review": "pass"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "p2:b",
+      "problem": "J_g(u,v)^T and J_gx were falsely contrasted despite x=(u,v)^T.",
+      "resolution": "Controller removed contrast and gave correct matrix-vector dimension check; final fragment reread.",
+      "status": "resolved"
+    },
+    {
+      "id": "p8:d",
+      "problem": "Parameter variance 2 could be read as Var(θ)=2, whereas posterior Var(θ)=1/2.",
+      "resolution": "Controller changed phrase to propagated variance 2 from parameter uncertainty; final fragment reread.",
+      "status": "resolved"
+    },
+    {
+      "id": "p10:c",
+      "problem": "행렬식 calculation incorrectly named the matrix-product idempotence calculation.",
+      "resolution": "Controller changed to 행렬곱 calculation; final fragment reread.",
+      "status": "resolved"
+    }
+  ],
+  "nonblocking_source_notes": [
+    "MML PDF208 discusses a mixture, whereas product formula is directly on PDF207.",
+    "Lecture04 PDF24 general K-dimensional scalar-fraction shorthand is not a valid matrix division; current authored material uses correct MML matrix inverses or rank-one scalar denominator."
+  ],
+  "derivative_checker": {
+    "status": "pass",
+    "command": "python .claude/skills/ml-review-pack/scripts/check_vector_derivatives.py <20 explicitly enumerated card/explanation HTML paths>",
+    "result": {
+      "status": "pass",
+      "errors": []
+    }
+  },
+  "artifact_hashes": {
+    "중간고사대비/예상문제_2회/.pack/cards/p1.html": "f03de69d87089f414ac699e28c17161803d42051adc43fc806b3a6bcba11f987",
+    "중간고사대비/예상문제_2회/.pack/explanations/p1.html": "862a84737f8dfb97ac4fe7e134f9d20444be1f3ef17542fa14cf73b5f0d99844",
+    "중간고사대비/예상문제_2회/.pack/cards/p2.html": "ac165c168a74804fc5eb46933d2a7f7cedcd3a8b2258e4b1934b30b7fefd7814",
+    "중간고사대비/예상문제_2회/.pack/explanations/p2.html": "7b6a973f4a504af650c5219342358a271ca26c2eaca976faa3750def01af442e",
+    "중간고사대비/예상문제_2회/.pack/cards/p3.html": "5d4f3bbff15812231d3319c368e71c82b606524ecf40ad75290c1babd55e217a",
+    "중간고사대비/예상문제_2회/.pack/explanations/p3.html": "b15d4d5841e84d43ae01d0cd5a539265d01fe7cbda11aa1be7424ffa00ad50a3",
+    "중간고사대비/예상문제_2회/.pack/cards/p4.html": "9f0b5be4d9e8636f3908e8536f107a15d143c639f640418b9c990db273f1f65d",
+    "중간고사대비/예상문제_2회/.pack/explanations/p4.html": "1f9da1ef5db81ddabb33630020636728fe53d1fdd8c4545579818f89c7b99d78",
+    "중간고사대비/예상문제_2회/.pack/cards/p5.html": "3464295dcdaac5ca262641626c68b8f1b71b8f79457acdece26b5abd538ec241",
+    "중간고사대비/예상문제_2회/.pack/explanations/p5.html": "c6cc038ae3e55b2a0dfa09c783bb649ba95d621c39dad1d317e8aeb6f27b95b7",
+    "중간고사대비/예상문제_2회/.pack/cards/p6.html": "ad5e6dff9b31475cce89a16d838570b36f7f4935b8ec063a0e4094d2802fe541",
+    "중간고사대비/예상문제_2회/.pack/explanations/p6.html": "82462fb69849b14e0aecb1a2595505b504a3d24afe19fef2d11ec04c291d4642",
+    "중간고사대비/예상문제_2회/.pack/cards/p7.html": "887ae1c4a70e50a87e90ca8be794bca5695161f55340c1a86fc76d44d7e364f9",
+    "중간고사대비/예상문제_2회/.pack/explanations/p7.html": "f5c54107a03de7931368fe4329a1a0f89e59c0bfbfe07ff11382ac1aa447daa9",
+    "중간고사대비/예상문제_2회/.pack/cards/p8.html": "60d844f47526b69f4c8b43e3b5afbe3f970575e048e6b3d4f9f195bb7dd1d8b1",
+    "중간고사대비/예상문제_2회/.pack/explanations/p8.html": "ec8d8d0946cf28737bc2c769fb2723a1cca01046301247605b85c62409dca57f",
+    "중간고사대비/예상문제_2회/.pack/cards/p9.html": "76f0b30b8df0d4fe6e58c94c8faa8ad713ab958eea6a1b4bc9e46661516db87f",
+    "중간고사대비/예상문제_2회/.pack/explanations/p9.html": "f68e9f9bbe27e61cb6f39ff6c06ec392751b3c3de869fa8a916ced136768eb82",
+    "중간고사대비/예상문제_2회/.pack/cards/p10.html": "2e45fc46bedd71900d3587897b8a48adae9ba204063e76627249caf74e3cc0a4",
+    "중간고사대비/예상문제_2회/.pack/explanations/p10.html": "03c57766bd717bca3edef29a76bc94a31f446123254ab0235484dfe92936e0f8"
+  },
+  "references": [
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/tmp/ml-midterm/round02-easier-20261020/questions-only.json",
+      "sha256": "c2aad1a1d3150210616be3e9cf3d1bce53fd703439c77b22fccec2535be5741c"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/tmp/ml-midterm/round02-easier-20261020/blind-review.json",
+      "sha256": "8c02c77237382117ee3e58ad71f5e27830f30882bfb8ec1ac7f0a3ae5a76f6dc"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/tmp/ml-midterm/round02-easier-20261020/blind-review.md",
+      "sha256": "102c774ba2a6ae4dc353a891f7c20b08fbf11740b902cac742ac55a58344c6a5"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/.agents/skills/ml-review-pack/references/vector-derivative-convention.md",
+      "sha256": "0d5a0c2b71096c46e1be098ab218df9ffc1f9a84edd9d113121c90463257dd92"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/.agents/skills/ml-problem-explain/references/authoring.md",
+      "sha256": "a211aef575b96ea611a4e9794493db2426987be2e814d1e8b9754515e8db463a"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/.agents/skills/ml-problem-explain/references/verification.md",
+      "sha256": "280884ea97e3820082dbad2ebb5851336f20dea6b9cab3f1aff427dfccbb775a"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/교과서/Mathematics_for_Machine_Learning.pdf",
+      "sha256": "3f87b70c64a35d30ec4e565b4d5cfd18fe913002d3b3bed44691c7d0838911bc"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/과제/과제1/26_10_Introduction_to_Machine_Learning_homework1_rev.pdf",
+      "sha256": "4aaa039018637dc052419554ee6b6f0c069a32289c791d73d40ea87ed6fc6bd8"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/강의노트/Lecture04_Linear_Regression_Part2_rev_HO.pdf",
+      "sha256": "0fc58bff676fe751eadae57ba34864ad0b1b7da76b1a6007c243d25d00017a4e"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p1.html",
+      "sha256": "f03de69d87089f414ac699e28c17161803d42051adc43fc806b3a6bcba11f987"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p2.html",
+      "sha256": "ac165c168a74804fc5eb46933d2a7f7cedcd3a8b2258e4b1934b30b7fefd7814"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p3.html",
+      "sha256": "5d4f3bbff15812231d3319c368e71c82b606524ecf40ad75290c1babd55e217a"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p4.html",
+      "sha256": "9f0b5be4d9e8636f3908e8536f107a15d143c639f640418b9c990db273f1f65d"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p5.html",
+      "sha256": "3464295dcdaac5ca262641626c68b8f1b71b8f79457acdece26b5abd538ec241"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p6.html",
+      "sha256": "ad5e6dff9b31475cce89a16d838570b36f7f4935b8ec063a0e4094d2802fe541"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p7.html",
+      "sha256": "887ae1c4a70e50a87e90ca8be794bca5695161f55340c1a86fc76d44d7e364f9"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p8.html",
+      "sha256": "60d844f47526b69f4c8b43e3b5afbe3f970575e048e6b3d4f9f195bb7dd1d8b1"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p9.html",
+      "sha256": "76f0b30b8df0d4fe6e58c94c8faa8ad713ab958eea6a1b4bc9e46661516db87f"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/cards/p10.html",
+      "sha256": "2e45fc46bedd71900d3587897b8a48adae9ba204063e76627249caf74e3cc0a4"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p1.html",
+      "sha256": "862a84737f8dfb97ac4fe7e134f9d20444be1f3ef17542fa14cf73b5f0d99844"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p2.html",
+      "sha256": "7b6a973f4a504af650c5219342358a271ca26c2eaca976faa3750def01af442e"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p3.html",
+      "sha256": "b15d4d5841e84d43ae01d0cd5a539265d01fe7cbda11aa1be7424ffa00ad50a3"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p4.html",
+      "sha256": "1f9da1ef5db81ddabb33630020636728fe53d1fdd8c4545579818f89c7b99d78"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p5.html",
+      "sha256": "c6cc038ae3e55b2a0dfa09c783bb649ba95d621c39dad1d317e8aeb6f27b95b7"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+      "sha256": "82462fb69849b14e0aecb1a2595505b504a3d24afe19fef2d11ec04c291d4642"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+      "sha256": "f5c54107a03de7931368fe4329a1a0f89e59c0bfbfe07ff11382ac1aa447daa9"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+      "sha256": "ec8d8d0946cf28737bc2c769fb2723a1cca01046301247605b85c62409dca57f"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p9.html",
+      "sha256": "f68e9f9bbe27e61cb6f39ff6c06ec392751b3c3de869fa8a916ced136768eb82"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+      "sha256": "03c57766bd717bca3edef29a76bc94a31f446123254ab0235484dfe92936e0f8"
+    },
+    {
+      "path": "C:/Users/Hyunjun/Desktop/현준대학/26-2/ajou-ml-basics/tmp/ml-midterm/round02-easier-20261020/source-review.md",
+      "sha256": "61350ccd498776eac54eee0c4110b648d60efdc0486e640f7509260b8f0ad636"
+    }
+  ],
+  "browser": {
+    "status": "not_run",
+    "evidence": "Outside this content/source assignment; no browser or final publication review claimed."
+  },
+  "source_evidence_hashes": {
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-1.png": "058c80635fd844a50a2d750d7b8b897e12dccb9b010f4f2580a2c880852b6bdf",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-2.png": "f89fd3a697b8ccbc254f8a0dfe33ea21f5c64cff7f84397b0e849b34b04dd19a",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-3.png": "4e379b9b67cb62f6d2d9fab34dd2e54dfd8611ccc1387c7e0a527e974c4c0f75",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-4.png": "b988528e2d72fb1fad3c4af2aa50461f8b94f71b255c5f810cfa9616032b5c03",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-5.png": "789204e5dd9f74115e5b4dd0efbdd2e46bcbed71ac6410adb89f5e9584fe4003",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-6.png": "e179b2972854a7ad105adb89e0197f07d81cde862b44d9a7da9d5a0e1c04d338",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/contact-7.png": "9ae462d8affc2a810b976e204705055286ddd552566bd506886c73253dddd331",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-003.png": "929e9b3fc96fdc3ce752073213fbb5348554487eab81712bb902779a5e46b910",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-004.png": "5d781b7ebedf17e030ef1e1af7b7c86d1aa9bad387fd734a2edbedaed2c0edee",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-005.png": "4e20f11701728789cd4339f27cd81c8802c0bcb1c5d5f327925e8f043b3ced15",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-006.png": "a2abc8fcfadff90b1dd5b08938ca3763a312762f75ba90b9afce5e2538ba21dd",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-007.png": "345b98a97932906b2ef906cbf2cefcc68ecbb9e13c3eca438bea2531d0315efc",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-008.png": "2deedea2764e5ba9f95b24a6dbc40c9ccdc21bdf7b5808e9fa19a0f4e9393b7d",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-009.png": "7b9a9b94840f5d58a833cf2a10230ac581ca43ef6a20803084ff4ff69f318571",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/hw-text.txt": "a1de2b657a05935efe68990a0972f0038cb69c72e7518da64224866deae63668",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/l04-014.png": "431df35258c95e9d1d00306a1d0feaa26a6ea5f60eb1ac7d1f47ca64c781fbef",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/l04-017.png": "429e22330cd128fd1eaaf879d57de23323a7046fd1098e37db53d5550314b3d4",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/l04-020.png": "77aae2e692ec2a63fb3552c3a8e67c6eb11125488907b40333ca5ee54b3c3741",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/l04-024.png": "25618582817c7dded9cb6d3565d191deab62270db7f610ed3061c1d47102b6e6",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/l04-text.txt": "10a7c3c359ba53a4db65277ab0408826fa02ddb97fcc22c316b10f10a2bbf685",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-046.png": "4241e83979e8dcd94efe5c2c66d394c8a8d658f547cd43f3889c234e7e7fa260",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-047.png": "6f239e2e7263ca1ec238bb9a89d0beafb09277ec3129b555575145e3fa306b70",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-153.png": "7f89e1316bb8ed74c56bfb892bb95c0924c934fd9e5b080beee9ca2a0651dd1b",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-155.png": "0b1e00b030ff440390e03221c89f34237b2f9efe8f618640859027c8d00e4fc2",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-156.png": "bfd81d67feeee4262c240f9c5ffe5e443eeefed616a5f98aa3a9fe7c3ac9bf7b",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-194.png": "f8a2a7c2edb81d0c460bc2a7120a2546ce4a3f4a6b5c610b731a4075e4708329",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-196.png": "9cd50b024406afd523720c3e588dbde8d637c22f7b82dc735ef517af71498400",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-198.png": "96ac48011b9a083054ac2959f8cb6402d361f1b5b216edc57659a48269139d60",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-200.png": "b710f3d50b5f4fe849f0b9da70eec9199472803bcc2e21d2b4e02750d935999a",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-207.png": "08c9e778f830b479ec628b63f72162ba7cc801bbbe1305ab046138b5d322e1b6",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-208.png": "5532b6e8b5965d11730f1538b3ecdcd82b1d7a519c2bb3bf98350194141bf963",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-298.png": "de33a8cf20857721e2d07e9965d0fefd1f653401034d09f9a5168086f6984743",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-299.png": "9860b9adb2d137bcf5ffc20bf83b553d98d6fef2f3ce8c42b539ab7e5d24ad44",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-300.png": "6a880ce7de5ed7b4d546ad2a9cd9254903ff8b0d71bed8aa8ab90f38abefea2e",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-302.png": "b689ae8362c8ad6c13c56d17e5e58a85dfbd80849b29e8cb9576d7c5df38cec1",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-307.png": "b9fe9d178ee899c02538d19851b7d9a746de2d6c86cc439c86165d611182d944",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-308.png": "aa5d0633146465ad0af55646c10a38d917332d2625795ae03180fbb8868f733e",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-309.png": "52b59fa455177fc89776a074004ffa517c64a6c7daefb98ac13b8fdf13cbeb03",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-312.png": "95946b0532047bb0e4d7f3d923198c75de1621f335ab9193228bed65d5308925",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-314.png": "0c8ad4ab9f34405352e0a1ce4bdebd6e4458819cde83b4c1aa6725a96906880c",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-315.png": "1ca4698a2ffd8504982bdf6c246cd719e7d43e5767884ac26281d63d25cb450d",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-319.png": "f6c7264937dfa55fdab688f093925933d75a59203b610fbdf7ad6e96bbbcfafe",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-320.png": "79042db347589faa80c38deefa13f0ba5903f91ee590cfae4a90938765c4f911",
+    "tmp/ml-midterm/round02-easier-20261020/source-evidence/mml-text.txt": "79e60597cc80a16984e68cf2ebb880bc4eaf3020e5c07a9dab68f4b802818de1"
+  }
+}

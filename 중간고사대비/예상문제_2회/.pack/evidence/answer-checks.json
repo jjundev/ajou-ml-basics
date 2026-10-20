@@ -1,0 +1,322 @@
+{
+  "reviewer": "/root/round02_blind_math",
+  "status": "pass",
+  "items": {
+    "p1:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "v1,v2 are linearly independent.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p1:a: a v1+b v2=(a,2b)^T=0 implies a=0 and b=0; thus only the trivial relation exists.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p1:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "c=3 v1+2 v2; the coefficients are unique.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p1:b: Matching coordinates gives a=3, 2b=4, hence b=2. If two representations existed, their difference would be a zero linear combination, and part (a) forces the coefficient differences to vanish.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p1:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "They are linearly dependent; v1+v2-v3=0.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p1:c: v1+v2=(1,2)^T=v3. The coefficient triple (1,1,-1) is not all zero.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p2:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "∇_x f=[2(u-1),4(v+1)] (1×2); at (0,0), [-2,4].",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p2:a: Differentiate each scalar coordinate: ∂f/∂u=2(u-1), ∂f/∂v=4(v+1). Assemble these as a row according to the explicitly stated convention. x is 2×1; its scalar derivative is 1×2.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p2:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "J_g=[[1,1],[1,-2]], dimensions 2×2.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p2:b: Rows index outputs (u+v,u-2v); columns index inputs (u,v). Thus the first row is [1,1] and second row [1,-2].",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p2:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "x=(1,-1)^T, minimum f=0; the global minimizer is unique.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p2:c: Both weighted squares are nonnegative, and both vanish at u=1,v=-1. Conversely f=0 requires both squares to be zero; hence the stated point is the sole minimizer.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p3:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "z²+(z-2)²=2(z-1)²+2.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p3:a: Expand: z²+z²-4z+4=2(z²-2z+1)+2.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p3:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "q=N(1,1), q(z)=(2π)^(-1/2) exp(-(z-1)²/2).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p3:b: Each original variance is 2, so p0p1=(4π)^(-1) exp(-[z²+(z-2)²]/4)=(4π)^(-1) exp(-1/2) exp(-(z-1)²/2). Its z-dependent exponent has mean 1 and variance 1; normalizing gives the displayed density.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p3:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "Z=exp(-1/2)/sqrt(8π); p0p1 is not itself a probability density.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p3:c: Integrating the expression from (b) gives Z=(4π)^(-1) exp(-1/2) sqrt(2π)=exp(-1/2)/(2sqrt(2π)). This is positive but not 1, so the nonnegative product lacks unit integral.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p4:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "Φ=[[1,-1],[1,0],[1,1]], y=(1,2,3)^T.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p4:a: The three row features are φ(-1)^T=(1,-1), φ(0)^T=(1,0), φ(1)^T=(1,1). Dimensions are Φ:3×2, y:3×1, θ:2×1.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p4:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "Φ^TΦ=diag(3,2), Φ^Ty=(6,2)^T, θ_ML=(2,1)^T.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p4:b: Σ1=3, Σx=0, Σx²=2; Σy=6 and Σxy=-1+3=2. Multiplication by diag(1/3,1/2) gives (2,1)^T. The diagonal entries 3 and 2 are positive, so the inverse exists and the solution is unique.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p4:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "θ_MAP=(3/2,2/3)^T; mean prediction at x*=0 is 3/2.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p4:c: The noise variance and prior coefficient variances are 1, including the intercept, so θ_MAP=(Φ^TΦ+I2)^(-1)Φ^Ty=diag(1/4,1/3)(6,2)^T. The prior contributes θ0² as well as θ1² to the equivalent penalized SSE; hence the intercept shrinks from 2 toward the prior mean 0. φ(0)^Tθ_MAP=[1,0]θ_MAP=3/2. Standard formulas are explicitly permitted; no derivative is required here.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p5:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "E[X]=(1,1)^T.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p5:a: Average the four vectors: ((0+2+0+2)/4,(0+0+2+2)/4)^T=(1,1)^T.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p5:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "Σ_X=I2.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p5:b: Centered vectors are (-1,-1)^T,(1,-1)^T,(-1,1)^T,(1,1)^T. Each diagonal centered square averages to 1; the off-diagonal products 1,-1,-1,1 average to 0. Hence Σ_X=[[1,0],[0,1]], using divisor 4.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p5:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "E[Y]=(3,0)^T, Cov(Y)=diag(4,1), Cov(X,Y)=diag(2,1); b has no effect on any covariance.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p5:c: E[Y]=A(1,1)^T+b=(2,1)^T+(1,-1)^T=(3,0)^T. Y-E[Y]=A(X-E[X]), so Cov(Y)=AΣ_XA^T=diag(4,1) and Cov(X,Y)=E[(X-μ_X)(Y-μ_Y)^T]=Σ_XA^T=diag(2,1). Translation cancels on centering. Dimensions and order: both X,Y are 2×1; both covariance products are 2×2. Gaussianity is unnecessary.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p6:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "p(y_n|x_n,θ)=(2π)^(-1/2) exp(-(y_n-θ0-x_nθ1)²/2); L(θ)=(2π)^(-1) exp(-[(1-θ0+θ1)²+(3-θ0-θ1)²]/2).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:a: Conditional on the fixed inputs and θ, y_n is the translation of an N(0,1) error by θ0+x_nθ1. Conditional independence makes the joint density the product of the two displayed univariate normal densities. This is a likelihood evaluated at fixed observed responses, not a density over θ.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p6:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "-log L=log(2π)+Q(θ)/2, with Q=(1-θ0+θ1)²+(3-θ0-θ1)².",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:b: The Gaussian product has factor (2π)^(-1), so its negative log is log(2π)+Q/2. Empirical mean squared error for N=2 is R_emp=Q/2; here the NLL equals log(2π)+R_emp. Additive constants and positive scaling leave minimizers unchanged.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p6:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "∇_θ Q=-2(y-Φθ)^TΦ=-2y^TΦ+2θ^TΦ^TΦ=0_(1×2). Then θ^TΦ^TΦ=y^TΦ; transpose both sides to get Φ^TΦθ=Φ^Ty.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:c: Let r=y-Φθ be 2×1. Expanding Q=y^Ty-2y^TΦθ+θ^TΦ^TΦθ and differentiating produces the displayed row, because Φ^TΦ is symmetric. Dimensions: θ 2×1, Φ 2×2, Q scalar, gradient 1×2, r^TΦ is (1×2)(2×2). Before transposition both normal-equation sides are 1×2; after transposition they are 2×1. This explicit transposition respects the new problem’s row convention.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p6:d": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "Φ^TΦ=2I2, Φ^Ty=(4,2)^T; θ_ML=(2,1)^T and yhat=(1,3)^T; unique.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p6:d: Φ=[[1,-1],[1,1]] and y=(1,3)^T. Direct products give diag(2,2) and (1+3,-1+3)^T=(4,2)^T. Thus θ=(1/2)(4,2)^T, with predictions [2-1,2+1]^T. For nonzero h, h^TΦ^TΦh=2||h||²>0, proving positive definiteness and uniqueness, beyond merely observing a numeric fit.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p7:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "p(θ|D) ∝ p(D|θ)p(θ) ∝ exp(-[(1-θ)²+(3-θ)²+θ²]/2).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:a: Bayes rule gives p(θ|D)=p(D|θ)p(θ)/∫p(D|t)p(t)dt. Independence supplies p(D|θ)=(2π)^(-1)exp(-[(1-θ)²+(3-θ)²]/2); prior p(θ)=(2π)^(-1/2)exp(-θ²/2). Their product is (2π)^(-3/2) times the displayed exponential. The denominator is independent of θ.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p7:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "J(θ)=1/2[(1-θ)²+(3-θ)²]+θ²/2 + C. Equivalently, minimize SSE+θ².",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:b: Take the negative log of the product in (a). In the NLL scaling the prior adds θ²/2 to half the data SSE; after multiplying the whole objective by 2 the penalty added to the unscaled data SSE is θ². State the scaling explicitly to avoid a factor-of-two ambiguity.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p7:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "θ_MAP=4/3; θ_ML=2, so MAP is closer to the prior mean 0.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:c: Differentiate J: J′=(θ-1)+(θ-3)+θ=3θ-4. It vanishes at 4/3; J″=3>0 guarantees a unique global minimum. Without the prior, J_ML′=(θ-1)+(θ-3)=2θ-4, giving 2 with curvature 2>0. The parameter is scalar, so there is no row/column mismatch.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p7:d": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "For prior N(0,1/4), θ_MAP=2/3; smaller prior variance increases shrinkage toward 0.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p7:d: Prior precision is 4, so J_new=1/2[(1-θ)²+(3-θ)²]+2θ²+C. J_new′=(θ-1)+(θ-3)+4θ=6θ-4, yielding 2/3 with J_new″=6>0. Data are unchanged; greater precision increases the prior penalty relative to the likelihood.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p8:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "p(y=2|θ)=(2π)^(-1/2) exp(-(2-θ)²/2).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:a: Given θ, y is N(θ,1). Evaluate that continuous density at 2. The notation p(y=2|θ) is explicitly stipulated to mean a density value, not the zero probability of a singleton.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p8:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "θ|y=2 ∼ N(1,1/2), with density π^(-1/2)exp(-(θ-1)²).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:b: Likelihood times prior=(2π)^(-1)exp(-[(2-θ)²+θ²]/2). Complete the square: (2-θ)²+θ²=2(θ-1)²+2. Thus the product is (2π)^(-1)e^(-1)exp(-(θ-1)²). Its integral is e^(-1)/(2sqrt(π)), because ∫exp(-(θ-1)²)dθ=sqrt(π). Division yields the stated normalized posterior. The normal exponent -(θ-1)²/(2s²) gives s²=1/2.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p8:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "f*|y=2 ∼ N(2,2), mean 2 and variance 2.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:c: An affine transform of the posterior Gaussian gives E[2θ|y]=2·1=2 and Var(2θ|y)=2²·(1/2)=2.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p8:d": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "y*|y=2 ∼ N(2,3), mean 2 and variance 3.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p8:d: ε* is independent of (θ,ε), and y is a function of (θ,ε). Thus p(ε*,θ|y)=p(ε*)p(θ|y): conditioning on y preserves independence of ε* from the posterior parameter and leaves ε*∼N(0,1). Sum the independent posterior Gaussian 2θ∼N(2,2) and ε*∼N(0,1), giving N(2,2+1). The added 1 is fresh observation noise uncertainty.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p9:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "symbolic",
+      "conclusion": "Under M0, y∼N(0,1). Under M1, y∼N(0,4).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:a: p(y|M1)=∫p(y|θ,M1)p(θ|M1)dθ=∫N(y|θ,1)N(θ|0,3)dθ. This averages the conditional density over the prior parameter. Equivalently, independent Gaussian θ+ε has mean 0+0=0 and variance 3+1=4. Under M0 the response is just ε. The second normal parameter is variance in the stated model.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p9:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "e0=p(0|M0)=1/sqrt(2π); e1=p(0|M1)=1/sqrt(8π).",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:b: Evaluate a normal density (2πs²)^(-1/2) exp(-y²/(2s²)) at zero. The exponential is 1; the standard deviations are 1 and 2 respectively.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p9:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "B01=2; the observation favors M0.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:c: B01=e0/e1=[1/sqrt(2π)]/[1/sqrt(8π)]=2. This ratio is in the explicitly declared M0-over-M1 direction.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p9:d": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "Posterior odds M0:M1=2:1; P(M0|y=0)=2/3.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p9:d: Posterior odds equal Bayes factor times prior odds: 2×[(1/2)/(1/2)]=2. Normalizing gives e0/(e0+e1)=2/3 and P(M1|0)=1/3. Although both point probabilities P(Y=0|Mi) are zero, the observation is represented by densities with respect to the same measure. For a small interval (-δ/2,δ/2), its probability is e_i δ+o(δ); their ratio tends to e0/e1. Replacing both evidences by zero would discard the information carried by the local densities and produce an undefined ratio.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p10:a": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "θhat=(b^Ty)/(b^Tb)=1.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:a: Orthogonality b^T(y-bθ)=0 gives b^Ty-θ b^Tb=0. Here b^Ty=2 and b^Tb=2>0, so θhat=1.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p10:b": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "exact",
+      "conclusion": "yhat=(1,1,0)^T; fitted residual r=(1,-1,1)^T; b^Tr=0.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:b: Multiply b by θhat=1 and subtract from (2,0,1)^T. The dot product equals 1·1+1·(-1)+0·1=0.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p10:c": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "P=bb^T/(b^Tb)=[[1/2,1/2,0],[1/2,1/2,0],[0,0,0]]. It satisfies P^T=P and P²=P.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:c: For any vector z, projection onto span(b) is b(b^Tz)/(b^Tb), giving P. Transposition leaves bb^T unchanged, so P is symmetric. Algebraically P²=bb^Tbb^T/(b^Tb)²=b(b^Tb)b^T/(b^Tb)²=P. This exact identity proves idempotence without relying on numerical testing. Multiplication by y gives (1,1,0)^T. Dimensions: b 3×1, P 3×3, Py 3×1.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    },
+    "p10:d": {
+      "status": "pass",
+      "reviewer": "/root/round02_blind_math",
+      "method": "proof",
+      "conclusion": "||y-bθ||²=||r||²+(θ-1)²||b||²=3+2(θ-1)². The minimum squared error is 3 at θ=1, which is also ML.",
+      "evidence": "tmp/ml-midterm/round02-easier-20261020/blind-review.json solutions p10:d: Here r is the fitted residual y-bθhat from (b). Decompose y-bθ=r+b(θhat-θ). Expansion gives ||r||²+2(θhat-θ)b^Tr+(θhat-θ)²||b||². The cross term vanishes by b^Tr=0. Since ||r||²=1+1+1=3 and ||b||²=2>0, the unique global minimum occurs at θ=1. For ε∼N(0,I3), L(θ)=(2π)^(-3/2)exp(-||y-bθ||²/2); maximizing this strictly decreasing function of the squared error yields the same θ.",
+      "blind_result_precedes_answer_review": true,
+      "comparison_to_final_card_and_explanation": "pass"
+    }
+  },
+  "evidence": "blind-review.json, content-review.json; proofs read before comparison; symbolic-checks.json is supplemental"
+}
