@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "packet_kind": "source_questions_only_blind_review",
+  "pack_id": "0921",
+  "questions": [
+    {
+      "id": "p1",
+      "title": "P1. 인수분해에서 의존 관계 읽기",
+      "conditions_html": "세 확률변수 $a, b, c$의 결합분포가 아래처럼 인수분해돼 있어요.\n  $$p(a, b, c) = p(c \\mid a, b)\\, p(b \\mid a)\\, p(a)$$\n  ",
+      "ask_html": "이 식만 보고 각 변수가 어느 변수에 직접 의존하는지 적어 보세요.\n  <ol><li>(a) $c$는 어느 변수에 직접 의존하나요?</li><li>(b) $b$는 어느 변수에 직접 의존하나요?</li><li>(c) $a$는 어느 변수에 의존하나요?</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b",
+        "c"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"c depends directly on a and b. b depends directly on a.\" — Example 8.7",
+      "input_sha256": "b48fa14b26fcb4f02fe5a1e31633fa8024ecaa2f939a7c66771c6bf25423f646"
+    },
+    {
+      "id": "p2",
+      "title": "P2. 인수분해로 방향 그래프 그리기",
+      "conditions_html": "세 확률변수 $a, b, c$의 결합분포가 아래처럼 인수분해돼 있어요.\n  $$p(a, b, c) = p(c \\mid a, b)\\, p(b \\mid a)\\, p(a)$$\n  ",
+      "ask_html": "이 인수분해에 맞는 방향 그래피컬 모델을 그려 보세요.\n  <ol><li>(a) 화살표를 모두 \"출발 $\\to$ 도착\" 꼴로 적어 보세요.</li><li>(b) 화살표는 모두 몇 개인가요? 세 노드의 모든 쌍이 이어져 있나요?</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"For the factorization in (8.29), we obtain the directed graphical model in Figure 8.9(a).\" — Example 8.7",
+      "input_sha256": "d8c8ba3dc69f6ca46d5c70a0776799fa77dd2903f9106a8fcafabc260246fa12"
+    },
+    {
+      "id": "p3",
+      "title": "P3. 그래프에서 조건부 분포와 부모 찾기",
+      "conditions_html": "다섯 확률변수 $x_1, \\dots, x_5$의 방향 그래피컬 모델이 아래와 같아요.\n  \n  ",
+      "ask_html": "결합분포 $p(x_1, \\dots, x_5)$를 조건부 분포의 곱으로 쓰려고 해요.\n  <ol><li>(a) 조건부 분포가 몇 개 필요한가요?</li><li>(b) 각 노드의 부모(parent)를 모두 적어 보세요.</li><li>(c) $x_4$에 해당하는 조건부 분포를 적어 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b",
+        "c"
+      ],
+      "figures_html": [
+        "<figure class=\"figure\"><svg id=\"fig-card-p3-graph\" viewBox=\"0 0 340 155\" role=\"img\" aria-label=\"노드 다섯 개의 방향 그래프. 화살표는 x₁에서 x₃, x₂에서 x₃, x₅에서 x₂, x₂에서 x₄로 가요.\"><line class=\"fig-ink\" x1=\"60.3\" y1=\"48.8\" x2=\"98.6\" y2=\"103.6\"/><polyline class=\"fig-ink\" points=\"90.7,99.2 98.6,103.6 97.1,94.7\"/><line class=\"fig-ink\" x1=\"159.7\" y1=\"48.8\" x2=\"121.4\" y2=\"103.6\"/><polyline class=\"fig-ink\" points=\"122.9,94.7 121.4,103.6 129.3,99.2\"/><line class=\"fig-ink\" x1=\"272.0\" y1=\"34.0\" x2=\"190.0\" y2=\"34.0\"/><polyline class=\"fig-ink\" points=\"198.1,30.1 190.0,34.0 198.1,37.9\"/><line class=\"fig-ink\" x1=\"180.3\" y1=\"48.8\" x2=\"218.6\" y2=\"103.6\"/><polyline class=\"fig-ink\" points=\"210.7,99.2 218.6,103.6 217.1,94.7\"/><circle class=\"fig-ink\" cx=\"50\" cy=\"34\" r=\"18\"/><text class=\"fig-text\" x=\"50\" y=\"39\" text-anchor=\"middle\" font-size=\"14\">x₁</text><circle class=\"fig-ink\" cx=\"170\" cy=\"34\" r=\"18\"/><text class=\"fig-text\" x=\"170\" y=\"39\" text-anchor=\"middle\" font-size=\"14\">x₂</text><circle class=\"fig-ink\" cx=\"290\" cy=\"34\" r=\"18\"/><text class=\"fig-text\" x=\"290\" y=\"39\" text-anchor=\"middle\" font-size=\"14\">x₅</text><circle class=\"fig-ink\" cx=\"110\" cy=\"120\" r=\"18\"/><text class=\"fig-text\" x=\"110\" y=\"125\" text-anchor=\"middle\" font-size=\"14\">x₃</text><circle class=\"fig-ink\" cx=\"230\" cy=\"120\" r=\"18\"/><text class=\"fig-text\" x=\"230\" y=\"125\" text-anchor=\"middle\" font-size=\"14\">x₄</text></svg><figcaption>다섯 노드 방향 그래프: x₁→x₃, x₂→x₃, x₅→x₂, x₂→x₄</figcaption></figure>"
+      ],
+      "original_question_html": "\"we will need five conditionals ... x4 will be conditioned on x2.\" — Example 8.8",
+      "input_sha256": "8a0b8c6ae81aa21214a90903a69a4971cf0396edb157a4a6e398e25b16119484"
+    },
+    {
+      "id": "p4",
+      "title": "P4. 그래프에서 결합분포 인수분해 쓰기",
+      "conditions_html": "다섯 확률변수 $x_1, \\dots, x_5$의 방향 그래피컬 모델이 아래와 같아요.\n  \n  ",
+      "ask_html": "결합분포 $p(x_1, x_2, x_3, x_4, x_5)$를 노드마다 조건부 분포 하나씩의 곱으로 인수분해해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [
+        "<figure class=\"figure\"><svg id=\"fig-card-p4-graph\" viewBox=\"0 0 340 155\" role=\"img\" aria-label=\"노드 다섯 개의 방향 그래프. 화살표는 x₁에서 x₃, x₂에서 x₃, x₅에서 x₂, x₂에서 x₄로 가요.\"><line class=\"fig-ink\" x1=\"60.3\" y1=\"48.8\" x2=\"98.6\" y2=\"103.6\"/><polyline class=\"fig-ink\" points=\"90.7,99.2 98.6,103.6 97.1,94.7\"/><line class=\"fig-ink\" x1=\"159.7\" y1=\"48.8\" x2=\"121.4\" y2=\"103.6\"/><polyline class=\"fig-ink\" points=\"122.9,94.7 121.4,103.6 129.3,99.2\"/><line class=\"fig-ink\" x1=\"272.0\" y1=\"34.0\" x2=\"190.0\" y2=\"34.0\"/><polyline class=\"fig-ink\" points=\"198.1,30.1 190.0,34.0 198.1,37.9\"/><line class=\"fig-ink\" x1=\"180.3\" y1=\"48.8\" x2=\"218.6\" y2=\"103.6\"/><polyline class=\"fig-ink\" points=\"210.7,99.2 218.6,103.6 217.1,94.7\"/><circle class=\"fig-ink\" cx=\"50\" cy=\"34\" r=\"18\"/><text class=\"fig-text\" x=\"50\" y=\"39\" text-anchor=\"middle\" font-size=\"14\">x₁</text><circle class=\"fig-ink\" cx=\"170\" cy=\"34\" r=\"18\"/><text class=\"fig-text\" x=\"170\" y=\"39\" text-anchor=\"middle\" font-size=\"14\">x₂</text><circle class=\"fig-ink\" cx=\"290\" cy=\"34\" r=\"18\"/><text class=\"fig-text\" x=\"290\" y=\"39\" text-anchor=\"middle\" font-size=\"14\">x₅</text><circle class=\"fig-ink\" cx=\"110\" cy=\"120\" r=\"18\"/><text class=\"fig-text\" x=\"110\" y=\"125\" text-anchor=\"middle\" font-size=\"14\">x₃</text><circle class=\"fig-ink\" cx=\"230\" cy=\"120\" r=\"18\"/><text class=\"fig-text\" x=\"230\" y=\"125\" text-anchor=\"middle\" font-size=\"14\">x₄</text></svg><figcaption>다섯 노드 방향 그래프: x₁→x₃, x₂→x₃, x₅→x₂, x₂→x₄</figcaption></figure>"
+      ],
+      "original_question_html": "\"These two properties yield the desired factorization of the joint distribution\" — Example 8.8",
+      "input_sha256": "bb71ff9afec55a25206de6389e8591c7cef0ee5c3b9d36c81a345a1029ad49cf"
+    },
+    {
+      "id": "p5",
+      "title": "P5. 망고는 어느 가방에서 나왔을까",
+      "conditions_html": "가방이 두 개 있어요. 가방 1에는 망고 $4$개와 사과 $2$개, 가방 2에는 망고 $4$개와 사과 $4$개가 들어 있어요. 앞면이 나올 확률이 $0.6$, 뒷면이 나올 확률이 $0.4$인 동전이 있어요. 앞면이면 가방 1에서, 뒷면이면 가방 2에서 과일 하나를 무작위로 꺼내요.\n  ",
+      "ask_html": "친구가 동전을 던지고(결과는 안 보여요) 해당 가방에서 과일을 꺼내 망고를 보여 줬어요. 이 망고가 가방 2에서 나왔을 확률을 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"What is the probability that the mango was picked from bag 2?\" — Exercise 6.4",
+      "input_sha256": "01a7fea5512999b82e091cbaf8177be971dd67697a97532dfc76fdf8df9b82ec"
+    },
+    {
+      "id": "p6",
+      "title": "P6. 반복 기댓값 법칙 보이기",
+      "conditions_html": "결합분포가 $p(x, y)$인 두 연속 확률변수 $X, Y$가 있어요. $\\mathbb{E}_X[x \\mid y]$는 조건부 분포 $p(x \\mid y)$ 아래에서 구한 $x$의 기댓값이에요. ",
+      "ask_html": "다음 등식이 성립함을 보여 보세요.\n  $$\\mathbb{E}_X[x] = \\mathbb{E}_Y[\\mathbb{E}_X[x \\mid y]]$$",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Iterated Expectations. Consider two random variables x, y with joint distribution p(x, y).\" — Exercise 6.11",
+      "input_sha256": "e1d9d09abda71f1a08a5cd49ecd8ed7c3ab04a72125a80057555ab7cb59c4a91"
+    }
+  ],
+  "figure_resources": [],
+  "question_payload_sha256": "1ae7190b2f7f8b6a9a9577dea5093acf8b43558c01f84ec8b0fc3a3ab0ae1212",
+  "packet_payload_sha256": "ea757b0816925f5afa9c3096cd16d74211b99e45f30afca3114399b3c98a092c"
+}

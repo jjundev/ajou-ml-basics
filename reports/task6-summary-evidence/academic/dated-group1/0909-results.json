@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "pack_id": "0909",
+  "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0909/questions.json",
+  "source_packet_file_sha256": "ae10cf54447ef79b243e07daefc181552e16d573da42987d00dc88c49f2e5318",
+  "packet_payload_sha256": "74508b4062cb606a71dcc5119aa34615cf3b623b015a9fb8a6eff616b1b0a2ab",
+  "question_payload_sha256": "b96542d962115e9b1133cf120b03be718e431f3aed8cefdb288d4021f361ae61",
+  "reviewer": {
+    "identity": "/root/ml_blind_dated_group1",
+    "role": "independent mathematical derivation reviewer",
+    "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+    "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+    "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "095cc4bcb6d1779db6eff9696ba2298dd8da6cd1c74d9b970925852cfd4abd38",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": [
+            "Insert x=10 into theta*x: (-1)*10=-10; (1/2)*10=5; 2*10=20."
+          ],
+          "conclusion": "f(10)=-10,5,20 in the listed parameter order.",
+          "checks": [
+            "All inputs, parameters and outputs are real scalars."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "qualitative",
+          "derivation": [
+            "The signed slope theta is rise/run; geometric steepness is |theta|. The three magnitudes are 1,1/2,2."
+          ],
+          "conclusion": "theta=2 gives the steepest line.",
+          "checks": [
+            "All lines pass through the origin; a negative slope means falling rather than greater absolute steepness."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p2",
+      "input_sha256": "24e00b310632d4043bc36f44cfb63dca5abefd99727d1ca17d267641e08b1539",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "The first displayed matrix has columns (1,4,7)^T and (2,5,8)^T, hence size 3x2. The second has three columns of length 3, hence size 3x3. A row-column dot product would need 2=3 inner entries, which fails."
+          ],
+          "conclusion": "The displayed product is undefined.",
+          "checks": [
+            "Inner dimensions 2 and 3 differ; reversing order would be a different product."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p3",
+      "input_sha256": "c14f502e28e134230449fbbb9312a13290faf1a3ffe0745cb89b5735260957d3",
+      "subparts": [
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": [
+            "A=[[1,2,3],[4,5,6],[7,8,9]], B=[[1,1,0],[0,1,1],[1,0,1]].",
+            "Column j of AB is A times column j of B. These columns are A[:,1]+A[:,3]=(4,10,16)^T; A[:,1]+A[:,2]=(3,9,15)^T; A[:,2]+A[:,3]=(5,11,17)^T."
+          ],
+          "conclusion": "AB=[[4,3,5],[10,9,11],[16,15,17]].",
+          "checks": [
+            "3x3 times 3x3 gives 3x3.",
+            "Exact SymPy multiplication independently reproduces every integer."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": [
+            "Row 1 of BA adds rows 1 and 2 of A: (5,7,9). Row 2 adds rows 2 and 3: (11,13,15). Row 3 adds rows 1 and 3: (8,10,12)."
+          ],
+          "conclusion": "BA=[[5,7,9],[11,13,15],[8,10,12]].",
+          "checks": [
+            "3x3 result; exact SymPy multiplication agrees.",
+            "AB and BA differ, as allowed for matrices."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p4",
+      "input_sha256": "0ce292ff5b7455104cbb9200871a6d715eb8233b6e2e6fbbb974197c2d434e3e",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "C has rows (1,2,1,2) and (4,1,-1,-4); D has columns (0,1,2,5)^T and (3,-1,1,2)^T.",
+            "Four dot products: 0+2+2+10=14; 3-2+1+4=6; 0+1-2-20=-21; 12-1-1-8=2."
+          ],
+          "conclusion": "CD=[[14,6],[-21,2]], size 2x2.",
+          "checks": [
+            "(2x4)(4x2) is defined.",
+            "Exact SymPy result equals the row-column calculation."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p5",
+      "input_sha256": "565891704b702f50a60fe57aea3ef4e2684306b9546506f97acd453eeca0c9ad",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "Each row of DC is a linear combination of C rows: 0*C1+3*C2; C1-C2; 2*C1+C2; 5*C1+2*C2.",
+            "These evaluate respectively to (12,3,-3,-12), (-3,1,2,6), (6,5,1,0), (13,12,3,2)."
+          ],
+          "conclusion": "DC=[[12,3,-3,-12],[-3,1,2,6],[6,5,1,0],[13,12,3,2]], size 4x4.",
+          "checks": [
+            "(4x2)(2x4) gives 4x4.",
+            "Exact integer multiplication independently agrees."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    }
+  ],
+  "unresolved": []
+}

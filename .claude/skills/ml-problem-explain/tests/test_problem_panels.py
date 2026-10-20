@@ -14,12 +14,13 @@ ROOT = Path(__file__).resolve().parents[4]
 def panel_stage(tmp_path):
     pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
     p1, p2 = pack.problems[:2]
+    p1 = replace(p1, title=r'행렬 $A^\top A$')
     p2 = replace(p2, original_html='')
     pack = replace(pack, profile='review', problems=(p1, p2))
     bodies = {
-        p1.id: fragment(p1) + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>첫 문항의 근거</p></section>'
-               '<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>선형독립</dt><dd>$V\\alpha=0$의 해가 $\\alpha=0$뿐인 성질.</dd></dl></section>',
-        p2.id: fragment(p2) + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>둘째 문항의 근거</p></section>',
+        p1.id: fragment(p1).replace('시작·판단·검산', '첫 문제 판단 요약') + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>첫 문항의 근거</p></section>'
+               '<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>선형독립</dt><dd>$V\\alpha=0$의 해가 $\\alpha=0$뿐인 성질. $$p(y\\mid\\theta,X)=\\prod_{n=1}^{N}\\frac{1}{\\sqrt{2\\pi\\sigma^2}}\\exp\\left(-\\frac{(y_n-\\phi(x_n)^\\top\\theta)^2}{2\\sigma^2}\\right)$$</dd></dl></section>',
+        p2.id: fragment(p2).replace('시작·판단·검산', '둘째 문제 판단 요약') + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>둘째 문항의 근거</p></section>',
     }
     art = build_explanation(pack, bodies, tmp_path / 'stage', ROOT)
     assert check_artifacts(pack, art) == []
@@ -115,3 +116,75 @@ def test_focused_mobile_tab_survives_moving_to_desktop_panel(panel_stage):
         page.locator('#tab-terms').press('ArrowLeft')
         assert page.locator('#tab-provenance').get_attribute('aria-selected') == 'true'
         browser.close()
+
+
+@pytest.mark.parametrize('width,height', [(1280, 900), (375, 812)])
+@pytest.mark.parametrize('theme', ['light', 'dark'])
+def test_summary_title_removal_keeps_question_tabs(panel_stage, width, height, theme):
+    import functools, http.server, threading
+    from playwright.sync_api import sync_playwright, expect
+    class Quiet(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *args): pass
+    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(panel_stage.html.parent)))
+    thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch()
+            try:
+                context = browser.new_context(viewport={'width': width, 'height': height}, color_scheme=theme)
+                context.add_init_script(f"localStorage.setItem('od-theme', '{theme}')")
+                page = context.new_page(); page.set_default_timeout(5000); page_errors = []
+                page.on('pageerror', lambda e: page_errors.append(str(e)))
+                page.goto(f'http://127.0.0.1:{server.server_port}/{panel_stage.html.name}', wait_until='networkidle')
+                if not page.locator('#panel-right').is_visible(): page.locator('#toggle-right').click()
+                expect(page.locator('#panel-right')).to_be_in_viewport(ratio=0.95)
+                expect(page.locator('#sum-empty')).to_be_visible()
+                if width < 1024:
+                    page.locator('#panel-right [data-panel-close]').click()
+                    expect(page.locator('#panel-right')).to_be_hidden()
+                expected_summaries = ['첫 문제 판단 요약', '둘째 문제 판단 요약']
+                key = page.evaluate("'od-note-read:' + document.body.dataset.range")
+                for index, pid in enumerate(['p1', 'p2']):
+                    page.locator('#pager-next').click()
+                    expect(page.locator(f'main #{pid}')).to_be_visible()
+                    if not page.locator('#panel-right').is_visible(): page.locator('#toggle-right').click()
+                    expect(page.locator('#panel-right')).to_be_in_viewport(ratio=0.95)
+                    current_title = page.locator(f'main #{pid} h3').text_content().strip()
+                    assert page.locator('main h3', has_text=current_title).is_visible()
+                    assert page.locator('#panel-right').get_by_text(current_title, exact=True).count() == 0
+                    assert page.locator('#sum-for.sums').count() == 1
+                    assert page.locator('[id="sum-for"]').count() == 1
+                    assert page.locator('#panel-right .sum:not([hidden])').count() == 1
+                    assert page.locator('#panel-right .sum:not([hidden])').inner_text() == expected_summaries[index]
+                    assert page.evaluate('(key)=>JSON.parse(localStorage.getItem(key))', key) == ['p1', 'p2'][:index+1]
+                    if width < 1024:
+                        page.locator('#panel-right [data-panel-close]').click()
+                        expect(page.locator('#panel-right')).to_be_hidden()
+                        page.locator(f'#{pid} .problem-toggle').click()
+                    page.locator('#tab-problem').click()
+                    expect(page.locator(f'[data-problem-for="{pid}"]')).to_be_visible()
+                    if pid == 'p1':
+                        page.locator('#tab-original').click()
+                        expect(page.locator('#tabpanel-original')).to_be_visible()
+                        expect(page.locator('#tabpanel-original')).not_to_be_empty()
+                    else: expect(page.locator('#tab-original')).to_be_hidden()
+                page.locator('#pager-prev').click()
+                expect(page.locator('#p1')).to_be_visible()
+                if not page.locator('#panel-right').is_visible(): page.locator('#toggle-right').click()
+                expect(page.locator('#panel-right')).to_be_in_viewport(ratio=0.95)
+                assert page.locator('#panel-right .sum:not([hidden])').inner_text() == expected_summaries[0]
+                assert page.locator('main h3 .katex').count() > 0
+                if width < 1024:
+                    page.locator('#panel-right [data-panel-close]').click()
+                    expect(page.locator('#panel-right')).to_be_hidden()
+                page.locator('#tab-terms').click()
+                expect(page.locator('#tabpanel-terms .math-row')).not_to_have_count(0)
+                assert page.locator('.katex-error').count() == 0
+                assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+                page.reload(wait_until='networkidle')
+                assert page.evaluate('(key)=>JSON.parse(localStorage.getItem(key))', key) == ['p1', 'p2']
+                assert page_errors == []
+                context.close()
+            finally: browser.close()
+    finally:
+        server.shutdown(); thread.join(); server.server_close()

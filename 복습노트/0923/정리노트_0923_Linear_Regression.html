@@ -370,7 +370,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 선형회귀에서 선형이라는 말은 파라미터에 대한 선형성을 뜻해요. 잡음이 확률변수라는 사실과 파라미터를 확률변수로 다루는지는 별개예요.</p>
 <p>이어서 읽기: <a href="#s1-det-prob">결정론적 모델 vs 확률적 모델</a> · <a href="#s1-features">x에 대해 비선형이어도 선형회귀: 특징 벡터</a> · <a href="#s3-normal-eq">미분이 0이 되는 θ 찾기: 정규방정식</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.</p></div>
+<div class="sum" hidden><p class="sum-lead">ML의 결과는 파라미터 벡터 하나예요. 특징에 대해 선형이면, 원래 입력에 대해 곡선이어도 선형회귀로 다룰 수 있어요.</p><div class="summary-group"><h4>조건·구분</h4><p>입력·특징은 모형의 재료이고, ML의 파라미터는 고정된 미지의 계수, 잡음은 계수가 정해져도 남는 확률변수예요. 가우시안 NLL의 제곱오차를 미분하면 정규방정식이 나오며 역행렬 해에는 가역성 조건이 필요해요.</p></div></div>
 </article>
 <article class="topic" id="s0-regression"><h3>회귀 vs 분류: 숫자를 맞히기 vs 칸을 고르기</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s5</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -592,7 +592,7 @@
           <ul class="eq-list"><li><span class="eq-name">가우시안 노이즈</span>$$\epsilon \sim \mathcal{N}(0, \sigma^2)$$</li><li><span class="eq-name">가우시안 PDF</span>$$p_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>종 모양(bell-shaped)</dt><dd>평균에서 가장 높고 양옆으로 급격히 낮아지는 꼴</dd><dt>중심극한정리(central limit theorem)</dt><dd>전기적 노이즈가 가우시안인 근거</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>이 회귀 모형에서는 잡음 평균을 0, 분산을 $\sigma^2$로 두어요. 노이즈가 항상 가우시안인 것은 아니며 샷 노이즈나 라플라스 모형 등 도메인별 예외도 있어요.</p></div></div>
       </article>
 
       <article class="topic" id="s1-assume"><h3>선형회귀 = "~일 거야"라는 가정 (순환논증 경고)</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s6</span></div>
@@ -639,7 +639,7 @@
           <ul class="eq-list"><li><span class="eq-name">가정한 생성 과정</span>$$y = \mathbf{x}^\top\boldsymbol{\theta} + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2) \quad \text{(이라고 가정)}$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>가정(assume = suppose)</dt><dd>"~일 거야"라고 두고 푸는 것</dd><dt>순환논증(circular reasoning)</dt><dd>선형으로 만든 데이터로 선형 가정을 정당화하는 오류</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>선형이라는 말은 계수 $\boldsymbol\theta$에 대한 선형성이에요. 데이터에 잘 맞는다는 사실을 실제 생성 과정이 선형이었다는 증명으로 바꾸지 않아요.</p></div></div>
       </article>
 
       <article class="topic" id="s1-likelihood"><h3>우도와 선형 모델: 내 안에 θ 있다</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s6</span></div>
@@ -690,7 +690,7 @@
           <ul class="eq-list"><li><span class="eq-name">모델의 정의역·공역</span>$$f: \mathbb{R}^D \to \mathbb{R}$$</li><li><span class="eq-name">선형회귀의 우도</span>$$p(y \mid \mathbf{x}) = \mathcal{N}(y \mid \mathbf{x}^\top\boldsymbol{\theta}, \sigma^2) \iff y = \mathbf{x}^\top\boldsymbol{\theta} + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>우도(likelihood)</dt><dd>입력이 주어졌을 때 출력의 조건부 PDF</dd><dt>스칼라(scalar)</dt><dd>같은 길이 벡터끼리 내적한 숫자 하나</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>길이 $D$의 두 벡터 내적은 스칼라 평균이고, 입력과 계수·함수를 정하면 불확실성은 잡음에서만 와요. 평균만 내는 결정론적 예측과 분산까지 주는 확률적 예측을 구분해요.</p></div></div>
       </article>
 
       <article class="topic" id="s1-features"><h3>x에 대해 비선형이어도 선형회귀: 특징 벡터</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s6, s12</span></div>
@@ -807,7 +807,7 @@
             <dt>데이터 행렬 $\mathbf{X}$</dt><dd>각 행이 $\mathbf{x}_n^\top$인 $N \times D$ 행렬</dd>
             <dt>판(plate)</dt><dd>$n = 1, \dots, N$ 반복을 그림에서 묶어 나타낸 상자</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf X$는 각 행이 입력 전치인 $N\times D$, $\theta$는 $D\times1$, 출력과 잡음은 $N\times1$이에요. $D\times N$으로 열을 나란히 세운 행렬은 한 번 전치해야 이 모델식에 맞아요.</p></div></div>
       </article>
       <article class="topic" id="s2-iid"><h3>iid면 우도는 곱이 된다</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s7</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">서로 영향을 주지 않는 일들이 모두 함께 일어날 가능성은 하나하나의 가능성을 곱하면 돼요.</p>
@@ -862,7 +862,7 @@
           <dl class="terms">
             <dt>i.i.d.</dt><dd>노이즈 $\epsilon_n$이 모두 같은 분포 $\mathcal{N}(0, \sigma^2)$를 따르고 서로 독립이라는 가정. 그래서 $y_n$은 $\mathbf{x}_n$이 주어지면 조건부 독립이에요</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>동일 분포인 것은 잡음 $\epsilon_n$이에요. $y_n$은 입력마다 평균 $\mathbf x_n^\top\theta$가 달라 일반적으로 동일 분포가 아니며, 주어진 입력 아래 조건부 독립이어서 우도를 곱해요.</p></div></div>
       </article>
       <article class="topic" id="s2-nll"><h3>ML → 음의 로그우도 → 최소제곱</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s9</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">가장 그럴듯한 답을 찾는 일은 예상과 실제 사이의 틈을 가장 작게 만드는 일과 같아요.</p>
@@ -922,7 +922,7 @@
             <dt>음의 로그우도(negative log-likelihood)</dt><dd>우도에 로그를 취하고 마이너스를 붙인 값</dd>
             <dt>최소제곱(least squares)</dt><dd>실측값과 예측치 차이의 제곱 노름을 최소화하는 문제</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>공통 가우시안 분산 $\sigma^2$를 $\theta$와 무관하게 두고 $\theta$만 바꿔요. NLL에서 계수와 무관한 상수 및 양의 배율을 제외해도 최소점은 같아요.</p></div></div>
       </article>
       <article class="topic" id="s2-ml-erm"><h3>가우시안 노이즈에서 ML = 경험적 위험 최소화</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s10</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">흔들림이 대개 0 근처에서 생긴다면 받은 값을 그대로 믿는 게 가장 좋은 선택이에요.</p>
@@ -982,7 +982,7 @@
             <dt>경험적 위험 최소화(empirical risk minimization)</dt><dd>훈련 데이터의 평균 손실을 최소화하는 방법</dd>
             <dt>제곱 손실(squared loss)</dt><dd>$(y_n - \mathbf{x}_n^\top\boldsymbol{\theta})^2$처럼 오차를 제곱한 손실</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>계산상의 이유는 $L$과 제곱손실 $R_{\mathrm{emp}}$가 양의 상수 배만 달라 같은 최소점을 갖는다는 것이에요. 치우친 잡음에서 관측을 옮겨 본다는 이야기는 교수님이 정확한 설명이 아닌 직관용 스케치로 한정했어요.</p></div></div>
       </article>
     </section>
     <section id="s3"><h2>3. 미분해서 해 구하기: 정규방정식과 유사역행렬</h2>
@@ -1046,7 +1046,7 @@
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>정규방정식(normal equation)</dt><dd>기울기가 0이라는 조건을 정리한 연립방정식</dd><dt>양의 정부호(positive definite)</dt><dd>$\mathrm{rk}(\mathbf{X}) = D$이면 $\mathbf{X}^\top\mathbf{X}$가 갖는 성질, 역행렬이 있어요</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$L:\mathbb R^D\to\mathbb R$의 이 표기에서 미분은 $1\times D$ 행벡터예요. $\mathrm{rk}(\mathbf X)=D$이면 $\mathbf X^\top\mathbf X$와 Hessian이 양의 정부호라 가역이고, 정상점이 유일한 전역 최소점이에요. rank 조건은 슬라이드에 있고 수업에서는 말로 풀지 않았어요.</p></div></div>
       </article>
       <article class="topic" id="s3-pinv"><h3>선형회귀의 답은 유사역행렬</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s11</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -1094,7 +1094,7 @@
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>유사역행렬(pseudo-inverse)</dt><dd>정사각이 아닌 행렬에서 역행렬 역할을 하는 행렬</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>표시한 $\mathbf X^+=(\mathbf X^\top\mathbf X)^{-1}\mathbf X^\top$ 식은 해당 역행렬이 있을 때 써요. $\mathbf X^+$는 $D\times N$, $\theta_{\mathrm{ML}}$은 $D\times1$이며, 계산은 역행렬을 직접 만들기보다 정규방정식 연립계를 풀 수 있어요.</p></div></div>
       </article>
       <article class="topic" id="s3-vector-diff"><h3>보충: dL/dθ 벡터 미분 유도</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">L03 s11</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -1148,12 +1148,12 @@
           <p class="sum-lead">손실을 전개한 뒤 두 가지 미분 규칙을 쓰면 슬라이드의 dL/dθ가 나와요.</p>
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list">
-            <li><span class="eq-name">전개</span>$$L = \frac{1}{2\sigma^2}\left(\mathbf{y}^\top\mathbf{y} - 2\mathbf{y}^\top\mathbf{X}\boldsymbol{\theta} + \boldsymbol{\theta}^\top\mathbf{X}^\top\mathbf{X}\boldsymbol{\theta}\right)$$</li>
-            <li><span class="eq-name">그레이디언트</span>$$\frac{dL}{d\boldsymbol{\theta}} = \frac{1}{2\sigma^2}\left(-2\mathbf{y}^\top\mathbf{X} + 2\boldsymbol{\theta}^\top\mathbf{X}^\top\mathbf{X}\right) = \frac{1}{\sigma^2}\left(-\mathbf{y}^\top\mathbf{X} + \boldsymbol{\theta}^\top\mathbf{X}^\top\mathbf{X}\right) \in \mathbb{R}^{1 \times D}$$</li>
+            <li><span class="eq-name">전개</span>$$\begin{aligned}L=\frac1{2\sigma^2}\bigl(&\mathbf y^\top\mathbf y\\&-2\mathbf y^\top\mathbf X\boldsymbol\theta\\&+\boldsymbol\theta^\top\mathbf X^\top\mathbf X\boldsymbol\theta\bigr)\end{aligned}$$</li>
+            <li><span class="eq-name">그레이디언트</span>$$\begin{aligned}\frac{dL}{d\boldsymbol\theta}&=\frac1{2\sigma^2}\bigl(-2\mathbf y^\top\mathbf X\\&\quad+2\boldsymbol\theta^\top\mathbf X^\top\mathbf X\bigr)\\&=\frac1{\sigma^2}\bigl(-\mathbf y^\top\mathbf X\\&\quad+\boldsymbol\theta^\top\mathbf X^\top\mathbf X\bigr)\\&\in\mathbb R^{1\times D}\end{aligned}$$</li>
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>그레이디언트(gradient)</dt><dd>스칼라 함수를 벡터로 미분한 것, MML에서는 행 벡터</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>보충(MML 식 9.11)이며 수업에서 이 유도를 하지 않았어요. 선형항의 미분은 $\mathbf a^\top$, 이차항은 $\theta^\top(A+A^\top)$이고 $A=X^\top X$가 대칭이라 두 배가 돼요. 상수 $y^\top y$의 미분은 0이며 결과는 $1\times D$ 행벡터예요.</p></div></div>
       </article>
       <article class="topic" id="s3-bias"><h3>수업 후 질문: 상수항을 넣으면 D+1 차원</h3><div class="tags"><span class="tag date">0923 수업</span><span class="tag slide">수업 후 질의응답</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -1198,7 +1198,7 @@
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>affine(어파인)</dt><dd>선형 함수에 상수항을 더한 함수</dd><dt>상수항(bias)</dt><dd>입력과 상관없이 더해지는 값</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>계수도 $D+1$로 늘리고 데이터 행렬은 첫 열이 모두 1인 $N\times(D+1)$이 돼요. 이 확장행렬의 역행렬 해에는 $\mathrm{rk}(\tilde{\mathbf X})=D+1$ 조건이 필요해요.</p></div></div>
       </article>
     </section>
     <section id="s4"><h2>4. 한 장 요약 · 다음 시간 예고</h2>
@@ -1257,9 +1257,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1550,7 +1549,6 @@ var NQ = (function () {
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1582,8 +1580,6 @@ var NQ = (function () {
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1606,14 +1602,12 @@ var NQ = (function () {
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

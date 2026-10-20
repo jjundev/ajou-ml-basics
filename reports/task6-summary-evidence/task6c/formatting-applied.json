@@ -1,0 +1,206 @@
+[
+  {
+    "html": "복습노트/0914/정리노트_0914_ERM_and_MLE.html",
+    "id": "s1-goal",
+    "before_summary": "\n          <p class=\"sum-lead\">모든 학습 데이터에서 추정치가 라벨에 가까워지는 파라미터 θ*를 찾는 게 목표예요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\">\n            <li><span class=\"eq-name\">ERM의 목표</span>$$f(\\mathbf{x}_n, \\boldsymbol{\\theta}^*) = \\hat{y}_n \\approx y_n, \\quad \\text{for all } n = 1, \\dots, N$$</li>\n          </ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\">\n            <dt>for all</dt><dd>한 데이터가 아니라 모든 학습 데이터에서 맞아야 한다는 조건</dd>\n            <dt>과적합(overfitting)</dt><dd>특정 데이터에만 너무 맞춰 다른 데이터에서 어긋나는 것</dd>\n          </dl>\n        ",
+    "after_summary": "\n          <p class=\"sum-lead\">모든 학습 데이터에서 추정치가 라벨에 가까워지는 파라미터 θ*를 찾는 게 목표예요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\">\n            <li><span class=\"eq-name\">ERM의 목표</span>$$\\begin{aligned}f(\\mathbf{x}_n,\\boldsymbol{\\theta}^*)&=\\hat y_n\\approx y_n,\\\\&\\text{for all }n=1,\\dots,N\\end{aligned}$$</li>\n          </ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\">\n            <dt>for all</dt><dd>한 데이터가 아니라 모든 학습 데이터에서 맞아야 한다는 조건</dd>\n            <dt>과적합(overfitting)</dt><dd>특정 데이터에만 너무 맞춰 다른 데이터에서 어긋나는 것</dd>\n          </dl>\n        ",
+    "formulas": [
+      {
+        "before": "f(\\mathbf{x}_n, \\boldsymbol{\\theta}^*) = \\hat{y}_n \\approx y_n, \\quad \\text{for all } n = 1, \\dots, N",
+        "after": "\\begin{aligned}f(\\mathbf{x}_n,\\boldsymbol{\\theta}^*)&=\\hat y_n\\approx y_n,\\\\&\\text{for all }n=1,\\dots,N\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/0916/정리노트_0916_MAP_and_Generative_Models.html",
+    "id": "s1-map",
+    "before_summary": "\n          <p class=\"sum-lead\">MAP는 음의 로그우도에 음의 로그 prior를 더해 최소화해요. prior가 uniform이면 MAP = MLE예요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\"><li><span class=\"eq-name\">MAP</span>$$\\theta_{\\text{MAP}}=\\arg\\min_\\theta\\big[-\\log P(x\\mid\\theta)-\\log P(\\theta)\\big]$$</li></ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\"><dt>사전 확률(prior)</dt><dd>데이터를 보기 전 $\\theta$에 대한 믿음</dd><dt>uniform prior</dt><dd>모든 $\\theta$를 똑같이 보는 상수 prior</dd></dl>\n        <div class=\"summary-group\"><h4>조건·구분</h4><p>정확한 최소화 항은 NLL에 <b>음의 로그 prior</b> $-\\log P(\\theta)$를 더한 것이에요. 확률로 쓰면 likelihood와 prior의 곱이에요.</p></div>",
+    "after_summary": "\n          <p class=\"sum-lead\">MAP는 음의 로그우도에 음의 로그 prior를 더해 최소화해요. prior가 uniform이면 MAP = MLE예요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\"><li><span class=\"eq-name\">MAP</span>$$\\begin{aligned}\\theta_{\\text{MAP}}&=\\arg\\min_\\theta\\bigl[\\\\&-\\log P(x\\mid\\theta)\\\\&-\\log P(\\theta)\\bigr]\\end{aligned}$$</li></ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\"><dt>사전 확률(prior)</dt><dd>데이터를 보기 전 $\\theta$에 대한 믿음</dd><dt>uniform prior</dt><dd>모든 $\\theta$를 똑같이 보는 상수 prior</dd></dl>\n        <div class=\"summary-group\"><h4>조건·구분</h4><p>정확한 최소화 항은 NLL에 <b>음의 로그 prior</b> $-\\log P(\\theta)$를 더한 것이에요. 확률로 쓰면 likelihood와 prior의 곱이에요.</p></div>",
+    "formulas": [
+      {
+        "before": "\\theta_{\\text{MAP}}=\\arg\\min_\\theta\\big[-\\log P(x\\mid\\theta)-\\log P(\\theta)\\big]",
+        "after": "\\begin{aligned}\\theta_{\\text{MAP}}&=\\arg\\min_\\theta\\bigl[\\\\&-\\log P(x\\mid\\theta)\\\\&-\\log P(\\theta)\\bigr]\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/0921/정리노트_0921_Bayesian_Inference_Model_Selection.html",
+    "id": "s3-bayes-ms",
+    "before_summary": "\n          <p class=\"sum-lead\">모델마다 증거와 사전확률을 곱해 사후확률을 구하고, 가장 큰 모델을 골라요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\">\n            <li><span class=\"eq-name\">사후확률</span>$$P(M_k \\mid D) \\propto P(D \\mid M_k)\\, P(M_k)$$</li>\n            <li><span class=\"eq-name\">증거</span>$$P(D \\mid M_k) = \\int P(D \\mid \\theta_k)\\, P(\\theta_k \\mid M_k)\\, d\\theta_k = \\mathbb{E}_{\\theta_k \\mid M_k}\\!\\left[P(D \\mid \\theta_k)\\right]$$</li>\n            <li><span class=\"eq-name\">모델의 MAP</span>$$M^\\ast = \\arg\\max_{M_k} P(M_k \\mid D)$$</li>\n          </ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\">\n            <dt>증거(evidence)</dt><dd>주변 우도(marginal likelihood), 모델이 데이터를 설명하는 정도의 평균</dd>\n            <dt>균등 사전확률(uniform prior)</dt><dd>$P(M_k) = 1/K$, 이때 MAP은 ML과 같아요</dd>\n          </dl>\n        <div class=\"summary-group\"><h4>조건·구분</h4><p>증거는 해당 모델의 파라미터 prior로 우도를 평균낸 값이에요. 균등 모델 prior이면 posterior 최대화와 증거 최대화가 같고, 점수가 비슷하면 복잡도도 함께 따져요.</p></div>",
+    "after_summary": "\n          <p class=\"sum-lead\">모델마다 증거와 사전확률을 곱해 사후확률을 구하고, 가장 큰 모델을 골라요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\">\n            <li><span class=\"eq-name\">사후확률</span>$$P(M_k \\mid D) \\propto P(D \\mid M_k)\\, P(M_k)$$</li>\n            <li><span class=\"eq-name\">증거</span>$$\\begin{aligned}P(D\\mid M_k)&=\\int P(D\\mid\\theta_k)\\\\&\\quad{}\\cdot P(\\theta_k\\mid M_k)\\,d\\theta_k\\\\&=\\mathbb E_{\\theta_k\\mid M_k}\\\\&\\quad\\left[P(D\\mid\\theta_k)\\right]\\end{aligned}$$</li>\n            <li><span class=\"eq-name\">모델의 MAP</span>$$M^\\ast = \\arg\\max_{M_k} P(M_k \\mid D)$$</li>\n          </ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\">\n            <dt>증거(evidence)</dt><dd>주변 우도(marginal likelihood), 모델이 데이터를 설명하는 정도의 평균</dd>\n            <dt>균등 사전확률(uniform prior)</dt><dd>$P(M_k) = 1/K$, 이때 MAP은 ML과 같아요</dd>\n          </dl>\n        <div class=\"summary-group\"><h4>조건·구분</h4><p>증거는 해당 모델의 파라미터 prior로 우도를 평균낸 값이에요. 균등 모델 prior이면 posterior 최대화와 증거 최대화가 같고, 점수가 비슷하면 복잡도도 함께 따져요.</p></div>",
+    "formulas": [
+      {
+        "before": "P(D \\mid M_k) = \\int P(D \\mid \\theta_k)\\, P(\\theta_k \\mid M_k)\\, d\\theta_k = \\mathbb{E}_{\\theta_k \\mid M_k}\\!\\left[P(D \\mid \\theta_k)\\right]",
+        "after": "\\begin{aligned}P(D\\mid M_k)&=\\int P(D\\mid\\theta_k)\\\\&\\quad{}\\cdot P(\\theta_k\\mid M_k)\\,d\\theta_k\\\\&=\\mathbb E_{\\theta_k\\mid M_k}\\\\&\\quad\\left[P(D\\mid\\theta_k)\\right]\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/0923/정리노트_0923_Linear_Regression.html",
+    "id": "s3-vector-diff",
+    "before_summary": "\n          <p class=\"sum-lead\">손실을 전개한 뒤 두 가지 미분 규칙을 쓰면 슬라이드의 dL/dθ가 나와요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\">\n            <li><span class=\"eq-name\">전개</span>$$L = \\frac{1}{2\\sigma^2}\\left(\\mathbf{y}^\\top\\mathbf{y} - 2\\mathbf{y}^\\top\\mathbf{X}\\boldsymbol{\\theta} + \\boldsymbol{\\theta}^\\top\\mathbf{X}^\\top\\mathbf{X}\\boldsymbol{\\theta}\\right)$$</li>\n            <li><span class=\"eq-name\">그레이디언트</span>$$\\frac{dL}{d\\boldsymbol{\\theta}} = \\frac{1}{2\\sigma^2}\\left(-2\\mathbf{y}^\\top\\mathbf{X} + 2\\boldsymbol{\\theta}^\\top\\mathbf{X}^\\top\\mathbf{X}\\right) = \\frac{1}{\\sigma^2}\\left(-\\mathbf{y}^\\top\\mathbf{X} + \\boldsymbol{\\theta}^\\top\\mathbf{X}^\\top\\mathbf{X}\\right) \\in \\mathbb{R}^{1 \\times D}$$</li>\n          </ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\"><dt>그레이디언트(gradient)</dt><dd>스칼라 함수를 벡터로 미분한 것, MML에서는 행 벡터</dd></dl>\n        <div class=\"summary-group\"><h4>조건·구분</h4><p>보충(MML 식 9.11)이며 수업에서 이 유도를 하지 않았어요. 선형항의 미분은 $\\mathbf a^\\top$, 이차항은 $\\theta^\\top(A+A^\\top)$이고 $A=X^\\top X$가 대칭이라 두 배가 돼요. 상수 $y^\\top y$의 미분은 0이며 결과는 $1\\times D$ 행벡터예요.</p></div>",
+    "after_summary": "\n          <p class=\"sum-lead\">손실을 전개한 뒤 두 가지 미분 규칙을 쓰면 슬라이드의 dL/dθ가 나와요.</p>\n          <p class=\"panel-label\">핵심 식</p>\n          <ul class=\"eq-list\">\n            <li><span class=\"eq-name\">전개</span>$$\\begin{aligned}L=\\frac1{2\\sigma^2}\\bigl(&\\mathbf y^\\top\\mathbf y\\\\&-2\\mathbf y^\\top\\mathbf X\\boldsymbol\\theta\\\\&+\\boldsymbol\\theta^\\top\\mathbf X^\\top\\mathbf X\\boldsymbol\\theta\\bigr)\\end{aligned}$$</li>\n            <li><span class=\"eq-name\">그레이디언트</span>$$\\begin{aligned}\\frac{dL}{d\\boldsymbol\\theta}&=\\frac1{2\\sigma^2}\\bigl(-2\\mathbf y^\\top\\mathbf X\\\\&\\quad+2\\boldsymbol\\theta^\\top\\mathbf X^\\top\\mathbf X\\bigr)\\\\&=\\frac1{\\sigma^2}\\bigl(-\\mathbf y^\\top\\mathbf X\\\\&\\quad+\\boldsymbol\\theta^\\top\\mathbf X^\\top\\mathbf X\\bigr)\\\\&\\in\\mathbb R^{1\\times D}\\end{aligned}$$</li>\n          </ul>\n          <p class=\"panel-label\">용어</p>\n          <dl class=\"terms\"><dt>그레이디언트(gradient)</dt><dd>스칼라 함수를 벡터로 미분한 것, MML에서는 행 벡터</dd></dl>\n        <div class=\"summary-group\"><h4>조건·구분</h4><p>보충(MML 식 9.11)이며 수업에서 이 유도를 하지 않았어요. 선형항의 미분은 $\\mathbf a^\\top$, 이차항은 $\\theta^\\top(A+A^\\top)$이고 $A=X^\\top X$가 대칭이라 두 배가 돼요. 상수 $y^\\top y$의 미분은 0이며 결과는 $1\\times D$ 행벡터예요.</p></div>",
+    "formulas": [
+      {
+        "before": "L = \\frac{1}{2\\sigma^2}\\left(\\mathbf{y}^\\top\\mathbf{y} - 2\\mathbf{y}^\\top\\mathbf{X}\\boldsymbol{\\theta} + \\boldsymbol{\\theta}^\\top\\mathbf{X}^\\top\\mathbf{X}\\boldsymbol{\\theta}\\right)",
+        "after": "\\begin{aligned}L=\\frac1{2\\sigma^2}\\bigl(&\\mathbf y^\\top\\mathbf y\\\\&-2\\mathbf y^\\top\\mathbf X\\boldsymbol\\theta\\\\&+\\boldsymbol\\theta^\\top\\mathbf X^\\top\\mathbf X\\boldsymbol\\theta\\bigr)\\end{aligned}"
+      },
+      {
+        "before": "\\frac{dL}{d\\boldsymbol{\\theta}} = \\frac{1}{2\\sigma^2}\\left(-2\\mathbf{y}^\\top\\mathbf{X} + 2\\boldsymbol{\\theta}^\\top\\mathbf{X}^\\top\\mathbf{X}\\right) = \\frac{1}{\\sigma^2}\\left(-\\mathbf{y}^\\top\\mathbf{X} + \\boldsymbol{\\theta}^\\top\\mathbf{X}^\\top\\mathbf{X}\\right) \\in \\mathbb{R}^{1 \\times D}",
+        "after": "\\begin{aligned}\\frac{dL}{d\\boldsymbol\\theta}&=\\frac1{2\\sigma^2}\\bigl(-2\\mathbf y^\\top\\mathbf X\\\\&\\quad+2\\boldsymbol\\theta^\\top\\mathbf X^\\top\\mathbf X\\bigr)\\\\&=\\frac1{\\sigma^2}\\bigl(-\\mathbf y^\\top\\mathbf X\\\\&\\quad+\\boldsymbol\\theta^\\top\\mathbf X^\\top\\mathbf X\\bigr)\\\\&\\in\\mathbb R^{1\\times D}\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/0928/정리노트_0928_Linear_Regression.html",
+    "id": "s3-polyfit",
+    "before_summary": "\n    <p class=\"sum-lead\">같은 점 10개에 차수 $M$을 바꿔 가며 최대우도 다항식을 맞춰 봐요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">데이터 생성</span>$$x_n \\sim \\mathcal{U}[-5, 5], \\qquad y_n = -\\sin(x_n/5) + \\cos(x_n) + \\epsilon, \\qquad \\epsilon \\sim \\mathcal{N}(0, 0.2^2)$$</li>\n      <li><span class=\"eq-name\">차수 M 모델</span>$$f(x) = \\theta_0 + \\theta_1 x + \\theta_2 x^2 + \\dots + \\theta_M x^M = \\boldsymbol{\\phi}(x)^\\top \\boldsymbol{\\theta}$$</li>\n      <li><span class=\"eq-name\">최대우도 해</span>$$\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\">\n      <dt>차수(degree) M</dt><dd>다항식의 가장 높은 거듭제곱. $M = 0$은 상수, $M = 1$은 직선이에요.</dd>\n    </dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>$K=M+1$이고 $\\Phi$는 $10\\times(M+1)$이에요. 이 예의 $M=9$는 열 개 점을 보간하지만 점 사이에서 출렁이고, $M\\ge10$이면 $\\Phi^\\top\\Phi$가 가역이 아니어서 표시한 역행렬 식을 쓸 수 없어요. 잡음의 0.2는 표준편차이고 분산은 0.04예요.</p></div>",
+    "after_summary": "\n    <p class=\"sum-lead\">같은 점 10개에 차수 $M$을 바꿔 가며 최대우도 다항식을 맞춰 봐요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">데이터 생성</span>$$\\begin{aligned}x_n&\\sim\\mathcal U[-5,5],\\\\y_n&=-\\sin(x_n/5)\\\\&\\quad+\\cos(x_n)+\\epsilon,\\\\\\epsilon&\\sim\\mathcal N(0,0.2^2)\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">차수 M 모델</span>$$\\begin{aligned}f(x)&=\\theta_0+\\theta_1x\\\\&\\quad+\\theta_2x^2+\\dots+\\theta_Mx^M\\\\&=\\boldsymbol\\phi(x)^\\top\\boldsymbol\\theta\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">최대우도 해</span>$$\\boldsymbol{\\theta}_{\\text{ML}} = (\\boldsymbol{\\Phi}^\\top \\boldsymbol{\\Phi})^{-1} \\boldsymbol{\\Phi}^\\top \\mathbf{y}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\">\n      <dt>차수(degree) M</dt><dd>다항식의 가장 높은 거듭제곱. $M = 0$은 상수, $M = 1$은 직선이에요.</dd>\n    </dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>$K=M+1$이고 $\\Phi$는 $10\\times(M+1)$이에요. 이 예의 $M=9$는 열 개 점을 보간하지만 점 사이에서 출렁이고, $M\\ge10$이면 $\\Phi^\\top\\Phi$가 가역이 아니어서 표시한 역행렬 식을 쓸 수 없어요. 잡음의 0.2는 표준편차이고 분산은 0.04예요.</p></div>",
+    "formulas": [
+      {
+        "before": "x_n \\sim \\mathcal{U}[-5, 5], \\qquad y_n = -\\sin(x_n/5) + \\cos(x_n) + \\epsilon, \\qquad \\epsilon \\sim \\mathcal{N}(0, 0.2^2)",
+        "after": "\\begin{aligned}x_n&\\sim\\mathcal U[-5,5],\\\\y_n&=-\\sin(x_n/5)\\\\&\\quad+\\cos(x_n)+\\epsilon,\\\\\\epsilon&\\sim\\mathcal N(0,0.2^2)\\end{aligned}"
+      },
+      {
+        "before": "f(x) = \\theta_0 + \\theta_1 x + \\theta_2 x^2 + \\dots + \\theta_M x^M = \\boldsymbol{\\phi}(x)^\\top \\boldsymbol{\\theta}",
+        "after": "\\begin{aligned}f(x)&=\\theta_0+\\theta_1x\\\\&\\quad+\\theta_2x^2+\\dots+\\theta_Mx^M\\\\&=\\boldsymbol\\phi(x)^\\top\\boldsymbol\\theta\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/0930/정리노트_0930_Bayesian_Linear_Regression.html",
+    "id": "s2-predictive",
+    "before_summary": "\n    <p class=\"sum-lead\">조인트를 곱셈 법칙으로 쪼개고 두 가정을 넣으면, 사후 예측분포는 likelihood와 $\\boldsymbol{\\theta}$의 조건부 PDF를 곱해 $\\boldsymbol{\\theta}$로 적분한 식이 돼요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">가정 ①</span>$$p(y_* \\mid \\boldsymbol{\\theta}, \\mathbf{x}_*, \\mathcal{X}, \\mathcal{Y}) = p(y_* \\mid \\mathbf{x}_*, \\boldsymbol{\\theta})$$</li>\n      <li><span class=\"eq-name\">가정 ②</span>$$p(\\boldsymbol{\\theta} \\mid \\mathbf{x}_*, \\mathcal{X}, \\mathcal{Y}) = p(\\boldsymbol{\\theta} \\mid \\mathcal{X}, \\mathcal{Y})$$</li>\n      <li><span class=\"eq-name\">사후 예측분포</span>$$p(y_* \\mid \\mathbf{x}_*, \\mathcal{X}, \\mathcal{Y}) = \\int p(y_* \\mid \\mathbf{x}_*, \\boldsymbol{\\theta})\\,p(\\boldsymbol{\\theta} \\mid \\mathcal{X}, \\mathcal{Y})\\,d\\boldsymbol{\\theta}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\">\n      <dt>가능도(likelihood)</dt><dd>앞 항 $p(y_* \\mid \\mathbf{x}_*, \\boldsymbol{\\theta})$. 항상 들어가요</dd>\n      <dt>유보</dt><dd>$\\boldsymbol{\\theta}$를 값 하나로 결정하지 않고 PDF로 남겨 두는 것</dd>\n    </dl>\n  ",
+    "after_summary": "\n    <p class=\"sum-lead\">조인트를 곱셈 법칙으로 쪼개고 두 가정을 넣으면, 사후 예측분포는 likelihood와 $\\boldsymbol{\\theta}$의 조건부 PDF를 곱해 $\\boldsymbol{\\theta}$로 적분한 식이 돼요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">가정 ①</span>$$\\begin{aligned}&p(y_*\\mid\\boldsymbol\\theta,\\mathbf x_*,\\mathcal X,\\mathcal Y)\\\\&=p(y_*\\mid\\mathbf x_*,\\boldsymbol\\theta)\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">가정 ②</span>$$\\begin{aligned}&p(\\boldsymbol\\theta\\mid\\mathbf x_*,\\mathcal X,\\mathcal Y)\\\\&=p(\\boldsymbol\\theta\\mid\\mathcal X,\\mathcal Y)\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">사후 예측분포</span>$$\\begin{aligned}&p(y_*\\mid\\mathbf x_*,\\mathcal X,\\mathcal Y)\\\\&=\\int p(y_*\\mid\\mathbf x_*,\\boldsymbol\\theta)\\\\&\\quad{}\\cdot p(\\boldsymbol\\theta\\mid\\mathcal X,\\mathcal Y)\\,d\\boldsymbol\\theta\\end{aligned}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\">\n      <dt>가능도(likelihood)</dt><dd>앞 항 $p(y_* \\mid \\mathbf{x}_*, \\boldsymbol{\\theta})$. 항상 들어가요</dd>\n      <dt>유보</dt><dd>$\\boldsymbol{\\theta}$를 값 하나로 결정하지 않고 PDF로 남겨 두는 것</dd>\n    </dl>\n  ",
+    "formulas": [
+      {
+        "before": "p(y_* \\mid \\boldsymbol{\\theta}, \\mathbf{x}_*, \\mathcal{X}, \\mathcal{Y}) = p(y_* \\mid \\mathbf{x}_*, \\boldsymbol{\\theta})",
+        "after": "\\begin{aligned}&p(y_*\\mid\\boldsymbol\\theta,\\mathbf x_*,\\mathcal X,\\mathcal Y)\\\\&=p(y_*\\mid\\mathbf x_*,\\boldsymbol\\theta)\\end{aligned}"
+      },
+      {
+        "before": "p(\\boldsymbol{\\theta} \\mid \\mathbf{x}_*, \\mathcal{X}, \\mathcal{Y}) = p(\\boldsymbol{\\theta} \\mid \\mathcal{X}, \\mathcal{Y})",
+        "after": "\\begin{aligned}&p(\\boldsymbol\\theta\\mid\\mathbf x_*,\\mathcal X,\\mathcal Y)\\\\&=p(\\boldsymbol\\theta\\mid\\mathcal X,\\mathcal Y)\\end{aligned}"
+      },
+      {
+        "before": "p(y_* \\mid \\mathbf{x}_*, \\mathcal{X}, \\mathcal{Y}) = \\int p(y_* \\mid \\mathbf{x}_*, \\boldsymbol{\\theta})\\,p(\\boldsymbol{\\theta} \\mid \\mathcal{X}, \\mathcal{Y})\\,d\\boldsymbol{\\theta}",
+        "after": "\\begin{aligned}&p(y_*\\mid\\mathbf x_*,\\mathcal X,\\mathcal Y)\\\\&=\\int p(y_*\\mid\\mathbf x_*,\\boldsymbol\\theta)\\\\&\\quad{}\\cdot p(\\boldsymbol\\theta\\mid\\mathcal X,\\mathcal Y)\\,d\\boldsymbol\\theta\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/1007/정리노트_1007_Product_of_Gaussians.html",
+    "id": "s1-covariance",
+    "before_summary": "\n    <p class=\"sum-lead\">분산은 자기 자신과의 공분산이에요. 벡터 공분산은 익숙한 스칼라 계산을 모든 성분 쌍에 적용한 표예요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">스칼라 공분산</span>$$\\mathrm{cov}(X, Y) = E[XY] - E[X]E[Y]$$</li>\n      <li><span class=\"eq-name\">두 랜덤 벡터의 공분산</span>$$\\mathrm{cov}(\\mathbf{X}, \\mathbf{Y}) = E[\\mathbf{X}\\mathbf{Y}^\\top] - E[\\mathbf{X}]E[\\mathbf{Y}]^\\top \\in \\mathbb{R}^{n \\times m}$$</li>\n      <li><span class=\"eq-name\">공분산 행렬</span>$$\\Sigma_{\\mathbf{X}} := \\mathrm{var}(\\mathbf{X}) = \\mathrm{cov}(\\mathbf{X}, \\mathbf{X}) \\in \\mathbb{R}^{n \\times n}, \\qquad [\\Sigma_{\\mathbf{X}}]_{ij} = \\mathrm{cov}(X_i, X_j)$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>공분산 행렬(covariance matrix)</dt><dd>대각은 분산, 비대각은 연관도인 대칭 행렬</dd><dt>대칭(symmetric)</dt><dd>$\\mathrm{cov}(X_1, X_2) = \\mathrm{cov}(X_2, X_1)$이라서 성립해요</dd></dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>벡터에서는 $\\mathrm{cov}(\\mathbf{X},\\mathbf{Y})=\\mathrm{cov}(\\mathbf{Y},\\mathbf{X})^\\top$으로 입력 순서를 바꾸면 전치돼요. 합의 평균은 더해지고, 합의 분산을 더하는 식에는 독립 또는 영교차공분산 조건이 있어요. 수업 외 보충은 실수 열벡터와 유한한 이차 모멘트에서 편차의 외적을 쓰며, 내적 하나나 성분별 분산만으로는 성분 사이의 공분산 표를 대신하지 못함을 보여요.</p></div>",
+    "after_summary": "\n    <p class=\"sum-lead\">분산은 자기 자신과의 공분산이에요. 벡터 공분산은 익숙한 스칼라 계산을 모든 성분 쌍에 적용한 표예요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">스칼라 공분산</span>$$\\mathrm{cov}(X, Y) = E[XY] - E[X]E[Y]$$</li>\n      <li><span class=\"eq-name\">두 랜덤 벡터의 공분산</span>$$\\begin{aligned}\\mathrm{cov}(\\mathbf X,\\mathbf Y)&=E[\\mathbf X\\mathbf Y^\\top]\\\\&-E[\\mathbf X]E[\\mathbf Y]^\\top\\\\&\\in\\mathbb R^{n\\times m}\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">공분산 행렬</span>$$\\begin{aligned}\\Sigma_{\\mathbf X}&:=\\mathrm{var}(\\mathbf X)\\\\&=\\mathrm{cov}(\\mathbf X,\\mathbf X)\\\\&\\in\\mathbb R^{n\\times n},\\\\[\\Sigma_{\\mathbf X}]_{ij}&=\\mathrm{cov}(X_i,X_j)\\end{aligned}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>공분산 행렬(covariance matrix)</dt><dd>대각은 분산, 비대각은 연관도인 대칭 행렬</dd><dt>대칭(symmetric)</dt><dd>$\\mathrm{cov}(X_1, X_2) = \\mathrm{cov}(X_2, X_1)$이라서 성립해요</dd></dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>벡터에서는 $\\mathrm{cov}(\\mathbf{X},\\mathbf{Y})=\\mathrm{cov}(\\mathbf{Y},\\mathbf{X})^\\top$으로 입력 순서를 바꾸면 전치돼요. 합의 평균은 더해지고, 합의 분산을 더하는 식에는 독립 또는 영교차공분산 조건이 있어요. 수업 외 보충은 실수 열벡터와 유한한 이차 모멘트에서 편차의 외적을 쓰며, 내적 하나나 성분별 분산만으로는 성분 사이의 공분산 표를 대신하지 못함을 보여요.</p></div>",
+    "formulas": [
+      {
+        "before": "\\mathrm{cov}(\\mathbf{X}, \\mathbf{Y}) = E[\\mathbf{X}\\mathbf{Y}^\\top] - E[\\mathbf{X}]E[\\mathbf{Y}]^\\top \\in \\mathbb{R}^{n \\times m}",
+        "after": "\\begin{aligned}\\mathrm{cov}(\\mathbf X,\\mathbf Y)&=E[\\mathbf X\\mathbf Y^\\top]\\\\&-E[\\mathbf X]E[\\mathbf Y]^\\top\\\\&\\in\\mathbb R^{n\\times m}\\end{aligned}"
+      },
+      {
+        "before": "\\Sigma_{\\mathbf{X}} := \\mathrm{var}(\\mathbf{X}) = \\mathrm{cov}(\\mathbf{X}, \\mathbf{X}) \\in \\mathbb{R}^{n \\times n}, \\qquad [\\Sigma_{\\mathbf{X}}]_{ij} = \\mathrm{cov}(X_i, X_j)",
+        "after": "\\begin{aligned}\\Sigma_{\\mathbf X}&:=\\mathrm{var}(\\mathbf X)\\\\&=\\mathrm{cov}(\\mathbf X,\\mathbf X)\\\\&\\in\\mathbb R^{n\\times n},\\\\[\\Sigma_{\\mathbf X}]_{ij}&=\\mathrm{cov}(X_i,X_j)\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/1012/정리노트_1012_Several_Mathematical_Proofs.html",
+    "id": "s2-rewrite",
+    "before_summary": "\n    <p class=\"sum-lead\">항등행렬을 끼워 넣는 \"하나마나 한 짓\"으로 결과를 강의자료 모양으로 바꿔요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">역행렬 순서 규칙</span>$$(\\mathbf{A}\\mathbf{B}\\mathbf{C})^{-1} = \\mathbf{C}^{-1}\\mathbf{B}^{-1}\\mathbf{A}^{-1}$$</li>\n      <li><span class=\"eq-name\">공분산 다시 쓰기</span>$$\\boldsymbol{\\Sigma} = \\left[\\boldsymbol{\\Sigma}_0^{-1}(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)\\boldsymbol{\\Sigma}_1^{-1}\\right]^{-1} = \\boldsymbol{\\Sigma}_1(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\Sigma}_0$$</li>\n      <li><span class=\"eq-name\">강의자료 모양의 결과</span>$$p_0(\\mathbf{x})p_1(\\mathbf{x}) \\propto \\mathcal{N}\\left(\\boldsymbol{\\Sigma}_1(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\mu}_0 + \\boldsymbol{\\Sigma}_0(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\mu}_1,\\ \\boldsymbol{\\Sigma}_1(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\Sigma}_0\\right)$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>하나마나 한 짓</dt><dd>값은 그대로 두고 표현만 바꾸는 계산(조교의 말)</dd></dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>행렬은 곱 순서를 바꾸지 않아요. 둘째 평균 항을 소거할 때 공분산을 전치한 동등한 꼴로 써요. $(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-T}=(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}$의 근거는 정방이라는 사실이 아니라 대칭행렬의 역행렬도 대칭이라는 점이에요.</p></div>",
+    "after_summary": "\n    <p class=\"sum-lead\">항등행렬을 끼워 넣는 \"하나마나 한 짓\"으로 결과를 강의자료 모양으로 바꿔요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">역행렬 순서 규칙</span>$$(\\mathbf{A}\\mathbf{B}\\mathbf{C})^{-1} = \\mathbf{C}^{-1}\\mathbf{B}^{-1}\\mathbf{A}^{-1}$$</li>\n      <li><span class=\"eq-name\">공분산 다시 쓰기</span>$$\\begin{aligned}\\boldsymbol\\Sigma&=\\bigl[\\boldsymbol\\Sigma_0^{-1}\\\\&\\quad{}\\cdot(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)\\boldsymbol\\Sigma_1^{-1}\\bigr]^{-1}\\\\&=\\boldsymbol\\Sigma_1(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}\\boldsymbol\\Sigma_0\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">강의자료 모양의 결과</span>$$\\begin{aligned}p_0(\\mathbf x)p_1(\\mathbf x)&\\propto\\mathcal N(\\boldsymbol\\mu,\\boldsymbol\\Sigma),\\\\\\boldsymbol\\mu&=\\boldsymbol\\Sigma_1(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}\\boldsymbol\\mu_0\\\\&\\quad+\\boldsymbol\\Sigma_0(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}\\boldsymbol\\mu_1\\end{aligned}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>하나마나 한 짓</dt><dd>값은 그대로 두고 표현만 바꾸는 계산(조교의 말)</dd></dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>행렬은 곱 순서를 바꾸지 않아요. 둘째 평균 항을 소거할 때 공분산을 전치한 동등한 꼴로 써요. $(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-T}=(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}$의 근거는 정방이라는 사실이 아니라 대칭행렬의 역행렬도 대칭이라는 점이에요.</p></div>",
+    "formulas": [
+      {
+        "before": "\\boldsymbol{\\Sigma} = \\left[\\boldsymbol{\\Sigma}_0^{-1}(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)\\boldsymbol{\\Sigma}_1^{-1}\\right]^{-1} = \\boldsymbol{\\Sigma}_1(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\Sigma}_0",
+        "after": "\\begin{aligned}\\boldsymbol\\Sigma&=\\bigl[\\boldsymbol\\Sigma_0^{-1}\\\\&\\quad{}\\cdot(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)\\boldsymbol\\Sigma_1^{-1}\\bigr]^{-1}\\\\&=\\boldsymbol\\Sigma_1(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}\\boldsymbol\\Sigma_0\\end{aligned}"
+      },
+      {
+        "before": "p_0(\\mathbf{x})p_1(\\mathbf{x}) \\propto \\mathcal{N}\\left(\\boldsymbol{\\Sigma}_1(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\mu}_0 + \\boldsymbol{\\Sigma}_0(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\mu}_1,\\ \\boldsymbol{\\Sigma}_1(\\boldsymbol{\\Sigma}_0 + \\boldsymbol{\\Sigma}_1)^{-1}\\boldsymbol{\\Sigma}_0\\right)",
+        "after": "\\begin{aligned}p_0(\\mathbf x)p_1(\\mathbf x)&\\propto\\mathcal N(\\boldsymbol\\mu,\\boldsymbol\\Sigma),\\\\\\boldsymbol\\mu&=\\boldsymbol\\Sigma_1(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}\\boldsymbol\\mu_0\\\\&\\quad+\\boldsymbol\\Sigma_0(\\boldsymbol\\Sigma_0+\\boldsymbol\\Sigma_1)^{-1}\\boldsymbol\\mu_1\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/1012/정리노트_1012_Several_Mathematical_Proofs.html",
+    "id": "s2-product",
+    "before_summary": "\n    <p class=\"sum-lead\">두 가우시안을 곱해 2차 형태로 묶고 행렬판 Lemma에 넣으면 새 평균과 공분산이 나와요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">계수 맞추기</span>$$\\mathbf{A} = \\boldsymbol{\\Sigma}_0^{-1} + \\boldsymbol{\\Sigma}_1^{-1}, \\qquad \\mathbf{b} = \\boldsymbol{\\Sigma}_0^{-1}\\boldsymbol{\\mu}_0 + \\boldsymbol{\\Sigma}_1^{-1}\\boldsymbol{\\mu}_1$$</li>\n      <li><span class=\"eq-name\">새 공분산</span>$$\\boldsymbol{\\Sigma} = (\\boldsymbol{\\Sigma}_0^{-1} + \\boldsymbol{\\Sigma}_1^{-1})^{-1}$$</li>\n      <li><span class=\"eq-name\">새 평균</span>$$\\boldsymbol{\\mu} = (\\boldsymbol{\\Sigma}_0^{-1} + \\boldsymbol{\\Sigma}_1^{-1})^{-1}(\\boldsymbol{\\Sigma}_0^{-1}\\boldsymbol{\\mu}_0 + \\boldsymbol{\\Sigma}_1^{-1}\\boldsymbol{\\mu}_1)$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>이차형식(quadratic form)</dt><dd>$\\mathbf{x}^T\\mathbf{A}\\mathbf{x}$처럼 벡터 양쪽에 행렬을 끼운 2차식</dd></dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>같은 변수 $\\mathbf x$에 대한 두 밀도를 곱하는 계산이며 정규화 전에는 $\\propto$예요. 대칭 정밀도로 교차항을 모으되 행렬 곱 순서는 그대로 유지해요. TA1 s18의 (2)항에 빠진 첫 괄호 전치는 본문처럼 $(\\mathbf x-\\boldsymbol\\mu_1)^T$로 읽어요.</p></div>",
+    "after_summary": "\n    <p class=\"sum-lead\">두 가우시안을 곱해 2차 형태로 묶고 행렬판 Lemma에 넣으면 새 평균과 공분산이 나와요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\">\n      <li><span class=\"eq-name\">계수 맞추기</span>$$\\begin{aligned}\\mathbf A&=\\boldsymbol\\Sigma_0^{-1}+\\boldsymbol\\Sigma_1^{-1},\\\\\\mathbf b&=\\boldsymbol\\Sigma_0^{-1}\\boldsymbol\\mu_0\\\\&\\quad+\\boldsymbol\\Sigma_1^{-1}\\boldsymbol\\mu_1\\end{aligned}$$</li>\n      <li><span class=\"eq-name\">새 공분산</span>$$\\boldsymbol{\\Sigma} = (\\boldsymbol{\\Sigma}_0^{-1} + \\boldsymbol{\\Sigma}_1^{-1})^{-1}$$</li>\n      <li><span class=\"eq-name\">새 평균</span>$$\\begin{aligned}\\boldsymbol\\mu={}&(\\boldsymbol\\Sigma_0^{-1}+\\boldsymbol\\Sigma_1^{-1})^{-1}\\\\&{}\\cdot(\\boldsymbol\\Sigma_0^{-1}\\boldsymbol\\mu_0\\\\&\\quad+\\boldsymbol\\Sigma_1^{-1}\\boldsymbol\\mu_1)\\end{aligned}$$</li>\n    </ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>이차형식(quadratic form)</dt><dd>$\\mathbf{x}^T\\mathbf{A}\\mathbf{x}$처럼 벡터 양쪽에 행렬을 끼운 2차식</dd></dl>\n  <div class=\"summary-group\"><h4>조건·구분</h4><p>같은 변수 $\\mathbf x$에 대한 두 밀도를 곱하는 계산이며 정규화 전에는 $\\propto$예요. 대칭 정밀도로 교차항을 모으되 행렬 곱 순서는 그대로 유지해요. TA1 s18의 (2)항에 빠진 첫 괄호 전치는 본문처럼 $(\\mathbf x-\\boldsymbol\\mu_1)^T$로 읽어요.</p></div>",
+    "formulas": [
+      {
+        "before": "\\mathbf{A} = \\boldsymbol{\\Sigma}_0^{-1} + \\boldsymbol{\\Sigma}_1^{-1}, \\qquad \\mathbf{b} = \\boldsymbol{\\Sigma}_0^{-1}\\boldsymbol{\\mu}_0 + \\boldsymbol{\\Sigma}_1^{-1}\\boldsymbol{\\mu}_1",
+        "after": "\\begin{aligned}\\mathbf A&=\\boldsymbol\\Sigma_0^{-1}+\\boldsymbol\\Sigma_1^{-1},\\\\\\mathbf b&=\\boldsymbol\\Sigma_0^{-1}\\boldsymbol\\mu_0\\\\&\\quad+\\boldsymbol\\Sigma_1^{-1}\\boldsymbol\\mu_1\\end{aligned}"
+      },
+      {
+        "before": "\\boldsymbol{\\mu} = (\\boldsymbol{\\Sigma}_0^{-1} + \\boldsymbol{\\Sigma}_1^{-1})^{-1}(\\boldsymbol{\\Sigma}_0^{-1}\\boldsymbol{\\mu}_0 + \\boldsymbol{\\Sigma}_1^{-1}\\boldsymbol{\\mu}_1)",
+        "after": "\\begin{aligned}\\boldsymbol\\mu={}&(\\boldsymbol\\Sigma_0^{-1}+\\boldsymbol\\Sigma_1^{-1})^{-1}\\\\&{}\\cdot(\\boldsymbol\\Sigma_0^{-1}\\boldsymbol\\mu_0\\\\&\\quad+\\boldsymbol\\Sigma_1^{-1}\\boldsymbol\\mu_1)\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "복습노트/1014/정리노트_1014_Bayesian_Posterior_Prediction.html",
+    "id": "s1-expand",
+    "before_summary": "<p class=\"sum-lead\">두 이차식을 펼쳐 같은 교차항을 합치면 계수 비교가 쉬워져요.</p><p class=\"panel-label\">핵심 식</p><ul class=\"eq-list\"><li><span class=\"eq-name\">음의 로그</span>$$-\\log p(\\theta\\mid X,Y)=\\frac12\\theta^T(\\sigma^{-2}\\Phi^T\\Phi+S_0^{-1})\\theta-\\theta^T(\\sigma^{-2}\\Phi^Ty+S_0^{-1}m_0)+\\mathrm{const}$$</li></ul><p class=\"panel-label\">용어</p><dl class=\"terms\"><dt>스칼라(scalar)</dt><dd>행렬 곱의 결과로 얻는 숫자 하나예요.</dd><dt>우도(likelihood)</dt><dd>주어진 파라미터에서 관측값의 밀도를 나타내요.</dd></dl><div class=\"summary-group\"><h4>조건·구분</h4><p>$\\sigma^2\\gt0$, $S_0$ 대칭 양의 정부호에서 우도 공분산은 $\\sigma^2I_N$, 사전 공분산은 $K\\times K$인 $S_0$예요. 두 교차항은 스칼라의 전치와 $S_0^{-1}$의 대칭성으로 같아요. 이차계수는 $K\\times K$, 일차계수는 $K\\times1$이며 const는 $\\theta$와 무관해요.</p></div>",
+    "after_summary": "<p class=\"sum-lead\">두 이차식을 펼쳐 같은 교차항을 합치면 계수 비교가 쉬워져요.</p><p class=\"panel-label\">핵심 식</p><ul class=\"eq-list\"><li><span class=\"eq-name\">음의 로그</span>$$\\begin{aligned}&-\\log p(\\theta\\mid X,Y)\\\\&=\\tfrac12\\theta^T(\\sigma^{-2}\\Phi^T\\Phi+S_0^{-1})\\theta\\\\&\\quad-\\theta^T(\\sigma^{-2}\\Phi^Ty+S_0^{-1}m_0)\\\\&\\quad+\\mathrm{const}\\end{aligned}$$</li></ul><p class=\"panel-label\">용어</p><dl class=\"terms\"><dt>스칼라(scalar)</dt><dd>행렬 곱의 결과로 얻는 숫자 하나예요.</dd><dt>우도(likelihood)</dt><dd>주어진 파라미터에서 관측값의 밀도를 나타내요.</dd></dl><div class=\"summary-group\"><h4>조건·구분</h4><p>$\\sigma^2\\gt0$, $S_0$ 대칭 양의 정부호에서 우도 공분산은 $\\sigma^2I_N$, 사전 공분산은 $K\\times K$인 $S_0$예요. 두 교차항은 스칼라의 전치와 $S_0^{-1}$의 대칭성으로 같아요. 이차계수는 $K\\times K$, 일차계수는 $K\\times1$이며 const는 $\\theta$와 무관해요.</p></div>",
+    "formulas": [
+      {
+        "before": "-\\log p(\\theta\\mid X,Y)=\\frac12\\theta^T(\\sigma^{-2}\\Phi^T\\Phi+S_0^{-1})\\theta-\\theta^T(\\sigma^{-2}\\Phi^Ty+S_0^{-1}m_0)+\\mathrm{const}",
+        "after": "\\begin{aligned}&-\\log p(\\theta\\mid X,Y)\\\\&=\\tfrac12\\theta^T(\\sigma^{-2}\\Phi^T\\Phi+S_0^{-1})\\theta\\\\&\\quad-\\theta^T(\\sigma^{-2}\\Phi^Ty+S_0^{-1}m_0)\\\\&\\quad+\\mathrm{const}\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  },
+  {
+    "html": "예습노트/L03/예습노트_L03_Linear_Regression_Part1.html",
+    "id": "s2-nll",
+    "before_summary": "\n    <p class=\"sum-lead\">우도 최대화는 음의 로그우도 최소화와 같아요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\"><li><span class=\"eq-name\">음의 로그우도</span>$$-\\log p(\\mathcal{Y} \\mid \\mathcal{X}, \\boldsymbol{\\theta}) = \\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2 + \\text{const}$$</li></ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>const</dt><dd>$\\boldsymbol{\\theta}$와 무관한 상수항</dd></dl>\n  ",
+    "after_summary": "\n    <p class=\"sum-lead\">우도 최대화는 음의 로그우도 최소화와 같아요.</p>\n    <p class=\"panel-label\">핵심 식</p>\n    <ul class=\"eq-list\"><li><span class=\"eq-name\">음의 로그우도</span>$$\\begin{aligned}&-\\log p(\\mathcal Y\\mid\\mathcal X,\\boldsymbol\\theta)\\\\&=\\frac1{2\\sigma^2}\\|\\mathbf y-\\mathbf X\\boldsymbol\\theta\\|^2\\\\&\\quad+\\text{const}\\end{aligned}$$</li></ul>\n    <p class=\"panel-label\">용어</p>\n    <dl class=\"terms\"><dt>const</dt><dd>$\\boldsymbol{\\theta}$와 무관한 상수항</dd></dl>\n  ",
+    "formulas": [
+      {
+        "before": "-\\log p(\\mathcal{Y} \\mid \\mathcal{X}, \\boldsymbol{\\theta}) = \\frac{1}{2\\sigma^2}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2 + \\text{const}",
+        "after": "\\begin{aligned}&-\\log p(\\mathcal Y\\mid\\mathcal X,\\boldsymbol\\theta)\\\\&=\\frac1{2\\sigma^2}\\|\\mathbf y-\\mathbf X\\boldsymbol\\theta\\|^2\\\\&\\quad+\\text{const}\\end{aligned}"
+      }
+    ],
+    "body_unchanged": true,
+    "reviewer": "/root/task6c_ml_validation",
+    "method": "manual same-expression semantic line breaks",
+    "conclusion": "Original scalar/matrix terms, order, conditions and equality/proportionality preserved; 1012 rewrite uses already-defined mu/Sigma to avoid duplicating a long Gaussian argument"
+  }
+]

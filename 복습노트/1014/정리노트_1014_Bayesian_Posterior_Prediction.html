@@ -371,7 +371,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> N(0, b²I)와 N(m₀, S₀)의 차이는 사전분포의 선택이지 MAP과 FB의 구분이 아니에요. 선형 가우시안 모형에서는 예측평균이 같아도 예측분산은 달라요.</p>
 <p>이어서 읽기: <a href="#s0-model">고정된 입력, 불확실한 가중치</a> · <a href="#s1-match">계수를 맞춰 평균과 공분산을 찾아요</a> · <a href="#s2-uncertainty">회색 띠와 남아 있는 잡음</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">가우시안 사후분포의 평균 mₙ은 MAP 위치와 같아요. FB는 여기에 사후공분산 Sₙ을 남겨 예측의 불확실성에 반영해요.</p></div>
+<div class="sum" hidden><p class="sum-lead">가우시안 사후분포의 평균 mₙ은 MAP 위치와 같아요. FB는 여기에 사후공분산 Sₙ을 남겨 예측의 불확실성에 반영해요.</p><div class="summary-group"><h4>조건·구분</h4><p>$\mathcal{N}(0,b^2I)$와 $\mathcal{N}(m_0,S_0)$는 사전분포 선택의 차이예요. MAP·FB를 나누는 기준은 최고점 하나를 고르는지, 사후분포를 유지해 주변화하는지예요.</p></div></div>
 </article>
 <article class="topic" id="s0-normalize"><h3>종 모양의 넓이를 1로 맞춰요</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s6·s8·s10–11</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">종 모양의 선을 그대로 두고 높이만 조절해서, 선 아래의 넓이를 딱 하나로 맞춰요.</p>
@@ -397,7 +397,7 @@
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“PDF, PDF의 값은 항상 스칼라예요.”</blockquote><p>(1014 Part 02; 정확한 시각 없음) 교수님은 행렬식과 이차형식의 크기를 확인하며, 복잡해 보이는 식도 마지막에는 숫자 하나여야 한다고 강조했어요. Part 01에서는 종 모양의 넓이를 1로 맞추는 계수가 뒤의 유도에 쓰인다고 예고했어요.</p></div>
   <div class="layer warn"><span class="layer-title">꼭 기억해요</span><blockquote>“이 세 번째 게 우리 지금 이 챕터에서 가장 중요한 이론.”</blockquote><p>(1014 Part 03; 정확한 시각 없음) 두 가우시안 밀도의 곱은 정규화 전에는 가우시안 모양에 비례해요. 전체 넓이로 나누어야 PDF가 돼요.</p></div>
-  <div class="sum" hidden><p class="sum-lead">종 모양의 지수부나 두 밀도의 곱은 전체 넓이로 정규화해야 PDF가 돼요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">스칼라 정규화</span>$$\int_{-\infty}^{\infty}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx=\sqrt{2\pi\sigma^2}.$$</li><li><span class="eq-name">다변량 밀도</span>$$p(\mathbf u)=\frac{1}{\sqrt{(2\pi)^d|\Sigma|}}\exp\!\left(-\frac12(\mathbf u-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf u-\boldsymbol{\mu})\right).$$</li><li><span class="eq-name">가우시안 곱</span>$$p_0(x)p_1(x)=c\,\mathcal N(x\mid m,v),\qquad \frac{p_0(x)p_1(x)}{c}=\mathcal N(x\mid m,v).$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>확률밀도함수(PDF)</dt><dd>음이 아니며 전체 적분값이 1인 함수예요.</dd><dt>정규화</dt><dd>함수의 전체 넓이를 1로 맞추는 일이에요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">종 모양의 지수부나 두 밀도의 곱은 전체 넓이로 정규화해야 PDF가 돼요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">스칼라 정규화</span>$$\int_{-\infty}^{\infty}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx=\sqrt{2\pi\sigma^2}.$$</li><li><span class="eq-name">다변량 밀도</span>$$p(\mathbf u)=\frac{1}{\sqrt{(2\pi)^d|\Sigma|}}\exp\!\left(-\frac12(\mathbf u-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf u-\boldsymbol{\mu})\right).$$</li><li><span class="eq-name">가우시안 곱</span>$$p_0(x)p_1(x)=c\,\mathcal N(x\mid m,v),\qquad \frac{p_0(x)p_1(x)}{c}=\mathcal N(x\mid m,v).$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>확률밀도함수(PDF)</dt><dd>음이 아니며 전체 적분값이 1인 함수예요.</dd><dt>정규화</dt><dd>함수의 전체 넓이를 1로 맞추는 일이에요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>PDF 값은 스칼라 밀도이며 한 점의 확률이 아니에요. 스칼라는 $\sigma^2\gt0$, $d$차원은 $\Sigma\in\mathbb{R}^{d\times d}$ 대칭 양의 정부호를 전제해요. $|\Sigma|$와 이차형식은 스칼라예요. 스칼라 곱에서는 $v=(v_0^{-1}+v_1^{-1})^{-1}$, $m=v(\mu_0/v_0+\mu_1/v_1)$이고 $c=\int p_0(x)p_1(x)\,dx$예요. 곱의 전체면적 $c$와 정규화된 가우시안 자체의 앞 계수 $1/\sqrt{2\pi v}$를 구별해요.</p></div></div>
 </article>
 
 <article class="topic" id="s0-model"><h3>고정된 입력, 불확실한 가중치</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s5</span></div>
@@ -416,7 +416,7 @@
     <p>$y_*$는 새 관측 출력이에요. 이 적분은 가능한 가중치마다 새 출력의 조건부 밀도를 계산하고, 사후분포로 가중평균해요. 우도 $p(Y\mid X,\theta)$는 관측값 $Y$에 관한 밀도이며, $\theta$의 함수로 볼 때 $\theta$에 대해 정규화된 PDF라는 뜻은 아니에요. 베이즈 규칙에서 $p(\theta\mid X,Y)\propto p(Y\mid X,\theta)p(\theta)$라는 곱은 정규화 전의 모양을 나타내고, 정규화한 뒤에야 적분값이 1인 사후밀도가 돼요. 서로 다른 변수에 관한 두 밀도를 곱하는 위 예측 적분도, 같은 변수에 관한 가우시안 곱 공식만으로 바로 끝나지 않아요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“그 linear하다는 말이 θ에 대해서만 linear하면 된다.”</blockquote><p>(1014 Part 01; 정확한 시각 없음) 입력을 변환해도 가중치에 대한 선형성이 핵심이라는 뜻이에요. Part 02에서는 새 입력의 정답을 숫자 하나로 단정하기보다, 가중치에 관한 사후분포를 적분해 예측분포를 얻는 목표를 다시 짚었어요.</p></div>
-  <div class="sum" hidden><p class="sum-lead">입력에서 특징은 고정되고, 가중치의 불확실성을 평균해 새 출력의 분포를 구해요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">관측 모델</span>$$y=\phi(x)^T\theta+\epsilon.$$</li><li><span class="eq-name">예측 목표</span>$$p(y_*\mid x_*,X,Y)=\int_{\mathbb R^K}p(y_*\mid x_*,\theta)p(\theta\mid X,Y)\,d\theta.$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>특징벡터(feature vector)</dt><dd>주어진 입력에서 결정적으로 만든 $K$차원 벡터예요.</dd><dt>사전분포(prior)</dt><dd>훈련자료를 보기 전 가중치에 둔 확률분포예요.</dd><dt>사후분포(posterior)</dt><dd>훈련자료를 본 뒤 가중치에 대해 갱신한 확률분포예요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">입력에서 특징은 고정되고, 가중치의 불확실성을 평균해 새 출력의 분포를 구해요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">관측 모델</span>$$y=\phi(x)^T\theta+\epsilon.$$</li><li><span class="eq-name">예측 목표</span>$$p(y_*\mid x_*,X,Y)=\int_{\mathbb R^K}p(y_*\mid x_*,\theta)p(\theta\mid X,Y)\,d\theta.$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>특징벡터(feature vector)</dt><dd>주어진 입력에서 결정적으로 만든 $K$차원 벡터예요.</dd><dt>사전분포(prior)</dt><dd>훈련자료를 보기 전 가중치에 둔 확률분포예요.</dd><dt>사후분포(posterior)</dt><dd>훈련자료를 본 뒤 가중치에 대해 갱신한 확률분포예요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>$\theta,\phi(x)\in\mathbb{R}^K$, $\Phi\in\mathbb{R}^{N\times K}$이며 각 행은 $\phi(x_i)^T$예요. 피처가 입력에 비선형이어도 가중치에 선형이면 선형회귀예요. 우도는 관측값에 대한 밀도이지 $\theta$에 관해 정규화된 PDF가 아니에요. 예측 적분의 두 밀도는 서로 다른 변수에 관한 것이므로 같은 변수의 가우시안 곱 공식만으로 끝나지 않아요.</p></div></div>
 </article>
     </section>
     <section id="s1"><h2>1. 사후분포를 직접 구해요</h2>
@@ -437,7 +437,7 @@
     <p>우도 $p(Y\mid X,\theta)$는 고정된 $\theta$에서 $y$에 관해 정규화된 밀도예요. 이를 $\theta$의 함수로 본 것만으로는 $\theta$에 관해 정규화된 밀도가 되지 않아요. 사전분포와 곱하고 정규화한 결과가 사후분포예요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><p>교수님은 네 항씩 직접 펼쳐 $\theta$의 차수별로 묶고, 손으로 계산해 보라고 권했어요. “이거 어렵지 않아요, 복잡할 뿐이지.” (1014 Part 04; 정확한 시각 없음)</p></div>
-  <div class="sum" hidden><p class="sum-lead">두 이차식을 펼쳐 같은 교차항을 합치면 계수 비교가 쉬워져요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">음의 로그</span>$$-\log p(\theta\mid X,Y)=\frac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)+\mathrm{const}$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>스칼라(scalar)</dt><dd>행렬 곱의 결과로 얻는 숫자 하나예요.</dd><dt>우도(likelihood)</dt><dd>주어진 파라미터에서 관측값의 밀도를 나타내요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">두 이차식을 펼쳐 같은 교차항을 합치면 계수 비교가 쉬워져요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">음의 로그</span>$$\begin{aligned}&-\log p(\theta\mid X,Y)\\&=\tfrac12\theta^T(\sigma^{-2}\Phi^T\Phi+S_0^{-1})\theta\\&\quad-\theta^T(\sigma^{-2}\Phi^Ty+S_0^{-1}m_0)\\&\quad+\mathrm{const}\end{aligned}$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>스칼라(scalar)</dt><dd>행렬 곱의 결과로 얻는 숫자 하나예요.</dd><dt>우도(likelihood)</dt><dd>주어진 파라미터에서 관측값의 밀도를 나타내요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>$\sigma^2\gt0$, $S_0$ 대칭 양의 정부호에서 우도 공분산은 $\sigma^2I_N$, 사전 공분산은 $K\times K$인 $S_0$예요. 두 교차항은 스칼라의 전치와 $S_0^{-1}$의 대칭성으로 같아요. 이차계수는 $K\times K$, 일차계수는 $K\times1$이며 const는 $\theta$와 무관해요.</p></div></div>
 </article>
 <article class="topic" id="s1-match"><h3>계수를 맞춰 평균과 공분산을 찾아요</h3><div class="tags"><span class="tag date">1014 수업</span><span class="tag slide">L04 s13</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">같은 그림을 두 장의 설명서로 그렸다면, 같은 자리의 숫자도 같아야 해요.</p>
@@ -458,7 +458,7 @@
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%A0%84%EB%B6%84%ED%8F%AC%EC%99%80_%EC%82%AC%ED%9B%84%EB%B6%84%ED%8F%AC.html">데이터 개수와 사전분산을 바꿀 때 사후분포가 어떻게 달라지는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%A0%84%EB%B6%84%ED%8F%AC%EC%99%80_%EC%82%AC%ED%9B%84%EB%B6%84%ED%8F%AC.html" target="_blank" rel="noopener noreferrer">사전분포와 사후분포 실험</a>에서 비교해 보세요.</p>
 
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><p>교수님은 일차항에서 평균을 꺼내는 부분을 다시 써 주며, 고등학교의 계수비교와 같은 원리라고 설명했어요. “다시 써볼까요, 그럼?” (1014 Part 05; 정확한 시각 없음)</p></div>
-  <div class="sum" hidden><p class="sum-lead">이차항과 일차항의 계수를 맞추면 사후공분산과 평균을 구해요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">사후 정밀도</span>$$ S_N^{-1}=S_0^{-1}+\sigma^{-2}\Phi^T\Phi $$</li><li><span class="eq-name">사후평균</span>$$ m_N=S_N(S_0^{-1}m_0+\sigma^{-2}\Phi^Ty) $$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>정밀도(precision)</dt><dd>공분산 행렬의 역행렬이에요.</dd><dt>완전제곱(completing the square)</dt><dd>이차식의 중심과 퍼짐을 드러내는 정리예요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">이차항과 일차항의 계수를 맞추면 사후공분산과 평균을 구해요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">사후 정밀도</span>$$ S_N^{-1}=S_0^{-1}+\sigma^{-2}\Phi^T\Phi $$</li><li><span class="eq-name">사후평균</span>$$ m_N=S_N(S_0^{-1}m_0+\sigma^{-2}\Phi^Ty) $$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>정밀도(precision)</dt><dd>공분산 행렬의 역행렬이에요.</dd><dt>완전제곱(completing the square)</dt><dd>이차식의 중심과 퍼짐을 드러내는 정리예요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>$S_0$가 양의 정부호이고 $\sigma^2\gt0$이면 $S_0^{-1}+\sigma^{-2}\Phi^T\Phi$도 양의 정부호라 역행렬이 존재해요. 슬라이드 머리의 잡음 표기와 달리 여기 필요한 계수는 $\sigma^{-2}=1/\sigma^2$예요. 평균을 MAP 식으로 바꿀 때는 앞뒤 $\sigma^2$가 상쇄되지만, 공분산은 $S_N=\sigma^2[\Phi^T\Phi+\sigma^2S_0^{-1}]^{-1}$의 앞 계수가 남아요.</p></div></div>
 </article>
     </section>
     <section id="s2"><h2>2. 새 입력의 예측분포</h2>
@@ -488,7 +488,7 @@
     <p>관측 잡음 $\epsilon\sim\mathcal N(0,\sigma^2)$는 $\theta$와 독립이라고 가정해요. 따라서 $y_*=z+\epsilon$의 분산에는 뒤에서 $\sigma^2$를 더해요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“벡터를 내적하면 스칼라잖아요.”</blockquote><p>(1014 Part 06; 정확한 시각 없음) 가중합의 결과와 분산이 스칼라인지 확인하며 차원을 짚었어요. 일반 정리의 별도 증명은 미뤘지만 공분산을 이용한 계산은 칠판에서 보여 주었어요.</p></div>
-  <div class="sum" hidden><p class="sum-lead">성분별 교차항을 포함해 계산한 분산이 행렬 표현 하나로 묶여요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">가중합의 분산</span>$$\operatorname{Var}(z)=\phi_*^T S_N\phi_*$$</li><li><span class="eq-name">일반 선형변환</span>$$\operatorname{Cov}(A\theta)=AS_NA^T$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>자기 공분산(self-covariance)</dt><dd>한 벡터의 성분들이 함께 움직이는 정도를 나타내는 행렬이에요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">성분별 교차항을 포함해 계산한 분산이 행렬 표현 하나로 묶여요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">가중합의 분산</span>$$\operatorname{Var}(z)=\phi_*^T S_N\phi_*$$</li><li><span class="eq-name">일반 선형변환</span>$$\operatorname{Cov}(A\theta)=AS_NA^T$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>자기 공분산(self-covariance)</dt><dd>한 벡터의 성분들이 함께 움직이는 정도를 나타내는 행렬이에요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>$K=2$이면 분산은 $a^2S_{11}+2abS_{12}+b^2S_{22}$로 교차항을 버리지 않아요. 상수 변환의 교차공분산은 $\operatorname{Cov}(A\mathbf{X}+b,B\mathbf{Y}+c)=A\operatorname{Cov}(\mathbf{X},\mathbf{Y})B^T$이며 결과 차원은 $p\times q$예요. $\operatorname{Cov}(\theta,z)=S_N\phi_*\in\mathbb{R}^{K\times1}$와 스칼라 자기분산 $\phi_*^TS_N\phi_*$를 구별해요. $\theta$와 독립인 관측잡음을 더하면 분산에 $\sigma^2$를 더해요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-integral">
@@ -517,7 +517,7 @@
     <p>결론은 $$p(y_*\mid x_*,X,Y)=\mathcal N(y_*\mid\mu,\nu+\sigma^2)=\mathcal N(y_*\mid\phi_*^Tm_N,\phi_*^T S_N\phi_*+\sigma^2).$$ $\nu=0$이면 $z=\mu$가 확률 1인 퇴화 분포예요. 이때 $1/\nu$ 계산을 쓰지 않고 직접 $y_*=\mu+\epsilon$으로부터 $\mathcal N(y_*\mid\mu,\sigma^2)$를 얻어요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“얘도 스칼라고 얘도 스칼라잖아, 이제.”</blockquote><p>(1014 Part 07; 정확한 시각 없음) 적분의 결과를 예측분포로 연결했어요. 새 입력의 $\phi_*$와 훈련자료에서 구한 $m_N,S_N$의 역할을 구분해 설명했어요.</p></div>
-  <div class="sum" hidden><p class="sum-lead">파라미터를 평균내면 새 관측값의 예측분포가 나와요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">중간 분포</span>$$z\mid x_*,X,Y\sim\mathcal N(\mu,\nu)$$</li><li><span class="eq-name">예측분포</span>$$p(y_*\mid x_*,X,Y)=\mathcal N(y_*\mid\mu,\nu+\sigma^2)$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>주변화(marginalization)</dt><dd>관심 없는 중간 변수를 적분해 원하는 변수의 분포를 얻어요.</dd><dt>정규화(normalization)</dt><dd>밀도의 전체 면적이 1이 되도록 앞 계수를 맞춰요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">파라미터를 평균내면 새 관측값의 예측분포가 나와요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">중간 분포</span>$$z\mid x_*,X,Y\sim\mathcal N(\mu,\nu)$$</li><li><span class="eq-name">예측분포</span>$$p(y_*\mid x_*,X,Y)=\mathcal N(y_*\mid\mu,\nu+\sigma^2)$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>주변화(marginalization)</dt><dd>관심 없는 중간 변수를 적분해 원하는 변수의 분포를 얻어요.</dd><dt>정규화(normalization)</dt><dd>밀도의 전체 면적이 1이 되도록 앞 계수를 맞춰요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>$z=\phi_*^T\theta$의 유도분포는 $\mu=\phi_*^Tm_N$, $\nu=\phi_*^TS_N\phi_*$예요. 여러 $\theta$가 같은 $z$를 만들 수 있어 일대일 Jacobian 하나를 붙이는 변환이 아니에요. 독립 잡음과의 합성곱 $\int\mathcal{N}(y_*\mid z,\sigma^2)\mathcal{N}(z\mid\mu,\nu)\,dz$를 계산해 분산 $\nu+\sigma^2$를 얻어요. $\nu\gt0$일 때 완전제곱과 정규화 상수를 쓰며, $\nu=0$이면 $1/\nu$ 대신 $y_*=\mu+\epsilon$에서 직접 $\mathcal{N}(\mu,\sigma^2)$를 얻어요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-uncertainty">
@@ -556,7 +556,7 @@
 
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span><blockquote>“노이즈가 있었잖아.”</blockquote><p>(1014 Part 08; 정확한 시각 없음) 훈련자료가 있는 곳에서도 관측 잡음이 남는다는 설명이에요.</p></div>
-  <div class="sum" hidden><p class="sum-lead">새 관측값의 불확실성은 파라미터 불확실성과 관측 잡음을 더한 값이에요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">관측값 분산</span>$$\nu+\sigma^2$$</li><li><span class="eq-name">잡음 없는 함수 분산</span>$$\nu=\phi_*^T S_N\phi_*$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>파라미터 불확실성(parameter uncertainty)</dt><dd>사후분포에 남은 파라미터 변동이 예측에 주는 흔들림이에요.</dd><dt>관측 잡음(observation noise)</dt><dd>같은 함수값에서도 새 관측값을 흔드는 오차예요.</dd></dl></div>
+  <div class="sum" hidden><p class="sum-lead">새 관측값의 불확실성은 파라미터 불확실성과 관측 잡음을 더한 값이에요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">관측값 분산</span>$$\nu+\sigma^2$$</li><li><span class="eq-name">잡음 없는 함수 분산</span>$$\nu=\phi_*^T S_N\phi_*$$</li></ul><p class="panel-label">용어</p><dl class="terms"><dt>파라미터 불확실성(parameter uncertainty)</dt><dd>사후분포에 남은 파라미터 변동이 예측에 주는 흔들림이에요.</dd><dt>관측 잡음(observation noise)</dt><dd>같은 함수값에서도 새 관측값을 흔드는 오차예요.</dd></dl><div class="summary-group"><h4>조건·구분</h4><p>$\sigma^2\gt0$ 고정이면 관측분산 $\nu+\sigma^2\geq\sigma^2$로 잡음 하한이 남아요. 불확실성 $0$은 잡음 없는 극한과 식별 조건을 함께 확인해야 해요. 관측 띠의 표준편차는 $\sqrt{\nu+\sigma^2}$, 함수 띠는 $\sqrt{\nu}$이며 정규분포의 $\pm1,\pm2$ 표준편차는 약 68%, 95%예요. 이 모형의 MAP 예측선은 $\phi_*^Tm_N$과 같아요. 최대 분산 지점이 항상 최선의 다음 실험이라는 뜻은 아니며 탐험·활용의 균형도 필요해요.</p></div></div>
 </article>
     </section>
     <section id="s3"><h2>3. 요약 · 예고</h2>
@@ -574,9 +574,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -802,7 +801,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -834,8 +832,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -858,14 +854,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

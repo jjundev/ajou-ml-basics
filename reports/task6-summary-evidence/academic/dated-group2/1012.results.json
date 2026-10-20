@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "pack_id": "1012",
+  "packet_file_sha256": "47c44bc42bec2b40b5f48d68dfdc96baed479124ff6627a2381c6b88355a3a43",
+  "packet_payload_sha256": "94d40a7075cfe48243b6c0060e7615d1c96505a18fa5f5cc5a6c14b892cccf27",
+  "question_payload_sha256": "aa9890c0adf6ea49b3374048907332e51505112ad56acc6648316677bd3e2697",
+  "reviewer": {
+    "identity": "independent academic derivation agent /root/ml_blind_dated_group2",
+    "context_isolation": "Only group-2/{0930,1007,1012,1014,1019,hw1}/README.md and questions.json were read as academic inputs. No course source, solutions, reference answers, other reviewers, memory, web, or existing harnesses were consulted. Python/SymPy calculations below are reviewer-authored.",
+    "comparison_status": "not compared; no approval claimed"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "f00e97da7af6883cf23be9154b9b028e750093638b5716d63f4442b99d6a3e1b",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "A=[[2,0],[1,3]], det A=2·3-0·1=6.",
+          "conclusion": "Area=6.",
+          "checks": "Absolute determinant gives nonnegative area.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "A=[[2,4],[1,2]], det A=4-4=0. Moreover g=2b, so all vertices lie on one line.",
+          "conclusion": "Area=0.",
+          "checks": "The zero area agrees with linearly dependent columns.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "input_sha256": "1c43dfce1125c7c76722ab25136da79463f23312540245abd3cbe0411c2640f3",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "det Σ=4·10-2·2=36≠0.",
+          "conclusion": "det Σ=36; inverse exists.",
+          "checks": "Positive first minor and determinant also show Σ≻0.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Swap diagonal entries, negate off-diagonal entries, and divide by determinant.",
+          "conclusion": "Σ⁻¹=(1/36)[[10,-2],[-2,4]].",
+          "checks": "Σ[[10,-2],[-2,4]]=[[36,0],[0,36]], giving identity after division.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "input_sha256": "70203ffbad6cc9f32af9930353d7998314b647943b67a9da99237a96162d6b5b",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "The inverse transformation is x=A⁻¹y. The derivative ∂x/∂y=A⁻¹ has absolute determinant 1/|ad-bc|. Substitute x into the original exponent: xᵀx=yᵀA⁻ᵀA⁻¹y. Probability conservation fY(y)dy=fX(A⁻¹y)dx supplies the determinant factor.",
+          "conclusion": "fY(y)=[2π|ad-bc|]⁻¹ exp[-yᵀA⁻ᵀA⁻¹y/2], y∈R². Equivalently N(0,AAᵀ).",
+          "checks": "|AAᵀ|=(det A)² and (AAᵀ)⁻¹=A⁻ᵀA⁻¹. Substitution y=Ax makes its integral equal the original normalized integral 1, including orientation reversing det A<0.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "input_sha256": "38542bfe1d1dbef51499511d42c9fcfa45c3e1b0b53b9ed5703e2e7e8943028e",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "x1=y1/3,x2=y2/2 and |det ∂x/∂y|=1/6. The squared norm becomes y1²/9+y2²/4.",
+          "conclusion": "fY(y)=1/(12π) exp[-(y1²/9+y2²/4)/2]; fY(0)=1/(12π).",
+          "checks": "Covariance diag(9,4) has determinant 36; normalizer is 1/(2π√36). Two one-dimensional Gaussian integrals yield total mass 1.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "input_sha256": "516ab758e56c447297ec9d17426bb9881df13622787eee740df56e9dc8a76a5b",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "From y2=2x2 get x2=y2/2. From y1=x1+x2 get x1=y1-y2/2.",
+          "conclusion": "x=A⁻¹y=[[1,-1/2],[0,1/2]]y.",
+          "checks": "AA⁻¹=I2.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "∂x/∂y=[[1,-1/2],[0,1/2]], so determinant is 1·(1/2)-0=1/2.",
+          "conclusion": "det Jacobian=1/2; absolute determinant=1/2.",
+          "checks": "This equals 1/det A, with det A=2.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "Substitute the inverse coordinates into x1²+x2²=(y1-y2/2)²+(y2/2)²=y1²-y1y2+y2²/2 and multiply density by 1/2.",
+          "conclusion": "fY(y)=1/(4π) exp[-(y1²-y1y2+y2²/2)/2].",
+          "checks": "Σ=AAᵀ=[[2,2],[2,4]], det Σ=4, Σ⁻¹=[[1,-1/2],[-1/2,1/2]]. Its normalizer matches; invertible change of variables proves total integral 1.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "input_sha256": "dfac192fabb0a3100bdb9dfb87cbde6acd5b19e5b212974c3a9f3eb484bfb608",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "Let δx=x-μx. Since μy=Aμx+b, δy=Aδx+w. Then Cov(x,y)=E[δx(Aδx+w)ᵀ]=ΣxAᵀ+E[δxwᵀ]. Independence and zero means make the last term zero. Transposing yields Cov(y,x)=AΣx.",
+          "conclusion": "Covxy=ΣxAᵀ; Covyx=AΣx.",
+          "checks": "Shapes D×E and E×D, respectively; they are transposes, not generally equal. Diagonality of Q is unnecessary for this result.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "input_sha256": "3d6bf988e84db329730743916c2858a3694717ce175f97232e98dfab2794ee3a",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Mean y is Aμx+b. Center y to Aδx+w; expansion and independent zero-mean noise give Cov(y)=AΣxAᵀ+Q. Stack x and y, placing the supplied cross-covariances into opposite off-diagonal blocks.",
+          "conclusion": "(x;y)~N((μx;Aμx+b), [[Σx,ΣxAᵀ],[AΣx,AΣxAᵀ+Q]]).",
+          "checks": "Mean length D+E, covariance (D+E)×(D+E), symmetric. It equals T diag(Σx,Q)Tᵀ with T=[[I,0],[A,I]], so it is positive semidefinite.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "input_sha256": "047c2367d4edfdff09fcbd28de3c412b32c13b7e80075c323846bec85b63f38a",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Let H=(y1,…,yt). Under independent fresh noises, m=Aμt and V=AΣtAᵀ+Q. Next y=Cxt+1+vt+1 has mean Cm, variance CVCᵀ+R and cross covariance Cov(xt+1,yt+1|H)=VCᵀ. Stack these blocks; Gaussianity is supplied.",
+          "conclusion": "Under the stated fresh-noise interpretation: N((m;Cm), [[V,VCᵀ],[CV,CVCᵀ+R]]), m=Aμt, V=AΣtAᵀ+Q.",
+          "checks": "If state dimension d and observation dimension e, A:d×d,C:e×d,Q,V:d×d,R:e×e. The joint block is positive semidefinite by the same triangular transformation construction. μ0,Σ0 are not needed once μt,Σt are supplied.",
+          "assumptions": [
+            "wt and vt+1 are independent of the current state and observation history, and of each other."
+          ],
+          "unresolved": [
+            "The phrase i.i.d. Gaussian noises does not explicitly state independence from x0/the state/history. If it means only independence among noise draws, the usual prediction blocks additionally require exogeneity. Also w and v cannot literally be identically distributed across different dimensions or unequal Q,R; the conventional reading is each process independent over time and mutually independent."
+          ]
+        }
+      ]
+    }
+  ]
+}

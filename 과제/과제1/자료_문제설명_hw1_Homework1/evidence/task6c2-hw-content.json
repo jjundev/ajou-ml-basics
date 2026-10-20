@@ -1,0 +1,1344 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/task6c2_ml_finish",
+  "actor_role": "answer-aware current content reviewer; not independent derivation",
+  "source": {
+    "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/과제1_Homework1.html",
+    "sha256": "471b3335760fc406c5677b31ac80a2b57104259ec9193374debdbca13b5144ba"
+  },
+  "html": {
+    "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/과제1_문제설명_Homework1.html",
+    "sha256": "8af7a12862dc3b2b94af2cf36b7ffc94075843d95af844510c58b2334e89c7e8"
+  },
+  "question_count": 25,
+  "subpart_count": 50,
+  "scope": "Actual allseven currentfragmentsections,all50asks,completeanswersandchecks; precise fullcontentreview distinct from summary-semantic audit",
+  "rows": [
+    {
+      "question": "p1",
+      "source_question": {
+        "id": "p1",
+        "title": "P1. 전치 구하기",
+        "conditions_html": "모든 벡터는 열벡터예요. 다음 행렬과 벡터가 주어져요.\n  $${\\mathbf{A}=\\begin{bmatrix}1 &amp; -2 &amp; 3\\\\0 &amp; 4 &amp; 5\\end{bmatrix}},\\quad{\\mathbf{b}=\\begin{bmatrix}2\\\\-1\\\\4\\end{bmatrix}},\\quad{\\mathbf{C}=\\begin{bmatrix}1 &amp; 2 &amp; 0\\\\-1 &amp; 3 &amp; 4\\\\5 &amp; 0 &amp; -2\\end{bmatrix}}$$",
+        "ask_html": "각각의 전치를 구해 보세요.<ol><li>(a) $\\mathbf{A}^\\top$</li><li>(b) $\\mathbf{b}^\\top$</li><li>(c) $\\mathbf{C}^\\top$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Find the transpose of each matrix or vector.<div class=\"part\">(a) ${\\mathbf{A}=\\begin{bmatrix}1 &amp; -2 &amp; 3\\\\0 &amp; 4 &amp; 5\\end{bmatrix}}$.</div><div class=\"part\">(b) ${\\mathbf{b}=\\begin{bmatrix}2\\\\-1\\\\4\\end{bmatrix}}$.</div><div class=\"part\">(c) ${\\mathbf{C}=\\begin{bmatrix}1 &amp; 2 &amp; 0\\\\-1 &amp; 3 &amp; 4\\\\5 &amp; 0 &amp; -2\\end{bmatrix}}$.\"</div>",
+        "input_sha256": "8163fc43377bd690562cc3b6952c0dfa2428999f9f38cd6dad201b2b7072ff2a"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p1.html",
+        "sha256": "bf99f98f76dad46cb2fd17840edf0ff9ec45ad718eb3a2606047b50b4a69cfdc"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "74ce025291096d5cc92cc255128a3a5f7216a5fb29926ae392db1f1cbc309c7d",
+        "recall": "da189193660b770812453bdc3a40d8c669d0b9c547bbc9d80b35a172dd55e856",
+        "start": "53d6373419888dd3d40228b990c99a897f0a44fd271a07cb13473e5b054781f7",
+        "solve": "b6021a06cfedc72291ea6ee7e2b9fde45e65d7e314a441ce49636e063e03bee5",
+        "verify": "2d40132b02e099deef3694c62171b095f8cf038025d759e35dec89e00dc0a782",
+        "pitfall": "d02aa9313aa711c82dbeb87e5ca01450bdf50d8a5dafe6ba7f5c5659385118b2",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Transpose is location exchange, not reciprocal/sign change. Dimensions2x3→3x2 and3x1→1x3; every C entry and double transpose checked.",
+      "parts": {
+        "p1:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Transpose is location exchange, not reciprocal/sign change. Dimensions2x3→3x2 and3x1→1x3; every C entry and double transpose checked. Perpart: Transpose exchanges dimensions 2x3→3x2 and every entry agrees.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "Aᵀ=[[1,0],[-2,4],[3,5]]."
+        },
+        "p1:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Transpose is location exchange, not reciprocal/sign change. Dimensions2x3→3x2 and3x1→1x3; every C entry and double transpose checked. Perpart: The column becomes the row [2,-1,4].",
+          "frozen_method": "exact",
+          "frozen_conclusion": "bᵀ=[2,-1,4]."
+        },
+        "p1:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Transpose is location exchange, not reciprocal/sign change. Dimensions2x3→3x2 and3x1→1x3; every C entry and double transpose checked. Perpart: All entries agree with the column-to-row transpose of C.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "Cᵀ=[[1,-1,5],[2,3,0],[0,4,-2]]."
+        }
+      }
+    },
+    {
+      "question": "p2",
+      "source_question": {
+        "id": "p2",
+        "title": "P2. 내적과 노름",
+        "conditions_html": "모든 벡터는 열벡터예요. $\\mathbf{x}=(1,-2,2)^\\top$, $\\mathbf{y}=(2,1,0)^\\top$이에요.",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) $\\mathbf{x}^\\top\\mathbf{y}$</li><li>(b) $\\|\\mathbf{x}\\|_2$</li><li>(c) $\\|\\mathbf{y}\\|_2$</li><li>(d) $\\mathbf{x}$와 $\\mathbf{y}$는 직교하나요? (a)를 이용해 설명해요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let $\\mathbf{x}=(1,-2,2)^\\top$ and $\\mathbf{y}=(2,1,0)^\\top$.<div class=\"part\">(a) Compute $\\mathbf{x}^\\top\\mathbf{y}$.</div><div class=\"part\">(b) Compute $\\|\\mathbf{x}\\|_2$.</div><div class=\"part\">(c) Compute $\\|\\mathbf{y}\\|_2$.</div><div class=\"part\">(d) Are $\\mathbf{x}$ and $\\mathbf{y}$ orthogonal? Explain using part (a).\"</div>",
+        "input_sha256": "42ffd86fcdb8802919b33c8f7123102ddfecfe03b8a3654d246c4caa6e03abba"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p2.html",
+        "sha256": "739a7562d03010206a8488149c24dbad263389759b976bcd8b532e8bcce49c24"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "709a1f5cbffa76c45de85eb18399df0736b99e3b9425037187f0dde9a8c96aa7",
+        "recall": "f2a087bcb5dc3acc9b9a99e1f4882ec7a27cdb1208b94244581f2cbe268fce2b",
+        "start": "6a78ee2363133318c27920eaf9d35cff98eda238f3d9750389cd2bd2bb67c169",
+        "solve": "4e6fceef1ae9b386866a260b4c0f34c971d64ead71d55a42f4457485aae2b839",
+        "verify": "982509028f80769dcf4bdb64fd182840725247649a0f67a2695d2cb5ea6011a5",
+        "pitfall": "2c1aa0c380445e84bb0fdf54067e32b7571030c1d83cf1fa329a01572733f3be",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Equal real dimensions and nonzero-vector angle condition explicit. Inner product0,norms3/sqrt5; independent Pythagorean/cosine checks agree.",
+      "parts": {
+        "p2:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Equal real dimensions and nonzero-vector angle condition explicit. Inner product0,norms3/sqrt5; independent Pythagorean/cosine checks agree. Perpart: Dot product 2-2+0=0.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "xᵀy=0."
+        },
+        "p2:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Equal real dimensions and nonzero-vector angle condition explicit. Inner product0,norms3/sqrt5; independent Pythagorean/cosine checks agree. Perpart: Squared norm 9 gives nonnegative norm 3.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "||x||₂=3."
+        },
+        "p2:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Equal real dimensions and nonzero-vector angle condition explicit. Inner product0,norms3/sqrt5; independent Pythagorean/cosine checks agree. Perpart: Squared norm 5 gives sqrt(5).",
+          "frozen_method": "exact",
+          "frozen_conclusion": "||y||₂=√5."
+        },
+        "p2:d": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Equal real dimensions and nonzero-vector angle condition explicit. Inner product0,norms3/sqrt5; independent Pythagorean/cosine checks agree. Perpart: Both nonzero vectors have dot product zero; the 90-degree conclusion is justified.",
+          "frozen_method": "proof",
+          "frozen_conclusion": "Yes, x and y are orthogonal."
+        }
+      }
+    },
+    {
+      "question": "p3",
+      "source_question": {
+        "id": "p3",
+        "title": "P3. 행렬 곱의 순서",
+        "conditions_html": "다음 두 행렬이 주어져요.\n  $${\\mathbf{A}=\\begin{bmatrix}1 &amp; 2 &amp; 3\\\\4 &amp; 5 &amp; 6\\\\7 &amp; 8 &amp; 9\\end{bmatrix}},\\quad{\\mathbf{B}=\\begin{bmatrix}1 &amp; 1 &amp; 0\\\\0 &amp; 1 &amp; 1\\\\1 &amp; 0 &amp; 1\\end{bmatrix}}$$",
+        "ask_html": "$\\mathbf{A}\\mathbf{B}$와 $\\mathbf{B}\\mathbf{A}$를 구하고, 두 곱이 같은지 비교해 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"For the matrices ${\\mathbf{A}=\\begin{bmatrix}1 &amp; 2 &amp; 3\\\\4 &amp; 5 &amp; 6\\\\7 &amp; 8 &amp; 9\\end{bmatrix}}$, ${\\mathbf{B}=\\begin{bmatrix}1 &amp; 1 &amp; 0\\\\0 &amp; 1 &amp; 1\\\\1 &amp; 0 &amp; 1\\end{bmatrix}}$, compute $\\mathbf{A}\\mathbf{B}$ and $\\mathbf{B}\\mathbf{A}$. Are the two products equal?\"",
+        "input_sha256": "4d35b11503f64ff19b997cc5d34e3b1869527a51210b0c288187c8308c85eb6f"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p3.html",
+        "sha256": "e4859a24c9913679f4f27908289076178df7f1422ecbb2063bca6cc90c742fe1"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "0da53e850ee3c150930d0fd1bb03b7e2091c9e5f6b040d529400dc7e3262ee5e",
+        "recall": "6568d3163f5e7224f4986685cf64d9fc1ded5bd8b48ca2296210c4cfb5e8504e",
+        "start": "a9300f0f4a166e0317d961b566844b4bb367de378f2f187a846cdee132dc6e44",
+        "solve": "f507c102555275088d13e771a97534caedad3b4d5a88644a3ff83b6e5c9f630f",
+        "verify": "4f06cde4ad8683a984fe704d79f7ea491a8d3afec66714767e3c10e6d307c70f",
+        "pitfall": "9c67828c122b42109e94ac0658c35e5c45a1c757da306040019ad5e68c32c6f4",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Row-column multiplication preserves order and dimensions. Both full3x3 products read; (1,1)4 versus5 proves noncommutation.",
+      "parts": {
+        "p3:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Row-column multiplication preserves order and dimensions. Both full3x3 products read; (1,1)4 versus5 proves noncommutation. Perpart: Both full 3x3 products agree with frozen values and differ at entry (1,1), 4 versus 5.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "AB=[[4,3,5],[10,9,11],[16,15,17]]; BA=[[5,7,9],[11,13,15],[8,10,12]]; AB≠BA."
+        }
+      }
+    },
+    {
+      "question": "p4",
+      "source_question": {
+        "id": "p4",
+        "title": "P4. 행렬식 계산",
+        "conditions_html": "다음 네 행렬이 주어져요.\n  $${\\mathbf{A}=\\begin{bmatrix}3 &amp; 1\\\\2 &amp; 4\\end{bmatrix}},\\quad{\\mathbf{B}=\\begin{bmatrix}1 &amp; -2\\\\3 &amp; 0\\end{bmatrix}}$$\n  $${\\mathbf{C}=\\begin{bmatrix}2 &amp; 0 &amp; 0\\\\0 &amp; -1 &amp; 0\\\\0 &amp; 0 &amp; 3\\end{bmatrix}},\\quad{\\mathbf{D}=\\begin{bmatrix}1 &amp; 3 &amp; 5\\\\2 &amp; 4 &amp; 6\\\\0 &amp; 2 &amp; 4\\end{bmatrix}}$$",
+        "ask_html": "각 행렬의 행렬식을 구해 보세요. (d)는 첫 행 전개와 Sarrus 규칙 두 방법으로 모두 구해요.<ol><li>(a) $\\det(\\mathbf{A})$</li><li>(b) $\\det(\\mathbf{B})$</li><li>(c) $\\det(\\mathbf{C})$</li><li>(d) $\\det(\\mathbf{D})$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Compute the determinant of each matrix. For part (d), use both expansion along the first row and the Sarrus rule.<div class=\"part\">(a) ${\\mathbf{A}=\\begin{bmatrix}3 &amp; 1\\\\2 &amp; 4\\end{bmatrix}}$.</div><div class=\"part\">(b) ${\\mathbf{B}=\\begin{bmatrix}1 &amp; -2\\\\3 &amp; 0\\end{bmatrix}}$.</div><div class=\"part\">(c) ${\\mathbf{C}=\\begin{bmatrix}2 &amp; 0 &amp; 0\\\\0 &amp; -1 &amp; 0\\\\0 &amp; 0 &amp; 3\\end{bmatrix}}$.</div><div class=\"part\">(d) ${\\mathbf{D}=\\begin{bmatrix}1 &amp; 3 &amp; 5\\\\2 &amp; 4 &amp; 6\\\\0 &amp; 2 &amp; 4\\end{bmatrix}}$.\"</div>",
+        "input_sha256": "d0a737b5e1e081b5565e137c30e4adabbc6540256956e9621daa8dd570e8c714"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p4.html",
+        "sha256": "4d03e52d49786f08dde4d8fe34f772458edbdff4907ac650b72e9e7201eb2212"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "e66d76881f35500e4449092fcb33a1e8ddbd8d095649c2d33d0279af47e023b3",
+        "recall": "0562ac2feb7f7c6d73d7c82998a1faf1b74b49d2470641e2eb8134a55b3dd407",
+        "start": "ce5c2677d6ea2abc3620b7b1089471519c27db9fcc349d45463ca3052323a1cc",
+        "solve": "9ee3cc1ba45bcd7ebcb7f46501a13d9ac620b4b6b3bc295ca2b68624f8c07b52",
+        "verify": "0cce2420f768c3a904c4b62982c2e61da2cacc305b26ed65eb328d80656c3c00",
+        "pitfall": "b587eae65af7fa68e1cbc666fa3611b0e6e53b674b04c157217217fc9ec53ee1",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Square-only determinant; diagonal/Sarrus3x3 restrictions explicit. Four determinants10,6,-6,0 and both requested d calculations, plus dependence check agree.",
+      "parts": {
+        "p4:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Square-only determinant; diagonal/Sarrus3x3 restrictions explicit. Four determinants10,6,-6,0 and both requested d calculations, plus dependence check agree. Perpart: det A=12-2=10.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "det A=10."
+        },
+        "p4:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Square-only determinant; diagonal/Sarrus3x3 restrictions explicit. Four determinants10,6,-6,0 and both requested d calculations, plus dependence check agree. Perpart: det B=0-(-6)=6.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "det B=6."
+        },
+        "p4:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Square-only determinant; diagonal/Sarrus3x3 restrictions explicit. Four determinants10,6,-6,0 and both requested d calculations, plus dependence check agree. Perpart: The diagonal determinant is 2(-1)3=-6.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "det C=-6."
+        },
+        "p4:d": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Square-only determinant; diagonal/Sarrus3x3 restrictions explicit. Four determinants10,6,-6,0 and both requested d calculations, plus dependence check agree. Perpart: Both first-row expansion 4-24+20 and Sarrus 36-36 give zero; column dependence independently agrees.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "det D=0 by both first-row expansion and Sarrus."
+        }
+      }
+    },
+    {
+      "question": "p5",
+      "source_question": {
+        "id": "p5",
+        "title": "P5. 역행렬 구하기",
+        "conditions_html": "다음 세 행렬이 주어져요.\n  $${\\mathbf{A}=\\begin{bmatrix}2 &amp; 1\\\\1 &amp; 1\\end{bmatrix}},\\quad{\\mathbf{B}=\\begin{bmatrix}1 &amp; -2\\\\3 &amp; 1\\end{bmatrix}},\\quad{\\mathbf{C}=\\begin{bmatrix}2 &amp; 1 &amp; 0\\\\1 &amp; 2 &amp; 0\\\\0 &amp; 0 &amp; 2\\end{bmatrix}}$$",
+        "ask_html": "각 행렬의 역행렬을 구해 보세요. 주요 계산 과정을 함께 써요.<ol><li>(a) $\\mathbf{A}^{-1}$</li><li>(b) $\\mathbf{B}^{-1}$</li><li>(c) $\\mathbf{C}^{-1}$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Find the inverse of each matrix. Show the main calculation steps.<div class=\"part\">(a) ${\\mathbf{A}=\\begin{bmatrix}2 &amp; 1\\\\1 &amp; 1\\end{bmatrix}}$.</div><div class=\"part\">(b) ${\\mathbf{B}=\\begin{bmatrix}1 &amp; -2\\\\3 &amp; 1\\end{bmatrix}}$.</div><div class=\"part\">(c) ${\\mathbf{C}=\\begin{bmatrix}2 &amp; 1 &amp; 0\\\\1 &amp; 2 &amp; 0\\\\0 &amp; 0 &amp; 2\\end{bmatrix}}$.\"</div>",
+        "input_sha256": "9b03ed8f6e7c8e2cbeabdf1440883d0a6e67bfc644c30b65dbf9080ec122329a"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p5.html",
+        "sha256": "ce056bdf13f3fc9e99984fa8413d7a537816608ef12d6935a7bee7891fc17cdc"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "d773a53ddc7e2d5207b320c8be2065fba2c48d76251e282b26e3161c21d3cc34",
+        "recall": "6895da7350a586ba9f997e730817aa34b934fa9d50dab1383e5f1361da7511cf",
+        "start": "cc96b4565eda25fcdd25925d9517705aa16d235823eb5b899ee55432bb5dd026",
+        "solve": "78190693a3fb3217104383467d3d808b57f1e6e26f75d6093c275b6a09e2829e",
+        "verify": "34af05f3b7b75cde3ce5331722dabfd26462a0e85b14a06af2430b4fac81c7a0",
+        "pitfall": "27e705804f6e0e291b9c1d0b61c47572262876ecae8fbffaab6fe68530c0891a",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Nonsingular square/each block inverse conditions explicit. Adjugate signs and1/7,block1/3 and1/2; both product orders checked.",
+      "parts": {
+        "p5:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Nonsingular square/each block inverse conditions explicit. Adjugate signs and1/7,block1/3 and1/2; both product orders checked. Perpart: det A=1 and inverse [[1,-1],[-1,2]] agree.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "A⁻¹=[[1,-1],[-1,2]]."
+        },
+        "p5:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Nonsingular square/each block inverse conditions explicit. Adjugate signs and1/7,block1/3 and1/2; both product orders checked. Perpart: det B=7 and adjugate [[1,2],[-3,1]] divided by 7 agree.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "B⁻¹=(1/7)[[1,2],[-3,1]]."
+        },
+        "p5:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Nonsingular square/each block inverse conditions explicit. Adjugate signs and1/7,block1/3 and1/2; both product orders checked. Perpart: The 2x2 block inverse and final scalar inverse 1/2 agree, with both product orders I3.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "C⁻¹=[[2/3,-1/3,0],[-1/3,2/3,0],[0,0,1/2]]."
+        }
+      }
+    },
+    {
+      "question": "p6",
+      "source_question": {
+        "id": "p6",
+        "title": "P6. 선형 독립 판정",
+        "conditions_html": "모든 벡터는 열벡터예요. 다음 세 벡터가 주어져요.\n  $${\\mathbf{x}_1=\\begin{bmatrix}2\\\\-1\\\\3\\end{bmatrix}},\\quad{\\mathbf{x}_2=\\begin{bmatrix}1\\\\1\\\\-2\\end{bmatrix}},\\quad{\\mathbf{x}_3=\\begin{bmatrix}3\\\\-3\\\\8\\end{bmatrix}}$$",
+        "ask_html": "세 벡터가 선형 독립인지 판정해 보세요. 비자명한 선형 관계를 찾거나, 그런 관계가 없음을 보여서 근거를 대요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Determine whether the following vectors are linearly independent. Justify your answer by finding a nontrivial linear relation or showing that no such relation exists: ${\\mathbf{x}_1=\\begin{bmatrix}2\\\\-1\\\\3\\end{bmatrix}}$, ${\\mathbf{x}_2=\\begin{bmatrix}1\\\\1\\\\-2\\end{bmatrix}}$, ${\\mathbf{x}_3=\\begin{bmatrix}3\\\\-3\\\\8\\end{bmatrix}}$.\"",
+        "input_sha256": "452b8c4a31423a200551a26ea71b4dd7dd5a20ec1a5195d02f19e3fc8200e1c4"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p6.html",
+        "sha256": "1bfa72b6eac1b87d2b3f41a6bf6a8919d5e14b126f720fb0c07ba9af550ec5a5"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "55eb30040fbbc9a1c92b8a9b8a276b1f218de37bf22e85fcc8b2272f16fa3861",
+        "recall": "7a1e414593f0def856b85f5f50f1058b79445b198ff8cfe7e685ae11f61e5e01",
+        "start": "eb3c66c75592999d84326cb6ce8a8bbf357ddc340650ad08b2fbd976ec62d219",
+        "solve": "b230fc017c16758f222e2e3d6e143f0d4397e64466c448ddc300c1f7860c2c15",
+        "verify": "53c676bd51e132d31254cef76644f14a767abc12c529a16c3e46b51afeb0b2ab",
+        "pitfall": "044eba97754fec8b3c64e842ffc529641ad8bfcf68cc6d35c2801fb9b99a68db",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Nontrivial coefficient vector defined correctly. Coordinate elimination and exact(-2,1,1) relation prove dependence.",
+      "parts": {
+        "p6:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Nontrivial coefficient vector defined correctly. Coordinate elimination and exact(-2,1,1) relation prove dependence. Perpart: The nontrivial relation x3=2x1-x2 is identical up to multiplying all relation coefficients by -1.",
+          "frozen_method": "proof",
+          "frozen_conclusion": "Linearly dependent: 2x1-x2-x3=0."
+        }
+      }
+    },
+    {
+      "question": "p7",
+      "source_question": {
+        "id": "p7",
+        "title": "P7. 선형결합으로 나타내기",
+        "conditions_html": "모든 벡터는 열벡터예요. 다음 벡터들이 주어져요.\n  $${\\mathbf{y}=\\begin{bmatrix}1\\\\-2\\\\5\\end{bmatrix}},\\quad{\\mathbf{x}_1=\\begin{bmatrix}1\\\\1\\\\1\\end{bmatrix}},\\quad{\\mathbf{x}_2=\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}},\\quad{\\mathbf{x}_3=\\begin{bmatrix}2\\\\-1\\\\1\\end{bmatrix}}$$",
+        "ask_html": "$\\mathbf{y}$를 $\\mathbf{x}_1,\\mathbf{x}_2,\\mathbf{x}_3$의 선형결합으로 나타내 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Write $\\mathbf{y}$ as a linear combination of $\\mathbf{x}_1,\\mathbf{x}_2,\\mathbf{x}_3$: ${\\mathbf{y}=\\begin{bmatrix}1\\\\-2\\\\5\\end{bmatrix}}$, ${\\mathbf{x}_1=\\begin{bmatrix}1\\\\1\\\\1\\end{bmatrix}}$, ${\\mathbf{x}_2=\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}}$, ${\\mathbf{x}_3=\\begin{bmatrix}2\\\\-1\\\\1\\end{bmatrix}}$.\"",
+        "input_sha256": "fbab2c0f01bc7f01d8169cc15a6f9c6ebdd583cef9b5c13d7fa111f860462d93"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p7.html",
+        "sha256": "4a416f8a569ecb182d3ac41fcf80211b4ea657e1db7c8262c600d5a2c4650b7b"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "80c3427019a54aeb91b96c60727badceec7bdfa9dc1fd2012792a543e2f5d284",
+        "recall": "31a1a19fad1d5bf57fb24aec02f72e0a942ce0063ff48628c487c75e69d7485e",
+        "start": "6fdd5589cbb027b22a529b4f8eef97124fd6b5e3cffac28abd3a14b1619851dd",
+        "solve": "bde444b434add97febacde2dc2deecf7460e501f5104adaed1ec91b4be56ab33",
+        "verify": "a7cec354694b72aad58d731bd4cbd925c0349978567f5b90910c594caaacfc00",
+        "pitfall": "a0b6fceca8612b1c825e9aac67f54cec2f39e477174832afd09f04e2df4b2f50",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Span/existence separated from invertibility/uniqueness. Coefficients(-6,3,2) reconstruct allthree coordinates; det5 verifies uniqueness.",
+      "parts": {
+        "p7:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Span/existence separated from invertibility/uniqueness. Coefficients(-6,3,2) reconstruct allthree coordinates; det5 verifies uniqueness. Perpart: The three equations give coefficients (-6,3,2), reconstruct every coordinate of y, and determinant 5 proves uniqueness.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "y=-6x1+3x2+2x3."
+        }
+      }
+    },
+    {
+      "question": "p8",
+      "source_question": {
+        "id": "p8",
+        "title": "P8. $\\mathbf{A}^\\top\\mathbf{A}$와 역행렬",
+        "conditions_html": "다음 행렬이 주어져요.\n  $$\\mathbf{A}=\\begin{bmatrix}1 &amp; -1\\\\1 &amp; 0\\\\1 &amp; 1\\end{bmatrix}$$",
+        "ask_html": "$\\mathbf{A}^\\top\\mathbf{A}$와 그 행렬식을 구해 보세요. $(\\mathbf{A}^\\top\\mathbf{A})^{-1}$이 존재하는지 판단하고, 존재하면 계산한 뒤 곱셈으로 검증해요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let ${\\mathbf{A}=\\begin{bmatrix}1 &amp; -1\\\\1 &amp; 0\\\\1 &amp; 1\\end{bmatrix}}$. Compute $\\mathbf{A}^\\top\\mathbf{A}$ and its determinant. Determine whether $(\\mathbf{A}^\\top\\mathbf{A})^{-1}$ exists and, if it does, calculate it. Verify your inverse by multiplication.\"",
+        "input_sha256": "9b71f01ac8322e7b45412174190c7bd8ddcbd210cdc419ab5d7955076ca3ccd2"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p8.html",
+        "sha256": "b839a299000926e4ed5c01e84645fb556f5287a4d717b2a9c4b730672f15de62"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "0b3c0b117d0f7952932fca4ea7a1d1b1e06bce5d36669a2bf94b21a6cedfa673",
+        "recall": "eb22aec63dab2686a1a03be7031cc5f24e2ed75f95384ca4387430c9c28e6f08",
+        "start": "aad69eaef14d35f978c69bdbb24e34d90868dbf89cc45c9837ff205351c3c447",
+        "solve": "95c9ae95e5cc64393714a86c43a5ce20704aac4dbaa85f8541d67cca104b03c1",
+        "verify": "67ec0c7500b173f4ff63fbfd6661fa6dd8b0e0b6e0414eac766dd2b0b45a28f2",
+        "pitfall": "9eb2d16bb9b9c95a2d5bbe2f510e3c8846d5e17969dce0d7047a198af9bf31f9",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Rectangular A distinguished from2x2 Gram. Inner products diag3,2,det6,inverse diag1/3,1/2; positive quadratic and both product orders explicit.",
+      "parts": {
+        "p8:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Rectangular A distinguished from2x2 Gram. Inner products diag3,2,det6,inverse diag1/3,1/2; positive quadratic and both product orders explicit. Perpart: Column inner products give diag(3,2), determinant 6 and inverse diag(1/3,1/2); both product orders equal I2.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "AᵀA=[[3,0],[0,2]]; determinant=6; inverse=[[1/3,0],[0,1/2]]."
+        }
+      }
+    },
+    {
+      "question": "p9",
+      "source_question": {
+        "id": "p9",
+        "title": "P9. 특징 행렬과 예측",
+        "conditions_html": "모든 벡터는 열벡터예요. 특징 사상은 $\\phi(x)=(1,x,x^2)^\\top$이고, 입력은 $x_1=-1$, $x_2=0$, $x_3=1$이에요. 파라미터는 $\\boldsymbol{\\theta}=(1,1,2)^\\top$예요.",
+        "ask_html": "$n$번째 행이 $\\phi(x_n)^\\top$인 특징 행렬 $\\boldsymbol{\\Phi}$를 만들고 ${\\hat{\\mathbf{y}}=\\boldsymbol{\\Phi}\\boldsymbol{\\theta}}$를 구해 보세요. 또 $x^2$이 들어 있는데도 이것이 선형회귀 모델인 이유를 설명해요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Consider the feature map $\\phi(x)=(1,x,x^2)^\\top$ and the three inputs $x_1=-1$, $x_2=0$, $x_3=1$. Construct the feature matrix $\\boldsymbol{\\Phi}$, with row $n$ equal to $\\phi(x_n)^\\top$, and calculate ${\\hat{\\mathbf{y}}=\\boldsymbol{\\Phi}\\boldsymbol{\\theta}}$ for $\\boldsymbol{\\theta}=(1,1,2)^\\top$. Explain why this is a linear regression model even though it contains $x^2$.\"",
+        "input_sha256": "40d7483f910a2f0ac8e5c6ef7bc9c7de1d25ebebaed4273bedb17a289a878511"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p9.html",
+        "sha256": "e0495fb3372d25acfc8e885421a05734e71874bc9483bf761d27b7e796772395"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "5707092e012c378bb757668c36fd80d2867891580980bec6ea846a131e354201",
+        "recall": "3a590a2f489d8511a42959f0b5b0356b580c4ea8ee9a767786a78dad1f041e00",
+        "start": "4e89580dd87bad7b5345a60ab74e1df9aeeb20108e3084248327e5226b632791",
+        "solve": "b68cbda3ba6b1bab1bc992e196ef258333da0d8c7de69a71e642d05649554a44",
+        "verify": "cbf2d451fb73c7396dc1f28395fb4c4b0487fed4e9870e6558d84a0020f5f5cc",
+        "pitfall": "fdf0247eaa6ac63ab8cdaabb95123476f6d0bde85d7d64b934519592d0f7c839",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Observation rows and feature columns preserved. Prediction(2,1,4) and parameter-linearity for fixedfeatures verified by direct polynomial/superposition.",
+      "parts": {
+        "p9:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Observation rows and feature columns preserved. Prediction(2,1,4) and parameter-linearity for fixedfeatures verified by direct polynomial/superposition. Perpart: The feature rows at -1,0,1 and prediction [2,1,4]^T agree; coefficient linearity is established with fixed features, despite input nonlinearity.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "Φ=[[1,-1,1],[1,0,0],[1,1,1]]; ŷ=(2,1,4)ᵀ. It is linear regression because fθ(x)=θ0+θ1x+θ2x² is linear in the unknown coefficients."
+        }
+      }
+    },
+    {
+      "question": "p10",
+      "source_question": {
+        "id": "p10",
+        "title": "P10. gradient 구하기",
+        "conditions_html": "gradient는 열벡터로 써요. 다음 세 함수가 주어져요.\n  $$f(u,v)=u^2+3v^2-2u+4v$$ $$g(u,v)=u^2+2uv+3v^2-4u+2v$$ $$h(u,v,w)=(u+2v-w-3)^2$$",
+        "ask_html": "각 함수의 gradient를 열벡터로 구하고, 주어진 점에서 값을 계산해 보세요.<ol><li>(a) $\\nabla f$, $(u,v)=(1,-1)$</li><li>(b) $\\nabla g$, $(u,v)=(1,-1)$</li><li>(c) $\\nabla h$, $(u,v,w)=(1,0,-1)$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"For each function, find its gradient as a column vector and evaluate it at the indicated point. Hint: For $f(u,v)$, ${\\nabla f=(\\partial f/\\partial u,\\partial f/\\partial v)^\\top}$. When differentiating with respect to one variable, treat the others as constants.<div class=\"part\">(a) $f(u,v)=u^2+3v^2-2u+4v$ at $(u,v)=(1,-1)$.</div><div class=\"part\">(b) $g(u,v)=u^2+2uv+3v^2-4u+2v$ at $(u,v)=(1,-1)$.</div><div class=\"part\">(c) $h(u,v,w)=(u+2v-w-3)^2$ at $(u,v,w)=(1,0,-1)$.\"</div>",
+        "input_sha256": "894d284bfff1f37a71b0601cdd675e186aee5f43262884869b9a079a3bede0bf"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p10.html",
+        "sha256": "287a3d7c5f2dc592c5e1a52348416e931336bbf9f52a81042ebb3cadaf03dc66"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "6beaec8328ef8699054ef46bf318ace61424cc06fff878fa0df161a6d351f9af",
+        "recall": "e64e2a6d27bb8b236b454a28f31a9a6f0335272b5d046d0d75840952d4ff122c",
+        "start": "bcae51a4814832355bfff0f8a5d286b1856c9e362cd03ba2e06993ec77dad82c",
+        "solve": "51b5d50064d6d029817bbdead7f6e4e2146d58094ae40ce9b79dd4ee3c7e4d75",
+        "verify": "7160a4c32b1910f71f5a34cc9384fa04c92e3d9666ac57e1e84645444a353c03",
+        "pitfall": "ca0e62035a1cbd45be87c3d549b3f51ceeeecb27b32ef8b7ce73a004156a2b51",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Differentiate before substituting. Allgeneral column gradients and point values(0,-2),(-4,-2),(-2,-4,2); increment-polynomial checks verify signs.",
+      "parts": {
+        "p10:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Differentiate before substituting. Allgeneral column gradients and point values(0,-2),(-4,-2),(-2,-4,2); increment-polynomial checks verify signs. Perpart: General derivatives (2u-2,6v+4) and value (0,-2)^T agree.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "∇f=(2u-2,6v+4)ᵀ; ∇f(1,-1)=(0,-2)ᵀ."
+        },
+        "p10:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Differentiate before substituting. Allgeneral column gradients and point values(0,-2),(-4,-2),(-2,-4,2); increment-polynomial checks verify signs. Perpart: General derivatives (2u+2v-4,2u+6v+2) and value (-4,-2)^T agree.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "∇g=(2u+2v-4,2u+6v+2)ᵀ; ∇g(1,-1)=(-4,-2)ᵀ."
+        },
+        "p10:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Differentiate before substituting. Allgeneral column gradients and point values(0,-2),(-4,-2),(-2,-4,2); increment-polynomial checks verify signs. Perpart: Chain derivative 2r(1,2,-1)^T at r=-1 gives (-2,-4,2)^T.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "∇h=(2r,4r,-2r)ᵀ; evaluated gradient=(-2,-4,2)ᵀ."
+        }
+      }
+    },
+    {
+      "question": "p11",
+      "source_question": {
+        "id": "p11",
+        "title": "P11. 야코비 행렬",
+        "conditions_html": "다음 두 벡터값 함수가 주어져요.\n  $${\\mathbf{f}(u,v)=\\begin{bmatrix}u+2v\\\\3u-v\\end{bmatrix}},\\quad{\\mathbf{g}(u,v)=\\begin{bmatrix}u^2+v\\\\uv\\\\v^2\\end{bmatrix}}$$",
+        "ask_html": "각 함수의 야코비 행렬을 구하고 주어진 점에서 값을 계산해 보세요.<ol><li>(a) $\\mathbf{J}_\\mathbf{f}$, $(u,v)=(1,2)$</li><li>(b) $\\mathbf{J}_\\mathbf{g}$, $(u,v)=(1,2)$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Find the Jacobian matrix of each vector-valued function and evaluate it at the indicated point. Hint: For $\\mathbf{f}:\\mathbb{R}^n\\to\\mathbb{R}^m$, ${(\\mathbf{J}_\\mathbf{f})_{ij}=\\partial f_i/\\partial x_j}$. The Jacobian has $m$ rows (outputs) and $n$ columns (inputs).<div class=\"part\">(a) ${\\mathbf{f}(u,v)=\\begin{bmatrix}u+2v\\\\3u-v\\end{bmatrix}}$ at $(u,v)=(1,2)$.</div><div class=\"part\">(b) ${\\mathbf{g}(u,v)=\\begin{bmatrix}u^2+v\\\\uv\\\\v^2\\end{bmatrix}}$ at $(u,v)=(1,2)$.\"</div>",
+        "input_sha256": "fe3e947c89414cec11a78f5831f7c3d800ae2d3a40d0dcb911830816c46cdf50"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p11.html",
+        "sha256": "59db9272b04cbbe282a7a7aebdbdcf277ced5e65f2457c7f8e9c7d6dd6897730"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "82f353c4f2be47d1ee56551e2d58cc53f4013d26dba4d3a60a10b37fdabff2c9",
+        "recall": "ce322ebfb130ae2c460580310b62053595bee395065e9b2a9945efdac38ce158",
+        "start": "42489eba5c73572b56b9fc7926efe4d47298c82c608dd9944e82c582cb725f6c",
+        "solve": "37f2b95a61b138db64846abeca6a58359cab2a6204cc40beeab3dd8dfbf189ae",
+        "verify": "f6d482f3639b2f99806d615937f941406a3ed5289ac3b0a705347ffed0010708",
+        "pitfall": "e40731226490855c5a11482bc9d04417b59eeaebff4266cea8ab2979f19e0c04",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Jacobian output-by-input convention2x2 and3x2. General and(1,2)derivatives; actual first-order increment verifies each entry.",
+      "parts": {
+        "p11:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Jacobian output-by-input convention2x2 and3x2. General and(1,2)derivatives; actual first-order increment verifies each entry. Perpart: Constant 2x2 Jacobian [[1,2],[3,-1]] agrees.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "Jf=[[1,2],[3,-1]], also at (1,2)."
+        },
+        "p11:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Jacobian output-by-input convention2x2 and3x2. General and(1,2)derivatives; actual first-order increment verifies each entry. Perpart: The 3x2 general Jacobian [[2u,1],[v,u],[0,2v]] becomes [[2,1],[2,1],[0,4]] at (1,2).",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "Jg=[[2u,1],[v,u],[0,2v]]; Jg(1,2)=[[2,1],[2,1],[0,4]]."
+        }
+      }
+    },
+    {
+      "question": "p12",
+      "source_question": {
+        "id": "p12",
+        "title": "P12. 이차형식의 정류점",
+        "conditions_html": "모든 벡터는 열벡터이고, gradient도 열벡터로 써요. $\\mathbf{x}=(x_1,x_2)^\\top$이고\n  $${\\mathbf{Q}=\\begin{bmatrix}3 &amp; 1\\\\1 &amp; 2\\end{bmatrix}},\\quad{\\mathbf{b}=\\begin{bmatrix}1\\\\-1\\end{bmatrix}},\\quad{h(\\mathbf{x})=\\mathbf{x}^\\top\\mathbf{Q}\\mathbf{x}-2\\mathbf{b}^\\top\\mathbf{x}}$$",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) $h$를 $x_1,x_2$로 전개하고 $\\partial h/\\partial x_1$, $\\partial h/\\partial x_2$를 계산해요.</li><li>(b) 두 편미분을 $0$으로 두고 $x_1,x_2$를 구해요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let $\\mathbf{x}=(x_1,x_2)^\\top$ and ${\\mathbf{Q}=\\begin{bmatrix}3 &amp; 1\\\\1 &amp; 2\\end{bmatrix}}$, ${\\mathbf{b}=\\begin{bmatrix}1\\\\-1\\end{bmatrix}}$, ${h(\\mathbf{x})=\\mathbf{x}^\\top\\mathbf{Q}\\mathbf{x}-2\\mathbf{b}^\\top\\mathbf{x}}$.<div class=\"part\">(a) Expand $h$ in terms of $x_1,x_2$, and compute $\\partial h/\\partial x_1$ and $\\partial h/\\partial x_2$.</div><div class=\"part\">(b) Set both derivatives equal to zero and solve for $x_1,x_2$.\"</div>",
+        "input_sha256": "a360c180da64468f9a7a96838472279d171bc7818b01e850d5f74b3666555f04"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p12.html",
+        "sha256": "596b297769ddf76ebedd326e687bb8ef793754dac5922fc751955f8eb90b5d34"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "26a8c52f20cc96d97c534ecb73d0ff82b07f91246f31903e9ff97e5b852cbef7",
+        "recall": "8e9ab2c25f061c6ca0741e9b2c775f6de7856ba1b41025594a2226ae6e5f050d",
+        "start": "eab9429d696415e04dadf0d906aee3c0b3b66c82b021c830989143a6a6a340d4",
+        "solve": "4297f6e7614609c8d9b3e7fe50e88c18bae35a7841dad12dbe334f36fbf5eb80",
+        "verify": "1a7cf2de2d779ad8b91ed390b173b343ea6810bc635b37875f2b1a3b61847859",
+        "pitfall": "87baf49f5d753f8a2bd57e88fd4b7275f96b5176531fd82a2d3f4f01146a6f4e",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "SymmetricQ condition and doubled mixed term explicit. Expansion/gradient signs,solution(3/5,-4/5),Qx=b and positive minors3,5 verify unique globalminimum.",
+      "parts": {
+        "p12:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. SymmetricQ condition and doubled mixed term explicit. Expansion/gradient signs,solution(3/5,-4/5),Qx=b and positive minors3,5 verify unique globalminimum. Perpart: Expansion has twice the mixed term and +2x2; derivatives agree with 2Qx-2b.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "h=3x1²+2x1x2+2x2²-2x1+2x2; ∂h/∂x1=6x1+2x2-2; ∂h/∂x2=2x1+4x2+2."
+        },
+        "p12:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. SymmetricQ condition and doubled mixed term explicit. Expansion/gradient signs,solution(3/5,-4/5),Qx=b and positive minors3,5 verify unique globalminimum. Perpart: Solving Qx=b gives (3/5,-4/5)^T; positive leading minors 3,5 justify the unique global minimum.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "x1=3/5, x2=-4/5."
+        }
+      }
+    },
+    {
+      "question": "p13",
+      "source_question": {
+        "id": "p13",
+        "title": "P13. 2차원 가우시안 밀도",
+        "conditions_html": "모든 벡터는 열벡터예요. $\\mathbf{X}\\sim\\mathcal{N}(\\boldsymbol{\\mu},\\boldsymbol{\\Sigma})$이고\n  $${\\boldsymbol{\\mu}=\\begin{bmatrix}1\\\\-1\\end{bmatrix}},\\quad{\\boldsymbol{\\Sigma}=\\begin{bmatrix}2 &amp; 1\\\\1 &amp; 2\\end{bmatrix}}$$",
+        "ask_html": "결합 밀도 $p_\\mathbf{X}(x_1,x_2)$를 정규화 상수까지 포함해 명시적으로 써 보세요. 지수 안의 이차식은 전개해요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Suppose $\\mathbf{X}\\sim\\mathcal{N}(\\boldsymbol{\\mu},\\boldsymbol{\\Sigma})$, where ${\\boldsymbol{\\mu}=\\begin{bmatrix}1\\\\-1\\end{bmatrix}}$, ${\\boldsymbol{\\Sigma}=\\begin{bmatrix}2 &amp; 1\\\\1 &amp; 2\\end{bmatrix}}$. Write the joint density $p_\\mathbf{X}(x_1,x_2)$ explicitly, including its normalizing constant. Expand the quadratic expression in the exponent. Hint: For a $d$-dimensional Gaussian with invertible covariance $\\mathbf{S}$, ${\\mathcal{N}(\\mathbf{z}\\mid\\mathbf{m},\\mathbf{S})=\\dfrac{\\exp[-\\frac{1}{2}(\\mathbf{z}-\\mathbf{m})^\\top\\mathbf{S}^{-1}(\\mathbf{z}-\\mathbf{m})]}{(2\\pi)^{d/2}\\sqrt{\\det\\mathbf{S}}}}$.\"",
+        "input_sha256": "d3b636a0aff3e8d68d4631d565bb01f730553b73d15e448e9f1210fface7797b"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p13.html",
+        "sha256": "6f362d1e454305769872421e8630d9030f00b693ac8bd29a4ec8766088f7aacf"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "6fe4acb049c41ddeadff09c6a9220f516c62a7e9e65d3b0fe2bf94b0805d8792",
+        "recall": "ff4cebc35f1194ec1d3985af153a0e49f90bc679e4853af9faf24d2871b53de9",
+        "start": "40c66b47154d2b1d6efc882492e4cc4f7a7c5ff7e1dfc9871d73b4955e99ab3b",
+        "solve": "0adfd6c13d40835bb2992ef436cfb7b0eac9fb3a98a82059dffef7b893bf4b25",
+        "verify": "3e7fd4cf0c86bb5dc32854366acacba10f1c35fe4c41aa1a4da32c84dbde97c6",
+        "pitfall": "4b74a0f029e2aab706058c6cd1ccbf2c539df82cefbf8919efd969834f4b0774",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "OrdinaryGaussian requires SPD,not independent coordinates. det3,inverse,2Dnormalizer and all expanded exponent terms; center maximum/eigenvalues3,1checked.",
+      "parts": {
+        "p13:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. OrdinaryGaussian requires SPD,not independent coordinates. det3,inverse,2Dnormalizer and all expanded exponent terms; center maximum/eigenvalues3,1checked. Perpart: det Sigma=3, inverse [[2,-1],[-1,2]]/3 and 2D normalizer 1/(2pi sqrt3) agree. Every expanded exponent term, including -3x1+3x2+3, matches.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "pX(x1,x2)=1/(2π√3) exp[-(x1²-x1x2+x2²-3x1+3x2+3)/3], on R²."
+        }
+      }
+    },
+    {
+      "question": "p14",
+      "source_question": {
+        "id": "p14",
+        "title": "P14. 완전제곱으로 정규화",
+        "conditions_html": "단변량 가우시안의 둘째 모수는 분산이에요. $z\\in\\mathbb{R}$에 대해\n  $$p(z)=c\\exp\\left[-\\frac{1}{2}(4z^2-8z+7)\\right]$$",
+        "ask_html": "$p$가 확률밀도가 되도록 하는 양의 상수 $c$를 구하고, 평균과 분산을 밝혀 보세요. 완전제곱을 이용해요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"For $z\\in\\mathbb{R}$, consider ${p(z)=c\\exp\\left[-\\frac{1}{2}(4z^2-8z+7)\\right]}$. Find the positive constant $c$ that makes $p$ a probability density, and identify its mean and variance. Use completion of the square. Hint: Compare your expression with ${\\mathcal{N}(z\\mid\\mu,v)=\\frac{1}{\\sqrt{2\\pi v}}\\exp\\left[-\\frac{(z-\\mu)^2}{2v}\\right]}$.\"",
+        "input_sha256": "e64e219ca924a8432b5c11a9497651504981992d9e02defe77e26065e9546286"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p14.html",
+        "sha256": "fbf1a98686dd53134c38a56ecbee5d4ac4f3d349d171c92c5e5fbf6040b39ce5"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "17fb1e2e5cc0c69eb861c8167e9a1cf2056ca81b46b7d5cca9dda206bc93456b",
+        "recall": "4263fceff7efd77cb334a93af7d2080762af00942e44732d5e9ece5e63456f94",
+        "start": "d5e9114135039eace40be318dbffcd991d298ef40e31eb873082d11a55334637",
+        "solve": "f93507c1e8d5f4743f656ddea913085244821d0f34d4b5c7a4084a7839d33df5",
+        "verify": "85d7e66bd6bced272b3aecb4848bd19ba21a615d8e891fc2838e1a1f5cf92565",
+        "pitfall": "32ef881ee0c0d0718545fdaf58d7f46f890181df51d72923f03c193dd40c6167",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Complete square4(z-1)^2+3 retains exp(-3/2). c=exp(3/2)sqrt(2/pi),mean1,variance1/4,std1/2; exact integral verifies normalizer.",
+      "parts": {
+        "p14:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Complete square4(z-1)^2+3 retains exp(-3/2). c=exp(3/2)sqrt(2/pi),mean1,variance1/4,std1/2; exact integral verifies normalizer. Perpart: Complete square 4(z-1)^2+3 gives variance 1/4 and mean 1; normalization requires c=exp(3/2)sqrt(2/pi), not merely the centered Gaussian prefactor.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "c=e^(3/2)√(2/π)>0; mean=1, variance=1/4."
+        }
+      }
+    },
+    {
+      "question": "p15",
+      "source_question": {
+        "id": "p15",
+        "title": "P15. 단순회귀의 우도",
+        "conditions_html": "단변량 가우시안의 둘째 모수는 분산이에요. 관측 데이터 $(x_n,y_n)$, $n=1,\\dots,N$은 고정되어 있고\n  $$y_n=\\theta_0+\\theta_1x_n+\\varepsilon_n$$\n  이에요. 잡음 $\\varepsilon_n$은 서로 독립인 $\\mathcal{N}(0,\\sigma^2)$이고 $\\sigma^2\\gt 0$은 알려져 있어요.",
+        "ask_html": "$N$개 관측 전체의 우도 $L(\\theta_0,\\theta_1)$을 상수 인자까지 포함해, 오차제곱합을 담은 하나의 지수 형태로 구해 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"For fixed observed data $(x_n,y_n)$, $n=1,\\dots,N$, consider $y_n=\\theta_0+\\theta_1x_n+\\varepsilon_n$, where the noise terms are independent $\\mathcal{N}(0,\\sigma^2)$ variables and $\\sigma^2\\gt 0$ is known. Find the likelihood $L(\\theta_0,\\theta_1)$ of all $N$ observations, including its constant factor, as a single exponential involving a sum of squared errors.\"",
+        "input_sha256": "641f6779f08ba7a99eb748bc6b527c0fbba3a5cb424760e92ed60404c6e6a18d"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p15.html",
+        "sha256": "7d1a2aeb0780a245841253afcd04e698687ae721681ceaf0fb48a6e33bb37b98"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "a4a3bea4ca2f21ffaf03e9f0190ac2af0a874625889bd2a3ca7a2e2cbfe2e007",
+        "recall": "842c8d1118ec826906fe323b581ab9ba6dbd79db18fecfea6caf8239439ae823",
+        "start": "982bba38c855a6247c86e5c9c2e154a4d40d0ae4fac207b555045a76c87b9327",
+        "solve": "13cf16452f30314aea3234f72ca3ad6219fb33dc5e46cc31470a15693729f6f0",
+        "verify": "0bd070b528632cd307c3fcbb9360dd659f5bbe962b3b4f3654a8edc896035a79",
+        "pitfall": "5c1528a22aa718795fc85f2d0eab59802582a0cb5c42454acf3f69b27e307060",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Fixedinputs and conditionally independent noises with known positivevariance. Product normalizer(2pi sigma²)^(-N/2),SSE exponent and N=1 reductionchecked.",
+      "parts": {
+        "p15:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Fixedinputs and conditionally independent noises with known positivevariance. Product normalizer(2pi sigma²)^(-N/2),SSE exponent and N=1 reductionchecked. Perpart: Multiplying N independent Gaussian conditional densities gives (2pi sigma^2)^(-N/2) and summed SSE/(2sigma^2), including all constants.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "L(θ0,θ1)=(2πσ²)^(-N/2) exp[-Σn=1ᴺ(yn-θ0-θ1xn)²/(2σ²)]."
+        }
+      }
+    },
+    {
+      "question": "p16",
+      "source_question": {
+        "id": "p16",
+        "title": "P16. 음의 로그우도와 최소제곱",
+        "conditions_html": "모든 벡터는 열벡터예요. $\\mathbf{y}\\mid\\boldsymbol{\\Phi},\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\boldsymbol{\\Phi}\\boldsymbol{\\theta},\\sigma^2\\mathbf{I}_N)$이고 $\\sigma^2\\gt 0$은 알려져 있어요.",
+        "ask_html": "상수항까지 포함한 음의 로그우도 전체를 유도해 보세요. 또 $\\boldsymbol{\\theta}$에 대해 우도를 최대화하는 것이 $\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2$를 최소화하는 것과 같은 이유를 보여요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let $\\mathbf{y}\\mid\\boldsymbol{\\Phi},\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\boldsymbol{\\Phi}\\boldsymbol{\\theta},\\sigma^2\\mathbf{I}_N)$, where $\\sigma^2\\gt 0$ is known. Derive the full negative log-likelihood, including its constant term. Show why maximizing the likelihood over $\\boldsymbol{\\theta}$ is equivalent to minimizing $\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2$.\"",
+        "input_sha256": "9834b6c0449369f81a6a974d50918c3e5f930886607bcf3b4807d9e7aacfa5f4"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p16.html",
+        "sha256": "a582523ffce8c748e8bcfcf4654eb10b2977c53936484bb0027dc4f41995a76f"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "291a03745c0f7fdd1f4afc6032aea64e1b5795c621d3856a48fc7d87ae3bb21b",
+        "recall": "b8a1128aaa3c5234a1eadd58da744558402849427d16185d59989d1b59378bf3",
+        "start": "a28c243a99df26a676584fa896f8f10a72691c066e8617d824f981c683b9af43",
+        "solve": "e9b218534a13879064bc99d3769a9f15843c6735a8a3af3dd53f4fc5d1e81ef0",
+        "verify": "e886cca06feebb342333d7cef0afeb7b3d1ee86b4dddbd0d0fc0d4b336b936da",
+        "pitfall": "2e96c4945d82819888ff9b57af407cde9cc9f295f779f1c0a689cb945ee9d49e",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "FullNLLconstant retained. Fixed positivevariance gives positive affine SSE transformation and identical minimizer set; exp(-NLL)reconstructs originaldensity.",
+      "parts": {
+        "p16:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. FullNLLconstant retained. Fixed positivevariance gives positive affine SSE transformation and identical minimizer set; exp(-NLL)reconstructs originaldensity. Perpart: The full NLL is N ln(2pi sigma^2)/2+SSE/(2sigma^2); fixed positive variance preserves minimizers under a positive affine transformation.",
+          "frozen_method": "symbolic",
+          "frozen_conclusion": "-log L(θ)=N/2 log(2πσ²)+(1/(2σ²))||y-Φθ||₂². Therefore argmax L=argmin ||y-Φθ||₂²."
+        }
+      }
+    },
+    {
+      "question": "p17",
+      "source_question": {
+        "id": "p17",
+        "title": "P17. 정규방정식과 수치 예",
+        "conditions_html": "모든 벡터는 열벡터예요. ${\\mathbf{y}=\\boldsymbol{\\Phi}\\boldsymbol{\\theta}+\\boldsymbol{\\varepsilon}}$, $\\boldsymbol{\\varepsilon}\\sim\\mathcal{N}(\\mathbf{0},\\sigma^2\\mathbf{I}_N)$이고 $\\sigma^2\\gt 0$은 알려져 있어요. $\\boldsymbol{\\Phi}$의 $n$번째 행은 $\\boldsymbol{\\phi}_n^\\top$이고\n  $$J(\\boldsymbol{\\theta})=\\sum_{n=1}^{N}(y_n-\\boldsymbol{\\phi}_n^\\top\\boldsymbol{\\theta})^2=\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2$$",
+        "ask_html": "<ol><li>(a) $\\boldsymbol{\\Phi}$의 열이 선형 독립이라고 가정해요. $J(\\boldsymbol{\\theta})$를 전개하고 $\\nabla_{\\boldsymbol{\\theta}}J$를 계산한 뒤 $\\mathbf{0}$으로 두어 정규방정식과 $\\boldsymbol{\\theta}_{\\mathrm{ML}}$을 유도해 보세요.</li><li>(b) 모델 ${f_{\\boldsymbol{\\theta}}(x)=\\theta_0+\\theta_1x}$와 데이터 $(x_1,y_1)=(-1,2)$, $(x_2,y_2)=(0,1)$, $(x_3,y_3)=(1,4)$에 대해 $\\boldsymbol{\\theta}_{\\mathrm{ML}}$, 예측 벡터 $\\hat{\\mathbf{y}}$, $S$의 값을 계산해 보세요. 여기서 ${\\hat{y}_n=\\theta_{0,\\mathrm{ML}}+\\theta_{1,\\mathrm{ML}}x_n}$, ${\\hat{\\mathbf{y}}=(\\hat{y}_1,\\hat{y}_2,\\hat{y}_3)^\\top}$, ${S=\\sum_{n=1}^{3}(y_n-\\hat{y}_n)^2=\\|\\mathbf{y}-\\hat{\\mathbf{y}}\\|_2^2}$예요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Consider ${\\mathbf{y}=\\boldsymbol{\\Phi}\\boldsymbol{\\theta}+\\boldsymbol{\\varepsilon}}$, where $\\boldsymbol{\\varepsilon}\\sim\\mathcal{N}(\\mathbf{0},\\sigma^2\\mathbf{I}_N)$ and $\\sigma^2\\gt 0$ is known. Let row $n$ of $\\boldsymbol{\\Phi}$ be $\\boldsymbol{\\phi}_n^\\top$, and define ${J(\\boldsymbol{\\theta})=\\sum_{n=1}^{N}(y_n-\\boldsymbol{\\phi}_n^\\top\\boldsymbol{\\theta})^2=\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2}$.<div class=\"part\">(a) Assume $\\boldsymbol{\\Phi}$ has linearly independent columns. Expand $J(\\boldsymbol{\\theta})$, compute $\\nabla_{\\boldsymbol{\\theta}}J$, and set it equal to $\\mathbf{0}$ to derive the normal equations and $\\boldsymbol{\\theta}_{\\mathrm{ML}}$.</div><div class=\"part\">(b) For the model ${f_{\\boldsymbol{\\theta}}(x)=\\theta_0+\\theta_1x}$ and data $(x_1,y_1)=(-1,2)$, $(x_2,y_2)=(0,1)$, $(x_3,y_3)=(1,4)$, calculate the numerical values of $\\boldsymbol{\\theta}_{\\mathrm{ML}}$, the prediction vector $\\hat{\\mathbf{y}}$, and $S$, defined by ${\\hat{y}_n=\\theta_{0,\\mathrm{ML}}+\\theta_{1,\\mathrm{ML}}x_n}$, ${\\hat{\\mathbf{y}}=(\\hat{y}_1,\\hat{y}_2,\\hat{y}_3)^\\top}$, ${S=\\sum_{n=1}^{3}(y_n-\\hat{y}_n)^2=\\|\\mathbf{y}-\\hat{\\mathbf{y}}\\|_2^2}$.\"</div>",
+        "input_sha256": "a300c14033a5515664cce85693463a015460163010d3d3e0f4a99e0c947a4680"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p17.html",
+        "sha256": "2e9c61572af4d5860793303e7908ca19c21f5085a48c9bb2f20c4ec8f79235fe"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "0376b591f7717b781830d46509033e46c7d02436a1851bf8e53904a8e7bdf0c0",
+        "recall": "21549a50f8096354e267bd135ce475ddeb447f9f7492a5fb16a7a1cf4387cfa7",
+        "start": "801b9288ed583502dceedf8b48f98be9aab04bb407d0f6f98ce42e0899a7a5ba",
+        "solve": "5eac1042346619c519585f046e20e3c85aea5074d06c45da0cfdaafe0a9e576a",
+        "verify": "8d92e6b9d6ed9b3d933a672c36d147d400f0b8cc00ebe5a6c5b1d823ae186551",
+        "pitfall": "ecca5391ed11cfa1998efd02dd3128d027fb614226e7b757ea2c2d89a49fbd3d",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Expansion and Kx1gradient give normal equations; fullcolumnrank supplies SPD/unique minimum. Numeric theta(7/3,1),predictions,residualSSE8/3 and orthogonality checked.",
+      "parts": {
+        "p17:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Expansion and Kx1gradient give normal equations; fullcolumnrank supplies SPD/unique minimum. Numeric theta(7/3,1),predictions,residualSSE8/3 and orthogonality checked. Perpart: The expanded scalar objective, Kx1 gradient, full-column-rank condition, normal equation and unique ML formula agree.",
+          "frozen_method": "proof",
+          "frozen_conclusion": "θML=(ΦᵀΦ)⁻¹Φᵀy; normal equations ΦᵀΦθML=Φᵀy."
+        },
+        "p17:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Expansion and Kx1gradient give normal equations; fullcolumnrank supplies SPD/unique minimum. Numeric theta(7/3,1),predictions,residualSSE8/3 and orthogonality checked. Perpart: diag(3,2) and right-hand side [7,2]^T give theta=(7/3,1), prediction (4/3,7/3,10/3), residual (2/3,-4/3,2/3), SSE=8/3.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θML=(7/3,1)ᵀ; ŷ=(4/3,7/3,10/3)ᵀ; S=4/9+16/9+4/9=8/3."
+        }
+      }
+    },
+    {
+      "question": "p18",
+      "source_question": {
+        "id": "p18",
+        "title": "P18. MAP과 릿지 회귀",
+        "conditions_html": "모든 벡터는 열벡터예요. 모델은 $\\mathbf{y}\\mid\\boldsymbol{\\Phi},\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\boldsymbol{\\Phi}\\boldsymbol{\\theta},\\sigma^2\\mathbf{I}_N)$이고, 사전분포 $\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\mathbf{0},b^2\\mathbf{I}_K)$는 고정된 입력과 독립이에요. $\\sigma^2,b^2\\gt 0$은 알려져 있고, 사전분포는 절편이 있다면 절편을 포함한 모든 계수에 적용돼요.",
+        "ask_html": "$\\boldsymbol{\\theta}$와 무관한 항을 제외한 음의 로그사후분포를 유도하고 MAP 추정을 구해 보세요. 또 이것이 $\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2+\\lambda\\|\\boldsymbol{\\theta}\\|_2^2$의 최소화와 같아지는 $\\lambda$ 값을 밝혀요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"In the model $\\mathbf{y}\\mid\\boldsymbol{\\Phi},\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\boldsymbol{\\Phi}\\boldsymbol{\\theta},\\sigma^2\\mathbf{I}_N)$, place the prior $\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\mathbf{0},b^2\\mathbf{I}_K)$, independent of the fixed inputs. Here $\\sigma^2,b^2\\gt 0$ are known, and the prior applies to every coefficient, including an intercept if present. Derive the negative log-posterior up to terms independent of $\\boldsymbol{\\theta}$ and obtain the MAP estimate. Identify the value of $\\lambda$ for which this is equivalent to minimizing $\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2+\\lambda\\|\\boldsymbol{\\theta}\\|_2^2$. Hint: Use Bayes' rule $p(\\boldsymbol{\\theta}\\mid\\boldsymbol{\\Phi},\\mathbf{y})\\propto p(\\mathbf{y}\\mid\\boldsymbol{\\Phi},\\boldsymbol{\\theta})p(\\boldsymbol{\\theta})$. The prior density is ${p(\\boldsymbol{\\theta})=(2\\pi b^2)^{-K/2}\\exp[-\\|\\boldsymbol{\\theta}\\|_2^2/(2b^2)]}$.\"",
+        "input_sha256": "7df9d65654045b0cef421f2205c243cafd3583bd4fcdc8aee710ea68c3bfeb9d"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p18.html",
+        "sha256": "5bb506934068fb69e3ee53e288e13893d618969c3b96b70070fb5f0dd53718b2"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "1f3190f46b867f20981f6f2795f34503edee21061118acaf6ed13755f8054a1a",
+        "recall": "cf98d96e4b60da8d4de8a41aeb6a0c72684dedd63c501a1edcd74a077313718f",
+        "start": "3819dfd6b0e6dce7be9778638ef579b0aa0ef4a8c496176950e4bba504c8deae",
+        "solve": "221241622540050ca83ba0aba931be4f74d52806dcb22684857229b424687493",
+        "verify": "cd77feff623f6cc35ef22ed00badb90e6072c53fcaf5495dac8cf98ad8a5cbf8",
+        "pitfall": "c46d0efe26e0c06e4822d84b05caa748fd5d5cb48f3c0cbc2f1fdfb038505295",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Bayes theta-independentconstants,knownpositivevariance/prior and allcoefficientsincludingintercept. lambda=sigma²/b² after positive scaling; strictSPD even rankdeficient.",
+      "parts": {
+        "p18:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Bayes theta-independentconstants,knownpositivevariance/prior and allcoefficientsincludingintercept. lambda=sigma²/b² after positive scaling; strictSPD even rankdeficient. Perpart: The negative log posterior has SSE/(2sigma^2)+||theta||^2/(2b^2)+C. Positive scaling gives lambda=sigma^2/b^2, all-coefficient penalty, and an invertible ridge system even under rank deficiency.",
+          "frozen_method": "proof",
+          "frozen_conclusion": "λ=σ²/b²; θMAP=(ΦᵀΦ+λI_K)⁻¹Φᵀy."
+        }
+      }
+    },
+    {
+      "question": "p19",
+      "source_question": {
+        "id": "p19",
+        "title": "P19. ML과 MAP 수치 비교",
+        "conditions_html": "모든 벡터는 열벡터예요. 모델은 ${f_{\\boldsymbol{\\theta}}(x)=\\theta_0+\\theta_1x}$, 관측은 $(-1,2)$, $(0,1)$, $(1,4)$이고 잡음 분산은 $\\sigma^2=1$로 알려져 있어요. 사전분포 $\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\mathbf{0},b^2\\mathbf{I}_2)$는 절편과 기울기 모두에 적용돼요. 다음 값을 써도 돼요.\n  $${\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi}=\\begin{bmatrix}3 &amp; 0\\\\0 &amp; 2\\end{bmatrix}},\\quad{\\boldsymbol{\\Phi}^\\top\\mathbf{y}=\\begin{bmatrix}7\\\\2\\end{bmatrix}}$$",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) ML 추정과 $b^2=1$일 때의 MAP 추정을 계산해요.</li><li>(b) $b^2=\\frac{1}{4}$일 때의 MAP 추정을 계산해요. 두 MAP 추정을 ML 추정과 비교하고, $b^2$을 줄이는 효과를 설명해요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"For ${f_{\\boldsymbol{\\theta}}(x)=\\theta_0+\\theta_1x}$, use the observations $(-1,2)$, $(0,1)$, and $(1,4)$ with known noise variance $\\sigma^2=1$. The prior is $\\boldsymbol{\\theta}\\sim\\mathcal{N}(\\mathbf{0},b^2\\mathbf{I}_2)$ and applies to both the intercept and the slope. You may use ${\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi}=\\begin{bmatrix}3 &amp; 0\\\\0 &amp; 2\\end{bmatrix}}$, ${\\boldsymbol{\\Phi}^\\top\\mathbf{y}=\\begin{bmatrix}7\\\\2\\end{bmatrix}}$.<div class=\"part\">(a) Calculate the ML estimate and the MAP estimate when $b^2=1$.</div><div class=\"part\">(b) Calculate the MAP estimate when $b^2=1/4$. Compare the two MAP estimates with the ML estimate and explain the effect of decreasing $b^2$.\"</div>",
+        "input_sha256": "120f11a24bf428e02386f675de83ccbb04af1588b707082d0b6a775f7a20dfd0"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p19.html",
+        "sha256": "351857e753473c800319f060dff4e1a0740697013b4de7c482dd84028da63d81"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "9cd255265d88f5c79349497b66cdd043958f087b2a5839efc3bd5fc7f924c481",
+        "recall": "c00f6715b642bc2c101b58726e199ad43c6750c0bc7e8f4d1a7d301c17370fb5",
+        "start": "f6c4ea8af6f96624aca31e4a86613e10e064f0ffeda313c2350a8bc8390eda8b",
+        "solve": "67e5f9c86d542e3e469ce68d098ac62818bdbd61aa6c5b1af649103f15c65a96",
+        "verify": "8c2dee71c4d055053afcc85f653173230117e318f6500e80089b776e66dbe3be",
+        "pitfall": "8e947e65cd030d30d7c0a7aa7b7e238c3267481ae903a2764da5602980b2bf13",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Same diagonalGram across ML/MAP; both intercept/slopepenalized. lambda1,4 andsolutions(7/4,2/3),(1,1/3); coordinate shrinkage explicitly limited to supplied diagonalexample.",
+      "parts": {
+        "p19:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Same diagonalGram across ML/MAP; both intercept/slopepenalized. lambda1,4 andsolutions(7/4,2/3),(1,1/3); coordinate shrinkage explicitly limited to supplied diagonalexample. Perpart: ML (7/3,1) and b^2=1 MAP (7/4,2/3) solve their respective diagonal equations.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θML=(7/3,1)ᵀ; θMAP at b²=1 is (7/4,2/3)ᵀ."
+        },
+        "p19:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Same diagonalGram across ML/MAP; both intercept/slopepenalized. lambda1,4 andsolutions(7/4,2/3),(1,1/3); coordinate shrinkage explicitly limited to supplied diagonalexample. Perpart: b^2=1/4 gives lambda=4 and MAP (1,1/3). The coordinatewise contraction pertains to this diagonal example; frozen and summary both avoid extending it to arbitrary bases.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θMAP at b²=1/4 is (1,1/3)ᵀ. Coordinatewise 1<7/4<7/3 and 1/3<2/3<1; smaller b² strengthens the zero-centered prior and shrinks both intercept and slope toward zero."
+        }
+      }
+    },
+    {
+      "question": "p20",
+      "source_question": {
+        "id": "p20",
+        "title": "P20. 특이한 $\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi}$와 규제",
+        "conditions_html": "모든 벡터는 열벡터예요. ${\\boldsymbol{\\theta}=(\\theta_1,\\theta_2)^\\top}$이고\n  $${\\boldsymbol{\\Phi}=\\begin{bmatrix}1 &amp; 1\\\\2 &amp; 2\\end{bmatrix}},\\quad{\\mathbf{y}=\\begin{bmatrix}3\\\\6\\end{bmatrix}},\\quad{J(\\boldsymbol{\\theta})=\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2+5\\|\\boldsymbol{\\theta}\\|_2^2}$$",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) $\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi}$와 $\\det(\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi})$를 계산해요.</li><li>(b) $\\boldsymbol{\\theta}_A=(3,0)^\\top$, $\\boldsymbol{\\theta}_B=(1,2)^\\top$ 각각에 대해 $\\boldsymbol{\\Phi}\\boldsymbol{\\theta}$와 $\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2$를 계산해요.</li><li>(c) $J(\\boldsymbol{\\theta})$를 최소화하는 $\\theta_1,\\theta_2$의 값을 구하고 $J$의 최솟값을 계산해요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let ${\\boldsymbol{\\theta}=(\\theta_1,\\theta_2)^\\top}$ and ${\\boldsymbol{\\Phi}=\\begin{bmatrix}1 &amp; 1\\\\2 &amp; 2\\end{bmatrix}}$, ${\\mathbf{y}=\\begin{bmatrix}3\\\\6\\end{bmatrix}}$.<div class=\"part\">(a) Calculate $\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi}$ and $\\det(\\boldsymbol{\\Phi}^\\top\\boldsymbol{\\Phi})$.</div><div class=\"part\">(b) For each of $\\boldsymbol{\\theta}_A=(3,0)^\\top$ and $\\boldsymbol{\\theta}_B=(1,2)^\\top$, calculate $\\boldsymbol{\\Phi}\\boldsymbol{\\theta}$ and $\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2$.</div><div class=\"part\">(c) Find the numerical values of $\\theta_1,\\theta_2$ that minimize ${J(\\boldsymbol{\\theta})=\\|\\mathbf{y}-\\boldsymbol{\\Phi}\\boldsymbol{\\theta}\\|_2^2+5\\|\\boldsymbol{\\theta}\\|_2^2}$, and calculate the minimum value of $J$.\"</div>",
+        "input_sha256": "c08962ba8cb072f8ebd13afda502bda415e48708dbc3ebfeeaa2f771549e41f8"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p20.html",
+        "sha256": "d307bb657781b79a648da9da3b203f8481e525f1fe4210a95b7d9c433814aa59"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "0558a6e72af63e73557e6fc31f128cbe1a12aeffc8e2493b7aa36653952fb968",
+        "recall": "ce2f3373d8956aa5fecfe40a1ecaf357acb2cc00248dd3337d2130aab0f8a923",
+        "start": "fd63a0c886f92ffb89535d68cbd01c710894c545f15dcf991b88d6b2533c3660",
+        "solve": "7574daea781bc53f1cff97fe6f75c2b54e64a774ee0c88e5fc89976ca3c27cf9",
+        "verify": "b22bc65c237a5d5db4febb1c1c5feecd8923743f3c19cb66fcbbfe765a8f7a7b",
+        "pitfall": "2bf959031d3d9dca54cb0ce4338097fa73fcaaa39c9c1a2d84e7ecf4659bcf30",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Duplicatecolumns and nullspace preserve coefficient-sum. SingularGram,nonuniquezeroSSEfamily,sum/difference complete-square verify ridge unique(1,1),fullobjective15.",
+      "parts": {
+        "p20:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Duplicatecolumns and nullspace preserve coefficient-sum. SingularGram,nonuniquezeroSSEfamily,sum/difference complete-square verify ridge unique(1,1),fullobjective15. Perpart: Duplicate columns give all-5 Gram and determinant zero.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "ΦᵀΦ=[[5,5],[5,5]], determinant=25-25=0."
+        },
+        "p20:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Duplicatecolumns and nullspace preserve coefficient-sum. SingularGram,nonuniquezeroSSEfamily,sum/difference complete-square verify ridge unique(1,1),fullobjective15. Perpart: Both coefficient sums equal 3, hence predictions (3,6) and SSE zero.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "ΦθA=ΦθB=(3,6)ᵀ=y; both SSE values are 0."
+        },
+        "p20:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Duplicatecolumns and nullspace preserve coefficient-sum. SingularGram,nonuniquezeroSSEfamily,sum/difference complete-square verify ridge unique(1,1),fullobjective15. Perpart: The regularized system gives (1,1); SSE 5 plus penalty 10 gives minimum 15. Complete-square and positive-definite Hessian agree on uniqueness.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "Unique minimizer (θ1,θ2)=(1,1); minimum J=15."
+        }
+      }
+    },
+    {
+      "question": "p21",
+      "source_question": {
+        "id": "p21",
+        "title": "P21. 표본 평균과 공분산",
+        "conditions_html": "모든 벡터는 열벡터예요. 2차원 관측 4개가 주어져요.\n  $${\\mathbf{x}_1=\\begin{bmatrix}1\\\\1\\end{bmatrix}},\\quad{\\mathbf{x}_2=\\begin{bmatrix}1\\\\3\\end{bmatrix}},\\quad{\\mathbf{x}_3=\\begin{bmatrix}3\\\\3\\end{bmatrix}},\\quad{\\mathbf{x}_4=\\begin{bmatrix}3\\\\5\\end{bmatrix}}$$",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) 평균 벡터 ${\\bar{\\mathbf{x}}=\\frac{1}{4}\\sum_{n=1}^{4}\\mathbf{x}_n}$</li><li>(b) 분모를 4로 둔 공분산 행렬 ${\\mathbf{S}=\\frac{1}{4}\\sum_{n=1}^{4}(\\mathbf{x}_n-\\bar{\\mathbf{x}})(\\mathbf{x}_n-\\bar{\\mathbf{x}})^\\top}$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"The following four two-dimensional observations are given: ${\\mathbf{x}_1=\\begin{bmatrix}1\\\\1\\end{bmatrix}}$, ${\\mathbf{x}_2=\\begin{bmatrix}1\\\\3\\end{bmatrix}}$, ${\\mathbf{x}_3=\\begin{bmatrix}3\\\\3\\end{bmatrix}}$, ${\\mathbf{x}_4=\\begin{bmatrix}3\\\\5\\end{bmatrix}}$.<div class=\"part\">(a) Calculate the mean vector ${\\bar{\\mathbf{x}}=\\frac{1}{4}\\sum_{n=1}^{4}\\mathbf{x}_n}$.</div><div class=\"part\">(b) Calculate the covariance matrix defined here with denominator 4: ${\\mathbf{S}=\\frac{1}{4}\\sum_{n=1}^{4}(\\mathbf{x}_n-\\bar{\\mathbf{x}})(\\mathbf{x}_n-\\bar{\\mathbf{x}})^\\top}$.\"</div>",
+        "input_sha256": "27331836be2cd9cd445da45cadf09df6b43cddaec3770edad23a3c4901225ad0"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p21.html",
+        "sha256": "321243e5818758aa1378da1fbd4833cafd289acdcafe94d16c3673e3444aafd2"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "1b93ddcd7facee4cea8b487612c21a03d5c9bf05476caa8da13008da2e5d59c7",
+        "recall": "cc8c07a0edbcce98fe62be319db6d02f2cd67fa1c83bbe7634e8135e276739dc",
+        "start": "fa572c7e251b9907f24fc06ffed8f371204a38487cb8ce496328f089b5703d80",
+        "solve": "66cd7591b55027cc3f4056584b2b77eb12a9dcb5bc9bb217189763c0c8b373d7",
+        "verify": "a41ad9edb3c0360b35b4a05d1155e17bb15abe8d27469123bc1e4449dac31dcc",
+        "pitfall": "b4ace6ae9f6f85e911cf8692ee13aaa205ca287fb6929f4b83120beb398ab3f6",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Requested denominator4 retained; outerproducts2x2 distinguished from innerproductscalar. Mean(2,3),centered sum0 and second-moment-minus-meanouterproduct agree.",
+      "parts": {
+        "p21:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Requested denominator4 retained; outerproducts2x2 distinguished from innerproductscalar. Mean(2,3),centered sum0 and second-moment-minus-meanouterproduct agree. Perpart: Coordinate means are (2,3)^T and centered observations sum to zero.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "x̄=(2,3)ᵀ."
+        },
+        "p21:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Requested denominator4 retained; outerproducts2x2 distinguished from innerproductscalar. Mean(2,3),centered sum0 and second-moment-minus-meanouterproduct agree. Perpart: The centered outer-product sum [[4,4],[4,8]] divided by the requested 4 gives [[1,1],[1,2]], not the denominator-3 estimate.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "S=[[1,1],[1,2]]."
+        }
+      }
+    },
+    {
+      "question": "p22",
+      "source_question": {
+        "id": "p22",
+        "title": "P22. 아핀 변환의 평균과 공분산",
+        "conditions_html": "모든 벡터는 열벡터이고 $\\mathbf{x}=(x_1,x_2)^\\top$은 확률벡터예요. $\\boldsymbol{\\mu}_y=E[\\mathbf{y}]$, ${\\boldsymbol{\\Sigma}_y=\\mathrm{Cov}(\\mathbf{y})}$, ${\\mathbf{C}_{xy}=E[(\\mathbf{x}-E[\\mathbf{x}])(\\mathbf{y}-E[\\mathbf{y}])^\\top]}$로 써요.",
+        "ask_html": "<ol><li>(a) $E[x_1]=1$, $E[x_2]=2$, $\\mathrm{Var}(x_1)=4$, $\\mathrm{Var}(x_2)=2$, $\\mathrm{Cov}(x_1,x_2)=1$이고 ${\\mathbf{y}=\\begin{bmatrix}x_1+2x_2+1\\\\-x_1+x_2-2\\end{bmatrix}}$일 때 $\\boldsymbol{\\mu}_y$, $\\boldsymbol{\\Sigma}_y$, $\\mathbf{C}_{xy}$를 구해 보세요.</li><li>(b) 대신 $\\mathbf{x}$가 $(x_1,x_2)\\in\\mathbb{R}^2$에서 가우시안 결합 밀도 $$p_\\mathbf{x}(x_1,x_2)=\\frac{1}{2\\pi}\\exp\\left[-\\frac{1}{2}\\left\\{(x_1-1)^2-2(x_1-1)(x_2+1)+2(x_2+1)^2\\right\\}\\right]$$ 를 가지고 ${\\mathbf{y}=\\begin{bmatrix}2x_1-x_2-1\\\\x_1+x_2+2\\end{bmatrix}}$예요. 먼저 밀도에서 $\\boldsymbol{\\mu}_x=E[\\mathbf{x}]$와 ${\\boldsymbol{\\Sigma}_x=\\mathrm{Cov}(\\mathbf{x})}$를 찾은 뒤 $\\boldsymbol{\\mu}_y$, $\\boldsymbol{\\Sigma}_y$, $\\mathbf{C}_{xy}$를 구해 보세요.</li><li>(c) $E[x_1]=1$, $E[x_2]=-1$, $\\mathrm{Var}(x_1)=2$, $\\mathrm{Var}(x_2)=3$, $E[x_1x_2]=0$이에요. $\\varepsilon$은 $\\mathbf{x}$와 독립이고 $E[\\varepsilon]=0$, $\\mathrm{Var}(\\varepsilon)=1$이며 ${\\mathbf{y}=\\begin{bmatrix}x_1+x_2+\\varepsilon\\\\x_1-x_2+\\varepsilon\\end{bmatrix}}$예요. 두 좌표에 같은 $\\varepsilon$이 들어가요. $\\boldsymbol{\\mu}_y$, $\\boldsymbol{\\Sigma}_y$, $\\mathbf{C}_{xy}$를 구해 보세요.</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let $\\mathbf{x}=(x_1,x_2)^\\top$ be a random vector. In each part, calculate the mean vector $\\boldsymbol{\\mu}_y=E[\\mathbf{y}]$, the covariance matrix ${\\boldsymbol{\\Sigma}_y=\\mathrm{Cov}(\\mathbf{y})}$, and the cross-covariance matrix ${\\mathbf{C}_{xy}=\\mathrm{Cov}(\\mathbf{x},\\mathbf{y})=E[(\\mathbf{x}-E[\\mathbf{x}])(\\mathbf{y}-E[\\mathbf{y}])^\\top]}$.<div class=\"part\">(a) Suppose $E[x_1]=1$, $E[x_2]=2$, $\\mathrm{Var}(x_1)=4$, $\\mathrm{Var}(x_2)=2$, $\\mathrm{Cov}(x_1,x_2)=1$, and define ${\\mathbf{y}=\\begin{bmatrix}x_1+2x_2+1\\\\-x_1+x_2-2\\end{bmatrix}}$.</div><div class=\"part\">(b) Instead, suppose $\\mathbf{x}$ has the Gaussian joint density ${p_\\mathbf{x}(x_1,x_2)=\\frac{1}{2\\pi}\\exp[-\\frac{1}{2}\\{(x_1-1)^2-2(x_1-1)(x_2+1)+2(x_2+1)^2\\}]}$, for $(x_1,x_2)\\in\\mathbb{R}^2$, and define ${\\mathbf{y}=\\begin{bmatrix}2x_1-x_2-1\\\\x_1+x_2+2\\end{bmatrix}}$. First identify $\\boldsymbol{\\mu}_x=E[\\mathbf{x}]$ and ${\\boldsymbol{\\Sigma}_x=\\mathrm{Cov}(\\mathbf{x})}$ from the density. Then calculate $\\boldsymbol{\\mu}_y$, $\\boldsymbol{\\Sigma}_y$, and $\\mathbf{C}_{xy}$.</div><div class=\"part\">(c) Suppose $E[x_1]=1$, $E[x_2]=-1$, $\\mathrm{Var}(x_1)=2$, $\\mathrm{Var}(x_2)=3$, $E[x_1x_2]=0$. Let $\\varepsilon$ be independent of $\\mathbf{x}$, with $E[\\varepsilon]=0$ and $\\mathrm{Var}(\\varepsilon)=1$. Define ${\\mathbf{y}=\\begin{bmatrix}x_1+x_2+\\varepsilon\\\\x_1-x_2+\\varepsilon\\end{bmatrix}}$. The same random variable $\\varepsilon$ appears in both coordinates. Calculate $\\boldsymbol{\\mu}_y$, $\\boldsymbol{\\Sigma}_y$, and $\\mathbf{C}_{xy}$.\"</div>",
+        "input_sha256": "aec66e299c476d9dff94109f8ec8b719cc9f6eb9342fff309424d6e31ef518b6"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p22.html",
+        "sha256": "791e179d41c285229a4aa902100877522994b9c42be8d00cd7c3359be970c626"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "323462b37143e9f9a5667490030b6f65697e34cd185225719f6fb403d428201d",
+        "recall": "ceabda5e448ddf0b9152c3ad8bd26a4c01d082c480969a1329aeb70226b9d443",
+        "start": "69e05189eac329cb0400360506a166ab6ad7a780cef9749e6cd2da4da253776e",
+        "solve": "c9b405a8d6c9fc8f92abac0bfdc9a4a5d46b733519c5ca09c1c042cf7f7ec9d2",
+        "verify": "acd7b6d8d982c57a4a8b9ba448b7a1bff376f13580d27936905874fbc354d3a9",
+        "pitfall": "9b44d56eda96a1455e082cf6fbd0657fe6dc38b1351bb40ad29ee4621cb88e13",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Affine finite-second-moment formulas and input-outputdirection Cxy=Sigma Atranspose. Precision in b inverted; sharedsingleepsilon gives all-onescovariance,notI. Allthree means/covariances/crossmatrices checked componentwise; zero covariance never called independence.",
+      "parts": {
+        "p22:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Affine finite-second-moment formulas and input-outputdirection Cxy=Sigma Atranspose. Precision in b inverted; sharedsingleepsilon gives all-onescovariance,notI. Allthree means/covariances/crossmatrices checked componentwise; zero covariance never called independence. Perpart: Affine mean (6,-1), covariance [[16,-1],[-1,4]], input-output cross covariance [[6,-3],[5,1]] agree entrywise.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "μy=(6,-1)ᵀ; Σy=[[16,-1],[-1,4]]; Cxy=[[6,-3],[5,1]]."
+        },
+        "p22:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Affine finite-second-moment formulas and input-outputdirection Cxy=Sigma Atranspose. Precision in b inverted; sharedsingleepsilon gives all-onescovariance,notI. Allthree means/covariances/crossmatrices checked componentwise; zero covariance never called independence. Perpart: Precision [[1,-1],[-1,2]] inverts to [[2,1],[1,1]], determinant one; mean x=(1,-1), output mean (2,2), covariance [[5,4],[4,5]], cross [[3,3],[1,2]] all agree.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "μx=(1,-1)ᵀ, Σx=[[2,1],[1,1]]; μy=(2,2)ᵀ; Σy=[[5,4],[4,5]]; Cxy=[[3,3],[1,2]]."
+        },
+        "p22:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Affine finite-second-moment formulas and input-outputdirection Cxy=Sigma Atranspose. Precision in b inverted; sharedsingleepsilon gives all-onescovariance,notI. Allthree means/covariances/crossmatrices checked componentwise; zero covariance never called independence. Perpart: E[x1x2]=0 gives covariance 1, not 0; shared noise adds all-ones covariance. Both give mean (0,2), covariance diag(8,4), cross [[3,1],[4,-2]]. No independence of the two outputs is inferred.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "μy=(0,2)ᵀ; Σy=[[8,0],[0,4]]; Cxy=[[3,1],[4,-2]]."
+        }
+      }
+    },
+    {
+      "question": "p23",
+      "source_question": {
+        "id": "p23",
+        "title": "P23. 절편 없는 회귀의 ML과 MAP",
+        "conditions_html": "단변량 가우시안의 둘째 모수는 분산이에요. 절편 없는 선형회귀 $$y_n=\\theta x_n+\\varepsilon_n$$ 에서 잡음은 서로 독립인 $\\mathcal{N}(0,1)$이에요. 관측은 $(x_1,y_1)=(1,2)$, $(x_2,y_2)=(2,3)$이고, MAP 추정에는 사전분포 $\\theta\\sim\\mathcal{N}(0,1)$을 써요.",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) 상수 인자를 포함한 우도 $L(\\theta)$</li><li>(b) 음의 로그우도를 미분해 $\\theta_{\\mathrm{ML}}$</li><li>(c) 음의 로그사후분포를 미분해 $\\theta_{\\mathrm{MAP}}$. 그리고 $x=3$에서의 두 예측 ${\\hat{y}_{\\mathrm{ML}}=3\\theta_{\\mathrm{ML}}}$, ${\\hat{y}_{\\mathrm{MAP}}=3\\theta_{\\mathrm{MAP}}}$</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Consider linear regression without an intercept, $y_n=\\theta x_n+\\varepsilon_n$, where the noise terms are independent $\\mathcal{N}(0,1)$ variables. The observed data are $(x_1,y_1)=(1,2)$ and $(x_2,y_2)=(2,3)$. For MAP estimation, use the prior $\\theta\\sim\\mathcal{N}(0,1)$.<div class=\"part\">(a) Write the likelihood $L(\\theta)$, including its constant factor.</div><div class=\"part\">(b) Find $\\theta_{\\mathrm{ML}}$ by differentiating the negative log-likelihood.</div><div class=\"part\">(c) Find $\\theta_{\\mathrm{MAP}}$ by differentiating the negative log-posterior. Then calculate the two predictions ${\\hat{y}_{\\mathrm{ML}}=3\\theta_{\\mathrm{ML}}}$ and ${\\hat{y}_{\\mathrm{MAP}}=3\\theta_{\\mathrm{MAP}}}$ at $x=3$.\"</div>",
+        "input_sha256": "e3ed5a9a607688ceacf90e1f1d574f08ec0fde97b40ade295084ec084e4d1e7e"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p23.html",
+        "sha256": "475d8adb555ba5c9e0581b3cebba48e1bd05b0bf83b59f6dd9f98720de47502e"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "7e6412a2420d71c9a60bd3242c505121a93895d6a066a21e8a3f6d75bacbd549",
+        "recall": "c234b52a11e0f5eb3a801e8d99c9c01b9bc2ded5a5ec97f51d0f68a6a7185a0a",
+        "start": "a537e170f3154571365c9920d88f774c276ea5070529ec4584d375061d63ed18",
+        "solve": "949fc67d1e822342c8d1a70a745a82bf5716cf84b434897518ac4f9d6b7633a5",
+        "verify": "8784141b98643955db73ecbb914a95b1dc92f40df2601886f1be874c0f516de0",
+        "pitfall": "22d51b9e83e27a04d375a4e5d1c30681450ba70452e50fcb17b092135fddeeda",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "No intercept; independentunitnoise andzero-centeredprior. Fulltwofactorlikelihood,ML8/5,MAP4/3,x3predictions24/5,4 and both complete squares agree.",
+      "parts": {
+        "p23:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. No intercept; independentunitnoise andzero-centeredprior. Fulltwofactorlikelihood,ML8/5,MAP4/3,x3predictions24/5,4 and both complete squares agree. Perpart: Two unit-variance likelihood factors give the correct 1/(2pi) prefactor and the two stated residual squares.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "L(θ)=(2π)⁻¹ exp[-{(2-θ)²+(3-2θ)²}/2]."
+        },
+        "p23:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. No intercept; independentunitnoise andzero-centeredprior. Fulltwofactorlikelihood,ML8/5,MAP4/3,x3predictions24/5,4 and both complete squares agree. Perpart: NLL derivative 5theta-8 gives ML=8/5 with positive second derivative.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θML=8/5."
+        },
+        "p23:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. No intercept; independentunitnoise andzero-centeredprior. Fulltwofactorlikelihood,ML8/5,MAP4/3,x3predictions24/5,4 and both complete squares agree. Perpart: Prior adds theta, giving derivative 6theta-8 and MAP=4/3; x=3 predictions are 24/5 and 4.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θMAP=4/3; ŷML=24/5; ŷMAP=4."
+        }
+      }
+    },
+    {
+      "question": "p24",
+      "source_question": {
+        "id": "p24",
+        "title": "P24. 평균 추정의 ML과 MAP",
+        "conditions_html": "단변량 가우시안의 둘째 모수는 분산이에요. 모델은 $y_n=\\theta+\\varepsilon_n$이고 $\\varepsilon_n\\sim\\mathcal{N}(0,1)$은 서로 독립이에요. 관측은 $y_1=2$, $y_2=3$, $y_3=4$이고, MAP 추정에는 사전분포 $\\theta\\sim\\mathcal{N}(1,1)$을 써요.",
+        "ask_html": "다음을 구해 보세요.<ol><li>(a) 상수 인자를 포함한 우도 $L(\\theta)$</li><li>(b) 음의 로그우도를 미분해 $0$으로 두고 $\\theta_{\\mathrm{ML}}$</li><li>(c) 음의 로그사후분포를 미분해 $\\theta_{\\mathrm{MAP}}$. 사전 평균 $1$에 더 가까운 추정은 어느 쪽인가요?</li></ol>",
+        "subpart_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Consider the model $y_n=\\theta+\\varepsilon_n$ with independent $\\varepsilon_n\\sim\\mathcal{N}(0,1)$. The three observations are $y_1=2$, $y_2=3$, and $y_3=4$. For MAP estimation, use the prior $\\theta\\sim\\mathcal{N}(1,1)$.<div class=\"part\">(a) Write the likelihood $L(\\theta)$, including its constant factor.</div><div class=\"part\">(b) Find $\\theta_{\\mathrm{ML}}$ by differentiating the negative log-likelihood and setting the derivative equal to zero.</div><div class=\"part\">(c) Find $\\theta_{\\mathrm{MAP}}$ by differentiating the negative log-posterior. Which estimate is closer to the prior mean 1?\"</div>",
+        "input_sha256": "02ee0fd1452040e90b89a3477b86b5a519e2aed89fea92f3194722250e369a3b"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p24.html",
+        "sha256": "bd32c24047546714dff46ec8fc27777e755d4e4b83d801e3d99ad30355b80502"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "ea524bd35b0d6994c9311a8b55fb63f1b26552ae66689c82a9e610b6ee13fb88",
+        "recall": "2963fc89585f4349d1e0ac7d59f1732954ab045663f1a97608e8e49e25afcfee",
+        "start": "cf79df1dd804bf6b181a03c7b85925c2893250b6825fabe7f700f73893f63ea5",
+        "solve": "fa13fb2709cdb5e553c0e5cf6044ef479726fadc318bdf41cdc6a409a70a2d39",
+        "verify": "d2d9616fbea29d2e5e95122d8622e6741ef15c6712536ad099ec0abe04145ccb",
+        "pitfall": "e5c4af939ed1533322b1fae44d7a04997df1403e1d315c2afb0d1e92d3e5b77e",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Commonmean,threeunitnoiseobservations,priorcenter1. Fullnormalizer,ML3,MAP5/2; distance to1 andprecisionweightedaverage/completesquare checks agree.",
+      "parts": {
+        "p24:a": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Commonmean,threeunitnoiseobservations,priorcenter1. Fullnormalizer,ML3,MAP5/2; distance to1 andprecisionweightedaverage/completesquare checks agree. Perpart: Three unit-variance densities give (2pi)^(-3/2), with the stated three residual squares.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "L(θ)=(2π)^(-3/2) exp[-{(2-θ)²+(3-θ)²+(4-θ)²}/2]."
+        },
+        "p24:b": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Commonmean,threeunitnoiseobservations,priorcenter1. Fullnormalizer,ML3,MAP5/2; distance to1 andprecisionweightedaverage/completesquare checks agree. Perpart: Derivative 3theta-9 gives ML=3.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θML=3."
+        },
+        "p24:c": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Commonmean,threeunitnoiseobservations,priorcenter1. Fullnormalizer,ML3,MAP5/2; distance to1 andprecisionweightedaverage/completesquare checks agree. Perpart: Prior centered at one adds theta-1, giving MAP=5/2, whose distance 3/2 to one is smaller than ML distance 2.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "θMAP=5/2; MAP is closer to prior mean 1 because |5/2-1|=3/2<|3-1|=2."
+        }
+      }
+    },
+    {
+      "question": "p25",
+      "source_question": {
+        "id": "p25",
+        "title": "P25. 두 가우시안의 곱",
+        "conditions_html": "모든 벡터는 열벡터예요. ${p_0(\\mathbf{x})=\\mathcal{N}(\\mathbf{x}\\mid\\boldsymbol{\\mu}_0,\\boldsymbol{\\Sigma}_0)}$, ${p_1(\\mathbf{x})=\\mathcal{N}(\\mathbf{x}\\mid\\boldsymbol{\\mu}_1,\\boldsymbol{\\Sigma}_1)}$이고\n  $${\\boldsymbol{\\mu}_0=\\begin{bmatrix}0\\\\0\\end{bmatrix}},\\quad{\\boldsymbol{\\mu}_1=\\begin{bmatrix}1\\\\1\\end{bmatrix}},\\quad{\\boldsymbol{\\Sigma}_0=\\begin{bmatrix}1 &amp; 0\\\\0 &amp; 2\\end{bmatrix}},\\quad{\\boldsymbol{\\Sigma}_1=\\begin{bmatrix}2 &amp; 1\\\\1 &amp; 2\\end{bmatrix}}$$",
+        "ask_html": "정규화된 곱 $q(\\mathbf{x})\\propto p_0(\\mathbf{x})p_1(\\mathbf{x})$의 평균과 공분산을 구하고, 정규화된 밀도를 명시적으로 써 보세요.",
+        "subpart_ids": [
+          "main"
+        ],
+        "figures_html": [],
+        "original_question_html": "\"Let ${p_0(\\mathbf{x})=\\mathcal{N}(\\mathbf{x}\\mid\\boldsymbol{\\mu}_0,\\boldsymbol{\\Sigma}_0)}$ and ${p_1(\\mathbf{x})=\\mathcal{N}(\\mathbf{x}\\mid\\boldsymbol{\\mu}_1,\\boldsymbol{\\Sigma}_1)}$, where ${\\boldsymbol{\\mu}_0=\\begin{bmatrix}0\\\\0\\end{bmatrix}}$, ${\\boldsymbol{\\mu}_1=\\begin{bmatrix}1\\\\1\\end{bmatrix}}$, ${\\boldsymbol{\\Sigma}_0=\\begin{bmatrix}1 &amp; 0\\\\0 &amp; 2\\end{bmatrix}}$, ${\\boldsymbol{\\Sigma}_1=\\begin{bmatrix}2 &amp; 1\\\\1 &amp; 2\\end{bmatrix}}$. Determine the mean and covariance of the normalized product $q(\\mathbf{x})\\propto p_0(\\mathbf{x})p_1(\\mathbf{x})$, and write its explicit normalized density.\"",
+        "input_sha256": "05797d24ffd68ab951beeadb0fcb9cb17dbab1ec44b932b09526ea0572f450f5"
+      },
+      "fragment": {
+        "path": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/과제/과제1/자료_문제설명_hw1_Homework1/fragments/p25.html",
+        "sha256": "9fc3eeda389035883ec9b214f45301b4f9db0811190a1f856b0fbc929d0a995d"
+      },
+      "actual_sections_read": [
+        "understand",
+        "recall",
+        "start",
+        "solve",
+        "verify",
+        "pitfall",
+        "retry"
+      ],
+      "section_text_sha256": {
+        "understand": "1e9b0ceb86efee353baf0b475f77f46c4c10329dcf7d60f3a47bae342ccdf25d",
+        "recall": "7bd4e5758fa8ae030282a36bf98d45b2eb902163585a595f17c05d4a03ec3b5b",
+        "start": "632205612d18ece19352bf64e2048b426adceecfb65e60f14f2b7a113eb1710d",
+        "solve": "6694be0402a39381836607c315f50b24c493e7ba0fd03cab8cac10c3a1fdc98b",
+        "verify": "4472523bac1998a93082b87d81997062a6c6b00f52f01620809739b5d8d279de",
+        "pitfall": "84892c0d19e31516fc08ba0778a22cb081ded3f09fd209d83657720934d02504",
+        "retry": "d45e47a17b911f5daab7f2ad350b9d1f7ebc3861f9a26d9309bcdf197d355082"
+      },
+      "concrete_criteria": "Same-variable densityproduct needs no independent-variableassumption. Addprecisions in correct order;det11/6,mean(3/11,4/11),cov[[7,2],[2,10]]/11,normalizer sqrt(11/6)/(2pi),overlapZ all consistent; proportionality distinguished from equality.",
+      "parts": {
+        "p25:main": {
+          "status": "pass",
+          "criteria": "Allseven sections read against current ask, intermediate steps, dimensions, assumptions, complete solve/verify, pitfall and retry. Same-variable densityproduct needs no independent-variableassumption. Addprecisions in correct order;det11/6,mean(3/11,4/11),cov[[7,2],[2,10]]/11,normalizer sqrt(11/6)/(2pi),overlapZ all consistent; proportionality distinguished from equality. Perpart: Precision sum [[5/3,-1/3],[-1/3,7/6]], determinant 11/6, covariance [[7,2],[2,10]]/11 and mean (3/11,4/11) agree. The expanded and matrix quadratic forms are equivalent and the normalized prefactor is sqrt(11/6)/(2pi). Current product integral exp(-5/22)/(2pi sqrt11) is also correct.",
+          "frozen_method": "exact",
+          "frozen_conclusion": "m=(3/11,4/11)ᵀ; C=(1/11)[[7,2],[2,10]]. q(x)=√(11/6)/(2π) exp[-(10u²-4uv+7v²)/12], u=x1-3/11, v=x2-4/11."
+        }
+      }
+    }
+  ],
+  "status": "pass"
+}

@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "pack_id": "0928",
+  "source_packet": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/.task6c-run-ml-01/blind-review-packets/group-1/0928/questions.json",
+  "source_packet_file_sha256": "8b9d98456fdf0513cada7a328c98b6120222a80b7bb103d472ccd74213c0b5ed",
+  "packet_payload_sha256": "6483420e88252aabf685d9c62cb6f29e6717b59ee72fbf5a2076fa2348490756",
+  "question_payload_sha256": "dbd98d5122eeb68e10c0a9c0a7e4b92aa6f098d6b05bce0682220c5f75b8e759",
+  "reviewer": {
+    "identity": "/root/ml_blind_dated_group1",
+    "role": "independent mathematical derivation reviewer",
+    "context_isolation": "Derived solely from the six specified README.md and questions.json packets, including supplied inline tables/SVG markup. No repository solutions, source HTML, fragments, existing reviews/harnesses, memory, external web answers, or other worker outputs were consulted. No reference comparison performed.",
+    "tools": "Own algebra and proofs; system Python with SymPy for exact matrix arithmetic and symbolic residuals. This file contains the complete calculation process.",
+    "approval_status": "independent_results_only_no_reference_comparison_no_approval"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "eb3e02e7ed2bd3c61e1b907e3db9fce6aa0861ec2227270bb4fd7267123c8421",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": [
+            "The nth row is phi(x_n)^T=(1,x_n,x_n^2).",
+            "For -1 the row is (1,-1,1); for 1 it is (1,1,1); for 2 it is (1,2,4)."
+          ],
+          "conclusion": "Phi=[[1,-1,1],[1,1,1],[1,2,4]].",
+          "checks": [
+            "N=3 rows and K=3 columns, so Phi is 3x3.",
+            "The inputs are distinct; Vandermonde determinant (1-(-1))*(2-(-1))*(2-1)=6, confirming independence of the columns."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p2",
+      "input_sha256": "d262f0514f7e12a3e2d583c8fe4700dd01ecf525b00ff4eec77de64121319002",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": [
+            "The explicit ask specifies a cubic polynomial, hence powers 0,1,2,3."
+          ],
+          "conclusion": "K=4; phi(x)=(1,x,x^2,x^3)^T.",
+          "checks": [
+            "Polynomial degree 3 has four coefficients including the intercept."
+          ],
+          "unresolved": [
+            "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5."
+          ]
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": [
+            "Stack N=8 row vectors phi(x_n)^T of length 4."
+          ],
+          "conclusion": "Phi has size 8x4.",
+          "checks": [
+            "y is 8x1, theta is 4x1, and Phi theta is 8x1."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "proof",
+          "derivation": [
+            "With independent common Gaussian observation variance sigma^2=0.04, negative log likelihood equals ||y-Phi theta||^2/(2sigma^2)+constant.",
+            "Its gradient is Phi^T(Phi theta-y)/sigma^2. Setting it to zero yields Phi^T Phi theta=Phi^T y.",
+            "If Phi has column rank 4, Phi^T Phi is invertible and theta_ML=(Phi^T Phi)^(-1)Phi^T y. If rank deficient, all least-squares minimizers are Phi^+y+(I_4-Phi^+Phi)w for arbitrary w in R^4."
+          ],
+          "conclusion": "Full-rank formula: theta_ML=(Phi^T Phi)^(-1)Phi^T y. In general use the stated pseudoinverse family.",
+          "checks": [
+            "Phi^T Phi is 4x4 and Phi^T y is 4x1.",
+            "At least four distinct x values suffice for the cubic Vandermonde matrix to have rank 4.",
+            "No actual input values or labels are provided, so a numerical theta is not identifiable."
+          ],
+          "unresolved": [
+            "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+          ]
+        }
+      ],
+      "unresolved": [
+        "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5.",
+        "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+      ]
+    },
+    {
+      "id": "p3",
+      "input_sha256": "e9bb88f4db0a44dcf4a545da3b8dc452f73c1d3ff73934b9ba8dd4c4ca06d72f",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": [
+            "Observation variance sigma^2=0.2^2=0.04=1/25. Prior covariance b^2 I=(1/4)I, so b^2=1/4.",
+            "Divide variance by variance: (1/25)/(1/4)=4/25."
+          ],
+          "conclusion": "sigma^2/b^2=4/25=0.16.",
+          "checks": [
+            "b=1/2 if taken as a positive standard deviation; using b^2=1/4 avoids confusing variance with standard deviation.",
+            "The ridge addition is (4/25)I_K, matching the KxK Gram matrix.",
+            "Prior negative log penalty is ||theta||^2/(2b^2); multiplying the MAP normal equation by sigma^2 yields the displayed coefficient."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "qualitative",
+          "derivation": [
+            "For Gram eigenvalue d>=0, ridge changes the unregularized eigen-direction coefficient by the shrinkage factor d/(d+lambda), lambda=4/25; smaller d is more strongly changed.",
+            "An eighth-degree polynomial has nine parameters; a sixth-degree polynomial has seven. Extra high-power directions often have weak data constraints, instability, or a large coefficient norm, so regularization commonly becomes more apparent at degree 8.",
+            "However the actual spectrum and Phi^T y depend on input values and labels; degree alone does not force a strictly larger effect. For instance, y=0 gives identical zero estimates for both degrees."
+          ],
+          "conclusion": "Expected qualitative choice: degree 8 often shows more regularization; no unconditional ordering can be deduced from the supplied data.",
+          "checks": [
+            "For any nonzero v, v^T(Phi^T Phi+lambda I)v=||Phi v||^2+lambda||v||^2>0, so the MAP system is invertible for lambda=0.16.",
+            "The prior shrinks coefficients in the supplied monomial coordinate system; no rescaling or coefficient exemption is assumed."
+          ],
+          "unresolved": [
+            "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+          ]
+        }
+      ],
+      "unresolved": [
+        "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+      ]
+    },
+    {
+      "id": "p4",
+      "input_sha256": "112abcf238253120c1cf2d674be9118a3e2848acbfb5bd2ec4aeef8aafb1d94d",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": [
+            "Product rule: f prime=(d/dx ln(x^4))*sin(x^3)+ln(x^4)*(d/dx sin(x^3)).",
+            "For x!=0, chain rule gives (4x^3)/(x^4)=4/x and d sin(x^3)/dx=3x^2 cos(x^3)."
+          ],
+          "conclusion": "f prime(x)=4 sin(x^3)/x+3x^2 ln(x^4) cos(x^3), for x!=0.",
+          "checks": [
+            "ln(x^4) is real for all nonzero real x, including negative x.",
+            "At x=0 the original function is undefined; no derivative there is asserted.",
+            "Own SymPy simplification of derivative minus formula is exactly zero on the stated domain."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p5",
+      "input_sha256": "f74568e790020fa83587f028c394b1423969b97304f44cde3b411b04aa95909d",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": [
+            "Set h(x)=-(x-mu)^2/(2sigma^2). With constant sigma!=0, h prime=-(x-mu)/sigma^2.",
+            "Chain rule for exp(h) gives f prime=h prime exp(h)."
+          ],
+          "conclusion": "f prime(x)=-(x-mu)/sigma^2 * exp(-(x-mu)^2/(2sigma^2)), for sigma!=0.",
+          "checks": [
+            "mu is any real constant. Negative nonzero sigma gives the same function since only sigma^2 occurs.",
+            "Own exact symbolic derivative minus formula is zero.",
+            "The function is only a Gaussian shape; no density normalizer was included in the supplied function."
+          ],
+          "unresolved": [
+            "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+          ]
+        }
+      ],
+      "unresolved": [
+        "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+      ]
+    },
+    {
+      "id": "p6",
+      "input_sha256": "f1165bf78009e7a8d039298ca18b0c5bebb5f39e489b7ec32fb70decb7eec0d0",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "symbolic",
+          "derivation": [
+            "Use the Jacobian convention J_ij=partial output_i/partial input_j, so scalar derivatives with respect to a vector are rows.",
+            "df/dz=1/(1+z), size 1x1; dz/dx=2x^T, size 1xD.",
+            "Multiply in chain order: df/dx=(1/(1+x^T x))*2x^T."
+          ],
+          "conclusion": "df/dx=2x^T/(1+x^T x), size 1xD; equivalently column gradient is 2x/(1+x^T x).",
+          "checks": [
+            "x^T x>=0 implies 1+z>=1, so the logarithm domain is valid for every real x.",
+            "(1x1)(1xD) gives 1xD; no transpose ambiguity after fixing the convention."
+          ],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "symbolic",
+          "derivation": [
+            "For componentwise sin, partial f_i/partial z_j=delta_ij cos(z_i), so df/dz=diag(cos(z)), size ExE.",
+            "For z=Ax+b, dz/dx=A, size ExD. Chain rule yields df/dx=diag(cos(Ax+b))A."
+          ],
+          "conclusion": "Jacobian diag(cos(Ax+b))A, size ExD.",
+          "checks": [
+            "(ExE)(ExD) gives ExD.",
+            "Component (i,j) is cos((Ax+b)_i) A_ij; b contributes no derivative with respect to x."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p7",
+      "input_sha256": "267fdd911cc9df6db5c2fb8aa8e1db527e3d10f54081db0ae7701ba92fa3a4aa",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": [
+            "For elementwise tanh, d f_i/d z_j=delta_ij(1-tanh^2 z_i). Thus df/dz=diag(1-tanh^2 z), MxM.",
+            "dz/dx=A, MxN. Chain rule df/dx=(df/dz)(dz/dx)=diag(1-tanh^2(Ax+b))A."
+          ],
+          "conclusion": "df/dx=diag(1-tanh^2 z) A, size MxN, where z=Ax+b.",
+          "checks": [
+            "Jacobian convention: output coordinates index rows; input coordinates index columns.",
+            "(MxM)(MxN)=MxN; b is Mx1 and has zero derivative with respect to x.",
+            "Every real z_i is valid; 0<1-tanh^2 z_i<=1 for finite z_i."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    },
+    {
+      "id": "p8",
+      "input_sha256": "b37d5d556cf35cde238861ed6697b62d7ec0e9bcfa0201a6865c840383e02dcb",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": [
+            "Write f=(1+exp(-x))^(-1). Chain rule gives f prime=-(1+exp(-x))^(-2)*(-exp(-x))=exp(-x)/(1+exp(-x))^2.",
+            "Also 1-f=exp(-x)/(1+exp(-x)); multiplying by f gives the same derivative."
+          ],
+          "conclusion": "f prime(x)=exp(-x)/(1+exp(-x))^2=f(x)(1-f(x)).",
+          "checks": [
+            "Denominator positive for all real x; derivative positive and at most 1/4 since t(1-t)<=1/4 for 0<t<1.",
+            "Own symbolic derivative minus f(1-f) simplifies exactly to zero."
+          ],
+          "unresolved": []
+        }
+      ],
+      "unresolved": []
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "p2",
+      "items": [
+        "The optional historical quotation says degree 4 whereas the current ask explicitly says degree 3. The derivation follows the current ask; if the historical quotation were intended instead, K would be 5.",
+        "Full column rank is not stated. Marginal x_n~Uniform[-5,5] alone does not guarantee distinct inputs without a sampling-dependence assumption; the inverse formula is conditional on rank 4. The usual independent continuous draws have full rank with probability 1."
+      ]
+    },
+    {
+      "id": "p3",
+      "items": [
+        "No realized design, labels, or quantitative definition of regularization effect is supplied, so a definitive comparison between degree 6 and degree 8 is unresolved."
+      ]
+    },
+    {
+      "id": "p5",
+      "items": [
+        "The condition sigma in R allows sigma=0, for which the original function is undefined. A nonzero-sigma condition is needed."
+      ]
+    }
+  ]
+}

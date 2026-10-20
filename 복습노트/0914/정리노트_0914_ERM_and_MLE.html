@@ -370,7 +370,7 @@
 <p data-map="pitfall"><b>헷갈리기 쉬운 점.</b> 입력이 고정되고 파라미터가 정해져도 관측 잡음이 있으면 출력은 확률변수예요. ML에서 파라미터는 고정되어 있지만 모르는 값으로 다뤄요.</p>
 <p>이어서 읽기: <a href="#s1-erm-name">Empirical · Risk · Minimization이라는 이름</a> · <a href="#s4-mle-ls">가우시안 노이즈면 MLE = 최소제곱</a> · <a href="#s3-reg">Overfitting과 정규화 최소제곱</a></p>
 </div>
-<div class="sum" hidden><p class="sum-lead">가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.</p></div>
+<div class="sum" hidden><p class="sum-lead">가우시안 잡음의 분산이 고정된 선형회귀에서는 ML과 제곱 손실 최소화가 같은 파라미터를 골라요.</p><div class="summary-group"><h4>조건·구분</h4><p>ERM은 평균 손실을 최소화하고 ML은 관측 우도를 최대화해요. 독립 가정으로 우도를 곱으로 나누고 로그로 합으로 바꾸며, ML의 파라미터는 고정된 미지의 값이에요.</p></div></div>
 </article>
 <article class="topic" id="s0-suppose"><h3>모델은 suppose, 그리고 선호의 문제</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s7</span><span class="tag slide">L01 s5</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -572,7 +572,7 @@
           <p>행의 수는 벡터 하나의 길이 $D$, 열의 수는 데이터 개수 $N$이에요. 슬라이드의 데이터 행렬 $\mathbf{X}$는 이것을 전치해 $N \times D$로 둔 것이고, <a href="#s2-remp">데이터 행렬 X와 평균 손실 R_emp</a>에서 다시 정리해요.</p>
         </div>
         <div class="sum" hidden>
-          <p class="sum-lead">볼드 소문자는 벡터, 라벨은 스칼라이고, 벡터를 세로로 이어 붙이면 D×N 행렬이 돼요.</p>
+          <p class="sum-lead">볼드 소문자는 벡터, 라벨은 스칼라이고, 열벡터를 옆으로 나란히 붙이면 D×N 행렬이 돼요.</p>
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list">
             <li><span class="eq-name">학습 데이터</span>$$\{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}, \qquad \mathbf{x}_n \in \mathbb{R}^D$$</li>
@@ -583,7 +583,7 @@
             <dt>볼드 소문자</dt><dd>관례상 벡터를 뜻하는 표기</dd>
             <dt>지도학습(supervised learning)</dt><dd>입력마다 라벨이 붙은 데이터로 배우는 것</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>각 열벡터를 옆으로 나란히 붙이면 $D\times N$이고, 이를 전치해 데이터 하나를 한 행에 두면 $N\times D$인 $\mathbf{X}$가 돼요.</p></div></div>
       </article>
       <article class="topic" id="s1-goal"><h3>좋은 파라미터 θ*와 for all의 뜻</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s10</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -631,7 +631,7 @@
           <p class="sum-lead">모든 학습 데이터에서 추정치가 라벨에 가까워지는 파라미터 θ*를 찾는 게 목표예요.</p>
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list">
-            <li><span class="eq-name">ERM의 목표</span>$$f(\mathbf{x}_n, \boldsymbol{\theta}^*) = \hat{y}_n \approx y_n, \quad \text{for all } n = 1, \dots, N$$</li>
+            <li><span class="eq-name">ERM의 목표</span>$$\begin{aligned}f(\mathbf{x}_n,\boldsymbol{\theta}^*)&=\hat y_n\approx y_n,\\&\text{for all }n=1,\dots,N\end{aligned}$$</li>
           </ul>
           <p class="panel-label">용어</p>
           <dl class="terms">
@@ -699,7 +699,7 @@
             <dt>augmentation</dt><dd>데이터 벡터 앞에 1을 붙여 길이를 D+1로 늘리는 것</dd>
             <dt>활성화 함수(activation function)</dt><dd>어파인 함수 출력에 씌우는 sigmoid, ReLU 같은 함수</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>입력과 계수 모두 길이 $D+1$로 맞춰요. 여기서 augmentation은 바이어스 흡수를 뜻하고, 뉴런은 어파인 출력에 비선형 활성화 함수를 적용해요.</p></div></div>
       </article>
     </section>
     <section id="s2"><h2>2. 손실 함수와 경험적 위험</h2>
@@ -765,7 +765,7 @@
             <dt>경험적 위험(empirical risk)</dt><dd>학습 데이터에서 낸 손실의 평균</dd>
             <dt>추정치(estimate)</dt><dd>학습 중 모델이 낸 값 $\hat{y}_n$, 햇은 추정을 뜻함</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf{X}$는 $N\times D$ 입력 행렬, $\mathbf{y}$는 $N\times1$ 라벨 벡터예요. 입력 앞에 1을 붙이면 행 길이는 $D+1$이고, 한 데이터의 손실은 음이 아닌 스칼라예요.</p></div></div>
       </article>
       <article class="topic" id="s2-squared"><h3>제곱 손실을 행렬 한 줄로 (김밥 재료 손질)</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s11</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -833,7 +833,7 @@
           <dl class="terms">
             <dt>최소제곱 문제(least squares problem)</dt><dd>제곱 손실의 평균을 가장 작게 하는 θ 찾기</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf{X},\mathbf{y}$는 고정하고 $\boldsymbol{\theta}$만 최소화해요. $\mathbf{X}\boldsymbol{\theta}$와 잔차는 $N\times1$이며 노름의 제곱은 잔차 성분 제곱의 합이에요. 보충의 $N=D=2$ 계산은 합과 행렬식이 같은지 확인한 것으로, 수업에서 유도하지 않았어요.</p></div></div>
       </article>
       <article class="topic" id="s2-true-risk"><h3>θ를 어떻게 찾나, 그리고 진짜 목표 R_true</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s11</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -897,7 +897,7 @@
             <dt>기대 위험(expected risk)</dt><dd>가능한 모든 데이터에 대한 평균 손실</dd>
             <dt>pseudo-inverse</dt><dd>최소제곱 해를 체계적으로 구하는 도구, 다음 주에 배움</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>학습 데이터의 적합이 새 데이터 예측으로 이어지려면 앞으로의 데이터가 지금 데이터와 크게 다르지 않아야 해요. 유한한 데이터에서는 $R_{\text{emp}}$만 직접 계산하고, 남겨 둔 테스트 데이터로 예측 성능을 확인해요.</p></div></div>
       </article>
     </section>
     <section id="s3"><h2>3. 과적합과 정규화</h2>
@@ -963,7 +963,7 @@
           <ul class="eq-list"><li><span class="eq-name">정규화 최소제곱</span>$$\min_{\boldsymbol{\theta}}\ \frac{1}{N}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2 + \lambda \|\boldsymbol{\theta}\|^2$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>과적합(overfitting)</dt><dd>학습 데이터에 너무 가깝게 맞춰 새 데이터에서 틀리는 현상</dd><dt>regularizer</dt><dd>패널티 항 $\|\boldsymbol{\theta}\|^2$</dd><dt>hyperparameter</dt><dd>사람이 정하는 $\lambda$, 모델 자체는 바꾸지 않아요</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$\lambda=0$이면 경험적 위험만 최소화하고, $\lambda>0$이면 적합 오차와 파라미터 크기를 함께 줄여요. 이 $\lambda$는 함수 꼴을 바꾸는 대신 최소화할 목적함수를 조절해요.</p></div></div>
       </article>
       <article class="topic" id="s3-norms"><h3>여러 가지 노름과 하이퍼파라미터 튜닝</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s12</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -1012,7 +1012,7 @@
           <ul class="eq-list"><li><span class="eq-name">1-노름</span>$$\|\boldsymbol{\theta}\|_1=\sum_{d=1}^D|\theta_d|$$</li><li><span class="eq-name">p-노름</span>$$\|\boldsymbol{\theta}\|_p=\left(\sum_{d=1}^D|\theta_d|^p\right)^{1/p}$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>희소해(sparse solution)</dt><dd>0이 아닌 원소가 적은 해, 1-노름 정규화가 만들어요</dd><dt>Bayesian optimization</dt><dd>Gaussian process로 하이퍼파라미터를 찾아가는 방법</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$\|\theta\|_2^2$은 성분 제곱합이고 $\|\theta\|_1$은 절댓값 합이에요. 보충(MML 3.1)의 노름 세 조건과 L1 영역의 꼭짓점에서 좌표가 0이 되는 직관은 수업에서 유도하지 않았어요. Bayesian optimization도 문제마다 성능이 달라요.</p></div></div>
       </article>
     </section>
     <section id="s4"><h2>4. 확률 모델로: 최대우도추정(MLE)</h2>
@@ -1060,7 +1060,7 @@
           <ul class="eq-list"><li><span class="eq-name">음의 로그우도</span>$$\mathcal{L}(\boldsymbol{\theta}) = -\log p(\mathbf{x} \mid \boldsymbol{\theta})$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>우도(likelihood)</dt><dd>그럴듯함. 데이터가 이 파라미터에서 나왔을 가능성</dd><dt>단조증가</dt><dd>$\log$는 단조증가라서 $-\log p$ 최소화가 $p$ 최대화와 같아요</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>데이터는 고정하고 파라미터를 바꾸므로 우도는 파라미터의 함수이며 데이터에 대한 PDF와 읽는 방향이 달라요. 단조증가인 로그에 음수를 붙이면 우도 최대화가 NLL 최소화로 바뀌어요.</p></div></div>
       </article>
       <article class="topic" id="s4-iid"><h3>i.i.d.: 곱을 합으로</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s15</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">데이터끼리 서로 모르는 사이면, 하나씩 따로 점수를 매겨서 합칠 수 있어요.</p>
@@ -1103,7 +1103,7 @@
           <ul class="eq-list"><li><span class="eq-name">i.i.d. 분해</span>$$= -\log \prod_{n=1}^{N} p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li><li><span class="eq-name">합으로</span>$$= -\sum_{n=1}^{N} \log p(y_n \mid \mathbf{x}_n, \boldsymbol{\theta})$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>i.i.d.</dt><dd>독립이고 모두 같은 분포(같은 파라미터)를 따름</dd><dt>일반식</dt><dd>분포 모양을 정하기 전까지 성립하는 식</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>독립 가정이 곱 분해를, 동일 분포 가정이 같은 분포·파라미터 사용을 맡아요. 분포 모양을 아직 정하지 않은 일반식이며 다음 계산에는 노이즈 가정이 필요해요.</p></div></div>
       </article>
       <article class="topic" id="s4-mle-ls"><h3>가우시안 노이즈면 MLE = 최소제곱</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s15</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">점들이 곧은 선 둘레에 종 모양으로 흩어져 있다고 믿으면, 가장 그럴듯한 선은 점과의 틈이 가장 작은 선이에요.</p>
@@ -1158,7 +1158,7 @@
           <ul class="eq-list"><li><span class="eq-name">라벨의 분포</span>$$y_n \mid \mathbf{x}_n, \boldsymbol{\theta} \sim \mathcal{N}(\mathbf{x}_n^\top \boldsymbol{\theta}, \sigma^2)$$</li><li><span class="eq-name">가우시안 음의 로그우도</span>$$= \frac{N}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n - \mathbf{x}_n^\top \boldsymbol{\theta})^2$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>가정(suppose)</dt><dd>일반식에서 더 내려가려면 노이즈 모양을 정해야 해요</dd><dt>최소제곱(least squares)</dt><dd>제곱 손실 합을 최소화하는 문제</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>i.i.d.이며 공통 가우시안 분산 $\sigma^2$를 주어진 값으로 두고 $\boldsymbol{\theta}$를 최적화하는 경우예요. $\boldsymbol{\theta}$와 무관한 상수항과 양의 배율을 제거해도 최소점이 같아요. 보충(MML Example 8.5)의 상수항·argmin 확인은 수업 밖 유도이고, 최소제곱의 닫힌 해는 다음 주 범위예요.</p></div></div>
       </article>
       <article class="topic" id="s4-contains"><h3>확률 모델은 결정론적 모델을 품는다</h3><div class="tags"><span class="tag date">0914 수업</span><span class="tag slide">L01 s15</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">퍼진 종을 한없이 좁히면 한 점에 꽂힌 막대가 되고, 그게 바로 딱 정해진 값이에요.</p>
@@ -1196,7 +1196,7 @@
           <ul class="eq-list"><li><span class="eq-name">상수의 PDF</span>$$p(x) = \delta(x - c)$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>델타 함수 PDF</dt><dd>밀도가 한 점에 모여 불확실성이 없는 분포</dd><dt>특수한 경우</dt><dd>가우시안 노이즈일 때 확률 모델의 해가 최소제곱 해와 같아요</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>상수는 $\delta(x-c)$처럼 한 점에 질량이 모여 불확실성이 없는 경우로 봐요. 가우시안 잡음에서 MLE와 최소제곱 해가 같다는 사실과 이 포함 관계는 구분해요.</p></div></div>
       </article>
     </section>
     <section id="s5"><h2>5. 한 장 요약 · 다음 시간 예고</h2>
@@ -1255,9 +1255,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1550,7 +1549,6 @@ var REG = (function () {
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1582,8 +1580,6 @@ var REG = (function () {
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1606,14 +1602,12 @@ var REG = (function () {
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

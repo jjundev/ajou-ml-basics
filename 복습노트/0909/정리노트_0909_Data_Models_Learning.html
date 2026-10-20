@@ -420,7 +420,7 @@
             <dt>Maximum Likelihood(ML)</dt><dd>확률 모델의 파라미터를 추정하는 대표 방법</dd>
             <dt>MAP(Maximum A Posteriori)</dt><dd>확률 모델의 파라미터를 추정하는 또 다른 대표 방법</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>모델은 규칙의 모양, 학습은 그 안의 파라미터 선택이에요. 훈련 오차만으로 좋다고 결론 내리지 않고 새 데이터에서 평가해요. 이날은 큰 그림을 다뤘고 ERM·ML·MAP의 세부 유도는 뒤 시간 범위예요.</p></div></div>
       </article>
       <article class="topic" id="s0-components"><h3>머신러닝의 세 구성요소와 빅데이터의 임계점</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s5</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
@@ -637,7 +637,7 @@
             <dt>특징(feature)</dt><dd>벡터의 한 성분. attribute, covariate라고도 해요</dd>
             <dt>특징 추출(feature extraction)</dt><dd>raw data를 과업에 맞게 줄이고 압축하기</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$n$은 데이터 번호, $(d)$는 그 안의 성분 번호예요. 열벡터를 가로로 적을 때 전치를 붙이고, 과업을 잘 나타내는 특징을 골라요.</p></div></div>
       </article>
       <article class="topic" id="s1-pca"><h3>더 나은 표현: PCA와 kernel</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s6</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">점들이 길게 늘어선 방향 하나만 봐도 대부분을 알 수 있어요.</p>
@@ -730,7 +730,7 @@
           <ul class="eq-list"><li><span class="eq-name">모델 셋업 예</span>$$y = 3x_1 + 5x_2 + 6x_3 + 0.6$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>결정론적 함수(deterministic function)</dt><dd>입력이 같으면 출력이 하나로 정해지는 모델</dd><dt>확률 모델(probabilistic model)</dt><dd>노이즈와 불확실성을 넣은 모델</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>함수 모델은 꼴을 먼저 정한 뒤 계수를 맞추고, 확률 모델은 관측의 노이즈와 불확실성을 분포로 표현해요.</p></div></div>
       </article>
       <article class="topic" id="s2-induction"><h3>오늘의 메인 레슨: 머신러닝은 귀납이다</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s7</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">원리를 먼저 배우는 공부도 있지만, 기계가 배울 때는 점들부터 보고 규칙을 짐작해요.</p>
@@ -827,7 +827,7 @@
           <ul class="eq-list"><li><span class="eq-name">함수 모델의 모양</span>$$f: \mathbb{R}^D \to \mathbb{R}$$</li><li><span class="eq-name">선형 모델</span>$$f(\mathbf{x}) = \boldsymbol{\theta}^\top \mathbf{x} + \theta_0$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>공역(codomain)</dt><dd>화살표 뒤에 적는, 출력이 속하는 집합</dd><dt>내적(inner product)</dt><dd>길이가 같은 두 벡터를 곱해 스칼라 하나를 얻는 연산</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>$\boldsymbol{\theta}$와 $\mathbf{x}$는 같은 길이 $D$의 열벡터예요. $1\times D$와 $D\times1$의 내적에 스칼라 바이어스 $\theta_0$을 더하므로 출력도 실수 하나예요. 공역은 출력이 속하는 집합이고 치역은 실제로 나오는 값들의 집합이에요.</p></div></div>
       </article>
       <article class="topic" id="s2-fitting"><h3>직선 피팅, 모델 크기, 손실 함수</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s7</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">점들을 가장 잘 지나가는 선을 고르는 게 맞추기예요.</p>
@@ -871,7 +871,7 @@
           <ul class="eq-list"><li><span class="eq-name">직선 모델</span>$$y = \theta_1 x + \theta_0$$</li><li><span class="eq-name">2차 모델</span>$$y = ax^2 + bx + c$$</li></ul>
           <p class="panel-label">용어</p>
           <dl class="terms"><dt>모델 크기(model size)</dt><dd>파라미터 수. 클수록 표현력이 좋아요</dd><dt>손실 함수(loss function)</dt><dd>어느 모델이 데이터를 잘 나타내는지 재는 기준</dd></dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>학습은 정한 꼴 안의 $\theta_0,\theta_1$을 고르는 일이에요. 2차식은 $a=0$으로 1차식을 포함하고, 손실 함수의 정의가 무엇을 잘 맞춘 것으로 볼지 정해요.</p></div></div>
       </article>
       <article class="topic" id="s2-prob"><h3>확률 모델: 조건부 PDF와 MLE 맛보기</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s7</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">답을 숫자 하나로 콕 찍는 대신, 어디쯤일지 넓게 알려 주는 방법도 있어요.</p>
@@ -914,8 +914,8 @@
           <p class="panel-label">핵심 식</p>
           <ul class="eq-list"><li><span class="eq-name">조건부 PDF</span>$$p(y \mid \mathbf{x})$$</li><li><span class="eq-name">수업 예시</span>$$y \mid x=60 \sim \mathcal{N}(100, \sigma^2)$$</li></ul>
           <p class="panel-label">용어</p>
-          <dl class="terms"><dt>noisy observation</dt><dd>노이즈가 낀 관측</dd><dt>MLE(Maximum Likelihood Estimate)</dt><dd>가장 그럴듯한 값을 고르는 추정</dd></dl>
-        </div>
+          <dl class="terms"><dt>noisy observation</dt><dd>노이즈가 낀 관측</dd><dt>MLE(Maximum Likelihood Estimate)</dt><dd>이날은 조건부 PDF의 최고점 선택을 빗댄 맛보기이며, 파라미터 추정의 정의는 뒤 시간에 배워요</dd></dl>
+        <div class="summary-group"><h4>조건·구분</h4><p>가우시안 예에서 100은 입력 $x$가 아니라 모델 출력의 평균이에요. 이 수업의 한 값 선택은 조건부 PDF의 최고점을 고르는 맛보기이고, 파라미터 추정으로서 MLE의 정의와 PDF 학습법은 아직 다루지 않았어요.</p></div></div>
       </article>
     </section>
     <section id="s3"><h2>3. 러닝: 좋은 모델과 세 단계</h2>
@@ -1064,7 +1064,7 @@
             <dt>하이퍼파라미터(hyperparameter)</dt><dd>훈련 전에 정하며, 바뀌면 모델 자체가 바뀌는 값</dd>
             <dt>합성 모델(composite function)</dt><dd>가중합과 활성화 함수(activation function)를 여러 층 결합한 뉴럴넷</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>파라미터(weight·bias)는 데이터로 배우고, 하이퍼파라미터(learning rate·regularization strength)는 훈련 전에 정해 학습을 조절해요.</p></div></div>
       </article>
       <article class="topic" id="s3-estimation"><h3>파라미터 추정: 격자 탐색에서 gradient descent까지</h3><div class="tags"><span class="tag date">0909 수업</span><span class="tag slide">L01 s8</span></div>
         <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">숫자를 맞출 때 모든 칸을 다 재 보면 확실하지만 오래 걸려요.</p>
@@ -1108,7 +1108,7 @@
             <dt>격자 탐색(grid search)</dt><dd>후보 값을 일정 간격으로 전부 시험해 보는 방법</dd>
             <dt>gradient descent</dt><dd>격자 탐색보다 효율적인 파라미터 학습 방법(이름만 나옴)</dd>
           </dl>
-        </div>
+        <div class="summary-group"><h4>조건·구분</h4><p>격자 탐색은 정한 범위·간격의 모든 조합을 평가해요. 교차검증은 unseen 성능을 흉내 내고 정규화·prior는 학습과 새 데이터 사이 균형을 잡는다는 소개만 했으며, 자세한 설명은 뒤로 미뤘어요.</p></div></div>
       </article>
     </section>
     <section id="s4"><h2>4. 한 장 요약 · 다음 시간 예고</h2>
@@ -1167,9 +1167,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -1387,7 +1386,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1419,8 +1417,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1443,14 +1439,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

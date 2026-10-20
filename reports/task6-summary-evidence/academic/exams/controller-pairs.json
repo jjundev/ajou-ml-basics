@@ -1,0 +1,1712 @@
+[
+  {
+    "round": 1,
+    "question": "p1",
+    "subpart": "a",
+    "question_input_sha256": "23130a376c8d8c8eb2b0674e3474d4a6e9691b6ff77365ad2015c74c31890867",
+    "question_title": "1. 선형결합과 해의 유일성",
+    "conditions_html": "<p>열벡터 $v_1=(1,0,1)^\\top$, $v_2=(0,1,1)^\\top$, $v_3=(1,1,2)^\\top$를 두고 $V=[v_1\\ v_2\\ v_3]$, $U=[v_1\\ v_2]$라 하자.</p>",
+    "blind_conclusion": "Linearly dependent; rank V=2 since v1,v2 have independent first two coordinates.",
+    "blind_derivation": [
+      "v1+v2=(1,1,2)^T=v3.",
+      "The coefficients (1,1,-1) are nonzero and give zero."
+    ],
+    "reference_solve": "(a)$v_1+v_2-v_3=0$이에요. 계수 $(1,1,-1)$는 영벡터가 아니므로 세 벡터는 선형종속이에요. 반면 $av_1+bv_2=0$의 첫째·둘째 성분에서 $a=b=0$이므로 앞의 두 벡터는 독립이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산계수 $1,1,-1$을 원래 세 벡터에 직접 곱하면 세 성분 모두 0이에요. 독립이라고 결론 내릴 수 없어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p1.html",
+    "reference_fragment_sha256": "a8d679a232f7df073ced5faba79288583c290d02fc3822aae211d98669d738fd",
+    "reference_math_sha256": "83b1fceda41d93e2ee4b44839b0e25cb78767b0460fbf408f6602de247cc4f23"
+  },
+  {
+    "round": 1,
+    "question": "p1",
+    "subpart": "b",
+    "question_input_sha256": "23130a376c8d8c8eb2b0674e3474d4a6e9691b6ff77365ad2015c74c31890867",
+    "question_title": "1. 선형결합과 해의 유일성",
+    "conditions_html": "<p>열벡터 $v_1=(1,0,1)^\\top$, $v_2=(0,1,1)^\\top$, $v_3=(1,1,2)^\\top$를 두고 $V=[v_1\\ v_2\\ v_3]$, $U=[v_1\\ v_2]$라 하자.</p>",
+    "blind_conclusion": "For b all solutions are (2-t,1-t,t)^T, t real. For c there is no solution.",
+    "blind_derivation": [
+      "First two equations give alpha1+alpha3=2 and alpha2+alpha3=1.",
+      "With alpha3=t, alpha=(2-t,1-t,t)^T; the third equation is 3=3.",
+      "Every vector in col(V) satisfies its third coordinate = first + second. For c this would require 4=3."
+    ],
+    "reference_solve": "(b)$V\\alpha=b$에서 $\\alpha_1+\\alpha_3=2$, $\\alpha_2+\\alpha_3=1$이에요. 셋째 식은 앞의 두 식의 합이므로 새 제약이 아니에요. $t=\\alpha_3\\in\\mathbb R$로 두면 $$\\alpha=(2-t,1-t,t)^\\top.$$ 모든 열벡터는 셋째 성분이 첫째와 둘째의 합이에요. $c$는 $4\\ne2+1$이므로 해가 없어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산일반해를 대입하면 첫째 성분 $2-t+t=2$, 둘째 $1-t+t=1$, 셋째 $3$이에요. $t=0$과 $t=1$도 서로 다른 해예요. $c$는 공간을 정의하는 관계 $z_3=z_1+z_2$를 위반해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p1.html",
+    "reference_fragment_sha256": "a8d679a232f7df073ced5faba79288583c290d02fc3822aae211d98669d738fd",
+    "reference_math_sha256": "83b1fceda41d93e2ee4b44839b0e25cb78767b0460fbf408f6602de247cc4f23"
+  },
+  {
+    "round": 1,
+    "question": "p1",
+    "subpart": "c",
+    "question_input_sha256": "23130a376c8d8c8eb2b0674e3474d4a6e9691b6ff77365ad2015c74c31890867",
+    "question_title": "1. 선형결합과 해의 유일성",
+    "conditions_html": "<p>열벡터 $v_1=(1,0,1)^\\top$, $v_2=(0,1,1)^\\top$, $v_3=(1,1,2)^\\top$를 두고 $V=[v_1\\ v_2\\ v_3]$, $U=[v_1\\ v_2]$라 하자.</p>",
+    "blind_conclusion": "U^T U is invertible; V^T V is singular.",
+    "blind_derivation": [
+      "Inner products give U^T U=[[2,1],[1,2]] with determinant 3.",
+      "The 2x2 inverse formula gives (U^T U)^-1=(1/3)[[2,-1],[-1,2]].",
+      "V^T V=[[2,1,3],[1,2,3],[3,3,6]] annihilates (1,1,-1)^T."
+    ],
+    "reference_solve": "(c)내적을 채우면 $$U^\\top U=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix},\\quad (U^\\top U)^{-1}=\\tfrac13\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}.$$ 행렬식은 $3$이에요. $a=(1,1,-1)^\\top\\ne0$에 대해 $Va=0$이므로 $V^\\top Va=0$이고, $V^\\top V$는 특이행렬이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$\\frac13\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}=I_2$예요. $V$의 영공간에 0이 아닌 벡터가 있으므로 Gram 행렬도 역행렬을 가질 수 없어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p1.html",
+    "reference_fragment_sha256": "a8d679a232f7df073ced5faba79288583c290d02fc3822aae211d98669d738fd",
+    "reference_math_sha256": "83b1fceda41d93e2ee4b44839b0e25cb78767b0460fbf408f6602de247cc4f23"
+  },
+  {
+    "round": 1,
+    "question": "p2",
+    "subpart": "a",
+    "question_input_sha256": "381a8b833a311f67f2550e5c81aaf5daf0d988da84b4812f757752e7c7449fb6",
+    "question_title": "2. Gradient·Jacobian·이차함수",
+    "conditions_html": "<p>$x=(x_1,x_2)^\\top$에 대해 다음을 정의한다. Gradient는 열벡터이고 Jacobian은 $(J_f)_{ij}=\\partial f_i/\\partial x_j$이다.</p><p>$$f(x)=\\begin{pmatrix}x_1^2+x_2\\\\x_1x_2\\end{pmatrix},\\quad A=\\begin{pmatrix}4&amp;1\\\\1&amp;2\\end{pmatrix},\\quad b=\\begin{pmatrix}1\\\\0\\end{pmatrix}$$</p><p>$$q(x)=\\tfrac12 x^\\top Ax-b^\\top x.$$</p>",
+    "blind_conclusion": "J_f(1,2)=[[2,1],[2,1]], dimension 2x2.",
+    "blind_derivation": [
+      "Differentiate each output with respect to x1,x2: J_f(x)=[[2x1,1],[x2,x1]].",
+      "Substitute x=(1,2)^T."
+    ],
+    "reference_solve": "(a)성분마다 미분하면 $$J_f(x)=\\begin{pmatrix}2x_1&1\\\\x_2&x_1\\end{pmatrix},\\quad J_f(1,2)=\\begin{pmatrix}2&1\\\\2&1\\end{pmatrix}.$$ 출력 2개, 입력 2개이므로 $2\\times2$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$f_1$은 $x_1$ 방향으로 $2x_1$, $x_2$ 방향으로 1만큼 변해요. 이 값들이 첫째 행에 있는지 확인해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p2.html",
+    "reference_fragment_sha256": "69fcbe71be9a0e0dfaed63087d032c075d338f6b432427f9bb04cfd1de52b818",
+    "reference_math_sha256": "15b57668df415687e77978a9ab0104267ea489bde57b72dd4ec98acf094a63e2"
+  },
+  {
+    "round": 1,
+    "question": "p2",
+    "subpart": "b",
+    "question_input_sha256": "381a8b833a311f67f2550e5c81aaf5daf0d988da84b4812f757752e7c7449fb6",
+    "question_title": "2. Gradient·Jacobian·이차함수",
+    "conditions_html": "<p>$x=(x_1,x_2)^\\top$에 대해 다음을 정의한다. Gradient는 열벡터이고 Jacobian은 $(J_f)_{ij}=\\partial f_i/\\partial x_j$이다.</p><p>$$f(x)=\\begin{pmatrix}x_1^2+x_2\\\\x_1x_2\\end{pmatrix},\\quad A=\\begin{pmatrix}4&amp;1\\\\1&amp;2\\end{pmatrix},\\quad b=\\begin{pmatrix}1\\\\0\\end{pmatrix}$$</p><p>$$q(x)=\\tfrac12 x^\\top Ax-b^\\top x.$$</p>",
+    "blind_conclusion": "gradient q=(4x1+x2-1,x1+2x2)^T=A x-b; Hessian=A.",
+    "blind_derivation": [
+      "x^T A x=4x1^2+2x1x2+2x2^2.",
+      "q=2x1^2+x1x2+x2^2-x1.",
+      "Differentiate componentwise."
+    ],
+    "reference_solve": "(b)$q=2x_1^2+x_1x_2+x_2^2-x_1$이므로 $$\\nabla q=\\begin{pmatrix}4x_1+x_2-1\\\\x_1+2x_2\\end{pmatrix}=Ax-b,\\quad H_q=\\begin{pmatrix}4&1\\\\1&2\\end{pmatrix}.$$ 두 번째 미분은 $x$와 무관해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$\\frac12x^\\top Ax$의 교차항은 $\\frac12(x_1x_2+x_2x_1)=x_1x_2$예요. 미분하면 두 교차 편미분이 모두 1이 되어 Hessian이 대칭이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p2.html",
+    "reference_fragment_sha256": "69fcbe71be9a0e0dfaed63087d032c075d338f6b432427f9bb04cfd1de52b818",
+    "reference_math_sha256": "15b57668df415687e77978a9ab0104267ea489bde57b72dd4ec98acf094a63e2"
+  },
+  {
+    "round": 1,
+    "question": "p2",
+    "subpart": "c",
+    "question_input_sha256": "381a8b833a311f67f2550e5c81aaf5daf0d988da84b4812f757752e7c7449fb6",
+    "question_title": "2. Gradient·Jacobian·이차함수",
+    "conditions_html": "<p>$x=(x_1,x_2)^\\top$에 대해 다음을 정의한다. Gradient는 열벡터이고 Jacobian은 $(J_f)_{ij}=\\partial f_i/\\partial x_j$이다.</p><p>$$f(x)=\\begin{pmatrix}x_1^2+x_2\\\\x_1x_2\\end{pmatrix},\\quad A=\\begin{pmatrix}4&amp;1\\\\1&amp;2\\end{pmatrix},\\quad b=\\begin{pmatrix}1\\\\0\\end{pmatrix}$$</p><p>$$q(x)=\\tfrac12 x^\\top Ax-b^\\top x.$$</p>",
+    "blind_conclusion": "Unique global minimum at (2/7,-1/7)^T; value -1/7.",
+    "blind_derivation": [
+      "From x1+2x2=0 get x1=-2x2. Then -7x2=1.",
+      "Stationary point xhat=(2/7,-1/7)^T.",
+      "For nonzero h, h^T A h=4(h1+h2/4)^2+(7/4)h2^2>0.",
+      "q(xhat+h)=q(xhat)+(1/2)h^T A h since A xhat=b."
+    ],
+    "reference_solve": "(c)$4x_1+x_2=1$, $x_1+2x_2=0$을 풀면 $$x_*=(2/7,-1/7)^\\top.$$ $4>0$, $\\det A=7>0$이므로 $A\\succ0$이에요. 따라서 $q$는 엄격볼록이고 이 정지점이 유일한 전역 최소점이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$A(2/7,-1/7)^\\top=(1,0)^\\top=b$예요. 또 $q(x)-q(x_*)=\\frac12(x-x_*)^\\top A(x-x_*)>0$은 $x\\ne x_*$에서 성립하므로 전역성과 유일성이 함께 확인돼요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p2.html",
+    "reference_fragment_sha256": "69fcbe71be9a0e0dfaed63087d032c075d338f6b432427f9bb04cfd1de52b818",
+    "reference_math_sha256": "15b57668df415687e77978a9ab0104267ea489bde57b72dd4ec98acf094a63e2"
+  },
+  {
+    "round": 1,
+    "question": "p3",
+    "subpart": "a",
+    "question_input_sha256": "e3e3fd0a1ea3e28c3f4cc53f88b4b5c0da212d6ec9a557f6bfb0ab89ad1a2153",
+    "question_title": "3. 가우시안 곱과 정규화",
+    "conditions_html": "<p>실수 $z$에 대해 $p_0(z)=\\mathcal N(z\\mid0,1)$, $p_1(z)=\\mathcal N(z\\mid2,3)$이다. $\\mathcal N(z\\mid m,v)$의 둘째 인수 $v$는 분산이다.</p><p>$g(z)=p_0(z)p_1(z)$, $Z=\\int_{-\\infty}^{\\infty}g(z)\\,dz$, $q(z)=g(z)/Z$로 둔다.</p>",
+    "blind_conclusion": "Completed square: (4/3)(z-1/2)^2+1.",
+    "blind_derivation": [
+      "z^2+(z-2)^2/3=(4/3)z^2-(4/3)z+4/3.",
+      "Completing the square gives (4/3)(z-1/2)^2+1."
+    ],
+    "reference_solve": "(a)중심을 $1/2$로 맞추면 $$z^2+\\frac{(z-2)^2}{3}=\\frac43(z-\\tfrac12)^2+1.$$ 따라서 $$g(z)=\\frac{e^{-1/2}}{2\\pi\\sqrt3}\\exp\\!\\left[-\\frac23(z-\\tfrac12)^2\\right].$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$\\frac43(z-1/2)^2+1$을 전개하면 $\\frac43z^2-\\frac43z+\\frac43$이어서 원래 식과 일치해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p3.html",
+    "reference_fragment_sha256": "310883ea135e305f839f8263f150673d612791ea35cf4477eda67d769dbea6d5",
+    "reference_math_sha256": "379a5b4a8b622e34f0c57f00aec87cfba63db19972d85f2a0c9364e49fc2ef27"
+  },
+  {
+    "round": 1,
+    "question": "p3",
+    "subpart": "b",
+    "question_input_sha256": "e3e3fd0a1ea3e28c3f4cc53f88b4b5c0da212d6ec9a557f6bfb0ab89ad1a2153",
+    "question_title": "3. 가우시안 곱과 정규화",
+    "conditions_html": "<p>실수 $z$에 대해 $p_0(z)=\\mathcal N(z\\mid0,1)$, $p_1(z)=\\mathcal N(z\\mid2,3)$이다. $\\mathcal N(z\\mid m,v)$의 둘째 인수 $v$는 분산이다.</p><p>$g(z)=p_0(z)p_1(z)$, $Z=\\int_{-\\infty}^{\\infty}g(z)\\,dz$, $q(z)=g(z)/Z$로 둔다.</p>",
+    "blind_conclusion": "q(z)=sqrt(2/(3 pi))*exp[-(2/3)(z-1/2)^2]; mean 1/2, variance 3/4.",
+    "blind_derivation": [
+      "The exponent of g is -1/2 times the expression in (a).",
+      "The z-dependent part is -(z-1/2)^2/[2(3/4)].",
+      "A Gaussian kernel of variance 3/4 integrates to sqrt(2 pi (3/4))."
+    ],
+    "reference_solve": "(b)$-\\frac23(z-1/2)^2=-\\frac{(z-1/2)^2}{2(3/4)}$이므로 평균 $1/2$, 분산 $3/4$예요. $$q(z)=\\sqrt{\\frac{2}{3\\pi}}\\exp\\!\\left[-\\frac23(z-\\tfrac12)^2\\right]=\\mathcal N(z\\mid\\tfrac12,\\tfrac34).$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산precision을 따로 더해도 $v^{-1}=1+1/3=4/3$, $m=v(0/1+2/3)=1/2$예요. 앞 계수 $\\sqrt{2/(3\\pi)}=1/\\sqrt{2\\pi(3/4)}$도 일치해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p3.html",
+    "reference_fragment_sha256": "310883ea135e305f839f8263f150673d612791ea35cf4477eda67d769dbea6d5",
+    "reference_math_sha256": "379a5b4a8b622e34f0c57f00aec87cfba63db19972d85f2a0c9364e49fc2ef27"
+  },
+  {
+    "round": 1,
+    "question": "p3",
+    "subpart": "c",
+    "question_input_sha256": "e3e3fd0a1ea3e28c3f4cc53f88b4b5c0da212d6ec9a557f6bfb0ab89ad1a2153",
+    "question_title": "3. 가우시안 곱과 정규화",
+    "conditions_html": "<p>실수 $z$에 대해 $p_0(z)=\\mathcal N(z\\mid0,1)$, $p_1(z)=\\mathcal N(z\\mid2,3)$이다. $\\mathcal N(z\\mid m,v)$의 둘째 인수 $v$는 분산이다.</p><p>$g(z)=p_0(z)p_1(z)$, $Z=\\int_{-\\infty}^{\\infty}g(z)\\,dz$, $q(z)=g(z)/Z$로 둔다.</p>",
+    "blind_conclusion": "Z=exp(-1/2)/sqrt(8 pi). This is not 1, so g itself is not a probability density; g=Z q.",
+    "blind_derivation": [
+      "Product leading coefficient is 1/(2 pi sqrt(3)).",
+      "g(z)=exp(-1/2)/(2 pi sqrt(3))*exp[-(2/3)(z-1/2)^2].",
+      "Integrate using sqrt(3 pi/2) for the kernel."
+    ],
+    "reference_solve": "(c)$\\int\\exp[-\\frac23(z-1/2)^2]dz=\\sqrt{3\\pi/2}$이므로 $$Z=\\frac{e^{-1/2}}{\\sqrt{8\\pi}}.$$ $Z\\ne1$이므로 $g$ 자체는 정규화된 밀도가 아니에요. $g=Zq$로 구분해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산곱의 적분 항등식으로도 $Z=\\mathcal N(0\\mid2,1+3)=e^{-1/2}/\\sqrt{8\\pi}$예요. $g$를 이 값으로 나누면 (b)의 앞 계수가 나와요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p3.html",
+    "reference_fragment_sha256": "310883ea135e305f839f8263f150673d612791ea35cf4477eda67d769dbea6d5",
+    "reference_math_sha256": "379a5b4a8b622e34f0c57f00aec87cfba63db19972d85f2a0c9364e49fc2ef27"
+  },
+  {
+    "round": 1,
+    "question": "p4",
+    "subpart": "a",
+    "question_input_sha256": "04b56451a87f21c80e85494d7ba3596cf4e3ee1887bb65c5da8e380e9400d8f1",
+    "question_title": "4. 특징행렬로 계산하는 ML과 MAP",
+    "conditions_html": "<p>관측은 $(x_n,y_n)=(-1,0),(0,1),(1,4)$이고 $\\phi(x)=(1,x)^\\top$이다. 모델은 $y_n=\\phi(x_n)^\\top\\theta+\\epsilon_n$이며 $\\epsilon_n$은 독립 $\\mathcal N(0,1)$이다.</p><p>MAP에서는 절편을 포함한 두 계수 모두에 $\\theta\\sim\\mathcal N(0,I_2)$ prior를 적용한다. $\\Phi$의 $n$번째 행은 $\\phi(x_n)^\\top$이다.</p>",
+    "blind_conclusion": "Phi=[[1,-1],[1,0],[1,1]], Phi^T Phi=diag(3,2), Phi^T y=(5,4)^T.",
+    "blind_derivation": [
+      "Write feature rows (1,-1),(1,0),(1,1).",
+      "Sum row outer products and y-weighted rows."
+    ],
+    "reference_solve": "(a)각 관측의 특징벡터를 행으로 놓으면 $$\\Phi=\\begin{pmatrix}1&-1\\\\1&0\\\\1&1\\end{pmatrix}.$$열별 내적과 출력의 내적은 $$\\Phi^\\top\\Phi=\\begin{pmatrix}3&0\\\\0&2\\end{pmatrix},\\quad\\Phi^\\top y=\\begin{pmatrix}5\\\\4\\end{pmatrix}.$$ $x_n$의 합이 0이므로 비대각성분이 0이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$\\Phi^\\top y=(0+1+4,-1\\cdot0+0\\cdot1+1\\cdot4)^\\top=(5,4)^\\top$로 직접 확인해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p4.html",
+    "reference_fragment_sha256": "4eb9419ba85438d8f46e5239daf34cd62b47683933e21fec6e6791f827317da0",
+    "reference_math_sha256": "e4bb146d1f5d091cffefcedce6ec7fb7ca6923ac0003d633c7b3ed493ab88860"
+  },
+  {
+    "round": 1,
+    "question": "p4",
+    "subpart": "b",
+    "question_input_sha256": "04b56451a87f21c80e85494d7ba3596cf4e3ee1887bb65c5da8e380e9400d8f1",
+    "question_title": "4. 특징행렬로 계산하는 ML과 MAP",
+    "conditions_html": "<p>관측은 $(x_n,y_n)=(-1,0),(0,1),(1,4)$이고 $\\phi(x)=(1,x)^\\top$이다. 모델은 $y_n=\\phi(x_n)^\\top\\theta+\\epsilon_n$이며 $\\epsilon_n$은 독립 $\\mathcal N(0,1)$이다.</p><p>MAP에서는 절편을 포함한 두 계수 모두에 $\\theta\\sim\\mathcal N(0,I_2)$ prior를 적용한다. $\\Phi$의 $n$번째 행은 $\\phi(x_n)^\\top$이다.</p>",
+    "blind_conclusion": "theta_ML=(5/3,2)^T; mean prediction=17/3.",
+    "blind_derivation": [
+      "Set Phi^T Phi theta=Phi^T y.",
+      "Solve 3 theta0=5 and 2 theta1=4.",
+      "At x*=2 use feature (1,2)^T."
+    ],
+    "reference_solve": "(b)$\\operatorname{diag}(3,2)\\theta=(5,4)^\\top$에서 $$\\theta_{\\mathrm{ML}}=(5/3,2)^\\top.$$ $x_*=2$의 평균 예측은 $5/3+2\\cdot2=17/3$이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산ML의 학습 예측은 $(-1/3,5/3,11/3)^\\top$이고 잔차는 $(1/3,-2/3,1/3)^\\top$예요. 잔차 합과 $x$가중 잔차 합이 모두 0이므로 정규방정식을 만족해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p4.html",
+    "reference_fragment_sha256": "4eb9419ba85438d8f46e5239daf34cd62b47683933e21fec6e6791f827317da0",
+    "reference_math_sha256": "e4bb146d1f5d091cffefcedce6ec7fb7ca6923ac0003d633c7b3ed493ab88860"
+  },
+  {
+    "round": 1,
+    "question": "p4",
+    "subpart": "c",
+    "question_input_sha256": "04b56451a87f21c80e85494d7ba3596cf4e3ee1887bb65c5da8e380e9400d8f1",
+    "question_title": "4. 특징행렬로 계산하는 ML과 MAP",
+    "conditions_html": "<p>관측은 $(x_n,y_n)=(-1,0),(0,1),(1,4)$이고 $\\phi(x)=(1,x)^\\top$이다. 모델은 $y_n=\\phi(x_n)^\\top\\theta+\\epsilon_n$이며 $\\epsilon_n$은 독립 $\\mathcal N(0,1)$이다.</p><p>MAP에서는 절편을 포함한 두 계수 모두에 $\\theta\\sim\\mathcal N(0,I_2)$ prior를 적용한다. $\\Phi$의 $n$번째 행은 $\\phi(x_n)^\\top$이다.</p>",
+    "blind_conclusion": "theta_MAP=(5/4,4/3)^T; mean prediction=47/12. The prior penalizes both coefficients and shrinks them toward zero.",
+    "blind_derivation": [
+      "Negative log posterior up to constants is (1/2)||y-Phi theta||^2+(1/2)||theta||^2.",
+      "Gradient zero gives (Phi^T Phi+I)theta=Phi^T y=>(4 theta0,3 theta1)=(5,4)."
+    ],
+    "reference_solve": "(c)prior의 음의 로그가 $\\frac12\\theta^\\top\\theta+\\mathrm{const}$이므로 $\\lambda=1$이에요. $\\operatorname{diag}(4,3)\\theta=(5,4)^\\top$에서 $$\\theta_{\\mathrm{MAP}}=(5/4,4/3)^\\top.$$ 평균 예측은 $5/4+2(4/3)=47/12$예요. 계수가 prior 평균 0 쪽으로 작아졌어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$(\\Phi^\\top\\Phi+I)\\theta_{\\mathrm{MAP}}=(5,4)^\\top$예요. 또한 $17/3=68/12$이므로 MAP 예측 $47/12$가 수치적으로도 더 작아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p4.html",
+    "reference_fragment_sha256": "4eb9419ba85438d8f46e5239daf34cd62b47683933e21fec6e6791f827317da0",
+    "reference_math_sha256": "e4bb146d1f5d091cffefcedce6ec7fb7ca6923ac0003d633c7b3ed493ab88860"
+  },
+  {
+    "round": 1,
+    "question": "p5",
+    "subpart": "a",
+    "question_input_sha256": "3f9296b6814df43babb780698287314ee424fe9e0e3a4d8c1fdec2b1abbfd789",
+    "question_title": "5. 표본 공분산과 아핀 변환",
+    "conditions_html": "<p>세 관측 $x_1=(0,0)^\\top$, $x_2=(2,0)^\\top$, $x_3=(0,2)^\\top$가 있다. 확률벡터 $X$는 이 셋 중 하나를 각각 확률 $1/3$로 취한다. 공분산은 분모 $N=3$을 사용한다.</p><p>$$Y=AX+b,\\quad A=\\begin{pmatrix}1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad b=\\begin{pmatrix}1\\\\-1\\end{pmatrix}.$$</p>",
+    "blind_conclusion": "mu_X=(2/3,2/3)^T; Sigma_X=[[8/9,-4/9],[-4/9,8/9]].",
+    "blind_derivation": [
+      "Mean is ((0+2+0)/3,(0+0+2)/3)^T.",
+      "E[XX^T]=diag(4/3,4/3).",
+      "Subtract mu_X mu_X^T=[[4/9,4/9],[4/9,4/9]]."
+    ],
+    "reference_solve": "(a)$$\\mu_X=\\begin{pmatrix}2/3\\\\2/3\\end{pmatrix},\\quad \\Sigma_X=\\frac19\\begin{pmatrix}8&-4\\\\-4&8\\end{pmatrix}.$$ 예를 들어 $(1,2)$ 성분은 $E[X_1X_2]-E[X_1]E[X_2]=0-4/9=-4/9$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산세 중심화 벡터 $(-2/3,-2/3)$, $(4/3,-2/3)$, $(-2/3,4/3)$의 외적을 합해 3으로 나누어도 같은 행렬이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p5.html",
+    "reference_fragment_sha256": "d2cdd72ed4e44ec7d5199b1e88adee7424fade1f19da41f25b694d9dee34f7ea",
+    "reference_math_sha256": "4747db1757809f5d89290f97390655e8de3c11992cc41dd892ab4b4af7b94c26"
+  },
+  {
+    "round": 1,
+    "question": "p5",
+    "subpart": "b",
+    "question_input_sha256": "3f9296b6814df43babb780698287314ee424fe9e0e3a4d8c1fdec2b1abbfd789",
+    "question_title": "5. 표본 공분산과 아핀 변환",
+    "conditions_html": "<p>세 관측 $x_1=(0,0)^\\top$, $x_2=(2,0)^\\top$, $x_3=(0,2)^\\top$가 있다. 확률벡터 $X$는 이 셋 중 하나를 각각 확률 $1/3$로 취한다. 공분산은 분모 $N=3$을 사용한다.</p><p>$$Y=AX+b,\\quad A=\\begin{pmatrix}1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad b=\\begin{pmatrix}1\\\\-1\\end{pmatrix}.$$</p>",
+    "blind_conclusion": "mu_Y=(7/3,-1)^T; Sigma_Y=diag(8/9,8/3); C_XY=[[4/9,4/3],[4/9,-4/3]].",
+    "blind_derivation": [
+      "E[AX+b]=A mu_X+b.",
+      "Y-mu_Y=A(X-mu_X), hence Sigma_Y=A Sigma_X A^T and C_XY=Sigma_X A^T.",
+      "Multiply the matrices with the indicated order."
+    ],
+    "reference_solve": "(b)$$\\mu_Y=\\begin{pmatrix}7/3\\\\-1\\end{pmatrix},\\quad\\Sigma_Y=\\begin{pmatrix}8/9&0\\\\0&8/3\\end{pmatrix}.$$ 교차공분산은 $$C_{XY}=\\Sigma_XA^\\top=\\begin{pmatrix}4/9&4/3\\\\4/9&-4/3\\end{pmatrix}.$$ 좌우 순서는 $X$의 차원×$Y$의 차원을 따라요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산변환된 세 점의 평균은 $(7/3,-1)$이에요. 첫째 성분 편차는 $(-4/3,2/3,2/3)$, 둘째는 $(0,2,-2)$여서 공분산은 0, 분산은 각각 $8/9,8/3$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p5.html",
+    "reference_fragment_sha256": "d2cdd72ed4e44ec7d5199b1e88adee7424fade1f19da41f25b694d9dee34f7ea",
+    "reference_math_sha256": "4747db1757809f5d89290f97390655e8de3c11992cc41dd892ab4b4af7b94c26"
+  },
+  {
+    "round": 1,
+    "question": "p5",
+    "subpart": "c",
+    "question_input_sha256": "3f9296b6814df43babb780698287314ee424fe9e0e3a4d8c1fdec2b1abbfd789",
+    "question_title": "5. 표본 공분산과 아핀 변환",
+    "conditions_html": "<p>세 관측 $x_1=(0,0)^\\top$, $x_2=(2,0)^\\top$, $x_3=(0,2)^\\top$가 있다. 확률벡터 $X$는 이 셋 중 하나를 각각 확률 $1/3$로 취한다. 공분산은 분모 $N=3$을 사용한다.</p><p>$$Y=AX+b,\\quad A=\\begin{pmatrix}1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad b=\\begin{pmatrix}1\\\\-1\\end{pmatrix}.$$</p>",
+    "blind_conclusion": "Uncorrelated but dependent, established directly from their actual discrete joint distribution.",
+    "blind_derivation": [
+      "The possible Y values are (1,-1),(3,1),(3,-3), each of probability 1/3.",
+      "Cov(Y1,Y2)=0 from (b), so the coordinates are uncorrelated.",
+      "P(Y1=1,Y2=-1)=1/3, whereas P(Y1=1)P(Y2=-1)=(1/3)(1/3)=1/9."
+    ],
+    "reference_solve": "(c)가능한 $Y$는 $(1,-1)^\\top,(3,1)^\\top,(3,-3)^\\top$이고 각각 확률 $1/3$이에요. 공분산이 0이므로 두 성분은 무상관이에요. 하지만 $P(Y_1=1,Y_2=1)=0$인 반면 $P(Y_1=1)P(Y_2=1)=1/9$이므로 독립은 아니에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$Y_1=1$인 경우에는 $Y_2=-1$만 가능해요. 조건부확률 $P(Y_2=1\\mid Y_1=1)=0$은 주변확률 $1/3$과 다르므로 독립이 아니에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p5.html",
+    "reference_fragment_sha256": "d2cdd72ed4e44ec7d5199b1e88adee7424fade1f19da41f25b694d9dee34f7ea",
+    "reference_math_sha256": "4747db1757809f5d89290f97390655e8de3c11992cc41dd892ab4b4af7b94c26"
+  },
+  {
+    "round": 1,
+    "question": "p6",
+    "subpart": "a",
+    "question_input_sha256": "854b2212f71fef6cd9c55b8f25f784a290f123b3637dffa6c7435fe4ee17c333",
+    "question_title": "6. 확률모델에서 경험위험 최소화까지",
+    "conditions_html": "<p>고정 입력 $x_1,\\ldots,x_N$과 $y_n=\\theta_0+\\theta_1x_n+\\epsilon_n$을 생각하자. $\\theta=(\\theta_0,\\theta_1)^\\top$이고, $\\epsilon_n$은 서로 독립이며 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있다. $\\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.</p>",
+    "blind_conclusion": "y_n | x_n,theta ~ N(theta0+theta1 x_n,sigma^2), conditionally independent.",
+    "blind_derivation": [
+      "For fixed x_n and theta, the deterministic mean is theta0+theta1 x_n; adding epsilon_n shifts its Gaussian.",
+      "Each y_n is a function only of epsilon_n and fixed quantities. Independence of the noises therefore gives conditional independence of the observations."
+    ],
+    "reference_solve": "(a)주어진 식에서 $y_n$은 고정값 $\\phi_n^\\top\\theta$에 Gaussian 잡음을 더한 값이에요. 따라서 $$y_n\\mid\\Phi,\\theta\\sim\\mathcal N(\\phi_n^\\top\\theta,\\sigma^2).$$ 각 출력의 무작위성은 서로 독립인 $\\epsilon_n$에서만 오므로 입력과 $\\theta$를 고정하면 출력들도 독립이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산각 평균은 스칼라이고 분산은 알려진 양수예요. 독립성은 모수를 고정한 조건부 주장임을 확인해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "6589a628fd8d04c1cac888d4239c0da7a698640ff49dfe052271e387da34310c",
+    "reference_math_sha256": "18c930717630a017ea3670f9e2153fb06ab573479e732c451b8e23f1bf95a67f"
+  },
+  {
+    "round": 1,
+    "question": "p6",
+    "subpart": "b",
+    "question_input_sha256": "854b2212f71fef6cd9c55b8f25f784a290f123b3637dffa6c7435fe4ee17c333",
+    "question_title": "6. 확률모델에서 경험위험 최소화까지",
+    "conditions_html": "<p>고정 입력 $x_1,\\ldots,x_N$과 $y_n=\\theta_0+\\theta_1x_n+\\epsilon_n$을 생각하자. $\\theta=(\\theta_0,\\theta_1)^\\top$이고, $\\epsilon_n$은 서로 독립이며 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있다. $\\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.</p>",
+    "blind_conclusion": "p(y|Phi,theta)=(2 pi sigma^2)^(-N/2)exp[-||y-Phi theta||^2/(2 sigma^2)]; L=N/2 log(2 pi sigma^2)+||y-Phi theta||^2/(2 sigma^2).",
+    "blind_derivation": [
+      "Multiply the independent densities (2 pi sigma^2)^(-1/2) exp[-(y_n-phi_n^T theta)^2/(2 sigma^2)].",
+      "Take minus the logarithm of the product."
+    ],
+    "reference_solve": "(b)(a)의 독립성으로 곱을 만들어요. $$p(y\\mid\\Phi,\\theta)=(2\\pi\\sigma^2)^{-N/2}\\exp\\!\\left[-\\frac{\\sum_n(y_n-\\phi_n^\\top\\theta)^2}{2\\sigma^2}\\right].$$ 음의 로그를 취하면 곱의 정규화 상수도 남아요. $$\\mathcal L=\\frac N2\\log(2\\pi\\sigma^2)+\\frac{\\|y-\\Phi\\theta\\|^2}{2\\sigma^2}.$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$N=1$을 넣으면 한 관측 Gaussian 밀도와 그 음의 로그로 돌아가요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "6589a628fd8d04c1cac888d4239c0da7a698640ff49dfe052271e387da34310c",
+    "reference_math_sha256": "18c930717630a017ea3670f9e2153fb06ab573479e732c451b8e23f1bf95a67f"
+  },
+  {
+    "round": 1,
+    "question": "p6",
+    "subpart": "c",
+    "question_input_sha256": "854b2212f71fef6cd9c55b8f25f784a290f123b3637dffa6c7435fe4ee17c333",
+    "question_title": "6. 확률모델에서 경험위험 최소화까지",
+    "conditions_html": "<p>고정 입력 $x_1,\\ldots,x_N$과 $y_n=\\theta_0+\\theta_1x_n+\\epsilon_n$을 생각하자. $\\theta=(\\theta_0,\\theta_1)^\\top$이고, $\\epsilon_n$은 서로 독립이며 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있다. $\\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.</p>",
+    "blind_conclusion": "L and squared-loss empirical risk have exactly the same minimizing theta.",
+    "blind_derivation": [
+      "By definition Rhat=||y-Phi theta||^2/N.",
+      "L=N/2 log(2 pi sigma^2)+N/(2 sigma^2) Rhat.",
+      "The additive term is independent of theta and N/(2 sigma^2)>0."
+    ],
+    "reference_solve": "(c)(b)의 합은 $N\\widehat R$예요. 따라서 $$\\mathcal L=C+\\frac{N}{2\\sigma^2}\\widehat R.$$ $C$는 $\\theta$와 무관하고 배율은 양수예요. 두 후보의 위험 대소관계가 그대로 보존되어 우도 최대화와 경험위험 최소화가 같은 모수를 골라요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$\\mathcal L(\\theta_a)-\\mathcal L(\\theta_b)=N(\\widehat R(\\theta_a)-\\widehat R(\\theta_b))/(2\\sigma^2)$여서 부호가 같아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "6589a628fd8d04c1cac888d4239c0da7a698640ff49dfe052271e387da34310c",
+    "reference_math_sha256": "18c930717630a017ea3670f9e2153fb06ab573479e732c451b8e23f1bf95a67f"
+  },
+  {
+    "round": 1,
+    "question": "p6",
+    "subpart": "d",
+    "question_input_sha256": "854b2212f71fef6cd9c55b8f25f784a290f123b3637dffa6c7435fe4ee17c333",
+    "question_title": "6. 확률모델에서 경험위험 최소화까지",
+    "conditions_html": "<p>고정 입력 $x_1,\\ldots,x_N$과 $y_n=\\theta_0+\\theta_1x_n+\\epsilon_n$을 생각하자. $\\theta=(\\theta_0,\\theta_1)^\\top$이고, $\\epsilon_n$은 서로 독립이며 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있다. $\\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.</p>",
+    "blind_conclusion": "Phi^T Phi theta=Phi^T y; gradient Rhat=(2/N)(Phi^T Phi theta-Phi^T y).",
+    "blind_derivation": [
+      "SSE=(y-Phi theta)^T(y-Phi theta)=y^T y-2 theta^T Phi^T y+theta^T Phi^T Phi theta.",
+      "Phi^T Phi is symmetric, so the column gradient is -2 Phi^T y+2 Phi^T Phi theta.",
+      "Setting it to zero gives the normal equations."
+    ],
+    "reference_solve": "(d)(c)의 제곱오차를 전개하면 $$Q=y^\\top y-2\\theta^\\top\\Phi^\\top y+\\theta^\\top\\Phi^\\top\\Phi\\theta.$$ 대칭인 Gram 행렬을 이용하면 $$\\nabla Q=2\\Phi^\\top\\Phi\\theta-2\\Phi^\\top y.$$ 이를0으로 놓아 $$\\Phi^\\top\\Phi\\theta=\\Phi^\\top y$$ 를 얻어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산원래 제곱합을 성분별 미분해도 $-2\\sum_n\\phi_n(y_n-\\phi_n^\\top\\theta)$로 같아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "6589a628fd8d04c1cac888d4239c0da7a698640ff49dfe052271e387da34310c",
+    "reference_math_sha256": "18c930717630a017ea3670f9e2153fb06ab573479e732c451b8e23f1bf95a67f"
+  },
+  {
+    "round": 1,
+    "question": "p6",
+    "subpart": "e",
+    "question_input_sha256": "854b2212f71fef6cd9c55b8f25f784a290f123b3637dffa6c7435fe4ee17c333",
+    "question_title": "6. 확률모델에서 경험위험 최소화까지",
+    "conditions_html": "<p>고정 입력 $x_1,\\ldots,x_N$과 $y_n=\\theta_0+\\theta_1x_n+\\epsilon_n$을 생각하자. $\\theta=(\\theta_0,\\theta_1)^\\top$이고, $\\epsilon_n$은 서로 독립이며 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있다. $\\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.</p>",
+    "blind_conclusion": "Unique ML minimum (Phi^T Phi)^-1 Phi^T y. Polynomial features still define linear regression in parameters; the new design must separately have full column rank to ensure uniqueness.",
+    "blind_derivation": [
+      "For nonzero h, h^T Phi^T Phi h=||Phi h||^2>0 by full column rank.",
+      "Thus the normal equations have theta_ML=(Phi^T Phi)^-1 Phi^T y, and the Hessian of L=Phi^T Phi/sigma^2 is positive definite.",
+      "At theta_ML+h, L-L_min=||Phi h||^2/(2 sigma^2)>0.",
+      "Changing features to (1,x,x^2) keeps the mean linear in the three coefficients, even though it is quadratic in x."
+    ],
+    "reference_solve": "(e)(d)에서 열독립이므로 Gram 행렬이 가역이에요. $$\\theta_{\\mathrm{ML}}=(\\Phi^\\top\\Phi)^{-1}\\Phi^\\top y.$$ 비영 $v$에 대해 $v^\\top\\Phi^\\top\\Phi v=\\|\\Phi v\\|^2>0$이므로 이차 목적함수는 엄격히 볼록하고 해는 유일해요. 다항 특징도 $\\theta_0+\\theta_1x+\\theta_2x^2$처럼 모수에 선형이므로 선형 회귀예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산최종 식을 정규방정식에 넣으면 양변이 같아요. 잔차는 $\\Phi^\\top r=0$, 추정량은 $K\\times1$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "6589a628fd8d04c1cac888d4239c0da7a698640ff49dfe052271e387da34310c",
+    "reference_math_sha256": "18c930717630a017ea3670f9e2153fb06ab573479e732c451b8e23f1bf95a67f"
+  },
+  {
+    "round": 1,
+    "question": "p7",
+    "subpart": "a",
+    "question_input_sha256": "8b466d4670ba071bc75f9cea911300247906079f5fcd0dcac575de851983514d",
+    "question_title": "7. Gaussian prior가 만드는 ridge",
+    "conditions_html": "<p>고정 $\\Phi\\in\\mathbb R^{N\\times K}$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2 I_N)$, $\\theta\\sim\\mathcal N(m_0,\\tau^2 I_K)$이다. $\\sigma^2,\\tau^2&gt;0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\\Phi$의 열독립은 가정하지 않는다.</p>",
+    "blind_conclusion": "Posterior is proportional to likelihood times prior; evidence is independent of theta.",
+    "blind_derivation": [
+      "Bayes: p(theta|y,Phi)=p(y|Phi,theta)p(theta)/p(y|Phi).",
+      "The numerator uses N(Phi theta,sigma^2 I_N) times N(m0,tau^2 I_K).",
+      "Evidence integrates that numerator over theta and thus is constant with respect to theta."
+    ],
+    "reference_solve": "(a)Bayes 정리에서 $$p(\\theta\\mid y,\\Phi)=\\frac{p(y\\mid\\Phi,\\theta)p(\\theta)}{p(y\\mid\\Phi)}.$$ 분모는 모수를 적분한 값이므로 현재 최적화 변수 $\\theta$에 의존하지 않아요. 따라서 분자의 곱을 최대화해도 같은 MAP를 얻어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산분모를 적분식으로 쓰면 적분 변수는 사라지고 데이터와 모델만 남아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "79d24f979e29cf51f318d3868742ae8cca07ae7c405cfc91eb13d83a0d45d0fa",
+    "reference_math_sha256": "1f3d0123c2f1fa0c4e78364e9dd0fe0930966502b52c38c8626974df023a9b95"
+  },
+  {
+    "round": 1,
+    "question": "p7",
+    "subpart": "b",
+    "question_input_sha256": "8b466d4670ba071bc75f9cea911300247906079f5fcd0dcac575de851983514d",
+    "question_title": "7. Gaussian prior가 만드는 ridge",
+    "conditions_html": "<p>고정 $\\Phi\\in\\mathbb R^{N\\times K}$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2 I_N)$, $\\theta\\sim\\mathcal N(m_0,\\tau^2 I_K)$이다. $\\sigma^2,\\tau^2&gt;0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\\Phi$의 열독립은 가정하지 않는다.</p>",
+    "blind_conclusion": "Negative log posterior = ||y-Phi theta||^2/(2 sigma^2)+||theta-m0||^2/(2 tau^2)+C.",
+    "blind_derivation": [
+      "The product leading coefficient is (2 pi sigma^2)^(-N/2)(2 pi tau^2)^(-K/2).",
+      "Its exponent is -||y-Phi theta||^2/(2 sigma^2)-||theta-m0||^2/(2 tau^2).",
+      "Minus log posterior adds C=N/2 log(2 pi sigma^2)+K/2 log(2 pi tau^2)+log p(y|Phi)."
+    ],
+    "reference_solve": "(b)(a)의 두 Gaussian 지수에 음의 로그를 적용해요. $$-\\log p(\\theta\\mid y,\\Phi)=J=\\frac{\\|y-\\Phi\\theta\\|^2}{2\\sigma^2}+\\frac{\\|\\theta-m_0\\|^2}{2\\tau^2}+C.$$ 두 분산은 고정값이고 $C$에만 정규화 상수와 evidence를 모았어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산각 항은 무차원 지수이며 prior 중심을0으로 임의 변경하지 않았어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "79d24f979e29cf51f318d3868742ae8cca07ae7c405cfc91eb13d83a0d45d0fa",
+    "reference_math_sha256": "1f3d0123c2f1fa0c4e78364e9dd0fe0930966502b52c38c8626974df023a9b95"
+  },
+  {
+    "round": 1,
+    "question": "p7",
+    "subpart": "c",
+    "question_input_sha256": "8b466d4670ba071bc75f9cea911300247906079f5fcd0dcac575de851983514d",
+    "question_title": "7. Gaussian prior가 만드는 ridge",
+    "conditions_html": "<p>고정 $\\Phi\\in\\mathbb R^{N\\times K}$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2 I_N)$, $\\theta\\sim\\mathcal N(m_0,\\tau^2 I_K)$이다. $\\sigma^2,\\tau^2&gt;0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\\Phi$의 열독립은 가정하지 않는다.</p>",
+    "blind_conclusion": "(Phi^T Phi+lambda I_K)theta=Phi^T y+lambda m0.",
+    "blind_derivation": [
+      "Gradient of the first quadratic is Phi^T(Phi theta-y)/sigma^2.",
+      "Gradient of the second is (theta-m0)/tau^2.",
+      "Set their sum to zero and multiply by sigma^2."
+    ],
+    "reference_solve": "(c)(b)에서 열 gradient는 $$\\nabla J=\\frac{\\Phi^\\top(\\Phi\\theta-y)}{\\sigma^2}+\\frac{\\theta-m_0}{\\tau^2}.$$ 0으로 놓고 양변에 $\\sigma^2$를 곱하면 $$(\\Phi^\\top\\Phi+\\lambda I)\\theta=\\Phi^\\top y+\\lambda m_0,$$ 여기서 $\\lambda=\\sigma^2/\\tau^2$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$\\theta=m_0$에서 prior의 gradient는0이에요. 부호를 확인하는 간단한 점검이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "79d24f979e29cf51f318d3868742ae8cca07ae7c405cfc91eb13d83a0d45d0fa",
+    "reference_math_sha256": "1f3d0123c2f1fa0c4e78364e9dd0fe0930966502b52c38c8626974df023a9b95"
+  },
+  {
+    "round": 1,
+    "question": "p7",
+    "subpart": "d",
+    "question_input_sha256": "8b466d4670ba071bc75f9cea911300247906079f5fcd0dcac575de851983514d",
+    "question_title": "7. Gaussian prior가 만드는 ridge",
+    "conditions_html": "<p>고정 $\\Phi\\in\\mathbb R^{N\\times K}$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2 I_N)$, $\\theta\\sim\\mathcal N(m_0,\\tau^2 I_K)$이다. $\\sigma^2,\\tau^2&gt;0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\\Phi$의 열독립은 가정하지 않는다.</p>",
+    "blind_conclusion": "MAP formula above with relative penalty lambda=sigma^2/tau^2.",
+    "blind_derivation": [
+      "The equation in (c) gives theta_MAP=(Phi^T Phi+lambda I_K)^-1(Phi^T y+lambda m0).",
+      "Multiplying the negative log posterior by 2 sigma^2 leaves SSE+lambda||theta-m0||^2 plus a constant."
+    ],
+    "reference_solve": "(d)(c)의 역행렬을 곱하면 $$\\theta_{\\mathrm{MAP}}=(\\Phi^\\top\\Phi+\\lambda I)^{-1}(\\Phi^\\top y+\\lambda m_0).$$ (b)에 양수 $2\\sigma^2$를 곱해도 최소점은 같으므로 상대 벌점은 $\\lambda=\\sigma^2/\\tau^2$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$\\sigma^2$를 크게 하면 데이터보다 prior의 상대 비중이 커져 $\\lambda$가 커져요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "79d24f979e29cf51f318d3868742ae8cca07ae7c405cfc91eb13d83a0d45d0fa",
+    "reference_math_sha256": "1f3d0123c2f1fa0c4e78364e9dd0fe0930966502b52c38c8626974df023a9b95"
+  },
+  {
+    "round": 1,
+    "question": "p7",
+    "subpart": "e",
+    "question_input_sha256": "8b466d4670ba071bc75f9cea911300247906079f5fcd0dcac575de851983514d",
+    "question_title": "7. Gaussian prior가 만드는 ridge",
+    "conditions_html": "<p>고정 $\\Phi\\in\\mathbb R^{N\\times K}$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2 I_N)$, $\\theta\\sim\\mathcal N(m_0,\\tau^2 I_K)$이다. $\\sigma^2,\\tau^2&gt;0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\\Phi$의 열독립은 가정하지 않는다.</p>",
+    "blind_conclusion": "The coefficient matrix is positive definite, hence invertible, regardless of column dependence; MAP is unique.",
+    "blind_derivation": [
+      "For any h != 0, h^T(Phi^T Phi+lambda I)h=||Phi h||^2+lambda||h||^2.",
+      "The first term is nonnegative and the second strictly positive."
+    ],
+    "reference_solve": "(e)(d)의 행렬을 $A$라 하면 $$v^\\top Av=\\|\\Phi v\\|^2+\\lambda\\|v\\|^2>0\\quad(v\\ne0).$$ $\\lambda>0$이면 첫 항이0이어도 둘째 항이 양수예요. 따라서 $A$는 양의 정부호이고 가역이며 MAP는 유일해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산$Av=0$인 비영 벡터가 있다면 $v^\\top Av=0$이어야 하므로 위 양수 결과와 모순이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "79d24f979e29cf51f318d3868742ae8cca07ae7c405cfc91eb13d83a0d45d0fa",
+    "reference_math_sha256": "1f3d0123c2f1fa0c4e78364e9dd0fe0930966502b52c38c8626974df023a9b95"
+  },
+  {
+    "round": 1,
+    "question": "p7",
+    "subpart": "f",
+    "question_input_sha256": "8b466d4670ba071bc75f9cea911300247906079f5fcd0dcac575de851983514d",
+    "question_title": "7. Gaussian prior가 만드는 ridge",
+    "conditions_html": "<p>고정 $\\Phi\\in\\mathbb R^{N\\times K}$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2 I_N)$, $\\theta\\sim\\mathcal N(m_0,\\tau^2 I_K)$이다. $\\sigma^2,\\tau^2&gt;0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\\Phi$의 열독립은 가정하지 않는다.</p>",
+    "blind_conclusion": "lambda=1: theta=(5/11,5/11)^T. lambda=0: infinitely many solutions (a,1-a)^T. As lambda tends to infinity theta tends to (0,0)^T=m0.",
+    "blind_derivation": [
+      "Phi^T Phi=[[5,5],[5,5]], Phi^T y=(5,5)^T.",
+      "For lambda=1 solve [[6,5],[5,6]]theta=(5,5)^T: subtraction gives theta1=theta2 and then 11 theta1=5.",
+      "For lambda=0, predictions match y whenever theta1+theta2=1.",
+      "For general positive lambda the symmetric solution has both entries 5/(10+lambda)."
+    ],
+    "reference_solve": "(f)$G=\\begin{pmatrix}5&5\\\\5&5\\end{pmatrix}$, $\\Phi^\\top y=(5,5)^\\top$예요. (d)는 $$\\begin{pmatrix}6&5\\\\5&6\\end{pmatrix}\\theta=(5,5)^\\top$$ 이므로 $\\theta_{\\mathrm{MAP}}=(5/11,5/11)^\\top$예요. $\\lambda=0$에서는 $\\theta_1+\\theta_2=1$인 모든 해가 최소제곱 해여서 유일하지 않아요. $m_0=0$에서 $\\lambda\\to\\infty$이면 추정량은0으로 가요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(f) 검산$(6+5)5/11=5$로 양 행을 만족해요. 일반 $\\lambda>0$에서는 두 성분이 $5/(10+\\lambda)$여서 큰 벌점 극한은0이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "79d24f979e29cf51f318d3868742ae8cca07ae7c405cfc91eb13d83a0d45d0fa",
+    "reference_math_sha256": "1f3d0123c2f1fa0c4e78364e9dd0fe0930966502b52c38c8626974df023a9b95"
+  },
+  {
+    "round": 1,
+    "question": "p8",
+    "subpart": "a",
+    "question_input_sha256": "465239aead412b8102cce5c976e1c5c8cbaceb5492a795cda6116f53c6ebb40c",
+    "question_title": "8. 사후분포와 새 관측의 예측",
+    "conditions_html": "<p>스칼라 회귀모델 $y_n=x_n\\theta+\\epsilon_n$에서 $\\theta\\sim\\mathcal N(1,2)$, 독립 잡음 $\\epsilon_n\\sim\\mathcal N(0,2)$이다. 잡음들은 $\\theta$와도 독립이다. 데이터 $D=\\{(1,2),(1,0)\\}$가 관측되었다. 모든 Gaussian의 둘째 인수는 분산이다.</p><p>새 입력은 $x_*=2$이고, $f_*=x_*\\theta$, $y_*=f_*+\\epsilon_*$이다. $\\epsilon_*\\sim\\mathcal N(0,2)$는 $\\theta,D$ 및 기존 잡음과 독립이다.</p>",
+    "blind_conclusion": "Product is (4 pi)^(-3/2) exp[-((2-theta)^2+theta^2+(theta-1)^2)/4].",
+    "blind_derivation": [
+      "Likelihood is N(2|theta,2)N(0|theta,2); multiply by N(theta|1,2).",
+      "Leading factor is (4 pi)^(-3/2).",
+      "Exponent is -[(2-theta)^2+theta^2+(theta-1)^2]/4."
+    ],
+    "reference_solve": "(a)Prior와 두 likelihood의 곱이에요. $$g(\\theta)=\\mathcal N(\\theta\\mid1,2)\\mathcal N(2\\mid\\theta,2)\\mathcal N(0\\mid\\theta,2).$$ 따라서 $$g(\\theta)\\propto\\exp\\!\\left[-\\frac{(\\theta-1)^2+(2-\\theta)^2+\\theta^2}{4}\\right].$$ 독립 관측이므로 두 likelihood를 곱했어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$\\theta$가 주어진 조건에서 두 관측의 잡음이 독립인지 확인해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "5039f819d123e413e872e56038d35ff298b270b39dd31f5a19682cf0ebba43f2",
+    "reference_math_sha256": "c33c1f115e157eedf73e439cc317a811211f2b663e57d2e757a0616480a65a3d"
+  },
+  {
+    "round": 1,
+    "question": "p8",
+    "subpart": "b",
+    "question_input_sha256": "465239aead412b8102cce5c976e1c5c8cbaceb5492a795cda6116f53c6ebb40c",
+    "question_title": "8. 사후분포와 새 관측의 예측",
+    "conditions_html": "<p>스칼라 회귀모델 $y_n=x_n\\theta+\\epsilon_n$에서 $\\theta\\sim\\mathcal N(1,2)$, 독립 잡음 $\\epsilon_n\\sim\\mathcal N(0,2)$이다. 잡음들은 $\\theta$와도 독립이다. 데이터 $D=\\{(1,2),(1,0)\\}$가 관측되었다. 모든 Gaussian의 둘째 인수는 분산이다.</p><p>새 입력은 $x_*=2$이고, $f_*=x_*\\theta$, $y_*=f_*+\\epsilon_*$이다. $\\epsilon_*\\sim\\mathcal N(0,2)$는 $\\theta,D$ 및 기존 잡음과 독립이다.</p>",
+    "blind_conclusion": "A=3/2, b=3/2, c=5/2.",
+    "blind_derivation": [
+      "Sum of squares =3 theta^2-6 theta+5.",
+      "Write -(3 theta^2-6 theta+5)/4=-1/2[(3/2)theta^2-3theta+5/2]."
+    ],
+    "reference_solve": "(b)(a)의 세 제곱을 전개하면 $3\\theta^2-6\\theta+5$예요. $$-\\frac{3\\theta^2-6\\theta+5}{4}=-\\frac12\\left(\\frac32\\theta^2-3\\theta+\\frac52\\right).$$ 따라서 $A=3/2$, $b=3/2$, $c=5/2$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$\\theta=0$을 넣으면 전개 전후 지수 모두 $-5/4$예요. 이차·일차 계수도 각각 일치해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "5039f819d123e413e872e56038d35ff298b270b39dd31f5a19682cf0ebba43f2",
+    "reference_math_sha256": "c33c1f115e157eedf73e439cc317a811211f2b663e57d2e757a0616480a65a3d"
+  },
+  {
+    "round": 1,
+    "question": "p8",
+    "subpart": "c",
+    "question_input_sha256": "465239aead412b8102cce5c976e1c5c8cbaceb5492a795cda6116f53c6ebb40c",
+    "question_title": "8. 사후분포와 새 관측의 예측",
+    "conditions_html": "<p>스칼라 회귀모델 $y_n=x_n\\theta+\\epsilon_n$에서 $\\theta\\sim\\mathcal N(1,2)$, 독립 잡음 $\\epsilon_n\\sim\\mathcal N(0,2)$이다. 잡음들은 $\\theta$와도 독립이다. 데이터 $D=\\{(1,2),(1,0)\\}$가 관측되었다. 모든 Gaussian의 둘째 인수는 분산이다.</p><p>새 입력은 $x_*=2$이고, $f_*=x_*\\theta$, $y_*=f_*+\\epsilon_*$이다. $\\epsilon_*\\sim\\mathcal N(0,2)$는 $\\theta,D$ 및 기존 잡음과 독립이다.</p>",
+    "blind_conclusion": "theta|D ~ N(1,2/3), with density sqrt(3/(4 pi)) exp[-3(theta-1)^2/4].",
+    "blind_derivation": [
+      "A theta^2-2b theta+c=(3/2)(theta-1)^2+1.",
+      "The constant exp(-1/2) cancels in normalization.",
+      "The remaining Gaussian kernel has variance A^-1=2/3 and integral sqrt(4 pi/3)."
+    ],
+    "reference_solve": "(c)(b)에서 $$A\\theta^2-2b\\theta+c=\\frac32(\\theta-1)^2+1.$$ $\\theta$와 무관한 항을 정규화 인자로 흡수하면 평균은 $b/A=1$, 분산은 $A^{-1}=2/3$이에요. $$p(\\theta\\mid D)=\\sqrt{\\frac3{4\\pi}}\\exp[-3(\\theta-1)^2/4].$$ 적분1인 Gaussian 밀도로 정규화했어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산완전제곱을 다시 전개하면 원래 이차식이에요. $\\sqrt{3/(4\\pi)}\\int e^{-3(\\theta-1)^2/4}d\\theta=1$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "5039f819d123e413e872e56038d35ff298b270b39dd31f5a19682cf0ebba43f2",
+    "reference_math_sha256": "c33c1f115e157eedf73e439cc317a811211f2b663e57d2e757a0616480a65a3d"
+  },
+  {
+    "round": 1,
+    "question": "p8",
+    "subpart": "d",
+    "question_input_sha256": "465239aead412b8102cce5c976e1c5c8cbaceb5492a795cda6116f53c6ebb40c",
+    "question_title": "8. 사후분포와 새 관측의 예측",
+    "conditions_html": "<p>스칼라 회귀모델 $y_n=x_n\\theta+\\epsilon_n$에서 $\\theta\\sim\\mathcal N(1,2)$, 독립 잡음 $\\epsilon_n\\sim\\mathcal N(0,2)$이다. 잡음들은 $\\theta$와도 독립이다. 데이터 $D=\\{(1,2),(1,0)\\}$가 관측되었다. 모든 Gaussian의 둘째 인수는 분산이다.</p><p>새 입력은 $x_*=2$이고, $f_*=x_*\\theta$, $y_*=f_*+\\epsilon_*$이다. $\\epsilon_*\\sim\\mathcal N(0,2)$는 $\\theta,D$ 및 기존 잡음과 독립이다.</p>",
+    "blind_conclusion": "f*|D ~ N(2,8/3).",
+    "blind_derivation": [
+      "For f*=2theta, conditional expectation is 2 E[theta|D]=2.",
+      "Conditional variance is 4 Var(theta|D)=8/3. Linear transforms of a Gaussian remain Gaussian."
+    ],
+    "reference_solve": "(d)(c)에서 $x_*=2$예요. 상수배의 평균은2배, 분산은4배이므로 $$E[f_*\\mid D]=2,\\quad\\operatorname{Var}(f_*\\mid D)=8/3.$$ Gaussian의 선형변환이어서 $f_*\\mid D\\sim\\mathcal N(2,8/3)$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$f_*=2\\theta$를 직접 중심화하면 $f_*-2=2(\\theta-1)$여서 분산은 $4(2/3)$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "5039f819d123e413e872e56038d35ff298b270b39dd31f5a19682cf0ebba43f2",
+    "reference_math_sha256": "c33c1f115e157eedf73e439cc317a811211f2b663e57d2e757a0616480a65a3d"
+  },
+  {
+    "round": 1,
+    "question": "p8",
+    "subpart": "e",
+    "question_input_sha256": "465239aead412b8102cce5c976e1c5c8cbaceb5492a795cda6116f53c6ebb40c",
+    "question_title": "8. 사후분포와 새 관측의 예측",
+    "conditions_html": "<p>스칼라 회귀모델 $y_n=x_n\\theta+\\epsilon_n$에서 $\\theta\\sim\\mathcal N(1,2)$, 독립 잡음 $\\epsilon_n\\sim\\mathcal N(0,2)$이다. 잡음들은 $\\theta$와도 독립이다. 데이터 $D=\\{(1,2),(1,0)\\}$가 관측되었다. 모든 Gaussian의 둘째 인수는 분산이다.</p><p>새 입력은 $x_*=2$이고, $f_*=x_*\\theta$, $y_*=f_*+\\epsilon_*$이다. $\\epsilon_*\\sim\\mathcal N(0,2)$는 $\\theta,D$ 및 기존 잡음과 독립이다.</p>",
+    "blind_conclusion": "y*|D ~ N(2,14/3).",
+    "blind_derivation": [
+      "Future noise is independent of theta and D and has mean 0, variance 2.",
+      "Means add, and independent variances add: 8/3+2=14/3.",
+      "A sum of independent Gaussians is Gaussian."
+    ],
+    "reference_solve": "(e)(d)의 $f_*$에 평균0, 분산2의 독립 잡음을 더해요. 교차 공분산은0이므로 $$E[y_*\\mid D]=2,\\quad\\operatorname{Var}(y_*\\mid D)=8/3+2=14/3.$$ 독립 Gaussian의 합이어서 $y_*\\mid D\\sim\\mathcal N(2,14/3)$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산전체분산법칙으로도 $E[2\\mid D]+\\operatorname{Var}(2\\theta\\mid D)=2+8/3$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "5039f819d123e413e872e56038d35ff298b270b39dd31f5a19682cf0ebba43f2",
+    "reference_math_sha256": "c33c1f115e157eedf73e439cc317a811211f2b663e57d2e757a0616480a65a3d"
+  },
+  {
+    "round": 1,
+    "question": "p8",
+    "subpart": "f",
+    "question_input_sha256": "465239aead412b8102cce5c976e1c5c8cbaceb5492a795cda6116f53c6ebb40c",
+    "question_title": "8. 사후분포와 새 관측의 예측",
+    "conditions_html": "<p>스칼라 회귀모델 $y_n=x_n\\theta+\\epsilon_n$에서 $\\theta\\sim\\mathcal N(1,2)$, 독립 잡음 $\\epsilon_n\\sim\\mathcal N(0,2)$이다. 잡음들은 $\\theta$와도 독립이다. 데이터 $D=\\{(1,2),(1,0)\\}$가 관측되었다. 모든 Gaussian의 둘째 인수는 분산이다.</p><p>새 입력은 $x_*=2$이고, $f_*=x_*\\theta$, $y_*=f_*+\\epsilon_*$이다. $\\epsilon_*\\sim\\mathcal N(0,2)$는 $\\theta,D$ 및 기존 잡음과 독립이다.</p>",
+    "blind_conclusion": "theta_MAP=1; plug-in y* ~ N(2,2). Full posterior prediction has additional variance 8/3 from uncertain theta propagated through x*=2.",
+    "blind_derivation": [
+      "The posterior quadratic is minimized at theta=1, its mean and mode.",
+      "Fixing theta to MAP sets f*=2 deterministically, then adds only N(0,2) observation noise."
+    ],
+    "reference_solve": "(f)(c)의 Gaussian은 평균에서 최대이므로 $\\theta_{\\mathrm{MAP}}=1$이에요. 이 값을 고정하면 $y_*=2+\\epsilon_*$여서 $\\mathcal N(2,2)$예요. (e)와 평균은 같지만 분산은 $8/3$ 작아요. 고정 대입은 $x_*^2\\operatorname{Var}(\\theta\\mid D)$라는 모수 불확실성을 제거해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(f) 검산$14/3-2=8/3$으로 (d)의 잠재 분산과 정확히 같아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "5039f819d123e413e872e56038d35ff298b270b39dd31f5a19682cf0ebba43f2",
+    "reference_math_sha256": "c33c1f115e157eedf73e439cc317a811211f2b663e57d2e757a0616480a65a3d"
+  },
+  {
+    "round": 1,
+    "question": "p9",
+    "subpart": "a",
+    "question_input_sha256": "08ab9d83d215e9c57c702dea76d016f23aa53d6abf262dc8c1243e23b6d18fec",
+    "question_title": "9. Evidence·Bayes factor·모델 선택",
+    "conditions_html": "<p>두 모델은 $y=\\theta+\\epsilon$, $\\epsilon\\sim\\mathcal N(0,1)$을 공유하며 $\\epsilon$은 $\\theta$와 독립이다. $M_1$은 $\\theta\\sim\\mathcal N(0,1)$, $M_2$는 $\\theta\\sim\\mathcal N(0,4)$를 쓴다. 모델 사전확률은 $P(M_1)=1/3$, $P(M_2)=2/3$이다. 관측은 하나이며 $y=0$이다. Gaussian의 둘째 인수는 분산이다.</p>",
+    "blind_conclusion": "Evidence integral uses the prior, not posterior.",
+    "blind_derivation": [
+      "Marginalize the joint model p(y,theta|M_j)=p(y|theta,M_j)p(theta|M_j).",
+      "p(y|M_j)=integral N(y|theta,1)N(theta|0,v_j) dtheta.",
+      "The prior describes theta before the observed y; integrating against the posterior would count the observation again and is not this marginalization identity."
+    ],
+    "reference_solve": "(a)모델이 정해지면 아직 관측을 반영하지 않은 모수 분포로 평균내요. $$p(y\\mid M_j)=\\int\\mathcal N(y\\mid\\theta,1)\\mathcal N(\\theta\\mid0,v_j)d\\theta.$$ Posterior는 이미 $y$를 반영한 분포여서 이 적분의 prior를 대신할 수 없어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산적분 변수 $\\theta$를 없애면 evidence는 $y$의 밀도예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "9fdd9a9526e302d16519825100cfe574a1f1cb5c76cf089dd4b883b052cd5376",
+    "reference_math_sha256": "d12ccefede4ae415ff6769f042c477876d00883728433b9cd0a111d1c0c278d1"
+  },
+  {
+    "round": 1,
+    "question": "p9",
+    "subpart": "b",
+    "question_input_sha256": "08ab9d83d215e9c57c702dea76d016f23aa53d6abf262dc8c1243e23b6d18fec",
+    "question_title": "9. Evidence·Bayes factor·모델 선택",
+    "conditions_html": "<p>두 모델은 $y=\\theta+\\epsilon$, $\\epsilon\\sim\\mathcal N(0,1)$을 공유하며 $\\epsilon$은 $\\theta$와 독립이다. $M_1$은 $\\theta\\sim\\mathcal N(0,1)$, $M_2$는 $\\theta\\sim\\mathcal N(0,4)$를 쓴다. 모델 사전확률은 $P(M_1)=1/3$, $P(M_2)=2/3$이다. 관측은 하나이며 $y=0$이다. Gaussian의 둘째 인수는 분산이다.</p>",
+    "blind_conclusion": "p(y|M_j)=[2 pi(v_j+1)]^(-1/2) exp[-y^2/(2(v_j+1))]; normalized N(0,v_j+1).",
+    "blind_derivation": [
+      "Let v=v_j. (y-theta)^2+theta^2/v=((v+1)/v)(theta-v y/(v+1))^2+y^2/(v+1).",
+      "The leading factor of the product is 1/(2 pi sqrt(v)).",
+      "Integral of the theta kernel is sqrt(2 pi v/(v+1))."
+    ],
+    "reference_solve": "(b)(a)의 지수에 등장하는 제곱합은 $$ (y-\\theta)^2+\\theta^2/v_j=A(\\theta-y/A)^2+\\frac{y^2}{1+v_j},$$ 여기서 $A=1+1/v_j$예요. 곱의 앞 계수는 $1/(2\\pi\\sqrt{v_j})$이고 제곱항 적분은 $\\sqrt{2\\pi/A}$예요. 따라서 $$p(y\\mid M_j)=\\frac{\\exp[-y^2/(2(1+v_j))]}{\\sqrt{2\\pi(1+v_j)}}.$$ 즉 관측의 주변분포는 $\\mathcal N(0,1+v_j)$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산평균0인 독립 $\\theta+\\epsilon$의 분산도 $v_j+1$이에요. 유도한 밀도의 적분이1이고 평균·분산도 일치해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "9fdd9a9526e302d16519825100cfe574a1f1cb5c76cf089dd4b883b052cd5376",
+    "reference_math_sha256": "d12ccefede4ae415ff6769f042c477876d00883728433b9cd0a111d1c0c278d1"
+  },
+  {
+    "round": 1,
+    "question": "p9",
+    "subpart": "c",
+    "question_input_sha256": "08ab9d83d215e9c57c702dea76d016f23aa53d6abf262dc8c1243e23b6d18fec",
+    "question_title": "9. Evidence·Bayes factor·모델 선택",
+    "conditions_html": "<p>두 모델은 $y=\\theta+\\epsilon$, $\\epsilon\\sim\\mathcal N(0,1)$을 공유하며 $\\epsilon$은 $\\theta$와 독립이다. $M_1$은 $\\theta\\sim\\mathcal N(0,1)$, $M_2$는 $\\theta\\sim\\mathcal N(0,4)$를 쓴다. 모델 사전확률은 $P(M_1)=1/3$, $P(M_2)=2/3$이다. 관측은 하나이며 $y=0$이다. Gaussian의 둘째 인수는 분산이다.</p>",
+    "blind_conclusion": "p(0|M1)=1/sqrt(4 pi); p(0|M2)=1/sqrt(10 pi).",
+    "blind_derivation": [
+      "Set y=0 in (b).",
+      "For v1=1 use total variance 2; for v2=4 use variance 5."
+    ],
+    "reference_solve": "(c)(b)에서 $v_1=1,v_2=4$를 넣으면 관측 분산은2와5예요. $y=0$에서는 지수항이1이므로 $$p(0\\mid M_1)=1/\\sqrt{4\\pi},\\quad p(0\\mid M_2)=1/\\sqrt{10\\pi}.$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$y=0$에서 더 작은 분산의 Gaussian 높이가 더 커요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "9fdd9a9526e302d16519825100cfe574a1f1cb5c76cf089dd4b883b052cd5376",
+    "reference_math_sha256": "d12ccefede4ae415ff6769f042c477876d00883728433b9cd0a111d1c0c278d1"
+  },
+  {
+    "round": 1,
+    "question": "p9",
+    "subpart": "d",
+    "question_input_sha256": "08ab9d83d215e9c57c702dea76d016f23aa53d6abf262dc8c1243e23b6d18fec",
+    "question_title": "9. Evidence·Bayes factor·모델 선택",
+    "conditions_html": "<p>두 모델은 $y=\\theta+\\epsilon$, $\\epsilon\\sim\\mathcal N(0,1)$을 공유하며 $\\epsilon$은 $\\theta$와 독립이다. $M_1$은 $\\theta\\sim\\mathcal N(0,1)$, $M_2$는 $\\theta\\sim\\mathcal N(0,4)$를 쓴다. 모델 사전확률은 $P(M_1)=1/3$, $P(M_2)=2/3$이다. 관측은 하나이며 $y=0$이다. Gaussian의 둘째 인수는 분산이다.</p>",
+    "blind_conclusion": "Data evidence favors M1.",
+    "blind_derivation": [
+      "B12=p(0|M1)/p(0|M2)=sqrt(10 pi)/sqrt(4 pi)=sqrt(5/2)>1."
+    ],
+    "reference_solve": "(d)(c)의 밀도 비는 $$B_{12}=\\sqrt{5/2}>1.$$ 동일한 관측에 더 큰 evidence를 주는 $M_1$을 데이터가 지지해요. 이는 모델 prior를 아직 반영하지 않은 비교예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산정규화 상수를 빼면 이 관측에서 지수가 모두0이어서 두 모델이 같다는 오답을 얻어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "9fdd9a9526e302d16519825100cfe574a1f1cb5c76cf089dd4b883b052cd5376",
+    "reference_math_sha256": "d12ccefede4ae415ff6769f042c477876d00883728433b9cd0a111d1c0c278d1"
+  },
+  {
+    "round": 1,
+    "question": "p9",
+    "subpart": "e",
+    "question_input_sha256": "08ab9d83d215e9c57c702dea76d016f23aa53d6abf262dc8c1243e23b6d18fec",
+    "question_title": "9. Evidence·Bayes factor·모델 선택",
+    "conditions_html": "<p>두 모델은 $y=\\theta+\\epsilon$, $\\epsilon\\sim\\mathcal N(0,1)$을 공유하며 $\\epsilon$은 $\\theta$와 독립이다. $M_1$은 $\\theta\\sim\\mathcal N(0,1)$, $M_2$는 $\\theta\\sim\\mathcal N(0,4)$를 쓴다. 모델 사전확률은 $P(M_1)=1/3$, $P(M_2)=2/3$이다. 관측은 하나이며 $y=0$이다. Gaussian의 둘째 인수는 분산이다.</p>",
+    "blind_conclusion": "P(M1|0)=sqrt(5)/(sqrt(5)+2sqrt(2)); choose M2 by larger posterior despite B12>1.",
+    "blind_derivation": [
+      "Bayes gives P(Mj|y)=p(y|Mj)P(Mj)/p(y).",
+      "Dividing cancels common p(y), so posterior odds=B12 times prior odds.",
+      "Here prior odds=(1/3)/(2/3)=1/2. Posterior odds=sqrt(5/2)/2.",
+      "With only two models, P(M1|0)=B12/(B12+2). Since B12<2, that posterior is <1/2."
+    ],
+    "reference_solve": "(e)Bayes 정리의 공통 분모 $p(y)$가 소거돼요. $$\\frac{P(M_1\\mid y)}{P(M_2\\mid y)}=\\frac{p(y\\mid M_1)}{p(y\\mid M_2)}\\frac{P(M_1)}{P(M_2)}.$$ Prior odds는 $1/2$이므로 posterior odds는 $O=\\sqrt{5/2}/2<1$이에요. $$P(M_1\\mid0)=\\frac O{1+O}=\\frac{\\sqrt{5/2}}{2+\\sqrt{5/2}}\\simeq0.44152.$$ 사후확률은 $M_2$가 더 커요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산$O/(1+O)+(1/(1+O))=1$이고 $O<1$이에요. 데이터의 지지와 최종 모델 선택을 구별해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "9fdd9a9526e302d16519825100cfe574a1f1cb5c76cf089dd4b883b052cd5376",
+    "reference_math_sha256": "d12ccefede4ae415ff6769f042c477876d00883728433b9cd0a111d1c0c278d1"
+  },
+  {
+    "round": 1,
+    "question": "p10",
+    "subpart": "a",
+    "question_input_sha256": "0c85ced5c682c249609ae174d21252d129ae6941f95b2f3a2d10dba101248bd8",
+    "question_title": "10. 최소제곱 해를 직교투영으로 읽기",
+    "conditions_html": "<p>동일한 알려진 분산의 독립 Gaussian 잡음을 갖는 $y=\\Phi\\theta+\\epsilon$에서</p><p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad y=\\begin{pmatrix}2\\\\2\\\\0\\end{pmatrix}.$$</p><p>$\\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\\widehat y=\\Phi\\widehat\\theta$, $r=y-\\widehat y$로 둔다.</p>",
+    "blind_conclusion": "Phi^T r=0, so r is orthogonal to every vector in col(Phi).",
+    "blind_derivation": [
+      "Let r=y-Phi thetahat. The path loss is ||r-t Phi h||^2=||r||^2-2t h^T Phi^T r+t^2||Phi h||^2.",
+      "Derivative at zero is -2 h^T Phi^T r=0 for every h.",
+      "Choosing h=Phi^T r implies ||Phi^T r||^2=0."
+    ],
+    "reference_solve": "(a)$r=y-\\Phi\\widehat\\theta$로 두면 거리제곱은 $$\\|r-t\\Phi h\\|^2=\\|r\\|^2-2t h^\\top\\Phi^\\top r+t^2\\|\\Phi h\\|^2.$$ $t=0$의 도함수는 $-2h^\\top\\Phi^\\top r$예요. 모든 $h$에서0이므로 $$\\Phi^\\top r=0.$$ 즉 잔차가 모든 열에 직교해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$h$를 각 좌표 기저로 택하면 각 열과 잔차의 내적이0임을 개별 확인할 수 있어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "1f93e14d94d533e83ba6629b50bf6329c29638b02f750d654c933e06e21851cb",
+    "reference_math_sha256": "875fdf39ca9b03b218062a43745faef374a8ede7e988dfeb4f3ce1032cf186e2"
+  },
+  {
+    "round": 1,
+    "question": "p10",
+    "subpart": "b",
+    "question_input_sha256": "0c85ced5c682c249609ae174d21252d129ae6941f95b2f3a2d10dba101248bd8",
+    "question_title": "10. 최소제곱 해를 직교투영으로 읽기",
+    "conditions_html": "<p>동일한 알려진 분산의 독립 Gaussian 잡음을 갖는 $y=\\Phi\\theta+\\epsilon$에서</p><p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad y=\\begin{pmatrix}2\\\\2\\\\0\\end{pmatrix}.$$</p><p>$\\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\\widehat y=\\Phi\\widehat\\theta$, $r=y-\\widehat y$로 둔다.</p>",
+    "blind_conclusion": "Phi^T Phi thetahat=Phi^T y; thetahat=(Phi^T Phi)^-1 Phi^T y.",
+    "blind_derivation": [
+      "Substitute r=y-Phi thetahat in Phi^T r=0.",
+      "Full column rank implies Phi^T Phi is positive definite and invertible."
+    ],
+    "reference_solve": "(b)(a)에 잔차를 대입하면 $$\\Phi^\\top(y-\\Phi\\widehat\\theta)=0.$$ 따라서 $G\\widehat\\theta=\\Phi^\\top y$, $G=\\Phi^\\top\\Phi$예요. 열독립으로 $G$가 가역이므로 $$\\widehat\\theta=G^{-1}\\Phi^\\top y.$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$G$의 비영 이차형식은 $\\|\\Phi v\\|^2>0$이어서 역행렬 조건을 만족해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "1f93e14d94d533e83ba6629b50bf6329c29638b02f750d654c933e06e21851cb",
+    "reference_math_sha256": "875fdf39ca9b03b218062a43745faef374a8ede7e988dfeb4f3ce1032cf186e2"
+  },
+  {
+    "round": 1,
+    "question": "p10",
+    "subpart": "c",
+    "question_input_sha256": "0c85ced5c682c249609ae174d21252d129ae6941f95b2f3a2d10dba101248bd8",
+    "question_title": "10. 최소제곱 해를 직교투영으로 읽기",
+    "conditions_html": "<p>동일한 알려진 분산의 독립 Gaussian 잡음을 갖는 $y=\\Phi\\theta+\\epsilon$에서</p><p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad y=\\begin{pmatrix}2\\\\2\\\\0\\end{pmatrix}.$$</p><p>$\\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\\widehat y=\\Phi\\widehat\\theta$, $r=y-\\widehat y$로 둔다.</p>",
+    "blind_conclusion": "P is symmetric and idempotent, the orthogonal projector onto col(Phi).",
+    "blind_derivation": [
+      "Substitution yields P=Phi(Phi^T Phi)^-1 Phi^T, dimension N x N.",
+      "The Gram matrix and its inverse are symmetric, so P^T=P.",
+      "P^2=Phi G^-1(Phi^T Phi)G^-1 Phi^T=Phi G^-1 Phi^T=P."
+    ],
+    "reference_solve": "(c)(b)의 추정식을 예측식에 넣어요. $$\\widehat y=\\Phi G^{-1}\\Phi^\\top y,\\quad P=\\Phi G^{-1}\\Phi^\\top.$$ $\\Phi$가 $N\\times K$이면 $P$는 $N\\times N$이에요. $G^{-1}$가 대칭이라 $P^\\top=P$이고 $$P^2=\\Phi G^{-1}G G^{-1}\\Phi^\\top=P.$$ 추정량 $\\widehat\\theta$의 차원 $K\\times1$과 구별해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$P\\Phi=\\Phi$이므로 열공간의 점은 다시 투영해도 움직이지 않아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "1f93e14d94d533e83ba6629b50bf6329c29638b02f750d654c933e06e21851cb",
+    "reference_math_sha256": "875fdf39ca9b03b218062a43745faef374a8ede7e988dfeb4f3ce1032cf186e2"
+  },
+  {
+    "round": 1,
+    "question": "p10",
+    "subpart": "d",
+    "question_input_sha256": "0c85ced5c682c249609ae174d21252d129ae6941f95b2f3a2d10dba101248bd8",
+    "question_title": "10. 최소제곱 해를 직교투영으로 읽기",
+    "conditions_html": "<p>동일한 알려진 분산의 독립 Gaussian 잡음을 갖는 $y=\\Phi\\theta+\\epsilon$에서</p><p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad y=\\begin{pmatrix}2\\\\2\\\\0\\end{pmatrix}.$$</p><p>$\\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\\widehat y=\\Phi\\widehat\\theta$, $r=y-\\widehat y$로 둔다.</p>",
+    "blind_conclusion": "P=[[1/3,1/3,1/3],[1/3,5/6,-1/6],[1/3,-1/6,5/6]]; yhat=(4/3,7/3,1/3)^T; r=(2/3,-1/3,-1/3)^T.",
+    "blind_derivation": [
+      "G=diag(3,2), Phi^T y=(4,2)^T.",
+      "thetahat=(4/3,1)^T. Multiplication gives the matrix P and vectors below.",
+      "Phi^T r=(2/3-1/3-1/3,-1/3+1/3)^T=(0,0)^T."
+    ],
+    "reference_solve": "(d)$G=\\operatorname{diag}(3,2)$, $\\Phi^\\top y=(4,2)^\\top$예요. 따라서 $\\widehat\\theta=(4/3,1)^\\top$이고 $$P=\\frac16\\begin{pmatrix}2&2&2\\\\2&5&-1\\\\2&-1&5\\end{pmatrix}.$$ $$\\widehat y=(4/3,7/3,1/3)^\\top,\\quad r=(2/3,-1/3,-1/3)^\\top.$$ 열별 내적은 $2/3-1/3-1/3=0$과 $-1/3+1/3=0$이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$Py=(4/3,7/3,1/3)^\\top$이며 예측과 잔차 합이 원래 $y$예요. SSE는 $2/3$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "1f93e14d94d533e83ba6629b50bf6329c29638b02f750d654c933e06e21851cb",
+    "reference_math_sha256": "875fdf39ca9b03b218062a43745faef374a8ede7e988dfeb4f3ce1032cf186e2"
+  },
+  {
+    "round": 1,
+    "question": "p10",
+    "subpart": "e",
+    "question_input_sha256": "0c85ced5c682c249609ae174d21252d129ae6941f95b2f3a2d10dba101248bd8",
+    "question_title": "10. 최소제곱 해를 직교투영으로 읽기",
+    "conditions_html": "<p>동일한 알려진 분산의 독립 Gaussian 잡음을 갖는 $y=\\Phi\\theta+\\epsilon$에서</p><p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad y=\\begin{pmatrix}2\\\\2\\\\0\\end{pmatrix}.$$</p><p>$\\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\\widehat y=\\Phi\\widehat\\theta$, $r=y-\\widehat y$로 둔다.</p>",
+    "blind_conclusion": "Distance is at least ||r||^2, with equality only for u=yhat. Thus yhat is the unique closest point.",
+    "blind_derivation": [
+      "For any u in col(Phi), y-u=r+(yhat-u).",
+      "Both yhat and u lie in col(Phi), so r^T(yhat-u)=0.",
+      "Expand the squared norm and remove the zero cross term: ||y-u||^2=||r||^2+||yhat-u||^2."
+    ],
+    "reference_solve": "(e)$\\widehat y-u$는 열공간 안에 있어 (a)의 $r$와 직교해요. $$y-u=r+(\\widehat y-u).$$ 내적 교차항이0이므로 $$\\|y-u\\|^2=\\|r\\|^2+\\|\\widehat y-u\\|^2\\ge\\|r\\|^2.$$ 등호는 $u=\\widehat y$일 때뿐이므로 이 점이 유일한 최근접점이에요. 필요조건에서 시작한 (a)의 논증에 충분성도 더했어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산$u=\\widehat y$를 대입하면 둘째 항은0이에요. 그 외에는 양수라 더 멀어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_1회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "1f93e14d94d533e83ba6629b50bf6329c29638b02f750d654c933e06e21851cb",
+    "reference_math_sha256": "875fdf39ca9b03b218062a43745faef374a8ede7e988dfeb4f3ce1032cf186e2"
+  },
+  {
+    "round": 2,
+    "question": "p1",
+    "subpart": "a",
+    "question_input_sha256": "f0562b7dc4b3d269bab47725fdc61c5b3cf189dc451da4fc18df1bd1413b3586",
+    "question_title": "1. 매개변수에 따라 바뀌는 기저와 해",
+    "conditions_html": "<p>열벡터 $v_1=(1,0,1)^\\top$, $v_2=(0,1,1)^\\top$, $v_3=(1,1,t)^\\top$와 $V(t)=[v_1\\ v_2\\ v_3]$를 생각하자. $t\\in\\mathbb R$이다.</p>",
+    "blind_conclusion": "det V(t)=t-2; the columns are a basis of R^3 exactly when t != 2.",
+    "blind_derivation": [
+      "V=[[1,0,1],[0,1,1],[1,1,t]].",
+      "Replace row3 by row3-row1-row2, obtaining upper triangular diagonal 1,1,t-2 without changing determinant."
+    ],
+    "reference_solve": "(a)셋째 열에서 앞의 두 열을 빼면 $$\\det V(t)=\\det\\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&1&t-2\\end{pmatrix}=t-2.$$ 따라서 $t\\ne2$이면 세 열은 독립이고 $\\mathbb R^3$의 기저예요. $t=2$에서는 $v_3=v_1+v_2$라서 독립이 아니에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$t=2$를 대입하면 행렬식이0, $t=3$에서는1이에요. $v_3-v_1-v_2$도 각각 영벡터와 $(0,0,1)^\\top$가 돼요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p1.html",
+    "reference_fragment_sha256": "1a5041153ef5ac5054fbc3fb1f84a59cabc5a5081166bc71ac99756ac7e9ddaf",
+    "reference_math_sha256": "d10e15a21d5f8833394199a791fa644b4f1dc71d43290d9062c411b9afc0b8cd"
+  },
+  {
+    "round": 2,
+    "question": "p1",
+    "subpart": "b",
+    "question_input_sha256": "f0562b7dc4b3d269bab47725fdc61c5b3cf189dc451da4fc18df1bd1413b3586",
+    "question_title": "1. 매개변수에 따라 바뀌는 기저와 해",
+    "conditions_html": "<p>열벡터 $v_1=(1,0,1)^\\top$, $v_2=(0,1,1)^\\top$, $v_3=(1,1,t)^\\top$와 $V(t)=[v_1\\ v_2\\ v_3]$를 생각하자. $t\\in\\mathbb R$이다.</p>",
+    "blind_conclusion": "All solutions for (1,2,3)^T are (1-s,2-s,s)^T, s real; none for (1,2,4)^T.",
+    "blind_derivation": [
+      "At t=2 the third row is the sum of the first two.",
+      "For RHS (1,2,3)^T, alpha1+alpha3=1 and alpha2+alpha3=2; let alpha3=s.",
+      "Every vector in col(V(2)) has z=x+y, which excludes (1,2,4)^T."
+    ],
+    "reference_solve": "(b)$t=2$에서 $\\alpha_1+\\alpha_3=1$, $\\alpha_2+\\alpha_3=2$예요. 세 번째 식은 이 둘의 합이에요. $s=\\alpha_3\\in\\mathbb R$로 두면 $$\\alpha=(1-s,2-s,s)^\\top.$$ 모든 열은 $z_3=z_1+z_2$라는 평면 위에 있어요. $(1,2,4)^\\top$는 $4\\ne1+2$라서 그 평면 밖이고 해가 없어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산일반해를 원래 식에 넣으면 $(1,2,3)^\\top$가 나와요. 세 번째 성분 관계가 맞는 모든 $s$가 허용돼요. 다른 우변은 그 관계를 위반해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p1.html",
+    "reference_fragment_sha256": "1a5041153ef5ac5054fbc3fb1f84a59cabc5a5081166bc71ac99756ac7e9ddaf",
+    "reference_math_sha256": "d10e15a21d5f8833394199a791fa644b4f1dc71d43290d9062c411b9afc0b8cd"
+  },
+  {
+    "round": 2,
+    "question": "p1",
+    "subpart": "c",
+    "question_input_sha256": "f0562b7dc4b3d269bab47725fdc61c5b3cf189dc451da4fc18df1bd1413b3586",
+    "question_title": "1. 매개변수에 따라 바뀌는 기저와 해",
+    "conditions_html": "<p>열벡터 $v_1=(1,0,1)^\\top$, $v_2=(0,1,1)^\\top$, $v_3=(1,1,t)^\\top$와 $V(t)=[v_1\\ v_2\\ v_3]$를 생각하자. $t\\in\\mathbb R$이다.</p>",
+    "blind_conclusion": "Unique solution alpha=(0,1,1)^T; changing t expands the column space from a plane to all R^3.",
+    "blind_derivation": [
+      "At t=3 write alpha1=1-alpha3, alpha2=2-alpha3.",
+      "Third equation becomes 3+alpha3=4, so alpha3=1.",
+      "det V(3)=1 so its column space is R^3, whereas col(V(2)) is only the plane z=x+y."
+    ],
+    "reference_solve": "(c)$t=3$에서는 앞의 두 식을 이용하면 셋째 식이 $3+\\alpha_3=4$가 돼요. 그래서 $$\\alpha=(0,1,1)^\\top.$$ 이때 행렬식은1이므로 열공간은 $\\mathbb R^3$ 전체예요. (b)에서 만들 수 없던 우변도 이번에는 유일하게 만들 수 있어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$v_2+v_3=(0,1,1)^\\top+(1,1,3)^\\top=(1,2,4)^\\top$예요. 비영 행렬식이 해의 존재와 유일성을 함께 보장해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p1.html",
+    "reference_fragment_sha256": "1a5041153ef5ac5054fbc3fb1f84a59cabc5a5081166bc71ac99756ac7e9ddaf",
+    "reference_math_sha256": "d10e15a21d5f8833394199a791fa644b4f1dc71d43290d9062c411b9afc0b8cd"
+  },
+  {
+    "round": 2,
+    "question": "p2",
+    "subpart": "a",
+    "question_input_sha256": "51d1be4f7fb1dfdf0e0e24e526d984053ee7ba0cd8902474335d79b85e8a0c4c",
+    "question_title": "2. 합성함수의 미분과 방향 변화",
+    "conditions_html": "<p>$x=(x_1,x_2)^\\top$에 대해 $f(x)=(x_1+x_2,x_1x_2)^\\top$, $\\ell(z)=\\tfrac12\\|z-(1,2)^\\top\\|^2$, $L(x)=\\ell(f(x))$라 하자. Gradient는 열벡터, Jacobian은 $(J_f)_{ij}=\\partial f_i/\\partial x_j$이다.</p>",
+    "blind_conclusion": "J_f(x)=[[1,1],[x2,x1]], J_f(1,2)=[[1,1],[2,1]], dimension 2x2.",
+    "blind_derivation": [
+      "Differentiate f1=x1+x2 and f2=x1x2 row by row."
+    ],
+    "reference_solve": "(a)출력별로 미분하면 $$J_f(x)=\\begin{pmatrix}1&1\\\\x_2&x_1\\end{pmatrix},\\quad J_f(1,2)=\\begin{pmatrix}1&1\\\\2&1\\end{pmatrix}.$$ 입력과 출력이 각각2개이므로 $2\\times2$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$f_2=x_1x_2$를 $x_1$로 미분하면 $x_2$예요. 이 항이 둘째 행 첫째 열에 있는지 확인해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p2.html",
+    "reference_fragment_sha256": "f51fc800644442d672d35d06c8df36802678ccf460c41297c0c5117bfad8771e",
+    "reference_math_sha256": "fe933ec96ddedaffa351d2047a05a5ed9de02cc4e43d15099bd79a897f0153f6"
+  },
+  {
+    "round": 2,
+    "question": "p2",
+    "subpart": "b",
+    "question_input_sha256": "51d1be4f7fb1dfdf0e0e24e526d984053ee7ba0cd8902474335d79b85e8a0c4c",
+    "question_title": "2. 합성함수의 미분과 방향 변화",
+    "conditions_html": "<p>$x=(x_1,x_2)^\\top$에 대해 $f(x)=(x_1+x_2,x_1x_2)^\\top$, $\\ell(z)=\\tfrac12\\|z-(1,2)^\\top\\|^2$, $L(x)=\\ell(f(x))$라 하자. Gradient는 열벡터, Jacobian은 $(J_f)_{ij}=\\partial f_i/\\partial x_j$이다.</p>",
+    "blind_conclusion": "gradient_x L(1,2)=(2,2)^T by both derivations.",
+    "blind_derivation": [
+      "gradient_z ell=z-(1,2)^T. At x=(1,2), f(x)=(3,2)^T, so gradient ell=(2,0)^T.",
+      "Chain rule with column gradients gives gradient_x L=J_f^T gradient_z ell=(2,2)^T.",
+      "Directly L=(1/2)[(x1+x2-1)^2+(x1x2-2)^2].",
+      "Its derivatives are x1+x2-1+x2(x1x2-2) and x1+x2-1+x1(x1x2-2); both are 2 at the given point."
+    ],
+    "reference_solve": "(b)열 gradient를 연결하려면 전치가 필요해요. $$\\nabla_xL(1,2)=\\begin{pmatrix}1&2\\\\1&1\\end{pmatrix}\\begin{pmatrix}2\\\\0\\end{pmatrix}=\\begin{pmatrix}2\\\\2\\end{pmatrix}.$$ 직접 전개하면 $L=\\frac12(x_1+x_2-1)^2+\\frac12(x_1x_2-2)^2$예요. 따라서 $$\\partial_{x_1}L=x_1+x_2-1+x_2(x_1x_2-2),$$ $$\\partial_{x_2}L=x_1+x_2-1+x_1(x_1x_2-2).$$ $(1,2)$에서 모두2로 일치해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산합성 경로와 직접 미분의 두 결과가 $(2,2)^\\top$로 같아요. $J_f\\nabla_z\\ell$로 잘못 곱하면 $(2,4)^\\top$가 되므로 직접 미분이 전치 오류를 잡아줘요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p2.html",
+    "reference_fragment_sha256": "f51fc800644442d672d35d06c8df36802678ccf460c41297c0c5117bfad8771e",
+    "reference_math_sha256": "fe933ec96ddedaffa351d2047a05a5ed9de02cc4e43d15099bd79a897f0153f6"
+  },
+  {
+    "round": 2,
+    "question": "p2",
+    "subpart": "c",
+    "question_input_sha256": "51d1be4f7fb1dfdf0e0e24e526d984053ee7ba0cd8902474335d79b85e8a0c4c",
+    "question_title": "2. 합성함수의 미분과 방향 변화",
+    "conditions_html": "<p>$x=(x_1,x_2)^\\top$에 대해 $f(x)=(x_1+x_2,x_1x_2)^\\top$, $\\ell(z)=\\tfrac12\\|z-(1,2)^\\top\\|^2$, $L(x)=\\ell(f(x))$라 하자. Gradient는 열벡터, Jacobian은 $(J_f)_{ij}=\\partial f_i/\\partial x_j$이다.</p>",
+    "blind_conclusion": "D_d L=0, but (1,2)^T is not stationary; derivative along (1,1)^T is 4.",
+    "blind_derivation": [
+      "D_d L=gradient L^T d=(2,2)(1,-1)^T=0.",
+      "Along this path f=(3,2+h-h^2)^T, so L=2+(1/2)(h-h^2)^2, whose derivative at zero is 0.",
+      "A stationary point requires zero gradient, equivalently every directional derivative zero. Here gradient=(2,2)^T is not zero."
+    ],
+    "reference_solve": "(c)$$D_dL(1,2)=(2,2)\\begin{pmatrix}1\\\\-1\\end{pmatrix}=0.$$ 특정 방향 하나에서 1차 변화가 없다는 뜻이에요. 정지점은 모든 방향에서 1차 변화가 없어야 하며 $\\nabla L=0$이어야 해요. 여기서는 gradient가 $(2,2)^\\top\\ne0$이므로 정지점이 아니에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$x(h)=(1+h,2-h)$이면 $L(x(h))=2+\\frac12(h-h^2)^2$예요. $h=0$의 미분이0으로 확인돼요. 반면 $e_1$ 방향 미분은2이므로 정지점일 수 없어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p2.html",
+    "reference_fragment_sha256": "f51fc800644442d672d35d06c8df36802678ccf460c41297c0c5117bfad8771e",
+    "reference_math_sha256": "fe933ec96ddedaffa351d2047a05a5ed9de02cc4e43d15099bd79a897f0153f6"
+  },
+  {
+    "round": 2,
+    "question": "p3",
+    "subpart": "a",
+    "question_input_sha256": "e2dc6d307aea0d93ed5cc9a61b9643e6f56ef10f32d91af3d8d0be34eedb34b2",
+    "question_title": "3. 다변량 Gaussian의 아핀 변환",
+    "conditions_html": "<p>$X\\sim\\mathcal N(\\mu,\\Sigma)$인 2차원 Gaussian 확률벡터이다.</p><p>$$\\mu=\\begin{pmatrix}1\\\\-1\\end{pmatrix},\\quad\\Sigma=\\begin{pmatrix}2&amp;1\\\\1&amp;2\\end{pmatrix},\\quad Y=AX+b,$$</p><p>$$A=\\begin{pmatrix}1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad b=\\begin{pmatrix}0\\\\2\\end{pmatrix}.$$</p>",
+    "blind_conclusion": "E[Y]=(0,4)^T; Cov(Y)=diag(6,2).",
+    "blind_derivation": [
+      "E[Y]=A mu+b=(0,2)^T+(0,2)^T.",
+      "Cov(Y)=A Sigma A^T.",
+      "A Sigma=[[3,3],[1,-1]], hence covariance is diag(6,2)."
+    ],
+    "reference_solve": "(a)$$\\mu_Y=A\\mu+b=(0,4)^\\top,$$ $$\\Sigma_Y=A\\Sigma A^\\top=\\begin{pmatrix}6&0\\\\0&2\\end{pmatrix}.$$ 변환행렬은 $2\\times2$이고 결과 공분산도 $2\\times2$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$\\operatorname{Var}(X_1+X_2)=2+2+2=6$, $\\operatorname{Var}(X_1-X_2)=2+2-2=2$예요. 교차 공분산은 $2-2=0$으로 행렬 계산과 일치해요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p3.html",
+    "reference_fragment_sha256": "7c4ec8e8d5b5db9e931967a3996838c9f6f8e2bee3a8665eb8f3250a72a1ac4e",
+    "reference_math_sha256": "8037cc0af0b5a96e13057965545a7c9242d3ec25c80202b2952522e6fedb756a"
+  },
+  {
+    "round": 2,
+    "question": "p3",
+    "subpart": "b",
+    "question_input_sha256": "e2dc6d307aea0d93ed5cc9a61b9643e6f56ef10f32d91af3d8d0be34eedb34b2",
+    "question_title": "3. 다변량 Gaussian의 아핀 변환",
+    "conditions_html": "<p>$X\\sim\\mathcal N(\\mu,\\Sigma)$인 2차원 Gaussian 확률벡터이다.</p><p>$$\\mu=\\begin{pmatrix}1\\\\-1\\end{pmatrix},\\quad\\Sigma=\\begin{pmatrix}2&amp;1\\\\1&amp;2\\end{pmatrix},\\quad Y=AX+b,$$</p><p>$$A=\\begin{pmatrix}1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad b=\\begin{pmatrix}0\\\\2\\end{pmatrix}.$$</p>",
+    "blind_conclusion": "Y1~N(0,6), Y2~N(4,2); p_Y=1/(4 pi sqrt(3))*exp[-y1^2/12-(y2-4)^2/4].",
+    "blind_derivation": [
+      "Affine Gaussian transformation yields Y~N((0,4)^T,diag(6,2)).",
+      "det covariance=12, inverse=diag(1/6,1/2).",
+      "For dimension 2 the density coefficient is (2 pi)^-1 det(cov)^-1/2."
+    ],
+    "reference_solve": "(b)아핀 변환 후에도 Gaussian이므로 $Y_1\\sim\\mathcal N(0,6)$, $Y_2\\sim\\mathcal N(4,2)$예요. $\\det\\Sigma_Y=12$이며 역행렬은 $\\operatorname{diag}(1/6,1/2)$예요. 따라서 $$p_Y(y_1,y_2)=\\frac{1}{4\\pi\\sqrt3}\\exp\\!\\left[-\\frac{y_1^2}{12}-\\frac{(y_2-4)^2}{4}\\right].$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산주변 밀도의 앞 계수 곱은 $1/\\sqrt{12\\pi}\\cdot1/\\sqrt{4\\pi}=1/(4\\pi\\sqrt3)$이에요. 두 밀도의 적분이 각각1이므로 결합밀도 적분도1이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p3.html",
+    "reference_fragment_sha256": "7c4ec8e8d5b5db9e931967a3996838c9f6f8e2bee3a8665eb8f3250a72a1ac4e",
+    "reference_math_sha256": "8037cc0af0b5a96e13057965545a7c9242d3ec25c80202b2952522e6fedb756a"
+  },
+  {
+    "round": 2,
+    "question": "p3",
+    "subpart": "c",
+    "question_input_sha256": "e2dc6d307aea0d93ed5cc9a61b9643e6f56ef10f32d91af3d8d0be34eedb34b2",
+    "question_title": "3. 다변량 Gaussian의 아핀 변환",
+    "conditions_html": "<p>$X\\sim\\mathcal N(\\mu,\\Sigma)$인 2차원 Gaussian 확률벡터이다.</p><p>$$\\mu=\\begin{pmatrix}1\\\\-1\\end{pmatrix},\\quad\\Sigma=\\begin{pmatrix}2&amp;1\\\\1&amp;2\\end{pmatrix},\\quad Y=AX+b,$$</p><p>$$A=\\begin{pmatrix}1&amp;1\\\\1&amp;-1\\end{pmatrix},\\quad b=\\begin{pmatrix}0\\\\2\\end{pmatrix}.$$</p>",
+    "blind_conclusion": "Y1,Y2 are independent. X1,X2 are dependent. The Gaussian property makes zero cross covariance sufficient for Y independence.",
+    "blind_derivation": [
+      "The density in (b) factors into its two univariate Gaussian densities, proving independence.",
+      "Original Cov(X1,X2)=1 != 0. Independent finite-variance variables have zero covariance; this excludes independence for X1,X2."
+    ],
+    "reference_solve": "(c)위 밀도는 $\\mathcal N(y_1\\mid0,6)\\mathcal N(y_2\\mid4,2)$로 곱분해돼요. 따라서 $Y_1,Y_2$는 독립이에요. 원래 $X_1,X_2$는 공분산이1로 0이 아니므로 독립이 아니에요. 독립이고 유한한 분산을 가지면 공분산이0이어야 하기 때문이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$E[X_1X_2]=\\operatorname{Cov}(X_1,X_2)+E[X_1]E[X_2]=1-1=0$인 반면 평균의 곱은 $-1$이에요. 두 값이 달라 독립일 수 없어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p3.html",
+    "reference_fragment_sha256": "7c4ec8e8d5b5db9e931967a3996838c9f6f8e2bee3a8665eb8f3250a72a1ac4e",
+    "reference_math_sha256": "8037cc0af0b5a96e13057965545a7c9242d3ec25c80202b2952522e6fedb756a"
+  },
+  {
+    "round": 2,
+    "question": "p4",
+    "subpart": "a",
+    "question_input_sha256": "b90dfb4bedf1d6f0ae95f979d14c351ba9acc071ef60658c4d013afabe633f9f",
+    "question_title": "4. Gaussian 곱에서 posterior와 evidence 읽기",
+    "conditions_html": "<p>스칼라 $\\theta$의 prior는 $\\mathcal N(\\theta\\mid-1,2)$이고 $y\\mid\\theta\\sim\\mathcal N(\\theta,2)$이다. $y=3$을 관측했다. Gaussian의 둘째 인수는 분산이다. $g(\\theta)=p(y=3\\mid\\theta)p(\\theta)$, $Z=\\int g(\\theta)d\\theta$로 둔다.</p>",
+    "blind_conclusion": "g(theta)=1/(4 pi)*exp[-(theta-1)^2/2-2].",
+    "blind_derivation": [
+      "Each density has leading coefficient (4 pi)^-1/2; product coefficient is 1/(4 pi).",
+      "The inner quadratic ((theta+1)^2+(3-theta)^2)/2=theta^2-2theta+5=(theta-1)^2+4.",
+      "The outer exponent factor remains -1/2."
+    ],
+    "reference_solve": "(a)$$g(\\theta)=\\frac1{4\\pi}\\exp\\!\\left[-\\frac12\\left\\{\\frac{(\\theta+1)^2}{2}+\\frac{(3-\\theta)^2}{2}\\right\\}\\right].$$ 중괄호 안은 $\\theta^2-2\\theta+5=(\\theta-1)^2+4$예요. 따라서 $$g(\\theta)=\\frac{e^{-2}}{4\\pi}e^{-(\\theta-1)^2/2}.$$ 상수 $e^{-2}$는 evidence 계산을 위해 남겨요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$\\theta=1$일 때 원래 중괄호 값은 $4/2+4/2=4$예요. 완전제곱 표현에서도 $0+4=4$예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p4.html",
+    "reference_fragment_sha256": "a6f5f12c17ae0c55e7f354b3f8653c858efd01e5ae05b569ca8aea972d8f492e",
+    "reference_math_sha256": "1ed78ce47e973798f3414db08499af0e4ca20809d732325562c4e9527653ebdb"
+  },
+  {
+    "round": 2,
+    "question": "p4",
+    "subpart": "b",
+    "question_input_sha256": "b90dfb4bedf1d6f0ae95f979d14c351ba9acc071ef60658c4d013afabe633f9f",
+    "question_title": "4. Gaussian 곱에서 posterior와 evidence 읽기",
+    "conditions_html": "<p>스칼라 $\\theta$의 prior는 $\\mathcal N(\\theta\\mid-1,2)$이고 $y\\mid\\theta\\sim\\mathcal N(\\theta,2)$이다. $y=3$을 관측했다. Gaussian의 둘째 인수는 분산이다. $g(\\theta)=p(y=3\\mid\\theta)p(\\theta)$, $Z=\\int g(\\theta)d\\theta$로 둔다.</p>",
+    "blind_conclusion": "theta|y=3~N(1,1); density (2 pi)^-1/2 exp[-(theta-1)^2/2]; ML=3, MAP=1.",
+    "blind_derivation": [
+      "Divide the Gaussian kernel by its integral sqrt(2 pi).",
+      "The likelihood alone exp[-(3-theta)^2/4] is maximized at theta=3; the posterior kernel is maximized at theta=1."
+    ],
+    "reference_solve": "(b)정규화된 밀도는 $$p(\\theta\\mid y=3)=\\frac1{\\sqrt{2\\pi}}e^{-(\\theta-1)^2/2}=\\mathcal N(\\theta\\mid1,1).$$ 평균1, 분산1이에요. Likelihood는 $(3-\\theta)^2$가 작을수록 크므로 $\\theta_{\\mathrm{ML}}=3$이에요. Posterior의 최빈값은 $\\theta_{\\mathrm{MAP}}=1$이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산Precision 계산으로 $v=(1/2+1/2)^{-1}=1$, $m=v(-1/2+3/2)=1$이에요. 두 정보가 같은 분산이어서 중심은 -1과3의 중간이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p4.html",
+    "reference_fragment_sha256": "a6f5f12c17ae0c55e7f354b3f8653c858efd01e5ae05b569ca8aea972d8f492e",
+    "reference_math_sha256": "1ed78ce47e973798f3414db08499af0e4ca20809d732325562c4e9527653ebdb"
+  },
+  {
+    "round": 2,
+    "question": "p4",
+    "subpart": "c",
+    "question_input_sha256": "b90dfb4bedf1d6f0ae95f979d14c351ba9acc071ef60658c4d013afabe633f9f",
+    "question_title": "4. Gaussian 곱에서 posterior와 evidence 읽기",
+    "conditions_html": "<p>스칼라 $\\theta$의 prior는 $\\mathcal N(\\theta\\mid-1,2)$이고 $y\\mid\\theta\\sim\\mathcal N(\\theta,2)$이다. $y=3$을 관측했다. Gaussian의 둘째 인수는 분산이다. $g(\\theta)=p(y=3\\mid\\theta)p(\\theta)$, $Z=\\int g(\\theta)d\\theta$로 둔다.</p>",
+    "blind_conclusion": "Z=exp(-2)/sqrt(8 pi), the evidence density value for y=3; it is not the posterior density function of theta.",
+    "blind_derivation": [
+      "Integrate (a): Z=exp(-2)/(4 pi)*sqrt(2 pi)=exp(-2)/sqrt(8 pi).",
+      "Equivalently prior predictive y has mean -1, variance 2+2=4 and evaluate its density at 3.",
+      "Z is constant in theta; posterior is g(theta)/Z and integrates to one over theta."
+    ],
+    "reference_solve": "(c)$$Z=\\frac{e^{-2}}{4\\pi}\\int e^{-(\\theta-1)^2/2}d\\theta=\\frac{e^{-2}}{\\sqrt{8\\pi}}.$$ Prior와 독립 잡음을 더하면 $y\\sim\\mathcal N(-1,4)$이므로 $p(y=3)$로도 같은 값을 얻어요. $Z$는 이 관측에서 하나의 수이고, posterior는 $\\theta$에 따라 변하는 밀도예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$Z\\,p(\\theta\\mid3)$의 앞 계수는 $e^{-2}/(4\\pi)$로 원래 $g$와 같아요. $y$의 평균 -1에서 관측3은4만큼 떨어지고 총분산4이므로 지수는 -2예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p4.html",
+    "reference_fragment_sha256": "a6f5f12c17ae0c55e7f354b3f8653c858efd01e5ae05b569ca8aea972d8f492e",
+    "reference_math_sha256": "1ed78ce47e973798f3414db08499af0e4ca20809d732325562c4e9527653ebdb"
+  },
+  {
+    "round": 2,
+    "question": "p5",
+    "subpart": "a",
+    "question_input_sha256": "98d1a825f91f0a0654f639a6c98bcd6522f2e9cb505541e42c96ec6d69d1a0d4",
+    "question_title": "5. 입력에는 비선형인 특징과 최소제곱",
+    "conditions_html": "<p>관측 $(x_n,y_n)=(-1,2),(0,0),(1,4)$와 특징 $\\phi(x)=(1,x^2)^\\top$를 사용한다. $y_n=\\phi(x_n)^\\top\\theta+\\epsilon_n$, 독립 $\\epsilon_n\\sim\\mathcal N(0,1)$이다. MAP에서는 두 계수 모두 $\\theta\\sim\\mathcal N(0,I_2)$ prior를 사용한다. $\\Phi$의 각 행은 $\\phi(x_n)^\\top$이다.</p>",
+    "blind_conclusion": "Phi=[[1,1],[1,0],[1,1]], G=[[3,2],[2,2]], Phi^T y=(6,6)^T; Gram is invertible.",
+    "blind_derivation": [
+      "Feature rows are (1,1),(1,0),(1,1).",
+      "Sum row outer products to get G=[[3,2],[2,2]]; sum y_n phi_n gives (6,6)^T.",
+      "det G=6-4=2>0, so duplicate rows do not destroy independent columns."
+    ],
+    "reference_solve": "(a)$$\\Phi=\\begin{pmatrix}1&1\\\\1&0\\\\1&1\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi=\\begin{pmatrix}3&2\\\\2&2\\end{pmatrix},$$ $$\\Phi^\\top y=\\begin{pmatrix}6\\\\6\\end{pmatrix}.$$ $\\det G=6-4=2>0$이므로 가역이에요. 첫째와 셋째 행이 같아도 두 열은 독립이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$a(1,1,1)^\\top+b(1,0,1)^\\top=0$의 가운데 성분에서 $a=0$, 첫째 성분에서 $b=0$이에요. 열독립이 직접 확인돼요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p5.html",
+    "reference_fragment_sha256": "9e84d576428aa740a8fdbd19371723f23dc8e56c79ad3d7b5fa009df5b6dda5e",
+    "reference_math_sha256": "4b56491584b4f6a7c8136dcdbe60e27ba18979a0cd9230e41f809bb7df634aff"
+  },
+  {
+    "round": 2,
+    "question": "p5",
+    "subpart": "b",
+    "question_input_sha256": "98d1a825f91f0a0654f639a6c98bcd6522f2e9cb505541e42c96ec6d69d1a0d4",
+    "question_title": "5. 입력에는 비선형인 특징과 최소제곱",
+    "conditions_html": "<p>관측 $(x_n,y_n)=(-1,2),(0,0),(1,4)$와 특징 $\\phi(x)=(1,x^2)^\\top$를 사용한다. $y_n=\\phi(x_n)^\\top\\theta+\\epsilon_n$, 독립 $\\epsilon_n\\sim\\mathcal N(0,1)$이다. MAP에서는 두 계수 모두 $\\theta\\sim\\mathcal N(0,I_2)$ prior를 사용한다. $\\Phi$의 각 행은 $\\phi(x_n)^\\top$이다.</p>",
+    "blind_conclusion": "theta_ML=(0,3)^T; residual=(-1,0,1)^T; SSE=2; predicted mean at x*=2 is 12.",
+    "blind_derivation": [
+      "Normal equations: 3 theta0+2 theta1=6 and 2 theta0+2 theta1=6, giving theta0=0 and theta1=3.",
+      "yhat=(3,0,3)^T, so r=y-yhat=(-1,0,1)^T.",
+      "r^T r=2; feature at 2 is (1,4)^T."
+    ],
+    "reference_solve": "(b)$3\\theta_0+2\\theta_1=6$, $2\\theta_0+2\\theta_1=6$에서 $$\\theta_{\\mathrm{ML}}=(0,3)^\\top.$$ 학습 예측은 $(3,0,3)^\\top$, 잔차는 $r=y-\\Phi\\theta=(-1,0,1)^\\top$이며 $\\|r\\|^2=2$예요. $x_*=2$에서는 $\\phi=(1,4)^\\top$이므로 평균 예측은12예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$\\Phi^\\top r=(0,0)^\\top$예요. 같은 특징을 가진 두 관측의 출력2와4는 하나의 공통 예측3으로 맞추어져요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p5.html",
+    "reference_fragment_sha256": "9e84d576428aa740a8fdbd19371723f23dc8e56c79ad3d7b5fa009df5b6dda5e",
+    "reference_math_sha256": "4b56491584b4f6a7c8136dcdbe60e27ba18979a0cd9230e41f809bb7df634aff"
+  },
+  {
+    "round": 2,
+    "question": "p5",
+    "subpart": "c",
+    "question_input_sha256": "98d1a825f91f0a0654f639a6c98bcd6522f2e9cb505541e42c96ec6d69d1a0d4",
+    "question_title": "5. 입력에는 비선형인 특징과 최소제곱",
+    "conditions_html": "<p>관측 $(x_n,y_n)=(-1,2),(0,0),(1,4)$와 특징 $\\phi(x)=(1,x^2)^\\top$를 사용한다. $y_n=\\phi(x_n)^\\top\\theta+\\epsilon_n$, 독립 $\\epsilon_n\\sim\\mathcal N(0,1)$이다. MAP에서는 두 계수 모두 $\\theta\\sim\\mathcal N(0,I_2)$ prior를 사용한다. $\\Phi$의 각 행은 $\\phi(x_n)^\\top$이다.</p>",
+    "blind_conclusion": "theta_MAP=(3/4,3/2)^T; predicted mean 27/4. It is linear regression in coefficients despite nonlinear dependence on input x.",
+    "blind_derivation": [
+      "MAP solves (G+I)theta=(6,6)^T with G+I=[[4,2],[2,3]].",
+      "Inverse is (1/8)[[3,-2],[-2,4]], yielding (3/4,3/2)^T.",
+      "Prediction=(3/4)+4(3/2)=27/4.",
+      "The mean theta0+theta1 x^2 is a linear combination of fixed features with unknown coefficients."
+    ],
+    "reference_solve": "(c)$$\\begin{pmatrix}4&2\\\\2&3\\end{pmatrix}\\theta_{\\mathrm{MAP}}=\\begin{pmatrix}6\\\\6\\end{pmatrix}$$ 을 풀면 $\\theta_{\\mathrm{MAP}}=(3/4,3/2)^\\top$예요. $x_*=2$에서 평균은 $3/4+4(3/2)=27/4$예요. $\\theta_0+\\theta_1x^2$는 $\\theta_0,\\theta_1$의 선형결합이므로 선형 회귀예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$(G+I)(3/4,3/2)^\\top=(6,6)^\\top$예요. MAP 잔차 $(-1/4,-3/4,7/4)^\\top$에 대해 $\\Phi^\\top r=(3/4,3/2)^\\top=\\theta_{\\mathrm{MAP}}$이므로 벌점 정규방정식도 맞아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p5.html",
+    "reference_fragment_sha256": "9e84d576428aa740a8fdbd19371723f23dc8e56c79ad3d7b5fa009df5b6dda5e",
+    "reference_math_sha256": "4b56491584b4f6a7c8136dcdbe60e27ba18979a0cd9230e41f809bb7df634aff"
+  },
+  {
+    "round": 2,
+    "question": "p6",
+    "subpart": "a",
+    "question_input_sha256": "7ca715fda202a2ff8e5bf8fcc7dfeea1096130069fb338c58d04a63229e4c093",
+    "question_title": "6. 스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions_html": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있고 $\\sum_n x_n^2&gt;0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
+    "blind_conclusion": "p(y|x,theta)=(2 pi sigma^2)^(-N/2)exp[-sum_n(y_n-theta x_n)^2/(2 sigma^2)].",
+    "blind_derivation": [
+      "Given x and theta, y_n~N(theta x_n,sigma^2).",
+      "Independence of noises makes observations conditionally independent.",
+      "Multiply their univariate densities."
+    ],
+    "reference_solve": "(a)$y_n=\\theta x_n+\\epsilon_n$이므로 $$y_n\\mid x,\\theta\\sim\\mathcal N(\\theta x_n,\\sigma^2).$$ 독립 잡음의 밀도를 곱하면 $$p(y\\mid x,\\theta)=(2\\pi\\sigma^2)^{-N/2}\\exp\\!\\left[-\\frac{\\sum_n(y_n-\\theta x_n)^2}{2\\sigma^2}\\right].$$ 모수는 스칼라 하나이고 입력 벡터는 고정이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$N=1$로 놓으면 단일 Gaussian likelihood예요. 분산은 추정 대상이 아닌 알려진 상수예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "558d78044861f29302353998d165f3a36d86a91787481ad70394ca52bfc7ea98",
+    "reference_math_sha256": "2b7b03490b0da6ad3dac74ae03d50ec0daa71fa91915662e183d4f1914d4166d"
+  },
+  {
+    "round": 2,
+    "question": "p6",
+    "subpart": "b",
+    "question_input_sha256": "7ca715fda202a2ff8e5bf8fcc7dfeea1096130069fb338c58d04a63229e4c093",
+    "question_title": "6. 스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions_html": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있고 $\\sum_n x_n^2&gt;0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
+    "blind_conclusion": "ML is equivalent to minimizing SSE(theta)=sum_n(y_n-theta x_n)^2.",
+    "blind_derivation": [
+      "Taking minus log gives N/2 log(2 pi sigma^2)+SSE(theta)/(2 sigma^2).",
+      "The first term does not depend on theta; the second is a strictly positive multiple of SSE."
+    ],
+    "reference_solve": "(b)(a)의 음의 로그는 $$\\mathcal L=\\frac N2\\log(2\\pi\\sigma^2)+\\frac{Q(\\theta)}{2\\sigma^2},\\quad Q=\\sum_n(y_n-\\theta x_n)^2.$$ 첫 항은 $\\theta$와 무관하고 둘째 항의 배율은 양수여서 $Q$를 최소화해도 같아요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산로그를 취한 뒤 지수의 음수와 바깥 음수가 상쇄되어 제곱항이 양수가 돼요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "558d78044861f29302353998d165f3a36d86a91787481ad70394ca52bfc7ea98",
+    "reference_math_sha256": "2b7b03490b0da6ad3dac74ae03d50ec0daa71fa91915662e183d4f1914d4166d"
+  },
+  {
+    "round": 2,
+    "question": "p6",
+    "subpart": "c",
+    "question_input_sha256": "7ca715fda202a2ff8e5bf8fcc7dfeea1096130069fb338c58d04a63229e4c093",
+    "question_title": "6. 스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions_html": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있고 $\\sum_n x_n^2&gt;0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
+    "blind_conclusion": "thetahat=(sum x_n y_n)/(sum x_n^2); positive denominator is guaranteed by the stated assumption.",
+    "blind_derivation": [
+      "SSE=sum y_n^2-2theta sum x_n y_n+theta^2 sum x_n^2.",
+      "Derivative=-2sum x_n y_n+2theta sum x_n^2.",
+      "Set derivative to zero and divide by sum x_n^2>0."
+    ],
+    "reference_solve": "(c)(b)의 합을 전개해요. $$Q=\\sum y_n^2-2\\theta\\sum x_ny_n+\\theta^2\\sum x_n^2.$$ 따라서 $Q^{\\prime}=-2\\sum x_ny_n+2\\theta\\sum x_n^2$예요. 0으로 놓으면 $$\\widehat\\theta=\\frac{\\sum x_ny_n}{\\sum x_n^2}.$$ 가정한 $\\sum x_n^2>0$ 덕분에 나눌 수 있어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$\\sum x_n^2\\widehat\\theta=\\sum x_ny_n$이므로 미분식에 대입하면0이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "558d78044861f29302353998d165f3a36d86a91787481ad70394ca52bfc7ea98",
+    "reference_math_sha256": "2b7b03490b0da6ad3dac74ae03d50ec0daa71fa91915662e183d4f1914d4166d"
+  },
+  {
+    "round": 2,
+    "question": "p6",
+    "subpart": "d",
+    "question_input_sha256": "7ca715fda202a2ff8e5bf8fcc7dfeea1096130069fb338c58d04a63229e4c093",
+    "question_title": "6. 스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions_html": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있고 $\\sum_n x_n^2&gt;0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
+    "blind_conclusion": "thetahat=(x^T y)/(x^T x), unique global ML minimum.",
+    "blind_derivation": [
+      "Second derivative SSE=2sum x_n^2>0, so the quadratic has a unique global minimum.",
+      "The negative log likelihood second derivative is (sum x_n^2)/sigma^2>0.",
+      "Use vector inner products for the sums."
+    ],
+    "reference_solve": "(d)(c)에서 $Q^{\\prime\\prime}=2\\sum x_n^2>0$이므로 유일한 최소점이에요. 열벡터 내적으로 바꾸면 $$\\widehat\\theta=\\frac{x^\\top y}{x^\\top x}.$$ 이때 분자와 분모 모두 스칼라예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$Q(\\theta)=Q(\\widehat\\theta)+(x^\\top x)(\\theta-\\widehat\\theta)^2$로도 전역 최소가 확인돼요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "558d78044861f29302353998d165f3a36d86a91787481ad70394ca52bfc7ea98",
+    "reference_math_sha256": "2b7b03490b0da6ad3dac74ae03d50ec0daa71fa91915662e183d4f1914d4166d"
+  },
+  {
+    "round": 2,
+    "question": "p6",
+    "subpart": "e",
+    "question_input_sha256": "7ca715fda202a2ff8e5bf8fcc7dfeea1096130069fb338c58d04a63229e4c093",
+    "question_title": "6. 스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions_html": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있고 $\\sum_n x_n^2&gt;0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
+    "blind_conclusion": "P=xx^T/(x^T x); residual is orthogonal to x.",
+    "blind_derivation": [
+      "yhat=x(x^T y)/(x^T x)=P y with P=xx^T/(x^T x).",
+      "x^T(y-yhat)=x^T y-(x^T x)(x^T y)/(x^T x)=0."
+    ],
+    "reference_solve": "(e)(d)를 예측식에 넣고 $y$를 오른쪽으로 모아요. $$\\widehat y=\\frac{xx^\\top}{x^\\top x}y,\\quad P=\\frac{xx^\\top}{x^\\top x}.$$ 따라서 $$x^\\top(y-\\widehat y)=x^\\top y-\\frac{x^\\top x}{x^\\top x}x^\\top y=0.$$ 예측은 $x$가 만드는 직선 위에 있고 잔차는 그 직선에 수직이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산$P^\\top=P$, $P^2=P$예요. $xx^\\top$는 $N\\times N$이고 분모는 양수 스칼라예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "558d78044861f29302353998d165f3a36d86a91787481ad70394ca52bfc7ea98",
+    "reference_math_sha256": "2b7b03490b0da6ad3dac74ae03d50ec0daa71fa91915662e183d4f1914d4166d"
+  },
+  {
+    "round": 2,
+    "question": "p6",
+    "subpart": "f",
+    "question_input_sha256": "7ca715fda202a2ff8e5bf8fcc7dfeea1096130069fb338c58d04a63229e4c093",
+    "question_title": "6. 스칼라 선형 모델에서 ML과 투영식 유도",
+    "conditions_html": "<p>고정 입력 $x_n\\in\\mathbb R$와 관측 $y_n=\\theta x_n+\\epsilon_n$을 생각하자. $\\theta\\in\\mathbb R$는 미지수이며 잡음들은 서로 독립 $\\mathcal N(0,\\sigma^2)$를 따른다. $\\sigma^2&gt;0$는 알려져 있고 $\\sum_n x_n^2&gt;0$이다. $x=(x_1,\\ldots,x_N)^\\top$, $y=(y_1,\\ldots,y_N)^\\top$이다.</p>",
+    "blind_conclusion": "thetahat=7/6, yhat=(7/6,7/3,-7/6)^T, SSE=11/6; P=(1/6)[[1,2,-1],[2,4,-2],[-1,-2,1]].",
+    "blind_derivation": [
+      "x^T x=1+4+1=6; x^T y=1+6+0=7.",
+      "thetahat=7/6; yhat=(7/6,7/3,-7/6)^T.",
+      "r=(-1/6,2/3,7/6)^T; SSE=(1+16+49)/36=11/6."
+    ],
+    "reference_solve": "(f)$x^\\top x=6$, $x^\\top y=7$이므로 $\\widehat\\theta=7/6$이에요. $$\\widehat y=(7/6,7/3,-7/6)^\\top,$$ $$r=(-1/6,2/3,7/6)^\\top.$$ 잔차제곱합은 $1/36+4/9+49/36=11/6$이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(f) 검산$x^\\top r=-1/6+4/3-7/6=0$이에요. 또 $y^\\top y-(x^\\top y)^2/(x^\\top x)=10-49/6=11/6$으로 SSE가 같아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p6.html",
+    "reference_fragment_sha256": "558d78044861f29302353998d165f3a36d86a91787481ad70394ca52bfc7ea98",
+    "reference_math_sha256": "2b7b03490b0da6ad3dac74ae03d50ec0daa71fa91915662e183d4f1914d4166d"
+  },
+  {
+    "round": 2,
+    "question": "p7",
+    "subpart": "a",
+    "question_input_sha256": "224d66c44a957b5d0367029caf3cefb3f00fdd7426e95d2b65be10f9a7ce9f8e",
+    "question_title": "7. 서로 다른 prior 분산과 MAP",
+    "conditions_html": "<p>$\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2&gt;0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
+    "blind_conclusion": "Negative log posterior=C+||y-Phi theta||^2/(2 sigma^2)+(theta-m0)^T S0^-1(theta-m0)/2; C=log(2 pi sigma^2)+log(2 pi)+(1/2)log det S0+log p(y|Phi).",
+    "blind_derivation": [
+      "Likelihood coefficient is (2 pi sigma^2)^-1 and exponent -||y-Phi theta||^2/(2 sigma^2).",
+      "Prior coefficient is (2 pi)^-1 det(S0)^-1/2 and exponent -(theta-m0)^T S0^-1(theta-m0)/2.",
+      "Posterior is their product divided by p(y|Phi); collect all leading coefficients and log evidence in C."
+    ],
+    "reference_solve": "(a)Posterior는 $p(y\\mid\\theta)p(\\theta)$에 비례해요. Gaussian 지수 두 개를 더하고 음의 로그를 취하면 $$J=\\frac{\\|y-\\Phi\\theta\\|^2}{2\\sigma^2}+\\frac12(\\theta-m_0)^\\top S_0^{-1}(\\theta-m_0)+C.$$ $C$에는 고정 분산의 정규화 상수와 evidence를 모아요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산Prior 항은 성분으로 $(\\theta_0-2)^2/8+\\theta_1^2/2$예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "628a76f89156e3b37e8d69de500665a8d9cead998ee28d9fd1d8cd05e6d5e0c9",
+    "reference_math_sha256": "503d18dfac27d39a0328732910bd6a121b6470c52a3bc099e4311a3d76419e9d"
+  },
+  {
+    "round": 2,
+    "question": "p7",
+    "subpart": "b",
+    "question_input_sha256": "224d66c44a957b5d0367029caf3cefb3f00fdd7426e95d2b65be10f9a7ce9f8e",
+    "question_title": "7. 서로 다른 prior 분산과 MAP",
+    "conditions_html": "<p>$\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2&gt;0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
+    "blind_conclusion": "The two column gradients are Phi^T(Phi theta-y)/sigma^2 and S0^-1(theta-m0).",
+    "blind_derivation": [
+      "For the likelihood term, gradient is Phi^T(Phi theta-y)/sigma^2.",
+      "For the prior term, symmetry of S0^-1 gives S0^-1(theta-m0).",
+      "The precision appears because Gaussian density measures squared displacement in units of covariance; here the penalties are (theta0-2)^2/4 and theta1^2 before the factor 1/2."
+    ],
+    "reference_solve": "(b)(a)의 첫 항의 gradient는 $\\Phi^\\top(\\Phi\\theta-y)/\\sigma^2$예요. 둘째 항은 대칭행렬 $S_0^{-1}$를 이용해 $S_0^{-1}(\\theta-m_0)$예요. Gaussian 지수는 공분산의 역행렬인 precision으로 거리를 재므로 분산 자체가 아닌 역분산이 들어가요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산Prior 중심에서 prior gradient가0이고 작은 prior 분산에 더 큰 precision이 적용돼요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "628a76f89156e3b37e8d69de500665a8d9cead998ee28d9fd1d8cd05e6d5e0c9",
+    "reference_math_sha256": "503d18dfac27d39a0328732910bd6a121b6470c52a3bc099e4311a3d76419e9d"
+  },
+  {
+    "round": 2,
+    "question": "p7",
+    "subpart": "c",
+    "question_input_sha256": "224d66c44a957b5d0367029caf3cefb3f00fdd7426e95d2b65be10f9a7ce9f8e",
+    "question_title": "7. 서로 다른 prior 분산과 MAP",
+    "conditions_html": "<p>$\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2&gt;0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
+    "blind_conclusion": "theta_MAP=(Phi^T Phi+sigma^2 S0^-1)^-1(Phi^T y+sigma^2 S0^-1 m0).",
+    "blind_derivation": [
+      "Set sum of gradients to zero: (Phi^T Phi/sigma^2+S0^-1)theta=Phi^T y/sigma^2+S0^-1 m0.",
+      "Multiply by sigma^2 and invert the positive definite coefficient matrix."
+    ],
+    "reference_solve": "(c)(b)의 합을0으로 놓으면 $$B\\theta=\\frac{\\Phi^\\top y}{\\sigma^2}+S_0^{-1}m_0,\\quad B=\\frac{\\Phi^\\top\\Phi}{\\sigma^2}+S_0^{-1}.$$ 따라서 $$\\theta_{\\mathrm{MAP}}=B^{-1}\\left(\\frac{\\Phi^\\top y}{\\sigma^2}+S_0^{-1}m_0\\right).$$ 양변에 $\\sigma^2$를 곱한 형태도 같아요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산양변에 $\\sigma^2$를 곱하면 $(G+\\sigma^2S_0^{-1})\\theta=\\Phi^\\top y+\\sigma^2S_0^{-1}m_0$예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "628a76f89156e3b37e8d69de500665a8d9cead998ee28d9fd1d8cd05e6d5e0c9",
+    "reference_math_sha256": "503d18dfac27d39a0328732910bd6a121b6470c52a3bc099e4311a3d76419e9d"
+  },
+  {
+    "round": 2,
+    "question": "p7",
+    "subpart": "d",
+    "question_input_sha256": "224d66c44a957b5d0367029caf3cefb3f00fdd7426e95d2b65be10f9a7ce9f8e",
+    "question_title": "7. 서로 다른 prior 분산과 MAP",
+    "conditions_html": "<p>$\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2&gt;0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
+    "blind_conclusion": "Coefficient matrix is positive definite and MAP is the unique global posterior mode.",
+    "blind_derivation": [
+      "For h !=0, h^T(Phi^T Phi+sigma^2 S0^-1)h=||Phi h||^2+sigma^2 h^T S0^-1 h.",
+      "S0^-1 is positive definite and sigma^2>0, so the second term is strictly positive."
+    ],
+    "reference_solve": "(d)비영 $a$에 대해 $$a^\\top Ba=\\frac{\\|\\Phi a\\|^2}{\\sigma^2}+a^\\top S_0^{-1}a>0.$$ Proper Gaussian prior의 공분산 $S_0$가 양의 정부호이므로 역행렬도 양의 정부호예요. $B$는 목적함수의 Hessian이어서 정지점은 유일한 전역 최소점이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$Ba=0$인 비영 $a$를 가정하면 양수 이차형식과 모순이므로 가역이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "628a76f89156e3b37e8d69de500665a8d9cead998ee28d9fd1d8cd05e6d5e0c9",
+    "reference_math_sha256": "503d18dfac27d39a0328732910bd6a121b6470c52a3bc099e4311a3d76419e9d"
+  },
+  {
+    "round": 2,
+    "question": "p7",
+    "subpart": "e",
+    "question_input_sha256": "224d66c44a957b5d0367029caf3cefb3f00fdd7426e95d2b65be10f9a7ce9f8e",
+    "question_title": "7. 서로 다른 prior 분산과 MAP",
+    "conditions_html": "<p>$\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2&gt;0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
+    "blind_conclusion": "MAP=(2,4/3)^T, prediction 14/3; ML=(2,2)^T, prediction 6.",
+    "blind_derivation": [
+      "Phi^T Phi=2I, Phi^T y=(4,4)^T and S0^-1 m0=(1/2,0)^T.",
+      "At sigma^2=1, coefficient matrix=diag(9/4,3) and RHS=(9/2,4)^T.",
+      "theta_MAP=(2,4/3)^T; mean prediction=2+2(4/3)=14/3.",
+      "ML solves 2I theta=(4,4)^T."
+    ],
+    "reference_solve": "(e)$G=2I$, $\\Phi^\\top y=(4,4)^\\top$, $S_0^{-1}=\\operatorname{diag}(1/4,1)$이에요. (c)에서 $\\sigma^2=1$이면 $$\\operatorname{diag}(9/4,3)\\theta=(9/2,4)^\\top.$$ 따라서 MAP는 $(2,4/3)^\\top$, 평균 예측은 $14/3$이에요. ML는 $(2,2)^\\top$, 평균 예측은6이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산MAP 잔차는 $(-2/3,2/3)^\\top$이고 $\\Phi^\\top r=(0,4/3)^\\top=S_0^{-1}(\\theta-m_0)$예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "628a76f89156e3b37e8d69de500665a8d9cead998ee28d9fd1d8cd05e6d5e0c9",
+    "reference_math_sha256": "503d18dfac27d39a0328732910bd6a121b6470c52a3bc099e4311a3d76419e9d"
+  },
+  {
+    "round": 2,
+    "question": "p7",
+    "subpart": "f",
+    "question_input_sha256": "224d66c44a957b5d0367029caf3cefb3f00fdd7426e95d2b65be10f9a7ce9f8e",
+    "question_title": "7. 서로 다른 prior 분산과 MAP",
+    "conditions_html": "<p>$\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, $y=(0,4)^\\top$에 대해 $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,\\sigma^2I_2)$이다. Prior는 $\\theta\\sim\\mathcal N(m_0,S_0)$이며 $m_0=(2,0)^\\top$, $S_0=\\operatorname{diag}(4,1)$이다. $\\sigma^2&gt;0$는 알려져 있고 prior는 두 계수에 모두 적용된다.</p>",
+    "blind_conclusion": "theta_MAP(s)=(2,4/(2+s))^T; limits are ML at zero noise and prior mean at infinite noise.",
+    "blind_derivation": [
+      "With s=sigma^2, theta0=(4+s/2)/(2+s/4)=2.",
+      "theta1=4/(2+s).",
+      "As s->0+, noise becomes negligible and theta->(2,2)^T, the exact fitting ML coefficients.",
+      "As s->infinity likelihood loses information and theta->(2,0)^T=m0."
+    ],
+    "reference_solve": "(f)(c)의 양변에 $\\sigma^2$를 곱하면 두 성분은 $$(2+\\sigma^2/4)\\theta_0=4+\\sigma^2/2,$$ $$(2+\\sigma^2)\\theta_1=4.$$ 따라서 $\\theta_0=2$, $\\theta_1=4/(2+\\sigma^2)$예요. 잡음분산이0으로 가면 ML $(2,2)^\\top$, 무한히 커지면 prior 중심 $(2,0)^\\top$로 수렴해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(f) 검산$\\sigma^2=1$을 일반 성분식에 넣으면 (e)의 $4/3$이 다시 나와요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p7.html",
+    "reference_fragment_sha256": "628a76f89156e3b37e8d69de500665a8d9cead998ee28d9fd1d8cd05e6d5e0c9",
+    "reference_math_sha256": "503d18dfac27d39a0328732910bd6a121b6470c52a3bc099e4311a3d76419e9d"
+  },
+  {
+    "round": 2,
+    "question": "p8",
+    "subpart": "a",
+    "question_input_sha256": "715bd874b8b09e430a4e8432723086ce2fddd9908c86b1e77dee3313dc62d54b",
+    "question_title": "8. 사후 불확실성과 두 미래 관측의 관계",
+    "conditions_html": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
+    "blind_conclusion": "B=I+(1/2)Phi^T Phi, b=(1/2)Phi^T y, c=(1/2)y^T y.",
+    "blind_derivation": [
+      "Product is (4 pi)^-1(2 pi)^-1 exp[-||y-Phi theta||^2/4-theta^T theta/2].",
+      "Inside -1/2, expand (1/2)(y-Phi theta)^T(y-Phi theta)+theta^T theta.",
+      "Collect the quadratic, linear, and constant terms."
+    ],
+    "reference_solve": "(a)곱은 $\\mathcal N(y\\mid\\Phi\\theta,2I)\\mathcal N(\\theta\\mid0,I)$예요. 지수는 $$-\\tfrac12\\left(\\tfrac12\\|y-\\Phi\\theta\\|^2+\\theta^\\top\\theta\\right).$$ 제곱을 전개해 모으면 $$B=I+\\tfrac12\\Phi^\\top\\Phi,\\quad b=\\tfrac12\\Phi^\\top y,\\quad c=\\tfrac12 y^\\top y.$$ $B$는 이차항, $b$는 일차항의 계수예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산전개 전 지수에 $\\theta=0$을 넣으면 $-1$이고 전개 후 $-c/2=-1$과 같아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "ee0c3555aaf57051601fb734e7d409a808188d28a1e26fd7b9e7a47a831673cf",
+    "reference_math_sha256": "5ab22d8a83db59c4be887b7f5c2c7bff57f0f508080bfe04903f572c965c2ac2"
+  },
+  {
+    "round": 2,
+    "question": "p8",
+    "subpart": "b",
+    "question_input_sha256": "715bd874b8b09e430a4e8432723086ce2fddd9908c86b1e77dee3313dc62d54b",
+    "question_title": "8. 사후 불확실성과 두 미래 관측의 관계",
+    "conditions_html": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
+    "blind_conclusion": "Posterior N(m,S) has density [2 pi sqrt(det S)]^-1 exp[-(theta-m)^T S^-1(theta-m)/2].",
+    "blind_derivation": [
+      "B is positive definite since h^T B h=||h||^2+(1/2)||Phi h||^2>0.",
+      "Set m=B^-1 b, S=B^-1.",
+      "theta^T B theta-2 b^T theta+c=(theta-m)^T B(theta-m)+c-b^T B^-1 b.",
+      "The final constant cancels in normalization; the Gaussian kernel integral is (2 pi)^(2/2)det(B)^-1/2."
+    ],
+    "reference_solve": "(b)(a)의 $m=B^{-1}b$로 두면 $$\\theta^\\top B\\theta-2b^\\top\\theta+c=(\\theta-m)^\\top B(\\theta-m)+c-b^\\top B^{-1}b.$$ $B\\succ0$이므로 $S=B^{-1}$예요. 모수 차원은2이므로 정규화된 밀도는 $$p(\\theta\\mid y)=\\frac{|B|^{1/2}}{2\\pi}\\exp[-\\tfrac12(\\theta-m)^\\top B(\\theta-m)].$$ 즉 $m,S$를 갖는 Gaussian이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$B m=b$이므로 완전제곱의 교차항은 정확히 $-2b^\\top\\theta$예요. 밀도의 적분은1이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "ee0c3555aaf57051601fb734e7d409a808188d28a1e26fd7b9e7a47a831673cf",
+    "reference_math_sha256": "5ab22d8a83db59c4be887b7f5c2c7bff57f0f508080bfe04903f572c965c2ac2"
+  },
+  {
+    "round": 2,
+    "question": "p8",
+    "subpart": "c",
+    "question_input_sha256": "715bd874b8b09e430a4e8432723086ce2fddd9908c86b1e77dee3313dc62d54b",
+    "question_title": "8. 사후 불확실성과 두 미래 관측의 관계",
+    "conditions_html": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
+    "blind_conclusion": "theta|y~N((1/2,1/2)^T,(1/2)I), density (1/pi)exp[-||theta-(1/2,1/2)^T||^2].",
+    "blind_derivation": [
+      "Phi^T Phi=2I; Phi^T y=(2,2)^T; y^T y=4.",
+      "Hence B=2I, b=(1,1)^T, c=2.",
+      "m=B^-1 b=(1/2,1/2)^T and S=(1/2)I; c-b^T B^-1 b=1."
+    ],
+    "reference_solve": "(c)$\\Phi^\\top\\Phi=2I$, $\\Phi^\\top y=(2,2)^\\top$, $y^\\top y=4$예요. 따라서 (a)는 $B=2I$, $b=(1,1)^\\top$, $c=2$이고 (b)는 $$S=\\tfrac12 I,\\quad m=(1/2,1/2)^\\top.$$ 완전제곱에서 남는 상수는 $c-b^\\top B^{-1}b=1$이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$B S=I$, $B m=b$이고 정규화 계수는 $1/\\pi$예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "ee0c3555aaf57051601fb734e7d409a808188d28a1e26fd7b9e7a47a831673cf",
+    "reference_math_sha256": "5ab22d8a83db59c4be887b7f5c2c7bff57f0f508080bfe04903f572c965c2ac2"
+  },
+  {
+    "round": 2,
+    "question": "p8",
+    "subpart": "d",
+    "question_input_sha256": "715bd874b8b09e430a4e8432723086ce2fddd9908c86b1e77dee3313dc62d54b",
+    "question_title": "8. 사후 불확실성과 두 미래 관측의 관계",
+    "conditions_html": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
+    "blind_conclusion": "f_*|y~N(phi_*^T m,phi_*^T S phi_*); at x*=1 this is N(1,1).",
+    "blind_derivation": [
+      "For any fixed phi_*, E[f_*|y]=phi_*^T m.",
+      "Var(f_*|y)=E[phi_*^T(theta-m)(theta-m)^T phi_*|y]=phi_*^T S phi_*.",
+      "A linear functional of a Gaussian is Gaussian (possibly degenerate if phi_*=0).",
+      "At x*=1, phi_*=(1,1)^T, giving mean 1 and variance 1."
+    ],
+    "reference_solve": "(d)(c)의 posterior로 평균내면 $$E[f_*\\mid y]=\\phi_*^\\top m.$$ 중심화한 제곱을 평균내면 $$\\operatorname{Var}(f_*\\mid y)=E[\\phi_*^\\top(\\theta-m)(\\theta-m)^\\top\\phi_*\\mid y]=\\phi_*^\\top S\\phi_*.$$ Gaussian의 선형변환이므로 $x_*=1$, $\\phi_*=(1,1)^\\top$에서 $f_*\\mid y\\sim\\mathcal N(1,1)$이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$f_*=\\theta_0+\\theta_1$의 분산은 $1/2+1/2=1$이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "ee0c3555aaf57051601fb734e7d409a808188d28a1e26fd7b9e7a47a831673cf",
+    "reference_math_sha256": "5ab22d8a83db59c4be887b7f5c2c7bff57f0f508080bfe04903f572c965c2ac2"
+  },
+  {
+    "round": 2,
+    "question": "p8",
+    "subpart": "e",
+    "question_input_sha256": "715bd874b8b09e430a4e8432723086ce2fddd9908c86b1e77dee3313dc62d54b",
+    "question_title": "8. 사후 불확실성과 두 미래 관측의 관계",
+    "conditions_html": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
+    "blind_conclusion": "y_*|y~N(phi_*^T m,2+phi_*^T S phi_*); at x*=1 N(1,3), versus MAP plug-in N(1,2).",
+    "blind_derivation": [
+      "Independent future noise has conditional mean zero and variance 2.",
+      "Thus E[y_*|y]=phi_*^T m and Var(y_*|y)=phi_*^T S phi_*+2.",
+      "At x*=1 full posterior prediction is N(1,3).",
+      "Gaussian posterior mode equals m; fixing theta=m omits phi_*^T S phi_*=1."
+    ],
+    "reference_solve": "(e)미래 잡음이 독립이고 평균0이므로 (d)의 평균은 유지되고 분산에는2를 더해요. $$y_*\\mid y\\sim\\mathcal N(\\phi_*^\\top m,\\phi_*^\\top S\\phi_*+2).$$ $x_*=1$에서는 $\\mathcal N(1,3)$이에요. MAP는 $m$이고 고정 대입 관측분포는 $\\mathcal N(1,2)$여서 모수 불확실성1이 빠져요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산전체분산법칙도 관측분산 $2+1=3$을 줘요. 잡음을 두 번 더하지 않아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "ee0c3555aaf57051601fb734e7d409a808188d28a1e26fd7b9e7a47a831673cf",
+    "reference_math_sha256": "5ab22d8a83db59c4be887b7f5c2c7bff57f0f508080bfe04903f572c965c2ac2"
+  },
+  {
+    "round": 2,
+    "question": "p8",
+    "subpart": "f",
+    "question_input_sha256": "715bd874b8b09e430a4e8432723086ce2fddd9908c86b1e77dee3313dc62d54b",
+    "question_title": "8. 사후 불확실성과 두 미래 관측의 관계",
+    "conditions_html": "<p>$\\theta\\sim\\mathcal N(0,I_2)$, $y\\mid\\theta\\sim\\mathcal N(\\Phi\\theta,2I_2)$이고 $\\Phi=\\begin{pmatrix}1&amp;-1\\\\1&amp;1\\end{pmatrix}$, 관측 $y=(0,2)^\\top$이다. $\\phi(x)=(1,x)^\\top$로 둔다. 미래 값은 $f_* =\\phi(x_*)^\\top\\theta$, $y_*=f_*+\\epsilon_*$이다. 모든 미래 잡음은 서로 독립 $\\mathcal N(0,2)$이며 $\\theta$·학습 잡음과도 독립이다.</p>",
+    "blind_conclusion": "Cross covariance is 1/2; joint posterior predictive covariance [[5/2,1/2],[1/2,3]]. The future observations are dependent after theta is integrated out, although independent given theta.",
+    "blind_derivation": [
+      "Let a=phi(0)=(1,0)^T and d=phi(1)=(1,1)^T.",
+      "For two distinct future observations, Cov(a^T theta+eps0,d^T theta+eps1 | y)=a^T S d: cross terms vanish by noise independence and Cov(eps0,eps1)=0.",
+      "a^T S d=1/2. Their individual variances are 2+1/2=5/2 and 2+1=3.",
+      "Conditional on theta, independent future noises make these future observations independent. Integrating theta introduces its shared uncertainty."
+    ],
+    "reference_solve": "(f)$\\phi_0=(1,0)^\\top$, $\\phi_1=(1,1)^\\top$예요. (d)의 중심화 계산을 두 출력의 곱으로 바꾸면 $$\\operatorname{Cov}(y_*^{(0)},y_*^{(1)}\\mid y)=\\phi_0^\\top S\\phi_1=1/2.$$ 미래 잡음끼리와 모수·잡음 사이 교차 공분산은0이에요. $\\theta$를 주면 독립이지만 $y$만 주면 공유 모수가 불확실해 관측들이 독립이 아니에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(f) 검산두 관측의 공동 공분산은 $\\begin{pmatrix}5/2&1/2\\\\1/2&3\\end{pmatrix}$예요. 공유한 $\\theta_0$의 분산 $1/2$이 비대각에 남아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p8.html",
+    "reference_fragment_sha256": "ee0c3555aaf57051601fb734e7d409a808188d28a1e26fd7b9e7a47a831673cf",
+    "reference_math_sha256": "5ab22d8a83db59c4be887b7f5c2c7bff57f0f508080bfe04903f572c965c2ac2"
+  },
+  {
+    "round": 2,
+    "question": "p9",
+    "subpart": "a",
+    "question_input_sha256": "ca1dba458a97e7e85025d6bf8aeaafbc9ba3f3ad1417017b357f1e5424f98ced",
+    "question_title": "9. 공유 모수 모델과 독립 모수 모델의 evidence",
+    "conditions_html": "<p>두 관측 $y=(1,-1)^\\top$를 비교한다. $M_1$은 공통 $\\theta\\sim\\mathcal N(0,1)$와 $y_n=\\theta+\\epsilon_n$을, $M_2$는 서로 독립 $\\theta_n\\sim\\mathcal N(0,1)$와 $y_n=\\theta_n+\\epsilon_n$을 사용한다. 두 모델에서 $\\epsilon_1,\\epsilon_2\\overset{\\mathrm{ind}}\\sim\\mathcal N(0,1)$이고 잡음과 모든 모수는 독립이다. 모델 공간은 $M_1,M_2$ 두 모델로만 구성된다. 모델 prior odds는 $P(M_1)/P(M_2)=3$이다.</p>",
+    "blind_conclusion": "B1=[[1],[1]], B2=I2; evidence is the likelihood integrated over the respective independent Gaussian parameter priors.",
+    "blind_derivation": [
+      "For M1 use B1=(1,1)^T, vartheta1=theta~N(0,1).",
+      "For M2 use B2=I2, vartheta2=(theta1,theta2)^T~N(0,I2).",
+      "For each i, p(y|Mi)=integral N_2(y|B_i vartheta_i,I2) N_{K_i}(vartheta_i|0,I_{K_i}) d vartheta_i, with K1=1,K2=2."
+    ],
+    "reference_solve": "(a)$M_1$은 $B_1=(1,1)^\\top$, 스칼라 $\\vartheta_1=\\theta\\sim\\mathcal N(0,1)$이에요. $M_2$는 $B_2=I_2$, $\\vartheta_2=(\\theta_1,\\theta_2)^\\top\\sim\\mathcal N(0,I_2)$예요. 두 경우 모두 $$p(y\\mid M_i)=\\int p(y\\mid\\vartheta_i,M_i)p(\\vartheta_i\\mid M_i)d\\vartheta_i.$$ 한 점의 모수 대신 prior 전체로 평균내요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$B_1$는 $2\\times1$, $B_2$는 $2\\times2$라 두 경우 모두 관측 차원은2예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "971e3fd3b9e2ba173f15fc75ea999c6d39f6cbdffd687c26f0a6f22f8ed5433b",
+    "reference_math_sha256": "d32204fa71e34cd7d2aa7a16f388328bf4a32a6a9d795dfb02229caa45854116"
+  },
+  {
+    "round": 2,
+    "question": "p9",
+    "subpart": "b",
+    "question_input_sha256": "ca1dba458a97e7e85025d6bf8aeaafbc9ba3f3ad1417017b357f1e5424f98ced",
+    "question_title": "9. 공유 모수 모델과 독립 모수 모델의 evidence",
+    "conditions_html": "<p>두 관측 $y=(1,-1)^\\top$를 비교한다. $M_1$은 공통 $\\theta\\sim\\mathcal N(0,1)$와 $y_n=\\theta+\\epsilon_n$을, $M_2$는 서로 독립 $\\theta_n\\sim\\mathcal N(0,1)$와 $y_n=\\theta_n+\\epsilon_n$을 사용한다. 두 모델에서 $\\epsilon_1,\\epsilon_2\\overset{\\mathrm{ind}}\\sim\\mathcal N(0,1)$이고 잡음과 모든 모수는 독립이다. 모델 공간은 $M_1,M_2$ 두 모델로만 구성된다. 모델 prior odds는 $P(M_1)/P(M_2)=3$이다.</p>",
+    "blind_conclusion": "M1: y~N(0,[[2,1],[1,2]]). M2: y~N(0,2I2).",
+    "blind_derivation": [
+      "E[y]=B_i E[vartheta_i]+E[eps]=0.",
+      "Expand E[(B_i vartheta_i+eps)(B_i vartheta_i+eps)^T].",
+      "The cross terms vanish because both vectors have zero means and are independent; remaining terms give C_i=B_i B_i^T+I2.",
+      "Independent Gaussian vectors combine to a joint Gaussian, and a linear map preserves Gaussianity."
+    ],
+    "reference_solve": "(b)(a)에서 평균은 $B_iE[\\vartheta_i]+E[\\epsilon]=0$이에요. 중심화한 곱의 평균에서 독립 교차항이0이라 $$C_i=B_i\\operatorname{Cov}(\\vartheta_i)B_i^\\top+I_2.$$ 따라서 $$C_1=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix},\\quad C_2=2I_2.$$ 독립 Gaussian의 선형변환과 합이므로 적분한 관측분포는 $\\mathcal N(0,C_i)$예요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$M_1$의 비대각은 공유 모수의 분산1, $M_2$의 비대각은 독립성으로0이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "971e3fd3b9e2ba173f15fc75ea999c6d39f6cbdffd687c26f0a6f22f8ed5433b",
+    "reference_math_sha256": "d32204fa71e34cd7d2aa7a16f388328bf4a32a6a9d795dfb02229caa45854116"
+  },
+  {
+    "round": 2,
+    "question": "p9",
+    "subpart": "c",
+    "question_input_sha256": "ca1dba458a97e7e85025d6bf8aeaafbc9ba3f3ad1417017b357f1e5424f98ced",
+    "question_title": "9. 공유 모수 모델과 독립 모수 모델의 evidence",
+    "conditions_html": "<p>두 관측 $y=(1,-1)^\\top$를 비교한다. $M_1$은 공통 $\\theta\\sim\\mathcal N(0,1)$와 $y_n=\\theta+\\epsilon_n$을, $M_2$는 서로 독립 $\\theta_n\\sim\\mathcal N(0,1)$와 $y_n=\\theta_n+\\epsilon_n$을 사용한다. 두 모델에서 $\\epsilon_1,\\epsilon_2\\overset{\\mathrm{ind}}\\sim\\mathcal N(0,1)$이고 잡음과 모든 모수는 독립이다. 모델 공간은 $M_1,M_2$ 두 모델로만 구성된다. 모델 prior odds는 $P(M_1)/P(M_2)=3$이다.</p>",
+    "blind_conclusion": "p(y|M1)=exp(-1)/(2 pi sqrt(3)); p(y|M2)=exp(-1/2)/(4 pi).",
+    "blind_derivation": [
+      "In 2D, p(y|Mi)=1/(2 pi sqrt(det C_i))*exp[-y^T C_i^-1 y/2].",
+      "C1 determinant=3, inverse=(1/3)[[2,-1],[-1,2]]. At y=(1,-1)^T, C1^-1 y=y and y^T C1^-1 y=2.",
+      "C2 determinant=4, inverse=(1/2)I. Its quadratic form is 1."
+    ],
+    "reference_solve": "(c)(b)의 주변 밀도가 evidence예요. $$p(y\\mid M_i)=\\frac{\\exp[-y^\\top C_i^{-1}y/2]}{2\\pi\\sqrt{|C_i|}}.$$ $C_1$의 행렬식은3, 역행렬은 $\\frac13\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$이고 이차형식은2예요. $C_2$는 행렬식4, 이차형식1이에요. 따라서 $$p_1=\\frac{e^{-1}}{2\\pi\\sqrt3},\\quad p_2=\\frac{e^{-1/2}}{4\\pi}.$$",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$C_1y=y$라 $y^\\top C_1^{-1}y=\\|y\\|^2=2$예요. $C_2^{-1}=I/2$에서는1이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "971e3fd3b9e2ba173f15fc75ea999c6d39f6cbdffd687c26f0a6f22f8ed5433b",
+    "reference_math_sha256": "d32204fa71e34cd7d2aa7a16f388328bf4a32a6a9d795dfb02229caa45854116"
+  },
+  {
+    "round": 2,
+    "question": "p9",
+    "subpart": "d",
+    "question_input_sha256": "ca1dba458a97e7e85025d6bf8aeaafbc9ba3f3ad1417017b357f1e5424f98ced",
+    "question_title": "9. 공유 모수 모델과 독립 모수 모델의 evidence",
+    "conditions_html": "<p>두 관측 $y=(1,-1)^\\top$를 비교한다. $M_1$은 공통 $\\theta\\sim\\mathcal N(0,1)$와 $y_n=\\theta+\\epsilon_n$을, $M_2$는 서로 독립 $\\theta_n\\sim\\mathcal N(0,1)$와 $y_n=\\theta_n+\\epsilon_n$을 사용한다. 두 모델에서 $\\epsilon_1,\\epsilon_2\\overset{\\mathrm{ind}}\\sim\\mathcal N(0,1)$이고 잡음과 모든 모수는 독립이다. 모델 공간은 $M_1,M_2$ 두 모델로만 구성된다. 모델 prior odds는 $P(M_1)/P(M_2)=3$이다.</p>",
+    "blind_conclusion": "B12=2 exp(-1/2)/sqrt(3); data evidence favors M2.",
+    "blind_derivation": [
+      "B12=evidence1/evidence2=(2/sqrt(3))exp(-1/2).",
+      "B12<1 because B12^2=4/(3e)<1, using e>1+1=2>4/3."
+    ],
+    "reference_solve": "(d)(c)의 비를 취하면 $$B_{12}=\\frac2{\\sqrt3}e^{-1/2}\\simeq0.70036<1.$$ 두 번째 모델의 evidence가 크므로 데이터만으로는 $M_2$를 지지해요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$2/\\sqrt3\\simeq1.1547$에 $e^{-1/2}\\simeq0.60653$을 곱하면0.70036이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "971e3fd3b9e2ba173f15fc75ea999c6d39f6cbdffd687c26f0a6f22f8ed5433b",
+    "reference_math_sha256": "d32204fa71e34cd7d2aa7a16f388328bf4a32a6a9d795dfb02229caa45854116"
+  },
+  {
+    "round": 2,
+    "question": "p9",
+    "subpart": "e",
+    "question_input_sha256": "ca1dba458a97e7e85025d6bf8aeaafbc9ba3f3ad1417017b357f1e5424f98ced",
+    "question_title": "9. 공유 모수 모델과 독립 모수 모델의 evidence",
+    "conditions_html": "<p>두 관측 $y=(1,-1)^\\top$를 비교한다. $M_1$은 공통 $\\theta\\sim\\mathcal N(0,1)$와 $y_n=\\theta+\\epsilon_n$을, $M_2$는 서로 독립 $\\theta_n\\sim\\mathcal N(0,1)$와 $y_n=\\theta_n+\\epsilon_n$을 사용한다. 두 모델에서 $\\epsilon_1,\\epsilon_2\\overset{\\mathrm{ind}}\\sim\\mathcal N(0,1)$이고 잡음과 모든 모수는 독립이다. 모델 공간은 $M_1,M_2$ 두 모델로만 구성된다. 모델 prior odds는 $P(M_1)/P(M_2)=3$이다.</p>",
+    "blind_conclusion": "P(M1|y)=2sqrt(3)/(sqrt(e)+2sqrt(3)); choose M1 by larger posterior, since its prior odds outweigh the evidence preference for M2.",
+    "blind_derivation": [
+      "Divide Bayes model posteriors: P(M1|y)/P(M2|y)=[p(y|M1)/p(y|M2)] [P(M1)/P(M2)].",
+      "Prior odds=3, so posterior odds=2sqrt(3) exp(-1/2).",
+      "Convert odds O to probability O/(1+O).",
+      "O>1 because O^2=12/e>1 (e<3<12)."
+    ],
+    "reference_solve": "(e)Bayes 정리의 두 posterior를 나누면 공통 분모가 소거돼요. $$\\frac{P(M_1\\mid y)}{P(M_2\\mid y)}=\\frac{p(y\\mid M_1)}{p(y\\mid M_2)}\\frac{P(M_1)}{P(M_2)}.$$ 따라서 $O=3B_{12}=2\\sqrt3 e^{-1/2}\\simeq2.10108$이고 $$P(M_1\\mid y)=\\frac O{1+O}\\simeq0.67753.$$ 최종 선택은 $M_1$이에요. 데이터는 처음3:1인 prior odds를 낮췄지만1아래로 뒤집지는 않았어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산Prior 확률 $3/4,1/4$로 직접 정규화해도 $(3p_1)/(3p_1+p_2)$로 같은 답이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p9.html",
+    "reference_fragment_sha256": "971e3fd3b9e2ba173f15fc75ea999c6d39f6cbdffd687c26f0a6f22f8ed5433b",
+    "reference_math_sha256": "d32204fa71e34cd7d2aa7a16f388328bf4a32a6a9d795dfb02229caa45854116"
+  },
+  {
+    "round": 2,
+    "question": "p10",
+    "subpart": "a",
+    "question_input_sha256": "8408fc448a8b87f1c91b1e0bcd89ce95a220d8b5346d1dcb8962f52a5b85f343",
+    "question_title": "10. 직교투영과 ridge 예측의 차이",
+    "conditions_html": "<p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\0&amp;1\\\\1&amp;1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
+    "blind_conclusion": "Normal equations G thetahat=Phi^T y.",
+    "blind_derivation": [
+      "Q=(1/2)y^T y-theta^T Phi^T y+(1/2)theta^T G theta.",
+      "G=Phi^T Phi is symmetric, so column gradient=-Phi^T y+G theta.",
+      "Set gradient to zero."
+    ],
+    "reference_solve": "(a)제곱을 전개하면 $$Q=\\tfrac12 y^\\top y-\\theta^\\top\\Phi^\\top y+\\tfrac12\\theta^\\top G\\theta.$$ 대칭인 $G$를 이용해 미분하면 $$\\nabla Q=G\\theta-\\Phi^\\top y.$$ 0으로 놓아 $G\\widehat\\theta=\\Phi^\\top y$를 얻어요. 이는 $\\Phi^\\top(y-\\Phi\\widehat\\theta)=0$과 같아요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(a) 검산$\\theta=0$에서 gradient는 $-\\Phi^\\top y$이고 원래 제곱오차의 성분 미분과 같아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "59aeceb1d9b13d6f3c80a64b7bd444f742d79838a003f243677dfc87d5feb7a7",
+    "reference_math_sha256": "bf5acb352fab208f47f13c6e793fab0defa64eac77d3cc6e2ccdf13538629742"
+  },
+  {
+    "round": 2,
+    "question": "p10",
+    "subpart": "b",
+    "question_input_sha256": "8408fc448a8b87f1c91b1e0bcd89ce95a220d8b5346d1dcb8962f52a5b85f343",
+    "question_title": "10. 직교투영과 ridge 예측의 차이",
+    "conditions_html": "<p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\0&amp;1\\\\1&amp;1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
+    "blind_conclusion": "Unique thetahat=(0,1)^T; yhat=(0,1,1)^T; r=(1,1,-1)^T.",
+    "blind_derivation": [
+      "If columns of Phi are independent then G is positive definite, giving thetahat=G^-1 Phi^T y.",
+      "Here G=[[2,1],[1,2]], determinant 3>0; inverse=(1/3)[[2,-1],[-1,2]].",
+      "Phi^T y=(1,2)^T, giving thetahat=(0,1)^T."
+    ],
+    "reference_solve": "(b)(a)에서 열독립이면 $$\\widehat\\theta=G^{-1}\\Phi^\\top y.$$ 이 데이터는 $G=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$이고 행렬식3으로 가역이에요. $\\Phi^\\top y=(1,2)^\\top$를 곱하면 $$\\widehat\\theta=(0,1)^\\top,\\quad\\widehat y=(0,1,1)^\\top,\\quad r=(1,1,-1)^\\top.$$ $G\\succ0$여서 유일한 최소점이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(b) 검산$\\Phi^\\top r=0$, $\\widehat y+r=y$, SSE는3이에요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "59aeceb1d9b13d6f3c80a64b7bd444f742d79838a003f243677dfc87d5feb7a7",
+    "reference_math_sha256": "bf5acb352fab208f47f13c6e793fab0defa64eac77d3cc6e2ccdf13538629742"
+  },
+  {
+    "round": 2,
+    "question": "p10",
+    "subpart": "c",
+    "question_input_sha256": "8408fc448a8b87f1c91b1e0bcd89ce95a220d8b5346d1dcb8962f52a5b85f343",
+    "question_title": "10. 직교투영과 ridge 예측의 차이",
+    "conditions_html": "<p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\0&amp;1\\\\1&amp;1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
+    "blind_conclusion": "P is the stated symmetric idempotent orthogonal projector; Py=yhat.",
+    "blind_derivation": [
+      "P=Phi G^-1 Phi^T=(1/3)[[2,-1,1],[-1,2,1],[1,1,2]].",
+      "G^-1 symmetric implies P^T=P.",
+      "P^2=Phi G^-1 G G^-1 Phi^T=P; numerically the unscaled numerator matrix M obeys M^2=3M."
+    ],
+    "reference_solve": "(c)(b)를 $\\Phi\\widehat\\theta$에 넣으면 $$P=\\Phi G^{-1}\\Phi^\\top=\\frac13\\begin{pmatrix}2&-1&1\\\\-1&2&1\\\\1&1&2\\end{pmatrix}.$$ $G^{-1}$가 대칭이므로 $P^\\top=P$예요. $$P^2=\\Phi G^{-1}G G^{-1}\\Phi^\\top=P.$$ 따라서 이 행렬은 직교투영이에요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(c) 검산$Py=\\widehat y$, $P\\Phi=\\Phi$로 수치와 기하 의미가 함께 맞아요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "59aeceb1d9b13d6f3c80a64b7bd444f742d79838a003f243677dfc87d5feb7a7",
+    "reference_math_sha256": "bf5acb352fab208f47f13c6e793fab0defa64eac77d3cc6e2ccdf13538629742"
+  },
+  {
+    "round": 2,
+    "question": "p10",
+    "subpart": "d",
+    "question_input_sha256": "8408fc448a8b87f1c91b1e0bcd89ce95a220d8b5346d1dcb8962f52a5b85f343",
+    "question_title": "10. 직교투영과 ridge 예측의 차이",
+    "conditions_html": "<p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\0&amp;1\\\\1&amp;1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
+    "blind_conclusion": "theta_R=(1/8,5/8)^T, versus ordinary least squares (0,1)^T.",
+    "blind_derivation": [
+      "Adding (1/2)||theta||^2 adds theta to gradient, so (G+I)theta_R=Phi^T y.",
+      "G+I=[[3,1],[1,3]] has inverse (1/8)[[3,-1],[-1,3]].",
+      "Multiply by (1,2)^T."
+    ],
+    "reference_solve": "(d)벌점의 gradient는 $\\theta$예요. (a)의 gradient에 더해0으로 놓으면 $$(G+I)\\theta_R=\\Phi^\\top y.$$ 따라서 $$\\theta_R=(G+I)^{-1}\\Phi^\\top y=(1/8,5/8)^\\top.$$ $G+I=\\begin{pmatrix}3&1\\\\1&3\\end{pmatrix}$의 역행렬을 사용했어요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(d) 검산$(G+I)(1/8,5/8)^\\top=(1,2)^\\top$예요. 양의 벌점으로 Hessian도 양의 정부호예요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "59aeceb1d9b13d6f3c80a64b7bd444f742d79838a003f243677dfc87d5feb7a7",
+    "reference_math_sha256": "bf5acb352fab208f47f13c6e793fab0defa64eac77d3cc6e2ccdf13538629742"
+  },
+  {
+    "round": 2,
+    "question": "p10",
+    "subpart": "e",
+    "question_input_sha256": "8408fc448a8b87f1c91b1e0bcd89ce95a220d8b5346d1dcb8962f52a5b85f343",
+    "question_title": "10. 직교투영과 ridge 예측의 차이",
+    "conditions_html": "<p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\0&amp;1\\\\1&amp;1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
+    "blind_conclusion": "H is the stated matrix. Ridge residual is not orthogonal to col(Phi) here; Phi^T r_R=theta_R != 0, whereas ordinary least squares has Phi^T r=0.",
+    "blind_derivation": [
+      "H=Phi(G+I)^-1 Phi^T=(1/8)[[3,-1,2],[-1,3,2],[2,2,4]].",
+      "yhat_R=Hy=(1/8,5/8,3/4)^T; r_R=(7/8,11/8,-3/4)^T.",
+      "Ridge normal equation rearranges to Phi^T r_R=theta_R.",
+      "Numerically Phi^T r_R=(7/8-3/4,11/8-3/4)^T=(1/8,5/8)^T."
+    ],
+    "reference_solve": "(e)(d)를 예측식에 넣으면 $$H=\\Phi(G+I)^{-1}\\Phi^\\top.$$ 정규방정식을 다시 정리하면 $$\\Phi^\\top(y-\\Phi\\theta_R)=\\theta_R.$$ 예측은 $(1/8,5/8,3/4)^\\top$, 잔차는 $(7/8,11/8,-3/4)^\\top$예요. 열별 내적은 $(1/8,5/8)^\\top\\ne0$이므로 (a)와 달리 잔차가 열공간에 직교하지 않아요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(e) 검산잔차 내적은 $7/8-6/8=1/8$, $11/8-6/8=5/8$이에요. 단순히 열공간에 있는 예측이라는 이유로 최근접점이라고 할 수는 없어요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "59aeceb1d9b13d6f3c80a64b7bd444f742d79838a003f243677dfc87d5feb7a7",
+    "reference_math_sha256": "bf5acb352fab208f47f13c6e793fab0defa64eac77d3cc6e2ccdf13538629742"
+  },
+  {
+    "round": 2,
+    "question": "p10",
+    "subpart": "f",
+    "question_input_sha256": "8408fc448a8b87f1c91b1e0bcd89ce95a220d8b5346d1dcb8962f52a5b85f343",
+    "question_title": "10. 직교투영과 ridge 예측의 차이",
+    "conditions_html": "<p>$$\\Phi=\\begin{pmatrix}1&amp;0\\\\0&amp;1\\\\1&amp;1\\end{pmatrix},\\quad y=\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix},\\quad G=\\Phi^\\top\\Phi.$$</p><p>최소제곱 추정량을 $\\widehat\\theta$라 한다. Ridge에서는 절편 구별 없이 두 계수 모두에 같은 벌점을 준다. 두 예측값은 각각 $\\widehat y=\\Phi\\widehat\\theta$, $\\widehat y_R=\\Phi\\theta_R$이다. 내적은 유클리드 내적이다.</p>",
+    "blind_conclusion": "H is not an orthogonal projection. Symmetry alone is insufficient: an orthogonal projector must also be idempotent.",
+    "blind_derivation": [
+      "v=Phi(1,1)^T=(1,1,2)^T.",
+      "Multiplication by H gives Hv=(3/4,3/4,3/2)^T=(3/4)v.",
+      "Applying H again gives H^2v=(9/16)v != Hv.",
+      "P fixes every vector in col(Phi), including Pv=P^2v=v. H is symmetric since its middle inverse matrix is symmetric, but is not idempotent."
+    ],
+    "reference_solve": "(f)$a=(1,1)^\\top$이면 $Ga=3a$이고 $v=\\Phi a=(1,1,2)^\\top$예요. (e)에서 $$Hv=\\Phi(G+I)^{-1}Ga=\\tfrac34v,$$ $$H^2v=\\tfrac9{16}v\\ne Hv.$$ $H$는 대칭이지만 멱등성이 없어 (c)의 직교투영행렬과 달라요. 대칭이라는 사실만으로는 충분하지 않아요.",
+    "reference_common": "왜 이렇게 푸는지 함께 따라가요",
+    "reference_verify": "(f) 검산$Hv=(3/4,3/4,3/2)^\\top$, $H^2v=(9/16,9/16,9/8)^\\top$로 실제로 달라요.",
+    "reference_fragment": "/Users/hyunjun_macbook_pro/Documents/Univ/.course-summary-worktrees/2026-10-20/머신러닝기초/중간고사대비/예상문제_2회/.pack/explanations/p10.html",
+    "reference_fragment_sha256": "59aeceb1d9b13d6f3c80a64b7bd444f742d79838a003f243677dfc87d5feb7a7",
+    "reference_math_sha256": "bf5acb352fab208f47f13c6e793fab0defa64eac77d3cc6e2ccdf13538629742"
+  }
+]

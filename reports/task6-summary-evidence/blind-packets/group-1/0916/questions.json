@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "packet_kind": "source_questions_only_blind_review",
+  "pack_id": "0916",
+  "questions": [
+    {
+      "id": "p1",
+      "title": "P1. 가우시안 prior를 더한 MAP 목적함수",
+      "conditions_html": "Example 8.5처럼 가우시안 likelihood $p(y\\mid X,\\theta)$로 회귀를 하고 있어요. 여기에 파라미터 벡터 $\\theta\\in\\mathbb{R}^D$가 평균 0인 다변량 가우시안을 따른다고 더 가정해요: $p(\\theta)=\\mathcal{N}(0,\\Sigma)=\\frac{1}{(2\\pi)^{D/2}|\\Sigma|^{1/2}}\\exp\\!\\left(-\\frac{1}{2}\\theta^\\top\\Sigma^{-1}\\theta\\right)$ ($\\Sigma$는 공분산 행렬).",
+      "ask_html": "<ol><li>(a) $-\\log p(\\theta)$를 $\\theta$에 대한 항과 상수로 나눠 써 보세요.</li><li>(b) $\\theta_{\\text{MAP}}$를 찾을 때 최소화하는 목적함수를 음의 로그우도와 (a)의 결과로 써 보세요.</li></ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we assume that the parameter vector is distributed as a multivariate Gaussian with zero mean, i.e., p(θ) = N(0, Σ)\" — Example 8.6",
+      "input_sha256": "ed41116b58a1f4713606188711df5047cc2930c9b79d6915cd980d0d692d2067"
+    },
+    {
+      "id": "p2",
+      "title": "P2. Joint 표에서 p(x) 구하기",
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"></div>",
+      "ask_html": "<p>$X$의 marginal distribution $p(x)$를 구해 보세요.</p>",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [
+        "<table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table>"
+      ],
+      "original_question_html": "\"Compute: a. The marginal distributions p(x) and p(y). b. The conditional distributions p(x|Y = y1) and p(y|X = x3).\" — Exercise 6.1",
+      "input_sha256": "06256f108060472168d2cfb33221c836b2d42670f833ba74f92f005a16e2247a"
+    },
+    {
+      "id": "p3",
+      "title": "P3. Joint 표에서 p(y) 구하기",
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"></div>",
+      "ask_html": "<p>$Y$의 marginal distribution $p(y)$를 구해 보세요.</p>",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [
+        "<table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table>"
+      ],
+      "original_question_html": "\"Compute: a. The marginal distributions p(x) and p(y). b. The conditional distributions p(x|Y = y1) and p(y|X = x3).\" — Exercise 6.1",
+      "input_sha256": "b53397bca23a192bb11a185468b4343a5196db7a4933c0e531bb5963044bdfe6"
+    },
+    {
+      "id": "p4",
+      "title": "P4. 조건부 분포 p(x | Y = y1)",
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"></div>",
+      "ask_html": "<p>조건부 분포 $p(x\\mid Y=y_1)$를 분수로 구해 보세요.</p>",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [
+        "<table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table>"
+      ],
+      "original_question_html": "\"Compute: a. The marginal distributions p(x) and p(y). b. The conditional distributions p(x|Y = y1) and p(y|X = x3).\" — Exercise 6.1",
+      "input_sha256": "7d9b42f56ea503fbd786ff08008751105d8dd311d6dab878213e130c19cc8021"
+    },
+    {
+      "id": "p5",
+      "title": "P5. 조건부 분포 p(y | X = x3)",
+      "conditions_html": "두 이산 확률변수 $X$($x_1,\\dots,x_5$)와 $Y$($y_1,y_2,y_3$)의 joint distribution $p(x,y)$가 아래 표와 같아요. 표의 맨 위 행이 $y_1$이에요.<div class=\"table-wrap\"></div>",
+      "ask_html": "<p>조건부 분포 $p(y\\mid X=x_3)$를 분수로 구해 보세요.</p>",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [
+        "<table>\n<thead><tr><th></th><th>$x_1$</th><th>$x_2$</th><th>$x_3$</th><th>$x_4$</th><th>$x_5$</th></tr></thead>\n<tbody>\n<tr><th>$y_1$</th><td>0.01</td><td>0.02</td><td>0.03</td><td>0.1</td><td>0.1</td></tr>\n<tr><th>$y_2$</th><td>0.05</td><td>0.1</td><td>0.05</td><td>0.07</td><td>0.2</td></tr>\n<tr><th>$y_3$</th><td>0.1</td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.04</td></tr>\n</tbody></table>"
+      ],
+      "original_question_html": "\"Compute: a. The marginal distributions p(x) and p(y). b. The conditional distributions p(x|Y = y1) and p(y|X = x3).\" — Exercise 6.1",
+      "input_sha256": "808d3240270f2aea26ac5a4677e9661a920fe9db3fc7f3296492441230efbc68"
+    },
+    {
+      "id": "p6",
+      "title": "P6. 컴파일 성공률의 posterior",
+      "conditions_html": "코드를 안 바꿨는데도 프로그램이 컴파일될 때도 있고 안 될 때도 있어요. 성공 여부 $x\\in\\{0,1\\}$을 Bernoulli 분포 $p(x\\mid\\mu)=\\mu^{x}(1-\\mu)^{1-x}$로 모델링해요. $N$번 시도한 결과 $x_1,\\dots,x_N$을 i.i.d.로 봐요. prior로 $\\mathrm{Beta}(\\alpha,\\beta)\\propto\\mu^{\\alpha-1}(1-\\mu)^{\\beta-1}$가 주어져요. ",
+      "ask_html": "posterior $p(\\mu\\mid x_1,\\dots,x_N)$를 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"model the apparent stochasticity (success vs. no success) x of the compiler using a Bernoulli distribution with parameter µ\" — Exercise 6.3",
+      "input_sha256": "129a39d2a6ecbf0ea8efbfab6ae4748e23dc0b47ef81cc28fc66d6493613eeff"
+    }
+  ],
+  "figure_resources": [],
+  "question_payload_sha256": "99f6eccd329ee8472621a4e2a8e7a435578b115f1815ef9f563e618094993c7c",
+  "packet_payload_sha256": "8a74d0230989749259b5ff53b0b23355a8195807e54033f017cd1cd372bb60f8"
+}

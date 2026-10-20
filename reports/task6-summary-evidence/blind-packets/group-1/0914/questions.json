@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "packet_kind": "source_questions_only_blind_review",
+  "pack_id": "0914",
+  "questions": [
+    {
+      "id": "p1",
+      "title": "P1. 1을 붙여 어파인 예측기 계산하기",
+      "conditions_html": "<p>특징이 $D = 2$개인 예제 하나가 있어요. 특징 값은 $x_n^{(1)} = 2$, $x_n^{(2)} = -1$이에요. 교과서처럼 맨 앞에 단위 특징 $x^{(0)} = 1$을 붙여서 예측기를 $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\boldsymbol{\\theta}^\\top \\mathbf{x}_n$으로 써요. 파라미터는 $\\boldsymbol{\\theta} = [\\theta_0, \\theta_1, \\theta_2]^\\top = [\\tfrac{1}{2}, 3, 2]^\\top$이에요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 1을 붙인 벡터 $\\mathbf{x}_n$을 써 보세요. 길이는 몇인가요?</li>\n            <li>(b) 예측값 $f(\\mathbf{x}_n, \\boldsymbol{\\theta})$를 구해 보세요.</li>\n          </ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"concatenating an additional unit feature $x^{(0)} = 1$ to $\\mathbf{x}_n$ ... allowing us to write the predictor as a linear function\" — Example 8.1",
+      "input_sha256": "2b0e5c9c7f4cc70983e2066154e55623b36e7af1b598dfa862461fe3c8d7c067"
+    },
+    {
+      "id": "p2",
+      "title": "P2. 두 파라미터의 제곱 손실 평균 비교하기",
+      "conditions_html": "<p>학습 데이터가 세 개 있어요: $(x, y) = (0, 1), (1, 4), (2, 4)$. 각 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 쓰고, 예측기는 $f(\\mathbf{x}_n, \\boldsymbol{\\theta}) = \\boldsymbol{\\theta}^\\top \\mathbf{x}_n$이에요. 제곱 손실의 평균은 행렬로 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$이에요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 데이터 행렬 $\\mathbf{X}$와 라벨 벡터 $\\mathbf{y}$를 써 보세요.</li>\n            <li>(b) $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, \\tfrac{3}{2}]^\\top$ 각각에 대해 $\\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2$를 구해 보세요.</li>\n            <li>(c) 둘 중 어느 쪽의 평균 손실이 더 작나요?</li>\n          </ol>",
+      "subpart_ids": [
+        "a",
+        "b",
+        "c"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we specify that we measure the cost of making an error during training using the squared loss\" — Example 8.2",
+      "input_sha256": "7a49e205be689c0033982d3a047e74ffedf84abe97e185c24c10d6615cf671da"
+    },
+    {
+      "id": "p3",
+      "title": "P3. λ에 따라 달라지는 정규화 최소제곱의 선택",
+      "conditions_html": "<p>학습 데이터가 $(x, y) = (0, 1), (1, 3), (2, 5)$예요. 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 쓰고, 예측기는 $\\boldsymbol{\\theta}^\\top \\mathbf{x}_n$이에요. 정규화된 문제의 목적함수는 다음과 같아요.</p>\n          $$J(\\boldsymbol{\\theta}) = \\frac{1}{N}\\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\theta}\\|^2 + \\lambda \\|\\boldsymbol{\\theta}\\|^2$$\n          <p>후보는 $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [1, 1]^\\top$ 두 개예요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) $\\lambda = 0$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>\n            <li>(b) $\\lambda = 1$일 때 두 후보의 $J$를 구하고, 더 작은 쪽을 골라 보세요.</li>\n          </ol>",
+      "subpart_ids": [
+        "a",
+        "b"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"The regularization parameter trades off minimizing the loss on the training set and the magnitude of the parameters\" — Example 8.3",
+      "input_sha256": "27bd1e1ab535187a3fe768b39831410077598d4815e216079b33f4625ffc48e2"
+    },
+    {
+      "id": "p4",
+      "title": "P4. 가우시안 우도의 평균과 분산 읽기",
+      "conditions_html": "<p>라벨에 평균 0인 가우시안 노이즈 $\\varepsilon_n \\sim \\mathcal{N}(0, \\sigma^2)$가 더해지고, 예측에는 선형 모델 $\\mathbf{x}_n^\\top \\boldsymbol{\\theta}$를 쓴다고 가정해요. 그러면 예제 하나의 우도는 $p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta}) = \\mathcal{N}(y_n \\mid \\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$예요. 이제 $\\mathbf{x}_n = [1, 2]^\\top$, $\\boldsymbol{\\theta} = [1, 2]^\\top$, $\\sigma^2 = 1$이라고 해요. </p>",
+      "ask_html": "$y_n$의 조건부 분포의 평균과 분산을 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"we assume that we can explain our observation uncertainty by independent Gaussian noise ... with zero mean\" — Example 8.4",
+      "input_sha256": "c2ba2bc9a5a7242a125adf40eb6c0d57e6dee6ec3770b9662bea22c56500ea97"
+    },
+    {
+      "id": "p5",
+      "title": "P5. 음의 로그우도와 최소제곱의 순서 비교하기",
+      "conditions_html": "<p>데이터는 $(x, y) = (0, 1), (1, 4), (2, 4)$이고, 입력 앞에 1을 붙여 $\\mathbf{x}_n = [1, x_n]^\\top$으로 써요. 각 라벨은 $p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta}) = \\mathcal{N}(y_n \\mid \\mathbf{x}_n^\\top \\boldsymbol{\\theta}, \\sigma^2)$를 따르고 $\\sigma^2 = 1$이에요. 예제들은 i.i.d.라고 가정해요.</p>\n          ",
+      "ask_html": "<ol>\n            <li>(a) 음의 로그우도 $\\mathcal{L}(\\boldsymbol{\\theta}) = -\\sum_{n=1}^{N} \\log p(y_n \\mid \\mathbf{x}_n, \\boldsymbol{\\theta})$를 제곱합 항과 상수항으로 나눠 써 보세요.</li>\n            <li>(b) $\\boldsymbol{\\theta}_A = [1, 2]^\\top$과 $\\boldsymbol{\\theta}_B = [\\tfrac{3}{2}, \\tfrac{3}{2}]^\\top$의 $\\mathcal{L}$을 자연로그로 소수 셋째 자리까지 구해 보세요.</li>\n            <li>(c) 어느 쪽의 $\\mathcal{L}$이 더 작나요? 제곱 손실 합으로 비교한 순서와 같은가요?</li>\n          </ol>",
+      "subpart_ids": [
+        "a",
+        "b",
+        "c"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"As $\\sigma$ is given, the second term in (8.18d) is constant, and minimizing $\\mathcal{L}(\\boldsymbol{\\theta})$ corresponds to solving the least-squares problem\" — Example 8.5",
+      "input_sha256": "a414f668c33db2f3901ff08c3f63e6b82a70e38733c98d4a3501b23b3dc479de"
+    },
+    {
+      "id": "p6",
+      "title": "P6. 두 벡터 사이의 유클리드 거리",
+      "conditions_html": "<p>두 벡터 $\\mathbf{x} = [1, 2, 3]^\\top$, $\\mathbf{y} = [-1, -1, 0]^\\top$이 있어요. </p>",
+      "ask_html": "내적을 $\\langle \\mathbf{x}, \\mathbf{y} \\rangle := \\mathbf{x}^\\top \\mathbf{y}$로 둘 때, 두 벡터 사이의 거리 $d(\\mathbf{x}, \\mathbf{y}) = \\|\\mathbf{x} - \\mathbf{y}\\|$를 구해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Compute the distance between $\\mathbf{x}$ ... $\\mathbf{y}$ ... using a. $\\langle \\mathbf{x}, \\mathbf{y} \\rangle := \\mathbf{x}^\\top \\mathbf{y}$\" — Exercise 3.3",
+      "input_sha256": "50e546fe0e32ccdfbf27dabf01504008ab0674b519c437dd0fc78bc21f6c78d3"
+    },
+    {
+      "id": "p7",
+      "title": "P7. 삼차함수의 정상점과 종류",
+      "conditions_html": "<p>일변수 함수 $f(x) = x^3 + 6x^2 - 3x - 5$가 있어요. </p>",
+      "ask_html": "정상점(stationary point)을 모두 찾고, 각각 극대인지 극소인지 안장점인지 판정해 보세요.",
+      "subpart_ids": [
+        "main"
+      ],
+      "figures_html": [],
+      "original_question_html": "\"Find its stationary points and indicate whether they are maximum, minimum, or saddle points.\" — Exercise 7.1",
+      "input_sha256": "14e877b4b6b74f829a898290f78e58340dbbdfce8369272724d946b17f683325"
+    }
+  ],
+  "figure_resources": [],
+  "question_payload_sha256": "ffdf4a953faea5ebb4e011d4b46cdac51e4556094c536282ac13b1e895cbf16b",
+  "packet_payload_sha256": "ff5ca59b545952ab63a1acd2d1040258e94ed8189d63773cac39d19f6763ab06"
+}

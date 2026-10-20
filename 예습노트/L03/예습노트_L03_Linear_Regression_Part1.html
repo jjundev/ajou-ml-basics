@@ -368,7 +368,7 @@
     <ul class="eq-list"><li><span class="eq-name">가우시안</span>$$\mathcal{N}(\mu, \sigma^2)$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>평균(mean) $\mu$</dt><dd>분포의 중심</dd><dt>분산(variance) $\sigma^2$</dt><dd>퍼진 정도</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>이번 강의에서는 가우시안 잡음을 가정해 우도를 만들어요.</p></div></div>
 </article>
 <article class="topic" id="s0-mle-map"><h3>ML과 MAP 추정</h3>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">ML은 데이터만 보고 가장 그럴듯한 값을 고르고, MAP은 거기에 "이런 값일 것 같다"는 사전 믿음까지 더해서 골라요.</p></div>
@@ -377,10 +377,10 @@
     <ul><li>$\boldsymbol{\theta}_{\text{ML}}$ — 우도만 최대화한 추정치</li><li>$\boldsymbol{\theta}_{\text{MAP}}$ — 우도와 사전분포를 함께 반영한 추정치</li></ul>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">ML은 우도만, MAP은 우도에 사전분포까지 더해 파라미터를 추정해요.</p>
+    <p class="sum-lead">ML은 우도를 최대화하고, MAP은 우도와 사전분포의 곱에 비례하는 사후분포를 최대화해 파라미터를 추정해요.</p>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>ML 추정치 $\boldsymbol{\theta}_{\text{ML}}$</dt><dd>우도(likelihood)만 최대화한 값</dd><dt>MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$</dt><dd>우도와 사전분포(prior)를 함께 반영한 값</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>ML은 음의 로그우도를 최소화하고, MAP은 여기에 $-\log p(\boldsymbol{\theta})$를 더해 최소화해요.</p></div></div>
 </article>
     </section>
     <section id="s1"><h2>1. 문제 설정</h2>
@@ -423,7 +423,7 @@
     <li>$\boldsymbol{\phi}(\mathbf{x})$가 앞으로 특징 함수로 계속 나와요</li>
   </ul></div>
   <div class="sum" hidden>
-    <p class="sum-lead">잡음이 정규분포를 따른다고 가정하면, 선형·비선형 모델 모두 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.</p>
+    <p class="sum-lead">잡음은 정규분포로 가정해요. 이 노트의 입력 기반·특징 기반 모델은 모두 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">잡음</span>$$\epsilon \sim \mathcal{N}(0, \sigma^2)$$</li>
@@ -431,7 +431,7 @@
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>특징 함수 $\boldsymbol{\phi}(\mathbf{x})$(feature function)</dt><dd>입력을 비선형으로 변형하는 함수</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>입력을 그대로 쓰거나 비선형 특징으로 변형해도, 여기의 모델은 파라미터 $\boldsymbol{\theta}$에 대해 선형이에요.</p></div></div>
 </article>
 <article class="topic" id="s1-likelihood"><h3>iid 우도</h3><div class="tags"><span class="tag slide">L03 s7</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">데이터가 서로 영향을 주지 않고 독립적으로 뽑혔다고 가정해요.</p><p>그러면 전체 확률은 각 데이터 확률의 곱이 돼요.</p></div>
@@ -466,7 +466,7 @@
   <div class="sum" hidden>
     <p class="sum-lead">우도 최대화는 음의 로그우도 최소화와 같아요.</p>
     <p class="panel-label">핵심 식</p>
-    <ul class="eq-list"><li><span class="eq-name">음의 로그우도</span>$$-\log p(\mathcal{Y} \mid \mathcal{X}, \boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 + \text{const}$$</li></ul>
+    <ul class="eq-list"><li><span class="eq-name">음의 로그우도</span>$$\begin{aligned}&-\log p(\mathcal Y\mid\mathcal X,\boldsymbol\theta)\\&=\frac1{2\sigma^2}\|\mathbf y-\mathbf X\boldsymbol\theta\|^2\\&\quad+\text{const}\end{aligned}$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>const</dt><dd>$\boldsymbol{\theta}$와 무관한 상수항</dd></dl>
   </div>
@@ -483,7 +483,7 @@
     <ul class="eq-list"><li><span class="eq-name">경험적 위험</span>$$\mathcal{L}(\boldsymbol{\theta}) = \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>$\mathcal{L}(\boldsymbol{\theta})$</dt><dd>제곱 손실로 정의한 경험적 위험(empirical risk)</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>최적화하는 변수는 $\boldsymbol{\theta}$이며, $\boldsymbol{\theta}$와 무관한 상수는 최소점 위치를 바꾸지 않아요.</p></div></div>
 </article>
 <article class="topic" id="s2-normal-eq"><h3>미분해서 닫힌 해 구하기</h3><div class="tags"><span class="tag slide">L03 s11</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">손실이 가장 작아지는 지점은 기울기가 0인 곳이니까, 미분해서 0으로 놓고 풀면 답이 한 번에 나와요.</p></div>
@@ -497,7 +497,7 @@
     <ul class="eq-list"><li><span class="eq-name">ML 추정치</span>$$\boldsymbol{\theta}_{\text{ML}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>랭크 조건(rank condition)</dt><dd>$\mathbf{X}^\top\mathbf{X}$가 역행렬을 가지려면 필요한 조건</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>본문의 역행렬 조건은 $\operatorname{rk}(\mathbf X)=D$예요.</p></div></div>
 </article>
     </section>
     <section id="s3"><h2>3. 벡터 미분 복습</h2>
@@ -544,7 +544,7 @@
     <ul class="eq-list"><li><span class="eq-name">야코비안</span>$$\mathbf{J} = \frac{d\mathbf{f}}{d\mathbf{x}}, \quad f(\mathbf{x}) = \mathbf{A}\mathbf{x} \Rightarrow \mathbf{J} = \mathbf{A}$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>야코비안(Jacobian)</dt><dd>벡터 출력 함수의 편미분을 모은 $m \times n$ 행렬</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>행은 출력 성분, 열은 입력 성분이에요.</p></div></div>
 </article>
 
 <article class="topic" id="s3-chain"><h3>연쇄법칙으로 손실 미분하기</h3><div class="tags"><span class="tag slide">L03 s16</span></div>
@@ -567,7 +567,7 @@
     <ul class="eq-list"><li><span class="eq-name">연쇄법칙</span>$$\frac{\partial L}{\partial \boldsymbol{\theta}} = \frac{\partial L}{\partial \mathbf{e}}\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}} = -2\mathbf{e}^\top\boldsymbol{\Phi}$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>오차(error)</dt><dd>$\mathbf{e} = \mathbf{y} - \boldsymbol{\Phi}\boldsymbol{\theta}$, 예측과 관측의 차이</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$L=\|\mathbf e\|^2$에서 $\partial L/\partial\mathbf e=2\mathbf e^\top$, $\partial\mathbf e/\partial\boldsymbol{\theta}=-\boldsymbol{\Phi}$를 순서대로 곱해요.</p></div></div>
 </article>
     </section>
     <section id="s4"><h2>4. 특징과 과적합</h2>
@@ -586,7 +586,7 @@
     <ul class="eq-list"><li><span class="eq-name">특징 기반 모델</span>$$y = \boldsymbol{\phi}(\mathbf{x})^\top\boldsymbol{\theta} + \epsilon$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>특징 함수(feature) $\boldsymbol{\phi}(\mathbf{x})$</dt><dd>입력을 변형한 벡터</dd><dt>다항 회귀(polynomial regression)</dt><dd>거듭제곱을 특징으로 쓰는 회귀</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>다항 특징은 $\boldsymbol\phi(x)=[1,x,\dots,x^{K-1}]^\top$이며 $K$는 특징과 파라미터의 개수예요.</p></div></div>
 </article>
 <article class="topic" id="s4-feature-matrix"><h3>특징 행렬과 ML 해</h3><div class="tags"><span class="tag slide">L03 s18</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">학습 데이터 전체의 특징을 한 번에 쌓아 행렬로 만들면, 모든 데이터의 예측을 행렬 곱 한 번으로 계산할 수 있어요.</p></div>
@@ -603,7 +603,7 @@
     <ul class="eq-list"><li><span class="eq-name">ML 해</span>$$\boldsymbol{\theta}_{\text{ML}} = (\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>특징 행렬(feature matrix) $\boldsymbol{\Phi} \in \mathbb{R}^{N \times K}$</dt><dd>각 행이 한 데이터의 특징 벡터</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\Phi_{ij}=\phi_j(x_i)$이고, $\boldsymbol\phi(\mathbf x)=\mathbf x$이면 앞의 $\mathbf X$가 되는 특수한 경우예요.</p></div></div>
 </article>
 <article class="topic" id="s4-overfit"><h3>다항식 피팅과 과적합</h3><div class="tags"><span class="tag slide">L03 s19–20</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">곡선을 복잡하게 만들수록 연습 문제는 잘 맞히지만 새 문제는 오히려 틀려요. 이걸 과적합이라고 해요.</p>
@@ -630,7 +630,7 @@
     <p class="sum-lead">차수를 올릴수록 훈련 오차는 줄지만 테스트 오차는 어느 순간부터 늘어나는 것이 과적합이에요.</p>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>과적합(overfitting)</dt><dd>훈련 데이터에만 맞춰 새 데이터 성능이 떨어지는 현상</dd><dt>테스트 오차(test error)</dt><dd>학습에 쓰지 않은 데이터에 대한 오차</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>본문의 피팅 예는 $N=10$개 데이터에 4차 다항식을 ML로 맞추는 경우예요.</p></div></div>
 </article>
     </section>
     <section id="s5"><h2>5. MAP 추정</h2>
@@ -645,7 +645,7 @@
     <p class="sum-lead">MAP은 음의 로그우도에 사전분포의 $-\log p(\boldsymbol{\theta})$ 항을 더해 구해요.</p>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>사후분포 $p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})$</dt><dd>데이터를 본 뒤 파라미터에 대한 믿음</dd><dt>MAP 추정치 $\boldsymbol{\theta}_{\text{MAP}}$</dt><dd>사전분포까지 반영해 구한 값</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>사후분포는 우도와 사전분포의 곱에 비례해요. 본문의 입력 독립 가정은 $p(\boldsymbol\theta\mid\mathcal X)=p(\boldsymbol\theta)$예요.</p></div></div>
 </article>
 <article class="topic" id="s5-gauss-prior"><h3>가우시안 사전분포의 MAP 해</h3><div class="tags"><span class="tag slide">L03 s23–24</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">파라미터가 0 근처에 모여 있을 거라는 가우시안 사전분포를 쓰면, 최소제곱 해에 파라미터를 작게 눌러주는 항이 하나 더 붙어요.</p></div>
@@ -661,7 +661,7 @@
     <ul class="eq-list"><li><span class="eq-name">MAP 해</span>$$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top\boldsymbol{\Phi} + \frac{\sigma^2}{b^2}\mathbf{I}\right)^{-1}\boldsymbol{\Phi}^\top\mathbf{y}$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>가우시안 사전분포 $\mathcal{N}(\mathbf{0}, b^2\mathbf{I})$</dt><dd>평균 0, 분산 $b^2$인 사전 믿음</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>사전분포 $\mathcal N(\mathbf0,b^2\mathbf I)$는 음의 로그에 $\boldsymbol\theta^\top\boldsymbol\theta/(2b^2)$를 더해요. 본문에서 $\sigma^2\mathbf I/b^2$는 계수행렬을 대칭·양의 정부호로 만들어 역행렬을 보장하는 역할이에요.</p></div></div>
 </article>
 <article class="topic" id="s5-general-prior"><h3>일반 가우시안 사전분포</h3><div class="tags"><span class="tag slide">L03 s25</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">사전분포의 평균이 꼭 0일 필요는 없고, 평균과 분산을 자유롭게 정한 가우시안도 쓸 수 있어요.</p></div>
@@ -670,10 +670,10 @@
     <ul><li>$\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$ — 평균 $\mathbf{m}_0$, 공분산 $\mathbf{S}_0$인 사전분포</li></ul>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">사전분포의 평균과 분산을 임의로 둔 일반 가우시안도 MAP에 쓸 수 있어요.</p>
+    <p class="sum-lead">사전분포의 평균과 공분산을 둔 일반 가우시안도 MAP에 쓸 수 있어요.</p>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>일반 가우시안 사전분포 $\mathcal{N}(\mathbf{m}_0, \mathbf{S}_0)$</dt><dd>평균 $\mathbf{m}_0$, 공분산 $\mathbf{S}_0$인 사전분포</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>음의 로그사후분포에는 $\tfrac12(\boldsymbol\theta-\mathbf m_0)^\top\mathbf S_0^{-1}(\boldsymbol\theta-\mathbf m_0)$가 더해져요.</p></div></div>
 </article>
 <article class="topic" id="s5-rls"><h3>MAP = 정규화 최소제곱</h3><div class="tags"><span class="tag slide">L03 s26</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">값이 커지지 않게 벌점을 직접 더하는 방법과, 앞에서 본 믿음을 더하는 방법은 사실 같은 계산이에요.</p></div>
@@ -688,7 +688,7 @@
     <p class="sum-lead">정규화 최소제곱은 가우시안 사전분포를 쓴 MAP 추정과 같은 식이에요.</p>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>정규화 항 $\lambda\|\boldsymbol{\theta}\|^2$</dt><dd>파라미터 크기를 누르는 벌점</dd></dl>
-  </div>
+  <div class="summary-group"><h4>조건·구분</h4><p>RLS는 오차제곱합에 $\lambda\|\boldsymbol\theta\|^2$를 더해 최소화해요. 교과서 보충(MML 9.2.4절)은 슬라이드의 $\lambda=1/(2b^2)$와 구별해 s24 식의 스케일에서는 $\lambda=\sigma^2/b^2$라고 설명해요.</p></div></div>
 </article>
     </section>
     <section id="s6"><h2>6. 한눈에 보기</h2>
@@ -722,9 +722,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -942,7 +941,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -974,8 +972,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -998,14 +994,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          sub.textContent = key === 'intro' ? '전체 흐름' : ((s.querySelector('h3') || {}).textContent || '').trim();
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

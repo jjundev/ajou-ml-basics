@@ -41,7 +41,7 @@
 
 ### P1. 전치 구하기
 
-HW1 Problem 1 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p1)
+HW1 Problem 1 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p1)
 
 #### 주어진 조건
 
@@ -161,7 +161,7 @@ $(A^\top)_{ij}=A_{ji}$부터 써요. 전치(transpose)의 정의가 이 식이�
 
 ### P2. 내적과 노름
 
-HW1 Problem 2 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p2)
+HW1 Problem 2 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p2)
 
 #### 주어진 조건
 
@@ -280,13 +280,17 @@ $(-2)^2=4$예요. 길이의 제곱과 길이를 구별하고 마지막 제곱근
 
 정답: $\mathbf{x}^\top\mathbf{y}=0$, $\|\mathbf{x}\|_2=3$, $\|\mathbf{y}\|_2=\sqrt{5}$, 내적이 0이라 두 벡터는 직교해요.
 
+#### 조건·구분
+
+두 벡터는 같은 차원의 실수 벡터이고 표준 내적을 써요. 각도를 말하려면 둘 다 영벡터가 아니어야 하며, 이 문제는 그 조건을 만족해 $90^\circ$라고 해석할 수 있어요.
+
 ---
 
 <a id="p3"></a>
 
 ### P3. 행렬 곱의 순서
 
-HW1 Problem 3 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p3)
+HW1 Problem 3 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p3)
 
 #### 주어진 조건
 
@@ -388,7 +392,7 @@ $(AB)_{ij}=\sum_{k=1}^3 A_{ik}B_{kj}$부터 써요. 예를 들어 $(AB)_{12}=1\c
 
 ### P4. 행렬식 계산
 
-HW1 Problem 4 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p4)
+HW1 Problem 4 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p4)
 
 #### 주어진 조건
 
@@ -529,13 +533,17 @@ $\det\begin{bmatrix}a&b\\c&d\end{bmatrix}=ad-bc$부터 써요. (c)는 대각 원
 
 정답: $\det(\mathbf{A})=10$, $\det(\mathbf{B})=6$, $\det(\mathbf{C})=-6$, $\det(\mathbf{D})=0$
 
+#### 조건·구분
+
+행렬식은 정방행렬에 정의되고 대각곱만 쓰는 규칙은 대각·삼각행렬에 적용해요. (d)는 $D_{:3}=2D_{:2}-D_{:1}$인 열 종속으로도 행렬식 $0$을 확인해요.
+
 ---
 
 <a id="p5"></a>
 
 ### P5. 역행렬 구하기
 
-HW1 Problem 5 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p5)
+HW1 Problem 5 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p5)
 
 #### 주어진 조건
 
@@ -669,13 +677,17 @@ $M^{-1}=\frac1{ad-bc}\begin{bmatrix}d&-b\\-c&a\end{bmatrix}$, $ad-bc\ne0$부터 
 
 정답: ${\mathbf{A}^{-1}=\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}}$, ${\mathbf{B}^{-1}=\begin{bmatrix}\frac{1}{7} & \frac{2}{7}\\-\frac{3}{7} & \frac{1}{7}\end{bmatrix}}$, ${\mathbf{C}^{-1}=\begin{bmatrix}\frac{2}{3} & -\frac{1}{3} & 0\\-\frac{1}{3} & \frac{2}{3} & 0\\0 & 0 & \frac{1}{2}\end{bmatrix}}$
 
+#### 조건·구분
+
+블록 대각 역행렬은 각 정방 블록이 가역이고 마지막 스칼라가 $0$이 아닐 때 블록별로 구해요. 후보는 원행렬과 양쪽으로 곱해 항등행렬인지 확인해요.
+
 ---
 
 <a id="p6"></a>
 
 ### P6. 선형 독립 판정
 
-HW1 Problem 6 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p6)
+HW1 Problem 6 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p6)
 
 #### 주어진 조건
 
@@ -775,7 +787,7 @@ $(0,0,0)$ 계수는 어떤 벡터에도 가능해서 종속의 근거가 아니�
 
 ### P7. 선형결합으로 나타내기
 
-HW1 Problem 7 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p7)
+HW1 Problem 7 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p7)
 
 #### 주어진 조건
 
@@ -867,13 +879,17 @@ $y=ax_1+bx_2+cx_3$부터 써요. 선형결합(linear combination)의 미지수�
 
 정답: ${\mathbf{y}=-6\mathbf{x}_1+3\mathbf{x}_2+2\mathbf{x}_3}$
 
+#### 조건·구분
+
+같은 차원의 벡터를 더하며 $\mathbf y$가 열들의 생성공간에 있어야 해가 존재해요. 이 예의 계수행렬은 행렬식이 $5\ne0$이라 $(-6,3,2)^T$가 유일한 계수예요.
+
 ---
 
 <a id="p8"></a>
 
 ### P8. $\mathbf{A}^\top\mathbf{A}$와 역행렬
 
-HW1 Problem 8 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p8)
+HW1 Problem 8 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p8)
 
 #### 주어진 조건
 
@@ -969,13 +985,17 @@ $A^\top A$와 $AA^\top$는 크기부터 달라요. 대각의 역수 법칙은 �
 
 정답: ${\mathbf{A}^\top\mathbf{A}=\begin{bmatrix}3 & 0\\0 & 2\end{bmatrix}}$, $\det(\mathbf{A}^\top\mathbf{A})=6$이라 역행렬이 존재하고, ${(\mathbf{A}^\top\mathbf{A})^{-1}=\begin{bmatrix}\frac{1}{3} & 0\\0 & \frac{1}{2}\end{bmatrix}}$
 
+#### 조건·구분
+
+$\mathbf v^T\mathbf A^T\mathbf A\mathbf v=\|\mathbf A\mathbf v\|^2$에서 열 독립이면 $\mathbf v\ne0$일 때 양수라 Gram이 양의 정부호예요. 정방이라는 사실만으로 가역인 것은 아니에요.
+
 ---
 
 <a id="p9"></a>
 
 ### P9. 특징 행렬과 예측
 
-HW1 Problem 9 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p9)
+HW1 Problem 9 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p9)
 
 #### 주어진 조건
 
@@ -1071,7 +1091,7 @@ $\Phi_{n:}=\phi(x_n)^\top=(1,x_n,x_n^2)$부터 써요. 특징행렬(feature matr
 
 ### P10. gradient 구하기
 
-HW1 Problem 10 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p10)
+HW1 Problem 10 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p10)
 
 #### 주어진 조건
 
@@ -1209,13 +1229,17 @@ $\nabla f=(f_u,f_v)^\top$부터 써요. 예를 들어 $\partial_u(3v^2)=0$, $\pa
 
 정답: (a) ${\nabla f(1,-1)=\begin{bmatrix}0\\-2\end{bmatrix}}$, (b) ${\nabla g(1,-1)=\begin{bmatrix}-4\\-2\end{bmatrix}}$, (c) ${\nabla h(1,0,-1)=\begin{bmatrix}-2\\-4\\2\end{bmatrix}}$
 
+#### 조건·구분
+
+점 대입 전의 결과는 $\nabla f=(2u-2,6v+4)^T$, $\nabla g=(2u+2v-4,2u+6v+2)^T$, $\nabla h=2(u+2v-w-3)(1,2,-1)^T$예요.
+
 ---
 
 <a id="p11"></a>
 
 ### P11. 야코비 행렬
 
-HW1 Problem 11 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p11)
+HW1 Problem 11 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p11)
 
 #### 주어진 조건
 
@@ -1326,13 +1350,17 @@ $J_{ij}=\partial f_i/\partial x_j$부터 써요. 첫 행은 첫 출력의 u,v �
 
 정답: (a) ${\mathbf{J}_\mathbf{f}(1,2)=\begin{bmatrix}1 & 2\\3 & -1\end{bmatrix}}$, (b) ${\mathbf{J}_\mathbf{g}(1,2)=\begin{bmatrix}2 & 1\\2 & 1\\0 & 4\end{bmatrix}}$
 
+#### 조건·구분
+
+(a)의 선형함수 Jacobian은 상수이고, (b)는 $\mathbf J_g=[[2u,1],[v,u],[0,2v]]$로 입력에 따라 바뀌어요. 두 경우 모두 먼저 미분한 뒤 $(1,2)$를 대입해요.
+
 ---
 
 <a id="p12"></a>
 
 ### P12. 이차형식의 정류점
 
-HW1 Problem 12 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p12)
+HW1 Problem 12 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p12)
 
 #### 주어진 조건
 
@@ -1437,13 +1465,17 @@ $Qx=(3x_1+x_2,x_1+2x_2)^\top$부터 써요. 왼쪽에서 $(x_1,x_2)$를 곱하�
 
 정답: (a) $h=3x_1^2+2x_1x_2+2x_2^2-2x_1+2x_2$, $\partial h/\partial x_1=6x_1+2x_2-2$, $\partial h/\partial x_2=2x_1+4x_2+2$; (b) $x_1=\frac{3}{5}$, $x_2=-\frac{4}{5}$
 
+#### 조건·구분
+
+일반적으로 $\nabla(\mathbf x^T\mathbf Q\mathbf x)=(\mathbf Q+\mathbf Q^T)\mathbf x$이고 대칭일 때만 $2\mathbf Q\mathbf x$로 줄여요. 이 예는 첫 주축소행렬식 $3$, 행렬식 $5$가 양수라 Hessian $2\mathbf Q$가 양의 정부호이며 $(3/5,-4/5)^T$가 유일한 전역 최소예요.
+
 ---
 
 <a id="p13"></a>
 
 ### P13. 2차원 가우시안 밀도
 
-HW1 Problem 13 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p13)
+HW1 Problem 13 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p13)
 
 #### 주어진 조건
 
@@ -1549,13 +1581,17 @@ $d=x-\mu=(x_1-1,x_2+1)^\top$부터 써요. 밀도는 $\exp(-d^\top\Sigma^{-1}d/2
 
 정답: ${p_\mathbf{X}(x_1,x_2)=\frac{1}{2\pi\sqrt{3}}\exp[-\frac{1}{3}(x_1^2-x_1x_2+x_2^2-3x_1+3x_2+3)]}$
 
+#### 조건·구분
+
+보통의 2차원 가우시안 밀도 공식은 공분산의 대칭 양의 정부호를 전제해요. 이 예의 고윳값은 $3,1$이고 비대각 공분산이 있으므로 두 좌표의 독립 밀도를 따로 곱하지 않아요.
+
 ---
 
 <a id="p14"></a>
 
 ### P14. 완전제곱으로 정규화
 
-HW1 Problem 14 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p14)
+HW1 Problem 14 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p14)
 
 #### 주어진 조건
 
@@ -1663,7 +1699,7 @@ $4z^2-8z+7=4(z-1)^2+3$부터 써요. 원래 식에 다시 펼쳐 맞는지 확�
 
 ### P15. 단순회귀의 우도
 
-HW1 Problem 15 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p15)
+HW1 Problem 15 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p15)
 
 #### 주어진 조건
 
@@ -1759,13 +1795,17 @@ $r_n=y_n-\theta_0-\theta_1x_n$부터 써요. 잔차가 잡음이고 $r_n\sim N(0
 
 정답: ${L(\theta_0,\theta_1)=(2\pi\sigma^2)^{-N/2}\exp[-\frac{1}{2\sigma^2}\sum_{n=1}^{N}(y_n-\theta_0-\theta_1x_n)^2]}$
 
+#### 조건·구분
+
+관측 $x_n,y_n$은 고정하고 $\theta_0,\theta_1$을 바꾸는 우도예요. 고정 입력에서 관측이 조건부 독립이고 동일한 알려진 양의 분산 $\sigma^2$를 써야 이 형태가 돼요. 상수 인자까지 요구하므로 파라미터와 무관해도 생략하지 않아요.
+
 ---
 
 <a id="p16"></a>
 
 ### P16. 음의 로그우도와 최소제곱
 
-HW1 Problem 16 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p16)
+HW1 Problem 16 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p16)
 
 #### 주어진 조건
 
@@ -1857,13 +1897,17 @@ $r=y-\Phi\theta$, $\det(\sigma^2I_N)=(\sigma^2)^N$부터 써요. 전체 밀도�
 
 정답: ${-\log p(\mathbf{y}\mid\boldsymbol{\Phi},\boldsymbol{\theta})=\frac{N}{2}\log(2\pi\sigma^2)+\frac{1}{2\sigma^2}\|\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}\|_2^2}$. 상수항과 양의 계수는 최소점을 바꾸지 않으니 ML은 최소제곱과 같아요.
 
+#### 조건·구분
+
+고정 $\boldsymbol\Phi,\mathbf y$에서 $\boldsymbol\theta$를 최적화하며 관측 가우시안 공분산은 $\sigma^2\mathbf I_N$이에요. 로그의 단조증가성과 양수 $1/(2\sigma^2)$가 목적값의 순서를 보존하므로 최소점이 같아요.
+
 ---
 
 <a id="p17"></a>
 
 ### P17. 정규방정식과 수치 예
 
-HW1 Problem 17 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p17)
+HW1 Problem 17 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p17)
 
 #### 주어진 조건
 
@@ -2004,13 +2048,19 @@ $J=(y-\Phi\theta)^\top(y-\Phi\theta)$부터 써요. 곱을 네 항으로 전개�
 
 정답: (a) 정규방정식 ${\boldsymbol{\Phi}^\top\boldsymbol{\Phi}\boldsymbol{\theta}=\boldsymbol{\Phi}^\top\mathbf{y}}$, ${\boldsymbol{\theta}_{\mathrm{ML}}=(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}}$;<br>(b) ${\boldsymbol{\theta}_{\mathrm{ML}}=\begin{bmatrix}\frac{7}{3}\\1\end{bmatrix}}$, ${\hat{\mathbf{y}}=\begin{bmatrix}\frac{4}{3}\\\frac{7}{3}\\\frac{10}{3}\end{bmatrix}}$, $S=\frac{8}{3}$
 
+#### 조건·구분
+
+$\boldsymbol\Phi\in\mathbb R^{N\times K}$에서 열 gradient는 $\nabla J=2\boldsymbol\Phi^T(\boldsymbol\Phi\boldsymbol\theta-\mathbf y)\in\mathbb R^{K\times1}$예요. 열 독립이면 $\mathbf v^T\boldsymbol\Phi^T\boldsymbol\Phi\mathbf v=\|\boldsymbol\Phi\mathbf v\|^2\gt0$라 유일한 전역 최소이고, 알려진 양의 등분산 가우시안 잡음에서 ML과 같아요.
+
+수치 예의 잔차는 $(2/3,-4/3,2/3)^T$이고 $\boldsymbol\Phi^T\mathbf r=0$으로 두 특징 열에 직교해요. 계수·예측벡터·오차제곱합은 서로 다른 결과예요.
+
 ---
 
 <a id="p18"></a>
 
 ### P18. MAP과 릿지 회귀
 
-HW1 Problem 18 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p18)
+HW1 Problem 18 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p18)
 
 #### 주어진 조건
 
@@ -2096,7 +2146,7 @@ $b^2$는 사전 분산이에요. 잔차항 계수를 1로 맞춘 목적함수에
 
 #### 떠올릴 개념·공식
 
-MAP은 우도+사전이에요. $SSE+\lambda\|\theta\|^2$로 맞추면 $\lambda=\sigma^2/b^2$, 절편도 규제해요.
+MAP은 우도와 사전의 곱에 비례하는 사후분포를 최대화해요. $SSE+\lambda\|\theta\|^2$로 맞추면 $\lambda=\sigma^2/b^2$, 절편도 규제해요.
 
 #### 첫 줄
 
@@ -2110,13 +2160,17 @@ $b^2$는 사전 분산이에요. 잔차항 계수를 1로 맞춘 목적함수에
 
 정답: ${-\log p(\boldsymbol{\theta}\mid\boldsymbol{\Phi},\mathbf{y})=\frac{1}{2\sigma^2}\|\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}\|_2^2+\frac{1}{2b^2}\|\boldsymbol{\theta}\|_2^2+\text{const}}$, ${\boldsymbol{\theta}_{\mathrm{MAP}}=(\boldsymbol{\Phi}^\top\boldsymbol{\Phi}+\frac{\sigma^2}{b^2}\mathbf{I}_K)^{-1}\boldsymbol{\Phi}^\top\mathbf{y}}$, $\lambda=\frac{\sigma^2}{b^2}$
 
+#### 조건·구분
+
+$\sigma^2,b^2\gt0$은 알려진 값이고 사전분포는 고정 입력과 독립이며 절편을 포함한 모든 $K$개 계수에 적용해요. $\lambda\gt0$이면 $\mathbf v^T(\boldsymbol\Phi^T\boldsymbol\Phi+\lambda\mathbf I_K)\mathbf v=\|\boldsymbol\Phi\mathbf v\|^2+\lambda\|\mathbf v\|^2\gt0$라 열이 종속이어도 역행렬과 유일한 최소가 존재해요.
+
 ---
 
 <a id="p19"></a>
 
 ### P19. ML과 MAP 수치 비교
 
-HW1 Problem 19 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p19)
+HW1 Problem 19 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p19)
 
 #### 주어진 조건
 
@@ -2231,13 +2285,17 @@ $b^2=1/4$이면 lambda는 1/4가 아니라 4예요. 절편을 규제에서 빼�
 
 정답: (a) ${\boldsymbol{\theta}_{\mathrm{ML}}=\begin{bmatrix}\frac{7}{3}\\1\end{bmatrix}}$, $b^2=1$일 때 ${\boldsymbol{\theta}_{\mathrm{MAP}}=\begin{bmatrix}\frac{7}{4}\\\frac{2}{3}\end{bmatrix}}$; (b) $b^2=\frac{1}{4}$일 때 ${\boldsymbol{\theta}_{\mathrm{MAP}}=\begin{bmatrix}1\\\frac{1}{3}\end{bmatrix}}$. $b^2$이 작을수록 추정이 $\mathbf{0}$ 쪽으로 더 수축돼요.
 
+#### 조건·구분
+
+각 좌표가 분모 증가로 단조롭게 줄어드는 설명은 이 대각 Gram 사례의 성질이에요. 임의의 비대각 Gram에서도 각 좌표가 항상 단조롭게 줄어든다고 일반화하지 않아요.
+
 ---
 
 <a id="p20"></a>
 
 ### P20. 특이한 $\boldsymbol{\Phi}^\top\boldsymbol{\Phi}$와 규제
 
-HW1 Problem 20 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p20)
+HW1 Problem 20 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p20)
 
 #### 주어진 조건
 
@@ -2361,13 +2419,17 @@ $s=\theta_1+\theta_2$, $\Phi\theta=(s,2s)^\top$부터 써요. 이 데이터가 �
 
 정답: (a) ${\boldsymbol{\Phi}^\top\boldsymbol{\Phi}=\begin{bmatrix}5 & 5\\5 & 5\end{bmatrix}}$, ${\det(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})=0}$; (b) 둘 다 ${\boldsymbol{\Phi}\boldsymbol{\theta}=\begin{bmatrix}3\\6\end{bmatrix}}$, 오차 $0$; (c) ${\boldsymbol{\theta}=\begin{bmatrix}1\\1\end{bmatrix}}$, $J_{\min}=15$
 
+#### 조건·구분
+
+$(1,-1)^T$는 영공간 벡터이고 무규제 최소는 $\theta_1+\theta_2=3$ 위에 무수히 많아요. 규제는 목적함수 자체를 바꾸며 $s=\theta_1+\theta_2$, $d=\theta_1-\theta_2$로 $J=\frac{15}{2}(s-2)^2+\frac52d^2+15$라 $(1,1)^T$에서 최소 $15$예요.
+
 ---
 
 <a id="p21"></a>
 
 ### P21. 표본 평균과 공분산
 
-HW1 Problem 21 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p21)
+HW1 Problem 21 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p21)
 
 #### 주어진 조건
 
@@ -2482,13 +2544,17 @@ $d_nd_n^\top$는 2×2 행렬이고 $d_n^\top d_n$는 수예요. 분모를 불편
 
 정답: ${\bar{\mathbf{x}}=\begin{bmatrix}2\\3\end{bmatrix}}$, ${\mathbf{S}=\begin{bmatrix}1 & 1\\1 & 2\end{bmatrix}}$
 
+#### 조건·구분
+
+대각은 각 좌표의 분산, 비대각은 함께 움직이는 공분산이에요. $\mathbf S=\frac14\sum_n\mathbf x_n\mathbf x_n^T-\bar{\mathbf x}\bar{\mathbf x}^T$로도 같은 결과를 확인해요.
+
 ---
 
 <a id="p22"></a>
 
 ### P22. 아핀 변환의 평균과 공분산
 
-HW1 Problem 22 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p22)
+HW1 Problem 22 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p22)
 
 #### 주어진 조건
 
@@ -2660,13 +2726,19 @@ $y=Ax+c$, $y-E[y]=A(x-E[x])$부터 써요. 중심화하면 상수 c가 사라져
 
 정답: (a) ${\boldsymbol{\mu}_y=\begin{bmatrix}6\\-1\end{bmatrix}}$, ${\boldsymbol{\Sigma}_y=\begin{bmatrix}16 & -1\\-1 & 4\end{bmatrix}}$, ${\mathbf{C}_{xy}=\begin{bmatrix}6 & -3\\5 & 1\end{bmatrix}}$;<br>(b) ${\boldsymbol{\mu}_x=\begin{bmatrix}1\\-1\end{bmatrix}}$, ${\boldsymbol{\Sigma}_x=\begin{bmatrix}2 & 1\\1 & 1\end{bmatrix}}$, ${\boldsymbol{\mu}_y=\begin{bmatrix}2\\2\end{bmatrix}}$, ${\boldsymbol{\Sigma}_y=\begin{bmatrix}5 & 4\\4 & 5\end{bmatrix}}$, ${\mathbf{C}_{xy}=\begin{bmatrix}3 & 3\\1 & 2\end{bmatrix}}$;<br>(c) ${\boldsymbol{\mu}_y=\begin{bmatrix}0\\2\end{bmatrix}}$, ${\boldsymbol{\Sigma}_y=\begin{bmatrix}8 & 0\\0 & 4\end{bmatrix}}$, ${\mathbf{C}_{xy}=\begin{bmatrix}3 & 1\\4 & -2\end{bmatrix}}$
 
+#### 조건·구분
+
+상수 이동은 평균만 바꾸고 유한한 2차 모멘트가 있으면 가우시안이 아니어도 아핀 공식이 성립해요. $\boldsymbol\mu_y=\mathbf A\boldsymbol\mu_x+\mathbf c$이고 교차공분산은 입력×출력 방향으로 $\mathbf C_{xy}=\boldsymbol\Sigma_x\mathbf A^T$예요.
+
+(c)는 $\varepsilon$이 $\mathbf x$와 독립이고 평균 $0$이라 입력–잡음 교차항이 사라져 $\mathbf C_{xy}$는 그대로예요. $\mathrm{Cov}(x_1,x_2)=0-(1)(-1)=1$이고 공유 잡음은 두 출력의 비대각에도 $1$을 더해요.
+
 ---
 
 <a id="p23"></a>
 
 ### P23. 절편 없는 회귀의 ML과 MAP
 
-HW1 Problem 23 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p23)
+HW1 Problem 23 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p23)
 
 #### 주어진 조건
 
@@ -2788,13 +2860,17 @@ $r_1=2-\theta$, $r_2=3-2\theta$부터 써요. 두 독립 표준 가우시안 밀
 
 정답: (a) ${L(\theta)=\frac{1}{2\pi}\exp[-\frac{1}{2}((2-\theta)^2+(3-2\theta)^2)]}$; (b) $\theta_{\mathrm{ML}}=\frac{8}{5}$; (c) $\theta_{\mathrm{MAP}}=\frac{4}{3}$, $\hat{y}_{\mathrm{ML}}=\frac{24}{5}$, $\hat{y}_{\mathrm{MAP}}=4$
 
+#### 조건·구분
+
+잡음과 사전의 분산은 모두 $1$이고 미지수는 절편 없이 $\theta$ 하나예요. $\sum x_n^2=5\gt0$에서 NLL 미분은 $5\theta-8$, 사전 항을 더한 미분은 $6\theta-8$이라 각각 $8/5$, $4/3$을 얻어요.
+
 ---
 
 <a id="p24"></a>
 
 ### P24. 평균 추정의 ML과 MAP
 
-HW1 Problem 24 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p24)
+HW1 Problem 24 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p24)
 
 #### 주어진 조건
 
@@ -2912,13 +2988,17 @@ P23의 $\theta^2$ 벌점을 그대로 복사하지 않아요. 세 데이터의 �
 
 정답: (a) ${L(\theta)=(2\pi)^{-3/2}\exp[-\frac{1}{2}\sum_{n=1}^{3}(y_n-\theta)^2]}$; (b) $\theta_{\mathrm{ML}}=3$; (c) $\theta_{\mathrm{MAP}}=\frac{5}{2}$이고, 사전 평균 1에 더 가까운 쪽은 MAP이에요.
 
+#### 조건·구분
+
+독립 가우시안 관측과 사전의 분산은 알려진 양수이며 여기서는 둘 다 $1$이에요. 정밀도 가중 평균은 $(3\cdot3+1\cdot1)/(3+1)=5/2$이고, 사전 평균 $1$까지의 거리는 MAP $3/2$로 ML $2$보다 작아요.
+
 ---
 
 <a id="p25"></a>
 
 ### P25. 두 가우시안의 곱
 
-HW1 Problem 25 · [원 문제 보기](%EA%B3%BC%EC%A0%9C1_Homework1.html#p25)
+HW1 Problem 25 · [원 문제 보기](./%EA%B3%BC%EC%A0%9C1_Homework1.html#p25)
 
 #### 주어진 조건
 
@@ -3041,6 +3121,12 @@ $P_i=\Sigma_i^{-1}$, $\log(p_0p_1)=-\frac12\sum_{i=0}^1(x-\mu_i)^\top P_i(x-\mu_
 #### 답
 
 정답: ${\boldsymbol{\mu}_q=\begin{bmatrix}\frac{3}{11}\\\frac{4}{11}\end{bmatrix}}$, ${\boldsymbol{\Sigma}_q=\begin{bmatrix}\frac{7}{11} & \frac{2}{11}\\\frac{2}{11} & \frac{10}{11}\end{bmatrix}}$, ${\boldsymbol{\Sigma}_q^{-1}=\begin{bmatrix}\frac{5}{3} & -\frac{1}{3}\\-\frac{1}{3} & \frac{7}{6}\end{bmatrix}}$,<br>${q(\mathbf{x})=\frac{1}{2\pi}\sqrt{\frac{11}{6}}\exp[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_q)^\top\boldsymbol{\Sigma}_q^{-1}(\mathbf{x}-\boldsymbol{\mu}_q)]}$
+
+#### 조건·구분
+
+두 공분산이 대칭 양의 정부호이면 정밀도의 합도 양의 정부호예요. 같은 변수의 밀도 함수를 곱하는 계산이라 두 확률변수의 독립성을 별도로 가정하지 않아요. 평균은 $\boldsymbol\mu_q=\boldsymbol\Sigma_q(\mathbf P_0\boldsymbol\mu_0+\mathbf P_1\boldsymbol\mu_1)$로 정밀도 가중해요.
+
+원 곱의 적분은 $Z=\frac1{2\pi\sqrt{11}}e^{-5/22}$이고 $q=(p_0p_1)/Z$예요. $\det\boldsymbol\Sigma_q=6/11$이라 새 정규화 계수는 $\frac1{2\pi}\sqrt{11/6}$이며 원 곱의 앞 계수와 구별해요.
 
 ---
 

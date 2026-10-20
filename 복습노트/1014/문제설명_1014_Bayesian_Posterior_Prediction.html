@@ -393,7 +393,7 @@
 <div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>답은 세 상태 각각 $\frac13$이에요. PMF의 정규화 조건에 직접 대입하면 $\frac13+\frac13+\frac13=1$이고, 세 값이 모두 0 이상이에요. 상태를 나열한 순서를 바꾸어도 합과 확률은 그대로예요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>답은 구간 안 높이 $\frac{10}{7}$, 전체 적분 1이에요. 밀도값이 0 이상이고 구간 밖에서는 0인지 확인해요. 원시함수로 따로 계산해요.</p>$$\int_{0.9}^{1.6}\frac{10}{7}\,dx=\left[\frac{10}{7}x\right]_{0.9}^{1.6}$$ $$=\frac{10}{7}(1.6-0.9)=1$$<p>직사각형 넓이로 구한 값과 일치해요.</p></div></div>
 <div class="layer warn" data-explanation="pitfall"><h4>여기서 자주 헷갈려요</h4><p>이산 상태의 숫자 간격을 가중치로 쓰지 않아요. 연속형의 $\frac{10}{7}$을 ‘한 점의 확률’이라고 부르지 않아요. 그 값은 밀도이고 구간 확률은 적분으로 얻어요.</p></div>
 <div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>세 상태에 같은 미지수 하나를 놓고 합이 1인지 확인해요.</li><li>연속 구간의 폭을 구하고 높이와 곱해 1로 맞춰요.</li><li>두 답을 각각 합과 적분에 다시 넣어요.</li></ol></div>
-<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>PMF는 상태별 확률의 합이 1이에요. 일정한 PDF는 구간 폭과 밀도 높이의 곱이 1이에요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>(a) $3q=1$. (b) $h(1.6-0.9)=1$.</p></div><div class="summary-group"><h4>답과 검산</h4><p>(a) 각 $\frac13$, 합 1. (b) 높이 $\frac{10}{7}$, 적분 1.</p></div></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>PMF는 상태별 확률의 합이 1이에요. 일정한 PDF는 구간 폭과 밀도 높이의 곱이 1이에요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>(a) $3q=1$. (b) $h(1.6-0.9)=1$.</p></div><div class="summary-group"><h4>답과 검산</h4><p>(a) 각 $\frac13$, 합 1. (b) 높이 $\frac{10}{7}$, 적분 1.</p></div><div class="summary-group"><h4>조건·구분</h4><p>이산 상태의 숫자 간격은 같은 확률을 나누는 비율에 영향이 없어요. 연속 밀도 $10/7$은 한 점의 확률이 아니라 높이이므로 $1$을 넘을 수 있고, 구간 확률은 넓이로 계산해요.</p></div></div>
 </article><article class="topic" id="p2"><h3>P2. 이차식에서 가우시안을 알아봐요</h3><p class="panel-meta">MML Example 6.13 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions"><p>$\sigma^2\gt0$이고, $\phi(x)=\begin{bmatrix}x\\x^2\end{bmatrix}$예요. 두 계수를 모은 벡터를 다음처럼 정해요.</p>$$\theta=\begin{bmatrix}\frac{\mu}{\sigma^2}\\-\frac{1}{2\sigma^2}\end{bmatrix}$$<p>함수 $p(x\mid\theta)$는 $\exp(\theta_1x+\theta_2x^2)$에 비례해요.</p></div><h4>구할 것</h4><div data-source-field="ask"><p>계수를 대입하고 완전제곱하여, 정규화한 분포가 $\mathcal N(\mu,\sigma^2)$임을 확인해 보세요.</p></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>두 계수를 식에 넣으면 어떤 종 모양이 되는지 알아보고, 그 아래 전체 넓이가 1이 되도록 높이를 맞추는 문제예요.</p></div>
 <div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘계수 벡터를 대입’과 ‘지수 안의 일차식과 이차식’이라는 단서에서 지수부의 계수 비교와 완전제곱(completing the square)을 떠올려요. 여기서 $x$는 밀도를 평가하는 스칼라 변수이고 $\phi(x)=(x,x^2)^T$는 특징벡터예요. $\theta=(\theta_1,\theta_2)^T$는 두 계수를 모은 모수벡터(parameter vector)이며 $x$와 다른 역할이에요. 내적 $\theta^T\phi(x)=\theta_1x+\theta_2x^2$를 지수에 넣어요. 주어진 $\sigma^2\gt0$은 분산, $\mu$는 중심이 될 실수예요.</p><p>완전제곱의 기준은 $x^2-2\mu x+\mu^2=(x-\mu)^2$예요. 이차항의 계수가 음수여야 $|x|$가 커질 때 지수값이 줄어 적분 가능한 종 모양을 만들어요. 여기서는 $\theta_2=-1/(2\sigma^2)$이고 $\sigma^2\gt0$이라 그 조건을 만족해요. $x$와 무관한 항은 $\propto$로 나타낸 비례 상수에 흡수할 수 있지만, 정규화된 PDF를 만들 때는 그 상수를 다시 계산해야 해요.</p><p>정규분포 밀도의 중심형 커널은 $g(x)=\exp[-(x-\mu)^2/(2\sigma^2)]$예요. $\int_{-\infty}^{\infty}g(x)\,dx=\sqrt{2\pi\sigma^2}$이므로 $g$에 붙는 정규화 계수는 $1/\sqrt{2\pi\sigma^2}$예요. 이는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize">가우시안 정규화</a>에서 쓴 조건이에요. 밀도의 전체 적분이 1이어야 한다는 이유로 이 공식을 선택해요.</p></div>
 <div class="layer formal" data-explanation="start"><h4>종이에 쓰는 첫 줄</h4><p>주어진 모수벡터에서 $\theta_1=\mu/\sigma^2$, $\theta_2=-1/(2\sigma^2)$를 읽고 지수부에 대입해요.</p>$$E(x)=\frac{\mu x}{\sigma^2}-\frac{x^2}{2\sigma^2}$$<p>여기서 $E(x)=\theta_1x+\theta_2x^2$예요.</p></div>
@@ -401,7 +401,7 @@
 <div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="main"><h4>계수와 적분 검산</h4><p>$\sigma^2\gt0$인 모든 경우에 성립하는 항등식을 확인해요. 완전제곱의 지수부를 다시 전개해요.</p>$$-\frac{(x-\mu)^2}{2\sigma^2}+\frac{\mu^2}{2\sigma^2}$$ $$=\frac{\mu x}{\sigma^2}-\frac{x^2}{2\sigma^2}$$<p>따라서 제시된 $\theta_1,\theta_2$와 일차항·이차항의 계수가 정확히 같아요. $x=\mu$를 대입해도 원래 $E(\mu)=\mu^2/(2\sigma^2)$이고 완전제곱식에서도 같은 값이에요. 이는 부호를 확인하는 보조 검산이에요.</p><p>정규화도 원래 함수에서 다시 확인해요.</p>$$C\int_{-\infty}^{\infty}q(x)\,dx=1$$<p>$C$의 분자에 있는 $\exp[-\mu^2/(2\sigma^2)]$와 $q$의 적분에 있는 $\exp[\mu^2/(2\sigma^2)]$가 상쇄되고, $\sqrt{2\pi\sigma^2}$도 나누어져 1이 돼요. 이 검산은 특정 숫자 대신 임의의 실수 $\mu$와 모든 $\sigma^2\gt0$에 적용돼요.</p><p>완성 답은 $p(x\mid\theta)=\mathcal N(x\mid\mu,\sigma^2)$예요. 정규화된 중심형 밀도는 $\mu$를 중심으로 대칭이고, $(x-\mu)^2$의 분모가 $2\sigma^2$라 분산이 $\sigma^2$예요.</p></div></div>
 <div class="layer warn" data-explanation="pitfall"><h4>여기서 자주 헷갈려요</h4><p>$\theta$는 밀도를 평가하는 변수가 아니라 지수부의 두 계수를 담는 모수벡터예요. 완전제곱에서 생긴 $\mu^2/(2\sigma^2)$를 없어진 것으로 취급하지 않아요. 비례식에서는 상수로 흡수되지만, 원래 $q(x)=\exp(E(x))$를 정규화할 때는 $C$에 반영돼요. 중심형 커널 $g$의 계수만 그대로 원래 $q$ 앞에 붙이면 적분이 1이 아닐 수 있어요.</p></div>
 <div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>두 모수의 값을 지수부에 넣고 $x^2-2\mu x$를 묶어요.</li><li>같은 $\mu^2$를 더했다가 빼서 중심형 커널을 만들어요.</li><li>원래 지수형 함수의 적분과 정규화 계수를 각각 계산해요.</li></ol></div>
-<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>완전제곱: $x^2-2\mu x+\mu^2=(x-\mu)^2$. 중심형 가우시안 커널의 적분은 $\sqrt{2\pi\sigma^2}$예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$E(x)=\mu x/\sigma^2-x^2/(2\sigma^2)$.</p></div><div class="summary-group"><h4>답과 검산</h4><p>정규화하면 $\mathcal N(x\mid\mu,\sigma^2)$예요. 원래 지수형의 정규화 계수에는 $\exp[-\mu^2/(2\sigma^2)]$가 더 들어가요.</p></div></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>완전제곱: $x^2-2\mu x+\mu^2=(x-\mu)^2$. 중심형 가우시안 커널의 적분은 $\sqrt{2\pi\sigma^2}$예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$E(x)=\mu x/\sigma^2-x^2/(2\sigma^2)$.</p></div><div class="summary-group"><h4>답과 검산</h4><p>정규화하면 $\mathcal N(x\mid\mu,\sigma^2)$예요. 원래 지수형의 정규화 계수에는 $\exp[-\mu^2/(2\sigma^2)]$가 더 들어가요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>$\sigma^2\gt0$이어서 이차항 계수가 음수이고 적분 가능한 종 모양이에요. $\theta$는 평가변수가 아닌 두 계수의 모수벡터예요. 원래 $q(x)=\exp(E(x))$의 계수는 $C=\exp[-\mu^2/(2\sigma^2)]/\sqrt{2\pi\sigma^2}$로, 중심형 커널 앞 계수와 구별해요.</p></div></div>
 </article></section>
   </main>
   <footer>원 문제·정리노트·PDF는 보존해요.</footer>
@@ -413,9 +413,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -633,7 +632,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -665,8 +663,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -689,17 +685,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
-          const heading = s.querySelector('h3');
-          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
-            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

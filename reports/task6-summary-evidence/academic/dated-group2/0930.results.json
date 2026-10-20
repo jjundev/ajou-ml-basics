@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "pack_id": "0930",
+  "packet_file_sha256": "652e6f06895a72a09a0a3cebd797e93ae206de4d3b7e55b4796bfbc628cbf540",
+  "packet_payload_sha256": "9c3f86c4cdc0fe2bae5ff375853c31ebd8771008c77d52b4bfde46572f04e9d5",
+  "question_payload_sha256": "94b1877c889fdb79e7bb6cdcc62d195e5568efd2de93544485b8d4cb27a87e52",
+  "reviewer": {
+    "identity": "independent academic derivation agent /root/ml_blind_dated_group2",
+    "context_isolation": "Only group-2/{0930,1007,1012,1014,1019,hw1}/README.md and questions.json were read as academic inputs. No course source, solutions, reference answers, other reviewers, memory, web, or existing harnesses were consulted. Python/SymPy calculations below are reviewer-authored.",
+    "comparison_status": "not compared; no approval claimed"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "1a15b68f123e7d1e8b69b6b01a0c974aea7cffa51e22296d5546690f400fc583",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "exact",
+          "derivation": "Cov(X,Y)=E[XY]-E[X]E[Y]. Substituting Y=X² gives E[X³]-E[X]E[X²]=0-0 E[X²].",
+          "conclusion": "Cov(X,Y)=0.",
+          "checks": "Scalar covariance; finite third moment in the usual expectation sense implies finite second moment. The asserted dependence need not hold for degenerate X or constant X², but that does not alter covariance.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "input_sha256": "54440fff35d62369dbdf647b16360353596892fd20d1727a7ea3cd1b7a4ba081",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Let z=ax+by. E[z]=aμx+bμy. Center z: a(x-μx)+b(y-μy). Its outer product has a²Σx+b²Σy and two ab cross terms; independence makes both cross terms zero. Gaussianity is supplied.",
+          "conclusion": "z~N(aμx+bμy, a²Σx+b²Σy).",
+          "checks": "x,y must have the same dimension d; means d×1 and covariance d×d. If covariance is positive definite, density is (2π)^(-d/2)|Σz|^(-1/2) exp[-(z-μz)ᵀΣz⁻¹(z-μz)/2]; otherwise use a degenerate Gaussian measure.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "input_sha256": "a8cb7622c3062310b09b3bce431811fe4dccc931802e036ec0a11e7f144ec4a7",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Write H=(y1,…,yt). In full generality let mw=E[w|H], QH=Cov(w|H), K=Cov(xt,w|H). Conditional linearity gives E[xt+1|H]=Aμt+mw and Cov(xt+1|H)=AΣtAᵀ+QH+AK+KᵀAᵀ. For fresh process noise independent of (xt,H), mw=0,QH=Q,K=0.",
+          "conclusion": "Under fresh-noise independence: N(Aμt,AΣtAᵀ+Q).",
+          "checks": "A maps state to next-state dimension; the displayed covariance is square in next-state dimension and symmetric. Gaussianity is given.",
+          "assumptions": [
+            "The usual prediction formula assumes w independent of (xt,H)."
+          ],
+          "unresolved": [
+            "Independence of w from the state alone does not logically establish independence after conditioning on H; a fresh-noise or equivalent conditional independence condition is needed to uniquely deduce the usual formula."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "input_sha256": "244a3f59fe61eb5d74660079a892cec6e142d751721b84a8922a48f48be6f634",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "E[(x-μ)²]=E[x²-2μx+μ²]=E[x²]-2μE[x]+μ²E[1]=E[x²]-2μ²+μ².",
+          "conclusion": "Var(x)=E[x²]-(E[x])².",
+          "checks": "Requires a finite second moment for an ordinary finite variance; constants leave expectation unchanged.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "input_sha256": "f9a1e4c5b7d28832bfc6abe4cdffb2a58b7990094c02ea4f03df842eecee3a7e",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "Condition on x. Then Ax+b is constant and w retains N(0,Q) because w is independent of x. Translation changes only the mean.",
+          "conclusion": "p(y|x)=N(y|Ax+b,Q).",
+          "checks": "A:E×D, x:D×1, b:E×1, Q:E×E. For Q≻0 use (2π)^(-E/2)|Q|^(-1/2) exp[-(y-Ax-b)ᵀQ⁻¹(y-Ax-b)/2]; the prior covariance of x does not enter this conditional.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "input_sha256": "65badfa78dec27026ea4f516cef55f5a5a4c4d1abef9825982a8a9f709e807a1",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "symbolic",
+          "derivation": "E[y]=A E[x]+b+E[w]=Aμx+b. Then y-E[y]=A(x-μx)+w. Expanding its outer product gives AΣxAᵀ+AE[(x-μx)wᵀ]+E[w(x-μx)ᵀ]Aᵀ+E[wwᵀ]. Independence and centering remove the middle terms.",
+          "conclusion": "μy=Aμx+b; Σy=AΣxAᵀ+Q; y~N(μy,Σy).",
+          "checks": "A:E×D, Σx:D×D, Σy,Q:E×E; b affects only the mean. Covariance is positive semidefinite since uᵀΣyu=(Aᵀu)ᵀΣx(Aᵀu)+uᵀQu≥0.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "input_sha256": "5bf530dbb975bbaab9be0d84982d6e611449bda89bb08ac47151a32efa640fc0",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "symbolic",
+          "derivation": "Fix y; Cy is constant and v is independent of y.",
+          "conclusion": "p(z|y)=N(z|Cy,R).",
+          "checks": "If C:F×E then z:F×1 and R:F×F; ordinary density requires R≻0.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "symbolic",
+          "derivation": "E[z]=CE[y]=C(Aμx+b). Centering gives z-μz=C(y-μy)+v; covariance expands to CΣyCᵀ+R because independence kills cross terms.",
+          "conclusion": "μz=C(Aμx+b); Σz=C(AΣxAᵀ+Q)Cᵀ+R; z~N(μz,Σz).",
+          "checks": "CΣyCᵀ and R are both F×F. Given Gaussianity; zero noise recovers covariance of deterministic linear transformation.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "input_sha256": "9e25638b4185b304bf22f1c1efd8e1f113821f85c21ed5a6efa0e37a51ed181f",
+      "subparts": [
+        {
+          "subpart_id": "main",
+          "method": "proof",
+          "derivation": "For N≥1, Σij(xi-xj)²=Σij xi²+Σij xj²-2Σij xixj=2NΣi xi²-2(Σi xi)². Divide by N² and factor 2.",
+          "conclusion": "N⁻²Σij(xi-xj)²=2[N⁻¹Σi xi²-(N⁻¹Σi xi)²].",
+          "checks": "The double sum is over ordered pairs including i=j, which contribute zero. For N=1 both sides vanish.",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    }
+  ]
+}

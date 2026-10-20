@@ -4,32 +4,10 @@
 
 > `정리노트_0930_Bayesian_Linear_Regression.html`를 마크다운으로 옮겼어요. 그림은 `figures_0930/` 폴더의 SVG, 위젯은 대표 설정의 정적 그림으로 바꿨어요. 수식은 `$…$` / `$$…$$`라서 GitHub, Obsidian, Typora에서 보여요.
 
-<a id="s0-learning-map"></a>
-
-## 먼저 큰 그림: 파라미터의 분포에서 예측의 분포로 가요
-
-**오늘의 질문.** 관측 데이터로 가능한 파라미터들의 분포를 갱신하고, 이를 새 출력의 예측에 반영하려 해요.
-
-MAP과 FB는 모두 파라미터에 사전분포를 부여해요. MAP은 사후분포의 최고점 하나를 고르고, FB는 분포를 유지해 예측할 때 파라미터를 적분해 없애요.
-
-| 구분 | 무엇을 하나요? | 무엇이 남나요? |
-|---|---|---|
-| 사전분포 | 데이터를 보기 전 파라미터의 불확실성 | 입력으로 둔 가정 |
-| 사후분포 | 데이터를 본 뒤 파라미터의 불확실성 | 학습으로 갱신한 분포 |
-| 예측분포 | 새 관측값의 불확실성 | 모든 가능한 파라미터의 예측을 모은 결과 |
-
-**구할 결과.** 파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.
-
-**수식이 하는 일.** 주변화는 파라미터를 합쳐 없애는 과정이고, 아핀 변환의 평균·공분산 공식은 파라미터의 흔들림이 출력으로 어떻게 전달되는지 계산할 도구예요.
-
-**헷갈리기 쉬운 점.** FB가 파라미터 평균 하나만 골라 대입한다는 뜻은 아니에요. 가능한 예측분포 전체를 가중해 모아요.
-
-
 **목차**
 
-- [먼저 큰 그림](#s0-learning-map)
-
 - [0. 준비: 조건부확률과 풀리 베이지안](#s0)
+  - [파라미터의 분포에서 예측의 분포로 가요](#s0-learning-map)
   - [조건부확률 복습: 곱셈 법칙의 확장](#s0-cond-prob)
   - [왜 베이지안인가: 가우시안과 확률밀도함수](#s0-why-bayes)
   - [풀리 베이지안: 결정을 유보한다](#s0-fully-bayesian)
@@ -58,6 +36,42 @@ MAP과 FB는 모두 파라미터에 사전분포를 부여해요. MAP은 사후�
 <a id="s0"></a>
 
 ## 0. 준비: 조건부확률과 풀리 베이지안
+
+<a id="s0-learning-map"></a>
+
+### 파라미터의 분포에서 예측의 분포로 가요
+
+*학습 길잡이 · 기존 내용 재구성*
+
+**먼저 큰 그림**
+
+**오늘의 질문.** 관측 데이터로 가능한 파라미터들의 분포를 갱신하고, 이를 새 출력의 예측에 반영하려 해요.
+
+MAP과 FB는 모두 파라미터에 사전분포를 부여해요. MAP은 사후분포의 최고점 하나를 고르고, FB는 분포를 유지해 예측할 때 파라미터를 적분해 없애요.
+
+| 구분 | 무엇을 하나요? | 무엇이 남나요? |
+|---|---|---|
+| 사전분포 | 데이터를 보기 전 파라미터의 불확실성 | 입력으로 둔 가정 |
+| 사후분포 | 데이터를 본 뒤 파라미터의 불확실성 | 학습으로 갱신한 분포 |
+| 예측분포 | 새 관측값의 불확실성 | 모든 가능한 파라미터의 예측을 모은 결과 |
+
+**구할 결과.** 파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.
+
+**수식이 하는 일.** 주변화는 파라미터를 합쳐 없애는 과정이고, 아핀 변환의 평균·공분산 공식은 파라미터의 흔들림이 출력으로 어떻게 전달되는지 계산할 도구예요.
+
+**헷갈리기 쉬운 점.** FB가 파라미터 평균 하나만 골라 대입한다는 뜻은 아니에요. 가능한 예측분포 전체를 가중해 모아요.
+
+이어서 읽기: [풀리 베이지안: 결정을 유보한다](#s0-fully-bayesian) · [사후 예측분포 유도와 두 가지 가정](#s2-predictive) · [아핀 변환의 평균과 공분산](#s4-affine)
+
+**페이지 요약**
+
+파라미터의 분포와 새 관측값의 분포는 대상이 달라요. 가우시안 분포를 다루기 위해 평균벡터와 공분산행렬을 준비해요.
+
+#### 조건·구분
+
+MAP은 사후분포의 최고점 하나를 고르고, FB는 파라미터 분포를 유지해 가능한 예측분포를 가중해 모아요. 파라미터 평균 하나만 대입한다는 뜻은 아니에요.
+
+---
 
 <a id="s0-cond-prob"></a>
 
@@ -222,6 +236,10 @@ $$
 
 - **확률밀도함수(PDF)** — 확률변수의 특성이 고스란히 들어 있는 함수
 - **베이지안 선형회귀(Bayesian linear regression)** — 모델은 선형으로 두고 확률을 도입한 회귀
+
+#### 조건·구분
+
+이 회귀의 선형성은 $\boldsymbol{\theta}$에 대한 선형성이에요. ML·MAP은 파라미터 값 하나를 구했고, 베이지안 선형회귀는 분포 전체를 써서 예측해요.
 
 ---
 
@@ -388,6 +406,10 @@ $\boldsymbol{\theta}$는 "$\mathbf{x}$를 $y$로 바꿀 때 곱하거나 더하�
 - **latent variable(hidden parameter)** — 보이지 않는 $\boldsymbol{\theta}$예요. $\mathbf{x}$를 $y$로 바꾸는 재료예요.
 - **$\mathbf{m}_0$, $\mathbf{S}_0$** — $\boldsymbol{\theta}$가 가우시안일 때의 평균(벡터)과 공분산(행렬)이에요.
 
+#### 조건·구분
+
+$y$는 관측 출력, $\boldsymbol{\theta}$는 숨은 모델 파라미터예요. $\mathbf{m}_0$, $\mathbf{S}_0$, $\sigma$는 분포 모양을 밖에서 정하는 하이퍼파라미터 쪽이에요.
+
 ---
 
 <a id="s1-prior-likelihood"></a>
@@ -470,6 +492,10 @@ $(\mathbf{x}, y)$가 쌍으로 묶인 데이터가 labeled data예요. 이런 �
 - **가능도(likelihood)** — $\mathbf{x}$와 $\boldsymbol{\theta}$가 주어졌을 때 $y$의 분포예요.
 - **labeled data** — $(\mathbf{x}, y)$가 쌍으로 묶인 데이터예요.
 
+#### 조건·구분
+
+입력과 $\boldsymbol{\theta}$를 고정하면 가능도의 평균은 $\boldsymbol{\phi}^{\top}(\mathbf{x})\boldsymbol{\theta}$, 분산은 $\sigma^2$예요. 평균 $0$인 것은 잡음이에요. 피처 함수는 비선형이어도 $\boldsymbol{\theta}$에 대해 선형이면 선형회귀예요.
+
 ---
 
 <a id="s1-joint"></a>
@@ -544,6 +570,10 @@ $$
 
 - **조인트 분포(joint distribution)** — 관측되는 $y$와 관측되지 않는 $\boldsymbol{\theta}$를 함께 적은 전체 확률 모델이에요.
 - **통계적으로 독립** — 입력 $\mathbf{x}$만으로는 $\boldsymbol{\theta}$가 영향을 받지 않는다는 가정이에요.
+
+#### 조건·구분
+
+독립 가정 전의 정확한 둘째 항은 $p(\boldsymbol{\theta}\mid\mathbf{x})$예요. 이 항을 $p(\boldsymbol{\theta})$로 바꾸는 것은 모델에 따라 달라지는 가정이에요.
 
 ---
 
@@ -730,6 +760,10 @@ $$
 - **주변화(marginalization)** — 조인트 PDF를 한 변수로 적분해 그 변수를 없애는 일
 - **잠재 변수(latent variable)** — 원래 식에는 없다가 일부러 도입하는 변수
 
+#### 조건·구분
+
+조건 $z$는 고정해 남겨 두고 결과 자리의 $y$를 적분해 없애요. 수업 외 보충 증명은 $p(z)\gt0$에서 조건부 정의를 풀고 $p(z)$를 적분 밖으로 꺼낸 뒤 $\int p(x,y,z)\,dy=p(x,z)$를 써요.
+
 ---
 
 <a id="s2-predictive"></a>
@@ -807,17 +841,17 @@ $$
 - 가정 ①
 
   $$
-  p(y_* \mid \boldsymbol{\theta}, \mathbf{x}_*, \mathcal{X}, \mathcal{Y}) = p(y_* \mid \mathbf{x}_*, \boldsymbol{\theta})
+  \begin{aligned}&p(y_*\mid\boldsymbol\theta,\mathbf x_*,\mathcal X,\mathcal Y)\\&=p(y_*\mid\mathbf x_*,\boldsymbol\theta)\end{aligned}
   $$
 - 가정 ②
 
   $$
-  p(\boldsymbol{\theta} \mid \mathbf{x}_*, \mathcal{X}, \mathcal{Y}) = p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})
+  \begin{aligned}&p(\boldsymbol\theta\mid\mathbf x_*,\mathcal X,\mathcal Y)\\&=p(\boldsymbol\theta\mid\mathcal X,\mathcal Y)\end{aligned}
   $$
 - 사후 예측분포
 
   $$
-  p(y_* \mid \mathbf{x}_*, \mathcal{X}, \mathcal{Y}) = \int p(y_* \mid \mathbf{x}_*, \boldsymbol{\theta})\,p(\boldsymbol{\theta} \mid \mathcal{X}, \mathcal{Y})\,d\boldsymbol{\theta}
+  \begin{aligned}&p(y_*\mid\mathbf x_*,\mathcal X,\mathcal Y)\\&=\int p(y_*\mid\mathbf x_*,\boldsymbol\theta)\\&\quad{}\cdot p(\boldsymbol\theta\mid\mathcal X,\mathcal Y)\,d\boldsymbol\theta\end{aligned}
   $$
 
 *용어*
@@ -970,6 +1004,10 @@ $$
 - **조건부 기댓값(conditional expectation)** — 조건부 확률을 가중치로 쓴 기댓값
 - **델타 함수** — 값 하나에만 서 있는 PDF. $\boldsymbol{\theta}$를 하나로 결정한 경우
 
+#### 조건·구분
+
+적분으로 사라지는 것은 $\boldsymbol{\theta}$이고 새 출력 $y_*$의 불확실성은 PDF로 남아요. 값 하나가 필요하면 마지막에 이 PDF의 최대점이나 평균으로 결정해요. 세 후보의 평균 $-2,0,2$와 표준편차 $0.6$은 위젯을 위해 노트가 정한 예시예요.
+
 ---
 
 <a id="s3"></a>
@@ -1083,6 +1121,10 @@ $$
 
 - **종 모양(bell shape)** — 꼭대기 위치가 평균, 너비가 분산인 가우시안 PDF의 모양
 - **표준정규(standard normal)** — 평균 0, 분산 1인 가우시안 $\mathcal{N}(0, 1)$
+
+#### 조건·구분
+
+꼭대기는 $\mu$, 높이는 $1/\sqrt{2\pi\sigma^2}$예요. 표준편차 $\sigma$를 줄이면 좁고 높아져요. 본문 예의 $\sigma=0.1$과 분산 $\sigma^2$를 구별해요.
 
 ---
 
@@ -1379,6 +1421,10 @@ $\mathbf{x} \in \mathbb{R}^n$이면 $\mathbb{V}[\mathbf{x}]$는 $n \times n$ 정
 - **공분산 행렬(covariance matrix)** — $(i, j)$ 원소가 $\operatorname{Cov}[X_i, X_j]$인 $n \times n$ 정방행렬
 - **대칭(symmetric)** — $\mathbf{A}^\top = \mathbf{A}$, 주대각선을 기준으로 마주 보는 원소가 같음
 
+#### 조건·구분
+
+대각 원소는 각 성분의 분산이에요. 대칭은 마주 보는 공분산이 같다는 뜻이며 대각행렬·대각화와는 달라요.
+
 ---
 
 <a id="s4"></a>
@@ -1531,7 +1577,7 @@ $$
   $$
   \mathbb{V}[\mathbf{x} + \mathbf{y}] = \mathbb{V}[\mathbf{x}] + \mathbb{V}[\mathbf{y}]
   $$
-- 필요한 조건
+- 충분조건
 
   $$
   \operatorname{Cov}[\mathbf{x}, \mathbf{y}] = \mathbf{0}
@@ -1541,6 +1587,10 @@ $$
 
 - **선형 연산자(linear operator)** — 합을 넣으면 각각의 결과를 더한 값이 나오는 연산이에요. 기댓값이 여기에 속해요.
 - **통계적 독립(statistically independent)** — 이 조건이 있으면 두 벡터 사이의 공분산 행렬이 영행렬이 돼요.
+
+#### 조건·구분
+
+수업 외 보충의 일반형에는 $\operatorname{Cov}[\mathbf{x},\mathbf{y}]+\operatorname{Cov}[\mathbf{y},\mathbf{x}]$가 더 붙어요. 분산을 그냥 더하려면 이 두 교차항의 합이 영행렬이어야 해요. 교차공분산 자체가 영행렬이면 충분하고 독립도 충분하지만, 공분산이 영행렬이라고 독립인 것은 아니에요.
 
 ---
 
@@ -1728,6 +1778,10 @@ $$
 
 - **아핀 변환(affine transformation)** — 상수 행렬을 곱하고 상수 벡터를 더하는 변환이에요.
 - **상수 행렬(constant matrix)** — 확률변수가 아닌 고정된 행렬이에요. 기댓값 밖으로 꺼낼 수 있어요.
+
+#### 조건·구분
+
+$\mathbf{x}\in\mathbb{R}^n$, $\mathbf{A}\in\mathbb{R}^{m\times n}$, $\mathbf{b}\in\mathbb{R}^m$이고 $\mathbf{A},\mathbf{b}$는 상수예요. 평균에서 $\mathbf{b}$를 빼면 이동이 지워져 분산에 영향이 없어요. 행렬 곱 순서를 지켜 $\mathbf{A}\Sigma\mathbf{A}^{\top}$로 쓰며 일반적으로 $\mathbf{A}\mathbf{A}^{\top}\Sigma$로 바꾸지 않아요. 수업 외 보충은 각 공분산 원소를 $\mathbf{a}_i^{\top}\mathbb{V}[\mathbf{x}]\mathbf{a}_j$로 모아 행렬식을 완성하고, 스칼라에서는 $a^2\mathbb{V}[X]$가 됨을 증명해요.
 
 ---
 

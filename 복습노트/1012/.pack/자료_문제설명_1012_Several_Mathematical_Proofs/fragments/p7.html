@@ -15,4 +15,4 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>결합벡터 $u=[x^\top,y^\top]^\top$의 편차를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>교차블록에 Q를 더하지 않아요. Q는 y에만 들어간 잡음이에요. x와w의 독립이 핵심이고 Q가 대각일 필요는 없어요.</li></ol></div><div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>결합가우시안(joint Gaussian)은 평균을 쌓고 자기·교차 공분산을 블록에 배치해요. y=Ax+b+w이면 우하단은AΣxAᵀ+Q이며 좌하단은우상단의 전치예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>결합벡터 $u=[x^\top,y^\top]^\top$의 편차를 적어요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>u의 편차는B[x−μx,w]ᵀ 꼴이고 B=[[I,0],[A,I]]예요. B diag(Σx,Q)Bᵀ를 블록곱하면 정확한 네 블록이 나와요. 평균은[μx,Aμx+b]ᵀ예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$\mathbf x$와 $\mathbf w$의 독립으로 교차항이 $0$이에요. $\mathbf Q$는 $\mathbf y$에만 들어가므로 교차블록에 더하지 않고, 이 결과에 $\mathbf Q$가 대각일 필요는 없어요.</p></div></div>

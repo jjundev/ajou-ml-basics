@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "pack_id": "1019",
+  "packet_file_sha256": "1a21e3dc148ee0671236b323f218082e1c07eea684ec006e6c8149e267dcb194",
+  "packet_payload_sha256": "183e5099c2ca57443c0cd3d6b274187d1133d1f74d87e2065bae05edcc4da3ec",
+  "question_payload_sha256": "c16e284bebd31566309205d3dcc6e91b22e730883046fbd09d580d286e27288a",
+  "reviewer": {
+    "identity": "independent academic derivation agent /root/ml_blind_dated_group2",
+    "context_isolation": "Only group-2/{0930,1007,1012,1014,1019,hw1}/README.md and questions.json were read as academic inputs. No course source, solutions, reference answers, other reviewers, memory, web, or existing harnesses were consulted. Python/SymPy calculations below are reviewer-authored.",
+    "comparison_status": "not compared; no approval claimed"
+  },
+  "results": [
+    {
+      "id": "p1",
+      "input_sha256": "d5fa76227f3443a49b10b62752abedffd1fc22c8cf73ad2f0f974fefb31f653c",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "For p=λb, minimize ||x-λb||². Derivative -2bᵀx+2λbᵀb=0 gives λ=bᵀx/(bᵀb). Thus P=bbᵀ/(bᵀb). Here bᵀb=9.",
+          "conclusion": "P=[[1/9, 2/9, 2/9], [2/9, 4/9, 4/9], [2/9, 4/9, 4/9]].",
+          "checks": "P is 3×3 and symmetric. b≠0 ensures denominator 9>0.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "bᵀx=5, so λ=5/9=5/9; multiply λ by b.",
+          "conclusion": "πU(x)=[5/9, 10/9, 10/9]ᵀ.",
+          "checks": "Exact residual bᵀ(x-p)=0; hence residual is orthogonal to the line.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "proof",
+          "derivation": "P²=(bbᵀbbᵀ)/(bᵀb)²=b(bᵀb)bᵀ/(bᵀb)²=P. Therefore P(Px)=Px for this x and every x.",
+          "conclusion": "PπU(x)=πU(x)=[5/9, 10/9, 10/9]ᵀ.",
+          "checks": "Exact computed P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]], Pp-p=[0, 0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "input_sha256": "263b0c9f39439364fedc2002608ed85ea655dfb13f8c91dcabdb408f83faae3f",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "For p=λb, minimize ||x-λb||². Derivative -2bᵀx+2λbᵀb=0 gives λ=bᵀx/(bᵀb). Thus P=bbᵀ/(bᵀb). Here bᵀb=1.",
+          "conclusion": "P=[[1, 0, 0], [0, 0, 0], [0, 0, 0]].",
+          "checks": "P is 3×3 and symmetric. b≠0 ensures denominator 1>0.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "bᵀx=2, so λ=2/1=2; multiply λ by b.",
+          "conclusion": "πU(x)=[2, 0, 0]ᵀ.",
+          "checks": "Exact residual bᵀ(x-p)=0; hence residual is orthogonal to the line.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "proof",
+          "derivation": "P²=(bbᵀbbᵀ)/(bᵀb)²=b(bᵀb)bᵀ/(bᵀb)²=P. Therefore P(Px)=Px for this x and every x.",
+          "conclusion": "PπU(x)=πU(x)=[2, 0, 0]ᵀ.",
+          "checks": "Exact computed P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]], Pp-p=[0, 0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "input_sha256": "ddae2bd36e46fd81cabeaa71626ce6d692c04215fb7db2771d7f104b956380f7",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "For p=λb, minimize ||x-λb||². Derivative -2bᵀx+2λbᵀb=0 gives λ=bᵀx/(bᵀb). Thus P=bbᵀ/(bᵀb). Here bᵀb=1.",
+          "conclusion": "P=[[0, 0, 0], [0, 1, 0], [0, 0, 0]].",
+          "checks": "P is 3×3 and symmetric. b≠0 ensures denominator 1>0.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "bᵀx=2, so λ=2/1=2; multiply λ by b.",
+          "conclusion": "πU(x)=[0, 2, 0]ᵀ.",
+          "checks": "Exact residual bᵀ(x-p)=0; hence residual is orthogonal to the line.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "proof",
+          "derivation": "P²=(bbᵀbbᵀ)/(bᵀb)²=b(bᵀb)bᵀ/(bᵀb)²=P. Therefore P(Px)=Px for this x and every x.",
+          "conclusion": "PπU(x)=πU(x)=[0, 2, 0]ᵀ.",
+          "checks": "Exact computed P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]], Pp-p=[0, 0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "input_sha256": "f0fad2ab39aedf5fd7523581060ff4daebefad284ca387b7b9bab905a740578a",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "For p=λb, minimize ||x-λb||². Derivative -2bᵀx+2λbᵀb=0 gives λ=bᵀx/(bᵀb). Thus P=bbᵀ/(bᵀb). Here bᵀb=3.",
+          "conclusion": "P=[[1/3, 1/3, 1/3], [1/3, 1/3, 1/3], [1/3, 1/3, 1/3]].",
+          "checks": "P is 3×3 and symmetric. b≠0 ensures denominator 3>0.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "bᵀx=9, so λ=9/3=3; multiply λ by b.",
+          "conclusion": "πU(x)=[3, 3, 3]ᵀ.",
+          "checks": "Exact residual bᵀ(x-p)=0; hence residual is orthogonal to the line.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "proof",
+          "derivation": "P²=(bbᵀbbᵀ)/(bᵀb)²=b(bᵀb)bᵀ/(bᵀb)²=P. Therefore P(Px)=Px for this x and every x.",
+          "conclusion": "PπU(x)=πU(x)=[3, 3, 3]ᵀ.",
+          "checks": "Exact computed P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]], Pp-p=[0, 0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "input_sha256": "c9ca91c49007653fc91c6c30bb17e89e1766fce1e1a7b1ed5ca252fb3ae1a48c",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Minimize ||x-Bλ||²: ∇λ=2BᵀBλ-2Bᵀx, so Gλ=Bᵀx. Here G=[[3, 3], [3, 5]], det G=6, Bᵀx=[6, 0]. Invert G.",
+          "conclusion": "λ=[5, -3]ᵀ.",
+          "checks": "λ has dimension 2×1 and Bλ dimension 3×1. Exact normal equation residual=[0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Multiply Bλ to get p=[5, 2, -1]. Difference r=x-p=[1, -2, 1]; squared error rᵀr=6.",
+          "conclusion": "πU(x)=[5, 2, -1]ᵀ; ||x-πU(x)||=sqrt(6).",
+          "checks": "This is the Euclidean norm, not the squared norm. For any other Bη, ||x-Bη||²=||r||²+||B(λ-η)||² because Bᵀr=0; hence p is the closest point.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "The coefficient map is λ=G⁻¹Bᵀx; composing with B gives P=BG⁻¹Bᵀ, G⁻¹=[[5/6, -1/2], [-1/2, 1/2]].",
+          "conclusion": "P=[[5/6, 1/3, -1/6], [1/3, 1/3, 1/3], [-1/6, 1/3, 5/6]].",
+          "checks": "P is a 3×3 symmetric matrix; rank 2 since columns of B are independent.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "d",
+          "method": "proof",
+          "derivation": "Bᵀr=Bᵀx-Gλ=0. Also P²=BG⁻¹(BᵀB)G⁻¹Bᵀ=BG⁻¹GG⁻¹Bᵀ=P. This algebra proves orthogonality and idempotence.",
+          "conclusion": "Both b1ᵀr and b2ᵀr vanish; P²=P.",
+          "checks": "Exact Bᵀr=[0, 0] and P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "input_sha256": "87c543c43c7f3b883ae1d3fc77bebc8857eca00648f28808787c21af6b447770",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Minimize ||x-Bλ||²: ∇λ=2BᵀBλ-2Bᵀx, so Gλ=Bᵀx. Here G=[[1, 0], [0, 1]], det G=1, Bᵀx=[2, 3]. Invert G.",
+          "conclusion": "λ=[2, 3]ᵀ.",
+          "checks": "λ has dimension 2×1 and Bλ dimension 3×1. Exact normal equation residual=[0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Multiply Bλ to get p=[2, 3, 0]. Difference r=x-p=[0, 0, 4]; squared error rᵀr=16.",
+          "conclusion": "πU(x)=[2, 3, 0]ᵀ; ||x-πU(x)||=4.",
+          "checks": "This is the Euclidean norm, not the squared norm. For any other Bη, ||x-Bη||²=||r||²+||B(λ-η)||² because Bᵀr=0; hence p is the closest point.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "The coefficient map is λ=G⁻¹Bᵀx; composing with B gives P=BG⁻¹Bᵀ, G⁻¹=[[1, 0], [0, 1]].",
+          "conclusion": "P=[[1, 0, 0], [0, 1, 0], [0, 0, 0]].",
+          "checks": "P is a 3×3 symmetric matrix; rank 2 since columns of B are independent.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "d",
+          "method": "proof",
+          "derivation": "Bᵀr=Bᵀx-Gλ=0. Also P²=BG⁻¹(BᵀB)G⁻¹Bᵀ=BG⁻¹GG⁻¹Bᵀ=P. This algebra proves orthogonality and idempotence.",
+          "conclusion": "Both b1ᵀr and b2ᵀr vanish; P²=P.",
+          "checks": "Exact Bᵀr=[0, 0] and P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "input_sha256": "98086be333ea2dc2f626d4029c3b48865d22a75058d2cea0c21097a93e29bf26",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Minimize ||x-Bλ||²: ∇λ=2BᵀBλ-2Bᵀx, so Gλ=Bᵀx. Here G=[[3, 3], [3, 5]], det G=6, Bᵀx=[6, 6]. Invert G.",
+          "conclusion": "λ=[2, 0]ᵀ.",
+          "checks": "λ has dimension 2×1 and Bλ dimension 3×1. Exact normal equation residual=[0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Multiply Bλ to get p=[2, 2, 2]. Difference r=x-p=[-2, 4, -2]; squared error rᵀr=24.",
+          "conclusion": "πU(x)=[2, 2, 2]ᵀ; ||x-πU(x)||=2*sqrt(6).",
+          "checks": "This is the Euclidean norm, not the squared norm. For any other Bη, ||x-Bη||²=||r||²+||B(λ-η)||² because Bᵀr=0; hence p is the closest point.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "The coefficient map is λ=G⁻¹Bᵀx; composing with B gives P=BG⁻¹Bᵀ, G⁻¹=[[5/6, -1/2], [-1/2, 1/2]].",
+          "conclusion": "P=[[5/6, 1/3, -1/6], [1/3, 1/3, 1/3], [-1/6, 1/3, 5/6]].",
+          "checks": "P is a 3×3 symmetric matrix; rank 2 since columns of B are independent.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "d",
+          "method": "proof",
+          "derivation": "Bᵀr=Bᵀx-Gλ=0. Also P²=BG⁻¹(BᵀB)G⁻¹Bᵀ=BG⁻¹GG⁻¹Bᵀ=P. This algebra proves orthogonality and idempotence.",
+          "conclusion": "Both b1ᵀr and b2ᵀr vanish; P²=P.",
+          "checks": "Exact Bᵀr=[0, 0] and P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "input_sha256": "fb2cc471cf2c4d961f7babc7642ec9180ec1302bfe7a65bb9a54acb43a7b434c",
+      "subparts": [
+        {
+          "subpart_id": "a",
+          "method": "exact",
+          "derivation": "Minimize ||x-Bλ||²: ∇λ=2BᵀBλ-2Bᵀx, so Gλ=Bᵀx. Here G=[[5, 1], [1, 2]], det G=9, Bᵀx=[5, 4]. Invert G.",
+          "conclusion": "λ=[2/3, 5/3]ᵀ.",
+          "checks": "λ has dimension 2×1 and Bλ dimension 3×1. Exact normal equation residual=[0, 0].",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "b",
+          "method": "exact",
+          "derivation": "Multiply Bλ to get p=[7/3, 4/3, 5/3]. Difference r=x-p=[-4/3, 2/3, 4/3]; squared error rᵀr=4.",
+          "conclusion": "πU(x)=[7/3, 4/3, 5/3]ᵀ; ||x-πU(x)||=2.",
+          "checks": "This is the Euclidean norm, not the squared norm. For any other Bη, ||x-Bη||²=||r||²+||B(λ-η)||² because Bᵀr=0; hence p is the closest point.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "c",
+          "method": "exact",
+          "derivation": "The coefficient map is λ=G⁻¹Bᵀx; composing with B gives P=BG⁻¹Bᵀ, G⁻¹=[[2/9, -1/9], [-1/9, 5/9]].",
+          "conclusion": "P=[[5/9, 2/9, 4/9], [2/9, 8/9, -2/9], [4/9, -2/9, 5/9]].",
+          "checks": "P is a 3×3 symmetric matrix; rank 2 since columns of B are independent.",
+          "assumptions": [],
+          "unresolved": []
+        },
+        {
+          "subpart_id": "d",
+          "method": "proof",
+          "derivation": "Bᵀr=Bᵀx-Gλ=0. Also P²=BG⁻¹(BᵀB)G⁻¹Bᵀ=BG⁻¹GG⁻¹Bᵀ=P. This algebra proves orthogonality and idempotence.",
+          "conclusion": "Both b1ᵀr and b2ᵀr vanish; P²=P.",
+          "checks": "Exact Bᵀr=[0, 0] and P²-P=[[0, 0, 0], [0, 0, 0], [0, 0, 0]].",
+          "assumptions": [],
+          "unresolved": []
+        }
+      ]
+    }
+  ]
+}

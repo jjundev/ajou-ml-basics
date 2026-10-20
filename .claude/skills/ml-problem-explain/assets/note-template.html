@@ -579,9 +579,8 @@
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
         <div class="sum-tab">
-          <p class="panel-sub" id="sum-for">전체 흐름</p>
           <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-          <div class="sums"></div>
+          <div class="sums" id="sum-for"></div>
         </div>
       </div>
     </aside>
@@ -997,7 +996,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -1029,8 +1027,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -1062,7 +1058,6 @@
         });
         const tabList = panels.prob.querySelector('.panel-tabs');
         const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         const probEmpty = document.getElementById('prob-empty');
         const sums = {};
@@ -1402,8 +1397,6 @@
           curId = key === 'intro' ? null : key;
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          if (key === 'intro') sub.textContent = '전체 흐름';
-          else sub.innerHTML = (s.querySelector('h3') || {}).innerHTML || ''; // preserve rendered title math
           mountPanes();
           probEmpty.hidden = Boolean(curId && panes[curId]);
           if (curId && !read.has(curId)) { read.add(curId); store.set(KEY, Array.from(read)); }

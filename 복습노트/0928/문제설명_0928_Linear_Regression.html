@@ -394,7 +394,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>−1의 제곱은1이에요. 데이터 벡터를 열로 쌓으면 전치된 다른 행렬이 돼요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>특징행렬(design matrix)의 한 행은 한 데이터의 특징 벡터 전치예요. $\Phi_{ij}=\phi_j(x_i)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>첫 행 $[1,-1,(-1)^2]=[1,-1,1]$을 적어요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>각 행에−1,1,2를 다시 대입하면 [1,−1,1],[1,1,1],[1,2,4]예요. Φθ는3×1 예측 벡터여야 해요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>2차식은 상수항까지 $K=3$이므로 $N=3$일 때 $\Phi$는 $3\times3$이에요. 데이터별 특징을 열로 쌓으면 전치된 다른 행렬이 돼요.</p></div></div>
 </article><article class="topic" id="p2"><h3>P2. 3차 다항식 최대우도 적합 준비하기</h3><p class="panel-meta">MML Example 9.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">데이터셋이 $N = 8$개의 쌍 $(x_n, y_n)$으로 이뤄져 있어요. $x_n \sim \mathcal{U}[-5, 5]$이고 $y_n = -\sin(x_n/5) + \cos(x_n) + \epsilon$, $\epsilon \sim \mathcal{N}(0, 0.2^2)$이에요.
   </div><h4>구할 것</h4><div data-source-field="ask">이 데이터에 3차 다항식을 최대우도 추정으로 맞추려고 해요.
   <ol><li>(a) 특징 벡터 $\boldsymbol{\phi}(x)$의 길이 $K$는 얼마인가요?</li><li>(b) 특징행렬 $\boldsymbol{\Phi}$의 크기는 얼마인가요?</li><li>(c) 최대우도 해 $\boldsymbol{\theta}_{\text{ML}}$을 $\boldsymbol{\Phi}$와 $\mathbf{y}$로 적어 보세요.</li></ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>3차 다항식 최대우도 적합 준비하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -414,7 +414,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$\phi(x)=[1,x,x^2,x^3]^\top$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>역행렬 공식은 열들이 독립일 때 써요. 중복 입력 등으로 rank가 부족하면 일반화 역행렬을 쓰고 해가 유일하지 않을 수 있어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>3차 다항식은 θ0부터θ3까지4계수예요. $(\Phi^\top\Phi)^{-1}\Phi^\top y$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$\phi(x)=[1,x,x^2,x^3]^\top$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>최고차수가3이어도 상수항 포함 K=4예요. 8개 입력에 각각4특징을 만들므로8×4예요. 미분식 $\Phi^\top\Phi\theta=\Phi^\top y$에 해를 대입하면 만족해요. 적어도4개의 서로 다른 입력이면 Vandermonde 열이 독립이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>표시한 역행렬 공식은 $\Phi$가 full column rank일 때 써요. 잡음 분산은 고정된 양수이고, rank가 부족하면 해가 유일하지 않을 수 있어요.</p></div></div>
 </article><article class="topic" id="p3"><h3>P3. 사전분포를 바꾼 다항회귀 MAP</h3><p class="panel-meta">MML Example 9.6 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">잡음이 $\epsilon \sim \mathcal{N}(0, 0.2^2)$인 다항회귀 데이터에서 파라미터에 가우시안 사전분포 $p(\boldsymbol{\theta}) = \mathcal{N}(\mathbf{0}, \frac{1}{4}\mathbf{I})$를 두고 MAP 추정을 해요. MAP 해는 아래와 같아요.
   $$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \mathbf{I}\right)^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$$
   </div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) 이 식에 들어가는 $\frac{\sigma^2}{b^2}$ 값을 구해 보세요.</li><li>(b) 6차 다항식과 8차 다항식 중 어느 쪽에서 사전분포(정규화)의 효과가 크게 드러날까요? 이유도 말해 보세요.</li></ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>사전분포를 바꾼 다항회귀 MAP를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -450,7 +450,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$u=\log(x^4)$, $v=\sin(x^3)$로 나눠요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>log(x⁴)=4log(x)는 x&gt;0일 때만 맞아요. 전체 정의역에는4log|x|가 맞아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>곱의 미분(product rule)은 $(uv)\prime=u\prime v+uv\prime$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$u=\log(x^4)$, $v=\sin(x^3)$로 나눠요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>독립 symbolic 미분 결과를 빼면0이에요. x≠0에서 u′=4/x, v′=3x²cos(x³)를 각각 곱해 더한 식이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>실수 정의역은 $x\ne0$이고 전체 정의역에서 $\log(x^4)=4\log|x|$예요. $4\log x$로 바꾸는 것은 $x>0$에서만 가능해요.</p></div></div>
 </article><article class="topic" id="p5"><h3>P5. 가우시안 모양 함수 미분하기</h3><p class="panel-meta">MML Exercise 5.3 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">$\mu, \sigma \in \mathbb{R}$은 상수예요. </div><h4>구할 것</h4><div data-source-field="ask">아래 함수의 도함수 $f'(x)$를 구해 보세요.
   $$f(x) = \exp\left(-\frac{1}{2\sigma^2}(x - \mu)^2\right)$$</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>가우시안 모양 함수 미분하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요. μ,σ는 미분 대상이 아닌 상수이며 분모가 있으므로 σ≠0이 필요해요.</p>
@@ -467,7 +467,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$u=-(x-\mu)^2/(2\sigma^2)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>원 조건에 σ∈R만 적혀 있지만 σ=0에서는 함수가 정의되지 않아요. 분산 해석에서는 σ&gt;0으로 두어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>지수 합성함수의 도함수는 바깥 exp를 남기고 지수의 도함수를 곱해요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$u=-(x-\mu)^2/(2\sigma^2)$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>독립 미분과 일치하며 x=μ에서는0이에요. σ²&gt;0이면 μ 왼쪽에서 증가, 오른쪽에서 감소하므로 봉우리가 맞아요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$\mu,\sigma$는 고정 상수이며 $\sigma=0$에서는 함수가 정의되지 않아요. 분산 모형에서는 $\sigma>0$으로 두어요.</p></div></div>
 </article><article class="topic" id="p6"><h3>P6. 연쇄법칙과 편미분의 차원</h3><p class="panel-meta">MML Exercise 5.7 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions"></div><h4>구할 것</h4><div data-source-field="ask">연쇄법칙으로 $\frac{df}{d\mathbf{x}}$를 구해 보세요. 각 편미분의 차원도 함께 적어요.
   <ol><li>(a) $f(z) = \log(1 + z)$, $z = \mathbf{x}^\top \mathbf{x}$, $\mathbf{x} \in \mathbb{R}^D$</li><li>(b) $\mathbf{f}(\mathbf{z}) = \sin(\mathbf{z})$, $\mathbf{z} = \mathbf{A}\mathbf{x} + \mathbf{b}$, $\mathbf{A} \in \mathbb{R}^{E \times D}$, $\mathbf{x} \in \mathbb{R}^D$, $\mathbf{b} \in \mathbb{R}^E$. 여기서 $\sin$은 $\mathbf{z}$의 성분마다 따로 적용해요.</li></ol></div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>연쇄법칙과 편미분의 차원를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>Jacobian은 출력차원×입력차원이에요. 행 미분 convention에서 $df/dx=(df/dz)(dz/dx)$를 써요. 성분별 sin의 Jacobian은 대각 cos이고 xᵀx는 성분제곱 합이에요.</p>
@@ -486,7 +486,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\operatorname{diag}(\cos z)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>벡터 미분의 열 gradient와 행 Jacobian을 혼합하지 않아요. z=xᵀx≥0이라 log의 정의역도 맞아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>Jacobian은 출력차원×입력차원이에요. $df/dx=(df/dz)(dz/dx)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>(a) $df/dz=1/(1+z)$, (b) $J_{fz}=\operatorname{diag}(\cos z)$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>성분 j로 직접 미분해도 $2x_j/(1+\sum x_i^2)$라 1×D예요. f_i=sin(∑A_ij x_j+b_i)를 x_j로 미분하면 cos(z_i)A_ij예요. diag(cos z)A의 (i,j)칸과 같고 E×D예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>(a)의 연쇄 차원은 $(1\times1)(1\times D)$, (b)는 $(E\times E)(E\times D)$예요. 행 자코비안과 열 그래디언트 관례를 섞지 않아요.</p></div></div>
 </article><article class="topic" id="p7"><h3>P7. tanh 층의 자코비안 차원</h3><p class="panel-meta">MML Exercise 5.8 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p7">원 문제 보기</a></p><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions"></div><h4>구할 것</h4><div data-source-field="ask">아래 함수에서 연쇄법칙으로 $\frac{d\mathbf{f}}{d\mathbf{x}}$를 구해 보세요. 각 편미분의 차원도 적어요. 두 편미분의 곱을 끝까지 계산하지 않아도 돼요.
   $$\mathbf{f} = \tanh(\mathbf{z}) \in \mathbb{R}^M, \quad \mathbf{z} = \mathbf{A}\mathbf{x} + \mathbf{b}, \quad \mathbf{x} \in \mathbb{R}^N,\ \mathbf{A} \in \mathbb{R}^{M \times N},\ \mathbf{b} \in \mathbb{R}^M$$
   여기서 $\tanh$는 $\mathbf{z}$의 성분마다 따로 적용해요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>tanh 층의 자코비안 차원를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -503,7 +503,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>1−tanh²z를 벡터로 둔 채 A와 행렬곱하면 차원이 안 맞아요. 대각행렬로 만들어요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>성분별 tanh 층의 Jacobian은 $\operatorname{diag}(1-\tanh^2z)$예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$J_{fx}=J_{fz}A$로 연쇄를 적어요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>성분 미분은 $(1-\tanh^2z_i)A_{ij}$예요. (M×M)(M×N)=M×N이고 b의 미분은0이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>성분별 도함수 벡터 $1-\tanh^2z$를 그대로 곱하지 않고 $M\times M$ 대각행렬로 만들어 $M\times N$인 $A$에 왼쪽에서 곱해요.</p></div></div>
 </article><article class="topic" id="p8"><h3>P8. 로지스틱 시그모이드 미분하기</h3><p class="panel-meta">MML Exercise 5.2 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0928_Linear_Regression.html#p8">원 문제 보기</a></p><div class="layer formal" data-source-problem="p8"><h4>주어진 조건</h4><div data-source-field="conditions"></div><h4>구할 것</h4><div data-source-field="ask">로지스틱 시그모이드 함수의 도함수 $f'(x)$를 구해 보세요. 구한 결과를 $f(x)$로도 나타내 보세요.
   $$f(x) = \frac{1}{1 + \exp(-x)}$$</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>로지스틱 시그모이드 미분하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요. 역수 미분과 exp(−x)의 미분은 각각 음의 부호가 생겨 결과가 양수예요.</p>
@@ -521,7 +521,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$u=1+e^{-x}$, $f=u^{-1}$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>안쪽의 −1을 빠뜨리면 감소함수라는 잘못된 결과가 나와요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>시그모이드(sigmoid)는 $(1+e^{-x})^{-1}$ 합성함수예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$u=1+e^{-x}$, $f=u^{-1}$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>별도 symbolic 미분에서 $e^{-x}/(1+e^{-x})^2=f(1-f)$를 확인해요. x=0이면f=1/2이고 도함수1/4예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>역수 미분과 안쪽 $e^{-x}$ 미분의 두 음수가 상쇄되어 $f^\prime(x)=f(x)(1-f(x))>0$이에요. 안쪽의 $-1$을 빠뜨리지 않아요.</p></div></div>
 </article></section>
   </main>
   <footer>원 문제·정리노트·PDF는 보존해요.</footer>
@@ -533,9 +533,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -753,7 +752,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -785,8 +783,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -809,17 +805,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
-          const heading = s.querySelector('h3');
-          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
-            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');

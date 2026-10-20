@@ -421,7 +421,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>노드 a,b,c를 적고 a→b부터 그려요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>p(c|a,b)를 c→a,b로 거꾸로 그리지 않아요. 인수분해만으로 인과관계를 증명한 것도 아니에요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>DAG에서는 조건에 있는 부모에서 인수의 대상으로 화살표를 그려요. $p(c\mid a,b)$는 a→c와 b→c예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>노드 a,b,c를 적고 a→b부터 그려요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>부모 목록을 복원하면 a→b,a→c,b→c 세 간선이에요. 쌍{a,b},{a,c},{b,c}마다 한 간선이라3개예요. 위상순서 a,b,c가 있어 순환은 없어요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>화살표는 조건인 부모에서 대상으로 향해요. 인수분해 구조만으로 인과관계를 증명한 것은 아니에요.</p></div></div>
 </article><article class="topic" id="p3"><h3>P3. 그래프에서 조건부 분포와 부모 찾기</h3><p class="panel-meta">MML Example 8.8 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">다섯 확률변수 $x_1, \dots, x_5$의 방향 그래피컬 모델이 아래와 같아요.
   
   </div><h4>구할 것</h4><div data-source-field="ask">결합분포 $p(x_1, \dots, x_5)$를 조건부 분포의 곱으로 쓰려고 해요.
@@ -444,7 +444,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>첫 행은 $x_1: pa(x_1)=\varnothing$으로 적고 나머지 노드를 채워요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>x3의 조상 x5를 직접 부모 목록에 덧붙이지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>노드별 조건부 분포(node conditional)는 노드 하나에 하나씩이에요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>첫 행은 $x_1: pa(x_1)=\varnothing$으로 적고 나머지 노드를 채워요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>노드5개를 빠짐없이 한 번씩 세므로 인수5개예요. 그림의 간선 x5→x2,x1→x3,x2→x3,x2→x4에서 부모를 역으로 읽어요. x4로 오는 간선은 x2→x4 하나이므로 p(x4|x2)예요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>부모는 직접 들어오는 화살표의 출발점이에요. $x_3$의 조상 $x_5$를 직접 부모 목록에 더하지 않아요.</p></div></div>
 </article><article class="topic" id="p4"><h3>P4. 그래프에서 결합분포 인수분해 쓰기</h3><p class="panel-meta">MML Example 8.8 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection.html#p4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">다섯 확률변수 $x_1, \dots, x_5$의 방향 그래피컬 모델이 아래와 같아요.
   
   </div><h4>구할 것</h4><div data-source-field="ask">결합분포 $p(x_1, x_2, x_3, x_4, x_5)$를 노드마다 조건부 분포 하나씩의 곱으로 인수분해해 보세요.</div><figure class="figure"><svg id="p4-fig-card-p4-graph" viewBox="0 0 340 155" role="img" aria-label="노드 다섯 개의 방향 그래프. 화살표는 x₁에서 x₃, x₂에서 x₃, x₅에서 x₂, x₂에서 x₄로 가요."><line class="fig-ink" x1="60.3" y1="48.8" x2="98.6" y2="103.6"/><polyline class="fig-ink" points="90.7,99.2 98.6,103.6 97.1,94.7"/><line class="fig-ink" x1="159.7" y1="48.8" x2="121.4" y2="103.6"/><polyline class="fig-ink" points="122.9,94.7 121.4,103.6 129.3,99.2"/><line class="fig-ink" x1="272.0" y1="34.0" x2="190.0" y2="34.0"/><polyline class="fig-ink" points="198.1,30.1 190.0,34.0 198.1,37.9"/><line class="fig-ink" x1="180.3" y1="48.8" x2="218.6" y2="103.6"/><polyline class="fig-ink" points="210.7,99.2 218.6,103.6 217.1,94.7"/><circle class="fig-ink" cx="50" cy="34" r="18"/><text class="fig-text" x="50" y="39" text-anchor="middle" font-size="14">x₁</text><circle class="fig-ink" cx="170" cy="34" r="18"/><text class="fig-text" x="170" y="39" text-anchor="middle" font-size="14">x₂</text><circle class="fig-ink" cx="290" cy="34" r="18"/><text class="fig-text" x="290" y="39" text-anchor="middle" font-size="14">x₅</text><circle class="fig-ink" cx="110" cy="120" r="18"/><text class="fig-text" x="110" y="125" text-anchor="middle" font-size="14">x₃</text><circle class="fig-ink" cx="230" cy="120" r="18"/><text class="fig-text" x="230" y="125" text-anchor="middle" font-size="14">x₄</text></svg><figcaption>다섯 노드 방향 그래프: x₁→x₃, x₂→x₃, x₅→x₂, x₂→x₄</figcaption></figure></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>그래프에서 결합분포 인수분해 쓰기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -477,7 +477,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$P(M)=0.6(4/6)+0.4(4/8)$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>P(M|B2)=1/2를 물어본 P(B2|M)으로 쓰지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>망고를 본 뒤 가방을 추론하므로 베이즈 정리(Bayes theorem)예요. $P(B_2\mid M)=P(M\mid B_2)P(B_2)/P(M)$</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$P(M)=0.6(4/6)+0.4(4/8)$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>망고가 나온 두 경로의 질량은2/5와1/5예요. 두 번째 비율은 (1/5)/(3/5)=1/3이고 다른 가방은2/3으로 합1이에요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$P(M\mid B_2)=1/2$는 우도이고 물은 값은 방향을 뒤집은 $P(B_2\mid M)=1/3$이에요.</p></div></div>
 </article><article class="topic" id="p6"><h3>P6. 반복 기댓값 법칙 보이기</h3><p class="panel-meta">MML Exercise 6.11 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection.html#p6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">결합분포가 $p(x, y)$인 두 연속 확률변수 $X, Y$가 있어요. $\mathbb{E}_X[x \mid y]$는 조건부 분포 $p(x \mid y)$ 아래에서 구한 $x$의 기댓값이에요. </div><h4>구할 것</h4><div data-source-field="ask">다음 등식이 성립함을 보여 보세요.
   $$\mathbb{E}_X[x] = \mathbb{E}_Y[\mathbb{E}_X[x \mid y]]$$</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>반복 기댓값 법칙 보이기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>반복 기댓값 법칙(law of total expectation)은 조건별 평균을 조건의 확률로 다시 평균내요. $E[X\mid Y=y]=\int xp(x\mid y)dx$는 y의 함수예요. $E|X|&lt;\infty$이면 Fubini 정리를 써 적분 순서를 바꿀 수 있어요.</p>
@@ -496,7 +496,7 @@
 </div><div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해요</h4><ol><li>$E_Y[E[X\mid Y]]=\int\int x p(x\mid y)p(y)\,dx\,dy$예요.</li><li>각 소문항의 계산과 이유를 직접 적어요.</li><li>안쪽 조건부 평균은 아직 y에 의존해요. 바깥 평균 전에 상수 취급하지 않아요.</li></ol></div><div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>반복 기댓값 법칙(law of total expectation)은 조건별 평균을 조건의 확률로 다시 평균내요. $E[X\mid Y=y]=\int xp(x\mid y)dx$는 y의 함수예요.</p>
 </div><div class="summary-group"><h4>첫 줄</h4><p>$E_Y[E[X\mid Y]]=\int\int x p(x\mid y)p(y)\,dx\,dy$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>$p(x|y)p(y)=p(x,y)$를 대입하고 y를 적분하면 p(x)가 돼요. 절대적분가능성으로 순서교환이 정당하고 남는 적분은 E[X]예요. p(y)=0인 곳의 조건부 정의는 결과에 영향을 주지 않아요.</p>
-</div></div>
+</div><div class="summary-group"><h4>조건·구분</h4><p>$E|X|<\infty$이면 Fubini 정리로 적분 순서를 바꿀 수 있어요. 안쪽 $E[X\mid Y=y]$는 아직 $y$의 함수이므로 바깥 평균 전에는 상수 취급하지 않아요.</p></div></div>
 </article></section>
   </main>
   <footer>원 문제·정리노트·PDF는 보존해요.</footer>
@@ -508,9 +508,8 @@
           <h2 id="panel-right-title">페이지 요약</h2>
           <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
         </div>
-        <p class="panel-sub" id="sum-for">전체 흐름</p>
         <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
-        <div class="sums"></div>
+        <div class="sums" id="sum-for"></div>
       </div>
     </aside>
   </div>
@@ -728,7 +727,6 @@
         const KEY = 'od-review-solved:' + RANGE;
         const cards = Array.from(document.querySelectorAll('main article.card'));
         const aids = panels.right.querySelector('.aids');
-        const sub = document.getElementById('aid-for');
         const empty = panels.right.querySelector('.panel-empty');
         const btn = document.getElementById('solved-btn');
         const groups = {};
@@ -760,8 +758,6 @@
           Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
           empty.hidden = Boolean(curId);
           btn.hidden = !curId;
-          sub.textContent = curId ? ((s.querySelector('h3') || {}).textContent || '').trim() : '';
-          sub.hidden = !curId;
           if (curId) paintBtn();
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(solved, cards.length, '푼 문제');
@@ -784,17 +780,12 @@
           box.appendChild(el);
           sums[t.id] = el;
         });
-        const sub = document.getElementById('sum-for');
         const empty = document.getElementById('sum-empty');
         document.addEventListener('od:screen', (e) => {
           const s = e.detail.screen;
           const key = s.matches('article.topic') ? s.id : 'intro';
           Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
           empty.hidden = Boolean(sums[key]);
-          // KaTeX의 원문 annotation까지 텍스트로 합치지 않고 수식 DOM을 보존한다.
-          const heading = s.querySelector('h3');
-          sub.replaceChildren(...(key === 'intro' ? [document.createTextNode('전체 흐름')]
-            : Array.from(heading?.childNodes || [], (node) => node.cloneNode(true))));
           if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
           panels.right.querySelector('.panel-inner').scrollTop = 0;
           markToc(read, topics.length, '읽음');
