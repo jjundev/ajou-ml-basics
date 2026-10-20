@@ -5,7 +5,7 @@
 ---
 머신러닝기초 정리노트의 섹션 `<sid>`(`<섹션 title>`)를 쓴다.
 
-- 읽기: `<SKILL>/references/content-rules.md`(이 파일 전체), 위젯이 있으면 `<SKILL>/references/widget-rules.md`
+- 읽기: `<SKILL>/references/content-rules.md`(이 파일 전체), 위젯이 있으면 `<SKILL>/references/widget-rules.md`. 미분 토픽은 `<SKILL>/references/vector-derivative-convention.md` 전체도 필수로 읽는다.
 - 학습 레퍼런스: <학습 레퍼런스> — 필수 읽기로 지정되면 해당 파일 전체를 먼저 읽고, 지정된 토픽에만 적용한다. `적용 없음` 또는 `참고 누락`이면 일반 작성 규칙을 따른다.
 - 위젯: <위젯> (메인 에이전트가 정한 것만 만든다. "위젯 없음"이면 이 섹션에는 위젯을 넣지 않는다)
 - 계약: `<RUN>/manifest.json`의 섹션 `<sid>` — 토픽 id·제목·`required_terms`·`layers`·`supp`가 정확히 여기 적힌 대로여야 한다.
@@ -74,7 +74,7 @@
 - `$…$`(인라인), `$$…$$`(디스플레이)만. 본문에 리터럴 `$` 금지.
 - TeX 안에 `<`, `>`, `&` 금지 → `\lt`, `\gt`. 정렬 환경 대신 `$$` 줄을 나눈다.
 - PDF 템플릿은 40자가 넘고 중괄호·`\left…\right` 바깥에 관계 기호(`=`, `\le(q)`, `\ge(q)`, `\approx`, `\Rightarrow`)가 있는 `$…$`를 display로 바꾸고 관계 기호마다 줄을 나눈다. 문장 속에 한 줄로 두려는 긴 식(행렬 정의 `A=\begin{bmatrix}…\end{bmatrix}` 등)은 식 전체를 `${…}$`처럼 중괄호로 감싼다. 여러 식을 쉼표로 나란히 쓸 때도 식마다 감싼다(`${\mathbf{A}=…},\quad{\mathbf{B}=…}$`).
-- 미분 관례: 해당 수업의 스칼라 목적함수 미분은 행벡터로 쓰며, 열벡터 방정식으로 옮길 때 전치를 명시한다. 파라미터 벡터 자체를 행벡터로 바꾸는 것은 아니다. 수업 관례가 다르면 원자료를 확인하고 그 관례를 밝힌다.
+- 미분 관례: `vector-derivative-convention.md`를 따른다. 해당 수업의 스칼라 목적함수 미분은 행벡터로 쓰며, 열벡터 방정식으로 옮길 때 양변 전치를 명시한다. 파라미터 벡터 자체를 행벡터로 바꾸는 것은 아니다. 본문·summary/sum·terms·보충 패널에도 적용하고, 기존 원문의 명시적 다른 관례는 보존 분기를 따른다.
 - 벡터는 `\mathbf{x}`, 파라미터 벡터는 `\boldsymbol{\theta}`, 행렬 `\mathbf{X}` — manifest `required_terms`와 같은 표기.
 
 ## SVG 그림

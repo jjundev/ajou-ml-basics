@@ -2,6 +2,7 @@
 from pathlib import Path
 import json,sys,argparse
 from exam_adapter import load_exam_source,STEM,sha,resolve,parse
+from check_vector_derivatives import check_text
 
 def validate_cards(cards_path,blueprint_path,repo):
  try:
@@ -28,6 +29,8 @@ def check_delivery(output,repo):
  output=Path(output);errors=[]
  try:
   pack=load_exam_source(output/(STEM+'.html'),output/'.pack/blueprint.json',repo)
+  authored=[output/(STEM+'.html')]+list((output/'.pack/cards').glob('*.html'))+list((output/'.pack/explanations').glob('*.html'))
+  errors += [str(p)+': '+e for p in authored for e in check_text(p.read_text(encoding='utf-8'))]
   errors+=validate_answer_checks(pack,json.loads((output/'.pack/evidence/answer-checks.json').read_text())['items'])
   delivery=json.loads((output/'.pack/delivery.json').read_text())
   errors+=check_file_hashes(output,delivery['files'],repo)

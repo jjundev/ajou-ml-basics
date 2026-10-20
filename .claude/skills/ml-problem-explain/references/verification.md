@@ -4,6 +4,8 @@
 
 JSON의 `input_hash`는 현재 원본과 설명 조각에 묶여요. build 출력의 `artifact_hashes`도 그대로 검토 대상이에요. 조각·원본·렌더링 파일을 바꿨다면 다시 build하고 검토해요. 예전 검토 보고서는 통과하지 않아요.
 
+미분 문항 검토자는 `../../ml-review-pack/references/vector-derivative-convention.md` 전체를 필수로 읽어요. content/independent 근거에 변수 차원·미분 결과 차원·곱 순서·0으로 놓기·양변 전치·원문 보존 또는 수정 요청 근거를 남겨요. 원문이 명시한 열 관례를 보존하는 것은 수학적 충돌 자체가 아니며, 방향 미지정 문항은 강의의 행 관례를 사용해요. 본문뿐 아니라 sum·용어·MD·저장 조각까지 대조하고 행 관례 저작 대상에 공통 검사기를 실행해요. 해설만 고친 뒤 원 문제나 PDF도 고쳤다고 보고하지 않아요. 관례를 바꿨다면 기존 pass·해시를 복사하지 않고 실제 재검토해요.
+
 - `source_visual`: 문항 조건·그림·소문항을 PDF/MML의 실제 페이지와 대조. reviewer와 evidence에 자료/페이지/대조 결과.
 - `content`: 상위 status/reviewer/evidence 및 items의 모든 `pN:a` 또는 `pN:main`. recall의 문제 단서와 개념 연결·공식·기호의 뜻·적용 가정·선택 이유·소문항별 누락 여부, 첫 줄·유도 이유·모든 답·검산·가정·충돌 여부 확인. recall은 정의/판단 기준만 필요한 문항도 허용하지만 제목만으로는 충분하지 않아요. start와 긴 설명을 복제하지 않았는지, 요약의 핵심 개념·공식이 본문과 일치하는지 확인해요.
 - `independent`: 같은 모든 items, method=`exact|symbolic|numerical|proof|qualitative`, conclusion과 evidence. 검산 스크립트·출력·자료 위치를 구체적으로 기록.
@@ -28,7 +30,7 @@ JSON의 `input_hash`는 현재 원본과 설명 조각에 묶여요. build 출�
 
 ## 현재 기준과 재렌더링 검토 계약
 
-현재 `review_policy_version`은 `problem-explain-2026-10-15`다. 새 review.json·manifest의 버전이 일치해야 발행된다. 구버전/버전 없는 검토를 단순히 현재 버전으로 바꾸거나 pass를 복사하지 않는다. 기준 변경은 실제 content·independent 재검토를 요구한다.
+현재 `review_policy_version`은 `problem-explain-2026-10-20-row-derivatives`다. 새 review.json·manifest의 버전이 일치해야 발행된다. 구버전/버전 없는 검토를 단순히 현재 버전으로 바꾸거나 pass를 복사하지 않는다. 기준 변경은 실제 content·independent 재검토를 요구한다.
 
 content는 recall의 근거 있는 명칭 대응, pitfall의 오답 판별 기준, 부정형의 참·거짓과 선택 적합성, understand·solve·verify·pitfall·sum의 결함 공개·공식 답 확인 여부가 일관적인지 확인한다. 과목별 disputed 규칙은 유지한다. 독립 검산은 작성자와 다른 검산자가 정답·참고 풀이·설명 조각을 보지 않고 문제·그림·필요한 이론 자료만으로 먼저 수행한다. 컨트롤러가 그 결과를 참고 답과 대조한다.
 

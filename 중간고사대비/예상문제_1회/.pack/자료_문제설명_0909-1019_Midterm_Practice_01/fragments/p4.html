@@ -14,7 +14,7 @@
 <p>$$\Phi^\top y=\begin{pmatrix}1\cdot0+1\cdot1+1\cdot4\\(-1)\cdot0+0\cdot1+1\cdot4\end{pmatrix}=\begin{pmatrix}5\\4\end{pmatrix}.$$</p>
 <p>각 결과의 크기는 $2\times2$, $2\times1$이에요. 비대각 원소가 0인 것은 여기서 입력의 합이 0이기 때문이지, 모든 특징행렬에서 성립하는 규칙은 아니에요.</p>
 </div><div data-subpart="b"><h4>(b)</h4>
-<p>ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.</p>
+<p>ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 제곱오차의 행 gradient $2(\theta^\top\Phi^\top\Phi-y^\top\Phi)$를 0으로 놓고 양변 전치하면 $\Phi^\top\Phi\theta=\Phi^\top y$예요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.</p>
 <p>$$\theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y,$$</p>
 <p>$$\theta_{\mathrm{ML}}=\begin{pmatrix}1/3&0\\0&1/2\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/3\\2\end{pmatrix}.$$</p>
 <p>이제 $x_*=2$는 학습에 사용한 세 입력과 별개인 새 입력이에요. 별표는 새 예측 지점을 표시해요. 적합한 직선은 $f(x)=5/3+2x$이고, 새 입력의 특징은 $\phi(2)=(1,2)^\top$예요.</p>
@@ -24,7 +24,7 @@
 <p>MAP에는 데이터 적합도에 더해 $\theta$의 prior가 들어가요. $\mathcal N(0,I_2)$에서 0은 $2\times1$ 평균벡터이고, $I_2=\begin{pmatrix}1&0\\0&1\end{pmatrix}$는 공분산이에요. 이 문제에서는 절편과 기울기 모두 사전분산이 1이에요.</p>
 <p>일반적인 prior $\mathcal N(0,\Sigma_0)$의 음의 로그에는 $\frac12\theta^\top\Sigma_0^{-1}\theta$가 들어가요. <strong>공분산 자체가 아니라 역행렬이 들어가요.</strong> 잡음분산 $\sigma^2$를 포함한 목적함수는</p>
 <p>$$J(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac12\theta^\top\Sigma_0^{-1}\theta+C.$$</p>
-<p>미분해 0으로 놓고 $\sigma^2$를 곱하면</p>
+<p>강의의 행벡터 기준으로 미분하면 다음과 같아요.</p><p>$$\nabla_\theta J=\frac{(\Phi\theta-y)^\top\Phi}{\sigma^2}+\theta^\top\Sigma_0^{-1}.$$</p><p>여기서 $\Sigma_0^{-1}$는 대칭이에요. 행벡터 식을 0으로 놓고 $\sigma^2$를 곱한 뒤 양변 전치하면</p>
 <p>$$ (\Phi^\top\Phi+\sigma^2\Sigma_0^{-1})\theta=\Phi^\top y.$$</p>
 <p>$\Sigma_0=b^2I_2$라면 $\Sigma_0^{-1}=(1/b^2)I_2$이므로 더하는 행렬은 $(\sigma^2/b^2)I_2=\lambda I_2$예요. 즉 $b^2$는 분모에 들어간다는 기억과 정확히 일치해요. $b^2$는 사전분산의 표기이고 $b$는 표준편차예요.</p>
 <p>지금은 $\sigma^2=1$, $b^2=1$이라 $\lambda=1/1=1$이에요. 그래서 대각선이 1인 행렬 $I_2$가 나타나요.</p>

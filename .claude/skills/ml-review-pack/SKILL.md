@@ -7,6 +7,8 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 
 수업 녹음 전사(STT)와 강의자료, MML 교과서로 한 기간의 복습팩을 만든다. 중간에 사용자에게 묻지 않고 끝에 한 번 보고한다. 커밋은 제안만 한다.
 
+**벡터 미분 필수 규칙**: 미분이 포함된 새 저작·기존 자료 수정에서는 메인·정리노트 작성자·문제 작성자·리뷰어 모두 [벡터 미분 관례](references/vector-derivative-convention.md)를 전체 읽는다. 변수는 열벡터, 스칼라 목적함수의 미분은 행벡터로 쓰고 열 정규방정식으로 옮길 때 양변 전치를 보인다. 문제 조건·힌트·풀이·상세 해설·요약·용어·생성 원본·MD·PDF에 함께 적용한다. 기존 원문의 명시적 다른 관례는 이 레퍼런스의 원문 보존 분기로 처리한다. `lite`와 기존 자료 수정도 생략하지 않는다.
+
 **산출물** (`복습노트/<range>/`, 수업 날짜마다 폴더 하나):
 날짜 폴더 바로 아래에는 HTML만 둔다: `정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, `문제설명_<range>_<slug>.html`. 나머지는 모두 `.pack/` 하위 폴더에 둔다: 같은 이름의 `.md` 세 개, `figures_<range>/`, 문제설명 소유 자료, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. HTML은 `.pack/…`을 상대 경로로 링크하고, `.pack/` 안의 MD는 HTML을 `../`로 링크한다. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
 
@@ -72,7 +74,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 ### 3. 작성
 - 모든 정리노트 작성자에게 큰 그림 브리프와 `references/big-picture-first.md`를 전달한다. 첫 토픽 작성자는 도입을 작성하고, 다른 작성자는 자기 유도의 목적과 처음 등장하는 기호를 설명한다. 관련 본문은 기억할 출발식에서 변경점·한 단계 연산·다음 결과의 대입까지 연결하고 짧은 복원 요약으로 마친다. 수업 공식과 재표현을 구별하며 같은 설명을 반복하지 않는다. lite도 동일하다.
 - 섹션마다 작성자 1명을 띄운다. 브리프는 `references/content-rules.md`, 위젯 규칙은 `references/widget-rules.md`에 있다.
-- 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다.
+- 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다. 미분 문항이면 `references/vector-derivative-convention.md`도 필수 읽기로 전달하고 변수/미분 차원·전치 단계·원문 관례 처리·동기화 대상 목록을 작성 결과에 포함시킨다.
 - 모두 **한 메시지에서 병렬로** 띄운다. 모델은 opus, `lite`이면 sonnet이다. Claude가 아닌 경우(GPT)에는 opus 대신 sol, sonnet 대신 luna를 쓴다.
 - 브리프의 `<…>` 자리는 실제 경로, id, 금지어 목록(`<forbidden 목록>`), 예고 토픽 id(`<preview_topic>`), 섹션 작성자에게 필요한 MML 쪽 번호(`<쪽>`, 1단계 3에서 찾은 PDF 쪽), 그리고 섹션 작성자에게는 manifest `links` 중 그 섹션 토픽에 속한 것만(`<이 섹션의 links 목록>`) 채워 넣는다.
 - 섹션 작성자 브리프의 `<학습 레퍼런스>`는 관련 토픽이 있는 섹션에만 `필수 읽기: <SKILL>/references/scalar-to-vector-covariance.md 전체; 적용 토픽: <id 목록>; 설명 연결: <가중합/성분 계산/정의/차원 중 필요한 것>; 미확인 지점: <이번 섹션에서 확인할 것>`으로 채운다. 무관한 섹션에는 `적용 없음`, 파일을 읽지 못한 관련 섹션에는 `참고 누락: <원인>; 일반 작성 규칙 적용`으로 채운다. 레퍼런스 예제를 근거 없이 새 문제 카드로 추가하지 않는다.
@@ -119,6 +121,7 @@ python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습�
 ```
 
 ### 5. 기계 검사
+- 미분이 포함된 행 관례 저작 HTML·MD와 조각은 `python3 SKILL/scripts/check_vector_derivatives.py <저작 HTML/MD 경로...>`도 실행한다. 보존할 다른 관례의 원문은 검사 대상에서 분리하고 근거를 기록한다. 이 검사는 차원·곱 순서·성분 검산을 대체하지 않는다.
 - 정리노트에는 추가로 `python3 SKILL/scripts/check_learning_map.py <stage의 정리노트 HTML>`을 실행한다. 구조 검사는 의미 검토를 대체하지 않는다.
 ```bash
 python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
@@ -128,6 +131,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 고친 뒤 4단계부터 다시 한다. 최대 2회까지이며, 그래도 남으면 "미해결"로 보고한다.
 
 ### 6. 리뷰 (`lite`면 생략)
+- 미분 문항의 조건·본문·summary/sum·terms·힌트·카드/JSON·생성기 소개·MD가 같은 관례인지 확인한다. 검토에는 변수/미분 차원, 전치 단계, 원문 보존/수정 권한을 기록한다. `lite`도 작성자의 자기 검토와 기계 검사를 수행한다.
 - 리뷰어에게 `RUN/learning-map.json`과 `references/big-picture-first.md`를 전달해, 도입만으로 학습 목표·비교 축·결과를 설명할 수 있는지 검토하게 한다. 본문에서 기존 결과 재사용·일반 공식의 대입·복원 요약이 이어지는지, 미분 관례·임시 기호 스케일·출처 경계가 일관되는지도 확인한다. lite에서는 작성자가 같은 질문으로 자기 검토한다.
 - 리뷰어 1명을 띄운다. 브리프는 `references/review-prompt.md`에 있다.
 - 리뷰어 브리프의 `<학습 레퍼런스>`에는 3단계에서 전달한 적용 토픽 id와 필수 읽기 경로를 넣는다. 적용 대상이 없으면 `적용 없음`, 읽지 못했으면 `참고 누락: <원인>`으로 채운다. `lite`에서는 해당 섹션 작성자의 자기 검사로 공분산 설명을 확인한다.
@@ -143,6 +147,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 끝나면 서버를 종료한다.
 
 ### 8. PDF 쌍·링크·MD 검증과 배포
+- 미분 수식 변경은 원천 카드·JSON·해설 조각에서 시작해 다시 조립한다. 기존 HTML의 본문만 고쳐 완료하지 않는다. 문제 PDF와 답안 PDF의 조건·힌트·풀이까지 행 관례가 유지되는지 실제 페이지에서 대조한다. 예전 승인·해시를 새 검토로 재사용하지 않는다.
 - `references/pdf-workflow.md`의 명령을 그대로 따른다. HTML은 stage에서 검사하고, 저장된 원시 카드로 PDF 쌍을 만든다. 미래 카드에는 `.problem` 직계 `.conditions`와 `.ask`가 필수다.
 - 기본은 1920×1080 CSS px(1440×810pt)의 `video-16x9`이며 하단 180px은 흰 자막 여백이다. A4 문항별 본문·풀이·수식 배율을 먼저 측정해 화면 글자 크기를 보존한다. 인쇄용 A4가 명시적으로 필요하면 `--layout a4`를 사용한다.
 - `build_review_pdf.py --stage-only`가 성공한 PDF 둘만 stage에 복사한다. `add_pdf_links`로 노트에 문제지/해설지 링크를 넣고 실제 카드 수를 안내한다. manifest의 links 토픽에 두 PDF 링크를 추가한 후 다시 HTML 검사한다.

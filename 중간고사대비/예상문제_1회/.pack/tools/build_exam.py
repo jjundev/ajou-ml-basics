@@ -1,7 +1,8 @@
 """Build this exam through the unchanged course PDF and explanation APIs."""
 from pathlib import Path
 import sys,json,shutil,re,argparse,uuid,html
-from exam_adapter import EXAM,STEM,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source
+from exam_adapter import EXAM,STEM,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source,resolve
+from check_vector_derivatives import check_text
 from review_pdf_payload import to_workbook
 
 def problem_payload(source):
@@ -24,8 +25,11 @@ def styled_source(repo,output,stage):
  'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js':'.pack/source_vendor/katex/katex.min.js',
  'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js':'.pack/source_vendor/katex/contrib/auto-render.min.js'}
  for a,b in replacements.items():template=template.replace(a,b)
- values={'PAGE_TITLE':'머신러닝기초 중간고사 예상문제 1회','DESCRIPTION':'0909–1019 직교투영까지, 10문항 실전 연습','TOC':''.join(f'<a href="#p{i}">{i}번</a>' for i in range(1,11)),'NOTE_HREF':'문제설명_0909-1019_Midterm_Practice_01.html','TITLE':'중간고사 예상문제 1회','INTRO':'처음부터 1019 직교투영까지 · 10문항. 과제 변형 5문항과 모델 분석 5문항으로 구성한 연습 자료예요. Gaussian의 둘째 인수는 분산이며 gradient는 열벡터예요.','PARTS':'<section id="exam"><h2>예상문제</h2>'+''.join(cards)+'</section>','FOOTER':'1019 STT의 약 50:50 안내를 반영한 추천 구성입니다. 실제 시험의 세부 문항·배점·시간은 확정하지 않습니다.','SCRIPTS':'','RANGE':'exam-0909-1019-Midterm_Practice_01'}
- text=fill(template,values).replace('>정리노트</a>','>문제설명</a>');raw.write_text(text)
+ values={'PAGE_TITLE':'머신러닝기초 중간고사 예상문제 1회','DESCRIPTION':'0909–1019 직교투영까지, 10문항 실전 연습','TOC':''.join(f'<a href="#p{i}">{i}번</a>' for i in range(1,11)),'NOTE_HREF':'문제설명_0909-1019_Midterm_Practice_01.html','TITLE':'중간고사 예상문제 1회','INTRO':'처음부터 1019 직교투영까지 · 10문항. 과제 변형 5문항과 모델 분석 5문항으로 구성한 연습 자료예요. Gaussian의 둘째 인수는 분산이며 gradient는 강의와 같이 행벡터예요.','PARTS':'<section id="exam"><h2>예상문제</h2>'+''.join(cards)+'</section>','FOOTER':'1019 STT의 약 50:50 안내를 반영한 추천 구성입니다. 실제 시험의 세부 문항·배점·시간은 확정하지 않습니다.','SCRIPTS':'','RANGE':'exam-0909-1019-Midterm_Practice_01'}
+ text=fill(template,values).replace('>정리노트</a>','>문제설명</a>')
+ errors=check_text(text)
+ if errors:raise ValueError('; '.join(errors))
+ raw.write_text(text,encoding='utf-8',newline='\n')
  return raw
 
 def build_base(repo,output,run):
@@ -55,6 +59,8 @@ def build_explain(repo,output,run):
  repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve()
  pack=load_exam_source(output/(STEM+'.html'),output/'.pack/blueprint.json',repo)
  fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text() for p in pack.problems}
+ errors=[f'{pid}: {e}' for pid,text in fragments.items() for e in check_text(text)]
+ if errors:raise ValueError('; '.join(errors))
  stage=run/('explanation-'+uuid.uuid4().hex);art=build_explanation(pack,fragments,stage,repo)
  # Keep this exam's requested reader-facing title across rebuilds.
  for document in (art.html,art.md):
@@ -64,7 +70,7 @@ def build_explain(repo,output,run):
    dest=art.manifest.parent/'evidence'/src.relative_to(output/'.pack/evidence');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dest)
  manifest=json.loads(art.manifest.read_text());files=tuple(sorted(p for p in stage.rglob('*') if p.is_file() and p!=art.manifest));manifest['files']={p.relative_to(stage).as_posix():sha(p) for p in files};dump(art.manifest,manifest)
  art=Artifacts(art.html,art.md,art.manifest,files+(art.manifest,));review=initial_reviews(pack,fragments);review['artifact_hashes']=artifact_hashes(art)
- bp=json.loads((output/'.pack/blueprint.json').read_text());refs=[(repo/x['path']).resolve() for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
+ bp=json.loads((output/'.pack/blueprint.json').read_text());refs=[resolve(repo,x['path']) for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
  review['references']=[{'path':str(p),'sha256':sha(p)} for p in refs];review_path=run/'review.json';dump(review_path,review)
  dump(run/'explanation-result.json',{'stage':str(stage),'html':str(art.html),'md':str(art.md),'manifest':str(art.manifest),'files':[str(p) for p in art.files],'review_path':str(review_path)})
  return {'pack':pack,'artifacts':art,'review_path':review_path}

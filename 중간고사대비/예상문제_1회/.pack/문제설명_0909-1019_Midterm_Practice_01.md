@@ -159,7 +159,7 @@ EXAM Problem 2 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
-$x=(x_1,x_2)^\top$에 대해 다음을 정의한다. Gradient는 열벡터이고 Jacobian은 $(J_f)_{ij}=\partial f_i/\partial x_j$이다.
+$x=(x_1,x_2)^\top$에 대해 다음을 정의한다. Gradient는 행벡터이고 Jacobian은 $(J_f)_{ij}=\partial f_i/\partial x_j$이다.
 
 $$
 f(x)=\begin{pmatrix}x_1^2+x_2\\x_1x_2\end{pmatrix},\quad A=\begin{pmatrix}4&1\\1&2\end{pmatrix},\quad b=\begin{pmatrix}1\\0\end{pmatrix}
@@ -177,11 +177,11 @@ $$
 
 #### 문제를 내 말로 읽어요
 
-벡터 출력 $f$에는 Jacobian, 스칼라 출력 $q$에는 gradient를 써요. 행렬 모양을 먼저 정하면 미분한 값을 어디에 놓을지 헷갈리지 않아요.
+벡터 출력 $f$에는 Jacobian, 스칼라 출력 $q$에는 gradient를 써요. 이 자료에서 $\nabla_x q=\partial q/\partial x$는 강의의 행벡터 표기예요. 예를 들어 $\partial\|x\|^2/\partial x=2x^\top$예요. 행렬 모양을 먼저 정하면 미분한 값을 어디에 놓을지 헷갈리지 않아요.
 
 #### 이 문제를 봤을 때 떠올릴 개념과 공식
 
-Jacobian은 출력 하나마다 한 행, 입력 하나마다 한 열이에요. 여기서는 $2\times2$예요. Gradient는 이 과제의 약속에 따라 $2\times1$ 열벡터예요. Hessian은 모든 2차 편미분을 모은 행렬이에요. 대칭 $A$에 대해 $\nabla(\frac12x^\top Ax)=Ax$이고 Hessian은 $A$예요. 대칭 $2\times2$ 행렬은 첫 선도 주행렬식과 전체 행렬식이 양수이면 양의 정부호예요.
+Jacobian은 출력 하나마다 한 행, 입력 하나마다 한 열이에요. 여기서는 $2\times2$예요. Gradient는 강의와 같이 $1\times2$ 행벡터로 모아요. 입력 $x$ 자체는 $2\times1$ 열벡터예요. Hessian은 모든 2차 편미분을 모은 행렬이에요. 대칭 $A$에 대해 $\nabla(\frac12x^\top Ax)=x^\top A$이고 Hessian은 $A$예요. 대칭 $2\times2$ 행렬은 첫 선도 주행렬식과 전체 행렬식이 양수이면 양의 정부호예요.
 
 #### 종이에 쓸 첫 줄
 
@@ -223,17 +223,17 @@ $$
 x^\top Ax=x_1(4x_1+x_2)+x_2(x_1+2x_2).
 $$
 
-교차항 $x_1x_2$가 두 번 나와요. $b^\top x=x_1$이고 앞의 $1/2$를 곱하면 $q=2x_1^2+x_1x_2+x_2^2-x_1$이에요. 이를 각 성분에 대해 미분한 값을 세로로 모으면
+교차항 $x_1x_2$가 두 번 나와요. $b^\top x=x_1$이고 앞의 $1/2$를 곱하면 $q=2x_1^2+x_1x_2+x_2^2-x_1$이에요. 이를 각 성분에 대해 미분한 값을 가로로 모으면
 
 $$
-\nabla q=\begin{pmatrix}4x_1+x_2-1\\x_1+2x_2\end{pmatrix}=Ax-b.
+\nabla q=\begin{pmatrix}4x_1+x_2-1&x_1+2x_2\end{pmatrix}=x^\top A-b^\top.
 $$
 
-첫째 미분식을 $x_1,x_2$로 다시 미분하면 $(4,1)$, 둘째 식을 미분하면 $(1,2)$예요. 따라서 Hessian은 $H_q=\begin{pmatrix}4&1\\1&2\end{pmatrix}=A$예요. 이 문제의 $A$가 대칭이라 $\nabla(\frac12x^\top Ax)=Ax$가 성립해요.
+Hessian은 $(H_q)_{ij}=\partial^2q/(\partial x_i\partial x_j)$로 정의해요. 행 gradient의 $i$번째 성분을 $x_j$로 미분해 $i$행 $j$열에 놓아요. 첫째 미분식을 $x_1,x_2$로 다시 미분하면 $(4,1)$, 둘째 식을 미분하면 $(1,2)$예요. 따라서 Hessian은 $H_q=\begin{pmatrix}4&1\\1&2\end{pmatrix}=A$예요. 이 문제의 $A$가 대칭이라 $\nabla(\frac12x^\top Ax)=x^\top A$가 성립해요.
 
 #### (c)
 
-최소점 후보는 먼저 gradient가 0인 정지점에서 찾아요. (b)의 두 성분을 각각 0으로 놓으면 $4x_1+x_2=1$, $x_1+2x_2=0$이에요. 둘째 식에서 $x_1=-2x_2$를 첫째 식에 넣으면 $-8x_2+x_2=1$이므로 $x_2=-1/7$, $x_1=2/7$이에요.
+최소점 후보는 먼저 gradient가 0인 정지점에서 찾아요. (b)의 행벡터 식 $x^\top A-b^\top=0$을 양변 전치하면 $Ax-b=0$이에요. 두 성분을 각각 0으로 놓으면 $4x_1+x_2=1$, $x_1+2x_2=0$이에요. 둘째 식에서 $x_1=-2x_2$를 첫째 식에 넣으면 $-8x_2+x_2=1$이므로 $x_2=-1/7$, $x_1=2/7$이에요.
 
 하지만 기울기가 0이라는 사실만으로 최소점이라고 확정할 수는 없어요. Hessian $A$가 대칭이고 첫 선도 주행렬식 $4>0$, 전체 행렬식 $4\cdot2-1\cdot1=7>0$이므로 양의 정부호예요. 이는 0이 아닌 모든 방향 $d$에서 $d^\top Ad>0$이라는 뜻이에요.
 
@@ -261,7 +261,7 @@ $A(2/7,-1/7)^\top=(1,0)^\top=b$예요. 또 $q(x)-q(x_*)=\frac12(x-x_*)^\top A(x-
 
 #### 여기서 헷갈리기 쉬워요
 
-$x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian의 행과 열을 바꾸거나 gradient를 행벡터로 쓰지 않도록 문제의 표기 약속을 따라요.
+$x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian의 행과 열을 바꾸거나 gradient를 열벡터로 쓰지 않도록 문제의 표기 약속을 따라요.
 
 #### 설명을 닫고 다시 풀어요
 
@@ -273,11 +273,11 @@ $x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian
 
 #### 떠올릴 개념·공식
 
-$J_f$: 출력×입력. 대칭 $A$이면 $\nabla q=Ax-b$, $H=A$. 최소점 $(2/7,-1/7)^\top$.
+$J_f$: 출력×입력. 대칭 $A$이면 $\nabla q=x^\top A-b^\top$, $H=A$. 최소점 $(2/7,-1/7)^\top$.
 
 #### 적용 조건
 
-gradient는 열벡터, Jacobian은 출력×입력, A는 대칭
+gradient는 행벡터, Jacobian은 출력×입력, A는 대칭
 
 #### 출제 근거
 
@@ -286,7 +286,7 @@ gradient는 열벡터, Jacobian은 출력×입력, A는 대칭
 #### 해설에 쓰인 용어
 
 - **Jacobian 행렬 (Jacobian)** — 벡터 출력의 각 성분이 각 입력에 얼마나 민감한지 모은 일차 미분 행렬이에요.$f:\mathbb R^d\to\mathbb R^m$이면 $(J_f)_{ij}=\partial f_i/\partial x_j$, 크기는 $m\times d$예요.이 문제에서는 벡터 함수의 각 출력 미분을 올바른 행에 배치해요.
-- **기울기 (gradient)** — 스칼라 함수의 각 입력 성분에 대한 일차 편미분을 모은 벡터예요. 여기서는 열벡터로 써요.$\nabla_x L=(\partial L/\partial x_1,\ldots,\partial L/\partial x_d)^\top$예요.이 문제에서는 스칼라 목적함수의 정지점을 구할 때 써요.
+- **기울기 (gradient)** — 스칼라 함수의 각 입력 성분에 대한 일차 편미분을 모은 벡터예요. 여기서는 강의와 같이 행벡터로 써요.$\nabla_x L=(\partial L/\partial x_1,\ldots,\partial L/\partial x_d)$예요.이 문제에서는 스칼라 목적함수의 정지점을 구할 때 써요.
 - **Hessian 행렬 (Hessian)** — 스칼라 함수의 이차 편미분을 모아 곡률을 나타낸 행렬이에요.$(H_L)_{ij}=\partial^2L/(\partial x_i\partial x_j)$예요. 매끄러운 함수에서는 대칭이에요.이 문제에서는 정지점 주변과 전체 이차함수의 곡률을 판단해요.
 - **정지점 (stationary point)** — 미분 가능한 함수에서 기울기가 0인 점이에요. 이것만으로 최소점이라고 결론 내릴 수는 없어요.$\nabla L=0$을 푼 뒤 곡률이나 목적함수의 성질을 확인해요.이 문제에서는 기울기를 0으로 놓아 후보점을 찾는 단계예요.
 - **양의 정부호 (positive definite)** — 실수 대칭행렬이 0이 아닌 모든 방향에 양의 이차형식 값을 주는 성질이에요.$z\ne0\Rightarrow z^\top Az>0$예요. 대칭인 양의 정부호 행렬은 가역이에요.이 문제에서는 이차함수의 유일한 전역 최소점을 보장하는 조건이에요.
@@ -466,6 +466,8 @@ EXAM Problem 4 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
+스칼라 목적함수의 미분 결과는 강의와 같이 행벡터로 쓴다. 파라미터 벡터 자체는 열벡터이다.
+
 관측은 $(x_n,y_n)=(-1,0),(0,1),(1,4)$이고 $\phi(x)=(1,x)^\top$이다. 모델은 $y_n=\phi(x_n)^\top\theta+\epsilon_n$이며 $\epsilon_n$은 독립 $\mathcal N(0,1)$이다.
 
 MAP에서는 절편을 포함한 두 계수 모두에 $\theta\sim\mathcal N(0,I_2)$ prior를 적용한다. $\Phi$의 $n$번째 행은 $\phi(x_n)^\top$이다.
@@ -532,7 +534,7 @@ $$
 
 #### (b)
 
-ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.
+ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 제곱오차의 행 gradient $2(\theta^\top\Phi^\top\Phi-y^\top\Phi)$를 0으로 놓고 양변 전치하면 $\Phi^\top\Phi\theta=\Phi^\top y$예요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.
 
 $$
 \theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y,
@@ -560,7 +562,13 @@ $$
 J(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac12\theta^\top\Sigma_0^{-1}\theta+C.
 $$
 
-미분해 0으로 놓고 $\sigma^2$를 곱하면
+강의의 행벡터 기준으로 미분하면 다음과 같아요.
+
+$$
+\nabla_\theta J=\frac{(\Phi\theta-y)^\top\Phi}{\sigma^2}+\theta^\top\Sigma_0^{-1}.
+$$
+
+여기서 $\Sigma_0^{-1}$는 대칭이에요. 행벡터 식을 0으로 놓고 $\sigma^2$를 곱한 뒤 양변 전치하면
 
 $$
 (\Phi^\top\Phi+\sigma^2\Sigma_0^{-1})\theta=\Phi^\top y.
@@ -794,6 +802,8 @@ EXAM Problem 6 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
+스칼라 목적함수의 미분 결과는 강의와 같이 행벡터로 쓴다. 파라미터 벡터 자체는 열벡터이다.
+
 고정 입력 $x_1,\ldots,x_N$과 $y_n=\theta_0+\theta_1x_n+\epsilon_n$을 생각하자. $\theta=(\theta_0,\theta_1)^\top$이고, $\epsilon_n$은 서로 독립이며 $\mathcal N(0,\sigma^2)$를 따른다. $\sigma^2>0$는 알려져 있다. $\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.
 
 #### 구할 것
@@ -801,7 +811,7 @@ EXAM Problem 6 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 1. 고정 입력과 $\theta$가 주어졌을 때 $y_n$의 조건부 분포를 쓰고, 관측들의 조건부 독립성이 성립하는 이유를 설명하라.
 2. 소문항 (a)를 이용해 전체 우도 $p(y\mid\Phi,\theta)$와 음의 로그우도 $\mathcal L(\theta)$를 정규화 상수까지 써라.
 3. 소문항 (b)의 목적함수를 제곱손실 경험위험 $\widehat R(\theta)=N^{-1}\sum_n(y_n-\phi(x_n)^\top\theta)^2$와 연결하라. 왜 최소점이 같은가?
-4. 소문항 (c)의 제곱오차를 $\theta$의 이차식으로 전개하고 열 gradient를 구해 정규방정식을 도출하라.
+4. 소문항 (c)의 제곱오차를 $\theta$의 이차식으로 전개하고 행 gradient를 구해 정규방정식을 도출하라.
 5. 소문항 (d)를 풀어 $\theta_{\mathrm{ML}}$을 도출하고 유일한 최소점임을 보여라. 특징을 $(1,x,x^2)^\top$로 바꾸어도 선형 회귀인 이유를 설명하라.
 
 #### 문제를 내 말로 읽어요
@@ -878,13 +888,13 @@ $$
 
 $y^\top\Phi\theta$는 스칼라여서 전치해도 같고, 전치한 식이 $\theta^\top\Phi^\top y$예요. 두 교차항을 합하면 $Q=y^\top y-2\theta^\top\Phi^\top y+\theta^\top G\theta$, $G=\Phi^\top\Phi$예요.
 
-$y^\top y$는 상수, 선형항의 열 gradient는 $-2\Phi^\top y$, 대칭행렬 $G$의 이차항 gradient는 $2G\theta$예요. 그러므로
+$y^\top y$는 상수, 선형항의 행 gradient는 $-2y^\top\Phi$, 대칭행렬 $G$의 이차항 gradient는 $2\theta^\top G$예요. 그러므로
 
 $$
-\nabla_\theta Q=-2\Phi^\top y+2\Phi^\top\Phi\theta.
+\nabla_\theta Q=-2y^\top\Phi+2\theta^\top\Phi^\top\Phi.
 $$
 
-이를 0으로 놓고 2로 나누면 정규방정식 $\Phi^\top\Phi\theta=\Phi^\top y$를 얻어요. 양변은 계수 두 개에 대응하는 $2\times1$이에요. 아직 역행렬을 곱하지 않았으므로 이 단계 자체는 열독립 없이도 성립해요.
+이 $1\times2$ 행 gradient를 0으로 놓고 2로 나누면 $\theta^\top\Phi^\top\Phi=y^\top\Phi$예요. 양변 전치하면 정규방정식 $\Phi^\top\Phi\theta=\Phi^\top y$를 얻어요. 양변은 계수 두 개에 대응하는 $2\times1$이에요. 아직 역행렬을 곱하지 않았으므로 이 단계 자체는 열독립 없이도 성립해요.
 
 #### (e)
 
@@ -920,11 +930,11 @@ $\mathcal L(\theta_a)-\mathcal L(\theta_b)=N(\widehat R(\theta_a)-\widehat R(\th
 
 #### (d) 검산
 
-원래 제곱합을 성분별 미분해도 $-2\sum_n\phi_n(y_n-\phi_n^\top\theta)$로 같아요.
+원래 제곱합을 성분별 미분해도 $-2\sum_n(y_n-\phi_n^\top\theta)\phi_n^\top$로 같아요.
 
 #### (e) 검산
 
-최종 식을 정규방정식에 넣으면 양변이 같아요. 잔차는 $\Phi^\top r=0$, 추정량은 $K\times1$이에요.
+최종 식을 정규방정식에 넣으면 양변이 같아요. 잔차는 $\Phi^\top r=0$, 추정량은 $2\times1$이에요.
 
 #### 여기서 헷갈리기 쉬워요
 
@@ -969,6 +979,8 @@ $\mathcal L(\theta_a)-\mathcal L(\theta_b)=N(\widehat R(\theta_a)-\widehat R(\th
 EXAM Problem 7 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC%98%88%EC%83%81_0909-1019_Midterm_Practice_01.html#p7)
 
 #### 주어진 조건
+
+스칼라 목적함수의 미분 결과는 강의와 같이 행벡터로 쓴다. 파라미터 벡터 자체는 열벡터이다.
 
 고정 $\Phi\in\mathbb R^{N\times K}$에 대해 $y\mid\theta\sim\mathcal N(\Phi\theta,\sigma^2 I_N)$, $\theta\sim\mathcal N(m_0,\tau^2 I_K)$이다. $\sigma^2,\tau^2>0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\Phi$의 열독립은 가정하지 않는다.
 
@@ -1028,10 +1040,10 @@ $C$는 정규화 계수의 로그와 evidence의 로그를 모은 $\theta$ 무�
 (b)를 $\theta$에 대해 미분해요. 제곱노름에서 나온 2가 분모의 2와 소거돼요.
 
 $$
-\nabla_\theta J=\frac{\Phi^\top\Phi\theta-\Phi^\top y}{\sigma^2}+\frac{\theta-m_0}{\tau^2}.
+\nabla_\theta J=\frac{\theta^\top\Phi^\top\Phi-y^\top\Phi}{\sigma^2}+\frac{(\theta-m_0)^\top}{\tau^2}.
 $$
 
-이를 0으로 놓은 뒤 모든 항에 $\sigma^2$를 곱하면
+이 $1\times K$ 행 gradient를 0으로 놓으면 $\theta^\top\Phi^\top\Phi-y^\top\Phi+(\sigma^2/\tau^2)(\theta-m_0)^\top=0$이에요. 여기서는 $\sigma^2$를 곱했어요. 양변 전치하면
 
 $$
 \Phi^\top\Phi\theta-\Phi^\top y+\frac{\sigma^2}{\tau^2}\theta-\frac{\sigma^2}{\tau^2}m_0=0.
