@@ -34,7 +34,9 @@ def _verify_pdf(path,expected_pages,layout: Layout):
                     r=fitz.Rect(rect)
                     return r.y1>675+.1 and r.y0<810 and r.x1>0 and r.x0<1440
                 for block in page.get_text('dict')['blocks']:
-                    if block['type']==1 and intrudes(block['bbox']):raise ReviewPdfError(f'{path.name} page {i}: image in caption band')
+                    # Chromium can rasterize page backgrounds into one full-page
+                    # image, whose bbox also includes the untouched white band.
+                    # The exact raster check below rejects any visible image ink.
                     for line in block.get('lines',[]):
                         for span in line['spans']:
                             if span['text'].strip() and intrudes(span['bbox']):raise ReviewPdfError(f'{path.name} page {i}: text in caption band')

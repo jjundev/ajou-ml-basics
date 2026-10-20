@@ -1,0 +1,305 @@
+{
+  "status": "pass",
+  "reviewer": "skill_convention independent review",
+  "method": "fresh symbolic component differentiation and exact rational algebra, no prior evidence reused",
+  "checks": [
+    {
+      "name": "p2 Jacobian output-by-input",
+      "status": "pass",
+      "actual": "Matrix([[2*x1, 1], [x2, x1]])",
+      "expected": "Matrix([[2*x1, 1], [x2, x1]])"
+    },
+    {
+      "name": "p2 expansion",
+      "status": "pass",
+      "actual": "x1*(4*x1 + x2)/2 - x1 + x2*(x1 + 2*x2)/2",
+      "expected": "2*x1**2 + x1*x2 - x1 + x2**2"
+    },
+    {
+      "name": "p2 row gradient",
+      "status": "pass",
+      "actual": "Matrix([[4*x1 + x2 - 1, x1 + 2*x2]])",
+      "expected": "Matrix([[4*x1 + x2 - 1, x1 + 2*x2]])"
+    },
+    {
+      "name": "p2 Hessian",
+      "status": "pass",
+      "actual": "Matrix([[4, 1], [1, 2]])",
+      "expected": "Matrix([[4, 1], [1, 2]])"
+    },
+    {
+      "name": "p2 minimum",
+      "status": "pass",
+      "actual": "Matrix([[2/7], [-1/7]])",
+      "expected": "Matrix([[2/7], [-1/7]])"
+    },
+    {
+      "name": "p6 LS component derivative",
+      "status": "pass",
+      "actual": "Matrix([[-2*p0*(-p0*t0 - p1*t1 + y0) - 2*p2*(-p2*t0 - p3*t1 + y1) - 2*p4*(-p4*t0 - p5*t1 + y2), -2*p1*(-p0*t0 - p1*t1 + y0) - 2*p3*(-p2*t0 - p3*t1 + y1) - 2*p5*(-p4*t0 - p5*t1 + y2)]])",
+      "expected": "Matrix([[-2*p0*y0 + p0*(2*p0*t0 + 2*p1*t1) - 2*p2*y1 + p2*(2*p2*t0 + 2*p3*t1) - 2*p4*y2 + p4*(2*p4*t0 + 2*p5*t1), -2*p1*y0 + p1*(2*p0*t0 + 2*p1*t1) - 2*p3*y1 + p3*(2*p2*t0 + 2*p3*t1) - 2*p5*y2 + p5*(2*p4*t0 + 2*p5*t1)]])"
+    },
+    {
+      "name": "p6 transpose normal residual",
+      "status": "pass",
+      "actual": "Matrix([[-p0*(-p0*t0 - p1*t1 + y0) - p2*(-p2*t0 - p3*t1 + y1) - p4*(-p4*t0 - p5*t1 + y2)], [-p1*(-p0*t0 - p1*t1 + y0) - p3*(-p2*t0 - p3*t1 + y1) - p5*(-p4*t0 - p5*t1 + y2)]])",
+      "expected": "Matrix([[-p0*y0 - p2*y1 - p4*y2 + t0*(p0**2 + p2**2 + p4**2) + t1*(p0*p1 + p2*p3 + p4*p5)], [-p1*y0 - p3*y1 - p5*y2 + t0*(p0*p1 + p2*p3 + p4*p5) + t1*(p1**2 + p3**2 + p5**2)]])"
+    },
+    {
+      "name": "p4 general symmetric prior derivative",
+      "status": "pass",
+      "actual": "Matrix([[a*t0 + c*t1 + (-2*p0*(-p0*t0 - p1*t1 + y0) - 2*p2*(-p2*t0 - p3*t1 + y1) - 2*p4*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared), c*t0 + d*t1 + (-2*p1*(-p0*t0 - p1*t1 + y0) - 2*p3*(-p2*t0 - p3*t1 + y1) - 2*p5*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared)]])",
+      "expected": "Matrix([[a*t0 + c*t1 + (p0*(p0*t0 + p1*t1 - y0) + p2*(p2*t0 + p3*t1 - y1) + p4*(p4*t0 + p5*t1 - y2))/sigma_squared, c*t0 + d*t1 + (p1*(p0*t0 + p1*t1 - y0) + p3*(p2*t0 + p3*t1 - y1) + p5*(p4*t0 + p5*t1 - y2))/sigma_squared]])"
+    },
+    {
+      "name": "p4 transposed normal residual",
+      "status": "pass",
+      "actual": "Matrix([[sigma_squared*(a*t0 + c*t1 + (-2*p0*(-p0*t0 - p1*t1 + y0) - 2*p2*(-p2*t0 - p3*t1 + y1) - 2*p4*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared))], [sigma_squared*(c*t0 + d*t1 + (-2*p1*(-p0*t0 - p1*t1 + y0) - 2*p3*(-p2*t0 - p3*t1 + y1) - 2*p5*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared))]])",
+      "expected": "Matrix([[-p0*y0 - p2*y1 - p4*y2 + t0*(a*sigma_squared + p0**2 + p2**2 + p4**2) + t1*(c*sigma_squared + p0*p1 + p2*p3 + p4*p5)], [-p1*y0 - p3*y1 - p5*y2 + t0*(c*sigma_squared + p0*p1 + p2*p3 + p4*p5) + t1*(d*sigma_squared + p1**2 + p3**2 + p5**2)]])"
+    },
+    {
+      "name": "p7 MAP component derivative",
+      "status": "pass",
+      "actual": "Matrix([[(-2*m0 + 2*t0)/(2*tau_squared) + (-2*p0*(-p0*t0 - p1*t1 + y0) - 2*p2*(-p2*t0 - p3*t1 + y1) - 2*p4*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared), (-2*m1 + 2*t1)/(2*tau_squared) + (-2*p1*(-p0*t0 - p1*t1 + y0) - 2*p3*(-p2*t0 - p3*t1 + y1) - 2*p5*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared)]])",
+      "expected": "Matrix([[(-m0 + t0)/tau_squared + (p0*(p0*t0 + p1*t1 - y0) + p2*(p2*t0 + p3*t1 - y1) + p4*(p4*t0 + p5*t1 - y2))/sigma_squared, (-m1 + t1)/tau_squared + (p1*(p0*t0 + p1*t1 - y0) + p3*(p2*t0 + p3*t1 - y1) + p5*(p4*t0 + p5*t1 - y2))/sigma_squared]])"
+    },
+    {
+      "name": "p7 transposed normal residual",
+      "status": "pass",
+      "actual": "Matrix([[sigma_squared*((-2*m0 + 2*t0)/(2*tau_squared) + (-2*p0*(-p0*t0 - p1*t1 + y0) - 2*p2*(-p2*t0 - p3*t1 + y1) - 2*p4*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared))], [sigma_squared*((-2*m1 + 2*t1)/(2*tau_squared) + (-2*p1*(-p0*t0 - p1*t1 + y0) - 2*p3*(-p2*t0 - p3*t1 + y1) - 2*p5*(-p4*t0 - p5*t1 + y2))/(2*sigma_squared))]])",
+      "expected": "Matrix([[-m0*sigma_squared/tau_squared - p0*y0 - p2*y1 - p4*y2 + t0*(p0**2 + p2**2 + p4**2 + sigma_squared/tau_squared) + t1*(p0*p1 + p2*p3 + p4*p5)], [-m1*sigma_squared/tau_squared - p1*y0 - p3*y1 - p5*y2 + t0*(p0*p1 + p2*p3 + p4*p5) + t1*(p1**2 + p3**2 + p5**2 + sigma_squared/tau_squared)]])"
+    },
+    {
+      "name": "p4 ML",
+      "status": "pass",
+      "actual": "Matrix([[5/3], [2]])",
+      "expected": "Matrix([[5/3], [2]])"
+    },
+    {
+      "name": "p4 MAP",
+      "status": "pass",
+      "actual": "Matrix([[5/4], [4/3]])",
+      "expected": "Matrix([[5/4], [4/3]])"
+    },
+    {
+      "name": "p4 ML prediction",
+      "status": "pass",
+      "actual": "17/3",
+      "expected": "17/3"
+    },
+    {
+      "name": "p4 MAP prediction",
+      "status": "pass",
+      "actual": "47/12",
+      "expected": "47/12"
+    },
+    {
+      "name": "p7 MAP numeric",
+      "status": "pass",
+      "actual": "Matrix([[5/11], [5/11]])",
+      "expected": "Matrix([[5/11], [5/11]])"
+    },
+    {
+      "name": "p1 Gram inverse",
+      "status": "pass",
+      "actual": "Matrix([[2/3, -1/3], [-1/3, 2/3]])",
+      "expected": "Matrix([[2/3, -1/3], [-1/3, 2/3]])"
+    },
+    {
+      "name": "p3 square completion",
+      "status": "pass",
+      "actual": "z**2 + (z - 2)**2/3",
+      "expected": "4*(z - 1/2)**2/3 + 1"
+    },
+    {
+      "name": "p5 covariance",
+      "status": "pass",
+      "actual": "Matrix([[8/9, -4/9], [-4/9, 8/9]])",
+      "expected": "Matrix([[8/9, -4/9], [-4/9, 8/9]])"
+    },
+    {
+      "name": "p5 affine covariance",
+      "status": "pass",
+      "actual": "Matrix([[8/9, 0], [0, 8/3]])",
+      "expected": "Matrix([[8/9, 0], [0, 8/3]])"
+    },
+    {
+      "name": "p5 cross covariance",
+      "status": "pass",
+      "actual": "Matrix([[4/9, 4/3], [4/9, -4/3]])",
+      "expected": "Matrix([[4/9, 4/3], [4/9, -4/3]])"
+    },
+    {
+      "name": "p8 posterior precision",
+      "status": "pass",
+      "actual": "3/2",
+      "expected": "3/2"
+    },
+    {
+      "name": "p8 predictive variance",
+      "status": "pass",
+      "actual": "14/3",
+      "expected": "14/3"
+    },
+    {
+      "name": "p9 model posterior",
+      "status": "pass",
+      "posterior_M1": 0.4415184401122529
+    },
+    {
+      "name": "p10 coefficient",
+      "status": "pass",
+      "actual": "Matrix([[4/3], [1]])",
+      "expected": "Matrix([[4/3], [1]])"
+    },
+    {
+      "name": "p10 orthogonality",
+      "status": "pass",
+      "actual": "Matrix([[0], [0]])",
+      "expected": "Matrix([[0], [0]])"
+    },
+    {
+      "name": "p10 SSE",
+      "status": "pass",
+      "actual": "2/3",
+      "expected": "2/3"
+    },
+    {
+      "name": "p10 symmetry",
+      "status": "pass",
+      "actual": "Matrix([[1/3, 1/3, 1/3], [1/3, 5/6, -1/6], [1/3, -1/6, 5/6]])",
+      "expected": "Matrix([[1/3, 1/3, 1/3], [1/3, 5/6, -1/6], [1/3, -1/6, 5/6]])"
+    },
+    {
+      "name": "p10 idempotence",
+      "status": "pass",
+      "actual": "Matrix([[1/3, 1/3, 1/3], [1/3, 5/6, -1/6], [1/3, -1/6, 5/6]])",
+      "expected": "Matrix([[1/3, 1/3, 1/3], [1/3, 5/6, -1/6], [1/3, -1/6, 5/6]])"
+    }
+  ],
+  "unchanged_non_derivative_inputs": [
+    {
+      "path": "cards\\p1.html",
+      "identical": true
+    },
+    {
+      "path": "explanations\\p1.html",
+      "identical": true
+    },
+    {
+      "path": "cards\\p3.html",
+      "identical": true
+    },
+    {
+      "path": "explanations\\p3.html",
+      "identical": true
+    },
+    {
+      "path": "cards\\p5.html",
+      "identical": true
+    },
+    {
+      "path": "explanations\\p5.html",
+      "identical": true
+    },
+    {
+      "path": "cards\\p8.html",
+      "identical": true
+    },
+    {
+      "path": "explanations\\p8.html",
+      "identical": true
+    },
+    {
+      "path": "cards\\p9.html",
+      "identical": true
+    },
+    {
+      "path": "explanations\\p9.html",
+      "identical": true
+    },
+    {
+      "path": "cards\\p10.html",
+      "identical": true
+    },
+    {
+      "path": "explanations\\p10.html",
+      "identical": true
+    }
+  ],
+  "sync_checks": {
+    "question_origins_equal_blueprint": true,
+    "question_conditions_present_in_cards": true,
+    "solution_summaries_present_in_cards": true
+  },
+  "input_sha256": {
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\questions.json": "43162e114b04ebe200a0c90a82ca97b3d8d4c158a482e50e546201aea1895c5b",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\solutions.json": "c54b867021566ad97857c8352535d31ee9c5e4d1f4e45f0cc7955294e46a4906",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\panel-content.json": "0a9c1a5afe4544ae63b5ae2be8911a41f5f98740e88d000d58a4d44155e933b2",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\blueprint.json": "faebcd662b8873beef12c6413534f970e52179cc8e2cd53959733cabfdd4d29e",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p1.html": "3a4f7f66a92c4e39fbe0465155854ba08f72811fc0c95e52c0bf286a5fc081a2",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p10.html": "0b5ac0c6ebfef0366278f96dc8b8276c5f398bb2f4a67e78aac2a1a897afb76b",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p2.html": "e211b7c9db7633ed8954083d9c74ccbea74dc2a3039ab135c05b6219ed3b780e",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p3.html": "4282bd7c4a5b0088bb862783e58289e2d4d7da41e83aacfd341257041b281831",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p4.html": "414a534dc386f0808e619a0013ee544b262d377c36ea83cff5d99c4c00d67bc0",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p5.html": "52a16e9ce8746626a99c462b4697c029c2c10357b148dbf3f7561f0f859382ed",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p6.html": "57510c77846d31f12b51413d20190eafa8837e6d3393fbadff829761f6eeecec",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p7.html": "91d00613ddda079641212c559fe0586cb22c525cf09955f4cb68067562f7c5f3",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p8.html": "f9796e3851b195e64964088c5d435698df75c3b250e9dab353b167c170de4455",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\cards\\p9.html": "bf264650c4057f7e1b70cbfd73004263429f68272f164df7aada7aca2e03a852",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p1.html": "74a9939de7b00f4c6a6a0d9a153c481d678c4d2bc3e6b6ff289de4484e016180",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p10.html": "d376d56074b8534a4218800720598a21f541695d99ff2f9f08d4747639cb8d1a",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p2.html": "623f41fc7ada7be9431596d1f1e10d67303338681885c8bbda7706bf4f55a76e",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p3.html": "2761b7e5868338e0ee446e466f289fcd638f9d02d7039c5e1ae6a85515373483",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p4.html": "bb7d277bf58d0a5fe267d9be2d1f5dd2435c67ac741755cab1b7be5f1b02132e",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p5.html": "5fdcfa144649be20f84decb346df97cd3ad793cd9afe26e1e64463a8aec13745",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p6.html": "c48046742530c734a2d555101fdc03a28cc79669a9be97453104275b7977fab1",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p7.html": "b525036ff796464b83c96b26c830ac79ec94d44a3b120b5d9ca9d7b4f846fcf0",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p8.html": "8f5751e25cdfb7bee664f518292fe36eaccdc106acf44eddbdb2eec3f301d109",
+    "tmp\\row-vector-midterm-20261020\\stage\\.pack\\explanations\\p9.html": "bcbdb0ec2941f367679127c38092eb809569c16d35b1ef14b30f9b71bbe6697e"
+  },
+  "pdf_reviewed": false,
+  "findings": [
+    {
+      "id": "p2-vector-f-gradient",
+      "severity": "important",
+      "detail": "understand labels vector f derivative as row; should refer to scalar q",
+      "status": "resolved_rechecked"
+    },
+    {
+      "id": "p6-undefined-K",
+      "severity": "minor",
+      "detail": "verify e dimension Kx1 undefined here; use 2x1",
+      "status": "resolved_rechecked"
+    }
+  ],
+  "final_recheck": {
+    "changed_inputs": [
+      "tmp\\row-vector-midterm-20261020\\stage\\.pack\\solutions.json"
+    ],
+    "p2_scalar_q_reference": true,
+    "p6_dimension_2x1": true,
+    "all_changes_reviewed": true
+  },
+  "code_review": {
+    "status": "pass_no_important_findings",
+    "scope": [
+      "check_vector_derivatives.py",
+      "build_exam.py",
+      "check_exam.py",
+      "build_review_pdf.py caption raster gate"
+    ],
+    "tests": {
+      "passed": 15,
+      "command": "python -m pytest --confcutdir=.claude/skills/ml-review-pack/tests --rootdir=.claude/skills/ml-review-pack .claude/skills/ml-review-pack/tests/test_vector_derivatives.py .claude/skills/ml-review-pack/tests/test_pdf_image_caption.py -q",
+      "exit_code": 0
+    },
+    "pdf_visual_review_included": false,
+    "sha256": {
+      ".claude\\skills\\ml-review-pack\\scripts\\check_vector_derivatives.py": "6e1f43d08734a8aa8c19dd630bc04561efcfdb6dd9163e8ef3e7116f79f6fc9f",
+      ".claude\\skills\\ml-review-pack\\scripts\\build_review_pdf.py": "2f2d799c2e648db9d27ac873b8ec025f326530d4d231bc5dd0bf1683fff581ec",
+      "중간고사대비\\예상문제_1회\\.pack\\tools\\build_exam.py": "afc9e1505372b2dc366340df11a92a243a1d1c569c56c41f57c89e93f7d74e6b",
+      "중간고사대비\\예상문제_1회\\.pack\\tools\\check_exam.py": "43ddd48fdfb0370f0ee50af1dca2618e9408db886aa85f0e43373952ebef3619"
+    }
+  }
+}

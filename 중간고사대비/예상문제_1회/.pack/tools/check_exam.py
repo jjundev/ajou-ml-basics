@@ -2,6 +2,26 @@
 from pathlib import Path
 import json,sys,argparse
 from exam_adapter import load_exam_source,STEM,sha,resolve,parse
+from check_vector_derivatives import check_text
+
+def check_english_delivery(output,repo):
+ try:
+  from english_source import load_english_problems,english_digests
+  output=Path(output);source=output/(STEM+'.html');pdf=output/(STEM+'-문제-English.pdf')
+  r=json.loads((output/'.pack/evidence/english-pdf-validation.json').read_text())
+  ps=load_english_problems(source,output/'.pack/blueprint.json',repo)
+  if r.get('status')!='pass' or r.get('errors')!=[] or r.get('source_sha256')!=sha(source) or r.get('english_digests')!=english_digests(ps) or r.get('pdf_sha256')!=sha(pdf):return ['stale English PDF/source/review']
+  if r.get('logical_count')!=10 or r.get('subpart_count')!=42 or set(r['pages'])!={f'p{i}' for i in range(1,11)} or any(not x for x in r['pages'].values()):return ['English PDF page mapping missing']
+  import fitz
+  with fitz.open(pdf) as doc:
+   pages=[n for nums in r['pages'].values() for n in nums]
+   if sorted(pages)!=list(range(1,len(doc)+1)) or len(doc)!=r['page_count'] or len(r['page_ids'])!=len(doc):return ['English PDF physical page mismatch']
+   for pid,nums in r['pages'].items():
+    if [r['page_ids'][n-1] for n in nums]!=[pid if i==1 else f'{pid}-c{i}' for i in range(1,len(nums)+1)]:return ['English PDF page ID mismatch']
+  delivery=json.loads((output/'.pack/delivery.json').read_text())
+  if pdf.name not in delivery['files']:return ['English PDF not delivered']
+  return []
+ except (ValueError,OSError,KeyError,TypeError) as e:return ['English PDF: '+str(e)]
 
 def validate_cards(cards_path,blueprint_path,repo):
  try:
@@ -28,6 +48,8 @@ def check_delivery(output,repo):
  output=Path(output);errors=[]
  try:
   pack=load_exam_source(output/(STEM+'.html'),output/'.pack/blueprint.json',repo)
+  authored=[output/(STEM+'.html')]+list((output/'.pack/cards').glob('*.html'))+list((output/'.pack/explanations').glob('*.html'))
+  errors += [str(p)+': '+e for p in authored for e in check_text(p.read_text(encoding='utf-8'))]
   errors+=validate_answer_checks(pack,json.loads((output/'.pack/evidence/answer-checks.json').read_text())['items'])
   delivery=json.loads((output/'.pack/delivery.json').read_text())
   errors+=check_file_hashes(output,delivery['files'],repo)
@@ -43,7 +65,11 @@ def check_delivery(output,repo):
   browser=json.loads((output/'.pack/evidence/browser-check.json').read_text())
   if browser.get('status')!='pass' or browser.get('html_sha256')!=sha(artifacts.html):errors.append('stale browser review')
   pdf_report=json.loads((output/'.pack/evidence/pdf-validation.json').read_text())
-  if pdf_report.get('source_sha256')!=pack.sha256 or pdf_report.get('logical_count')!=10:errors.append('stale PDF source')
+  if pdf_report.get('logical_count')!=10:errors.append('stale PDF count')
+  if pdf_report.get('source_sha256')!=pack.sha256:
+   from pdf_binding import check_pdf_binding
+   errors+=check_pdf_binding(output,repo)
+  if any(p.original_html.strip() for p in pack.problems):errors+=check_english_delivery(output,repo)
   reviews=json.loads((output/data/'validation.json').read_text());fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text() for p in pack.problems}
   errors+=check_artifacts(pack,artifacts)+validate_reviews(pack,fragments,reviews)
   if reviews.get('artifact_hashes')!=artifact_hashes(artifacts):errors.append('stale artifact approval')

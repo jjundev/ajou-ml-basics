@@ -38,6 +38,18 @@ EXAM Problem 1 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 2. $b=(2,1,3)^\top$에 대해 $V\alpha=b$의 모든 해를 구하라. $c=(2,1,4)^\top$로 우변을 바꾸면 해가 있는가?
 3. $U^\top U$와 그 역행렬을 구하라. $V^\top V$의 역행렬 존재 여부와 비교하라.
 
+<details><summary>원문 보기</summary>
+
+#### Linear Combinations and Uniqueness
+
+Let $v_1=(1,0,1)^\top$, $v_2=(0,1,1)^\top$, and $v_3=(1,1,2)^\top$ be column vectors. Define $V=[v_1\ v_2\ v_3]$ and $U=[v_1\ v_2]$.
+
+1. Determine whether $v_1,v_2,v_3$ are linearly independent by finding a linear relation with coefficients not all zero.
+2. Find all solutions of $V\alpha=b$ for $b=(2,1,3)^\top$. Does a solution exist if the right-hand side is replaced by $c=(2,1,4)^\top$?
+3. Compute $U^\top U$ and its inverse. Compare this with the existence of an inverse of $V^\top V$.
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
 세 벡터로 만들 수 있는 방향을 읽는 문제예요. 벡터가 세 개라는 사실만으로 3차원 전체를 만들 수 있는 것은 아니에요. 같은 방향을 중복해서 넣었는지 먼저 확인해요.
@@ -82,25 +94,19 @@ $$
 
 #### (c)
 
-$U=[v_1\ v_2]$는 $3\times2$이고 $U^\top U$는 $2\times2$예요. $(i,j)$ 원소가 $v_i^\top v_j$인 이유는 $U^\top$의 $i$번째 행과 $U$의 $j$번째 열을 내적하기 때문이에요.
+Gram 행렬은 열벡터 사이의 내적을 모은 행렬이에요.
 
 $$
-v_1^\top v_1=1^2+0^2+1^2=2,\quad v_1^\top v_2=1\cdot0+0\cdot1+1\cdot1=1.
+U^\top U=\begin{pmatrix}v_1^\top v_1&v_1^\top v_2\\v_2^\top v_1&v_2^\top v_2\end{pmatrix}=\begin{pmatrix}2&1\\1&2\end{pmatrix}.
 $$
 
-나머지 두 내적은 $v_2^\top v_1=1$, $v_2^\top v_2=0^2+1^2+1^2=2$예요. 따라서
-
-$$
-U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}.
-$$
-
-일반적인 $2\times2$ 역행렬은 행렬식 $ad-bc\ne0$일 때 $\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$예요. 여기서는 $2\cdot2-1\cdot1=3$이므로
+행렬식이 $2\cdot2-1\cdot1=3$이므로 $2\times2$ 역행렬 공식을 적용하면
 
 $$
 (U^\top U)^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}.
 $$
 
-$V^\top V$에는 같은 공식을 적용할 수 없어요. (a)의 $a=(1,1,-1)^\top\ne0$가 $Va=0$을 만족하므로 $V^\top Va=0$도 만족해요. 만약 역행렬이 있다면 양변에 곱해 $a=0$이어야 하므로 모순이에요. 즉 $V^\top V$는 특이행렬이에요.
+반면 (a)에서 $V$의 열이 선형종속이므로 $V^\top V$는 특이행렬이고 역행렬이 없어요.
 
 #### 완성 답과 검산
 
@@ -136,10 +142,6 @@ $\frac13\begin{pmatrix}2&1\\1&2\end{pmatrix}\begin{pmatrix}2&-1\\-1&2\end{pmatri
 
 선형독립을 가정하지 않고 직접 판정; 모든 벡터는 열벡터
 
-#### 조건·구분
-
-실제 관계는 $v_1+v_2-v_3=0$이에요. $c=(2,1,4)^\top$는 $z_3=z_1+z_2$를 위반해 해가 없어요. $U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}$의 역행렬은 $\tfrac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$이고, $V^\top V$는 특이해요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
-
 #### 출제 근거
 
 출제 근거: 과제1 P6-P8 변형. MML PDF 46, 47쪽의 이론을 대조했어요. 과제의 수치·조건을 바꾼 변형 문제예요. 교수님의 세부 출제 확정 내용은 아니에요.
@@ -163,7 +165,7 @@ EXAM Problem 2 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
-$x=(x_1,x_2)^\top$에 대해 다음을 정의한다. Gradient는 열벡터이고 Jacobian은 $(J_f)_{ij}=\partial f_i/\partial x_j$이다.
+$x=(x_1,x_2)^\top$에 대해 다음을 정의한다. Gradient는 행벡터이고 Jacobian은 $(J_f)_{ij}=\partial f_i/\partial x_j$이다.
 
 $$
 f(x)=\begin{pmatrix}x_1^2+x_2\\x_1x_2\end{pmatrix},\quad A=\begin{pmatrix}4&1\\1&2\end{pmatrix},\quad b=\begin{pmatrix}1\\0\end{pmatrix}
@@ -179,13 +181,33 @@ $$
 2. $q(x)$를 성분으로 전개하고 $\nabla q(x)$와 Hessian을 구하라.
 3. 정지점 $\nabla q(x)=0$을 구하고, 유일한 전역 최소점인지 이유를 밝혀라.
 
+<details><summary>원문 보기</summary>
+
+#### Gradients, Jacobians, and a Quadratic Function
+
+For $x=(x_1,x_2)^\top$, define the following functions and matrices. Use row gradients and the convention $(J_f)_{ij}=\partial f_i/\partial x_j$.
+
+$$
+f(x)=\begin{pmatrix}x_1^2+x_2\\x_1x_2\end{pmatrix},\quad A=\begin{pmatrix}4&1\\1&2\end{pmatrix},\quad b=\begin{pmatrix}1\\0\end{pmatrix}.
+$$
+
+$$
+q(x)=\tfrac12 x^\top Ax-b^\top x.
+$$
+
+1. Compute $J_f(x)$ and $J_f(1,2)$, and state their dimensions.
+2. Expand $q(x)$ in components. Compute its gradient $\nabla q(x)$ and Hessian.
+3. Find the stationary point satisfying $\nabla q(x)=0$. Explain whether it is the unique global minimizer.
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
-벡터 출력 $f$에는 Jacobian, 스칼라 출력 $q$에는 gradient를 써요. 행렬 모양을 먼저 정하면 미분한 값을 어디에 놓을지 헷갈리지 않아요.
+벡터 출력 $f$에는 Jacobian, 스칼라 출력 $q$에는 gradient를 써요. 이 자료에서 $\nabla_x q=\partial q/\partial x$는 강의의 행벡터 표기예요. 예를 들어 $\partial\|x\|^2/\partial x=2x^\top$예요. 행렬 모양을 먼저 정하면 미분한 값을 어디에 놓을지 헷갈리지 않아요.
 
 #### 이 문제를 봤을 때 떠올릴 개념과 공식
 
-Jacobian은 출력 하나마다 한 행, 입력 하나마다 한 열이에요. 여기서는 $2\times2$예요. Gradient는 이 과제의 약속에 따라 $2\times1$ 열벡터예요. Hessian은 모든 2차 편미분을 모은 행렬이에요. 대칭 $A$에 대해 $\nabla(\frac12x^\top Ax)=Ax$이고 Hessian은 $A$예요. 대칭 $2\times2$ 행렬은 첫 선도 주행렬식과 전체 행렬식이 양수이면 양의 정부호예요.
+Jacobian은 출력 하나마다 한 행, 입력 하나마다 한 열이에요. 여기서는 $2\times2$예요. Gradient는 강의와 같이 $1\times2$ 행벡터로 모아요. 입력 $x$ 자체는 $2\times1$ 열벡터예요. Hessian은 모든 2차 편미분을 모은 행렬이에요. 대칭 $A$에 대해 $\nabla(\frac12x^\top Ax)=x^\top A$이고 Hessian은 $A$예요. 대칭 $2\times2$ 행렬은 첫 선도 주행렬식과 전체 행렬식이 양수이면 양의 정부호예요.
 
 #### 종이에 쓸 첫 줄
 
@@ -227,27 +249,23 @@ $$
 x^\top Ax=x_1(4x_1+x_2)+x_2(x_1+2x_2).
 $$
 
-교차항 $x_1x_2$가 두 번 나와요. $b^\top x=x_1$이고 앞의 $1/2$를 곱하면 $q=2x_1^2+x_1x_2+x_2^2-x_1$이에요. 이를 각 성분에 대해 미분한 값을 세로로 모으면
+교차항 $x_1x_2$가 두 번 나와요. $b^\top x=x_1$이고 앞의 $1/2$를 곱하면 $q=2x_1^2+x_1x_2+x_2^2-x_1$이에요. 이를 각 성분에 대해 미분한 값을 가로로 모으면
 
 $$
-\nabla q=\begin{pmatrix}4x_1+x_2-1\\x_1+2x_2\end{pmatrix}=Ax-b.
+\nabla q=\begin{pmatrix}4x_1+x_2-1&x_1+2x_2\end{pmatrix}=x^\top A-b^\top.
 $$
 
-첫째 미분식을 $x_1,x_2$로 다시 미분하면 $(4,1)$, 둘째 식을 미분하면 $(1,2)$예요. 따라서 Hessian은 $H_q=\begin{pmatrix}4&1\\1&2\end{pmatrix}=A$예요. 이 문제의 $A$가 대칭이라 $\nabla(\frac12x^\top Ax)=Ax$가 성립해요.
+Hessian은 $(H_q)_{ij}=\partial^2q/(\partial x_i\partial x_j)$로 정의해요. 행 gradient의 $i$번째 성분을 $x_j$로 미분해 $i$행 $j$열에 놓아요. 첫째 미분식을 $x_1,x_2$로 다시 미분하면 $(4,1)$, 둘째 식을 미분하면 $(1,2)$예요. 따라서 Hessian은 $H_q=\begin{pmatrix}4&1\\1&2\end{pmatrix}=A$예요. 이 문제의 $A$가 대칭이라 $\nabla(\frac12x^\top Ax)=x^\top A$가 성립해요.
 
 #### (c)
 
-최소점 후보는 먼저 gradient가 0인 정지점에서 찾아요. (b)의 두 성분을 각각 0으로 놓으면 $4x_1+x_2=1$, $x_1+2x_2=0$이에요. 둘째 식에서 $x_1=-2x_2$를 첫째 식에 넣으면 $-8x_2+x_2=1$이므로 $x_2=-1/7$, $x_1=2/7$이에요.
-
-하지만 기울기가 0이라는 사실만으로 최소점이라고 확정할 수는 없어요. Hessian $A$가 대칭이고 첫 선도 주행렬식 $4>0$, 전체 행렬식 $4\cdot2-1\cdot1=7>0$이므로 양의 정부호예요. 이는 0이 아닌 모든 방향 $d$에서 $d^\top Ad>0$이라는 뜻이에요.
-
-정지점 $x_*=(2/7,-1/7)^\top$에서는 $Ax_*=b$이므로 이차식을 중심 이동해
+(b)의 행 gradient를 0으로 놓고 양변 전치하면 $Ax=b$예요.
 
 $$
-q(x)-q(x_*)=\tfrac12(x-x_*)^\top A(x-x_*)
+4x_1+x_2=1,\qquad x_1+2x_2=0\quad\Rightarrow\quad x_*=(2/7,-1/7)^\top.
 $$
 
-로 쓸 수 있어요. $x\ne x_*$이면 오른쪽이 양수이므로 다른 모든 점의 함수값이 더 커요. 이로써 유일한 전역 최소점임을 확인해요.
+Hessian $A$는 대칭이고 선도 주행렬식이 $4>0$, $\det A=7>0$이므로 양의 정부호예요. 따라서 이 정지점은 유일한 전역 최소점이에요.
 
 #### 완성 답과 검산
 
@@ -265,7 +283,7 @@ $A(2/7,-1/7)^\top=(1,0)^\top=b$예요. 또 $q(x)-q(x_*)=\frac12(x-x_*)^\top A(x-
 
 #### 여기서 헷갈리기 쉬워요
 
-$x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian의 행과 열을 바꾸거나 gradient를 행벡터로 쓰지 않도록 문제의 표기 약속을 따라요.
+$x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian의 행과 열을 바꾸거나 gradient를 열벡터로 쓰지 않도록 문제의 표기 약속을 따라요.
 
 #### 설명을 닫고 다시 풀어요
 
@@ -277,15 +295,11 @@ $x^\top Ax$와 $\frac12x^\top Ax$의 gradient는 2배 차이가 나요. Jacobian
 
 #### 떠올릴 개념·공식
 
-$J_f$: 출력×입력. 대칭 $A$이면 $\nabla q=Ax-b$, $H=A$. 최소점 $(2/7,-1/7)^\top$.
+$J_f$: 출력×입력. 대칭 $A$이면 $\nabla q=x^\top A-b^\top$, $H=A$. 최소점 $(2/7,-1/7)^\top$.
 
 #### 적용 조건
 
-gradient는 열벡터, Jacobian은 출력×입력, A는 대칭
-
-#### 조건·구분
-
-이 문제의 $J_f=\begin{pmatrix}2x_1&1\\x_2&x_1\end{pmatrix}$는 $2\times2$, 열 gradient는 $2\times1$이에요. $4>0$, $\det A=7>0$이므로 Hessian $A\succ0$이고 정지점은 유일한 전역 최소점이에요. $x^\top Ax$와 $\tfrac12x^\top Ax$의 미분은 2배 차이가 나요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
+gradient는 행벡터, Jacobian은 출력×입력, A는 대칭
 
 #### 출제 근거
 
@@ -294,7 +308,7 @@ gradient는 열벡터, Jacobian은 출력×입력, A는 대칭
 #### 해설에 쓰인 용어
 
 - **Jacobian 행렬 (Jacobian)** — 벡터 출력의 각 성분이 각 입력에 얼마나 민감한지 모은 일차 미분 행렬이에요.$f:\mathbb R^d\to\mathbb R^m$이면 $(J_f)_{ij}=\partial f_i/\partial x_j$, 크기는 $m\times d$예요.이 문제에서는 벡터 함수의 각 출력 미분을 올바른 행에 배치해요.
-- **기울기 (gradient)** — 스칼라 함수의 각 입력 성분에 대한 일차 편미분을 모은 벡터예요. 여기서는 열벡터로 써요.$\nabla_x L=(\partial L/\partial x_1,\ldots,\partial L/\partial x_d)^\top$예요.이 문제에서는 스칼라 목적함수의 정지점을 구할 때 써요.
+- **기울기 (gradient)** — 스칼라 함수의 각 입력 성분에 대한 일차 편미분을 모은 벡터예요. 여기서는 강의와 같이 행벡터로 써요.$\nabla_x L=(\partial L/\partial x_1,\ldots,\partial L/\partial x_d)$예요.이 문제에서는 스칼라 목적함수의 정지점을 구할 때 써요.
 - **Hessian 행렬 (Hessian)** — 스칼라 함수의 이차 편미분을 모아 곡률을 나타낸 행렬이에요.$(H_L)_{ij}=\partial^2L/(\partial x_i\partial x_j)$예요. 매끄러운 함수에서는 대칭이에요.이 문제에서는 정지점 주변과 전체 이차함수의 곡률을 판단해요.
 - **정지점 (stationary point)** — 미분 가능한 함수에서 기울기가 0인 점이에요. 이것만으로 최소점이라고 결론 내릴 수는 없어요.$\nabla L=0$을 푼 뒤 곡률이나 목적함수의 성질을 확인해요.이 문제에서는 기울기를 0으로 놓아 후보점을 찾는 단계예요.
 - **양의 정부호 (positive definite)** — 실수 대칭행렬이 0이 아닌 모든 방향에 양의 이차형식 값을 주는 성질이에요.$z\ne0\Rightarrow z^\top Az>0$예요. 대칭인 양의 정부호 행렬은 가역이에요.이 문제에서는 이차함수의 유일한 전역 최소점을 보장하는 조건이에요.
@@ -319,6 +333,20 @@ $g(z)=p_0(z)p_1(z)$, $Z=\int_{-\infty}^{\infty}g(z)\,dz$, $q(z)=g(z)/Z$로 둔�
 1. $g(z)$의 지수에 들어가는 $z^2+(z-2)^2/3$을 완전제곱하라.
 2. 정규화된 $q(z)$의 평균·분산과 정규화 상수를 포함한 밀도를 구하라.
 3. $Z$를 계산하고 $g(z)$를 그대로 확률밀도라고 부를 수 있는지 설명하라.
+
+<details><summary>원문 보기</summary>
+
+#### Products of Gaussians and Normalization
+
+For $z\in\mathbb R$, let $p_0(z)=\mathcal N(z\mid0,1)$ and $p_1(z)=\mathcal N(z\mid2,3)$. The second parameter $v$ in $\mathcal N(z\mid m,v)$ denotes the variance.
+
+Define $g(z)=p_0(z)p_1(z)$, $Z=\int_{-\infty}^{\infty}g(z)\,dz$, and $q(z)=g(z)/Z$.
+
+1. Complete the square in $z^2+(z-2)^2/3$, which appears in the exponent of $g(z)$.
+2. Find the mean and variance of the normalized density $q(z)$, and write its density including the normalizing constant.
+3. Compute $Z$. Explain whether $g(z)$ itself is a probability density.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -364,59 +392,25 @@ $$
 
 #### (b)
 
-정규분포의 지수는 $-(z-\mu)^2/(2\sigma^2)$예요. 이 문제의 지수 $-\frac23(z-\frac12)^2$와 비교하면 평균은 $\mu=1/2$이고, 분산은 다음처럼 구해요.
+(a)의 지수를 $-\frac12a(z-m)^2$와 비교하면 평균은 $m=1/2$, 정밀도는 $a=4/3$이에요. 따라서 분산은 $v=a^{-1}=3/4$예요.
+
+Gaussian 밀도 공식에 대입하면 정규화된 밀도는
 
 $$
-\frac{1}{2\sigma^2}=\frac23\quad\Rightarrow\quad 2\sigma^2=\frac32\quad\Rightarrow\quad\boxed{\sigma^2=\frac34}.
+q(z)=\frac1{\sqrt{2\pi(3/4)}}\exp\!\left[-\frac{(z-1/2)^2}{2(3/4)}\right]=\sqrt{\frac2{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right].
 $$
 
-**$4/3$은 분산이 아니라 분산의 역수(precision)예요.** 정규분포의 앞 계수는 $2\pi\sigma^2$ 자체가 아니라 그 제곱근의 역수예요. 분산 $3/4$를 넣어 한 단계씩 정리하면
-
-$$
-\begin{aligned}\frac{1}{\sqrt{2\pi\sigma^2}}&=\frac{1}{\sqrt{2\pi\cdot\frac34}}\\&=\frac{1}{\sqrt{3\pi/2}}\\&=\sqrt{\frac{2}{3\pi}}.\end{aligned}
-$$
-
-따라서 전체 넓이가 1인 밀도는 다음과 같아요.
-
-$$
-q(z)=\sqrt{\frac{2}{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right]=\mathcal N(z\mid\tfrac12,\tfrac34).
-$$
+즉 $q(z)=\mathcal N(z\mid1/2,3/4)$예요.
 
 #### (c)
 
-**먼저 $Z$는 $g(z)$ 그래프 아래의 전체 넓이예요.** (a)의 식을 적분하고, $z$와 무관한 앞 계수를 밖으로 꺼내요.
+(a)의 $g$와 (b)의 $q$는 지수 부분이 같아요. $g=Zq$이므로 앞 계수의 비가 $Z$예요.
 
 $$
-Z=\frac{e^{-1/2}}{2\pi\sqrt3}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz.
+Z=\frac{e^{-1/2}/(2\pi\sqrt3)}{\sqrt{2/(3\pi)}}=\frac{e^{-1/2}}{\sqrt{8\pi}}.
 $$
 
-**남은 적분은 (b)의 정규분포가 전체 넓이 1을 갖는다는 성질로 구해요.** $\int_{-\infty}^{\infty}q(z)\,dz=1$에 (b)의 식을 대입하면
-
-$$
-\sqrt{\frac{2}{3\pi}}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=1.
-$$
-
-양변을 앞 계수 $\sqrt{2/(3\pi)}$로 나누므로 지수함수 부분의 적분은 그 계수의 역수예요.
-
-$$
-\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=\sqrt{\frac{3\pi}{2}}.
-$$
-
-이를 $Z$의 식에 넣으면
-
-$$
-\begin{aligned}Z&=\frac{e^{-1/2}}{2\pi\sqrt3}\sqrt{\frac{3\pi}{2}}\\&=\frac{e^{-1/2}}{2\sqrt{2\pi}}\\&=\boxed{\frac{e^{-1/2}}{\sqrt{8\pi}}}\approx0.121.\end{aligned}
-$$
-
-**확률밀도는 비음수이고 전체 적분이 1이어야 해요.** $g=p_0p_1$은 비음수이지만 전체 적분이 $Z\ne1$이므로 그대로는 확률밀도가 아니에요. 각각의 적분이 1이어도 곱의 적분이 1이 되는 것은 아니에요. 곱의 적분과 각 적분의 곱은 일반적으로 달라요.
-
-그래서 전체 넓이 $Z$로 나누어 정규화해요.
-
-$$
-q(z)=\frac{g(z)}{Z},\qquad\int_{-\infty}^{\infty}q(z)\,dz=\frac1Z\int_{-\infty}^{\infty}g(z)\,dz=\frac ZZ=1.
-$$
-
-$g$는 가우시안 모양을 가진 함수이고, 그 높이를 조절해 전체 넓이를 1로 만든 것이 확률밀도 $q$예요. $g=Zq$로 구분해요.
+$\int g(z)\,dz=Z\ne1$이므로 $g$ 자체는 확률밀도가 아니에요. $q=g/Z$로 나누면 전체 적분이 1인 확률밀도가 돼요.
 
 #### 완성 답과 검산
 
@@ -452,10 +446,6 @@ precision 합산: $v^{-1}=v_0^{-1}+v_1^{-1}$. $m=1/2$, $v=3/4$, $Z=e^{-1/2}/\sqr
 
 N의 둘째 인수는 분산; 정규화된 곱과 원래 곱을 구분
 
-#### 조건·구분
-
-완전제곱은 $z^2+(z-2)^2/3=\tfrac43(z-\tfrac12)^2+1$이에요. $q(z)=\sqrt{2/(3\pi)}e^{-2(z-1/2)^2/3}$이고 $g=Zq$예요. 상수항을 버리면 모양은 읽어도 $Z$는 구할 수 없어요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
-
 #### 출제 근거
 
 출제 근거: 과제1 P14·P25 변형. MML PDF 207, 208쪽의 이론을 대조했어요. 과제의 수치·조건을 바꾼 변형 문제예요. 교수님의 세부 출제 확정 내용은 아니에요.
@@ -478,6 +468,8 @@ EXAM Problem 4 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
+스칼라 목적함수의 미분 결과는 강의와 같이 행벡터로 쓴다. 파라미터 벡터 자체는 열벡터이다.
+
 관측은 $(x_n,y_n)=(-1,0),(0,1),(1,4)$이고 $\phi(x)=(1,x)^\top$이다. 모델은 $y_n=\phi(x_n)^\top\theta+\epsilon_n$이며 $\epsilon_n$은 독립 $\mathcal N(0,1)$이다.
 
 MAP에서는 절편을 포함한 두 계수 모두에 $\theta\sim\mathcal N(0,I_2)$ prior를 적용한다. $\Phi$의 $n$번째 행은 $\phi(x_n)^\top$이다.
@@ -487,6 +479,22 @@ MAP에서는 절편을 포함한 두 계수 모두에 $\theta\sim\mathcal N(0,I_
 1. $\Phi$, $\Phi^\top\Phi$, $\Phi^\top y$를 구하라.
 2. $\theta_{\mathrm{ML}}$을 구하고 $x_*=2$에서 평균 예측값을 구하라.
 3. $\theta_{\mathrm{MAP}}$과 $x_*=2$에서 평균 예측값을 구하라. ML과 달라진 이유를 설명하라.
+
+<details><summary>원문 보기</summary>
+
+#### ML and MAP with a Design Matrix
+
+Write derivatives of scalar objectives as row vectors. Parameter vectors themselves are column vectors.
+
+Consider observations $(x_n,y_n)=(-1,0),(0,1),(1,4)$ and features $\phi(x)=(1,x)^\top$. The model is $y_n=\phi(x_n)^\top\theta+\epsilon_n$, where the $\epsilon_n$ are independent $\mathcal N(0,1)$ random variables.
+
+For MAP estimation, use the prior $\theta\sim\mathcal N(0,I_2)$ on both coefficients, including the intercept. The $n$th row of $\Phi$ is $\phi(x_n)^\top$.
+
+1. Compute $\Phi$, $\Phi^\top\Phi$, and $\Phi^\top y$.
+2. Find $\theta_{\mathrm{ML}}$ and the predicted mean at $x_*=2$.
+3. Find $\theta_{\mathrm{MAP}}$ and the predicted mean at $x_*=2$. Explain why they differ from the ML results.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -544,55 +552,33 @@ $$
 
 #### (b)
 
-ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.
+동일한 분산의 독립 Gaussian 잡음에서는 ML이 최소제곱과 같아요. (a)의 Gram 행렬은 가역이므로 ML 공식에 바로 대입해요.
 
 $$
-\theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y,
+\theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y=\begin{pmatrix}1/3&0\\0&1/2\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/3\\2\end{pmatrix}.
 $$
 
-$$
-\theta_{\mathrm{ML}}=\begin{pmatrix}1/3&0\\0&1/2\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/3\\2\end{pmatrix}.
-$$
-
-이제 $x_*=2$는 학습에 사용한 세 입력과 별개인 새 입력이에요. 별표는 새 예측 지점을 표시해요. 적합한 직선은 $f(x)=5/3+2x$이고, 새 입력의 특징은 $\phi(2)=(1,2)^\top$예요.
+새 입력에서 $\phi(2)=(1,2)^\top$이므로 평균 예측값은
 
 $$
-\widehat\mu_*^{\mathrm{ML}}=\phi(2)^\top\theta_{\mathrm{ML}}=1\cdot\frac53+2\cdot2=\frac53+\frac{12}3=\frac{17}3.
+\widehat\mu_*^{\mathrm{ML}}=\phi(2)^\top\theta_{\mathrm{ML}}=\frac53+2\cdot2=\frac{17}3.
 $$
-
-‘평균 예측’은 $y_*=\phi(2)^\top\theta+\epsilon_*$에서 평균 0인 잡음을 평균내어 얻은 중심값이에요. $x_*=2$에서 나온 관측들을 평균한다는 뜻이 아니에요. 실제 관측은 잡음 때문에 이 중심과 달라질 수 있어요. 여기서는 추정한 계수 한 점을 대입한 평균을 구한 것이에요.
 
 #### (c)
 
-MAP에는 데이터 적합도에 더해 $\theta$의 prior가 들어가요. $\mathcal N(0,I_2)$에서 0은 $2\times1$ 평균벡터이고, $I_2=\begin{pmatrix}1&0\\0&1\end{pmatrix}$는 공분산이에요. 이 문제에서는 절편과 기울기 모두 사전분산이 1이에요.
-
-일반적인 prior $\mathcal N(0,\Sigma_0)$의 음의 로그에는 $\frac12\theta^\top\Sigma_0^{-1}\theta$가 들어가요. **공분산 자체가 아니라 역행렬이 들어가요.** 잡음분산 $\sigma^2$를 포함한 목적함수는
+평균 0, 공분산 $\tau^2I$인 Gaussian prior에서는 $\lambda=\sigma^2/\tau^2$인 MAP 공식을 써요. 여기서는 $\sigma^2=\tau^2=1$이므로 $\lambda=1$이에요.
 
 $$
-J(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac12\theta^\top\Sigma_0^{-1}\theta+C.
+\theta_{\mathrm{MAP}}=(\Phi^\top\Phi+\lambda I_2)^{-1}\Phi^\top y=\begin{pmatrix}1/4&0\\0&1/3\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/4\\4/3\end{pmatrix}.
 $$
 
-미분해 0으로 놓고 $\sigma^2$를 곱하면
+따라서 새 입력에서 평균 예측값은
 
 $$
-(\Phi^\top\Phi+\sigma^2\Sigma_0^{-1})\theta=\Phi^\top y.
+\widehat\mu_*^{\mathrm{MAP}}=\phi(2)^\top\theta_{\mathrm{MAP}}=\frac54+2\cdot\frac43=\frac{47}{12}.
 $$
 
-$\Sigma_0=b^2I_2$라면 $\Sigma_0^{-1}=(1/b^2)I_2$이므로 더하는 행렬은 $(\sigma^2/b^2)I_2=\lambda I_2$예요. 즉 $b^2$는 분모에 들어간다는 기억과 정확히 일치해요. $b^2$는 사전분산의 표기이고 $b$는 표준편차예요.
-
-지금은 $\sigma^2=1$, $b^2=1$이라 $\lambda=1/1=1$이에요. 그래서 대각선이 1인 행렬 $I_2$가 나타나요.
-
-$$
-\Phi^\top\Phi+I_2=\begin{pmatrix}3+1&0\\0&2+1\end{pmatrix}=\begin{pmatrix}4&0\\0&3\end{pmatrix}.
-$$
-
-따라서 $4\theta_0=5$, $3\theta_1=4$를 풀어 $\theta_{\mathrm{MAP}}=(5/4,4/3)^\top$를 얻어요. 새 입력에서 평균은
-
-$$
-\widehat\mu_*^{\mathrm{MAP}}=\frac54+2\cdot\frac43=\frac{15}{12}+\frac{32}{12}=\frac{47}{12}.
-$$
-
-확인 예로, 잡음분산은 1이고 사전 공분산이 $2I_2$였다면 사전분산 $b^2=2$이므로 $\lambda=1/2$, 더하는 행렬은 $\frac12I_2$예요. 일반 공분산이 $b^2I_2$ 모양이 아닐 때는 단일 $\lambda$ 대신 $\sigma^2\Sigma_0^{-1}$를 그대로 사용해요. 여기서는 주어진 prior가 절편에도 적용되므로 두 대각 원소를 모두 바꿔요.
+ML과 다른 이유는 prior가 계수를 0 쪽으로 당기는 제곱벌점을 더하기 때문이에요. 이 문제에서는 절편에도 prior가 적용되어 두 대각성분 모두에 1을 더해요.
 
 #### 완성 답과 검산
 
@@ -627,10 +613,6 @@ Gram $\operatorname{diag}(3,2)$, ML $(5/3,2)$, MAP $(5/4,4/3)$. 모든 계수에
 #### 적용 조건
 
 잡음분산 1, 절편 포함 모든 계수에 N(0,I) prior
-
-#### 조건·구분
-
-$\Phi$는 $3\times2$, $\Phi^\top y=(5,4)^\top$예요. $x_*=2$ 평균 예측은 ML $17/3$, MAP $47/12$예요. 독립 잡음과 절편 prior 조건을 지키고, 관측 순서를 바꿀 때 $\Phi$와 $y$를 함께 바꿔요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
 
 #### 출제 근거
 
@@ -667,6 +649,22 @@ $$
 2. $\mu_Y$, $\Sigma_Y$, $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$를 구하라.
 3. $Y_1,Y_2$는 무상관인가? 독립인가? 이 문제의 실제 세 가능한 $Y$값과 확률을 이용해 판단하라.
 
+<details><summary>원문 보기</summary>
+
+#### Sample Covariance and an Affine Transformation
+
+Let $x_1=(0,0)^\top$, $x_2=(2,0)^\top$, and $x_3=(0,2)^\top$. The random vector $X$ takes each of these values with probability $1/3$. Use denominator $N=3$ in computing the covariance.
+
+$$
+Y=AX+b,\quad A=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\quad b=\begin{pmatrix}1\\-1\end{pmatrix}.
+$$
+
+1. Compute $\mu_X=E[X]$ and $\Sigma_X=\frac13\sum_{n=1}^3(x_n-\mu_X)(x_n-\mu_X)^\top$.
+2. Compute $\mu_Y$, $\Sigma_Y$, and $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$.
+3. Are $Y_1$ and $Y_2$ uncorrelated? Are they independent? Justify your answers using the three possible values of $Y$ and their probabilities.
+
+</details>
+
 #### 문제를 내 말로 읽어요
 
 $X$는 세 점을 똑같은 확률로 고르는 확률벡터예요. 그래서 분모 3인 공분산이 곧 이 분포의 공분산이에요. 변환 뒤 독립 여부는 공분산만 보고 끝내지 않아요.
@@ -691,62 +689,6 @@ $$
 \mu_X=\frac13\left[\begin{pmatrix}0\\0\end{pmatrix}+\begin{pmatrix}2\\0\end{pmatrix}+\begin{pmatrix}0\\2\end{pmatrix}\right]=\begin{pmatrix}2/3\\2/3\end{pmatrix}.
 $$
 
-**공분산 행렬을 성분별 공식으로 계산해 볼게요.** $\Sigma_X$는 $X$의 공분산 행렬이고, 각 칸은 $\operatorname{Cov}(X_i,X_j)$예요. 대각선은 자기 자신과의 공분산, 즉 분산이에요.
-
-$$
-\Sigma_X=\begin{pmatrix}\operatorname{Var}(X_1)&\operatorname{Cov}(X_1,X_2)\\\operatorname{Cov}(X_2,X_1)&\operatorname{Var}(X_2)\end{pmatrix}.
-$$
-
-$$
-\operatorname{Cov}(X_i,X_j)=E[X_iX_j]-E[X_i]E[X_j].
-$$
-
-이것이 **곱의 평균 빼기 평균의 곱**이에요. 같은 좌표끼리 계산하면 분산 공식이 돼요.
-
-$$
-\operatorname{Var}(X_1)=E[X_1^2]-(E[X_1])^2.
-$$
-
-앞 항 $E[X_1^2]$는 **각 값을 먼저 제곱한 다음 평균낸 값**이에요. 첫째 좌표는 세 관측에서 각각 0, 2, 0이므로
-
-$$
-E[X_1^2]=\frac{0^2+2^2+0^2}{3}=\frac43.
-$$
-
-뒤 항 $(E[X_1])^2$는 **평균을 먼저 구한 다음 제곱한 값**이에요. 제곱과 평균의 순서가 달라요.
-
-$$
-(E[X_1])^2=\left(\frac{0+2+0}{3}\right)^2=\left(\frac23\right)^2=\frac49.
-$$
-
-따라서 분산은 **제곱의 평균 빼기 평균의 제곱**으로 구해요.
-
-$$
-\operatorname{Var}(X_1)=\frac43-\frac49=\frac89.
-$$
-
-$$
-\operatorname{Var}(X_2)=\frac{0^2+0^2+2^2}{3}-\left(\frac23\right)^2=\frac89.
-$$
-
-대각선 밖의 공분산에서는 같은 관측 안의 두 좌표를 곱해요. 세 점 모두 좌표의 곱이 0이므로
-
-$$
-E[X_1X_2]=\frac{0\cdot0+2\cdot0+0\cdot2}{3}=0.
-$$
-
-$$
-\operatorname{Cov}(X_1,X_2)=0-\frac23\cdot\frac23=-\frac49.
-$$
-
-반대쪽 공분산도 같으므로 다음 행렬을 얻어요.
-
-$$
-\Sigma_X=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}.
-$$
-
-아래의 편차 외적 계산은 같은 공분산 행렬을 구하는 또 다른 방법이에요.
-
 평균을 뺀 벡터 $d_n=x_n-\mu_X$는 $d_1=(-2/3,-2/3)^\top$, $d_2=(4/3,-2/3)^\top$, $d_3=(-2/3,4/3)^\top$예요. 공분산은 이 편차의 외적을 평균내요. 외적은 $(2\times1)(1\times2)$라서 $2\times2$이고, 예를 들어 $d_1d_1^\top$의 네 원소는 편차 성분의 쌍별 곱이에요.
 
 $$
@@ -761,147 +703,27 @@ $$
 
 #### (b)
 
-$Y=AX+b$에서 $A=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$는 두 성분을 섞는 변환, $b=(1,-1)^\top$는 일정한 평행이동이에요. 평균에는 둘 다 들어가요.
+아핀 변환 $Y=AX+b$의 평균·공분산·교차공분산 공식을 바로 적용해요.
 
 $$
-\mu_Y=A\mu_X+b=\begin{pmatrix}2/3+2/3+1\\2/3-2/3-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix}.
+\mu_Y=A\mu_X+b,\qquad\Sigma_Y=A\Sigma_XA^\top,\qquad C_{XY}=\Sigma_XA^\top.
 $$
 
-중심화하면 $Y-\mu_Y=AX+b-(A\mu_X+b)=A(X-\mu_X)$여서 $b$가 사라져요. 전치가 곱의 순서를 뒤집으므로 공분산은
+(a)의 결과를 대입하면
 
 $$
-\Sigma_Y=E[A(X-\mu_X)(X-\mu_X)^\top A^\top]=A\Sigma_XA^\top.
-$$
-
-**먼저 $A^\top$부터 구해요.** 전치는 행과 열을 맞바꾸는 연산이에요. $A$의 첫째 행 $(1,1)$을 첫째 열로, 둘째 행 $(1,-1)$을 둘째 열로 옮겨요.
-
-$$
-A=\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+\mu_Y=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}2/3\\2/3\end{pmatrix}+\begin{pmatrix}1\\-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix},
 $$
 
 $$
-A^\top=\begin{pmatrix}1&1\\1&-1\end{pmatrix}=A.
-$$
-
-이 문제의 $A$는 대칭행렬이라 전치해도 숫자의 배치가 같아요. 그래서 전치가 생략된 것처럼 보이지만, 오른쪽에 곱하는 행렬은 분명히 $A^\top$예요. 일반 행렬은 전치하면 달라질 수 있어요.
-
-이제 왼쪽 곱 $A\Sigma_X$부터 계산해요.
-
-$$
-A\Sigma_X=\frac19\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}8&-4\\-4&8\end{pmatrix}.
+\Sigma_Y=A\left[\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}\right]A^\top=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix},
 $$
 
 $$
-A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix}.
+C_{XY}=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}A^\top=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
 $$
 
-이 결과의 **오른쪽에 $A^\top$**을 곱해요.
-
-$$
-\Sigma_Y=(A\Sigma_X)A^\top.
-$$
-
-$$
-\Sigma_Y=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
-$$
-
-각 칸은 왼쪽 행렬의 행과 오른쪽 행렬의 열을 짝지어 곱한 뒤 더해요. $1/9$는 공통 인자로 바깥에 두고, 괄호 안 네 칸을 따로 계산하면 다음과 같아요.
-
-$$
-\begin{aligned}(1,1)&:\;4\cdot1+4\cdot1=8,\\(1,2)&:\;4\cdot1+4\cdot(-1)=0,\\(2,1)&:\;12\cdot1+(-12)\cdot1=0,\\(2,2)&:\;12\cdot1+(-12)\cdot(-1)=24.\end{aligned}
-$$
-
-특히 마지막 칸에서는 음수끼리의 곱이 양수가 되어 $12+12=24$가 돼요.
-
-$$
-\Sigma_Y=\frac19\begin{pmatrix}8&0\\0&24\end{pmatrix}.
-$$
-
-$$
-\Sigma_Y=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.
-$$
-
-**교차공분산은 $X$의 각 좌표와 $Y$의 각 좌표 사이의 공분산을 모은 행렬이에요.** $\Sigma_X$가 $X$ 내부의 관계를 본다면, $C_{XY}$는 $X$와 $Y$ 사이의 관계를 봐요. 행은 $X$의 좌표 번호, 열은 $Y$의 좌표 번호예요.
-
-$$
-C_{XY}=\begin{pmatrix}\operatorname{Cov}(X_1,Y_1)&\operatorname{Cov}(X_1,Y_2)\\\operatorname{Cov}(X_2,Y_1)&\operatorname{Cov}(X_2,Y_2)\end{pmatrix}.
-$$
-
-**스칼라에서 쓰던 공분산 규칙부터 연결해 볼게요.** $X_1$이 스칼라 확률변수이고 $a,b$가 상수라면 다음 풀이는 맞아요. 행렬 $A$와 구별하려고 스칼라 계수는 소문자 $a$로 써요.
-
-$$
-\begin{aligned}\operatorname{Cov}(X_1,aX_1+b)&=a\operatorname{Cov}(X_1,X_1)+\operatorname{Cov}(X_1,b)\\&=a\operatorname{Var}(X_1).\end{aligned}
-$$
-
-상수 $b$는 평균을 빼면 $b-E[b]=0$이므로 공분산에 기여하지 않아요. 또 자기 자신과의 공분산은 분산이에요. 따라서 상수항을 없애고 계수를 밖으로 꺼낸다는 생각은 맞아요.
-
-다만 이 문제의 $X_1$은 첫째 좌표인 스칼라이고, $X=(X_1,X_2)^\top$는 두 좌표를 모은 열벡터예요. $A$는 $2\times2$ 행렬이므로 $AX_1+b$를 이 문제의 $Y$로 쓸 수는 없어요. 올바른 변환은 $Y=AX+b$이며, 행렬 계수를 밖으로 꺼낼 때는 곱의 위치와 전치를 함께 확인해야 해요.
-
-$Y-\mu_Y=A(X-\mu_X)$를 교차공분산의 정의에 대입해요. 두 번째 벡터에 전치가 붙고, $(Au)^\top=u^\top A^\top$이므로 $A^\top$가 오른쪽으로 나와요.
-
-$$
-\begin{aligned}C_{XY}=\operatorname{Cov}(X,AX+b)&=E[(X-\mu_X)(Y-\mu_Y)^\top]\\&=E[(X-\mu_X)(A(X-\mu_X))^\top]\\&=E[(X-\mu_X)(X-\mu_X)^\top A^\top]\\&=\Sigma_XA^\top.\end{aligned}
-$$
-
-반대로 첫 번째 벡터를 변환하면 $A$가 왼쪽으로 나와요. 스칼라에서는 곱의 순서를 바꿔도 되지만, 행렬에서는 두 식을 구별해요.
-
-$$
-\operatorname{Cov}(X,AX+b)=\Sigma_XA^\top,\qquad\operatorname{Cov}(AX+b,X)=A\Sigma_X.
-$$
-
-이 문제에서는 $A^\top=A$이지만 $\Sigma_XA$와 $A\Sigma_X$는 달라요. 앞서 구한 $A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix}$는 $C_{YX}$이고, 구하려는 $C_{XY}$는 그 전치예요.
-
-이제 $Y=AX+b$를 좌표별로 풀어서 같은 결과가 나오는지 확인해요.
-
-$$
-Y_1=X_1+X_2+1.
-$$
-
-$$
-Y_2=X_1-X_2-1.
-$$
-
-계산할 때 두 규칙을 써요. 상수를 더해도 공분산은 변하지 않아요. 평균을 뺄 때 상수가 사라지기 때문이에요. 또 합과 차는 항별로 나눠 계산할 수 있어요.
-
-$$
-\operatorname{Cov}(U,V+c)=\operatorname{Cov}(U,V)\quad(c\text{는 상수}).
-$$
-
-$$
-\operatorname{Cov}(U,V+W)=\operatorname{Cov}(U,V)+\operatorname{Cov}(U,W).
-$$
-
-빼기 부호도 그대로 따라가요. 앞에서 구한 분산은 두 좌표 모두 $8/9$, 두 좌표 사이의 공분산은 $-4/9$예요. 자기 자신과의 공분산은 분산이라는 점도 사용해요.
-
-**첫째 행 첫째 칸:** $Y_1$에 $X_1+X_2+1$을 대입해요.
-
-$$
-\begin{aligned}\operatorname{Cov}(X_1,Y_1)&=\operatorname{Cov}(X_1,X_1+X_2+1)\\&=\operatorname{Var}(X_1)+\operatorname{Cov}(X_1,X_2)\\&=\frac89-\frac49=\frac49.\end{aligned}
-$$
-
-**첫째 행 둘째 칸:** $Y_2$의 $-X_2$ 때문에 공분산을 빼요. 공분산 자체가 음수이므로 마지막 계산은 덧셈이 돼요.
-
-$$
-\begin{aligned}\operatorname{Cov}(X_1,Y_2)&=\operatorname{Cov}(X_1,X_1-X_2-1)\\&=\operatorname{Var}(X_1)-\operatorname{Cov}(X_1,X_2)\\&=\frac89-\left(-\frac49\right)=\frac43.\end{aligned}
-$$
-
-**둘째 행 첫째 칸:** 이번에는 첫 변수가 $X_2$예요.
-
-$$
-\begin{aligned}\operatorname{Cov}(X_2,Y_1)&=\operatorname{Cov}(X_2,X_1)+\operatorname{Var}(X_2)\\&=-\frac49+\frac89=\frac49.\end{aligned}
-$$
-
-**둘째 행 둘째 칸:** $Y_2=X_1-X_2-1$이므로 두 번째 항을 빼요.
-
-$$
-\begin{aligned}\operatorname{Cov}(X_2,Y_2)&=\operatorname{Cov}(X_2,X_1)-\operatorname{Var}(X_2)\\&=-\frac49-\frac89=-\frac43.\end{aligned}
-$$
-
-네 칸을 모으면 다음과 같아요.
-
-$$
-C_{XY}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
-$$
+상수 $b$는 평균에만 영향을 줘요. 교차공분산은 $X,Y$ 순서이므로 $\Sigma_XA^\top$이며, $C_{YX}=C_{XY}^\top$예요.
 
 #### (c)
 
@@ -955,10 +777,6 @@ $\mu_Y=A\mu_X+b$, $\Sigma_Y=A\Sigma_XA^\top$, $C_{XY}=\Sigma_XA^\top$. 무상관
 
 공분산 분모 N=3; X는 세 관측을 균등 선택; Gaussian 가정 없음
 
-#### 조건·구분
-
-이 문제에서 $\mu_X=(2/3,2/3)^\top$, $\Sigma_X=\tfrac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}$이고 $\mu_Y=(7/3,-1)^\top$, $\Sigma_Y=\operatorname{diag}(8/9,8/3)$예요. $C_{XY}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}$는 X차원×Y차원 순서예요. 결합확률 $P(Y_1=1,Y_2=1)=0$은 주변확률 곱 $1/9$과 달라 독립이 아니에요. 상수 $b$는 공분산에서 사라져요. 과제 수치·조건을 바꾼 변형 연습이며 교수님의 세부 출제 확정 내용은 아니에요.
-
 #### 출제 근거
 
 출제 근거: 과제1 P21-P22 변형. MML PDF 194, 196, 198, 200쪽의 이론을 대조했어요. 과제의 수치·조건을 바꾼 변형 문제예요. 교수님의 세부 출제 확정 내용은 아니에요.
@@ -982,6 +800,8 @@ EXAM Problem 6 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
+스칼라 목적함수의 미분 결과는 강의와 같이 행벡터로 쓴다. 파라미터 벡터 자체는 열벡터이다.
+
 고정 입력 $x_1,\ldots,x_N$과 $y_n=\theta_0+\theta_1x_n+\epsilon_n$을 생각하자. $\theta=(\theta_0,\theta_1)^\top$이고, $\epsilon_n$은 서로 독립이며 $\mathcal N(0,\sigma^2)$를 따른다. $\sigma^2>0$는 알려져 있다. $\Phi$의 $n$번째 행은 $(1,x_n)$이며 열들은 선형독립이다.
 
 #### 구할 것
@@ -989,8 +809,24 @@ EXAM Problem 6 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 1. 고정 입력과 $\theta$가 주어졌을 때 $y_n$의 조건부 분포를 쓰고, 관측들의 조건부 독립성이 성립하는 이유를 설명하라.
 2. 소문항 (a)를 이용해 전체 우도 $p(y\mid\Phi,\theta)$와 음의 로그우도 $\mathcal L(\theta)$를 정규화 상수까지 써라.
 3. 소문항 (b)의 목적함수를 제곱손실 경험위험 $\widehat R(\theta)=N^{-1}\sum_n(y_n-\phi(x_n)^\top\theta)^2$와 연결하라. 왜 최소점이 같은가?
-4. 소문항 (c)의 제곱오차를 $\theta$의 이차식으로 전개하고 열 gradient를 구해 정규방정식을 도출하라.
+4. 소문항 (c)의 제곱오차를 $\theta$의 이차식으로 전개하고 행 gradient를 구해 정규방정식을 도출하라.
 5. 소문항 (d)를 풀어 $\theta_{\mathrm{ML}}$을 도출하고 유일한 최소점임을 보여라. 특징을 $(1,x,x^2)^\top$로 바꾸어도 선형 회귀인 이유를 설명하라.
+
+<details><summary>원문 보기</summary>
+
+#### From a Probabilistic Model to Empirical Risk Minimization
+
+Write derivatives of scalar objectives as row vectors. Parameter vectors themselves are column vectors.
+
+Consider fixed inputs $x_1,\ldots,x_N$ and the model $y_n=\theta_0+\theta_1x_n+\epsilon_n$, with $\theta=(\theta_0,\theta_1)^\top$. The noises $\epsilon_n$ are mutually independent $\mathcal N(0,\sigma^2)$ random variables, where $\sigma^2>0$ is known. The $n$th row of $\Phi$ is $(1,x_n)$, and its columns are linearly independent.
+
+1. Write the conditional distribution of $y_n$ given the fixed inputs and $\theta$. Explain why the observations are conditionally independent.
+2. Using (a), write the full likelihood $p(y\mid\Phi,\theta)$ and the negative log-likelihood $\mathcal L(\theta)$, including all normalizing constants.
+3. Relate the objective in (b) to the squared-loss empirical risk $\widehat R(\theta)=N^{-1}\sum_n(y_n-\phi(x_n)^\top\theta)^2$. Why do they have the same minimizer?
+4. Expand the squared error in (c) as a quadratic in $\theta$. Compute its row gradient and derive the normal equations.
+5. Solve (d) to derive $\theta_{\mathrm{ML}}$ and show that it is the unique minimizer. Explain why replacing the features by $(1,x,x^2)^\top$ still gives linear regression.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1066,13 +902,13 @@ $$
 
 $y^\top\Phi\theta$는 스칼라여서 전치해도 같고, 전치한 식이 $\theta^\top\Phi^\top y$예요. 두 교차항을 합하면 $Q=y^\top y-2\theta^\top\Phi^\top y+\theta^\top G\theta$, $G=\Phi^\top\Phi$예요.
 
-$y^\top y$는 상수, 선형항의 열 gradient는 $-2\Phi^\top y$, 대칭행렬 $G$의 이차항 gradient는 $2G\theta$예요. 그러므로
+$y^\top y$는 상수, 선형항의 행 gradient는 $-2y^\top\Phi$, 대칭행렬 $G$의 이차항 gradient는 $2\theta^\top G$예요. 그러므로
 
 $$
-\nabla_\theta Q=-2\Phi^\top y+2\Phi^\top\Phi\theta.
+\nabla_\theta Q=-2y^\top\Phi+2\theta^\top\Phi^\top\Phi.
 $$
 
-이를 0으로 놓고 2로 나누면 정규방정식 $\Phi^\top\Phi\theta=\Phi^\top y$를 얻어요. 양변은 계수 두 개에 대응하는 $2\times1$이에요. 아직 역행렬을 곱하지 않았으므로 이 단계 자체는 열독립 없이도 성립해요.
+이 $1\times2$ 행 gradient를 0으로 놓고 2로 나누면 $\theta^\top\Phi^\top\Phi=y^\top\Phi$예요. 양변 전치하면 정규방정식 $\Phi^\top\Phi\theta=\Phi^\top y$를 얻어요. 양변은 계수 두 개에 대응하는 $2\times1$이에요. 아직 역행렬을 곱하지 않았으므로 이 단계 자체는 열독립 없이도 성립해요.
 
 #### (e)
 
@@ -1108,11 +944,11 @@ $\mathcal L(\theta_a)-\mathcal L(\theta_b)=N(\widehat R(\theta_a)-\widehat R(\th
 
 #### (d) 검산
 
-원래 제곱합을 성분별 미분해도 $-2\sum_n\phi_n(y_n-\phi_n^\top\theta)$로 같아요.
+원래 제곱합을 성분별 미분해도 $-2\sum_n(y_n-\phi_n^\top\theta)\phi_n^\top$로 같아요.
 
 #### (e) 검산
 
-최종 식을 정규방정식에 넣으면 양변이 같아요. 잔차는 $\Phi^\top r=0$, 추정량은 $K\times1$이에요.
+최종 식을 정규방정식에 넣으면 양변이 같아요. 잔차는 $\Phi^\top r=0$, 추정량은 $2\times1$이에요.
 
 #### 여기서 헷갈리기 쉬워요
 
@@ -1133,10 +969,6 @@ $\mathcal L(\theta_a)-\mathcal L(\theta_b)=N(\widehat R(\theta_a)-\widehat R(\th
 #### 적용 조건
 
 고정 입력; θ를 조건으로 독립인 동일분산 Gaussian 잡음; σ² 알려짐
-
-#### 조건·구분
-
-정규화 상수까지 NLL은 $\tfrac N2\log(2\pi\sigma^2)+\mathrm{SSE}/(2\sigma^2)$이고 $\mathcal L=C+N\widehat R/(2\sigma^2)$여서 최소점이 같아요. 열 gradient $2\Phi^\top\Phi\theta-2\Phi^\top y=0$에서 정규방정식을 얻어요. 열독립이면 비영 $v$에서 $\|\Phi v\|^2>0$으로 Gram이 양의 정부호라 ML 해는 유일하며 $K\times1$이에요. 조건부 독립을 주변 독립으로 바꾸지 않고, 분산까지 추정할 때는 그 항을 상수로 버리지 않아요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
 
 #### 출제 근거
 
@@ -1162,6 +994,8 @@ EXAM Problem 7 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 
 #### 주어진 조건
 
+스칼라 목적함수의 미분 결과는 강의와 같이 행벡터로 쓴다. 파라미터 벡터 자체는 열벡터이다.
+
 고정 $\Phi\in\mathbb R^{N\times K}$에 대해 $y\mid\theta\sim\mathcal N(\Phi\theta,\sigma^2 I_N)$, $\theta\sim\mathcal N(m_0,\tau^2 I_K)$이다. $\sigma^2,\tau^2>0$는 알려져 있고 prior는 절편이 있으면 그 계수에도 적용한다. $\Phi$의 열독립은 가정하지 않는다.
 
 #### 구할 것
@@ -1172,6 +1006,23 @@ EXAM Problem 7 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 4. 소문항 (c)를 풀어 MAP 추정식을 도출하라. 제곱오차와 $\|\theta-m_0\|^2$의 합으로 쓸 때 상대 벌점계수 $\lambda$는 무엇인가?
 5. 소문항 (d)의 역행렬이 열독립 가정 없이도 존재하는 이유를 비영 벡터의 이차형식으로 증명하라.
 6. $\Phi=\begin{pmatrix}1&1\\2&2\end{pmatrix}$, $y=(1,2)^\top$, $m_0=0$, $\lambda=1$일 때 (d)의 해를 계산하라. $\lambda=0$의 해의 유일성 및 $\lambda\to\infty$의 극한과 비교하라.
+
+<details><summary>원문 보기</summary>
+
+#### A Gaussian Prior and Ridge Regression
+
+Write derivatives of scalar objectives as row vectors. Parameter vectors themselves are column vectors.
+
+For fixed $\Phi\in\mathbb R^{N\times K}$, consider $y\mid\theta\sim\mathcal N(\Phi\theta,\sigma^2 I_N)$ and $\theta\sim\mathcal N(m_0,\tau^2 I_K)$. The variances $\sigma^2,\tau^2>0$ are known. The prior also applies to the intercept coefficient, if present. Do not assume that the columns of $\Phi$ are linearly independent.
+
+1. Use Bayes' theorem to express $p(\theta\mid y,\Phi)$ as proportional to a product of likelihood and prior. Does the evidence depend on $\theta$?
+2. Substitute the Gaussian densities into (a). Derive the negative log-posterior, separating terms that do not depend on $\theta$.
+3. Differentiate each of the two quadratic terms in (b) and derive the MAP normal equations.
+4. Solve (c) to derive the MAP estimator. What is the relative penalty coefficient $\lambda$ when the objective is written as a sum of squared error and a penalty on $\|\theta-m_0\|^2$?
+5. Use a quadratic form evaluated at a nonzero vector to prove that the inverse in (d) exists even without linearly independent columns.
+6. Compute the solution in (d) for $\Phi=\begin{pmatrix}1&1\\2&2\end{pmatrix}$, $y=(1,2)^\top$, $m_0=0$, and $\lambda=1$. Compare with uniqueness when $\lambda=0$ and with the limit as $\lambda\to\infty$.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1220,10 +1071,10 @@ $C$는 정규화 계수의 로그와 evidence의 로그를 모은 $\theta$ 무�
 (b)를 $\theta$에 대해 미분해요. 제곱노름에서 나온 2가 분모의 2와 소거돼요.
 
 $$
-\nabla_\theta J=\frac{\Phi^\top\Phi\theta-\Phi^\top y}{\sigma^2}+\frac{\theta-m_0}{\tau^2}.
+\nabla_\theta J=\frac{\theta^\top\Phi^\top\Phi-y^\top\Phi}{\sigma^2}+\frac{(\theta-m_0)^\top}{\tau^2}.
 $$
 
-이를 0으로 놓은 뒤 모든 항에 $\sigma^2$를 곱하면
+이 $1\times K$ 행 gradient를 0으로 놓으면 $\theta^\top\Phi^\top\Phi-y^\top\Phi+(\sigma^2/\tau^2)(\theta-m_0)^\top=0$이에요. 여기서는 $\sigma^2$를 곱했어요. 양변 전치하면
 
 $$
 \Phi^\top\Phi\theta-\Phi^\top y+\frac{\sigma^2}{\tau^2}\theta-\frac{\sigma^2}{\tau^2}m_0=0.
@@ -1325,10 +1176,6 @@ $\lambda=\sigma^2/\tau^2>0$. $G+\lambda I\succ0$. MAP $=(G+\lambda I)^{-1}(\Phi^
 
 고정 입력; 모든 계수에 N(m0,τ²I) prior; σ²,τ²&gt;0
 
-#### 조건·구분
-
-음의 로그 posterior는 $\|y-\Phi\theta\|^2/(2\sigma^2)+\|\theta-m_0\|^2/(2\tau^2)+C$이고 evidence는 최적화 변수 $\theta$와 무관해요. 비영 $v$에 대해 $v^\top(G+\lambda I)v=\|\Phi v\|^2+\lambda\|v\|^2>0$이어서 열독립 없이 유일해요. 수치 해는 $(5/11,5/11)^\top$이고, $\lambda=0$에서는 $\theta_1+\theta_2=1$인 모든 해, $m_0=0$에서 $\lambda\to\infty$이면 0이에요. 새 데이터 오차 개선은 보장하지 않아요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
-
 #### 출제 근거
 
 출제 근거: MML 9.2.3-9.2.4 theory application. MML PDF 307, 308, 309쪽 및 범위 내 강의 개념을 연결한 새 유도형 연습 문제예요. 교수님의 세부 출제 확정 문항은 아니에요.
@@ -1364,6 +1211,23 @@ EXAM Problem 8 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 4. 소문항 (c)의 분포에서 $f_*=x_*\theta$의 평균·분산과 분포를 도출하라.
 5. 소문항 (d)에 독립 미래 잡음을 더해 $y_*$의 사후예측 평균·분산과 분포를 도출하라.
 6. 소문항 (c)의 MAP 값을 구하고 그 값에 모수를 고정한 관측 예측분포를 (e)와 비교하라. 분산 차이는 어디서 오는가?
+
+<details><summary>원문 보기</summary>
+
+#### The Posterior and Prediction of a New Observation
+
+Consider the scalar regression model $y_n=x_n\theta+\epsilon_n$, with $\theta\sim\mathcal N(1,2)$ and mutually independent noises $\epsilon_n\sim\mathcal N(0,2)$. The noises are also independent of $\theta$. The observed data are $D=\{(1,2),(1,0)\}$. The second parameter of every Gaussian denotes its variance.
+
+For the new input $x_*=2$, define $f_*=x_*\theta$ and $y_*=f_*+\epsilon_*$. The future noise $\epsilon_*\sim\mathcal N(0,2)$ is independent of $\theta$, $D$, and the previous noises.
+
+1. Use independence to write the product of likelihood and prior. Find its exponential form up to a positive factor independent of $\theta$.
+2. Collect the exponent in (a) as $-\tfrac12(A\theta^2-2b\theta+c)$ and find $A,b,c$.
+3. Complete the square in (b) and normalize the density to integrate to one. Derive the posterior mean, variance, and density.
+4. Using the distribution in (c), derive the mean, variance, and distribution of $f_*=x_*\theta$.
+5. Add the independent future noise to (d). Derive the posterior predictive mean, variance, and distribution of $y_*$.
+6. Find the MAP value from (c). Fix the parameter at this value and compare the resulting predictive distribution for an observation with (e). What accounts for the difference in variance?
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1433,39 +1297,49 @@ $$
 
 #### (d)
 
-$x_*=2$는 새 입력이고, $f_*=x_*\theta=2\theta$는 잡음 없는 잠재 함수값이에요. 여기서는 $\theta$를 한 점으로 고정하지 않고 (c)의 사후분포를 가진 확률변수로 다뤄요.
+$f_*=2\theta$이므로 **상수배의 평균·분산 공식**을 바로 적용하면 돼요.
+
+$$
+E[aX]=aE[X],\qquad \operatorname{Var}(aX)=a^2\operatorname{Var}(X).
+$$
+
+(c)에서 구한 사후분포는 $\theta\mid D\sim\mathcal N(1,2/3)$이므로
 
 $$
 E[f_*\mid D]=2E[\theta\mid D]=2\cdot1=2.
 $$
 
-분산은 평균으로부터의 거리의 제곱을 평균낸 값이에요. 중심화하면 $f_*-2=2(\theta-1)$이므로
-
 $$
-\operatorname{Var}(f_*\mid D)=E[\{2(\theta-1)\}^2\mid D]=4\operatorname{Var}(\theta\mid D)=4\cdot\frac23=\frac83.
+\operatorname{Var}(f_*\mid D)=2^2\operatorname{Var}(\theta\mid D)=4\cdot\frac23=\frac83.
 $$
 
-평균에는 2를 곱하지만 분산에는 $2^2=4$를 곱하는 이유가 이 제곱이에요. Gaussian의 상수배는 Gaussian이므로 $f_*\mid D\sim\mathcal N(2,8/3)$예요. 아직 새 관측의 잡음은 더하지 않았어요.
+Gaussian의 상수배도 Gaussian이므로
+
+$$
+\boxed{f_*\mid D\sim\mathcal N(2,8/3)}.
+$$
+
+여기서는 **사후분산 $2/3$**을 사용하며, 새 관측 잡음은 (e)에서 더해요.
 
 #### (e)
 
-실제로 관측할 값은 $y_*=f_*+\epsilon_*$예요. 새 잡음은 평균 0, 분산 2이며 사후 모수와 독립이라는 가정을 사용해요. 따라서 평균은 $E[y_*\mid D]=2+0=2$예요.
-
-합의 분산은 일반적으로 두 분산과 교차공분산의 2배를 더한 것이에요. 여기서는 독립성 때문에 교차항이 0이 되어
+$y_*=f_*+\epsilon_*$이고 새 잡음은 $f_*$와 독립인 $\mathcal N(0,2)$예요. 독립인 두 확률변수의 합은 평균과 분산을 각각 더하면 돼요.
 
 $$
-\operatorname{Var}(y_*\mid D)=\frac83+2=\frac83+\frac63=\frac{14}3.
+E[y_*\mid D]=2+0=2,\qquad\operatorname{Var}(y_*\mid D)=\frac83+2=\frac{14}3.
 $$
 
-독립 Gaussian의 합이므로 $y_*\mid D\sim\mathcal N(2,14/3)$예요. $8/3$은 계수의 불확실성이 새 입력으로 전달된 부분, 2는 계수를 정확히 알아도 남는 새 관측 잡음이에요. 적분식으로는 $p(y_*\mid D)=\int p(y_*\mid\theta)p(\theta\mid D)d\theta$이며, 이 적분이 모수 불확실성을 평균내는 연산이에요.
+독립 Gaussian의 합도 Gaussian이므로 $y_*\mid D\sim\mathcal N(2,14/3)$예요.
 
 #### (f)
 
-(c)의 사후밀도는 $\exp[-3(\theta-1)^2/4]$에 비례해요. 제곱이 0인 $\theta=1$에서 가장 높으므로 $\theta_{\mathrm{MAP}}=1$이에요.
+(c)의 사후분포는 Gaussian이므로 MAP는 사후평균과 같아 $\theta_{\mathrm{MAP}}=1$이에요. 이를 고정 대입하면
 
-이 한 점을 고정 대입하면 $f_*=2\cdot1=2$는 더 이상 무작위가 아니에요. 그러나 새 관측 잡음까지 사라지는 것은 아니므로 $y_*=2+\epsilon_*$이고 $y_*\mid\theta_{\mathrm{MAP}}\sim\mathcal N(2,2)$예요.
+$$
+y_*=2\theta_{\mathrm{MAP}}+\epsilon_*=2+\epsilon_*\sim\mathcal N(2,2).
+$$
 
-전체 사후예측은 $\mathcal N(2,14/3)$, MAP 대입 예측은 $\mathcal N(2,2)$예요. 이 예에서는 평균이 같지만 분산 차이는 $14/3-2=8/3$이에요. 이는 (d)의 잠재 분산과 같아요. MAP가 모수 불확실성을 한 점으로 바꾸었기 때문에 빠진 부분이에요. 평균 예측 하나를 묻는 문제와 예측분포 전체를 묻는 문제를 구별해요.
+(e)와 예측평균은 같지만, 모수 불확실성을 제외했으므로 분산은 $8/3$ 작아요.
 
 #### 완성 답과 검산
 
@@ -1513,10 +1387,6 @@ $\theta\mid D\sim\mathcal N(1,2/3)$. 잠재분산 $8/3$, 관측분산 $14/3$. MA
 
 서로 독립 잡음, prior와 독립; 새 잡음도 독립; 분산 표기
 
-#### 조건·구분
-
-완전제곱 계수는 $A=b=3/2$, $c=5/2$이고 posterior 밀도는 $\sqrt{3/(4\pi)}e^{-3(\theta-1)^2/4}$예요. $f_*\mid D\sim\mathcal N(2,8/3)$, $y_*\mid D\sim\mathcal N(2,14/3)$예요. $x_*=2$는 분산에 제곱해 곱하며, MAP 고정은 모수 불확실성 $8/3$을 제거해요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
-
 #### 출제 근거
 
 출제 근거: MML 9.3.3-9.3.4 theory application. MML PDF 312, 314, 315쪽 및 범위 내 강의 개념을 연결한 새 유도형 연습 문제예요. 교수님의 세부 출제 확정 문항은 아니에요.
@@ -1551,6 +1421,20 @@ EXAM Problem 9 · [원 문제 보기](../%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%EC
 3. 소문항 (b)에 $v_1=1,v_2=4$와 관측 $y=0$을 대입해 두 evidence를 정규화 상수까지 계산하라.
 4. 소문항 (c)의 비로 Bayes factor $B_{12}$를 구하고 데이터가 어느 모델을 지지하는지 판단하라.
 5. Bayes 정리의 두 모델 posterior를 나누어 posterior odds 공식을 유도하라. (d)와 모델 prior를 사용해 $P(M_1\mid y=0)$ 및 선택할 모델을 구하라.
+
+<details><summary>원문 보기</summary>
+
+#### Evidence, Bayes Factors, and Model Selection
+
+Two models share $y=\theta+\epsilon$, where $\epsilon\sim\mathcal N(0,1)$ is independent of $\theta$. Model $M_1$ uses $\theta\sim\mathcal N(0,1)$, and model $M_2$ uses $\theta\sim\mathcal N(0,4)$. Their prior probabilities are $P(M_1)=1/3$ and $P(M_2)=2/3$. There is one observation, $y=0$. The second Gaussian parameter denotes variance.
+
+1. Let $v_j$ be the prior variance under model $M_j$. Express $p(y\mid M_j)$ as an integral over $\theta$. Explain why the distribution integrated against the likelihood is the prior rather than the posterior.
+2. Complete the square in the $\theta$ terms in the exponent of the Gaussian product in (a). Evaluate the integral to obtain the evidence density for arbitrary $y$ in terms of $v_j$.
+3. Substitute $v_1=1$, $v_2=4$, and the observation $y=0$ into (b). Compute both evidence values, including the normalizing constants.
+4. Take the ratio of the results in (c) to obtain the Bayes factor $B_{12}$. Which model do the data favor?
+5. Divide the two model posteriors in Bayes' theorem to derive the posterior odds formula. Use (d) and the model priors to find $P(M_1\mid y=0)$ and select a model.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1616,13 +1500,13 @@ $$
 
 #### (d)
 
-Bayes factor의 아래첨자 12는 분자에 $M_1$, 분모에 $M_2$를 놓는 순서예요. (c)의 두 evidence를 나누면 분수의 나눗셈 때문에 분모의 역수를 곱해요.
+Bayes factor는 두 evidence의 비예요.
 
 $$
-B_{12}=\frac{1/\sqrt{4\pi}}{1/\sqrt{10\pi}}=\frac{\sqrt{10\pi}}{\sqrt{4\pi}}=\sqrt{\frac52}.
+B_{12}=\frac{p(0\mid M_1)}{p(0\mid M_2)}=\frac{1/\sqrt{4\pi}}{1/\sqrt{10\pi}}=\sqrt{\frac52}>1.
 $$
 
-이는 약 1.581이고 1보다 커요. 따라서 관측 $y=0$ 자체는 $M_1$에 더 큰 상대 지지를 줘요. 두 모형의 관측 평균은 모두 0이지만 더 좁은 분포인 $M_1$이 중심 0에 더 큰 밀도를 부여했기 때문이에요. 아직 모형 자체의 사전확률은 반영하지 않았으므로 최종 선택은 (e)에서 결정해요.
+따라서 데이터는 $M_1$을 더 지지해요. 모델 사전확률은 아직 반영하지 않았으며, 최종 사후확률 비교는 (e)에서 해요.
 
 #### (e)
 
@@ -1684,10 +1568,6 @@ evidence: prior 평균. $B_{12}=\sqrt{5/2}$, posterior odds $=\sqrt{10}/4$. 사�
 
 두 모델 prior probability 명시; evidence는 prior로 적분
 
-#### 조건·구분
-
-일반 evidence는 $p(y\mid M_j)=\mathcal N(y\mid0,1+v_j)$예요. 관측 0에서 $p_1=1/\sqrt{4\pi}$, $p_2=1/\sqrt{10\pi}$로 정규화 상수도 남겨요. 데이터는 $M_1$을 지지하지만 prior odds $1/2$를 곱해 $P(M_1\mid0)\simeq0.44152$이므로 사후 선택은 $M_2$예요. evidence는 관측의 밀도이며 사후예측의 posterior 가중과 달라요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
-
 #### 출제 근거
 
 출제 근거: Lecture04 s17 and MML 9.3.3 theory application. MML PDF 312, 319쪽 및 범위 내 강의 개념을 연결한 새 유도형 연습 문제예요. 교수님의 세부 출제 확정 문항은 아니에요.
@@ -1725,6 +1605,26 @@ $\Phi$의 열들은 선형독립이며 내적은 유클리드 내적이다. $\wi
 3. 소문항 (b)를 $\widehat y=\Phi\widehat\theta$에 대입하여 $\widehat y=Py$가 되는 행렬 $P$를 도출하라. 차원·대칭성·멱등성을 보여라.
 4. 주어진 수치에서 (b), (c)를 사용해 $\widehat\theta$, $P$, $\widehat y$, $r$를 계산하고 $\Phi^\top r=0$을 확인하라.
 5. 임의의 $u\in\operatorname{col}(\Phi)$에 대해 (a)의 직교성을 이용해 $\|y-u\|^2$를 두 제곱거리의 합으로 분해하라. 이로부터 최근접점이라는 결론을 완성하라.
+
+<details><summary>원문 보기</summary>
+
+#### Least Squares as an Orthogonal Projection
+
+Consider $y=\Phi\theta+\epsilon$ with independent Gaussian noises of the same known variance, where
+
+$$
+\Phi=\begin{pmatrix}1&0\\1&1\\1&-1\end{pmatrix},\quad y=\begin{pmatrix}2\\2\\0\end{pmatrix}.
+$$
+
+The columns of $\Phi$ are linearly independent. Use the Euclidean inner product. Define $\widehat y=\Phi\widehat\theta$ and $r=y-\widehat y$.
+
+1. Suppose $\widehat y=\Phi\widehat\theta$ is the nearest point to $y$ in $\operatorname{col}(\Phi)$. For every coefficient variation $h$, the derivative of $\|y-\Phi(\widehat\theta+th)\|^2$ at $t=0$ is zero. Use this to derive the residual orthogonality condition.
+2. Substitute $r=y-\Phi\widehat\theta$ into (a). Derive the normal equations and the general least-squares estimator.
+3. Substitute (b) into $\widehat y=\Phi\widehat\theta$ to derive the matrix $P$ such that $\widehat y=Py$. State its dimensions and show that it is symmetric and idempotent.
+4. For the given numerical data, use (b) and (c) to compute $\widehat\theta$, $P$, $\widehat y$, and $r$. Verify that $\Phi^\top r=0$.
+5. For arbitrary $u\in\operatorname{col}(\Phi)$, use the orthogonality in (a) to decompose $\|y-u\|^2$ as a sum of two squared distances. Complete the argument that $\widehat y$ is the nearest point.
+
+</details>
 
 #### 문제를 내 말로 읽어요
 
@@ -1879,10 +1779,6 @@ $\Phi^\top r=0$, $P=\Phi(\Phi^\top\Phi)^{-1}\Phi^\top$, $P^\top=P^2=P$. 최소 �
 #### 적용 조건
 
 Φ full column rank; 유클리드 내적, 알려진 동일 Gaussian 잡음분산
-
-#### 조건·구분
-
-모든 계수 변화 $h$에서 거리 도함수가 0이므로 $\Phi^\top r=0$이에요. $P$는 $N\times N$이고 계수 추정행렬은 $K\times N$이에요. 수치 해는 $\widehat\theta=(4/3,1)^\top$, $\widehat y=(4/3,7/3,1/3)^\top$, $r=(2/3,-1/3,-1/3)^\top$예요. $\|y-u\|^2=\|r\|^2+\|\widehat y-u\|^2$로 충분성을 보이며 등호는 $u=\widehat y$에서만 성립해요. 범위 내 개념을 연결한 새 변형·유도형 연습이며 교수님의 세부 출제 확정 문항은 아니에요.
 
 #### 출제 근거
 

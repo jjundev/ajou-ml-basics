@@ -1,0 +1,110 @@
+
+===== l04 PDF 14 =====
+Introduction to Machine Learning
+Sept. 30, 2026
+Posterior Predictions (1)
+14
+• Posterior predictive distribution
+p(y→|x→, X, Y) =
+!
+p(y→|x→, ω)p(ω|X, Y)dω
+=
+!
+N
+"
+y→|ωT(x→)ω, ε2#
+N
+"
+ω|mN, SN
+#
+dω
+= N
+"
+y→|ωT(x→)mN, ωT(x→)SNω(x→) + ε2#
+• The mean ωT(x→)mN coincides with the MAP estimate
+Why?
+
+
+===== l04 PDF 17 =====
+Introduction to Machine Learning
+Sept. 30, 2026
+Computing Marginal Likelihood 
+17
+• Likelihood: p(Y|X, ω), Marginal likelihood: p(Y|X) =
+!
+p(Y|X, ω)p(ω)dω
+• Recall that the marginal likelihood is important for model selection via Bayes factor:
+(Posterior odds) = P(M1 | D)
+P(M2 | D) =
+P(D|M1)P(M1)
+P(D)
+P(D|M2)P(M2)
+P(D)
+= P(M1)
+P(M2)
+" #$ %
+Prior odds
+P(D | M1)
+P(D | M2)
+"
+#$
+%
+Bayes factor
+p(Y|X) =
+&
+p(Y|X, ω)p(ω)dω =
+&
+N(y|!ω, ω2I)N(ω|m0, S0) dω
+= N(y | !m0, !S0!T + ω2I)
+
+
+===== l04 PDF 20 =====
+Introduction to Machine Learning
+Sept. 30, 2026
+Recall: Projection onto Lines (1D Subspaces)
+20
+• Consider a 1D subspace U →Rn spanned by the basis b.
+• For x ↑Rn, what is its projection ωU(x) onto U (assume the dot product)?
+↓x ↔ωU(x), b↗= 0
+ωU(x)=εb
+↘↔↔↔↔↔≃↓x ↔εb, b↗= 0
+=⇐ε = ↓b, x↗
+⇒b⇒2 = bTx
+⇒b⇒2 , and ωU(x) = εb = bTx
+⇒b⇒2 b
+• Projection matrix Pω ↑Rn→n in ωU(x) = Pωx
+ωU(x) = εb = bε = bbT
+⇒b⇒2 x,
+Pω = bbT
+⇒b⇒2
+→bbT is a symmetric matrix (of rank 1) and ⇒b⇒2 is a scalar.
+• The projection ωU(x) ↑Rn is still an n-dimensional vector. However, we need only
+one coordinate to represent it with respect to the basis vector b.
+March 16, 2026
+27
+
+
+===== l04 PDF 24 =====
+Introduction to Machine Learning
+Sept. 30, 2026
+ML as Orthogonal Projection (2)
+24
+ωML = arg min
+ω
+1
+2ω2 →y ↑Xω→2
+↑↓ωML = (X TX)
+→1X Ty
+ω →RD
+ω →RN
+y = !ω + ε
+• For f (x) = xTω + N(0, ω2), ωML = (X TX)→1X Ty = X Ty
+X TX →R
+XωML = XX T
+X TX y
+→Orthogonal projection of y onto the one-dimensional subspace spanned by X
+• For f (x) = εT(x)ω + N(0, ω2), ωML = (!T!)→1!Ty = !Ty
+!T! →R
+!ωML = !!T
+!T!y
+→Orthogonal projection of y onto the K-dimensional subspace spanned by columns of !

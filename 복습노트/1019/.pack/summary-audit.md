@@ -75,3 +75,16 @@
 현행 재생성은 `mpe_rerender.py:188–206`에서 발행 fragments를 RUN explanations로 복사하고 `mpe_cli.py:80–85`의 load_fragments로 읽는다. evidence는 복사되는 과거 검토·저작 기록이며 author.py를 실행하지 않는다. manifest 소유 목록은 실행 의존성 증거가 아니다. 같은 summary 변경을 실제 active fragments와 기존 companion MD에 반영했다. 별도 정리노트 section 생산 원고는 이 날짜의 현재 경로에서 확인되지 않아 현행 note HTML이 저작 입력이다.
 
 현재 HTML·감사표 해시에서 본문–요약 대조만 pass다. 구조/MD/보호 데이터 로컬 검사를 수행했으며 browser·layout/reference/artifact·현재 independent 승인 바인딩 및 PDF/delivery 종합 검증은 Task6c pending이다. 과거 승인 상태를 현재 내용의 승인으로 복사하지 않는다.
+
+
+## 2026-10-21 main 병합 후 추가 대조
+
+main의 모든 기존 요약은 그대로 유지하고 작업 브랜치의 세 본문을 결합한 뒤 실제 요약을 다시 읽었다.
+
+| 토픽 | 본문과 요약의 대조 | 결과 |
+|---|---|---|
+| s2-line | 비영 b, 길이제곱 분모·바깥곱 차원, 배율5/9와 투영벡터, 대칭·멱등과 직교행렬 구분, 피타고라스 최소거리, 별도 위젯 theta2/오차2가 본문·main 요약에 함께 있다. | pass |
+| s2-plane | full column rank, 좌표 m차원·투영 N차원·유사역행렬 m×N, 좌표(5,-3)와 투영(5,2,-1), 잔차(1,-2,1) 직교 및 교재 보충 구분이 본문·요약에 함께 있다. | pass |
+| s2-regression | 독립·등분산 Gaussian에서 ML/LS 동등성, 관측 행/특징 열, full rank, 계수 K·적합 N·새 예측 scalar, 역행렬 곱 순서·명시적 특징의 kernel 표현을 본문과 요약에서 구별한다. | pass |
+
+7개 요약 토픽×3개 화면×2개 테마의 실제 Chrome 42개 조합에서 오류0을 확인했다. 데스크톱 회귀 토픽과 모바일 직선 요약 스크린샷을 직접 읽었다. 기존 핵심식 모음·예고·링크 3개 화면 구조와 전체10개 ID를 보존했다. 근거: `docs/superpowers/plans/evidence/2026-10-21-main-merge/1019-browser.json`.

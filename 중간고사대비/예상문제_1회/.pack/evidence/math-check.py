@@ -13,7 +13,7 @@ check('p1:b',V*M([2-t,1-t,t])==M([2,1,3]) and V.row_join(M([2,1,4])).rank()>V.ra
 check('p1:c',(U.T*U).inv()==M([[2,-1],[-1,2]])/3 and (V.T*V).det()==0)
 x1,x2=s.symbols('x1 x2');x=M([x1,x2]);A=M([[4,1],[1,2]]);b=M([1,0]);q=(x.T*A*x)[0]/2-(b.T*x)[0]
 check('p2:a',M([x1*x1+x2,x1*x2]).jacobian(x).subs({x1:1,x2:2})==M([[2,1],[2,1]]))
-check('p2:b',M([s.diff(q,v) for v in x])==A*x-b and s.hessian(q,x)==A)
+check('p2:b',M([[s.diff(q,v) for v in x]])==x.T*A-b.T and s.hessian(q,x)==A)
 check('p2:c',A.inv()*b==M([F(2,7),F(-1,7)]) and A.is_positive_definite)
 z=s.symbols('z',real=True)
 check('p3:a',s.expand(z*z+(z-2)**2/3-F(4,3)*(z-F(1,2))**2-1)==0)
@@ -56,4 +56,4 @@ ck('p10:solution',theta==M([F(4,3),1]) and rr==M([F(2,3),-F(1,3),-F(1,3)]) and P
 ck('p10:projection',P==M([[2,2,2],[2,5,-1],[2,-1,5]])/6 and P*P==P and P.T==P)
 u=Phi*M([a,b]);ck('p10:general_pythagoras',s.expand(((yy-u).T*(yy-u))[0]-(rr.T*rr)[0]-((yh-u).T*(yh-u))[0])==0)
 
-Path(__file__).with_name('math-check-result.json').write_text(json.dumps({'status':'pass','revision':'derivation-2026-10-19','checks':checks,'note':'First5 exact checks retained and rerun; new derivation identities checked. All subparts additionally solved blind.'},indent=2)+'\n');print(len(checks),'exact/symbolic checks passed')
+Path(__file__).with_name('math-check-result.json').write_text(json.dumps({'status':'pass','revision':'row-convention-2026-10-20','checks':checks,'note':'First5 exact checks retained and rerun; new derivation identities checked. Row derivation checked separately; unchanged answers compared with previous independently solved results.'},indent=2)+'\n');print(len(checks),'exact/symbolic checks passed')

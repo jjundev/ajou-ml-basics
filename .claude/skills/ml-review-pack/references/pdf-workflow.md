@@ -2,6 +2,8 @@
 
 이 절차는 HTML 카드와 정리노트가 `RUN/work/stage/복습노트/<range>/`에 있고 HTML/정답 검증이 끝난 뒤 실행한다. 4단계의 `review_pdf_stage.py`로 상대 경로 구조를 먼저 준비한다. 새 이미지도 이 날짜 stage 폴더의 `.pack/` 아래에 두고 상대 src로 참조한다. PNG 캡처는 원본 HTML 위치를 기준으로 읽는다. 날짜 stage 폴더에는 배포할 파일만 두고 임시 파일은 다른 RUN/work 하위에 둔다. 커밋·푸시는 별도 요청이 있을 때만 한다. 전자회로2 저장소를 실행 의존성으로 요구하지 않는다.
 
+미분 수식이 있으면 `vector-derivative-convention.md`를 전체 읽고 조건·Hint·풀이·생성기 소개·원천 카드/JSON까지 관례를 확인한다. 변경된 원천에서 문제/답안 PDF를 모두 재생성하고 실제 전체 페이지에서 행벡터 식과 양변 전치 단계를 대조한다. HTML 본문만 수정했거나 수치 답만 같은 상태는 동기화 완료가 아니다. 원문 보존 분기는 해당 레퍼런스를 따른다.
+
 ```bash
 python3 "$SKILL/scripts/build_review_pdf.py" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html" --build-dir "$RUN/work/pdf" --stage-only --layout video-16x9 --report "$RUN/work/pdf-validation.json"
 ```
