@@ -46,6 +46,9 @@ def validate_blueprint(value,repo,config):
  return errors
 
 def load_exam_source(cards_path,blueprint_path,repo,config):
+ if Path(repo).resolve()!=config.repo:raise ValueError('repository/config mismatch')
+ cards_path=resolve(repo,cards_path);blueprint_path=resolve(repo,blueprint_path)
+ if cards_path.name!=config.stem+'.html':raise ValueError('source identity mismatch')
  b=json.loads(Path(blueprint_path).read_text());errors=validate_blueprint(b,repo,config)
  if errors:raise ValueError('; '.join(errors))
  pack=read_cards(cards_path,config.profile);norm=normalize_cards(pack,None,cards_path)

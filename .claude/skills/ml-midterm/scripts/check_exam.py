@@ -5,6 +5,23 @@ from exam_adapter import load_exam_source,verify_baseline,sha,resolve,parse
 from exam_config import config_for_output
 from check_vector_derivatives import check_text
 
+def validate_browser_report(report,path):
+ from itertools import product
+ errors=[]
+ ids=[f'p{i}' for i in range(1,11)]
+ views=['1280x900','1024x900','375x812'];themes=['light','dark']
+ if report.get('status')!='pass' or report.get('errors')!=[] or report.get('html_sha256')!=sha(path):errors.append('stale browser review')
+ if report.get('topic_ids')!=ids or report.get('original_topic_ids')!=ids or report.get('tab_order')!=['problem','original','provenance','terms']:errors.append('browser topic/tab mismatch')
+ expected=set(product(views,themes,ids))
+ for key in ('screens','original_checks'):
+  rows=report.get(key,[])
+  if len(rows)!=60 or {(x.get('viewport'),x.get('theme'),x.get('topic')) for x in rows}!=expected:errors.append('incomplete browser '+key)
+  if key=='screens' and any(any(x.get(k)!=0 for k in ('horizontal_overflow','katex_errors','unloaded_images','missing_fonts')) for x in rows):errors.append('browser rendering errors')
+  if key=='original_checks' and any(not x.get('content_matches') or not x.get('active') or x.get('visible_count')!=1 for x in rows):errors.append('browser original mismatch')
+ rows=report.get('print_checks',[])
+ if len(rows)!=6 or {(x.get('viewport'),x.get('theme')) for x in rows}!=set(product(views,themes)) or any(x.get('korean_visible')!=10 or x.get('original_visible')!=10 for x in rows):errors.append('browser print incomplete')
+ return errors
+
 def check_english_delivery(output,repo):
  try:
   from english_source import load_english_problems,english_digests
@@ -65,7 +82,7 @@ def check_delivery(output,repo):
   m=json.loads(manifest.read_text());files=tuple(output/n for n in m['files'])+(manifest,)
   artifacts=Artifacts(output/(stem+'.html'),output/md_name(pack),manifest,files)
   browser=json.loads((output/'.pack/evidence/browser-check.json').read_text())
-  if browser.get('status')!='pass' or browser.get('html_sha256')!=sha(artifacts.html):errors.append('stale browser review')
+  errors+=validate_browser_report(browser,artifacts.html)
   pdf_report=json.loads((output/'.pack/evidence/pdf-validation.json').read_text())
   if pdf_report.get('logical_count')!=10:errors.append('stale PDF count')
   if pdf_report.get('source_sha256')!=pack.sha256:
