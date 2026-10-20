@@ -7,16 +7,13 @@
 <p>$$d_3d_3^\top=\frac19\begin{pmatrix}4&-8\\-8&16\end{pmatrix}.$$</p>
 <p>따라서 $\Sigma_X=\frac13\sum_nd_nd_n^\top=\frac1{27}\begin{pmatrix}24&-12\\-12&24\end{pmatrix}=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}$예요. 대각은 각 성분의 분산, 비대각은 두 성분의 공분산이에요. 이 문제의 분모 3은 실제 확률 $1/3$에서 나와요. 불편 표본공분산의 분모 $N-1$로 바꾸면 다른 양을 계산하게 돼요.</p>
 </div><div data-subpart="b"><h4>(b)</h4>
-<p>$Y=AX+b$에서 $A=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$는 두 성분을 섞는 변환, $b=(1,-1)^\top$는 일정한 평행이동이에요. 평균에는 둘 다 들어가요.</p>
-<p>$$\mu_Y=A\mu_X+b=\begin{pmatrix}2/3+2/3+1\\2/3-2/3-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix}.$$</p>
-<p>중심화하면 $Y-\mu_Y=AX+b-(A\mu_X+b)=A(X-\mu_X)$여서 $b$가 사라져요. 전치가 곱의 순서를 뒤집으므로 공분산은</p>
-<p>$$\Sigma_Y=E[A(X-\mu_X)(X-\mu_X)^\top A^\top]=A\Sigma_XA^\top.$$</p>
-<p>실제 곱을 두 단계로 계산해요.</p>
-<p>$$A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix},$$</p>
-<p>$$\Sigma_Y=\frac19\begin{pmatrix}4+4&4-4\\12-12&12+12\end{pmatrix}=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.$$</p>
-<p>교차공분산은 $X$를 먼저 적었으므로 $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$예요. 뒤쪽에만 변환이 있어</p>
-<p>$$C_{XY}=\Sigma_XA^\top=\frac19\begin{pmatrix}8-4&8+4\\-4+8&-4-8\end{pmatrix}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.$$</p>
-<p>모두 $2\times2$이지만 순서는 바꿀 수 없어요. $C_{YX}=C_{XY}^\top$이며 교차공분산 자체가 대칭일 필요는 없어요.</p>
+<p>아핀 변환 $Y=AX+b$의 평균·공분산·교차공분산 공식을 바로 적용해요.</p>
+<p>$$\mu_Y=A\mu_X+b,\qquad\Sigma_Y=A\Sigma_XA^\top,\qquad C_{XY}=\Sigma_XA^\top.$$</p>
+<p>(a)의 결과를 대입하면</p>
+<p>$$\mu_Y=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}2/3\\2/3\end{pmatrix}+\begin{pmatrix}1\\-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix},$$</p>
+<p>$$\Sigma_Y=A\left[\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}\right]A^\top=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix},$$</p>
+<p>$$C_{XY}=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}A^\top=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.$$</p>
+<p>상수 $b$는 평균에만 영향을 줘요. 교차공분산은 $X,Y$ 순서이므로 $\Sigma_XA^\top$이며, $C_{YX}=C_{XY}^\top$예요.</p>
 </div><div data-subpart="c"><h4>(c)</h4>
 <p>(b)의 $\Sigma_Y$에서 비대각 성분이 0이므로 $Y_1,Y_2$는 무상관이에요. 독립은 더 강한 조건으로, 모든 가능한 값 $a,b$에 대해 $P(Y_1=a,Y_2=b)=P(Y_1=a)P(Y_2=b)$여야 해요. 이 분포는 세 점에만 확률을 두므로 공동 Gaussian이라는 조건도 없어요.</p>
 <p>각 입력을 실제로 변환하면 $(0,0)^\top\mapsto(1,-1)^\top$, $(2,0)^\top\mapsto(3,1)^\top$, $(0,2)^\top\mapsto(3,-3)^\top$이고 각각 확률은 $1/3$이에요.</p>

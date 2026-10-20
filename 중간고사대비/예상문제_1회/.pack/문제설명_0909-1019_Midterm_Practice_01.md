@@ -82,25 +82,19 @@ $$
 
 #### (c)
 
-$U=[v_1\ v_2]$는 $3\times2$이고 $U^\top U$는 $2\times2$예요. $(i,j)$ 원소가 $v_i^\top v_j$인 이유는 $U^\top$의 $i$번째 행과 $U$의 $j$번째 열을 내적하기 때문이에요.
+Gram 행렬은 열벡터 사이의 내적을 모은 행렬이에요.
 
 $$
-v_1^\top v_1=1^2+0^2+1^2=2,\quad v_1^\top v_2=1\cdot0+0\cdot1+1\cdot1=1.
+U^\top U=\begin{pmatrix}v_1^\top v_1&v_1^\top v_2\\v_2^\top v_1&v_2^\top v_2\end{pmatrix}=\begin{pmatrix}2&1\\1&2\end{pmatrix}.
 $$
 
-나머지 두 내적은 $v_2^\top v_1=1$, $v_2^\top v_2=0^2+1^2+1^2=2$예요. 따라서
-
-$$
-U^\top U=\begin{pmatrix}2&1\\1&2\end{pmatrix}.
-$$
-
-일반적인 $2\times2$ 역행렬은 행렬식 $ad-bc\ne0$일 때 $\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$예요. 여기서는 $2\cdot2-1\cdot1=3$이므로
+행렬식이 $2\cdot2-1\cdot1=3$이므로 $2\times2$ 역행렬 공식을 적용하면
 
 $$
 (U^\top U)^{-1}=\frac13\begin{pmatrix}2&-1\\-1&2\end{pmatrix}.
 $$
 
-$V^\top V$에는 같은 공식을 적용할 수 없어요. (a)의 $a=(1,1,-1)^\top\ne0$가 $Va=0$을 만족하므로 $V^\top Va=0$도 만족해요. 만약 역행렬이 있다면 양변에 곱해 $a=0$이어야 하므로 모순이에요. 즉 $V^\top V$는 특이행렬이에요.
+반면 (a)에서 $V$의 열이 선형종속이므로 $V^\top V$는 특이행렬이고 역행렬이 없어요.
 
 #### 완성 답과 검산
 
@@ -233,17 +227,13 @@ Hessian은 $(H_q)_{ij}=\partial^2q/(\partial x_i\partial x_j)$로 정의해요. 
 
 #### (c)
 
-최소점 후보는 먼저 gradient가 0인 정지점에서 찾아요. (b)의 행벡터 식 $x^\top A-b^\top=0$을 양변 전치하면 $Ax-b=0$이에요. 두 성분을 각각 0으로 놓으면 $4x_1+x_2=1$, $x_1+2x_2=0$이에요. 둘째 식에서 $x_1=-2x_2$를 첫째 식에 넣으면 $-8x_2+x_2=1$이므로 $x_2=-1/7$, $x_1=2/7$이에요.
-
-하지만 기울기가 0이라는 사실만으로 최소점이라고 확정할 수는 없어요. Hessian $A$가 대칭이고 첫 선도 주행렬식 $4>0$, 전체 행렬식 $4\cdot2-1\cdot1=7>0$이므로 양의 정부호예요. 이는 0이 아닌 모든 방향 $d$에서 $d^\top Ad>0$이라는 뜻이에요.
-
-정지점 $x_*=(2/7,-1/7)^\top$에서는 $Ax_*=b$이므로 이차식을 중심 이동해
+(b)의 행 gradient를 0으로 놓고 양변 전치하면 $Ax=b$예요.
 
 $$
-q(x)-q(x_*)=\tfrac12(x-x_*)^\top A(x-x_*)
+4x_1+x_2=1,\qquad x_1+2x_2=0\quad\Rightarrow\quad x_*=(2/7,-1/7)^\top.
 $$
 
-로 쓸 수 있어요. $x\ne x_*$이면 오른쪽이 양수이므로 다른 모든 점의 함수값이 더 커요. 이로써 유일한 전역 최소점임을 확인해요.
+Hessian $A$는 대칭이고 선도 주행렬식이 $4>0$, $\det A=7>0$이므로 양의 정부호예요. 따라서 이 정지점은 유일한 전역 최소점이에요.
 
 #### 완성 답과 검산
 
@@ -356,59 +346,25 @@ $$
 
 #### (b)
 
-정규분포의 지수는 $-(z-\mu)^2/(2\sigma^2)$예요. 이 문제의 지수 $-\frac23(z-\frac12)^2$와 비교하면 평균은 $\mu=1/2$이고, 분산은 다음처럼 구해요.
+(a)의 지수를 $-\frac12a(z-m)^2$와 비교하면 평균은 $m=1/2$, 정밀도는 $a=4/3$이에요. 따라서 분산은 $v=a^{-1}=3/4$예요.
+
+Gaussian 밀도 공식에 대입하면 정규화된 밀도는
 
 $$
-\frac{1}{2\sigma^2}=\frac23\quad\Rightarrow\quad 2\sigma^2=\frac32\quad\Rightarrow\quad\boxed{\sigma^2=\frac34}.
+q(z)=\frac1{\sqrt{2\pi(3/4)}}\exp\!\left[-\frac{(z-1/2)^2}{2(3/4)}\right]=\sqrt{\frac2{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right].
 $$
 
-**$4/3$은 분산이 아니라 분산의 역수(precision)예요.** 정규분포의 앞 계수는 $2\pi\sigma^2$ 자체가 아니라 그 제곱근의 역수예요. 분산 $3/4$를 넣어 한 단계씩 정리하면
-
-$$
-\begin{aligned}\frac{1}{\sqrt{2\pi\sigma^2}}&=\frac{1}{\sqrt{2\pi\cdot\frac34}}\\&=\frac{1}{\sqrt{3\pi/2}}\\&=\sqrt{\frac{2}{3\pi}}.\end{aligned}
-$$
-
-따라서 전체 넓이가 1인 밀도는 다음과 같아요.
-
-$$
-q(z)=\sqrt{\frac{2}{3\pi}}\exp\!\left[-\frac23(z-\tfrac12)^2\right]=\mathcal N(z\mid\tfrac12,\tfrac34).
-$$
+즉 $q(z)=\mathcal N(z\mid1/2,3/4)$예요.
 
 #### (c)
 
-**먼저 $Z$는 $g(z)$ 그래프 아래의 전체 넓이예요.** (a)의 식을 적분하고, $z$와 무관한 앞 계수를 밖으로 꺼내요.
+(a)의 $g$와 (b)의 $q$는 지수 부분이 같아요. $g=Zq$이므로 앞 계수의 비가 $Z$예요.
 
 $$
-Z=\frac{e^{-1/2}}{2\pi\sqrt3}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz.
+Z=\frac{e^{-1/2}/(2\pi\sqrt3)}{\sqrt{2/(3\pi)}}=\frac{e^{-1/2}}{\sqrt{8\pi}}.
 $$
 
-**남은 적분은 (b)의 정규분포가 전체 넓이 1을 갖는다는 성질로 구해요.** $\int_{-\infty}^{\infty}q(z)\,dz=1$에 (b)의 식을 대입하면
-
-$$
-\sqrt{\frac{2}{3\pi}}\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=1.
-$$
-
-양변을 앞 계수 $\sqrt{2/(3\pi)}$로 나누므로 지수함수 부분의 적분은 그 계수의 역수예요.
-
-$$
-\int_{-\infty}^{\infty}\exp\!\left[-\frac23(z-\tfrac12)^2\right]dz=\sqrt{\frac{3\pi}{2}}.
-$$
-
-이를 $Z$의 식에 넣으면
-
-$$
-\begin{aligned}Z&=\frac{e^{-1/2}}{2\pi\sqrt3}\sqrt{\frac{3\pi}{2}}\\&=\frac{e^{-1/2}}{2\sqrt{2\pi}}\\&=\boxed{\frac{e^{-1/2}}{\sqrt{8\pi}}}\approx0.121.\end{aligned}
-$$
-
-**확률밀도는 비음수이고 전체 적분이 1이어야 해요.** $g=p_0p_1$은 비음수이지만 전체 적분이 $Z\ne1$이므로 그대로는 확률밀도가 아니에요. 각각의 적분이 1이어도 곱의 적분이 1이 되는 것은 아니에요. 곱의 적분과 각 적분의 곱은 일반적으로 달라요.
-
-그래서 전체 넓이 $Z$로 나누어 정규화해요.
-
-$$
-q(z)=\frac{g(z)}{Z},\qquad\int_{-\infty}^{\infty}q(z)\,dz=\frac1Z\int_{-\infty}^{\infty}g(z)\,dz=\frac ZZ=1.
-$$
-
-$g$는 가우시안 모양을 가진 함수이고, 그 높이를 조절해 전체 넓이를 1로 만든 것이 확률밀도 $q$예요. $g=Zq$로 구분해요.
+$\int g(z)\,dz=Z\ne1$이므로 $g$ 자체는 확률밀도가 아니에요. $q=g/Z$로 나누면 전체 적분이 1인 확률밀도가 돼요.
 
 #### 완성 답과 검산
 
@@ -534,61 +490,33 @@ $$
 
 #### (b)
 
-ML은 관측 $y$를 가장 잘 설명하는 계수를 골라요. 제곱오차의 행 gradient $2(\theta^\top\Phi^\top\Phi-y^\top\Phi)$를 0으로 놓고 양변 전치하면 $\Phi^\top\Phi\theta=\Phi^\top y$예요. 같은 분산의 독립 Gaussian 잡음에서는 잔차제곱합을 최소화하는 것과 같아요. (a)의 Gram 행렬은 행렬식이 $3\cdot2=6\ne0$이므로 역행렬을 쓸 수 있어요.
+동일한 분산의 독립 Gaussian 잡음에서는 ML이 최소제곱과 같아요. (a)의 Gram 행렬은 가역이므로 ML 공식에 바로 대입해요.
 
 $$
-\theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y,
+\theta_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y=\begin{pmatrix}1/3&0\\0&1/2\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/3\\2\end{pmatrix}.
 $$
 
-$$
-\theta_{\mathrm{ML}}=\begin{pmatrix}1/3&0\\0&1/2\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/3\\2\end{pmatrix}.
-$$
-
-이제 $x_*=2$는 학습에 사용한 세 입력과 별개인 새 입력이에요. 별표는 새 예측 지점을 표시해요. 적합한 직선은 $f(x)=5/3+2x$이고, 새 입력의 특징은 $\phi(2)=(1,2)^\top$예요.
+새 입력에서 $\phi(2)=(1,2)^\top$이므로 평균 예측값은
 
 $$
-\widehat\mu_*^{\mathrm{ML}}=\phi(2)^\top\theta_{\mathrm{ML}}=1\cdot\frac53+2\cdot2=\frac53+\frac{12}3=\frac{17}3.
+\widehat\mu_*^{\mathrm{ML}}=\phi(2)^\top\theta_{\mathrm{ML}}=\frac53+2\cdot2=\frac{17}3.
 $$
-
-‘평균 예측’은 $y_*=\phi(2)^\top\theta+\epsilon_*$에서 평균 0인 잡음을 평균내어 얻은 중심값이에요. $x_*=2$에서 나온 관측들을 평균한다는 뜻이 아니에요. 실제 관측은 잡음 때문에 이 중심과 달라질 수 있어요. 여기서는 추정한 계수 한 점을 대입한 평균을 구한 것이에요.
 
 #### (c)
 
-MAP에는 데이터 적합도에 더해 $\theta$의 prior가 들어가요. $\mathcal N(0,I_2)$에서 0은 $2\times1$ 평균벡터이고, $I_2=\begin{pmatrix}1&0\\0&1\end{pmatrix}$는 공분산이에요. 이 문제에서는 절편과 기울기 모두 사전분산이 1이에요.
-
-일반적인 prior $\mathcal N(0,\Sigma_0)$의 음의 로그에는 $\frac12\theta^\top\Sigma_0^{-1}\theta$가 들어가요. **공분산 자체가 아니라 역행렬이 들어가요.** 잡음분산 $\sigma^2$를 포함한 목적함수는
+평균 0, 공분산 $\tau^2I$인 Gaussian prior에서는 $\lambda=\sigma^2/\tau^2$인 MAP 공식을 써요. 여기서는 $\sigma^2=\tau^2=1$이므로 $\lambda=1$이에요.
 
 $$
-J(\theta)=\frac{\|y-\Phi\theta\|^2}{2\sigma^2}+\frac12\theta^\top\Sigma_0^{-1}\theta+C.
+\theta_{\mathrm{MAP}}=(\Phi^\top\Phi+\lambda I_2)^{-1}\Phi^\top y=\begin{pmatrix}1/4&0\\0&1/3\end{pmatrix}\begin{pmatrix}5\\4\end{pmatrix}=\begin{pmatrix}5/4\\4/3\end{pmatrix}.
 $$
 
-강의의 행벡터 기준으로 미분하면 다음과 같아요.
+따라서 새 입력에서 평균 예측값은
 
 $$
-\nabla_\theta J=\frac{(\Phi\theta-y)^\top\Phi}{\sigma^2}+\theta^\top\Sigma_0^{-1}.
+\widehat\mu_*^{\mathrm{MAP}}=\phi(2)^\top\theta_{\mathrm{MAP}}=\frac54+2\cdot\frac43=\frac{47}{12}.
 $$
 
-여기서 $\Sigma_0^{-1}$는 대칭이에요. 행벡터 식을 0으로 놓고 $\sigma^2$를 곱한 뒤 양변 전치하면
-
-$$
-(\Phi^\top\Phi+\sigma^2\Sigma_0^{-1})\theta=\Phi^\top y.
-$$
-
-$\Sigma_0=b^2I_2$라면 $\Sigma_0^{-1}=(1/b^2)I_2$이므로 더하는 행렬은 $(\sigma^2/b^2)I_2=\lambda I_2$예요. 즉 $b^2$는 분모에 들어간다는 기억과 정확히 일치해요. $b^2$는 사전분산의 표기이고 $b$는 표준편차예요.
-
-지금은 $\sigma^2=1$, $b^2=1$이라 $\lambda=1/1=1$이에요. 그래서 대각선이 1인 행렬 $I_2$가 나타나요.
-
-$$
-\Phi^\top\Phi+I_2=\begin{pmatrix}3+1&0\\0&2+1\end{pmatrix}=\begin{pmatrix}4&0\\0&3\end{pmatrix}.
-$$
-
-따라서 $4\theta_0=5$, $3\theta_1=4$를 풀어 $\theta_{\mathrm{MAP}}=(5/4,4/3)^\top$를 얻어요. 새 입력에서 평균은
-
-$$
-\widehat\mu_*^{\mathrm{MAP}}=\frac54+2\cdot\frac43=\frac{15}{12}+\frac{32}{12}=\frac{47}{12}.
-$$
-
-확인 예로, 잡음분산은 1이고 사전 공분산이 $2I_2$였다면 사전분산 $b^2=2$이므로 $\lambda=1/2$, 더하는 행렬은 $\frac12I_2$예요. 일반 공분산이 $b^2I_2$ 모양이 아닐 때는 단일 $\lambda$ 대신 $\sigma^2\Sigma_0^{-1}$를 그대로 사용해요. 여기서는 주어진 prior가 절편에도 적용되므로 두 대각 원소를 모두 바꿔요.
+ML과 다른 이유는 prior가 계수를 0 쪽으로 당기는 제곱벌점을 더하기 때문이에요. 이 문제에서는 절편에도 prior가 적용되어 두 대각성분 모두에 1을 더해요.
 
 #### 완성 답과 검산
 
@@ -697,35 +625,27 @@ $$
 
 #### (b)
 
-$Y=AX+b$에서 $A=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$는 두 성분을 섞는 변환, $b=(1,-1)^\top$는 일정한 평행이동이에요. 평균에는 둘 다 들어가요.
+아핀 변환 $Y=AX+b$의 평균·공분산·교차공분산 공식을 바로 적용해요.
 
 $$
-\mu_Y=A\mu_X+b=\begin{pmatrix}2/3+2/3+1\\2/3-2/3-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix}.
+\mu_Y=A\mu_X+b,\qquad\Sigma_Y=A\Sigma_XA^\top,\qquad C_{XY}=\Sigma_XA^\top.
 $$
 
-중심화하면 $Y-\mu_Y=AX+b-(A\mu_X+b)=A(X-\mu_X)$여서 $b$가 사라져요. 전치가 곱의 순서를 뒤집으므로 공분산은
+(a)의 결과를 대입하면
 
 $$
-\Sigma_Y=E[A(X-\mu_X)(X-\mu_X)^\top A^\top]=A\Sigma_XA^\top.
-$$
-
-실제 곱을 두 단계로 계산해요.
-
-$$
-A\Sigma_X=\frac19\begin{pmatrix}4&4\\12&-12\end{pmatrix},
+\mu_Y=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}2/3\\2/3\end{pmatrix}+\begin{pmatrix}1\\-1\end{pmatrix}=\begin{pmatrix}7/3\\-1\end{pmatrix},
 $$
 
 $$
-\Sigma_Y=\frac19\begin{pmatrix}4+4&4-4\\12-12&12+12\end{pmatrix}=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix}.
+\Sigma_Y=A\left[\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}\right]A^\top=\begin{pmatrix}8/9&0\\0&8/3\end{pmatrix},
 $$
 
-교차공분산은 $X$를 먼저 적었으므로 $C_{XY}=E[(X-\mu_X)(Y-\mu_Y)^\top]$예요. 뒤쪽에만 변환이 있어
-
 $$
-C_{XY}=\Sigma_XA^\top=\frac19\begin{pmatrix}8-4&8+4\\-4+8&-4-8\end{pmatrix}=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
+C_{XY}=\frac19\begin{pmatrix}8&-4\\-4&8\end{pmatrix}A^\top=\begin{pmatrix}4/9&4/3\\4/9&-4/3\end{pmatrix}.
 $$
 
-모두 $2\times2$이지만 순서는 바꿀 수 없어요. $C_{YX}=C_{XY}^\top$이며 교차공분산 자체가 대칭일 필요는 없어요.
+상수 $b$는 평균에만 영향을 줘요. 교차공분산은 $X,Y$ 순서이므로 $\Sigma_XA^\top$이며, $C_{YX}=C_{XY}^\top$예요.
 
 #### (c)
 
@@ -1249,39 +1169,42 @@ $$
 
 #### (d)
 
-$x_*=2$는 새 입력이고, $f_*=x_*\theta=2\theta$는 잡음 없는 잠재 함수값이에요. 여기서는 $\theta$를 한 점으로 고정하지 않고 (c)의 사후분포를 가진 확률변수로 다뤄요.
-
+$f_*=2\theta$이므로 **상수배의 평균·분산 공식**을 바로 적용하면 돼요.
+$$
+E[aX]=aE[X],\qquad \operatorname{Var}(aX)=a^2\operatorname{Var}(X).
+$$
+(c)에서 구한 사후분포는 $\theta\mid D\sim\mathcal N(1,2/3)$이므로
 $$
 E[f_*\mid D]=2E[\theta\mid D]=2\cdot1=2.
 $$
-
-분산은 평균으로부터의 거리의 제곱을 평균낸 값이에요. 중심화하면 $f_*-2=2(\theta-1)$이므로
-
 $$
-\operatorname{Var}(f_*\mid D)=E[\{2(\theta-1)\}^2\mid D]=4\operatorname{Var}(\theta\mid D)=4\cdot\frac23=\frac83.
+\operatorname{Var}(f_*\mid D)=2^2\operatorname{Var}(\theta\mid D)=4\cdot\frac23=\frac83.
 $$
-
-평균에는 2를 곱하지만 분산에는 $2^2=4$를 곱하는 이유가 이 제곱이에요. Gaussian의 상수배는 Gaussian이므로 $f_*\mid D\sim\mathcal N(2,8/3)$예요. 아직 새 관측의 잡음은 더하지 않았어요.
+Gaussian의 상수배도 Gaussian이므로
+$$
+\boxed{f_*\mid D\sim\mathcal N(2,8/3)}.
+$$
+여기서는 **사후분산 $2/3$**을 사용하며, 새 관측 잡음은 (e)에서 더해요.
 
 #### (e)
 
-실제로 관측할 값은 $y_*=f_*+\epsilon_*$예요. 새 잡음은 평균 0, 분산 2이며 사후 모수와 독립이라는 가정을 사용해요. 따라서 평균은 $E[y_*\mid D]=2+0=2$예요.
-
-합의 분산은 일반적으로 두 분산과 교차공분산의 2배를 더한 것이에요. 여기서는 독립성 때문에 교차항이 0이 되어
+$y_*=f_*+\epsilon_*$이고 새 잡음은 $f_*$와 독립인 $\mathcal N(0,2)$예요. 독립인 두 확률변수의 합은 평균과 분산을 각각 더하면 돼요.
 
 $$
-\operatorname{Var}(y_*\mid D)=\frac83+2=\frac83+\frac63=\frac{14}3.
+E[y_*\mid D]=2+0=2,\qquad\operatorname{Var}(y_*\mid D)=\frac83+2=\frac{14}3.
 $$
 
-독립 Gaussian의 합이므로 $y_*\mid D\sim\mathcal N(2,14/3)$예요. $8/3$은 계수의 불확실성이 새 입력으로 전달된 부분, 2는 계수를 정확히 알아도 남는 새 관측 잡음이에요. 적분식으로는 $p(y_*\mid D)=\int p(y_*\mid\theta)p(\theta\mid D)d\theta$이며, 이 적분이 모수 불확실성을 평균내는 연산이에요.
+독립 Gaussian의 합도 Gaussian이므로 $y_*\mid D\sim\mathcal N(2,14/3)$예요.
 
 #### (f)
 
-(c)의 사후밀도는 $\exp[-3(\theta-1)^2/4]$에 비례해요. 제곱이 0인 $\theta=1$에서 가장 높으므로 $\theta_{\mathrm{MAP}}=1$이에요.
+(c)의 사후분포는 Gaussian이므로 MAP는 사후평균과 같아 $\theta_{\mathrm{MAP}}=1$이에요. 이를 고정 대입하면
 
-이 한 점을 고정 대입하면 $f_*=2\cdot1=2$는 더 이상 무작위가 아니에요. 그러나 새 관측 잡음까지 사라지는 것은 아니므로 $y_*=2+\epsilon_*$이고 $y_*\mid\theta_{\mathrm{MAP}}\sim\mathcal N(2,2)$예요.
+$$
+y_*=2\theta_{\mathrm{MAP}}+\epsilon_*=2+\epsilon_*\sim\mathcal N(2,2).
+$$
 
-전체 사후예측은 $\mathcal N(2,14/3)$, MAP 대입 예측은 $\mathcal N(2,2)$예요. 이 예에서는 평균이 같지만 분산 차이는 $14/3-2=8/3$이에요. 이는 (d)의 잠재 분산과 같아요. MAP가 모수 불확실성을 한 점으로 바꾸었기 때문에 빠진 부분이에요. 평균 예측 하나를 묻는 문제와 예측분포 전체를 묻는 문제를 구별해요.
+(e)와 예측평균은 같지만, 모수 불확실성을 제외했으므로 분산은 $8/3$ 작아요.
 
 #### 완성 답과 검산
 
@@ -1428,13 +1351,13 @@ $$
 
 #### (d)
 
-Bayes factor의 아래첨자 12는 분자에 $M_1$, 분모에 $M_2$를 놓는 순서예요. (c)의 두 evidence를 나누면 분수의 나눗셈 때문에 분모의 역수를 곱해요.
+Bayes factor는 두 evidence의 비예요.
 
 $$
-B_{12}=\frac{1/\sqrt{4\pi}}{1/\sqrt{10\pi}}=\frac{\sqrt{10\pi}}{\sqrt{4\pi}}=\sqrt{\frac52}.
+B_{12}=\frac{p(0\mid M_1)}{p(0\mid M_2)}=\frac{1/\sqrt{4\pi}}{1/\sqrt{10\pi}}=\sqrt{\frac52}>1.
 $$
 
-이는 약 1.581이고 1보다 커요. 따라서 관측 $y=0$ 자체는 $M_1$에 더 큰 상대 지지를 줘요. 두 모형의 관측 평균은 모두 0이지만 더 좁은 분포인 $M_1$이 중심 0에 더 큰 밀도를 부여했기 때문이에요. 아직 모형 자체의 사전확률은 반영하지 않았으므로 최종 선택은 (e)에서 결정해요.
+따라서 데이터는 $M_1$을 더 지지해요. 모델 사전확률은 아직 반영하지 않았으며, 최종 사후확률 비교는 (e)에서 해요.
 
 #### (e)
 
