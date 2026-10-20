@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys,json,shutil,re,argparse,uuid,html
 from exam_config import config_for_output
-from exam_adapter import verify_baseline,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source,resolve
+from exam_adapter import verify_baseline,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source,resolve,explanation_resources
 from check_vector_derivatives import check_text
 from review_pdf_payload import to_workbook
 
@@ -49,8 +49,14 @@ def build_base(repo,output,run):
  if any('solution' in p or p['hints'] for p in data['problems']):raise ValueError('problem payload leaks answer')
  snapshot=korean_pdf_source(source,stage/'.pack/evidence/korean-pdf-source'/source.name,config)
  result=build_pack(snapshot,None,run/('pdf-'+uuid.uuid4().hex),layout='video-16x9',profile=config.profile)
+ from pdf_binding import korean_resource_hashes
+ report=json.loads(result.report_path.read_text())
+ report['korean_resources']=korean_resource_hashes(source,config)
+ result.report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
  mapping={output/source.name:source,output/result.problems_pdf.name:result.problems_pdf,output/result.answers_pdf.name:result.answers_pdf,output/'.pack/evidence/pdf-validation.json':result.report_path}
  mapping[output/snapshot.relative_to(stage)]=snapshot
+ for p in snapshot.parent.rglob('*'):
+  if p.is_file():mapping[output/p.relative_to(stage)]=p
  for p in (stage/'.pack/source_vendor').rglob('*'):
   if p.is_file():mapping[output/p.relative_to(stage)]=p
  publish_files(mapping,run/('base-backup-'+uuid.uuid4().hex))
@@ -72,6 +78,25 @@ def korean_pdf_source(source,target,config):
  target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
  target.write_text(outer(root),encoding='utf-8')
  if korean_content_digest(source,config)!=korean_content_digest(target,config):raise ValueError('Korean PDF projection changed content')
+ # Preserve authored image URLs and card digests while mirroring their files.
+ from urllib.parse import urlsplit,unquote
+ from mpe_rerender import reference_dependencies
+ sandbox=target.parent.parents[2] if target.parent.name=='korean-pdf-source' else target.parent
+ copied=set()
+ def copy_image(src,dst):
+  src=resolve(config.repo,Path(src).resolve());dst=Path(dst).resolve()
+  if not dst.is_relative_to(sandbox.resolve()) or dst==target.resolve():raise ValueError('image resource escapes PDF stage')
+  if (src,dst) in copied:return
+  copied.add((src,dst));dst.parent.mkdir(parents=True,exist_ok=True)
+  if src!=dst:shutil.copy2(src,dst)
+  for dep in reference_dependencies(src,config.repo):
+   relative=__import__('os').path.relpath(dep,src.parent)
+   copy_image(dep,dst.parent/relative)
+ for node in root.find_all(lambda n:n.tag in ('img','image')):
+  url=urlsplit(node.attrs.get('src',node.attrs.get('href',node.attrs.get('xlink:href',''))))
+  if not url.path and url.fragment:continue
+  if url.scheme or url.netloc or not url.path:raise ValueError('local PDF image resource required')
+  rel=unquote(url.path);copy_image(config.output/rel,target.parent/rel)
  return target
 
 def build_explain(repo,output,run):
@@ -98,9 +123,11 @@ def build_explain(repo,output,run):
  bp=json.loads((output/'.pack/blueprint.json').read_text());refs=[resolve(repo,x['path']) for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
  pins=json.loads((Path(__file__).resolve().parents[1]/'references/baseline.json').read_text())
  refs+= [resolve(repo,rel) for rel in pins['files']]
+ resources=explanation_resources(pack,fragments,repo)
+ refs+=[Path(path) for path in resources]
  refs=list(dict.fromkeys(refs))
  review['references']=[{'path':str(p),'sha256':sha(p)} for p in refs];review_path=run/'review.json';dump(review_path,review)
- dump(run/'explanation-result.json',{'stage':str(stage),'html':str(art.html),'md':str(art.md),'manifest':str(art.manifest),'files':[str(p) for p in art.files],'review_path':str(review_path),'source_sha256':pack.sha256,'fragments':{k:__import__('hashlib').sha256(v.encode()).hexdigest() for k,v in fragments.items()},'output':str(output)})
+ dump(run/'explanation-result.json',{'stage':str(stage),'html':str(art.html),'md':str(art.md),'manifest':str(art.manifest),'files':[str(p) for p in art.files],'review_path':str(review_path),'source_sha256':pack.sha256,'fragments':{k:__import__('hashlib').sha256(v.encode()).hexdigest() for k,v in fragments.items()},'resources':resources,'output':str(output)})
  return {'pack':pack,'artifacts':art,'review_path':review_path}
 
 def publish_explain(repo,output,run):
@@ -124,9 +151,13 @@ def publish_explain(repo,output,run):
  fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text(encoding='utf-8') for p in pack.problems}
  if pack.sha256!=index['source_sha256'] or index['fragments']!={k:hashlib.sha256(v.encode()).hexdigest() for k,v in fragments.items()}:
   raise ValueError('stale source or fragments: rebuild and review')
+ resources=explanation_resources(pack,fragments,repo)
+ if resources!=index.get('resources',{}):raise ValueError('stale image resource: rebuild and review')
  review_path=resolve(repo,index['review_path'])
  if not review_path.is_relative_to(run):raise ValueError('review outside run')
  reviews=json.loads(review_path.read_text(encoding='utf-8'))
+ recorded={str(resolve(repo,x['path'])):x['sha256'] for x in reviews.get('references',[])}
+ if any(recorded.get(path)!=digest for path,digest in resources.items()):raise ValueError('image reference approval missing')
  published=publish_explanation(pack,art,fragments,reviews,output,run/('explanation-backup-'+uuid.uuid4().hex))
  dump(run/'publish-result.json',{'status':'explanation_published','files':[str(p) for p in published]})
  return published

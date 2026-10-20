@@ -4,6 +4,12 @@ from dataclasses import asdict
 import json,hashlib
 from exam_adapter import read_cards,sha,resolve
 
+def korean_resource_hashes(source,config):
+ from exam_adapter import markup_resources
+ cards=read_cards(source,config.profile).cards
+ markup=[part for c in cards for part in [c.statement_html,c.hint_html,*c.steps,c.answer_html]]
+ return markup_resources(markup,config.output,config.repo)
+
 def korean_content_digest(source:Path,config):
  cards=[]
  for c in read_cards(source,config.profile).cards:
@@ -11,8 +17,9 @@ def korean_content_digest(source:Path,config):
  return hashlib.sha256(json.dumps(cards,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
 def binding_record(output,config):
- output=Path(output);e=output/'.pack/evidence';source=output/(config.stem+'.html');snapshot=e/'korean-pdf-source'/source.name
+ output=Path(output);e=output/'.pack/evidence';source=resolve(config.repo,output/(config.stem+'.html'));snapshot=resolve(config.repo,e/'korean-pdf-source'/source.name)
  old=json.loads((e/'pdf-validation.json').read_text())
+ if 'korean_resources' in old and old['korean_resources']!=korean_resource_hashes(source,config):raise ValueError('Korean PDF image resource changed')
  if sha(snapshot)!=old['source_sha256']:raise ValueError('historical PDF source mismatch')
  digest=korean_content_digest(source,config)
  if digest!=korean_content_digest(snapshot,config):raise ValueError('Korean content changed')

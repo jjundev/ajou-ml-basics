@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import asdict
 import json,re,uuid
 from exam_config import config_for_output
-from exam_adapter import sha,verify_baseline
+from exam_adapter import sha,verify_baseline,resolve
 from english_source import load_english_problems,english_payload,english_digests,INSTRUCTIONS,KOREAN
 from review_pdf_layout import load_template,Layout,Typography
 from review_pdf_types import RenderReport,LayoutIssue,ReviewPdfError
@@ -79,7 +79,7 @@ def build_english_pdf(repo:Path,output:Path,run:Path):
  config=config_for_output(repo,output)
  errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
  if errors:raise ValueError('; '.join(errors))
- source=output/(config.stem+'.html');source_hash=sha(source)
+ source=resolve(repo,output/(config.stem+'.html'));source_hash=sha(source)
  ps=load_english_problems(source,output/'.pack/blueprint.json',repo,config)
  pdf,report=build_problems(repo,ps,run/('english-'+uuid.uuid4().hex),config)
  if sha(source)!=source_hash:raise ValueError('source changed during English build')

@@ -25,7 +25,7 @@ def validate_browser_report(report,path):
 def check_english_delivery(output,repo):
  try:
   from english_source import load_english_problems,english_digests
-  output=Path(output);config=config_for_output(repo,output);source=output/(config.stem+'.html');pdf=output/(config.stem+'-문제-English.pdf')
+  output=Path(output);config=config_for_output(repo,output);source=resolve(repo,output/(config.stem+'.html'));pdf=resolve(repo,output/(config.stem+'-문제-English.pdf'))
   r=json.loads((output/'.pack/evidence/english-pdf-validation.json').read_text())
   ps=load_english_problems(source,output/'.pack/blueprint.json',repo,config)
   if r.get('status')!='pass' or r.get('errors')!=[] or r.get('source_sha256')!=sha(source) or r.get('english_digests')!=english_digests(ps) or r.get('pdf_sha256')!=sha(pdf):return ['stale English PDF/source/review']
@@ -36,6 +36,9 @@ def check_english_delivery(output,repo):
    if sorted(pages)!=list(range(1,len(doc)+1)) or len(doc)!=r['page_count'] or len(r['page_ids'])!=len(doc):return ['English PDF physical page mismatch']
    for pid,nums in r['pages'].items():
     if [r['page_ids'][n-1] for n in nums]!=[pid if i==1 else f'{pid}-c{i}' for i in range(1,len(nums)+1)]:return ['English PDF page ID mismatch']
+   visual=r.get('visual_review',{})
+   if (not isinstance(visual,dict) or any(not isinstance(visual.get(k),str) or not visual[k].strip() for k in ('reviewer','evidence'))
+       or visual.get('pages')!=list(range(1,len(doc)+1))):return ['English PDF whole-page visual review missing']
   delivery=json.loads((output/'.pack/delivery.json').read_text())
   if pdf.name not in delivery['files']:return ['English PDF not delivered']
   return []
@@ -67,7 +70,7 @@ def check_delivery(output,repo):
  try:
   config=config_for_output(repo,output)
   pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
-  authored=[output/(config.stem+'.html')]+list((output/'.pack/cards').glob('*.html'))+list((output/'.pack/explanations').glob('*.html'))
+  authored=[pack.path]+list((output/'.pack/cards').glob('*.html'))+list((output/'.pack/explanations').glob('*.html'))
   errors += [str(p)+': '+e for p in authored for e in check_text(p.read_text(encoding='utf-8'))]
   errors+=validate_answer_checks(pack,json.loads((output/'.pack/evidence/answer-checks.json').read_text())['items'])
   delivery=json.loads((output/'.pack/delivery.json').read_text())
@@ -90,6 +93,19 @@ def check_delivery(output,repo):
    errors+=check_pdf_binding(output,repo,config)
   errors+=check_english_delivery(output,repo)
   reviews=json.loads((output/data/'validation.json').read_text());fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text() for p in pack.problems}
+  from exam_adapter import explanation_resources
+  resources=explanation_resources(pack,fragments,repo)
+  recorded={str(resolve(repo,x['path'])):x['sha256'] for x in reviews.get('references',[])}
+  if any(recorded.get(path)!=digest for path,digest in resources.items()):errors.append('stale or missing image resource approval')
+  required={config.stem+'.html',stem+'.html',md_name(pack),data+'/manifest.json',data+'/validation.json',
+            '.pack/blueprint.json','.pack/evidence/answer-checks.json','.pack/evidence/browser-check.json',
+            '.pack/evidence/pdf-validation.json','.pack/evidence/english-pdf-validation.json',
+            *(config.stem+suffix for suffix in ('-문제.pdf','-답안.pdf','-문제-English.pdf')),*m['files']}
+  if pdf_report.get('source_sha256')!=pack.sha256:
+   required.add('.pack/evidence/korean-pdf-binding.json')
+   binding=json.loads((output/'.pack/evidence/korean-pdf-binding.json').read_text())
+   required.add(binding['snapshot_path'])
+  errors+=['delivery missing: '+name for name in sorted(required-set(delivery['files']))]
   errors+=check_artifacts(pack,artifacts)+validate_reviews(pack,fragments,reviews)
   if reviews.get('artifact_hashes')!=artifact_hashes(artifacts):errors.append('stale artifact approval')
   for ref in reviews.get('references',[]):

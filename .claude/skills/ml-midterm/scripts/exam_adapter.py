@@ -48,7 +48,7 @@ def validate_blueprint(value,repo,config):
 def load_exam_source(cards_path,blueprint_path,repo,config):
  if Path(repo).resolve()!=config.repo:raise ValueError('repository/config mismatch')
  cards_path=resolve(repo,cards_path);blueprint_path=resolve(repo,blueprint_path)
- if cards_path.name!=config.stem+'.html':raise ValueError('source identity mismatch')
+ if unicodedata.normalize('NFC',cards_path.name)!=config.stem+'.html':raise ValueError('source identity mismatch')
  b=json.loads(Path(blueprint_path).read_text());errors=validate_blueprint(b,repo,config)
  if errors:raise ValueError('; '.join(errors))
  pack=read_cards(cards_path,config.profile);norm=normalize_cards(pack,None,cards_path)
@@ -75,3 +75,29 @@ def verify_baseline(repo,baseline_path):
    if sha(resolve(repo,rel))!=digest:errors.append('baseline changed: '+rel)
   except (OSError,ValueError) as e:errors.append('baseline '+rel+': '+str(e))
  return errors
+
+def markup_resources(markups,base,repo):
+ """Hash image dependencies, including local dependencies of referenced SVGs."""
+ from urllib.parse import urlsplit,unquote
+ from mpe_rerender import reference_dependencies
+ resources={}
+ def add(path):
+  path=resolve(repo,Path(path).resolve())
+  if str(path) in resources:return
+  resources[str(path)]=sha(path)
+  for child in reference_dependencies(path,Path(repo)):
+   add(child)
+ for markup in markups:
+  for node in parse(markup).find_all(lambda n:n.tag in ('img','image')):
+   value=node.attrs.get('src',node.attrs.get('href',node.attrs.get('xlink:href','')))
+   url=urlsplit(value)
+   if not url.path and url.fragment:continue
+   if url.scheme or url.netloc or not url.path:raise ValueError('local image resource required')
+   add(Path(base)/unquote(url.path))
+ return resources
+
+def explanation_resources(pack,fragments,repo):
+ markups=list(fragments.values())
+ for p in pack.problems:
+  markups += [p.conditions_html,p.ask_html,p.original_html,*p.figures_html,*p.reference_steps,p.reference_answer]
+ return markup_resources(markups,pack.path.parent,repo)

@@ -100,7 +100,7 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
 - Produces `validate_blueprint(value: dict, repo: Path, config: ExamConfig) -> list[str]`, `load_exam_source(cards_path: Path, blueprint_path: Path, repo: Path, config: ExamConfig) -> SourcePack`, `assemble_cards(card_dir: Path, target: Path, config: ExamConfig) -> Path`, `verify_baseline(repo: Path, baseline_path: Path) -> list[str]`.
 - `resolve`와 sha helper는 원 도구에서 재사용한다. import는 명시 repo와 `Path(__file__)` 기준이며 `.git`이 디렉터리라는 가정으로 탐색하지 않는다.
 
-- [ ] **Step 1:** 기존 BASE와 공유 생성기·템플릿의 hash를 RUN에 기록하고 아래 실패 테스트를 작성한다. 시험 입력은 BASE의 cards/blueprint 복제이며 실제 BASE는 읽기만 한다.
+- [x] **Step 1:** 기존 BASE와 공유 생성기·템플릿의 hash를 RUN에 기록하고 아래 실패 테스트를 작성한다. 시험 입력은 BASE의 cards/blueprint 복제이며 실제 BASE는 읽기만 한다.
   - `test_next_round_and_existing_output`: 1회만 있으면 2, 1·3회가 있으면 4; round 0/음수와 기존 out에 대한 init은 거부한다.
   - `test_round_two_profile`: slug=`Midterm_Practice_02`, stem=`중간고사예상_0909-1019_Midterm_Practice_02`, 영문 제목 끝=`02`; 1회/2회의 reading_key가 다르다.
   - `test_blueprint_and_card_contract`: p1~p10/5:5는 통과, 9개/배분 오류/slug 불일치/중복 소문항/출처 hash 변경은 거부한다. 원 도구의 실제 subparts 비교도 유지한다.
@@ -116,11 +116,11 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
   assert cfg.title_en.endswith('02')
   assert cfg.reading_key != config_for_round(repo, 1).reading_key
   ```
-- [ ] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_config_adapter.py --basetemp $mlMidtermTestTmp -q` 실행. 새 모듈 부재 또는 동작 assertion으로 FAIL인지 확인한다.
-- [ ] **Step 3:** 위 인터페이스를 구현한다. 범위/10개/5:5는 유지하고 회차·표제·slug·문항별 소문항 집합만 매개변수화한다. blueprint에 기존 schema_version=1을 유지하고 불필요한 새 스키마를 만들지 않는다.
-- [ ] **Step 4:** baseline.json에 현재 공유 `review-template.html`, MPE `note-template.html`, PDF 세 템플릿/CSS와 provenance, 로컬 vendor, 조립/페이지 분할/해설 렌더 관련 코드의 경로·SHA-256을 기록한다. 실제 기준 파일과 과거 source hash를 구분한다. template 변경을 자동 승인하지 않는다.
-- [ ] **Step 5:** Step 2 명령을 다시 실행해 전부 PASS를 확인하고 BASE hash 불변을 확인한다.
-- [ ] **Step 6:** Task 1 변경만 확인하고 구현 커밋 경계 `feat: add round-aware midterm input adapter`로 정리한다.
+- [x] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_config_adapter.py --basetemp $mlMidtermTestTmp -q` 실행. 새 모듈 부재 또는 동작 assertion으로 FAIL인지 확인한다.
+- [x] **Step 3:** 위 인터페이스를 구현한다. 범위/10개/5:5는 유지하고 회차·표제·slug·문항별 소문항 집합만 매개변수화한다. blueprint에 기존 schema_version=1을 유지하고 불필요한 새 스키마를 만들지 않는다.
+- [x] **Step 4:** baseline.json에 현재 공유 `review-template.html`, MPE `note-template.html`, PDF 세 템플릿/CSS와 provenance, 로컬 vendor, 조립/페이지 분할/해설 렌더 관련 코드의 경로·SHA-256을 기록한다. 실제 기준 파일과 과거 source hash를 구분한다. template 변경을 자동 승인하지 않는다.
+- [x] **Step 5:** Step 2 명령을 다시 실행해 전부 PASS를 확인하고 BASE hash 불변을 확인한다.
+- [x] **Step 6:** Task 1 변경만 확인하고 구현 커밋 경계 `feat: add round-aware midterm input adapter`로 정리한다.
 
 ### Task 2: 기존 양식의 문제 HTML·한국어/영어 PDF 생성
 
@@ -133,7 +133,7 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
 - Produces `korean_pdf_source(source: Path, target: Path, config: ExamConfig) -> Path`: 카드의 original 내용만 비운 PDF 입력을 만든다. 카드의 조건·질문·풀이·답·출처를 바꾸지 않는다. 최종 HTML 자체를 수정하지 않는다.
 - 공유 `build_review_pdf.build_pack(..., profile=config.profile, layout='video-16x9')`, `review_pdf_publish.publish_files`와 기존 분할·측정 코드를 재사용한다. 한국어 PDF binding도 config를 인자로 받으며 실제 PDF 입력 snapshot이 있을 때만 허용한다. 기존 파일 보존뿐 아니라 새 한영 HTML에서 한국어 PDF를 분리 생성할 때도 이 검증을 사용한다.
 
-- [ ] **Step 1:** 실제 입력/출력 테스트를 작성한다.
+- [x] **Step 1:** 실제 입력/출력 테스트를 작성한다.
   - `test_base_payload_has_no_answers`: 문제 payload의 hint/solution/answer가 비고 조건·질문은 온전하다.
   - `test_round_two_english_and_dynamic_subparts`: 임시 2회 카드·blueprint의 p1 소문항 하나를 함께 제거해 총 41개로 만든다. 영어 추출/리포트가 41개이고 02 표제·파일명을 쓰며 질문 순서가 일치한다.
   - `test_english_missing_or_reordered_parts_rejected`: 영어 누락/중복/역순/한글 혼입/번호 override를 거부한다. baseline의 영어 42개는 통과한다.
@@ -148,11 +148,11 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
   assert pdf.name.endswith('Midterm_Practice_02-문제-English.pdf')
   assert korean_content_digest(full_source, config) == korean_content_digest(snapshot, config)
   ```
-- [ ] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_build.py --basetemp $mlMidtermTestTmp -q` 실행해 누락 모듈/기존 고정값에서 FAIL을 확인한다.
-- [ ] **Step 3:** 기존 도구를 포팅하고 Task 1 config를 연결한다. `STEM`, `EXAM`, `Practice 01`, 한국어 1회 표제, 리포트 42를 제거한다. shared 템플릿/공유 생성기는 수정하지 않는다. source_vendor 상대경로와 로컬 영어 PDF 자원 처리를 유지한다. `build_pack`에는 전체 한영 HTML 대신 `korean_pdf_source`의 출력을 전달한다.
-- [ ] **Step 3a:** `korean_content_digest(source: Path, config: ExamConfig) -> str`를 기존 binding 함수에서 포팅하고, `.pack/evidence/korean-pdf-source/<STEM>.html`에 실제 한국어 PDF 입력 snapshot을 보존한다. 문제·답안 PDF와 리포트가 그 snapshot에 연결되고, 발행 HTML의 한국어 digest가 같은 경우에만 binding을 기록한다.
-- [ ] **Step 4:** Step 2를 재실행해 PASS를 확인한다. 1회 입력을 RUN 안의 `예상문제_1회` 복제에 재생성하고 PDF 텍스트·페이지 매핑·렌더 이미지를 기준과 비교한다. PDF 생성 시각 등 metadata는 화면 동일성 비교에서 제외하되 의미·수식·여백은 제외하지 않는다.
-- [ ] **Step 5:** 세 PDF의 전체 페이지를 렌더해 실제 시각 검토한다. 한글·정답 유출·외부 요청·KaTeX/geometry 오류는 0이어야 한다. BASE hash 불변을 확인하고 커밋 경계 `feat: reuse midterm layouts for every round`로 정리한다.
+- [x] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_build.py --basetemp $mlMidtermTestTmp -q` 실행해 누락 모듈/기존 고정값에서 FAIL을 확인한다.
+- [x] **Step 3:** 기존 도구를 포팅하고 Task 1 config를 연결한다. `STEM`, `EXAM`, `Practice 01`, 한국어 1회 표제, 리포트 42를 제거한다. shared 템플릿/공유 생성기는 수정하지 않는다. source_vendor 상대경로와 로컬 영어 PDF 자원 처리를 유지한다. `build_pack`에는 전체 한영 HTML 대신 `korean_pdf_source`의 출력을 전달한다.
+- [x] **Step 3a:** `korean_content_digest(source: Path, config: ExamConfig) -> str`를 기존 binding 함수에서 포팅하고, `.pack/evidence/korean-pdf-source/<STEM>.html`에 실제 한국어 PDF 입력 snapshot을 보존한다. 문제·답안 PDF와 리포트가 그 snapshot에 연결되고, 발행 HTML의 한국어 digest가 같은 경우에만 binding을 기록한다.
+- [x] **Step 4:** Step 2를 재실행해 PASS를 확인한다. 1회 입력을 RUN 안의 `예상문제_1회` 복제에 재생성하고 PDF 텍스트·페이지 매핑·렌더 이미지를 기준과 비교한다. PDF 생성 시각 등 metadata는 화면 동일성 비교에서 제외하되 의미·수식·여백은 제외하지 않는다.
+- [x] **Step 5:** 세 PDF의 전체 페이지를 렌더해 실제 시각 검토한다. 한글·정답 유출·외부 요청·KaTeX/geometry 오류는 0이어야 한다. BASE hash 불변을 확인하고 커밋 경계 `feat: reuse midterm layouts for every round`로 정리한다.
 
 ### Task 3: 예상문제 해설 생성·승인·발행 연결
 
@@ -164,7 +164,7 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
 - 공유 `mpe_render.build_explanation`, `check_artifacts`, `artifact_hashes`, `mpe_contract.initial_reviews/validate_reviews`, `mpe_publish.publish_explanation`을 사용한다. `explanation-result.json`은 기존 stage/html/md/manifest/files/review_path 키를 유지한다.
 - run/index는 조립 당시 source와 조각의 hash를 담고 publish 때 현재 입력과 대조한다. `publish_explain`은 run의 artifact 파일 목록을 검증해 `Artifacts`를 복원하고 같은 source로 `SourcePack`을 다시 읽는다.
 
-- [ ] **Step 1:** 다음 실패 테스트를 작성한다.
+- [x] **Step 1:** 다음 실패 테스트를 작성한다.
   - `test_explanations_override_stale_inventory`: solutions.json/panel-content.json에 의도적으로 오래된 답을 넣어도 현재 explanations의 풀이·sum·용어가 HTML/MD에 나타난다. 질문·답을 자동 교정하지 않는다.
   - `test_every_subpart_has_solve_verify`: 실제 입력의 모든 소문항이 두 구역에 각각 대응하고 일곱 구역 순서 및 펼친 본문을 기존 validate_fragment로 검사한다.
   - `test_build_resets_reviews_and_preserves_problem_files`: build 직후 네 검토는 not_run이고 원본 HTML·cards·영어 본문·PDF 3개의 SHA-256은 동일하다. title은 `머신러닝기초 중간고사 모의평가 N회 문제설명`이며 원본 링크/읽음 키는 해당 회차다.
@@ -179,11 +179,11 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
   assert after_non_owned_hashes == before_non_owned_hashes
   assert set(solve_parts) == set(verify_parts) == set(problem.subparts)
   ```
-- [ ] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_explain.py --basetemp $mlMidtermTestTmp -q`로 FAIL을 확인한다.
-- [ ] **Step 3:** 기존 build_explain을 회차화한다. 제목 치환은 기존처럼 문서의 정확한 공유 표제만 대상으로 하고 실패/중복 시 진단한다. 글꼴·CSS·UI script를 변형하지 않는다. 공유 조각 정규화/상대 링크 변환은 유지한다.
-- [ ] **Step 4:** publish_explain과 check_delivery를 구현한다. 구조·입력/참조·실제 항목 집합·승인/산출 hash를 기존 계약으로 검증하고 validation.json의 자기 해싱 순환을 만들지 않는다. 영어 PDF 존재·현재 본문 digest·hash도 전체 check에 포함한다. 해설만 작업의 check는 기존 PDF 승인도 검사하지만 재생성하지 않는다.
-- [ ] **Step 5:** Step 2를 재실행해 PASS를 확인하고 기존 MPE `test_contract.py`, `test_publish.py`, `test_row_review_policy.py`를 별도 pytest 프로세스로 실행한다. 기존 테스트의 임시 경로/fixture 문제와 신규 회귀를 구분해 기록한다.
-- [ ] **Step 6:** Task 3의 소유 파일만 확인하고 커밋 경계 `feat: connect midterm cards to problem explanations`로 정리한다.
+- [x] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_explain.py --basetemp $mlMidtermTestTmp -q`로 FAIL을 확인한다.
+- [x] **Step 3:** 기존 build_explain을 회차화한다. 제목 치환은 기존처럼 문서의 정확한 공유 표제만 대상으로 하고 실패/중복 시 진단한다. 글꼴·CSS·UI script를 변형하지 않는다. 공유 조각 정규화/상대 링크 변환은 유지한다.
+- [x] **Step 4:** publish_explain과 check_delivery를 구현한다. 구조·입력/참조·실제 항목 집합·승인/산출 hash를 기존 계약으로 검증하고 validation.json의 자기 해싱 순환을 만들지 않는다. 영어 PDF 존재·현재 본문 digest·hash도 전체 check에 포함한다. 해설만 작업의 check는 기존 PDF 승인도 검사하지만 재생성하지 않는다.
+- [x] **Step 5:** Step 2를 재실행해 PASS를 확인하고 기존 MPE `test_contract.py`, `test_publish.py`, `test_row_review_policy.py`를 별도 pytest 프로세스로 실행한다. 기존 테스트의 임시 경로/fixture 문제와 신규 회귀를 구분해 기록한다.
+- [x] **Step 6:** Task 3의 소유 파일만 확인하고 커밋 경계 `feat: connect midterm cards to problem explanations`로 정리한다.
 
 ### Task 4: CLI와 실제 전달·화면 회귀 검증
 
@@ -193,7 +193,7 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
 - Consumes Task 1~3의 모든 공개 함수와 명령 계약. Produces `main(argv: list[str] | None = None) -> int` in midterm_cli.py; `run_check(path: Path, evidence: Path, shots: Path) -> dict` in browser_check.py.
 - 실제 브라우저 리포트는 html_sha256/topic_ids/viewports/screens/original_checks/print_checks/errors/status를 기존 의미로 유지한다. 문항·소문항 수는 실제 입력에서 얻는다.
 
-- [ ] **Step 1:** CLI subprocess와 파일 보존을 검증하는 테스트를 작성한다.
+- [x] **Step 1:** CLI subprocess와 파일 보존을 검증하는 테스트를 작성한다.
   - `test_init_selects_next_and_rejects_existing`: 지정/생략 회차 JSON과 기존 폴더 충돌을 검사한다. init이 새 문제·PDF·승인을 만들지 않는지 확인한다.
   - `test_explain_target_resolution`: `중간고사 2회`, 원본 HTML, 대응 문제설명 HTML은 같은 원본을 선택한다. 여러 원본 후보와 repo 밖 경로는 거부한다. 일반 복습/과제 경로를 이 resolver가 가져가지 않는다.
   - `test_cli_explain_never_runs_base`: base/english를 실패 stub으로 바꾸어도 explain은 동작하고 비소유 파일 hash는 동일하다.
@@ -208,11 +208,11 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
   assert json.loads(result.stdout)['errors']
   assert preserved_hashes_after == preserved_hashes_before
   ```
-- [ ] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_delivery.py --basetemp $mlMidtermTestTmp -q`로 FAIL을 확인한다.
-- [ ] **Step 3:** CLI를 구현하고 기존 browser_check를 포팅한다. 회차/주제 집합은 config와 DOM에서 확인한다. 1280×900·1024×900·375×812 × light/dark의 모든 문항, 1023→1024 경계, 저장된 닫힘, 도킹/이동/크기 조절, 목차·이전/다음·요약·원문·키보드·reload·모바일·인쇄를 유지한다. 원문 없는 fallback은 별도 시험 입력으로 확인하되 새 제작 카드의 영어 누락을 허용하지 않는다.
-- [ ] **Step 4:** Step 2를 재실행해 PASS를 확인한다. 이어 별도 integration 실행에서 BASE 복제 및 41소문항 2회 시험 입력을 실제 생성한다. 시험 입력은 실전 회차로 전달하지 않고 실제 근거 없는 수학 검토 pass를 만들지 않는다.
-- [ ] **Step 5:** 같은 Chrome·화면·테마·UI 상태에서 기준 1회 HTML과 새 생성 HTML을 비교한다. 단순 텍스트 keyword 검사 대신 CSS/실행 script 동일성과 DOM 조건/질문/영문/풀이/요약/용어 일치, 대표 화면 screenshot을 함께 확인한다. 추가/삭제된 문항·수식은 무시 항목으로 두지 않는다.
-- [ ] **Step 6:** 로컬 수식·자원·콘솔·문서 가로 넘침 오류 0, 모든 문항 원문 일치, 인쇄 한국어/영어 보존을 실제 확인한다. 1회 복제의 문항 수는 10이고 영어 검사는 60조합이어야 한다. 시험 입력의 항목 수는 41로 기록한다. 소유 범위·BASE hash 불변을 확인하고 커밋 경계 `test: verify midterm delivery and layout preservation`로 정리한다.
+- [x] **Step 2:** `& $mlMidtermPython -m pytest .claude/skills/ml-midterm/tests/test_delivery.py --basetemp $mlMidtermTestTmp -q`로 FAIL을 확인한다.
+- [x] **Step 3:** CLI를 구현하고 기존 browser_check를 포팅한다. 회차/주제 집합은 config와 DOM에서 확인한다. 1280×900·1024×900·375×812 × light/dark의 모든 문항, 1023→1024 경계, 저장된 닫힘, 도킹/이동/크기 조절, 목차·이전/다음·요약·원문·키보드·reload·모바일·인쇄를 유지한다. 원문 없는 fallback은 별도 시험 입력으로 확인하되 새 제작 카드의 영어 누락을 허용하지 않는다.
+- [x] **Step 4:** Step 2를 재실행해 PASS를 확인한다. 이어 별도 integration 실행에서 BASE 복제 및 41소문항 2회 시험 입력을 실제 생성한다. 시험 입력은 실전 회차로 전달하지 않고 실제 근거 없는 수학 검토 pass를 만들지 않는다.
+- [x] **Step 5:** 같은 Chrome·화면·테마·UI 상태에서 기준 1회 HTML과 새 생성 HTML을 비교한다. 단순 텍스트 keyword 검사 대신 CSS/실행 script 동일성과 DOM 조건/질문/영문/풀이/요약/용어 일치, 대표 화면 screenshot을 함께 확인한다. 추가/삭제된 문항·수식은 무시 항목으로 두지 않는다.
+- [x] **Step 6:** 로컬 수식·자원·콘솔·문서 가로 넘침 오류 0, 모든 문항 원문 일치, 인쇄 한국어/영어 보존을 실제 확인한다. 1회 복제의 문항 수는 10이고 영어 검사는 60조합이어야 한다. 시험 입력의 항목 수는 41로 기록한다. 소유 범위·BASE hash 불변을 확인하고 커밋 경계 `test: verify midterm delivery and layout preservation`로 정리한다.
 
 ### Task 5: 스킬 지침·MPE 라우팅·최종 설치 검증
 
@@ -222,12 +222,12 @@ OUT에는 `중간고사예상_0909-1019_Midterm_Practice_<NN>.html`, 같은 stem
 - Consumes 위 명령 계약과 검증 결과. Produces `/ml-midterm [N회]`의 신규 제작/명시적 수정 경로, `/ml-problem-explain 중간고사 N회|HTML경로`의 설명 전용 경로.
 - 일반 mpe_cli의 extract/load_source는 예상문제 입력을 지원하지 않으므로 새 분기는 Task 4 CLI의 explain/publish/check로 보낸다. 일반 날짜·기간·과제·인자 없음·all은 원 경로를 유지한다.
 
-- [ ] **Step 1:** `skill-creator`와 `writing-skills`를 읽고 이 작업의 적용 범위를 확인한다. 다음 행동 검증표를 RUN에 만든다: 새2회·회차생략·기존2회 새출제 충돌·2회 해설만·명시 HTML·일반1007·과제1·all·출처 미확인·수학 충돌·템플릿 변경. 각 행에 기대 선택 경로와 보존 파일을 명시한다.
-- [ ] **Step 2:** SKILL.md와 두 reference를 작성한다. 확정 제작 명세의 출제표·회차 차이·공식 적용/유도 구분·기호/차원·독립 검산·출처 기록을 연결한다. 자세한 공유 규칙은 중복 복사하지 않고 해당 authoring/verification/vector reference를 필수 읽기로 연결한다. 실행기가 문제를 자동 작성한다는 안내를 넣지 않는다.
-- [ ] **Step 3:** MPE frontmatter/대상/실행 분기에 기존 예상문제 지원을 추가한다. 기존 ‘원본 보존’은 유지하고 ‘새 출제’는 ml-midterm으로 연결한다. forecast 자동 선택이나 all 범위 확대를 하지 않는다. `.agents` 링크를 기존 프로젝트와 같은 방식으로 만들고 실제 해석된 원본 경로를 확인한다.
-- [ ] **Step 4:** `& $mlMidtermPython C:/Users/Hyunjun/.codex/skills/.system/skill-creator/scripts/quick_validate.py .claude/skills/ml-midterm`을 실행해 유효한 frontmatter/name/description을 확인한다. baseline·상대 reference·명령 경로·링크를 실제 resolve하고 Task 1~4 전체 테스트를 실행한다. 단순 문구 존재 검사를 행동 검증으로 대체하지 않는다.
-- [ ] **Step 5:** Step 1의 요청별로 도구 선택·필수 읽기·출력 범위를 실제 지침을 읽으며 검토한다. 공식 적용형 p4(b,c)/p8(d~f)와 유도형 p6/p7/p10을 대조해 최신 규칙을 오래된 장황한 설명으로 되돌리지 않는지 확인한다. independent 검산은 미래 실제 출제 호출 시 수행하며 스킬 설치 검증의 수동 점검을 그 결과로 보고하지 않는다.
-- [ ] **Step 6:** BASE 및 다른 수업 자료의 hash 불변, `git diff --check`, 변경 경로 제한을 확인한다. 실행 중 확인한 실패/누락은 RUN의 검증 기록에 남긴다. 새 스킬 링크·사용 예·실제 테스트 결과를 전달하고 커밋 경계 `feat: add ml-midterm skill and explanation routing`로 정리한다. 요청 없는 새 예상문제 출제/원격 push는 하지 않는다.
+- [x] **Step 1:** `skill-creator`와 `writing-skills`를 읽고 이 작업의 적용 범위를 확인한다. 다음 행동 검증표를 RUN에 만든다: 새2회·회차생략·기존2회 새출제 충돌·2회 해설만·명시 HTML·일반1007·과제1·all·출처 미확인·수학 충돌·템플릿 변경. 각 행에 기대 선택 경로와 보존 파일을 명시한다.
+- [x] **Step 2:** SKILL.md와 두 reference를 작성한다. 확정 제작 명세의 출제표·회차 차이·공식 적용/유도 구분·기호/차원·독립 검산·출처 기록을 연결한다. 자세한 공유 규칙은 중복 복사하지 않고 해당 authoring/verification/vector reference를 필수 읽기로 연결한다. 실행기가 문제를 자동 작성한다는 안내를 넣지 않는다.
+- [x] **Step 3:** MPE frontmatter/대상/실행 분기에 기존 예상문제 지원을 추가한다. 기존 ‘원본 보존’은 유지하고 ‘새 출제’는 ml-midterm으로 연결한다. forecast 자동 선택이나 all 범위 확대를 하지 않는다. `.agents` 링크를 기존 프로젝트와 같은 방식으로 만들고 실제 해석된 원본 경로를 확인한다.
+- [x] **Step 4:** `& $mlMidtermPython C:/Users/Hyunjun/.codex/skills/.system/skill-creator/scripts/quick_validate.py .claude/skills/ml-midterm`을 실행해 유효한 frontmatter/name/description을 확인한다. baseline·상대 reference·명령 경로·링크를 실제 resolve하고 Task 1~4 전체 테스트를 실행한다. 단순 문구 존재 검사를 행동 검증으로 대체하지 않는다.
+- [x] **Step 5:** Step 1의 요청별로 도구 선택·필수 읽기·출력 범위를 실제 지침을 읽으며 검토한다. 공식 적용형 p4(b,c)/p8(d~f)와 유도형 p6/p7/p10을 대조해 최신 규칙을 오래된 장황한 설명으로 되돌리지 않는지 확인한다. independent 검산은 미래 실제 출제 호출 시 수행하며 스킬 설치 검증의 수동 점검을 그 결과로 보고하지 않는다.
+- [x] **Step 6:** BASE 및 다른 수업 자료의 hash 불변, `git diff --check`, 변경 경로 제한을 확인한다. 실행 중 확인한 실패/누락은 RUN의 검증 기록에 남긴다. 새 스킬 링크·사용 예·실제 테스트 결과를 전달하고 커밋 경계 `feat: add ml-midterm skill and explanation routing`로 정리한다. 요청 없는 새 예상문제 출제/원격 push는 하지 않는다.
 
 ## 계획 자체 검토
 
