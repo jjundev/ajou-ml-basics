@@ -48,6 +48,8 @@ def validate_fragment(problem, fragment):
         errors.append('문제 패널은 provenance/terms를 각각 최대 한 번 작성하세요')
     if any(n.parent is not root or not _body_text(n).strip() for n in panels):
         errors.append('문제 패널은 내용이 있는 직계 영역이어야 해요')
+    if panel_counts['terms'] != 1:
+        errors.append('용어 패널(data-problem-panel="terms")을 한 번 작성하세요')
     sections = list(root.find_all(lambda n: 'data-explanation' in n.attrs))
     counts = Counter(n.attrs['data-explanation'] for n in sections)
     if counts != Counter(KEYS):

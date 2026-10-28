@@ -1043,7 +1043,6 @@
         const box = panels.right.querySelector('.sums');
         const probs = panels.prob.querySelector('.probs');
         const origTab = panels.prob.querySelector('.orig-tab');
-        const origBtn = document.getElementById('tab-original');
         const workspace = document.getElementById('problem-workspace');
         const home = workspace.parentElement;
         const metadata = {provenance: {}, terms: {}};
@@ -1106,11 +1105,12 @@
           opens[id].textContent = on ? '문제 접기' : '문제 보기';
           if (!wideMq.matches && id === curId) workspace.hidden = !on;
         }
-        // 저장된 탭이 원문인데 지금 문항에 원문이 없으면 문제 탭을 보이되 선호는 그대로 둔다
-        const effective = (name) => (name === 'original' && !origs[curId] ? 'problem' : name);
+        // 저장된 탭(원문·출제 근거·용어)이 지금 문항에 없으면 문제 탭을 보이되 선호는 그대로 둔다
+        const has = (name) => name === 'problem' || (name === 'original' ? Boolean(origs[curId]) : Boolean(metadata[name] && metadata[name][curId]));
+        const effective = (name) => (has(name) ? name : 'problem');
         function showTab(name, save) {
           const shown = effective(name);
-          origBtn.hidden = !origs[curId];
+          tabs.forEach((b) => { b.hidden = !has(b.dataset.tab); });
           tabs.forEach((b) => { const on = b.dataset.tab === shown; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
           probs.hidden = shown !== 'problem';
           origTab.hidden = shown !== 'original';
@@ -1384,7 +1384,7 @@
           if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
           e.preventDefault();
           e.stopPropagation();
-          const order = ['problem'].concat(origs[curId] ? ['original'] : [], ['provenance', 'terms']);
+          const order = ['problem', 'original', 'provenance', 'terms'].filter(has);
           const at = order.indexOf(effective(tab));
           const next = e.key === 'Home' ? order[0] : e.key === 'End' ? order[order.length - 1] :
             order[(at + (e.key === 'ArrowRight' ? 1 : order.length - 1)) % order.length];

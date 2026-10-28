@@ -2,7 +2,7 @@
 from dataclasses import replace
 from pathlib import Path
 import pytest
-from helpers import fragment
+from helpers import TERMS, fragment
 from mpe_contract import validate_fragment
 from mpe_render import build_explanation, check_artifacts
 from mpe_source import load_source
@@ -18,9 +18,9 @@ def panel_stage(tmp_path):
     p2 = replace(p2, original_html='')
     pack = replace(pack, profile='review', problems=(p1, p2))
     bodies = {
-        p1.id: fragment(p1).replace('시작·판단·검산', '첫 문제 판단 요약') + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>첫 문항의 근거</p></section>'
+        p1.id: fragment(p1).replace('시작·판단·검산', '첫 문제 판단 요약').replace(TERMS, '') + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>첫 문항의 근거</p></section>'
                '<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>선형독립</dt><dd>$V\\alpha=0$의 해가 $\\alpha=0$뿐인 성질. $$p(y\\mid\\theta,X)=\\prod_{n=1}^{N}\\frac{1}{\\sqrt{2\\pi\\sigma^2}}\\exp\\left(-\\frac{(y_n-\\phi(x_n)^\\top\\theta)^2}{2\\sigma^2}\\right)$$</dd></dl></section>',
-        p2.id: fragment(p2).replace('시작·판단·검산', '둘째 문제 판단 요약') + '<section data-problem-panel="provenance"><h4>출제 근거</h4><p>둘째 문항의 근거</p></section>',
+        p2.id: fragment(p2).replace('시작·판단·검산', '둘째 문제 판단 요약'),
     }
     art = build_explanation(pack, bodies, tmp_path / 'stage', ROOT)
     assert check_artifacts(pack, art) == []
@@ -54,12 +54,17 @@ def test_current_question_tabs_survive_mobile_navigation_and_print(panel_stage, 
             page.locator('#p2 .problem-toggle').click()
         assert page.locator('#tab-original').is_hidden()
         assert page.locator('#tab-terms').get_attribute('aria-selected') == 'true'
-        assert '등록된 용어가 없어요' in page.locator('#tabpanel-terms').inner_text()
         assert '선형독립' not in page.locator('#tabpanel-terms').inner_text()
-        page.locator('#tab-provenance').click()
-        assert '둘째 문항의 근거' in page.locator('#tabpanel-provenance').inner_text()
+        # 출제 근거가 없는 문항은 탭을 숨기고, 그 탭을 고른 상태면 문제 탭을 보인다(선호는 유지)
+        assert page.locator('#tab-provenance').is_hidden()
         page.locator('#pager-prev').click()
+        page.locator('#tab-provenance').click()
         assert '첫 문항의 근거' in page.locator('#tabpanel-provenance').inner_text()
+        page.locator('#pager-next').click()
+        assert page.locator('#tab-provenance').is_hidden()
+        assert page.locator('#tab-problem').get_attribute('aria-selected') == 'true'
+        page.locator('#pager-prev').click()
+        assert page.locator('#tab-provenance').get_attribute('aria-selected') == 'true'
         page.evaluate('window.dispatchEvent(new Event("beforeprint"))')
         assert page.locator('#p1 > [data-problem-for="p1"]').count() == 1
         assert page.locator('#p2 > [data-problem-for="p2"]').count() == 1
@@ -88,7 +93,7 @@ def test_long_panel_formula_receives_accessible_math_layout(tmp_path):
     pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
     p = pack.problems[0]
     pack = replace(pack, problems=(p,))
-    body = fragment(p) + r'<section data-problem-panel="terms"><p>$$p(y\mid\theta,X)=\prod_{n=1}^{N}\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y_n-\phi(x_n)^\top\theta)^2}{2\sigma^2}\right)$$</p></section>'
+    body = fragment(p).replace(TERMS, '') + r'<section data-problem-panel="terms"><p>$$p(y\mid\theta,X)=\prod_{n=1}^{N}\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y_n-\phi(x_n)^\top\theta)^2}{2\sigma^2}\right)$$</p></section>'
     art = build_explanation(pack, {p.id: body}, tmp_path/'stage', ROOT)
     with sync_playwright() as pw:
         browser = pw.chromium.launch()

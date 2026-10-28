@@ -6,6 +6,8 @@ def problem():
                    '<p>$A=1$</p>', '<ol><li>(a) $A$</li><li>(b) $A^2$</li></ol>',
                    (), ('계산',), '1', ('a', 'b'))
 
+TERMS = '<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>제곱(square)</dt><dd>같은 수를 두 번 곱한 값</dd></dl></section>'
+
 def fragment(p=None):
     p = p or problem()
     parts = ''.join(f'<div data-subpart="{key}"><p>첫 식에서 계산하고 대입해 확인해요. $1=1$</p></div>' for key in p.subparts)
@@ -19,7 +21,7 @@ def fragment(p=None):
             f'<div class="layer formal" data-explanation="verify">{parts}</div>'
             '<div class="layer warn" data-explanation="pitfall"><p>행과 열을 바꾸지 않아요.</p></div>'
             '<div class="layer formal" data-explanation="retry"><ul><li>다시 계산해요.</li></ul></div>'
-            '<div class="sum" hidden><p>시작·판단·검산</p></div>')
+            '<div class="sum" hidden><p>시작·판단·검산</p></div>' + TERMS)
 
 def pack(path=Path('과제1_Homework1.html')):
     return SourcePack('homework', '1', 'Homework1', path, '0'*64, (problem(),))
