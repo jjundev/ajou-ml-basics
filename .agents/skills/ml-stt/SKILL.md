@@ -24,8 +24,8 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
        > 모델 선택을 **Gemini(Gemini 2.5 / 3.0 등)**로 변경하신 후 다시 요청해 주세요.
 
 1. **도메인 특화 어휘 주입 (Context-Aware Prior)**:
-   - 파일명에서 날짜(`MMDD`)를 자동 추출하고, 당일 진도 단원의 슬라이드 텍스트(`강의노트/Lecture*.pdf`) 및 `교과서/Mathematics_for_Machine_Learning.pdf`(MML)에서 핵심 머신러닝 고유명사를 추출해 서브에이전트 프롬프트에 힌트로 주입한다.
-   - 발음이 뭉개지거나 일상 단어로 들리기 쉬운 어휘(예: *기븐* $\rightarrow$ *given*, *조인트* $\rightarrow$ *joint*, *라이클리후드* $\rightarrow$ *likelihood*, *마지널* $\rightarrow$ *marginal*, *슈도 인버스* $\rightarrow$ *pseudo-inverse*, *아핀* $\rightarrow$ *affine*, *세타* $\rightarrow$ *$\theta$*, *힘숨찐* 등)는 머신러닝 표준 용어로 전사한다.
+   - 파일명에서 날짜(`MMDD`)를 자동 추출하고, `복습노트/<MMDD>/.pack/정리노트_*.md`, 당일 진도 단원의 최신 개정 슬라이드(`강의노트/Lecture*_rev_HO.pdf` 등), 조교 특강(`TA_Lecture_*.pdf`), 및 `교과서/Mathematics_for_Machine_Learning.pdf`(MML)에서 핵심 머신러닝·선형대수 고유명사를 추출해 서브에이전트 프롬프트에 힌트로 주입한다.
+   - 발음이 뭉개지거나 일상 단어로 들리기 쉬운 어휘(예: *기븐* $\rightarrow$ *given*, *조인트* $\rightarrow$ *joint*, *라이클리후드* $\rightarrow$ *likelihood*, *마지널* $\rightarrow$ *marginal*, *포스테리어 프레딕티브* $\rightarrow$ *posterior predictive*, *슈도 인버스* $\rightarrow$ *pseudo-inverse*, *아핀* $\rightarrow$ *affine*, *오소고날 프로젝션* $\rightarrow$ *orthogonal projection*, *오소노말 베이시스* $\rightarrow$ *orthonormal basis*, *피씨에이* $\rightarrow$ *PCA*, *이브이디* $\rightarrow$ *EVD*, *스펙트럴 씨어럼* $\rightarrow$ *Spectral Theorem*, *라그랑주 멀티플라이어* $\rightarrow$ *Lagrange multiplier*, *세타* $\rightarrow$ *$\theta$*, *람다* $\rightarrow$ *$\lambda$*, *힘숨찐*, *장군님* 등)는 머신러닝 표준 용어로 전사한다.
 
 2. **저장소 표준 경로 및 산출물 보존**:
    - 최종 마스터 전사본은 항상 `STT/<MMDD> 머러기.md`로 생성한다 (`ml-review-pack`이 기대하는 표준 경로).

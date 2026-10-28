@@ -63,13 +63,44 @@ class MlSttTests(unittest.TestCase):
             parse_date("audio_without_date.m4a")
 
     def test_04_infer_lecture(self):
-        from infer_context import infer_lecture
+        from infer_context import (
+            _clean_pdf_text,
+            _select_lecture_pdf,
+            extract_lecture_terms,
+            get_lecture_title,
+            infer_lecture,
+        )
 
         lec_0909 = infer_lecture(ROOT, "0909")
         self.assertEqual(lec_0909, 1)
 
         lec_1007 = infer_lecture(ROOT, "1007")
         self.assertEqual(lec_1007, 4)
+
+        lec_1012 = infer_lecture(ROOT, "1012")
+        self.assertEqual(lec_1012, 4)
+
+        lec_1019 = infer_lecture(ROOT, "1019")
+        self.assertEqual(lec_1019, 4)
+
+        lec_1028 = infer_lecture(ROOT, "1028")
+        self.assertEqual(lec_1028, 5)
+
+        # Ensure _rev_HO.pdf is prioritized for Lecture 04 and stripped from title
+        l04_pdf = _select_lecture_pdf(ROOT / "강의노트", 4)
+        self.assertIsNotNone(l04_pdf)
+        self.assertTrue(l04_pdf.name.endswith("_rev_HO.pdf"))
+        self.assertEqual(get_lecture_title(ROOT, 4), "Linear_Regression_Part2")
+        self.assertEqual(get_lecture_title(ROOT, 5), "PCA_Part1")
+
+        # Ensure LaTeXiT base64 metadata is stripped and PCA terms are present
+        dirty = '<latexit sha1_base64="05AwowEgK25U=">ACz3icjVHLSsNAFD3GV62vqks3wSK4</latexit>b1'
+        self.assertNotIn("ACz3icjVHL", _clean_pdf_text(dirty))
+        terms_l05 = extract_lecture_terms(ROOT, 5, mmdd="1028")
+        self.assertIn("주성분 분석(PCA)", terms_l05)
+        self.assertIn("직교투영(orthogonal projection)", terms_l05)
+        self.assertNotIn("bangchuljung", [t.lower() for t in terms_l05])
+        self.assertNotIn("dimensinoality", [t.lower() for t in terms_l05])
 
     def test_05_build_stt_prompt(self):
         from infer_context import build_stt_prompt

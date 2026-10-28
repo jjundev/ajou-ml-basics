@@ -163,6 +163,17 @@ def merge_transcripts(
                     print(f"Warning: Failed to delete intermediate file {f}: {e}", file=sys.stderr)
 
         print(f"Cleaned up {cleaned_count} intermediate chunk files.")
+        if os.path.basename(target_dir).startswith("_temp_"):
+            try:
+                remaining = [f for f in os.listdir(target_dir) if f != ".DS_Store"]
+                if not remaining:
+                    ds_store = os.path.join(target_dir, ".DS_Store")
+                    if os.path.exists(ds_store):
+                        os.remove(ds_store)
+                    os.rmdir(target_dir)
+                    print(f"Removed empty temporary directory: {target_dir}")
+            except OSError:
+                pass
 
     return output_path
 
