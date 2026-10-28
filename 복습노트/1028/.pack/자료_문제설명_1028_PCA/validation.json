@@ -1,6 +1,6 @@
 {
   "review_policy_version": "problem-explain-2026-10-20-row-derivatives",
-  "input_hash": "9243ac5c30c64dc0ad7792e996b9b2a07c561d9df346c7e1d13284acb82773a6",
+  "input_hash": "f886a4f29182c57c3b781cd13b67e06a2cf8bd8bd90f8de688362ab756e422a2",
   "references": [
     {
       "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/1028/복습문제_1028_PCA.html",
@@ -30,125 +30,125 @@
   "source_visual": {
     "status": "pass",
     "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 블라인드 검산 서브에이전트 원문 대조",
-    "evidence": "MML PDF p324-325 Example 10.1(x=[5,3]^T→[4,-7]^T 수치만 변형, x̃=[0,z]^T·U=span[e2] 구조 동일), p85 Example 3.8(식 3.35 구조, 값만 변형), p102 Exercise 3.5(네 벡터·x·(a)(b) 일치), p102-103 Exercise 3.6(A·U=span[e1,e3]·(a)(b) 일치, (c) 그리기는 카드에서 제외하고 원문 보기에 명시). 그림 없음. 문제 PDF 4쪽 전체 렌더링에서 조건·소문항 순서 보존 확인. evidence/independent/blind_solve.txt 원문 대조 절."
+    "evidence": "MML PDF p324-325 Example 10.1(x=[5,3]^T→[4,-7]^T 수치만 변형, x̃=[0,z]^T·U=span[e2] 구조 동일), p85 Example 3.8(식 3.35 구조, 값만 변형), p102 Exercise 3.5(네 벡터·x·(a)(b) 일치), p102-103 Exercise 3.6(A·U=span[e1,e3]·(a)(b) 일치, (c) 그리기는 카드에서 제외하고 원문 보기에 명시). 그림 없음. 문제 PDF 4쪽 전체 렌더링에서 조건·소문항 순서 보존 확인. evidence/independent/blind_solve.txt 원문 대조 절. / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
   },
   "browser": {
     "status": "pass",
     "reviewer": "메인 에이전트(Claude Browser 실제 렌더링)",
-    "evidence": "로컬 http.server로 stage 제공. 1280x900 light/dark, 1024x900, 375x812 dark: p1-p4 모두 KaTeX 오류 0(436식), 콘솔 오류 0, 외부 요청 0(로컬 KaTeX/Pretendard), 문서·.content 가로 넘침 0, display 수식 스크롤 0, 인라인 수식 스크롤 컨테이너 0. 1024에서 목차·문제 패널 기본 열림, 문제|원문|출제 근거|용어 탭, #sum-for.sums 1개·현재 문항 요약만 표시, 모바일 '문제 보기' 접힘, 다크 배경 rgb(23,23,28). 경미: 목차의 P3 제목(인라인 ℝ^5 수식)이 좁은 목차 폭에서 어색하게 줄바꿈되지만 판독 가능."
+    "evidence": "새 stage 재확인: 1280x900 light p1-p4 탭 4개(문제·원문·출제 근거·용어) 표시, 표지에서 메타 탭 숨김, KaTeX 오류 0, 콘솔 오류 0, 가로 넘침 없음; 375x812 dark p3 용어 탭 렌더링·넘침 없음. 이전 전체 화면 검토: 로컬 http.server로 stage 제공. 1280x900 light/dark, 1024x900, 375x812 dark: p1-p4 모두 KaTeX 오류 0(436식), 콘솔 오류 0, 외부 요청 0(로컬 KaTeX/Pretendard), 문서·.content 가로 넘침 0, display 수식 스크롤 0, 인라인 수식 스크롤 컨테이너 0. 1024에서 목차·문제 패널 기본 열림, 문제|원문|출제 근거|용어 탭, #sum-for.sums 1개·현재 문항 요약만 표시, 모바일 '문제 보기' 접힘, 다크 배경 rgb(23,23,28). 경미: 목차의 P3 제목(인라인 ℝ^5 수식)이 좁은 목차 폭에서 어색하게 줄바꿈되지만 판독 가능. / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
   },
   "content": {
     "status": "pass",
     "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA) 자체 내용 대조",
-    "evidence": "evidence/content-review.json: MML PDF p85, p102-103, p324-325, 연습문제 PDF, L05 s11-s12, 정리노트 s4-projection-recall/s4-code 대조. 일곱 구역·recall 단서-개념-공식-조건 연결, start/solve/verify/pitfall/sum 일치, 미분 미도입(check_vector_derivatives pass), KaTeX 391식 오류 0",
+    "evidence": "evidence/content-review.json: MML PDF p85, p102-103, p324-325, 연습문제 PDF, L05 s11-s12, 정리노트 s4-projection-recall/s4-code 대조. 일곱 구역·recall 단서-개념-공식-조건 연결, start/solve/verify/pitfall/sum 일치, 미분 미도입(check_vector_derivatives pass), KaTeX 391식 오류 0 / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
     "items": {
       "p1:a": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p1:a: pass: recall(선형결합·표준기저 계수=성분)→start(c1,c2 미지 계수)→solve(성분 비교 4,-7)→verify(재합성). 참고 답 4e1-7e2와 일치"
+        "evidence": "evidence/content-review.json items.p1:a: pass: recall(선형결합·표준기저 계수=성분)→start(c1,c2 미지 계수)→solve(성분 비교 4,-7)→verify(재합성). 참고 답 4e1-7e2와 일치 / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p1:b": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p1:b: pass: 0e1+ze2, e1 계수 고정 0 -> code z 하나, z=e2^T x~, x~=e2 z, 차원 1x2·2x1. 정리노트 s4-code와 일치. pitfall: (a)의 -7을 code로 쓰는 혼동, 2차원 공간 vs 1차원 부분공간"
+        "evidence": "evidence/content-review.json items.p1:b: pass: 0e1+ze2, e1 계수 고정 0 -> code z 하나, z=e2^T x~, x~=e2 z, 차원 1x2·2x1. 정리노트 s4-code와 일치. pitfall: (a)의 -7을 code로 쓰는 혼동, 2차원 공간 vs 1차원 부분공간 / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p1:c": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p1:c: pass: 양방향 포함으로 U=span[e2], 닫힘·영벡터, {e2} 일차독립 기저 -> dim 1. verify는 0,2 배제 논증(숫자 예 아님)"
+        "evidence": "evidence/content-review.json items.p1:c: pass: 양방향 포함으로 U=span[e2], 닫힘·영벡터, {e2} 일차독립 기저 -> dim 1. verify는 0,2 배제 논증(숫자 예 아님) / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p2:main": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p2:main: pass: Definition 3.9 두 조건 + 점곱, 1/25 인수, 직교·길이 제곱 1, 직교성으로 일차독립(alpha=beta=0) + dim R^2=2 -> 기저. verify B^TB=I, det=-1. 증명형: 모든 조건 직접 계산, 숫자 예로 대체하지 않음. 정규화 1/5 누락 pitfall"
+        "evidence": "evidence/content-review.json items.p2:main: pass: Definition 3.9 두 조건 + 점곱, 1/25 인수, 직교·길이 제곱 1, 직교성으로 일차독립(alpha=beta=0) + dim R^2=2 -> 기저. verify B^TB=I, det=-1. 증명형: 모든 조건 직접 계산, 숫자 예로 대체하지 않음. 정규화 1/5 누락 pitfall / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p3:a": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p3:a: pass: u4=u1+2u2+u3 제거, B^TB·B^Tx 값, det 189, 일차독립 논증, 정규방정식 소거 λ=(-3,4,1), π=[1,-5,-1,-2,3]. 정규직교 아님 -> B^Tx는 계수 아님 구분. 참고 풀이와 동일 경로·결과"
+        "evidence": "evidence/content-review.json items.p3:a: pass: u4=u1+2u2+u3 제거, B^TB·B^Tx 값, det 189, 일차독립 논증, 정규방정식 소거 λ=(-3,4,1), π=[1,-5,-1,-2,3]. 정규직교 아님 -> B^Tx는 계수 아님 구분. 참고 풀이와 동일 경로·결과 / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p3:b": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p3:b: pass: r=[-2,-4,0,6,-2], d=sqrt60=2sqrt15. verify 네 생성벡터와 직교 개별 계산, 100=40+60 피타고라스"
+        "evidence": "evidence/content-review.json items.p3:b: pass: r=[-2,-4,0,6,-2], d=sqrt60=2sqrt15. verify 네 생성벡터와 직교 개별 계산, 100=40+60 피타고라스 / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p4:a": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p4:a: pass: 일반 내적 x^TAy에서의 직교 조건임을 understand·recall·pitfall·sum에 명시. <ei,ej>=A_ij, B^TAB=2I, B^TAe2=[1,-1], λ=(1/2,-1/2), π=[1/2,0,-1/2]. verify 완전제곱(미분 미사용). A 양의 정부호 판정은 '수업 밖 보충 확인'으로 표시"
+        "evidence": "evidence/content-review.json items.p4:a: pass: 일반 내적 x^TAy에서의 직교 조건임을 understand·recall·pitfall·sum에 명시. <ei,ej>=A_ij, B^TAB=2I, B^TAe2=[1,-1], λ=(1/2,-1/2), π=[1/2,0,-1/2]. verify 완전제곱(미분 미사용). A 양의 정부호 판정은 '수업 밖 보충 확인'으로 표시 / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       },
       "p4:b": {
         "status": "pass",
         "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA)",
-        "evidence": "evidence/content-review.json items.p4:b: pass: Ar=[0,1,0], r^TAr=1 -> d=1. 점곱 길이 sqrt6/2 오답, 점곱 사영 0이 거리만 우연히 1로 같다는 pitfall"
+        "evidence": "evidence/content-review.json items.p4:b: pass: Ar=[0,1,0], r^TAr=1 -> d=1. 점곱 길이 sqrt6/2 오답, 점곱 사영 0이 거리만 우연히 1로 같다는 pitfall / 2026-10-28 패널 추가 재검토: evidence/panel-review.md"
       }
     }
   },
   "independent": {
     "status": "pass",
     "reviewer": "블라인드 검산 서브에이전트(문제 데이터만 열람) + 저작자 sympy 검산, 컨트롤러 대조",
-    "evidence": "evidence/independent-review.md, evidence/blind/blind_check.py+blind_results.txt, evidence/independent_1028.py+independent_results.json, evidence/independent/blind_solve.py+.txt",
+    "evidence": "evidence/independent-review.md, evidence/blind/blind_check.py+blind_results.txt, evidence/independent_1028.py+independent_results.json, evidence/independent/blind_solve.py+.txt / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
     "items": {
       "p1:a": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p1), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p1), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "exact",
         "conclusion": "x=4e1-7e2: 블라인드·저작자 sympy 계수 [4,-7], 재합성 일치. 참고 답과 일치"
       },
       "p1:b": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p1), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p1), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "exact",
         "conclusion": "x~=0e1+ze2, code z=e2^T x~ 하나 저장: 블라인드·저작자 일치. 참고 답과 일치"
       },
       "p1:c": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p1), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p1), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "proof",
         "conclusion": "U=span[e2](양방향 포함, 닫힘), 기저 {e2} rank 1 -> dim U=1: 블라인드·저작자 일치. 참고 답과 일치"
       },
       "p2:main": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p2), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p2), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "proof",
         "conclusion": "b1^Tb2=0, |b1|^2=|b2|^2=1 (Fraction 정확), B^TB=I, det=-1 -> 일차독립 2개로 R^2 기저 -> 정규직교 기저. 정의 조건 전부 직접 계산. 참고 답과 일치"
       },
       "p3:a": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p3), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p3), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "exact",
         "conclusion": "rank 3, u4=u1+2u2+u3, 정규방정식 λ=(-3,4,1), π_U(x)=[1,-5,-1,-2,3]; Gram-Schmidt QQ^Tx 동일; 블라인드 두 방법 동일. 참고 답과 일치"
       },
       "p3:b": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p3), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p3), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "exact",
         "conclusion": "잔차 [-2,-4,0,6,-2]가 네 생성벡터와 직교, d^2=60, d=2sqrt15; 피타고라스 100=40+60. 참고 답과 일치"
       },
       "p4:a": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p4), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p4), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "exact",
         "conclusion": "A 대칭·선행 소행렬식 2,3,4; B^TAB=2I, B^TAe2=[1,-1], λ=(1/2,-1/2), π=[1/2,0,-1/2]; A-거리 제곱 완전제곱 2(l1-1/2)^2+2(l3+1/2)^2+1 일치; 블라인드 동일. 참고 답과 일치"
       },
       "p4:b": {
         "status": "pass",
         "reviewer": "블라인드 검산 서브에이전트 + 저작자 검산",
-        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p4), evidence/independent-review.md",
+        "evidence": "evidence/blind/blind_results.txt, evidence/independent_results.json (p4), evidence/independent-review.md / 2026-10-28 패널 추가 재검토: evidence/panel-review.md",
         "method": "exact",
         "conclusion": "r=[-1/2,1,1/2], Ar=[0,1,0], r^TAr=1 -> d=1; 완전제곱 최솟값 1; 블라인드 동일. 참고 답과 일치"
       }
     }
   },
   "artifact_hashes": {
-    ".pack/문제설명_1028_PCA.md": "d28991bf0031ce9330cb4b1c2ede50aeab83ba01d8d1a88194190cdd4c3adf5f",
+    ".pack/문제설명_1028_PCA.md": "cb73832dd12bed377e150bf4c4889d0fa130e309850c205d68c39d8fd4b4ab41",
     ".pack/자료_문제설명_1028_PCA/evidence/blind/blind_check.py": "f2f78c2dd12ce79c6f7a6a63eac16d30d1dd3f55442d8a95b8c0e452499d5f91",
     ".pack/자료_문제설명_1028_PCA/evidence/blind/blind_results.txt": "f5db770e345fe0917111c532697364440abccded5ff2bcca3662ee60ecc3490d",
     ".pack/자료_문제설명_1028_PCA/evidence/check_vector_derivatives.txt": "f561779247ccc8fe3c3ecf04fe09091f420eb0448f5b7798bc4aa359620c54bc",
@@ -160,10 +160,10 @@
     ".pack/자료_문제설명_1028_PCA/evidence/independent_results.json": "46b673d0660ee5362cc493657f6c76533ef7d117ffd13dc903b453609498c6c5",
     ".pack/자료_문제설명_1028_PCA/evidence/katex_parse.txt": "f451cbe5e75d9933a11c7b6a75e303d1b4ac53d276d20291a15ff0c5736a44f5",
     ".pack/자료_문제설명_1028_PCA/evidence/problem-data-only.json": "cb143df3445dcf1feb70904cb0443d995dd16c3634f154db1aad8877dc637223",
-    ".pack/자료_문제설명_1028_PCA/fragments/p1.html": "a6bae3c41af8a366f11625345f0a9bab5e638203499f849701531ede7bcc0e77",
-    ".pack/자료_문제설명_1028_PCA/fragments/p2.html": "38db56787269109437afda5109e2c3eecebf62e2447b58c4c875dba7ce09375c",
-    ".pack/자료_문제설명_1028_PCA/fragments/p3.html": "fdf2d032815d4af0a1c601c879084da814fc2f1e3ceb7709921ce97520973f35",
-    ".pack/자료_문제설명_1028_PCA/fragments/p4.html": "2f2f0955575f67e029328c2fbbcf926f0a70d400f1e4d2ce91ea55e5f9ea5e51",
+    ".pack/자료_문제설명_1028_PCA/fragments/p1.html": "50b7f3453ccf505d3c32e8bcde50641628f5c24a961f2a88700f869d3918dbb6",
+    ".pack/자료_문제설명_1028_PCA/fragments/p2.html": "8b23665310d205a4670f88ba0dff650857bdd82f16507cc101c12a00535ee568",
+    ".pack/자료_문제설명_1028_PCA/fragments/p3.html": "ed815492e82b28e8f75f641719862fe2c9933c7b4130a1b821c7f26f028daf67",
+    ".pack/자료_문제설명_1028_PCA/fragments/p4.html": "1f2c5105df71ce0c86c198b1202bb0de5162874ca45be63e2ff6c5d7af7e01f2",
     ".pack/자료_문제설명_1028_PCA/template-provenance.json": "e64248c5ec7a72739800feabb5e51c6dc6afd73ba2af33fb938ef31035864ab1",
     ".pack/자료_문제설명_1028_PCA/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
     ".pack/자료_문제설명_1028_PCA/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
@@ -250,7 +250,7 @@
     ".pack/자료_문제설명_1028_PCA/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
     ".pack/자료_문제설명_1028_PCA/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
     ".pack/자료_문제설명_1028_PCA/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
-    "문제설명_1028_PCA.html": "be0c49a67d066b10f2f2cc69ec4b85fd5575d4b69851217ec4da9d703d862707",
-    ".pack/자료_문제설명_1028_PCA/manifest.json": "1157c07ca14e6507a7e55fead65ed5bf112f1a868b39a0172fa1491445efb427"
+    "문제설명_1028_PCA.html": "4abc46dc3b1a51cbde9045102e3a4ee2dd56ffe5f959e76054db527994d7f092",
+    ".pack/자료_문제설명_1028_PCA/manifest.json": "599400194dcd824021202e035f634a0de3c8d260395f8b2856e462759d1051ed"
   }
 }
