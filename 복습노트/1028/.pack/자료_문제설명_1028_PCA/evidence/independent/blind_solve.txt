@@ -1,0 +1,34 @@
+
+======== P1 (MML Ex 10.1 variant) ========
+(a) coords of x: [4, -7] -> x = 4 e1 + (-7) e2; check: True
+(b) coords of x~: [0, z] -> x~ = 0 e1 + z e2; e1-coordinate always 0, store only z (code wrt e2)
+(c) closure: [0,z1]+[0,z2] = [0, z1 + z2] ; a*[0,z1] = [0, a*z1]
+    U = span[e2], basis {e2} (nonzero, so independent) -> dim U = 1
+
+======== P2 (MML Ex 3.8 variant) ========
+b1.b2 = 0  (12-12)/25
+||b1||^2 = 1  (9+16)/25 ; ||b2||^2 = 1  (16+9)/25
+B^T B = [[1, 0], [0, 1]] = I -> True
+orthonormal => linearly independent (c1 b1 + c2 b2 = 0, dot with bi gives ci=0); 2 indep. vectors in dim-2 R^2 => basis; det B = -1
+
+======== P3 (MML Exercise 3.5) ========
+rank of spanning set = 3 (dim U)
+pivot columns: (0, 1, 2)
+null space of [v1..v4]: [[-1, -2, -1, 1]]
+normal eq  B^T B lam = B^T x ; lam = [-3, 4, 1]
+(a) pi_U(x) = [1, -5, -1, -2, 3]
+residual x - pi_U(x) = [-2, -4, 0, 6, -2]
+check residual orthogonal to every spanning vector: [0, 0, 0, 0]
+(b) d(x,U)^2 = 60 ; d(x,U) = 2*sqrt(15) ~ 7.745966692
+cross-check A A^+ x = [1, -5, -1, -2, 3] match: True ; P idempotent: True
+Pythagoras ||x||^2 = ||p||^2 + ||r||^2 : 100 = 40 + 60 -> True
+
+======== P4 (MML Exercise 3.6 a,b) ========
+A symmetric: True ; leading minors: [2, 3, 4] -> SPD, valid inner product
+Gram G = B^T A B = [[2, 0], [0, 2]] ; B^T A e2 = [1, -1] ; lam = [1/2, -1/2]
+(a) pi_U(e2) = [1/2, 0, -1/2]  = 1/2 e1 - 1/2 e3
+residual e2 - pi_U(e2) = [-1/2, 1, 1/2]
+check <r,e1> = 0  <r,e3> = 0
+(b) d(e2,U)^2 = <r,r>_A = 1 ; d = 1
+min over a,c of ||e2-a e1-c e3||_A^2: 2*a**2 - 2*a + 2*c**2 + 2*c + 2 -> argmin {a: 1/2, c: -1/2} , min = 1
+contrast: Euclidean projection would give 0 (e2 ⟂ e1,e3 in dot product), distance 1 -> projection differs (distance happens to coincide = 1)

@@ -1,0 +1,31 @@
+{
+ "reviewer": "ml-problem-explain 저작 서브에이전트(1028 PCA), 저작 후 자체 내용 대조",
+ "sources_read": {
+  "MML PDF p324-325": "Example 10.1: canonical basis, [5,3]^T=5e1+3e2, x~=[0,z]^T -> store code z, U=span[e2], dim 1. 카드 p1은 x=[4,-7]^T 수치 변형",
+  "MML PDF p85": "Definition 3.9 ONB 조건 (3.33)(3.34), Example 3.8 b=1/sqrt2[1,±1]. 카드 p2는 (3,4)/5,(4,-3)/5 수치 변형",
+  "MML PDF p102-103 및 연습문제 PDF": "Exercise 3.5 U·x 데이터, Exercise 3.6 A·U=span[e1,e3]·Hint 원문과 카드 조건 일치. 3.6(c) 그리기는 카드에서 생략(원문 표기 있음)",
+  "Lecture05 s11-s12": "code z_n=B^T x_n, B 열 정규직교, 일반 사영 (B^TB)^{-1}B^Tx, encoder/decoder",
+  "정리노트 s4-projection-recall, s4-code": "직교 원리 b^T(x-λb)=0, B^T(x-Bλ)=0, 정규직교면 B^TB=I -> z=B^Tx, Example 10.1 연결"
+ },
+ "items": {
+  "p1:a": "pass: recall(선형결합·표준기저 계수=성분)→start(c1,c2 미지 계수)→solve(성분 비교 4,-7)→verify(재합성). 참고 답 4e1-7e2와 일치",
+  "p1:b": "pass: 0e1+ze2, e1 계수 고정 0 -> code z 하나, z=e2^T x~, x~=e2 z, 차원 1x2·2x1. 정리노트 s4-code와 일치. pitfall: (a)의 -7을 code로 쓰는 혼동, 2차원 공간 vs 1차원 부분공간",
+  "p1:c": "pass: 양방향 포함으로 U=span[e2], 닫힘·영벡터, {e2} 일차독립 기저 -> dim 1. verify는 0,2 배제 논증(숫자 예 아님)",
+  "p2:main": "pass: Definition 3.9 두 조건 + 점곱, 1/25 인수, 직교·길이 제곱 1, 직교성으로 일차독립(alpha=beta=0) + dim R^2=2 -> 기저. verify B^TB=I, det=-1. 증명형: 모든 조건 직접 계산, 숫자 예로 대체하지 않음. 정규화 1/5 누락 pitfall",
+  "p3:a": "pass: u4=u1+2u2+u3 제거, B^TB·B^Tx 값, det 189, 일차독립 논증, 정규방정식 소거 λ=(-3,4,1), π=[1,-5,-1,-2,3]. 정규직교 아님 -> B^Tx는 계수 아님 구분. 참고 풀이와 동일 경로·결과",
+  "p3:b": "pass: r=[-2,-4,0,6,-2], d=sqrt60=2sqrt15. verify 네 생성벡터와 직교 개별 계산, 100=40+60 피타고라스",
+  "p4:a": "pass: 일반 내적 x^TAy에서의 직교 조건임을 understand·recall·pitfall·sum에 명시. <ei,ej>=A_ij, B^TAB=2I, B^TAe2=[1,-1], λ=(1/2,-1/2), π=[1/2,0,-1/2]. verify 완전제곱(미분 미사용). A 양의 정부호 판정은 '수업 밖 보충 확인'으로 표시",
+  "p4:b": "pass: Ar=[0,1,0], r^TAr=1 -> d=1. 점곱 길이 sqrt6/2 오답, 점곱 사영 0이 거리만 우연히 1로 같다는 pitfall"
+ },
+ "cross_checks": {
+  "seven_sections_and_subpart_markers": "mpe_cli check machine PASS (구역·소문항·수식 보존·자원)",
+  "recall_vs_start_duplication": "recall은 일반 개념·공식·조건, start는 실제 첫 식 한 줄+짧은 이유. 긴 설명 복제 없음",
+  "summary_vs_body": "각 sum의 떠올릴 개념·공식/첫 줄/핵심 답/검산/조건·구분 문장이 본문 solve·verify·pitfall 주장과 일치. 본문에 없는 사실 없음",
+  "problem_data_preserved": "조건·질문·참고 풀이 수정 없음(조립기가 원문 부착). 수치 변형(p1,p2)은 원 카드 출제 사항이며 understand에 '변형'으로 명시",
+  "scope": "고윳값 분해 상세·분산 최대화·Lagrange·미분 미사용. 직교 원리만 사용",
+  "derivative_convention": "미분 문항 없음, 미분 미도입. check_vector_derivatives.py status pass (evidence/check_vector_derivatives.txt)",
+  "katex": "explanations 수식 391개 KaTeX strict 파싱 오류 0 (evidence/katex_parse.txt)",
+  "concept_links": "정리노트_1028_PCA.html#s4-code, #s4-projection-recall: 발행 디렉터리 복습노트/1028/의 실제 id 존재 확인"
+ },
+ "disputed": []
+}
