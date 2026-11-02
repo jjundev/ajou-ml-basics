@@ -1,0 +1,95 @@
+== p6 (Ex 4.5) ==
+[M1] det(M - lambda I) = (lambda - 1)**2
+[M1] det M = 1  -> invertible: True
+[M1] lambda=1: alg=2, geo=2, basis=[[1, 0], [0, 1]]
+[M1] sum of eigenspace dims = 2 / n=2 -> diagonalizable: True (consistent: True)
+[M2] det(M - lambda I) = lambda*(lambda - 1)
+[M2] det M = 0  -> invertible: False
+[M2] lambda=0: alg=1, geo=1, basis=[[0, 1]]
+[M2] lambda=1: alg=1, geo=1, basis=[[1, 0]]
+[M2] sum of eigenspace dims = 2 / n=2 -> diagonalizable: True (consistent: True)
+[M3] det(M - lambda I) = (lambda - 1)**2
+[M3] det M = 1  -> invertible: True
+[M3] lambda=1: alg=2, geo=1, basis=[[1, 0]]
+[M3] sum of eigenspace dims = 1 / n=2 -> diagonalizable: False (consistent: True)
+[M4] det(M - lambda I) = lambda**2
+[M4] det M = 0  -> invertible: False
+[M4] lambda=0: alg=2, geo=1, basis=[[1, 0]]
+[M4] sum of eigenspace dims = 1 / n=2 -> diagonalizable: False (consistent: True)
+[M3] single eigenvalue 1; M == 1I ? False -> not diagonalizable
+[M4] single eigenvalue 0; M == 0I ? False -> not diagonalizable
+== p7 (Ex 4.6) ==
+[7a] det(M - lambda I) = -(lambda - 5)*(lambda - 1)**2
+[7a] det M = 5  -> invertible: True
+[7a] lambda=1: alg=2, geo=1, basis=[[-3, 1, 0]]
+[7a] lambda=5: alg=1, geo=1, basis=[[1, 1, 0]]
+[7a] sum of eigenspace dims = 2 / n=3 -> diagonalizable: False (consistent: True)
+[7a] expanded char poly: -lambda**3 + 7*lambda**2 - 11*lambda + 5
+[7a] A*[-3, 1, 0] = [-3, 1, 0] = 1*v ? True
+[7a] A*[1, 1, 0] = [5, 5, 0] = 5*v ? True
+[7a] rank(A-I)= 2  rank(A-5I)= 2
+[7b] det(M - lambda I) = lambda**3*(lambda - 1)
+[7b] det M = 0  -> invertible: False
+[7b] lambda=0: alg=3, geo=3, basis=[[-1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+[7b] lambda=1: alg=1, geo=1, basis=[[1, 0, 0, 0]]
+[7b] sum of eigenspace dims = 4 / n=4 -> diagonalizable: True (consistent: True)
+[7b] rank(A)= 1  rank(A-I)= 3
+[7b] det P = 1  P^{-1} A P = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1]]
+== p8 (Ex 4.4) ==
+[p8] cofactors row3: C31= -(lambda + 1)**2  C32= 2*(lambda - 2)*(lambda + 1)  C33= -(lambda + 1)*(lambda**2 - 2*lambda + 3)  C34= -(lambda + 1)**2
+[p8] 2C31 - C32 - lambda C33 = lambda**4 - lambda**3 - 3*lambda**2 + lambda + 2  =  (lambda - 2)*(lambda - 1)*(lambda + 1)**2
+[p8] matches det directly: True
+[p8] det(M - lambda I) = (lambda - 2)*(lambda - 1)*(lambda + 1)**2
+[p8] det M = 2  -> invertible: True
+[p8] lambda=-1: alg=2, geo=1, basis=[[0, 1, 1, 0]]
+[p8] lambda=1: alg=1, geo=1, basis=[[1, 1, 1, 1]]
+[p8] lambda=2: alg=1, geo=1, basis=[[1, 0, 1, 1]]
+[p8] sum of eigenspace dims = 3 / n=4 -> diagonalizable: False (consistent: True)
+[p8] rank(A - (-1)I) = 3
+[p8] rank(A - (1)I) = 3
+[p8] rank(A - (2)I) = 3
+[p8] A*[0, 1, 1, 0] = [0, -1, -1, 0]  (-1*v ? True)
+[p8] A*[1, 1, 1, 1] = [1, 1, 1, 1]  (1*v ? True)
+[p8] A*[1, 0, 1, 1] = [2, 0, 2, 2]  (2*v ? True)
+[p8] det A = 2  product of eigenvalues with alg. mult. (-1)^2*1*2 = 2
+[p8] trace A = 1  sum of eigenvalues -1-1+1+2 = 1
+[p8] rref(A+I)= [[1, 0, 0, 0], [0, 1, -1, 0], [0, 0, 0, 1], [0, 0, 0, 0]]
+[p8] rref(A-I)= [[1, 0, 0, -1], [0, 1, 0, -1], [0, 0, 1, -1], [0, 0, 0, 0]]
+[p8] rref(A-2I)= [[1, 0, 0, -1], [0, 1, 0, 0], [0, 0, 1, -1], [0, 0, 0, 0]]
+[p8] minors: det M31 = -(lambda + 1)**2  det M32 = -2*(lambda - 2)*(lambda + 1)  det M33 = -(lambda + 1)*(lambda**2 - 2*lambda + 3)
+[p8] minors equal submatrices: True True True
+[p8] bracket after factoring (lambda+1): lambda**3 - 2*lambda**2 - lambda + 2 = (lambda - 2)*(lambda - 1)*(lambda + 1)
+[p8] det = (lambda+1)*bracket ? True
+[p8] A+I step1 row-equivalent to A+I: True
+[p8] A+I step2 row-equivalent to A+I: True
+[p8] A-I step1 row-equivalent to A-I: True
+[p8] A-I step2 row-equivalent to A-I: True
+[p8] A-I step3 row-equivalent to A-I: True
+[p8] A-2I step1 row-equivalent to A-2I: True
+[p8] A-2I step2 row-equivalent to A-2I: True
+[p8] A-2I step3 row-equivalent to A-2I: True
+[p8] sign-dropped expansion at lambda=0: -6  (correct value det A = 2 )
+[7b] explanation P: det = -1  P^{-1}AP = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1]]
+== p9 (Ex 4.11) ==
+[p9] (A A^T)(A x) - A (A^T A x) == 0 symbolically: True
+[p9] (A^T A)(A^T u) - A^T (A A^T u) == 0 symbolically: True
+[p9] A 2x3 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [9.0, 9.0]
+[p9] A 2x3 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [6.76393202, 11.23606798]
+[p9] A 2x3 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [5.0, 18.0]
+[p9] A 3x2 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [2.0, 9.0]
+[p9] A 3x2 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [12.38422689, 27.61577311]
+[p9] A 3x2 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [2.38812579, 22.61187421]
+[p9] A 3x3 rank=3: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [8.4743658, 22.2297896, 32.29584461]
+[p9] A 3x3 rank=3: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [1.1281769, 9.86138343, 23.01043967]
+[p9] A 3x3 rank=3: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [2.77722668, 7.12861929, 29.09415404]
+[p9] A 1x4 rank=1: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [14.0]
+[p9] A 1x4 rank=1: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [23.0]
+[p9] A 1x4 rank=1: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [20.0]
+[p9] A 4x2 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [10.83772234, 17.16227766]
+[p9] A 4x2 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [9.0, 26.0]
+[p9] A 4x2 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [16.78889745, 31.21110255]
+[p9] A 2x4 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [4.3605897, 20.6394103]
+[p9] A 2x4 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [6.64765004, 18.35234996]
+[p9] A 2x4 rank=2: lambda^m p_AtA = lambda^n p_AAt ? True; nonzero eig equal ? True [6.46887113, 14.53112887]
+[p9] all random checks pass: True
+[p9] A=[1,1]: eig(A^T A)= {2: 1, 0: 1}  eig(A A^T)= {2: 1}

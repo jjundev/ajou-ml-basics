@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 1102</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · 1102 수업 (Lecture05 PCA Part1 s14–s21, MML 4·10장)">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="1102">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 큰 그림</a><a href="#s1">1 최대 분산</a><a href="#s2">2 고윳값</a><a href="#s3">3 스펙트럼</a><a href="#s4">4 b₁ 찾기</a><a href="#s5">5 요약·예고</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>최대 분산으로 PCA 방향 고르기 — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 1102 수업 (Lecture05 PCA Part1 s14–s21, MML 4·10장)</p>
+    </div>
+    <section id="s0"><h2>0. 오늘의 큰 그림</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>가장 많이 퍼진 방향 찾기</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s14–s21</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal">오늘의 질문은 이거예요. $D$차원 데이터 $\mathbf{x}_n \in \mathbb{R}^D$를 $M$개의 방향 $\mathbf{b}_1,\dots,\mathbf{b}_M$만으로 표현할 때($M \ll D$), 데이터의 퍼짐을 가장 많이 남기는 방향은 어떻게 고를까요? 퍼짐의 척도는 분산(variance)이고, 수업에서는 이를 데이터의 에너지라고도 불렀어요. 분산을 가장 많이 담은 방향을 기저로 고르자는 관점이 maximum variance perspective예요. 2차원 예시에서 점들이 $x$축 쪽으로 더 퍼져 있다면, 축을 하나만 쓸 때 $x$축에 사영하는 편이 에너지를 더 많이 남겨요.</p>
+<p data-map="bridge">1028 수업에서는 문제의 틀만 세웠어요. 정규직교 열을 가진 ${\mathbf{B} = [\mathbf{b}_1 \cdots \mathbf{b}_M] \in \mathbb{R}^{D \times M}}$로 code ${\mathbf{z}_n = \mathbf{B}^T\mathbf{x}_n}$를 만들고, centering된 데이터로 데이터 공분산 행렬 $\mathbf{S}$를 정의했어요. 오늘은 같은 틀에 "어떤 $\mathbf{B}$가 좋은가"라는 기준을 붙여요. 첫 좌표만 보면 code는 내적 하나 $z_{1n} = \mathbf{b}_1^T\mathbf{x}_n$이고, 이 좌표의 분산을 계산하면 1028의 $\mathbf{S}$가 다시 나와요. 답을 읽어 내는 도구는 선형대수의 고윳값·고유벡터와 스펙트럼 정리라서, 그 복습이 중간에 들어가요.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>단계</th><th>식</th><th>출발점</th><th>오늘 한 일</th></tr></thead>
+<tbody>
+<tr><td>사영 좌표</td><td>$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n$</td><td>1028 code $\mathbf{z}_n = \mathbf{B}^T\mathbf{x}_n$</td><td>$(1 \times D)(D \times 1)$ 내적이라 스칼라예요. 방향 $\mathbf{b}_1$ 하나에 사영한 좌표예요.</td></tr>
+<tr><td>분산</td><td>$V_1 = \frac{1}{N}\sum_{n=1}^N z_{1n}^2$</td><td>분산 = 제곱의 평균 − 평균의 제곱</td><td>centering 덕분에 평균이 0이라 제곱의 평균만 남아요.</td></tr>
+<tr><td>목표식</td><td>${V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$</td><td>1028 ${\mathbf{S} = \frac{1}{N}\sum_{n=1}^N \mathbf{x}_n\mathbf{x}_n^T}$</td><td>전치 규칙으로 $\mathbf{b}_1$을 합 밖으로 꺼내 유도했어요.</td></tr>
+<tr><td>최적화 문제</td><td>$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$, $\|\mathbf{b}_1\|^2 = 1$</td><td>정규직교 기저</td><td>문제를 세웠고, 풀이는 다음 시간으로 미뤘어요.</td></tr>
+<tr><td>답을 읽는 도구</td><td>${\mathbf{S} = \mathbf{P}\mathbf{D}\mathbf{P}^T = \sum_i \lambda_i\mathbf{p}_i\mathbf{p}_i^T}$</td><td>$\mathbf{A}\mathbf{x} = \lambda\mathbf{x}$, 대각화, EVD</td><td>대칭행렬 $\mathbf{S}$는 정규직교 고유벡터로 분해된다는 스펙트럼 정리를 복습했어요.</td></tr>
+<tr><td>결론(예고)</td><td>$\mathbf{b}_1 = \mathbf{p}_1$</td><td>$\mathbf{S}$의 가장 큰 고윳값 $\lambda_1$</td><td>결론만 들었어요. 증명은 시작만 하고 다음 시간으로 넘어갔어요.</td></tr>
+</tbody></table></div>
+<p data-map="result">구하는 것은 숫자 하나가 아니라 방향이에요. 크기 1인 단위벡터 $\mathbf{b}_1 \in \mathbb{R}^D$와, 그 방향으로 사영했을 때의 분산 $V_1$이에요. 수업에서 교수님이 말로 미리 알려 준 결론은 $\mathbf{b}_1$이 $\mathbf{S}$의 가장 큰 고윳값 $\lambda_1$에 대응하는 고유벡터 $\mathbf{p}_1$이고, 그때 분산은 $V_1 = \lambda_1$이라는 것이에요. 증명은 다음 시간으로 미뤘고, 미룬 증명은 <a href="#s4-max-proof">4.3 왜 가장 큰 고윳값의 고유벡터일까</a>에 보충으로 실었어요. 방향을 $M$개 쓰면 고윳값이 큰 순서로 $M$개의 고유벡터를 모아 $\mathbf{B}$를 만들어요. MNIST라면 $D = 784$를 $M = 50$으로 줄이는 데 이 $\mathbf{B}$를 써요.</p>
+<p data-map="formula">첫 번째 계산인 <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>는 "방향을 고른다"는 말을 식 하나로 바꿔요. 핵심 연산은 ${z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)^T}$처럼 스칼라를 전치해도 그대로라는 사실과 ${(\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T}$예요. 그러면 ${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$이 되고, $n$과 무관한 $\mathbf{b}_1$을 합 밖으로 꺼내면 괄호 안에 $\mathbf{S}$가 남아 ${V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$이 돼요. 이것이 "왜 데이터 행렬이 아니라 공분산 행렬인가"에 대한 수식의 답이에요.</p>
+<p>두 번째로, <a href="#s2-eigen">2.1 고윳값과 고유벡터</a>부터 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>까지의 복습은 목표식 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$의 최댓값을 읽는 도구를 준비해요. 결론이 "$\mathbf{S}$의 고유벡터"라는 말로 되어 있고, 교수님이 시작한 증명도 임의의 $\mathbf{b}_1$을 정규직교 고유벡터의 합 ${\mathbf{b}_1 = \sum_i c_i\mathbf{p}_i}$로 쓰는 데서 출발하기 때문이에요.</p>
+<p>제약 $\|\mathbf{b}_1\|^2 = 1$은 수업에서 이유를 말하지 않았어요. 제약이 없으면 $\mathbf{b}_1$의 크기만 키워 $V_1$을 얼마든지 크게 만들 수 있기 때문이라는 설명은 학습을 위한 재구성이에요.</p>
+<p data-map="pitfall">가장 헷갈리기 쉬운 점은 EVD의 $\mathbf{P}$가 언제나 직교행렬은 아니고, $\mathbf{P}^{-1} = \mathbf{P}^T$로 고를 수 있는 것은 $\mathbf{S}$처럼 대칭행렬일 때라는 거예요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a>). 대칭행렬이라도 고윳값이 중근이면 그 고유공간에서 고른 고유벡터가 자동으로 직교하지는 않아서, Gram–Schmidt처럼 직교화한 뒤 정규화해야 해요. 차원도 조심해요. 이 강의의 표기 $\mathbf{X} \in \mathbb{R}^{D \times N}$에서는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T \in \mathbb{R}^{D \times D}}$이고, $\mathbf{X}^T\mathbf{X}$는 $N \times N$이에요. 마지막으로 "$\mathbf{b}_1$은 가장 큰 고윳값의 고유벡터"는 오늘 증명이 끝나지 않은 결론이에요.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">$M$개 방향으로 데이터를 표현할 때 분산(에너지)을 가장 많이 남기는 방향을 찾아요. 첫 방향의 분산은 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$로 쓰이고, 답은 $\mathbf{S}$의 가장 큰 고윳값의 고유벡터라는 결론을 미리 들었어요(증명은 다음 시간).</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">사영 좌표</span>$$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n$$</li>
+<li><span class="eq-name">첫 좌표의 분산</span>$$V_1 = \frac{1}{N}\sum_{n=1}^N z_{1n}^2$$</li>
+<li><span class="eq-name">목표식</span>$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$</li>
+<li><span class="eq-name">데이터 공분산 행렬</span>$$\mathbf{S} = \frac{1}{N}\sum_{n=1}^N \mathbf{x}_n\mathbf{x}_n^T$$</li>
+<li><span class="eq-name">최적화 문제</span>$$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$</li>
+<li><span class="eq-name">스펙트럼 정리(대칭 S)</span>$$\mathbf{S} = \mathbf{P}\mathbf{D}\mathbf{P}^T = \sum_i \lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
+<li><span class="eq-name">결론(예고)</span>$$\mathbf{b}_1 = \mathbf{p}_1, \qquad V_1 = \lambda_1$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>maximum variance perspective</dt><dd>분산(에너지)을 가장 많이 담은 방향을 기저로 고르는 관점이에요.</dd>
+<dt>고유벡터(eigenvector)</dt><dd>$\mathbf{A}\mathbf{x} = \lambda\mathbf{x}$를 만족하는 0이 아닌 벡터예요. 답 $\mathbf{b}_1$은 $\mathbf{S}$의 고유벡터 $\mathbf{p}_1$이에요.</dd>
+<dt>스펙트럼 정리(spectral theorem)</dt><dd>대칭행렬은 $\mathbf{P}^{-1} = \mathbf{P}^T$인 고유벡터 행렬로 분해돼요. 일반 EVD의 $\mathbf{P}$는 직교일 필요가 없어요.</dd>
+<dt>centering</dt><dd>평균을 빼 두는 전처리예요. 그래서 분산이 제곱의 평균이 돼요.</dd>
+</dl>
+</div>
+</article>
+    </section>
+    <section id="s1"><h2>1. 분산을 최대한 남기는 방향</h2>
+<article class="topic" id="s1-variance-energy"><h3>1.1 분산은 데이터의 에너지</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s14</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">점들이 넓게 퍼진 쪽에 무게가 많이 실려 있어요.</p>
+<p>무게가 가장 많이 실린 곳에 기둥을 세우면 적은 기둥으로도 집을 받칠 수 있어요.</p>
+<figure class="figure"><svg font-size="14" id="fig-spread-energy" viewBox="0 0 440 270" role="img" aria-label="가로축과 세로축 위에 가로로 길게 퍼진 색칠된 점들, 아래에 가로 퍼짐을 나타내는 긴 선, 오른쪽에 세로 퍼짐을 나타내는 짧은 선"><path class="fig-ink" d="M40 140L390 140"/><path class="fig-ink" d="M380 134L390 140L380 146"/><path class="fig-ink" d="M220 250L220 30"/><path class="fig-ink" d="M214 40L220 30L226 40"/><circle class="fig-dot" cx="88" cy="150" r="5"/><circle class="fig-dot" cx="118" cy="128" r="5"/><circle class="fig-dot" cx="140" cy="146" r="5"/><circle class="fig-dot" cx="152" cy="157" r="5"/><circle class="fig-dot" cx="176" cy="133" r="5"/><circle class="fig-dot" cx="196" cy="122" r="5"/><circle class="fig-dot" cx="202" cy="150" r="5"/><circle class="fig-dot" cx="236" cy="129" r="5"/><circle class="fig-dot" cx="252" cy="153" r="5"/><circle class="fig-dot" cx="268" cy="161" r="5"/><circle class="fig-dot" cx="282" cy="136" r="5"/><circle class="fig-dot" cx="306" cy="124" r="5"/><circle class="fig-dot" cx="330" cy="148" r="5"/><circle class="fig-dot" cx="352" cy="134" r="5"/><path class="fig-accent" d="M88 210L352 210"/><path class="fig-accent" d="M88 202L88 218"/><path class="fig-accent" d="M352 202L352 218"/><path class="fig-accent" d="M410 122L410 161"/><path class="fig-accent" d="M402 122L418 122"/><path class="fig-accent" d="M402 161L418 161"/><text class="fig-text" x="170" y="238">가로 퍼짐: 길어요</text><text class="fig-text" x="300" y="105">세로 퍼짐: 짧아요</text><text class="fig-muted" x="232" y="26">세로 막대</text><text class="fig-muted" x="330" y="175">가로 막대</text></svg><figcaption>점들이 가로로 길게 퍼져 있으니, 막대 하나만 고른다면 가로 막대가 무게를 더 많이 담아요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>1028 수업에서는 데이터를 방향 몇 개에 사영해 짧은 좌표로 적는 방법까지 세웠어요. 이 토픽은 "어떤 방향이 좋은 방향인가"의 기준을 정해요. 기준은 사영한 뒤에도 남는 분산, 곧 variance예요.</p>
+<h4>basis는 기둥, 고르는 일은 압축</h4>
+<p>basis vector는 데이터를 적을 때 기준이 되는 방향이에요. 수업에서는 이것을 기둥에 비유했어요. 하중이 가장 많이 실리는 곳에 기둥을 세워야 적은 기둥으로 무게를 받쳐요. 마찬가지로 basis를 어디에 세울지가 곧 데이터를 적은 차원으로 압축하는 문제예요(low-dimensional approximation).</p>
+<h4>칠판의 공분산 행렬</h4>
+<p>"분산을 남긴다"를 계산하려면 벡터의 분산이 무엇인지 알아야 해요. 수업에서는 확률벡터(random vector) $\mathbf{a}$의 공분산 행렬(covariance matrix)을 칠판에 바로 썼어요. $\mathbf{a}$는 성분이 $D$개인 세로(열)벡터예요.</p>
+$$\boldsymbol{\Sigma}_{\mathbf{a}}=\mathbb{E}[\mathbf{a}\mathbf{a}^T]-\mathbb{E}[\mathbf{a}]\mathbb{E}[\mathbf{a}]^T$$
+<p>학습을 위한 재구성으로 스칼라 분산 ${\operatorname{Var}(a)=\mathbb{E}[a^2]-(\mathbb{E}[a])^2}$, 곧 "제곱의 평균 빼기 평균의 제곱"과 나란히 놓으면 읽기 쉬워요. 제곱 $a^2$ 자리에 세로벡터와 가로벡터의 곱 $\mathbf{a}\mathbf{a}^T$가 들어간 모양이에요.</p>
+<ul>
+<li>크기: ${(D\times 1)(1\times D)=D\times D}$라서 $\boldsymbol{\Sigma}_{\mathbf{a}}$는 정방행렬이에요. 대각선 칸은 각 성분의 분산이에요.</li>
+<li>평균이 0이면 뒤 항은 영벡터끼리의 곱이라 영행렬이 되고, 제곱의 평균만 남아요. PCA가 데이터를 먼저 centering하는 이유예요. 뒤의 데이터 공분산 행렬도 이 모양으로 다시 나와요(<a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>).</li>
+</ul>
+$$\mathbb{E}[\mathbf{a}]=\mathbf{0}\ \Rightarrow\ \boldsymbol{\Sigma}_{\mathbf{a}}=\mathbb{E}[\mathbf{a}\mathbf{a}^T]$$
+<p>칸 하나하나의 의미, 대칭성, 교차 공분산과의 구별은 1028 정리노트에서 정의부터 세웠어요(<a href="../1028/정리노트_1028_PCA.html#s3-cov-def">1028 정리노트 3.1 공분산 행렬의 정의와 대칭성</a>).</p>
+<h4>variance는 퍼짐의 척도이자 에너지</h4>
+<p>variance(분산)는 데이터가 평균 대비 얼마나 흩어져 있는지 나타내는 대표적인 척도(metric for degree of spread)예요. 수업에서는 이것을 데이터가 가진 에너지, 부피, 질량, 몸무게(weight)로 생각하라고 했어요. 분산이 에너지와 관련된다는 것은 통신 분야의 관점이에요.</p>
+<p>maximum variance perspective는 이 관점을 차원 축소에 쓰는 것이에요. 차원은 최대한 줄이되, 원래 데이터의 분산을 최대한 머금은 basis vector를 골라요. 예를 들어 10차원 데이터를 어떤 3차원 공간에 사영했더니 나머지 차원에는 질량이 거의 없었다면, 그 3차원만으로 전체를 표현할 수 있어요.</p>
+<p>골프 비유도 같은 뜻이에요. 숏아이언을 칠 때 체중을 왼발에 다 실으면 오른발을 떼도 몸이 버텨요. 하중이 몰린 축 하나만 남겨도 된다는 뜻이에요.</p>
+<h4>아이디어(L05 s14): space filling</h4>
+<p>슬라이드는 데이터의 정보량(information content)을 space filling, 곧 공간을 얼마나 채우는지로 봐요. 여기서 space는 linear vector space를 줄인 말이에요. 데이터가 얼마나 퍼져 있는지(how much data is spread out) 살펴보고, 그 특징을 최대한 보존하면서 더 적은 수의 벡터로 공간을 표현해요. 슬라이드는 PCA를 "저차원 표현에서 분산을 최대화하는 차원 축소 알고리즘"으로 정리해요.</p>
+<h4>2차원 예: 축 하나만 남긴다면</h4>
+<p>칠판의 예는 centering만 되어 있고 standardization은 하지 않은 2차원 데이터예요. 두 축의 평균이 모두 0이에요.</p>
+<ol class="steps">
+<li><h4>사영해서 퍼짐 비교</h4>
+<p>점들을 x축에 사영하면 퍼짐이 크고, y축에 사영하면 퍼짐이 작아요. 1차원 하나만 쓸 수 있다면 x축을 골라야 에너지를 더 많이 남겨요.</p></li>
+<li><h4>점 하나에서 일어나는 일</h4>
+<p>점 $(x_1,y_1)$을 x축에 사영하면 $y_1$을 버리는 것이에요. 이 점의 에너지 $x_1^2+y_1^2$을 $x_1^2$으로 근사하는 셈이에요.</p>
+$$x_1^2+y_1^2\approx x_1^2$$</li>
+<li><h4>분산은 에너지의 평균</h4>
+<p>점이 $N$개이고 $n$번째 점을 $(x_n,y_n)$이라 하면, 평균이 0이므로 분산은 제곱의 평균이에요. 점 하나의 $x_1^2+y_1^2$은 그 점의 에너지이고, 분산은 그 평균이에요.</p>
+$$\frac{1}{N}\sum_{n=1}^{N}(x_n^2+y_n^2)=\frac{1}{N}\sum_{n=1}^{N}x_n^2+\frac{1}{N}\sum_{n=1}^{N}y_n^2$$
+<p>오른쪽 두 항은 각각 x축과 y축 방향의 분산이에요. x축만 남기면 첫째 항만 남아요.</p></li>
+<li><h4>사영은 내적</h4>
+<p>x축 사영은 $[1,0]$과, y축 사영은 $[0,1]$과 내적하는 것이에요.</p>
+$$\begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=x_1,\qquad \begin{bmatrix}0 &amp; 1\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=y_1$$
+<p>두 벡터의 내적은 ${[1,0]\,[0,1]^T=0}$이라 서로 직교해요. 직교하는 basis에서는 각 축의 좌표를 그 basis와의 내적 하나로 얻어요. 우리가 늘 직교좌표계를 써 온 이유도 이렇게 이해가 쉽기 때문이에요.</p></li>
+</ol>
+<p>수업에서는 Gram–Schmidt orthonormalization도 언급했어요. 주어진 벡터들을 가장 적은 수의 orthonormal basis의 가중합(weighted sum)으로 표현하도록 basis를 체계적으로 찾는 방법이에요. 이번 수업에서 절차를 다루지는 않았어요.</p>
+<p>이제 x축, y축 대신 일반 방향 $\mathbf{b}$로 같은 사영을 하려면 좌표를 행렬로 적어야 해요. 그 표기는 <a href="#s1-matrix-again">1.2 행렬로 다시 쓰는 사영 좌표</a>에서 이어져요.</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>수업은 푸리에 이야기로 시작했어요. 비주기 신호도 푸리에 변환하면 모든 주파수 성분의 가중합으로 표현되고, 오늘 복습할 고윳값 분해가 "실체를 이루는 주된 성분"을 뽑는 과정이라고 연결했어요.</p>
+<blockquote>"생각보다 무지하게 중요한 이론이었다는 거를 오늘 경험하게 될 거예요" (1102 P01 01:01)</blockquote>
+<blockquote>"basis라는 표현이 사실 우리나라 말로 하면 나는 기둥이라고 생각하거든요" (1102 P01 01:58)</blockquote>
+<p>하중을 가장 많이 받는 곳에 기둥을 박아야 무게를 잘 지탱한다고 덧붙였어요(1102 P01 02:06).</p>
+<blockquote>"그중에 가장 중요한 용어 중의 하나가 또 variance예요" (1102 P01 02:43)</blockquote>
+<p>공분산 행렬을 칠판에 쓰면서, $\mathbf{a}$는 세로 벡터이고 $\mathbf{a}^T$는 가로 벡터라 곱하면 square matrix가 된다고 짚었어요(1102 P01 03:25).</p>
+<blockquote>"분산은 일종의 우리 쪽에서는 에너지랑도 관련이 있거든요" (1102 P01 05:02)</blockquote>
+<p>골프를 좋아한다며, 숏아이언을 칠 때 왼발에 하중을 다 실으면 오른발은 "별로 쓸모가 없어"라고 비유했어요(1102 P01 05:22–05:38).</p>
+<blockquote>"어느 축으로 에너지가 더 퍼져 있는 거 같애?" (1102 P01 08:49)</blockquote>
+<p>한 학생이 x축이라고 답했고, 교수님은 1차원만 쓸 수 있다면 x축을 고르는 것이 에너지를 더 많이 머금는다고 정리했어요.</p>
+<blockquote>"직교좌표계가 훨씬 이해하기가 쉽거든요" (1102 P02 02:46)</blockquote>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">PCA는 사영한 뒤에도 variance(분산), 곧 데이터의 에너지를 가장 많이 남기는 방향을 기둥(basis)으로 골라요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">공분산 행렬</span>$$\boldsymbol{\Sigma}_{\mathbf{a}}=\mathbb{E}[\mathbf{a}\mathbf{a}^T]-\mathbb{E}[\mathbf{a}]\mathbb{E}[\mathbf{a}]^T$$</li>
+<li><span class="eq-name">평균이 0일 때</span>$$\mathbb{E}[\mathbf{a}]=\mathbf{0}\ \Rightarrow\ \boldsymbol{\Sigma}_{\mathbf{a}}=\mathbb{E}[\mathbf{a}\mathbf{a}^T]$$</li>
+<li><span class="eq-name">분산은 에너지의 평균</span>$$\frac{1}{N}\sum_{n=1}^{N}(x_n^2+y_n^2)=\frac{1}{N}\sum_{n=1}^{N}x_n^2+\frac{1}{N}\sum_{n=1}^{N}y_n^2$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>variance(분산)</dt><dd>평균 대비 흩어진 정도(metric for degree of spread). 수업에서는 데이터의 에너지·질량으로 비유해요.</dd>
+<dt>maximum variance perspective</dt><dd>차원을 줄이되 분산을 최대한 머금은 basis vector를 고르는 관점이에요.</dd>
+<dt>space filling</dt><dd>정보량을 데이터가 linear vector space를 얼마나 채우는지로 보는 아이디어예요.</dd>
+<dt>사영 = 내적</dt><dd>x축 사영은 $[1,0]$과의 내적이에요. 직교하는 basis에서는 좌표가 내적 하나로 나와요.</dd>
+</dl>
+<p>$(D\times 1)(1\times D)=D\times D$라서 공분산 행렬은 정방행렬이고, 대각선은 각 성분의 분산이에요. 평균이 0이면 뒤 항이 사라져요. 점 하나의 $x_1^2+y_1^2$은 에너지이고, 분산은 그 평균이에요.</p>
+</div>
+</article>
+<article class="topic" id="s1-matrix-again"><h3>1.2 행렬로 다시 쓰는 사영 좌표</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s15</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">긴 숫자 줄을 막대 몇 개에 대어 보고, 막대마다 숫자 하나씩만 적어요.</p>
+<figure class="figure"><svg font-size="14" id="fig-matrix-compress" viewBox="0 0 440 280" role="img" aria-label="테두리만 있는 칸 여덟 개가 세로로 쌓인 왼쪽 줄, 가운데 오른쪽을 향한 화살표 선, 테두리만 있는 칸 세 개가 쌓인 오른쪽 줄"><rect class="fig-ink" x="70" y="30" width="44" height="26"/><rect class="fig-ink" x="70" y="56" width="44" height="26"/><rect class="fig-ink" x="70" y="82" width="44" height="26"/><rect class="fig-ink" x="70" y="108" width="44" height="26"/><rect class="fig-ink" x="70" y="134" width="44" height="26"/><rect class="fig-ink" x="70" y="160" width="44" height="26"/><rect class="fig-ink" x="70" y="186" width="44" height="26"/><rect class="fig-ink" x="70" y="212" width="44" height="26"/><path class="fig-accent" d="M150 134L280 134"/><path class="fig-accent" d="M268 126L280 134L268 142"/><rect class="fig-ink" x="320" y="95" width="44" height="26"/><rect class="fig-ink" x="320" y="121" width="44" height="26"/><rect class="fig-ink" x="320" y="147" width="44" height="26"/><text class="fig-text" x="52" y="262">숫자 여덟 개</text><text class="fig-text" x="302" y="196">숫자 세 개</text><text class="fig-muted" x="150" y="118">막대 세 개에 대어 보기</text></svg><figcaption>숫자 여덟 개짜리 줄이 세 개짜리 줄로 줄어드는 것을 압축이라고 불러요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>2차원 예에서는 x축 하나에 사영했어요. 이제 방향을 $M$개, 데이터를 $N$개로 늘려서 같은 사영을 행렬로 적어요. 그래야 "어떤 방향이 분산을 가장 많이 남기는가"를 식으로 계산할 수 있어요. 좌표 $\mathbf{z}_n$은 1028 수업에서 code라는 이름으로 이미 나왔어요(<a href="../1028/정리노트_1028_PCA.html#s4-code">1028 정리노트 4.2 code: 정규직교 기저의 좌표</a>). 여기서는 수업의 표기와 차원을 다시 정리해요.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>기호</th><th>뜻</th><th>크기</th></tr></thead>
+<tbody>
+<tr><td>$D$</td><td>원래 데이터의 차원(성분 수)</td><td>자연수</td></tr>
+<tr><td>$M$</td><td>남길 방향의 수, 보통 $M\ll D$</td><td>자연수</td></tr>
+<tr><td>$N$</td><td>데이터 개수</td><td>자연수</td></tr>
+<tr><td>$\mathbf{x}_n$</td><td>$n$번째 데이터</td><td>$D\times 1$</td></tr>
+<tr><td>$\mathbf{b}_i$</td><td>$i$번째 방향(basis vector)</td><td>$D\times 1$</td></tr>
+<tr><td>$\mathbf{B}$</td><td>방향들을 모은 행렬</td><td>$D\times M$</td></tr>
+<tr><td>$\mathbf{z}_n$</td><td>$n$번째 데이터의 새 좌표</td><td>$M\times 1$</td></tr>
+</tbody></table></div>
+<ol class="steps">
+<li><h4>방향을 가로로 나란히 붙여요</h4>
+<p>각 $\mathbf{b}_i\in\mathbb{R}^{D}$는 세로(열)벡터예요. 길이는 데이터의 차원 $D$와 같아요. 이 열벡터 $M$개를 가로로 나란히 붙이면 행이 $D$개, 열이 $M$개인 행렬이 돼요.</p>
+$$\mathbf{B}=\begin{bmatrix}\mathbf{b}_1 &amp; \mathbf{b}_2 &amp; \cdots &amp; \mathbf{b}_M\end{bmatrix},\qquad \mathbf{B}\in\mathbb{R}^{D\times M}$$</li>
+<li><h4>전치는 열을 행으로</h4>
+<p>칠판의 예로 확인해요. 첫째 열이 첫째 행, 둘째 열이 둘째 행이 돼요.</p>
+$$\begin{bmatrix}1 &amp; 1\\ 0 &amp; 1\\ 3 &amp; 2\end{bmatrix}^T=\begin{bmatrix}1 &amp; 0 &amp; 3\\ 1 &amp; 1 &amp; 2\end{bmatrix}$$
+<p>그래서 $\mathbf{B}^T$의 $i$번째 행은 $\mathbf{b}_i$를 눕힌 $\mathbf{b}_i^T\in\mathbb{R}^{1\times D}$예요.</p>
+$$\mathbf{B}^T=\begin{bmatrix}\mathbf{b}_1^T\\ \vdots\\ \mathbf{b}_M^T\end{bmatrix}\in\mathbb{R}^{M\times D}$$</li>
+<li><h4>데이터도 열로 모아요</h4>
+<p>데이터 $\mathbf{x}_n\in\mathbb{R}^{D}$ $N$개를 열로 나란히 붙이면 데이터 행렬이 돼요. 행은 $D$개, 열은 $N$개예요.</p>
+$$\mathbf{X}=\begin{bmatrix}\mathbf{x}_1 &amp; \cdots &amp; \mathbf{x}_N\end{bmatrix}\in\mathbb{R}^{D\times N}$$</li>
+<li><h4>좌표 하나는 내적 하나</h4>
+<p>$n$번째 데이터를 $i$번째 방향에 사영한 좌표예요. 2차원 예에서 $[1,0]$을 곱한 것을 일반 방향 $\mathbf{b}_i$로 바꾼 것이에요.</p>
+$$z_{in}=\mathbf{b}_i^T\mathbf{x}_n$$
+<p>크기는 ${(1\times D)(D\times 1)=1\times 1}$이라 스칼라예요. 이 값이 사영 좌표와 같으려면 $\mathbf{b}_i$의 길이가 1이어야 하고, PCA는 서로 직교하는 단위벡터(orthonormal)를 방향으로 써요.</p></li>
+<li><h4>좌표 $M$개를 세로로 모아요</h4>
+<p>$z_{1n}$부터 $z_{Mn}$까지 쌓은 벡터가 $\mathbf{z}_n$이에요. 각 칸은 $\mathbf{B}^T$의 행 하나와 $\mathbf{x}_n$의 내적이므로 행렬 곱 하나로 묶여요.</p>
+$$\mathbf{z}_n=\begin{bmatrix}z_{1n}\\ \vdots\\ z_{Mn}\end{bmatrix}=\begin{bmatrix}\mathbf{b}_1^T\mathbf{x}_n\\ \vdots\\ \mathbf{b}_M^T\mathbf{x}_n\end{bmatrix}$$
+$$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
+<p>크기는 ${(M\times D)(D\times 1)=M\times 1}$이에요.</p></li>
+<li><h4>$M\ll D$이면 압축</h4>
+<p>숫자 $D$개짜리 $\mathbf{x}_n$이 숫자 $M$개짜리 $\mathbf{z}_n$으로 줄어요. 이것이 압축이에요.</p></li>
+</ol>
+<p>이제 목표를 기호로 말할 수 있어요. 원래 $\mathbf{x}$의 에너지(variance)를 가장 잘 보존(preserve)하면서 차원을 줄이는 $\mathbf{b}_1,\dots,\mathbf{b}_M$을 찾아요. 첫 좌표 ${z_{1n}=\mathbf{b}_1^T\mathbf{x}_n}$의 분산을 계산하는 것이 그 첫 단계이고, <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>에서 이 식을 그대로 넣어요.</p>
+<p><strong>다시 만드는 법:</strong> 열벡터 $\mathbf{b}_i$를 가로로 붙여 $\mathbf{B}\in\mathbb{R}^{D\times M}$를 만들어요. 전치하면 행이 $\mathbf{b}_i^T$가 돼요. 행마다 $\mathbf{x}_n$과 내적하면 $z_{in}=\mathbf{b}_i^T\mathbf{x}_n$이고, 모으면 $\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n$이에요.</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>"여기까지가 이제 아이디어고, 지금부터 수학으로 넘어가 봅시다"라며 행렬 표기로 들어갔어요(1102 P02 03:51).</p>
+<blockquote>"행의 길이가 D이고 열의 개수가 M인 D × M짜리 매트릭스" (1102 P02 04:39)</blockquote>
+<blockquote>"행을 열로, 열은 행으로 뒤집는 거잖아요" (1102 P02 04:51)</blockquote>
+<p>$\mathbf{x}_n$은 $D\times 1$, $\mathbf{b}_i^T$는 $1\times D$라 내적하면 스칼라가 되고, 그 스칼라가 $M$개 모인다고 세었어요.</p>
+<blockquote>"지금부터 우리가 압축을 할 건데" (1102 P02 08:45)</blockquote>
+<blockquote>"variance를 가장 잘 보존하면서, preserve 하면서 차원을 줄일 수" (1102 P03 00:31)</blockquote>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">방향 $\mathbf{b}_i$들을 열로 붙인 $\mathbf{B}$의 전치를 곱하면, 데이터 하나가 내적 $M$개로 이루어진 짧은 좌표로 압축돼요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">방향 행렬</span>$$\mathbf{B}=\begin{bmatrix}\mathbf{b}_1 &amp; \mathbf{b}_2 &amp; \cdots &amp; \mathbf{b}_M\end{bmatrix},\qquad \mathbf{B}\in\mathbb{R}^{D\times M}$$</li>
+<li><span class="eq-name">전치</span>$$\mathbf{B}^T=\begin{bmatrix}\mathbf{b}_1^T\\ \vdots\\ \mathbf{b}_M^T\end{bmatrix}\in\mathbb{R}^{M\times D}$$</li>
+<li><span class="eq-name">데이터 행렬</span>$$\mathbf{X}=\begin{bmatrix}\mathbf{x}_1 &amp; \cdots &amp; \mathbf{x}_N\end{bmatrix}\in\mathbb{R}^{D\times N}$$</li>
+<li><span class="eq-name">좌표 하나</span>$$z_{in}=\mathbf{b}_i^T\mathbf{x}_n$$</li>
+<li><span class="eq-name">새 좌표</span>$$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>압축</dt><dd>$M\ll D$일 때 숫자 $D$개짜리 $\mathbf{x}_n$을 $M$개짜리 $\mathbf{z}_n$으로 줄이는 것이에요.</dd>
+<dt>basis vector</dt><dd>좌표를 재는 방향 $\mathbf{b}_i$예요. PCA는 서로 직교하는 단위벡터를 써요.</dd>
+</dl>
+<p>$z_{in}$은 $(1\times D)(D\times 1)$이라 스칼라이고, $\mathbf{z}_n$은 $(M\times D)(D\times 1)=M\times 1$이에요. 목표는 variance를 가장 잘 보존하는 $\mathbf{b}_1,\dots,\mathbf{b}_M$을 찾는 것이에요.</p>
+</div>
+</article>
+    </section>
+    <section id="s2"><h2>2. 고윳값과 대각화 복습</h2>
+<article class="topic" id="s2-eigen"><h3>2.1 고윳값과 고유벡터</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s16</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">늘이고 비트는 기계에 넣어도 방향은 그대로이고 길이만 바뀌는 특별한 화살표가 있어요.</p>
+    <figure class="figure"><svg id="fig-eigen-arrow" viewBox="0 0 380 175" role="img" aria-label="가운데 테두리 상자 기계를 사이에 두고, 왼쪽에는 지나기 전 화살표 두 개, 오른쪽에는 지난 뒤 화살표 두 개가 있어요. 기본 선 화살표는 지난 뒤 방향이 왼쪽 위로 돌아가고, 강조색 선 화살표는 같은 방향 그대로 길이만 두 배가 돼요">
+      <line class="fig-ink" x1="30" y1="140" x2="55" y2="60" stroke-width="2.5"/>
+      <polyline class="fig-ink" points="48.6,66.3 55.0,60.0 56.7,68.8" fill="none" stroke-width="2.5"/>
+      <line class="fig-accent" x1="30" y1="140" x2="90" y2="110" stroke-width="3"/>
+      <polyline class="fig-accent" points="81.0,109.8 90.0,110.0 84.8,117.3" fill="none" stroke-width="3"/>
+      <line class="fig-ink" x1="118" y1="105" x2="136" y2="105" stroke-width="2"/>
+      <polyline class="fig-ink" points="128.1,100.8 136.0,105.0 128.1,109.2" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="140" y="85" width="60" height="40" rx="6" fill="none" stroke-width="2"/>
+      <text class="fig-text" x="170" y="110" font-size="14" text-anchor="middle">기계</text>
+      <line class="fig-ink" x1="204" y1="105" x2="220" y2="105" stroke-width="2"/>
+      <polyline class="fig-ink" points="212.1,100.8 220.0,105.0 212.1,109.2" fill="none" stroke-width="2"/>
+      <line class="fig-ink" x1="245" y1="140" x2="228" y2="65" stroke-width="2.5"/>
+      <polyline class="fig-ink" points="225.6,73.7 228.0,65.0 233.9,71.8" fill="none" stroke-width="2.5"/>
+      <line class="fig-accent" x1="245" y1="140" x2="365" y2="80" stroke-width="3"/>
+      <polyline class="fig-accent" points="356.0,79.8 365.0,80.0 359.8,87.3" fill="none" stroke-width="3"/>
+      <text class="fig-muted" x="65" y="166" font-size="13" text-anchor="middle">지나기 전</text>
+      <text class="fig-muted" x="300" y="166" font-size="13" text-anchor="middle">지난 뒤</text>
+      <text class="fig-text" x="300" y="70" font-size="13" text-anchor="middle">방향 그대로, 두 배</text>
+      <text class="fig-text" x="228" y="52" font-size="13" text-anchor="middle">방향이 돌아감</text>
+    </svg><figcaption>보통 화살표는 기계를 지나면 방향이 돌아가지만, 특별한 화살표는 같은 방향으로 길이만 늘어나요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>PCA에서 분산을 가장 많이 남기는 방향은 데이터 공분산 행렬의 고유벡터로 나와요(<a href="#s4-goal">4.1 목표와 결론 미리 보기</a>). 그래서 그 답을 읽는 도구인 고윳값과 고유벡터부터 복습해요.</p>
+    <p><strong>정의 (L05 s16, MML 정의 4.6)</strong>: 정방행렬 $\mathbf{A}\in\mathbb{R}^{n\times n}$에 대해, 스칼라 $\lambda\in\mathbb{R}$와 영벡터가 아닌 벡터 $\mathbf{x}\in\mathbb{R}^{n}$가</p>
+    $$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$$
+    <p>를 만족하면 $\lambda$를 고윳값(eigenvalue), $\mathbf{x}$를 그에 대응하는 고유벡터(eigenvector)라고 해요. 이 식을 고윳값 방정식(eigenvalue equation)이라고 불러요.</p>
+    <ul>
+      <li>$\mathbf{A}$: $n\times n$ 정방행렬이에요. 벡터를 받아 다른 벡터로 보내는 선형변환 역할을 해요. PCA에서는 이 자리에 $D\times D$ 공분산 행렬 $\mathbf{S}$가 들어가요(이때 $n=D$).</li>
+      <li>$\mathbf{x}$: $n\times 1$ 열벡터예요. $\mathbf{A}$를 곱해도 방향이 바뀌지 않는 특별한 방향이에요.</li>
+      <li>$\lambda$: 스칼라예요. 그 방향으로 몇 배 늘어나는지(음수면 방향이 뒤집힘)를 알려 줘요.</li>
+      <li>$\mathbf{x}\neq\mathbf{0}$ 조건이 필요한 이유: $\mathbf{x}=\mathbf{0}$이면 어떤 $\lambda$로도 식이 성립해서 의미가 없어요.</li>
+    </ul>
+    <p>고유벡터는 길이가 정해져 있지 않아요. $\mathbf{x}$가 고유벡터이면 0이 아닌 상수 $c$에 대해 $c\mathbf{x}$도 같은 $\lambda$의 고유벡터예요(MML 105쪽). 그래서 뒤에서 고유벡터를 길이 1로 정규화해서 쓸 수 있어요.</p>
+    <p><strong>고윳값을 찾는 식 만들기 (칠판 전개)</strong>: 목표는 $\mathbf{x}$를 모르는 상태에서 $\lambda$만으로 된 조건을 얻는 거예요.</p>
+    <ol class="steps">
+      <li>오른쪽 항을 왼쪽으로 옮겨요.
+      $$\mathbf{A}\mathbf{x}-\lambda\mathbf{x}=\mathbf{0}$$</li>
+      <li>$\lambda\mathbf{x}$를 $\lambda\mathbf{I}_n\mathbf{x}$로 바꿔 $\mathbf{x}$로 묶어요. $\mathbf{I}_n$은 $n\times n$ 단위행렬이에요. 행렬 $\mathbf{A}$에서 스칼라 $\lambda$를 바로 뺄 수는 없어서 $\lambda\mathbf{I}_n$으로 바꿔 크기를 맞춰요.
+      $$(\mathbf{A}-\lambda\mathbf{I}_n)\mathbf{x}=\mathbf{0}$$</li>
+      <li>이 연립방정식이 $\mathbf{x}\neq\mathbf{0}$인 해(non-trivial solution)를 가지려면 $n\times n$ 행렬 $\mathbf{A}-\lambda\mathbf{I}_n$이 full-rank가 아니라 rank-deficient여야 해요.
+      $$\operatorname{rk}(\mathbf{A}-\lambda\mathbf{I}_n)\lt n$$</li>
+      <li>rank-deficient인 정방행렬은 역행렬이 없어요. 역행렬이 있었다면 양변 왼쪽에 곱해 $\mathbf{x}=\mathbf{0}$만 남았을 거예요. 역행렬이 없다는 것은 행렬식이 0이라는 것과 같아요.
+      $$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$$</li>
+    </ol>
+    <p><strong>동치인 진술 (L05 s16)</strong>: 다음은 모두 같은 말이에요.</p>
+    <ul>
+      <li>$\lambda$가 $\mathbf{A}$의 고윳값이에요.</li>
+      <li>다음 연립방정식이 $\mathbf{x}\neq\mathbf{0}$인 해를 가져요.
+      $$(\mathbf{A}-\lambda\mathbf{I}_n)\mathbf{x}=\mathbf{0}$$</li>
+      <li>$\mathbf{A}-\lambda\mathbf{I}_n$의 rank가 $n$보다 작아요(rank-deficient).</li>
+      <li>$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$이에요.</li>
+    </ul>
+    <p>$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$을 특성방정식(characteristic equation)이라고 해요. 왼쪽 $\det(\mathbf{A}-\lambda\mathbf{I}_n)$을 전개하면 $\lambda$에 대한 $n$차 다항식이 되는데, 이것이 특성다항식(characteristic polynomial) $p_{\mathbf{A}}(\lambda)$예요. 고윳값은 이 다항식의 근이에요(MML 정리 4.8).</p>
+    <p>순서는 두 단계예요. 먼저 characteristic equation을 풀어 고윳값 $\lambda$를 얻고, 각 $\lambda$를 칠판 전개 2단계의 연립방정식에 다시 넣어 고유벡터 $\mathbf{x}$를 구해요. 이 전체를 eigenvalue–eigenvector problem이라고 불러요. 실제 계산 예는 <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>에 있어요.</p>
+    <p><strong>복원 요령</strong>: $\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$에서 이항하고 $\mathbf{I}_n$으로 묶어요. 0이 아닌 해가 있으려면 rank-deficient, 즉 행렬식이 0이어야 해요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">고유벡터는 행렬을 곱해도 방향이 그대로인 벡터이고, 고윳값은 그때 늘어나는 배수예요. 고윳값은 행렬식이 0이 되는 조건으로 찾아요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">고윳값 방정식</span>$$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$$</li>
+      <li><span class="eq-name">이항해서 묶기</span>$$(\mathbf{A}-\lambda\mathbf{I}_n)\mathbf{x}=\mathbf{0}$$</li>
+      <li><span class="eq-name">특성방정식</span>$$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>고윳값(eigenvalue) $\lambda$</dt><dd>고유벡터 방향으로 늘어나는 배수, 스칼라</dd>
+      <dt>고유벡터(eigenvector) $\mathbf{x}$</dt><dd>$\mathbf{x}\neq\mathbf{0}$인 $n\times 1$ 벡터, 상수배도 고유벡터</dd>
+      <dt>rank-deficient</dt><dd>$\mathbf{A}-\lambda\mathbf{I}_n$의 rank가 $n$보다 작아 역행렬이 없고 0이 아닌 해가 생기는 상태</dd>
+      <dt>characteristic equation</dt><dd>$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$, 풀면 고윳값이 나와요</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s2-diagonal"><h3>2.2 대각행렬과 대각화</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s17</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">대각선 칸에만 숫자가 있는 표는 칸마다 따로 계산하면 돼서 다루기 쉬워요.</p>
+    <figure class="figure"><svg id="fig-diagonal-grid" viewBox="0 0 360 170" role="img" aria-label="3칸 곱하기 3칸 표가 있어요. 왼쪽 위에서 오른쪽 아래로 가는 대각선의 세 칸은 색칠되어 있고, 나머지 여섯 칸은 테두리만 있으며 안에 0이 적혀 있어요">
+      <rect class="fig-dot" x="105" y="15" width="48" height="48" rx="4"/>
+      <rect class="fig-ink" x="156" y="15" width="48" height="48" rx="4" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="207" y="15" width="48" height="48" rx="4" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="105" y="66" width="48" height="48" rx="4" fill="none" stroke-width="2"/>
+      <rect class="fig-dot" x="156" y="66" width="48" height="48" rx="4"/>
+      <rect class="fig-ink" x="207" y="66" width="48" height="48" rx="4" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="105" y="117" width="48" height="48" rx="4" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="156" y="117" width="48" height="48" rx="4" fill="none" stroke-width="2"/>
+      <rect class="fig-dot" x="207" y="117" width="48" height="48" rx="4"/>
+      <text class="fig-muted" x="180" y="44" font-size="14" text-anchor="middle">0</text>
+      <text class="fig-muted" x="231" y="44" font-size="14" text-anchor="middle">0</text>
+      <text class="fig-muted" x="129" y="95" font-size="14" text-anchor="middle">0</text>
+      <text class="fig-muted" x="231" y="95" font-size="14" text-anchor="middle">0</text>
+      <text class="fig-muted" x="129" y="146" font-size="14" text-anchor="middle">0</text>
+      <text class="fig-muted" x="180" y="146" font-size="14" text-anchor="middle">0</text>
+    </svg><figcaption>색칠된 대각선 칸에만 숫자가 들어갈 수 있고, 테두리만 있는 나머지 칸은 모두 0이에요. 복잡한 표도 바라보는 방향을 잘 고르면 이런 표로 바꿀 수 있을 때가 있어요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>고윳값 분해와 스펙트럼 정리는 결국 행렬을 대각행렬로 바꾸는 이야기예요. 그래서 대각행렬이 왜 다루기 쉬운지부터 봐요.</p>
+    <p><strong>대각행렬(diagonal matrix, L05 s17)</strong>: 비대각 성분(off-diagonal element)이 모두 0인 정방행렬 $\mathbf{D}\in\mathbb{R}^{n\times n}$이에요. 조건은 비대각 성분이 0이라는 것뿐이고, 대각 성분 $d_1,\dots,d_n$은 0이어도 돼요.</p>
+    $$\mathbf{D}=\begin{bmatrix}d_1&amp;\cdots&amp;0\\\vdots&amp;\ddots&amp;\vdots\\0&amp;\cdots&amp;d_n\end{bmatrix}=\operatorname{diag}(d_1,\dots,d_n)$$
+    <p>대각 성분끼리만 따로 계산하면 돼서 다음 성질이 바로 나와요.</p>
+    <ul>
+      <li>거듭제곱: 각 대각 성분만 $k$제곱해요.
+      $$\mathbf{D}^k=\operatorname{diag}(d_1^k,\dots,d_n^k)$$</li>
+      <li>역행렬: 모든 $d_i\neq 0$일 때 각 성분의 역수예요.
+      $$\mathbf{D}^{-1}=\operatorname{diag}(1/d_1,\dots,1/d_n)$$</li>
+      <li>행렬식: 대각 성분의 곱이에요.
+      $$\det(\mathbf{D})=d_1d_2\cdots d_n$$
+      $2\times 2$ 행렬식 공식으로 확인해요.
+      $$\det\begin{bmatrix}a&amp;b\\c&amp;d\end{bmatrix}=ad-bc$$
+      대각행렬은 $b=c=0$이라 $ad$만 남아요. 이것을 $n\times n$으로 넓히면 대각 성분의 곱이 돼요.</li>
+    </ul>
+    <p><strong>대각화 가능(diagonalizable)</strong>: $\mathbf{A}\in\mathbb{R}^{n\times n}$가 대각행렬과 닮음(similar)이면, 즉 가역행렬 $\mathbf{P}\in\mathbb{R}^{n\times n}$가 있어서</p>
+    $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$
+    <p>로 쓸 수 있으면 $\mathbf{A}$는 diagonalizable이에요.</p>
+    <ul>
+      <li>$\mathbf{P}$: $n\times n$ 가역행렬이에요. 좌표를 바꾸는 역할을 해요. 이 $\mathbf{P}$의 열이 고유벡터라는 것은 <a href="#s2-evd">2.3 고윳값 분해(EVD)</a>에서 유도해요.</li>
+      <li>$\mathbf{D}$: $n\times n$ 대각행렬이에요. 바꾼 좌표에서 본 $\mathbf{A}$예요.</li>
+      <li>슬라이드의 Remark: 행렬을 대각화하는 것은 같은 선형변환을 다른 basis에서 표현하는 방법이에요(MML 116쪽).</li>
+    </ul>
+    <p><strong>직교 대각화 가능(orthogonally diagonalizable)</strong>: 위의 $\mathbf{P}$를 직교행렬(orthogonal matrix)로 고를 수 있는 경우예요. 직교행렬은 열들이 서로 수직이고 길이가 1인 정방행렬이라 $\mathbf{P}^T\mathbf{P}=\mathbf{I}_n$, 즉 $\mathbf{P}^{-1}=\mathbf{P}^T$예요. 그래서 역행렬 자리에 전치를 쓸 수 있어요.</p>
+    <p>대각화의 정의식에서 $\mathbf{P}^{-1}$ 자리에 $\mathbf{P}^T$를 넣어요.</p>
+    $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$
+    $$\mathbf{D}=\mathbf{P}^T\mathbf{A}\mathbf{P}$$
+    <ul>
+      <li>orthogonally diagonalizable이면 당연히 diagonalizable이에요. 반대는 성립하지 않아요.</li>
+      <li>모든 정방행렬이 (직교)대각화되는 것은 아니에요. 대각화되는 조건은 <a href="#s2-evd">2.3 고윳값 분해(EVD)</a>에서 봐요.</li>
+      <li>PCA에서 다루는 공분산 행렬은 대칭행렬이라 항상 orthogonally diagonalizable이에요. 그 근거가 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 스펙트럼 정리예요.</li>
+    </ul>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>정의를 짚기 전에 "수학은 뭘로 시작한다고?"라고 물었고, 한 학생이 "정의로부터 시작한다"고 답했어요. (1102 P03 06:31)</p>
+    <p>모든 정방행렬이 대각화되지는 않고, 독특한 클래스의 행렬들만 된다고 했어요. 그래도 걱정할 필요는 없다고 덧붙였어요.</p>
+    <blockquote>"PCA에서 배울 매트릭스는 항상 orthogonally diagonalizable 해. 그러니까 이거 가르쳤겠지" (1102 P03 07:04)</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">대각행렬은 비대각 성분이 모두 0이라 거듭제곱·역행렬·행렬식이 성분별 계산으로 끝나요. 가역 $\mathbf{P}$로 대각행렬을 만들 수 있으면 대각화 가능, $\mathbf{P}$를 직교행렬로 고를 수 있으면 직교 대각화 가능이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">대각행렬의 거듭제곱</span>$$\mathbf{D}^k=\operatorname{diag}(d_1^k,\dots,d_n^k)$$</li>
+      <li><span class="eq-name">대각행렬의 행렬식</span>$$\det(\mathbf{D})=d_1d_2\cdots d_n$$</li>
+      <li><span class="eq-name">대각화</span>$$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$</li>
+      <li><span class="eq-name">직교 대각화</span>$$\mathbf{D}=\mathbf{P}^T\mathbf{A}\mathbf{P}$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>대각행렬(diagonal matrix)</dt><dd>비대각 성분이 모두 0, 대각 성분은 0이어도 됨</dd>
+      <dt>diagonalizable</dt><dd>가역 $\mathbf{P}$로 대각행렬과 닮음, 같은 선형변환을 다른 basis에서 본 것</dd>
+      <dt>orthogonally diagonalizable</dt><dd>$\mathbf{P}$가 직교행렬이라 $\mathbf{P}^{-1}=\mathbf{P}^T$, PCA의 공분산 행렬은 항상 해당</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s2-evd"><h3>2.3 고윳값 분해(EVD)</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s18</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">합체한 변신 로봇을 팔, 다리, 몸통으로 나눠 놓으면 어느 부분이 무슨 일을 하는지 잘 보여요.</p>
+    <figure class="figure"><svg id="fig-evd-robot" viewBox="0 0 360 170" role="img" aria-label="왼쪽에는 테두리 사각형들이 붙어 있는 로봇이 있고, 화살표 오른쪽에는 같은 사각형들이 머리, 팔 두 개, 몸통, 다리 두 개로 떨어져 놓여 있어요. 몸통은 강조색 테두리예요">
+      <rect class="fig-ink" x="55" y="20" width="30" height="22" rx="3" fill="none" stroke-width="2"/>
+      <rect class="fig-accent" x="50" y="45" width="40" height="45" rx="3" fill="none" stroke-width="2.5"/>
+      <rect class="fig-ink" x="35" y="47" width="13" height="35" rx="3" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="92" y="47" width="13" height="35" rx="3" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="54" y="93" width="14" height="35" rx="3" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="72" y="93" width="14" height="35" rx="3" fill="none" stroke-width="2"/>
+      <text class="fig-muted" x="70" y="152" font-size="13" text-anchor="middle">합체</text>
+      <line class="fig-ink" x1="130" y1="80" x2="172" y2="80" stroke-width="2"/>
+      <polyline class="fig-ink" points="164.1,75.8 172.0,80.0 164.1,84.2" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="245" y="12" width="30" height="22" rx="3" fill="none" stroke-width="2"/>
+      <text class="fig-text" x="283" y="28" font-size="13">머리</text>
+      <rect class="fig-ink" x="195" y="55" width="13" height="35" rx="3" fill="none" stroke-width="2"/>
+      <text class="fig-text" x="201" y="106" font-size="13" text-anchor="middle">팔</text>
+      <rect class="fig-accent" x="240" y="50" width="40" height="45" rx="3" fill="none" stroke-width="2.5"/>
+      <text class="fig-text" x="260" y="77" font-size="13" text-anchor="middle">몸통</text>
+      <rect class="fig-ink" x="312" y="55" width="13" height="35" rx="3" fill="none" stroke-width="2"/>
+      <text class="fig-text" x="318" y="106" font-size="13" text-anchor="middle">팔</text>
+      <rect class="fig-ink" x="235" y="115" width="14" height="35" rx="3" fill="none" stroke-width="2"/>
+      <rect class="fig-ink" x="271" y="115" width="14" height="35" rx="3" fill="none" stroke-width="2"/>
+      <text class="fig-text" x="260" y="166" font-size="13" text-anchor="middle">다리</text>
+    </svg><figcaption>하나로 뭉친 것을 부품별로 나눠 두면 나중에 다루기 쉬워져요.</figcaption></figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>PCA에서는 공분산 행렬을 고유벡터와 고윳값으로 쪼갠 뒤 그 조각에서 방향을 골라요. 그 일반형이 고윳값 분해(eigenvalue decomposition, EVD)이고, 대칭행렬에 쓰는 특수형이 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>예요.</p>
+    <p>decomposition은 인수분해, 즉 분해예요(compose는 합성, decompose는 분해). 행렬을 잘 분해해 두면 그 특성을 나중에 계산에 이용할 수 있어요.</p>
+    <p><strong>기호</strong>: $\mathbf{A}\in\mathbb{R}^{n\times n}$의 고유벡터 $\mathbf{p}_1,\dots,\mathbf{p}_n$과 대응 고윳값 $\lambda_1,\dots,\lambda_n$이 있다고 해요. 즉 $\mathbf{p}_i$에 $\mathbf{A}$를 곱하면 $\lambda_i\mathbf{p}_i$가 돼요.</p>
+    <ul>
+      <li>$\mathbf{p}_i$: $n\times 1$ 열벡터, $i$번째 고유벡터예요.</li>
+      <li>$\mathbf{P}$: $[\mathbf{p}_1,\dots,\mathbf{p}_n]$처럼 고유벡터를 열로 나란히 붙인 $n\times n$ 행렬이에요.</li>
+      <li>$\mathbf{D}$: 같은 순서의 고윳값을 대각에 놓은 $n\times n$ 대각행렬이에요. 대각 성분은 차례로 $\lambda_1,\dots,\lambda_n$이에요.</li>
+    </ul>
+    <p><strong>칠판 유도 (L05 s18)</strong>: 목표는 열마다 쓴 $n$개의 고윳값 방정식을 행렬 식 하나로 묶는 거예요. 양변을 열 단위로 계산해 같음을 보여요.</p>
+    <ol class="steps">
+      <li>$\mathbf{A}$를 $\mathbf{P}$의 각 열에 나눠 곱해요(분배). 각 $\mathbf{A}\mathbf{p}_i$는 $n\times 1$이에요.
+      $$\mathbf{A}\mathbf{P}=\mathbf{A}[\mathbf{p}_1,\dots,\mathbf{p}_n]=[\mathbf{A}\mathbf{p}_1,\dots,\mathbf{A}\mathbf{p}_n]$$</li>
+      <li>$\mathbf{p}_i$가 고유벡터이므로 $\mathbf{A}\mathbf{p}_i$ 자리에 $\lambda_i\mathbf{p}_i$를 대입해요.
+      $$[\mathbf{A}\mathbf{p}_1,\dots,\mathbf{A}\mathbf{p}_n]=[\lambda_1\mathbf{p}_1,\dots,\lambda_n\mathbf{p}_n]$$</li>
+      <li>오른쪽 $\mathbf{P}\mathbf{D}$를 계산해요. $\mathbf{P}\mathbf{D}$의 $i$번째 열은 $\mathbf{P}$에 $\mathbf{D}$의 $i$번째 열 $\lambda_i\mathbf{e}_i$를 곱한 것이라 $\lambda_i\mathbf{p}_i$예요. 대각행렬을 오른쪽에 곱하면 열마다 배율이 곱해져요.
+      $$\mathbf{P}\mathbf{D}=[\mathbf{p}_1,\dots,\mathbf{p}_n]\begin{bmatrix}\lambda_1&amp;\cdots&amp;0\\\vdots&amp;\ddots&amp;\vdots\\0&amp;\cdots&amp;\lambda_n\end{bmatrix}=[\lambda_1\mathbf{p}_1,\dots,\lambda_n\mathbf{p}_n]$$</li>
+      <li>2와 3의 결과가 같으므로
+      $$\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$$</li>
+      <li>$\mathbf{P}$가 가역이면 양변 오른쪽에 $\mathbf{P}^{-1}$을 곱해요.
+      $$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$</li>
+      <li>대신 양변 왼쪽에 $\mathbf{P}^{-1}$을 곱하면 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 정의식이 나와요. 즉 대각화하는 $\mathbf{P}$가 바로 고유벡터 행렬이에요.
+      $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$</li>
+    </ol>
+    <p>3단계에서 $\mathbf{D}$는 오른쪽에 곱해야 열마다 배율이 곱해져요. <small>(수업 중 대각행렬은 앞뒤 어디에 곱해도 같다고 말했지만 일반 행렬과는 교환되지 않아요. 정정은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>에서 다뤄요.)</small></p>
+    <p><strong>정리 (EVD, L05 s18, MML 정리 4.20)</strong>: $\mathbf{A}\in\mathbb{R}^{n\times n}$가 다음처럼 분해되는 것과, $\mathbf{A}$의 고유벡터들이 $\mathbb{R}^n$의 basis를 이루는 것은 동치(if and only if)예요.</p>
+    $$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$
+    <ul>
+      <li>이유: 5단계에서 $\mathbf{P}^{-1}$이 있어야 해요. $\mathbf{P}$가 가역이려면 열 $\mathbf{p}_1,\dots,\mathbf{p}_n$이 일차독립이어야 하고, $n$개의 일차독립 벡터는 $\mathbb{R}^n$의 basis예요(MML 116쪽).</li>
+      <li>EVD의 $\mathbf{P}$는 가역이기만 하면 돼요. 직교행렬일 필요는 없어요. $\mathbf{P}^{-1}=\mathbf{P}^T$로 고를 수 있는 것은 대칭행렬일 때예요(<a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>).</li>
+      <li>$\mathbf{D}$의 고윳값 순서는 EVD가 요구하지 않아요. $\mathbf{P}$의 열 순서만 같이 맞추면 돼요. 고윳값을 큰 것부터 작은 것 순으로 놓는 것은 PCA에서 쓰는 관례예요(MML 105쪽도 소프트웨어 관례로 소개).</li>
+    </ul>
+    <p><strong>모든 정방행렬이 대각화되지는 않아요</strong>: 고윳값이 중근일 때 일차독립인 고유벡터가 $n$개보다 적을 수 있어요. 그러면 고유벡터가 $\mathbb{R}^n$의 basis를 이루지 못해 가역 $\mathbf{P}$를 만들 수 없고, 대각화되지 않아요. 이런 행렬을 defective라고 해요(MML 정의 4.13, 111쪽; 교과서 예 4.6, 108쪽에 $2\times 2$ 예가 있어요).</p>
+    <p>반대로 고윳값이 중근이어도 고유벡터가 basis를 이루면 대각화돼요. <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>은 $\lambda=1$이 중근인데도 고유벡터 3개로 $\mathbf{P}$를 만들어요.</p>
+    <p><strong>EVD의 장점 (L05 s18)</strong>: 어려운 계산을 대각행렬 계산으로 바꿔요.</p>
+    <ol class="steps">
+      <li>제곱: 가운데 $\mathbf{P}^{-1}\mathbf{P}=\mathbf{I}_n$이 사라져요.
+      $$\mathbf{A}^2=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}\mathbf{P}\mathbf{D}\mathbf{P}^{-1}=\mathbf{P}\mathbf{D}\mathbf{I}_n\mathbf{D}\mathbf{P}^{-1}=\mathbf{P}\mathbf{D}^2\mathbf{P}^{-1}$$
+      $$\mathbf{D}^2=\operatorname{diag}(\lambda_1^2,\dots,\lambda_n^2)$$</li>
+      <li>같은 상쇄를 $k$번 반복하면
+      $$\mathbf{A}^k=\mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$$</li>
+      <li>행렬식: 곱의 행렬식은 행렬식의 곱이에요.
+      $$\det(\mathbf{A})=\det(\mathbf{P})\det(\mathbf{D})\det(\mathbf{P}^{-1})$$</li>
+      <li>$\det(\mathbf{P})\det(\mathbf{P}^{-1})$는 $\det(\mathbf{P}\mathbf{P}^{-1})$과 같고 $\det(\mathbf{I}_n)=1$이라 남는 것은 $\det(\mathbf{D})$예요.
+      $$\det(\mathbf{A})=\det(\mathbf{D})=\prod_i d_{ii}=\prod_i\lambda_i$$
+      <small>(수업 중 $\mathbf{P}$가 orthonormal이라 $\det(\mathbf{P})=1$이라고 말했지만, $\det(\mathbf{A})=\det(\mathbf{D})$인 이유는 $\det(\mathbf{P})\det(\mathbf{P}^{-1})=1$이에요. 직교행렬이어도 $\det(\mathbf{P})=\pm 1$이에요.)</small></li>
+      <li>역행렬: 수업에서는 역행렬 계산도 쉬워진다고만 했어요. 강의 내용을 식으로 옮긴 재표현은, 모든 $\lambda_i\neq 0$일 때 다음과 같아요. $\mathbf{A}$에 곱하면 가운데가 차례로 상쇄되어 $\mathbf{I}_n$이 돼요.
+      $$\mathbf{A}^{-1}=\mathbf{P}\mathbf{D}^{-1}\mathbf{P}^{-1}$$</li>
+    </ol>
+    <p>MML은 이 분해를 세 단계 변환으로 읽어요(MML 117쪽 그림 4.7). $\mathbf{P}^{-1}$이 좌표를 고유벡터 basis로 바꾸고, $\mathbf{D}$가 각 축을 $\lambda_i$배 늘이고, $\mathbf{P}$가 원래 좌표로 되돌려요.</p>
+    <p><strong>복원 요령</strong>: 고유벡터를 열로 모은 $\mathbf{P}$와 고윳값을 대각에 둔 $\mathbf{D}$를 만들어요. 열마다 $\mathbf{A}\mathbf{p}_i$가 $\lambda_i\mathbf{p}_i$이므로 $\mathbf{A}\mathbf{P}$와 $\mathbf{P}\mathbf{D}$가 같고, $\mathbf{P}^{-1}$을 오른쪽에 곱하면 분해, 왼쪽에 곱하면 대각화예요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p><strong>변신 로봇 비유</strong>: 합체한 변신 로봇 장난감을 분해하면 팔, 다리, 어깨, 뿔이 다 구별돼요. 행렬도 잘 분해해 두면 각 부분의 특성을 나중에 이용할 수 있다고 했어요.</p>
+    <p>행렬을 어떻게 분해할지는 선형대수에서 오래된 핵심 문제라고 강조했어요.</p>
+    <blockquote>"이 매트릭스를 어떻게 분해할 것인가가 … 수학자들한테는 몇백 년간 매우 중요한 이슈였어요." (1102 P03 08:57)</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">고유벡터를 열로 모은 $\mathbf{P}$와 고윳값을 대각에 둔 $\mathbf{D}$로 열마다의 고윳값 방정식을 묶으면 $\mathbf{A}\mathbf{P}$와 $\mathbf{P}\mathbf{D}$가 같고, 고유벡터가 basis를 이룰 때만 $\mathbf{P}^{-1}$을 곱해 분해할 수 있어요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">열별 묶음</span>$$\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$$</li>
+      <li><span class="eq-name">고윳값 분해</span>$$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$</li>
+      <li><span class="eq-name">거듭제곱</span>$$\mathbf{A}^k=\mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$$</li>
+      <li><span class="eq-name">행렬식</span>$$\det(\mathbf{A})=\det(\mathbf{D})=\prod_i d_{ii}=\prod_i\lambda_i$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>고윳값 분해(EVD)</dt><dd>고유벡터 행렬 $\mathbf{P}$와 고윳값 대각행렬 $\mathbf{D}$로 쪼개기, 고유벡터가 $\mathbb{R}^n$의 basis일 때만 가능</dd>
+      <dt>$\mathbf{P}$</dt><dd>가역이면 충분, 직교일 필요 없음(직교는 대칭행렬일 때)</dd>
+      <dt>고윳값 순서</dt><dd>EVD의 요구가 아니라 PCA의 관례(큰 것부터)</dd>
+      <dt>defective</dt><dd>일차독립 고유벡터가 $n$개보다 적어 대각화되지 않는 행렬</dd>
+      <dt>변신 로봇</dt><dd>합체 로봇을 부품별로 나누듯 행렬을 분해해 특성을 이용한다는 교수님 비유</dd>
+    </dl>
+  </div>
+</article>
+    </section>
+    <section id="s3"><h2>3. 스펙트럼 정리</h2>
+<article class="topic" id="s3-spectral"><h3>3.1 대칭행렬은 직교 고유벡터로 쪼개져요</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s19</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">대각선을 따라 접으면 딱 겹치는 표는 서로 직각인 방향 조각 몇 개로 깔끔하게 나눌 수 있어요.</p>
+<figure class="figure"><svg id="fig-spectral-split" viewBox="0 0 640 200" role="img" aria-label="왼쪽에 칸이 3줄 3칸인 큰 테두리 표가 있고, 왼쪽 위에서 오른쪽 아래로 접는 강조색 점선이 그어져 있어요. 등호 뒤에 크기가 점점 작아지는 테두리 상자 세 개가 더하기로 이어져요. 세 작은 상자 안에는 방향이 서로 다른 선이 하나씩 그어져 있고, 가장 큰 조각의 상자와 선은 강조색이에요.">
+<rect class="fig-ink" x="16" y="40" width="120" height="120" rx="6"/>
+<line class="fig-ink" x1="56" y1="40" x2="56" y2="160"/><line class="fig-ink" x1="96" y1="40" x2="96" y2="160"/><line class="fig-ink" x1="16" y1="80" x2="136" y2="80"/><line class="fig-ink" x1="16" y1="120" x2="136" y2="120"/>
+<line class="fig-accent" x1="16" y1="40" x2="136" y2="160" stroke-dasharray="6 5"/>
+<text class="fig-text" x="76" y="186" text-anchor="middle" font-size="13">접으면 겹치는 표</text>
+<text class="fig-text" x="166" y="108" text-anchor="middle" font-size="22">=</text>
+<rect class="fig-accent" x="196" y="50" width="100" height="100" rx="6"/>
+<line class="fig-accent" x1="206" y1="140" x2="286" y2="60"/>
+<text class="fig-text" x="246" y="186" text-anchor="middle" font-size="13">큰 조각</text>
+<text class="fig-text" x="326" y="108" text-anchor="middle" font-size="22">+</text>
+<rect class="fig-ink" x="361" y="65" width="70" height="70" rx="6"/>
+<line class="fig-ink" x1="371" y1="75" x2="421" y2="125"/>
+<text class="fig-text" x="396" y="186" text-anchor="middle" font-size="13">중간 조각</text>
+<text class="fig-text" x="466" y="108" text-anchor="middle" font-size="22">+</text>
+<rect class="fig-ink" x="501" y="80" width="40" height="40" rx="5"/>
+<line class="fig-ink" x1="521" y1="84" x2="521" y2="116"/>
+<text class="fig-text" x="521" y="186" text-anchor="middle" font-size="13">작은 조각</text>
+<text class="fig-muted" x="396" y="30" text-anchor="middle" font-size="12">조각마다 방향 하나, 무게 하나</text>
+</svg><figcaption>대각선으로 접으면 겹치는 표 하나가 무게가 다른 조각 세 개를 더한 것과 같아요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>PCA에서 쓰는 데이터 공분산 행렬 $\mathbf{S}$는 대칭이라 이 정리가 그대로 적용되고, 뒤의 <a href="#s4-max-proof">4.3 왜 가장 큰 고윳값의 고유벡터일까</a>에서 $\mathbf{b}_1$을 $\mathbf{S}$의 고유벡터 $\mathbf{p}_i$들로 펼칠 때 이 결과를 그대로 써요.</p>
+<p><b>기호.</b> 이 토픽의 기호는 다음과 같아요. 슬라이드는 차원을 $n$으로 쓰고, PCA에서는 이 $n$이 데이터 차원 $D$예요.</p>
+<ul>
+<li>$\mathbf{S}\in\mathbb{R}^{n\times n}$: 대칭행렬(symmetric matrix)이에요. $\mathbf{S}^T=\mathbf{S}$, 즉 대각선을 기준으로 위아래 성분이 같아요. 전치해도 크기가 그대로여야 하므로 반드시 정방행렬이에요.</li>
+<li>$\lambda_1,\dots,\lambda_n$: $\mathbf{S}$의 고윳값(eigenvalue)이에요. 각각 스칼라예요.</li>
+<li>$\mathbf{p}_i\in\mathbb{R}^{n}$: $\lambda_i$에 대응하는 고유벡터(eigenvector)예요. 길이 1인 열벡터로 골라요.</li>
+<li>${\mathbf{P}=[\mathbf{p}_1,\dots,\mathbf{p}_n]\in\mathbb{R}^{n\times n}}$: 고유벡터를 열로 나란히 붙인 행렬이에요.</li>
+<li>${\mathbf{D}=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\in\mathbb{R}^{n\times n}}$: 고윳값을 대각에 놓은 대각행렬이에요.</li>
+</ul>
+<p><b>정리(spectral theorem, 스펙트럼 정리).</b> 대칭행렬 $\mathbf{S}\in\mathbb{R}^{n\times n}$는 다음처럼 분해돼요(L05 s19, MML Theorem 4.15·4.21).</p>
+$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$
+$$\mathbf{P}^{-1}=\mathbf{P}^T$$
+<p>두 식을 합쳐 다음처럼 써요.</p>
+$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$
+<p>이때 성립하는 성질은 세 가지예요.</p>
+<ol class="steps">
+<li>$\mathbf{D}$의 대각 성분, 곧 고윳값은 모두 <b>실수</b>예요. 일반 실행렬은 고윳값이 복소수일 수 있지만 대칭행렬은 그렇지 않아요.</li>
+<li>$\mathbf{P}$의 열은 정규직교(orthonormal)예요. 서로 다른 고윳값의 고유벡터는 항상 직교해요. 같은 고윳값(중근)의 고유벡터는 자동으로 직교하지 않아서 직접 직교화해요. 그 과정은 <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>에서 다뤄요.</li>
+<li>열이 정규직교이면 $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때 1, 아니면 0이에요. 이를 한꺼번에 쓰면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$이고, 이런 $\mathbf{P}$를 직교행렬(orthogonal matrix)이라고 해요. 그래서 역행렬을 구하지 않고 전치만 하면 돼요.</li>
+</ol>
+<p><a href="#s2-evd">2.3 고윳값 분해(EVD)</a>의 일반 분해와 달리, 대칭이면 $\mathbf{P}$를 직교로 고를 수 있어요.</p>
+<p class="note">(수업 중 대칭행렬이면 역행렬이 자기 전치, 즉 $\mathbf{S}^{-1}=\mathbf{S}^T$인 것처럼 말했다가 정정: 전치가 역행렬이 되는 것은 고유벡터 행렬 $\mathbf{P}$이고, 대칭이면 항상 그렇게 고를 수 있어요.)</p>
+<p><b>유도: 행렬을 방향별 조각의 합으로.</b> 목적은 $\mathbf{S}$ 하나를 "방향 $\mathbf{p}_i$ 하나와 무게 $\lambda_i$ 하나"짜리 조각 $n$개의 합으로 다시 쓰는 거예요. 수업 칠판처럼 $n=3$으로 전개해요.</p>
+<ol class="steps">
+<li>분해식을 성분 모양으로 써요.
+$$\mathbf{S}=[\mathbf{p}_1\ \mathbf{p}_2\ \mathbf{p}_3]\begin{bmatrix}\lambda_1 &amp; 0 &amp; 0\\ 0 &amp; \lambda_2 &amp; 0\\ 0 &amp; 0 &amp; \lambda_3\end{bmatrix}\begin{bmatrix}\mathbf{p}_1^T\\ \mathbf{p}_2^T\\ \mathbf{p}_3^T\end{bmatrix}$$</li>
+<li>앞의 두 행렬을 먼저 곱해요. 대각행렬을 <b>오른쪽</b>에 곱하면 각 열이 해당 고윳값배가 돼요(열 스케일링).
+$$\mathbf{P}\mathbf{D}=[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]$$
+이 전개에 필요한 것은 이 열 스케일링뿐이에요.</li>
+<li>남은 곱은 "열들을 가로로 붙인 행렬" 곱하기 "행들을 세로로 쌓은 행렬"이에요. 행렬 곱의 열×행 전개(외적 합)에 따라 $k$번째 열과 $k$번째 행끼리만 곱해서 더해요.
+$$[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]\begin{bmatrix}\mathbf{p}_1^T\\ \mathbf{p}_2^T\\ \mathbf{p}_3^T\end{bmatrix}=\lambda_1\mathbf{p}_1\mathbf{p}_1^T+\lambda_2\mathbf{p}_2\mathbf{p}_2^T+\lambda_3\mathbf{p}_3\mathbf{p}_3^T$$
+$i\neq j$인 교차항 $\mathbf{p}_i\mathbf{p}_j^T$는 곱의 정의상 처음부터 생기지 않아요. 직교성과는 상관없어요.</li>
+<li>일반 $n$으로 쓰면 다음과 같아요.
+$$\mathbf{S}=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
+</ol>
+<p>합 $\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$의 각 조각 $\mathbf{p}_i\mathbf{p}_i^T$는 $(n\times1)(1\times n)$이라 $n\times n$ 행렬이에요. 고유벡터 하나를 세로와 가로로 곱해 만든 행렬에 $\lambda_i$를 곱하고, 이것을 $n$개 모두 더하면 원래 $\mathbf{S}$예요.</p>
+<p>직교성이 실제로 쓰이는 곳은 이 합을 다시 고유벡터에 곱할 때예요. 아래는 강의 공식을 확인하기 위한 재구성이에요. $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때만 1이므로 조각 하나만 남아요.</p>
+$$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\mathbf{p}_j)=\lambda_j\mathbf{p}_j$$
+<p><b>왜 PCA에서 대칭행렬만 보면 되나.</b> 데이터 공분산 행렬 ${\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T}$는 벡터를 자기 자신의 전치와 곱한 것의 평균이에요. 각 항을 전치해도 그대로예요.</p>
+$$(\mathbf{x}_n\mathbf{x}_n^T)^T=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T$$
+<p>따라서 $\mathbf{S}^T=\mathbf{S}$이고, 앞으로 다룰 공분산 행렬에는 언제나 스펙트럼 정리를 쓸 수 있어요. 고윳값이 실수이니 "가장 큰 고윳값"이라는 비교도 의미가 있어요.</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>교수님은 스펙트럼을 <b>푸리에</b> 변환으로 설명했어요. 신호 $s(t)$의 푸리에 변환이 $\delta(f-f_c)$이면 역변환은 $e^{j2\pi f_c t}$예요. 시간 영역에서는 복소평면을 도는 코사인과 사인의 합처럼 복잡해 보여요. 주파수 영역에서는 값 하나로 끝나요. 몇 개 성분만 알면 간단히 표현된다는 것이 압축의 개념이고, spectral theorem은 이 발상을 선형대수로 옮겨 행렬을 벡터들의 합으로 요약한다고 했어요(1102 P04 05:45 무렵).</p>
+<blockquote>“내가 수학은 언어고 수학을 잘해야 된다, 그런 얘기를 참 많이 하는데” (1102 P04 09:03)</blockquote>
+<p>공학 문제 대부분이 이런 기초 수학으로 표현된다는 맥락이에요. 앞으로 다룰 행렬은 항상 대칭이고, 선형대수를 배우지 않은 학생도 있을 수 있어 복습한다고 밝혔어요.</p>
+<blockquote>“diagonal matrix는 뒤에다 곱하나 앞에다 곱하나 교환법칙이 성립하거든요” (1102 P05 03:13)</blockquote>
+<p class="note">(수업 중 대각행렬은 앞뒤 어느 쪽에 곱해도 교환법칙이 성립한다고 말했다가 정정: 일반적으로 $\mathbf{P}\mathbf{D}\neq\mathbf{D}\mathbf{P}$이고, 모든 행렬과 교환되는 대각행렬은 $c\mathbf{I}$뿐이에요. 전개에는 열 스케일링만 필요해요.)</p>
+<p>교수님은 교차항(cross-correlation term)을 $\mathbf{p}_i$들이 직교해서 계산하지 않아도 된다고 설명했어요(1102 P05 04:31). 실제로는 열×행 곱의 구조 때문에 교차항이 처음부터 생기지 않아요. 시각은 녹음 파트 안의 추정값이라 30초 안팎 어긋날 수 있어요.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">대칭행렬은 실수 고윳값과 서로 직교하는 단위 고유벡터로 분해되고, 그래서 방향별 조각의 합으로 쓸 수 있어요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">스펙트럼 정리</span>$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$ $$\mathbf{P}^{-1}=\mathbf{P}^T$$</li>
+<li><span class="eq-name">열 스케일링</span>$$\mathbf{P}\mathbf{D}=[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]$$</li>
+<li><span class="eq-name">외적 합</span>$$\mathbf{S}=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
+<li><span class="eq-name">직교성이 쓰이는 곳(재구성)</span>$$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\mathbf{p}_j)=\lambda_j\mathbf{p}_j$$</li>
+<li><span class="eq-name">공분산이 대칭인 이유</span>$$(\mathbf{x}_n\mathbf{x}_n^T)^T=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>스펙트럼 정리(spectral theorem)</dt><dd>대칭행렬은 ${\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T}$로 분해되고 고윳값은 모두 실수예요.</dd>
+<dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{S}^T=\mathbf{S}$인 정방행렬이에요. 데이터 공분산 행렬이 여기에 속해요.</dd>
+<dt>직교행렬(orthogonal matrix)</dt><dd>$\mathbf{P}^T\mathbf{P}=\mathbf{I}$, 그래서 $\mathbf{P}^{-1}=\mathbf{P}^T$예요.</dd>
+<dt>교차항</dt><dd>열×행 곱의 정의상 처음부터 생기지 않아요. 직교성 때문이 아니에요.</dd>
+</dl>
+</div>
+</article>
+<article class="topic" id="s3-spectral-example"><h3>3.2 예제: 3×3 대칭행렬</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s19</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">힘이 똑같은 두 방향은 비스듬히 놓여 있을 수 있어서, 직각이 되게 하나를 우리가 돌려 맞춰요.</p>
+<figure class="figure"><svg id="fig-gram-schmidt-turn" viewBox="0 0 640 210" role="img" aria-label="왼쪽 그림에는 한 점에서 출발한 두 선이 비스듬한 각도로 벌어져 있어요. 가운데 화살표 선이 오른쪽 그림을 가리켜요. 오른쪽 그림에서는 첫 선은 그대로이고, 둘째 선이 강조색 선으로 바뀌어 첫 선과 직각을 이루며, 꼭짓점에 작은 직각 표시가 있어요.">
+<line class="fig-ink" x1="80" y1="170" x2="250" y2="170"/>
+<polyline class="fig-ink" points="240,163 250,170 240,177"/>
+<line class="fig-ink" x1="80" y1="170" x2="190" y2="60"/>
+<polyline class="fig-ink" points="178,64 190,60 186,72"/>
+<text class="fig-text" x="165" y="200" text-anchor="middle" font-size="13">처음: 비스듬해요</text>
+<text class="fig-muted" x="320" y="118" text-anchor="middle" font-size="13">돌려 맞추기</text>
+<line class="fig-ink" x1="290" y1="128" x2="350" y2="128"/>
+<polyline class="fig-ink" points="342,123 350,128 342,133"/>
+<line class="fig-ink" x1="400" y1="170" x2="570" y2="170"/>
+<polyline class="fig-ink" points="560,163 570,170 560,177"/>
+<line class="fig-accent" x1="400" y1="170" x2="400" y2="45"/>
+<polyline class="fig-accent" points="393,55 400,45 407,55"/>
+<polyline class="fig-ink" points="400,156 414,156 414,170"/>
+<text class="fig-text" x="485" y="200" text-anchor="middle" font-size="13">고친 뒤: 직각이에요</text>
+</svg><figcaption>첫 선은 그대로 두고, 둘째 선만 직각이 되게 돌렸어요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>목적은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 ${\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T}$를 숫자로 확인하는 거예요. 특히 고윳값이 중근이라 고유벡터가 저절로 직교하지 않는 경우를 다뤄요(L05 s19, MML Example 4.8). 대칭행렬 하나를 잡아요.</p>
+<p>${\mathbf{A}=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}}$는 대각 성분이 3, 나머지가 2라서 $\mathbf{A}^T=\mathbf{A}$예요.</p>
+<p><b>1단계: 고윳값.</b> 특성다항식 ${p_A(\lambda)=\det(\mathbf{A}-\lambda\mathbf{I})}$의 근이 고윳값이에요. 결과는 다음과 같아요.</p>
+$$p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$$
+<p>수업과 슬라이드는 결과만 적었어요. 아래는 검산용 재구성이에요. $a=3-\lambda$로 두면 $\mathbf{A}-\lambda\mathbf{I}$는 대각이 $a$, 나머지가 2예요.</p>
+<ol class="steps">
+<li>세 행을 모두 첫 행에 더하면 첫 행이 $(a+4)(1,1,1)$이 되고, 행렬식은 그대로예요. $a+4$를 밖으로 빼요.</li>
+<li>둘째·셋째 행에서 새 첫 행 $(1,1,1)$의 2배를 빼면 ${\begin{bmatrix}1 &amp; 1 &amp; 1\\ 0 &amp; a-2 &amp; 0\\ 0 &amp; 0 &amp; a-2\end{bmatrix}}$이 돼요.</li>
+<li>삼각행렬의 행렬식은 대각 성분의 곱이에요.
+$$\det(\mathbf{A}-\lambda\mathbf{I})=(a+4)(a-2)^2=(7-\lambda)(1-\lambda)^2$$</li>
+<li>$(1-\lambda)^2=(\lambda-1)^2$이고 $7-\lambda=-(\lambda-7)$이라서 $p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$이에요.</li>
+</ol>
+<p>고윳값은 $\lambda=1$(중근, 두 번)과 $\lambda=7$이에요. 슬라이드는 서로 다른 고윳값을 $\lambda_1=1$, $\lambda_2=7$로 번호 붙였어요.</p>
+<p><b>2단계: 고유공간.</b> 각 고윳값에 대해 ${(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}}$을 풀어요.</p>
+<ul>
+<li>$\lambda=1$: $\mathbf{A}-\mathbf{I}$는 모든 성분이 2라서 조건은 $x_1+x_2+x_3=0$ 하나예요. 자유변수가 둘이라 고유공간이 2차원이에요.
+$${E_1=\operatorname{span}\left[\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix},\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}\right]}$$</li>
+<li>$\lambda=7$: $\mathbf{A}-7\mathbf{I}$는 대각이 $-4$, 나머지가 2예요. 각 행이 $2(x_1+x_2+x_3)-6x_i=0$이 되어 세 성분이 같아요.
+$${E_7=\operatorname{span}\left[\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}\right]}$$</li>
+</ul>
+<p>그래서 중근 $\lambda=1$에서 고유벡터가 2개 나오고, 모두 3개로 $\mathbf{P}$를 만들 수 있어요. 세 벡터를 차례로 $\mathbf{x}_1=(-1,1,0)^T$, $\mathbf{x}_2=(-1,0,1)^T$, $\mathbf{x}_3=(1,1,1)^T$라고 부를게요(이 예제 안에서만 쓰는 이름이에요).</p>
+<p><b>3단계: 직교성 점검.</b> 서로 다른 고윳값의 고유벡터는 직교해요. 실제로 $\mathbf{x}_3^T\mathbf{x}_1=0$, $\mathbf{x}_3^T\mathbf{x}_2=0$이에요. 같은 고윳값의 두 벡터는 $\mathbf{x}_1^T\mathbf{x}_2=1\neq0$이라 직교하지 않아요.</p>
+<p><b>4단계: Gram-Schmidt 직교화.</b> 수업에서는 직접 해 보라고 맡긴 단계예요. 슬라이드에는 결과만 있어요. 직교화가 허용되는 이유는 같은 고윳값의 고유벡터를 섞어도 여전히 그 고윳값의 고유벡터이기 때문이에요. 임의의 스칼라 $\alpha,\beta$에 대해 다음이 성립해요.</p>
+$$\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2=1\cdot(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$$
+<ol class="steps">
+<li>첫 벡터는 그대로 둬요: $\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$.</li>
+<li>둘째 벡터에서 $\mathbf{x}_1'$ 방향 성분을 빼요. 계수는 ${\mathbf{x}_1^T\mathbf{x}_2/\mathbf{x}_1^T\mathbf{x}_1=1/2}$예요.
+$$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</li>
+<li>확인해요. ${\mathbf{x}_1^T\mathbf{x}_2'=\frac12-\frac12+0=0}$이고 ${\mathbf{x}_3^T\mathbf{x}_2'=-\frac12-\frac12+1=0}$이에요. 또 $\mathbf{A}\mathbf{x}_2'=\mathbf{x}_2'$라서 여전히 $\lambda=1$의 고유벡터예요.</li>
+</ol>
+<p>이렇게 $(-1,1,0)^T$, $(-1/2,-1/2,1)^T$(고윳값 1)와 $(1,1,1)^T$(고윳값 7)가 $\mathbb{R}^3$의 직교 기저가 돼요. $E_1$ 안의 직교 기저는 이 한 쌍만 있는 것이 아니라서 $\mathbf{P}$도 하나로 정해지지 않아요.</p>
+<p><b>5단계: 정규화.</b> 각 벡터를 자기 길이로 나눠요. 길이는 차례로 $\sqrt2$, $\sqrt{3/2}$, $\sqrt3$이에요.</p>
+$${\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}},\quad{\mathbf{p}_2=\frac{1}{\sqrt6}\begin{bmatrix}-1\\ -1\\ 2\end{bmatrix}},\quad{\mathbf{p}_3=\frac{1}{\sqrt3}\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}}$$
+<p>$\mathbf{p}_2$는 $(-1/2,-1/2,1)^T$를 $\sqrt{3/2}$로 나눈 것과 같아요. 고윳값 순서는 열 순서를 따라 $\lambda_1=\lambda_2=1$, $\lambda_3=7$이에요. 여기서 아래첨자는 $\mathbf{P}$의 열 번호라서 슬라이드의 $\lambda_2=7$과 번호가 달라요.</p>
+$${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 0 &amp; 2/\sqrt6 &amp; 1/\sqrt3\end{bmatrix}},\quad{\mathbf{D}=\begin{bmatrix}1 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 7\end{bmatrix}}$$
+<p><b>6단계: $\mathbf{P}^T\mathbf{P}=\mathbf{I}$ 확인.</b> $\mathbf{P}^T\mathbf{P}$의 $(i,j)$ 성분은 $\mathbf{p}_i^T\mathbf{p}_j$예요. 대각은 길이의 제곱이라 정규화 뒤 모두 1이고, 비대각은 3·4단계에서 확인한 대로 0이에요. 그래서 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
+<p class="note">(수업 중 "$\mathbf{P}\mathbf{P}^T$하면 identity"라고 말했다가 정정: 정의는 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요. 정방 직교행렬이면 $\mathbf{P}\mathbf{P}^T=\mathbf{I}$도 성립해 결과는 같아요.)</p>
+<p><b>7단계: 조각의 합으로 $\mathbf{A}$ 복원.</b> 각 조각 $\mathbf{p}_i\mathbf{p}_i^T$를 계산해요.</p>
+$${\mathbf{p}_1\mathbf{p}_1^T=\frac{1}{2}\begin{bmatrix}1 &amp; -1 &amp; 0\\ -1 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 0\end{bmatrix}},\quad{\mathbf{p}_2\mathbf{p}_2^T=\frac{1}{6}\begin{bmatrix}1 &amp; 1 &amp; -2\\ 1 &amp; 1 &amp; -2\\ -2 &amp; -2 &amp; 4\end{bmatrix}},\quad{\mathbf{p}_3\mathbf{p}_3^T=\frac{1}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
+<p>고윳값 1인 두 조각을 더하고, 고윳값 7인 조각에 7을 곱해요.</p>
+$${1\cdot(\mathbf{p}_1\mathbf{p}_1^T+\mathbf{p}_2\mathbf{p}_2^T)=\frac{1}{3}\begin{bmatrix}2 &amp; -1 &amp; -1\\ -1 &amp; 2 &amp; -1\\ -1 &amp; -1 &amp; 2\end{bmatrix}},\quad{7\,\mathbf{p}_3\mathbf{p}_3^T=\frac{7}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
+<p>두 행렬을 더하면 대각은 $\frac{2}{3}+\frac{7}{3}=3$, 비대각은 $-\frac{1}{3}+\frac{7}{3}=2$예요.</p>
+$$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}=\mathbf{A}$$
+<p>같은 확인을 ${\mathbf{P}\mathbf{D}\mathbf{P}^T=\mathbf{A}}$로 해도 돼요. 위 계산은 Python(fractions, sympy)으로 검산했어요.</p>
+<p><b>복원 순서.</b> 특성다항식으로 고윳값을 구하고, 고유공간을 풀고, 중근 고유공간만 Gram-Schmidt로 직교화한 뒤 정규화해요. 마지막으로 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 조각의 합으로 검산해요.</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>교수님은 $\lambda=1$이 중근이라 고유벡터가 2개 나올 수 있고, 그 2개가 고유공간을 span한다고 짚었어요. 그래서 고유벡터 3개로 $\mathbf{P}$를 만들 수 있다고 했어요. $(-1,1,0)^T$를 자기 노름 $\sqrt2$로 나누듯 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 ${\sum\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\mathbf{A}}$를 직접 확인할 수 있다고 했어요(1102 P05 08:27 무렵).</p>
+<blockquote>“이거는 여러분이 그냥 복습 간단하게 한번 해보세요” (1102 P05 09:30)</blockquote>
+<p>$\lambda=1$ 고유공간 안의 직교화 단계는 말로 설명하지 않고 복습으로 맡겼어요. 시각은 녹음 파트 안의 추정값이에요.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">중근 고윳값의 고유벡터는 저절로 직교하지 않아서 Gram-Schmidt로 직교화하고 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$인 $\mathbf{P}$를 얻어요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">특성다항식</span>$$p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$$</li>
+<li><span class="eq-name">고유공간</span>$${E_1=\operatorname{span}\left[\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix},\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}\right]}$$ $${E_7=\operatorname{span}\left[\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}\right]}$$</li>
+<li><span class="eq-name">Gram-Schmidt 한 단계</span>$$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</li>
+<li><span class="eq-name">정규화한 고유벡터</span>$${\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}},\quad{\mathbf{p}_2=\frac{1}{\sqrt6}\begin{bmatrix}-1\\ -1\\ 2\end{bmatrix}},\quad{\mathbf{p}_3=\frac{1}{\sqrt3}\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}}$$</li>
+<li><span class="eq-name">복원 확인</span>$$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}=\mathbf{A}$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>중근(repeated eigenvalue)</dt><dd>$\lambda=1$이 두 번 나와 고유공간이 2차원이에요. 그 안의 고유벡터는 자동으로 직교하지 않아요.</dd>
+<dt>Gram-Schmidt</dt><dd>같은 고유공간 안에서 앞 벡터 방향 성분을 빼 직교 기저를 만들어요. 수업에서는 복습으로 맡긴 단계예요.</dd>
+<dt>정규화(normalization)</dt><dd>각 벡터를 자기 길이로 나눠 길이 1로 만들어요.</dd>
+<dt>$\mathbf{P}^T\mathbf{P}=\mathbf{I}$</dt><dd>성분 $\mathbf{p}_i^T\mathbf{p}_j$가 대각 1, 비대각 0이라는 뜻이에요.</dd>
+</dl>
+</div>
+</article>
+    </section>
+    <section id="s4"><h2>4. 첫 번째 방향 b₁ 찾기</h2>
+<article class="topic" id="s4-goal"><h3>4.1 목표와 결론 미리 보기</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s20</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+<p class="lead">사진을 몇 개의 방향만으로 설명해야 한다면, 사진들이 가장 넓게 퍼진 방향부터 차례로 고르면 돼요.</p>
+<figure class="figure"><svg id="fig-goal-flow" viewBox="0 0 560 150" role="img" aria-label="네 개의 테두리 상자가 화살표로 이어진 흐름도: 많은 숫자, 퍼짐 표 만들기, 넓게 퍼진 방향부터 줄 세우기, 앞에서 몇 개만 남기기">
+<rect class="fig-ink" x="8" y="45" width="110" height="60" rx="8"/><text class="fig-text" x="63" y="80" text-anchor="middle">많은 숫자</text>
+<line class="fig-ink" x1="118" y1="75" x2="146" y2="75"/><polyline class="fig-ink" points="139,69 146,75 139,81"/>
+<rect class="fig-ink" x="148" y="45" width="118" height="60" rx="8"/><text class="fig-text" x="207" y="80" text-anchor="middle">퍼짐 표 만들기</text>
+<line class="fig-ink" x1="266" y1="75" x2="294" y2="75"/><polyline class="fig-ink" points="287,69 294,75 287,81"/>
+<rect class="fig-accent" x="296" y="35" width="128" height="80" rx="8"/><text class="fig-text" x="360" y="70" text-anchor="middle">넓게 퍼진 방향</text><text class="fig-text" x="360" y="90" text-anchor="middle">부터 줄 세우기</text>
+<line class="fig-ink" x1="424" y1="75" x2="440" y2="75"/><polyline class="fig-ink" points="433,69 440,75 433,81"/>
+<rect class="fig-ink" x="442" y="45" width="110" height="60" rx="8"/><text class="fig-text" x="497" y="70" text-anchor="middle">앞에서</text><text class="fig-text" x="497" y="90" text-anchor="middle">몇 개만 남기기</text>
+</svg><figcaption>숫자들이 얼마나 함께 퍼지는지 표로 만들고, 넓게 퍼진 방향부터 줄 세워 앞의 몇 개만 남겨요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>이 섹션은 오늘의 질문("퍼짐을 가장 많이 남기는 방향은?")을 실제로 풀 수 있는 문제로 바꿔요. 슬라이드 s20은 그 계획을 네 줄로 정리해요. 이 관점을 maximum variance perspective라고 불러요.</p>
+<ul>
+<li><b>Goal</b>: 분산을 최대로 남기는 정규직교 기저 ${\mathbf{B} = [\mathbf{b}_1 \cdots \mathbf{b}_M] \in \mathbb{R}^{D \times M}}$를 찾아요. 각 $\mathbf{b}_i \in \mathbb{R}^D$는 크기 1이고 서로 수직이에요.</li>
+<li><b>Result</b>: data covariance matrix $\mathbf{S}$의 고윳값 중 가장 큰 $M$개 $\lambda_1 \ge \dots \ge \lambda_M$에 대응하는 고유벡터 $\mathbf{p}_1, \dots, \mathbf{p}_M$이 곧 $\mathbf{b}_1, \dots, \mathbf{b}_M$이에요. 수업에서는 이 결론을 먼저 알려 주고 증명은 뒤로 미뤘어요.</li>
+<li><b>Question</b>: 왜 data matrix $\mathbf{X}$가 아니라 data covariance matrix $\mathbf{S}$일까요? 왜 고유벡터를 고윳값 크기 순서로 고를까요?</li>
+<li><b>Strategy</b>: 귀납법(induction)이에요. Step 1에서 데이터를 1차원 직선에 사영한다고 보고 분산을 최대로 하는 $\mathbf{b}_1$ 하나를 찾아요. Step k에서는 $\mathbf{b}_1, \dots, \mathbf{b}_{k-1}$을 찾았다고 가정하고, 그것들과 직교하면서 분산을 최대로 하는 $\mathbf{b}_k$를 찾아요.</li>
+</ul>
+<p><b>Question에 대한 교수님의 답 두 가지.</b></p>
+<ol>
+<li>data matrix는 대칭행렬이 아니라서 EVD를 하면 "찝찝한 특성"이 남아요. 대칭인 $\mathbf{S}$는 스펙트럼 정리 덕분에 정규직교 고유벡터로 깔끔하게 분해돼요(<a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>). 덧붙이면 $\mathbf{X} \in \mathbb{R}^{D \times N}$은 보통 정사각행렬도 아니라서 EVD 자체가 정의되지 않아요(수업 밖 덧붙임).</li>
+<li>분산이라는 개념 자체가 공분산을 써야 만들어져요. 첫 좌표의 분산을 계산하면 식 안에 $\mathbf{S}$가 저절로 나타나요. 그 계산이 <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>예요.</li>
+</ol>
+<p>두 번째 물음(왜 고윳값 순서인가)은 Step 1의 결론과 이어져요. 가장 큰 고윳값의 고유벡터가 분산을 가장 많이 담는다는 결론이고, 그 이유는 <a href="#s4-max-proof">4.3 왜 가장 큰 고윳값의 고유벡터일까</a>에서 다뤄요. 교수님은 슬라이드의 풀이는 건너뛰고, 고유기저 전개로 증명하겠다고 했어요(1102 P06 03:49). 그 증명은 수업 중에 끝나지 않아 다음 시간에 마무리하기로 했어요(1102 P07 08:12).</p>
+<p><b>Step k는 말로만 짚었어요.</b> 대칭행렬의 고유벡터는 서로 정규직교해요. $\mathbf{b}_1 = \mathbf{p}_1$로 정하고 나면 $\mathbf{p}_2$는 처음부터 $\mathbf{p}_1$과 직교하므로, 남은 에너지 중 가장 큰 것을 담는 방향은 $\mathbf{p}_2$예요. 이렇게 수학적 귀납법으로 이어 가면 된다는 설명까지가 수업 범위예요.</p>
+<p><b>MNIST로 다시 보기(s12 재언급).</b> MNIST 손글씨 이미지는 $28 \times 28 = 784$픽셀이라 $D = 784$예요.<sup>1</sup> $M = 50$으로 두면 $784 \times 1$ 벡터를 $50 \times 1$ 벡터로 압축해요. 그 벡터로 분류하고 원래 차원으로 복원해도 분류 정확도가 거의 변하지 않는다고 했어요. 전체 절차는 다음과 같아요.</p>
+<p>data matrix $\mathbf{X}$ → data covariance matrix $\mathbf{S}$ → EVD → 고윳값이 큰 순서로 고유벡터 50개 → 그 50개 방향으로 사영</p>
+<p class="footnote"><sup>1</sup> 수업 중 "24 곱하기 24"라고 말했다가 784를 떠올렸어요. $24 \times 24 = 576$이고, MNIST는 $28 \times 28 = 784$예요.</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>복습을 마치고 s20으로 넘어가며 "이제 진짜 본게임"이라고 했어요.</p>
+<blockquote>"이제 진짜로 우리가 해보려고 하는 이제 본게임으로 돌아왔는데" (1102 P05 09:36)</blockquote>
+<p>data matrix를 쓰지 않는 이유를 대칭성으로 설명했어요.</p>
+<blockquote>"뭔가 찝찝한 특성들이 남아 있어" (1102 P06 03:04)</blockquote>
+<p>슬라이드 풀이 대신 직접 증명하겠다고 했어요.</p>
+<blockquote>"다른 방법으로 증명해 줄게." (1102 P06 03:49)</blockquote>
+<blockquote>"학생들 입장에서 조금 어려울 수도 있는데 내가 차근차근 증명해 줄게요." (1102 P06 04:10)</blockquote>
+<p>귀납 전략을 말로 정리하며 이 흐름이 PCA 전체라고 강조했어요.</p>
+<blockquote>"이게 PCA의 처음부터 끝까지를 증명하는 거죠." (1102 P08 00:45)</blockquote>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">분산을 최대로 남기는 정규직교 기저 $\mathbf{B}$를 찾는 것이 목표이고, 답은 $\mathbf{S}$의 고윳값이 큰 $M$개 고유벡터라는 결론을 먼저 들었어요. 증명은 귀납법으로, Step 1에서 $\mathbf{b}_1$부터 찾아요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">Goal</span>$${\mathbf{B} = [\mathbf{b}_1 \cdots \mathbf{b}_M] \in \mathbb{R}^{D \times M}}$$</li>
+<li><span class="eq-name">Result</span>$$\mathbf{b}_1, \dots, \mathbf{b}_M = \mathbf{p}_1, \dots, \mathbf{p}_M \quad (\lambda_1 \ge \dots \ge \lambda_M)$$</li>
+<li><span class="eq-name">MNIST</span>$$D = 784 = 28 \times 28, \qquad M = 50$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>maximum variance perspective</dt><dd>사영한 좌표의 분산을 최대로 하는 방향을 기저로 고르는 관점이에요.</dd>
+<dt>data covariance matrix</dt><dd>$\mathbf{S}$. 대칭이라 정규직교 고유벡터로 분해되고, 분산 식에 저절로 나타나요. data matrix $\mathbf{X}$ 대신 쓰는 두 이유예요.</dd>
+<dt>귀납법(induction)</dt><dd>Step 1에서 $\mathbf{b}_1$을, Step k에서 앞 방향들과 직교하는 $\mathbf{b}_k$를 찾아요. Step k는 수업에서 말로만 짚었어요.</dd>
+<dt>MNIST</dt><dd>$28 \times 28$ 손글씨 이미지. 784차원을 50차원으로 줄여도 분류 정확도가 거의 같아요.</dd>
+</dl>
+</div>
+</article>
+
+<article class="topic" id="s4-v1"><h3>4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s21</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+<p class="lead">점마다 정한 방향으로 얼마나 뻗었는지 재서 제곱하고 평균 내면, 그 방향의 퍼짐이 돼요.</p>
+<figure class="figure"><svg id="fig-v1-factor" viewBox="0 0 560 190" role="img" aria-label="왼쪽에 방향, 점, 점, 방향이 적힌 테두리 상자 세 줄이 있고, 화살표 오른쪽에는 양 끝의 방향 두 개 사이에 점들을 모은 표 하나가 놓인 그림">
+<rect class="fig-ink" x="10" y="15" width="200" height="40" rx="6"/><text class="fig-text" x="110" y="40" text-anchor="middle">방향 · 점1 · 점1 · 방향</text>
+<rect class="fig-ink" x="10" y="70" width="200" height="40" rx="6"/><text class="fig-text" x="110" y="95" text-anchor="middle">방향 · 점2 · 점2 · 방향</text>
+<rect class="fig-ink" x="10" y="125" width="200" height="40" rx="6"/><text class="fig-text" x="110" y="150" text-anchor="middle">방향 · 점3 · 점3 · 방향</text>
+<line class="fig-ink" x1="225" y1="90" x2="275" y2="90"/><polyline class="fig-ink" points="267,83 275,90 267,97"/>
+<rect class="fig-ink" x="290" y="70" width="60" height="40" rx="6"/><text class="fig-text" x="320" y="95" text-anchor="middle">방향</text>
+<rect class="fig-accent" x="360" y="40" width="120" height="100" rx="6"/><text class="fig-text" x="420" y="85" text-anchor="middle">점들을</text><text class="fig-text" x="420" y="105" text-anchor="middle">모은 표</text>
+<rect class="fig-ink" x="490" y="70" width="60" height="40" rx="6"/><text class="fig-text" x="520" y="95" text-anchor="middle">방향</text>
+</svg><figcaption>모든 줄에 똑같은 방향이 붙어 있으니, 방향은 양 끝으로 꺼내고 가운데에 점들만 모아요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>이 유도의 목적은 "방향 $\mathbf{b}_1$을 잘 고른다"는 말을 $\mathbf{b}_1$에 대한 식 하나로 바꾸는 거예요. 그 식 안에 1028에서 정의한 $\mathbf{S}$가 나타나요. $\mathbf{b}_1$은 차원을 딱 하나만 쓸 수 있을 때 고를 방향이고, 교수님은 이것이 앞의 x축 예시(1차원만 쓴다면 x축)와 같은 문제라고 그 학생 대화를 다시 꺼냈어요(1102 P06 04:30, <a href="#s1-variance-energy">1.1 분산은 데이터의 에너지</a>).</p>
+<p><b>사영 좌표는 가중합이에요.</b> $\mathbf{b}_1 \in \mathbb{R}^D$는 크기 1인 방향(열벡터, $D \times 1$), $\mathbf{x}_n \in \mathbb{R}^D$는 centering된 $n$번째 데이터예요. $x_{dn}$을 $\mathbf{x}_n$의 $d$번째 성분, $b_{1d}$를 $\mathbf{b}_1$의 $d$번째 성분이라고 하면 다음과 같아요.</p>
+$$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n = \sum_{d=1}^{D} b_{1d}x_{dn}$$
+<p>$(1 \times D)(D \times 1) = 1 \times 1$이라 $z_{1n}$은 스칼라예요. 성분 $x_{dn}$에 무게 $b_{1d}$를 곱해 더한 가중합이에요. 각 성분의 평균이 0이면(centering) 그 가중합의 평균도 0이에요. 그래서 분산 = 제곱의 평균 − 평균의 제곱에서 뒤 항이 사라지고, 표본평균으로 쓰면 다음과 같아요.</p>
+<p>$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2$</p>
+<p><b>D = 2로 먼저 확인해요.</b> $z_{1n} = b_{11}x_{1n} + b_{12}x_{2n}$이에요. ${S_{ij} = \frac{1}{N}\sum_{n} x_{in}x_{jn}}$을 $\mathbf{S}$의 $(i,j)$ 성분이라고 하면 $S_{12} = S_{21}$이에요. 스칼라 분산 공식(제곱 전개, 교차항 2번)으로 계산하면 행렬 식과 같아요.</p>
+$$\frac{1}{N}\sum_{n=1}^{N}(b_{11}x_{1n}+b_{12}x_{2n})^2 = b_{11}^2S_{11}+2b_{11}b_{12}S_{12}+b_{12}^2S_{22}$$
+$$= \begin{bmatrix}b_{11} & b_{12}\end{bmatrix}\begin{bmatrix}S_{11} & S_{12}\\ S_{21} & S_{22}\end{bmatrix}\begin{bmatrix}b_{11}\\ b_{12}\end{bmatrix} = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$
+<p>교차항 $2b_{11}b_{12}S_{12}$는 두 성분이 함께 움직이는 정도라 빠뜨리면 안 돼요. 아래 수업 유도는 이 결과를 $D$차원 전체에서 한 번에 얻는 방법이에요.</p>
+<p><b>한 항씩 전치로 정리해요.</b> 곱의 전치 규칙을 써요.</p>
+$$(\mathbf{A}\mathbf{B})^T=\mathbf{B}^T\mathbf{A}^T$$
+<ol class="steps">
+<li>제곱을 곱으로 써요. ${z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)}$</li>
+<li>뒤쪽 인수는 스칼라라서 전치해도 그대로예요($3^T = 3$). ${z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)^T}$</li>
+<li>곱의 전치에 $\mathbf{A} = \mathbf{b}_1^T$, $\mathbf{B} = \mathbf{x}_n$을 넣어요. ${(\mathbf{b}_1^T\mathbf{x}_n)^T = \mathbf{x}_n^T(\mathbf{b}_1^T)^T = \mathbf{x}_n^T\mathbf{b}_1}$</li>
+<li>합치면 ${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$이에요. 차원은 $(1 \times D)(D \times 1)(1 \times D)(D \times 1)$이고, 가운데 $\mathbf{x}_n\mathbf{x}_n^T$는 $D \times D$ 행렬이에요.</li>
+<li>두 항만 더해 봐요. 왼쪽의 $\mathbf{b}_1^T$는 왼쪽으로, 오른쪽의 $\mathbf{b}_1$은 오른쪽으로 묶어요(행렬 곱의 분배법칙). $${\mathbf{b}_1^T\mathbf{x}_1\mathbf{x}_1^T\mathbf{b}_1 + \mathbf{b}_1^T\mathbf{x}_2\mathbf{x}_2^T\mathbf{b}_1 = \mathbf{b}_1^T(\mathbf{x}_1\mathbf{x}_1^T + \mathbf{x}_2\mathbf{x}_2^T)\mathbf{b}_1}$$</li>
+<li>$N$개로 늘리고 $\frac{1}{N}$을 괄호 안에 넣어요. $\mathbf{b}_1$은 $n$과 무관해서 합 밖으로 나와요. $$V_1 = \frac{1}{N}\sum_{n=1}^{N}\mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1$$ $$= \mathbf{b}_1^T\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T\right)\mathbf{b}_1$$</li>
+<li>괄호 안이 1028에서 정의한 데이터 공분산 행렬이에요. $$\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T$$ 따라서 $V_1$은 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$이에요.</li>
+</ol>
+<p><b>계수 위치와 차원.</b> $\mathbf{S} \in \mathbb{R}^{D \times D}$이고, 이 강의의 표기 ${\mathbf{X} = [\mathbf{x}_1 \cdots \mathbf{x}_N] \in \mathbb{R}^{D \times N}}$으로는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T}$예요. 왼쪽에는 행벡터 $\mathbf{b}_1^T$($1 \times D$), 오른쪽에는 열벡터 $\mathbf{b}_1$($D \times 1$)이 붙어 ${(1 \times D)(D \times D)(D \times 1) = 1 \times 1}$ 스칼라가 돼요. 분산은 숫자 하나여야 하니 맞는 크기예요. 이 순서를 바꾸면 곱 자체가 정의되지 않아요.</p>
+<p><b>아는 공식과 연결하기.</b> 아래는 강의 공식을 연결하기 위한 재표현이에요. 스칼라에서 ${\operatorname{Var}(ax) = a\operatorname{Var}(x)a}$였듯, 확률벡터의 일반 규칙은 공분산 행렬 양쪽에 계수를 붙여요. 아래 식의 $\boldsymbol{\Sigma}$는 확률벡터 $\mathbf{x}$의 공분산 행렬이 들어가는 자리이고, 여기서는 데이터로 계산한 표본 공분산 $\mathbf{S}$가 그 자리에 들어가요.</p>
+$$\operatorname{Cov}(\mathbf{A}\mathbf{x}) = \mathbf{A}\boldsymbol{\Sigma}\mathbf{A}^T$$
+<p>여기서는 공분산 자리에 데이터에서 계산한 $\mathbf{S}$가, 계수 자리에 $\mathbf{A} = \mathbf{b}_1^T$($1 \times D$)가 들어가요. 출발 규칙은 "첫 입력의 계수는 왼쪽, 둘째 입력의 계수는 전치해서 오른쪽"이에요. 분산은 두 입력이 모두 $z_1$이라 왼쪽에 $\mathbf{b}_1^T$, 오른쪽에 $(\mathbf{b}_1^T)^T = \mathbf{b}_1$이 붙고, 결과는 ${(1 \times D)(D \times D)(D \times 1) = 1 \times 1}$이에요.</p>
+$$\operatorname{Var}(z_1) = \mathbf{b}_1^T\mathbf{S}(\mathbf{b}_1^T)^T = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$
+<p>수업의 합 전개와 같은 결과예요. 두 입력이 모두 같은 $z_1$이라 자기 공분산(곧 분산)이고, 그래서 양쪽에 같은 $\mathbf{b}_1$이 붙어요. 일반 규칙의 전치도 수업 유도 3단계의 곱의 전치에서 나온 거예요.</p>
+<p><b>최적화 문제.</b> 이제 $V_1$을 최대로 하는 $\mathbf{b}_1$을 찾아요(MML (10.10)).</p>
+$$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject to} \quad \|\mathbf{b}_1\|^2 = 1$$
+<p>제약 $\|\mathbf{b}_1\|^2=1$은 수업에서 "정규화된 벡터"라고만 했고 이유는 말하지 않았어요. 다음은 학습을 위한 재구성이에요(MML 10.2.1, 321쪽에 같은 설명이 있어요). $\mathbf{b}_1$ 대신 $c\mathbf{b}_1$을 넣으면 값이 $c^2$배가 되므로, 제약이 없으면 크기만 키워 $V_1$을 무한대로 보낼 수 있어요. 우리가 원하는 것은 크기가 아니라 방향이라 크기를 1로 묶어요.</p>
+<p><b>복원용 요약.</b> 스칼라 $z_{1n}$을 자기 전치와 곱한다 → 곱의 전치로 $\mathbf{x}_n^T\mathbf{b}_1$을 만든다 → $\mathbf{b}_1^T$는 왼쪽, $\mathbf{b}_1$은 오른쪽으로 꺼낸다 → 가운데 평균이 $\mathbf{S}$.</p>
+<p class="footnote">수업 중 "b₂를 오른쪽으로 빼도 돼요"라고 말했지만 $\mathbf{b}_1$이 맞아요(1102 P07 03:05).</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>표본평균을 설명하며 지난 수업에서 학생에게 학점을 물었던 일을 다시 꺼냈어요. 지금까지 받은 학점을 모두 더해 개수로 나눈 것이 표본평균이에요(1102 P06 07:46).</p>
+<p>"수학을 잘하려면 뭘 잘해야 돼?"라는 물음에 한 학생이 교수님의 단골 표현으로 답했어요. 스칼라 뒤쪽 인수에 전치를 취하는 단계가 바로 그 하나 마나 한 짓이에요.</p>
+<blockquote>"하나 마나 한 짓을 잘해야 된다" (1102 P06 08:52)</blockquote>
+<p>"트랜스포즈 취해도 돼 안 돼?"에 학생이 "돼"라고 답했고, 이유는 "3의 트랜스포즈는 3"이었어요(1102 P07 00:49).</p>
+<blockquote>"만약에 여러분 리니어 알지브라에서 안 배웠다면 지금 배운 거야." (1102 P07 01:20)</blockquote>
+<p>$\mathbf{b}_1$이 합과 무관한 상수로 빠져나오는 순간을 "아트"라고 불렀어요.</p>
+<blockquote>"이게 왜 아트냐면 여기서 우리에게 소름 끼치는 일이 하나 발생했는데" (1102 P07 02:14)</blockquote>
+<blockquote>"왼쪽에 있는 걸 오른쪽으로 갈 수 있어야 크리에이티브한 거예요" (1102 P07 03:29)</blockquote>
+<p>합 $\sum \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1$을 $\mathbf{b}_1^T(\sum \mathbf{x}_n\mathbf{x}_n^T)\mathbf{b}_1$로 묶는 방향을 가리킨 말이에요. 괄호 안 $\mathbf{S}$를 칠판에 노란색으로 표시하고, 이것이 "왜 covariance matrix인가"의 수식적 답이라고 했어요.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">사영 좌표의 분산 $V_1$을 스칼라 전치와 곱의 전치로 정리하면, $\mathbf{b}_1$이 양 끝으로 빠지고 가운데에 $\mathbf{S}$가 남아 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$이 돼요. $D = 2$로 풀면 교차항까지 같은 값이고, 일반 규칙 $\mathbf{A}\boldsymbol{\Sigma}\mathbf{A}^T$에 $\mathbf{A} = \mathbf{b}_1^T$, $\boldsymbol{\Sigma}$ 자리에 $\mathbf{S}$를 넣은 것과도 같아요. 크기 제약 $\|\mathbf{b}_1\|^2=1$ 아래에서 이것을 최대화해요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">사영 좌표(가중합)</span>$$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n = \sum_{d=1}^{D} b_{1d}x_{dn}$$</li>
+<li><span class="eq-name">첫 좌표의 분산</span>$$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2$$</li>
+<li><span class="eq-name">곱의 전치</span>$$(\mathbf{A}\mathbf{B})^T=\mathbf{B}^T\mathbf{A}^T$$</li>
+<li><span class="eq-name">D = 2 확인</span>$$b_{11}^2S_{11}+2b_{11}b_{12}S_{12}+b_{12}^2S_{22} = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$</li>
+<li><span class="eq-name">한 항</span>$${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$$</li>
+<li><span class="eq-name">데이터 공분산 행렬</span>$$\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T$$</li>
+<li><span class="eq-name">목표식</span>$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$</li>
+<li><span class="eq-name">차원</span>$${(1 \times D)(D \times D)(D \times 1) = 1 \times 1}$$</li>
+<li><span class="eq-name">일반 규칙과의 연결(재표현)</span>$$\operatorname{Cov}(\mathbf{A}\mathbf{x}) = \mathbf{A}\boldsymbol{\Sigma}\mathbf{A}^T, \quad \mathbf{A} = \mathbf{b}_1^T$$</li>
+<li><span class="eq-name">최적화 문제</span>$$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject to} \quad \|\mathbf{b}_1\|^2 = 1$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>하나 마나 한 짓</dt><dd>스칼라에 전치를 취하는 것처럼 값을 바꾸지 않는 조작. 이 유도의 출발점이에요.</dd>
+<dt>centering</dt><dd>평균을 빼 두어 분산이 제곱의 평균이 되게 해요.</dd>
+<dt>계수 위치</dt><dd>첫 입력의 계수는 왼쪽, 둘째 입력의 계수는 전치해서 오른쪽. 결과는 $1 \times 1$ 스칼라예요(재표현의 출발 규칙).</dd>
+<dt>제약 $\|\mathbf{b}_1\|^2=1$</dt><dd>크기를 키워 분산을 부풀리지 못하게 방향만 고르게 해요(이유는 수업 밖 재구성).</dd>
+</dl>
+</div>
+</article>
+
+<article class="topic" id="s4-max-proof"><h3>4.3 왜 가장 큰 고윳값의 고유벡터일까</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s21</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+<p class="lead">점들은 기울어진 길쭉한 타원처럼 퍼져 있어서, 화살표를 빙 돌리다가 타원의 긴 쪽에 오면 퍼짐이 가장 커요.</p>
+<figure class="figure"><svg id="fig-max-ellipse" viewBox="0 0 560 220" role="img" aria-label="기울어진 타원의 테두리 안에 긴 축을 따라 굵은 강조선, 짧은 축을 따라 가는 선이 그어진 그림">
+<g transform="translate(280 110) rotate(-30)">
+<ellipse class="fig-ink" cx="0" cy="0" rx="170" ry="70"/>
+<line class="fig-accent" x1="-170" y1="0" x2="170" y2="0"/>
+<line class="fig-ink" x1="0" y1="-70" x2="0" y2="70"/>
+</g>
+<text class="fig-text" x="440" y="30">가장 긴 방향</text>
+<text class="fig-muted" x="320" y="205">가장 짧은 방향</text>
+</svg><figcaption>가장 긴 방향이 첫 번째 답이고, 그와 수직인 방향에서 퍼짐이 가장 작아요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>이 증명의 목적은 크기 1인 $\mathbf{b}_1$ 중에서 목표식을 가장 크게 만드는 방향이 무엇인지, 그때 값이 얼마인지 구하는 거예요. 출발식은 <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>에서 얻은 결과예요.</p>
+$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$
+<p>답을 읽는 도구는 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 스펙트럼 정리예요. $\mathbf{S} \in \mathbb{R}^{D \times D}$는 대칭이라 정규직교 고유벡터 $\mathbf{p}_1, \dots, \mathbf{p}_D \in \mathbb{R}^D$로 분해돼요.<sup>1</sup></p>
+$$\mathbf{S}\mathbf{p}_i = \lambda_i\mathbf{p}_i, \qquad \mathbf{p}_i^T\mathbf{p}_j = \begin{cases}1 & (i = j)\\ 0 & (i \ne j)\end{cases}$$
+$$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
+<p>고윳값은 PCA 관례대로 큰 순서 ${\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_D}$로 번호를 붙여요. 가장 큰 고윳값이 $\lambda_1$이에요.</p>
+<p><b>수업에서 한 부분.</b></p>
+<ol class="steps">
+<li><b>전개 아이디어</b>: $\mathbf{p}_1, \dots, \mathbf{p}_D$는 정규직교이고 $\mathbb{R}^D$ 전체를 덮는 기저예요. 3차원이면 $3 \times 1$ 벡터 3개의 가중합으로 모든 점을 나타낼 수 있는 것과 같아요. 그래서 어떤 $\mathbf{b}_1$이든 고유벡터의 가중합으로 써요. 여기서 $c_i$는 스칼라 가중치예요. $$\mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$</li>
+<li><b>대입 시작</b>: 출발식에 그대로 넣어요. 수업은 이 줄에서 멈췄어요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \left(\sum_{i=1}^{D}c_i\mathbf{p}_i\right)^T\mathbf{S}\left(\sum_{i=1}^{D}c_i\mathbf{p}_i\right)$$</li>
+<li><b>결론(말로만)</b>: "산수로 부등호 몇 개"면 끝나고, $\mathbf{b}_1 = \mathbf{p}_1$일 때 최대예요. 즉 첫 방향은 가장 큰 고윳값 $\lambda_1$의 고유벡터예요. 그때의 분산 $V_1 = \lambda_1$은 아래 보충 증명에서 얻는 결과예요.</li>
+</ol>
+<p>나머지 부등식은 다음 시간으로 미뤘어요. 끝까지의 계산은 아래 보충에 있어요.</p>
+<div class="widget" id="widget-quadform"><h4>직접 해 보기: 방향을 돌리며 bᵀSb 재기</h4>
+<p class="widget-help">각도를 돌리면 단위원 위의 b와 Sb 화살표, 그리고 오른쪽 곡선 위의 bᵀSb 값이 함께 바뀌어요.</p>
+<p class="widget-help">예시 행렬은 ${\mathbf{S} = \begin{bmatrix}2.5 & 0.866\\ 0.866 & 1.5\end{bmatrix}}$이에요. 고윳값은 3과 1이고, 고유벡터 $\mathbf{p}_1$은 30°, $\mathbf{p}_2$는 120° 방향이에요.</p>
+<div class="controls">
+<label>b의 각도 θ <input type="range" id="quadform-a" min="0" max="180" step="1" value="0"> <b id="quadform-a-val">0°</b></label>
+</div>
+<svg id="quadform-plot" viewBox="0 0 560 300" role="img" aria-label="왼쪽은 단위원과 두 고유벡터 방향의 점선, b 화살표와 Sb 화살표. 오른쪽은 각도에 따른 bᵀSb 곡선과 현재 값의 점, 최댓값 3과 최솟값 1의 기준선."></svg>
+<p class="readout">b = <b id="quadform-b">(1.00, 0.00)</b>, Sb = <b id="quadform-sb">(2.50, 0.87)</b>, b와 Sb 사이 각 <b id="quadform-ang">19.1°</b>, bᵀSb = <b id="quadform-out">2.50</b></p>
+<p class="legend"><span><span class="sw fit"></span>b(단위벡터), 오른쪽은 bᵀSb 곡선</span><span><span class="sw post"></span>Sb</span><span><span class="sw truth"></span>고유벡터 방향 p₁, p₂</span><span>회색 점선 가로줄: λ₁ = 3, λ₂ = 1</span></p>
+<p class="widget-help">θ = 30°에서 Sb가 b와 평행해지고(길이 3배), bᵀSb가 최댓값 3 = λ₁이 돼요. 수직인 θ = 120°에서도 평행해지지만(길이 그대로), 이때가 최솟값 1이에요.</p>
+<div class="widget-static" hidden>
+<figure class="figure"><svg id="widget-quadform-static-1" viewBox="0 0 560 300" role="img" aria-label="대표 설정 1: θ = 0°, b와 Sb가 19.1° 벌어져 있고 bᵀSb = 2.50"><line class="axis" x1="10" y1="150" x2="270" y2="150"/><line class="axis" x1="140" y1="15" x2="140" y2="285"/><circle class="fig-ink" cx="140" cy="150" r="40"/><line class="plot-truth" x1="29.1" y1="214.0" x2="250.9" y2="86.0"/><text class="tick" x="13.7" y="220.0">p₁</text><line class="plot-truth" x1="204.0" y1="260.9" x2="76.0" y2="39.1"/><text class="tick" x="210.0" y="268.3">p₂</text><line class="plot-post" x1="140" y1="150" x2="240.0" y2="115.4"/><polyline class="plot-post" points="233.1,123.0 240.0,115.4 229.9,113.6"/><line class="fig-accent" x1="140" y1="150" x2="180.0" y2="150.0"/><polyline class="fig-accent" points="171.0,155.0 180.0,150.0 171.0,145.0"/><text class="tick" x="159.0" y="142.0">b</text><text class="tick" x="246.0" y="111.4">Sb</text><line class="axis" x1="335" y1="262" x2="545" y2="262"/><line class="axis" x1="335" y1="262" x2="335" y2="30"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="82" x2="545" y2="82"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="202" x2="545" y2="202"/><text class="tick" x="291" y="86">λ₁=3</text><text class="tick" x="291" y="206">λ₂=1</text><path class="plot-fit" d="M335.0 112.0 L338.5 106.7 L342.0 101.9 L345.5 97.4 L349.0 93.5 L352.5 90.0 L356.0 87.2 L359.5 84.9 L363.0 83.3 L366.5 82.3 L370.0 82.0 L373.5 82.3 L377.0 83.3 L380.5 84.9 L384.0 87.2 L387.5 90.0 L391.0 93.5 L394.5 97.4 L398.0 101.9 L401.5 106.7 L405.0 112.0 L408.5 117.6 L412.0 123.5 L415.5 129.5 L419.0 135.7 L422.5 142.0 L426.0 148.3 L429.5 154.5 L433.0 160.5 L436.5 166.4 L440.0 172.0 L443.5 177.3 L447.0 182.1 L450.5 186.6 L454.0 190.5 L457.5 194.0 L461.0 196.8 L464.5 199.1 L468.0 200.7 L471.5 201.7 L475.0 202.0 L478.5 201.7 L482.0 200.7 L485.5 199.1 L489.0 196.8 L492.5 194.0 L496.0 190.5 L499.5 186.6 L503.0 182.1 L506.5 177.3 L510.0 172.0 L513.5 166.4 L517.0 160.5 L520.5 154.5 L524.0 148.3 L527.5 142.0 L531.0 135.7 L534.5 129.5 L538.0 123.5 L541.5 117.6 L545.0 112.0"/><text class="tick" x="327.0" y="278">0°</text><text class="tick" x="362.0" y="278">30°</text><text class="tick" x="432.0" y="278">90°</text><text class="tick" x="467.0" y="278">120°</text><text class="tick" x="537.0" y="278">180°</text><text class="tick" x="339" y="24">bᵀSb</text><text class="tick" x="537" y="256">θ</text><line class="plot-truth" x1="335.0" y1="262" x2="335.0" y2="112.0"/><circle class="pt-train" cx="335.0" cy="112.0" r="5"/></svg><figcaption>θ = 0°: b와 Sb가 평행하지 않아요.</figcaption></figure>
+<figure class="figure"><svg id="widget-quadform-static-2" viewBox="0 0 560 300" role="img" aria-label="대표 설정 2: θ = 30°, b가 p₁ 방향이고 Sb가 b와 평행, bᵀSb = 3.00으로 최대"><line class="axis" x1="10" y1="150" x2="270" y2="150"/><line class="axis" x1="140" y1="15" x2="140" y2="285"/><circle class="fig-ink" cx="140" cy="150" r="40"/><line class="plot-truth" x1="29.1" y1="214.0" x2="250.9" y2="86.0"/><text class="tick" x="13.7" y="220.0">p₁</text><line class="plot-truth" x1="204.0" y1="260.9" x2="76.0" y2="39.1"/><text class="tick" x="210.0" y="268.3">p₂</text><line class="plot-post" x1="140" y1="150" x2="243.9" y2="90.0"/><polyline class="plot-post" points="238.6,98.8 243.9,90.0 233.6,90.2"/><line class="fig-accent" x1="140" y1="150" x2="174.6" y2="130.0"/><polyline class="fig-accent" points="169.3,138.8 174.6,130.0 164.3,130.2"/><text class="tick" x="150.1" y="132.6">b</text><text class="tick" x="249.9" y="86.0">Sb</text><line class="axis" x1="335" y1="262" x2="545" y2="262"/><line class="axis" x1="335" y1="262" x2="335" y2="30"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="82" x2="545" y2="82"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="202" x2="545" y2="202"/><text class="tick" x="291" y="86">λ₁=3</text><text class="tick" x="291" y="206">λ₂=1</text><path class="plot-fit" d="M335.0 112.0 L338.5 106.7 L342.0 101.9 L345.5 97.4 L349.0 93.5 L352.5 90.0 L356.0 87.2 L359.5 84.9 L363.0 83.3 L366.5 82.3 L370.0 82.0 L373.5 82.3 L377.0 83.3 L380.5 84.9 L384.0 87.2 L387.5 90.0 L391.0 93.5 L394.5 97.4 L398.0 101.9 L401.5 106.7 L405.0 112.0 L408.5 117.6 L412.0 123.5 L415.5 129.5 L419.0 135.7 L422.5 142.0 L426.0 148.3 L429.5 154.5 L433.0 160.5 L436.5 166.4 L440.0 172.0 L443.5 177.3 L447.0 182.1 L450.5 186.6 L454.0 190.5 L457.5 194.0 L461.0 196.8 L464.5 199.1 L468.0 200.7 L471.5 201.7 L475.0 202.0 L478.5 201.7 L482.0 200.7 L485.5 199.1 L489.0 196.8 L492.5 194.0 L496.0 190.5 L499.5 186.6 L503.0 182.1 L506.5 177.3 L510.0 172.0 L513.5 166.4 L517.0 160.5 L520.5 154.5 L524.0 148.3 L527.5 142.0 L531.0 135.7 L534.5 129.5 L538.0 123.5 L541.5 117.6 L545.0 112.0"/><text class="tick" x="327.0" y="278">0°</text><text class="tick" x="362.0" y="278">30°</text><text class="tick" x="432.0" y="278">90°</text><text class="tick" x="467.0" y="278">120°</text><text class="tick" x="537.0" y="278">180°</text><text class="tick" x="339" y="24">bᵀSb</text><text class="tick" x="537" y="256">θ</text><line class="plot-truth" x1="370.0" y1="262" x2="370.0" y2="82.0"/><circle class="pt-train" cx="370.0" cy="82.0" r="5"/></svg><figcaption>θ = 30°: b = p₁, Sb = 3b, 최댓값이에요.</figcaption></figure>
+<figure class="figure"><svg id="widget-quadform-static-3" viewBox="0 0 560 300" role="img" aria-label="대표 설정 3: θ = 75°, b와 Sb가 26.6° 벌어져 있고 bᵀSb = 2.00"><line class="axis" x1="10" y1="150" x2="270" y2="150"/><line class="axis" x1="140" y1="15" x2="140" y2="285"/><circle class="fig-ink" cx="140" cy="150" r="40"/><line class="plot-truth" x1="29.1" y1="214.0" x2="250.9" y2="86.0"/><text class="tick" x="13.7" y="220.0">p₁</text><line class="plot-truth" x1="204.0" y1="260.9" x2="76.0" y2="39.1"/><text class="tick" x="210.0" y="268.3">p₂</text><line class="plot-post" x1="140" y1="150" x2="199.3" y2="83.1"/><polyline class="plot-post" points="197.1,93.1 199.3,83.1 189.6,86.5"/><line class="fig-accent" x1="140" y1="150" x2="150.4" y2="111.4"/><polyline class="fig-accent" points="152.9,121.4 150.4,111.4 143.2,118.8"/><text class="tick" x="131.1" y="129.6">b</text><text class="tick" x="205.3" y="79.1">Sb</text><line class="axis" x1="335" y1="262" x2="545" y2="262"/><line class="axis" x1="335" y1="262" x2="335" y2="30"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="82" x2="545" y2="82"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="202" x2="545" y2="202"/><text class="tick" x="291" y="86">λ₁=3</text><text class="tick" x="291" y="206">λ₂=1</text><path class="plot-fit" d="M335.0 112.0 L338.5 106.7 L342.0 101.9 L345.5 97.4 L349.0 93.5 L352.5 90.0 L356.0 87.2 L359.5 84.9 L363.0 83.3 L366.5 82.3 L370.0 82.0 L373.5 82.3 L377.0 83.3 L380.5 84.9 L384.0 87.2 L387.5 90.0 L391.0 93.5 L394.5 97.4 L398.0 101.9 L401.5 106.7 L405.0 112.0 L408.5 117.6 L412.0 123.5 L415.5 129.5 L419.0 135.7 L422.5 142.0 L426.0 148.3 L429.5 154.5 L433.0 160.5 L436.5 166.4 L440.0 172.0 L443.5 177.3 L447.0 182.1 L450.5 186.6 L454.0 190.5 L457.5 194.0 L461.0 196.8 L464.5 199.1 L468.0 200.7 L471.5 201.7 L475.0 202.0 L478.5 201.7 L482.0 200.7 L485.5 199.1 L489.0 196.8 L492.5 194.0 L496.0 190.5 L499.5 186.6 L503.0 182.1 L506.5 177.3 L510.0 172.0 L513.5 166.4 L517.0 160.5 L520.5 154.5 L524.0 148.3 L527.5 142.0 L531.0 135.7 L534.5 129.5 L538.0 123.5 L541.5 117.6 L545.0 112.0"/><text class="tick" x="327.0" y="278">0°</text><text class="tick" x="362.0" y="278">30°</text><text class="tick" x="432.0" y="278">90°</text><text class="tick" x="467.0" y="278">120°</text><text class="tick" x="537.0" y="278">180°</text><text class="tick" x="339" y="24">bᵀSb</text><text class="tick" x="537" y="256">θ</text><line class="plot-truth" x1="422.5" y1="262" x2="422.5" y2="142.0"/><circle class="pt-train" cx="422.5" cy="142.0" r="5"/></svg><figcaption>θ = 75°: 두 고유벡터 사이 한가운데예요.</figcaption></figure>
+<figure class="figure"><svg id="widget-quadform-static-4" viewBox="0 0 560 300" role="img" aria-label="대표 설정 4: θ = 120°, b가 p₂ 방향이고 Sb = b, bᵀSb = 1.00으로 최소"><line class="axis" x1="10" y1="150" x2="270" y2="150"/><line class="axis" x1="140" y1="15" x2="140" y2="285"/><circle class="fig-ink" cx="140" cy="150" r="40"/><line class="plot-truth" x1="29.1" y1="214.0" x2="250.9" y2="86.0"/><text class="tick" x="13.7" y="220.0">p₁</text><line class="plot-truth" x1="204.0" y1="260.9" x2="76.0" y2="39.1"/><text class="tick" x="210.0" y="268.3">p₂</text><line class="plot-post" x1="140" y1="150" x2="120.0" y2="115.4"/><polyline class="plot-post" points="128.8,120.7 120.0,115.4 120.2,125.7"/><line class="fig-accent" x1="140" y1="150" x2="120.0" y2="115.4"/><polyline class="fig-accent" points="128.8,120.7 120.0,115.4 120.2,125.7"/><text class="tick" x="115.6" y="140.9">b</text><text class="tick" x="126.0" y="111.4">Sb</text><line class="axis" x1="335" y1="262" x2="545" y2="262"/><line class="axis" x1="335" y1="262" x2="335" y2="30"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="82" x2="545" y2="82"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="202" x2="545" y2="202"/><text class="tick" x="291" y="86">λ₁=3</text><text class="tick" x="291" y="206">λ₂=1</text><path class="plot-fit" d="M335.0 112.0 L338.5 106.7 L342.0 101.9 L345.5 97.4 L349.0 93.5 L352.5 90.0 L356.0 87.2 L359.5 84.9 L363.0 83.3 L366.5 82.3 L370.0 82.0 L373.5 82.3 L377.0 83.3 L380.5 84.9 L384.0 87.2 L387.5 90.0 L391.0 93.5 L394.5 97.4 L398.0 101.9 L401.5 106.7 L405.0 112.0 L408.5 117.6 L412.0 123.5 L415.5 129.5 L419.0 135.7 L422.5 142.0 L426.0 148.3 L429.5 154.5 L433.0 160.5 L436.5 166.4 L440.0 172.0 L443.5 177.3 L447.0 182.1 L450.5 186.6 L454.0 190.5 L457.5 194.0 L461.0 196.8 L464.5 199.1 L468.0 200.7 L471.5 201.7 L475.0 202.0 L478.5 201.7 L482.0 200.7 L485.5 199.1 L489.0 196.8 L492.5 194.0 L496.0 190.5 L499.5 186.6 L503.0 182.1 L506.5 177.3 L510.0 172.0 L513.5 166.4 L517.0 160.5 L520.5 154.5 L524.0 148.3 L527.5 142.0 L531.0 135.7 L534.5 129.5 L538.0 123.5 L541.5 117.6 L545.0 112.0"/><text class="tick" x="327.0" y="278">0°</text><text class="tick" x="362.0" y="278">30°</text><text class="tick" x="432.0" y="278">90°</text><text class="tick" x="467.0" y="278">120°</text><text class="tick" x="537.0" y="278">180°</text><text class="tick" x="339" y="24">bᵀSb</text><text class="tick" x="537" y="256">θ</text><line class="plot-truth" x1="475.0" y1="262" x2="475.0" y2="202.0"/><circle class="pt-train" cx="475.0" cy="202.0" r="5"/></svg><figcaption>θ = 120°: b = p₂, Sb = b, 최솟값이에요.</figcaption></figure>
+<div class="table-wrap"><table>
+<tr><th>설정 θ</th><th>b</th><th>Sb</th><th>b와 Sb 사이 각</th><th>bᵀSb</th></tr>
+<tr><td>0°</td><td>(1.00, 0.00)</td><td>(2.50, 0.87)</td><td>19.1°</td><td>2.50</td></tr>
+<tr><td>30° (p₁)</td><td>(0.87, 0.50)</td><td>(2.60, 1.50)</td><td>0.0° (평행)</td><td>3.00 = λ₁ (최대)</td></tr>
+<tr><td>75°</td><td>(0.26, 0.97)</td><td>(1.48, 1.67)</td><td>26.6°</td><td>2.00</td></tr>
+<tr><td>120° (p₂)</td><td>(−0.50, 0.87)</td><td>(−0.50, 0.87)</td><td>0.0° (평행)</td><td>1.00 = λ₂ (최소)</td></tr>
+</table></div>
+</div>
+</div>
+<p class="footnote"><sup>1</sup> 칠판에서는 $n$차원으로 쓰다가 $D$차원으로 바꿨어요. $\mathbf{b}_1, \mathbf{p}_i \in \mathbb{R}^D$, $\mathbf{S} \in \mathbb{R}^{D \times D}$로 통일해요. 또 "$\mathbf{S}$는 $\mathbf{X}^T\mathbf{X}$로 이루어져 $D \times D$"라고 말했지만, 이 강의의 표기 $\mathbf{X} \in \mathbb{R}^{D \times N}$에서는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T}$이고 $\mathbf{X}^T\mathbf{X}$는 $N \times N$이에요(1102 P07 06:13).</p>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>최적화 문제를 세운 뒤 바로 증명을 시작했어요.</p>
+<blockquote>"이 문제를 지금부터 제가 5분 안에 풀어볼게요." (1102 P07 04:46)</blockquote>
+<blockquote>"임의의 b라는 벡터는 항상 이렇게 S라는 매트릭스의 아이겐벡터들의 웨이티드 썸으로 표현할 수 있다." (1102 P07 05:50)</blockquote>
+<p>대입까지 쓰고 시간이 모자라 멈췄어요. 직접 해 보라고 하고, 다음 시간에 다시 하겠다고 했어요.</p>
+<blockquote>"오늘 시간이 없어서 이거 증명까지 다 못해줄 것 같은데" (1102 P07 07:16)</blockquote>
+<blockquote>"여러분 손으로 한번 해보세요, 나중에" (1102 P07 07:38)</blockquote>
+<p>결론 $\mathbf{b}_1 = \mathbf{p}_1$만 먼저 알려 주며 이렇게 덧붙였어요.</p>
+<blockquote>"저를 믿으세요." (1102 P07 08:15)</blockquote>
+</div>
+<div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+<p>수업이 멈춘 대입 단계부터 끝까지 이어 가요. 미분 없이 고유기저 전개와 부등식만 써요. 출발식과 대입할 식을 다시 써요.</p>
+$$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T, \qquad \mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$
+<ol class="steps">
+<li>가중치 $c_i$를 읽어요. 전개식 양변 왼쪽에 $\mathbf{p}_i^T$를 곱하면 $j \ne i$인 항은 $\mathbf{p}_i^T\mathbf{p}_j = 0$으로 사라져요. $$\mathbf{p}_i^T\mathbf{b}_1 = \sum_{j=1}^{D}c_j\mathbf{p}_i^T\mathbf{p}_j = c_i$$</li>
+<li>출발식에 스펙트럼 정리를 대입해요. $\lambda_i$는 스칼라라서 앞으로 나와요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \mathbf{b}_1^T\left(\sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T\right)\mathbf{b}_1$$ $$= \sum_{i=1}^{D}\lambda_i(\mathbf{b}_1^T\mathbf{p}_i)(\mathbf{p}_i^T\mathbf{b}_1)$$</li>
+<li>$\mathbf{b}_1^T\mathbf{p}_i$는 스칼라라서 $\mathbf{p}_i^T\mathbf{b}_1$과 같고(하나 마나 한 전치), 둘 다 $c_i$예요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \sum_{i=1}^{D}\lambda_i c_i^2$$</li>
+<li>제약도 같은 방법으로 $c_i$로 바꿔요. $$\|\mathbf{b}_1\|^2 = \mathbf{b}_1^T\mathbf{b}_1 = \sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\mathbf{p}_i^T\mathbf{p}_j = \sum_{i=1}^{D}c_i^2 = 1$$</li>
+<li>$c_i^2 \ge 0$이고 모든 $i$에서 $\lambda_i \le \lambda_1$이므로 각 항을 $\lambda_1 c_i^2$로 키워요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1=\sum_i\lambda_i c_i^2$$ $$\le\lambda_1\sum_i c_i^2$$ $$=\lambda_1$$</li>
+<li>상한에 실제로 닿는지 확인해요. $\mathbf{b}_1 = \mathbf{p}_1$이면 $c_1 = 1$, 나머지 $c_i = 0$이라 값이 정확히 $\lambda_1$이에요. 그래서 최댓값은 $\lambda_1$이고 $V_1 = \lambda_1$이에요.</li>
+<li><b>등호 조건</b>: 5단계 부등식의 양변 차이는 $\sum_i(\lambda_1 - \lambda_i)c_i^2$이에요. 이것이 0이려면 $\lambda_i \lt \lambda_1$인 모든 $i$에서 $c_i = 0$이어야 해요. $\lambda_1$이 다른 고윳값보다 엄격히 크면 최대점은 $\mathbf{b}_1 = \pm\mathbf{p}_1$뿐이에요(부호는 같은 방향의 선). $\lambda_1$이 중근이면 그 고유공간 안의 어떤 단위벡터든 최대예요.</li>
+</ol>
+<p><b>직관.</b> $c_i^2 \ge 0$이고 합이 1이므로 $\sum_i\lambda_i c_i^2$는 고윳값들의 가중평균이에요. 가중평균은 가장 큰 값을 넘을 수 없고, 무게를 전부 $\lambda_1$에 실을 때 최대예요. 같은 이유로 최솟값은 $\lambda_D$이고 $\mathbf{b}_1 = \mathbf{p}_D$일 때예요.</p>
+<p><b>위젯으로 확인.</b> 위젯의 $\mathbf{b}$는 $\mathbf{p}_1$에서 $\varphi = \theta - 30°$만큼 돌아간 단위벡터라 $c_1 = \cos\varphi$, $c_2 = \sin\varphi$예요. 그래서 다음 식이 되고, θ = 30°에서 최대 3, θ = 120°에서 최소 1이에요.</p>
+$$\mathbf{b}^T\mathbf{S}\mathbf{b} = 3\cos^2\varphi + 1\cdot\sin^2\varphi = 2 + \cos 2\varphi$$
+<p><b>복원용 요약.</b> 출발식 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$ → $\mathbf{S}$를 고유벡터 합으로, $\mathbf{b}_1$도 고유벡터 합으로 → 직교성으로 교차항이 사라져 $\sum_i\lambda_i c_i^2$ → 가중치 합이 1인 가중평균이라 최대는 $\lambda_1$.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">임의의 $\mathbf{b}_1$을 $\mathbf{S}$의 정규직교 고유벡터 합으로 쓰는 것이 증명의 출발이고, 수업의 결론은 $\mathbf{b}_1 = \mathbf{p}_1$(가장 큰 고윳값 $\lambda_1$의 고유벡터)이에요. 끝까지의 부등식과 최댓값 $V_1 = \lambda_1$은 수업에서 미뤘고 보충으로 실었어요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">출발식</span>$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$</li>
+<li><span class="eq-name">스펙트럼 정리</span>$$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
+<li><span class="eq-name">고유기저 전개</span>$$\mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$</li>
+<li><span class="eq-name">부등식(보충)</span>$$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1=\sum_i\lambda_i c_i^2$$ $$\le\lambda_1\sum_i c_i^2$$ $$=\lambda_1$$</li>
+<li><span class="eq-name">결론</span>$$\mathbf{b}_1 = \mathbf{p}_1$$</li>
+<li><span class="eq-name">최댓값(보충)</span>$$V_1 = \lambda_1$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>고유기저 전개</dt><dd>정규직교 고유벡터는 공간 전체의 기저라 어떤 벡터든 그 가중합으로 써져요. 가중치는 $c_i = \mathbf{p}_i^T\mathbf{b}_1$(보충)이에요.</dd>
+<dt>등호 조건(보충)</dt><dd>$\lambda_i \lt \lambda_1$인 성분이 모두 0일 때. $\lambda_1$이 단근이면 $\mathbf{b}_1 = \pm\mathbf{p}_1$이에요.</dd>
+<dt>저를 믿으세요</dt><dd>증명을 끝내지 못한 채 결론 $\mathbf{b}_1 = \mathbf{p}_1$을 먼저 알려 주며 한 말이에요.</dd>
+</dl>
+</div>
+</article>
+    </section>
+    <section id="s5"><h2>5. 요약 · 예고</h2>
+<article class="topic" id="s5-cheatsheet"><h3>한 장 요약</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s14–s21</span></div>
+<div class="table-wrap"><table>
+<thead><tr><th>항목</th><th>식</th><th>기억할 점</th></tr></thead>
+<tbody>
+<tr><td><a href="#s1-variance-energy">분산 = 에너지</a></td><td>${\boldsymbol{\Sigma}_{\mathbf{a}} = \mathbb{E}[\mathbf{a}\mathbf{a}^T] - \mathbb{E}[\mathbf{a}]\,\mathbb{E}[\mathbf{a}]^T}$</td><td>variance는 데이터가 평균에서 얼마나 퍼졌는지 재는 척도이고, 교수님은 이를 에너지·하중(무게)으로 비유했어요. 평균이 $\mathbf{0}$이면(centering) 뒤 항이 사라져 $\mathbb{E}[\mathbf{a}\mathbf{a}^T]$만 남아요. 목표는 적은 수의 basis로 이 에너지를 가장 많이 보존하는 것(maximum variance perspective)이에요.</td></tr>
+<tr><td><a href="#s1-matrix-again">사영 좌표</a></td><td>${\mathbf{B} = [\mathbf{b}_1\ \cdots\ \mathbf{b}_M] \in \mathbb{R}^{D \times M}}$<br>${\mathbf{z}_n = \mathbf{B}^T\mathbf{x}_n}$, ${z_{in} = \mathbf{b}_i^T\mathbf{x}_n}$</td><td>$\mathbf{b}_i \in \mathbb{R}^D$는 열벡터이고 가로로 나란히 붙여 $\mathbf{B}$를 만들어요. $\mathbf{z}_n \in \mathbb{R}^M$의 각 성분은 내적 하나(스칼라)예요. $M \ll D$이면 압축이에요.</td></tr>
+<tr><td><a href="#s2-eigen">고윳값·고유벡터</a></td><td>${\mathbf{A}\mathbf{x} = \lambda\mathbf{x}}$ ($\mathbf{x} \neq \mathbf{0}$)<br>${\det(\mathbf{A} - \lambda\mathbf{I}_n) = 0}$</td><td>${(\mathbf{A} - \lambda\mathbf{I}_n)\mathbf{x} = \mathbf{0}}$에 0이 아닌 해가 있으려면 이 행렬이 rank-deficient, 즉 역행렬이 없어야 해요. 이 식(characteristic equation)을 풀면 고윳값이 나와요.</td></tr>
+<tr><td><a href="#s2-diagonal">대각화</a></td><td>${\mathbf{D} = \mathbf{P}^{-1}\mathbf{A}\mathbf{P}}$</td><td>가역 $\mathbf{P}$로 이렇게 만들 수 있으면 diagonalizable이에요. 대각행렬은 거듭제곱·역행렬·행렬식을 대각 성분만으로 계산해요. 모든 정방행렬이 대각화되지는 않아요.</td></tr>
+<tr><td><a href="#s2-diagonal">직교대각화</a></td><td>${\mathbf{D} = \mathbf{P}^T\mathbf{A}\mathbf{P}}$</td><td>$\mathbf{P}^{-1}$ 자리에 $\mathbf{P}^T$를 쓸 수 있으면 orthogonally diagonalizable이에요. PCA에서 다루는 행렬은 항상 여기에 해당해요.</td></tr>
+<tr><td><a href="#s2-evd">EVD</a></td><td>${\mathbf{A}\mathbf{P} = \mathbf{P}\mathbf{D}}$<br>${\mathbf{A} = \mathbf{P}\mathbf{D}\mathbf{P}^{-1}}$<br>${\mathbf{A}^k = \mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}}$<br>${\det\mathbf{A} = \prod_i \lambda_i}$</td><td>$\mathbf{P}$의 열은 고유벡터, $\mathbf{D}$의 대각은 대응 고윳값이에요. ${\mathbf{A}\mathbf{p}_i = \lambda_i\mathbf{p}_i}$를 열마다 모으면 ${\mathbf{A}\mathbf{P} = \mathbf{P}\mathbf{D}}$가 돼요. 일반 EVD의 $\mathbf{P}$는 직교일 필요가 없고, $\det\mathbf{A} = \det\mathbf{D}$인 이유는 $\det\mathbf{P}\,\det\mathbf{P}^{-1} = 1$이기 때문이에요.</td></tr>
+<tr><td><a href="#s3-spectral">스펙트럼 정리</a></td><td>${\mathbf{S} = \mathbf{P}\mathbf{D}\mathbf{P}^T}$<br>${\mathbf{S} = \sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T}$</td><td>대칭행렬 $\mathbf{S}^T = \mathbf{S}$는 $\mathbf{P}^T\mathbf{P} = \mathbf{I}$인 고유벡터 행렬로 분해되고 고윳값은 모두 실수예요. 합 꼴은 열×행 곱의 정의에서 바로 나와요. 대각행렬이 일반 행렬과 교환되는 것은 아니에요.</td></tr>
+<tr><td><a href="#s4-v1">분산 $V_1$</a></td><td>${V_1 = \frac{1}{N}\sum_{n=1}^{N}z_{1n}^2}$<br>${V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$</td><td>centering 덕분에 평균 제곱이 곧 분산이에요. ${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$(스칼라 전치, ${(\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T}$)로 바꾸면 $\mathbf{b}_1$이 합 밖으로 나오고 괄호 안이 ${\mathbf{S} = \frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T}$예요. covariance matrix를 쓰는 이유가 여기서 나와요.</td></tr>
+<tr><td><a href="#s4-v1">최적화 문제</a></td><td>${\max_{\mathbf{b}_1}\ \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$<br>${\|\mathbf{b}_1\|^2 = 1}$</td><td>$\mathbf{b}_1$은 normalized 벡터여야 해요. 제약이 없으면 $\mathbf{b}_1$을 키워 값을 얼마든지 크게 만들 수 있어요(수업에서 말하지 않은 이유를 덧붙인 것이에요).</td></tr>
+<tr><td><a href="#s4-max-proof">결론</a></td><td>${\mathbf{b}_1 = \mathbf{p}_1}$, $V_1 = \lambda_1$</td><td>$\mathbf{b}_1$은 $\mathbf{S}$의 가장 큰 고윳값 $\lambda_1$의 고유벡터예요. 교수님은 ${\mathbf{b}_1 = \sum_{i=1}^{D}c_i\mathbf{p}_i}$로 전개해 대입하는 데까지 했고, 증명은 다음 시간에 마무리해요. $M$개가 필요하면 고윳값 큰 순서로 고유벡터 $M$개를 고른다는 결론만 들었어요.</td></tr>
+</tbody>
+</table></div>
+</article>
+
+<article class="topic" id="s5-next"><h3>다음 시간 예고</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s13, s22–s25</span></div>
+<p>이번 수업에서 다루지 않았거나 예고만 한 슬라이드의 제목이에요. 교수님은 s22의 라그랑주 승수법 풀이를 이번에 건너뛰었고, 대신 고유기저 전개로 시작한 $\mathbf{b}_1$ 증명을 다음 시간에 마무리하겠다고 했어요.</p>
+<ul>
+<li>Step 1: Finding $\mathbf{b}_1$ (2) (s22): 라그랑주 승수법으로 푸는 풀이</li>
+<li>Step k: Finding $\mathbf{b}_k$ (1)–(3) (s23–s25)</li>
+<li>(3) Projection Perspective</li>
+<li>(4) Eigenvector Computation and Low-Rank Approximations</li>
+<li>(5) PCA in High Dimensions</li>
+<li>(6) Key Steps of PCA in Practice</li>
+</ul>
+<p>공지: 11/04(수)에는 조교가 중간고사 문제 풀이를 해요. 다음 강의는 11/09(월)이에요.</p>
+</article>
+
+<article class="topic" id="s5-links"><h3>함께 보면 좋은 자료</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s21</span></div>
+<ul>
+<li><a href="복습문제_1102_PCA.html">1102 PCA 복습문제</a>: 오늘 배운 식을 직접 풀어 봐요.</li>
+<li><a href="../1028/정리노트_1028_PCA.html#s3-data-cov">1028 정리노트: 데이터(표본) 공분산 행렬</a>: $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$에 다시 나온 $\mathbf{S}$를 처음 정의한 곳이에요.</li>
+</ul>
+<div class="review-pdf-links" data-range="1102"><p>복습문제 9문항</p><ul><li><a href=".pack/복습문제_1102_PCA-문제.pdf">문제지 PDF</a></li><li><a href=".pack/복습문제_1102_PCA-답안.pdf">해설지 PDF</a></li></ul></div></article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture05) · 수업 녹음 전사(1102) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 4·10장.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums" id="sum-for"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+  <script id="widget-quadform-ui">(function () {
+  var S = [[2.5, Math.sqrt(3) / 2], [Math.sqrt(3) / 2, 1.5]]; // = 3 p1 p1^T + 1 p2 p2^T, p1 at 30 deg
+  var CX = 140, CY = 150, K = 40;           // left panel: origin, px per unit
+  var GX0 = 335, GX1 = 545, GY0 = 262, GK = 60; // right panel: theta 0..180 -> GX0..GX1, value v -> GY0 - GK v
+  function f(n) { return n.toFixed(1); }
+  function calc(deg) {
+    var t = deg * Math.PI / 180, b = [Math.cos(t), Math.sin(t)];
+    var Sb = [S[0][0] * b[0] + S[0][1] * b[1], S[1][0] * b[0] + S[1][1] * b[1]];
+    var q = b[0] * Sb[0] + b[1] * Sb[1];
+    var cross = b[0] * Sb[1] - b[1] * Sb[0];
+    var ang = Math.atan2(Math.abs(cross), b[0] * Sb[0] + b[1] * Sb[1]) * 180 / Math.PI;
+    return { b: b, Sb: Sb, q: q, ang: ang };
+  }
+  function gx(deg) { return GX0 + (GX1 - GX0) * deg / 180; }
+  function gy(v) { return GY0 - GK * v; }
+  function arrow(cls, v) {
+    var x2 = CX + K * v[0], y2 = CY - K * v[1], L = Math.hypot(v[0], v[1]);
+    if (L < 1e-9) return '';
+    var ux = v[0] / L, uy = -v[1] / L, h = 9, w = 5;
+    var bx = x2 - h * ux, by = y2 - h * uy;
+    return '<line class="' + cls + '" x1="' + CX + '" y1="' + CY + '" x2="' + f(x2) + '" y2="' + f(y2) + '"/>' +
+      '<polyline class="' + cls + '" points="' + f(bx - w * uy) + ',' + f(by + w * ux) + ' ' + f(x2) + ',' + f(y2) + ' ' + f(bx + w * uy) + ',' + f(by - w * ux) + '"/>';
+  }
+  function svg(deg) {
+    var o = calc(deg), s = '', i, d = '';
+    s += '<line class="axis" x1="10" y1="' + CY + '" x2="270" y2="' + CY + '"/><line class="axis" x1="' + CX + '" y1="15" x2="' + CX + '" y2="285"/>';
+    s += '<circle class="fig-ink" cx="' + CX + '" cy="' + CY + '" r="' + K + '"/>';
+    [[30, 'p₁'], [120, 'p₂']].forEach(function (e) {
+      var t = e[0] * Math.PI / 180, c = Math.cos(t), sn = Math.sin(t), R = 3.2;
+      s += '<line class="plot-truth" x1="' + f(CX - K * R * c) + '" y1="' + f(CY + K * R * sn) + '" x2="' + f(CX + K * R * c) + '" y2="' + f(CY - K * R * sn) + '"/>';
+      s += '<text class="tick" x="' + f(CX - K * 3.3 * c + (e[0] === 120 ? 4 : -12)) + '" y="' + f(CY + K * 3.3 * sn + 4) + '">' + e[1] + '</text>';
+    });
+    s += arrow('plot-post', o.Sb) + arrow('fig-accent', o.b);
+    s += '<text class="tick" x="' + f(CX + K * 0.55 * o.b[0] - 12 * o.b[1] - 3) + '" y="' + f(CY - K * 0.55 * o.b[1] - 12 * o.b[0] + 4) + '">b</text>';
+    s += '<text class="tick" x="' + f(CX + K * o.Sb[0] + 6) + '" y="' + f(CY - K * o.Sb[1] - 4) + '">Sb</text>';
+    // right: curve of b^T S b over theta
+    s += '<line class="axis" x1="' + GX0 + '" y1="' + GY0 + '" x2="' + GX1 + '" y2="' + GY0 + '"/><line class="axis" x1="' + GX0 + '" y1="' + GY0 + '" x2="' + GX0 + '" y2="30"/>';
+    s += '<line class="axis" stroke-dasharray="4 4" x1="' + GX0 + '" y1="' + gy(3) + '" x2="' + GX1 + '" y2="' + gy(3) + '"/><line class="axis" stroke-dasharray="4 4" x1="' + GX0 + '" y1="' + gy(1) + '" x2="' + GX1 + '" y2="' + gy(1) + '"/>';
+    s += '<text class="tick" x="' + (GX0 - 44) + '" y="' + (gy(3) + 4) + '">λ₁=3</text><text class="tick" x="' + (GX0 - 44) + '" y="' + (gy(1) + 4) + '">λ₂=1</text>';
+    for (i = 0; i <= 180; i += 3) { d += (i ? ' L' : 'M') + f(gx(i)) + ' ' + f(gy(calc(i).q)); }
+    s += '<path class="plot-fit" d="' + d + '"/>';
+    [0, 30, 90, 120, 180].forEach(function (t) { s += '<text class="tick" x="' + f(gx(t) - 8) + '" y="' + (GY0 + 16) + '">' + t + '°</text>'; });
+    s += '<text class="tick" x="' + (GX0 + 4) + '" y="24">bᵀSb</text><text class="tick" x="' + (GX1 - 8) + '" y="' + (GY0 - 6) + '">θ</text>';
+    s += '<line class="plot-truth" x1="' + f(gx(deg)) + '" y1="' + GY0 + '" x2="' + f(gx(deg)) + '" y2="' + f(gy(o.q)) + '"/>';
+    s += '<circle class="pt-train" cx="' + f(gx(deg)) + '" cy="' + f(gy(o.q)) + '" r="5"/>';
+    return s;
+  }
+  function fmt(x) { return x.toFixed(2).replace('-', '−'); }
+  var slider = document.getElementById('quadform-a');
+  var plot = document.getElementById('quadform-plot');
+  if (!slider || !plot) return;
+  var aVal = document.getElementById('quadform-a-val');
+  var bOut = document.getElementById('quadform-b');
+  var sbOut = document.getElementById('quadform-sb');
+  var angOut = document.getElementById('quadform-ang');
+  var out = document.getElementById('quadform-out');
+  function draw() {
+    var deg = Number(slider.value), o = calc(deg);
+    plot.innerHTML = svg(deg);
+    if (aVal) aVal.textContent = deg + '°';
+    if (bOut) bOut.textContent = '(' + fmt(o.b[0]) + ', ' + fmt(o.b[1]) + ')';
+    if (sbOut) sbOut.textContent = '(' + fmt(o.Sb[0]) + ', ' + fmt(o.Sb[1]) + ')';
+    if (angOut) angOut.textContent = o.ang < 0.5 ? o.ang.toFixed(1) + '° (평행)' : o.ang.toFixed(1) + '°';
+    if (out) out.textContent = fmt(o.q);
+  }
+  slider.addEventListener('input', draw);
+  draw();
+})();</script>
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+</body>
+</html>

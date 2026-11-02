@@ -1,0 +1,92 @@
+{
+ "p1:a": {
+  "method": "qualitative",
+  "answer": "(A-λI)x=0 이 x≠0 해를 가지려면 A-λI의 영공간이 비자명 ⇔ A-λI 비가역(rank<n) ⇔ det(A-λI)=0. det≠0이면 역행렬을 곱해 x=0만 남음.",
+  "notes": ""
+ },
+ "p1:b": {
+  "method": "exact",
+  "answer": "p(λ)=λ²-7λ+6=(λ-1)(λ-6) → λ=6, λ=1",
+  "notes": "sympy: (lambda - 6)*(lambda - 1)"
+ },
+ "p1:c": {
+  "method": "exact",
+  "answer": "λ=1 (alg 1, geo 1): E=span{[-1, 1]}; λ=6 (alg 1, geo 1): E=span{[4, 1]}",
+  "notes": "E6=span{[4,1]}, E1=span{[1,-1]} (스칼라배 무관)"
+ },
+ "p2:a": {
+  "method": "exact",
+  "answer": "λ=3, 대수적 중복도 2 (p(λ)=(λ-3)²)",
+  "notes": "sympy: (lambda - 3)**2"
+ },
+ "p2:b": {
+  "method": "exact",
+  "answer": "고유벡터 = c·[1,0] (c≠0), E3=span{[1,0]}, 기하적 중복도 1 (<2이므로 결함, 대각화 불가)",
+  "notes": "λ=3 (alg 2, geo 1): E=span{[1, 0]}"
+ },
+ "p3:a": {
+  "method": "exact",
+  "answer": "λ=3 (중복 2), λ=6. E3=span{x1=[-1,1,0], x2=[-1,0,1]} (평면 x+y+z=0), E6=span{x3=[1,1,1]}",
+  "notes": "λ=3 (alg 2, geo 2): E=span{[-1, 1, 0], [-1, 0, 1]}; λ=6 (alg 1, geo 1): E=span{[1, 1, 1]}; p=-(lambda - 6)*(lambda - 3)**2"
+ },
+ "p3:b": {
+  "method": "exact",
+  "answer": "x3ᵀx1=0, x3ᵀx2=0 → 직교. x1ᵀx2=1 ≠0 → x1,x2는 직교하지 않음",
+  "notes": "서로 다른 고윳값의 고유벡터는 대칭행렬에서 자동 직교; 같은 고유공간 안의 기저는 직교 보장 없음"
+ },
+ "p3:c": {
+  "method": "exact",
+  "answer": "A(αx1+βx2)=αAx1+βAx2=3(αx1+βx2) → E3 안. GS: x1'=x1=[-1,1,0], x2'=x2-(x2·x1/x1·x1)x1=x2-½x1=[-1/2, -1/2, 1] (∝[-1,-1,2]); x1'·x2'=0",
+  "notes": "정규화하면 [-1,1,0]/√2, [-1,-1,2]/√6"
+ },
+ "p4:a": {
+  "method": "exact",
+  "answer": "p(λ)=λ²-7λ+12=(λ-4)(λ-3): λ1=4, λ2=3; p1=[1,-1]/√2, p2=[1,1]/√2 (부호 자유)",
+  "notes": "sympy p=(lambda - 4)*(lambda - 3); λ=3 (alg 1, geo 1): E=span{[1, 1]}; λ=4 (alg 1, geo 1): E=span{[-1, 1]}"
+ },
+ "p4:b": {
+  "method": "exact",
+  "answer": "대각화 가능: 서로 다른 고윳값 2개 → 일차독립 고유벡터 2개가 R²의 기저 (또한 대칭행렬이라 스펙트럼 정리로 직교대각화 가능)",
+  "notes": ""
+ },
+ "p4:c": {
+  "method": "exact",
+  "answer": "P=(1/√2)[[1,1],[-1,1]], D=P⁻¹AP=diag(4,3). P가 직교행렬(정규직교 열)이므로 P⁻¹=Pᵀ, 즉 D=PᵀAP, A=PDPᵀ",
+  "notes": "sympy D=[[4, 0], [0, 3]]"
+ },
+ "p5:a": {
+  "method": "exact",
+  "answer": "λ=1 (alg 2), E1=span{[0,1]} (geo 1, 대각화 불가)",
+  "notes": "p=(lambda - 1)**2; λ=1 (alg 2, geo 1): E=span{[0, 1]}"
+ },
+ "p5:b": {
+  "method": "exact",
+  "answer": "p=λ²+λ-6=(λ+3)(λ-2): E2=span{[1,2]}, E-3=span{[-2,1]} (직교)",
+  "notes": "p=(lambda - 2)*(lambda + 3); λ=-3 (alg 1, geo 1): E=span{[-2, 1]}; λ=2 (alg 1, geo 1): E=span{[1/2, 1]}"
+ },
+ "p6:main": {
+  "method": "exact",
+  "answer": "M1: 대각화 가능·가역 (이미 대각, det=1) / M2: 대각화 가능·비가역 (이미 대각, det=0, λ=0 존재) / M3: 대각화 불가·가역 (λ=1 alg2 geo1, det=1) / M4: 대각화 불가·비가역 (λ=0 alg2 geo1, det=0). 네 조합이 모두 나와 두 성질은 독립",
+  "notes": "M1: diag=True, inv=True, det=1; λ=1 (alg 2, geo 2): E=span{[1, 0], [0, 1]} | M2: diag=True, inv=False, det=0; λ=0 (alg 1, geo 1): E=span{[0, 1]}; λ=1 (alg 1, geo 1): E=span{[1, 0]} | M3: diag=False, inv=True, det=1; λ=1 (alg 2, geo 1): E=span{[1, 0]} | M4: diag=False, inv=False, det=0; λ=0 (alg 2, geo 1): E=span{[1, 0]}"
+ },
+ "p7:a": {
+  "method": "exact",
+  "answer": "p(λ)=-(λ-1)²(λ-5). E1=span{[-3,1,0]} (alg 2, geo 1), E5=span{[1,1,0]}. 차원 합 2<3 → 대각화 불가",
+  "notes": "p=-(lambda - 5)*(lambda - 1)**2; λ=1 (alg 2, geo 1): E=span{[-3, 1, 0]}; λ=5 (alg 1, geo 1): E=span{[1, 1, 0]}; diag=False"
+ },
+ "p7:b": {
+  "method": "exact",
+  "answer": "p(λ)=λ³(λ-1). E0=span{[1,-1,0,0],[0,0,1,0],[0,0,0,1]} (geo 3=alg 3), E1=span{[1,0,0,0]}. 차원 합 4 → 대각화 가능 (rank 1이지만 가능; 비가역)",
+  "notes": "p=lambda**3*(lambda - 1); λ=0 (alg 3, geo 3): E=span{[-1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]}; λ=1 (alg 1, geo 1): E=span{[1, 0, 0, 0]}; diag=True"
+ },
+ "p8:main": {
+  "method": "exact",
+  "answer": "λ=-1 (alg 2, geo 1): E=span{[0, 1, 1, 0]}; λ=1 (alg 1, geo 1): E=span{[1, 1, 1, 1]}; λ=2 (alg 1, geo 1): E=span{[1, 0, 1, 1]}; 대각화 가능=False",
+  "notes": "p(λ)=(lambda - 2)*(lambda - 1)*(lambda + 1)**2"
+ },
+ "p9:main": {
+  "method": "proof",
+  "answer": "증명: λ≠0, v≠0, AᵀAv=λv 라 하자. u=Av 로 두면 AAᵀu=A(AᵀAv)=λAv=λu. u≠0인지: u=0이면 λv=AᵀAv=Aᵀ0=0 이고 λ≠0이므로 v=0, 모순. 따라서 λ는 AAᵀ의 고윳값(고유벡터 Av). A↔Aᵀ 역할을 바꾸면 역방향도 성립. 중복도까지: v1..vk가 AᵀA의 λ-고유공간 기저면 Av1..Avk는 일차독립 (ΣciAvi=0 ⇒ Aᵀ 곱해 λΣcivi=0 ⇒ ci=0) 이므로 dim E_λ(AᵀA)≤dim E_λ(AAᵀ), 대칭이라 같음; 둘 다 대칭이라 기하=대수 중복도. 고윳값 0의 개수만 n과 m 차이로 달라질 수 있음.",
+  "notes": "sympy 무작위 정수 행렬 6개(seed 1102): 0 아닌 고윳값·중복도 일치 및 λ^m p_AᵀA(λ)=λ^n p_AAᵀ(λ) 확인 = True"
+ }
+}

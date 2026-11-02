@@ -1,0 +1,74 @@
+== P1: A = [[5, 4], [1, 2]]
+   det(A - lambda I) = (lambda - 6)*(lambda - 1)
+   lambda=1: alg=1, geo=1, E basis=[[-1, 1]]
+   lambda=6: alg=1, geo=1, E basis=[[4, 1]]
+   diagonalizable=True, det(A)=6, invertible=True
+== P2: A = [[3, 1], [0, 3]]
+   det(A - lambda I) = (lambda - 3)**2
+   lambda=3: alg=2, geo=1, E basis=[[1, 0]]
+   diagonalizable=False, det(A)=9, invertible=True
+== P3: A = [[4, 1, 1], [1, 4, 1], [1, 1, 4]]
+   det(A - lambda I) = -(lambda - 6)*(lambda - 3)**2
+   lambda=3: alg=2, geo=2, E basis=[[-1, 1, 0], [-1, 0, 1]]
+   lambda=6: alg=1, geo=1, E basis=[[1, 1, 1]]
+   diagonalizable=True, det(A)=54, invertible=True
+   x3.x1 = 0  x3.x2 = 0  x1.x2 = 1
+   A(αx1+βx2) - 3(αx1+βx2) = Matrix([[0, 0, 0]])
+   Gram-Schmidt: x1' = Matrix([[-1, 1, 0]])  x2' = Matrix([[-1/2, -1/2, 1]])  x1'.x2' = 0  A x2' == 3 x2': True
+== P4: A = [[7/2, -1/2], [-1/2, 7/2]]
+   det(A - lambda I) = (lambda - 4)*(lambda - 3)
+   lambda=3: alg=1, geo=1, E basis=[[1, 1]]
+   lambda=4: alg=1, geo=1, E basis=[[-1, 1]]
+   diagonalizable=True, det(A)=12, invertible=True
+   P = [[sqrt(2)/2, sqrt(2)/2], [-sqrt(2)/2, sqrt(2)/2]]  P^-1 == P^T: True  D = [[4, 0], [0, 3]]
+== P5a: A = [[1, 0], [1, 1]]
+   det(A - lambda I) = (lambda - 1)**2
+   lambda=1: alg=2, geo=1, E basis=[[0, 1]]
+   diagonalizable=False, det(A)=1, invertible=True
+== P5b: A = [[-2, 2], [2, 1]]
+   det(A - lambda I) = (lambda - 2)*(lambda + 3)
+   lambda=-3: alg=1, geo=1, E basis=[[-2, 1]]
+   lambda=2: alg=1, geo=1, E basis=[[1/2, 1]]
+   diagonalizable=True, det(A)=-6, invertible=True
+== P6 M1: A = [[1, 0], [0, 1]]
+   det(A - lambda I) = (lambda - 1)**2
+   lambda=1: alg=2, geo=2, E basis=[[1, 0], [0, 1]]
+   diagonalizable=True, det(A)=1, invertible=True
+== P6 M2: A = [[1, 0], [0, 0]]
+   det(A - lambda I) = lambda*(lambda - 1)
+   lambda=0: alg=1, geo=1, E basis=[[0, 1]]
+   lambda=1: alg=1, geo=1, E basis=[[1, 0]]
+   diagonalizable=True, det(A)=0, invertible=False
+== P6 M3: A = [[1, 1], [0, 1]]
+   det(A - lambda I) = (lambda - 1)**2
+   lambda=1: alg=2, geo=1, E basis=[[1, 0]]
+   diagonalizable=False, det(A)=1, invertible=True
+== P6 M4: A = [[0, 1], [0, 0]]
+   det(A - lambda I) = lambda**2
+   lambda=0: alg=2, geo=1, E basis=[[1, 0]]
+   diagonalizable=False, det(A)=0, invertible=False
+== P7a: A = [[2, 3, 0], [1, 4, 3], [0, 0, 1]]
+   det(A - lambda I) = -(lambda - 5)*(lambda - 1)**2
+   lambda=1: alg=2, geo=1, E basis=[[-3, 1, 0]]
+   lambda=5: alg=1, geo=1, E basis=[[1, 1, 0]]
+   diagonalizable=False, det(A)=5, invertible=True
+== P7b: A = [[1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+   det(A - lambda I) = lambda**3*(lambda - 1)
+   lambda=0: alg=3, geo=3, E basis=[[-1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+   lambda=1: alg=1, geo=1, E basis=[[1, 0, 0, 0]]
+   diagonalizable=True, det(A)=0, invertible=False
+== P8: A = [[0, -1, 1, 1], [-1, 1, -2, 3], [2, -1, 0, 0], [1, -1, 1, 0]]
+   det(A - lambda I) = (lambda - 2)*(lambda - 1)*(lambda + 1)**2
+   lambda=-1: alg=2, geo=1, E basis=[[0, 1, 1, 0]]
+   lambda=1: alg=1, geo=1, E basis=[[1, 1, 1, 1]]
+   lambda=2: alg=1, geo=1, E basis=[[1, 0, 1, 1]]
+   diagonalizable=False, det(A)=2, invertible=True
+== P9 numerical check
+   trial0: 3x2, rank=2, nonzero eigs equal (with mult)=True, λ^m p_AtA = λ^n p_AAt: True
+   trial1: 2x3, rank=2, nonzero eigs equal (with mult)=True, λ^m p_AtA = λ^n p_AAt: True
+   trial2: 1x3, rank=1, nonzero eigs equal (with mult)=True, λ^m p_AtA = λ^n p_AAt: True
+   trial3: 1x1, rank=1, nonzero eigs equal (with mult)=True, λ^m p_AtA = λ^n p_AAt: True
+   trial4: 3x2, rank=2, nonzero eigs equal (with mult)=True, λ^m p_AtA = λ^n p_AAt: True
+   trial5: 5x2, rank=2, nonzero eigs equal (with mult)=True, λ^m p_AtA = λ^n p_AAt: True
+   all ok: True
+wrote blind_results.json

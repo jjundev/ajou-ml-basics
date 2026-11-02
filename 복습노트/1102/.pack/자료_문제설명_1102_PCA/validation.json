@@ -1,0 +1,398 @@
+{
+  "review_policy_version": "problem-explain-2026-10-20-row-derivatives",
+  "input_hash": "3f25fc14fe5cbcd65d0383d3fdd6c4f0a7ddd2c4364a62b6c533e1ab358ff18c",
+  "references": [
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/1102/복습문제_1102_PCA.html",
+      "sha256": "3259e6cda77c6bd048231a7747bec83b87eaf8a201bc5a72b94ffd92f4c4f1a7"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/1102/정리노트_1102_PCA.html",
+      "sha256": "dc2d0d108ea913dd91588bdda3fae20362c5e9ac98d0443bae4bc099684498cf"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/교과서/Mathematics_for_Machine_Learning.pdf",
+      "sha256": "3f87b70c64a35d30ec4e565b4d5cfd18fe913002d3b3bed44691c7d0838911bc"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/교과서/연습문제/Chapter_04_Matrix_Decompositions_Exercises.pdf",
+      "sha256": "5002ff00c7b1c544de46e408d3ba685cb9695d3207c74fccb85406284a5ef333"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/강의노트/Lecture05_PCA_Part1.pdf",
+      "sha256": "dd0170ae632b49d85f592a71810f8fd5b60dc58c26bd87f839a0f67b288df6d7"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/1102/.pack/복습문제_1102_PCA-문제.pdf",
+      "sha256": "2c0627c65aabdb7c8b5c821e90b8b7918f3f5db618a67290b33a862eee96c685"
+    }
+  ],
+  "source_visual": {
+    "status": "pass",
+    "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+    "evidence": "PyMuPDF로 렌더링해 직접 확인(evidence/source_visual/*.png). MML Draft PDF 113–114(Example 4.5, Step1–3, A=[[4,2],[1,3]]), 114(Example 4.6, [[2,1],[0,2]], Def 4.11·Remark), 117–118(Example 4.8, [[3,2,2],[2,3,2],[2,2,3]], p=-(λ-1)²(λ-7), (a)고유공간/(b)직교/(c)선형결합+Gram-Schmidt), 123–124(Example 4.11, ½[[5,-2],[-2,5]], Step1 고유값·정규화 고유벡터/Step2 존재/Step3 P와 P⁻¹=Pᵀ). 변형 P1–P4는 숫자만 [[5,4],[1,2]], [[3,1],[0,3]], [[4,1,1],[1,4,1],[1,1,4]], ½[[7,-1],[-1,7]]로 바뀌고 소문항 구성이 원문 단계와 동일. Chapter_04 연습문제 PDF 1쪽(교과서 137): Ex 4.3 a,b / 4.4 4×4 / 4.5 네 행렬 / 4.6 a(3×3), b(4×4) — P5·P8·P6·P7 조건·행렬 값·소문항 원문 그대로 일치. 2쪽(교과서 138): Ex 4.11 — P9 일치. 문제 PDF(.pack/복습문제_1102_PCA-문제.pdf) 9쪽 텍스트·P8 렌더 확인, source.json과 동일. 원 카드 SHA-256 3259e6cd… = source.json 기록값. 설명 조각의 교과서 쪽수(107–108/108/111–112/117–118/137/138)와 PDF 쪽(113–114/114/117–118/123–124), 식 번호, Def 4.6/4.9/4.10/4.11/4.13/4.19, Thm 4.8/4.12/4.14/4.15/4.16/4.17/4.20, 3.8.3절 모두 PDF 텍스트에서 실재 확인. / evidence/source_visual/ 렌더링 PNG, evidence/content-review.json"
+  },
+  "browser": {
+    "status": "pass",
+    "reviewer": "메인 에이전트(Claude Browser 실제 렌더링)",
+    "evidence": "로컬 http.server로 stage 제공. 1차 stage 1cd7d8b1: 1280x900 light, 1024x900 dark, 375x812 dark/light에서 p1–p9 순회 — KaTeX 1222식 오류 0, 콘솔 오류 0, 외부 요청 0(로컬 KaTeX/Pretendard), .content·문서 가로 넘침 0, display 수식 스크롤 0(375에서도 4×4 행렬 포함), #sum-for.sums 1개·현재 문항 요약 1개만 표시, 문제|원문|출제 근거|용어 탭, 1024에서 목차·문제 패널 열림, 모바일 '문제 보기/접기' 동작, 다크 배경 rgb(23,23,28). 재build stage 5845018d: 1280x900 light와 375x812 dark 재순회 — 같은 결과(오류·넘침·외부 요청 0). 정리노트 anchor(s2-eigen/s2-diagonal/s2-evd/s3-spectral/s3-spectral-example)와 복습문제 #p1–p9 실제 존재 확인."
+  },
+  "content": {
+    "status": "pass",
+    "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+    "evidence": "p1–p9 조각 전체와 조립 stage(문제설명_1102_PCA.html: subpart a×12/b×12/c×6/main×6 표지, recall·terms·provenance·sum 각 9)를 읽고 verification.md content 기준으로 판정. 모든 답과 중간 계산(여인수·행 소거 중간 행렬·정규화 계수·검산 수치) 58건을 evidence/content_check.py(sympy 1.14)로 재계산해 58/58 일치(content_check.txt). recall은 모든 문항에서 문제 단서→개념→공식·기호→조건·선택 이유를 연결하고 start(실제 첫 식)와 내용 중복 없음. 정리노트 개념 링크 16개(s2-eigen/s2-diagonal/s2-evd/s3-spectral/s3-spectral-example) anchor 실재, 슬라이드 번호(L05 s16–s19)가 정리노트 절 라벨과 일치. 미분 문항 없음. 답 충돌·모호함 없음. 아래 minor 이슈는 수업 범위 밖 표시 일관성에 관한 것으로 수학적 정확성에 영향 없음. / minor 4건(p8 trace 보충 표시, p4·p6·p7·p8 MML Def 4.9·4.11/Thm 4.12 보충 표시, p6–p9 패널 순서·출제 근거 슬라이드 표기) 수정 후 메인이 해당 문장·패널 순서를 다시 읽어 확인(재build 5845018d).",
+    "items": {
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "recall: '고유벡터 x≠0'·'왜 det=0'이라는 단서 → 동차연립방정식 → rank-deficient → 역행렬 없음 → det=0 사슬(STT 1102 l.104와 일치). solve(a) B^{-1}0=0 귀결로 이유 제시, verify(a)는 λ=0(det A=6≠0)과 λ=6(det=0) 대조로 논리 확인(증명 대체 주장 없음). sum '떠올릴 개념·공식'과 일치."
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "(5-λ)(2-λ)-4=λ²-7λ+6=(λ-6)(λ-1), λ=6,1 — sympy 재계산 일치(content_check.txt). verify: 합 7=tr, 곱 6=det, 'MML Theorem 4.16·4.17, 보충' 표시 및 번호 실재(PDF 118·119)."
+      },
+      "p1:c": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "E6=span[4,1]^T, E1=span[1,-1]^T, A[4,1]=[24,6] — sympy nullspace와 span 동일. pitfall(λI 빼기, span 표기, 영벡터 비고유벡터, 두 식이 다르면 고윳값 재확인)이 인접 오답을 구분. provenance: Example 4.5 = 교과서 107–108쪽 / PDF 113–114, 식 (4.28)–(4.35) 실제 페이지로 확인. 교과서 원 행렬 [[4,2],[1,3]] 표기 정확."
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "상삼각 → det=대각 곱, (λ-3)², 대수적 중복도 2. sympy 일치. recall이 중복도 용어를 'MML Definition 4.9·4.11의 보충'·'1102 수업에서 따로 정의하지 않음'으로 표시(정리노트에 중복도 용어 부재 확인). Remark(1≤기하≤대수, 108쪽) PDF 114에서 확인."
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "E3=span[1,0]^T, rank(A-3I)=1 → 기하적 중복도 1, 대각화 불가(defective, Def 4.13 보충) — sympy 일치. verify에서 [0,1]^T 반례 대입. pitfall: x1 자유/x2=0 혼동, 스칼라배 두 번 세기. Example 4.6 원 행렬 [[2,1],[0,2]] 표기 정확(PDF 114)."
+      },
+      "p3:a": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "주어진 p_A에서 λ=3(중근),6; A-3I 세 행 [1,1,1] → x1=[-1,1,0], x2=[-1,0,1]; A-6I 소거 → x3=[1,1,1]. sympy span 일치, Ax1=[-3,3,0] 등 검산 정확. '교과서는 대각3/나머지2, 고윳값 1,7' (PDF 117–118) 및 수업 L05 s19(STT l.248 'λ2는 7') 확인."
+      },
+      "p3:b": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "x3ᵀx1=x3ᵀx2=0, x1ᵀx2=1≠0, cos=1/2(60°) — 재계산 일치. recall에서 '서로 다른 고윳값 → 자동 직교 / 같은 고윳값 → 골라야 직교' 구분이 pitfall과 일관."
+      },
+      "p3:c": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "선형성으로 E3 닫힘, x2'=x2-(1/2)x1=[-1/2,-1/2,1] (교과서 ½[-1,-1,2]와 동일 언급), 직교성과 Ax2'=3x2' 검산 정확; 정규화 계수 1/√2, 2/√6, 1/√3 및 PDPᵀ=A sympy 확인. Gram–Schmidt는 'MML 3.8.3절 보충, 수업은 언급만'(정리노트 l.208과 일치). 문제가 요구하지 않은 정규화 단계임을 명시."
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "(7/2-λ)²-1/4=λ²-7λ+12=(λ-4)(λ-3), λ1=4>λ2=3, p1=[1,-1]/√2, p2=[1,1]/√2 — sympy 일치. 부호 비유일성 언급. 교과서 ½[[5,-2],[-2,5]](λ=7/2,3/2) 구조와 동일한 Step 1/2/3(PDF 123–124, 식 4.56–4.61) 확인."
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "고윳값 상이 → 일차독립, 직교 확인 p1ᵀp2=0, det P=1≠0 — 재계산 일치. 결론 '대각화 가능' 정확."
+      },
+      "p4:c": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "AP=PD 유도, D 오른쪽 곱 이유, P⁻¹AP=diag(4,3), P⁻¹=Pᵀ (정규직교) 및 PDPᵀ=½[[7,-1],[-1,7]] 직접 곱 — sympy 일치. pitfall: ½ 누락 시 8,6(확인), 열/대각 순서, PD≠DP, 비정규화 시 PᵀP=2I(확인)."
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "하삼각 (1-λ)², E1=span[0,1]^T(1차원, 대각화 불가) — sympy 일치. pitfall이 [1,0] 역읽기·2차원 착각을 구분. Exercise 4.3a 원문 행렬 일치(연습문제 1쪽/교과서 137쪽)."
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "(-2-λ)(1-λ)-4=(λ-2)(λ+3), E2=span[1,2], E-3=span[-2,1], B[-2,1]=[6,-3], 직교 확인 — sympy 일치. pitfall의 B-3I det=6≠0도 사실."
+      },
+      "p6:main": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "det: 1,0,1,0 → M1,M3 가역; M1,M2 대각, M3·M4 고유공간 span[1,0] 1차원 → 대각화 불가. 결과 (가능·가역)(가능·비가역)(불가·가역)(불가·비가역) sympy 일치. verify의 'cI 논증'(고윳값 하나뿐인 2×2가 대각화되면 cI) 정확. MML 정리 4.16/4.20/정의 4.13·4.19 번호 PDF에서 실재 확인, det=∏λ는 수업(STT l.174–176, 정리노트 l.737) 근거 있음. 4 행렬 원문 일치."
+      },
+      "p7:a": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "셋째 행 전개 (1-λ)(λ²-6λ+5)=-(λ-1)²(λ-5), E1=span[-3,1,0], E5=span[1,1,0], rank(A-I)=2, 합 2<3 → 대각화 불가, tr 7·det 5 — sympy 일치. 여인수 전개는 '수업 밖 기본 도구(MML 4.1)' 표시."
+      },
+      "p7:b": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "(λ-1)λ³, E0 3차원(기저 [-1,1,0,0],[0,0,1,0],[0,0,0,1]; 참고 답 [1,-1,0,0]과 동일 공간 명시), E1=span e1, P(det=-1)로 P⁻¹AP=diag(0,0,0,1) — sympy 일치. pitfall '고윳값 0은 가역성만 깸', rk(A-I)=3 정확."
+      },
+      "p8:main": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "여인수 C31=-(λ+1)², C32=2(λ-2)(λ+1)(소행렬식 -2(λ-2)(λ+1)), C33=-(λ+1)(λ²-2λ+3), 2C31-C32-λC33=λ⁴-λ³-3λ²+λ+2=(λ+1)²(λ-1)(λ-2) — sympy 기호 계산 일치. 세 고윳값의 행 소거 중간 행렬을 설명된 행 연산 그대로 재현해 일치(λ=1, λ=2 단계별), E-1=span[0,1,1,0], E1=span[1,1,1,1], E2=span[1,0,1,1], 각 rank 3. pitfall: C32 부호 누락 시 상수항 -6(확인). det 2·tr 1 검산 정확, 대각화 불가 언급은 '문제가 묻지 않음' 표시. Exercise 4.4 행렬 원문 일치."
+      },
+      "p9:main": {
+        "status": "pass",
+        "reviewer": "메인 에이전트(ml-review-pack 컨트롤러) + 내용·원문 검토 서브에이전트",
+        "evidence": "증명: 결합법칙으로 AAᵀ(Ax)=λAx, Ax=0 가정 시 λx=0 → λ≠0이므로 x=0 모순; 역방향 v=Aᵀu 대칭 논증; 두 포함으로 집합 동일. 숫자 예로 증명을 대신하지 않음을 명시. 반례 A=[1,1]의 고윳값 {2,0} vs {2} sympy 확인, 2×3 기호 결합법칙 전개와 18개 무작위 행렬(대수적 중복도 포함) 독자 재현 18/18. 고유공간 차원 동일성은 '보충'으로 표시되었고 논증(E_λ 위에서 x↦Ax 단사) 타당. 수업 인용('정의로부터 시작', 정리노트 l.597 P03 06:31) 실재, MML 정의 4.6/정리 4.14·4.15 번호 확인. Exercise 4.11 원문(교과서 138쪽/연습문제 2쪽) 일치."
+      }
+    }
+  },
+  "independent": {
+    "status": "pass",
+    "reviewer": "블라인드 검산 서브에이전트(문제 데이터만) + 컨트롤러 대조",
+    "evidence": "evidence/blind/problem-data-only.json → evidence/independent/blind_1102.py, blind_1102.txt, blind_results.json; 대조 evidence/independent/compare.md; 보조 evidence/content_check.py(58 checks), author_p1_p5.py, author_p6_p9.py",
+    "items": {
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p1:a], compare.md",
+        "method": "qualitative",
+        "conclusion": "(A-λI)x=0 이 x≠0 해를 가지려면 A-λI의 영공간이 비자명 ⇔ A-λI 비가역(rank<n) ⇔ det(A-λI)=0. det≠0이면 역행렬을 곱해 x=0만 남음. — 참고 답과 일치"
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p1:b], compare.md",
+        "method": "exact",
+        "conclusion": "p(λ)=λ²-7λ+6=(λ-1)(λ-6) → λ=6, λ=1 — 참고 답과 일치"
+      },
+      "p1:c": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p1:c], compare.md",
+        "method": "exact",
+        "conclusion": "λ=1 (alg 1, geo 1): E=span{[-1, 1]}; λ=6 (alg 1, geo 1): E=span{[4, 1]} — 참고 답과 일치"
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p2:a], compare.md",
+        "method": "exact",
+        "conclusion": "λ=3, 대수적 중복도 2 (p(λ)=(λ-3)²) — 참고 답과 일치"
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p2:b], compare.md",
+        "method": "exact",
+        "conclusion": "고유벡터 = c·[1,0] (c≠0), E3=span{[1,0]}, 기하적 중복도 1 (<2이므로 결함, 대각화 불가) — 참고 답과 일치"
+      },
+      "p3:a": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p3:a], compare.md",
+        "method": "exact",
+        "conclusion": "λ=3 (중복 2), λ=6. E3=span{x1=[-1,1,0], x2=[-1,0,1]} (평면 x+y+z=0), E6=span{x3=[1,1,1]} — 참고 답과 일치"
+      },
+      "p3:b": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p3:b], compare.md",
+        "method": "exact",
+        "conclusion": "x3ᵀx1=0, x3ᵀx2=0 → 직교. x1ᵀx2=1 ≠0 → x1,x2는 직교하지 않음 — 참고 답과 일치"
+      },
+      "p3:c": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p3:c], compare.md",
+        "method": "exact",
+        "conclusion": "A(αx1+βx2)=αAx1+βAx2=3(αx1+βx2) → E3 안. GS: x1'=x1=[-1,1,0], x2'=x2-(x2·x1/x1·x1)x1=x2-½x1=[-1/2, -1/2, 1] (∝[-1,-1,2]); x1'·x2'=0 — 참고 답과 일치"
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p4:a], compare.md",
+        "method": "exact",
+        "conclusion": "p(λ)=λ²-7λ+12=(λ-4)(λ-3): λ1=4, λ2=3; p1=[1,-1]/√2, p2=[1,1]/√2 (부호 자유) — 참고 답과 일치"
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p4:b], compare.md",
+        "method": "exact",
+        "conclusion": "대각화 가능: 서로 다른 고윳값 2개 → 일차독립 고유벡터 2개가 R²의 기저 (또한 대칭행렬이라 스펙트럼 정리로 직교대각화 가능) — 참고 답과 일치"
+      },
+      "p4:c": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p4:c], compare.md",
+        "method": "exact",
+        "conclusion": "P=(1/√2)[[1,1],[-1,1]], D=P⁻¹AP=diag(4,3). P가 직교행렬(정규직교 열)이므로 P⁻¹=Pᵀ, 즉 D=PᵀAP, A=PDPᵀ — 참고 답과 일치"
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p5:a], compare.md",
+        "method": "exact",
+        "conclusion": "λ=1 (alg 2), E1=span{[0,1]} (geo 1, 대각화 불가) — 참고 답과 일치"
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p5:b], compare.md",
+        "method": "exact",
+        "conclusion": "p=λ²+λ-6=(λ+3)(λ-2): E2=span{[1,2]}, E-3=span{[-2,1]} (직교) — 참고 답과 일치"
+      },
+      "p6:main": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p6:main], compare.md",
+        "method": "exact",
+        "conclusion": "M1: 대각화 가능·가역 (이미 대각, det=1) / M2: 대각화 가능·비가역 (이미 대각, det=0, λ=0 존재) / M3: 대각화 불가·가역 (λ=1 alg2 geo1, det=1) / M4: 대각화 불가·비가역 (λ=0 alg2 geo1, det=0). 네 조합이 모두 나와 두 성질은 독립 — 참고 답과 일치"
+      },
+      "p7:a": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p7:a], compare.md",
+        "method": "exact",
+        "conclusion": "p(λ)=-(λ-1)²(λ-5). E1=span{[-3,1,0]} (alg 2, geo 1), E5=span{[1,1,0]}. 차원 합 2<3 → 대각화 불가 — 참고 답과 일치"
+      },
+      "p7:b": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p7:b], compare.md",
+        "method": "exact",
+        "conclusion": "p(λ)=λ³(λ-1). E0=span{[1,-1,0,0],[0,0,1,0],[0,0,0,1]} (geo 3=alg 3), E1=span{[1,0,0,0]}. 차원 합 4 → 대각화 가능 (rank 1이지만 가능; 비가역) — 참고 답과 일치"
+      },
+      "p8:main": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p8:main], compare.md",
+        "method": "exact",
+        "conclusion": "λ=-1 (alg 2, geo 1): E=span{[0, 1, 1, 0]}; λ=1 (alg 1, geo 1): E=span{[1, 1, 1, 1]}; λ=2 (alg 1, geo 1): E=span{[1, 0, 1, 1]}; 대각화 가능=False — 참고 답과 일치"
+      },
+      "p9:main": {
+        "status": "pass",
+        "reviewer": "블라인드 검산 서브에이전트 + 컨트롤러 대조",
+        "evidence": "evidence/independent/blind_1102.py·blind_1102.txt·blind_results.json[p9:main], compare.md",
+        "method": "proof",
+        "conclusion": "증명: λ≠0, v≠0, AᵀAv=λv 라 하자. u=Av 로 두면 AAᵀu=A(AᵀAv)=λAv=λu. u≠0인지: u=0이면 λv=AᵀAv=Aᵀ0=0 이고 λ≠0이므로 v=0, 모순. 따라서 λ는 AAᵀ의 고윳값(고유벡터 Av). A↔Aᵀ 역할을 바꾸면 역방향도 성립. 중복도까지: v1..vk가 AᵀA의 λ-고유공간 기저면 Av1..Avk는 일차독립 (ΣciAvi=0 ⇒ Aᵀ 곱해 λΣcivi=0 ⇒ ci=0) 이므로 dim E_λ(AᵀA)≤dim E_λ(AAᵀ), 대칭이라 같음; 둘 다 대칭이라 기하=대수 중복도. 고윳값 0의 — 참고 답과 일치"
+      }
+    }
+  },
+  "artifact_hashes": {
+    ".pack/문제설명_1102_PCA.md": "b45d6493f742fa095d7da06cce0a43bc692e5df2215699e2af0d3b35920efc91",
+    ".pack/자료_문제설명_1102_PCA/evidence/author_p1_p5.py": "a6c69b31bf2ebb6e862da61a6b9619badb0b5d4facd98a038d5691c8c16aa9a2",
+    ".pack/자료_문제설명_1102_PCA/evidence/author_p1_p5.txt": "53ead184eced38c9a5cd621269a08f3c930d70791bc494c36a25ffa5afc118c1",
+    ".pack/자료_문제설명_1102_PCA/evidence/author_p6_p9.py": "8c8eff992991f1c1a072e1b82d9beb6568b6810a4b89ed8e29583e2a6569135c",
+    ".pack/자료_문제설명_1102_PCA/evidence/author_p6_p9.txt": "9218fbfe6825b17e4e999498062f51a44288b421839cd51c6750d38e9f66de79",
+    ".pack/자료_문제설명_1102_PCA/evidence/blind/problem-data-only.json": "2392ddfb6d633d68b7fc3fb3eb785117bd8fc1cbdb2cbdb51b133c220983934b",
+    ".pack/자료_문제설명_1102_PCA/evidence/content-review.json": "b4b83d8abea82099669c8f0c5d593f5b49f79a6034e60a676ea5ceee163d5ead",
+    ".pack/자료_문제설명_1102_PCA/evidence/content_check.py": "b7fa086a8f13e202a133b76a3d934515c71d10d70622dd76a72c29699e6a1cad",
+    ".pack/자료_문제설명_1102_PCA/evidence/content_check.txt": "0ba7cbdb0ba5f897a646aa365ee7ac9e6274c216e90ef94e7e600c7ea02cb452",
+    ".pack/자료_문제설명_1102_PCA/evidence/independent/blind_1102.py": "9853390b5d89308a0824998f90811b08739de0e38fcc1f0f1e126d9e29033db6",
+    ".pack/자료_문제설명_1102_PCA/evidence/independent/blind_1102.txt": "cf4aaac77766beea1cc1f92501b35e6ac6ef6132bc72e38266632697b9c2a00a",
+    ".pack/자료_문제설명_1102_PCA/evidence/independent/blind_results.json": "7e0aa47333fa2ce6a2007479493ea02d9d8b743f40bac00241f779c86a7eeacb",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/ch4ex_p1.png": "a0fe425d8b932a273a18a42f5098b6de8bd5137d3f7e27e087d08f2541ac626d",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/ch4ex_p2.png": "b9c17aa6f400bca6d870a1da60a102b138abf3bf6f2fe74c9c996c20efc32b4b",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/mml_p113.png": "3abbbce126b97bdd39759ed58570ea98453dcbf24114cd2178584f0b5fc3464d",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/mml_p114.png": "d061add9984ffbf3809f84167e15013a7309f4b6ce276d6604b20dfdcfb9d4c0",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/mml_p117.png": "6ce3cf5b36fa8158bd49c14787f914e24a2331804190bb1ede2a2010279e9d5c",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/mml_p118.png": "5615699d559296e536a9f5547d31b116257ca07ee464e1840cc148a3979e4b4c",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/mml_p123.png": "e131bfa7f134900667f1b9d1159e96a8c3be4f86486082c28e301c446d8a5da8",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/mml_p124.png": "e63047a0d90a0867b39ade66120b3209aa0f873434c8992271686e694252b109",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p1.png": "d2baa56e780087e61532bc5804e41f9b6253a786ac7b4693d9fe3fb36447bf6c",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p2.png": "c7e56e44330b07f199acb59686b30f0bc65f6a5261202ee2c390fcd607a656de",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p3.png": "77802875158c2dd00333d4ba3511f06d2c7a7880a85b11fb9ee55bddfc18c225",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p4.png": "621a677711c19fa69e2c27a8d430ec0e4c7f3d01bbfff56c6f526b2c59b0280e",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p5.png": "381d60b69b0da37328d877e0ec29e9151d25154cfc82885825314cff5efb1a71",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p6.png": "dea25d7a2e2ff97a59cb7425aa1f1be80a7d8739ebfe49a36e0f139b24e18e82",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p7.png": "bda60243e8df01b62ce083dd671f3d30177d8faabf8bbc8bba3f18830c962cca",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p8.png": "54f145d4ca19b20600472788b0960621ee0fd68b4c96e23a056b76dda94bd8cf",
+    ".pack/자료_문제설명_1102_PCA/evidence/source_visual/problem_pdf_p9.png": "7b48939d954aa41335f74ed1adc62c4b1bc50b43ef80019bcd9a3f393ea57b72",
+    ".pack/자료_문제설명_1102_PCA/fragments/p1.html": "a9e6f952b5bb60a35119f4caf721f3eb78a05a0cf54473292b58d62643b0967c",
+    ".pack/자료_문제설명_1102_PCA/fragments/p2.html": "8c4bf238d3c2bb0dce5b139579423d2ccd840c567b85758495cd7a4c1ce9b8cb",
+    ".pack/자료_문제설명_1102_PCA/fragments/p3.html": "96ec9869a5e476e5e790044c9a4537dde95d7ee2d89cd1c64d1bcd0b48000dcf",
+    ".pack/자료_문제설명_1102_PCA/fragments/p4.html": "d9fc1f67aa9bc8ebabd9bdc1d6405a4ca2da778429c1180bdb7c32e7737888b5",
+    ".pack/자료_문제설명_1102_PCA/fragments/p5.html": "5d5adc2616a331924fe9865a7c4db3e63b77767086ee4d1aae0877470d8140c5",
+    ".pack/자료_문제설명_1102_PCA/fragments/p6.html": "1b0607174b78f41b5adafe22390ec56e81c765f9582787948d4ba8e431b79747",
+    ".pack/자료_문제설명_1102_PCA/fragments/p7.html": "a508d02ae7a7f1f38637f60c0e4a7830b1ceed539f7ef22c76d2a2782c20339d",
+    ".pack/자료_문제설명_1102_PCA/fragments/p8.html": "a99128d89bd98f026698bc90a6e296552f02ffa43b7afb7a7902dd2d970a9af3",
+    ".pack/자료_문제설명_1102_PCA/fragments/p9.html": "5bd4686789019d36be2e3c8d33c84e84ca8d74f3fe3b21f2d4df6b7a0bfbdf89",
+    ".pack/자료_문제설명_1102_PCA/template-provenance.json": "e64248c5ec7a72739800feabb5e51c6dc6afd73ba2af33fb938ef31035864ab1",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_AMS-Regular.ttf": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_AMS-Regular.woff": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_AMS-Regular.woff2": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Bold.ttf": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Bold.woff": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Bold.woff2": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Italic.ttf": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Italic.woff": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Italic.woff2": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Regular.ttf": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Regular.woff": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Main-Regular.woff2": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Math-Italic.ttf": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Math-Italic.woff": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Math-Italic.woff2": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Script-Regular.ttf": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Script-Regular.woff": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Script-Regular.woff2": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size1-Regular.ttf": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size1-Regular.woff": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size1-Regular.woff2": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size2-Regular.ttf": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size2-Regular.woff": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size2-Regular.woff2": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size3-Regular.ttf": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size3-Regular.woff": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size3-Regular.woff2": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size4-Regular.ttf": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size4-Regular.woff": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Size4-Regular.woff2": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/katex.min.css": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258",
+    ".pack/자료_문제설명_1102_PCA/vendor/katex/katex.min.js": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/LICENSE": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/pretendard.css": "74dbf94c1ab3cb1d166346878e03572d8004ac88d21ac84332a32b28a088f2bd",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-Black.woff": "d8511e03d73b848d3df45d6f3d1166bb9532f7547b68da5f768d7b60df76faaa",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-Bold.woff": "b02e6d7d8606f13f12682bc4d43575d403a9cbb2d662f6f4f137dba384633267",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-ExtraBold.woff": "1f43803fe4cb56b82061c7392eae37a9123e839b39cc0aa3c3f5b22edcb170d3",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-ExtraLight.woff": "f8c8f64cec9d0c4b2c675a5cac99b2cef9d34f4b485caf9ec47901314ff8c460",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-Light.woff": "744e50b9780722eada9afc308712c7d1dc5176d8b46c315d010fa42fffb76fe6",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-Medium.woff": "6231269ba695835ca13b03cf411b4e68379993039b4033c373e4e9940ee5370d",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-Regular.woff": "3214d4fdb5bd41e10c9f0b5fa8c6ff2f1096b249665cdbf34948434ee7c51934",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-SemiBold.woff": "e476f124e88472078cf472ac09768331f93f76063a52183ff303a192adea800a",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff/Pretendard-Thin.woff": "1c760324692f0d4bdd46f6f2378ce73aaa37056b8673163d1463adaee8b3dee1",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-Black.woff2": "c5fd0c3568fc1368a3edc0d0fbb36df029935954276e3573451b3bae09e27296",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-Bold.woff2": "4609c3356e536fafe38f4add0daeceb3d8595d3057bce13c428c33ddbd43d362",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-ExtraBold.woff2": "dd7c1e156f508eb962acc7a33a7a1896d1e0b71e11156fad96e731689ceb6dc3",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-ExtraLight.woff2": "df43dc9165dff4542114674bcd8b79b7daae6dec004004586d5d076fec6fe2aa",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-Light.woff2": "b7426635cce2ea2b95c9c802e43fba1c620e0dafaf25f737c069b8b4e09fa841",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-Medium.woff2": "d03481330eeba0659ab5b87f25ceb504a35de377dd90a0d0aba2982eb2d05e2c",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-Regular.woff2": "fad853f7f47c6c8b103171e7193fa095708cdcd70850a71d93aa5379e8a61d63",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
+    ".pack/자료_문제설명_1102_PCA/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
+    ".pack/자료_문제설명_1102_PCA/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
+    "문제설명_1102_PCA.html": "1060e04957b8ebdfb2128c9938eb95086a35407a94dad7b105e44047620ad994",
+    ".pack/자료_문제설명_1102_PCA/manifest.json": "1c8bd452c01a24a746732e7970a75532f5bbe94ca0b5878e34f54f63be4842f2"
+  }
+}

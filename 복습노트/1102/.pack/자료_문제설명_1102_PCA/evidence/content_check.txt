@@ -1,0 +1,59 @@
+PASS p1 b charpoly (l-6)(l-1)
+PASS p1 c E6=span[4,1]
+PASS p1 c E1=span[1,-1]
+PASS p1 verify A[4,1]=[24,6]
+PASS p1 verify det A=6, det(A-6I)=0
+PASS p2 a (l-3)^2
+PASS p2 b E3=span[1,0], dim1
+PASS p2 rank(A-3I)=1, not diag
+PASS p2 A[0,1]=[1,3]
+PASS p3 charpoly -(l-3)^2(l-6)
+PASS p3 a E3
+PASS p3 a E6
+PASS p3 b dots
+PASS p3 c x2'=[-1/2,-1/2,1]
+PASS p3 c orth & eig
+PASS p3 verify Ax1=[-3,3,0], Ax2'=[-3/2,-3/2,3]
+PASS p3 P^TP=I, PDP^T=A, 2/sqrt6 normalizer
+PASS p3 cos angle x1,x2 = 1/2
+PASS p4 a (l-4)(l-3)
+PASS p4 a Ap1=4p1, Ap2=3p2
+PASS p4 b det P = 1
+PASS p4 c P^-1 A P = diag(4,3), P^-1=P^T
+PASS p4 c PD = 1/sqrt2[[4,3],[-4,3]]
+PASS p4 pitfall unnormalized P^TP=2I
+PASS p4 pitfall eig of [[7,-1],[-1,7]] = 8,6
+PASS p5 a (1-l)^2, E1=span[0,1]
+PASS p5 b (l-2)(l+3)
+PASS p5 b E2, E-3
+PASS p5 b B[-2,1]=[6,-3]
+PASS p6 (diag,inv) = (T,T),(T,F),(F,T),(F,F)
+PASS p6 M3,M4 eigenspace span[1,0]
+PASS p7 a charpoly -(l-1)^2(l-5)
+PASS p7 a E1=span[-3,1,0], E5=span[1,1,0]
+PASS p7 a rank(A-I)=2, det A=5, tr=7, not diag
+PASS p7 b charpoly (l-1)l^3
+PASS p7 b E0 3-dim, E1 span e1
+PASS p7 b det P=-1, P^-1AP=diag(0,0,0,1)
+PASS p7 b rank(A-I)=3
+PASS p8 C31=-(l+1)^2
+PASS p8 C32=2(l-2)(l+1)
+PASS p8 C33=-(l+1)(l^2-2l+3)
+PASS p8 minor for C32 = -2(l-2)(l+1)
+PASS p8 charpoly expansion & factor
+PASS p8 2C31-C32-lC33 = det
+PASS p8 pitfall: sign error on C32 gives const -6
+PASS p8 E-1=span[0, 1, 1, 0], rank 3
+PASS p8 E1=span[1, 1, 1, 1], rank 3
+PASS p8 E2=span[1, 0, 1, 1], rank 3
+PASS p8 l=-1 echelon
+PASS p8 l=-1 middle
+PASS p8 l=1 step1 rows
+PASS p8 l=1 step2 rows
+PASS p8 l=2 step1 rows (as described)
+PASS p8 l=2 step2 rows
+PASS p8 det=2 tr=1, not diag
+PASS p9 (AA^T)(Ax)=A(A^TAx) symbolic
+PASS p9 counterexample [1,1]: eig A^TA {2,0}, AA^T {2}
+PASS p9 random 18 matrices nonzero eig (with alg mult) equal: 18/18
+TOTAL 58 / 58

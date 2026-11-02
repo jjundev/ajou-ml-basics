@@ -1,0 +1,34 @@
+== p1 (MML Ex 4.5 variant)
+p_A = (lambda - 6)*(lambda - 1) | expanded: lambda**2 - 7*lambda + 6
+lambda=6: nullspace=[[4, 1]], rank(A-lI)=1, A v=[24, 6]
+lambda=1: nullspace=[[-1, 1]], rank(A-lI)=1, A v=[1, -1]
+det(A-6I) = 0
+det(A-1I) = 0
+det(A-0I) = 6
+det(A-2I) = -4
+trace= 7 sum eig=7; det= 6 prod eig=6
+== p2 (MML Ex 4.6 variant)
+p_A = (lambda - 3)**2
+eigenvals (alg mult): {3: 2}
+E_3 basis: [[1, 0]] geom mult = 1
+diagonalizable? False
+== p3 (MML Ex 4.8 variant)
+p_A = -(lambda - 6)*(lambda - 3)**2
+E_3 basis(sympy): [[-1, 1, 0], [-1, 0, 1]] E_6 basis: [[1, 1, 1]]
+x3.x1 = 0 x3.x2 = 0 x1.x2 = 1
+x2' = [-1/2, -1/2, 1]
+orthonormal P = [[-sqrt(2)/2, -sqrt(6)/6, sqrt(3)/3], [sqrt(2)/2, -sqrt(6)/6, sqrt(3)/3], [0, sqrt(6)/3, sqrt(3)/3]]
+P D P^T == A : True
+== p4 (MML Ex 4.11 variant)
+p_A = (lambda - 4)*(lambda - 3) | expanded: lambda**2 - 7*lambda + 12
+P^T P = [[1, 0], [0, 1]] | det P = 1
+P^-1 A P = [[4, 0], [0, 3]] ; A == P D P^T : True
+trace= 7 det= 12
+== p5 (MML Exercise 4.3)
+(a) p_A = (lambda - 1)**2 eigenvals: {1: 2}
+(a) E_1 basis: [[0, 1]] geom mult = 1 diagonalizable: False
+(b) p_B = (lambda - 2)*(lambda + 3) | expanded: lambda**2 + lambda - 6
+(b) lambda=2: nullspace=[[1/2, 1]], B v=[2, 4]
+(b) lambda=-3: nullspace=[[-2, 1]], B v=[6, -3]
+(b) v2.v(-3) = 0 (B symmetric: True )
+ALL ASSERTIONS PASSED
