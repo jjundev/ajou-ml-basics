@@ -15,6 +15,7 @@ body{margin:0}
   background:var(--bg);color:var(--ink);font-family:'Pretendard',system-ui,sans-serif;font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
 .app *,.app *::before,.app *::after{box-sizing:border-box}
 .app button{font-family:inherit;color:inherit}
+.app input[type="number"]{width:100%;min-width:0;min-height:44px;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink);font:inherit}
 .app :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .num{font-variant-numeric:tabular-nums}
 
@@ -332,7 +333,7 @@ body{margin:0}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-  // ================= 주제 훅: 주제마다 바꾸는 곳은 이 네 메서드뿐이에요 =================
+  // ================= 주제 훅: topic·buildScene·extraState·extraVals를 바꾸고, compute와 주제 전용 도우미는 여기에 더해요 =================
   // 계약은 ml-interactive/references/scene-api.md에 있어요.
 
   topic() {
@@ -385,7 +386,7 @@ class Component extends DCLogic {
       if (a <= 0) continue;
       I.push({ k: 0, p: [-4.5 + i, 0, 0], r: 0.32, c: pal.a, a: a });
     }
-    I.push({ k: 3, p: [0, 1.4, 0], text: Math.floor(f) + '개', size: 0.5, c: pal.ink });
+    I.push({ k: 3, p: [0, 1.4, 0], text: Math.floor(f) + '개', size: 12, c: pal.ink });
     O.push({ p: [-4.5, 0, 0], text: '출발점', c: pal.b, dy: 34 });
   }
 

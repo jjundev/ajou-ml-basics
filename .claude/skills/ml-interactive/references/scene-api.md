@@ -4,7 +4,7 @@
 
 1. 자리표시 `__TITLE__`(`<title>`과 `.brand`, 2곳)
 2. 마크업 슬롯 `<!-- SLOT:left -->` … `<!-- /SLOT:left -->`, `<!-- SLOT:right -->` … `<!-- /SLOT:right -->` 사이(예시 내용은 지우고 새로 써요)
-3. 스크립트 맨 위 주제 훅: `topic()`, `buildScene()`, `extraState()`, `extraVals()`, `compute(state)`
+3. 스크립트 맨 위 주제 훅: `topic()`, `buildScene()`, `extraState()`, `extraVals()`, 선택 훅 `compute(state)`. 주제 전용 도우미 메서드도 이 구역에 더하되 공통 메서드와 이름이 겹치지 않게 해요
 4. 그 밖의 셸(상단 바, 패널, 본문 헤더·수식 노트, 캔버스, 재생 바, 접힌 주의사항, 공통 메서드)은 고치지 않아요. 고쳐야 하면 템플릿을 고치고 테스트를 돌려요.
 
 다 쓰면 `node scripts/check.cjs <Main.dc.html>`이 `ok`를 내야 해요. 오류 줄은 `코드:대상 — 예외 문장` 모양이에요.
@@ -100,7 +100,7 @@ Mode의 선택 필드: `view:'graph'|'formula'`(생략하면 graph), `title`(생
 |---|---|---|
 | `0` | 빛 받은 구 | `p, r, c`, `flat?`(납작한 원), `a?`(투명도 0–1) |
 | `1` | 막대·선 | `p, q, w, c`, `rod?`(어두운 테두리로 입체 막대), `flat?`(끝 각지게), `a?` |
-| `3` | 글자 | `p, text, size, c` (`size`는 장면 단위, 화면에서 8–14px로 잘려요) |
+| `3` | 글자 | `p, text, size, c` (`size`는 px 기준이에요. `size × 1.05`에 원근이 곱해지고 8–14px로 잘리며 확대·축소와는 무관해요) |
 | `4` | 화살촉 | `p, q, c` — `p→q` 가운데에 `q` 쪽을 향한 삼각형 |
 | `5` | 반투명 음영 구 | `p, r, c`, `focus?`(테두리 굵게) — 추상 기하 도형 |
 
@@ -136,6 +136,6 @@ Mode의 선택 필드: `view:'graph'|'formula'`(생략하면 graph), `title`(생
 compute(state)는 그래프와 패널의 동일한 순수 계산 결과를 반환한다. K=2 예시는 MLMath API를 사용한다. 자세한 입력은 math-validation.md를 읽는다.
 Step에는 preset 객체를 추가할 수 있다. mode를 바꾼 뒤 입력을 합치고 재생을 멈춘다. topic.PRESETS는 checker가 compute→renderVals→draw로 전체 검사하는 상태 목록이다. 비유한 결과는 RESULT_NAN, 예외는 INPUT_THROWS다.
 k=6 채움 다각형: {k:6,p:pts[0],pts:[[x,y,z],...],c,a?}. 최소 3점, 길이3 finite 좌표만 허용한다. 띠는 upper+reversed(lower) 점으로 만들고 같은 변환의 k=1 선으로 테두리를 그린다.
-숫자 입력은 onChange를 쓴다(런타임의 input 이벤트). 유효 범위와 finite를 검사하고 빈 값은 마지막 상태로 복원한다. 정적 공식은 ref callback으로 로컬 window.katex.render를 한 번 호출한다.
+숫자 입력은 onChange를 쓴다(런타임의 input 이벤트). 유효 범위와 finite를 검사하고 빈 값은 마지막 상태로 복원한다. 입력칸의 색·크기는 공통 셸 CSS가 정하므로 주제에서 다시 쓰지 않는다. 정적 공식은 ref callback으로 로컬 window.katex.render를 한 번 호출한다.
 
 수식형 공통 값: `isFormula, stageTitle, stageBodyCls, formulaScale, formulaRows, formulaProgress, formulaPrevDisabled, formulaNextDisabled, formulaPrev, formulaNext, formulaRootRef, formulaNavRef, onFormulaKey, resetViewLabel`. 일반 주제 저작 시 직접 재정의하지 않는다. `formulaRows`는 현재 모드에서 선택한 단계까지의 목록이다. 그래프형의 기존 주제 훅은 그대로 사용할 수 있다.

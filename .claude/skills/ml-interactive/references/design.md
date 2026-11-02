@@ -27,6 +27,10 @@
 
 PC 1440×900·모바일 375×812, 두 테마, 모든 모드에서 제목/도구 정렬, 패널 첫 구분선, 가로·세로 스크롤, 긴 식 확대, 단계 이동과 drawer/Escape를 확인한다. 수식 오류와 페이지 전체 가로 넘침이 없어야 한다.
 
+## 브라우저 도구
+
+주제 QA와 템플릿 검증은 Playwright와 Chrome을 쓴다. 일반 `require('playwright')`, `npm root -g`, 홈 `.cache` 아래의 `node_modules/playwright` 순서로 찾고, 찾은 경로는 `ML_PLAYWRIGHT_MODULE` 환경변수로만 넘긴다. RUN과 evidence의 스크립트도 `require(process.env.ML_PLAYWRIGHT_MODULE||'playwright')`로 불러오며 절대 경로를 적지 않는다. Playwright가 없으면 사용할 수 있는 다른 실제 브라우저 도구로 같은 항목을 확인하고, 그것도 없으면 화면 검증 보류로 보고한다.
+
 ## 템플릿 수정 시 검증
 
-스킬 루트에서 `node --test tests/*.test.cjs`로 검사한다. 실제 브라우저 검증은 `node tests/ui.browser.cjs`이며 Playwright와 Chrome을 사용한다. Playwright가 일반 require 경로에 없으면 `ML_PLAYWRIGHT_MODULE`에 해당 모듈 경로를 지정한다. 이 검증은 OS 임시 폴더에서만 그래프·수식 예시를 빌드하고 PC/모바일·두 테마의 캡처와 results.json 경로를 반환한다. 캡처를 직접 확인하고 기존 공개 자료를 재생성하지 않는다.
+스킬 루트에서 `node --test tests/*.test.cjs`로 검사한다. 실제 브라우저 검증은 `node tests/ui.browser.cjs`이며 위 브라우저 도구를 사용한다. 이 검증은 OS 임시 폴더에서만 그래프·수식 예시를 빌드하고 PC/모바일·두 테마의 캡처와 results.json 경로를 반환한다. 캡처를 직접 확인하고 기존 공개 자료를 재생성하지 않는다.

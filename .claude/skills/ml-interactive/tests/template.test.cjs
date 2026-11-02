@@ -242,6 +242,12 @@ test('theme tokens include scroll colors', () => {
   assert.notEqual(light.scrollHover, dark.scrollHover);
 });
 
+test('number input uses theme tokens', () => {
+  const rule = markupPart(T).match(/\.app input\[type="number"\]\{([^}]*)\}/);
+  assert.ok(rule, 'number input rule');
+  for (const s of ['background:var(--bg)', 'color:var(--ink)', 'border:1px solid var(--line)', 'min-height:44px', 'font:inherit']) assert.ok(rule[1].includes(s), s);
+});
+
 test('panel scrollbar uses theme tokens', () => {
   const m = markupPart(T);
   for (const s of ['--scroll: {{th.scroll}}', '--scroll-hover: {{th.scrollHover}}', 'scrollbar-color:var(--scroll) transparent',

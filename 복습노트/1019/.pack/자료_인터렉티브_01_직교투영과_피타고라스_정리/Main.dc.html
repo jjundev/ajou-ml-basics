@@ -211,7 +211,7 @@ body{margin:0}
 <sc-if value="{{graphMode}}"><div class="sec">
 <h3 class="sec-title">후보를 움직여요</h3>
 <label for="theta-number">계수 θ · {{thetaText}}</label>
-<input id="theta-number" type="number" min="-0.5" max="2.5" step="0.01" value="{{theta}}" onChange="{{changeTheta}}" style="width:100%;min-height:44px">
+<input id="theta-number" type="number" min="-0.5" max="2.5" step="0.01" value="{{theta}}" onChange="{{changeTheta}}" style="width:100%;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">
 <input aria-label="계수 θ 조절" type="range" min="-0.5" max="2.5" step="0.01" value="{{theta}}" onChange="{{changeTheta}}" style="width:100%;min-height:44px">
 <button class="btn" type="button" onClick="{{optimal}}">최적 계수 θ̂ = 1</button>
 <button class="btn" type="button" onClick="{{front}}">삼각형 정면</button>
