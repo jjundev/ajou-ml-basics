@@ -821,6 +821,8 @@ $$\hat{x}_{2,n} = \frac{x_{2,n} - \mu_2}{\sigma_2}$$</li>
 <li>S5: 각 축에 $\sigma_1$, $\sigma_2$를 다시 곱하고(de-standardization) $\boldsymbol{\mu}$를 다시 더해요. 직선은 늘어나고 옮겨지지만, 점들이 직선 하나로 설명된다는 성질은 그대로예요.</li>
 </ol>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%A0%84%EC%B2%98%EB%A6%AC%EC%99%80_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B0%A9%ED%96%A5.html">S1–S5를 재생해 보고 표준화 전후의 첫 방향을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%A0%84%EC%B2%98%EB%A6%AC%EC%99%80_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B0%A9%ED%96%A5.html" target="_blank" rel="noopener noreferrer">전처리와 주성분 방향 실험</a>에서 비교해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>교수님은 슬라이드 그림 옆 칠판에 데이터 40개짜리 예를 직접 쓰며 $\mu_1$, $\mu_2$를 구했어요. 평균을 빼는 일을 “평행이동”으로 설명했어요.</p>
 <blockquote>“마치 정사각형 안에 데이터들이 모여 있는 것처럼 느껴지는 데이터로 바뀐 거죠.” (1028 P04 08:20)</blockquote>
@@ -999,6 +1001,8 @@ lam, V = np.linalg.eigh(S)</code></pre>
 $$\boldsymbol{\Sigma}=\frac{1}{N}\sum_{n=1}^{N}(\mathbf{x}_n-\bar{\mathbf{x}})(\mathbf{x}_n-\bar{\mathbf{x}})^T$$
 <p>MML은 $N$으로 나누는 이 추정이 biased이고, $N-1$로 나누면 unbiased라고 적어요(MML 6.4.2). 수업과 MML 10장(식 10.1)은 모두 $N$으로 나눠요.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%ED%91%9C%EB%B3%B8_%EA%B3%B5%EB%B6%84%EC%82%B0_%ED%96%89%EB%A0%AC_%EC%9D%BD%EA%B8%B0.html">표본을 하나씩 더해 S를 만들고 평균을 옮기며 centering의 역할을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%ED%91%9C%EB%B3%B8_%EA%B3%B5%EB%B6%84%EC%82%B0_%ED%96%89%EB%A0%AC_%EC%9D%BD%EA%B8%B0.html" target="_blank" rel="noopener noreferrer">표본 공분산 행렬 실험</a>에서 확인해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>표본 벡터를 열로 하나씩 "풀칠해서 붙인" 것이 데이터 행렬이라고 했어요(1028 P05 08:17).</p>
 <p>sample mean을 학점으로 설명했어요. 한 학생에게 평점을 물었더니 4학년 2학기에 4.3이었어요. 이 4.3은 "4.3을 내는 공장" 같은 확률변수의 진짜 평균이 아니에요. 지금까지 들은 과목 학점을 학점 수로 가중평균한 표본 평균이에요(1028 P06 02:47–04:21).</p>
@@ -1170,6 +1174,8 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M\times1}$$
 <p>어떤 $\mathbf{B}$를 고를지는 아직 정하지 않았어요. 교수님은 $\mathbf{z}_n$을 이용한 자세한 설명을 뒤로 미뤘어요.</p>
 <p><strong>다시 만드는 법:</strong> 직교 원리로 얻은 ${\boldsymbol{\lambda}=(\mathbf{B}^T\mathbf{B})^{-1}\mathbf{B}^T\mathbf{x}}$ → 정규직교면 $\mathbf{B}^T\mathbf{B} = \mathbf{I}$ → $\mathbf{z}_n = \mathbf{B}^T\mathbf{x}_n$, 크기는 $(M\times D)(D\times1)=M\times1$.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A0%95%EA%B7%9C%EC%A7%81%EA%B5%90%EC%99%80_code.html">기저의 길이와 사잇각을 바꾸며 z와 사영 계수가 언제 같아지는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A0%95%EA%B7%9C%EC%A7%81%EA%B5%90%EC%99%80_code.html" target="_blank" rel="noopener noreferrer">정규직교와 code 실험</a>에서 비교해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <blockquote>"이게 이제 오늘의 결론인데, low-dimensional representation이라는 건 뭐냐면" (1028 P07 07:12)</blockquote>
 <p>교수님은 $\mathbf{B}$를 만들 때 서로 orthonormal한 벡터를 먼저 둔다고 강조하고, 계수 $\mathbf{z}_n$을 code라고 불렀어요.</p>

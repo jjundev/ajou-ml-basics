@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>표본 공분산 행렬 읽기</title>
+<!-- 생성 파일: .pack/자료_인터렉티브_02_표본_공분산_행렬_읽기/Main.dc.html을 고친 뒤 ml-interactive/scripts/build.cjs로 다시 만드세요. -->
+<link rel="stylesheet" href=".pack/vendor/ml-interactive/pretendard/pretendard.css">
+<link rel="stylesheet" href=".pack/vendor/ml-interactive/katex/katex.min.css">
+<script src=".pack/vendor/ml-interactive/katex/katex.min.js"></script>
+<style>
+body{margin:0}
+.app{--radius:8px;--tap:48px;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--dur:220ms;--dur-exit:150ms;--ease-out:cubic-bezier(.2,.8,.2,1);--scrim:rgba(0,0,0,.4);
+  height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;box-sizing:border-box;
+  background:var(--bg);color:var(--ink);font-family:'Pretendard',system-ui,sans-serif;font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+.app *,.app *::before,.app *::after{box-sizing:border-box}
+.app button{font-family:inherit;color:inherit}
+.app :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.num{font-variant-numeric:tabular-nums}
+
+.topbar{display:flex;align-items:center;gap:var(--s2);min-height:56px;padding:var(--s2) var(--s3);background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:17px;font-weight:700;white-space:nowrap}
+.text-btn{flex:none;min-height:44px;min-width:44px;padding:0 var(--s3);border:0;border-radius:var(--radius);background:transparent;color:var(--ink);font:600 14px/1 'Pretendard',system-ui,sans-serif;cursor:pointer}
+.panel-toggle{display:inline-flex;align-items:center;gap:var(--s1);padding:0 var(--s2)}
+.panel-toggle svg,.theme-toggle svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.panel-toggle .strip{fill:transparent;stroke:none;transition:fill 150ms ease-out}
+.panel-toggle[aria-expanded="true"]{color:var(--accent-ink)}
+.panel-toggle[aria-expanded="true"] .strip{fill:currentColor}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;padding:0}
+.seg{flex:none;display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:var(--radius)}
+.seg button{min-height:40px;padding:0 var(--s3);border:0;border-radius:6px;background:transparent;color:var(--ink-2);font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--btn-bg);color:var(--on-btn)}
+
+.layout{display:grid;grid-template-columns:auto minmax(320px,1fr) auto;min-height:0}
+.panel{position:relative;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--bg);color:var(--ink)}
+.panel-left{grid-column:1;width:clamp(260px,20vw,320px);border-right:1px solid var(--line)}
+.panel-right{grid-column:3;width:clamp(320px,24vw,400px);border-left:1px solid var(--line)}
+.panel-inner{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:var(--s4) var(--s4) var(--s6)}
+.app *{scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}
+.app *::-webkit-scrollbar{width:8px;height:8px}
+.app *::-webkit-scrollbar-track{background:transparent}
+.app *::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:8px;border:2px solid var(--bg)}
+.app *::-webkit-scrollbar-thumb:hover{background:var(--scroll-hover)}
+.panel-inner::-webkit-scrollbar{width:8px;height:8px}
+.panel-inner::-webkit-scrollbar-track{background:transparent}
+.panel-inner::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:8px;border:2px solid var(--bg)}
+.panel-inner::-webkit-scrollbar-thumb:hover{background:var(--scroll-hover)}
+@supports (scrollbar-color:auto){.panel-inner{scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}}
+.panel-head{display:flex;align-items:center;gap:var(--s2);min-height:44px;margin-bottom:var(--s2)}
+.panel-head h2{flex:1 1 0;min-width:0;margin:0;font-size:22px;line-height:1.4}
+.stage{display:flex;flex-direction:column;grid-column:2;position:relative;min-width:0;min-height:0;overflow:hidden;background:var(--bg)}
+.scrim{display:none}
+.panel-resize{display:none}
+
+.sec{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid var(--line)}
+.panel-head + .sec,.panel-head + div > .sec:first-child{margin-top:0;padding-top:0;border-top:0}
+.sec-title{display:block;margin:0 0 var(--s3);font-size:19px;font-weight:700;line-height:1.4;letter-spacing:-0.01em}
+.sub{margin:var(--s3) 0 0;font-size:14px;line-height:1.6;color:var(--ink-2)}
+
+.opt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+.btn{display:flex;align-items:center;gap:var(--s2);width:100%;min-height:var(--tap);padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink);font-size:14px;font-weight:600;line-height:1.3;text-align:left;cursor:pointer}
+.btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink)}
+.btn .box{flex:none;width:12px;height:12px;border-radius:3px;border:1.5px solid currentColor}
+.btn[aria-pressed="true"] .box{background:currentColor}
+.steps{display:flex;flex-direction:column;gap:var(--s2)}
+.steps .btn{padding:var(--s2) var(--s3);gap:var(--s3)}
+.step-num{flex:none;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:2px solid;font-size:12px;font-weight:700;color:var(--ink)}
+.step-txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.step-txt b{font-size:15px;font-weight:700}
+.step-txt span{font-size:13px;font-weight:500;color:var(--ink-2)}
+.detail{margin-top:var(--s3);padding:var(--s4);border-radius:var(--radius);background:var(--surface);font-size:15px;line-height:1.7}
+
+
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+.tiles.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tile{padding:var(--s3);border-radius:var(--radius);background:var(--surface)}
+.tile b{display:block;font-size:20px;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
+.tile span{display:block;font-size:13px;line-height:1.4;color:var(--ink-2)}
+.events{display:flex;flex-direction:column;gap:var(--s2)}
+.event{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.6}
+.dot{flex:none;width:10px;height:10px;margin-top:7px;border-radius:50%}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2) var(--s3);font-size:13px;color:var(--ink-2)}
+.legend div{display:flex;align-items:center;gap:var(--s2)}
+.sw{flex:none;width:16px;height:6px;border-radius:3px}
+.sw.ball{width:12px;height:12px;border-radius:50%}
+.sec.warn{border-top:0;padding:var(--s4);border-radius:var(--radius);background:var(--surface);font-size:15px;line-height:1.7}
+.warn .sec-title{color:var(--warn);font-size:17px}
+.mistake{margin-top:var(--s3)}
+.mistake b{display:block;font-weight:700}
+.mistake span{color:var(--ink-2)}
+
+.canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.canvas.is-fixed{cursor:default}
+.view-btns{display:flex;flex:none;gap:6px}
+.icon-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink);cursor:pointer}
+.icon-btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink)}
+.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.float{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius)}
+.hover-card{position:absolute;left:var(--s3);bottom:var(--s3);display:flex;flex-direction:column;gap:2px;padding:var(--s3) var(--s4);pointer-events:none}
+.hover-card .k{font-size:13px;color:var(--ink-2)}
+.hover-card .v{font-size:18px;font-weight:700}
+.playbar{position:absolute;left:var(--s3);right:var(--s3);bottom:var(--s3);display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);padding:var(--s2) var(--s3)}
+.play{flex:none;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:var(--radius);background:var(--btn-bg);color:var(--on-btn) !important;cursor:pointer}
+.play svg{width:18px;height:18px;fill:currentColor}
+.scrub{flex:1 1 200px;min-width:160px;display:flex;flex-direction:column;gap:2px}
+.scrub span{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.scrub input{width:100%;height:24px;margin:0;accent-color:var(--accent)}
+.speeds{display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:var(--radius)}
+.speeds button{min-width:48px;height:40px;padding:0 var(--s2);border:0;border-radius:6px;background:transparent;color:var(--ink-2);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;cursor:pointer}
+.speeds button[aria-pressed="true"]{background:var(--btn-bg);color:var(--on-btn)}
+
+
+.panel-content > :nth-child(1 of .sec,details,div:has(.sec,details)),
+.panel-content > :nth-child(1 of .sec,details,div:has(.sec,details)) :nth-child(1 of .sec,details){margin-top:0;padding-top:0;border-top:0}
+.fold{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--line)}
+.fold summary{min-height:44px;align-content:center;cursor:pointer;font-size:15px;font-weight:600}
+.stage-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.stage-head h1{flex:1;min-width:0;font-size:22px;line-height:1.4;margin:0}
+.stage-body{position:relative;flex:1;min-height:0;min-width:0;overflow:hidden}
+.stage-formula .canvas{display:none}
+.stage-formula .formula-scroll{height:100%;overflow:auto;padding:0 24px 24px;overscroll-behavior:contain}
+.formula-row{padding:20px 0;border-bottom:1px solid var(--line)}
+.formula-row:last-child{border-bottom:0}
+.formula-row h2{font-size:14px;margin:0 0 12px}
+.formula-row.is-active h2{color:var(--accent-ink)}
+.formula-math{font-size:calc(17px * var(--formula-scale,1));max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 2px}
+.formula-math .katex-display{margin:0;text-align:left}.formula-math .katex-display>.katex{text-align:left}
+.formula-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.formula-cell{min-width:0}.formula-cell small{font-size:12px;color:var(--ink-2)}
+.formula-nav{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.formula-nav .btn{width:auto;flex:none}.formula-progress{flex:1;text-align:right;font-size:12px;color:var(--ink-2)}
+.icon-btn:disabled,.btn:disabled{opacity:.45;cursor:default}
+@media(max-width:1200px){.formula-pair{grid-template-columns:1fr}}
+@media(max-width:480px){.stage-head{padding:10px;gap:8px}.stage-head h1{font-size:18px}.view-btns{gap:4px}.stage-formula .formula-scroll{padding:0 16px 16px}.formula-nav{padding:10px}.formula-math{font-size:calc(16px * var(--formula-scale,1))}}
+
+@media (hover:hover){.btn:hover,.icon-btn:hover{background:var(--surface)}.text-btn:hover{background:var(--surface)}}
+@media (min-width:1024px){
+  .panel-head{display:none}
+  .layout{--pl:var(--pl-user,clamp(260px,20vw,320px));--pr:var(--pr-user,clamp(320px,24vw,400px))}
+  .panel{width:0;border-width:0;visibility:hidden;transition:width var(--dur-exit) ease-in,visibility 0s linear var(--dur-exit)}
+  .panel-left.is-open{width:var(--pl)}
+  .panel-right.is-open{width:var(--pr)}
+  .panel.is-open{visibility:visible;border-width:1px;transition:width var(--dur) var(--ease-out)}
+  .panel-left .panel-inner{width:var(--pl)}
+  .panel-right .panel-inner{width:var(--pr);align-self:flex-end}
+  .layout.is-resizing .panel{transition:none}
+  .layout.is-resizing{cursor:col-resize;user-select:none}
+  .panel-resize{display:block;position:absolute;top:0;bottom:0;z-index:2;width:12px;padding:0;border:0;background:transparent;cursor:col-resize;touch-action:none}
+  .panel-left .panel-resize{right:0}
+  .panel-right .panel-resize{left:0}
+  .panel-resize::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--accent);opacity:0;transition:opacity 150ms ease-out}
+  .panel-left .panel-resize::after{right:0}
+  .panel-right .panel-resize::after{left:0}
+  .panel-resize:focus-visible{outline:none}
+  .panel-resize:focus-visible::after,.is-resizing .panel-resize:active::after{opacity:1}
+  @media (hover:hover){.panel-resize:hover::after{opacity:1}}
+}
+@media (max-width: 1023.98px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .stage{grid-column:1}
+  .panel{position:fixed;top:0;bottom:0;z-index:40;visibility:hidden;transition:transform var(--dur-exit) ease-in,visibility 0s linear var(--dur-exit)}
+  .panel-left{left:0;width:min(304px,88vw);transform:translateX(-100%)}
+  .panel-right{right:0;width:min(360px,88vw);transform:translateX(100%)}
+  .panel.is-open{visibility:visible;transform:none;transition:transform var(--dur) var(--ease-out)}
+  .panel-inner{padding-top:calc(var(--s3) + env(safe-area-inset-top));padding-bottom:calc(var(--s6) + env(safe-area-inset-bottom))}
+  .scrim{display:block;position:fixed;inset:0;z-index:35;background:var(--scrim);opacity:0;visibility:hidden;transition:opacity var(--dur-exit) ease-in,visibility 0s linear var(--dur-exit)}
+  .scrim.is-on{opacity:1;visibility:visible;transition:opacity var(--dur) var(--ease-out)}
+}
+@media (max-width:640px){.brand{display:none}.topbar{justify-content:space-between}}
+@media (max-width:480px){.panel-toggle span{display:none}.seg button{padding:0 var(--s2)}}
+@media (prefers-reduced-motion:reduce){.panel,.panel.is-open,.scrim,.scrim.is-on,.panel-toggle .strip,.panel-resize::after{transition:none}}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div class="app" onKeyDown="{{onKey}}" style="--bg: {{th.bg}}; --surface: {{th.surface}}; --ink: {{th.ink}}; --ink-2: {{th.ink2}}; --line: {{th.line}}; --accent: {{th.accent}}; --accent-ink: {{th.accentInk}}; --btn-bg: {{th.btnBg}}; --on-btn: {{th.onBtn}}; --warn: {{th.warn}}; --prof: {{th.prof}}; --supp: {{th.supp}}; --danger: {{th.danger}}; --scroll: {{th.scroll}}; --scroll-hover: {{th.scrollHover}}">
+<header class="topbar">
+<button class="text-btn panel-toggle" type="button" aria-label="조작 패널" aria-expanded="{{leftExpanded}}" onClick="{{toggleLeft}}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"></rect><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M9 4v16"></path></svg><span>조작</span></button>
+<strong class="brand">표본 공분산 행렬 읽기</strong>
+<sc-if value="{{hasModes}}" hint-placeholder-val="{{ true }}">
+<div class="seg" role="group" aria-label="보기 선택">
+<sc-for list="{{modes}}" as="md" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{md.pressed}}" onClick="{{md.pick}}">{{md.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+<button class="text-btn theme-toggle" type="button" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}">
+<sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+<sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if>
+</button>
+<button class="text-btn panel-toggle" type="button" aria-label="설명 패널" aria-expanded="{{rightExpanded}}" onClick="{{toggleRight}}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"></rect><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M15 4v16"></path></svg><span>설명</span></button>
+</header>
+
+<div class="layout {{layoutCls}}" style="{{layoutStyle}}">
+<aside class="panel panel-left {{leftCls}}" aria-label="조작">
+<div class="panel-resize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 기본 너비" aria-valuemin="220" aria-valuemax="480" aria-valuenow="{{leftWNow}}" ref="{{leftHandleRef}}"></div>
+<div class="panel-inner">
+<div class="panel-head"><h2>조작</h2><button class="text-btn" type="button" onClick="{{closePanels}}">닫기</button></div>
+
+<div class="panel-content">
+<sc-if value="{{hasToggles}}" hint-placeholder-val="{{ true }}">
+<div class="sec">
+<h3 class="sec-title">보기 옵션</h3>
+<div class="opt">
+<sc-for list="{{toggles}}" as="t" hint-placeholder-count="2">
+<button class="btn" type="button" aria-pressed="{{t.pressed}}" onClick="{{t.toggle}}"><span class="box" aria-hidden="true"></span>{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<!-- SLOT:left -->
+<sc-if value="{{is.build}}"><div class="sec">
+<h3 class="sec-title">데이터</h3>
+<div class="opt">
+<button class="btn" type="button" aria-pressed="{{noteOn}}" onClick="{{useNote}}">노트 예제 N=3</button>
+<button class="btn" type="button" aria-pressed="{{sampleOn}}" onClick="{{useSample}}">학습용 N=12</button>
+</div>
+<p class="sub">재생 바를 옮기면 표본이 하나씩 더해져요. 색 사각형의 넓이가 x₁x₂의 크기예요.</p>
+</div></sc-if>
+<sc-if value="{{is.read}}"><div class="sec">
+<h3 class="sec-title">데이터 모양</h3>
+<div style="margin-bottom:12px"><label for="in-sigma1" style="display:block;font-size:14px;font-weight:600">x₁의 표준편차 σ₁ · <span class="num">{{v.sigma1}}</span></label>
+<input id="in-sigma1" type="number" min="0.5" max="3" step="0.1" value="{{v.sigma1}}" onChange="{{chg.sigma1}}" style="width:100%;min-height:44px;padding:0 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px">
+<input aria-label="x₁의 표준편차 σ₁ 슬라이더" type="range" min="0.5" max="3" step="0.1" value="{{v.sigma1}}" onChange="{{chg.sigma1}}" style="width:100%;min-height:44px;accent-color:var(--accent)"></div>
+<div style="margin-bottom:12px"><label for="in-sigma2" style="display:block;font-size:14px;font-weight:600">x₂의 표준편차 σ₂ · <span class="num">{{v.sigma2}}</span></label>
+<input id="in-sigma2" type="number" min="0.5" max="3" step="0.1" value="{{v.sigma2}}" onChange="{{chg.sigma2}}" style="width:100%;min-height:44px;padding:0 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px">
+<input aria-label="x₂의 표준편차 σ₂ 슬라이더" type="range" min="0.5" max="3" step="0.1" value="{{v.sigma2}}" onChange="{{chg.sigma2}}" style="width:100%;min-height:44px;accent-color:var(--accent)"></div>
+<div style="margin-bottom:12px"><label for="in-rho" style="display:block;font-size:14px;font-weight:600">상관 ρ · <span class="num">{{v.rho}}</span></label>
+<input id="in-rho" type="number" min="-0.95" max="0.95" step="0.05" value="{{v.rho}}" onChange="{{chg.rho}}" style="width:100%;min-height:44px;padding:0 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px">
+<input aria-label="상관 ρ 슬라이더" type="range" min="-0.95" max="0.95" step="0.05" value="{{v.rho}}" onChange="{{chg.rho}}" style="width:100%;min-height:44px;accent-color:var(--accent)"></div>
+</div></sc-if>
+<sc-if value="{{is.center}}"><div class="sec">
+<h3 class="sec-title">평균 옮기기</h3>
+<div style="margin-bottom:12px"><label for="in-mu1" style="display:block;font-size:14px;font-weight:600">평균 μ₁ · <span class="num">{{v.mu1}}</span></label>
+<input id="in-mu1" type="number" min="-5" max="5" step="0.5" value="{{v.mu1}}" onChange="{{chg.mu1}}" style="width:100%;min-height:44px;padding:0 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px">
+<input aria-label="평균 μ₁ 슬라이더" type="range" min="-5" max="5" step="0.5" value="{{v.mu1}}" onChange="{{chg.mu1}}" style="width:100%;min-height:44px;accent-color:var(--accent)"></div>
+<div style="margin-bottom:12px"><label for="in-mu2" style="display:block;font-size:14px;font-weight:600">평균 μ₂ · <span class="num">{{v.mu2}}</span></label>
+<input id="in-mu2" type="number" min="-5" max="5" step="0.5" value="{{v.mu2}}" onChange="{{chg.mu2}}" style="width:100%;min-height:44px;padding:0 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px">
+<input aria-label="평균 μ₂ 슬라이더" type="range" min="-5" max="5" step="0.5" value="{{v.mu2}}" onChange="{{chg.mu2}}" style="width:100%;min-height:44px;accent-color:var(--accent)"></div>
+<p class="sub">centering을 켜면 평균을 모두 빼서 점이 원점으로 돌아와요. 이때는 μ를 바꿔도 점이 움직이지 않아요.</p>
+</div></sc-if>
+<div class="sec"><button class="btn" type="button" onClick="{{resetAll}}">입력과 모드 처음으로</button></div>
+<!-- /SLOT:left -->
+
+<sc-if value="{{hasSteps}}" hint-placeholder-val="{{ true }}">
+<div class="sec">
+<h3 class="sec-title">단계</h3>
+<div class="steps">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="2">
+<button class="btn" type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}"><span class="step-num num" style="border-color: {{s.c}}">{{s.num}}</span><span class="step-txt"><b>{{s.title}}</b><sc-if value="{{s.showWho}}"><span>{{s.who}}</span></sc-if></span></button>
+</sc-for>
+</div>
+<sc-if value="{{hasStep}}" hint-placeholder-val="{{ false }}">
+<div class="detail" aria-live="polite">{{stepDetail}}</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</div>
+</aside>
+
+<section class="stage" aria-label="모형 보기">
+<header class="stage-head"><h1>{{stageTitle}}</h1>
+<div class="view-btns">
+<button class="icon-btn" type="button" aria-label="확대" onClick="{{zoomIn}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+<button class="icon-btn" type="button" aria-label="축소" onClick="{{zoomOut}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+<button class="icon-btn" type="button" aria-label="{{resetViewLabel}}" onClick="{{resetView}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"></path><path d="M4 4v5h5"></path></svg></button>
+</div></header>
+<div class="stage-body {{stageBodyCls}}" style="--formula-scale: {{formulaScale}}">
+<canvas class="canvas {{canvasCls}}" ref="{{canvasRef}}" role="img" aria-label="{{canvasLabel}}"></canvas>
+<sc-if value="{{isFormula}}">
+<div class="formula-scroll" tabindex="0" aria-label="지금까지 쓴 수식" ref="{{formulaRootRef}}" onKeyDown="{{onFormulaKey}}">
+<sc-for list="{{formulaRows}}" as="row">
+<article class="formula-row {{row.cls}}">
+<h2>{{row.title}}</h2>
+<sc-if value="{{row.single}}"><div class="formula-math" data-tex="{{row.tex}}"></div></sc-if>
+<sc-if value="{{row.pair}}"><div class="formula-pair"><div class="formula-cell"><small>{{row.leftLabel}}</small><div class="formula-math" data-tex="{{row.left}}"></div></div><div class="formula-cell"><small>{{row.rightLabel}}</small><div class="formula-math" data-tex="{{row.right}}"></div></div></div></sc-if>
+<sc-if value="{{row.active}}"><p class="sub">{{row.text}}</p></sc-if>
+</article>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{hasPlayback}}" hint-placeholder-val="{{ false }}">
+<div class="playbar float">
+<button class="play" type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}">
+<sc-if value="{{isPlaying}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg></sc-if>
+<sc-if value="{{notPlaying}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"></path></svg></sc-if>
+</button>
+<label class="scrub">
+<span>{{fLabel}}</span>
+<input type="range" min="0" max="{{fMax10}}" step="1" value="{{fInt}}" onChange="{{onScrub}}">
+</label>
+<div class="speeds" role="group" aria-label="재생 속도">
+<sc-for list="{{speeds}}" as="sp" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{sp.pressed}}" onClick="{{sp.pick}}">{{sp.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+<sc-if value="{{isFormula}}"><nav class="formula-nav" aria-label="수식 단계" ref="{{formulaNavRef}}">
+<button class="btn" type="button" data-prev="true" onClick="{{formulaPrev}}">이전 줄</button>
+<button class="btn" type="button" data-next="true" onClick="{{formulaNext}}">다음 줄 쓰기</button>
+<span class="formula-progress" role="status">{{formulaProgress}}</span>
+</nav></sc-if>
+</section>
+
+<aside class="panel panel-right {{rightCls}}" aria-label="설명">
+<div class="panel-resize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 기본 너비" aria-valuemin="280" aria-valuemax="720" aria-valuenow="{{rightWNow}}" ref="{{rightHandleRef}}"></div>
+<div class="panel-inner">
+<div class="panel-head"><h2>설명</h2><button class="text-btn" type="button" onClick="{{closePanels}}">닫기</button></div>
+
+<div class="panel-content">
+<!-- SLOT:right -->
+<sc-if value="{{is.build}}"><div>
+<div class="sec" aria-live="polite">
+<h3 class="sec-title">{{lastName}}</h3>
+<div class="tiles">
+<div class="tile"><b>{{last.a}}</b><span>x₁²</span></div>
+<div class="tile"><b>{{last.b}}</b><span>x₁x₂</span></div>
+<div class="tile"><b>{{last.b}}</b><span>x₂x₁</span></div>
+<div class="tile"><b>{{last.d}}</b><span>x₂²</span></div>
+</div>
+<p class="sub">{{lastNote}}</p>
+</div>
+<div class="sec">
+<h3 class="sec-title">지금까지의 합</h3>
+<div class="tiles">
+<div class="tile"><b>{{sum.a}}</b><span>Σ x₁²</span></div>
+<div class="tile"><b>{{sum.b}}</b><span>Σ x₁x₂</span></div>
+<div class="tile"><b>{{sum.b}}</b><span>Σ x₂x₁</span></div>
+<div class="tile"><b>{{sum.d}}</b><span>Σ x₂²</span></div>
+</div>
+</div>
+<div class="sec">
+<h3 class="sec-title">{{Ntext}}</h3>
+<div class="tiles">
+<div class="tile"><b>{{avg.a}}</b><span>S₁₁</span></div>
+<div class="tile"><b>{{avg.b}}</b><span>S₁₂</span></div>
+<div class="tile"><b>{{avg.b}}</b><span>S₂₁</span></div>
+<div class="tile"><b>{{avg.d}}</b><span>S₂₂</span></div>
+</div>
+<p class="sub">{{avgNote}}</p>
+<div class="sub" ref="{{sTex}}" style="overflow-x:auto"></div>
+</div>
+</div></sc-if>
+<sc-if value="{{is.read}}"><div>
+<div class="sec" aria-live="polite">
+<h3 class="sec-title">표본 공분산 행렬 S</h3>
+<div class="tiles">
+<div class="tile"><b>{{S.a}}</b><span>S₁₁ x₁ 분산</span></div>
+<div class="tile"><b>{{S.b}}</b><span>S₁₂ 공분산</span></div>
+<div class="tile"><b>{{S.b}}</b><span>S₂₁ 공분산</span></div>
+<div class="tile"><b>{{S.d}}</b><span>S₂₂ x₂ 분산</span></div>
+</div>
+<p class="sub">{{readNote}}</p>
+</div>
+<div class="sec">
+<h3 class="sec-title">범례</h3>
+<div class="legend">
+<div><span class="sw ball" style="background: {{pal.pos}}"></span>x₁x₂ &gt; 0</div>
+<div><span class="sw ball" style="background: {{pal.neg}}"></span>x₁x₂ &lt; 0</div>
+<div><span class="sw" style="background: {{pal.box}}"></span>±1 표준편차 상자</div>
+</div>
+</div>
+</div></sc-if>
+<sc-if value="{{is.center}}"><div>
+<div class="sec" aria-live="polite">
+<h3 class="sec-title">(1/N)XXᵀ · 지금 점으로 계산</h3>
+<div class="tiles">
+<div class="tile"><b>{{second.a}}</b><span>1행 1열</span></div>
+<div class="tile"><b>{{second.b}}</b><span>1행 2열</span></div>
+<div class="tile"><b>{{second.b}}</b><span>2행 1열</span></div>
+<div class="tile"><b>{{second.d}}</b><span>2행 2열</span></div>
+</div>
+</div>
+<div class="sec">
+<h3 class="sec-title">μμᵀ · 평균의 곱</h3>
+<div class="tiles">
+<div class="tile"><b>{{mm.a}}</b><span>μ₁²</span></div>
+<div class="tile"><b>{{mm.b}}</b><span>μ₁μ₂</span></div>
+<div class="tile"><b>{{mm.b}}</b><span>μ₂μ₁</span></div>
+<div class="tile"><b>{{mm.d}}</b><span>μ₂²</span></div>
+</div>
+</div>
+<div class="sec">
+<h3 class="sec-title">S · 공분산 행렬</h3>
+<div class="tiles">
+<div class="tile"><b>{{S.a}}</b><span>S₁₁</span></div>
+<div class="tile"><b>{{S.b}}</b><span>S₁₂</span></div>
+<div class="tile"><b>{{S.b}}</b><span>S₂₁</span></div>
+<div class="tile"><b>{{S.d}}</b><span>S₂₂</span></div>
+</div>
+<p class="sub">1행 1열 검산: {{identity}}</p>
+<div class="sub" ref="{{cTex}}" style="overflow-x:auto"></div>
+</div>
+</div></sc-if>
+<details class="fold">
+<summary>기호·학습용 데이터·수업 연결</summary>
+<p>벡터 xₙ은 표본 하나, X는 표본을 열로 붙인 D×N 행렬이에요. 여기서는 D = 2라서 S는 2×2예요. 표본 수 N은 S의 크기에 남지 않아요.</p>
+<p>노트 예제 X의 두 행은 [1, −1, 0], [2, 0, −2]예요. 학습용 N=12와 N=40 점은 평균이 정확히 0이 되도록 만든 데이터예요. 평균 0을 가정해서 S를 (1/N)Σxₙxₙᵀ로 계산해요. N=40 점의 표본 표준편차와 상관은 입력값과 정확히 같게 맞췄어요.</p>
+<p>ρ는 S₁₂를 두 표준편차의 곱으로 나눈 값이에요. 수업 밖 보충 입력이에요. 평균·분산은 수업과 MML 10장처럼 N으로 나눠요. MML은 이 추정이 biased이고 N−1로 나누면 unbiased라고 적어요.</p>
+<p>Lecture05 실제 PDF 10쪽 · 1028 STT P05–P06 · MML 식 6.42(실제 PDF 198쪽), 식 10.1(실제 PDF 324쪽)</p>
+</details>
+<!-- /SLOT:right -->
+
+<details class="fold">
+<summary>꼭 기억할 점</summary>
+<sc-for list="{{mistakes}}" as="m" hint-placeholder-count="3">
+<div class="mistake"><b>{{m.title}}</b><span>{{m.text}}</span></div>
+</sc-for>
+</details>
+</div>
+</div>
+</aside>
+</div>
+<div class="scrim {{scrimCls}}" aria-hidden="true" onClick="{{closePanels}}"></div>
+</div>
+</template>
+<script>
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.MLMath=factory();})(globalThis,function(){
+const vector=(a,n)=>Array.isArray(a)&&a.length===n&&a.every(Number.isFinite);
+function requireSPD(S){
+  if(!Array.isArray(S)||S.length!==2||!S.every(r=>vector(r,2))||
+    Math.abs(S[0][1]-S[1][0])>1e-12||!(S[0][0]>0)||!(S[1][1]>0)||
+    !(S[0][0]*S[1][1]-S[0][1]*S[1][0]>0))
+    throw new RangeError('covariance must be finite symmetric SPD');
+  if(!Number.isFinite(S[0][0]*S[1][1]-S[0][1]*S[1][0])) throw new RangeError('covariance overflow');
+}
+function validate({xs,ys,n,m0,S0,sigma2}){
+  if(!Array.isArray(xs)||!xs.every(Number.isFinite)||!vector(ys,xs.length)||
+    !Number.isInteger(n)||n<0||n>xs.length||!vector(m0,2)||
+    !Number.isFinite(sigma2)||!(sigma2>0)) throw new RangeError('invalid regression input');
+  requireSPD(S0);
+}
+function validatePosterior(p){
+  if(!p||!vector(p.mean,2)) throw new RangeError('invalid posterior mean');
+  requireSPD(p.cov);
+}
+function inverse(S) {
+  const [[a,b],[c,d]]=S,det=a*d-b*c;
+  if(!(det>0) || !Number.isFinite(det)) throw new RangeError('covariance must be SPD');
+  return [[d/det,-b/det],[-c/det,a/det]];
+}
+function posterior({xs,ys,n,m0=[0,0],S0=[[1,0],[0,1]],sigma2}={}) {
+  if(n===undefined && Array.isArray(xs)) n=xs.length;
+  validate({xs,ys,n,m0,S0,sigma2});
+  if(n===0) return {mean:[...m0],cov:S0.map(r=>[...r]),n};
+  const A=inverse(S0);
+  const b=[A[0][0]*m0[0]+A[0][1]*m0[1],A[1][0]*m0[0]+A[1][1]*m0[1]];
+  for(let i=0;i<n;i++){
+    const x=xs[i],y=ys[i],beta=1/sigma2;
+    A[0][0]+=beta; A[0][1]+=beta*x; A[1][0]+=beta*x; A[1][1]+=beta*x*x;
+    b[0]+=beta*y; b[1]+=beta*x*y;
+  }
+  const cov=inverse(A);
+  const mean=[cov[0][0]*b[0]+cov[0][1]*b[1],cov[1][0]*b[0]+cov[1][1]*b[1]];
+  validatePosterior({mean,cov});
+  return {mean,cov,n};
+}
+function predict(p,x,sigma2) {
+  validatePosterior(p);
+  if(!Number.isFinite(x)||!(sigma2>0)||!Number.isFinite(sigma2)) throw new RangeError('invalid prediction input');
+  const mean=p.mean[0]+x*p.mean[1];
+  const raw=p.cov[0][0]+2*x*p.cov[0][1]+x*x*p.cov[1][1];
+  if(!Number.isFinite(raw)||raw < -1e-12) throw new RangeError('invalid function variance');
+  const functionVariance=Math.max(0,raw);
+  const observationVariance=functionVariance+sigma2;
+  if(![mean,functionVariance,observationVariance].every(Number.isFinite)) throw new RangeError('prediction overflow');
+  return {mean,functionVariance,observationVariance};
+}
+function normalPdf(x,mu,v) {
+  if(![x,mu,v].every(Number.isFinite)||!(v>0)) throw new RangeError('normal density needs positive variance');
+  return Math.exp(-.5*(x-mu)**2/v)/Math.sqrt(2*Math.PI*v);
+}
+function sampleWeights(p,seed,count) {
+  validatePosterior(p);
+  if(!Number.isInteger(seed)||!Number.isInteger(count)||count<0||count>1000)
+    throw new RangeError('invalid sampling input');
+  const L00=Math.sqrt(p.cov[0][0]),L10=p.cov[1][0]/L00;
+  const L11=Math.sqrt(p.cov[1][1]-L10*L10);
+  let s=seed>>>0;
+  const u=()=>{s=(Math.imul(1664525,s)+1013904223)>>>0;return (s+.5)/4294967296;};
+  return Array.from({length:count},()=>{
+    const r=Math.sqrt(-2*Math.log(u())),a=2*Math.PI*u();
+    const z0=r*Math.cos(a),z1=r*Math.sin(a);
+    return [p.mean[0]+L00*z0,p.mean[1]+L10*z0+L11*z1];
+  });
+}
+return {posterior,predict,normalPdf,sampleWeights};
+});
+
+// Minimal x-dc runtime for opening the canvas component as a plain HTML page.
+// Supports what Main.dc.html uses: {{dotted.path}} holes in text and attributes,
+// event attributes (onClick, onKeyDown, onMouseEnter, onMouseLeave, onChange),
+// callback ref, <sc-if value> and <sc-for list as>.
+const DC_EVENTS = { onclick: 'click', onkeydown: 'keydown', onmouseenter: 'mouseenter', onmouseleave: 'mouseleave', onchange: 'input' };
+const DC_HOLE = /\{\{\s*([\w.$]+)\s*\}\}/g;
+let dcSchedule = () => {};
+
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(u) {
+    this.state = Object.assign({}, this.state, typeof u === 'function' ? u(this.state) : u);
+    dcSchedule();
+  }
+}
+
+function dcGet(scope, path) {
+  let o = scope;
+  for (const k of path.split('.')) { if (o == null) return undefined; o = o[k]; }
+  return o;
+}
+function dcInterp(str, scope) {
+  return str.replace(DC_HOLE, (_, p) => { const v = dcGet(scope, p); return v == null ? '' : String(v); });
+}
+function dcSingle(str) {
+  const m = str.match(/^\s*\{\{\s*([\w.$]+)\s*\}\}\s*$/);
+  return m ? m[1] : null;
+}
+
+// Compiles one node in place; pushes updaters that take the current scope.
+function dcCompile(node, ups) {
+  if (node.nodeType === 3) {
+    if (!node.data.includes('{{')) return;
+    const src = node.data;
+    let last;
+    ups.push((s) => { const v = dcInterp(src, s); if (v !== last) { node.data = v; last = v; } });
+    return;
+  }
+  if (node.nodeType !== 1) return;
+  const tag = node.tagName.toLowerCase();
+  if (tag === 'sc-if' || tag === 'sc-for') { dcBlock(node, tag, ups); return; }
+  for (const a of [...node.attributes]) {
+    const name = a.name, val = a.value;
+    if (name.startsWith('hint-')) { node.removeAttribute(name); continue; }
+    if (!val.includes('{{')) continue;
+    node.removeAttribute(name);
+    if (DC_EVENTS[name]) {
+      const p = dcSingle(val);
+      let cur;
+      node.addEventListener(DC_EVENTS[name], (e) => { const f = dcGet(cur, p); if (typeof f === 'function') f(e); });
+      ups.push((s) => { cur = s; });
+    } else if (name === 'ref') {
+      const p = dcSingle(val);
+      let done = false;
+      ups.push((s) => { if (!done) { done = true; const f = dcGet(s, p); if (typeof f === 'function') f(node); } });
+    } else {
+      let last;
+      ups.push((s) => {
+        const v = dcInterp(val, s);
+        if (v === last) return;
+        last = v;
+        if (name === 'value' && 'value' in node) node.value = v; else node.setAttribute(name, v);
+      });
+    }
+  }
+  for (const c of [...node.childNodes]) dcCompile(c, ups);
+}
+
+function dcBlock(el, tag, ups) {
+  const anchor = document.createComment(tag);
+  el.parentNode.replaceChild(anchor, el);
+  const tpl = document.createDocumentFragment();
+  while (el.firstChild) tpl.appendChild(el.firstChild);
+  const make = () => {
+    const frag = tpl.cloneNode(true), u = [];
+    for (const c of [...frag.childNodes]) dcCompile(c, u);
+    return { frag: frag, nodes: [...frag.childNodes], u: u };
+  };
+  if (tag === 'sc-if') {
+    const p = dcSingle(el.getAttribute('value') || '');
+    let inst = null;
+    ups.push((s) => {
+      const on = !!dcGet(s, p);
+      if (!on) { if (inst) { inst.nodes.forEach((n) => n.remove()); inst = null; } return; }
+      if (!inst) { inst = make(); anchor.parentNode.insertBefore(inst.frag, anchor); }
+      inst.u.forEach((f) => f(s));
+    });
+  } else {
+    const p = dcSingle(el.getAttribute('list') || ''), as = el.getAttribute('as');
+    const insts = [];
+    ups.push((s) => {
+      const list = dcGet(s, p) || [];
+      while (insts.length > list.length) insts.pop().nodes.forEach((n) => n.remove());
+      while (insts.length < list.length) { const i = make(); anchor.parentNode.insertBefore(i.frag, anchor); insts.push(i); }
+      list.forEach((item, k) => { const sc = Object.create(s); sc[as] = item; insts[k].u.forEach((f) => f(sc)); });
+    });
+  }
+}
+
+function mountDC(Component) {
+  const comp = new Component({});
+  const frag = document.getElementById('dc-template').content.cloneNode(true), ups = [];
+  for (const c of [...frag.childNodes]) dcCompile(c, ups);
+  const root = document.getElementById('dc-root');
+  let pending = false;
+  const render = () => { pending = false; const v = comp.renderVals(); ups.forEach((f) => f(v)); };
+  dcSchedule = () => { if (!pending) { pending = true; queueMicrotask(render); } };
+  root.appendChild(frag);
+  render();
+  window.addEventListener('pagehide', () => { if (comp.componentWillUnmount) comp.componentWillUnmount(); });
+}
+class Component extends DCLogic {
+  // ================= 주제 훅: 주제마다 바꾸는 곳은 이 네 메서드뿐이에요 =================
+  // 계약은 ml-interactive/references/scene-api.md에 있어요.
+
+  topic() {
+    const flat = { cam: { yaw: 0, pitch: 0, zoom: 1 }, D: 60, autoSpin: false, rotatable: false };
+    const shape = { sigma1: 2, sigma2: 1, rho: 0.6 };
+    return {
+      MODES: [
+        Object.assign({ key: 'build', label: '쌓기', title: '표본을 하나씩 더해 S 만들기', fit: [9.5, 9.5],
+          playback: { fmax: 12, rate: 1.2, label: (f) => {
+            const N = this.buildData().length, n = Math.floor(f / 12 * N + 1e-9);
+            return (n === 0 ? '시작' : n >= N ? '다 더함' : '더하는 중') + ' · 표본 ' + n + ' / ' + N + ' · ' + f.toFixed(1) + ' / 12';
+          } },
+          canvasLabel: (f) => '표본 ' + Math.floor(f / 12 * this.buildData().length + 1e-9) + '개를 더한 그림이에요. 각 표본의 x₁x₂ 부호를 색 사각형으로 보여 줘요.' }, flat),
+        Object.assign({ key: 'read', label: '읽기', title: '점 구름에서 S의 칸 읽기', fit: [15, 13], playback: null,
+          canvasLabel: () => '평균이 0인 점 40개와 ±1 표준편차 상자예요. 표준편차와 상관을 바꾸면 S가 함께 바뀌어요.' }, flat),
+        Object.assign({ key: 'center', label: '평균', title: '평균을 빼야 공분산이 돼요', fit: [24, 18], playback: null,
+          canvasLabel: () => '평균 μ만큼 옮겨진 점 40개예요. centering을 켜면 점이 원점으로 돌아와요.' }, flat)
+      ],
+      STEPS: [
+        { mode: 'build', f: 0, phase: '시작', preset: { dataset: 'note' }, c: '#1769bd', title: '빈 표에서 시작', text: '합 행렬이 모두 0이에요. 노트 예제의 표본 3개를 차례로 더해요.' },
+        { mode: 'build', f: 4, phase: '더하는 중', preset: { dataset: 'note' }, c: '#1769bd', title: '첫 표본 (1, 2)', text: '외적은 [1, 2; 2, 4]예요. 대각은 각 성분의 제곱, 비대각은 x₁x₂ = 2예요.' },
+        { mode: 'build', f: 8, phase: '더하는 중', preset: { dataset: 'note' }, c: '#1769bd', title: '둘째 표본 (−1, 0)', text: 'x₂가 0이라 x₁x₂도 0이에요. 합의 왼쪽 위 칸만 1 늘어요.' },
+        { mode: 'build', f: 12, phase: '다 더함', preset: { dataset: 'note' }, c: '#00937f', title: '셋째 표본과 N으로 나누기', text: '합은 XXᵀ와 같은 [2, 2; 2, 8]이에요. 3으로 나누면 S예요. 대칭인 것도 확인해 보세요.' },
+        { mode: 'build', f: 12, phase: '다 더함', preset: { dataset: 'sample' }, c: '#00937f', title: '표본 12개', text: '표본이 늘어도 S는 그대로 2×2예요. 파란 사각형이 더 많아서 S₁₂가 양수예요.' },
+        { mode: 'read', preset: { sigma1: 2, sigma2: 1, rho: 0.6 }, c: '#1769bd', title: '양의 상관', text: '구름이 오른쪽 위로 기울어요. S = [4, 1.2; 1.2, 1]이에요.' },
+        { mode: 'read', preset: { sigma1: 2, sigma2: 1, rho: -0.6 }, c: '#1769bd', title: '음의 상관', text: '구름이 오른쪽 아래로 기울어요. 대각은 그대로이고 S₁₂만 −1.2가 돼요.' },
+        { mode: 'read', preset: { sigma1: 2, sigma2: 1, rho: 0 }, c: '#1769bd', title: '상관이 0일 때', text: '양수 곱과 음수 곱이 상쇄돼 S₁₂ = 0이에요. 대각은 그대로예요.' },
+        { mode: 'read', preset: { sigma1: 2, sigma2: 2, rho: 0.6 }, c: '#00937f', title: 'x₂ 키우기', text: 'σ₂ = 2이면 S₂₂ = 4예요. 대각은 표준편차가 아니라 분산이고, S₁₂는 2.4가 돼요.' },
+        { mode: 'center', preset: { mu1: 5, mu2: 3, centered: false, sigma1: 2, sigma2: 1, rho: 0.6 }, c: '#b87912', title: '평균이 원점에서 멀 때', text: '(1/N)XXᵀ는 [29, 16.2; 16.2, 10]이에요. 공분산 [4, 1.2; 1.2, 1]에 μμᵀ가 더해진 값이에요.' },
+        { mode: 'center', preset: { mu1: 0, mu2: 0, centered: false, sigma1: 2, sigma2: 1, rho: 0.6 }, c: '#00937f', title: '평균이 0일 때', text: 'μμᵀ가 영행렬이라 (1/N)XXᵀ가 곧 S예요.' },
+        { mode: 'center', preset: { mu1: 5, mu2: 3, centered: true, sigma1: 2, sigma2: 1, rho: 0.6 }, c: '#00937f', title: 'centering 켜기', text: '평균을 빼면 점만 원점으로 옮겨지고 S는 그대로예요. 그래서 PCA 1단계에서 centering을 해요.' }
+      ],
+      MISTAKES: {
+        build: [
+          { title: '외적은 표본마다 2×2예요', text: 'xₙxₙᵀ는 세로 × 가로라서 D×D 행렬이에요. xₙᵀxₙ은 숫자 하나예요.' },
+          { title: 'N은 크기에 남지 않아요', text: '표본 수가 늘어도 S의 크기는 feature 수 D로 정해져요.' },
+          { title: 'S는 평균 0을 가정한 식이에요', text: '(1/N)XXᵀ가 공분산이 되려면 데이터가 centering되어 있어야 해요.' }
+        ],
+        read: [
+          { title: '대각은 분산이에요', text: 'σ₁ = 2이면 S₁₁은 2가 아니라 4예요. 표준편차와 구별해요.' },
+          { title: 'S₁₂의 부호는 기울기 방향이에요', text: '두 feature가 같이 커지면 양수, 반대로 움직이면 음수예요.' },
+          { title: 'S는 항상 대칭이에요', text: 'x₁x₂ = x₂x₁이라서 S₁₂ = S₂₁이에요. 교차 공분산은 일반적으로 대칭이 아니에요.' }
+        ],
+        center: [
+          { title: 'centering 전 (1/N)XXᵀ는 공분산이 아니에요', text: '평균의 곱 μμᵀ가 섞여 있어요. 평균을 빼야 뒤 항이 사라져요.' },
+          { title: 'centering은 S를 바꾸지 않아요', text: '평행이동이라서 점끼리의 퍼짐은 그대로예요. 달라지는 것은 (1/N)XXᵀ예요.' },
+          { title: '곱의 평균 빼기 평균의 곱', text: '스칼라 공분산의 정의가 행렬에서도 그대로예요. S = (1/N)XXᵀ − μμᵀ예요.' }
+        ]
+      },
+      TOGGLES: { read: [['sign', '곱 부호 색'], ['labels', '이름표']], center: [['centered', 'centering'], ['labels', '이름표']] },
+      FIELDS: { sigma1: { min: 0.5, max: 3, step: 0.1 }, sigma2: { min: 0.5, max: 3, step: 0.1 }, rho: { min: -0.95, max: 0.95, step: 0.05 }, mu1: { min: -5, max: 5, step: 0.5 }, mu2: { min: -5, max: 5, step: 0.5 } },
+      PRESETS: [{ sigma1: 0.5, sigma2: 3, rho: -0.95, mu1: -5, mu2: 5 }, { sigma1: 3, sigma2: 0.5, rho: 0.95, mu1: 5, mu2: -5 }, { dataset: 'sample', sigma1: 3, sigma2: 3, rho: 0, mu1: 0, mu2: 0, centered: true }],
+      PAL: {
+        light: { bg: '#ffffff', labelBg: '#f7f8fa', ink: '#111111', ring: '#111111', pos: '#1769bd', neg: '#c2410c', point: '#1769bd', mean: '#008572', box: '#8a6fd1', grid: '#e7eaf0', axis: '#697586', blobAlpha: 0.2 },
+        dark: { bg: '#17171c', labelBg: '#212128', ink: '#f2f4f6', ring: '#f2f4f6', pos: '#80b6ff', neg: '#ff9a6b', point: '#80b6ff', mean: '#66d8c1', box: '#b69cff', grid: '#2a2b33', axis: '#aeb7c4', blobAlpha: 0.25 }
+      }
+    };
+  }
+
+  whitened() {
+    if (this._white) return this._white;
+    const R = [[0.216,-1.422],[-0.107,-0.07],[-0.504,0.124],[1.081,-0.893],[-1.574,-1.354],[2.154,-2.312],[2.729,-0.397],[0.716,0.246],[0.144,0.164],[1.405,0.407],[-2.304,-0.688],[0.242,-0.149],[0.273,1.31],[-2.576,-0.943],[-0.299,0.511],[-0.296,-0.757],[0.189,0.184],[2.251,-0.743],[0.021,0.419],[-1.405,-1.69],[-0.171,-0.458],[-0.181,-0.775],[2.4,-0.902],[-0.088,1.089],[1.132,0.273],[-1.853,-1.149],[0.843,-2.367],[0.438,-0.026],[-0.607,-1.427],[1.369,-0.981],[1.076,0.649],[-0.093,0.374],[-0.12,0.157],[-0.876,-1.494],[-0.074,-0.365],[0.325,0.261],[-0.248,-1.408],[-0.073,-1.381],[-0.771,-1.321],[0.075,-0.479]];
+    const N = R.length, m = [0, 1].map((d) => R.reduce((s, p) => s + p[d], 0) / N);
+    const C = R.map((p) => [p[0] - m[0], p[1] - m[1]]);
+    const a = C.reduce((s, p) => s + p[0] * p[0], 0) / N, b = C.reduce((s, p) => s + p[0] * p[1], 0) / N, d = C.reduce((s, p) => s + p[1] * p[1], 0) / N;
+    const l11 = Math.sqrt(a), l21 = b / l11, l22 = Math.sqrt(d - l21 * l21);
+    this._white = C.map((p) => { const u = p[0] / l11; return [u, (p[1] - l21 * u) / l22]; });
+    return this._white;
+  }
+  buildData() {
+    if (this.state.dataset === 'sample') return [[2, 1.5], [-1, -1.5], [3, 2], [-0.5, 0.5], [1.5, 0.5], [-3, -2], [0.5, -0.5], [-2.5, -1], [1, 1], [-2, -1], [2.5, 1], [-1.5, -0.5]];
+    return [[1, 2], [-1, 0], [0, -2]];
+  }
+  second(P) {
+    const N = P.length;
+    return { a: P.reduce((t, p) => t + p[0] * p[0], 0) / N, b: P.reduce((t, p) => t + p[0] * p[1], 0) / N, d: P.reduce((t, p) => t + p[1] * p[1], 0) / N };
+  }
+  // 그래프와 패널이 함께 읽는 순수 계산이에요.
+  compute(st) {
+    const key = [st.dataset, st.sigma1, st.sigma2, st.rho, st.mu1, st.mu2, st.centered, st.mode, st.f].join('|');
+    if (this._memo && this._memo.key === key) return this._memo.value;
+    const data = this.buildData(), N = data.length, nf = st.f / 12 * N, n = Math.min(N, Math.floor(nf + 1e-9));
+    const sum = { a: 0, b: 0, d: 0 };
+    for (let i = 0; i < n; i++) { const p = data[i]; sum.a += p[0] * p[0]; sum.b += p[0] * p[1]; sum.d += p[1] * p[1]; }
+    const lastPoint = n > 0 ? data[n - 1] : null;
+    const shape = this.whitened().map((z) => [st.sigma1 * z[0], st.sigma2 * (st.rho * z[0] + Math.sqrt(1 - st.rho * st.rho) * z[1])]);
+    const mean = st.centered ? [0, 0] : [st.mu1, st.mu2], moved = shape.map((p) => [p[0] + mean[0], p[1] + mean[1]]);
+    const value = { data, N, nf, n, sum, avg: { a: sum.a / N, b: sum.b / N, d: sum.d / N }, lastPoint, shape, moved, mean,
+      S: this.second(shape), raw: this.second(moved), mm: { a: mean[0] * mean[0], b: mean[0] * mean[1], d: mean[1] * mean[1] } };
+    this._memo = { key, value };
+    return value;
+  }
+  pair(c) { return c.map((x) => String(x).replace('-', '−')).join(', '); }
+  sbox(I, S, sx, sy, c) {
+    const corners = [[-sx, -sy], [sx, -sy], [sx, sy], [-sx, sy]].map(S);
+    corners.forEach((q, i) => I.push({ k: 1, p: q, q: corners[(i + 1) % 4], c, w: 0.03, flat: true }));
+  }
+  buildScene(mode, I, O) {
+    const st = this.state, p = this.pal(), m = this.modeDef(), d = this.compute(Object.assign({}, st, { f: mode === 'build' ? this.sim.f : st.f }));
+    if (mode === 'build') {
+      const R = 3.6, k = m.fit[0] / 2 * 0.92 / R, S = (q) => [q[0] * k, q[1] * k, 0];
+      this.planeAxes(I, O, k, R, R, ['x₁', 'x₂']);
+      d.data.forEach((q, i) => {
+        const a = this.sm(d.nf - i), last = i === d.n - 1 || (d.nf > i && d.nf < i + 1);
+        if (a <= 0) return;
+        const c = q[0] * q[1] >= 0 ? p.pos : p.neg;
+        if (q[0] !== 0 && q[1] !== 0) I.push({ k: 6, p: S([0, 0]), pts: [[0, 0], [q[0], 0], q, [0, q[1]]].map(S), c, a: a * (last ? 0.36 : 0.12) });
+      });
+      d.data.forEach((q, i) => {
+        const a = this.sm(d.nf - i);
+        if (a > 0) I.push({ k: 0, flat: true, p: S(q), r: 0.13, c: q[0] * q[1] >= 0 ? p.pos : p.neg, a });
+      });
+      if (d.lastPoint) { const c = d.lastPoint; O.push({ p: S(c), text: '(' + this.pair(c) + ')', c: p.ink, dy: c[1] >= 0 ? -22 : 22 }); }
+      return;
+    }
+    if (mode === 'read') {
+      const k = 1, hw = m.fit[0] / 2 * 0.95, hh = m.fit[1] / 2 * 0.95, S = (q) => [q[0], q[1], 0];
+      this.planeAxes(I, O, k, hw, hh, ['x₁', 'x₂']);
+      this.sbox(I, S, st.sigma1, st.sigma2, p.box);
+      d.shape.forEach((q) => I.push({ k: 0, flat: true, p: S(q), r: 0.14, c: st.sign ? (q[0] * q[1] >= 0 ? p.pos : p.neg) : p.point }));
+      if (st.labels) {
+        O.push({ p: S([st.sigma1, 0]), text: 'σ₁', c: p.box, dy: 16 });
+        O.push({ p: S([0, st.sigma2]), text: 'σ₂', c: p.box, dx: -18 });
+      }
+      return;
+    }
+    const k = 1, hw = m.fit[0] / 2 * 0.95, hh = m.fit[1] / 2 * 0.95, S = (q) => [q[0], q[1], 0];
+    this.planeAxes(I, O, k, hw, hh, ['x₁', 'x₂']);
+    this.arrow(I, S([0, 0]), S(d.mean), p.mean, 0.07);
+    d.moved.forEach((q) => I.push({ k: 0, flat: true, p: S(q), r: 0.17, c: p.point }));
+    I.push({ k: 0, flat: true, p: S(d.mean), r: 0.26, c: p.ink });
+    if (st.labels) O.push({ p: S(d.mean), text: '평균 (' + this.pair(d.mean) + ')', c: p.mean, dx: 12, dy: -24, lead: true });
+  }
+
+  extraState() {
+    return { dataset: 'note', sigma1: 2, sigma2: 1, rho: 0.6, mu1: 5, mu2: 3, centered: false, sign: true, labels: true };
+  }
+
+  extraVals(st) {
+    const d = this.compute(st), fix = (x) => { const v = Number(x.toFixed(2)); return (v === 0 ? 0 : v).toFixed(2).replace('-', '−'); };
+    const mat = (m) => ({ a: fix(m.a), b: fix(m.b), d: fix(m.d) }), c = d.lastPoint;
+    const defaults = { dataset: 'note', sigma1: 2, sigma2: 1, rho: 0.6, mu1: 5, mu2: 3, centered: false, sign: true, labels: true };
+    const pick = (dataset) => () => { this.sim.f = 0; this.setState({ dataset, f: 0, playing: false, step: -1 }); };
+    const sgn = d.S.b > 1e-9 ? '양수라서 구름이 오른쪽 위로 기울어요.' : d.S.b < -1e-9 ? '음수라서 구름이 오른쪽 아래로 기울어요.' : '0이라서 기운 방향이 없어요.';
+    return Object.assign({
+      noteOn: st.dataset === 'note' ? 'true' : 'false', sampleOn: st.dataset === 'sample' ? 'true' : 'false',
+      useNote: pick('note'), useSample: pick('sample'),
+      last: c ? mat({ a: c[0] * c[0], b: c[0] * c[1], d: c[1] * c[1] }) : mat({ a: 0, b: 0, d: 0 }),
+      lastName: c ? '표본 ' + d.n + ' (' + this.pair(c) + ')의 외적' : '이번 표본의 외적',
+      lastNote: !c ? '아직 더한 표본이 없어요. ▶를 눌러 보세요.' : c[0] * c[1] > 0 ? 'x₁x₂가 양수라서 S₁₂를 키워요.' : c[0] * c[1] < 0 ? 'x₁x₂가 음수라서 S₁₂를 줄여요.' : 'x₁x₂가 0이라서 S₁₂에 더해지는 값이 없어요.',
+      sum: mat(d.sum), avg: mat(d.avg), Ntext: (d.n >= d.N ? '합 ÷ N = S' : '합 ÷ N') + ' (N = ' + d.N + ')',
+      avgNote: d.n >= d.N ? '표본 ' + d.N + '개를 모두 더했어요. 이 표가 S예요.' : '표본 ' + d.n + '개까지 더한 값을 미리 N으로 나눈 값이에요. 끝까지 더해야 S가 돼요.',
+      S: mat(d.S), mm: mat(d.mm), second: mat(d.raw),
+      readNote: 'S₁₂가 ' + sgn,
+      identity: fix(d.raw.a) + ' = ' + fix(d.mm.a) + ' + ' + fix(d.S.a),
+      pal: this.pal(),
+      resetAll: () => { this.setMode('build'); this.setState(defaults); },
+      sTex: this.texRef(String.raw`\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T=\frac{1}{N}\mathbf{X}\mathbf{X}^T`),
+      cTex: this.texRef(String.raw`\frac{1}{N}\mathbf{X}\mathbf{X}^T=\mathbf{S}+\boldsymbol{\mu}\boldsymbol{\mu}^T`)
+    }, this.fieldVals());
+  }
+
+  // 입력 검사: 빈 값, 범위 밖, step 격자 밖이면 마지막 유효값으로 되돌려요.
+  fieldChange(key) {
+    return (e) => {
+      const spec = this.T.FIELDS[key], raw = String(e.target.value), n = Number(raw);
+      const grid = (n - spec.min) / spec.step;
+      if (raw.trim() === '' || !Number.isFinite(n) || n < spec.min - 1e-9 || n > spec.max + 1e-9 || Math.abs(grid - Math.round(grid)) > 1e-6) {
+        e.target.value = String(this.state[key]);
+        return;
+      }
+      this.setState({ [key]: Number(n.toFixed(6)), step: -1 });
+    };
+  }
+  fieldVals() {
+    const chg = {}, v = {};
+    Object.keys(this.T.FIELDS).forEach((k) => { chg[k] = this.fieldChange(k); v[k] = this.state[k]; });
+    return { chg, v };
+  }
+  texRef(tex) {
+    return (el) => {
+      if (el && el.dataset.rendered !== tex && window.katex) {
+        window.katex.render(tex, el, { displayMode: true, throwOnError: true, strict: 'error' });
+        el.dataset.rendered = tex;
+      }
+    };
+  }
+  niceStep(span) {
+    const raw = span / 6, m = Math.pow(10, Math.floor(Math.log10(raw))), r = raw / m;
+    return (r < 1.5 ? 1 : r < 3.5 ? 2 : 5) * m;
+  }
+  // 평면 눈금: k는 데이터 1칸의 장면 길이예요. 가로세로 같은 k를 써서 축 비율을 지켜요.
+  planeAxes(I, O, k, halfX, halfY, names) {
+    const p = this.pal(), step = this.niceStep(2 * Math.max(halfX, halfY)), L = 2.4;
+    const nx = Math.ceil(halfX * L / step), ny = Math.ceil(halfY * L / step);
+    for (let i = -nx; i <= nx; i++) {
+      if (i) I.push({ k: 1, p: [i * step * k, -halfY * L * k, 0], q: [i * step * k, halfY * L * k, 0], c: p.grid, w: 0.012, flat: true });
+      if (i && Math.abs(i * step) <= halfX * 1.02) I.push({ k: 3, p: [i * step * k, -0.32, 0], text: String(Number((i * step).toFixed(3))), size: 10, c: p.axis });
+    }
+    for (let j = -ny; j <= ny; j++) {
+      if (j) I.push({ k: 1, p: [-halfX * L * k, j * step * k, 0], q: [halfX * L * k, j * step * k, 0], c: p.grid, w: 0.012, flat: true });
+      if (j && Math.abs(j * step) <= halfY * 1.02) I.push({ k: 3, p: [-0.34, j * step * k, 0], text: String(Number((j * step).toFixed(3))), size: 10, c: p.axis });
+    }
+    I.push({ k: 1, p: [-halfX * L * k, 0, 0], q: [halfX * L * k, 0, 0], c: p.axis, w: 0.022, flat: true });
+    I.push({ k: 1, p: [0, -halfY * L * k, 0], q: [0, halfY * L * k, 0], c: p.axis, w: 0.022, flat: true });
+    O.push({ p: [halfX * k * 0.96, 0, 0], text: names[0], c: p.axis, dy: -14 });
+    O.push({ p: [0, halfY * k * 0.96, 0], text: names[1], c: p.axis, dx: 18 });
+  }
+  // 화살표: 몸통 선과 끝점의 촉을 같은 좌표로 그려요.
+  arrow(I, a, b, c, w) {
+    if (Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]) < 1e-6) return;
+    I.push({ k: 1, p: a, q: b, c, w: w || 0.04, flat: true });
+    I.push({ k: 4, p: this.lerp(a, b, 0.95), q: this.lerp(a, b, 1.05), c });
+  }
+
+  // ================= 공통 셸: 아래는 주제와 무관해요. 고치지 않아요 =================
+  constructor(...args) {
+    super(...args);
+    let reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    let narrow = false;
+    try { narrow = window.matchMedia('(max-width: 1023.98px)').matches; } catch (e) {}
+    let saved = null;
+    try { saved = window.localStorage.getItem('od-theme'); } catch (e) {}
+    const PANEL_W = { left: { min: 220, max: 480 }, right: { min: 280, max: 720 } };
+    let widths = {};
+    try { widths = JSON.parse(window.localStorage.getItem('interactive-panel-w')) || {}; } catch (e) {}
+    const okW = (side) => { const v = widths[side]; return typeof v === 'number' && v >= PANEL_W[side].min && v <= PANEL_W[side].max ? v : null; };
+    this.T = this.topic();
+    this._formulaRoot = null; this._formulaNav = null;
+    this.state = Object.assign({
+      mode: this.T.MODES[0].key, f: 0, playing: false, speed: 1, step: -1, spin: !reduce,
+      theme: (saved === 'light' || saved === 'dark') ? saved : (this.systemDark() ? 'dark' : 'light'),
+      // leftOpen/rightOpen: docked panels on wide screens; drawer: the one open drawer on narrow screens
+      formulaScale: 1, leftOpen: true, rightOpen: true, drawer: null, narrow: narrow,
+      // leftW/rightW: user-set docked widths in px (null = default); resizing: a handle is being dragged
+      leftW: okW('left'), rightW: okW('right'), resizing: false
+    }, this.extraState());
+    this.reduceMotion = reduce;
+    this.K = {
+      PANEL_W: PANEL_W, PANEL_W_KEY: 'interactive-panel-w', PANEL_DEFAULT: { left: 320, right: 400 },
+      THEMES: {
+        light: { bg: '#ffffff', surface: '#f7f8fa', ink: '#111111', ink2: '#6b7280', line: '#d9dee7', accent: '#1677ff', accentInk: '#1b64da', btnBg: '#1b64da', onBtn: '#ffffff', warn: '#b54708', prof: '#6941c6', supp: '#067647', danger: '#d92d20', scroll: '#c9d0db', scrollHover: '#9aa3b2' },
+        dark: { bg: '#17171c', surface: '#212128', ink: '#f2f4f6', ink2: '#a3abb8', line: '#34353d', accent: '#3182f6', accentInk: '#6ea4ff', btnBg: '#1b64da', onBtn: '#ffffff', warn: '#f5a15c', prof: '#b69cff', supp: '#5fd39a', danger: '#ff6b61', scroll: '#3f414b', scrollHover: '#5b5e6a' }
+      }
+    };
+    this.cam = Object.assign({}, this.modeDef().cam);
+    this.sim = { f: 0, cx: 0 };
+    this.pointer = { x: -1, y: -1, inside: false, drag: false, lx: 0, ly: 0 };
+    this.colorCache = {};
+    this._tick = (t) => this.tick(t);
+    this._canvasRef = (el) => this.attachCanvas(el);
+    this.handles = {};
+    this._handleRefL = (el) => this.attachHandle('left', el);
+    this._handleRefR = (el) => this.attachHandle('right', el);
+  }
+
+  componentWillUnmount() {
+    this.attachCanvas(null);
+    this.attachHandle('left', null);
+    this.attachHandle('right', null);
+  }
+
+  modeDef(key) {
+    const k = key || this.state.mode;
+    return this.T.MODES.find((m) => m.key === k) || this.T.MODES[0];
+  }
+  systemDark() {
+    try { return window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) { return false; }
+  }
+  isNarrow() {
+    try { return window.matchMedia('(max-width: 1023.98px)').matches; } catch (e) { return false; }
+  }
+  syncBreakpoint() { this.setState({ narrow: this.isNarrow(), drawer: null }); }
+  // In drawer mode only one panel is open at a time.
+  togglePanel(side) {
+    const st = this.state;
+    if (st.narrow) this.setState({ drawer: st.drawer === side ? null : side });
+    else if (side === 'left') this.setState({ leftOpen: !st.leftOpen });
+    else this.setState({ rightOpen: !st.rightOpen });
+  }
+  // Docked panel width: the canvas column always keeps at least 400px.
+  panelMax(side) {
+    const lim = this.K.PANEL_W[side], other = side === 'left' ? 'right' : 'left', st = this.state;
+    const h = this.handles[other];
+    const otherOpen = other === 'left' ? st.leftOpen : st.rightOpen;
+    const otherW = !otherOpen ? 0 : h ? h.el.parentElement.getBoundingClientRect().width
+      : (st[other + 'W'] || this.K.PANEL_DEFAULT[other]);
+    return Math.max(lim.min, Math.min(lim.max, (window.innerWidth || 1440) - otherW - 400));
+  }
+  setPanelWidth(side, px, save) {
+    const v = Math.round(Math.min(Math.max(px, this.K.PANEL_W[side].min), this.panelMax(side)));
+    this.setState({ [side + 'W']: v });
+    if (save) this.savePanelWidths(side, v);
+  }
+  resetPanelWidth(side) {
+    this.setState({ [side + 'W']: null });
+    this.savePanelWidths(side, null);
+  }
+  savePanelWidths(side, v) {
+    try {
+      const key = this.K.PANEL_W_KEY;
+      let w = {};
+      try { w = JSON.parse(window.localStorage.getItem(key)) || {}; } catch (e) {}
+      if (v == null) delete w[side]; else w[side] = v;
+      window.localStorage.setItem(key, JSON.stringify(w));
+    } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ }
+  }
+  // Re-fit user widths when the window shrinks (not saved).
+  refitPanels() {
+    ['left', 'right'].forEach((side) => {
+      const w = this.state[side + 'W'];
+      if (w != null && w > this.panelMax(side)) this.setPanelWidth(side, w, false);
+    });
+  }
+  attachHandle(side, el) {
+    const old = this.handles[side];
+    if (old && old.el === el) return;
+    if (old) {
+      Object.keys(old.on).forEach((ev) => old.el.removeEventListener(ev, old.on[ev]));
+      delete this.handles[side];
+      if (!Object.keys(this.handles).length) window.removeEventListener('resize', this._refit);
+    }
+    if (!el) return;
+    const dir = side === 'left' ? 1 : -1;
+    const width = () => el.parentElement.getBoundingClientRect().width;
+    let drag = null;
+    const on = {
+      pointerdown: (e) => {
+        if (this.state.narrow || e.button !== 0) return;
+        e.preventDefault();
+        drag = { x: e.clientX, w: width() };
+        try { el.setPointerCapture(e.pointerId); } catch (err) {}
+        this.setState({ resizing: true });
+      },
+      pointermove: (e) => { if (drag) this.setPanelWidth(side, drag.w + dir * (e.clientX - drag.x), false); },
+      pointerup: () => {
+        if (!drag) return;
+        drag = null;
+        this.setState({ resizing: false });
+        this.setPanelWidth(side, width(), true);
+      },
+      dblclick: () => this.resetPanelWidth(side),
+      keydown: (e) => {
+        const step = e.shiftKey ? 64 : 16;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault(); e.stopPropagation();
+          this.setPanelWidth(side, width() + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+        } else if (e.key === 'Home') { e.preventDefault(); e.stopPropagation(); this.resetPanelWidth(side); }
+      }
+    };
+    on.pointercancel = on.pointerup;
+    Object.keys(on).forEach((ev) => el.addEventListener(ev, on[ev]));
+    if (!Object.keys(this.handles).length) {
+      this._refit = this._refit || (() => this.refitPanels());
+      window.addEventListener('resize', this._refit);
+    }
+    this.handles[side] = { el: el, on: on };
+  }
+  textTone(hex) { return this.state.theme === 'light' ? this.mix(hex, '#000000', 0.4) : hex; }
+  pal() { return this.T.PAL[this.state.theme] || this.T.PAL.dark; }
+  setTheme(t) {
+    this.setState({ theme: t });
+    try {
+      if ((t === 'dark') === this.systemDark()) window.localStorage.removeItem('od-theme');
+      else window.localStorage.setItem('od-theme', t);
+    } catch (e) {}
+  }
+
+  attachCanvas(el) {
+    if (this.canvas === el) return;
+    if (this.canvas) {
+      const c = this.canvas;
+      c.removeEventListener('pointerdown', this._pd);
+      c.removeEventListener('pointermove', this._pm);
+      c.removeEventListener('pointerup', this._pu);
+      c.removeEventListener('pointercancel', this._pu);
+      c.removeEventListener('pointerleave', this._pl);
+      cancelAnimationFrame(this.raf);
+      try { this._mq.removeEventListener('change', this._mqH); } catch (err) {}
+    }
+    this.canvas = el || null;
+    if (!el) return;
+    this.ctx = el.getContext('2d');
+    const p = this.pointer;
+    this._pd = (e) => {
+      if (!this.modeDef().rotatable) return;
+      p.drag = true; p.lx = e.clientX; p.ly = e.clientY;
+      try { el.setPointerCapture(e.pointerId); } catch (err) {}
+      el.style.cursor = 'grabbing';
+    };
+    this._pm = (e) => {
+      const r = el.getBoundingClientRect();
+      p.x = e.clientX - r.left; p.y = e.clientY - r.top; p.inside = true;
+      if (p.drag && this.modeDef().rotatable) {
+        this.cam.yaw += (e.clientX - p.lx) * 0.008;
+        this.cam.pitch = Math.max(-1.45, Math.min(1.45, this.cam.pitch + (e.clientY - p.ly) * 0.008));
+        p.lx = e.clientX; p.ly = e.clientY;
+      }
+    };
+    this._pu = () => { p.drag = false; el.style.cursor = ''; };
+    this._pl = () => { p.inside = false; };
+    el.addEventListener('pointerdown', this._pd);
+    el.addEventListener('pointermove', this._pm);
+    el.addEventListener('pointerup', this._pu);
+    el.addEventListener('pointercancel', this._pu);
+    el.addEventListener('pointerleave', this._pl);
+    try {
+      this._mq = window.matchMedia('(max-width: 1023.98px)');
+      this._mqH = () => this.syncBreakpoint();
+      this._mq.addEventListener('change', this._mqH);
+    } catch (err) {}
+    this.last = 0;
+    this.raf = requestAnimationFrame(this._tick);
+  }
+
+  tick(t) {
+    if (!this.canvas) return;
+    const dt = this.last ? Math.min(0.05, (t - this.last) / 1000) : 0;
+    this.last = t;
+    const st = this.state, m = this.modeDef(), pb = m.playback;
+    if (m.autoSpin && st.spin && !this.pointer.drag) this.cam.yaw += dt * 0.3;
+    if (pb && st.playing) {
+      this.sim.f = Math.min(pb.fmax, this.sim.f + dt * pb.rate * st.speed);
+      if (this.sim.f >= pb.fmax) this.setState({ playing: false, f: this.sim.f });
+      else if (t - (this.lastPush || 0) > 120) { this.lastPush = t; this.setState({ f: this.sim.f }); }
+    }
+    // a broken scene keeps the page alive but is reported once for the browser check
+    try { this.draw(dt, t); } catch (err) { if (!this.drawErr) { this.drawErr = true; console.error(err); } }
+    this.raf = requestAnimationFrame(this._tick);
+  }
+
+  // ---------- math helpers (장면에서 써도 돼요) ----------
+  lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+  sm(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+  rgb(hex) { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+  mix(hex, to, amt) {
+    const a = this.rgb(hex), b = this.rgb(to);
+    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * amt) + ',' + Math.round(a[1] + (b[1] - a[1]) * amt) + ',' + Math.round(a[2] + (b[2] - a[2]) * amt) + ')';
+  }
+  rgba(hex, al) { const a = this.rgb(hex); return 'rgba(' + a[0] + ',' + a[1] + ',' + a[2] + ',' + al + ')'; }
+  shades(hex) {
+    let s = this.colorCache[hex];
+    if (!s) { s = { hi: this.mix(hex, '#FFFFFF', 0.55), mid: hex, lo: this.mix(hex, '#000000', 0.55) }; this.colorCache[hex] = s; }
+    return s;
+  }
+  proj(p, V) {
+    const x = p[0] - V.cx, y = p[1], z = p[2];
+    const x1 = x * V.cy + z * V.sy, z1 = -x * V.sy + z * V.cy;
+    const y2 = y * V.cp - z1 * V.sp, z2 = y * V.sp + z1 * V.cp;
+    const s = V.F / Math.max(2, V.D - z2);
+    return [V.ox + x1 * s, V.oy - y2 * s, z2, s];
+  }
+
+  // ---------- drawing ----------
+  draw(dt, now) {
+    const el = this.canvas, ctx = this.ctx, st = this.state, m = this.modeDef();
+    const dpr = window.devicePixelRatio || 1;
+    const W = el.clientWidth, H = el.clientHeight;
+    if (!W || !H) return;
+    if (el.width !== Math.round(W * dpr) || el.height !== Math.round(H * dpr)) { el.width = Math.round(W * dpr); el.height = Math.round(H * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const pal = this.pal();
+    ctx.fillStyle = pal.bg; ctx.fillRect(0, 0, W, H);
+
+    const I = [], O = [];
+    this.buildScene(st.mode, I, O);
+    const scale = Math.min(W / m.fit[0], H / m.fit[1]), D = m.D, z = this.cam.zoom;
+    const V = {
+      cx: this.sim.cx, cy: Math.cos(this.cam.yaw), sy: Math.sin(this.cam.yaw), cp: Math.cos(this.cam.pitch), sp: Math.sin(this.cam.pitch),
+      F: scale * z * D, D: D, ox: W / 2, oy: H / 2 - (m.playback ? 20 : 0)
+    };
+    let zmin = Infinity, zmax = -Infinity;
+    for (const it of I) {
+      it.A = this.proj(it.p, V);
+      if (it.q) { it.B = this.proj(it.q, V); it.z = (it.A[2] + it.B[2]) / 2; } else it.z = it.A[2];
+      if (it.z < zmin) zmin = it.z;
+      if (it.z > zmax) zmax = it.z;
+    }
+    I.sort((a, b) => a.z - b.z);
+    // depth fog; a flat scene (all items at one depth) is drawn without it
+    const span = zmax - zmin;
+    for (const it of I) {
+      const fog = span < 0.01 ? 1 : 0.42 + 0.58 * ((it.z - zmin) / span);
+      ctx.globalAlpha = Math.max(0, (it.a == null ? 1 : it.a) * fog);
+      if (ctx.globalAlpha < 0.01) continue;
+      const x = it.A[0], y = it.A[1], s = it.A[3];
+      if(it.k===6){
+        if(!Array.isArray(it.pts)||it.pts.length<3||it.pts.some(p=>!Array.isArray(p)||p.length!==3||!p.every(Number.isFinite)))throw new RangeError('invalid polygon points');
+        const points=it.pts.map(p=>this.proj(p,V));ctx.fillStyle=it.c;ctx.beginPath();
+        points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fill();
+      } else if (it.k === 0) {
+        const R = it.r * s;
+        if (R < 0.4) continue;
+        if (it.flat) { ctx.fillStyle = it.c; ctx.beginPath(); ctx.arc(x, y, Math.max(1.3, R), 0, 6.2832); ctx.fill(); }
+        else {
+          const sh = this.shades(it.c);
+          const g = ctx.createRadialGradient(x - R * 0.35, y - R * 0.4, R * 0.1, x, y, R);
+          g.addColorStop(0, sh.hi); g.addColorStop(0.5, sh.mid); g.addColorStop(1, sh.lo);
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
+        }
+      } else if (it.k === 1) {
+        const lw = Math.max(1, it.w * (s + it.B[3]) / 2);
+        ctx.lineCap = it.flat ? 'butt' : 'round';
+        if (it.rod) {
+          ctx.strokeStyle = this.shades(it.c).lo; ctx.lineWidth = lw + 2;
+          ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(it.B[0], it.B[1]); ctx.stroke();
+        }
+        ctx.strokeStyle = it.c; ctx.lineWidth = lw;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(it.B[0], it.B[1]); ctx.stroke();
+      } else if (it.k === 3) {
+        const fs = Math.max(8, Math.min(14, it.size * s / (scale * z) * 1.05));
+        ctx.font = '700 ' + fs + 'px "Pretendard", system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = it.c; ctx.fillText(it.text, x, y + 0.5);
+      } else if (it.k === 4) {
+        const ang = Math.atan2(it.B[1] - y, it.B[0] - x), mx = (x + it.B[0]) / 2, my = (y + it.B[1]) / 2, r = 6;
+        ctx.fillStyle = it.c; ctx.beginPath();
+        ctx.moveTo(mx + Math.cos(ang) * r, my + Math.sin(ang) * r);
+        ctx.lineTo(mx + Math.cos(ang + 2.5) * r, my + Math.sin(ang + 2.5) * r);
+        ctx.lineTo(mx + Math.cos(ang - 2.5) * r, my + Math.sin(ang - 2.5) * r);
+        ctx.closePath(); ctx.fill();
+      } else if (it.k === 5) {
+        // lit translucent sphere, highlight up-left like the solid spheres
+        const R = it.r * s, ba = pal.blobAlpha == null ? 0.3 : pal.blobAlpha;
+        const g = ctx.createRadialGradient(x - R * 0.35, y - R * 0.4, R * 0.1, x, y, R);
+        g.addColorStop(0, 'rgba(255,255,255,0.55)'); g.addColorStop(0.3, this.rgba(it.c, Math.min(1, ba + 0.15))); g.addColorStop(1, this.rgba(it.c, 0.18));
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
+        ctx.strokeStyle = it.c; ctx.lineWidth = it.focus ? 3 : 1.5; ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+    for (const o of O) this.drawOverlay(o, V, now);
+  }
+
+  drawOverlay(o, V, now) {
+    const ctx = this.ctx, A = this.proj(o.p, V), pal = this.pal();
+    if (o.t === 'ring') {
+      const r = Math.max(6, 0.32 * A[3]) * (1 + (this.reduceMotion ? 0 : 0.15 * Math.sin((now || 0) / 160)));
+      ctx.globalAlpha = 1; ctx.strokeStyle = pal.ring; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(A[0], A[1], r, 0, 6.2832); ctx.stroke();
+      ctx.font = '600 11px "Pretendard", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = pal.ring; ctx.fillText(o.text, A[0], A[1] + r + 10);
+      return;
+    }
+    const size = o.size || 12, x = A[0] + (o.dx || 0), y = A[1] + (o.dy || 0);
+    ctx.font = '600 ' + size + 'px "Pretendard", system-ui, sans-serif';
+    const tw = ctx.measureText(o.text).width, w = tw + 14, h = size + 10;
+    ctx.globalAlpha = o.a == null ? 1 : o.a;
+    if (o.lead) {
+      ctx.strokeStyle = this.rgba(o.c, 0.6); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(x, y); ctx.stroke();
+    }
+    ctx.fillStyle = pal.labelBg;
+    ctx.strokeStyle = this.rgba(o.c, 0.55); ctx.lineWidth = 1;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x - w / 2, y - h / 2, w, h, 6); else ctx.rect(x - w / 2, y - h / 2, w, h);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = pal.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(o.text, x, y + 0.5);
+    ctx.globalAlpha = 1;
+  }
+
+  setMode(mode) {
+    this.cam = Object.assign({}, this.modeDef(mode).cam);
+    this.sim.f = 0;
+    this.pointer.drag = false;
+    this.setState({ mode: mode, f: 0, playing: false, step: -1, formulaScale:1 });
+  }
+
+  pickStep(i) {
+    const s = (this.T.STEPS || [])[i];
+    if (!s) return;
+    if (s.mode !== this.state.mode) this.setMode(s.mode);
+    if(s.preset) this.setState({...s.preset});
+    if (s.f != null) this.sim.f = s.f;
+    this.setState({ f: this.sim.f, playing: false, step: i });
+  }
+
+  formulaData() {
+    const mode = this.state.mode, steps = (this.T.STEPS || []).map((s,i)=>({s,i})).filter(x=>x.s.mode===mode);
+    const selected = steps.findIndex(x=>x.i===this.state.step), index = Math.max(0,selected);
+    return {steps,index};
+  }
+  formulaMove(delta) {
+    const {steps,index}=this.formulaData(), next=steps[Math.max(0,Math.min(steps.length-1,index+delta))];
+    if(next)this.pickStep(next.i);
+  }
+  refreshFormula() {
+    const root=this._formulaRoot, nav=this._formulaNav;
+    if(nav && nav.isConnected){const {steps,index}=this.formulaData();nav.querySelector('[data-prev]').disabled=index===0;nav.querySelector('[data-next]').disabled=index>=steps.length-1;}
+    if(!root || !root.isConnected || typeof window.katex==='undefined')return;
+    for(const el of root.querySelectorAll('[data-tex]')){
+      const tex=el.dataset.tex;
+      if(el.dataset.rendered===tex)continue;
+      window.katex.render(tex,el,{displayMode:true,throwOnError:true,strict:'error'});el.dataset.rendered=tex;
+    }
+    const signature=this.state.mode+':'+this.formulaData().index;
+    if(root.dataset.progress!==signature){const old=root.dataset.mode;root.dataset.mode=this.state.mode;root.dataset.progress=signature;const active=root.querySelector('.is-active');root.scrollTop=old===this.state.mode && active ? active.offsetTop-root.offsetTop-12 : 0;}
+  }
+  renderVals() {
+    const st = this.state, T = this.T, m = this.modeDef(), pb = m.playback;
+    const tg = T.TOGGLES ? (Array.isArray(T.TOGGLES) ? T.TOGGLES : (T.TOGGLES[st.mode] || [])) : [];
+    const isFormula=m.view==='formula';
+    const togDefs = isFormula ? [] : tg.concat(m.autoSpin ? [['spin', '자동 회전']] : []);
+    const toggles = togDefs.map((d) => ({
+      label: d[1], pressed: st[d[0]] ? 'true' : 'false',
+      toggle: () => { const o = {}; o[d[0]] = !st[d[0]]; this.setState(o); }
+    }));
+    const STEPS = T.STEPS || [];
+    const steps = STEPS.map((s, i) => ({ s: s, i: i })).filter((x) => x.s.mode === st.mode).map((x, k) => ({
+      num: k + 1, title: x.s.title, who: x.s.who || '', showWho: !!x.s.who && !isFormula, c: x.s.c, pressed: st.step === x.i ? 'true' : 'false',
+      pick: () => this.pickStep(x.i)
+    }));
+    const fd=this.formulaData();
+    const formulaRows=isFormula?fd.steps.slice(0,fd.index+1).map(({s},i)=>({title:s.title,text:s.text||'',tex:s.tex||'',left:s.left||'',right:s.right||'',leftLabel:s.leftLabel||'기존 식',rightLabel:s.rightLabel||'비교 식',single:!!s.tex,pair:!s.tex,active:i===fd.index,cls:i===fd.index?'is-active':''})):[];
+    if(typeof queueMicrotask==='function')queueMicrotask(()=>this.refreshFormula());
+    const speeds = [0.5, 1, 2].map((v) => ({
+      label: v + '×', pressed: st.speed === v ? 'true' : 'false',
+      pick: () => this.setState({ speed: v })
+    }));
+    const is = {};
+    T.MODES.forEach((d) => { is[d.key] = d.key === st.mode; });
+    const f = st.f;
+    const isDark = st.theme === 'dark';
+    const leftOn = st.narrow ? st.drawer === 'left' : st.leftOpen, rightOn = st.narrow ? st.drawer === 'right' : st.rightOpen;
+    return Object.assign({
+      th: this.K.THEMES[st.theme], isDark: isDark, isLight: !isDark,
+      themeLabel: isDark ? '라이트 모드로 전환' : '다크 모드로 전환',
+      toggleTheme: () => this.setTheme(isDark ? 'light' : 'dark'),
+      canvasRef: this._canvasRef, canvasCls: m.rotatable ? '' : 'is-fixed',
+      hasModes: T.MODES.length > 1, is: is,
+      modes: T.MODES.map((d) => ({ label: d.label, pressed: d.key === st.mode ? 'true' : 'false', pick: () => { if (d.key !== this.state.mode) this.setMode(d.key); } })),
+      leftCls: leftOn ? 'is-open' : '', rightCls: rightOn ? 'is-open' : '',
+      leftExpanded: leftOn ? 'true' : 'false', rightExpanded: rightOn ? 'true' : 'false',
+      scrimCls: (st.narrow && st.drawer) ? 'is-on' : '',
+      toggleLeft: () => this.togglePanel('left'),
+      toggleRight: () => this.togglePanel('right'),
+      closePanels: () => this.setState({ drawer: null }),
+      layoutStyle: ((st.leftW ? '--pl-user: ' + st.leftW + 'px; ' : '') + (st.rightW ? '--pr-user: ' + st.rightW + 'px;' : '')).trim(),
+      layoutCls: st.resizing ? 'is-resizing' : '',
+      leftWNow: st.leftW ? String(st.leftW) : '', rightWNow: st.rightW ? String(st.rightW) : '',
+      leftHandleRef: this._handleRefL, rightHandleRef: this._handleRefR,
+      onKey: (e) => { if (e.key === 'Escape' && this.state.narrow && this.state.drawer) this.setState({ drawer: null }); },
+      hasToggles: toggles.length > 0, toggles: toggles,
+      hasSteps: steps.length > 0, steps: steps,
+      hasStep: !isFormula && st.step >= 0 && st.step < STEPS.length, stepDetail: st.step >= 0 && STEPS[st.step] ? STEPS[st.step].text : '',
+      mistakes: (T.MISTAKES && T.MISTAKES[st.mode]) || [],
+      isFormula, stageTitle:m.title||m.label, stageBodyCls:isFormula?'stage-formula':'',
+      formulaScale:st.formulaScale,formulaRows,formulaPrevDisabled:fd.index===0,formulaNextDisabled:fd.index>=fd.steps.length-1,
+      formulaProgress:(fd.index+1)+' / '+fd.steps.length+' 줄',formulaPrev:()=>this.formulaMove(-1),formulaNext:()=>this.formulaMove(1),
+      formulaRootRef:el=>{this._formulaRoot=el;},formulaNavRef:el=>{this._formulaNav=el;},
+      onFormulaKey:e=>{if(e.target.matches('input,textarea,button'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();this.formulaMove(e.key==='ArrowRight'?1:-1);}},
+      resetViewLabel:isFormula?'수식 크기 초기화':'시점 처음으로',
+      canvasLabel: m.canvasLabel(f),
+      zoomIn: () => { if(isFormula)this.setState({formulaScale:Math.min(1.6,+(this.state.formulaScale+.1).toFixed(1))});else this.cam.zoom = Math.min(3, this.cam.zoom * 1.2); },
+      zoomOut: () => { if(isFormula)this.setState({formulaScale:Math.max(.8,+(this.state.formulaScale-.1).toFixed(1))});else this.cam.zoom = Math.max(0.5, this.cam.zoom / 1.2); },
+      resetView: () => { if(isFormula)this.setState({formulaScale:1});else this.cam = Object.assign({}, m.cam); },
+      hasPlayback: !isFormula && !!pb, isPlaying: st.playing, notPlaying: !st.playing, playLabel: st.playing ? '일시정지' : '재생',
+      togglePlay: () => {
+        if (!pb) return;
+        if (!st.playing && this.sim.f >= pb.fmax) this.sim.f = 0;
+        this.setState({ playing: !st.playing, step: -1, f: this.sim.f });
+      },
+      fInt: Math.round(f * 10), fLabel: pb ? pb.label(f) : '', fMax10: pb ? Math.round(pb.fmax * 10) : 0,
+      onScrub: (e) => { const v = Number(e.target.value) / 10; this.sim.f = v; this.setState({ f: v, playing: false, step: -1 }); },
+      speeds: speeds
+    }, this.extraVals(st));
+  }
+}
+mountDC(Component);
+</script>
+</body>
+</html>
