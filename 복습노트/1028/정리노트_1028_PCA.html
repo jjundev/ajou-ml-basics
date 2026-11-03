@@ -1170,7 +1170,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M\times1}$$
 <h4>용어 주의: projection matrix</h4>
 <p>L04에서는 ${P_\pi=\mathbf{B}(\mathbf{B}^T\mathbf{B})^{-1}\mathbf{B}^T\in\mathbb{R}^{D\times D}}$를 projection matrix라고 불렀어요. PCA 슬라이드와 교과서는 $\mathbf{B}\in\mathbb{R}^{D \times M}$ 자체를 projection matrix라고 부르기도 해요. 이름은 같지만 크기와 역할이 다른 행렬이에요.</p>
 <h4>교과서 예로 보는 좌표</h4>
-<p>MML Example 10.1의 예예요. $\mathbb{R}^2$의 표준기저 $\mathbf{e}_1=[1,\ 0]^T$, $\mathbf{e}_2=[0,\ 1]^T$로 $[5,\ 3]^T=5\mathbf{e}_1+3\mathbf{e}_2$처럼 써요. 그런데 $\tilde{\mathbf{x}}=[0,\ z]^T$ 꼴의 벡터는 항상 $0\mathbf{e}_1+z\mathbf{e}_2$이므로 숫자 $z$ 하나만 저장하면 돼요. 이 벡터들은 $U=\operatorname{span}[\mathbf{e}_2]$, $\dim(U)=1$인 부분공간을 이뤄요. 오늘 표기로는 $\mathbf{B}=\mathbf{e}_2$($D=2$, $M=1$)이고, code는 $z=\mathbf{e}_2^T\tilde{\mathbf{x}}$예요.</p>
+<p>MML Example 10.1의 예예요. $\mathbb{R}^2$의 표준기저 $\mathbf{e}_1=[1,\ 0]^T$, $\mathbf{e}_2=[0,\ 1]^T$로 $[5,\ 3]^T=5\mathbf{e}_1+3\mathbf{e}_2$처럼 써요. 그런데 $\tilde{\mathbf{x}}=[0,\ z]^T$ 꼴의 벡터는 항상 $0\mathbf{e}_1+z\mathbf{e}_2$이므로 숫자 $z$ 하나만 저장하면 돼요. 이 벡터들은 $U=\operatorname{span}[\mathbf{e}_2]$, $\dim(U)=1$인 부분공간을 이뤄요. 오늘 표기로는 $\mathbf{B}=\mathbf{e}_2$($D=2$, $M=1$)이고, code는 $z=\mathbf{e}_2^T\tilde{\mathbf{x}}$예요. 이 $z$와 $\tilde{\mathbf{x}}$가 같은 점의 두 표현이라는 이야기는 <a href="#s5-same-point">5.1 z와 x̃: 같은 점, 두 주소</a>에서 이어져요.</p>
 <p>어떤 $\mathbf{B}$를 고를지는 아직 정하지 않았어요. 교수님은 $\mathbf{z}_n$을 이용한 자세한 설명을 뒤로 미뤘어요.</p>
 <p><strong>다시 만드는 법:</strong> 직교 원리로 얻은 ${\boldsymbol{\lambda}=(\mathbf{B}^T\mathbf{B})^{-1}\mathbf{B}^T\mathbf{x}}$ → 정규직교면 $\mathbf{B}^T\mathbf{B} = \mathbf{I}$ → $\mathbf{z}_n = \mathbf{B}^T\mathbf{x}_n$, 크기는 $(M\times D)(D\times1)=M\times1$.</p>
 </div>
@@ -1249,6 +1249,22 @@ $$= \mathbf{B}\mathbf{B}^T\mathbf{x}$$</li>
 </ol>
 <p>그래서 $\mathbf{B}^T$를 encoder, $\mathbf{B}$를 decoder라고 불러요(L05 s12). <a href="#s2-steps">2.1 S1–S5 한눈에 보기</a>의 encoding·decoding 단계를 행렬 곱으로 쓴 거예요.</p>
 <p>강의 공식을 연결하기 위한 재표현이에요. L04 사영 공식 $\mathbf{B}(\mathbf{B}^T\mathbf{B})^{-1}\mathbf{B}^T\mathbf{x}$에 $\mathbf{B}^T\mathbf{B} = \mathbf{I}$를 넣으면 $\mathbf{B}\mathbf{B}^T\mathbf{x}$가 돼요. 즉 $\tilde{\mathbf{x}}$는 $\mathbf{b}_1,\dots,\mathbf{b}_M$이 펼치는 공간으로 $\mathbf{x}$를 직교사영한 점이에요. $\tilde{\mathbf{x}}$는 $D$차원 벡터지만 $M$차원 공간 안에 있어서, $M \lt D$이면 보통 $\mathbf{x}$와 같지 않아요.</p>
+<div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+<h4 id="s5-same-point">z와 x̃: 같은 점, 두 주소</h4>
+<p>$\mathbf{z}$와 $\tilde{\mathbf{x}}$는 같은 점, 곧 $\mathbf{x}$의 그림자를 서로 다른 좌표계로 적은 거예요. $\mathbf{x}$만 다른 점이에요.</p>
+<div class="table-wrap"><table><thead><tr><th>기호</th><th>어떤 점</th><th>어떤 좌표계</th><th>사는 공간</th></tr></thead><tbody>
+<tr><td>$\mathbf{x}$</td><td>원래 점</td><td>표준기저</td><td>$\mathbb{R}^D$</td></tr>
+<tr><td>$\mathbf{z} = \mathbf{B}^T\mathbf{x}$</td><td>그림자</td><td>$\mathbf{b}_1,\dots,\mathbf{b}_M$</td><td>$\mathbb{R}^M$</td></tr>
+<tr><td>${\tilde{\mathbf{x}} = \mathbf{B}\mathbf{z}}$</td><td>그림자</td><td>표준기저</td><td>$\mathbb{R}^D$</td></tr>
+</tbody></table></div>
+<p>작은 예 $D=2$, $M=1$로 확인해요. ${\mathbf{b}=[1/\sqrt{2},\ 1/\sqrt{2}]^T}$(45° 방향, 길이 1), ${\mathbf{x}=[3,\ 1]^T}$로 둬요.</p>
+<ol class="steps">
+<li><strong>code를 구해요.</strong>$$z=\mathbf{b}^T\mathbf{x}=\frac{3+1}{\sqrt{2}}=2\sqrt{2}$$<p>"$\mathbf{b}$ 방향으로 $2\sqrt{2}$만큼"이라는 숫자 하나예요.</p></li>
+<li><strong>같은 점을 표준좌표로 다시 적어요.</strong>$$\tilde{\mathbf{x}}=z\,\mathbf{b}=2\sqrt{2}\cdot\left[\tfrac{1}{\sqrt{2}},\ \tfrac{1}{\sqrt{2}}\right]^T=[2,\ 2]^T$$</li>
+<li><strong>버린 부분을 확인해요.</strong>$$\mathbf{x}-\tilde{\mathbf{x}}=[1,\ -1]^T,\qquad \mathbf{b}^T(\mathbf{x}-\tilde{\mathbf{x}})=0$$<p>오차가 $\mathbf{b}$에 수직이라 직교사영이 맞아요.</p></li>
+</ol>
+<p>그래서 $\mathbf{z}\leftrightarrow\tilde{\mathbf{x}}$는 $\mathbf{B}$, $\mathbf{B}^T$로 손실 없이 오가요. 정보를 잃는 건 $\mathbf{x}\to\tilde{\mathbf{x}}$, 곧 사영 단계뿐이에요. "되살린다"는 말은 $\mathbf{x}$가 아니라 그림자 $\tilde{\mathbf{x}}$를 되찾는다는 뜻이에요.</p>
+</div>
 
 <p><b>예시: MNIST.</b> 0부터 9까지 손글씨 숫자 이미지 $N = 60{,}000$장이에요. 한 장이 $28 \times 28$ 픽셀이므로 픽셀을 한 줄로 세우면 $D = 28 \times 28 = 784$차원 벡터예요. $M = 50$으로 잡으면 차원은 이렇게 바뀌어요.</p>
 <div class="table-wrap"><table>
