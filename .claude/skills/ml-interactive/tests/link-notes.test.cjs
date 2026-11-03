@@ -127,3 +127,12 @@ test('CLI accepts a grouped manifest and exposes per-note results', t => {
   assert.equal(r.status, 0, r.stderr);
   assert.equal(JSON.parse(r.stdout).notes[0].results[0].status, 'added');
 });
+
+test('recognizes an existing link when the target path is spelled in the other Unicode form', t => {
+  const f = fixture(t);
+  assert.equal(linkNotes({ note: f.note, links: [f.link] }).results[0].status, 'added');
+  const r = linkNotes({ note: f.note, links: [{ ...f.link, html: f.html.normalize('NFC') }] });
+  assert.equal(r.changed, false);
+  assert.equal(r.results[0].status, 'unchanged');
+  assert.equal((fs.readFileSync(f.note, 'utf8').match(/interactive-note/g) || []).length, 1);
+});

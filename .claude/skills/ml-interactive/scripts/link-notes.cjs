@@ -58,7 +58,7 @@ const within = (node, ancestor) => {
 };
 const classes = node => (node.attrs.class || '').split(/\s+/);
 const samePath = (a, b) => {
-  const normalize = p => process.platform === 'win32' ? p.toLowerCase() : p;
+  const normalize = p => { p = p.normalize('NFC'); return process.platform === 'win32' ? p.toLowerCase() : p; };
   return normalize(path.resolve(a)) === normalize(path.resolve(b));
 };
 const isFile = file => { try { return fs.statSync(file).isFile(); } catch { return false; } };

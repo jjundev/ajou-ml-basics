@@ -7,6 +7,8 @@ function repoPath(repo,relative){
  if(rel==='..'||rel.startsWith('..'+path.sep)||path.isAbsolute(rel))throw new Error('path outside repo');return result;
 }
 function list(d){try{return fs.readdirSync(d,{withFileTypes:true});}catch{return [];}}
+// macOS names are often NFD while metadata is NFC: compare folder keys in NFC.
+const folderKey=f=>path.resolve(f).normalize('NFC').toLowerCase();
 function relink({repo,arg,dryRun=false}){
  repo=path.resolve(repo);const actual=list(repo).find(d=>d.isDirectory()&&d.name.normalize('NFC')==='복습노트');
  const root=path.join(repo,actual?actual.name:'복습노트');
@@ -14,7 +16,7 @@ function relink({repo,arg,dryRun=false}){
  let folders=[];
  if(arg==='전체'||arg==='all')folders=sourceFolders;
  else{try{folders=[resolve({repo,arg}).folder];}catch(e){if(e.code==='NO_TARGET')return {notes:[],skipped:[]};throw e;}}
- const selected=new Set(folders.map(f=>path.resolve(f).toLowerCase()));
+ const selected=new Set(folders.map(folderKey));
  const grouped=new Map(),skipped=[];
  // Metadata belongs to the artifact; the requested target belongs to the note.
  for(const folder of sourceFolders)for(const d of list(path.join(folder,'.pack'))){
@@ -25,7 +27,7 @@ function relink({repo,arg,dryRun=false}){
    const data=JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
    if(data.v!==1||!Array.isArray(data.links))throw new Error('invalid metadata schema');
    const links=data.links.map(l=>({...l,note:repoPath(repo,l.note),html:repoPath(repo,l.html)}));
-   for(const l of links){if(!selected.has(path.resolve(path.dirname(l.note)).toLowerCase()))continue;
+   for(const l of links){if(!selected.has(folderKey(path.dirname(l.note))))continue;
     if(!grouped.has(l.note))grouped.set(l.note,[]);grouped.get(l.note).push(l);
    }
   }catch(e){skipped.push({file,reason:'METADATA_INVALID',message:e.message});}

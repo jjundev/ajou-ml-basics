@@ -47,3 +47,12 @@ test('relinks a regenerated note after relocating the repo',t=>{
   assert.equal(result.notes[0].results[0].reason,'SECTION_MISSING');
   assert.equal(fs.readFileSync(note,'utf8'),clean.replace('s1-match','new-id'));
 });
+test('date targets match NFC metadata against NFD folders on disk',t=>{
+ const repo=fs.mkdtempSync(path.join(os.tmpdir(),'ml-nfd-date-'));t.after(()=>fs.rmSync(repo,{recursive:true,force:true}));
+ const folder=path.join(repo,'복습노트'.normalize('NFD'),'1102'),d=path.join(folder,'.pack','자료_인터렉티브_01_사영'.normalize('NFD'));fs.mkdirSync(d,{recursive:true});
+ const clean='<article id="a"><h3>X</h3></article>',note=path.join(folder,'정리노트_1102_PCA.html'.normalize('NFD'));
+ fs.writeFileSync(note,clean);fs.writeFileSync(path.join(folder,'인터렉티브_01_사영.html'.normalize('NFD')),'X');
+ fs.writeFileSync(path.join(d,'note-links.json'),JSON.stringify({v:1,links:[{note:'복습노트/1102/정리노트_1102_PCA.html',html:'복습노트/1102/인터렉티브_01_사영.html',sectionId:'a',label:'X',before:'Try ',after:'.'}]}));
+ const first=relink({repo,arg:'1102'});assert.equal(first.notes.length,1);assert.equal(first.notes[0].changed,true);
+ const again=relink({repo,arg:'1102'});assert.equal(again.notes[0].changed,false);assert.equal(again.notes[0].results[0].status,'unchanged');
+});
