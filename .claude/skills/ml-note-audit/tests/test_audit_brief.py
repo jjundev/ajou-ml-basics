@@ -25,6 +25,16 @@ class TestAuditBrief(unittest.TestCase):
         self.assertIn("<대상>", BRIEF)
         self.assertIn("<형제 자료>", BRIEF)
 
+    def test_pitfall_and_derivation_checks(self):
+        self.assertIn("**함정·주의 문장은 한 문장씩 검산한다.**", BRIEF)
+        self.assertIn("**여러 줄 유도는 줄마다 재현한다.**", BRIEF)
+
+    def test_auditors_split_by_artifact(self):
+        text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("감사 에이전트 둘을 띄운다", text)
+        self.assertIn("A: `<대상>` = 정리노트", text)
+        self.assertIn("B: `<대상>` = 복습문제·문제설명·인터렉티브", text)
+
     def test_generators_call_audit(self):
         for name in ("ml-review-pack", "ml-problem-explain", "ml-interactive"):
             text = (SKILLS / name / "SKILL.md").read_text(encoding="utf-8")
