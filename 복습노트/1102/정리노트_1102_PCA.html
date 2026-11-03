@@ -444,6 +444,8 @@ $$\begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=x_1
 <p>수업에서는 Gram–Schmidt orthonormalization도 언급했어요. 주어진 벡터들을 가장 적은 수의 orthonormal basis의 가중합(weighted sum)으로 표현하도록 basis를 체계적으로 찾는 방법이에요. 이번 수업에서 절차를 다루지는 않았어요.</p>
 <p>이제 x축, y축 대신 일반 방향 $\mathbf{b}$로 같은 사영을 하려면 좌표를 행렬로 적어야 해요. 그 표기는 <a href="#s1-matrix-again">1.2 행렬로 다시 쓰는 사영 좌표</a>에서 이어져요.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">축 하나만 남길 때 x축과 y축이 머금는 에너지를 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" target="_blank" rel="noopener noreferrer">사영 분산과 첫 주성분 실험</a>의 첫 두 단계에서 비교해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>수업은 푸리에 이야기로 시작했어요. 비주기 신호도 푸리에 변환하면 모든 주파수 성분의 가중합으로 표현되고, 오늘 복습할 고윳값 분해가 "실체를 이루는 주된 성분"을 뽑는 과정이라고 연결했어요.</p>
 <blockquote>"생각보다 무지하게 중요한 이론이었다는 거를 오늘 경험하게 될 거예요" (1102 P01 01:01)</blockquote>
@@ -606,6 +608,8 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <p>순서는 두 단계예요. 먼저 characteristic equation을 풀어 고윳값 $\lambda$를 얻고, 각 $\lambda$를 칠판 전개 2단계의 연립방정식에 다시 넣어 고유벡터 $\mathbf{x}$를 구해요. 이 전체를 eigenvalue–eigenvector problem이라고 불러요. 실제 계산 예는 <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>에 있어요.</p>
     <p><strong>복원 요령</strong>: $\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$에서 이항하고 $\mathbf{I}_n$으로 묶어요. 0이 아닌 해가 있으려면 rank-deficient, 즉 행렬식이 0이어야 해요.</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">단위벡터 x를 돌리며 Ax가 x와 같은 직선에 놓이는 방향을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" target="_blank" rel="noopener noreferrer">고유벡터와 대칭행렬 실험</a>의 방향 모드에서 찾아 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">고유벡터는 행렬을 곱해도 방향이 그대로인 벡터이고, 고윳값은 그때 늘어나는 배수예요. 고윳값은 행렬식이 0이 되는 조건으로 찾아요.</p>
     <p class="panel-label">핵심 식</p>
@@ -780,6 +784,8 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <p>MML은 이 분해를 세 단계 변환으로 읽어요(MML 117쪽 그림 4.7). $\mathbf{P}^{-1}$이 좌표를 고유벡터 basis로 바꾸고, $\mathbf{D}$가 각 축을 $\lambda_i$배 늘이고, $\mathbf{P}$가 원래 좌표로 되돌려요.</p>
     <p><strong>복원 요령</strong>: 고유벡터를 열로 모은 $\mathbf{P}$와 고윳값을 대각에 둔 $\mathbf{D}$를 만들어요. 열마다 $\mathbf{A}\mathbf{p}_i$가 $\lambda_i\mathbf{p}_i$이므로 $\mathbf{A}\mathbf{P}$와 $\mathbf{P}\mathbf{D}$가 같고, $\mathbf{P}^{-1}$을 오른쪽에 곱하면 분해, 왼쪽에 곱하면 대각화예요.</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">A = PDP⁻¹을 P⁻¹ → D → P 세 단계 변환으로 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" target="_blank" rel="noopener noreferrer">고유벡터와 대칭행렬 실험</a>의 분해 모드에서 재생해 보세요.</p>
+
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p><strong>변신 로봇 비유</strong>: 합체한 변신 로봇 장난감을 분해하면 팔, 다리, 어깨, 뿔이 다 구별돼요. 행렬도 잘 분해해 두면 각 부분의 특성을 나중에 이용할 수 있다고 했어요.</p>
     <p>행렬을 어떻게 분해할지는 선형대수에서 오래된 핵심 문제라고 강조했어요.</p>
@@ -871,6 +877,8 @@ $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\math
 $$(\mathbf{x}_n\mathbf{x}_n^T)^T=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T$$
 <p>따라서 $\mathbf{S}^T=\mathbf{S}$이고, 앞으로 다룰 공분산 행렬에는 언제나 스펙트럼 정리를 쓸 수 있어요. 고윳값이 실수이니 "가장 큰 고윳값"이라는 비교도 의미가 있어요.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">행렬 성분을 바꾸며 대칭일 때만 두 고유 방향이 수직인지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" target="_blank" rel="noopener noreferrer">고유벡터와 대칭행렬 실험</a>에서 비교해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>교수님은 스펙트럼을 <b>푸리에</b> 변환으로 설명했어요. 신호 $s(t)$의 푸리에 변환이 $\delta(f-f_c)$이면 역변환은 $e^{j2\pi f_c t}$예요. 시간 영역에서는 복소평면을 도는 코사인과 사인의 합처럼 복잡해 보여요. 주파수 영역에서는 값 하나로 끝나요. 몇 개 성분만 알면 간단히 표현된다는 것이 압축의 개념이고, spectral theorem은 이 발상을 선형대수로 옮겨 행렬을 벡터들의 합으로 요약한다고 했어요(1102 P04 05:45 무렵).</p>
 <blockquote>“내가 수학은 언어고 수학을 잘해야 된다, 그런 얘기를 참 많이 하는데” (1102 P04 09:03)</blockquote>
@@ -964,6 +972,8 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <p>같은 확인을 ${\mathbf{P}\mathbf{D}\mathbf{P}^T=\mathbf{A}}$로 해도 돼요. 위 계산은 Python(fractions, sympy)으로 검산했어요.</p>
 <p><b>복원 순서.</b> 특성다항식으로 고윳값을 구하고, 고유공간을 풀고, 중근 고유공간만 Gram-Schmidt로 직교화한 뒤 정규화해요. 마지막으로 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 조각의 합으로 검산해요.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A4%91%EA%B7%BC_%EA%B3%A0%EC%9C%A0%EA%B3%B5%EA%B0%84%EA%B3%BC_%EA%B7%B8%EB%9E%8C-%EC%8A%88%EB%AF%B8%ED%8A%B8.html">중근 λ = 1 평면에서 두 고유벡터를 골라 그람-슈미트 전후의 PDPᵀ 오차를 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A4%91%EA%B7%BC_%EA%B3%A0%EC%9C%A0%EA%B3%B5%EA%B0%84%EA%B3%BC_%EA%B7%B8%EB%9E%8C-%EC%8A%88%EB%AF%B8%ED%8A%B8.html" target="_blank" rel="noopener noreferrer">중근 고유공간과 그람-슈미트 실험</a>에서 비교해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>교수님은 $\lambda=1$이 중근이라 고유벡터가 2개 나올 수 있고, 그 2개가 고유공간을 span한다고 짚었어요. 그래서 고유벡터 3개로 $\mathbf{P}$를 만들 수 있다고 했어요. $(-1,1,0)^T$를 자기 노름 $\sqrt2$로 나누듯 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 ${\sum\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\mathbf{A}}$를 직접 확인할 수 있다고 했어요(1102 P05 08:27 무렵).</p>
 <blockquote>“이거는 여러분이 그냥 복습 간단하게 한번 해보세요” (1102 P05 09:30)</blockquote>
@@ -1097,6 +1107,8 @@ $$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject t
 <p><b>복원용 요약.</b> 스칼라 $z_{1n}$을 자기 전치와 곱한다 → 곱의 전치로 $\mathbf{x}_n^T\mathbf{b}_1$을 만든다 → $\mathbf{b}_1^T$는 왼쪽, $\mathbf{b}_1$은 오른쪽으로 꺼낸다 → 가운데 평균이 $\mathbf{S}$.</p>
 <p class="footnote">수업 중 "b₂를 오른쪽으로 빼도 돼요"라고 말했지만 $\mathbf{b}_1$이 맞아요(1102 P07 03:05).</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">점마다 사영해 평균한 V₁이 b₁ᵀSb₁과 늘 같은지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" target="_blank" rel="noopener noreferrer">사영 분산과 첫 주성분 실험</a>에서 방향 θ를 돌리며 확인해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>표본평균을 설명하며 지난 수업에서 학생에게 학점을 물었던 일을 다시 꺼냈어요. 지금까지 받은 학점을 모두 더해 개수로 나눈 것이 표본평균이에요(1102 P06 07:46).</p>
 <p>"수학을 잘하려면 뭘 잘해야 돼?"라는 물음에 한 학생이 교수님의 단골 표현으로 답했어요. 스칼라 뒤쪽 인수에 전치를 취하는 단계가 바로 그 하나 마나 한 짓이에요.</p>
@@ -1184,6 +1196,8 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 </table></div>
 </div>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">같은 최댓값을 데이터 점 40개의 사영과 버린 성분의 분산으로 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" target="_blank" rel="noopener noreferrer">사영 분산과 첫 주성분 실험</a>에서 다시 확인해 보세요.</p>
+
 <p class="footnote"><sup>1</sup> 칠판에서는 $n$차원으로 쓰다가 $D$차원으로 바꿨어요. $\mathbf{b}_1, \mathbf{p}_i \in \mathbb{R}^D$, $\mathbf{S} \in \mathbb{R}^{D \times D}$로 통일해요. 또 "$\mathbf{S}$는 $\mathbf{X}^T\mathbf{X}$로 이루어져 $D \times D$"라고 말했지만, 이 강의의 표기 $\mathbf{X} \in \mathbb{R}^{D \times N}$에서는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T}$이고 $\mathbf{X}^T\mathbf{X}$는 $N \times N$이에요(1102 P07 06:13).</p>
 </div>
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
