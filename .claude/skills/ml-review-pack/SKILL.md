@@ -13,7 +13,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 날짜 폴더 바로 아래에는 HTML만 둔다: `정리노트_<range>_<slug>.html`, `복습문제_<range>_<slug>.html`, `문제설명_<range>_<slug>.html`. 나머지는 모두 `.pack/` 하위 폴더에 둔다: 같은 이름의 `.md` 세 개, `figures_<range>/`, 문제설명 소유 자료, **`복습문제_<range>_<slug>-문제.pdf`와 `-답안.pdf`**. HTML은 `.pack/…`을 상대 경로로 링크하고, `.pack/` 안의 MD는 HTML을 `../`로 링크한다. 문제지/해설지는 동봉된 전자회로2 고정 템플릿으로 16:9 PDF를 만든다.
 
 **인자**: `[MMDD | MMDD-MMDD] [lite]`
-- `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다. 배포 뒤 문제설명 전체 저작과 네 실제 검토도 생략하지 않는다.
+- `lite`: 작성자·요약 에이전트를 sonnet(GPT이면 luna)으로, 6단계 리뷰를 생략한다. 6b 설명 감사는 생략하지 않는다. 기계 검사와 브라우저 검사, PDF 쌍 생성·전체 페이지 검수는 그대로 한다. 배포 뒤 문제설명 전체 저작과 네 실제 검토도 생략하지 않는다.
 
 **진행 표시**: 단계마다 한 줄만 쓴다. 예: `3/9 작성 중: 섹션 5개 + 카드 10개 (병렬)`
 
@@ -139,6 +139,10 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 담당 작성자별로 **한 번에 모아서** 수정을 요청한다. 수정은 한 번만 한다.
 - 수정 후 4~5단계를 다시 한다. 반영하지 않은 항목은 보고서에 적는다.
 
+### 6b. 설명 감사 (`lite`도 수행)
+- 형제 스킬 `ml-note-audit`의 SKILL.md "생성 절차에서 부를 때"를 따른다. `<대상>`은 stage의 정리노트·복습문제 HTML과 MD, `<형제 자료>`는 같은 날짜 공개 폴더의 기존 문제설명·인터렉티브(없으면 `없음`)다.
+- 결과는 `RUN/audit.md`에 저장한다. Critical·Important는 담당 작성자에게 모아서 한 번 되돌리고 4~5단계를 다시 한다. 5단계의 최대 2회 규칙에 포함된다. 남은 항목은 9단계 "미해결"에 적는다.
+
 ### 7. 브라우저 검증
 - `references/browser-check.md`대로 한다.
   - http.server를 빈 포트에 띄운다.
@@ -169,6 +173,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 문제: P1 MML Example 9.1 변형(level 1) … (정답은 RUN/answers.py로 검증)
 - 스킬이 정한 사항: slug, 섹션 구성, 위젯, 뺀 내용과 이유
 - 학습 레퍼런스: 적용 토픽 id / 적용 없음 / 참고 누락과 원인
+- 설명 감사: Critical n / Important n / 미해결 n (RUN/audit.md); 실패하면 `설명 감사 누락: <원인>`
 - PDF 검증: 논리 문항 수, 모드별 페이지 수, 전체 페이지 시각 검수, validation.json, 템플릿 SHA
 - 문제설명: published/withheld, 전체 문항·소문항 수, 네 실제 검토, HTML/MD 링크, RUN·백업; 실패하면 “복습팩 생성됨 / 문제설명 보류”, 이유. 이전 설명을 현재 입력 검증으로 보고하지 않음
 - 인터랙티브 연결: added/updated/unchanged/skipped·노트 절·실제 링크; 자료 없음/스킬 미설치면 생략
