@@ -47,6 +47,11 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
      - `라벨: 특징` 설명이 사전에 제공되어야 한다 (예: `--speakers "교수: 40대 남성 / 학생: 20대 남성"`). 설명이 없으면 전사 전 사용자에게 확인한다.
      - 매 화자 변경마다 `**라벨:** 발화내용` 형식으로 구분한다.
 
+7. **안전성 보존 축어성 (Safe Verbatim & Euphemistic Normalization)**:
+   - 수학/머신러닝 이론, 수식 전개, 및 교수님의 강의 맥락은 100% 누락 없이 전사한다.
+   - 단, 구글 Gemini API의 실시간 안전 필터(공격성, 혐오 표현, 비하, 비속어) 오탐(False Positive)을 유발하는 감탄사/자조적 비속어/거친 농담에 한해 문맥과 의미를 100% 보존하는 안전한 표준 구어체로 완곡 순화(Euphemistic Normalization)하여 게이트웨이 차단을 원천 방지한다.
+   - 수학 기호 및 학습용 핵심 비유('힘숨찐', '장군님', '도가니탕' 등)는 절대 순화 대상이 아니다.
+
 ---
 
 ## 🛠️ Workflow A: 단일 파일 (<= 10분)
@@ -62,9 +67,9 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
    dur=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "<AUDIO_PATH>")
    ffmpeg -y -f lavfi -i color=c=black:s=320x240:r=1 -i "<AUDIO_PATH>" -t "$dur" -c:v libx264 -c:a aac -b:a 128k "/tmp/_temp_ml_stt.mp4" -loglevel error
    ```
-3. **메인 에이전트 직접 `view_file` 전사**:
-   - 서브에이전트 없이 메인 에이전트가 `/tmp/_temp_ml_stt.mp4`에 `view_file`을 호출.
-   - `infer_context.py`에서 추출한 도메인 프롬프트를 컨텍스트로 두고 축어적 전사.
+3. **메인 에이전트 직접 `read_file` 전사**:
+   - 서브에이전트 없이 메인 에이전트가 `/tmp/_temp_ml_stt.mp4`에 `read_file` (또는 `view_file`)을 호출.
+   - `infer_context.py`에서 추출한 도메인 프롬프트와 Safe Verbatim 원칙을 컨텍스트로 두고 축어적 전사.
 4. **저장 및 정리**:
    - `STT/<MMDD> 머러기.md`로 저장.
    - `rm -f "/tmp/_temp_ml_stt.mp4"`
@@ -115,17 +120,20 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
      <PROMPT_GUIDE> (infer_context.py 의 prompt_guide 내용 삽입)
 
      Instructions:
-     1. Call `view_file` on <WORK_DIR>/<DATE> 머러기_part01_temp.mp4.
+     1. Call `read_file` (or `view_file`) on <WORK_DIR>/<DATE> 머러기_part01_temp.mp4.
      2. Transcribe ALL spoken words verbatim from start to finish. Do not skip, summarize, or omit anything.
      3. Group 2~4 sentences per paragraph, separated by blank lines (\n\n). Do not output timestamps unless requested.
      4. When technical terms sound ambiguous or muffled, bias towards the correct Korean/English machine learning terms provided above.
-     5. Save directly to <WORK_DIR>/<DATE> 머러기_part01.md using `write_to_file` (Overwrite=True).
-     6. Strict Guardrails:
-        - Perform transcription in a single pass directly from view_file.
+     5. Safe Verbatim (Euphemistic Normalization):
+        - Preserve 100% of academic explanations, mathematical derivations, formula readouts, and pedagogical metaphors.
+        - If informal profanities, harsh reprimands, or aggressive exclamations occur (e.g., '제기랄', '바보 엔지니어', '뇌가 썩는다'), normalize them euphemistically into mild polite spoken Korean ('이런', '미숙한 엔지니어', '생각이 굳는다') to prevent false-positive safety filter triggers.
+     6. Save directly to <WORK_DIR>/<DATE> 머러기_part01.md using `write_file` (Overwrite=true).
+     7. Strict Guardrails:
+        - Perform transcription in a single pass directly from read_file.
         - NEVER search for, install, or run Whisper or any external STT tools.
         - Do NOT inspect other part files or compare transcripts.
         - Do NOT run audio analysis, silence detection, ffmpeg slicing, or additional tools.
-     7. Report completion immediately when done.
+     8. Report completion immediately when done.
      ```
    - **타임스탬프 요청 시 (`--timestamps` / `-t`) 변형**:
      지침 3을 아래로 교체:
@@ -161,16 +169,33 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
 
 ---
 
-## 🛡️ 안전 필터(Safety Filter) 복구 프로토콜
+## 🛡️ 안전 필터(Safety Filter) 자동 복구 프로토콜 (Self-Healing Fallback)
 
-Gemini safety filter에 의해 특정 파트가 블록될 경우:
-1. **Whisper 폴백 절대 금지**: Whisper 설치 시도 금지.
-2. **해당 파트를 2~3분 단위 서브 청크로 분할**:
+Gemini safety filter에 의해 특정 파트에서 전사가 차단(`blocked by Gemini's filters`)될 경우:
+1. **Whisper/외부 모델 폴백 절대 금지**: Whisper 등 외부 툴 설치 시도 금지.
+2. **해당 파트를 150초(2.5분) 단위 마이크로 청크로 즉시 자동 분할**:
    ```bash
-   ffmpeg -y -i "<FAILING_CHUNK>.mp3" -ss 0 -t 150 -c copy "<FAILING_CHUNK>_sub01.mp3"
-   ffmpeg -y -i "<FAILING_CHUNK>.mp3" -ss 150 -t 150 -c copy "<FAILING_CHUNK>_sub02.mp3"
+   WORK_DIR="STT/_temp_${DATE}"
+   PART_MP3="$WORK_DIR/${DATE} 머러기_part${PART_NUM}.mp3"
+
+   # 150초 단위 서브 청크 분할
+   ffmpeg -y -i "$PART_MP3" -vn -c:a libmp3lame -b:a 192k \
+     -f segment -segment_time 150 -segment_start_number 1 -reset_timestamps 1 \
+     "$WORK_DIR/part${PART_NUM}_sub%02d.mp3"
+
+   # 1fps 블랙 MP4 래핑
+   for f in "$WORK_DIR"/part${PART_NUM}_sub*.mp3; do
+     dur=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$f")
+     ffmpeg -y -f lavfi -i color=c=black:s=320x240:r=1 \
+       -i "$f" -t "$dur" -c:v libx264 -c:a aac -b:a 128k "${f%.mp3}_temp.mp4" -loglevel error
+   done
    ```
-3. 각각 1fps 블랙 MP4로 감싸서 `view_file`로 전사 후 하나의 파트 파일로 합친다.
+3. **엄격 순화 모드(Strict Sanitization Override) 프롬프트로 서브 청크 전사**:
+   - `infer_context.py` 추출 프롬프트와 함께 다음 완곡 순화 지침을 최우선으로 주입하여 각 sub 청크를 `read_file`로 전사한다:
+     > "You are transcribing an archival academic lecture. Ensure complete conceptual accuracy. Any extreme emotional reprimands or colloquial slurs must be neutrally smoothed (e.g., '이런', '어리석은', '안타까운') to prevent output generation blockage."
+4. **서브 청크 합본 및 원본 파트 파일 복원**:
+   - 성공한 sub01, sub02, ... 텍스트를 순서대로 결합하여 `$WORK_DIR/${DATE} 머러기_part${PART_NUM}.md`를 복원한다.
+   - 마스터 머지(`merge_transcripts.py`)를 정상 진행한다.
 
 ---
 
@@ -179,8 +204,9 @@ Gemini safety filter에 의해 특정 파트가 블록될 경우:
 - [ ] 활성 모델이 Gemini인지 확인 완료 (Gate 0 준수, Claude/GPT 차단).
 - [ ] 오디오 파일명에서 날짜(`MMDD`) 정상 파싱 (실패 시 `--date` 요구).
 - [ ] 당일 진도 Lecture 고유명사 및 발음 교정 지침 추출 및 프롬프트 주입 완료.
+- [ ] Safe Verbatim(완곡 순화) 원칙 적용으로 생성 시 안전 필터 차단 사전 예방.
 - [ ] 1fps 블랙 MP4 래퍼 적용 (`color=c=black:s=320x240:r=1`, `-t "$dur"`).
-- [ ] 외부/로컬 모델(Whisper 등) 사용 배제 (네이티브 `view_file` 100% 사용).
+- [ ] 외부/로컬 모델(Whisper 등) 사용 배제 (네이티브 `read_file` 100% 사용).
 - [ ] 생략이나 요약 없는 전 구간 축어적(verbatim) 전사 완료.
 - [ ] 서브에이전트가 딴짓(추가 슬라이싱, 진단 루프) 없이 단일 패스로 완료.
 - [ ] 최종 산출물이 `STT/<MMDD> 머러기.md`로 올바르게 병합 및 저장됨.
