@@ -1,0 +1,25 @@
+<div class="layer eli5" data-explanation="understand"><h4>문제 읽기</h4>
+<p>숫자 8 이미지에 PCA를 적용했어요. 주성분을 한 개 더 넣을 때 초반과 후반 중 어느 쪽에서 보존되는 분산이 더 많이 늘어나는지 묻고 있어요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+<p>‘하나씩 추가’라는 말은 누적합의 두 이웃 값을 비교하라는 단서예요. PCA에서는 공분산 행렬의 고유벡터를 축으로 쓰고, 그 방향의 분산은 대응하는 고윳값(eigenvalue) $\lambda_i$예요. 고윳값이 큰 순서로 $M$개 축을 쓰면 누적 설명 분산(captured variance) $C_M$은 그 방향 분산의 합이에요.</p>
+$$C_M=\sum_{i=1}^M\lambda_i.$$
+</div>
+<div class="layer formal" data-explanation="start"><h4>첫 줄 쓰기</h4>
+<p>종이에 ‘왼쪽의 $M$번째 점 높이 = 오른쪽에서 주성분을 $M$번째까지 늘릴 때의 증가량’이라고 쓰고 식으로 확인해요.</p>
+$$C_M-C_{M-1}=\lambda_M.$$
+</div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4>
+<div data-subpart="main"><h4>두 그래프 연결하기</h4>
+<p>왼쪽 가로축은 고윳값의 순서이고 세로축은 고윳값이에요. 맨 앞 점은 약 47, 다음은 약 32인 데 비해 뒤쪽 점들은 0에 가까워요. 두 누적합을 빼면 앞에서 공통으로 더한 값들이 상쇄되어 방금 추가한 고윳값 하나가 남아요.</p>
+<p>오른쪽 가로축은 남긴 주성분 수이고 세로축은 지금까지 보존한 분산의 합이에요. 큰 고윳값을 더하는 초반에는 주성분 한 개당 증가량이 크고, 작은 고윳값을 더하는 후반에는 증가량이 작아요. 따라서 <strong>초반 몇 개를 추가할 때 누적 설명 분산이 더 크게 늘어요.</strong></p>
+</div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4>
+<div data-subpart="main"><h4>오른쪽에서 검산</h4><p>가로 폭이 같은 50개 구간을 비교해요. 0개에서는 $C_0=0$이고 50개에서는 그래프가 약 370이에요. 150개에서 200개 사이의 증가는 수십 정도예요. 초반의 증가 폭이 더 크다는 판단과 맞아요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>주의할 점</h4><p>오른쪽 곡선의 높이는 지금까지 남긴 분산이고, 높이의 차이가 새로 더한 분산이에요. 표시된 값은 분산의 합이에요. 전체 분산으로 나눠야 설명 분산 비율을 얻어요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀기</h4><ul><li>두 그래프의 세로축이 각각 무엇인지 적어요.</li><li>주성분 하나를 추가한 전후의 차이가 왼쪽 어느 점에 해당하는지 말해요.</li></ul></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>고윳값(eigenvalue)</dt><dd>공분산 행렬에서 한 주성분 방향에 담긴 분산 $\lambda_i$.</dd><dt>누적 설명 분산(captured variance)</dt><dd>선택한 주성분들이 보존하는 분산의 합 $C_M$.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.2와 Fig. 10.5, 교재 324–325쪽을 바탕으로 그래프 해석 문항을 구성했어요.</p><p><a href="정리노트_1104_PCA_Part2.html#s0-top-directions">주성분 방향과 보존 분산</a></p></section>
+<div class="sum" hidden>
+<div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$C_M-C_{M-1}=\lambda_M$. 누적 분산에 더해지는 값은 방금 넣은 축의 분산이에요.</p></div>
+<div class="summary-group"><h4>판단과 검산</h4><p>왼쪽 초반 고윳값이 커서 오른쪽 초반의 상승 폭이 커요. 오른쪽 높이는 비율이 아닌 분산 합이에요.</p></div>
+</div>

@@ -1,0 +1,18 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하나요?</h4><p>두 행으로 주어진 $2\times2$ 행렬을 $U\Sigma V^\top$로 분해해요. 행을 한 번 내적해 보면 계산을 줄일 수 있는 단서가 나와요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>$AA^\top$의 비대각 원소는 서로 다른 행의 내적이고, 대각 원소는 각 행의 길이 제곱이에요. 행끼리 직교하면 $AA^\top$가 대각행렬이므로 표준기저에서 바로 왼쪽 특이벡터(left singular vector)를 읽을 수 있어요.</p><p>SVD에서 $AA^\top=U\Sigma\Sigma^\top U^\top$이므로 대각 원소의 제곱근이 특잇값이에요. $A^\top u_i=\sigma_i v_i$에서 양의 $\sigma_i$로 나누면 오른쪽 특이벡터도 부호까지 정해져요.</p></div>
+<div class="layer" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>첫째 행과 둘째 행을 내적해요.</p>$$(2,2)\cdot(-1,1)=-2+2=0$$</div>
+<div class="layer formal" data-explanation="solve"><h4>계산 순서</h4><div data-subpart="main">
+<p>각 행의 길이 제곱은 $8,2$예요. 이미 큰 순서이므로 왼쪽 특이벡터를 첫째, 둘째 표준기저로 고르고 $U=I_2$로 둬요.</p>
+$$AA^\top=\begin{bmatrix}8&0\\0&2\end{bmatrix}$$
+$$\Sigma=\begin{bmatrix}2\sqrt2&0\\0&\sqrt2\end{bmatrix}$$
+<p>$A^\top$의 첫째, 둘째 열을 각각 대응하는 특잇값으로 나누면 $V$의 열이에요.</p>
+$$v_1=\frac1{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$$
+$$v_2=\frac1{\sqrt2}\begin{bmatrix}-1\\1\end{bmatrix}$$
+$$V=\frac1{\sqrt2}\begin{bmatrix}1&-1\\1&1\end{bmatrix}$$
+</div></div>
+<div class="layer" data-explanation="verify"><h4>원래 행렬과 대조</h4><div data-subpart="main"><p>두 $v_i$의 길이 제곱은 각각 $(1+1)/2=1$이고 내적은 $(-1+1)/2=0$이에요. $U=I_2$이므로 $\Sigma V^\top$만 계산해도 돼요. 첫째 행에 $2\sqrt2$, 둘째 행에 $\sqrt2$가 곱해져 원래 행렬이 나와요.</p>$$U\Sigma V^\top=\begin{bmatrix}2&2\\-1&1\end{bmatrix}$$</div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>행을 정규화한 결과의 방향</h4><p>단위 길이로 바꾼 원래 행은 $V^\top$의 행이에요. $V$에 넣을 때는 세로 열로 세워야 원래 행렬의 둘째 행 부호가 맞아요.</p></div>
+<div class="layer" data-explanation="retry"><h4>가리고 다시 풀기</h4><ol><li>두 행의 길이 제곱과 서로의 내적을 구해 보세요.</li><li>$V$를 만든 뒤 전치해서 두 행을 각각 특잇값만큼 키워 보세요.</li></ol></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>직교(orthogonal)</dt><dd>두 벡터의 내적이 0인 관계예요.</dd><dt>특잇값(singular value)</dt><dd>$AA^\top$의 고윳값에 대응하는 음이 아닌 제곱근으로, SVD에서 해당 방향의 크기를 정해요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML 연습문제 4.9, 책 138쪽(PDF 144쪽). 1104 수업 L06 슬라이드 13의 SVD 관계를 사용해요.</p><p><a href="정리노트_1104_PCA_Part2.html#s2-svd">정리노트에서 개념 보기</a></p></section>
+<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>서로 직교하는 행이면 $AA^\top$는 대각행렬이에요. $v_i=A^\top u_i/\sigma_i$로 짝을 잡아요.</p></div><div class="summary-group"><h4>첫 줄과 답</h4><p>두 행의 내적을 구해요. $U=I_2$이고 특잇값은 $2\sqrt2,\sqrt2$예요.</p></div><div class="summary-group"><h4>검산</h4><p>$V^\top$의 각 행에 특잇값을 곱해 원래 두 행을 얻어요.</p></div></div>

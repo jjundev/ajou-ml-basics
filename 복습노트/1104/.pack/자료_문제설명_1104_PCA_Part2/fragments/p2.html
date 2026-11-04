@@ -1,0 +1,24 @@
+<div class="layer eli5" data-explanation="understand"><h4>문제 읽기</h4>
+<p>손글씨 0과 1을 점으로 바꿔 같은 평면에 찍었어요. 두 무리가 얼마나 겹치는지 보고, 각각의 무리 안에서 어느 쪽 점들이 더 넓게 퍼졌는지 비교해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+<p>‘첫 두 주성분이 만드는 평면’은 2차원 사영(2D projection)의 결과를 읽으라는 단서예요. 주성분 방향을 각각 $\mathbf b_1,\mathbf b_2$라 하면, 중심화한 이미지 벡터 $\mathbf x$와 각 축의 내적이 그 이미지의 좌표예요.</p>
+$$z_1=\mathbf b_1^\top\mathbf x,\quad z_2=\mathbf b_2^\top\mathbf x.$$
+<p>두 색이 같은 구역에 자주 나타나는지 보면 집단 간 분리를, 한 색이 가로·세로로 차지하는 범위를 보면 집단 내부의 퍼짐을 비교할 수 있어요.</p>
+</div>
+<div class="layer formal" data-explanation="start"><h4>첫 줄 쓰기</h4>
+<p>‘파란 점은 0, 주황 점은 1’이라고 먼저 적어요. 빨간 선은 선택한 점과 원본 이미지를 잇는 표시이므로, 퍼짐은 파란 점과 주황 점의 분포에서 읽어요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4>
+<div data-subpart="main"><h4>겹침과 퍼짐 비교하기</h4>
+<p>주황 점이 모인 곳은 주로 왼쪽이고 파란 점이 모인 곳은 주로 오른쪽이에요. 두 색이 맞닿는 구역에는 섞여 있는 점도 보여요. 따라서 <strong>0과 1은 비교적 잘 나뉘지만 일부 겹쳐요.</strong></p>
+<p>한 색씩 따라가 보면, 파란 점은 주황 점보다 좌우로 넓게 놓이고 위아래로도 더 멀리 뻗어요. 이 평면에서는 <strong>0 집단이 1 집단보다 더 넓게 퍼져 있어요.</strong></p>
+</div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4>
+<div data-subpart="main"><h4>그림의 가장자리로 검산</h4><p>파란 점만 보이는 오른쪽 먼 구역과 주황 점이 밀집한 왼쪽 끝을 확인하면 두 무리의 중심이 다르게 보이는 이유를 알 수 있어요. 두 무리가 닿는 곳을 보면 색이 완전히 갈라지지 않아요. 아래쪽으로 멀리 떨어진 점들도 주로 파란색이어서 파란 무리의 더 큰 세로 퍼짐을 확인할 수 있어요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>주의할 점</h4><p>이 그림에서 보이는 퍼짐은 두 주성분에 사영한 뒤의 퍼짐이에요. 원래 픽셀 공간에서의 분산이나 분류기의 정확도를 얻으려면 별도의 계산이 필요해요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀기</h4><ul><li>색과 숫자를 먼저 짝지어요.</li><li>섞이는 구역과 각 색의 바깥 범위를 따로 찾아요.</li></ul></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>주성분 방향(principal direction)</dt><dd>보존 분산을 기준으로 고르는 축. 두 축은 이미지 벡터와 내적해 사영 좌표를 정해요.</dd><dt>산점도(scatter plot)</dt><dd>이미지 한 장을 두 좌표를 갖는 점 하나로 그린 그림.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.3과 Fig. 10.10, 교재 332–333쪽의 사영 예시를 바탕으로 구성했어요. 강의 L06 슬라이드 11에도 이 산점도가 나와요.</p><p><a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST 사영과 복원</a></p></section>
+<div class="sum" hidden>
+<div class="summary-group"><h4>떠올릴 개념·공식</h4><p>첫 두 축과의 내적이 점의 좌표예요. 색의 겹침과 한 색의 퍼짐을 따로 봐요.</p></div>
+<div class="summary-group"><h4>판단과 범위</h4><p>0과 1은 비교적 분리되며 경계에서 일부 겹쳐요. 0의 점이 이 평면에서 더 넓게 퍼져 있어요.</p></div>
+</div>

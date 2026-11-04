@@ -1,0 +1,34 @@
+<div class="layer eli5" data-explanation="understand"><h4>문제 읽기</h4>
+<p>같은 숫자 8을 적은 수의 좌표로 저장했다가 다시 그린 그림이에요. (a)는 그림에서 어떤 변화가 보이는지, (b)는 원래 픽셀 값까지 정확히 되돌릴 수 있는지 묻고 있어요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+<p>‘주성분 $M$개로 복원’은 원래 이미지의 변동을 $M$개 축으로 나타낸다는 뜻이에요. 원본 픽셀 열벡터를 $\mathbf x$, 학습 이미지의 평균을 $\boldsymbol\mu$, 직교 정규 주성분 방향을 열로 모은 행렬을 $\mathbf B_M$이라 해요.</p>
+$$\mathbf z_M=\mathbf B_M^\top(\mathbf x-\boldsymbol\mu).$$
+$$\hat{\mathbf x}_M=\boldsymbol\mu+\mathbf B_M\mathbf z_M.$$
+<p>$\mathbf B_M$은 $784\times M$이라 좌표 벡터 $\mathbf z_M$은 $M$차원이고, 다시 축을 더한 복원 벡터 $\hat{\mathbf x}_M$은 $784$차원이에요.</p></div>
+<div class="layer formal" data-explanation="start"><h4>첫 줄 쓰기</h4>
+<p>(a)는 한 열을 고르고, 첫 행의 원본과 같은 열의 네 복원 결과를 비교해요. (b)는 위 복원식에서 $M=784$로 놓아요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4>
+<div data-subpart="a"><h4>(a) 복원 이미지 비교</h4>
+<p>첫 열을 예로 보면 $M=1$일 때는 위아래 고리가 흐릿해요. $M=10,100$에서는 가운데가 좁아지는 모양과 획의 굴곡이 더 잘 보이고, $M=500$에서는 원본의 윤곽과 세부에 가까워져요. 주성분을 더 넣을수록 기존 복원에 새 방향의 변동을 더해 <strong>원본의 필체가 더 뚜렷하게 복원돼요.</strong></p>
+</div>
+<div data-subpart="b"><h4>(b) 축을 전부 쓸 때</h4>
+<p>$\mathbf B_{784}$의 784개 직교 정규 열은 픽셀 공간 전체의 기저예요. 직교 정규 열을 가진 정사각행렬이므로 역행렬이 전치와 같아요.</p>
+$$\mathbf B_{784}\mathbf B_{784}^\top=\mathbf I_{784}.$$
+<p>좌표식을 복원식에 넣어요.</p>
+$$\hat{\mathbf x}_{784}=\boldsymbol\mu+\mathbf B_{784}\mathbf B_{784}^\top(\mathbf x-\boldsymbol\mu).$$
+<p>가운데 행렬곱이 항등행렬이므로 중심화 벡터가 그대로 돌아와요.</p>
+$$\hat{\mathbf x}_{784}=\boldsymbol\mu+(\mathbf x-\boldsymbol\mu).$$
+<p>평균을 되돌렸으므로 <strong>원래 픽셀 벡터 $\mathbf x$를 정확히 얻어요.</strong></p>
+</div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4>
+<div data-subpart="a"><h4>(a) 다른 열에서도 확인</h4><p>마지막 열의 원본은 획이 비스듬해요. $M=1$에서도 기울어진 윤곽은 보이지만, $M=500$에서는 원본에서처럼 위 고리와 아래 고리의 모양이 또렷해요. 같은 열 안의 비교로 세부가 살아난다는 관찰을 확인해요.</p></div>
+<div data-subpart="b"><h4>(b) 각 축의 잔차 확인</h4><p>한 축 방향의 원래 중심화 좌표는 $\mathbf b_i^\top(\mathbf x-\boldsymbol\mu)$예요. 복원 벡터에서 평균을 빼고 같은 축과 내적하면, 직교성으로 다른 축 항은 0이고 이 좌표만 남아요. 모든 기저축에서 원본과 복원의 좌표가 같으므로 잔차는 0이에요.</p></div>
+</div>
+<div class="layer warn" data-explanation="pitfall"><h4>주의할 점</h4><p>열마다 원본이 다르므로 같은 열 안에서 비교해요. 그림에서 500개 결과가 원본에 가까워 보이는 것과, 784개 기저를 모두 썼을 때 수학적으로 정확히 복원되는 것은 구별해요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀기</h4><ul><li>한 열에서 원본과 복원 이미지의 획을 비교해요.</li><li>복원식에 좌표식을 대입하고 $M=784$에서 어떤 행렬곱이 항등행렬인지 적어요.</li></ul></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>주성분 좌표(principal component scores)</dt><dd>평균을 뺀 이미지와 남긴 주성분 방향의 내적을 모은 $\mathbf z_M$.</dd><dt>복원(reconstruction)</dt><dd>남긴 좌표를 가중치로 방향을 더하고, 평균을 다시 더해 픽셀 공간으로 돌아오는 연산.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.4와 Fig. 10.12, 교재 338–339쪽의 테스트 이미지 복원 예시를 바탕으로 구성했어요.</p><p><a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST 사영과 복원</a></p></section>
+<div class="sum" hidden>
+<div class="summary-group"><h4>떠올릴 개념·공식</h4><p>좌표로 축을 가중합하고 평균을 다시 더해요. $\hat{\mathbf x}_M=\boldsymbol\mu+\mathbf B_M\mathbf z_M$.</p></div>
+<div class="summary-group"><h4>판단과 검산</h4><p>(a) 같은 열에서 축이 많을수록 필체의 세부가 보여요. 500개는 그림에서 원본에 가까워요.</p><p>(b) 784개 모두를 쓰면 $\mathbf B_{784}\mathbf B_{784}^\top=\mathbf I_{784}$여서 원본과 정확히 같아요.</p></div>
+</div>

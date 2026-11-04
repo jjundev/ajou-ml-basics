@@ -1,0 +1,20 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 증명하나요?</h4><p>0이 아닌 벡터에 행렬을 곱하면 길이가 몇 배가 되는지 살펴봐요. 어떤 방향으로 넣어도 가장 큰 특잇값 $\sigma_1$을 넘을 수 없고, 그 비율에 도달하는 입력 방향이 있음을 보여요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>길이 비율을 비교하려면 특잇값 분해 $A=U\Sigma V^\top$에서 길이를 바꾸는 부분을 찾아요. $U$와 $V$는 각각 $m\times m$, $n\times n$ 직교행렬이라 곱해도 유클리드 길이(Euclidean norm)가 같아요. 예를 들어 $\|Uy\|_2^2=y^\top U^\top Uy=y^\top y$예요.</p><p>$m\times n$인 $\Sigma$의 대각에는 내림차순으로 놓인 특잇값이 있어요. 직교 기저의 좌표로 바꾼 뒤 각 성분에 대응하는 특잇값을 곱하면, 길이 제곱을 성분별로 비교할 수 있어요.</p></div>
+<div class="layer" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>입력 축의 좌표를 $z=V^\top x$라고 놓아요. 분자는 $U$가 길이를 보존하므로 $\|Ax\|_2=\|\Sigma z\|_2$이고, 분모는 $\|x\|_2=\|z\|_2$예요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>상한과 등호를 차례로 찾기</h4><div data-subpart="main">
+<p>대각 성분의 수를 $k=\min(m,n)$이라고 쓰면, $i$번째 성분 $z_i$는 $\sigma_i$만큼 바뀌어요. $m\gt n$이면 출력의 남는 성분은 0이에요.</p>
+$$\|\Sigma z\|_2^2=\sum_{i=1}^{k}\sigma_i^2 z_i^2$$
+<p>각 $\sigma_i$는 $0\le\sigma_i\le\sigma_1$을 만족해요. $z_i^2$가 음수가 아니므로 항마다 $\sigma_i^2$를 $\sigma_1^2$로 바꾸면 합은 줄어들지 않아요.</p>
+$$\|\Sigma z\|_2^2\le\sigma_1^2\sum_{i=1}^{k}z_i^2$$
+<p>$k\le n$이므로 입력의 나머지 성분 제곱까지 합하면 다음 상한을 얻어요.</p>
+$$\|\Sigma z\|_2^2\le \sigma_1^2\|z\|_2^2$$
+<p>$x\ne0$이면 직교변환한 $z$도 0이 아니에요. $\|z\|_2^2$로 나누고 양쪽의 음이 아닌 제곱근을 취하면 다음과 같아요.</p>
+$$\frac{\|Ax\|_2}{\|x\|_2}\le\sigma_1$$
+<p>이제 $x$를 $V$의 첫 열 $v_1$으로 골라요. $z=V^\top v_1$의 첫 성분만 1이고 나머지는 0이라 첫 표준기저 벡터 $e_1$이 돼요. $\|z\|_2=1$, $\|\Sigma z\|_2=\sigma_1$이므로 상한이 실제 최댓값이에요.</p>
+</div></div>
+<div class="layer" data-explanation="verify"><h4>등호 조건에 직접 대입</h4><div data-subpart="main"><p>$Av_1=\sigma_1u_1$이고 $u_1,v_1$은 모두 단위벡터예요. 따라서 이 입력에서 길이 비율은 $\sigma_1/1=\sigma_1$이에요. $\sigma_1=0$이면 모든 특잇값이 0이라 $A=0$이에요. 이때도 0이 아닌 모든 입력에서 비율은 0이고 증명이 그대로 성립해요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>상한과 최댓값 구분하기</h4><p>모든 입력에서 비율이 $\sigma_1$ 이하라는 부등식만 얻으면 상한까지 확인한 거예요. 등호를 만드는 $v_1$을 대입해야 그 값이 최댓값임을 알 수 있어요. 입력 $x=0$에서는 비율의 분모가 0이므로 문제의 범위에서 제외돼요.</p></div>
+<div class="layer" data-explanation="retry"><h4>가리고 다시 풀기</h4><ol><li>길이를 그대로 두는 두 행렬과 길이를 바꾸는 행렬을 구분해 보세요.</li><li>제곱합의 상한을 쓴 뒤, 첫 좌표만 남기는 원래 입력 방향을 찾아 보세요.</li></ol></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>유클리드 노름(Euclidean norm)</dt><dd>벡터 성분 제곱의 합에 제곱근을 취한 길이예요.</dd><dt>최대 특잇값(largest singular value)</dt><dd>$\Sigma$의 첫 대각 원소 $\sigma_1$이에요. 0이 아닌 입력에서 출력 길이를 입력 길이로 나눈 비율의 최댓값이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML 연습문제 4.12, 책 138쪽(PDF 144쪽), 정리 4.24. 1104 수업 L06 슬라이드 13–14의 특잇값 분해를 사용해요.</p><p><a href="정리노트_1104_PCA_Part2.html#s0-top-directions">정리노트에서 개념 보기</a></p></section>
+<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>직교변환은 길이를 보존해요. $z=V^\top x$에서 $\|\Sigma z\|_2^2\le\sigma_1^2\|z\|_2^2$를 보여요.</p></div><div class="summary-group"><h4>첫 줄과 답</h4><p>길이 비율을 $\|\Sigma z\|_2/\|z\|_2$로 써요. 최댓값은 $\sigma_1$이에요.</p></div><div class="summary-group"><h4>검산</h4><p>$x=v_1$이면 $Av_1=\sigma_1u_1$이라 비율이 $\sigma_1$이에요. $\sigma_1=0$이면 모든 비영 입력에서 비율이 0이에요.</p></div></div>

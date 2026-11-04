@@ -1,0 +1,21 @@
+<div class="layer eli5" data-explanation="understand"><h4>무엇을 구하나요?</h4><p>세 성분을 받아 두 성분을 내놓는 행렬을 세 단계로 나눠요. 입력 쪽 축을 바꾸고, 축마다 크기를 조절한 뒤, 출력 쪽 축으로 돌려놓아요. 전체 분해이므로 출력이 0이 되는 입력 방향까지 포함해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>특잇값 분해(singular value decomposition, SVD)는 $A=U\Sigma V^\top$예요. $U$는 출력 쪽 정규직교 기저, $V$는 입력 쪽 정규직교 기저, $\Sigma$는 축별 크기를 담은 직사각형 대각행렬이에요.</p><p>$AA^\top=U\Sigma\Sigma^\top U^\top$이므로 $AA^\top$의 단위 고유벡터가 $U$의 열이고, 양의 고윳값의 제곱근이 특잇값 $\sigma_i$예요. $A^\top U=V\Sigma^\top$이므로 $\sigma_i\gt0$인 열은 $v_i=A^\top u_i/\sigma_i$로 짝지어요. 여기서는 $AA^\top$가 $2\times2$이고 $A^\top A$는 $3\times3$이라 출력 쪽부터 구하면 계산이 짧아요.</p></div>
+<div class="layer" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>두 행의 자기 내적과 서로의 내적을 적어 $AA^\top$을 만들어요.</p>$$AA^\top=\begin{bmatrix}2&-2\\-2&5\end{bmatrix}$$</div>
+<div class="layer formal" data-explanation="solve"><h4>계산 순서</h4><div data-subpart="main">
+<p>특성다항식은 $(\lambda-2)(\lambda-5)-4=(\lambda-6)(\lambda-1)$이에요. 큰 고윳값부터 $6,1$을 쓰고 $\sigma_1=\sqrt6,\ \sigma_2=1$로 놓아요.</p>
+<p>$u=(a,b)^\top$에 대해 $AA^\top u=\lambda u$의 첫째 행은 $(2-\lambda)a-2b=0$이에요. $\lambda=6$이면 $b=-2a$, $\lambda=1$이면 $a=2b$예요. 단위 길이로 맞춘 벡터를 순서대로 열에 담아요.</p>
+$$U=\frac1{\sqrt5}\begin{bmatrix}1&2\\-2&1\end{bmatrix}$$
+<p>$A^\top u_1=(5,-2,1)^\top/\sqrt5$를 $\sqrt6$으로 나누고, $A^\top u_2=(0,1,2)^\top/\sqrt5$를 $1$로 나눠요.</p>
+$$v_1=\frac{1}{\sqrt{30}}\begin{bmatrix}5\\-2\\1\end{bmatrix}$$
+$$v_2=\frac{1}{\sqrt5}\begin{bmatrix}0\\1\\2\end{bmatrix}$$
+<p>남은 열은 핵(kernel)에서 골라요. $Av=0$을 풀면 $v=(a,b,c)^\top$의 성분이 $a+c=0$, $-2a+b=0$을 만족해요. $a=-1$로 택하고 단위 길이로 맞춰요.</p>
+$$v_3=\frac{1}{\sqrt6}\begin{bmatrix}-1\\-2\\1\end{bmatrix}$$
+<p>따라서 $V=[v_1\ v_2\ v_3]$이고, $A$와 같은 $2\times3$ 크기의 가운데 행렬은 다음과 같아요.</p>
+$$\Sigma=\begin{bmatrix}\sqrt6&0&0\\0&1&0\end{bmatrix}$$
+</div></div>
+<div class="layer" data-explanation="verify"><h4>원래 행렬과 대조</h4><div data-subpart="main"><p>$U$와 $V$의 열마다 길이는 1이에요. $U$의 두 열의 내적은 0이고, $V$에서도 분자를 내적하면 $-2+2=0$, $-5+4+1=0$, $-2+2=0$이에요.</p><p>$U^\top A$의 첫째 행은 $(5,-2,1)/\sqrt5$이고 둘째 행은 $(0,1,2)/\sqrt5$예요. $\Sigma V^\top$의 두 행인 $\sqrt6\,v_1^\top$과 $v_2^\top$도 각각 이 값과 같아요. 양변에 $U$를 왼쪽에서 곱하면 $A=U\Sigma V^\top$를 확인할 수 있어요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>특이벡터의 부호 짝</h4><p>$u_i$의 부호를 뒤집어 고르면 $\sigma_i\gt0$인 열의 $v_i$도 같이 뒤집어야 해요. 한쪽만 뒤집으면 해당 외적의 부호가 바뀌어 원래 행렬이 달라져요. $v_3$에는 특잇값 0이 곱해지므로 부호를 자유롭게 고를 수 있어요.</p></div>
+<div class="layer" data-explanation="retry"><h4>가리고 다시 풀기</h4><ol><li>더 작은 정방행렬을 고르고 고윳값에서 특잇값을 구해 보세요.</li><li>$A^\top u_i$로 두 열의 짝을 잡은 뒤, $Av=0$에서 마지막 열을 찾아 보세요.</li></ol></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>특잇값 분해(singular value decomposition)</dt><dd>$A=U\Sigma V^\top$로 입력과 출력의 정규직교 축, 축별 크기를 분리해요.</dd><dt>핵(kernel)</dt><dd>$Av=0$을 만족하는 입력 벡터들의 공간이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML 예제 4.13, 책 125–126쪽(PDF 131–132쪽). 1104 수업 L06 슬라이드 13의 SVD 관계를 사용해요.</p><p><a href="정리노트_1104_PCA_Part2.html#s2-svd">정리노트에서 개념 보기</a></p></section>
+<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$AA^\top$에서 $U$와 $\sigma_i^2$를 얻어요. $\sigma_i\gt0$이면 $v_i=A^\top u_i/\sigma_i$예요.</p></div><div class="summary-group"><h4>첫 줄과 답</h4><p>$2\times2$인 $AA^\top$부터 써요. 특잇값은 $\sqrt6,1$이고 $V$의 마지막 열은 $Av=0$에서 골라요.</p></div><div class="summary-group"><h4>검산</h4><p>각 기저의 정규직교성과 $U^\top A=\Sigma V^\top$를 확인해요.</p></div></div>
