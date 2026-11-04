@@ -521,6 +521,8 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 <p>이제 목표를 기호로 말할 수 있어요. 원래 $\mathbf{x}$의 에너지(variance)를 가장 잘 보존(preserve)하면서 차원을 줄이는 $\mathbf{b}_1,\dots,\mathbf{b}_M$을 찾아요. 첫 좌표 ${z_{1n}=\mathbf{b}_1^T\mathbf{x}_n}$의 분산을 계산하는 것이 그 첫 단계이고, <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>에서 이 식을 그대로 넣어요.</p>
 <p><strong>다시 만드는 법:</strong> 열벡터 $\mathbf{b}_i$를 가로로 붙여 $\mathbf{B}\in\mathbb{R}^{D\times M}$를 만들어요. 전치하면 행이 $\mathbf{b}_i^T$가 돼요. 행마다 $\mathbf{x}_n$과 내적하면 $z_{in}=\mathbf{b}_i^T\mathbf{x}_n$이고, 모으면 $\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n$이에요.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="../1104/%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html">단위벡터 하나의 내적이 열벡터를 나란히 세운 행렬 곱 z = Bᵀx와 평면 사영으로 이어지는 모습을 <a href="../1104/%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html" target="_blank" rel="noopener noreferrer">내적에서 행렬 사영으로 실험</a>에서 확인해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>"여기까지가 이제 아이디어고, 지금부터 수학으로 넘어가 봅시다"라며 행렬 표기로 들어갔어요(1102 P02 03:51).</p>
 <blockquote>"행의 길이가 D이고 열의 개수가 M인 D × M짜리 매트릭스" (1102 P02 04:39)</blockquote>

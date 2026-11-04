@@ -514,6 +514,8 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad z_{in}=\mathbf b_i^\top\mathbf x_
 $$\mathbf B^\top(\mathbf x_n-\tilde{\mathbf x}_n)=\mathbf 0.$$
 <p>잔차가 부분공간과 수직이므로 이 복원은 직교사영(orthogonal projection)이에요. $\mathbf B^\top$는 $M$개 좌표를 뽑고, $\mathbf B$는 그 좌표를 $D$차원 공간의 점으로 바꿔요.</p>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html">단위벡터 내적에서 기저 행렬 B의 층별 내적 z = Bᵀx와 평면 사영 복원 x̃ = Bz로 확장되는 과정을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html" target="_blank" rel="noopener noreferrer">내적에서 행렬 사영으로 실험</a>에서 직접 비교해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>이전 최소제곱 풀이를 떠올리고, 평면의 점 $(6,8)$을 예로 들어 좌표의 뜻을 짚었어요. 가로 단위벡터와 내적하면 $6$, 세로 단위벡터와 내적하면 $8$이 나와요. 새 축에서도 같은 방식으로 좌표를 읽어요. (1104 Part 06)</p>
 </div>
@@ -560,6 +562,8 @@ $$\mathbf b_j^\top\mathbf S\mathbf b_j=\lambda_j\mathbf b_j^\top\mathbf b_j=\lam
 <p>이렇게 얻은 고윳값을 더하면 최소 복원오차예요.</p>
 $$J_M^\star=\sum_{j=M+1}^D\lambda_j.$$
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html">남긴 축들의 사영 성분 x̃ = Bz와 버린 수직 축의 잔차 x − x̃가 피타고라스 등식을 이루는 모습을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html" target="_blank" rel="noopener noreferrer">내적에서 행렬 사영으로 실험</a>의 평면 모드에서 확인해 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>내적의 제곱을 스칼라와 그 전치의 곱으로 써도 값은 같지만, 가운데 두 벡터를 묶으면 공분산을 알아볼 수 있다고 설명했어요. 전체 에너지가 일정하니 남기는 쪽이 커지면 잃는 쪽이 작아진다고 연결했어요. (1104 Part 07)</p>
 </div>
