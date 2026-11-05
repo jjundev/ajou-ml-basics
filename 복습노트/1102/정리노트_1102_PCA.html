@@ -737,6 +737,17 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
     <p>PCA에서는 공분산 행렬을 고유벡터와 고윳값으로 쪼갠 뒤 그 조각에서 방향을 골라요. 그 일반형이 고윳값 분해(eigenvalue decomposition, EVD)이고, 대칭행렬에 쓰는 특수형이 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>예요.</p>
     <p>decomposition은 인수분해, 즉 분해예요(compose는 합성, decompose는 분해). 행렬을 잘 분해해 두면 그 특성을 나중에 계산에 이용할 수 있어요.</p>
+    <p>앞 페이지의 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>에서 $\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$였어요. 양변 왼쪽에 $\mathbf{P}$를 곱하면 결합법칙에 따라 $\mathbf{P}\mathbf{P}^{-1}=\mathbf{I}_n$으로 정리할 수 있어요.</p>
+    $$
+    \begin{aligned}
+    \mathbf{P}\mathbf{D}
+    &amp;= \mathbf{P}(\mathbf{P}^{-1}\mathbf{A}\mathbf{P}) \\
+    &amp;= (\mathbf{P}\mathbf{P}^{-1})\mathbf{A}\mathbf{P} \\
+    &amp;= \mathbf{I}_n\mathbf{A}\mathbf{P} \\
+    &amp;= \mathbf{A}\mathbf{P}.
+    \end{aligned}
+    $$
+    <p>따라서 $\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$예요. $\mathbf{P}$의 $i$번째 열을 $\mathbf{p}_i$, $\mathbf{D}$의 $i$번째 대각 성분을 $\lambda_i$라고 하면, 두 행렬의 $i$번째 열을 비교해 $\mathbf{A}\mathbf{p}_i=\lambda_i\mathbf{p}_i$를 얻어요. $\mathbf{P}$가 가역이라 각 열이 영벡터가 아니므로 $\mathbf{p}_i$는 고유벡터예요. 아래에서는 반대로 고유벡터에서 출발해 같은 식을 만들어요.</p>
     <p><strong>기호</strong>: $\mathbf{A}\in\mathbb{R}^{n\times n}$의 고유벡터 $\mathbf{p}_1,\dots,\mathbf{p}_n$과 대응 고윳값 $\lambda_1,\dots,\lambda_n$이 있다고 해요. 즉 $\mathbf{p}_i$에 $\mathbf{A}$를 곱하면 $\lambda_i\mathbf{p}_i$가 돼요.</p>
     <ul>
       <li>$\mathbf{p}_i$: $n\times 1$ 열벡터, $i$번째 고유벡터예요.</li>
@@ -755,7 +766,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       $$\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$$</li>
       <li>$\mathbf{P}$가 가역이면 양변 오른쪽에 $\mathbf{P}^{-1}$을 곱해요.
       $$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$</li>
-      <li>대신 양변 왼쪽에 $\mathbf{P}^{-1}$을 곱하면 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 정의식이 나와요. 즉 대각화하는 $\mathbf{P}$가 바로 고유벡터 행렬이에요.
+      <li>$\mathbf{P}$가 가역일 때 4단계 식의 양변 왼쪽에 $\mathbf{P}^{-1}$을 곱하면 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 정의식으로 돌아가요.
       $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$</li>
     </ol>
     <p>3단계에서 $\mathbf{D}$는 오른쪽에 곱해야 열마다 배율이 곱해져요. <small>(수업 중 대각행렬은 앞뒤 어디에 곱해도 같다고 말했지만 일반 행렬과는 교환되지 않아요. 정정은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>에서 다뤄요.)</small></p>
