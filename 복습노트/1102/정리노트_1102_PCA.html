@@ -849,7 +849,16 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 </svg><figcaption>대각선으로 접으면 겹치는 표 하나가 무게가 다른 조각 세 개를 더한 것과 같아요.</figcaption></figure>
 </div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-<p>PCA에서 쓰는 데이터 공분산 행렬 $\mathbf{S}$는 대칭이라 이 정리가 그대로 적용되고, 뒤의 <a href="#s4-max-proof">4.3 왜 가장 큰 고윳값의 고유벡터일까</a>에서 $\mathbf{b}_1$을 $\mathbf{S}$의 고유벡터 $\mathbf{p}_i$들로 펼칠 때 이 결과를 그대로 써요.</p>
+<p>앞 페이지의 고윳값 분해를 PCA의 데이터 공분산 행렬 $\mathbf{S}$에 적용해 볼게요. $\mathbf{x}_n$은 평균을 뺀 $n$번째 데이터예요. 곱을 전치하면 인수 순서가 뒤집히고, 두 번 전치한 벡터는 원래대로 돌아와요. 그래서 각 외적을 전치해도 그대로예요.</p>
+$$\begin{aligned}
+(\mathbf{x}_n\mathbf{x}_n^T)^T
+&amp;=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T,\\
+\mathbf{S}^T
+&amp;=\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T\right)^T\\
+&amp;=\frac{1}{N}\sum_{n=1}^{N}(\mathbf{x}_n\mathbf{x}_n^T)^T\\
+&amp;=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T=\mathbf{S}.
+\end{aligned}$$
+<p>$\mathbf{S}$가 대칭이므로 스펙트럼 정리를 적용할 수 있어요.</p>
 <p><b>기호.</b> 이 토픽의 기호는 다음과 같아요. 슬라이드는 차원을 $n$으로 쓰고, PCA에서는 이 $n$이 데이터 차원 $D$예요.</p>
 <ul>
 <li>$\mathbf{S}\in\mathbb{R}^{n\times n}$: 대칭행렬(symmetric matrix)이에요. $\mathbf{S}^T=\mathbf{S}$, 즉 대각선을 기준으로 위아래 성분이 같아요. 전치해도 크기가 그대로여야 하므로 반드시 정방행렬이에요.</li>
@@ -896,9 +905,6 @@ $$\mathbf{S}=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
 <p>합 $\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$의 각 조각 $\mathbf{p}_i\mathbf{p}_i^T$는 $(n\times1)(1\times n)$이라 $n\times n$ 행렬이에요. 고유벡터 하나를 세로와 가로로 곱해 만든 행렬에 $\lambda_i$를 곱하고, 이것을 $n$개 모두 더하면 원래 $\mathbf{S}$예요.</p>
 <p>직교성이 실제로 쓰이는 곳은 이 합을 다시 고유벡터에 곱할 때예요. 아래는 강의 공식을 확인하기 위한 재구성이에요. $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때만 1이므로 조각 하나만 남아요.</p>
 $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\mathbf{p}_j)=\lambda_j\mathbf{p}_j$$
-<p><b>왜 PCA에서 대칭행렬만 보면 되나.</b> 데이터 공분산 행렬 ${\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T}$는 벡터를 자기 자신의 전치와 곱한 것의 평균이에요. 각 항을 전치해도 그대로예요.</p>
-$$(\mathbf{x}_n\mathbf{x}_n^T)^T=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T$$
-<p>따라서 $\mathbf{S}^T=\mathbf{S}$이고, 앞으로 다룰 공분산 행렬에는 언제나 스펙트럼 정리를 쓸 수 있어요. 고윳값이 실수이니 "가장 큰 고윳값"이라는 비교도 의미가 있어요.</p>
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">행렬 성분을 바꾸며 대칭일 때만 두 고유 방향이 수직인지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" target="_blank" rel="noopener noreferrer">고유벡터와 대칭행렬 실험</a>에서 비교해 보세요.</p>
 
@@ -976,7 +982,12 @@ $${E_7=\operatorname{span}\left[\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}\right]}$$<
 $$\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2=1\cdot(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$$
 <ol class="steps">
 <li>첫 벡터는 그대로 둬요: $\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$.</li>
-<li>둘째 벡터에서 $\mathbf{x}_1'$ 방향 성분을 빼요. 계수는 ${\mathbf{x}_1^T\mathbf{x}_2/\mathbf{x}_1^T\mathbf{x}_1=1/2}$예요.
+<li>둘째 벡터에서 $c\mathbf{x}_1$을 빼요. 결과가 $\mathbf{x}_1$과 수직이어야 하므로 내적을 0으로 놓고 $c$를 풀어요.
+$$\begin{aligned}
+0&amp;=\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)\\
+ &amp;=\mathbf{x}_1^T\mathbf{x}_2-c\,\mathbf{x}_1^T\mathbf{x}_1,\\
+c&amp;=\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}=\frac{1}{2}.
+\end{aligned}$$
 $$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</li>
 <li>확인해요. ${\mathbf{x}_1^T\mathbf{x}_2'=\frac12-\frac12+0=0}$이고 ${\mathbf{x}_3^T\mathbf{x}_2'=-\frac12-\frac12+1=0}$이에요. 또 $\mathbf{A}\mathbf{x}_2'=\mathbf{x}_2'$라서 여전히 $\lambda=1$의 고유벡터예요.</li>
 </ol>
@@ -1051,7 +1062,8 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <li>분산이라는 개념 자체가 공분산을 써야 만들어져요. 첫 좌표의 분산을 계산하면 식 안에 $\mathbf{S}$가 저절로 나타나요. 그 계산이 <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>예요.</li>
 </ol>
 <p>두 번째 물음(왜 고윳값 순서인가)은 Step 1의 결론과 이어져요. 가장 큰 고윳값의 고유벡터가 분산을 가장 많이 담는다는 결론이고, 그 이유는 <a href="#s4-max-proof">4.3 왜 가장 큰 고윳값의 고유벡터일까</a>에서 다뤄요. 교수님은 슬라이드의 풀이는 건너뛰고, 고유기저 전개로 증명하겠다고 했어요(1102 P06 03:49). 그 증명은 수업 중에 끝나지 않아 다음 시간에 마무리하기로 했어요(1102 P07 08:12).</p>
-<p><b>Step k는 말로만 짚었어요.</b> 대칭행렬의 고유벡터는 서로 정규직교해요. $\mathbf{b}_1 = \mathbf{p}_1$로 정하고 나면 $\mathbf{p}_2$는 처음부터 $\mathbf{p}_1$과 직교하므로, 남은 에너지 중 가장 큰 것을 담는 방향은 $\mathbf{p}_2$예요. 이렇게 수학적 귀납법으로 이어 가면 된다는 설명까지가 수업 범위예요.</p>
+<p><b>Step k는 말로만 짚었어요.</b> 수업에서는 첫 $k-1$개 방향을 고른 뒤, 그 방향들과 수직인 단위벡터 중 분산을 최대로 하는 방향을 고른다고 했어요.</p>
+<p><b>보충.</b> $\mathbf{S}$의 정규직교 고유기저에서 후보 $\mathbf{b}_k$의 $i$번째 계수는 $c_i=\mathbf{p}_i^T\mathbf{b}_k$예요. 앞서 고른 $\mathbf{p}_1,\dots,\mathbf{p}_{k-1}$에 수직이면 이 방향들의 계수는 모두 0이에요. <a href="#s4-max-proof">4.3의 가중평균 계산</a>을 남은 항에 적용하면, 남은 고윳값 중 가장 큰 $\lambda_k$가 상한이에요. $\mathbf{b}_k=\mathbf{p}_k$로 두면 $c_k=1$이라 그 값에 도달해요.</p>
 <p><b>MNIST로 다시 보기(s12 재언급).</b> MNIST 손글씨 이미지는 $28 \times 28 = 784$픽셀이라 $D = 784$예요.<sup>1</sup> $M = 50$으로 두면 $784 \times 1$ 벡터를 $50 \times 1$ 벡터로 압축해요. 그 벡터로 분류하고 원래 차원으로 복원해도 분류 정확도가 거의 변하지 않는다고 했어요. 전체 절차는 다음과 같아요.</p>
 <p>data matrix $\mathbf{X}$ → data covariance matrix $\mathbf{S}$ → EVD → 고윳값이 큰 순서로 고유벡터 50개 → 그 50개 방향으로 사영</p>
 <p class="footnote"><sup>1</sup> 수업 중 "24 곱하기 24"라고 말했다가 784를 떠올렸어요. $24 \times 24 = 576$이고, MNIST는 $28 \times 28 = 784$예요.</p>
@@ -1102,8 +1114,14 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <p>이 유도의 목적은 "방향 $\mathbf{b}_1$을 잘 고른다"는 말을 $\mathbf{b}_1$에 대한 식 하나로 바꾸는 거예요. 그 식 안에 1028에서 정의한 $\mathbf{S}$가 나타나요. $\mathbf{b}_1$은 차원을 딱 하나만 쓸 수 있을 때 고를 방향이고, 교수님은 이것이 앞의 x축 예시(1차원만 쓴다면 x축)와 같은 문제라고 그 학생 대화를 다시 꺼냈어요(1102 P06 04:30, <a href="#s1-variance-energy">1.1 분산은 데이터의 에너지</a>).</p>
 <p><b>사영 좌표는 가중합이에요.</b> $\mathbf{b}_1 \in \mathbb{R}^D$는 크기 1인 방향(열벡터, $D \times 1$), $\mathbf{x}_n \in \mathbb{R}^D$는 centering된 $n$번째 데이터예요. $x_{dn}$을 $\mathbf{x}_n$의 $d$번째 성분, $b_{1d}$를 $\mathbf{b}_1$의 $d$번째 성분이라고 하면 다음과 같아요.</p>
 $$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n = \sum_{d=1}^{D} b_{1d}x_{dn}$$
-<p>$(1 \times D)(D \times 1) = 1 \times 1$이라 $z_{1n}$은 스칼라예요. 성분 $x_{dn}$에 무게 $b_{1d}$를 곱해 더한 가중합이에요. 각 성분의 평균이 0이면(centering) 그 가중합의 평균도 0이에요. 그래서 분산 = 제곱의 평균 − 평균의 제곱에서 뒤 항이 사라지고, 표본평균으로 쓰면 다음과 같아요.</p>
-<p>$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2$</p>
+<p>$(1 \times D)(D \times 1) = 1 \times 1$이라 $z_{1n}$은 스칼라예요. 성분 $x_{dn}$에 무게 $b_{1d}$를 곱해 더한 가중합이에요. 모든 데이터에 같은 $\mathbf{b}_1^T$를 곱하므로 평균을 낼 때 합 밖으로 꺼낼 수 있어요. 괄호 안은 중심화된 데이터의 평균이라 영벡터예요.</p>
+$$\begin{aligned}
+\bar z_1 &amp;= \frac{1}{N}\sum_{n=1}^{N} z_{1n}\\
+         &amp;= \frac{1}{N}\sum_{n=1}^{N}\mathbf{b}_1^T\mathbf{x}_n\\
+         &amp;= \mathbf{b}_1^T\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\right)=0.
+\end{aligned}$$
+<p>따라서 분산에서 사영 좌표 평균의 제곱 $\bar z_1^2$이 사라져요.</p>
+$$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2-\bar z_1^2=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2.$$
 <p><b>D = 2로 먼저 확인해요.</b> $z_{1n} = b_{11}x_{1n} + b_{12}x_{2n}$이에요. ${S_{ij} = \frac{1}{N}\sum_{n} x_{in}x_{jn}}$을 $\mathbf{S}$의 $(i,j)$ 성분이라고 하면 $S_{12} = S_{21}$이에요. 스칼라 분산 공식(제곱 전개, 교차항 2번)으로 계산하면 행렬 식과 같아요.</p>
 $$\frac{1}{N}\sum_{n=1}^{N}(b_{11}x_{1n}+b_{12}x_{2n})^2 = b_{11}^2S_{11}+2b_{11}b_{12}S_{12}+b_{12}^2S_{22}$$
 $$= \begin{bmatrix}b_{11} & b_{12}\end{bmatrix}\begin{bmatrix}S_{11} & S_{12}\\ S_{21} & S_{22}\end{bmatrix}\begin{bmatrix}b_{11}\\ b_{12}\end{bmatrix} = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$
@@ -1235,13 +1253,32 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 <blockquote>"저를 믿으세요." (1102 P07 08:15)</blockquote>
 </div>
 <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
-<p>수업이 멈춘 대입 단계부터 끝까지 이어 가요. 미분 없이 고유기저 전개와 부등식만 써요. 출발식과 대입할 식을 다시 써요.</p>
-$$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T, \qquad \mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$
+<p>수업에서 고유기저 전개를 대입한 식을 이어서 계산해요.</p>
 <ol class="steps">
-<li>가중치 $c_i$를 읽어요. 전개식 양변 왼쪽에 $\mathbf{p}_i^T$를 곱하면 $j \ne i$인 항은 $\mathbf{p}_i^T\mathbf{p}_j = 0$으로 사라져요. $$\mathbf{p}_i^T\mathbf{b}_1 = \sum_{j=1}^{D}c_j\mathbf{p}_i^T\mathbf{p}_j = c_i$$</li>
-<li>출발식에 스펙트럼 정리를 대입해요. $\lambda_i$는 스칼라라서 앞으로 나와요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \mathbf{b}_1^T\left(\sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T\right)\mathbf{b}_1$$ $$= \sum_{i=1}^{D}\lambda_i(\mathbf{b}_1^T\mathbf{p}_i)(\mathbf{p}_i^T\mathbf{b}_1)$$</li>
-<li>$\mathbf{b}_1^T\mathbf{p}_i$는 스칼라라서 $\mathbf{p}_i^T\mathbf{b}_1$과 같고(하나 마나 한 전치), 둘 다 $c_i$예요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \sum_{i=1}^{D}\lambda_i c_i^2$$</li>
-<li>제약도 같은 방법으로 $c_i$로 바꿔요. $$\|\mathbf{b}_1\|^2 = \mathbf{b}_1^T\mathbf{b}_1 = \sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\mathbf{p}_i^T\mathbf{p}_j = \sum_{i=1}^{D}c_i^2 = 1$$</li>
+<li>수업에서 대입한 식의 오른쪽부터 계산해요. $\mathbf{S}$를 합의 각 항에 곱한 뒤 고윳값 방정식 $\mathbf{S}\mathbf{p}_j=\lambda_j\mathbf{p}_j$를 넣어요.
+$$\begin{aligned}
+\mathbf{S}\mathbf{b}_1
+&amp;=\mathbf{S}\left(\sum_{j=1}^{D}c_j\mathbf{p}_j\right)\\
+&amp;=\sum_{j=1}^{D}c_j\mathbf{S}\mathbf{p}_j\\
+&amp;=\sum_{j=1}^{D}c_j\lambda_j\mathbf{p}_j.
+\end{aligned}$$</li>
+<li>왼쪽의 $\mathbf{b}_1^T$에 전치를 적용하면 $\sum_i c_i\mathbf{p}_i^T$예요. 이 합과 1단계에서 구한 합을 곱하면 모든 $(i,j)$ 짝의 내적이 나와요.
+$$\begin{aligned}
+V_1=\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1
+&amp;=\left(\sum_{i=1}^{D}c_i\mathbf{p}_i^T\right)
+  \left(\sum_{j=1}^{D}c_j\lambda_j\mathbf{p}_j\right)\\
+&amp;=\sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\lambda_j\mathbf{p}_i^T\mathbf{p}_j.
+\end{aligned}$$</li>
+<li>$i\ne j$이면 $\mathbf{p}_i^T\mathbf{p}_j=0$이라 교차항이 사라져요. $i=j$이면 내적이 1이므로 $c_i^2\lambda_i$만 남아요.
+$$V_1=\sum_{i=1}^{D}\lambda_i c_i^2.$$</li>
+<li>단위벡터 조건도 같은 방식으로 전개해요. 이번에는 가운데 $\mathbf{S}$가 없어서 $\lambda_j$가 붙지 않아요. 정규직교성을 적용하면 다시 $i=j$인 항만 남아요.
+$$\begin{aligned}
+1=\|\mathbf{b}_1\|^2
+&amp;=\left(\sum_{i=1}^{D}c_i\mathbf{p}_i^T\right)
+  \left(\sum_{j=1}^{D}c_j\mathbf{p}_j\right)\\
+&amp;=\sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\mathbf{p}_i^T\mathbf{p}_j\\
+&amp;=\sum_{i=1}^{D}c_i^2.
+\end{aligned}$$</li>
 <li>$c_i^2 \ge 0$이고 모든 $i$에서 $\lambda_i \le \lambda_1$이므로 각 항을 $\lambda_1 c_i^2$로 키워요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1=\sum_i\lambda_i c_i^2$$ $$\le\lambda_1\sum_i c_i^2$$ $$=\lambda_1$$</li>
 <li>상한에 실제로 닿는지 확인해요. $\mathbf{b}_1 = \mathbf{p}_1$이면 $c_1 = 1$, 나머지 $c_i = 0$이라 값이 정확히 $\lambda_1$이에요. 그래서 최댓값은 $\lambda_1$이고 $V_1 = \lambda_1$이에요.</li>
 <li><b>등호 조건</b>: 5단계 부등식의 양변 차이는 $\sum_i(\lambda_1 - \lambda_i)c_i^2$이에요. 이것이 0이려면 $\lambda_i \lt \lambda_1$인 모든 $i$에서 $c_i = 0$이어야 해요. $\lambda_1$이 다른 고윳값보다 엄격히 크면 최대점은 $\mathbf{b}_1 = \pm\mathbf{p}_1$뿐이에요(부호는 같은 방향의 선). $\lambda_1$이 중근이면 그 고유공간 안의 어떤 단위벡터든 최대예요.</li>
@@ -1249,7 +1286,7 @@ $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \mathbf{S} = \sum_{i=1}^{D}\lambd
 <p><b>직관.</b> $c_i^2 \ge 0$이고 합이 1이므로 $\sum_i\lambda_i c_i^2$는 고윳값들의 가중평균이에요. 가중평균은 가장 큰 값을 넘을 수 없고, 무게를 전부 $\lambda_1$에 실을 때 최대예요. 같은 이유로 최솟값은 $\lambda_D$이고 $\mathbf{b}_1 = \mathbf{p}_D$일 때예요.</p>
 <p><b>위젯으로 확인.</b> 위젯의 $\mathbf{b}$는 $\mathbf{p}_1$에서 $\varphi = \theta - 30°$만큼 돌아간 단위벡터라 $c_1 = \cos\varphi$, $c_2 = \sin\varphi$예요. 그래서 다음 식이 되고, θ = 30°에서 최대 3, θ = 120°에서 최소 1이에요.</p>
 $$\mathbf{b}^T\mathbf{S}\mathbf{b} = 3\cos^2\varphi + 1\cdot\sin^2\varphi = 2 + \cos 2\varphi$$
-<p><b>복원용 요약.</b> 출발식 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$ → $\mathbf{S}$를 고유벡터 합으로, $\mathbf{b}_1$도 고유벡터 합으로 → 직교성으로 교차항이 사라져 $\sum_i\lambda_i c_i^2$ → 가중치 합이 1인 가중평균이라 최대는 $\lambda_1$.</p>
+<p><b>복원용 요약.</b> 출발식 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$ → $\mathbf{b}_1$을 고유기저로 전개하고 $\mathbf{S}\mathbf{p}_j=\lambda_j\mathbf{p}_j$를 대입 → 직교성으로 교차항이 사라져 $\sum_i\lambda_i c_i^2$ → 가중치 합이 1인 가중평균이라 최대는 $\lambda_1$.</p>
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">임의의 $\mathbf{b}_1$을 $\mathbf{S}$의 정규직교 고유벡터 합으로 쓰는 것이 증명의 출발이고, 수업의 결론은 $\mathbf{b}_1 = \mathbf{p}_1$(가장 큰 고윳값 $\lambda_1$의 고유벡터)이에요. 끝까지의 부등식과 최댓값 $V_1 = \lambda_1$은 수업에서 미뤘고 보충으로 실었어요.</p>
