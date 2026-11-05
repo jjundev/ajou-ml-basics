@@ -683,6 +683,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       <li>orthogonally diagonalizable이면 당연히 diagonalizable이에요. 반대는 성립하지 않아요.</li>
       <li>모든 정방행렬이 (직교)대각화되는 것은 아니에요. 대각화되는 조건은 <a href="#s2-evd">2.3 고윳값 분해(EVD)</a>에서 봐요.</li>
       <li>PCA에서 다루는 공분산 행렬은 대칭행렬이라 항상 orthogonally diagonalizable이에요. 그 근거가 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 스펙트럼 정리예요.</li>
+      <li>오른쪽 $\mathbf{A}\mathbf{P}$부터 묶어 내적으로 읽으면 왜 대각선에 고윳값만 남는지는 <a href="#s2-evd">2.3 고윳값 분해(EVD)</a>의 고유벡터 행렬을 배운 뒤 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>에서 바로 확인해요.</li>
     </ul>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
@@ -870,6 +871,15 @@ $$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$
 </ol>
 <p><a href="#s2-evd">2.3 고윳값 분해(EVD)</a>의 일반 분해와 달리, 대칭이면 $\mathbf{P}$를 직교로 고를 수 있어요.</p>
 <p class="note">(수업 중 대칭행렬이면 역행렬이 자기 전치, 즉 $\mathbf{S}^{-1}=\mathbf{S}^T$인 것처럼 말했다가 정정: 전치가 역행렬이 되는 것은 고유벡터 행렬 $\mathbf{P}$이고, 대칭이면 항상 그렇게 고를 수 있어요.)</p>
+<p><b>직교 대각화 $\mathbf{D}=\mathbf{P}^T\mathbf{S}\mathbf{P}$를 오른쪽부터 내적으로 읽기.</b> 아래는 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 직교 대각화 식($\mathbf{D}=\mathbf{P}^T\mathbf{A}\mathbf{P}$에서 $\mathbf{A}=\mathbf{S}$)과 강의 공식을 연결하기 위한 재표현이에요. 오른쪽 두 행렬 $\mathbf{S}\mathbf{P}$부터 묶어 읽으면 왜 비대각 성분이 사라지고 대각선에 고윳값만 남는지 바로 보여요.</p>
+<ol class="steps">
+<li><b>오른쪽 $\mathbf{S}\mathbf{P}$ 먼저</b>: $\mathbf{P}=[\mathbf{p}_1,\dots,\mathbf{p}_n]$의 각 세로줄은 고유벡터이므로, $\mathbf{S}$를 곱하면 세로줄마다 자기 고윳값 $\lambda_j$배가 돼요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a> 칠판 유도 1–2단계).
+$$\mathbf{S}\mathbf{P}=[\mathbf{S}\mathbf{p}_1\ \cdots\ \mathbf{S}\mathbf{p}_n]=[\lambda_1\mathbf{p}_1\ \cdots\ \lambda_n\mathbf{p}_n]$$</li>
+<li><b>왼쪽에 $\mathbf{P}^T$ 곱하기(가로줄×세로줄 내적)</b>: $\mathbf{P}^T$는 고유벡터들이 가로줄(행)로 누운 행렬이에요. 여기에 $\mathbf{S}\mathbf{P}$를 곱하면 $(i,j)$ 칸 성분 $D_{ij}$는 $\mathbf{P}^T$의 $i$번째 가로줄 $\mathbf{p}_i^T$와 $\mathbf{S}\mathbf{P}$의 $j$번째 세로줄 $\lambda_j\mathbf{p}_j$의 내적이에요.
+$$\mathbf{P}^T(\mathbf{S}\mathbf{P})=\begin{bmatrix}\mathbf{p}_1^T\\\vdots\\\mathbf{p}_n^T\end{bmatrix}[\lambda_1\mathbf{p}_1\ \cdots\ \lambda_n\mathbf{p}_n],\qquad D_{ij}=\mathbf{p}_i^T(\mathbf{S}\mathbf{p}_j)=\lambda_j(\mathbf{p}_i^T\mathbf{p}_j)$$</li>
+<li><b>정규직교성 적용</b>: 대각선 칸($i=j$)은 같은 단위 고유벡터끼리의 내적이라 $\mathbf{p}_i^T\mathbf{p}_i=1$이 되어 $\lambda_i$만 남고, 비대각선 칸($i\neq j$)은 서로 수직인 고유벡터끼리의 내적이라 $\mathbf{p}_i^T\mathbf{p}_j=0$이 되어 모두 $0$으로 지워져요.
+$$\mathbf{P}^T\mathbf{S}\mathbf{P}=\begin{bmatrix}\lambda_1(\mathbf{p}_1^T\mathbf{p}_1) &amp; \cdots &amp; \lambda_n(\mathbf{p}_1^T\mathbf{p}_n)\\ \vdots &amp; \ddots &amp; \vdots\\ \lambda_1(\mathbf{p}_n^T\mathbf{p}_1) &amp; \cdots &amp; \lambda_n(\mathbf{p}_n^T\mathbf{p}_n)\end{bmatrix}=\begin{bmatrix}\lambda_1 &amp; \cdots &amp; 0\\ \vdots &amp; \ddots &amp; \vdots\\ 0 &amp; \cdots &amp; \lambda_n\end{bmatrix}=\mathbf{D}$$</li>
+</ol>
 <p><b>유도: 행렬을 방향별 조각의 합으로.</b> 목적은 $\mathbf{S}$ 하나를 "방향 $\mathbf{p}_i$ 하나와 무게 $\lambda_i$ 하나"짜리 조각 $n$개의 합으로 다시 쓰는 거예요. 수업 칠판처럼 $n=3$으로 전개해요.</p>
 <ol class="steps">
 <li>분해식을 성분 모양으로 써요.
@@ -905,6 +915,7 @@ $$(\mathbf{x}_n\mathbf{x}_n^T)^T=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\m
 <p class="panel-label">핵심 식</p>
 <ul class="eq-list">
 <li><span class="eq-name">스펙트럼 정리</span>$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$ $$\mathbf{P}^{-1}=\mathbf{P}^T$$</li>
+<li><span class="eq-name">직교 대각화 내적 읽기(재표현)</span>$$D_{ij}=\mathbf{p}_i^T\mathbf{S}\mathbf{p}_j=\lambda_j(\mathbf{p}_i^T\mathbf{p}_j)$$</li>
 <li><span class="eq-name">열 스케일링</span>$$\mathbf{P}\mathbf{D}=[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]$$</li>
 <li><span class="eq-name">외적 합</span>$$\mathbf{S}=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
 <li><span class="eq-name">직교성이 쓰이는 곳(재구성)</span>$$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\mathbf{p}_j)=\lambda_j\mathbf{p}_j$$</li>
