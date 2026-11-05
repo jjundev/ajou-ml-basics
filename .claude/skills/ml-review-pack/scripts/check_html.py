@@ -14,11 +14,13 @@ from __future__ import annotations
 import argparse
 from collections import defaultdict
 from dataclasses import dataclass, field
+from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 import re
 import sys
 from urllib.parse import unquote
+from unicodedata import normalize
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import manifest as manifest_mod  # noqa: E402
@@ -39,6 +41,12 @@ LEGACY_SUPP_LABELS = ("📎 보충 · 수업 미유도",)
 CARD_PARTS = {"problem", "original", "hint", "solution", "answer"}
 SUM_PANEL_ID = "sum-for"
 SLOT_RE = re.compile(r"\{\{[A-Z_]+\}\}")
+STT_PART = r"(?:P[0-9]+|Part\s+[0-9]+)\s+"
+STT_TIME = r"~?[0-9]{1,3}:[0-5][0-9](?::[0-5][0-9])?(?![0-9:])"
+STT_TIMESTAMP_RE = re.compile(
+    rf"(?<![\w])(?:[0-9]{{4}}\s+(?:{STT_PART})?|{STT_PART}|수업\s+){STT_TIME}"
+    rf"(?:\s*[-–—~,]\s*(?:{STT_PART})?{STT_TIME})*"
+)
 REMOTE_PREFIXES = ("http://", "https://", "//")
 # CSS 안의 url(...) 과 @import "..." 대상
 CSS_URL_RE = re.compile(r"""url\(\s*['"]?([^'")\s]+)|@import\s+['"]([^'"]+)['"]""", re.IGNORECASE)
@@ -301,8 +309,21 @@ def check_review(doc: Doc, m: dict) -> list[Problem]:
 
 
 def check_file(path: Path | str) -> list[Problem]:
-    source = Path(path).read_text(encoding="utf-8")
-    return check_common(parse_html(source), source, Path(path))
+    path = Path(path)
+    source = path.read_text(encoding="utf-8")
+    out = check_common(parse_html(source), source, path)
+    if normalize("NFC", path.name).startswith("정리노트_"):
+        out += check_stt_timestamps(source, path)
+    return out
+
+
+def check_stt_timestamps(source: str, path: Path) -> list[Problem]:
+    # Keep source line numbers even when decoding HTML character references.
+    out: list[Problem] = []
+    for line_number, line in enumerate(source.splitlines(), start=1):
+        for match in STT_TIMESTAMP_RE.finditer(unescape(line)):
+            out.append(Problem("stt-timestamp", f"{path.name}:{line_number}", match.group()))
+    return out
 
 
 def check_pack(m: dict, note_path: Path | str, review_path: Path | str) -> list[Problem]:
@@ -311,6 +332,8 @@ def check_pack(m: dict, note_path: Path | str, review_path: Path | str) -> list[
         source = Path(path).read_text(encoding="utf-8")
         doc = parse_html(source)
         out += check_common(doc, source, Path(path)) + extra(doc, m)
+        if extra is check_note:
+            out += check_stt_timestamps(source, Path(path))
     return out
 
 

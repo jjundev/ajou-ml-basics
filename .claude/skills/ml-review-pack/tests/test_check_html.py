@@ -80,6 +80,24 @@ class TestPack(unittest.TestCase):
     def test_mini_pack_passes(self):
         self.assertEqual(self.codes(), [])
 
+    def test_stt_timestamps_block_note_publication(self):
+        markers = (
+            "(1102 P04 09:03)", "(0909 02:27)", "(0928 Part 01 ~03:00)",
+            "(1028 P01 08:34 – P02 00:36)", "(0909 05:41, 06:29)",
+            "(주변 학교, 1028 P03 06:30)", "(수업 70:23에서도 언급)",
+            "(1102&nbsp;P04&nbsp;09:03)",
+        )
+        self.edit("sections/s1.html", "평균부터 봐요.", "평균부터 봐요. " + " ".join(markers))
+        note, review = assemble.assemble(self.run, self.tmp / "out")
+        for problems in (check_html.check_pack(self.m, note, review), check_html.check_file(note)):
+            self.assertEqual([p.code for p in problems], ["stt-timestamp"] * len(markers))
+            self.assertTrue(all(p.where.startswith(f"{note.name}:") for p in problems))
+
+    def test_ordinary_times_and_review_html_are_allowed(self):
+        self.edit("sections/s1.html", "평균부터 봐요.", "평균부터 봐요. (09:03) 2:3")
+        self.edit("cards/p1.html", "더해서 개수로 나눈다.", "더해서 개수로 나눈다. (1102 P04 09:03)")
+        self.assertEqual(self.codes(), [])
+
     def test_missing_required_term(self):
         self.edit("sections/s1.html", "무게중심", "가운데")
         self.assertEqual(self.codes(), ["missing-term"])
@@ -89,7 +107,7 @@ class TestPack(unittest.TestCase):
         self.assertEqual(self.codes(), ["forbidden-term"])
 
     def test_missing_layer(self):
-        self.edit("sections/s1.html", '<div class="layer prof"><span class="layer-title">교수님 말씀</span><p>"평균부터 봐요." (0101 01:00)</p></div>', "")
+        self.edit("sections/s1.html", '<div class="layer prof"><span class="layer-title">교수님 말씀</span><p>"평균부터 봐요."</p></div>', "")
         self.assertEqual(self.codes(), ["missing-layer"])
 
     def test_missing_supp_badge(self):

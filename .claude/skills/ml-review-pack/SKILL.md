@@ -123,6 +123,7 @@ python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습�
 ### 5. 기계 검사
 - 미분이 포함된 행 관례 저작 HTML·MD와 조각은 `python3 SKILL/scripts/check_vector_derivatives.py <저작 HTML/MD 경로...>`도 실행한다. 보존할 다른 관례의 원문은 검사 대상에서 분리하고 근거를 기록한다. 이 검사는 차원·곱 순서·성분 검산을 대체하지 않는다.
 - 정리노트에는 추가로 `python3 SKILL/scripts/check_learning_map.py <stage의 정리노트 HTML>`을 실행한다. 구조 검사는 의미 검토를 대체하지 않는다.
+- `check_html.py`는 정리노트의 녹음 타임스탬프를 파일명과 줄 번호로 보고한다. 기본 생성, `lite`, 기존 정리노트 갱신 모두 이 검사를 통과해야 한다. 검출되면 작성 원고에서 녹음 위치 표기를 제거한 뒤 다시 검사한다.
 ```bash
 python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
 ```

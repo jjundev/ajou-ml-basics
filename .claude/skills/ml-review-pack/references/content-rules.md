@@ -39,7 +39,7 @@
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">한 문장 비유</p> …그림… </div>
   <div class="layer formal"><span class="layer-title">정확히 말하면</span> …정의·수식·단계별 유도(ol.steps)… </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span> …비유·일화, 원문은 blockquote… </div>
-  <div class="layer warn"><span class="layer-title">꼭 기억해요</span> …원문 인용 + (MMDD MM:SS)… </div>   ← 강조 발언이 있을 때만
+  <div class="layer warn"><span class="layer-title">꼭 기억해요</span> …강조 발언 원문 인용… </div>   ← 강조 발언이 있을 때만
   <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span> … </div>             ← manifest supp=true만
   <div class="sum" hidden>…페이지 요약(아래)…</div>                                                    ← layers가 빈 목록이 아닌 토픽만, 맨 끝
 </article>
@@ -67,7 +67,7 @@
 ## 문체
 - 쉽게 말하면(eli5): 초등학생이 이해할 1~3문장(figcaption 포함) + 그림. 전문용어·기호 없이(필요하면 정확히 말하면에 쓴다). 토스처럼 짧고 다정한 "~해요" 체.
 - 정확히 말하면(formal): 빠짐없이, 정확하게. 유도는 한 줄에 한 단계. 문장은 "~해요" 체, 유도 단계는 식 위주로 짧게.
-- 교수님 말씀(prof)/꼭 기억해요(warn): 원문 인용은 15단어 안팎으로 줄이고 `(0914 26:00)`처럼 출처.
+- 교수님 말씀(prof)/꼭 기억해요(warn): 원문 인용은 15단어 안팎으로 줄인다. 녹음 타임스탬프와 파트·시각 범위는 STT 요약에서 근거 확인에만 사용한다. 정리노트 HTML의 인용, 본문, 요약, 그림 설명에 옮기지 않는다. 강의 슬라이드나 교과서 출처는 필요할 때 적는다.
 - UI 글은 한국어, 전문용어는 영어 병기(예: 과적합(overfitting)). 한 문장에 한 가지만 말하고, 군더더기 수식어("아주", "정말", "한번")는 뺀다.
 
 ## 수식
