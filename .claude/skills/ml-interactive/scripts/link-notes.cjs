@@ -69,15 +69,13 @@ function hrefPath(note, href) {
   try { return path.resolve(path.dirname(note), decodeURIComponent(href.split(/[?#]/)[0])); } catch { return null; }
 }
 
-function newTabTag(tag) {
-  const attrs = attributes(tag);
-  const rel = [...new Set((attrs.rel || '').split(/\s+/).filter(Boolean).concat('noopener', 'noreferrer'))].join(' ');
+function currentTabTag(tag) {
   // Remove actual attribute spans, including valueless duplicates. Searching the
   // raw tag for target=/rel= would also damage words inside title/data attributes.
   let stripped = tag;
-  const remove = [...tag.matchAll(attrPattern)].filter(m => ['target', 'rel'].includes(m[1].toLowerCase()));
+  const remove = [...tag.matchAll(attrPattern)].filter(m => m[1].toLowerCase() === 'target');
   for (const m of remove.reverse()) stripped = stripped.slice(0, m.index) + stripped.slice(m.index + m[0].length);
-  return stripped.replace(/>$/, ' target="_blank" rel="' + escapeHtml(rel) + '">');
+  return stripped.replace(/>$/, ' target="_self">');
 }
 
 function linkNotes({ note, links, dryRun = false }) {
@@ -104,8 +102,9 @@ function linkNotes({ note, links, dryRun = false }) {
       let edited = false;
       for (const anchor of anchors.sort((a, b) => b.start - a.start)) {
         const old = source.slice(anchor.start, anchor.openEnd);
-        if (anchor.attrs.target === '_blank' && ['noopener', 'noreferrer'].every(r => (anchor.attrs.rel || '').split(/\s+/).includes(r))) continue;
-        source = source.slice(0, anchor.start) + newTabTag(old) + source.slice(anchor.openEnd);
+        const targets = [...old.matchAll(attrPattern)].filter(m => m[1].toLowerCase() === 'target');
+        if (anchor.attrs.target === '_self' && targets.length === 1) continue;
+        source = source.slice(0, anchor.start) + currentTabTag(old) + source.slice(anchor.openEnd);
         edited = true;
       }
       result.status = edited ? 'updated' : 'unchanged';
@@ -127,7 +126,7 @@ function linkNotes({ note, links, dryRun = false }) {
     if (path.isAbsolute(relative)) { result.reason = 'TARGET_INVALID'; continue; }
     const href = relative.split(path.sep).map(encodeURIComponent).join('/');
     const block = '\n<p class="interactive-note" data-ml-interactive="' + escapeHtml(href) + '">' + escapeHtml(link.before)
-      + '<a href="' + escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(link.label) + '</a>'
+      + '<a href="' + escapeHtml(href) + '" target="_self">' + escapeHtml(link.label) + '</a>'
       + escapeHtml(link.after) + '</p>\n';
     source = source.slice(0, anchor.end) + block + source.slice(anchor.end);
     result.status = 'added';

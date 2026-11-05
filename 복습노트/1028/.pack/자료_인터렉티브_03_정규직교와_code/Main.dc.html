@@ -943,7 +943,26 @@ class Component extends DCLogic {
     if(s.preset) this.setState({...s.preset});
     if (s.f != null) this.sim.f = s.f;
     this.setState({ f: this.sim.f, playing: false, step: i });
+    this.revealStepDetail();
   }
+  // After rendering, reveal the graph step text while keeping its pressed button in view.
+  revealStepDetail() {
+    if (typeof document === 'undefined') return;
+    requestAnimationFrame(() => {
+      const st = this.state, leftOn = st.narrow ? st.drawer === 'left' : st.leftOpen;
+      if (!leftOn || this.modeDef().view === 'formula') return;
+      const box = document.querySelector('.panel-left .panel-inner'), detail = box && box.querySelector('.detail');
+      if (!detail) return;
+      const pad = 16, bounds = box.getBoundingClientRect();
+      let dy = detail.getBoundingClientRect().bottom + pad - bounds.bottom;
+      const button = detail.parentElement.querySelector('.steps [aria-pressed="true"]');
+      if (button) dy = Math.min(dy, button.getBoundingClientRect().top - pad - bounds.top);
+      if (dy <= 0) return;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      box.scrollTo({ top: box.scrollTop + dy, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+
 
   formulaData() {
     const mode = this.state.mode, steps = (this.T.STEPS || []).map((s,i)=>({s,i})).filter(x=>x.s.mode===mode);

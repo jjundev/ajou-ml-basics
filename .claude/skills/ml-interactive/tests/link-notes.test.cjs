@@ -17,7 +17,7 @@ function fixture(t, source) {
   return { dir, note, html, link };
 }
 
-test('adds a contextual new-tab link after the full nested explanation, preserving surrounding bytes', t => {
+test('adds a contextual current-tab link after the full nested explanation, preserving surrounding bytes', t => {
   const f = fixture(t);
   const original = fs.readFileSync(f.note, 'utf8');
   const r = linkNotes({ note: f.note, links: [f.link] });
@@ -25,7 +25,8 @@ test('adds a contextual new-tab link after the full nested explanation, preservi
   assert.equal(r.results[0].status, 'added');
   const changed = fs.readFileSync(f.note, 'utf8');
   assert.match(changed, /<\/p><\/div><\/div>\s*<p class="interactive-note"/);
-  assert.match(changed, /target="_blank" rel="noopener noreferrer"/);
+  assert.match(changed, /target="_self"/);
+  assert.doesNotMatch(changed, /\brel=/);
   assert.match(changed, /PCR &amp; 모형/);
   assert.doesNotMatch(changed, /\(새 탭\)/);
   assert.equal(changed.replace(/\n?<p class="interactive-note"[^>]*>[\s\S]*?<\/p>\n?/, ''), original);
@@ -67,14 +68,13 @@ test('missing note, missing target, missing section and duplicate IDs skip witho
 test('existing destination link in the same section is upgraded without duplicate text', t => {
   const f = fixture(t);
   const href = path.basename(f.html).split('/').map(encodeURIComponent).join('/');
-  const original = `<article id='pcr'><h3>PCR</h3><p><a class='old' href='${href}' target='_self' rel='nofollow'>기존 자료</a></p></article>`;
+  const original = `<article id='pcr'><h3>PCR</h3><p><a class='old' href='${href}' target='_blank' rel='nofollow noopener noreferrer' data-kind='demo'>기존 <em>자료</em></a></p></article>`;
   fs.writeFileSync(f.note, original);
   const r = linkNotes({ note: f.note, links: [f.link] });
   assert.equal(r.results[0].status, 'updated');
   const result = fs.readFileSync(f.note, 'utf8');
   assert.equal((result.match(/<a\b/g) || []).length, 1);
-  assert.match(result, /class='old'/);
-  assert.match(result, /rel="nofollow noopener noreferrer"/);
+  assert.equal(result, original.replace(" target='_blank'", '').replace("data-kind='demo'>", "data-kind='demo' target=\"_self\">"));
   assert.equal(linkNotes({ note: f.note, links: [f.link] }).changed, false);
 });
 
@@ -84,24 +84,52 @@ test('a link outside the target section does not suppress a contextual link', t 
   assert.equal(linkNotes({ note: f.note, links: [f.link] }).results[0].status, 'added');
 });
 
-test('new-tab repair preserves target/rel words inside unrelated quoted attributes', t => {
+test('current-tab repair preserves target/rel words inside unrelated quoted attributes', t => {
   const f = fixture(t);
-  const title = 'read target=_self and rel=nofollow here';
-  fs.writeFileSync(f.note, `<article id="pcr"><h3>PCR</h3><a href="${encodeURIComponent(path.basename(f.html))}" title="${title}" target="_self">자료</a></article>`);
+  const title = 'read target=_blank and rel=nofollow here';
+  const original = `<article id="pcr"><h3>PCR</h3><a href="${encodeURIComponent(path.basename(f.html))}" title="${title}" data-note='target="_blank" rel="nofollow"' target="_blank">자료</a></article>`;
+  fs.writeFileSync(f.note, original);
   assert.equal(linkNotes({ note: f.note, links: [f.link] }).results[0].status, 'updated');
-  assert.ok(fs.readFileSync(f.note, 'utf8').includes(`title="${title}"`));
+  assert.equal(fs.readFileSync(f.note, 'utf8'), original.replace(' target="_blank">', ' target="_self">'));
 });
 
-test('valueless or duplicate target/rel attributes do not suppress new-tab repair', t => {
+test('valueless or duplicate target attributes are normalized while rel bytes are preserved', t => {
   const f = fixture(t);
-  for (const attrs of ['target rel', 'target="_self" target="_blank" rel="noopener noreferrer"']) {
+  for (const [attrs, expected] of [
+    ['target rel', 'rel target="_self"'],
+    ['target="_self" target="_blank" rel="noopener noreferrer"', 'rel="noopener noreferrer" target="_self"'],
+    ['TARGET=_blank target rel rel="nofollow"', 'rel rel="nofollow" target="_self"'],
+    ['rel="noopener&#32;noreferrer"', 'rel="noopener&#32;noreferrer" target="_self"'],
+  ]) {
     fs.writeFileSync(f.note, `<article id="pcr"><h3>PCR</h3><a href="${encodeURIComponent(path.basename(f.html))}" ${attrs}>자료</a></article>`);
     assert.equal(linkNotes({ note: f.note, links: [f.link] }).results[0].status, 'updated');
     const tag = fs.readFileSync(f.note, 'utf8').match(/<a\b[^>]*>/)[0];
     assert.equal((tag.match(/\btarget\b/g) || []).length, 1);
-    assert.equal((tag.match(/\brel\b/g) || []).length, 1);
-    assert.match(tag, /target="_blank" rel="noopener noreferrer"/);
+    assert.ok(tag.endsWith(` ${expected}>`), tag);
+    assert.equal(linkNotes({ note: f.note, links: [f.link] }).changed, false);
   }
+});
+
+test('an existing current-tab link preserves every byte and needs no rel attributes', t => {
+  const f = fixture(t);
+  for (const attrs of ["target='_self'", 'TARGET=_self rel="noopener noreferrer"', 'target="_self" rel rel="nofollow"']) {
+    const original = `<article id="pcr"><h3>PCR</h3><a href="${encodeURIComponent(path.basename(f.html))}" ${attrs}>기존 자료</a></article>`;
+    fs.writeFileSync(f.note, original);
+    const r = linkNotes({ note: f.note, links: [f.link] });
+    assert.equal(r.changed, false);
+    assert.equal(r.results[0].status, 'unchanged');
+    assert.equal(fs.readFileSync(f.note, 'utf8'), original);
+  }
+});
+
+test('dryRun previews current-tab repair without changing the note', t => {
+  const f = fixture(t);
+  const original = `<article id="pcr"><h3>PCR</h3><a href="${encodeURIComponent(path.basename(f.html))}" target="_blank" rel="noopener noreferrer">자료</a></article>`;
+  fs.writeFileSync(f.note, original);
+  const r = linkNotes({ note: f.note, links: [f.link], dryRun: true });
+  assert.equal(r.changed, true);
+  assert.equal(r.results[0].status, 'updated');
+  assert.equal(fs.readFileSync(f.note, 'utf8'), original);
 });
 
 test('comments, script strings and quoted greater-than signs do not create fake sections', t => {

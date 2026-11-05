@@ -38,7 +38,7 @@ node "$SKILL/scripts/link-notes.cjs" "$RUN/note-links.json" --dry-run
 node "$SKILL/scripts/link-notes.cjs" "$RUN/note-links.json"
 ```
 
-새 링크는 노트 기준 상대 경로를 세그먼트별 URL 인코딩하고 `target="_blank" rel="noopener noreferrer"`를 쓴다. 안내 문장은 자연스럽게 마무리하고 `(새 탭)` 같은 표시 문구는 붙이지 않는다. `data-ml-interactive` 표식으로 안내를 식별하며 재실행 시 같은 절의 같은 목적지 링크를 중복하지 않는다. 기존 목적지 링크가 해당 절 안에 있으면 문구를 유지하고 새 탭 속성만 보정한다. 다른 절·페이지 끝 링크는 해당 절의 안내를 대체하지 않는다.
+새 링크는 노트 기준 상대 경로를 세그먼트별 URL 인코딩하고 `target="_self"`를 쓰며 `rel`은 추가하지 않는다. 안내 문장은 자연스럽게 마무리하고 탭 동작을 따로 알리는 표시 문구는 붙이지 않는다. `data-ml-interactive` 표식으로 안내를 식별하며 재실행 시 같은 절의 같은 목적지 링크를 중복하지 않는다. 기존 목적지 링크가 해당 절 안에 있으면 문구를 유지하고 `target`만 `_self`로 보정한다. 기존 `rel`과 그 밖의 속성은 값과 유무를 그대로 보존한다. 다른 절·페이지 끝 링크는 해당 절의 안내를 대체하지 않는다.
 
 ## 결과와 실패
 
@@ -47,13 +47,13 @@ node "$SKILL/scripts/link-notes.cjs" "$RUN/note-links.json"
 | status | 의미 |
 |---|---|
 | added | 설명 뒤 안내·링크 추가 |
-| updated | 기존 링크의 새 탭 속성 보정 |
+| updated | 기존 링크의 `target="_self"` 보정 |
 | unchanged | 같은 절의 링크가 이미 올바름 |
 | skipped | 연결하지 않고 reason 보고 |
 
 `NOTE_MISSING`, `TARGET_MISSING`, `TARGET_INVALID`, `LINK_INVALID`, `SECTION_MISSING`, `SECTION_AMBIGUOUS`, `SECTION_INVALID`, `ANCHOR_MISSING`, `ANCHOR_AMBIGUOUS`, `ANCHOR_INVALID`는 해당 연결만 건너뛴다. 자료를 삭제하거나 문맥이 다른 곳에 연결하지 않는다. JSON 문법·명세 형식 오류나 파일 쓰기 실패는 종료 코드 1이다. 실패한 쓰기는 경로·권한을 확인하고 같은 명세로 재시도한다.
 
-노트가 없거나 대응 절을 결정할 수 없는 자료는 명세에 억지로 넣지 않고 보고에 이유를 적는다. dry-run은 디스크를 수정하지 않는다. 실제 실행 후 모든 링크의 파일 존재를 확인하고 다시 실행해 `changed: false`를 확인한다. 브라우저에서 안내 문맥과 새 탭 열기·원래 노트 유지를 검증한다.
+노트가 없거나 대응 절을 결정할 수 없는 자료는 명세에 억지로 넣지 않고 보고에 이유를 적는다. dry-run은 디스크를 수정하지 않는다. 실제 실행 후 모든 링크의 파일 존재를 확인하고 다시 실행해 `changed: false`를 확인한다. 브라우저에서 안내 문맥을 확인하고, 클릭하면 현재 탭에서 자료로 이동하며 뒤로 가기로 정리노트에 돌아오는지 검증한다. PC·모바일 모두 같은 흐름으로 확인한다.
 
 ## 기존 자료 연결
 

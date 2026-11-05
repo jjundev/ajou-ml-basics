@@ -42,7 +42,7 @@ function loadComponent(file, opts = {}) {
     innerWidth: opts.innerWidth || 1440,
     addEventListener() {}, removeEventListener() {},
   };
-  const ctx = vm.createContext({ MLMath:require('../assets/ml-math.js'), DCLogic, window: win, requestAnimationFrame: () => 0, cancelAnimationFrame() {}, console });
+  const ctx = vm.createContext({ MLMath:require('../assets/ml-math.js'), DCLogic, window: win, requestAnimationFrame: opts.raf || (() => 0), cancelAnimationFrame() {}, console, ...(opts.document ? { document: opts.document } : {}) });
   vm.runInContext(src + '\n;globalThis.__C = Component;', ctx);
   const c = new ctx.__C({});
   return { c, store, win };
