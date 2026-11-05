@@ -374,7 +374,7 @@
 <p data-map="formula">첫 번째 계산인 <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>는 "방향을 고른다"는 말을 식 하나로 바꿔요. 핵심 연산은 ${z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)^T}$처럼 스칼라를 전치해도 그대로라는 사실과 ${(\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T}$예요. 그러면 ${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$이 되고, $n$과 무관한 $\mathbf{b}_1$을 합 밖으로 꺼내면 괄호 안에 $\mathbf{S}$가 남아 ${V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$이 돼요. 이것이 "왜 데이터 행렬이 아니라 공분산 행렬인가"에 대한 수식의 답이에요.</p>
 <p>두 번째로, <a href="#s2-eigen">2.1 고윳값과 고유벡터</a>부터 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>까지의 복습은 목표식 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$의 최댓값을 읽는 도구를 준비해요. 결론이 "$\mathbf{S}$의 고유벡터"라는 말로 되어 있고, 교수님이 시작한 증명도 임의의 $\mathbf{b}_1$을 정규직교 고유벡터의 합 ${\mathbf{b}_1 = \sum_i c_i\mathbf{p}_i}$로 쓰는 데서 출발하기 때문이에요.</p>
 <p>제약 $\|\mathbf{b}_1\|^2 = 1$은 수업에서 이유를 말하지 않았어요. 제약이 없으면 $\mathbf{b}_1$의 크기만 키워 $V_1$을 얼마든지 크게 만들 수 있기 때문이라는 설명은 학습을 위한 재구성이에요.</p>
-<p data-map="pitfall">가장 헷갈리기 쉬운 점은 EVD의 $\mathbf{P}$가 언제나 직교행렬은 아니고, $\mathbf{P}^{-1} = \mathbf{P}^T$로 고를 수 있는 것은 $\mathbf{S}$처럼 대칭행렬일 때라는 거예요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a>). 대칭행렬이라도 고윳값이 중근이면 그 고유공간에서 고른 고유벡터가 자동으로 직교하지는 않아서, Gram–Schmidt처럼 직교화한 뒤 정규화해야 해요. 차원도 조심해요. 이 강의의 표기 $\mathbf{X} \in \mathbb{R}^{D \times N}$에서는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T \in \mathbb{R}^{D \times D}}$이고, $\mathbf{X}^T\mathbf{X}$는 $N \times N$이에요. 마지막으로 "$\mathbf{b}_1$은 가장 큰 고윳값의 고유벡터"는 오늘 증명이 끝나지 않은 결론이에요.</p>
+<p data-map="pitfall">대각화에 쓰는 $\mathbf{P}$는 고유벡터들을 열로 모은 행렬이고, $\mathbf{D}$는 대응하는 고윳값을 같은 순서로 놓은 대각행렬이에요. 목표는 행렬의 작용을 축별 배율로 표현하는 것이므로 축을 고유벡터로 골라야 해요. 일반 행렬의 고유벡터들은 서로 수직이라는 보장이 없어요. PCA의 실수 대칭 공분산 행렬 $\mathbf{S}$에서는 정규직교 고유기저를 선택할 수 있어서 $\mathbf{P}^{-1}=\mathbf{P}^T$로 쓸 수 있어요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a>, <a href="#s3-spectral">3.1 스펙트럼 정리</a>). 중근에서는 그 고유공간 안에서 직교화·정규화해요. 차원도 구별해요. ${\mathbf{X}\in\mathbb{R}^{D\times N}}$이면 ${\mathbf{S}=\frac{1}{N}\mathbf{X}\mathbf{X}^T\in\mathbb{R}^{D\times D}}$이고, $\mathbf{X}^T\mathbf{X}$는 $N\times N$이에요. 첫 방향의 최적성 증명은 수업에서 끝내지 않았어요.</p>
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">$M$개 방향으로 데이터를 표현할 때 분산(에너지)을 가장 많이 남기는 방향을 찾아요. 첫 방향의 분산은 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$로 쓰이고, 답은 $\mathbf{S}$의 가장 큰 고윳값의 고유벡터라는 결론을 미리 들었어요(증명은 다음 시간).</p>
@@ -439,7 +439,7 @@ $$\frac{1}{N}\sum_{n=1}^{N}(x_n^2+y_n^2)=\frac{1}{N}\sum_{n=1}^{N}x_n^2+\frac{1}
 <li><h4>사영은 내적</h4>
 <p>x축 사영은 $[1,0]$과, y축 사영은 $[0,1]$과 내적하는 것이에요.</p>
 $$\begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=x_1,\qquad \begin{bmatrix}0 &amp; 1\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=y_1$$
-<p>두 벡터의 내적은 ${[1,0]\,[0,1]^T=0}$이라 서로 직교해요. 직교하는 basis에서는 각 축의 좌표를 그 basis와의 내적 하나로 얻어요. 우리가 늘 직교좌표계를 써 온 이유도 이렇게 이해가 쉽기 때문이에요.</p></li>
+<p>두 벡터의 내적은 ${[1,0]\,[0,1]^T=0}$이라 서로 직교해요. 정규직교하는 basis에서는 각 축의 좌표를 그 basis와의 내적 하나로 얻어요. 우리가 늘 직교좌표계를 써 온 이유도 이렇게 이해가 쉽기 때문이에요.</p></li>
 </ol>
 <p>수업에서는 Gram–Schmidt orthonormalization도 언급했어요. 주어진 벡터들을 가장 적은 수의 orthonormal basis의 가중합(weighted sum)으로 표현하도록 basis를 체계적으로 찾는 방법이에요. 이번 수업에서 절차를 다루지는 않았어요.</p>
 <p>이제 x축, y축 대신 일반 방향 $\mathbf{b}$로 같은 사영을 하려면 좌표를 행렬로 적어야 해요. 그 표기는 <a href="#s1-matrix-again">1.2 행렬로 다시 쓰는 사영 좌표</a>에서 이어져요.</p>
@@ -472,7 +472,7 @@ $$\begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=x_1
 <dt>variance(분산)</dt><dd>평균 대비 흩어진 정도(metric for degree of spread). 수업에서는 데이터의 에너지·질량으로 비유해요.</dd>
 <dt>maximum variance perspective</dt><dd>차원을 줄이되 분산을 최대한 머금은 basis vector를 고르는 관점이에요.</dd>
 <dt>space filling</dt><dd>정보량을 데이터가 linear vector space를 얼마나 채우는지로 보는 아이디어예요.</dd>
-<dt>사영 = 내적</dt><dd>x축 사영은 $[1,0]$과의 내적이에요. 직교하는 basis에서는 좌표가 내적 하나로 나와요.</dd>
+<dt>사영 = 내적</dt><dd>x축 사영은 $[1,0]$과의 내적이에요. 정규직교하는 basis에서는 좌표가 내적 하나로 나와요.</dd>
 </dl>
 <p>$(D\times 1)(1\times D)=D\times D$라서 공분산 행렬은 정방행렬이고, 대각선은 각 성분의 분산이에요. 평균이 0이면 뒤 항이 사라져요. 점 하나의 $x_1^2+y_1^2$은 에너지이고, 분산은 그 평균이에요.</p>
 </div>
@@ -553,7 +553,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <section id="s2"><h2>2. 고윳값과 대각화 복습</h2>
 <article class="topic" id="s2-eigen"><h3>2.1 고윳값과 고유벡터</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s16</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
-    <p class="lead">늘이고 비트는 기계에 넣어도 방향은 그대로이고 길이만 바뀌는 특별한 화살표가 있어요.</p>
+    <p class="lead">늘이고 비트는 기계에 넣어도 같은 직선 위에 머무는 특별한 화살표가 있어요.</p>
     <figure class="figure"><svg id="fig-eigen-arrow" viewBox="0 0 380 175" role="img" aria-label="가운데 테두리 상자 기계를 사이에 두고, 왼쪽에는 지나기 전 화살표 두 개, 오른쪽에는 지난 뒤 화살표 두 개가 있어요. 기본 선 화살표는 지난 뒤 방향이 왼쪽 위로 돌아가고, 강조색 선 화살표는 같은 방향 그대로 길이만 두 배가 돼요">
       <line class="fig-ink" x1="30" y1="140" x2="55" y2="60" stroke-width="2.5"/>
       <polyline class="fig-ink" points="48.6,66.3 55.0,60.0 56.7,68.8" fill="none" stroke-width="2.5"/>
@@ -582,11 +582,16 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <p>를 만족하면 $\lambda$를 고윳값(eigenvalue), $\mathbf{x}$를 그에 대응하는 고유벡터(eigenvector)라고 해요. 이 식을 고윳값 방정식(eigenvalue equation)이라고 불러요.</p>
     <ul>
       <li>$\mathbf{A}$: $n\times n$ 정방행렬이에요. 벡터를 받아 다른 벡터로 보내는 선형변환 역할을 해요. PCA에서는 이 자리에 $D\times D$ 공분산 행렬 $\mathbf{S}$가 들어가요(이때 $n=D$).</li>
-      <li>$\mathbf{x}$: $n\times 1$ 열벡터예요. $\mathbf{A}$를 곱해도 방향이 바뀌지 않는 특별한 방향이에요.</li>
+      <li>$\mathbf{x}$: $n\times 1$ 열벡터예요. $\mathbf{A}$를 곱한 결과가 자기 자신의 배수가 되는, 0이 아닌 벡터예요.</li>
       <li>$\lambda$: 스칼라예요. 그 방향으로 몇 배 늘어나는지(음수면 방향이 뒤집힘)를 알려 줘요.</li>
       <li>$\mathbf{x}\neq\mathbf{0}$ 조건이 필요한 이유: $\mathbf{x}=\mathbf{0}$이면 어떤 $\lambda$로도 식이 성립해서 의미가 없어요.</li>
     </ul>
     <p>고유벡터는 길이가 정해져 있지 않아요. $\mathbf{x}$가 고유벡터이면 0이 아닌 상수 $c$에 대해 $c\mathbf{x}$도 같은 $\lambda$의 고유벡터예요(MML 105쪽). 그래서 뒤에서 고유벡터를 길이 1로 정규화해서 쓸 수 있어요.</p>
+    <p><strong>방향과 배율을 한 쌍으로 읽어요.</strong> 고유벡터는 방향을, 대응하는 고윳값은 그 방향에서의 배율을 알려 줘요. 아래는 정의를 확인하기 위한 설명용 재구성이에요. 이 예제의 $\mathbf{A}$는 $2\times2$ 행렬이고 $\mathbf{p}_1,\mathbf{p}_2$는 길이를 아직 1로 맞추지 않은 열벡터예요.</p>
+    $${\mathbf{A}=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}},\quad{\mathbf{p}_1=\begin{bmatrix}1\\0\end{bmatrix}},\quad{\mathbf{p}_2=\begin{bmatrix}1\\1\end{bmatrix}}$$
+    $$\mathbf{A}\mathbf{p}_1=\begin{bmatrix}1\cdot1+1\cdot0\\0\cdot1+2\cdot0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}=1\mathbf{p}_1$$
+    $$\mathbf{A}\mathbf{p}_2=\begin{bmatrix}1\cdot1+1\cdot1\\0\cdot1+2\cdot1\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}=2\mathbf{p}_2$$
+    <p>오른쪽 수평 방향의 $\mathbf{p}_1$은 고윳값 1, 대각선 방향의 $\mathbf{p}_2$는 고윳값 2와 짝이에요. 이 둘을 열로 모으는 행렬이 뒤에서 쓸 $\mathbf{P}$예요. 이 예제처럼 고윳값이 양수면 방향이 유지되고, 음수면 반대 방향으로 뒤집히며, 0이면 영벡터로 보내져요.</p>
     <p><strong>고윳값을 찾는 식 만들기 (칠판 전개)</strong>: 목표는 $\mathbf{x}$를 모르는 상태에서 $\lambda$만으로 된 조건을 얻는 거예요.</p>
     <ol class="steps">
       <li>오른쪽 항을 왼쪽으로 옮겨요.
@@ -613,7 +618,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">단위벡터 x를 돌리며 Ax가 x와 같은 직선에 놓이는 방향을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" rel="noopener noreferrer" target="_self">고유벡터와 대칭행렬 실험</a>의 방향 모드에서 찾아 보세요.</p>
 
   <div class="sum" hidden>
-    <p class="sum-lead">고유벡터는 행렬을 곱해도 방향이 그대로인 벡터이고, 고윳값은 그때 늘어나는 배수예요. 고윳값은 행렬식이 0이 되는 조건으로 찾아요.</p>
+    <p class="sum-lead">고유벡터는 행렬을 곱한 결과가 자기 자신의 배수가 되는 0이 아닌 벡터이고, 고윳값은 그 배율이에요. 양수는 방향 유지, 음수는 반전, 0은 영벡터로 보내는 경우예요. 고윳값은 행렬식이 0이 되는 조건으로 찾아요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">고윳값 방정식</span>$$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$$</li>
@@ -667,11 +672,12 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       $$\det\begin{bmatrix}a&amp;b\\c&amp;d\end{bmatrix}=ad-bc$$
       대각행렬은 $b=c=0$이라 $ad$만 남아요. 이것을 $n\times n$으로 넓히면 대각 성분의 곱이 돼요.</li>
     </ul>
+    <p><strong>왜 새 축을 고유벡터로 고를까요?</strong> 익숙한 $\hat{\mathbf{x}},\hat{\mathbf{y}}$는 서로 수직인 단위벡터예요. 좌표축을 자유롭게 정한다면 그런 직각 축을 고를 수 있어요. 여기서 목표는 $\mathbf{A}$의 작용을 새 축마다 정해진 배율을 곱하는 계산으로 바꾸는 것이에요. 그러려면 새 축 $\mathbf{p}_i$가 $\mathbf{A}\mathbf{p}_i=\lambda_i\mathbf{p}_i$를 만족해야 해요. 그래서 대각화에 쓰는 $\mathbf{P}$는 공간 전체를 표현할 만큼 독립인 고유벡터들을 열로 모아요. 이 방향들이 서로 수직이라는 보장은 일반적으로 없어요.</p>
     <p><strong>대각화 가능(diagonalizable)</strong>: $\mathbf{A}\in\mathbb{R}^{n\times n}$가 대각행렬과 닮음(similar)이면, 즉 가역행렬 $\mathbf{P}\in\mathbb{R}^{n\times n}$가 있어서</p>
     $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$
     <p>로 쓸 수 있으면 $\mathbf{A}$는 diagonalizable이에요.</p>
     <ul>
-      <li>$\mathbf{P}$: $n\times n$ 가역행렬이에요. 좌표를 바꾸는 역할을 해요. 이 $\mathbf{P}$의 열이 고유벡터라는 것은 <a href="#s2-evd">2.3 고윳값 분해(EVD)</a>에서 유도해요.</li>
+      <li>$\mathbf{P}$: 독립인 고유벡터 $n$개를 열로 모은 $n\times n$ 가역행렬이에요. 새 좌표를 이 열벡터들의 가중합으로 바꾸어요. 대각화의 조건에서 열마다 고유벡터 방정식이 나오는 과정은 <a href="#s2-evd">2.3 고윳값 분해(EVD)</a>에서 확인해요.</li>
       <li>$\mathbf{D}$: $n\times n$ 대각행렬이에요. 바꾼 좌표에서 본 $\mathbf{A}$예요.</li>
       <li>슬라이드의 Remark: 행렬을 대각화하는 것은 같은 선형변환을 다른 basis에서 표현하는 방법이에요(MML 116쪽).</li>
     </ul>
@@ -694,7 +700,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <blockquote>"PCA에서 배울 매트릭스는 항상 orthogonally diagonalizable 해. 그러니까 이거 가르쳤겠지"</blockquote>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">대각행렬은 비대각 성분이 모두 0이라 거듭제곱·역행렬·행렬식이 성분별 계산으로 끝나요. 가역 $\mathbf{P}$로 대각행렬을 만들 수 있으면 대각화 가능, $\mathbf{P}$를 직교행렬로 고를 수 있으면 직교 대각화 가능이에요.</p>
+    <p class="sum-lead">대각행렬은 축마다 배율을 따로 곱하는 계산을 나타내요. 대각화하려면 새 축으로 독립인 고유벡터들을 골라 $\mathbf{P}$를 만들어요. 이 고유벡터들을 정규직교하게 고를 수 있으면 직교 대각화 가능이에요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">대각행렬의 거듭제곱</span>$$\mathbf{D}^k=\operatorname{diag}(d_1^k,\dots,d_n^k)$$</li>
@@ -740,6 +746,10 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
     <p>PCA에서는 공분산 행렬을 고유벡터와 고윳값으로 쪼갠 뒤 그 조각에서 방향을 골라요. 그 일반형이 고윳값 분해(eigenvalue decomposition, EVD)이고, 대칭행렬에 쓰는 특수형이 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>예요.</p>
     <p>decomposition은 인수분해, 즉 분해예요(compose는 합성, decompose는 분해). 행렬을 잘 분해해 두면 그 특성을 나중에 계산에 이용할 수 있어요.</p>
+    <p><strong>$\mathbf{P}$는 무엇을 모은 행렬일까요?</strong> <a href="#s2-eigen">2.1 고윳값과 고유벡터</a>의 방향·배율 쌍을 공간 전체를 표현할 만큼 골라 모아요. 고유벡터 $\mathbf{p}_i$들을 열에 놓은 것이 $\mathbf{P}$이고, 대응하는 배율 $\lambda_i$를 같은 순서로 대각에 놓은 것이 $\mathbf{D}$예요. ‘고유벡터’라는 조건에는 길이 1이나 서로 수직이라는 조건이 들어 있지 않아요.</p>
+    <p><strong>직교하는 축으로 바꾸면 안 될까요?</strong> 2.1의 예제에서 $\mathbf{p}_1=(1,0)^T$, $\mathbf{p}_2=(1,1)^T$는 독립이지만 내적이 1이라 수직이 아니에요. $\mathbf{p}_2$를 길이 $\sqrt2$로 나눠도 $\mathbf{p}_1$과의 내적은 $1/\sqrt2$이므로 수직이 되지 않아요. 대신 $\hat{\mathbf{y}}=(0,1)^T$를 골라 직각 축을 만들 수는 있지만, 아래 계산처럼 그 방향은 이 $\mathbf{A}$의 고유벡터가 아니에요. 그러면 $\mathbf{A}$를 축별 배율만으로 표현하려는 목표를 잃어요. 다음 계산도 같은 설명용 예제를 이어 쓴 것이에요.</p>
+    $$\mathbf{A}\hat{\mathbf{y}}=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix}$$
+    <p>직각 축을 선택할 수 있는가와, 고유벡터들로 직각 축을 만들 수 있는가는 다른 질문이에요. PCA의 실수 대칭 공분산 행렬에서는 두 조건을 동시에 만족시킬 수 있다는 것이 <a href="#s3-spectral">3.1 스펙트럼 정리</a>의 보장이에요.</p>
     <p>앞 페이지의 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>에서 $\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$였어요. 양변 왼쪽에 $\mathbf{P}$를 곱하면 결합법칙에 따라 $\mathbf{P}\mathbf{P}^{-1}=\mathbf{I}_n$으로 정리할 수 있어요.</p>
     $$
     \begin{aligned}
@@ -777,7 +787,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     $$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$
     <ul>
       <li>이유: 5단계에서 $\mathbf{P}^{-1}$이 있어야 해요. $\mathbf{P}$가 가역이려면 열 $\mathbf{p}_1,\dots,\mathbf{p}_n$이 일차독립이어야 하고, $n$개의 일차독립 벡터는 $\mathbb{R}^n$의 basis예요(MML 116쪽).</li>
-      <li>EVD의 $\mathbf{P}$는 가역이기만 하면 돼요. 직교행렬일 필요는 없어요. $\mathbf{P}^{-1}=\mathbf{P}^T$로 고를 수 있는 것은 대칭행렬일 때예요(<a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>).</li>
+      <li>EVD에서는 독립인 고유벡터들을 모아 가역 $\mathbf{P}$를 만들면 돼요. 직교행렬일 필요는 없어요. 실수 대칭행렬에서는 고유벡터들을 정규직교하게 선택할 수 있어서 $\mathbf{P}^{-1}=\mathbf{P}^T$예요(<a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>).</li>
       <li>$\mathbf{D}$의 고윳값 순서는 EVD가 요구하지 않아요. $\mathbf{P}$의 열 순서만 같이 맞추면 돼요. 고윳값을 큰 것부터 작은 것 순으로 놓는 것은 PCA에서 쓰는 관례예요(MML 105쪽도 소프트웨어 관례로 소개).</li>
     </ul>
     <p><strong>모든 정방행렬이 대각화되지는 않아요</strong>: 고윳값이 중근일 때 일차독립인 고유벡터가 $n$개보다 적을 수 있어요. 그러면 고유벡터가 $\mathbb{R}^n$의 basis를 이루지 못해 가역 $\mathbf{P}$를 만들 수 없고, 대각화되지 않아요. 이런 행렬을 defective라고 해요(MML 정의 4.13, 111쪽; 교과서 예 4.6, 108쪽에 $2\times 2$ 예가 있어요).</p>
@@ -808,7 +818,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <blockquote>"이 매트릭스를 어떻게 분해할 것인가가 … 수학자들한테는 몇백 년간 매우 중요한 이슈였어요."</blockquote>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">고유벡터를 열로 모은 $\mathbf{P}$와 고윳값을 대각에 둔 $\mathbf{D}$로 열마다의 고윳값 방정식을 묶으면 $\mathbf{A}\mathbf{P}$와 $\mathbf{P}\mathbf{D}$가 같고, 고유벡터가 basis를 이룰 때만 $\mathbf{P}^{-1}$을 곱해 분해할 수 있어요.</p>
+    <p class="sum-lead">고유벡터를 열로 모은 $\mathbf{P}$와 고윳값을 대각에 둔 $\mathbf{D}$로 열마다의 고윳값 방정식을 묶으면 $\mathbf{A}\mathbf{P}$와 $\mathbf{P}\mathbf{D}$가 같고, 고유벡터가 basis를 이룰 때만 $\mathbf{P}^{-1}$을 곱해 분해할 수 있어요. 새 축은 대각화를 위해 고유벡터로 제한되며, 일반적으로 서로 직교한다는 보장은 없어요. 길이만 1로 맞춰도 각도는 바뀌지 않아요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">열별 묶음</span>$$\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$$</li>
@@ -819,7 +829,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>고윳값 분해(EVD)</dt><dd>고유벡터 행렬 $\mathbf{P}$와 고윳값 대각행렬 $\mathbf{D}$로 쪼개기, 고유벡터가 $\mathbb{R}^n$의 basis일 때만 가능</dd>
-      <dt>$\mathbf{P}$</dt><dd>가역이면 충분, 직교일 필요 없음(직교는 대칭행렬일 때)</dd>
+      <dt>$\mathbf{P}$</dt><dd>독립인 고유벡터들을 열로 모은 가역행렬이에요. 일반적으로 직교 보장은 없고, 실수 대칭행렬에서는 정규직교하게 선택할 수 있어요.</dd>
       <dt>고윳값 순서</dt><dd>EVD의 요구가 아니라 PCA의 관례(큰 것부터)</dd>
       <dt>defective</dt><dd>일차독립 고유벡터가 $n$개보다 적어 대각화되지 않는 행렬</dd>
       <dt>변신 로봇</dt><dd>합체 로봇을 부품별로 나누듯 행렬을 분해해 특성을 이용한다는 교수님 비유</dd>
@@ -877,11 +887,17 @@ $$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$
 <p>이때 성립하는 성질은 세 가지예요.</p>
 <ol class="steps">
 <li>$\mathbf{D}$의 대각 성분, 곧 고윳값은 모두 <b>실수</b>예요. 일반 실행렬은 고윳값이 복소수일 수 있지만 대칭행렬은 그렇지 않아요.</li>
-<li>$\mathbf{P}$의 열은 정규직교(orthonormal)예요. 서로 다른 고윳값의 고유벡터는 항상 직교해요. 같은 고윳값(중근)의 고유벡터는 자동으로 직교하지 않아서 직접 직교화해요. 그 과정은 <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>에서 다뤄요.</li>
+<li>실수 대칭행렬의 $\mathbf{P}$는 열들이 정규직교(orthonormal)가 되도록 선택해요. 이 경우 서로 다른 고윳값의 고유벡터는 항상 직교해요. 같은 고윳값(중근)의 고유벡터는 자동으로 직교하지 않아서 직접 직교화해요. 그 과정은 <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>에서 다뤄요.</li>
 <li>열이 정규직교이면 $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때 1, 아니면 0이에요. 이를 한꺼번에 쓰면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$이고, 이런 $\mathbf{P}$를 직교행렬(orthogonal matrix)이라고 해요. 그래서 역행렬을 구하지 않고 전치만 하면 돼요.</li>
 </ol>
 <p><a href="#s2-evd">2.3 고윳값 분해(EVD)</a>의 일반 분해와 달리, 대칭이면 $\mathbf{P}$를 직교로 고를 수 있어요.</p>
 <p class="note">(수업 중 대칭행렬이면 역행렬이 자기 전치, 즉 $\mathbf{S}^{-1}=\mathbf{S}^T$인 것처럼 말했다가 정정: 전치가 역행렬이 되는 것은 고유벡터 행렬 $\mathbf{P}$이고, 대칭이면 항상 그렇게 고를 수 있어요.)</p>
+<p><b>$\mathbf{P}^{-1}=\mathbf{P}^T$를 좌표로 읽어요.</b> 다음은 강의 공식을 좌표변환으로 연결한 재표현이에요. 여기의 $\mathbf{P}$는 모든 축을 모은 $n\times n$ 정방행렬이에요. 원래 좌표 $\mathbf{x}\in\mathbb{R}^n$를 새 좌표 $\mathbf{z}\in\mathbb{R}^n$로 나타낸다고 해요. $\mathbf{P}$는 새 좌표를 가중합으로 원래 좌표에 옮기고, $\mathbf{P}^{-1}$은 원래 좌표에서 그 가중치들을 구해요.</p>
+$$\mathbf{x}=\mathbf{P}\mathbf{z}=\sum_{j=1}^{n}z_j\mathbf{p}_j,\qquad \mathbf{z}=\mathbf{P}^{-1}\mathbf{x}$$
+<p>열들이 정규직교이면 각 축과 내적하는 것만으로 가중치를 읽을 수 있어요. 아래 합에서 자기 축의 내적은 1이고 다른 축과의 내적은 0이라서 해당 가중치만 남아요.</p>
+$$\mathbf{p}_i^T\mathbf{x}=\sum_{j=1}^{n}z_j(\mathbf{p}_i^T\mathbf{p}_j)=z_i$$
+$$\mathbf{z}=\mathbf{P}^T\mathbf{x}=\mathbf{P}^{-1}\mathbf{x}$$
+<p>즉 $\mathbf{P}^T$가 역변환의 역할을 해요. 기하적으로는 원점을 고정한 회전·반사 또는 그 조합으로 축이 바뀌며 길이와 각도를 보존해요. 일부 축만 남기는 차원 축소는 그다음의 별도 단계예요. 일반적인 비직교 고유기저에서는 다른 축의 성분이 내적에 섞이므로 $\mathbf{P}^T$로 이 역변환을 대신할 수 없어요.</p>
 <p><b>직교 대각화 $\mathbf{D}=\mathbf{P}^T\mathbf{S}\mathbf{P}$를 오른쪽부터 내적으로 읽기.</b> 아래는 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 직교 대각화 식($\mathbf{D}=\mathbf{P}^T\mathbf{A}\mathbf{P}$에서 $\mathbf{A}=\mathbf{S}$)과 강의 공식을 연결하기 위한 재표현이에요. 오른쪽 두 행렬 $\mathbf{S}\mathbf{P}$부터 묶어 읽으면 왜 비대각 성분이 사라지고 대각선에 고윳값만 남는지 바로 보여요.</p>
 <ol class="steps">
 <li><b>오른쪽 $\mathbf{S}\mathbf{P}$ 먼저</b>: $\mathbf{P}=[\mathbf{p}_1,\dots,\mathbf{p}_n]$의 각 세로줄은 고유벡터이므로, $\mathbf{S}$를 곱하면 세로줄마다 자기 고윳값 $\lambda_j$배가 돼요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a> 칠판 유도 1–2단계).
@@ -919,7 +935,7 @@ $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\math
 <p>교수님은 교차항(cross-correlation term)을 $\mathbf{p}_i$들이 직교해서 계산하지 않아도 된다고 설명했어요. 실제로는 열×행 곱의 구조 때문에 교차항이 처음부터 생기지 않아요. 시각은 녹음 파트 안의 추정값이라 30초 안팎 어긋날 수 있어요.</p>
 </div>
 <div class="sum" hidden>
-<p class="sum-lead">대칭행렬은 실수 고윳값과 서로 직교하는 단위 고유벡터로 분해되고, 그래서 방향별 조각의 합으로 쓸 수 있어요.</p>
+<p class="sum-lead">실수 대칭행렬은 정규직교 고유기저를 선택할 수 있어요. 그 열들을 모은 $\mathbf{P}$에서는 내적으로 좌표를 읽는 $\mathbf{P}^T$가 역변환이라 $\mathbf{P}^{-1}=\mathbf{P}^T$예요. 이 선택으로 방향별 조각의 합을 쓸 수 있어요.</p>
 <p class="panel-label">핵심 식</p>
 <ul class="eq-list">
 <li><span class="eq-name">스펙트럼 정리</span>$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$ $$\mathbf{P}^{-1}=\mathbf{P}^T$$</li>
@@ -933,7 +949,7 @@ $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\math
 <dl class="terms">
 <dt>스펙트럼 정리(spectral theorem)</dt><dd>대칭행렬은 ${\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T}$로 분해되고 고윳값은 모두 실수예요.</dd>
 <dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{S}^T=\mathbf{S}$인 정방행렬이에요. 데이터 공분산 행렬이 여기에 속해요.</dd>
-<dt>직교행렬(orthogonal matrix)</dt><dd>$\mathbf{P}^T\mathbf{P}=\mathbf{I}$, 그래서 $\mathbf{P}^{-1}=\mathbf{P}^T$예요.</dd>
+<dt>직교행렬(orthogonal matrix)</dt><dd>열이 정규직교인 정방행렬이에요. $\mathbf{P}^T\mathbf{P}=\mathbf{I}$라서 $\mathbf{P}^{-1}=\mathbf{P}^T$이고, 길이와 각도를 보존해요.</dd>
 <dt>교차항</dt><dd>열×행 곱의 정의상 처음부터 생기지 않아요. 직교성 때문이 아니에요.</dd>
 </dl>
 </div>
@@ -1006,7 +1022,7 @@ $$(x_1-2x_2+x_3)-(x_1+x_2-2x_3)=-3x_2+3x_3=0$$
 $$E_7=\operatorname{span}\left[\begin{bmatrix}1\\1\\1\end{bmatrix}\right]$$
 <p>이 예제에서는 고윳값 $1$에서 독립적인 방향 두 개, 고윳값 $7$에서 방향 하나를 얻었어요. 고유벡터는 각 방향의 상수배까지 포함해 무한히 많아요. 이제 $\mathbf{P}$의 열로 쓸 대표 벡터 세 개를 $\mathbf{x}_1=(-1,1,0)^T$, $\mathbf{x}_2=(-1,0,1)^T$, $\mathbf{x}_3=(1,1,1)^T$라고 부를게요. 앞에서 $x_1,x_2,x_3$는 한 벡터의 성분이었고, 여기의 굵은 $\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3$는 각각 벡터 전체예요.</p>
 <p><b>3단계: 직교성 점검.</b> 서로 다른 고윳값의 고유벡터는 직교해요. 실제로 $\mathbf{x}_3^T\mathbf{x}_1=0$, $\mathbf{x}_3^T\mathbf{x}_2=0$이에요. 같은 고윳값의 두 벡터는 $\mathbf{x}_1^T\mathbf{x}_2=1\neq0$이라 직교하지 않아요.</p>
-<p><b>4단계: Gram-Schmidt 직교화.</b> 수업에서는 직접 해 보라고 맡긴 단계예요. 슬라이드에는 결과만 있어요. 직교화가 허용되는 이유는 같은 고윳값의 고유벡터를 섞어도 여전히 그 고윳값의 고유벡터이기 때문이에요. 임의의 스칼라 $\alpha,\beta$에 대해 다음이 성립해요.</p>
+<p><b>4단계: Gram-Schmidt 직교화.</b> 수업에서는 직접 해 보라고 맡긴 단계예요. 슬라이드에는 결과만 있어요. 직교화가 허용되는 이유는 같은 고윳값의 고유벡터를 선형결합한 결과가 영벡터가 아니면 여전히 그 고윳값의 고유벡터이기 때문이에요. 임의의 스칼라 $\alpha,\beta$에 대해 다음이 성립해요.</p>
 $$\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2=1\cdot(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$$
 <ol class="steps">
 <li>첫 벡터는 그대로 둬요: $\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$.</li>

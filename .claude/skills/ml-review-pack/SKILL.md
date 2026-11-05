@@ -1,11 +1,13 @@
 ---
 name: ml-review-pack
-description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 ELI5 정리노트 HTML과 교과서 기반 복습문제 HTML(+MD, 그림)을 만들어 복습노트/<날짜>/ 폴더에 저장한다. "정리노트", "복습문제", "복습팩", "0921~0923 정리해줘"처럼 머신러닝기초 수업 정리를 요청하거나 /ml-review-pack [MMDD|MMDD-MMDD] [lite]로 부를 때 사용한다.
+description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 ELI5 정리노트 HTML과 교과서 기반 복습문제 HTML(+MD, 그림)을 만들어 날짜별 복습노트 폴더에 저장한다. "정리노트", "복습문제", "복습팩", "0921~0923 정리해줘"처럼 머신러닝기초 수업 정리를 요청하거나 /ml-review-pack [MMDD|MMDD-MMDD] [lite]로 부를 때 사용한다.
 ---
 
 # 머신러닝기초 복습팩
 
 수업 녹음 전사(STT)와 강의자료, MML 교과서로 한 기간의 복습팩을 만든다. 중간에 사용자에게 묻지 않고 끝에 한 번 보고한다. 커밋은 제안만 한다.
+
+**학습자 설명 기준**: 신규 생성·기존 설명 수정·`lite` 모두 시작할 때 메인은 [학습자 설명 기준](references/learner-reasoning-patterns.md)을 전체 읽는다. 대상의 구성·역할, 익숙한 개념과의 대응, 목적과 선택 제약을 연결하는 기준이다. 적용 토픽과 필요한 연결을 기존 `RUN/learning-map.json` 브리프에 적고 정리노트 작성자·리뷰어에게 필수 읽기로 전달한다. 수업 범위의 근거로 쓰거나 이해 반응을 숙달로 기록하지 않는다. 파일 누락은 일반 규칙으로 진행하고 참고 누락을 보고한다.
 
 **벡터 미분 필수 규칙**: 미분이 포함된 새 저작·기존 자료 수정에서는 메인·정리노트 작성자·문제 작성자·리뷰어 모두 [벡터 미분 관례](references/vector-derivative-convention.md)를 전체 읽는다. 변수는 열벡터, 스칼라 목적함수의 미분은 행벡터로 쓰고 열 정규방정식으로 옮길 때 양변 전치를 보인다. 문제 조건·힌트·풀이·상세 해설·요약·용어·생성 원본·MD·PDF에 함께 적용한다. 기존 원문의 명시적 다른 관례는 이 레퍼런스의 원문 보존 분기로 처리한다. `lite`와 기존 자료 수정도 생략하지 않는다.
 
@@ -25,9 +27,9 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 
 ## 기존 정리노트 설명만 개선하는 경우
 사용자가 큰 그림·개념 연결·기호 설명 등 기존 정리노트의 설명 개선을 요청하면 이 경로를 쓴다. 복습문제·답안 PDF·문제설명·영상의 내용이 바뀌지 않으면 전체 복습팩을 재생성하지 않는다.
-1. `references/big-picture-first.md`를 읽고 대상 HTML·MD·기존 첫 토픽·연결을 확인한다. 기존 ID, 수식, 위젯, PDF·인터랙티브 링크를 보존한다.
+1. `references/big-picture-first.md`와 `references/learner-reasoning-patterns.md`를 전체 읽고 대상 HTML·MD·기존 첫 토픽·연결을 확인한다. 학습자 기준에서 이번 토픽에 필요한 연결을 선택해 RUN의 저작 브리프에 기록한다. 기존 ID, 수식, 위젯, PDF·인터랙티브 링크를 보존한다.
 2. 원자료와 기존 설명을 대조해 도입·유도 연결을 작성한다. `big-picture-first.md`의 전체 연결·출발식·변경점·단계별 연산·결과 재사용·복원 요약을 필요한 개념 묶음에 적용한다. 일반 공식의 실제 대입과 수업 관례를 보이고 수업 공식·동치 재표현·보충을 구분한다. 대상 HTML과 모든 대응 MD를 RUN에 백업하고 stage에서 수정한다. 큰 그림이 이미 있으면 중복 토픽 대신 기존 도입을 보강한다.
-3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 레퍼런스의 검토 질문에 답한다.
+3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 두 레퍼런스의 검토 질문에 답한다. 설명 감사에도 학습자 기준과 적용 토픽 브리프를 전달한다.
 4. 375px·데스크톱, 두 테마에서 도입의 실제 가시성·수식·줄바꿈·목차·화면 이동·기존 링크를 확인하고 검증된 HTML·MD만 함께 반영한다. 실패하면 해당 노트는 기존 파일을 보존한다.
 5. 변경 날짜, 설명의 차이, 검사 결과, 백업·RUN과 미해결을 보고한다. PDF와 문제의 재검증을 이번 설명 수정의 검증인 것처럼 보고하지 않는다.
 
@@ -64,6 +66,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
    - 관련 토픽과 사용할 설명 연결·미확인 지점을 정하고, 2단계 manifest에서 확정한 토픽 id로 3단계의 해당 섹션 작성자와 6단계 리뷰어 브리프에 전달한다. 파일이 없거나 읽을 수 없으면 일반 규칙으로 진행하고 9단계에 참고 누락을 보고한다. `lite`에서도 읽기와 작성자 전달을 생략하지 않는다.
 
 ### 2. manifest
+- 학습자 연결 브리프: `references/learner-reasoning-patterns.md`에서 이번 토픽에 필요한 대상·역할·익숙한 연결·목적과 선택 제약·성립 조건을 골라 `RUN/learning-map.json`의 기존 저작 브리프에 적는다. 새 manifest 필드나 필수 HTML 속성은 추가하지 않는다.
 - **큰 그림 먼저**: `references/big-picture-first.md`를 전체 읽고 `RUN/learning-map.json`에 질문·개념 관계·결과·유도 목적·예상 혼동과 근거를 정한다. 첫 학습 토픽은 이 큰 그림으로 계획한다. 위젯·비유·상세 유도보다 먼저 이 목표를 확정한다. 주요 결과를 다음 계산에 재사용하는 연결, 필요한 기존 공식과 실제 대입, 수업의 미분 관례와 보충 경계를 브리프에 함께 적는다. 기존 `learning-map.json` 브리프 안에 기록하며 manifest 스키마나 필수 HTML 속성을 추가하지 않는다.
 - 요약들의 슬라이드 대조표와 용어·식 목록으로 `RUN/manifest.json`을 쓴다. 규칙은 `references/manifest-guide.md`에 있다.
 - 문제 선별은 `references/problem-selection.md`를 따른다.
@@ -72,6 +75,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 검증: `python3 "$SKILL/scripts/manifest.py" "$RUN/manifest.json"` 결과가 `OK`여야 한다.
 
 ### 3. 작성
+- 모든 정리노트 작성자는 `references/learner-reasoning-patterns.md`를 전체 필수 읽기로 받고 해당 토픽의 학습자 연결 브리프를 적용한다. `lite`도 동일하다. 공분산 레퍼런스의 `적용 없음`은 이 일반 학습자 기준을 생략한다는 뜻이 아니다.
 - 모든 정리노트 작성자에게 큰 그림 브리프와 `references/big-picture-first.md`를 전달한다. 첫 토픽 작성자는 도입을 작성하고, 다른 작성자는 자기 유도의 목적과 처음 등장하는 기호를 설명한다. 관련 본문은 기억할 출발식에서 변경점·한 단계 연산·다음 결과의 대입까지 연결하고 짧은 복원 요약으로 마친다. 수업 공식과 재표현을 구별하며 같은 설명을 반복하지 않는다. lite도 동일하다.
 - 섹션마다 작성자 1명을 띄운다. 브리프는 `references/content-rules.md`, 위젯 규칙은 `references/widget-rules.md`에 있다.
 - 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다. 미분 문항이면 `references/vector-derivative-convention.md`도 필수 읽기로 전달하고 변수/미분 차원·전치 단계·원문 관례 처리·동기화 대상 목록을 작성 결과에 포함시킨다.
@@ -132,6 +136,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 고친 뒤 4단계부터 다시 한다. 최대 2회까지이며, 그래도 남으면 "미해결"로 보고한다.
 
 ### 6. 리뷰 (`lite`면 생략)
+- 리뷰어에게 `references/learner-reasoning-patterns.md`와 적용 토픽의 학습자 연결 브리프를 필수 읽기로 전달한다. 대상의 구성·역할과 목적·선택 제약이 조건·예외보다 먼저 연결되는지 본문으로 확인한다. `lite`에서는 작성자가 같은 질문으로 자기 검토한다.
 - 미분 문항의 조건·본문·summary/sum·terms·힌트·카드/JSON·생성기 소개·MD가 같은 관례인지 확인한다. 검토에는 변수/미분 차원, 전치 단계, 원문 보존/수정 권한을 기록한다. `lite`도 작성자의 자기 검토와 기계 검사를 수행한다.
 - 리뷰어에게 `RUN/learning-map.json`과 `references/big-picture-first.md`를 전달해, 도입만으로 학습 목표·비교 축·결과를 설명할 수 있는지 검토하게 한다. 본문에서 기존 결과 재사용·일반 공식의 대입·복원 요약이 이어지는지, 미분 관례·임시 기호 스케일·출처 경계가 일관되는지도 확인한다. lite에서는 작성자가 같은 질문으로 자기 검토한다.
 - 리뷰어 1명을 띄운다. 브리프는 `references/review-prompt.md`에 있다.
@@ -141,6 +146,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 수정 후 4~5단계를 다시 한다. 반영하지 않은 항목은 보고서에 적는다.
 
 ### 6b. 설명 감사 (`lite`도 수행)
+- 감사자에게 `references/learner-reasoning-patterns.md`와 적용 토픽의 학습자 연결 브리프도 전달한다. 같은 연결을 반복하는지, 목적·대상 설명 없이 조건만 선언하는지 본문으로 확인한다.
 - 형제 스킬 `ml-note-audit`의 SKILL.md "생성 절차에서 부를 때"를 따른다. `<대상>`은 stage의 정리노트·복습문제 HTML과 MD, `<형제 자료>`는 같은 날짜 공개 폴더의 기존 문제설명·인터렉티브(없으면 `없음`)다.
 - 결과는 `RUN/audit.md`에 저장한다. Critical·Important는 담당 작성자에게 모아서 한 번 되돌리고 4~5단계를 다시 한다. 5단계의 최대 2회 규칙에 포함된다. 남은 항목은 9단계 "미해결"에 적는다.
 
@@ -173,7 +179,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 범위: 배운 슬라이드 … / 예고만: …
 - 문제: P1 MML Example 9.1 변형(level 1) … (정답은 RUN/answers.py로 검증)
 - 스킬이 정한 사항: slug, 섹션 구성, 위젯, 뺀 내용과 이유
-- 학습 레퍼런스: 적용 토픽 id / 적용 없음 / 참고 누락과 원인
+- 학습 레퍼런스: 학습자 설명 기준의 적용 토픽·사용한 연결·미해결; 공분산 레퍼런스 적용 토픽 id / 적용 없음 / 참고 누락과 원인
 - 설명 감사: Critical n / Important n / 미해결 n (RUN/audit.md); 실패하면 `설명 감사 누락: <원인>`
 - PDF 검증: 논리 문항 수, 모드별 페이지 수, 전체 페이지 시각 검수, validation.json, 템플릿 SHA
 - 문제설명: published/withheld, 전체 문항·소문항 수, 네 실제 검토, HTML/MD 링크, RUN·백업; 실패하면 “복습팩 생성됨 / 문제설명 보류”, 이유. 이전 설명을 현재 입력 검증으로 보고하지 않음
