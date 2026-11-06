@@ -874,7 +874,7 @@
     </table></div>
     <p>차수는 모델 복잡도(model complexity)예요. 몇 차가 좋은지에는 정해진 답이 없어요. $K = 7$이 $K = 4$보다 나은지는 데이터로 따져 봐야 해요.</p>
     <p>$\boldsymbol{\theta}$는 데이터로 학습하는 파라미터(parameter)예요. $K$처럼 학습 전에 사람이 정하는 값이 하이퍼파라미터(hyperparameter)예요.</p>
-    <p class="fn">(수업 중 4차 다항식을 "$K = 4$ 또는 $K = 5$"로 말했다가 정정: $K = 5$)</p>
+    <p class="fn">4차 다항식은 상수항부터 4차항까지 다섯 개의 특징을 쓰므로 $K=5$예요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>교수님은 "폴리노미얼 커널이라는 거를 뒤에 좀 살펴볼 건데"라고 한 뒤 바로 s17 예제로 다뤘어요. 3차($K = 4$)와 6차($K = 7$) 중 어느 쪽이 나은지는 답을 주지 않고 넘겼어요.</p>
@@ -933,7 +933,7 @@
     </ol>
     <p>해는 $\boldsymbol{\Phi}$의 유사역행렬(pseudo-inverse)을 $\mathbf{y}$에 곱한 값이에요. 이름은 추정(estimation)이지만 실제로는 $\boldsymbol{\theta}$를 학습하는 일이고, 그 계산을 역행렬 같은 선형대수로 할 뿐이에요.</p>
     <p>원자료 대신 $\boldsymbol{\Phi}$를 쓰는 이유는 알맞은 도메인으로 바꾸면 학습이 잘 안 되던 문제도 잘 풀릴 수 있기 때문이에요.</p>
-    <p class="fn">(수업 중 크기를 "K by N by K"처럼 말했지만 $\boldsymbol{\Phi}$는 $N \times K$예요.)</p>
+    <p class="fn">특징행렬 $\boldsymbol\Phi$는 표본 $N$개를 행으로, 특징 $K$개를 열로 쌓은 $N\times K$ 행렬이에요.</p>
 
 <p>새로운 ML 유도가 필요한 것이 아니에요. <a href="#s1-theta-ml">앞 정상조건</a>의 X 자리에 특징행렬 Φ를 넣어 $\boldsymbol\Phi^\top\boldsymbol\Phi\boldsymbol\theta=\boldsymbol\Phi^\top\mathbf y$로 바꾸면 돼요. 이 역행렬 표현에는 Φ의 full column rank가 필요해요. 이 두 덩어리를 다음 MAP 비교에서도 그대로 써요.</p>
 </div>
@@ -1254,7 +1254,7 @@
     <p><a href="#s4-gaussian-prior">가우시안 사전분포와 음의 로그사후확률</a>의 기울기를 $\mathbf{0}^\top$으로 두고 풀어요(MML 식 9.30–9.31).</p>
     <ol class="steps">
       <li>$$\frac{1}{\sigma^2} (\boldsymbol{\theta}^\top \boldsymbol{\Phi}^\top \boldsymbol{\Phi} - \mathbf{y}^\top \boldsymbol{\Phi}) + \frac{1}{b^2} \boldsymbol{\theta}^\top = \mathbf{0}^\top$$</li>
-      <li>양변에 $\sigma^2$를 곱하고 $\mathbf{y}^\top \boldsymbol{\Phi}$를 넘기기: $$\boldsymbol{\theta}^\top \boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \boldsymbol{\theta}^\top = \mathbf{y}^\top \boldsymbol{\Phi}$$ (수업 중 우변을 $\sigma^2 \mathbf{y}^\top \boldsymbol{\Phi}$처럼 읽었다가 정정: 우변은 $\mathbf{y}^\top \boldsymbol{\Phi}$예요.)</li>
+      <li>양변에 $\sigma^2$를 곱하고 $\mathbf{y}^\top \boldsymbol{\Phi}$를 넘기기: $$\boldsymbol{\theta}^\top \boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \boldsymbol{\theta}^\top = \mathbf{y}^\top \boldsymbol{\Phi}$$</li>
       <li>$\boldsymbol{\theta}^\top$로 묶기: $$\boldsymbol{\theta}^\top \left(\boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \mathbf{I}\right) = \mathbf{y}^\top \boldsymbol{\Phi}$$</li>
       <li>오른쪽에 역행렬 곱하기: $$\boldsymbol{\theta}^\top = \mathbf{y}^\top \boldsymbol{\Phi} \left(\boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \mathbf{I}\right)^{-1}$$</li>
       <li>양변 전치(괄호 안 행렬이 대칭이라 역행렬도 대칭): $$\boldsymbol{\theta}_{\text{MAP}} = \left(\boldsymbol{\Phi}^\top \boldsymbol{\Phi} + \frac{\sigma^2}{b^2} \mathbf{I}\right)^{-1} \boldsymbol{\Phi}^\top \mathbf{y}$$</li>

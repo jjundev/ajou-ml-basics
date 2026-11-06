@@ -415,7 +415,7 @@
       <li>ML은 사전분포 없이 우도를 최대화해요. 사전밀도가 상수이면 MAP의 최적점도 ML과 같아져요. 무한한 공간의 상수 밀도는 정규화된 사전분포가 아닐 수 있어요.</li>
       <li>사후분포를 알면 그 최고점으로 MAP을 얻을 수 있어요. ML과 MAP의 위치가 같아지는 것은 사전밀도가 상수여서 최적점에 영향을 주지 않는 등의 조건이 있을 때예요.</li>
     </ul>
-    <p>(수업 중 "사후예측분포가 최대가 되는 점이 MAP"이라고 말했지만, MAP은 파라미터 사후분포 $p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y})$의 밀도가 최대가 되는 파라미터 위치예요.)</p>
+    <p>MAP은 파라미터 사후분포 $p(\boldsymbol\theta\mid\mathbf X,\mathbf y)$의 밀도가 최대가 되는 파라미터 위치예요.</p>
     <p><b>왜 가우시안인가.</b> 이번 수업의 선형 가우시안 모형은 사후분포와 예측분포를 닫힌 식으로 구할 수 있어요. 가우시안 밀도의 곱은 정규화 전 가우시안 모양이고, 결합 가우시안 벡터의 선형결합도 가우시안이에요. FB 자체가 가우시안 분포에 한정되는 것은 아니에요. 그 성질은 <a href="#s2-closure">무엇을 해도 가우시안</a>에서 정리해요.</p>
     <p>풀리 베이지안이 왜 결정을 유보하는지, ML과 MAP이 어떻게 포함 관계인지는 0930 수업에서 자세히 다뤘어요. 1007 수업은 그 내용을 "공장"이라는 한 단어로 다시 묶었어요.</p>
   </div>
@@ -513,7 +513,7 @@
     <blockquote>"주인공이 중요하다니까. … 세타 입장에서는 이 x들이 … 상수 역할을 하는 거."</blockquote>
     <blockquote>"linear regression이라고 하면 이런 수식을 항상 기억해라."</blockquote>
     <p>특징 함수만 바꾸면 여러 문제를 풀 수 있으니, 선형회귀를 잘하면 웬만한 머신러닝을 다 이해한다고 했어요. 칠판의 그래프 그림을 보면 식이 떠오르고, 식을 보면 그림이 떠올라야 한다고도 했어요.</p>
-    <p>실제 대형 언어모델은 $\boldsymbol{\theta}$가 엄청나게 많고, 수업에서는 $4 \times 1$짜리로 설명한다고 했어요. (수업 중 "수백만 개" 단위로 말했지만, 실제 대형 언어모델은 수십억에서 수천억 단위예요.)</p>
+    <p>실제 대형 언어모델은 $\boldsymbol{\theta}$가 엄청나게 많고, 수업에서는 $4 \times 1$짜리로 설명한다고 했어요.</p>
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">특징 함수로 $x$의 3차식을 만들어도, $\boldsymbol{\theta}$를 주인공으로 보면 선형이라서 선형회귀예요.</p>
@@ -935,7 +935,7 @@
         $$f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{2\pi\sqrt{2.99}}\exp\!\Big(-\frac{3x_1^2 - 0.2x_1x_2 + x_2^2}{2 \cdot 2.99}\Big)$$</li>
       <li>확인: 원점에서는 지수가 $0$이라 $f_{\mathbf{X}}(\mathbf{0}) = \frac{1}{2\pi\sqrt{2.99}} \approx 0.092$예요.</li>
     </ol>
-    <p>(수업 중 상수를 $\frac{1}{2.99}$로 말했다가 정정: 루트와 $2\pi$가 빠진 것이고, 맞는 상수는 $\frac{1}{2\pi\sqrt{2.99}}$예요.)</p>
+
     <p>가우시안 랜덤 벡터의 PDF를 계산하는 예제는 다음 시간에 조교가 몇 개 더 풀어 줘요. 이 분포가 왜 베이지안에서 편한지는 <a href="#s2-closure">무엇을 해도 가우시안</a>에서 이어져요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
@@ -1215,7 +1215,7 @@
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
     <p>가우시안 랜덤 벡터 $\mathcal{N}(\boldsymbol{\mu}_0, \Sigma_0)$의 PDF는 다음과 같아요. $\boldsymbol{\mu}_0$ 대신 $\boldsymbol{\mu}_1$, $\Sigma_0$ 대신 $\Sigma_1$을 넣으면 두 번째 PDF예요.</p>
     $$f(\mathbf{x}) = (2\pi)^{-n/2}|\Sigma_0|^{-1/2}\exp\left(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu}_0)^\top\Sigma_0^{-1}(\mathbf{x} - \boldsymbol{\mu}_0)\right)$$
-    <p>(수업 중 $(2\pi)^n$으로 말했지만 바른 형태는 $(2\pi)^{-n/2}$예요.)</p>
+    <p>$n$차원 가우시안 밀도의 정규화 계수에는 $(2\pi)^{-n/2}$가 들어가요.</p>
     <p><b>결과(L04 s11).</b> 두 PDF의 곱은 상수배를 빼면 다음 가우시안 랜덤 벡터의 PDF예요.</p>
     $$\mathcal{N}\left(\Sigma_1(\Sigma_0 + \Sigma_1)^{-1}\boldsymbol{\mu}_0 + \Sigma_0(\Sigma_0 + \Sigma_1)^{-1}\boldsymbol{\mu}_1,\ \Sigma_1(\Sigma_0 + \Sigma_1)^{-1}\Sigma_0\right)$$
     <p>평균은 $n$차원 벡터, 공분산은 $n\times n$ 행렬이에요.</p>
@@ -1244,7 +1244,7 @@
     <blockquote>"요 증명을 사실 여러분들이 미리 해와도 좋겠죠?"</blockquote>
     <p>스칼라 식과 행렬 식을 나란히 놓고, 분모의 분산 합이 역행렬로 바뀌고 평균은 엇갈려 곱하는 구조가 같다고 짚었어요. 대응 정리는 집에 가서 해 보라고 했어요.</p>
     <blockquote>"얘가 사실 얘랑 딱 일대일 대응돼 버린다."</blockquote>
-    <p>(수업 중 $\nu_0$, $\nu_1$을 바꿔 말했다가 정정했어요. $\nu_0$는 첫 번째, $\nu_1$은 두 번째 가우시안의 분산이에요.</p>
+    <p>$\nu_0$는 첫 번째, $\nu_1$은 두 번째 가우시안의 분산이에요.</p>
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">행렬판 곱의 결과는 스칼라 결과와 한 항씩 대응하고, 증명은 다음 시간에 조교가 해요.</p>
@@ -1306,7 +1306,7 @@
     <ul>
       <li>$\mathbf{m}_0, \mathbf{S}_0$는 사전분포의 평균 벡터와 공분산 행렬, $\sigma^2$은 잡음의 분산이에요.</li>
       <li>$\boldsymbol{\Phi}$는 $n$번째 행이 $\boldsymbol{\phi}(\mathbf{x}_n)^\top$인 특징 행렬(feature matrix)이에요.</li>
-      <li>슬라이드 s12–s13에는 $\mathbf{S}_N$ 안의 계수가 $\sigma^{2}$로 적혀 있어요. 같은 슬라이드의 전개식과 교과서 (9.43b)에 맞추면 $\sigma^{-2}$가 맞아요(슬라이드 오타, 수업에서는 언급하지 않음).</li>
+      <li>사후 정밀도 $\mathbf S_N^{-1}$에서 데이터 항의 계수는 잡음 분산의 역수 $\sigma^{-2}$예요(MML (9.43b)).</li>
       <li>사후분포가 $\mathcal{N}(\mathbf{m}_N, \mathbf{S}_N)$이므로 최댓값 위치는 평균이에요. 그래서 $\boldsymbol{\theta}_{\text{MAP}} = \mathbf{m}_N$이에요.</li>
     </ul>
     <p>사후예측분포의 결과는 이래요(L04 s14, MML (9.57c)).</p>
@@ -1408,7 +1408,7 @@
       <tr><td><a href="#s3-product-matrix">행렬판 평균</a></td><td>$\Sigma_1(\Sigma_0 + \Sigma_1)^{-1}\boldsymbol{\mu}_0 + \Sigma_0(\Sigma_0 + \Sigma_1)^{-1}\boldsymbol{\mu}_1$</td><td>분모 $\nu_0 + \nu_1$이 $(\Sigma_0 + \Sigma_1)^{-1}$로 바뀌어요.</td></tr>
       <tr><td><a href="#s3-product-matrix">행렬판 분산</a></td><td>$\Sigma_1(\Sigma_0 + \Sigma_1)^{-1}\Sigma_0$</td><td>스칼라의 $\frac{\nu_0\nu_1}{\nu_0 + \nu_1}$에 대응해요. 증명은 조교 몫이에요.</td></tr>
       <tr><td><a href="#s4-posterior">사후분포</a></td><td>$p(\boldsymbol{\theta} \mid \mathbf{X}, \mathbf{y}) = \mathcal{N}(\boldsymbol{\theta} \mid \mathbf{m}_N, \mathbf{S}_N)$</td><td>데이터를 본 뒤의 $\boldsymbol{\theta}$도 가우시안 랜덤 벡터예요.</td></tr>
-      <tr><td><a href="#s4-posterior">사후 공분산</a></td><td>$\mathbf{S}_N = (\mathbf{S}_0^{-1} + \sigma^{-2}\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}$</td><td>교과서 (9.43b) 식이에요(슬라이드의 σ²는 오타라 σ⁻²로 고쳤어요). 유도는 수업에서 하지 않았어요.</td></tr>
+      <tr><td><a href="#s4-posterior">사후 공분산</a></td><td>$\mathbf{S}_N = (\mathbf{S}_0^{-1} + \sigma^{-2}\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}$</td><td>교과서 (9.43b) 식이에요. 데이터 항에는 잡음 분산의 역수가 곱해져요. 유도는 수업에서 하지 않았어요.</td></tr>
       <tr><td><a href="#s4-blr-figure">회색 띠</a></td><td>$\pm 1\sigma \approx 68\%, \quad \pm 2\sigma \approx 95\%$</td><td>짙은 회색은 1σ, 옅은 회색은 2σ 구간이에요. 훈련 데이터 근처에서 띠가 좁아져요.</td></tr>
     <tr><td>계수에서 복원</td><td colspan="2">곱한 지수의 이차항 계수를 역으로 → 공분산. 그 공분산×일차항 벡터 → 평균. 정규화 상수는 별도로 맞춰요.</td></tr></tbody>
   </table></div>

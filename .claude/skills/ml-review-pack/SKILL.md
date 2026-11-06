@@ -32,7 +32,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 사용자가 큰 그림·개념 연결·기호 설명 등 기존 정리노트의 설명 개선을 요청하면 이 경로를 쓴다. 복습문제·답안 PDF·문제설명·영상의 내용이 바뀌지 않으면 전체 복습팩을 재생성하지 않는다.
 1. `references/big-picture-first.md`와 `references/learner-reasoning-patterns.md`를 전체 읽고 대상 HTML·MD·기존 첫 토픽·연결을 확인한다. 학습자 기준에서 이번 토픽에 필요한 연결을 선택해 RUN의 저작 브리프에 기록한다. 기존 ID, 수식, 위젯, PDF·인터랙티브 링크를 보존한다.
 2. 원자료와 기존 설명을 대조해 도입·유도 연결을 작성한다. `big-picture-first.md`의 전체 연결·출발식·변경점·단계별 연산·결과 재사용·복원 요약을 필요한 개념 묶음에 적용한다. 일반 공식의 실제 대입과 수업 관례를 보이고 수업 공식·동치 재표현·보충을 구분한다. 대상 HTML과 모든 대응 MD를 RUN에 백업하고 stage에서 수정한다. 큰 그림이 이미 있으면 중복 토픽 대신 기존 도입을 보강한다.
-3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 두 레퍼런스의 검토 질문에 답한다. 설명 감사에도 학습자 기준과 적용 토픽 브리프를 전달한다.
+3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. 녹음 위치와 편집 경위 금지는 `references/content-rules.md`에 따라 본문·인용·요약·그림 설명·각주·footer 및 대응 MD에 적용한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 두 레퍼런스의 검토 질문에 답한다. 설명 감사에도 학습자 기준과 적용 토픽 브리프를 전달한다.
 4. 375px·데스크톱, 두 테마에서 도입의 실제 가시성·수식·줄바꿈·목차·화면 이동·기존 링크를 확인하고 검증된 HTML·MD만 함께 반영한다. 실패하면 해당 노트는 기존 파일을 보존한다.
 5. 변경 날짜, 설명의 차이, 검사 결과, 백업·RUN과 미해결을 보고한다. PDF와 문제의 재검증을 이번 설명 수정의 검증인 것처럼 보고하지 않는다.
 
@@ -130,7 +130,7 @@ python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습�
 ### 5. 기계 검사
 - 미분이 포함된 행 관례 저작 HTML·MD와 조각은 `python3 SKILL/scripts/check_vector_derivatives.py <저작 HTML/MD 경로...>`도 실행한다. 보존할 다른 관례의 원문은 검사 대상에서 분리하고 근거를 기록한다. 이 검사는 차원·곱 순서·성분 검산을 대체하지 않는다.
 - 정리노트에는 추가로 `python3 SKILL/scripts/check_learning_map.py <stage의 정리노트 HTML>`을 실행한다. 구조 검사는 의미 검토를 대체하지 않는다.
-- `check_html.py`는 정리노트의 녹음 타임스탬프를 파일명과 줄 번호로 보고한다. 기본 생성, `lite`, 기존 정리노트 갱신 모두 이 검사를 통과해야 한다. 검출되면 작성 원고에서 녹음 위치 표기를 제거한 뒤 다시 검사한다.
+- `check_html.py`는 정리노트의 녹음 타임스탬프(`stt-timestamp`), 시각 없는 파트 위치(`stt-location`), 명백한 전사·말실수·오타 정정 경위(`editorial-history`)를 파일명과 줄 번호로 보고한다. 기본 생성, `lite`, 기존 정리노트 갱신 모두 이 검사를 통과해야 한다. 검출되면 작성 원고에서 위치·편집 경위를 제거하고 필요한 개념·식·조건을 직접 설명한 뒤 다시 검사한다. 일반적인 강의 제목·자료 출처는 유지한다. 패턴 검사는 의미 검토를 대체하지 않으며 대응 MD도 함께 확인한다.
 ```bash
 python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
 ```

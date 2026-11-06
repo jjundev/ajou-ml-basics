@@ -4,6 +4,7 @@
 
 - 공통 검사: lang, 중복 id, 외부 리소스 허용 목록, 수식 구분자, 링크, 남은 슬롯, 위젯 정적 대체물
 - manifest 검사: 섹션·토픽 id, 필수 용어, 레이어, 보충 배지, 예고 밖 금지어, 링크, 문제 카드
+- 정리노트 검사: 녹음 위치(시각 없는 파트 포함), 전사·발언·오타 수정 경위
 CLI:
   check_html.py FILE [FILE ...]
   check_html.py --manifest run/manifest.json --note NOTE.html --review REVIEW.html
@@ -12,9 +13,9 @@ CLI:
 from __future__ import annotations
 
 import argparse
+from bisect import bisect_right
 from collections import defaultdict
 from dataclasses import dataclass, field
-from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 import re
@@ -46,6 +47,20 @@ STT_TIME = r"~?[0-9]{1,3}:[0-5][0-9](?::[0-5][0-9])?(?![0-9:])"
 STT_TIMESTAMP_RE = re.compile(
     rf"(?<![\w])(?:[0-9]{{4}}\s+(?:{STT_PART})?|{STT_PART}|수업\s+){STT_TIME}"
     rf"(?:\s*[-–—~,]\s*(?:{STT_PART})?{STT_TIME})*"
+)
+# Dates or recording context distinguish these from lecture titles such as Part 2.
+STT_LOCATION_RE = re.compile(
+    r"(?<!\w)(?:(?:[0-9]{4}\s+(?:전사\s+)?|(?:녹음|전사|STT)\s+)"
+    r"(?:P[0-9]+|Parts?\s*[0-9]+)|Parts?\s+[0-9]{2,}|P[0-9]{2,})"
+    r"(?:\s*[-–—~]\s*(?:(?:Parts?\s*|P))?[0-9]+)?",
+    re.IGNORECASE,
+)
+EDITORIAL_HISTORY_RE = re.compile(
+    r"(?:STT|전사)(?:의|에서(?:는)?|에(?:는)?)"
+    r"|(?:말실수|오인식|정확한\s*시각\s*없음|(?:세부\s*)?시각\s*미제공)"
+    r"|(?:수업|강의)[^\n.!?。]{0,220}?(?:구두로\s*언급|말했다가|말했지만|말한\s*부분|적었다가|읽었다가|정정)"
+    r"|시각은[^\n.!?。]{0,100}?(?:녹음|파트)"
+    r"|(?:슬라이드|TA[0-9]+\s*s[0-9]+)[^\n.!?。]{0,180}?(?:오타|바로잡|고쳤)"
 )
 REMOTE_PREFIXES = ("http://", "https://", "//")
 # CSS 안의 url(...) 과 @import "..." 대상
@@ -80,6 +95,7 @@ class Doc:
     widgets: dict[str, set[str]] = field(default_factory=dict)
     scripts_by_id: dict[str, str] = field(default_factory=dict)
     body_text: str = ""
+    body_origins: list[tuple[int, int]] = field(default_factory=list)
 
 
 class _Parser(HTMLParser):
@@ -174,6 +190,12 @@ class _Parser(HTMLParser):
         if self.raw_tag:
             return
         sec, con, _ = self._context()
+        offset = len(self.doc.body_text)
+        line = self.getpos()[0]
+        for part in data.splitlines(keepends=True):
+            self.doc.body_origins.append((offset, line))
+            offset += len(part)
+            line += part.count("\n")
         self.doc.body_text += data
         if sec:
             self.doc.section_text[sec] += data
@@ -311,18 +333,29 @@ def check_review(doc: Doc, m: dict) -> list[Problem]:
 def check_file(path: Path | str) -> list[Problem]:
     path = Path(path)
     source = path.read_text(encoding="utf-8")
-    out = check_common(parse_html(source), source, path)
+    doc = parse_html(source)
+    out = check_common(doc, source, path)
     if normalize("NFC", path.name).startswith("정리노트_"):
-        out += check_stt_timestamps(source, path)
+        out += check_reader_prose(doc, path)
     return out
 
 
-def check_stt_timestamps(source: str, path: Path) -> list[Problem]:
-    # Keep source line numbers even when decoding HTML character references.
+def check_reader_prose(doc: Doc, path: Path) -> list[Problem]:
+    """Inspect reader text across inline tags, retaining source line numbers.
+
+    Hidden summaries are included; scripts, styles and comments are excluded.
+    """
     out: list[Problem] = []
-    for line_number, line in enumerate(source.splitlines(), start=1):
-        for match in STT_TIMESTAMP_RE.finditer(unescape(line)):
-            out.append(Problem("stt-timestamp", f"{path.name}:{line_number}", match.group()))
+    timestamps = list(STT_TIMESTAMP_RE.finditer(doc.body_text))
+    matches = [("stt-timestamp", match) for match in timestamps]
+    matches += [("stt-location", match) for match in STT_LOCATION_RE.finditer(doc.body_text)
+                if not any(t.start() <= match.start() < t.end() for t in timestamps)]
+    matches += [("editorial-history", match) for match in EDITORIAL_HISTORY_RE.finditer(doc.body_text)]
+    starts = [offset for offset, _ in doc.body_origins]
+    for code, match in sorted(matches, key=lambda item: item[1].start()):
+        origin = bisect_right(starts, match.start()) - 1
+        line = doc.body_origins[origin][1]
+        out.append(Problem(code, f"{path.name}:{line}", match.group()))
     return out
 
 
@@ -333,7 +366,7 @@ def check_pack(m: dict, note_path: Path | str, review_path: Path | str) -> list[
         doc = parse_html(source)
         out += check_common(doc, source, Path(path)) + extra(doc, m)
         if extra is check_note:
-            out += check_stt_timestamps(source, Path(path))
+            out += check_reader_prose(doc, Path(path))
     return out
 
 

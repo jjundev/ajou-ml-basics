@@ -731,7 +731,7 @@
           <p>수치 예: $x = 0.3$이면</p>
           <p>$$\boldsymbol{\phi}(x) = [0.3,\ 0.09,\ 0.027]^\top$$</p>
           <p>이고, $\boldsymbol{\phi}(x)^\top\boldsymbol{\theta}$를 평균으로 하는 가우시안 확률변수가 만들어져요.</p>
-          <p><small>(수업 중 셋째 성분을 0.0027로 말했지만 $0.3^3 = 0.027$이에요.)</small></p>
+          <p><small>셋째 성분은 $0.3^3=0.027$이에요.</small></p>
           <p>이렇게 선형회귀를 함수 공간(function space)으로 확장해요. 구체적인 다항식 예제는 나중에 다시 나와요.</p>
         </div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
@@ -787,7 +787,7 @@
           <p>$$\mathbf{y} = \mathbf{X}\boldsymbol{\theta} + \boldsymbol{\epsilon}$$</p>
           <p>차원 확인: $(N \times D)(D \times 1) = N \times 1$이라서 $\mathbf{X}\boldsymbol{\theta}$와 $\mathbf{y}$의 길이가 같아요. 슬라이드와 MML(식 9.10b)의 $\mathbf{X}$는 이미 전치한 $N \times D$ 행렬이에요. 칠판에서 처음 만든 $D \times N$ 행렬로 쓰면 곱할 때 전치가 한 번 더 필요해요.</p>
           <p>그래프 표현(graphical representation)으로 보면 $\mathbf{x}_n$이 들어와 $y_n$이 만들어지고, 모델 파라미터 $\boldsymbol{\theta}$와 $\sigma$가 그 과정에 영향을 줘요. 판(plate) 하나가 $n = 1, \dots, N$ 반복을 나타내요. 이 반복을 곱으로 바꾸는 과정은 <a href="#s2-iid">iid면 우도는 곱이 된다</a>에서 이어져요.</p>
-          <p class="note">(수업 중 $\mathbf{X}$를 "길이가 $D$고 너비가 $N$인 행렬"로 말했다가 $N \times D$로 정정)</p>
+          <p class="note">표본을 행으로 쌓은 $\mathbf X$는 $N\times D$ 행렬이에요. $N$은 표본 수, $D$는 입력 하나의 성분 수예요.</p>
         </div>
         <div class="layer prof"><span class="layer-title">교수님 말씀</span>
           <p>포뮬레이션이 끝났으니 이제 할 일은 파라미터를 찾는 거라고 했어요.</p>
@@ -901,7 +901,7 @@
           <p>차원 확인: $\mathbf{X} \in \mathbb{R}^{N \times D}$, $\boldsymbol{\theta} \in \mathbb{R}^{D}$이므로 $\mathbf{X}\boldsymbol{\theta} \in \mathbb{R}^{N}$이고 $\mathbf{y}$와 길이가 같아요.</p>
           <p>$\hat{\mathbf{y}} := \mathbf{X}\boldsymbol{\theta}$는 모델의 예측치예요. 그래서 ML은 실측값 $\mathbf{y}$와 예측 벡터 $\hat{\mathbf{y}}$의 차이 노름을 최소화하는 문제가 돼요. 이것을 최소제곱(least squares) 문제라고 불러요.</p>
           <p>$$\boldsymbol{\theta}_{\text{ML}} = \arg\min_{\boldsymbol{\theta}} \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2$$</p>
-          <p class="note">(수업 중 "로그 a 곱하기 로그 b"로 말했다가 $\log ab = \log a + \log b$로 정정)</p>
+          <p class="note">곱에 로그를 취하면 합이 돼요: $\log ab=\log a+\log b$.</p>
 
 <p><a href="#s2-dataset">데이터 행렬</a>의 n번째 행이 $\mathbf x_n^\top$이므로 관측별 잔차들을 모으면 $\mathbf y-\mathbf X\boldsymbol\theta$예요. 위 합이 그 벡터의 노름 제곱이에요. 다음 미분에서는 데이터와 고정 잡음 분산은 두고 θ만 바꿔요.</p>
 </div>

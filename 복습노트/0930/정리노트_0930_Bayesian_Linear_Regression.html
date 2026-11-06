@@ -720,7 +720,7 @@
     </ol>
     <ul>
       <li>3단계까지는 가정 없이 항상 맞는 식이에요. 수학적으로 정확한 식은 $p(y \mid \mathbf{x}, \boldsymbol{\theta})\,p(\boldsymbol{\theta} \mid \mathbf{x})$예요.</li>
-      <li>슬라이드 식의 뒤 항이 $p(\boldsymbol{\theta} \mid \mathbf{x})$가 아니라 $p(\boldsymbol{\theta})$인 것은 오타가 아니에요. 4단계의 독립 가정이 섞인 결과예요.</li>
+      <li>4단계의 독립 가정에 따라 $p(\boldsymbol{\theta} \mid \mathbf{x})=p(\boldsymbol{\theta})$로 쓸 수 있어요.</li>
       <li>이 독립은 모델에 따라 달라요. $\boldsymbol{\theta}$가 입력 신호 자체의 영향을 받도록 설계했다면 4단계로 넘어갈 수 없어요.</li>
       <li>지도학습에서는 $\mathbf{x}$와 $y$가 쌍으로 주어져야 $\boldsymbol{\theta}$가 영향을 받아요. 입력만 봐서는 $\boldsymbol{\theta}$에 대한 믿음이 바뀌지 않아요.</li>
     </ul>
@@ -730,7 +730,7 @@
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>교수님은 3단계 식을 적고 나서 이쪽이 수학적으로 맞는 식이라고 먼저 짚었어요.</p>
     <blockquote>"실제 수학적으로 보면 이게 정답이에요. 이게 맞잖아. 정확해 이게."</blockquote>
-    <p>슬라이드 식과 다르게 보이는 것을 두고 "오타니? 이거 오타다." 하고 농담한 뒤, 오타가 아니라 가정이라고 설명했어요.</p>
+    <p>입력과 파라미터의 독립 가정을 사용하면 사전분포에서 입력에 대한 조건을 뺄 수 있다고 설명했어요.</p>
     <blockquote>"이거는 이제 모델에 따라 달라요."</blockquote>
   </div>
   <div class="sum" hidden>
@@ -1412,7 +1412,7 @@
         $$\mathbb{E}[\mathbf{A}\mathbf{x}] = \mathbf{A}\begin{bmatrix} \mathbb{E}[X_1] \\ \mathbb{E}[X_2] \end{bmatrix} = \mathbf{A}\,\mathbb{E}[\mathbf{x}]$$</li>
       <li>상수 벡터의 기댓값은 자기 자신이에요. $\mathbb{E}[\mathbf{b}] = \mathbf{b}$를 더하면 평균 식이 돼요.</li>
     </ol>
-    <p>(수업 중 둘째 행을 $a_{12}X_1$로 말했다가 $a_{21}X_1$로 정정)</p>
+    <p>행렬 곱의 둘째 행에서 $X_1$의 계수는 $a_{21}$이에요.</p>
     <p><b>공분산 행렬.</b></p>
     $$\mathbb{V}[\mathbf{y}] = \mathbf{A}\,\mathbb{V}[\mathbf{x}]\,\mathbf{A}^\top$$
     <p>중간 단계까지 쓰면 아래와 같아요.</p>

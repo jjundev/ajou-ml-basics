@@ -596,7 +596,7 @@
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>조교는 cross-covariance가 $\mathbf{X}$의 편차와 $\mathbf{Y}$의 편차로 정의된다고 하고, 그 뜻을 이렇게 설명했어요.</p>
     <blockquote>"x가 예를 들어 이만큼 증가할 때 y는 얼마만큼 증가할까, 혹은 감소할까"</blockquote>
-    <p>이어서 "정확하게는 correlation이라고 생각하시면 됩니다"라고 했어요. 계산한 양은 covariance이고, correlation은 이를 표준편차로 정규화한 값이에요(말실수 정정).</p>
+    <p>계산한 양은 공분산(covariance)이고, 상관계수(correlation coefficient)는 이를 두 변수의 표준편차의 곱으로 나눈 값이에요.</p>
     <p>유도는 분산과 같은 순서였어요. 대입하고, transpose 순서를 바꾸고, deterministic한 $\mathbf{A}^T$를 밖으로 꺼냈어요. 결과식을 정리하며 교차공분산은 $\mathbf{X}$의 분산에 $\mathbf{A}$만큼이 곱해진 형태라고 했어요.</p>
     <p>세 결과식은 이어지는 다변량 가우시안 PDF 유도에서 증명 없이 그대로 쓰여요.</p>
   </div>
@@ -643,7 +643,7 @@
       <li>독립이므로 결합 PDF는 각 PDF의 곱이에요. 지수끼리 곱하면 지수가 더해져요. $$f_{\mathbf{Z}}(\mathbf{z}) = \prod_{i=1}^{n}\frac{1}{\sqrt{2\pi}}e^{-\frac{z_i^2}{2}} = \frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}\sum_{i=1}^{n} z_i^2}$$</li>
       <li>제곱합을 내적으로 바꿔요: ${\sum_{i=1}^{n} z_i^2 = \mathbf{z}^T\mathbf{z}}$. $$f_{\mathbf{Z}}(\mathbf{z}) = \frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}\mathbf{z}^T\mathbf{z}}$$</li>
     </ol>
-    <p>(조교 슬라이드 TA1 s6에는 $[Z_1, Z_1, \cdots, Z_n]^T$로 적혀 있는데, 두 번째 성분은 $Z_2$의 오타예요.)</p>
+    <p>출발 벡터는 $\mathbf Z=[Z_1,Z_2,\cdots,Z_n]^T$로, 각 성분을 한 번씩 쌓아요.</p>
     <p><b>스칼라 복습.</b> 확률 및 랜덤변수 과목에서 본 규칙을 먼저 떠올려요. $\mathrm{Var}(X) = \sigma_x^2$일 때:</p>
     <ol class="steps">
       <li>$Y = aX$이면 $\mathrm{Var}(Y) = a^2\sigma_x^2$예요.</li>
@@ -673,7 +673,7 @@
       <dt>표준 가우시안(standard Gaussian)</dt><dd>평균 0, 분산 1인 정규분포</dd>
       <dt>positive-definite</dt><dd>공분산 행렬 Σ가 가져야 하는 성질</dd>
     </dl>
-  <div class="summary-group"><h4>조건·구분</h4><p>여기서 $\boldsymbol\mu\in\mathbb R^n$, $\boldsymbol\Sigma\in\mathbb R^{n\times n}$은 양의 정부호이고, 출발점 $Z_i$들은 서로 독립인 $\mathcal N(0,1)$이에요. 독립성으로 결합밀도를 곱하며 $\sum_i z_i^2=\mathbf z^T\mathbf z$로 묶어요. TA1 s6의 두 번째 $Z_1$은 $Z_2$의 오타예요.</p></div></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>여기서 $\boldsymbol\mu\in\mathbb R^n$, $\boldsymbol\Sigma\in\mathbb R^{n\times n}$은 양의 정부호이고, 출발점 $Z_i$들은 서로 독립인 $\mathcal N(0,1)$이에요. 독립성으로 결합밀도를 곱하며 $\sum_i z_i^2=\mathbf z^T\mathbf z$로 묶어요.</p></div></div>
 </article>
 
 <article class="topic" id="s1-lz"><h3>X = LZ + μ로 원하는 가우시안 만들기</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s7</span><span class="tag slide">TA1 s8</span></div>
@@ -712,7 +712,7 @@
     </ol>
     <p>원소 배치는 ${[\boldsymbol{\Sigma}]_{ij} = \mathrm{Cov}(X_i, X_j)}$예요. 행 번호는 첫 번째 입력의 성분, 열 번호는 두 번째 입력의 성분이에요. 대각선의 4와 10은 각 성분 자신의 분산(자기 공분산)이고, (1, 2) 자리와 (2, 1) 자리의 2는 서로 다른 성분 $X_1, X_2$ 사이의 공분산이에요. 자기 공분산 행렬이라 ${\mathrm{Cov}(X_2, X_1) = \mathrm{Cov}(X_1, X_2)}$여서 대칭이에요. 세 값이 $\mathbf{L}\mathbf{L}^T$의 원소와 그대로 맞아요.</p>
     <p><b>관찰.</b> $Z_1$과 $Z_2$는 독립이지만, $X_1$과 $X_2$는 둘 다 $Z_1$을 포함해서 독립이 아니에요. 공분산 행렬의 off-diagonal 원소 2가 그 증거예요. affine 변환을 거치면 독립이던 성분 사이에 상관이 생길 수 있어요. 그래서 공분산 행렬의 off-diagonal 원소를 0이라고 가정하면 안 돼요.</p>
-    <p>(수업 중 "$z_1$은 2배로… $z_2$는 3배로"라고 말한 부분은, $z_1$이 $x_1$에 2배, $x_2$에 1배로 들어가고 $z_2$가 $x_2$에 3배로 들어간다는 뜻이에요.)</p>
+    <p>$x_1$에는 $z_1$이 2배로, $x_2$에는 $z_1$이 1배와 $z_2$가 3배로 들어가요.</p>
 
 <p>방금 얻은 $\boldsymbol\Sigma=\mathbf L\mathbf L^\top$는 다음 증명에서 두 번 쓰여요. <a href="#s1-inverse">지수부</a>에서는 $(\mathbf L^{-1})^\top\mathbf L^{-1}$을 Σ의 역으로, <a href="#s1-det">앞 계수</a>에서는 $|\det\mathbf L|$을 Σ의 행렬식으로 바꿔요. 같은 Σ를 재사용해 최종 PDF에서 L을 없애는 것이 목적이에요.</p>
 </div>
@@ -770,7 +770,7 @@
       <li>그래서 밀도를 같은 배율만큼 줄여야 해요. 넓이 × 밀도 배율 $= 6 \times \frac{1}{6} = 1$이면 확률이 보존돼요. $$f_{\mathbf{X}}(\mathbf{x}) = f_{\mathbf{Z}}(\mathbf{z})\frac{1}{|\det(\mathbf{L})|}$$</li>
       <li>전체 확률도 그대로 ${\int f_{\mathbf{X}}(\mathbf{x})\,d\mathbf{x} = 1}$이에요.</li>
     </ol>
-    <p>(수업 중 "$z$는 확률이에요", "확률은 1이어야 돼요, 최대가"라고 말한 부분은, PDF 아래 넓이가 확률이고 전체 확률이 1이라는 뜻이에요.)</p>
+    <p>PDF의 높이 자체는 확률이 아니에요. PDF 아래의 넓이가 확률이고 전체 넓이는 1이에요.</p>
     <div class="widget" id="widget-lmap"><h4>직접 해 보기: L을 바꾸면 넓이와 밀도 배율이 함께 바뀌어요</h4>
       <p class="widget-help">a, c, d를 움직이면 왼쪽 단위정사각형이 오른쪽 평행사변형으로 바뀌고, 넓이가 커진 만큼 밀도 배율이 작아져 둘의 곱은 늘 1이에요.</p>
       <div class="controls">
@@ -849,7 +849,7 @@
       <li>공간이 바뀌어도 $\mathbf{x}$와 $\mathbf{z}$ 모두 확률을 나타내므로 밀도를 정규화(scaling)해야 해요.</li>
       <li>determinant는 크기를 나타내고, 공간 변환의 크기 변화는 Jacobian의 determinant로 구해요.</li>
     </ol>
-    <p>(수업 중 "판별식"이라고 말한 부분은 행렬식(determinant), "국소 미분"은 편미분이에요. STT의 "g₁, g₂"는 $z_1, z_2$예요.)</p>
+
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <blockquote>"determinant는 사실 기하학적인 의미가 있어요"</blockquote>
@@ -904,7 +904,7 @@
     <p>여기까지의 결과예요.</p>
     $$f_{\mathbf{X}}(\mathbf{x}) = \frac{1}{|\det(\mathbf{L})|}\cdot\frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}$$
     <p>지수부는 목표 식과 같아졌지만 앞의 계수에 아직 $\mathbf{L}$이 남아 있어요. 이것을 $\boldsymbol{\Sigma}$로 바꾸는 일은 <a href="#s1-det">det Σ = (det L)²로 완성</a>에서 해요.</p>
-    <p>(STT의 "d에 대한 치환"은 $\mathbf{z}$에 대한 치환이에요.)</p>
+
 
 <p>여기서 기억할 것은 새 전개 전체보다 <b>역변환을 대입 → 전치 순서 뒤집기 → $(LL^\top)^{-1}$로 묶기</b>예요. 결과가 $\Sigma^{-1}$이므로 다음 단계에는 앞 계수만 남아요. 일반적으로 $(LL^\top)^{-1}$을 $L^{-1}(L^{-1})^\top$로 순서를 바꿔 쓰면 안 돼요.</p>
 </div>
@@ -1002,7 +1002,7 @@
     <p>1–2단계를 한 줄로 쓰면 이래요.</p>
     $$\alpha x^2 - 2\beta x + \gamma = \alpha\left(x - \frac{\beta}{\alpha}\right)^2 + \gamma - \frac{\beta^2}{\alpha}$$
     <p>결론은 이래요. 지수 안이 $x$에 대한 2차식이고 $x^2$의 계수가 양수이면, 그 함수는 $\mathcal{N}\!\left(\frac{\beta}{\alpha}, \frac{1}{\alpha}\right)$에 비례하는 가우시안이에요.</p>
-    <p><small>TA1 s12의 "We identity"는 "We identify"의 오타예요.</small></p>
+
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <p>1012 수업은 교수님 대신 조교가 진행했어요. 조교는 시간이 없어서 조금 빨리 하겠다며 이 부분을 시작했어요. 스칼라 경우를 먼저 복습하고, 같은 방식으로 행렬로 넓힌다고 했어요.</p>
@@ -1065,7 +1065,7 @@
     </ul>
     <p class="panel-label">용어</p>
     <dl class="terms"><dt>2차식</dt><dd>지수 안이 $x^2$, $x$, 상수로 이루어진 식</dd><dt>비례($\propto$)</dt><dd>상수배만 다르다는 뜻</dd></dl>
-  <div class="summary-group"><h4>조건·구분</h4><p>$\nu_0,\nu_1$은 표준편차가 아닌 분산이에요. 같은 $x$의 밀도곱은 정규화 전에는 새 PDF와 등호가 아닌 $\propto$로 연결돼요. 새 분산은 두 분산보다 작고 새 평균은 분산이 작은 쪽에 더 큰 가중치를 줘요. TA1 s13의 $\nu_i^2$ 표기는 여기의 분산 $\nu_i$로 바로잡았어요.</p></div></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\nu_0,\nu_1$은 표준편차가 아닌 분산이에요. 같은 $x$의 밀도곱은 정규화 전에는 새 PDF와 등호가 아닌 $\propto$로 연결돼요. 새 분산은 두 분산보다 작고 새 평균은 분산이 작은 쪽에 더 큰 가중치를 줘요.</p></div></div>
 </article>
 
 <article class="topic" id="s2-matrix-lemma"><h3>행렬판 Lemma</h3><div class="tags"><span class="tag date">1012 수업</span><span class="tag slide">TA1 s15</span><span class="tag slide">TA1 s16</span><span class="tag slide">TA1 s17</span></div>
@@ -1161,7 +1161,7 @@
     <p>그래서 곱은 다시 가우시안에 비례해요.</p>
     $$p_0(\mathbf{x})p_1(\mathbf{x}) \propto \mathcal{N}(\mathbf{x};\boldsymbol{\mu},\boldsymbol{\Sigma})$$
     <p>순서는 스칼라 때와 같아요. 곱하고, 2차 형태로 묶고, Lemma 공식에 넣어요. 스칼라 ${\alpha = \frac{1}{\nu_0} + \frac{1}{\nu_1}}$이 ${\mathbf{A} = \boldsymbol{\Sigma}_0^{-1} + \boldsymbol{\Sigma}_1^{-1}}$로, ${\beta = \frac{\mu_0}{\nu_0} + \frac{\mu_1}{\nu_1}}$이 $\mathbf{b}$로 바뀌었어요.</p>
-    <p><small>TA1 s18 슬라이드의 (2)항과 전개식 좌변에는 첫 괄호의 전치 $^T$가 빠져 있어요. 여기서는 $(\mathbf{x}-\boldsymbol{\mu}_1)^T$처럼 바로잡아 적었어요.</small></p>
+    <p>이차형식의 첫 벡터는 $(\mathbf x-\boldsymbol\mu_1)^T$처럼 전치해 행벡터로 놓아요. 행벡터·행렬·열벡터의 곱이므로 결과는 스칼라예요.</p>
 
 <p>앞 렘마와의 대응은 $A\leftarrow\Sigma_0^{-1}+\Sigma_1^{-1}$, $b\leftarrow\Sigma_0^{-1}\mu_0+\Sigma_1^{-1}\mu_1$예요. 이 두 자리를 찾았으면 공분산과 평균은 앞의 규칙으로 복원해요. <a href="#s2-rewrite">다음 강의자료 모양</a>은 이 결과를 다른 순서의 인수분해로 다시 쓰는 것이며 새 분포가 아니에요.</p>
 </div>

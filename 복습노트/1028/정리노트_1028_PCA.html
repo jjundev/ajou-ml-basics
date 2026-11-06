@@ -692,7 +692,7 @@ $$\hat{x}_{d,n} = \frac{x_{d,n} - \mu_d}{\sigma_d}$$
 <p>집값을 정하는 다섯 feature가 똑같이 중요하다는 뜻을 담으려고 평균은 0, 표준편차는 1로 맞춘다고 했어요.</p>
 <blockquote>“세 번째로 가장 중요한 일을 하는데, 그게 바로 eigenvalue와 eigenvector를 만들어내는 거예요.”</blockquote>
 <blockquote>“이게 왜 covariance matrix를 또 쓸까? 요게 또 재밌는 수학적인 비밀이 숨겨져 있어요”</blockquote>
-<p>공분산 행렬을 쓰는 이유는 다음 시간으로 미뤘어요. 고유값·고유벡터 복습도 “좀 이따”라고 했지만 이번 수업에서는 하지 않았어요. 마지막으로 S1–S4가 encoding, S5가 decoding이라고 정리했어요. 시각은 각 녹음 파트 시작 기준의 추정값이에요.</p>
+<p>공분산 행렬을 쓰는 이유는 다음 시간으로 미뤘어요. 고유값·고유벡터 복습도 “좀 이따”라고 했지만 이번 수업에서는 하지 않았어요. 마지막으로 S1–S4가 encoding, S5가 decoding이라고 정리했어요.</p>
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">PCA는 평균 빼기, 표준편차로 나누기, 공분산 행렬의 큰 고유값 $M$개의 고유벡터 찾기, 그 공간으로 사영, 되돌리기의 다섯 단계예요.</p>
@@ -829,7 +829,7 @@ $$\hat{x}_{2,n} = \frac{x_{2,n} - \mu_2}{\sigma_2}$$</li>
 <p>$\sigma_1$, $\sigma_2$로 나누면 가로로 길던 구름이 정사각형 안으로 들어온다고 했어요.</p>
 <blockquote>“어떤 데이터 프리프로세싱이 어떤 머신러닝 태스크에 더 적절한지는 … 태스크의 종류에 따라 다를 수 있어요.”</blockquote>
 <blockquote>“어떤 벡터 하나에다가 constant 하나를 곱해서 표현할 수 있다는 거.”</blockquote>
-<p>사영된 점들이 왜 직선 하나로 표현되는지는 뒤에서 수학적으로 설명하겠다고 했어요. 시각은 각 녹음 파트 시작 기준의 추정값이에요.</p>
+<p>사영된 점들이 왜 직선 하나로 표현되는지는 뒤에서 수학적으로 설명하겠다고 했어요.</p>
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">centering은 평균만큼의 평행이동이고, standardization은 각 축을 표준편차로 나눠 정사각형 안으로 모으는 일이며, 둘을 합쳐 data preprocessing이라고 해요.</p>
@@ -990,7 +990,7 @@ $$\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T\in\mathbb{R}^{D\times D}$$
 <p>크기는 $(D\times N)(N\times D)=D\times D$예요. feature 수만큼의 정사각형이고, 표본 수 $N$은 크기에 남지 않아요.</p></li>
 </ol>
 <h4>성질: 대칭이고 positive semi-definite</h4>
-<p>${(\mathbf{X}\mathbf{X}^T)^T=\mathbf{X}\mathbf{X}^T}$라서 $\mathbf{S}$는 symmetric matrix예요. 또 $\mathbf{S}$는 positive semi-definite라서 고윳값이 모두 $0$ 이상이에요. 수업에서는 "0보다 크다"고 말했지만, 정확히는 $\ge 0$이에요. 모두 $0$보다 크면 positive definite라고 따로 불러요. 이 성질이 PCA에서 하는 역할은 다음에 다룬다고 했어요.</p>
+<p>${(\mathbf{X}\mathbf{X}^T)^T=\mathbf{X}\mathbf{X}^T}$라서 $\mathbf{S}$는 symmetric matrix예요. 또 $\mathbf{S}$는 positive semi-definite라서 고윳값이 모두 $0$ 이상이에요. 모두 $0$보다 크면 positive definite라고 따로 불러요. 이 성질이 PCA에서 하는 역할은 다음에 다룬다고 했어요.</p>
 <h4>코드에서 보는 모습</h4>
 <p>코드에서는 데이터 행렬에 자기 전치를 곱해 $N$으로 나눈 뒤 고유분해(EVD)하는 장면을 자주 봐요. feature끼리의 상관 특성을 담은 행렬을 분해하려는 것이에요. 아래는 그 흐름을 옮긴 예시예요.</p>
 <pre><code># X: D x N, centering 끝난 데이터
@@ -1276,7 +1276,7 @@ $$= \mathbf{B}\mathbf{B}^T\mathbf{x}$$</li>
 <tr><td>decoder</td><td>$\mathbf{B}$</td><td>$784 \times 50$</td></tr>
 <tr><td>되살린 이미지</td><td>${\tilde{\mathbf{x}} = \mathbf{B}\mathbf{z}}$</td><td>$784 \times 1$</td></tr>
 </tbody></table></div>
-<p>(수업 중 code를 "50 by M 매트릭스"라고 말했다가 이어서 $50 \times 1$ 벡터 $\mathbf{z}$라고 했어요. $\mathbf{z}$는 $M \times 1 = 50 \times 1$ 벡터예요.)</p>
+<p>code $\mathbf z$는 $M\times1$ 벡터예요. $M=50$이면 $50\times1$ 벡터가 돼요.</p>
 
 <p><b>PCA의 목표.</b> 줄였다가 되살린 $\tilde{\mathbf{x}}$가 원래 $\mathbf{x}$와 가장 가깝도록 $\mathbf{B}$를 고르는 거예요.</p>
 $$\min_{\mathbf{B}} \|\mathbf{x} - \tilde{\mathbf{x}}\|, \qquad \tilde{\mathbf{x}} = \mathbf{B}\mathbf{B}^T\mathbf{x}$$

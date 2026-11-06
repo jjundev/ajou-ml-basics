@@ -843,7 +843,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       <li>$\mathbf{P}$가 가역일 때 두 행렬의 곱이 같다는 식의 양변 왼쪽에 $\mathbf{P}^{-1}$을 곱하면 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 정의식으로 돌아가요.
       $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$</li>
     </ol>
-    <p>열별 곱셈에서 $\mathbf{D}$는 오른쪽에 곱해야 열마다 배율이 곱해져요. <small>(수업 중 대각행렬은 앞뒤 어디에 곱해도 같다고 말했지만 일반 행렬과는 교환되지 않아요. 정정은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>에서 다뤄요.)</small></p>
+    <p>열별 곱셈에서 $\mathbf{D}$는 오른쪽에 곱해야 열마다 배율이 곱해져요. 일반 행렬과는 곱 순서를 바꿀 수 없어요. <a href="#s3-spectral">대칭행렬의 고유벡터 분해</a>에서도 같은 순서를 유지해요.</p>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s2-evd-condition"><span class="note-stage-number">3 / 4</span><span>분해 가능한 조건 확인하기</span></h4>
@@ -875,7 +875,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       $$\det(\mathbf{A})=\det(\mathbf{P})\det(\mathbf{D})\det(\mathbf{P}^{-1})$$</li>
       <li>$\det(\mathbf{P})\det(\mathbf{P}^{-1})$는 $\det(\mathbf{P}\mathbf{P}^{-1})$과 같고 $\det(\mathbf{I}_n)=1$이라 남는 것은 $\det(\mathbf{D})$예요.
       $$\det(\mathbf{A})=\det(\mathbf{D})=\prod_i d_{ii}=\prod_i\lambda_i$$
-      <small>(수업 중 $\mathbf{P}$가 orthonormal이라 $\det(\mathbf{P})=1$이라고 말했지만, $\det(\mathbf{A})=\det(\mathbf{D})$인 이유는 $\det(\mathbf{P})\det(\mathbf{P}^{-1})=1$이에요. 직교행렬이어도 $\det(\mathbf{P})=\pm 1$이에요.)</small></li>
+      <small>$\det(\mathbf A)=\det(\mathbf D)$인 이유는 $\det(\mathbf P)\det(\mathbf P^{-1})=1$이기 때문이에요. 직교행렬의 행렬식은 $\det(\mathbf P)=\pm1$이에요.</small></li>
       <li>역행렬: 수업에서는 역행렬 계산도 쉬워진다고만 했어요. 강의 내용을 식으로 옮긴 재표현은, 모든 $\lambda_i\neq 0$일 때 다음과 같아요. $\mathbf{A}$에 곱하면 가운데가 차례로 상쇄되어 $\mathbf{I}_n$이 돼요.
       $$\mathbf{A}^{-1}=\mathbf{P}\mathbf{D}^{-1}\mathbf{P}^{-1}$$</li>
     </ol>
@@ -975,7 +975,7 @@ $$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$
 <li>열이 정규직교이면 $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때 1, 아니면 0이에요. 이를 한꺼번에 쓰면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$이고, 이런 $\mathbf{P}$를 직교행렬(orthogonal matrix)이라고 해요. 그래서 역행렬을 구하지 않고 전치만 하면 돼요.</li>
 </ol>
 <p><a href="#s2-evd">2.3 고윳값 분해(EVD)</a>의 일반 분해와 달리, 실수 대칭행렬이면 $\mathbf{P}$를 직교로 고를 수 있어요. 특히 고윳값이 모두 단일근이면 서로 다른 고윳값의 고유벡터들이므로 서로 직교하고, 길이만 1로 맞추면 돼요. 일반 행렬에서는 고윳값이 서로 달라도 일차독립만 보장되고 직교는 보장되지 않아요. 2.1의 비대칭 예제 $\mathbf{A}=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}$는 고윳값이 1과 2로 서로 다르지만, 대응 벡터 $(1,0)^T$와 $(1,1)^T$의 내적이 1이에요.</p>
-<p class="note">(수업 중 대칭행렬이면 역행렬이 자기 전치, 즉 $\mathbf{S}^{-1}=\mathbf{S}^T$인 것처럼 말했다가 정정: 전치가 역행렬이 되는 것은 고유벡터 행렬 $\mathbf{P}$이고, 대칭이면 항상 그렇게 고를 수 있어요.)</p>
+<p class="note">실대칭행렬의 고유벡터는 정규직교하도록 고를 수 있어요. 이 고유벡터를 열로 모은 $\mathbf P$는 $\mathbf P^{-1}=\mathbf P^T$를 만족해요. 대칭행렬 자체의 역행렬이 항상 자기 전치라는 뜻은 아니에요.</p>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-spectral-coordinates"><span class="note-stage-number">2 / 4</span><span>내적으로 새 좌표 읽기</span></h4>
@@ -1031,8 +1031,8 @@ $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\math
 <blockquote>“내가 수학은 언어고 수학을 잘해야 된다, 그런 얘기를 참 많이 하는데”</blockquote>
 <p>공학 문제 대부분이 이런 기초 수학으로 표현된다는 맥락이에요. 앞으로 다룰 행렬은 항상 대칭이고, 선형대수를 배우지 않은 학생도 있을 수 있어 복습한다고 밝혔어요.</p>
 <blockquote>“diagonal matrix는 뒤에다 곱하나 앞에다 곱하나 교환법칙이 성립하거든요”</blockquote>
-<p class="note">(수업 중 대각행렬은 앞뒤 어느 쪽에 곱해도 교환법칙이 성립한다고 말했다가 정정: 일반적으로 $\mathbf{P}\mathbf{D}\neq\mathbf{D}\mathbf{P}$이고, 모든 행렬과 교환되는 대각행렬은 $c\mathbf{I}$뿐이에요. 전개에는 열 스케일링만 필요해요.)</p>
-<p>교수님은 교차항(cross-correlation term)을 $\mathbf{p}_i$들이 직교해서 계산하지 않아도 된다고 설명했어요. 실제로는 열×행 곱의 구조 때문에 교차항이 처음부터 생기지 않아요. 시각은 녹음 파트 안의 추정값이라 30초 안팎 어긋날 수 있어요.</p>
+<p class="note">일반적으로 $\mathbf P\mathbf D\ne\mathbf D\mathbf P$예요. 모든 같은 크기의 정방행렬과 교환되는 대각행렬은 $c\mathbf I$뿐이에요. 이 전개에서는 오른쪽 곱으로 각 열의 배율을 바꿔요.</p>
+<p>열×행 곱의 구조 때문에 이 계산에서는 교차항(cross-correlation term)이 처음부터 생기지 않아요.</p>
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">실수 대칭행렬은 정규직교 고유기저를 선택할 수 있어요. 이때 서로 다른 고윳값의 고유벡터는 직교하고, 같은 고윳값에서 고른 기저는 필요할 때 직교화해요. 그 열들을 모은 $\mathbf{P}$에서는 내적으로 좌표를 읽는 $\mathbf{P}^T$가 역변환이라 $\mathbf{P}^{-1}=\mathbf{P}^T$예요. 이 선택으로 방향별 조각의 합을 쓸 수 있어요.</p>
@@ -1191,7 +1191,7 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 <p class="note-stage-goal">기저의 직교성과 길이를 확인하고, 조각의 합으로 원래 행렬을 복원해요.</p>
 <h5 class="note-subheading">$\mathbf{P}^T\mathbf{P}=\mathbf{I}$ 확인</h5>
 <p>$\mathbf{P}^T\mathbf{P}$의 $(i,j)$ 성분은 $\mathbf{p}_i^T\mathbf{p}_j$예요. 대각은 길이의 제곱이라 정규화 뒤 모두 1이고, 비대각은 앞에서 직교성을 점검하고 직교화한 대로 0이에요. 그래서 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
-<p class="note">(수업 중 "$\mathbf{P}\mathbf{P}^T$하면 identity"라고 말했다가 정정: 정의는 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요. 정방 직교행렬이면 $\mathbf{P}\mathbf{P}^T=\mathbf{I}$도 성립해 결과는 같아요.)</p>
+<p class="note">정규직교하는 열벡터를 모으면 $\mathbf P^T\mathbf P=\mathbf I$예요. 정방 직교행렬이면 $\mathbf P\mathbf P^T=\mathbf I$도 성립해요.</p>
 <h5 class="note-subheading">조각의 합으로 $\mathbf{A}$ 복원</h5>
 <p>각 조각 $\mathbf{p}_i\mathbf{p}_i^T$를 계산해요.</p>
 $${\mathbf{p}_1\mathbf{p}_1^T=\frac{1}{2}\begin{bmatrix}1 &amp; -1 &amp; 0\\ -1 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 0\end{bmatrix}},\quad{\mathbf{p}_2\mathbf{p}_2^T=\frac{1}{6}\begin{bmatrix}1 &amp; 1 &amp; -2\\ 1 &amp; 1 &amp; -2\\ -2 &amp; -2 &amp; 4\end{bmatrix}},\quad{\mathbf{p}_3\mathbf{p}_3^T=\frac{1}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
@@ -1208,7 +1208,7 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>교수님은 $\lambda=1$이 중근이라 고유벡터가 2개 나올 수 있고, 그 2개가 고유공간을 span한다고 짚었어요. 그래서 고유벡터 3개로 $\mathbf{P}$를 만들 수 있다고 했어요. $(-1,1,0)^T$를 자기 노름 $\sqrt2$로 나누듯 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 ${\sum\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\mathbf{A}}$를 직접 확인할 수 있다고 했어요.</p>
 <blockquote>“이거는 여러분이 그냥 복습 간단하게 한번 해보세요”</blockquote>
-<p>$\lambda=1$ 고유공간 안의 직교화 단계는 말로 설명하지 않고 복습으로 맡겼어요. 시각은 녹음 파트 안의 추정값이에요.</p>
+<p>$\lambda=1$ 고유공간 안의 직교화 단계는 말로 설명하지 않고 복습으로 맡겼어요.</p>
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">이 실수 대칭행렬에서 서로 다른 고윳값의 고유벡터는 직교하지만, 같은 고윳값 1에서 고른 두 벡터는 서로 수직이 아니에요. Gram–Schmidt로 앞 벡터 방향의 성분을 빼면 같은 평면과 고유벡터 성질을 유지하며 수직으로 만들 수 있어요. 처음부터 직교하면 이 과정은 생략해요. 이어 길이를 1로 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
@@ -1260,9 +1260,9 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <p>두 번째 물음(왜 고윳값 순서인가)은 Step 1의 결론과 이어져요. 가장 큰 고윳값의 고유벡터가 분산을 가장 많이 담는다는 결론이고, 그 이유는 <a href="#s4-max-proof">4.3 왜 가장 큰 고윳값의 고유벡터일까</a>에서 다뤄요. 교수님은 슬라이드의 풀이는 건너뛰고, 고유기저 전개로 증명하겠다고 했어요. 그 증명은 수업 중에 끝나지 않아 다음 시간에 마무리하기로 했어요.</p>
 <p><b>Step k는 말로만 짚었어요.</b> 수업에서는 첫 $k-1$개 방향을 고른 뒤, 그 방향들과 수직인 단위벡터 중 분산을 최대로 하는 방향을 고른다고 했어요.</p>
 <p><b>보충.</b> $\mathbf{S}$의 정규직교 고유기저에서 후보 $\mathbf{b}_k$의 $i$번째 계수는 $c_i=\mathbf{p}_i^T\mathbf{b}_k$예요. 앞서 고른 $\mathbf{p}_1,\dots,\mathbf{p}_{k-1}$에 수직이면 이 방향들의 계수는 모두 0이에요. <a href="#s4-max-proof">4.3의 가중평균 계산</a>을 남은 항에 적용하면, 남은 고윳값 중 가장 큰 $\lambda_k$가 상한이에요. $\mathbf{b}_k=\mathbf{p}_k$로 두면 $c_k=1$이라 그 값에 도달해요.</p>
-<p><b>MNIST로 다시 보기(s12 재언급).</b> MNIST 손글씨 이미지는 $28 \times 28 = 784$픽셀이라 $D = 784$예요.<sup>1</sup> $M = 50$으로 두면 $784 \times 1$ 벡터를 $50 \times 1$ 벡터로 압축해요. 그 벡터로 분류하고 원래 차원으로 복원해도 분류 정확도가 거의 변하지 않는다고 했어요. 전체 절차는 다음과 같아요.</p>
+<p><b>MNIST로 다시 보기(s12 재언급).</b> MNIST 손글씨 이미지는 $28 \times 28 = 784$픽셀이라 $D = 784$예요. $M = 50$으로 두면 $784 \times 1$ 벡터를 $50 \times 1$ 벡터로 압축해요. 그 벡터로 분류하고 원래 차원으로 복원해도 분류 정확도가 거의 변하지 않는다고 했어요. 전체 절차는 다음과 같아요.</p>
 <p>data matrix $\mathbf{X}$ → data covariance matrix $\mathbf{S}$ → EVD → 고윳값이 큰 순서로 고유벡터 50개 → 그 50개 방향으로 사영</p>
-<p class="footnote"><sup>1</sup> 수업 중 "24 곱하기 24"라고 말했다가 784를 떠올렸어요. $24 \times 24 = 576$이고, MNIST는 $28 \times 28 = 784$예요.</p>
+
 </div>
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>복습을 마치고 s20으로 넘어가며 "이제 진짜 본게임"이라고 했어요.</p>
@@ -1370,7 +1370,7 @@ $$\operatorname{Var}(z_1) = \mathbf{b}_1^T\mathbf{S}(\mathbf{b}_1^T)^T = \mathbf
 $$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject to} \quad \|\mathbf{b}_1\|^2 = 1$$
 <p>제약 $\|\mathbf{b}_1\|^2=1$은 수업에서 "정규화된 벡터"라고만 했고 이유는 말하지 않았어요. 다음은 학습을 위한 재구성이에요(MML 10.2.1, 321쪽에 같은 설명이 있어요). $\mathbf{b}_1$ 대신 $c\mathbf{b}_1$을 넣으면 값이 $c^2$배가 되므로, 제약이 없으면 크기만 키워 $V_1$을 무한대로 보낼 수 있어요. 우리가 원하는 것은 크기가 아니라 방향이라 크기를 1로 묶어요.</p>
 <p><b>복원용 요약.</b> 스칼라 $z_{1n}$을 자기 전치와 곱한다 → 곱의 전치로 $\mathbf{x}_n^T\mathbf{b}_1$을 만든다 → $\mathbf{b}_1^T$는 왼쪽, $\mathbf{b}_1$은 오른쪽으로 꺼낸다 → 가운데 평균이 $\mathbf{S}$.</p>
-<p class="footnote">수업 중 "b₂를 오른쪽으로 빼도 돼요"라고 말했지만 $\mathbf{b}_1$이 맞아요.</p>
+<p class="footnote">바깥으로 꺼내는 벡터는 첫 번째 주성분 방향 $\mathbf b_1$이에요.</p>
 </div>
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">점마다 사영해 평균한 V₁이 b₁ᵀSb₁과 늘 같은지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" rel="noopener noreferrer" target="_self">사영 분산과 첫 주성분 실험</a>에서 방향 θ를 돌리며 확인해 보세요.</p>
@@ -1464,7 +1464,7 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">같은 최댓값을 데이터 점 40개의 사영과 버린 성분의 분산으로 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" rel="noopener noreferrer" target="_self">사영 분산과 첫 주성분 실험</a>에서 다시 확인해 보세요.</p>
 
-<p class="footnote"><sup>1</sup> 칠판에서는 $n$차원으로 쓰다가 $D$차원으로 바꿨어요. $\mathbf{b}_1, \mathbf{p}_i \in \mathbb{R}^D$, $\mathbf{S} \in \mathbb{R}^{D \times D}$로 통일해요. 또 "$\mathbf{S}$는 $\mathbf{X}^T\mathbf{X}$로 이루어져 $D \times D$"라고 말했지만, 이 강의의 표기 $\mathbf{X} \in \mathbb{R}^{D \times N}$에서는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T}$이고 $\mathbf{X}^T\mathbf{X}$는 $N \times N$이에요.</p>
+<p class="footnote"><sup>1</sup> $\mathbf b_1,\mathbf p_i\in\mathbb R^D$이고 $\mathbf S\in\mathbb R^{D\times D}$예요. 이 강의의 표기 $\mathbf X\in\mathbb R^{D\times N}$에서는 $\mathbf S=\frac1N\mathbf X\mathbf X^T$예요. 반면 $\mathbf X^T\mathbf X$는 $N\times N$ 행렬이에요.</p>
 </div>
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <p>최적화 문제를 세운 뒤 바로 증명을 시작했어요.</p>

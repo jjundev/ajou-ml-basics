@@ -98,6 +98,61 @@ class TestPack(unittest.TestCase):
         self.edit("cards/p1.html", "더해서 개수로 나눈다.", "더해서 개수로 나눈다. (1102 P04 09:03)")
         self.assertEqual(self.codes(), [])
 
+    def test_recording_parts_without_times_block_both_publication_paths(self):
+        markers = (
+            '(1104 Parts 06–07)', '<cite>1104 전사 Part 02</cite>',
+            '(1014 Part 02; 정확한 시각 없음)', 'Part 03에서는 복습했어요.',
+            '(1104&nbsp;<em>Parts</em> 06–07)', '(1104 P06)',
+            '(1104\n<span>Part</span> 06)', '(Part 12)',
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                note, review = assemble.assemble(self.run, self.tmp / 'out')
+                note.write_text(note.read_text().replace('평균부터 봐요.', '평균부터 봐요. ' + marker))
+                for problems in (check_html.check_pack(self.m, note, review), check_html.check_file(note)):
+                    self.assertIn('stt-location', [p.code for p in problems])
+                    self.assertTrue(all(p.where.startswith(f'{note.name}:') for p in problems))
+
+    def test_editorial_history_blocks_note_publication(self):
+        remarks = (
+            '픽셀 수는 수업 중 여러 수치가 구두로 언급됐고, 여기서는 MNIST 규격을 사용했어요.',
+            '수업 중 분모를 다르게 말했다가 정정했어요.',
+            '수업 중 같은 값이라고 말했지만 일반적으로 달라요.',
+            'STT의 g는 z예요.', '이번 전사에서는 시작하지 않았어요.',
+            '전사에 없는 세부 시간은 붙이지 않았어요.',
+            '수업에서 X로 적었다가 정정했어요.',
+            'STT에 분·초가 없어 인용은 Part로 표시해요.',
+            '슬라이드의 두 번째 성분은 오타예요.',
+            '시각은 각 녹음 파트 시작 기준의 추정값이에요.',
+            'TA1 s13의 표기는 여기의 분산으로 바로잡았어요.',
+        )
+        for remark in remarks:
+            with self.subTest(remark=remark):
+                note, review = assemble.assemble(self.run, self.tmp / 'out')
+                note.write_text(note.read_text().replace('평균부터 봐요.', '평균부터 봐요. ' + remark))
+                for problems in (check_html.check_pack(self.m, note, review), check_html.check_file(note)):
+                    self.assertIn('editorial-history', [p.code for p in problems])
+
+    def test_reader_text_is_checked_with_source_line_numbers(self):
+        note, _ = assemble.assemble(self.run, self.tmp / 'out')
+        note.write_text('<html lang="ko"><body>\n<!-- (1104 Part 06) -->\n'
+                        '<script>const evidence = "(1104 Part 06)";</script>\n'
+                        '<p>(1104&nbsp;<em>Parts</em>\n06–07)</p>\n'
+                        '<p>STT의 <span>g</span>는 z예요.</p></body></html>')
+        problems = check_html.check_file(note)
+        self.assertEqual([(p.code, p.where) for p in problems], [
+            ('stt-location', f'{note.name}:4'), ('editorial-history', f'{note.name}:6'),
+        ])
+
+    def test_lecture_titles_sources_and_mathematical_corrections_are_allowed(self):
+        text = ('Lecture02(Part 2), PCA Part1, Statistical Inference Part 1. '
+                '가정에 따라 사후분포를 보정해요. 일반적으로 PD와 DP는 달라요. '
+                '출처: 수업 녹음 전사(1104), MML 10.1장, Lecture05 s14. '
+                '(09:03) 비율 2:3')
+        self.edit('sections/s1.html', '평균부터 봐요.', '평균부터 봐요. ' + text)
+        self.edit('cards/p1.html', '더해서 개수로 나눈다.', '더해서 개수로 나눈다. (1104 Parts 06–07) STT의 g')
+        self.assertEqual(self.codes(), [])
+
     def test_missing_required_term(self):
         self.edit("sections/s1.html", "무게중심", "가운데")
         self.assertEqual(self.codes(), ["missing-term"])

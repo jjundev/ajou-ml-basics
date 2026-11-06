@@ -178,9 +178,9 @@ MAP과 사후평균의 관계에서 예측 평균·분산까지 이어지는 식
 
 **교수님 말씀**
 
-> “Bayesian 메소드 같은 경우는 뭐를 준다? … 분포를 줘요, 분포를.” (1019 Part 01)
+> “Bayesian 메소드 같은 경우는 뭐를 준다? … 분포를 줘요, 분포를.”
 
-교수님은 새 입력이 1일 때 단답 하나를 내는 것과, 출력의 평균·분산을 갖춘 확률밀도를 주는 것을 비교했어요. 밀도는 연속값 하나의 확률 자체가 아니라 구간 확률을 계산하는 재료예요. 원전사에 세부 시간이 없어 Part 번호로 인용해요.
+교수님은 새 입력이 1일 때 단답 하나를 내는 것과, 출력의 평균·분산을 갖춘 확률밀도를 주는 것을 비교했어요. 밀도는 연속값 하나의 확률 자체가 아니라 구간 확률을 계산하는 재료예요.
 
 **페이지 요약**
 
@@ -245,7 +245,7 @@ MAP과 사후평균의 관계에서 예측 평균·분산까지 이어지는 식
    y_*^{(i)}=f^{(i)}(\mathbf{x}_*)+\epsilon^{(i)},\qquad\epsilon^{(i)}\sim\mathcal N(0,\sigma^2).
    $$
 
-강의 그림의 선들은 가능한 함수들이고 회색 띠는 각 입력 위치에서의 불확실성을 나타내요. 가우시안의 평균을 중심으로 표준편차 1배·2배·3배 범위 안에 들어갈 확률은 각각 약 68.27%·95.45%·99.73%예요. 수업에서 구두로 언급된 비율은 이 표준값으로 정리했어요. 이 띠는 각 위치의 구간이며, 뽑은 함수 전체가 모든 위치에서 띠 안에 들어갈 확률을 그대로 뜻하지는 않아요. 잡음 없는 함수의 띠인지 관측값의 띠인지에 따라서 사용할 분산도 달라져요.
+강의 그림의 선들은 가능한 함수들이고 회색 띠는 각 입력 위치에서의 불확실성을 나타내요. 가우시안의 평균을 중심으로 표준편차 1배·2배·3배 범위 안에 들어갈 확률은 각각 약 68.27%·95.45%·99.73%예요. 이 띠는 각 위치의 구간이며, 뽑은 함수 전체가 모든 위치에서 띠 안에 들어갈 확률을 그대로 뜻하지는 않아요. 잡음 없는 함수의 띠인지 관측값의 띠인지에 따라서 사용할 분산도 달라져요.
 
 교수님은 가능한 값을 만드는 과정을 생성(generation)이라고 연결했어요. 확률밀도를 알고 있으면 그 분포를 따르는 표본을 만들 수 있어요. 균등분포에서 수를 뽑는 `rand`도 같은 취지의 예시였어요. GPT의 답 생성 이야기는 분포로부터 결과를 만드는 발상을 설명한 비유예요. 여기의 가우시안 선형회귀가 GPT의 구조라는 뜻은 아니에요.
 
@@ -253,17 +253,17 @@ MAP과 사후평균의 관계에서 예측 평균·분산까지 이어지는 식
 
 강의 그림에서는 관측이 주변에 모인 곳의 띠가 좁고, 데이터가 드문 곳의 띠가 넓었어요. 이는 선택한 특징함수와 사전분포를 포함한 모델 아래의 결과예요. 모든 모델에서 거리만으로 분산이 결정된다는 규칙은 아니에요.
 
-근거: 1019 Part 01–02; Lecture04 rev_HO s16; MML PDF 315–317쪽의 함수 표본과 예측 띠 설명.
+근거: Lecture04 rev_HO s16; MML PDF 315–317쪽의 함수 표본과 예측 띠 설명.
 
 **교수님 말씀**
 
-> “장군님은 정답만 원하지만 엔지니어인 우리들은 뭘 가지고 있어야 된다? raw data를 갖고 있어야 된다.” (1019 Part 01)
+> “장군님은 정답만 원하지만 엔지니어인 우리들은 뭘 가지고 있어야 된다? raw data를 갖고 있어야 된다.”
 
 교수님은 장군님에게 단답을 줄 수도 있고, 자세히 묻는 사람에게는 가능한 결과를 만들어 보는 ‘공장’까지 줄 수 있어야 한다고 비유했어요. 여기서 단답과 함께 갖고 있어야 할 수학적 대상은 전체 예측분포예요. 원자료 자체와 확률분포는 같은 대상은 아니에요.
 
-> “수학을 잘한다는 거는 논리적인 사고가 된다는 거예요.” (1019 Part 02)
+> “수학을 잘한다는 거는 논리적인 사고가 된다는 거예요.”
 
-코드를 실행해 그래프를 만드는 데서 그치지 않고, 그 결과를 만든 가정과 불확실성을 이해해야 한다는 학습 이유도 강조했어요. 전사에 없는 세부 시간은 붙이지 않았어요.
+코드를 실행해 그래프를 만드는 데서 그치지 않고, 그 결과를 만든 가정과 불확실성을 이해해야 한다는 학습 이유도 강조했어요.
 
 **페이지 요약**
 
@@ -402,15 +402,15 @@ $$
 
 **교수님 말씀**
 
-> “결정하지 말고 이 세타도 결정을 유보할 수도 있지 않나?” (1019 Part 02 · 세부 시각 미제공)
+> “결정하지 말고 이 세타도 결정을 유보할 수도 있지 않나?”
 
 추정한 파라미터가 유일한 정답이라는 보장이 없으므로, 가능한 값들의 영향을 모아 평균낸다고 설명했어요.
 
-> “조건은 조건으로 주어진 거니까 marginalization이 말이 안 돼요.” (1019 Part 03 · 세부 시각 미제공)
+> “조건은 조건으로 주어진 거니까 marginalization이 말이 안 돼요.”
 
 조건에 있는 파라미터를 우도에서 무턱대고 적분하지 말고, 결합분포와 가중밀도를 먼저 써야 한다는 주의예요.
 
-> “marginal likelihood가 사실은 model selection에서 굉장히 중요한 역할을” (1019 Part 03 · 세부 시각 미제공)
+> “marginal likelihood가 사실은 model selection에서 굉장히 중요한 역할을”
 
 모델 자체를 평가할 때는 한 파라미터 선택만 믿는 부담을 줄이고, 사전분포가 허용하는 값들에서 데이터를 얼마나 잘 설명하는지 살펴봐요.
 
@@ -472,14 +472,18 @@ $\boldsymbol\Phi\in\mathbb R^{N\times K}$, $\mathbf m_0\in\mathbb R^K$, $\mathbf
 
 **정확히 말하면**
 
-방향벡터 $\mathbf{b}\ne\mathbf{0}$가 만드는 직선 $U=\operatorname{span}(\mathbf{b})$ 위에서 목표 $\mathbf{v}\in\mathbb R^N$와 가장 가까운 점을 찾아요. 직선 위의 후보는 $\lambda\mathbf{b}$예요.
+방향벡터 $\mathbf{b}\ne\mathbf{0}$가 만드는 직선 $U=\operatorname{span}(\mathbf{b})$ 위에서 목표 $\mathbf{v}\in\mathbb R^N$와 가장 가까운 점을 찾아요. 여기서 $U=\operatorname{span}(\mathbf b)$는 $\mathbf b$의 모든 실수배를 모은 직선이고, 원점을 지나가요. $\mathbf b$는 방향을 정하고, 숫자 $\lambda$는 그 방향벡터를 몇 배 할지 정해요. 따라서 직선 위의 후보는 $\lambda\mathbf b$예요. 목표는 **가장 가까운 후보벡터**를 찾는 것이고, 먼저 그 후보를 만드는 배율 $\lambda$를 구할 거예요.
 
-1. 최단거리에서는 잔차가 직선에 직교해요.
+1. **가장 가까운 점에서는 차이벡터가 직선에 수직이에요.**
+
+   목표에서 후보를 뺀 $\mathbf r=\mathbf v-\lambda\mathbf b$를 잔차라고 해요. 이 잔차가 직선의 방향 $\mathbf b$에 수직이면, 다른 후보로 움직일수록 거리가 늘어나요. 두 벡터가 수직이라는 조건은 내적이 0이라는 식으로 쓸 수 있어요.
 
    $$
    \mathbf{b}^{\mathsf T}(\mathbf{v}-\lambda\mathbf{b})=0
    $$
-2. 괄호를 풀고 스칼라 계수를 구해요.
+2. **수직 조건을 풀어 배율을 구해요.**
+
+   괄호를 풀고 $\lambda$가 들어 있는 항을 오른쪽으로 옮겨요. $\mathbf b^{\mathsf T}\mathbf b$는 $\mathbf b$의 길이의 제곱이며, $\mathbf b\ne\mathbf0$이므로 양수예요. 이 숫자로 양변을 나누면 $\lambda$만 남아요.
 
    $$
    \mathbf{b}^{\mathsf T}\mathbf{v}=\lambda\mathbf{b}^{\mathsf T}\mathbf{b}
@@ -488,19 +492,30 @@ $\boldsymbol\Phi\in\mathbb R^{N\times K}$, $\mathbf m_0\in\mathbb R^K$, $\mathbf
    $$
    \lambda=\frac{\mathbf{b}^{\mathsf T}\mathbf{v}}{\mathbf{b}^{\mathsf T}\mathbf{b}}
    $$
-3. 다시 원공간의 벡터로 만들어요.
+3. **구한 배율을 방향벡터에 곱해, 가장 가까운 점을 구해요.**
+
+   지금까지 구한 $\lambda$는 숫자 하나예요. 우리가 찾는 것은 점의 위치이므로, 이 배율을 $\mathbf b$에 곱해야 해요. 이 결과를 **투영벡터**라고 하고 $\pi_U(\mathbf v)$로 써요. $\mathbf v$와 $\mathbf b$가 $N$개 성분을 가졌다면 결과도 $N$개 성분을 가져요.
+
+   $$
+   \pi_U(\mathbf v)=\lambda\mathbf b=\mathbf b\frac{\mathbf b^{\mathsf T}\mathbf v}{\mathbf b^{\mathsf T}\mathbf b}.
+   $$
+4. **같은 계산을 행렬 하나로 묶어요.**
+
+   분모는 숫자이므로, 분자의 $\mathbf b(\mathbf b^{\mathsf T}\mathbf v)$를 $(\mathbf b\mathbf b^{\mathsf T})\mathbf v$로 묶을 수 있어요. 행렬들의 순서를 바꾼 것이 아니라 괄호만 바꾼 거예요.
 
    $$
    \pi_U(\mathbf{v})=\lambda\mathbf{b}=\frac{\mathbf{b}\mathbf{b}^{\mathsf T}}{\mathbf{b}^{\mathsf T}\mathbf{b}}\mathbf{v}
    $$
 
+   여기서 $\mathbf v$ 앞에 곱해지는 행렬을 $\mathbf P$라고 부르면 $\pi_U(\mathbf v)=\mathbf P\mathbf v$예요. 이 $\mathbf P$가 **투영행렬**이에요. 같은 직선으로 여러 벡터를 투영할 때 재사용할 수 있어요.
+
    $$
    \mathbf{P}=\frac{\mathbf{b}\mathbf{b}^{\mathsf T}}{\|\mathbf{b}\|^2}\in\mathbb R^{N\times N}
    $$
 
-$\mathbf{b}^{\mathsf T}\mathbf{b}$는 $1\times1$ 스칼라, $\mathbf{b}\mathbf{b}^{\mathsf T}$는 $N\times N$ 바깥곱이에요. 분모는 길이 자체가 아니라 **길이의 제곱**이에요. 투영행렬은 직교행렬과 구별해요. 여기서는 $\mathbf{P}^{\mathsf T}=\mathbf{P}$, $\mathbf{P}^2=\mathbf{P}$이며, 일반적으로 $\mathbf{P}^{\mathsf T}\mathbf{P}=\mathbf I$는 아니에요.
+$\mathbf{b}^{\mathsf T}\mathbf{b}$는 $1\times1$ 스칼라, $\mathbf{b}\mathbf{b}^{\mathsf T}$는 $N\times N$ 바깥곱이에요. 분모는 길이 자체가 아니라 **길이의 제곱**이에요. 투영행렬은 직교행렬과 구별해요. 여기서는 $\mathbf{P}^{\mathsf T}=\mathbf{P}$, $\mathbf{P}^2=\mathbf{P}$이며, 일반적으로 $\mathbf{P}^{\mathsf T}\mathbf{P}=\mathbf I$는 아니에요. $\mathbf P^2=\mathbf P$는 “한 번 투영한 점은 이미 직선 위에 있어서, 다시 투영해도 그대로”라는 뜻이에요. 수직으로 투영한다는 말과, 행렬이 직교행렬이라는 말은 서로 다른 조건이에요.
 
-피타고라스로 최소임을 확인할 수 있어요. 임의의 다른 점 $a\mathbf{b}$에 대해 수직인 두 성분으로 나뉘어요.
+왜 수직인 후보가 정말 가장 가까울까요? 다른 후보 $a\mathbf b$까지의 차이는 $\mathbf v-a\mathbf b=(\mathbf v-\lambda\mathbf b)+(\lambda-a)\mathbf b$로 나눌 수 있어요. 첫 항은 직선에 수직이고 둘째 항은 직선 방향이므로, 두 항도 서로 수직이에요. 따라서 피타고라스를 적용할 수 있어요.
 
 $$
 \|\mathbf{v}-a\mathbf{b}\|^2=\|\mathbf{v}-\lambda\mathbf{b}\|^2+\|(\lambda-a)\mathbf{b}\|^2
@@ -526,9 +541,9 @@ $$
 \pi_U(\mathbf{v})=\frac19\begin{bmatrix}5\\10\\10\end{bmatrix}=\frac59\mathbf{b}
 $$
 
-숫자 하나 $5/9$는 기저의 배율이고, 세 성분을 가진 결과가 투영벡터예요. 스칼라 입력 회귀에서는 이 배율이 ML 파라미터 역할을 해요.
+$\lambda=5/9$는 “$\mathbf b$를 $5/9$배 하세요”라는 뜻이에요. 따라서 $\lambda\mathbf b=(5/9,10/9,10/9)^{\mathsf T}$가 우리가 찾던 투영벡터예요. 위의 $\mathbf P$를 $\mathbf v$에 곱해도 같은 결과가 나와요. **배율을 먼저 구해 곱하는 방법과 투영행렬을 곱하는 방법은 같은 계산**이에요. 뒤의 회귀 설명에서는 이 배율을 회귀계수와 연결할 거예요.
 
-위젯에서는 $\mathbf{b}=(1,1)^{\mathsf T}$, $\mathbf{v}=(1,3)^{\mathsf T}$예요. $E(\theta)=(1-\theta)^2+(3-\theta)^2=2(\theta-2)^2+2$이므로 최소는 $\theta=2$, $E=2$예요.
+아래 위젯은 화면에서 보기 쉽도록 2차원 예제를 써요. $\mathbf{b}=(1,1)^{\mathsf T}$, $\mathbf{v}=(1,3)^{\mathsf T}$이고, 배율 이름만 $\lambda$ 대신 $\theta$로 표시했어요. 따라서 후보는 $\theta\mathbf b=(\theta,\theta)^{\mathsf T}$예요. $E(\theta)$는 목표와 후보 사이의 거리의 제곱이에요. $E(\theta)=(1-\theta)^2+(3-\theta)^2=2(\theta-2)^2+2$이므로 최소는 $\theta=2$, $E=2$예요.
 
 <a id="widget-projection"></a>
 
@@ -558,11 +573,13 @@ $$
 | 2 | (2, 2) | 2 |
 | 4 | (4, 4) | 10 |
 
+계수 θ를 움직이고 원래 직선과 옮겨진 직선을 [직교투영과 피타고라스 실험](../%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%A7%81%EA%B5%90%ED%88%AC%EC%98%81%EA%B3%BC_%ED%94%BC%ED%83%80%EA%B3%A0%EB%9D%BC%EC%8A%A4_%EC%A0%95%EB%A6%AC.html)에서 비교해 보세요.
+
 **교수님 말씀**
 
 > “빗변의 길이는 높이 변보다 항상 기니까.”
 
-(1019 Part 05, 시각 미제공) 교수님은 피타고라스로 수직 잔차가 가장 짧다는 이유를 설명했어요. 수업의 분모 표현은 길이의 제곱으로 정확히 읽어요.
+교수님은 피타고라스로 수직 잔차가 가장 짧다는 이유를 설명했어요. 분모 $\mathbf b^T\mathbf b$는 벡터 길이의 제곱이에요.
 
 **페이지 요약**
 
@@ -609,7 +626,9 @@ $\mathbf b\ne\mathbf0$이고 $\mathbf b^T\mathbf b$는 길이의 제곱인 스�
 
 **정확히 말하면**
 
-책상처럼 두 방향이 만드는 평면으로 넓혀요. 서로 독립인 기저를 열로 모아요.
+앞에서는 방향 하나의 배율 $\lambda$를 구했어요. 이제 서로 다른 두 방향이 만드는, 원점을 지나는 평면으로 넓혀요. 평면 위 후보는 $\lambda_1\mathbf b_1+\lambda_2\mathbf b_2$처럼 **두 방향을 각각 몇 배 할지** 정해서 만들어요. 이때 어느 한 방향이 다른 방향의 배수가 되면 평면을 만들 수 없으므로, 두 방향은 서로 독립이어야 해요.
+
+더 일반적으로 $m$개의 독립인 방향벡터를 쓰면, 이들을 기저라고 불러요. 이 벡터들을 열로 모은 행렬이 $\mathbf B$이고, 배율 $m$개를 모은 벡터가 $\boldsymbol\lambda$예요. $\mathbf B\boldsymbol\lambda$는 각 열을 해당 배율만큼 곱해 더한 것이에요. 아래에서는 $m=2$이면 평면, $m=1$이면 앞의 직선이에요.
 
 $$
 \mathbf{B}=[\mathbf{b}_1\ \cdots\ \mathbf{b}_m]\in\mathbb R^{N\times m},\quad\boldsymbol{\lambda}\in\mathbb R^m
@@ -619,12 +638,18 @@ $$
 \pi_U(\mathbf{v})=\mathbf{B}\boldsymbol{\lambda}\in\mathbb R^N
 $$
 
-1. 잔차가 모든 기저벡터에 직교해야 해요.
+여기서 $\boldsymbol\lambda$는 가장 가까운 후보를 만드는 배율들이에요. $\mathbf B$의 열들을 조합해서 만들 수 있는 모든 벡터의 집합을 **열공간**이라고 해요. 목표는 그 열공간 안에서 $\mathbf v$와 가장 가까운 벡터를 고르는 거예요.
+
+1. **수직 조건을 모든 방향에 적용해요.**
+
+   직선에서는 잔차가 $\mathbf b$ 하나에 수직이면 됐어요. 평면에서는 잔차 $\mathbf v-\mathbf B\boldsymbol\lambda$가 두 방향 모두에 수직이어야 해요. $\mathbf B^{\mathsf T}$를 곱하면 각 기저벡터와의 내적이 한꺼번에 나오므로, 그 결과를 모두 0으로 놓아요.
 
    $$
    \mathbf{B}^{\mathsf T}(\mathbf{v}-\mathbf{B}\boldsymbol{\lambda})=\mathbf0
    $$
-2. 좌표를 구하는 정규방정식이에요.
+2. **배율들을 구하는 연립방정식을 풀어요.**
+
+   괄호를 풀어 $\boldsymbol\lambda$가 들어 있는 항을 오른쪽으로 옮기면 첫 식이 나와요. 이 식을 정규방정식이라고 불러요. 직선에서는 숫자 $\mathbf b^{\mathsf T}\mathbf b$로 나눴지만, 이제 $\mathbf B^{\mathsf T}\mathbf B$는 행렬이에요. 따라서 나눗셈 대신 그 역행렬을 왼쪽에 곱해요. 열들이 독립이면 이 역행렬이 존재해요.
 
    $$
    \mathbf{B}^{\mathsf T}\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^{\mathsf T}\mathbf{v}
@@ -633,7 +658,15 @@ $$
    $$
    \boldsymbol{\lambda}=(\mathbf{B}^{\mathsf T}\mathbf{B})^{-1}\mathbf{B}^{\mathsf T}\mathbf{v}
    $$
-3. 좌표를 구하는 행렬과 원공간으로 되돌리는 행렬을 구별해요.
+3. **구한 배율들을 기저에 곱해 투영벡터를 만들어요.**
+
+   직선에서 $\lambda$를 구한 뒤 $\mathbf b$를 곱했듯이, 이제 $\boldsymbol\lambda$를 구한 뒤 $\mathbf B$를 곱해요. $\boldsymbol\lambda$는 $m$개 배율이고, $\mathbf B\boldsymbol\lambda$는 원래 목표 $\mathbf v$와 같은 $N$개 성분을 가진 벡터예요.
+
+   $$
+   \pi_U(\mathbf v)=\mathbf B\boldsymbol\lambda=\mathbf B(\mathbf B^{\mathsf T}\mathbf B)^{-1}\mathbf B^{\mathsf T}\mathbf v.
+   $$
+
+   이 중 배율을 구하는 부분을 $\mathbf B^+$, 투영벡터까지 만드는 전체 부분을 $\mathbf P$라고 이름 붙여요. $\mathbf B^+$의 위첨자 $+$는 덧셈이 아니라 유사역행렬을 나타내는 기호예요.
 
    $$
    \mathbf{B}^{+}=(\mathbf{B}^{\mathsf T}\mathbf{B})^{-1}\mathbf{B}^{\mathsf T}\in\mathbb R^{m\times N}
@@ -655,6 +688,8 @@ $$
 \mathbf{B}^{\mathsf T}\mathbf{B}=\begin{bmatrix}3&3\\3&5\end{bmatrix},\quad\mathbf{B}^{\mathsf T}\mathbf{v}=\begin{bmatrix}6\\0\end{bmatrix}
 $$
 
+계산된 두 행렬을 정규방정식에 넣으면 $3\lambda_1+3\lambda_2=6$과 $3\lambda_1+5\lambda_2=0$이에요. 둘째 식에서 첫째 식을 빼면 $2\lambda_2=-6$이므로 $\lambda_2=-3$이에요. 이를 첫째 식에 넣으면 $\lambda_1=5$를 얻어요. 그다음 $\mathbf B$를 곱해 투영벡터를 만들어요.
+
 $$
 \boldsymbol{\lambda}=\begin{bmatrix}5\\-3\end{bmatrix},\quad\pi_U(\mathbf{v})=\mathbf{B}\boldsymbol{\lambda}=\begin{bmatrix}5\\2\\-1\end{bmatrix}
 $$
@@ -663,13 +698,15 @@ $$
 \mathbf{P}=\frac16\begin{bmatrix}5&2&-1\\2&2&2\\-1&2&5\end{bmatrix}
 $$
 
-좌표 $5,-3$과 투영벡터 $5,2,-1$은 서로 다른 공간의 값이에요. 차이벡터 $(1,-2,1)^{\mathsf T}$는 두 기저벡터 모두에 직교해요. 좌표 계산은 교과서 Example 3.11로 확인했으며 수업은 투영 결과를 중심으로 설명했어요.
+배율 $(5,-3)^{\mathsf T}$는 “첫 열을 5배, 둘째 열을 -3배 해서 더하세요”라는 뜻이에요. 실제로 $5(1,1,1)^{\mathsf T}-3(0,1,2)^{\mathsf T}=(5,2,-1)^{\mathsf T}$가 돼요. 배율은 2개지만 완성된 투영벡터는 목표와 같은 3개 성분이에요.
+
+결과를 확인하려면 목표에서 투영벡터를 빼요. 잔차는 $(1,-2,1)^{\mathsf T}$이고, 첫 열과의 내적은 $1-2+1=0$, 둘째 열과의 내적은 $0-2+2=0$이에요. 두 방향 모두에 수직이므로 가장 가까운 점을 찾은 거예요. 좌표 계산은 교과서 Example 3.11로 확인했으며 수업은 투영 결과를 중심으로 설명했어요.
 
 **교수님 말씀**
 
 > “자 요 책상을 span하는 x_1이라는 데이터와 x_2라는 데이터가 있어요.”
 
-(1019 Part 05, 시각 미제공) 교수님은 책상 밖의 점을 가장 잘 근사하는 책상 위의 점이 수직으로 내린 점이라고 설명했어요.
+교수님은 책상 밖의 점을 가장 잘 근사하는 책상 위의 점이 수직으로 내린 점이라고 설명했어요.
 
 **페이지 요약**
 
@@ -716,7 +753,9 @@ $\mathbf B\in\mathbb R^{N\times m}$의 열이 독립인 full column rank일 때 
 
 **정확히 말하면**
 
-독립이고 같은 분산의 Gaussian 관측오차를 쓰는 선형회귀에서 ML 추정은 최소제곱과 같아요. 표본마다 입력벡터 $\mathbf{x}_n\in\mathbb R^D$를 행으로 눕혀 쌓아요.
+앞의 투영을 회귀에 연결해 볼게요. **목표벡터 $\mathbf v$를 실제 관측값 목록 $\mathbf y$로, 방향들을 모은 $\mathbf B$를 입력을 모은 $\mathbf X$로, 배율 $\boldsymbol\lambda$를 회귀계수 $\boldsymbol\theta$로 바꾸면 같은 문제가 돼요.** 회귀에서는 모델이 만들 수 있는 출력 $\mathbf X\boldsymbol\theta$ 중 실제 관측값 $\mathbf y$에 가장 가까운 것을 찾아요.
+
+관측이 $N$개이고 각 입력에 특징이 $D$개라면, 입력벡터 $\mathbf x_n\in\mathbb R^D$를 행으로 눕혀 쌓은 행렬이 $\mathbf X$예요. 같은 계수 $\boldsymbol\theta$를 모든 관측에 공통으로 적용해요.
 
 $$
 \mathbf{X}=\begin{bmatrix}\mathbf{x}_1^{\mathsf T}\\\vdots\\\mathbf{x}_N^{\mathsf T}\end{bmatrix}\in\mathbb R^{N\times D},\quad\boldsymbol{\theta}\in\mathbb R^D,\quad\mathbf{y}\in\mathbb R^N
@@ -726,23 +765,33 @@ $$
 \mathbf{X}\boldsymbol{\theta}=\begin{bmatrix}\mathbf{x}_1^{\mathsf T}\boldsymbol{\theta}\\\vdots\\\mathbf{x}_N^{\mathsf T}\boldsymbol{\theta}\end{bmatrix}
 $$
 
+$\mathbf X\boldsymbol\theta$의 $n$번째 성분은 $n$번째 입력의 예측값이에요. 따라서 $\mathbf y-\mathbf X\boldsymbol\theta$에는 관측별 오차가 하나씩 들어 있고, 그 성분들을 제곱해서 더하면 다음과 같아요.
+
 $$
 \sum_{n=1}^N(y_n-\mathbf{x}_n^{\mathsf T}\boldsymbol{\theta})^2=\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2
 $$
 
+이 합을 가장 작게 만드는 것이 최소제곱이에요. 관측오차가 서로 독립이고 평균 0, 같은 분산 $\sigma^2$인 가우시안이면, 로그우도에서 계수에 따라 달라지는 부분은 이 제곱오차에 $-1/(2\sigma^2)$를 곱한 것이에요. 따라서 우도를 최대화하는 ML(최대우도) 추정은 제곱오차를 최소화하는 것과 같아요. 아래의 $\arg\min$은 “이 값을 가장 작게 만드는 계수를 고른다”는 뜻이에요.
+
 $$
 \boldsymbol{\theta}_{\mathrm{ML}}=\arg\min_{\boldsymbol{\theta}}\frac{1}{2\sigma^2}\|\mathbf{y}-\mathbf{X}\boldsymbol{\theta}\|^2
+$$
+
+앞의 평면 투영에서 $\mathbf B$를 $\mathbf X$로, $\mathbf v$를 $\mathbf y$로 바꾸면 같은 수직 조건이 나와요. 이를 풀어 회귀계수를 구해요.
+
+$$
+\mathbf X^{\mathsf T}(\mathbf y-\mathbf X\boldsymbol\theta)=\mathbf0 \quad\Longrightarrow\quad \mathbf X^{\mathsf T}\mathbf X\boldsymbol\theta=\mathbf X^{\mathsf T}\mathbf y.
 $$
 
 $$
 \boldsymbol{\theta}_{\mathrm{ML}}=(\mathbf{X}^{\mathsf T}\mathbf{X})^{-1}\mathbf{X}^{\mathsf T}\mathbf{y}
 $$
 
-수업에서는 $N=D=3$으로 행을 쌓는 모습을 확인한 뒤, 각 입력이 숫자 하나인 경우로 줄였어요. 위 역행렬 공식은 $\mathbf{X}$가 full column rank일 때예요.
+수업에서는 $N=D=3$으로 행을 쌓는 모습을 확인한 뒤, 각 입력이 숫자 하나인 경우로 줄였어요. 위 역행렬 공식은 $\mathbf X$의 열들이 서로 독립인 full column rank일 때예요. $\mathbf X$의 각 행은 한 관측의 입력을 나타내지만, **각 열은 한 특징의 값을 관측 $N$개에 걸쳐 모은 벡터**예요. 계수 $\boldsymbol\theta$는 이 열들을 몇 배 해서 더할지 정해요. 그러므로 여기서 투영하는 공간은 입력값을 그린 평면이 아니라, 관측값 $N$개를 한 벡터로 나타낸 $N$차원 출력공간이에요.
 
 #### 숫자 하나씩 넣는 모델은 직선이에요
 
-$\mathbf{x}=(x_1,\ldots,x_N)^{\mathsf T}\in\mathbb R^{N\times1}$, $\theta\in\mathbb R$로 두면, 입력 개수가 여러 개여도 조절하는 계수는 하나예요.
+$\mathbf{x}=(x_1,\ldots,x_N)^{\mathsf T}\in\mathbb R^{N\times1}$, $\theta\in\mathbb R$로 두면, 관측이 $N$개여도 조절하는 계수는 하나예요. 여기서는 절편 없이 $\widehat y_n=\theta x_n$인 모델을 다뤄요. $\theta$를 바꾸면 전체 예측벡터는 $(\theta x_1,\ldots,\theta x_N)^{\mathsf T}=\theta\mathbf x$가 되어, $N$차원 출력공간에서 원점을 지나는 직선 위를 움직여요. 절편도 따로 학습하면 1로 채운 열이 추가되므로, 방향이 하나인 이 경우와 구별해야 해요.
 
 $$
 \theta_{\mathrm{ML}}=\frac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\mathbf{x}^{\mathsf T}\mathbf{x}},\quad\widehat{\mathbf{y}}=\mathbf{x}\theta_{\mathrm{ML}}
@@ -754,13 +803,17 @@ $$
 
 $\mathbf{x}^{\mathsf T}\mathbf{x}$는 스칼라여서 나눗셈으로 써도 돼요. 분자의 $\mathbf{x}\mathbf{x}^{\mathsf T}$는 $N\times N$ 행렬이에요. 개별 $\theta x_n=x_n\theta$는 둘 다 스칼라여서 순서를 바꿀 수 있어요. 일반 행렬곱의 순서를 마음대로 바꿀 수 있다는 뜻은 아니에요.
 
+직선 투영의 $\mathbf b$가 여기서는 $\mathbf x$이고, 배율 $\lambda$가 $\theta_{\mathrm{ML}}$인 셈이에요. 예를 들어 $\mathbf x=(1,2,2)^{\mathsf T}$, $\mathbf y=(1,1,1)^{\mathsf T}$이면 앞과 똑같이 계수는 $5/9$, 전체 예측벡터는 $(5/9,10/9,10/9)^{\mathsf T}$예요.
+
 #### 여러 특징을 쓰면 열공간에 투영해요
+
+특징이 여러 개면 각 열의 배율을 따로 정해요. 앞에서 구한 $\boldsymbol\theta_{\mathrm{ML}}$은 배율 목록이므로, 실제 예측값 목록을 얻으려면 $\mathbf X$를 한 번 더 곱해야 해요. $\widehat{\mathbf y}=\mathbf X\boldsymbol\theta_{\mathrm{ML}}$에 계수 공식을 대입하면 아래 식이 나와요.
 
 $$
 \widehat{\mathbf{y}}=\mathbf{X}(\mathbf{X}^{\mathsf T}\mathbf{X})^{-1}\mathbf{X}^{\mathsf T}\mathbf{y}
 $$
 
-$\mathbf{X}$의 열들로 만들 수 있는 모든 출력 중 $\mathbf{y}$와 가장 가까운 벡터를 고른 거예요. 특징변환을 쓰면 $\boldsymbol{\phi}(\mathbf{x}_n)\in\mathbb R^K$를 행으로 쌓은 특징행렬 $\boldsymbol{\Phi}\in\mathbb R^{N\times K}$로 바꿔요.
+$\mathbf{X}$의 열들로 만들 수 있는 모든 출력 중 $\mathbf{y}$와 가장 가까운 벡터를 고른 거예요. 입력 자체 대신 $1,x,x^2$처럼 입력에서 계산한 값들을 쓸 수도 있어요. 이런 변환을 특징변환 $\boldsymbol\phi$라고 해요. 각 입력에서 계산한 $\boldsymbol{\phi}(\mathbf{x}_n)\in\mathbb R^K$를 행으로 쌓으면 특징행렬 $\boldsymbol{\Phi}\in\mathbb R^{N\times K}$가 돼요. $\mathbf X$를 $\boldsymbol\Phi$로 바꿔 같은 계산을 해요. 특징값은 미리 정해지고 계수들의 가중합으로 예측하므로, $x^2$ 같은 특징을 써도 계수에 대해서는 선형인 모델이에요.
 
 $$
 \boldsymbol{\theta}_{\mathrm{ML}}=(\boldsymbol{\Phi}^{\mathsf T}\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^{\mathsf T}\mathbf{y}
@@ -784,13 +837,15 @@ $\boldsymbol{\Phi}$도 full column rank라고 가정해요. 유사역행렬 $(\b
 | 학습 입력에서의 적합값 | $\widehat{\mathbf{y}}=\boldsymbol{\Phi}\boldsymbol{\theta}_{\mathrm{ML}}$ | $N$ |
 | 새 입력 한 개의 점 예측 | $\widehat y_*=\boldsymbol{\phi}(\mathbf{x}_*)^{\mathsf T}\boldsymbol{\theta}_{\mathrm{ML}}$ | 스칼라 |
 
-$\mathbf{P}_{\Phi}\mathbf{y}$는 학습 입력에서 얻은 적합벡터예요. 새 입력 한 개를 예측할 때는 그 입력의 특징벡터를 계수와 내적해요.
+$\mathbf P_{\Phi}\mathbf y$는 이미 학습에 사용한 입력 $N$개에서 얻은 예측값 목록이며, 이를 적합벡터라고 해요. 새 입력 $\mathbf x_*$에서는 학습한 계수 $\boldsymbol\theta_{\mathrm{ML}}$를 그대로 두고, 그 입력의 특징값만 새로 계산해요. $\widehat y_*=\boldsymbol\phi(\mathbf x_*)^{\mathsf T}\boldsymbol\theta_{\mathrm{ML}}$은 새 입력 하나의 예측값이므로 숫자 하나예요. **계수 구하기 → 학습 입력 전체의 적합값 만들기 → 새 입력 하나 예측하기**를 구별하면, 각 식이 무엇을 구하는지 따라갈 수 있어요.
+
+θ와 θ̂, 예측벡터의 차이를 [직교투영과 피타고라스 실험](../%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%A7%81%EA%B5%90%ED%88%AC%EC%98%81%EA%B3%BC_%ED%94%BC%ED%83%80%EA%B3%A0%EB%9D%BC%EC%8A%A4_%EC%A0%95%EB%A6%AC.html)에서 확인하고 수식 전개를 따라가 보세요.
 
 **교수님 말씀**
 
 > “least square problem에서 배우던 거랑 똑같은 거죠.”
 
-(1019 Part 05, 시각 미제공) 교수님은 미분으로 구한 ML 추정을 열공간에서 가장 가까운 벡터를 찾는 과정으로 다시 읽었어요. 개별 숫자의 곱 순서를 바꾼 것은 투영행렬을 드러내기 위해서였어요(Part 04).
+교수님은 미분으로 구한 ML 추정을 열공간에서 가장 가까운 벡터를 찾는 과정으로 다시 읽었어요. 개별 숫자의 곱 순서를 바꾼 것은 투영행렬을 드러내기 위해서였어요.
 
 **페이지 요약**
 
@@ -843,8 +898,8 @@ ML과 최소제곱의 동등성은 독립·등분산 가우시안 관측오차�
 
 ### 수업 마무리와 시험 안내
 
-- 교수님은 오늘 마친 직교투영까지를 중간고사 범위로 안내했어요(1019 Part 05).
-- “한 50% 정도는 … 숙제에서 냈던 것들 비슷하게” 낸다고 했어요(1019 Part 05). 비율은 수업 중 안내이며 확정 배점표는 아니에요.
+- 교수님은 오늘 마친 직교투영까지를 중간고사 범위로 안내했어요.
+- “한 50% 정도는 … 숙제에서 냈던 것들 비슷하게” 낸다고 했어요. 비율은 수업 중 안내이며 확정 배점표는 아니에요.
 - 나머지는 모델을 따라가며 이론적으로 분석하는 형식으로 설명했어요. 숙제와 교과서 문제를 함께 복습해요.
 - 다음 새 주제에 대한 구체적인 예고는 없었어요.
 
@@ -867,4 +922,4 @@ ML과 최소제곱의 동등성은 독립·등분산 가우시안 관측오차�
 
 ---
 
-출처: 정방철 교수님 강의자료(Lecture04 개정 HO s14·16–17·19–24) · 수업 녹음 전사(1019) · Deisenroth, Faisal, Ong, Mathematics for Machine Learning (2020) 3·9장. 전사에 세부 시간이 없어 발언은 Part 번호로 표시해요.
+출처: 정방철 교수님 강의자료(Lecture04 개정 HO s14·16–17·19–24) · 수업 녹음 전사(1019) · Deisenroth, Faisal, Ong, Mathematics for Machine Learning (2020) 3·9장.
