@@ -74,7 +74,13 @@
 
 길이가 1인 축 $\mathbf b\in\mathbb R^D$에서, 사영한 좌표들이 얼마나 퍼지는지 구해요. 표본 수는 $N$, 원래 특성 수는 $D$이고, 열벡터 $\mathbf x_n\in\mathbb R^D$는 이미 특성별 평균을 뺀 $n$번째 표본이에요. $\mathbf X=[\mathbf x_1,\ldots,\mathbf x_N]\in\mathbb R^{D\times N}$은 이 표본들을 모은 행렬이에요.
 
-#### 가중합 하나의 분산
+<a id="s0-weights-variance"></a>
+
+#### 1 / 3 가중합의 분산 구하기
+
+사영 좌표의 제곱을 평균내고, 공분산 행렬로 묶어요.
+
+##### 가중합 하나의 분산
 
 축 $\mathbf b$의 $d$번째 성분 $b_d$를 각 특성 $x_{dn}$에 곱해 더하면 한 숫자 $\mathbf b^\top\mathbf x_n=\sum_{d=1}^D b_dx_{dn}$가 나와요. 두 특성만 있으면 $b_1x_{1n}+b_2x_{2n}$이에요. 이 숫자의 표본 평균은 0이므로 분산은 이 가중합을 제곱해 평균낸 값이에요. 제곱 안에는 서로 다른 특성을 곱한 항도 들어가요.
 
@@ -95,7 +101,13 @@
 
 $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mathbf x_n\mathbf x_n^\top$의 $(i,j)$ 원소는 $x_{in}x_{jn}$이므로 평균을 내면 대각 원소는 특성별 분산이고, 비대각 원소는 두 특성의 공분산이에요. 성분을 서로 바꿔 곱해도 값이 같아 대칭이에요. 분산식의 크기는 $(1\times D)(D\times D)(D\times1)=1\times1$이에요. 임의의 $\mathbf b$에서도 제곱의 평균은 음수가 될 수 없으므로 $\mathbf S$는 양의 준정부호(PSD)예요.
 
-#### 같은 축을 고유기저 좌표로 쓰기
+<a id="s0-weights-coordinates"></a>
+
+#### 2 / 3 축을 고유기저 좌표로 쓰기
+
+공분산의 고유기저를 정하고, 같은 축의 좌표와 길이 조건을 확인해요.
+
+##### 같은 축을 고유기저 좌표로 쓰기
 
 실대칭 행렬의 스펙트럼 정리에 따라 단위 고유벡터 $\mathbf p_1,\ldots,\mathbf p_D\in\mathbb R^D$를 직교하도록 골라 기저로 삼을 수 있어요. $\mathbf S\mathbf p_i=\lambda_i\mathbf p_i$의 $\lambda_i$는 그 축의 분산이며 $\lambda_1\ge\cdots\ge\lambda_D\ge0$ 순서로 배열해요. $\delta_{ij}$는 같은 인덱스면 1, 다르면 0이에요. 그러므로 $\mathbf p_i^\top\mathbf p_j=\delta_{ij}$예요.
 
@@ -107,17 +119,24 @@ $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mat
 
    대각행렬의 비대각 원소가 0이라 같은 인덱스의 외적만 남아요.
 2. 좌표를 바꾸는 수업 예에서 $(6,6)$은 단위축 $(1,1)/\sqrt2$와 $(1,-1)/\sqrt2$에 각각 $6\sqrt2$와 $0$을 곱해 더한 벡터예요. 같은 방식으로 $c_i=\mathbf p_i^\top\mathbf b$를 $i$번째 기저 좌표로 두면 $\mathbf b=\sum_i c_i\mathbf p_i$예요. 이 식을 자기 자신과 내적하면 서로 다른 축끼리의 항은 0이고 같은 축의 내적은 1이라 $\|\mathbf b\|^2=\sum_i c_i^2=1$이에요.
-3. $V(\mathbf b)$의 왼쪽과 오른쪽에 그 전개를 넣어요. 3차원이라면 왼쪽의 세 항과 오른쪽의 세 항이 만나 9개 항이 생겨요. 일반식은 다음과 같아요.
+
+<a id="s0-weights-average"></a>
+
+#### 3 / 3 직교성으로 가중평균 얻기
+
+고유기저 전개를 분산식에 대입하고, 서로 다른 축의 내적을 정리해요.
+
+1. $V(\mathbf b)$의 왼쪽과 오른쪽에 그 전개를 넣어요. 3차원이라면 왼쪽의 세 항과 오른쪽의 세 항이 만나 9개 항이 생겨요. 일반식은 다음과 같아요.
 
    $$
    V(\mathbf b)=\sum_{i=1}^D\sum_{j=1}^D c_i c_j\mathbf p_i^\top\mathbf S\mathbf p_j.
    $$
-4. 오른쪽에 붙은 $\mathbf S\mathbf p_j$를 $\lambda_j\mathbf p_j$로 바꿔요. $\lambda_j$는 실수라 내적 앞에 꺼낼 수 있어요.
+2. 오른쪽에 붙은 $\mathbf S\mathbf p_j$를 $\lambda_j\mathbf p_j$로 바꿔요. $\lambda_j$는 실수라 내적 앞에 꺼낼 수 있어요.
 
    $$
    V(\mathbf b)=\sum_{i=1}^D\sum_{j=1}^D c_i c_j\lambda_j\mathbf p_i^\top\mathbf p_j.
    $$
-5. 직교성 때문에 $i=j$인 항만 남아요. 3차원이라면 9개 중 3개예요.
+3. 직교성 때문에 $i=j$인 항만 남아요. 3차원이라면 9개 중 3개예요.
 
    $$
    V(\mathbf b)=\sum_{i=1}^D\lambda_i c_i^2.
@@ -185,23 +204,42 @@ $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mat
 
 [고유기저에서 방향 분산 계산하기](#s0-spectral-weights)에서, 단위축 $\mathbf b$의 분산을 $\sum_i\lambda_i c_i^2$로 썼어요. $c_i$는 $\mathbf b$를 고유벡터 $\mathbf p_i$로 전개할 때의 좌표이고 $\sum_i c_i^2=1$이에요. 이제 가능한 최댓값과 그 값에 도달하는 축을 찾아요.
 
+<a id="s0-directions-first"></a>
+
+#### 1 / 3 첫 방향의 최댓값 찾기
+
+분산이 넘을 수 없는 값을 구하고, 그 값에 도달하는 축을 찾아요.
+
 1. **상한을 정해요.** $\lambda_i\le\lambda_1$이고 $c_i^2\ge0$이라 각 항의 고윳값을 $\lambda_1$로 바꾸면 합이 줄지 않아요.
 
    $$
    V(\mathbf b)=\sum_{i=1}^D\lambda_i c_i^2\le\lambda_1\sum_{i=1}^D c_i^2=\lambda_1.
    $$
 2. **상한에 도달해요.** 첫 주성분의 방향을 $\mathbf b_1=\mathbf p_1$로 택하면 $c_1=1$이고 나머지가 0이라 $V(\mathbf b_1)=\lambda_1$이에요. 등호가 되려면 $\lambda_i\lt\lambda_1$인 축의 $c_i$가 0이어야 해요. 가장 큰 고윳값이 하나라면 부호만 다른 두 단위벡터가 같은 축을 나타내고, 고윳값이 중복되면 해당 고유공간의 단위벡터 중에서 고를 수 있어요.
-3. **이미 고른 방향을 빼요.** 둘째 방향은 $\mathbf b_1$과 직교해야 하므로 $\mathbf p_1^\top\mathbf b=0$, 곧 $c_1=0$이에요. 이미 첫 $k-1$개를 $\mathbf p_1,\ldots,\mathbf p_{k-1}$로 골랐다면 $c_1=\cdots=c_{k-1}=0$이에요. 남은 좌표로 같은 상한 계산을 해요.
 
-   $$
-   V(\mathbf b)=\sum_{i=k}^D\lambda_i c_i^2\le\lambda_k\sum_{i=k}^D c_i^2=\lambda_k.
-   $$
+<a id="s0-directions-remaining"></a>
 
-   $\mathbf b_k=\mathbf p_k$가 이 값에 도달해요.
+#### 2 / 3 직교하는 다음 방향 고르기
+
+이미 고른 축과 직교하는 조건을 넣어, 남은 방향의 분산 상한을 구해요.
+
+**이미 고른 방향을 빼요.** 둘째 방향은 $\mathbf b_1$과 직교해야 하므로 $\mathbf p_1^\top\mathbf b=0$, 곧 $c_1=0$이에요. 이미 첫 $k-1$개를 $\mathbf p_1,\ldots,\mathbf p_{k-1}$로 골랐다면 $c_1=\cdots=c_{k-1}=0$이에요. 남은 좌표로 같은 상한 계산을 해요.
+
+$$
+V(\mathbf b)=\sum_{i=k}^D\lambda_i c_i^2\le\lambda_k\sum_{i=k}^D c_i^2=\lambda_k.
+$$
+
+$\mathbf b_k=\mathbf p_k$가 이 값에 도달해요.
 
 첫 $M$개 축을 $\mathbf B=[\mathbf p_1,\ldots,\mathbf p_M]\in\mathbb R^{D\times M}$에 담으면, 각 좌표 분산을 더한 보존 분산은 $\sum_{i=1}^M\lambda_i$예요. 선택 경계에서 $M\lt D$이고 $\lambda_M=\lambda_{M+1}$이면 같은 고윳값의 공간에서 서로 다른 축 조합을 택해도 보존 분산은 같아요. 다음 [사영과 복원](#s1-projection)에서는 선택한 축을 좌표 계산과 복원에 사용해요.
 
-#### 여러 축을 한꺼번에 골라도 같은 이유
+<a id="s0-directions-joint"></a>
+
+#### 3 / 3 여러 축의 최적성 확인하기
+
+여러 축을 한꺼번에 비교해도 상위 고유방향을 남기는 선택이 최적인지 확인해요.
+
+##### 여러 축을 한꺼번에 골라도 같은 이유
 
 강의에서 보인 순차 선택을 바탕으로, 여기서는 여러 축을 한꺼번에 비교할 때도 같은 선택이 최적인 이유를 덧붙여요. 임의의 정규직교 축을 모은 행렬을 $\mathbf C\in\mathbb R^{D\times M}$이라 하고, $w_i=\|\mathbf C^\top\mathbf p_i\|^2$를 $i$번째 고유방향을 얼마나 담는지 나타내는 가중치라 해요.
 
@@ -266,6 +304,12 @@ $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mat
 
 **정확히 말하면**
 
+<a id="s1-projection-objective"></a>
+
+#### 1 / 4 복원오차와 변수 정하기
+
+고정한 기저, 구할 좌표와 복원값을 구별하고 최소화할 오차를 정해요.
+
 압축한 숫자로 원래 점을 최대한 가깝게 복원하고 싶어요. 먼저 모든 표본에 공통으로 쓸 축을 고정하고 표본마다 좌표를 구해요. 그 좌표로 복원한 뒤 어떤 축을 남길지 판단해요.
 
 중심화한 표본 $\mathbf x_n\in\mathbb R^D$는 $N$개예요. 직교 정규 기저 벡터 $\mathbf b_1,\ldots,\mathbf b_M\in\mathbb R^D$를 열로 모은 $\mathbf B\in\mathbb R^{D\times M}$이 부분공간 $U$를 만들어요. $\mathbf z_n\in\mathbb R^M$은 축들의 좌표 열벡터이고, $\tilde{\mathbf x}_n=\mathbf B\mathbf z_n$은 그 좌표를 가중치로 축 벡터를 더한 $D$차원 복원값이에요.
@@ -276,14 +320,27 @@ $$
 
 이 평균 제곱 복원오차를 줄이려면 고정된 $\mathbf B$에서 각 표본의 오차를 따로 최소화하면 돼요. 강의 슬라이드의 성분별 연쇄법칙을 행벡터로 묶어서 써 볼게요.
 
-1. 제곱오차를 복원값으로 미분하면 $-\frac2N(\mathbf x_n-\tilde{\mathbf x}_n)^\top$인 $1\times D$ 행벡터예요. 복원식을 좌표로 미분한 $D\times M$ 야코비안(Jacobian)은 $\mathbf B$예요. 두 미분을 곱하면 좌표에 대한 $1\times M$ 행벡터를 얻어요.
+<a id="s1-projection-derivative"></a>
 
-   $$
-   \frac{\partial J_M}{\partial\mathbf z_n}=-\frac2N(\mathbf x_n-\tilde{\mathbf x}_n)^\top\mathbf B.
-   $$
+#### 2 / 4 좌표로 미분하기
 
-   이 식에서 마지막 행렬 대신 그 $i$번째 열 $\mathbf b_i$만 곱하면 슬라이드의 $i$번째 성분을 얻어요.
-2. 미분을 $1\times M$ 영행벡터로 놓아요. 양변을 $-2/N$으로 나누고 복원값 $\tilde{\mathbf x}_n=\mathbf B\mathbf z_n$을 대입해요.
+복원값을 거치는 연쇄법칙으로 좌표에 대한 행벡터 미분을 구해요.
+
+제곱오차를 복원값으로 미분하면 $-\frac2N(\mathbf x_n-\tilde{\mathbf x}_n)^\top$인 $1\times D$ 행벡터예요. 복원식을 좌표로 미분한 $D\times M$ 야코비안(Jacobian)은 $\mathbf B$예요. 두 미분을 곱하면 좌표에 대한 $1\times M$ 행벡터를 얻어요.
+
+$$
+\frac{\partial J_M}{\partial\mathbf z_n}=-\frac2N(\mathbf x_n-\tilde{\mathbf x}_n)^\top\mathbf B.
+$$
+
+이 식에서 마지막 행렬 대신 그 $i$번째 열 $\mathbf b_i$만 곱하면 슬라이드의 $i$번째 성분을 얻어요.
+
+<a id="s1-projection-coordinates"></a>
+
+#### 3 / 4 정규방정식에서 좌표 구하기
+
+미분을 영행벡터로 놓고 양변을 전치한 뒤, 기저 조건에 맞는 좌표를 구해요.
+
+1. 미분을 $1\times M$ 영행벡터로 놓아요. 양변을 $-2/N$으로 나누고 복원값 $\tilde{\mathbf x}_n=\mathbf B\mathbf z_n$을 대입해요.
 
    $$
    (\mathbf x_n-\mathbf B\mathbf z_n)^\top\mathbf B=\mathbf 0_{1\times M}.
@@ -306,7 +363,7 @@ $$
    $$
    \mathbf B^\top\mathbf B\mathbf z_n=\mathbf B^\top\mathbf x_n.
    $$
-3. $\mathbf B$의 열이 선형독립이면 좌표에 대한 헤시안 $2\mathbf B^\top\mathbf B/N$이 양의 정부호이므로, 이 정지점이 제곱오차의 유일한 최소점이에요. 양변 왼쪽에 역행렬을 곱하면 유사역행렬(pseudoinverse) 해가 나와요.
+2. $\mathbf B$의 열이 선형독립이면 좌표에 대한 헤시안 $2\mathbf B^\top\mathbf B/N$이 양의 정부호이므로, 이 정지점이 제곱오차의 유일한 최소점이에요. 양변 왼쪽에 역행렬을 곱하면 유사역행렬(pseudoinverse) 해가 나와요.
 
    $$
    \mathbf z_n=(\mathbf B^\top\mathbf B)^{-1}\mathbf B^\top\mathbf x_n.
@@ -318,6 +375,12 @@ $$
    \mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad z_{in}=\mathbf b_i^\top\mathbf x_n.
    $$
 
+<a id="s1-projection-residual"></a>
+
+#### 4 / 4 복원과 잔차 확인하기
+
+구한 좌표를 복원식에 넣고, 잔차가 남긴 모든 축에 수직인지 확인해요.
+
 구한 좌표를 복원식에 대입하면 $\tilde{\mathbf x}_n=\mathbf B\mathbf B^\top\mathbf x_n$이에요. 정규방정식을 옮겨 쓰면 잔차와 모든 축의 내적이 영벡터라는 뜻이에요.
 
 $$
@@ -325,6 +388,8 @@ $$
 $$
 
 잔차가 부분공간과 수직이므로 이 복원은 직교사영(orthogonal projection)이에요. $\mathbf B^\top$는 $M$개 좌표를 뽑고, $\mathbf B$는 그 좌표를 $D$차원 공간의 점으로 바꿔요.
+
+단위벡터 내적에서 기저 행렬 B의 층별 내적 z = Bᵀx와 평면 사영 복원 x̃ = Bz로 확장되는 과정을 [내적에서 행렬 사영으로 실험](../%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html)에서 직접 비교해 보세요.
 
 **교수님 말씀**
 
@@ -371,39 +436,65 @@ $$
 
 어떤 축을 골라야 복원오차가 작아지는지 알려면 먼저 고정된 축에서 생긴 잔차를 계산해요. [기저를 고정하고 좌표 구하기](#s1-projection)에서 구한 복원식에 전체 기저 전개를 대조해요.
 
-1. 남기는 직교 정규 축 $\mathbf b_1,\ldots,\mathbf b_M$이 만드는 공간이 $U$예요. $D-M$개 축 $\mathbf b_{M+1},\ldots,\mathbf b_D$를 보태 전체 직교 정규 기저를 만들어요. 추가한 축들이 생성하는 공간이 직교여공간(orthogonal complement) $U^\perp$예요.
+<a id="s1-discarded-residual"></a>
 
-   $$
-   \mathbf x_n=\sum_{m=1}^M(\mathbf b_m^\top\mathbf x_n)\mathbf b_m+\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)\mathbf b_j.
-   $$
+#### 1 / 4 버린 축으로 잔차 쓰기
 
-   첫 합이 복원값 $\tilde{\mathbf x}_n$과 같아서, 원래 점에서 복원값을 빼면 두 번째 합만 남아요.
+전체 기저 전개에서 복원한 성분을 빼고 남는 항을 확인해요.
 
-   $$
-   \mathbf x_n-\tilde{\mathbf x}_n=\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)\mathbf b_j.
-   $$
-2. 잔차의 제곱 길이를 전개하면 서로 다른 축의 내적은 $0$, 자기 자신과의 내적은 $1$이에요. 따라서 버린 좌표 각각의 제곱만 남아요.
+남기는 직교 정규 축 $\mathbf b_1,\ldots,\mathbf b_M$이 만드는 공간이 $U$예요. $D-M$개 축 $\mathbf b_{M+1},\ldots,\mathbf b_D$를 보태 전체 직교 정규 기저를 만들어요. 추가한 축들이 생성하는 공간이 직교여공간(orthogonal complement) $U^\perp$예요.
 
-   $$
-   J_M=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.
-   $$
-3. 한 방향의 좌표 $\mathbf b_j^\top\mathbf x_n$은 $D$개 특성의 가중합이에요. 입력을 중심화했으므로 이 좌표의 평균도 $0$이에요. 따라서 평균 제곱은 그 좌표의 분산, 즉 스칼라 좌표의 자기 공분산이에요.
+$$
+\mathbf x_n=\sum_{m=1}^M(\mathbf b_m^\top\mathbf x_n)\mathbf b_m+\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)\mathbf b_j.
+$$
 
-   $$
-   (\mathbf b_j^\top\mathbf x_n)^2=(\mathbf b_j^\top\mathbf x_n)(\mathbf b_j^\top\mathbf x_n)^\top=\mathbf b_j^\top\mathbf x_n\mathbf x_n^\top\mathbf b_j.
-   $$
+첫 합이 복원값 $\tilde{\mathbf x}_n$과 같아서, 원래 점에서 복원값을 빼면 두 번째 합만 남아요.
 
-   축 $\mathbf b_j$는 표본에 따라 바뀌지 않으므로 양쪽에 고정하고 가운데 외적만 평균해요. 그 평균이 $D\times D$ 공분산 행렬 $\mathbf S=\frac1N\sum_{n=1}^N\mathbf x_n\mathbf x_n^\top$예요. 첫 좌표의 계수 $\mathbf b_j^\top$가 왼쪽, 두 번째 좌표의 계수를 전치한 $\mathbf b_j$가 오른쪽에 있어요. 결과 크기는 $1\times1$이에요.
+$$
+\mathbf x_n-\tilde{\mathbf x}_n=\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)\mathbf b_j.
+$$
 
-   $$
-   J_M=\sum_{j=M+1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.
-   $$
+<a id="s1-discarded-squares"></a>
+
+#### 2 / 4 제곱오차 전개하기
+
+잔차의 제곱 길이에서 직교성으로 사라지는 교차항을 정리해요.
+
+잔차의 제곱 길이를 전개하면 서로 다른 축의 내적은 $0$, 자기 자신과의 내적은 $1$이에요. 따라서 버린 좌표 각각의 제곱만 남아요.
+
+$$
+J_M=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.
+$$
+
+<a id="s1-discarded-variance"></a>
+
+#### 3 / 4 방향별 분산으로 바꾸기
+
+버린 좌표의 평균 제곱을 분산으로 읽고, 전체 분산과 연결해요.
+
+한 방향의 좌표 $\mathbf b_j^\top\mathbf x_n$은 $D$개 특성의 가중합이에요. 입력을 중심화했으므로 이 좌표의 평균도 $0$이에요. 따라서 평균 제곱은 그 좌표의 분산, 즉 스칼라 좌표의 자기 공분산이에요.
+
+$$
+(\mathbf b_j^\top\mathbf x_n)^2=(\mathbf b_j^\top\mathbf x_n)(\mathbf b_j^\top\mathbf x_n)^\top=\mathbf b_j^\top\mathbf x_n\mathbf x_n^\top\mathbf b_j.
+$$
+
+축 $\mathbf b_j$는 표본에 따라 바뀌지 않으므로 양쪽에 고정하고 가운데 외적만 평균해요. 그 평균이 $D\times D$ 공분산 행렬 $\mathbf S=\frac1N\sum_{n=1}^N\mathbf x_n\mathbf x_n^\top$예요. 첫 좌표의 계수 $\mathbf b_j^\top$가 왼쪽, 두 번째 좌표의 계수를 전치한 $\mathbf b_j$가 오른쪽에 있어요. 결과 크기는 $1\times1$이에요.
+
+$$
+J_M=\sum_{j=M+1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.
+$$
 
 남긴 축의 분산까지 합하면 전체 분산 $\operatorname{tr}\mathbf S$가 돼요. 이는 표본의 평균 제곱 길이 $\frac1N\sum_n\|\mathbf x_n\|^2$이고, 어느 직교 정규 기저를 써도 같아요. 보존 분산을 최대화하는 것과 복원오차를 최소화하는 것이 같은 이유예요.
 
 $$
 J_M=\operatorname{tr}\mathbf S-\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m.
 $$
+
+<a id="s1-discarded-minimum"></a>
+
+#### 4 / 4 최소오차를 고윳값으로 읽기
+
+상위 고유방향을 남겼을 때 버린 방향의 분산을 고윳값으로 계산해요.
 
 [첫 번째부터 M번째까지 방향 고르기](#s0-top-directions)에서 구한 대로, 공분산의 고윳값을 $\lambda_1\ge\cdots\ge\lambda_D\ge0$으로 정렬하고 상위 $M$개에 해당하는 직교 정규 고유벡터를 남겨요. 직교여공간의 각 고유벡터에 대해 $\mathbf S\mathbf b_j=\lambda_j\mathbf b_j$를 대입해요.
 
@@ -416,6 +507,8 @@ $$
 $$
 J_M^\star=\sum_{j=M+1}^D\lambda_j.
 $$
+
+남긴 축들의 사영 성분 x̃ = Bz와 버린 수직 축의 잔차 x − x̃가 피타고라스 등식을 이루는 모습을 [내적에서 행렬 사영으로 실험](../%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html)의 평면 모드에서 확인해 보세요.
 
 **교수님 말씀**
 
@@ -511,19 +604,39 @@ $$
 
 앞에서 주성분을 공분산 행렬 $\mathbf S$의 상위 고유벡터로 골랐어요. 이번에는 $\mathbf S$를 먼저 만들지 않고 데이터 행렬에서 그 방향을 읽어요.
 
+<a id="s2-svd-factorization"></a>
+
+#### 1 / 3 데이터 행렬 분해하기
+
+중심화한 데이터 행렬과 SVD의 각 행렬이 어떤 크기인지 확인해요.
+
 1. **출발식.** 중심화한 $D$차원 샘플 $N$개를 열로 쌓은 $\mathbf X\in\mathbb R^{D\times N}$에 대해 $\mathbf S=\mathbf X\mathbf X^\top/N$이에요.
 2. **데이터를 분해해요.** 특잇값 분해(SVD)는 $\mathbf X=\mathbf U\mathbf\Sigma\mathbf V^\top$예요. 전체 분해에서 $\mathbf U$와 $\mathbf V$는 각각 $D\times D$, $N\times N$ 직교행렬이에요. 직사각형 대각행렬 $\mathbf\Sigma$의 크기는 $D\times N$이고, 대각선의 특잇값 $\sigma_i$는 내림차순이에요.
-3. **출발식에 대입해요.** 두 번째 인수 $\mathbf X^\top$는 전치할 때 곱의 순서가 뒤집혀요.
+
+<a id="s2-svd-covariance"></a>
+
+#### 2 / 3 공분산 식에 대입하기
+
+데이터의 SVD를 공분산 식에 넣고, 전치와 직교성으로 정리해요.
+
+1. **출발식에 대입해요.** 두 번째 인수 $\mathbf X^\top$는 전치할 때 곱의 순서가 뒤집혀요.
 
    $$
    \mathbf S=\frac1N\mathbf U\mathbf\Sigma\mathbf V^\top\mathbf V\mathbf\Sigma^\top\mathbf U^\top
    $$
-4. **직교성을 써요.** $\mathbf V^\top\mathbf V=\mathbf I_N$이므로 $\mathbf V$가 사라져요.
+2. **직교성을 써요.** $\mathbf V^\top\mathbf V=\mathbf I_N$이므로 $\mathbf V$가 사라져요.
 
    $$
    \mathbf S=\mathbf U\left(\frac{\mathbf\Sigma\mathbf\Sigma^\top}{N}\right)\mathbf U^\top
    $$
-5. **축과 분산을 읽어요.** 가운데 $D\times D$ 행렬은 대각행렬이에요. $\mathbf U$의 열인 왼쪽 특이벡터 $\mathbf u_i$가 주성분 후보이고, 해당 고윳값은 $\lambda_i=\sigma_i^2/N$이에요. 대각의 남는 자리는 0이에요.
+
+<a id="s2-svd-components"></a>
+
+#### 3 / 3 주성분과 분산 읽기
+
+공분산의 분해식에서 주성분 방향과 그 축의 분산을 읽어요.
+
+**축과 분산을 읽어요.** 가운데 $D\times D$ 행렬은 대각행렬이에요. $\mathbf U$의 열인 왼쪽 특이벡터 $\mathbf u_i$가 주성분 후보이고, 해당 고윳값은 $\lambda_i=\sigma_i^2/N$이에요. 대각의 남는 자리는 0이에요.
 
 같은 중심화 데이터로 계산하면 두 방법에서 같은 고윳값과 고유공간을 얻어요. 부호는 달라질 수 있고, 같은 고윳값이 축을 고르는 경계에 걸리면 여러 최적 부분공간을 고를 수 있어요. 공분산의 고윳값이 필요하면 특잇값을 제곱한 뒤 샘플 수로 나눠요.
 
@@ -564,19 +677,39 @@ $$
 
 한 샘플의 복원 $\tilde{\mathbf x}_n=\mathbf B\mathbf B^\top\mathbf x_n$을 모든 열에 적용하면 $\tilde{\mathbf X}_M=\mathbf B\mathbf B^\top\mathbf X$예요. 이제 $\mathbf B$에 상위 $M$개의 왼쪽 특이벡터를 모은 $\mathbf U_M$을 넣어요. 먼저 $1\le M\le\min(D,N)$일 때의 행렬 모양을 살펴봐요.
 
-1. **남길 좌표.** $\mathbf U_M^\top\mathbf X$에 SVD를 대입하면 $\mathbf U_M^\top\mathbf U$가 처음 $M$개의 행만 골라요. 결과는 $\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}$이고, $\mathbf V_M$은 $\mathbf V$의 첫 $M$열, $\mathbf\Sigma_M$은 첫 $M$개 특잇값을 담은 대각행렬이에요.
-2. **원래 크기로 복원.** $D\times M$ 기저를 그 좌표에 곱하면 $D\times N$ 행렬이 돌아와요. 압축된 데이터를 기저 $\mathbf U_M$과 좌표 $\mathbf\Sigma_M\mathbf V_M^\top$의 두 행렬로 보관할 수 있어요.
+<a id="s2-low-rank-coordinates"></a>
 
-   $$
-   \tilde{\mathbf X}_M=\mathbf U_M\mathbf\Sigma_M\mathbf V_M^\top=\sum_{i=1}^M\sigma_i\mathbf u_i\mathbf v_i^\top
-   $$
-3. **버린 양.** Frobenius 노름의 제곱은 행렬 원소 제곱의 합이에요. 따라서 $\|\mathbf X-\tilde{\mathbf X}_M\|_F^2$는 모든 샘플의 제곱 복원오차를 더한 값이에요.
+#### 1 / 3 남길 좌표 구하기
 
-   $$
-   \|\mathbf X-\tilde{\mathbf X}_M\|_F^2=NJ_M^\star=\sum_{i\gt M}\sigma_i^2
-   $$
+상위 왼쪽 특이벡터와의 내적으로 압축 좌표를 구해요.
 
-   마지막 등식은 앞의 $J_M^\star=\sum_{i\gt M}\lambda_i$에 $\lambda_i=\sigma_i^2/N$을 대입한 결과예요. 부족한 특잇값 자리는 0으로 봐요.
+**남길 좌표.** $\mathbf U_M^\top\mathbf X$에 SVD를 대입하면 $\mathbf U_M^\top\mathbf U$가 처음 $M$개의 행만 골라요. 결과는 $\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}$이고, $\mathbf V_M$은 $\mathbf V$의 첫 $M$열, $\mathbf\Sigma_M$은 첫 $M$개 특잇값을 담은 대각행렬이에요.
+
+<a id="s2-low-rank-reconstruction"></a>
+
+#### 2 / 3 원래 크기로 복원하기
+
+기저와 압축 좌표를 곱해 모든 표본을 원래 차원으로 복원해요.
+
+**원래 크기로 복원.** $D\times M$ 기저를 그 좌표에 곱하면 $D\times N$ 행렬이 돌아와요. 압축된 데이터를 기저 $\mathbf U_M$과 좌표 $\mathbf\Sigma_M\mathbf V_M^\top$의 두 행렬로 보관할 수 있어요.
+
+$$
+\tilde{\mathbf X}_M=\mathbf U_M\mathbf\Sigma_M\mathbf V_M^\top=\sum_{i=1}^M\sigma_i\mathbf u_i\mathbf v_i^\top
+$$
+
+<a id="s2-low-rank-error"></a>
+
+#### 3 / 3 버린 정보의 양 계산하기
+
+복원오차를 버린 특잇값의 제곱합으로 읽고, 정확히 복원되는 조건을 확인해요.
+
+**버린 양.** Frobenius 노름의 제곱은 행렬 원소 제곱의 합이에요. 따라서 $\|\mathbf X-\tilde{\mathbf X}_M\|_F^2$는 모든 샘플의 제곱 복원오차를 더한 값이에요.
+
+$$
+\|\mathbf X-\tilde{\mathbf X}_M\|_F^2=NJ_M^\star=\sum_{i\gt M}\sigma_i^2
+$$
+
+마지막 등식은 앞의 $J_M^\star=\sum_{i\gt M}\lambda_i$에 $\lambda_i=\sigma_i^2/N$을 대입한 결과예요. 부족한 특잇값 자리는 0으로 봐요.
 
 에카르트–영 정리(Eckart–Young theorem)에 따르면 위 절단 SVD는 랭크가 $M$ 이하인 행렬 중 Frobenius 오차를 최소화하는 저랭크 근사예요. 원래 랭크가 $M$ 이하이면 그대로 복원돼요. $N\lt M\le D$이면 $\mathbf U$에는 축이 더 있지만 대응하는 특잇값을 0으로 채워 해석해요. 이때 $\min(D,N)$개까지만 사용해도 복원 결과가 같아요. 예를 들어 특잇값이 $5,3,1$일 때 두 겹을 남기면 버린 제곱합은 $1$이에요.
 
@@ -623,17 +756,37 @@ $$
 
 **정확히 말하면**
 
+<a id="s2-workflow-preprocess"></a>
+
+#### 1 / 3 평균과 눈금 맞추기
+
+훈련 데이터의 평균을 빼고, 필요하면 표준편차로 눈금을 맞춰요.
+
 1. **중심화.** 원래 샘플 $\mathbf x^{\rm raw}\in\mathbb R^D$에서 훈련 데이터의 성분별 평균 $\boldsymbol\mu$를 빼요.
 2. **필요하면 표준화.** 성분의 단위나 크기가 크게 다를 때 표준편차 $s_d$로 나눌 수 있어요. $\mathbf T=\operatorname{diag}(s_1,\ldots,s_D)$라 두면 $\mathbf y=\mathbf T^{-1}(\mathbf x^{\rm raw}-\boldsymbol\mu)$예요. 이 식에는 $s_d\gt0$이 필요해요. 상수 특성은 표준화하기 전에 제외할 수 있어요.
-3. **축 선택.** 처리한 데이터로 공분산을 만들고 가장 큰 고윳값에 대응하는 $M$개의 정규직교 고유벡터를 $\mathbf B$에 담아요.
-4. **사영하고 복원.** $\mathbf z=\mathbf B^\top\mathbf y$로 줄인 뒤 $\tilde{\mathbf y}=\mathbf B\mathbf z$로 원래 개수의 성분을 얻어요.
-5. **전처리 역순.** 먼저 표준편차를 다시 곱하고 평균을 더해요.
 
-   $$
-   \tilde{\mathbf x}^{\rm raw}=\mathbf T\tilde{\mathbf y}+\boldsymbol\mu
-   $$
+<a id="s2-workflow-projection"></a>
 
-   중심화만 했다면 위 두 변환에서 $\mathbf T=\mathbf I_D$를 사용해요.
+#### 2 / 3 축을 고르고 압축·복원하기
+
+처리한 공간에서 주성분을 선택하고, 좌표 계산과 복원을 이어서 해요.
+
+1. **축 선택.** 처리한 데이터로 공분산을 만들고 가장 큰 고윳값에 대응하는 $M$개의 정규직교 고유벡터를 $\mathbf B$에 담아요.
+2. **사영하고 복원.** $\mathbf z=\mathbf B^\top\mathbf y$로 줄인 뒤 $\tilde{\mathbf y}=\mathbf B\mathbf z$로 원래 개수의 성분을 얻어요.
+
+<a id="s2-workflow-units"></a>
+
+#### 3 / 3 원래 단위로 되돌리기
+
+전처리를 역순으로 되돌리고, 같은 평균과 표준편차를 재사용해요.
+
+**전처리 역순.** 먼저 표준편차를 다시 곱하고 평균을 더해요.
+
+$$
+\tilde{\mathbf x}^{\rm raw}=\mathbf T\tilde{\mathbf y}+\boldsymbol\mu
+$$
+
+중심화만 했다면 위 두 변환에서 $\mathbf T=\mathbf I_D$를 사용해요.
 
 표준화 여부는 어느 단위에서 분산과 복원오차를 계산할지 결정해요. 같은 평균과 표준편차를 사영과 복원에 재사용해요.
 
