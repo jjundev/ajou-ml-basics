@@ -218,7 +218,7 @@ def inline(node, ctx):
 # ---------------------------------------------------------------- blocks
 
 BLOCK = {"p", "div", "section", "article", "main", "ul", "ol", "li", "table", "blockquote", "figure", "details",
-         "h1", "h2", "h3", "h4", "header", "footer", "label", "figcaption", "summary", "thead", "tbody", "tr", "svg",
+         "h1", "h2", "h3", "h4", "h5", "h6", "header", "footer", "label", "figcaption", "summary", "thead", "tbody", "tr", "svg",
          "nav", "hr", "dl"}
 
 

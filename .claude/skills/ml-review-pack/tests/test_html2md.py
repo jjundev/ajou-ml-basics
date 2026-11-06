@@ -45,6 +45,20 @@ class TestHtml2Md(unittest.TestCase):
         self.assertIn("*핵심 식*", self.md)
         self.assertIn("- **분산(variance)** — 평균과의 차이를 제곱해 평균낸 값", self.md)
 
+    def test_nested_calculation_headings_keep_levels_and_anchors(self):
+        body = ('<article id="calculation"><h3>계산</h3><div class="note-stage">'
+                '<h4 id="stage">좌표 구하기</h4><p>출발식을 확인해요.</p>'
+                '<h5 id="transpose">양변을 전치해요</h5><p>$x^\\top B$를 써요.</p>'
+                '<h6 id="component">성분으로 확인해요</h6><p>계산을 마쳐요.</p>'
+                '</div></article>')
+        note, review = small_pack(self.tmp, body, '<article><h3>문제</h3></article>')
+        (note_md, _), _ = html2md.convert_pack(note, review)
+        md = Path(note_md).read_text(encoding="utf-8")
+        self.assertIn('<a id="transpose"></a>\n\n##### 양변을 전치해요', md)
+        self.assertIn('<a id="component"></a>\n\n###### 성분으로 확인해요', md)
+        self.assertIn('$x^\\top B$를 써요.', md)
+        self.assertEqual(html2md.check_md(note, note_md), [])
+
     def test_widget_static_becomes_figure_and_table(self):
         self.assertEqual(self.figs, 1)
         self.assertTrue((self.tmp / ".pack" / "figures_0101-0102" / "widget-mean-static.svg").exists())
