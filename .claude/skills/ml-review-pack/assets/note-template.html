@@ -801,6 +801,8 @@
             const heading = document.getElementById(link.hash.slice(1));
             if (heading && heading.getBoundingClientRect().top <= boundary) current = i;
           });
+          // 짧은 마지막 단계는 제목이 기준선에 닿기 전에 스크롤이 끝날 수 있다.
+          if (scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= 1) current = links.length - 1;
           const changed = links[current] && links[current].getAttribute('aria-current') !== 'step';
           links.forEach((link, i) => {
             if (i === current) link.setAttribute('aria-current', 'step');
