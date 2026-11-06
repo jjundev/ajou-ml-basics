@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko" data-view="steps"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1102 · 8페이지 본문 서식 비교 (테스트)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="window.mathReady=true;window.typeset?.()"></script>
+<style>
+:root{color-scheme:light;--bg:#fff;--surface:#f6f7f9;--ink:#20242c;--muted:#626b79;--line:#dfe3e9;--accent:#1b64da;--tint:#eef4ff;--font:Pretendard,system-ui,sans-serif;--bg-invert:#20242c;--ink-invert:#fff;--warn:#985f13;--measure:680px;
+/* Central text roles: all comparison variants share this scale. */
+--fs-page:32px;--fs-stage:24px;--fs-heading:19px;--fs-lead:22px;--fs-body:17px;--fs-help:15px;--fs-caption:14px;--fs-label:13px;
+--fw-body:400;--fw-label:600;--fw-heading:700;--fw-page:800;--lh-body:1.7;--lh-heading:1.4;--lh-lead:1.5;--intro-ink:#111;--intro-muted:#6b7280;--intro-accent:#1677ff;--intro-accent-ink:#1b64da}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#17171c;--surface:#212128;--ink:#f2f4f6;--muted:#a3abb8;--line:#34353d;--accent:#8ab4ff;--tint:#222d41;--bg-invert:#e8ecf4;--ink-invert:#17171c;--warn:#eab875;--intro-ink:#f2f4f6;--intro-muted:#a3abb8;--intro-accent:#3182f6;--intro-accent-ink:#6ea4ff}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#17171c;--surface:#212128;--ink:#f2f4f6;--muted:#a3abb8;--line:#34353d;--accent:#8ab4ff;--tint:#222d41;--bg-invert:#e8ecf4;--ink-invert:#17171c;--warn:#eab875;--intro-ink:#f2f4f6;--intro-muted:#a3abb8;--intro-accent:#3182f6;--intro-accent-ink:#6ea4ff}
+*{box-sizing:border-box}html,body{height:100%;overflow:hidden}body{margin:0;background:var(--bg);color:var(--ink);font:var(--fw-body) var(--fs-body)/var(--lh-body) var(--font);word-break:keep-all;overflow-wrap:anywhere}button,a,summary{-webkit-tap-highlight-color:transparent}button,select{font:inherit}a{color:var(--accent);text-underline-offset:4px}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}::selection{background:var(--accent);color:var(--bg)}*{scrollbar-color:var(--line) transparent;scrollbar-width:thin}[hidden]{display:none!important}
+.topbar{height:60px;display:flex;align-items:center;gap:16px;padding:0 24px;border-bottom:1px solid var(--line)}.topbar strong{font-size:17px}.topbar .test{color:var(--muted);font-size:13px}.top-actions{margin-left:auto;display:flex;align-items:center;gap:16px}.top-actions a{font-size:14px}.quiet{background:transparent;border:1px solid var(--line);border-radius:6px;min-height:40px;padding:4px 12px;color:var(--ink);font-size:14px}.quiet:hover{background:var(--surface)}
+.workspace{display:grid;grid-template-columns:210px minmax(0,1fr) 290px;height:calc(100dvh - 146px)}.sidebar,.summary{overflow:auto;padding:24px 20px}.sidebar{border-right:1px solid var(--line);font-size:14px}.sidebar h2,.summary h2{font-size:16px;margin:0 0 20px}.course-group{font-size:12px;color:var(--muted);margin:24px 0 8px}.sidebar a{display:block;text-decoration:none;color:var(--muted);padding:9px 8px;border-radius:6px;line-height:1.6}.sidebar a.current{color:var(--ink);background:var(--surface);font-weight:700}.sidebar a:hover{color:var(--accent)}.sidebar .scope{font-size:12px;color:var(--muted);margin-top:28px;padding-top:16px;border-top:1px solid var(--line)}
+.reader{overflow:auto;scroll-behavior:smooth;position:relative;scroll-padding-top:80px}.reading-width{max-width:760px;margin:auto;padding:28px 32px 80px}.page-head{margin-bottom:28px}.page-head h1{font-size:var(--fs-page);font-weight:var(--fw-page);letter-spacing:-.02em;line-height:1.3;margin:0 0 8px}.page-head p{margin:0;color:var(--muted);font-size:14px}.view-note{margin:16px 0 0!important;color:var(--accent)!important;line-height:1.6}.stage-nav{position:sticky;top:0;z-index:3;display:flex;gap:4px;padding:10px 20px;background:var(--bg);border-bottom:1px solid var(--line);overflow:auto}.stage-nav button{white-space:nowrap;flex:1;background:transparent;border:0;color:var(--muted);min-height:40px;padding:4px 8px;border-radius:4px;font-size:13px}.stage-nav button[aria-current=step]{color:var(--accent);background:var(--tint);font-weight:700}.stage-nav button:hover{background:var(--surface)}
+.article h3{font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);margin:0 0 12px;letter-spacing:-.02em}.tags{display:flex;gap:8px;margin-bottom:24px}.tag{color:var(--muted);background:var(--surface);font-size:12px;padding:2px 8px;border-radius:4px}.layer-title{display:block;font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:-.01em;margin-bottom:12px}.layer{margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}.layer.eli5{margin:0;padding:0;border:0}.layer.eli5>:first-child{margin-top:0}.layer.eli5>:last-child{margin-bottom:0}.layer.eli5 .lead{font-size:var(--fs-lead);font-weight:var(--fw-heading);line-height:var(--lh-lead);letter-spacing:-.01em;margin:0 0 16px}.figure{text-align:center;margin:16px 0}.figure svg{max-width:560px;width:100%;height:auto;color:var(--ink)}figcaption{font-size:var(--fs-caption);font-weight:var(--fw-body);color:var(--muted);margin-top:4px}.fig-ink{stroke:currentColor;fill:none;stroke-width:2}.fig-accent{stroke:var(--accent);fill:none;stroke-width:2.5}.fig-text{fill:currentColor;font:13px var(--font)}.fig-muted{fill:var(--muted);font:12px var(--font)}.layer.eli5{color:var(--intro-ink)}.eli5 .layer-title{color:var(--intro-accent-ink)}.layer.eli5 .figure svg{color:var(--intro-ink)}.eli5 .fig-accent{stroke:var(--intro-accent)}.eli5 .fig-muted{fill:var(--intro-muted)}.eli5 figcaption{color:var(--intro-muted)}.article p{margin:16px 0}.article p.note{font-size:var(--fs-help);color:var(--muted)}.equation{margin:16px 0;min-width:0;overflow-x:auto}.katex-display{overflow-x:auto;overflow-y:hidden;padding:4px 0;margin:12px 0}.katex{font-size:1.1em}.summary{border-left:1px solid var(--line);font-size:14px;line-height:1.8}.summary p{margin:0 0 16px}.summary .sum-lead{font-weight:600}.panel-label{color:var(--muted);font-size:12px;margin:28px 0 12px!important}.eq-list{list-style:none;margin:0;padding:0}.eq-list li{padding:12px 0;border-top:1px solid var(--line);min-width:0}.eq-name{font-size:12px;color:var(--muted)}.summary .katex{font-size:1.05em}.summary dt{font-weight:700;margin-top:16px}.summary dd{margin:4px 0 16px;color:var(--muted)}blockquote{margin:16px 0;padding-left:16px;border-left:1px solid var(--line);color:var(--muted)}.prof,.interactive-note{font-size:var(--fs-help)}.article b,.article strong{font-weight:var(--fw-heading)}.steps{padding-left:24px}.steps li{margin:12px 0}.intro{margin:24px 0 40px}.stage{margin:56px 0 0;padding:32px 0 0;border-top:1px solid var(--line);scroll-margin-top:80px}.stage-heading{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}.stage-heading .number{font-size:var(--fs-label);font-weight:var(--fw-label);color:var(--accent);font-variant-numeric:tabular-nums}.stage-heading h2{margin:0;font-size:var(--fs-stage);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:-.02em}.goal{color:var(--ink);margin:8px 0 28px!important;font-size:var(--fs-body);font-weight:var(--fw-body)}.article .subheading{font-size:var(--fs-heading);font-weight:var(--fw-heading);margin:32px 0 12px}.takeaway{padding:16px 20px;background:var(--tint);margin-top:28px;font-size:var(--fs-body);font-weight:var(--fw-body)}.takeaway strong{display:block;color:var(--accent);font-size:var(--fs-label);font-weight:var(--fw-label);margin-bottom:4px}.route-label{font-size:13px;color:var(--muted)}
+/* B: each explanation and its immediately following transformations share one reading unit. */
+[data-view=equations] .calculation{padding:20px 0 24px;border-bottom:1px solid var(--line);margin:0}.calculation .reason p{margin:0 0 16px;font-size:var(--fs-body);font-weight:var(--fw-body);color:var(--ink)}[data-view=equations] .calculation .equation{background:var(--surface);padding:16px;margin:8px 0}[data-view=equations] .calculation .equation .katex-display{text-align:left}[data-view=equations] .calculation .equation .katex-display>.katex{text-align:left}.math-label{color:var(--accent);font-size:var(--fs-label);font-weight:var(--fw-label);margin:0 0 8px}
+/* C: prerequisites and alternative methods can be opened without losing the main path. */
+details.question{margin:20px 0;border:1px solid var(--line);border-radius:6px}details.question summary{cursor:pointer;padding:16px 18px;font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading)}details.question summary:hover{background:var(--surface)}details.question[open] summary{border-bottom:1px solid var(--line);color:var(--accent)}.answer{padding:4px 20px 16px}.question-hint{font-size:13px;color:var(--muted);margin:0 0 16px}.core-bridge{background:var(--surface);padding:16px 20px;margin:20px 0}.core-bridge p{margin:0}.question-tools{display:flex;gap:8px;margin:16px 0}.status{font-size:12px;color:var(--muted)}
+.stage-heading .number{flex:none;white-space:nowrap}
+.compare-bar{position:fixed;bottom:0;left:0;right:0;z-index:8;min-height:86px;border-top:1px solid var(--line);background:var(--bg);display:flex;align-items:center;justify-content:center;gap:24px;padding:12px 24px}.compare-label{font-size:12px;color:var(--muted)}.variant-buttons{display:flex;gap:6px}.variant-buttons button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:9px 18px;font-size:14px;min-height:44px}.variant-buttons button[aria-pressed=true]{background:var(--bg-invert);color:var(--ink-invert);border-color:var(--bg-invert)}.variant-buttons button:hover:not([aria-pressed=true]){background:var(--surface)}.compare-state{font-size:13px;color:var(--muted);min-width:120px}.summary-toggle{display:none}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(min-width:1600px){.workspace{grid-template-columns:240px minmax(0,1fr) 330px}.reading-width{max-width:800px;padding-left:40px;padding-right:40px}}
+@media(max-width:1150px){.workspace{grid-template-columns:175px minmax(0,1fr) 255px}.reading-width{padding:24px}.sidebar,.summary{padding:20px 16px}.topbar{padding:0 16px}.compare-bar{gap:16px}.compare-state{display:none}.variant-buttons button{padding:9px 14px}.stage-nav{padding:8px}.stage-nav button{font-size:12px;padding:4px}}
+@media(max-width:960px){.workspace{grid-template-columns:170px minmax(0,1fr)}.summary{display:none}.summary-toggle{display:block}.workspace.summary-open .summary{display:block;position:fixed;z-index:6;right:0;top:60px;bottom:86px;width:min(340px,90vw);background:var(--bg);box-shadow:-8px 4px 24px #0002}}
+@media(max-width:640px){:root{--fs-page:26px;--fs-stage:22px}.topbar{height:56px;padding:0 12px;gap:8px}.topbar strong{font-size:14px}.topbar .test{display:none}.top-actions{gap:6px}.top-actions a{font-size:12px}.quiet{padding:4px 8px;font-size:12px}.workspace{grid-template-columns:minmax(0,1fr);height:calc(100dvh - 148px)}.sidebar{display:none}.reading-width{padding:24px 20px 56px}.page-head{margin-bottom:24px}.stage-nav{gap:0;padding:6px 8px}.stage-nav button{font-size:11px;padding:6px 4px;min-height:44px}.stage{margin-top:40px;padding-top:24px}.compare-bar{min-height:92px;display:block;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}.compare-label{text-align:center;font-size:11px;margin-bottom:5px}.variant-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.variant-buttons button{font-size:12px;padding:8px 4px;min-height:40px}.workspace.summary-open .summary{top:56px;bottom:92px}.answer{padding:4px 14px 12px}.stage-body .equation{max-width:100%}.calculation .equation{padding:12px!important}}
+@media(prefers-reduced-motion:reduce){.reader{scroll-behavior:auto}}
+.type-guide{margin:20px 0 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:var(--fs-help);color:var(--ink)}
+.type-guide>summary{cursor:pointer;padding:12px 0;font-weight:var(--fw-label)}.type-guide>summary:hover{color:var(--accent)}.type-guide p{font-size:var(--fs-help);color:var(--ink);margin:12px 0;line-height:var(--lh-body)}
+.type-guide .table-wrap{overflow-x:auto;margin:12px 0 20px}.type-guide table{width:100%;border-collapse:collapse;font-size:var(--fs-caption);line-height:1.6}.type-guide th,.type-guide td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:10px 8px}.type-guide th{font-weight:var(--fw-label);color:var(--muted)}.type-guide th:first-child,.type-guide td:first-child{min-width:8em}.type-guide th:not(:first-child),.type-guide td:not(:first-child){white-space:nowrap}
+@media print{html,body{height:auto;overflow:visible}.topbar,.sidebar,.summary,.compare-bar,.stage-nav{display:none!important}.workspace{display:block;height:auto}.reader{overflow:visible}.reading-width{max-width:none;padding:0}.question>.answer{display:block!important}details.question{break-inside:avoid}.stage{break-before:auto}}
+</style></head><body>
+<header class="topbar"><strong>1102 정리노트 · 본문 서식 비교</strong><span class="test">8페이지 / 테스트용</span><div class="top-actions"><a href="정리노트_1102_PCA.html#s3-spectral-example" target="_blank" rel="noopener">원본 열기</a><button type="button" class="quiet summary-toggle" id="summary-toggle" aria-expanded="false" aria-controls="summary-panel">요약</button><button type="button" class="quiet" id="theme">테마 전환</button></div></header>
+<div class="workspace" id="workspace"><aside class="sidebar"><h2>1102 · PCA</h2><nav aria-label="강의 목차" id="course-nav"></nav><p class="scope">비교 범위: 8페이지 중앙 본문<br>원문 설명·수식 전체 포함<br>좌우 패널은 공통입니다.</p></aside>
+<main class="reader" id="reader" tabindex="0" aria-label="서식 비교 본문"><nav class="stage-nav" id="stage-nav" aria-label="풀이 단계"></nav><div class="reading-width"><header class="page-head"><h1>3.2 예제: 3×3 대칭행렬</h1><p>1102 수업 · Lecture 05 s19 · 스펙트럼 정리</p><p class="view-note" id="view-note"></p><details class="type-guide" id="type-guide"><summary>서식 기준 보기</summary>
+<p>본문의 역할에 따라 글자 크기와 두께를 정해요. A·B·C안의 같은 역할에는 같은 서식을 적용해요.</p>
+<div class="table-wrap"><table><caption class="sr-only">본문 역할별 글자 크기와 두께</caption><thead><tr><th scope="col">역할</th><th scope="col">데스크톱</th><th scope="col">모바일</th><th scope="col">두께</th></tr></thead><tbody>
+<tr><th scope="row">페이지 제목</th><td>32px</td><td>26px</td><td>800</td></tr>
+<tr><th scope="row">큰 단계 제목</th><td>24px</td><td>22px</td><td>700</td></tr>
+<tr><th scope="row">도입 문장</th><td>22px</td><td>22px</td><td>700</td></tr>
+<tr><th scope="row">레이어 라벨·소제목·질문 제목</th><td>19px</td><td>19px</td><td>700</td></tr>
+<tr><th scope="row">본문·계산 근거·단계 결과</th><td>17px</td><td>17px</td><td>400</td></tr>
+<tr><th scope="row">본문 안의 핵심 표현</th><td>17px</td><td>17px</td><td>700</td></tr>
+<tr><th scope="row">교수님 말씀·부가 메모</th><td>15px</td><td>15px</td><td>400</td></tr>
+<tr><th scope="row">그림 설명</th><td>14px</td><td>14px</td><td>400</td></tr>
+<tr><th scope="row">번호·분류 라벨</th><td>13px</td><td>13px</td><td>600</td></tr>
+</tbody></table></div>
+<p>본문 줄간격은 1.7, 제목은 1.4예요. 도입 문장은 원본과 같은 1.5를 유지해요. 계산에 꼭 필요한 설명은 작거나 흐리게 표시하지 않아요.</p>
+<p>굵게 표시는 핵심 조건이나 결론의 짧은 구절에만 써요. 수식은 KaTeX의 수학 서체를 유지하고, 여백과 배치로 구분해요.</p>
+</details></header><div class="article" id="content"></div></div></main>
+<aside class="summary" id="summary-panel" aria-label="페이지 요약"><h2>페이지 요약</h2><div id="summary-content"></div></aside></div>
+<footer class="compare-bar"><div class="compare-label">서식 바꾸기<br>선택한 풀이 단계 유지</div><div class="variant-buttons" role="group" aria-label="본문 서식 선택"><button type="button" data-view="original">원본 서식</button><button type="button" data-view="steps">A · 단계형</button><button type="button" data-view="equations">B · 수식 중심</button><button type="button" data-view="questions">C · 질문 분기</button></div><div class="compare-state" id="compare-state"></div><span class="sr-only" role="status" id="announcement"></span></footer>
+<noscript>서식 비교에는 JavaScript가 필요합니다. <a href="정리노트_1102_PCA.html#s3-spectral-example">원본 정리노트 열기</a></noscript>
+<template id="source-article"><article class="topic" id="s3-spectral-example"><h3>3.2 예제: 3×3 대칭행렬</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s19</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">힘이 똑같은 두 방향은 비스듬히 놓여 있을 수 있어서, 직각이 되게 하나를 우리가 돌려 맞춰요.</p>
+<figure class="figure"><svg id="fig-gram-schmidt-turn" viewBox="0 0 640 210" role="img" aria-label="왼쪽 그림에는 한 점에서 출발한 두 선이 비스듬한 각도로 벌어져 있어요. 가운데 화살표 선이 오른쪽 그림을 가리켜요. 오른쪽 그림에서는 첫 선은 그대로이고, 둘째 선이 강조색 선으로 바뀌어 첫 선과 직각을 이루며, 꼭짓점에 작은 직각 표시가 있어요.">
+<line class="fig-ink" x1="80" y1="170" x2="250" y2="170"/>
+<polyline class="fig-ink" points="240,163 250,170 240,177"/>
+<line class="fig-ink" x1="80" y1="170" x2="190" y2="60"/>
+<polyline class="fig-ink" points="178,64 190,60 186,72"/>
+<text class="fig-text" x="165" y="200" text-anchor="middle" font-size="13">처음: 비스듬해요</text>
+<text class="fig-muted" x="320" y="118" text-anchor="middle" font-size="13">돌려 맞추기</text>
+<line class="fig-ink" x1="290" y1="128" x2="350" y2="128"/>
+<polyline class="fig-ink" points="342,123 350,128 342,133"/>
+<line class="fig-ink" x1="400" y1="170" x2="570" y2="170"/>
+<polyline class="fig-ink" points="560,163 570,170 560,177"/>
+<line class="fig-accent" x1="400" y1="170" x2="400" y2="45"/>
+<polyline class="fig-accent" points="393,55 400,45 407,55"/>
+<polyline class="fig-ink" points="400,156 414,156 414,170"/>
+<text class="fig-text" x="485" y="200" text-anchor="middle" font-size="13">고친 뒤: 직각이에요</text>
+</svg><figcaption>첫 선은 그대로 두고, 둘째 선만 직각이 되게 돌렸어요.</figcaption></figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>목적은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 ${\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T}$를 숫자로 확인하는 거예요. 특히 고윳값이 중근이라 고유벡터가 저절로 직교하지 않는 경우를 다뤄요(L05 s19, MML Example 4.8). 대칭행렬 하나를 잡아요.</p>
+<p>${\mathbf{A}=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}}$는 대각 성분이 3, 나머지가 2라서 $\mathbf{A}^T=\mathbf{A}$예요.</p>
+<p><b>1단계 · 고윳값을 구하는 목적.</b> 고유벡터 $\mathbf{x}$는 행렬을 곱한 결과가 자기 자신의 $\lambda$배가 되는, $\mathbf{0}$이 아닌 벡터예요. $\mathbf{x}=(x_1,x_2,x_3)^T$는 아직 모르는 세 성분을 가진 열벡터이고, $\lambda$는 그 배율이에요. 먼저 가능한 배율을 찾고, 그다음 그 배율을 갖는 벡터를 찾아요.</p>
+$$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}=\lambda\mathbf{I}\mathbf{x}$$
+<p>$\mathbf{I}$는 $\mathbf{I}\mathbf{x}=\mathbf{x}$인 $3\times3$ 단위행렬이에요. 양변에서 $\lambda\mathbf{I}\mathbf{x}$를 빼고 공통인 $\mathbf{x}$를 묶어요.</p>
+$$\mathbf{A}\mathbf{x}-\lambda\mathbf{I}\mathbf{x}=\mathbf{0}$$
+$$(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$$
+<p>$\mathbf{A}-\lambda\mathbf{I}$에 역행렬이 있다면 양변에 곱해서 $\mathbf{x}=\mathbf{0}$이 돼요. 원하는 것은 영벡터가 아닌 해이므로 역행렬이 없어야 해요. 정사각행렬에서는 역행렬이 없다는 조건과 행렬식이 $0$이라는 조건이 같아요. 그래서 가능한 배율을 찾는 특성방정식은 $\det(\mathbf{A}-\lambda\mathbf{I})=0$이에요.</p>
+<p><b>행렬식을 일반적인 절차로 계산해요.</b> 수업과 슬라이드의 결과를 따라갈 수 있도록 계산을 재구성했어요. 단위행렬은 대각만 $1$이므로 $\mathbf{A}-\lambda\mathbf{I}$에서는 대각의 $3$에서만 $\lambda$를 빼요. 계산 중에만 쓰는 임시 이름 $a=3-\lambda$를 두어요.</p>
+$$\mathbf{A}-\lambda\mathbf{I}=\begin{bmatrix}3-\lambda&amp;2&amp;2\\2&amp;3-\lambda&amp;2\\2&amp;2&amp;3-\lambda\end{bmatrix}=\begin{bmatrix}a&amp;2&amp;2\\2&amp;a&amp;2\\2&amp;2&amp;a\end{bmatrix}$$
+<p>첫째 행을 기준으로 여인수 전개해요. 각 칸의 행과 열을 지운 $2\times2$ 행렬식을 그 칸의 값에 곱하고, 부호를 차례로 $+,-,+$로 붙여 더하는 방법이에요. $2\times2$ 행렬식의 규칙은 다음과 같아요.</p>
+$$\det\begin{bmatrix}b&amp;c\\d&amp;e\end{bmatrix}=be-cd$$
+<p>첫째 칸 $a$의 행과 열을 지우면 대각이 $a,a$인 행렬이 남아요. 둘째 칸 $2$에서는 첫째 행과 둘째 열을, 셋째 칸 $2$에서는 첫째 행과 셋째 열을 지워요.</p>
+$$p_A(\lambda)=a\det\begin{bmatrix}a&amp;2\\2&amp;a\end{bmatrix}-2\det\begin{bmatrix}2&amp;2\\2&amp;a\end{bmatrix}+2\det\begin{bmatrix}2&amp;a\\2&amp;2\end{bmatrix}$$
+$$p_A(\lambda)=a(a^2-4)-2(2a-4)+2(4-2a)$$
+<p>세 괄호를 각각 인수분해하면 공통인수 $a-2$가 보여요.</p>
+$$a^2-4=(a-2)(a+2),\qquad 2a-4=2(a-2),\qquad 4-2a=-2(a-2)$$
+$$p_A(\lambda)=a(a-2)(a+2)-4(a-2)-4(a-2)$$
+$$p_A(\lambda)=(a-2)\bigl[a(a+2)-4-4\bigr]$$
+$$p_A(\lambda)=(a-2)(a^2+2a-8)$$
+<p>곱해서 $-8$, 더해서 $2$가 되는 수는 $4$와 $-2$예요. 따라서 남은 이차식도 인수분해할 수 있어요.</p>
+$$a^2+2a-8=(a+4)(a-2)$$
+$$p_A(\lambda)=(a-2)^2(a+4)=(1-\lambda)^2(7-\lambda)$$
+<p>마지막 등식은 $a=3-\lambda$를 되돌려 넣은 거예요. 곱이 $0$이 되려면 $1-\lambda=0$이거나 $7-\lambda=0$이어야 하므로 고윳값은 $\lambda=1,7$이에요. $\lambda=1$은 같은 인수가 두 번 곱해진 중근이에요. 부호를 바꾸어 쓰면 노트와 같은 $p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$이에요. 슬라이드는 서로 다른 고윳값을 $\lambda_1=1$, $\lambda_2=7$로 번호 붙였어요.</p>
+<p><b>행을 더하는 요령은 언제 쓸까요?</b> 이 예제는 각 열에 $a$ 하나와 $2$ 두 개가 있어 열의 합이 모두 $a+4$예요. 첫째 행에 둘째·셋째 행을 더하면 첫째 행이 $(a+4,a+4,a+4)$가 되므로 공통인수 $a+4$를 꺼낼 수 있어요. 다른 행을 더해도 행렬식의 값은 같고, 한 행 전체의 공통인수는 행렬식 밖으로 꺼낼 수 있기 때문이에요. 모든 열의 합이 같을 때 활용할 수 있는 계산 단축이에요. 처음 보는 행렬에서도 위의 여인수 전개는 적용할 수 있어요.</p>
+<p><b>2단계 · 배율에 맞는 벡터를 찾아요.</b> 행렬식 계산으로 배율 $\lambda$를 찾았지만 벡터 $\mathbf{x}$는 아직 몰라요. 찾은 배율을 원래 조건 $(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$에 대입해 세 성분을 구해요. 행렬식 $\det(\mathbf{A}-\lambda\mathbf{I})$은 숫자 하나이고, $(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}$는 세 성분을 가진 벡터예요.</p>
+<p><b>먼저 $\lambda=1$을 넣어요.</b> 조건 $\mathbf{A}\mathbf{x}=\mathbf{x}$는 양변에서 $\mathbf{x}=\mathbf{I}\mathbf{x}$를 빼면 $(\mathbf{A}-\mathbf{I})\mathbf{x}=\mathbf{0}$이 돼요. 이 조건을 성분별로 읽기 위해 왼쪽 곱셈을 계산해요.</p>
+$$\begin{bmatrix}2&amp;2&amp;2\\2&amp;2&amp;2\\2&amp;2&amp;2\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
+<p>행렬과 열벡터의 곱에서는 행렬의 한 행과 열벡터의 같은 위치 성분을 곱해 더한 값이 결과 벡터의 한 성분이 돼요. 첫째 행 $(2,2,2)$로 계산한 첫째 성분은 $2\cdot x_1+2\cdot x_2+2\cdot x_3$예요. 오른쪽 첫째 성분이 $0$이므로 이 합도 $0$이어야 해요. 둘째·셋째 행도 같은 방식으로 계산해요.</p>
+$$\begin{bmatrix}2x_1+2x_2+2x_3\\2x_1+2x_2+2x_3\\2x_1+2x_2+2x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
+<p>세 식이 같으므로 조건은 하나예요. $2$로 나눈 다음 $x_1$을 정리해요.</p>
+$$x_1+x_2+x_3=0,\qquad x_1=-x_2-x_3$$
+<p>$x_2,x_3$는 자유롭게 고를 수 있고, 그 값을 고르면 $x_1$이 정해져요. 이런 변수를 자유변수라고 해요. $x_2=s$, $x_3=t$로 놓아 모든 해를 적어요.</p>
+$$\mathbf{x}=\begin{bmatrix}-s-t\\s\\t\end{bmatrix}=s\begin{bmatrix}-1\\1\\0\end{bmatrix}+t\begin{bmatrix}-1\\0\\1\end{bmatrix}$$
+<p>$(s,t)=(1,0)$과 $(0,1)$을 골라 두 벡터를 얻었어요. 서로 상수배가 아닌 두 벡터의 조합으로 모든 해를 만들 수 있어요. 해 전체를 고유공간 $E_1$, 그 공간을 만드는 독립적인 두 벡터를 기저라고 해요. $\operatorname{span}$은 이처럼 상수배하고 더해서 만드는 벡터 전체를 뜻해요.</p>
+$$E_1=\operatorname{span}\left[\begin{bmatrix}-1\\1\\0\end{bmatrix},\begin{bmatrix}-1\\0\\1\end{bmatrix}\right]$$
+<p>고유공간에는 영벡터도 포함하지만, 고유벡터를 고를 때는 영벡터를 제외해요. 여기서는 자유변수가 둘임을 직접 확인했으므로 $E_1$이 2차원이에요. 일반 행렬에서 중근이라는 사실만으로 독립적인 고유벡터가 두 개 있다고 결론 내릴 수는 없어요.</p>
+<p><b>이어서 $\lambda=7$을 넣어요.</b> 같은 곱셈 규칙으로 $(\mathbf{A}-7\mathbf{I})\mathbf{x}=\mathbf{0}$을 성분별로 풀어 써요.</p>
+$$\begin{bmatrix}-4&amp;2&amp;2\\2&amp;-4&amp;2\\2&amp;2&amp;-4\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
+$$\begin{aligned}-4x_1+2x_2+2x_3&amp;=0\\2x_1-4x_2+2x_3&amp;=0\\2x_1+2x_2-4x_3&amp;=0\end{aligned}$$
+<p>각 식을 $2$로 나누어요. 첫째 식에서 둘째 식을 빼면 $x_3$가 없어지고, 둘째 식에서 셋째 식을 빼면 $x_1$이 없어져요. 이 방법으로 성분 사이의 관계를 구해요.</p>
+$$\begin{aligned}-2x_1+x_2+x_3&amp;=0\\x_1-2x_2+x_3&amp;=0\\x_1+x_2-2x_3&amp;=0\end{aligned}$$
+$$(-2x_1+x_2+x_3)-(x_1-2x_2+x_3)=-3x_1+3x_2=0$$
+$$(x_1-2x_2+x_3)-(x_1+x_2-2x_3)=-3x_2+3x_3=0$$
+<p>첫 결과에서 $x_1=x_2$, 둘째 결과에서 $x_2=x_3$예요. 셋 다 $t$로 놓으면 원래 세 식도 모두 $0$이 되므로 모든 해는 $t(1,1,1)^T$예요. 자유변수 하나라서 고유공간은 1차원이에요.</p>
+$$E_7=\operatorname{span}\left[\begin{bmatrix}1\\1\\1\end{bmatrix}\right]$$
+<p>이 예제에서는 고윳값 $1$에서 독립적인 방향 두 개, 고윳값 $7$에서 방향 하나를 얻었어요. 고유벡터는 각 방향의 상수배까지 포함해 무한히 많아요. 이제 $\mathbf{P}$의 열로 쓸 대표 벡터 세 개를 $\mathbf{x}_1=(-1,1,0)^T$, $\mathbf{x}_2=(-1,0,1)^T$, $\mathbf{x}_3=(1,1,1)^T$라고 부를게요. 앞에서 $x_1,x_2,x_3$는 한 벡터의 성분이었고, 여기의 굵은 $\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3$는 각각 벡터 전체예요.</p>
+<p><b>3단계: 직교성 점검.</b> 이 $\mathbf{A}$는 실수 대칭행렬이므로 서로 다른 고윳값의 고유벡터는 직교해요. 실제로 $\mathbf{x}_3^T\mathbf{x}_1=0$, $\mathbf{x}_3^T\mathbf{x}_2=0$이에요. 같은 고윳값의 두 벡터는 $\mathbf{x}_1^T\mathbf{x}_2=1\neq0$이라 직교하지 않아요.</p>
+<p><b>4단계: Gram-Schmidt 직교화.</b> 직교화는 서로 독립인 벡터들이 표현하는 공간은 유지하면서, 벡터들을 서로 수직이 되도록 바꾸는 과정이에요. 여기서는 $\mathbf{x}_1,\mathbf{x}_2$가 만드는 평면을 그대로 표현하는 직교 기저가 필요해요. 그 기저를 만드는 방법이 Gram–Schmidt(그람–슈미트)예요. 수업에서는 직접 해 보라고 맡겼고 슬라이드에는 결과만 있어요. 다음 작은 예와 연결 설명은 이해를 위한 재구성이에요.</p>
+<p><b>먼저 평면의 두 벡터로 생각해요.</b> $\mathbf{u}=(1,0)^T$, $\mathbf{v}=(1,1)^T$는 서로 수직이 아니지만 평면 전체를 표현할 수 있어요. $\mathbf{v}$에는 $\mathbf{u}$와 나란한 성분 $(1,0)^T$와 수직인 성분 $(0,1)^T$가 함께 있어요.</p>
+$$\mathbf{v}=\begin{bmatrix}1\\1\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}+\begin{bmatrix}0\\1\end{bmatrix}$$
+<p>첫 벡터 $\mathbf{u}$는 그대로 두고, 둘째 벡터에서 첫 벡터 방향의 성분을 빼면 수직인 부분만 남아요.</p>
+$$\mathbf{w}=\mathbf{v}-\mathbf{u}=\begin{bmatrix}0\\1\end{bmatrix},\qquad \mathbf{u}^T\mathbf{w}=0$$
+<p>새 벡터 $\mathbf{u},\mathbf{w}$로도 평면 전체를 표현할 수 있어요. $\mathbf{w}=\mathbf{v}-\mathbf{u}$이고 반대로 $\mathbf{v}=\mathbf{w}+\mathbf{u}$이므로 원래 두 벡터와 새 두 벡터가 만드는 공간은 같아요. 데이터를 한 축으로 줄이는 사영과 달리, 두 기준 방향을 모두 유지한 채 기저를 바꾸는 거예요.</p>
+<p><b>방향이 비스듬해도 같은 원리예요.</b> $\mathbf{v}$를 $\mathbf{u}$ 위로 수직으로 내려 얻는 그림자 벡터가 사영(projection)이에요. 이 사영은 $\mathbf{u}$와 나란하므로 $c\mathbf{u}$로 쓸 수 있어요. $\mathbf{w}=\mathbf{v}-c\mathbf{u}$가 $\mathbf{u}$와 수직이 되도록 내적을 0으로 놓으면 $c=(\mathbf{u}^T\mathbf{v})/(\mathbf{u}^T\mathbf{u})$를 얻어요. $\mathbf{u}$의 길이가 1이라는 가정 없이 쓰는 식이에요. 아래 실제 계산에서는 $\mathbf{u}$ 자리에 $\mathbf{x}_1$, $\mathbf{v}$ 자리에 $\mathbf{x}_2$를 넣어요.</p>
+<p><b>바꾼 벡터도 고유벡터일까요?</b> 여기서 $\mathbf{x}_1,\mathbf{x}_2$는 같은 고윳값 1에 속하므로, 선형결합한 결과가 영벡터가 아니면 여전히 고윳값 1의 고유벡터예요. 서로 독립인 두 벡터에서 한 벡터의 배수를 빼므로 아래 결과도 영벡터가 아니에요. 서로 다른 고윳값의 고유벡터들을 임의로 섞으면 고유벡터라는 성질을 잃을 수 있어요. 같은 고윳값에 속할 때 허용되는 이유는 임의의 스칼라 $\alpha,\beta$에 대해 다음 식으로 확인해요.</p>
+$$\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2=1\cdot(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$$
+<ol class="steps">
+<li>첫 벡터는 그대로 둬요: $\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$.</li>
+<li>둘째 벡터에서 $c\mathbf{x}_1$을 빼요. 결과가 $\mathbf{x}_1$과 수직이어야 하므로 내적을 0으로 놓고 $c$를 풀어요.
+$$\begin{aligned}
+0&amp;=\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)\\
+ &amp;=\mathbf{x}_1^T\mathbf{x}_2-c\,\mathbf{x}_1^T\mathbf{x}_1,\\
+c&amp;=\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}=\frac{1}{2}.
+\end{aligned}$$
+$$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</li>
+<li>확인해요. ${\mathbf{x}_1^T\mathbf{x}_2'=\frac12-\frac12+0=0}$이고 ${\mathbf{x}_3^T\mathbf{x}_2'=-\frac12-\frac12+1=0}$이에요. 또 $\mathbf{A}\mathbf{x}_2'=\mathbf{x}_2'$라서 여전히 $\lambda=1$의 고유벡터예요.</li>
+</ol>
+<p>이렇게 $(-1,1,0)^T$, $(-1/2,-1/2,1)^T$(고윳값 1)와 $(1,1,1)^T$(고윳값 7)가 $\mathbb{R}^3$의 직교 기저가 돼요. $E_1$ 안의 직교 기저는 이 한 쌍만 있는 것이 아니라서 $\mathbf{P}$도 하나로 정해지지 않아요.</p>
+<p><b>5단계: 정규화.</b> 4단계에서는 서로 수직으로 만들었고, 아직 길이를 1로 맞추지는 않았어요. 이제 각 벡터를 자기 길이로 나눠 방향과 직교성은 유지하면서 길이를 1로 맞춰요. 길이는 차례로 $\sqrt2$, $\sqrt{3/2}$, $\sqrt3$이에요.</p>
+$${\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}},\quad{\mathbf{p}_2=\frac{1}{\sqrt6}\begin{bmatrix}-1\\ -1\\ 2\end{bmatrix}},\quad{\mathbf{p}_3=\frac{1}{\sqrt3}\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}}$$
+<p>$\mathbf{p}_2$는 $(-1/2,-1/2,1)^T$를 $\sqrt{3/2}$로 나눈 것과 같아요. 고윳값 순서는 열 순서를 따라 $\lambda_1=\lambda_2=1$, $\lambda_3=7$이에요. 여기서 아래첨자는 $\mathbf{P}$의 열 번호라서 슬라이드의 $\lambda_2=7$과 번호가 달라요.</p>
+$${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 0 &amp; 2/\sqrt6 &amp; 1/\sqrt3\end{bmatrix}},\quad{\mathbf{D}=\begin{bmatrix}1 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 7\end{bmatrix}}$$
+<p><b>6단계: $\mathbf{P}^T\mathbf{P}=\mathbf{I}$ 확인.</b> $\mathbf{P}^T\mathbf{P}$의 $(i,j)$ 성분은 $\mathbf{p}_i^T\mathbf{p}_j$예요. 대각은 길이의 제곱이라 정규화 뒤 모두 1이고, 비대각은 3·4단계에서 확인한 대로 0이에요. 그래서 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
+<p class="note">(수업 중 "$\mathbf{P}\mathbf{P}^T$하면 identity"라고 말했다가 정정: 정의는 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요. 정방 직교행렬이면 $\mathbf{P}\mathbf{P}^T=\mathbf{I}$도 성립해 결과는 같아요.)</p>
+<p><b>7단계: 조각의 합으로 $\mathbf{A}$ 복원.</b> 각 조각 $\mathbf{p}_i\mathbf{p}_i^T$를 계산해요.</p>
+$${\mathbf{p}_1\mathbf{p}_1^T=\frac{1}{2}\begin{bmatrix}1 &amp; -1 &amp; 0\\ -1 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 0\end{bmatrix}},\quad{\mathbf{p}_2\mathbf{p}_2^T=\frac{1}{6}\begin{bmatrix}1 &amp; 1 &amp; -2\\ 1 &amp; 1 &amp; -2\\ -2 &amp; -2 &amp; 4\end{bmatrix}},\quad{\mathbf{p}_3\mathbf{p}_3^T=\frac{1}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
+<p>고윳값 1인 두 조각을 더하고, 고윳값 7인 조각에 7을 곱해요.</p>
+$${1\cdot(\mathbf{p}_1\mathbf{p}_1^T+\mathbf{p}_2\mathbf{p}_2^T)=\frac{1}{3}\begin{bmatrix}2 &amp; -1 &amp; -1\\ -1 &amp; 2 &amp; -1\\ -1 &amp; -1 &amp; 2\end{bmatrix}},\quad{7\,\mathbf{p}_3\mathbf{p}_3^T=\frac{7}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
+<p>두 행렬을 더하면 대각은 $\frac{2}{3}+\frac{7}{3}=3$, 비대각은 $-\frac{1}{3}+\frac{7}{3}=2$예요.</p>
+$$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}=\mathbf{A}$$
+<p>같은 확인을 ${\mathbf{P}\mathbf{D}\mathbf{P}^T=\mathbf{A}}$로 해도 돼요. 위 계산은 Python(fractions, sympy)으로 검산했어요.</p>
+<p><b>복원 순서.</b> 특성다항식으로 고윳값을 구하고, 고유공간을 풀고, 이 실수 대칭행렬에서 중근 고유공간의 기저가 서로 직교하지 않으면 Gram–Schmidt로 직교화하고, 모든 기저 벡터를 정규화해요. 마지막으로 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 조각의 합으로 검산해요.</p>
+</div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A4%91%EA%B7%BC_%EA%B3%A0%EC%9C%A0%EA%B3%B5%EA%B0%84%EA%B3%BC_%EA%B7%B8%EB%9E%8C-%EC%8A%88%EB%AF%B8%ED%8A%B8.html">중근 λ = 1 평면에서 두 고유벡터를 골라 그람-슈미트 전후의 PDPᵀ 오차를 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A4%91%EA%B7%BC_%EA%B3%A0%EC%9C%A0%EA%B3%B5%EA%B0%84%EA%B3%BC_%EA%B7%B8%EB%9E%8C-%EC%8A%88%EB%AF%B8%ED%8A%B8.html" rel="noopener noreferrer" target="_self">중근 고유공간과 그람-슈미트 실험</a>에서 비교해 보세요.</p>
+
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<p>교수님은 $\lambda=1$이 중근이라 고유벡터가 2개 나올 수 있고, 그 2개가 고유공간을 span한다고 짚었어요. 그래서 고유벡터 3개로 $\mathbf{P}$를 만들 수 있다고 했어요. $(-1,1,0)^T$를 자기 노름 $\sqrt2$로 나누듯 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 ${\sum\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\mathbf{A}}$를 직접 확인할 수 있다고 했어요.</p>
+<blockquote>“이거는 여러분이 그냥 복습 간단하게 한번 해보세요”</blockquote>
+<p>$\lambda=1$ 고유공간 안의 직교화 단계는 말로 설명하지 않고 복습으로 맡겼어요. 시각은 녹음 파트 안의 추정값이에요.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">이 실수 대칭행렬에서 서로 다른 고윳값의 고유벡터는 직교하지만, 같은 고윳값 1에서 고른 두 벡터는 서로 수직이 아니에요. Gram–Schmidt로 앞 벡터 방향의 성분을 빼면 같은 평면과 고유벡터 성질을 유지하며 수직으로 만들 수 있어요. 처음부터 직교하면 이 과정은 생략해요. 이어 길이를 1로 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">특성다항식</span>$$p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$$</li>
+<li><span class="eq-name">고유공간</span>$${E_1=\operatorname{span}\left[\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix},\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}\right]}$$ $${E_7=\operatorname{span}\left[\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}\right]}$$</li>
+<li><span class="eq-name">Gram-Schmidt 한 단계</span>$$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</li>
+<li><span class="eq-name">정규화한 고유벡터</span>$${\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}},\quad{\mathbf{p}_2=\frac{1}{\sqrt6}\begin{bmatrix}-1\\ -1\\ 2\end{bmatrix}},\quad{\mathbf{p}_3=\frac{1}{\sqrt3}\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}}$$</li>
+<li><span class="eq-name">복원 확인</span>$$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}=\mathbf{A}$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>중근(repeated eigenvalue)</dt><dd>$\lambda=1$은 특성다항식의 두 번 겹친 근이에요. 이 예제의 고유공간이 2차원임은 연립방정식으로 확인해요. 그 안의 고유벡터는 자동으로 직교하지 않아요.</dd>
+<dt>Gram-Schmidt</dt><dd>독립인 벡터들이 표현하는 공간을 유지하며 앞 벡터 방향 성분을 빼 수직인 기저를 만들어요. 여기서는 같은 고윳값의 고유공간 안에서 적용하므로 고유벡터 성질도 유지해요.</dd>
+<dt>정규화(normalization)</dt><dd>각 벡터를 자기 길이로 나눠 길이 1로 만들어요.</dd>
+<dt>$\mathbf{P}^T\mathbf{P}=\mathbf{I}$</dt><dd>성분 $\mathbf{p}_i^T\mathbf{p}_j$가 대각 1, 비대각 0이라는 뜻이에요.</dd>
+</dl>
+</div>
+</article>
+</template>
+<script>
+const source=document.querySelector('#source-article');
+const content=document.querySelector('#content'),reader=document.querySelector('#reader');
+const nav=document.querySelector('#stage-nav');
+const configs={original:['원본 서식','기존의 연속 문단과 수식 배치를 그대로 확인해요.'],steps:['A · 단계형','목표 → 풀이 → 얻은 결과. 긴 설명을 단계별로 따라가요.'],equations:['B · 수식 중심','설명과 바로 뒤의 수식을 묶어, 각 변환의 근거를 가까이 둬요.'],questions:['C · 질문 분기','기본 풀이를 따라가며 기초 설명과 계산 요령을 질문으로 열어봐요.']};
+const stages=[
+ {name:'고윳값',title:'가능한 배율 찾기',goal:'영벡터가 아닌 해가 존재할 조건으로 λ를 구해요.',result:'고윳값은 $1$과 $7$. $1$은 중근이에요. 다음에는 각 값을 연립방정식에 대입해요.'},
+ {name:'고유공간',title:'각 배율에 맞는 방향 찾기',goal:'$(A-\\lambda I)\\mathbf{x}=\\mathbf{0}$을 풀어 각 고유공간의 기저를 구해요.',result:'$E_1$에서는 독립인 방향 두 개, $E_7$에서는 방향 한 개를 얻었어요.'},
+ {name:'직교화',title:'같은 공간 안에서 수직으로 만들기',goal:'먼저 내적을 확인하고, 서로 수직이 아닌 두 기저 벡터에 Gram–Schmidt를 적용해요.',result:'세 방향이 서로 수직이 됐어요. 이제 각 벡터의 길이를 $1$로 맞춰요.'},
+ {name:'정규화',title:'길이 1인 기저로 P 만들기',goal:'각 벡터를 자기 길이로 나누고, 열 순서에 맞춰 $D$를 만들어요.',result:'$P$의 열은 정규직교 기저이고 $D=\\operatorname{diag}(1,1,7)$예요.'},
+ {name:'검산',title:'처음 행렬로 돌아오는지 확인하기',goal:'$P^TP=I$와 $PDP^T=A$를 확인해요.',result:'직교성·길이·고윳값의 대응을 모두 확인했고, 원래 행렬 $A$를 복원했어요.'}
+];
+let view='steps',active=0,observer;
+const fragment=()=>source.content.firstElementChild.cloneNode(true);
+const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!==undefined)e.innerHTML=html;return e;};
+function equationNodes(parent){
+ [...parent.childNodes].forEach(n=>{if(n.nodeType!==3)return;const parts=n.textContent.split(/(\$\$[\s\S]*?\$\$)/g);if(parts.length<2)return;const f=document.createDocumentFragment();parts.forEach(t=>{if(!t.trim())return;f.append(t.startsWith('$$')?el('div','equation',t):document.createTextNode(t));});n.replaceWith(f);});
+}
+function getGroups(article){
+ const formal=article.querySelector('.formal');equationNodes(formal);
+ const groups=Array.from({length:5},()=>[]),intro=[];let current=-1;
+ [...formal.childNodes].forEach(n=>{if(n.nodeType===3&&!n.textContent.trim())return;if(n.classList?.contains('layer-title'))return;const marker=n.nodeType===1?n.querySelector(':scope > b')?.textContent:'';const m=marker?.match(/^([1-7])단계/);if(m)current=({1:0,2:1,3:2,4:2,5:3,6:4,7:4})[m[1]];(current<0?intro:groups[current]).push(n);});
+ return {groups,intro};
+}
+function removeStepNumbers(body){
+ body.querySelectorAll('p > b:first-child').forEach(b=>{
+  const text=b.firstChild;
+  if(text?.nodeType===Node.TEXT_NODE)text.textContent=text.textContent.replace(/^[1-7]단계\s*[·:：]?\s*/, '');
+ });
+ const walker=document.createTreeWalker(body,NodeFilter.SHOW_TEXT);
+ while(walker.nextNode()){
+  const n=walker.currentNode;
+  n.textContent=n.textContent
+   .replace(/3·4단계에서 확인한 대로/g,'앞에서 직교성을 점검하고 직교화한 대로')
+   .replace(/4단계에서는/g,'앞에서는');
+ }
+}
+function promote(body){body.querySelectorAll('p > b:first-child').forEach(b=>{const p=b.parentElement;if(p.firstChild!==b)return;const h=el('h3','subheading');h.innerHTML=b.innerHTML.replace(/\.$/, '');b.remove();p.before(h);if(!p.textContent.trim())p.remove();});}
+function mathPairs(body){
+ const children=[...body.childNodes];body.replaceChildren();
+ for(let i=0;i<children.length;i++){
+  const n=children[i];if(n.nodeType===1&&n.tagName==='P'&&children[i+1]?.classList?.contains('equation')){
+   const unit=el('div','calculation'),reason=el('div','reason');reason.append(n);unit.append(el('div','math-label','변환과 근거'),reason);
+   while(children[i+1]?.classList?.contains('equation'))unit.append(children[++i]);body.append(unit);
+  }else body.append(n);
+ }
+}
+function foldRange(body,start,end,label){
+ const nodes=[...body.childNodes],a=nodes.findIndex(start);if(a<0)return;let b=end?nodes.findIndex((n,i)=>i>a&&end(n)):a+1;if(b<0)b=nodes.length;
+ const details=el('details','question');details.append(el('summary','',label));const answer=el('div','answer');nodes[a].before(details);nodes.slice(a,b).forEach(n=>answer.append(n));details.append(answer);
+}
+function questions(body,i){
+ const txt=n=>n.textContent||'';
+ if(i===0){
+  foldRange(body,n=>/^1단계/.test(txt(n)),n=>txt(n).startsWith('행렬식을 일반적인'), '왜 det(A − λI) = 0을 풀어야 할까요?');
+  body.prepend(el('div','core-bridge','<p>영벡터가 아닌 고유벡터를 찾으려면 $A-\\lambda I$가 역행렬을 갖지 않아야 해요. 따라서 $\\det(A-\\lambda I)=0$을 풀어 가능한 배율을 구해요.</p>'));
+  foldRange(body,n=>txt(n).startsWith('행을 더하는 요령'),null,'이 행렬에서 행을 더하는 요령은 언제 쓸 수 있나요?');
+ }
+ if(i===1)foldRange(body,n=>txt(n).startsWith('행렬과 열벡터의 곱에서는'),n=>txt(n).startsWith('세 식이 같으므로'),'행렬과 벡터를 곱하면 왜 같은 식 세 개가 나오나요?');
+ if(i===2){
+  foldRange(body,n=>txt(n).startsWith('먼저 평면의 두 벡터'),n=>txt(n).startsWith('바꾼 벡터도'),'Gram–Schmidt를 2차원 예시부터 이해하고 싶어요.');
+  foldRange(body,n=>txt(n).startsWith('바꾼 벡터도'),n=>n.nodeType===1&&n.tagName==='OL','기저를 바꾼 뒤에도 왜 고유벡터일까요?');
+  const note=el('div','core-bridge','<p>여기서는 <b>같은 고윳값의 고유공간 안에서</b> 기저를 바꿔요. 따라서 공간과 고유벡터 성질을 유지할 수 있어요.</p>');body.prepend(note);
+ }
+ if(i===4)foldRange(body,n=>n.classList?.contains('note'),null,'PᵀP와 PPᵀ는 어떻게 다른가요?');
+}
+function build(){
+ observer?.disconnect();const article=fragment();const sum=article.querySelector('.sum');sum.removeAttribute('hidden');document.querySelector('#summary-content').replaceChildren(...sum.childNodes);sum.remove();
+ // In-page references outside this example open the original note.
+ article.querySelectorAll('a[href^="#"]').forEach(a=>{a.href='정리노트_1102_PCA.html'+a.getAttribute('href');a.target='_blank';a.rel='noopener';});
+ const {groups,intro}=getGroups(article);content.replaceChildren();
+ const opening=article.querySelector('.eli5');
+ content.append(opening,el('div','layer','<span class="layer-title">정확히 말하면</span>'));
+ const context=el('div','intro');context.append(...intro);content.append(context);
+ if(view==='questions'){
+  const controls=el('div','question-tools');controls.innerHTML='<button type="button" class="quiet" id="expand-all">질문 모두 펼치기</button><button type="button" class="quiet" id="collapse-all">질문 모두 접기</button>';content.append(controls);
+ }
+ groups.forEach((nodes,i)=>{
+  const section=el('section',view==='original'?'original-stage':'stage');section.id='stage-'+i;section.dataset.stage=i;
+  if(view!=='original'){section.append(el('div','stage-heading','<span class="number">'+(i+1)+' / 5</span><h2>'+stages[i].title+'</h2>'),el('p','goal',stages[i].goal));}
+  const body=el('div','stage-body');body.append(...nodes);
+  if(view==='questions')questions(body,i);
+  if(view!=='original'){removeStepNumbers(body);promote(body);}
+  if(view==='equations')mathPairs(body);
+  section.append(body);
+  if(view!=='original')section.append(el('div','takeaway','<strong>여기서 얻은 결과</strong>'+stages[i].result));content.append(section);
+ });
+ const extra=el('div','extras');const interactive=article.querySelector('.interactive-note');if(interactive)extra.append(interactive);const prof=article.querySelector('.prof');if(prof)extra.append(prof);content.append(extra);
+ document.documentElement.dataset.view=view;
+ document.querySelector('#view-note').textContent=configs[view][1];
+ document.querySelectorAll('[data-view]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',String(b.dataset.view===view));});
+ typeset();
+ if(view==='questions'){
+  document.querySelector('#expand-all').onclick=()=>content.querySelectorAll('details.question').forEach(d=>d.open=true);
+  document.querySelector('#collapse-all').onclick=()=>content.querySelectorAll('details.question').forEach(d=>d.open=false);
+ }
+ observer=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting);if(visible.length){active=+visible[0].target.dataset.stage;updateNav();}}, {root:reader,rootMargin:'-64px 0px -65% 0px',threshold:0});content.querySelectorAll('[data-stage]').forEach(n=>observer.observe(n));
+}
+function typeset(){if(!window.mathReady)return;for(const e of [content,document.querySelector('#summary-content')])renderMathInElement(e,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']});}
+window.typeset=typeset;
+function updateNav(){[...nav.children].forEach((b,i)=>{if(i===active)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});document.querySelector('#compare-state').textContent=configs[view][0]+' · '+stages[active].name;}
+function jump(i,behavior='instant'){active=i;updateNav();const target=content.querySelector('#stage-'+i);if(target)reader.scrollTo({top:target.getBoundingClientRect().top-reader.getBoundingClientRect().top+reader.scrollTop-nav.offsetHeight-16,behavior});}
+function setView(next,keep=true){const wasTop=reader.scrollTop<180;view=next;build();updateNav();if(keep&&!wasTop)jump(active,'instant');else reader.scrollTop=0;const url=new URL(location.href);url.searchParams.set('view',view);url.searchParams.set('stage',active);history.replaceState(null,'',url);document.querySelector('#announcement').textContent=configs[view][0]+'으로 바꿨어요.';}
+nav.replaceChildren(...stages.map((s,i)=>{const b=el('button','',''+(i+1)+'. '+s.name);b.type='button';b.onclick=()=>jump(i);return b;}));
+const course=[['0. 오늘의 큰 그림','가장 많이 퍼진 방향 찾기','s0-learning-map'],['1. 최대 분산','1.1 분산은 데이터의 에너지','s1-variance-energy'],['','1.2 행렬로 다시 쓰는 사영 좌표','s1-matrix-again'],['2. 고윳값과 대각화','2.1 고윳값과 고유벡터','s2-eigen'],['','2.2 대각행렬과 대각화','s2-diagonal'],['','2.3 고윳값 분해(EVD)','s2-evd'],['3. 스펙트럼 정리','3.1 대칭행렬은 직교 고유벡터로 쪼개져요','s3-spectral'],['','3.2 예제: 3×3 대칭행렬','s3-spectral-example']];
+const courseNav=document.querySelector('#course-nav');course.forEach(([group,title,id])=>{if(group)courseNav.append(el('p','course-group',group));const a=el('a',id==='s3-spectral-example'?'current':'',title);a.href='정리노트_1102_PCA.html#'+id;a.target='_blank';a.rel='noopener';if(id==='s3-spectral-example')a.setAttribute('aria-current','page');courseNav.append(a);});
+for(const b of document.querySelectorAll('button[data-view]'))b.onclick=()=>setView(b.dataset.view);
+document.querySelector('#theme').onclick=()=>{const dark=getComputedStyle(document.documentElement).colorScheme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';};
+document.querySelector('#summary-toggle').onclick=e=>{const open=document.querySelector('#workspace').classList.toggle('summary-open');e.currentTarget.setAttribute('aria-expanded',String(open));};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelector('#workspace').classList.remove('summary-open');document.querySelector('#summary-toggle').setAttribute('aria-expanded','false');}});
+const initial=new URLSearchParams(location.search);active=Math.min(4,Math.max(0,Number(initial.get('stage'))||0));setView(Object.hasOwn(configs,initial.get('view'))?initial.get('view'):'steps',false);if(initial.has('stage'))jump(active,'instant');
+</script></body></html>
