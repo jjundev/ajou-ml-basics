@@ -75,6 +75,18 @@
     .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
     .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
 
+    /* 긴 계산: 기존 패널 안에서 단계별로 읽는다 */
+    .note-stage-nav { position: sticky; top: 0; z-index: 2; display: flex; gap: var(--s1); overflow-x: auto; background: var(--bg); border-bottom: 1px solid var(--line); margin: var(--s5) 0; }
+    .note-stage-nav a { display: flex; align-items: center; flex: 0 0 auto; min-height: 44px; padding: 0 var(--s2); color: var(--ink-2); font-size: var(--fs-small); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; }
+    .note-stage-nav a[aria-current="step"] { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+    .note-stage { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
+    .topic .note-stage-title { display: flex; align-items: baseline; gap: var(--s4); margin: 0 0 var(--s2); font-size: clamp(22px, 4vw, 24px); font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; scroll-margin-top: 72px; }
+    .note-stage-number { flex: none; white-space: nowrap; color: var(--accent-ink); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0; }
+    .topic .note-stage-goal { margin: var(--s2) 0 var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    .topic .note-subheading { margin: var(--s6) 0 var(--s3); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .topic .note-stage-result { margin-top: var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    @media print { .note-stage-nav { display: none; } .note-stage { break-inside: auto; } }
+
     /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
     .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
     .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
@@ -769,6 +781,46 @@
       }, { passive: true });
 
       fromUrl();
+    })();
+  </script>
+  <script id="note-stage-navigation">
+    (() => {
+      const scroller = document.querySelector('.content');
+      const topics = Array.from(document.querySelectorAll('article.topic')).filter(t => t.querySelector('.note-stage-nav'));
+      if (!scroller || !topics.length) return;
+      let pending = false;
+      function paint() {
+        pending = false;
+        topics.forEach(topic => {
+          if (!topic.getClientRects().length) return;
+          const nav = topic.querySelector('.note-stage-nav');
+          const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+          const boundary = nav.getBoundingClientRect().bottom + 48;
+          let current = 0;
+          links.forEach((link, i) => {
+            const heading = document.getElementById(link.hash.slice(1));
+            if (heading && heading.getBoundingClientRect().top <= boundary) current = i;
+          });
+          const changed = links[current] && links[current].getAttribute('aria-current') !== 'step';
+          links.forEach((link, i) => {
+            if (i === current) link.setAttribute('aria-current', 'step');
+            else link.removeAttribute('aria-current');
+          });
+          if (changed) {
+            const bounds = nav.getBoundingClientRect();
+            const active = links[current].getBoundingClientRect();
+            if (active.right > bounds.right) nav.scrollLeft += active.right - bounds.right + 8;
+            else if (active.left < bounds.left) nav.scrollLeft += active.left - bounds.left - 8;
+          }
+        });
+      }
+      function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+      scroller.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      document.addEventListener('od:screen', schedule);
+      window.addEventListener('hashchange', schedule);
+      window.addEventListener('load', schedule);
+      schedule();
     })();
   </script>
 </body>

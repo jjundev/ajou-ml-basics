@@ -396,7 +396,7 @@ def block(node, ctx):
     t, cls = node.tag, node.classes
     if t in ("nav", "script", "style") or "topbar" in cls or "progress" in cls:
         return []
-    if t in ("h1", "h2", "h3", "h4"):
+    if t in ("h1", "h2", "h3", "h4", "h5", "h6"):
         anchor = node.attrs.get("id")
         if t in ("h2", "h3") and node.parent is not None and node.parent.attrs.get("id") and node.parent.tag in ("section", "article"):
             anchor = node.parent.attrs["id"]
