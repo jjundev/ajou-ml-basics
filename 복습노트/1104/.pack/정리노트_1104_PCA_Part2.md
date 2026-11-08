@@ -54,6 +54,8 @@
 
 중심화한 데이터에서 남긴 분산을 최대로 하면 버린 축의 분산 합인 평균 제곱 복원오차가 최소가 돼요.
 
+압축 좌표는 남긴 축 수인 $M$차원이고, 복원값은 원래 특성 수인 $D$차원이에요. 선택 경계의 고윳값이 같으면 최적 축을 여러 방식으로 고를 수 있어요.
+
 ---
 
 <a id="s0-spectral-weights"></a>
@@ -101,6 +103,14 @@
 
 $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mathbf x_n\mathbf x_n^\top$의 $(i,j)$ 원소는 $x_{in}x_{jn}$이므로 평균을 내면 대각 원소는 특성별 분산이고, 비대각 원소는 두 특성의 공분산이에요. 성분을 서로 바꿔 곱해도 값이 같아 대칭이에요. 분산식의 크기는 $(1\times D)(D\times D)(D\times1)=1\times1$이에요. 임의의 $\mathbf b$에서도 제곱의 평균은 음수가 될 수 없으므로 $\mathbf S$는 양의 준정부호(PSD)예요.
 
+방향만 비교하려면 축 벡터의 길이를 같게 맞춰야 해요. 실수 $\alpha$를 곱해 축 벡터의 길이를 바꾸면 가중합 좌표도 $\alpha$배가 되므로 다음 관계가 성립해요.
+
+$$
+V(\alpha\mathbf b)=\alpha^2V(\mathbf b).
+$$
+
+축 자체를 크게 만들어 분산 값을 키우는 선택을 막으려고 $\|\mathbf b\|=1$로 제한해요. 이 조건 아래에서 어느 방향의 분산이 가장 큰지 비교해요.
+
 <a id="s0-weights-coordinates"></a>
 
 #### 2 / 3 축을 고유기저 좌표로 쓰기
@@ -111,7 +121,19 @@ $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mat
 
 실대칭 행렬의 스펙트럼 정리에 따라 단위 고유벡터 $\mathbf p_1,\ldots,\mathbf p_D\in\mathbb R^D$를 직교하도록 골라 기저로 삼을 수 있어요. $\mathbf S\mathbf p_i=\lambda_i\mathbf p_i$의 $\lambda_i$는 그 축의 분산이며 $\lambda_1\ge\cdots\ge\lambda_D\ge0$ 순서로 배열해요. $\delta_{ij}$는 같은 인덱스면 1, 다르면 0이에요. 그러므로 $\mathbf p_i^\top\mathbf p_j=\delta_{ij}$예요.
 
-1. $\mathbf P=[\mathbf p_1,\ldots,\mathbf p_D]\in\mathbb R^{D\times D}$와 $\boldsymbol\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_D)\in\mathbb R^{D\times D}$를 두면 열마다 고유벡터 정의에 따라 $\mathbf S\mathbf P=\mathbf P\boldsymbol\Lambda$예요. $\mathbf P\mathbf P^\top=\mathbf I_D$이므로 오른쪽에 $\mathbf P^\top$를 곱해요.
+1. $\mathbf P=[\mathbf p_1,\ldots,\mathbf p_D]\in\mathbb R^{D\times D}$와 $\boldsymbol\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_D)\in\mathbb R^{D\times D}$를 두면 열마다 고유벡터 정의에 따라 $\mathbf S\mathbf P=\mathbf P\boldsymbol\Lambda$예요.
+
+   강의 공식을 내적으로 풀어 읽어 볼게요. $p_{di}$는 $i$번째 열벡터 $\mathbf p_i$의 $d$번째 성분이에요. $\mathbf P^\top$의 $i$번째 행과 $\mathbf P$의 $j$번째 열을 곱하면 다음 한 칸을 얻어요.
+
+   $$
+   (\mathbf P^\top\mathbf P)_{ij}=\sum_{d=1}^D p_{di}p_{dj}=\mathbf p_i^\top\mathbf p_j.
+   $$
+
+   예를 들어 $(1,2)$번째 칸은 $p_{11}p_{12}+\cdots+p_{D1}p_{D2}=\mathbf p_1^\top\mathbf p_2$예요. 대각선 칸은 자기 자신과의 내적이라 길이의 제곱 $1$이고, 나머지 칸은 서로 수직인 두 열의 내적이라 $0$이에요. 그래서 $\mathbf P^\top\mathbf P=\mathbf I_D$예요.
+
+   여기서 $\mathbf P$는 실수 정방행렬이므로 $\mathbf P^{-1}=\mathbf P^\top$이고, 반대 순서로 곱해도 $\mathbf P\mathbf P^\top=\mathbf I_D$예요. $\mathbf P$는 고유기저 좌표를 원래 벡터로 조립하고, $\mathbf P^\top$는 각 열과의 내적으로 그 좌표를 다시 읽어요. 전체 기저를 모두 썼기 때문에 두 변환을 이어 하면 원래 벡터로 돌아와요.
+
+   이제 $\mathbf S\mathbf P=\mathbf P\boldsymbol\Lambda$의 오른쪽에 $\mathbf P^\top$를 곱해요.
 
    $$
    \mathbf S=\mathbf P\boldsymbol\Lambda\mathbf P^\top=\sum_{i=1}^D\lambda_i\mathbf p_i\mathbf p_i^\top.
@@ -180,6 +202,10 @@ $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mat
 
   제곱 가중치의 합은 $\sum_i c_i^2=1$이에요.
 
+공분산은 실대칭이므로 정규직교 고유기저를 고를 수 있고, 양의 준정부호라 고윳값은 모두 $0$ 이상이에요. 열끼리의 내적이 대각선 $1$·나머지 $0$을 만들므로, 정방 고유기저 행렬에서는 $\mathbf P^{-1}=\mathbf P^\top$예요.
+
+축 자체의 크기로 분산 값을 키우지 않도록 단위 길이로 방향을 비교해요.
+
 *용어*
 
 - **고유기저** — 데이터 공분산의 직교 정규 고유벡터를 모은 기저예요.
@@ -222,6 +248,8 @@ $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mat
 #### 2 / 3 직교하는 다음 방향 고르기
 
 이미 고른 축과 직교하는 조건을 넣어, 남은 방향의 분산 상한을 구해요.
+
+다음 축에서도 분산만 최대화하면 이미 고른 첫 방향을 다시 고를 수 있어요. 서로 다른 좌표축으로 정보를 나누어 담으려고, PCA는 이미 고른 축과 직교하는 단위축 안에서 다음 축을 찾아요.
 
 **이미 고른 방향을 빼요.** 둘째 방향은 $\mathbf b_1$과 직교해야 하므로 $\mathbf p_1^\top\mathbf b=0$, 곧 $c_1=0$이에요. 이미 첫 $k-1$개를 $\mathbf p_1,\ldots,\mathbf p_{k-1}$로 골랐다면 $c_1=\cdots=c_{k-1}=0$이에요. 남은 좌표로 같은 상한 계산을 해요.
 
@@ -276,6 +304,8 @@ $\mathbf b_k=\mathbf p_k$가 이 값에 도달해요.
   $$
   \sum_{i=1}^M\lambda_i
   $$
+
+다음 축은 이미 고른 축과 직교하는 단위축 중에서 골라, 같은 방향을 중복 선택하지 않아요.
 
 *용어*
 
@@ -369,7 +399,7 @@ $$
    \mathbf z_n=(\mathbf B^\top\mathbf B)^{-1}\mathbf B^\top\mathbf x_n.
    $$
 
-   직교 정규 기저에서는 $\mathbf B^\top\mathbf B=\mathbf I_M$이므로 각 좌표가 점과 축의 내적이에요.
+   직교 정규 기저에서는 앞의 고유기저와 마찬가지로 $(\mathbf B^\top\mathbf B)_{ij}=\mathbf b_i^\top\mathbf b_j$예요. 대각선은 길이의 제곱 $1$, 나머지는 수직인 축의 내적 $0$이므로 $\mathbf B^\top\mathbf B=\mathbf I_M$이에요. 일반식의 역행렬 항이 단위행렬이 되어 각 좌표가 점과 축의 내적으로 단순해져요.
 
    $$
    \mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad z_{in}=\mathbf b_i^\top\mathbf x_n.
@@ -389,6 +419,8 @@ $$
 
 잔차가 부분공간과 수직이므로 이 복원은 직교사영(orthogonal projection)이에요. $\mathbf B^\top$는 $M$개 좌표를 뽑고, $\mathbf B$는 그 좌표를 $D$차원 공간의 점으로 바꿔요.
 
+$M\lt D$이면 $\mathbf B$는 일부 축만 담은 직사각행렬이므로 정방행렬 $\mathbf P$처럼 역행렬을 갖지는 않아요. $\mathbf B^\top\mathbf B=\mathbf I_M$은 남긴 좌표로 조립했다가 다시 읽으면 그 좌표를 되찾는다는 뜻이에요. 반대 순서인 $\mathbf B\mathbf B^\top$는 남긴 부분공간으로 보내는 사영행렬이며, $\mathbf I_D$와 달라요. 따라서 $\mathbf x_n$이 그 부분공간 안에 있을 때만 복원값이 원래 벡터와 같아요.
+
 단위벡터 내적에서 기저 행렬 B의 층별 내적 z = Bᵀx와 평면 사영 복원 x̃ = Bz로 확장되는 과정을 [내적에서 행렬 사영으로 실험](../%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%82%B4%EC%A0%81%EC%97%90%EC%84%9C_%ED%96%89%EB%A0%AC_%EC%82%AC%EC%98%81%EC%9C%BC%EB%A1%9C.html)에서 직접 비교해 보세요.
 
 **교수님 말씀**
@@ -401,16 +433,23 @@ $$
 
 *핵심 식*
 
+- 선형독립인 일반 기저에서 좌표
+
+  $$
+  \mathbf z_n=(\mathbf B^\top\mathbf B)^{-1}\mathbf B^\top\mathbf x_n.
+  $$
 - 직교 정규 기저에서 좌표
 
   $$
   \mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad z_{in}=\mathbf b_i^\top\mathbf x_n.
   $$
-- 원래 공간으로 복원
+- 직교 정규 기저에서 복원
 
   $$
   \tilde{\mathbf x}_n=\mathbf B\mathbf B^\top\mathbf x_n
   $$
+
+직교 정규 열들의 내적은 $\mathbf B^\top\mathbf B=\mathbf I_M$을 만들어요. $M\lt D$일 때 반대 순서인 $\mathbf B\mathbf B^\top$는 사영행렬이며, 일반적인 역변환이 아니에요.
 
 *용어*
 
@@ -573,6 +612,8 @@ $$
 
 784픽셀짜리 이미지를 상위 두 축의 좌표로 찍어 분포를 비교하고, 이미지 복원에는 남긴 축의 가중합과 평균을 사용해요.
 
+PCA의 축 선택에는 숫자 라벨을 쓰지 않아요. 라벨은 산점도에서 두 무리를 구분해 표시할 때 사용해요.
+
 *용어*
 
 - **두 주성분의 사영 좌표** — 산점도의 가로·세로를 정하는 두 내적.
@@ -690,6 +731,8 @@ $$
 기저와 압축 좌표를 곱해 모든 표본을 원래 차원으로 복원해요.
 
 **원래 크기로 복원.** $D\times M$ 기저를 그 좌표에 곱하면 $D\times N$ 행렬이 돌아와요. 압축된 데이터를 기저 $\mathbf U_M$과 좌표 $\mathbf\Sigma_M\mathbf V_M^\top$의 두 행렬로 보관할 수 있어요.
+
+$\mathbf v_i\in\mathbb R^N$는 $\mathbf V$의 $i$번째 열이고, $v_{ni}$는 그 열의 $n$번째 성분이에요. 앞에서 구한 좌표 행렬 $\mathbf\Sigma_M\mathbf V_M^\top$의 $(i,n)$번째 값은 $\sigma_i v_{ni}$예요. 따라서 $\sigma_i\mathbf u_i\mathbf v_i^\top$는 각 표본의 좌표 $\sigma_i v_{ni}$를 같은 방향 $\mathbf u_i$에 곱해 나란히 놓은 한 층이에요. 이 층들을 더하면 전체 복원 행렬이 돼요.
 
 $$
 \tilde{\mathbf X}_M=\mathbf U_M\mathbf\Sigma_M\mathbf V_M^\top=\sum_{i=1}^M\sigma_i\mathbf u_i\mathbf v_i^\top
