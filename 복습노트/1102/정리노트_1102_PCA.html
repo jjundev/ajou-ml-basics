@@ -1174,9 +1174,41 @@ $$\mathbf{w}=\mathbf{v}-\mathbf{u}=\begin{bmatrix}0\\1\end{bmatrix},\qquad \math
 <p>새 벡터 $\mathbf{u},\mathbf{w}$로도 평면 전체를 표현할 수 있어요. $\mathbf{w}=\mathbf{v}-\mathbf{u}$이고 반대로 $\mathbf{v}=\mathbf{w}+\mathbf{u}$이므로 원래 두 벡터와 새 두 벡터가 만드는 공간은 같아요. 데이터를 한 축으로 줄이는 사영과 달리, 두 기준 방향을 모두 유지한 채 기저를 바꾸는 거예요.</p>
 <h5 class="note-subheading">방향이 비스듬해도 같은 원리예요</h5>
 <p>$\mathbf{v}$를 $\mathbf{u}$ 위로 수직으로 내려 얻는 그림자 벡터가 사영(projection)이에요. 이 사영은 $\mathbf{u}$와 나란하므로 $c\mathbf{u}$로 쓸 수 있어요. $\mathbf{w}=\mathbf{v}-c\mathbf{u}$가 $\mathbf{u}$와 수직이 되도록 내적을 0으로 놓으면 $c=(\mathbf{u}^T\mathbf{v})/(\mathbf{u}^T\mathbf{u})$를 얻어요. $\mathbf{u}$의 길이가 1이라는 가정 없이 쓰는 식이에요. 아래 실제 계산에서는 $\mathbf{u}$ 자리에 $\mathbf{x}_1$, $\mathbf{v}$ 자리에 $\mathbf{x}_2$를 넣어요.</p>
+<h5 class="note-subheading">1028의 사영 공식을 다시 써요</h5>
+<p><a href="../1028/정리노트_1028_PCA.html#s4-projection-recall">1028의 직교사영 복습</a>에서는 벡터 $\mathbf{x}$를 방향 $\mathbf{b}$에 사영해 $\lambda\mathbf{b}$를 구했어요. 여기서는 $\mathbf{x}$ 대신 $\mathbf{x}_2$, $\mathbf{b}$ 대신 $\mathbf{x}_1$, 계수 $\lambda$ 대신 $c$를 넣어요. 이 $\lambda$는 당시 사영 계수의 이름이고, 지금 예제의 고윳값 1·7과는 구별해요.</p>
+$$c=\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1},\qquad
+\underbrace{c\mathbf{x}_1}_{\text{사영한 성분}},\qquad
+\underbrace{\mathbf{x}_2-c\mathbf{x}_1}_{\text{빼고 남은 벡터}}$$
+<p>사영에서는 첫 방향의 그림자를 구했고, 이번 직교화에서는 그 그림자를 빼서 첫 방향에 수직인 벡터를 얻어요. $\mathbf{x}_1$은 길이가 $\sqrt2$이므로 분모 $\mathbf{x}_1^T\mathbf{x}_1=2$가 필요해요. 단위벡터일 때만 분모가 1로 단순해져요.</p>
 <h5 class="note-subheading">바꾼 벡터도 고유벡터일까요?</h5>
 <p>여기서 $\mathbf{x}_1,\mathbf{x}_2$는 같은 고윳값 1에 속하므로, 선형결합한 결과가 영벡터가 아니면 여전히 고윳값 1의 고유벡터예요. 서로 독립인 두 벡터에서 한 벡터의 배수를 빼므로 아래 결과도 영벡터가 아니에요. 서로 다른 고윳값의 고유벡터들을 임의로 섞으면 고유벡터라는 성질을 잃을 수 있어요. 같은 고윳값에 속할 때 허용되는 이유는 임의의 스칼라 $\alpha,\beta$에 대해 다음 식으로 확인해요.</p>
 $$\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2=1\cdot(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$$
+<h5 class="note-subheading">벡터를 바꿔도 세 번째 벡터에 수직일까요?</h5>
+<p><strong>$\mathbf{x}_3$ 방향을 새 z축으로 잡아 보세요.</strong> 이 $\mathbf{A}$는 실수 대칭행렬이고 $\mathbf{x}_3$의 고윳값 7은 $\mathbf{x}_1,\mathbf{x}_2$의 고윳값 1과 달라요. 그래서 두 벡터는 처음부터 $\mathbf{x}_3$에 수직이에요. 이들이 만드는 고유공간 $E_1$을 새 xy평면으로 보면 돼요. 원래 좌표의 xy평면과는 달라요. 원래 좌표에서 $E_1$은 성분의 합이 0인 평면이에요.</p>
+<figure class="figure"><svg id="fig-orthogonal-plane-preservation" viewBox="0 0 500 350" role="img" aria-label="세 번째 고유벡터 x3을 새 z축으로 잡은 개념도. x1, x2와 사영 성분을 빼 만든 x2 프라임은 모두 새 xy평면 E1에 있고, x3은 그 평면에 수직이다.">
+<polygon points="35,210 185,90 455,150 305,300" fill="currentColor" fill-opacity="0.045" stroke="currentColor" stroke-opacity="0.3"/>
+<line x1="210" y1="210" x2="210" y2="32" class="fig-ink"/><polyline points="204,43 210,32 216,43" class="fig-ink"/>
+<text x="223" y="39" fill="currentColor" font-size="18">x₃ · 새 z축</text>
+<line x1="210" y1="210" x2="350" y2="238" class="fig-ink"/><polyline points="338,230 350,238 336,241" class="fig-ink"/>
+<text x="356" y="249" fill="currentColor" font-size="18">x₁</text>
+<line x1="210" y1="210" x2="280" y2="135" class="fig-accent"/><polyline points="269,140 280,135 276,148" class="fig-accent"/>
+<text x="245" y="122" fill="currentColor" font-size="18">x₂′</text>
+<line x1="210" y1="210" x2="350" y2="149" class="fig-ink"/><polyline points="336,149 350,149 340,159" class="fig-ink"/>
+<text x="356" y="146" fill="currentColor" font-size="18">x₂</text>
+<line x1="350" y1="149" x2="280" y2="135" class="fig-accent" stroke-dasharray="5 4"/><polyline points="292,143 280,135 294,132" class="fig-accent"/>
+<text x="323" y="113" fill="currentColor" font-size="16">−½x₁</text>
+<circle cx="210" cy="210" r="3" fill="currentColor"/><text x="187" y="231" fill="currentColor" font-size="16">O</text>
+<text x="100" y="281" fill="currentColor" font-size="18">E₁ · 새 xy평면</text>
+<text x="250" y="329" text-anchor="middle" fill="currentColor" font-size="16">평면 안에서 빼도 평면 밖 성분은 생기지 않아요</text>
+</svg><figcaption>새 축으로 바라본 공간을 기울여 그린 개념도예요. 점선은 $c=1/2$일 때 $\mathbf{x}_2$ 끝에서 $\frac12\mathbf{x}_1$을 빼는 이동이에요. 화면에 그린 각도 자체가 실제 공간의 직각을 나타내지는 않아요.</figcaption></figure>
+<p>평면 위의 두 벡터를 상수배하고 더하거나 빼도 같은 평면에 머물러요. 따라서 <strong>어떤 실수 $c$에서도 $\mathbf{x}_2-c\mathbf{x}_1$은 $\mathbf{x}_3$에 수직</strong>이에요. 벡터의 방향과 길이는 달라지지만, $\mathbf{x}_3$ 방향의 성분이 새로 생기지는 않아요. 두 벡터가 독립이어서 이 조합은 영벡터도 되지 않아요.</p>
+<p>이를 내적으로 확인하면, 두 항이 각각 0이라 $c$에 관계없이 결과가 0이에요.</p>
+$$\begin{aligned}
+\mathbf{x}_3^T(\mathbf{x}_2-c\mathbf{x}_1)
+&amp;=\mathbf{x}_3^T\mathbf{x}_2-c\,\mathbf{x}_3^T\mathbf{x}_1\\
+&amp;=0-c\cdot0=0.
+\end{aligned}$$
+<p><strong>$c$를 고르는 목적은 $\mathbf{x}_1$과도 수직으로 만드는 것</strong>이에요. $\mathbf{x}_3$과의 수직성은 이미 유지되고, 추가 조건 $\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)=0$을 만족하는 값이 $c=1/2$예요. 그러면 세 방향이 모두 서로 수직이 돼요.</p>
 <ol class="steps">
 <li>첫 벡터는 그대로 둬요: $\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$.</li>
 <li>둘째 벡터에서 $c\mathbf{x}_1$을 빼요. 결과가 $\mathbf{x}_1$과 수직이어야 하므로 내적을 0으로 놓고 $c$를 풀어요.
@@ -1226,7 +1258,7 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <p>$\lambda=1$ 고유공간 안의 직교화 단계는 말로 설명하지 않고 복습으로 맡겼어요.</p>
 </div>
 <div class="sum" hidden>
-<p class="sum-lead">이 실수 대칭행렬에서 서로 다른 고윳값의 고유벡터는 직교하지만, 같은 고윳값 1에서 고른 두 벡터는 서로 수직이 아니에요. Gram–Schmidt로 앞 벡터 방향의 성분을 빼면 같은 평면과 고유벡터 성질을 유지하며 수직으로 만들 수 있어요. 처음부터 직교하면 이 과정은 생략해요. 이어 길이를 1로 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
+<p class="sum-lead">이 실수 대칭행렬에서 서로 다른 고윳값의 고유벡터는 직교하지만, 같은 고윳값 1에서 고른 두 벡터는 서로 수직이 아니에요. Gram–Schmidt로 앞 벡터 방향의 성분을 빼면 같은 평면과 고유벡터 성질을 유지하며 수직으로 만들 수 있어요. 처음부터 직교하면 이 과정은 생략해요. 이어 길이를 1로 정규화하면 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요. $\mathbf{x}_3$ 방향을 새 z축으로 보면 $\mathbf{x}_1,\mathbf{x}_2$는 새 xy평면 안에 있어요. 어떤 $c$에서도 $\mathbf{x}_2-c\mathbf{x}_1$은 그 평면에 머물러 $\mathbf{x}_3$에 수직이고, $c=1/2$은 $\mathbf{x}_1$과도 수직이 되도록 골라요.</p>
 <p class="panel-label">핵심 식</p>
 <ul class="eq-list">
 <li><span class="eq-name">특성다항식</span>$$p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$$</li>
