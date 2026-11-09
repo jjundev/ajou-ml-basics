@@ -1,0 +1,109 @@
+{
+ "items": {
+  "p1:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "grad f = [4*u - 2*v + 6, -2*u + 8*v - 2], at (-1,2) = [-2, 16]"
+  },
+  "p1:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "J = [[2*u, 2], [v, u - 2*v], [3, -1]], J(-1,2) = [[-2, 2], [2, -5], [3, -1]], shape 3x2"
+  },
+  "p2:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "A^T A = [[2, 1], [1, 2]], det 3, inverse [[2/3, -1/3], [-1/3, 2/3]]"
+  },
+  "p2:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "p = (2,1,1), r = (1,-1,-1), A^T r = 0"
+  },
+  "p3:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "p(x) = 1/(2*sqrt(2)*pi) * exp(-1/4[(x1-2)^2 - 2(x1-2)(x2+2) + 3(x2+2)^2]); integrates to 1"
+  },
+  "p3:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "c = 3e^2/sqrt(2pi), mean -1, variance 1/9"
+  },
+  "p4:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "P(U)=(4/10, 6/10), P(V)=(3/10, 3/10, 4/10)"
+  },
+  "p4:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "P(U=1|V=2)=3/4 != P(U=1)=3/5 (also 3/10 != 6/25) -> not independent"
+  },
+  "p5:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "P(D)=2/9 (=6/27), posterior 1/3 and 2/3"
+  },
+  "p5:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "theta_MAP=2/3, P(X3=1|D)=5/9 < plug-in 2/3 (posterior averaging keeps theta=1/3 mass); prior-weighted 4/9 is wrong"
+  },
+  "p6:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "likelihood (2pi)^(-3/2) exp(-1/2||y-Phi theta||^2); Phi^T Phi theta = Phi^T y; theta_ML=(4/3, 3/2)"
+  },
+  "p6:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "NLP = 1/2||y-Phi theta||^2 + 1/2||theta||^2 + const; (Phi^T Phi + I) theta = Phi^T y; theta_MAP=(1,1)"
+  },
+  "p7:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "mu_x=(2,-1), Sigma_x=[[3,1],[1,2]], mu_y=(2,3)"
+  },
+  "p7:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "Sigma_y = A Sx A^T + Var(eps) w w^T = [[7,5],[5,10]] + [[2,4],[4,8]] = [[9,9],[9,18]]; C_xy = Sx A^T = [[4,5],[3,0]]"
+  },
+  "p8:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "z^2+(z-2)^2 = 2(z-1)^2+2, q = N(1, 1/2)"
+  },
+  "p8:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "Z = e^-1/sqrt(4pi) = 0.103777 != 1 -> g is not normalized"
+  },
+  "p9:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "Phi=[[1,-1],[1,1]], y=(1,3), Phi^T Phi = 2I, S_N = (I+2I)^-1 = I/3"
+  },
+  "p9:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "Phi^T y=(4,2), m_N=(4/3, 2/3), p(theta|D)=N(m_N, I/3)"
+  },
+  "p10:a": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "f* | D ~ N(8/3, 5/3) (linear map of Gaussian theta)"
+  },
+  "p10:b": {
+   "status": "pass",
+   "method": "sympy exact",
+   "conclusion": "y* | D ~ N(8/3, 8/3): integral of N(y*|f*,1) N(theta|m_N,S_N); variance adds sigma^2=1 of fresh noise"
+  },
+  "p10:method_credit": {
+   "status": "info",
+   "method": "sympy exact",
+   "conclusion": "with S_N=3I, m_N=(12,6): f* ~ N(24, 15), y* ~ N(24, 16)"
+  }
+ }
+}

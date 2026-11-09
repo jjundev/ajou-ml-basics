@@ -1,0 +1,328 @@
+{
+ "exam_date": "2026-10-21",
+ "course": "Introduction to Machine Learning (Fall 2026, Version 04)",
+ "total": 79,
+ "instructions": "There are 10 questions, each with two 5-point parts (100 points total). Write your answers in the spaces provided. Show your calculation and derivation steps and use exact values. All vectors and gradients are column vectors. The Jacobian convention is $(\\mathbf J_{\\mathbf g})_{ij}=\\partial g_i/\\partial x_j$. In $\\mathcal N(\\mu,v)$, $v$ denotes the variance; in a multivariate normal distribution, the second parameter is the covariance matrix. Inputs in regression problems are fixed. Question 10 continues Question 9; consistent use of an earlier numerical result earns method credit.",
+ "notes": [
+  "7쪽은 학생의 6번 계산 뒷장(\"풀이과정은 앞 문제 뒷장(←)에 풀었습니다\")."
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "title": "Gradients and Jacobians",
+   "pages": [
+    1
+   ],
+   "context_tex": "",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "For $f(u,v)=2u^2-2uv+4v^2+6u-2v$, find the column gradient $\\nabla f(u,v)$ and evaluate it at $(u,v)=(-1,2)$.",
+     "my_answer_tex": "$\\nabla f=[4u-2v+6,\\ -2u+8v-2]^\\top$, $\\nabla f(-1,2)=[-2,\\ 16]^\\top$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "For the vector-valued function $\\mathbf g(u,v)=\\begin{pmatrix}u^2+2v\\\\ uv-v^2\\\\ 3u-v\\end{pmatrix}$, find the Jacobian $\\mathbf J_{\\mathbf g}(u,v)$ and evaluate it at $(-1,2)$. State its dimensions.",
+     "my_answer_tex": "$\\mathbf J_{\\mathbf g}(u,v)=\\begin{bmatrix}2u&2\\\\ v&u-2v\\\\ 3&-1\\end{bmatrix}$ (일반형은 정확), $\\mathbf J_{\\mathbf g}(-1,2)=\\begin{bmatrix}-2&2\\\\ 2&-3\\\\ 3&1\\end{bmatrix}$; 차원은 쓰지 않음",
+     "score": 3,
+     "max": 5,
+     "grader_marks": [
+      "\"State its dimensions\" 밑줄+별표",
+      "(2,2) 성분 옆 빨간 -5 (정답 -5, 학생 -3)"
+     ],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q1.webp"
+  },
+  {
+   "n": 2,
+   "title": "Matrix Algebra and Orthogonal Projection",
+   "pages": [
+    2
+   ],
+   "context_tex": "Let $A=\\begin{pmatrix}1&1\\\\1&0\\\\0&1\\end{pmatrix}$, $\\mathbf y=\\begin{pmatrix}3\\\\0\\\\0\\end{pmatrix}$.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Compute $A^\\top A$, its determinant, and its inverse.",
+     "my_answer_tex": "$A^\\top A=\\begin{bmatrix}2&1\\\\1&2\\end{bmatrix}$, $\\det=3$, $(A^\\top A)^{-1}=\\begin{bmatrix}2/3&-1/3\\\\-1/3&2/3\\end{bmatrix}$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "The orthogonal projection of $\\mathbf y$ onto the column space of $A$ is $\\mathbf p=A(A^\\top A)^{-1}A^\\top\\mathbf y$. Compute $\\mathbf p$ and $\\mathbf r=\\mathbf y-\\mathbf p$. Verify that $\\mathbf r$ is orthogonal to both columns of $A$.",
+     "my_answer_tex": "$\\mathbf p=[2,1,1]^\\top$, $\\mathbf r=[1,-1,-1]^\\top$, $\\mathbf r^\\top A=[0\\ 0]$ 이므로 A의 열과 직교",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q2.webp"
+  },
+  {
+   "n": 3,
+   "title": "Gaussian Probability Densities",
+   "pages": [
+    3
+   ],
+   "context_tex": "",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "A random vector $\\mathbf x=(x_1,x_2)^\\top$ has distribution $\\mathbf x\\sim\\mathcal N\\!\\left(\\begin{pmatrix}2\\\\-2\\end{pmatrix},\\begin{pmatrix}3&1\\\\1&1\\end{pmatrix}\\right)$. Write its joint density explicitly, including the normalizing constant. Expand the quadratic expression in terms of $(x_1-2)$ and $(x_2+2)$.",
+     "my_answer_tex": "$|\\Sigma|=2$, $\\Sigma^{-1}=\\tfrac12\\begin{bmatrix}1&-1\\\\-1&3\\end{bmatrix}$; $p(\\mathbf x)=\\left(\\tfrac{1}{\\sqrt{2\\pi\\cdot 2}}\\right)^2\\exp\\!\\left(-\\tfrac12\\cdot\\tfrac12\\{(x_1-x_2-4)(x_1-2)+(-x_1+3x_2+8)(x_2+2)\\}\\right)$ — 정규화 상수를 $1/(4\\pi)$로 씀(정답 $1/(2\\sqrt2\\pi)$), 이차식은 $(x_1-2),(x_2+2)$의 제곱·교차항으로 정리하지 않음",
+     "score": 4,
+     "max": 5,
+     "grader_marks": [
+      "답 박스 위 별표"
+     ],
+     "confidence": "low"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Suppose $p(z)=c\\exp\\!\\left[-\\tfrac12(9z^2+18z+13)\\right]$, $z\\in\\mathbb R$. Determine $c>0$ so that $p$ is a normalized probability density. Identify its mean and variance, showing your completion of the square.",
+     "my_answer_tex": "$9z^2+18z+13=9(z+1)^2+4$, $\\int p=c e^{-2}\\sqrt{2\\pi/9}=1\\Rightarrow c=3e^2/\\sqrt{2\\pi}$; 평균·분산은 쓰지 않음",
+     "score": 3,
+     "max": 5,
+     "grader_marks": [
+      "빨간 \"Mean? Var.?\""
+     ],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q3.webp"
+  },
+  {
+   "n": 4,
+   "title": "Joint and Conditional Probabilities",
+   "pages": [
+    4
+   ],
+   "context_tex": "The joint pmf of $U\\in\\{0,1\\}$ and $V\\in\\{0,1,2\\}$: $p(0,0)=1/10,\\ p(0,1)=2/10,\\ p(0,2)=1/10,\\ p(1,0)=2/10,\\ p(1,1)=1/10,\\ p(1,2)=3/10$.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Find the marginal probability mass functions of $U$ and $V$.",
+     "my_answer_tex": "$P(U=0)=4/10,\\ P(U=1)=6/10$; $P(V=0)=3/10,\\ P(V=1)=3/10,\\ P(V=2)=4/10$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Compute $P(U=1\\mid V=2)$. Are $U$ and $V$ independent? Justify your conclusion using numerical probabilities.",
+     "my_answer_tex": "$P(U=1\\mid V=2)=\\frac{3/10}{4/10}=3/4\\neq P(U=1)=6/10$ 이므로 독립 아님",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q4.webp"
+  },
+  {
+   "n": 5,
+   "title": "Bayesian Inference and Prediction",
+   "pages": [
+    5
+   ],
+   "context_tex": "Unknown packet-success probability $\\theta$ with prior $P(\\theta=\\tfrac13)=\\tfrac23$, $P(\\theta=\\tfrac23)=\\tfrac13$. Conditional on $\\theta$, $X_1,X_2,\\dots$ are independent Bernoulli($\\theta$). Data $\\mathcal D=\\{X_1=1,X_2=1\\}$.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Compute the marginal likelihood $P(\\mathcal D)$ and the posterior probabilities of the two possible values of $\\theta$.",
+     "my_answer_tex": "$P(\\mathcal D\\mid\\tfrac13)=1/9$, $P(\\mathcal D\\mid\\tfrac23)=4/9$, $P(\\mathcal D)=6/27$, $P(\\theta=\\tfrac13\\mid\\mathcal D)=1/3$, $P(\\theta=\\tfrac23\\mid\\mathcal D)=2/3$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Find $\\hat\\theta_{\\mathrm{MAP}}$ and the fully Bayesian prediction $P(X_3=1\\mid\\mathcal D)$. Compare the latter with the MAP plug-in prediction, and briefly explain why they differ.",
+     "my_answer_tex": "$\\hat\\theta_{\\mathrm{MAP}}=2/3$; $P(X_3=1\\mid\\mathcal D)=\\tfrac13\\cdot\\tfrac23+\\tfrac23\\cdot\\tfrac13=4/9$ — 사후확률 대신 사전확률 $P(\\theta)$로 가중; MAP plug-in $=2/3$, 차이는 '$\\theta=1/3$인 경우도 영향을 주기 때문'",
+     "score": 4,
+     "max": 5,
+     "grader_marks": [
+      "$P(\\theta=\\tfrac23)$ 아래 빨간 밑줄",
+      "첫 항 아래 빨간 \"2/3\" (사후확률을 써야 함)"
+     ],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q5.webp"
+  },
+  {
+   "n": 6,
+   "title": "Maximum Likelihood and MAP Linear Regression",
+   "pages": [
+    6,
+    7
+   ],
+   "context_tex": "$y_n=\\theta_0+\\theta_1x_n+\\varepsilon_n$, $\\varepsilon_n\\overset{\\text{iid}}{\\sim}\\mathcal N(0,1)$, $\\boldsymbol\\theta=(\\theta_0,\\theta_1)^\\top$. Observations $(-1,0),(0,1),(1,3)$.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Write the likelihood as a function of $\\boldsymbol\\theta$, including its normalizing constant. Derive the equations for its maximizer and find $\\hat{\\boldsymbol\\theta}_{\\mathrm{ML}}$.",
+     "my_answer_tex": "$p(\\mathbf y\\mid\\boldsymbol\\theta)=(2\\pi)^{-3/2}\\exp(-\\tfrac12\\|\\mathbf y-\\Phi\\boldsymbol\\theta\\|^2)$, 기울기 0 → $\\Phi^\\top\\Phi\\boldsymbol\\theta=\\Phi^\\top\\mathbf y$, $\\hat{\\boldsymbol\\theta}_{\\mathrm{ML}}=(4/3,\\ 3/2)^\\top$ (계산은 뒷장)",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Now use the prior $\\boldsymbol\\theta\\sim\\mathcal N(\\mathbf 0,I_2)$, independent of the observation noise. This prior applies to both the intercept and the slope. Write the negative log-posterior up to an additive constant, and find $\\hat{\\boldsymbol\\theta}_{\\mathrm{MAP}}$ by differentiating it.",
+     "my_answer_tex": "$-\\log p(\\boldsymbol\\theta\\mid\\mathcal D)=\\tfrac12\\|\\mathbf y-\\Phi\\boldsymbol\\theta\\|^2+\\tfrac12\\|\\boldsymbol\\theta\\|^2+\\text{const}$, $(\\Phi^\\top\\Phi+I)\\boldsymbol\\theta=\\Phi^\\top\\mathbf y$, $\\hat{\\boldsymbol\\theta}_{\\mathrm{MAP}}=(1,1)^\\top$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q6.webp"
+  },
+  {
+   "n": 7,
+   "title": "Covariance and Cross-Covariance Matrices",
+   "pages": [
+    8
+   ],
+   "context_tex": "$E[x_1]=2,\\ E[x_2]=-1,\\ \\mathrm{Var}(x_1)=3,\\ \\mathrm{Var}(x_2)=2,\\ E[x_1x_2]=-1$. $\\varepsilon$ independent of $\\mathbf x$, mean 0, variance 2. $\\mathbf y=\\begin{pmatrix}x_1+x_2+1+\\varepsilon\\\\2x_1-x_2-2+2\\varepsilon\\end{pmatrix}$. The same scalar noise $\\varepsilon$ appears in both coordinates.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Find $\\boldsymbol\\mu_x=E[\\mathbf x]$, $\\Sigma_x=\\mathrm{Cov}(\\mathbf x)$, and $\\boldsymbol\\mu_y=E[\\mathbf y]$.",
+     "my_answer_tex": "$\\boldsymbol\\mu_x=(2,-1)^\\top$, $\\mathrm{Cov}(x_1,x_2)=-1-2(-1)=1$, $\\Sigma_x=\\begin{bmatrix}3&1\\\\1&2\\end{bmatrix}$, $\\boldsymbol\\mu_y=(2,3)^\\top$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Find $\\Sigma_y=\\mathrm{Cov}(\\mathbf y)$ and the cross-covariance matrix $C_{xy}=E[(\\mathbf x-\\boldsymbol\\mu_x)(\\mathbf y-\\boldsymbol\\mu_y)^\\top]$. Show how the shared noise contributes to $\\Sigma_y$.",
+     "my_answer_tex": "잡음 부분 $\\Sigma_B=\\begin{bmatrix}2&4\\\\4&8\\end{bmatrix}$, $\\Sigma_y=A\\Sigma_xA^\\top+\\Sigma_B=\\begin{bmatrix}9&9\\\\9&18\\end{bmatrix}$; $C_{xy}$는 쓰지 않음",
+     "score": 3,
+     "max": 5,
+     "grader_marks": [
+      "빨간 \"Cxy=?\""
+     ],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q7.webp"
+  },
+  {
+   "n": 8,
+   "title": "Products of Gaussian Densities",
+   "pages": [
+    9
+   ],
+   "context_tex": "$g(z)=\\mathcal N(z\\mid0,1)\\,\\mathcal N(z\\mid2,1)$, $Z=\\int_{-\\infty}^{\\infty}g(z)\\,dz$, $q(z)=g(z)/Z$.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Complete the square in the exponent of $g(z)$. Identify the mean and variance of the normalized Gaussian density $q(z)$.",
+     "my_answer_tex": "$z^2+(z-2)^2=2(z-1)^2+2$, $q(z)=\\mathcal N(z\\mid1,\\tfrac12)$",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Calculate $Z$. Is $g(z)$ itself a normalized probability density? Justify your answer.",
+     "my_answer_tex": "$Z=e^{-1}/\\sqrt{4\\pi}\\neq1$ 이므로 $g$는 정규화된 pdf가 아님",
+     "score": 5,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q8.webp"
+  },
+  {
+   "n": 9,
+   "title": "Bayesian Linear Regression: Parameter Posterior",
+   "pages": [
+    10
+   ],
+   "context_tex": "$\\mathbf y=\\Phi\\boldsymbol\\theta+\\boldsymbol\\varepsilon$, $\\boldsymbol\\theta\\sim\\mathcal N(\\mathbf m_0,S_0)$, $\\boldsymbol\\varepsilon\\sim\\mathcal N(\\mathbf 0,\\sigma^2I_N)$. Posterior $\\mathcal N(\\boldsymbol\\theta\\mid\\mathbf m_N,S_N)$ with $S_N=(S_0^{-1}+\\sigma^{-2}\\Phi^\\top\\Phi)^{-1}$, $\\mathbf m_N=S_N(S_0^{-1}\\mathbf m_0+\\sigma^{-2}\\Phi^\\top\\mathbf y)$ (may be used without proof). $\\phi(x)=(1,x)^\\top$, observations $(-1,1),(1,3)$, $\\mathbf m_0=\\mathbf 0$, $S_0=I_2$, $\\sigma^2=1$.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Construct the design matrix $\\Phi$ and the observation vector $\\mathbf y$. Calculate $\\Phi^\\top\\Phi$ and the posterior covariance matrix $S_N$.",
+     "my_answer_tex": "$\\Phi=\\begin{bmatrix}1&-1\\\\1&1\\end{bmatrix}$, $\\mathbf y=(1,3)^\\top$, $\\Phi^\\top\\Phi=2I$; $S_N=S_0^{-1}+\\sigma^{-2}\\Phi^\\top\\Phi=3I$ — 바깥 역행렬 $(\\cdot)^{-1}$ 누락",
+     "score": 3,
+     "max": 5,
+     "grader_marks": [
+      "공식의 $^{-1}$에 빨간 박스"
+     ],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Calculate $\\Phi^\\top\\mathbf y$ and the posterior mean $\\mathbf m_N$. State the posterior distribution $p(\\boldsymbol\\theta\\mid\\mathcal D)$ with its numerical mean vector and covariance matrix.",
+     "my_answer_tex": "$\\Phi^\\top\\mathbf y=(4,2)^\\top$, $\\mathbf m_N=3I\\,\\Phi^\\top\\mathbf y=(12,6)^\\top$, $p(\\boldsymbol\\theta\\mid\\mathcal D)=\\frac{1}{6\\pi}\\exp\\!\\left(-\\frac{\\|\\boldsymbol\\theta-\\mathbf m_N\\|^2}{2\\times3}\\right)$",
+     "score": 2,
+     "max": 5,
+     "grader_marks": [
+      "$\\mathbf m_N$ 식에 체크(방법 인정)"
+     ],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q9.webp"
+  },
+  {
+   "n": 10,
+   "title": "Bayesian Linear Regression: Predictive Distribution",
+   "pages": [
+    11
+   ],
+   "context_tex": "Continue with the numerical model and posterior from Question 9(b). At the new input $x_*=2$, $f_*=\\phi(x_*)^\\top\\boldsymbol\\theta=\\theta_0+2\\theta_1$, $y_*=f_*+\\varepsilon_*$, $\\varepsilon_*\\sim\\mathcal N(0,1)$. The fresh noise $\\varepsilon_*$ is jointly independent of $\\boldsymbol\\theta$ and all training noise variables.",
+   "parts": [
+    {
+     "label": "a",
+     "statement_tex": "Determine $p(f_*\\mid x_*,\\mathcal D)$, including its mean and variance. Explain why it is Gaussian and write its density explicitly.",
+     "my_answer_tex": "$p(f_*\\mid x_*,\\mathcal D)\\sim\\mathcal N(\\Phi\\mathbf m_N,\\ 3I)$, '$f_*=\\Phi\\boldsymbol\\theta$', $E[\\Phi\\boldsymbol\\theta\\mid\\mathcal D]=\\Phi E[\\boldsymbol\\theta\\mid\\mathcal D]$ — 학습 설계행렬 $\\Phi$를 $\\phi(x_*)$ 대신 사용, 분산 전파 없음, 수치·밀도 없음",
+     "score": 1,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    },
+    {
+     "label": "b",
+     "statement_tex": "Express $p(y_*\\mid x_*,\\mathcal D)$ as an integral over $\\boldsymbol\\theta$, and determine the resulting Gaussian distribution. You may use the fact that a linear combination of jointly Gaussian variables is Gaussian. Explain why its variance differs from that in part (a).",
+     "my_answer_tex": "$p(y_*\\mid x_*,\\mathcal D)=\\int p(y_*\\mid\\boldsymbol\\theta,x_*)\\,p(\\boldsymbol\\theta\\mid\\mathcal D)\\,d\\boldsymbol\\theta$ (적분식은 정확); '둘 다 가우시안이므로 결과도 가우시안', '사후의 영향이 있으니 분산이 달라진다' — 수치 분포 없음, 이유가 관측잡음 $\\sigma^2$를 짚지 못함",
+     "score": 1,
+     "max": 5,
+     "grader_marks": [],
+     "confidence": "high"
+    }
+   ],
+   "points": 10,
+   "crop": "scan/q10.webp"
+  }
+ ]
+}
