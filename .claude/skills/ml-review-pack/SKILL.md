@@ -32,7 +32,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 사용자가 큰 그림·개념 연결·기호 설명 등 기존 정리노트의 설명 개선을 요청하면 이 경로를 쓴다. 복습문제·답안 PDF·문제설명·영상의 내용이 바뀌지 않으면 전체 복습팩을 재생성하지 않는다.
 1. `references/big-picture-first.md`와 `references/learner-reasoning-patterns.md`를 전체 읽고 대상 HTML·MD·기존 첫 토픽·연결을 확인한다. 학습자 기준에서 이번 토픽에 필요한 연결을 선택해 RUN의 저작 브리프에 기록한다. 기존 ID, 수식, 위젯, PDF·인터랙티브 링크를 보존한다.
 2. 원자료와 기존 설명을 대조해 도입·유도 연결을 작성한다. `big-picture-first.md`의 전체 연결·출발식·변경점·단계별 연산·결과 재사용·복원 요약을 필요한 개념 묶음에 적용한다. 일반 공식의 실제 대입과 수업 관례를 보이고 수업 공식·동치 재표현·보충을 구분한다. 대상 HTML과 모든 대응 MD를 RUN에 백업하고 stage에서 수정한다. 큰 그림이 이미 있으면 중복 토픽 대신 기존 도입을 보강한다.
-3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. 녹음 위치와 편집 경위 금지는 `references/content-rules.md`에 따라 본문·인용·요약·그림 설명·각주·footer 및 대응 MD에 적용한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 두 레퍼런스의 검토 질문에 답한다. 설명 감사에도 학습자 기준과 적용 토픽 브리프를 전달한다.
+3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. 녹음 위치와 편집 경위 금지는 `references/content-rules.md`에 따라 본문·인용·요약·그림 설명·각주·footer 및 대응 MD에 적용한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 첫 도입과 수정한 유도를 실제로 읽고 두 레퍼런스의 검토 질문에 답한다. 설명 감사에도 학습자 기준과 적용 토픽 브리프를 전달한다. `big-picture-first.md`의 핵심 전환 기준으로 충분한 구간까지 본문 근거·검토자가 보충한 연결을 대조하고 `RUN/audit.md`에 남긴다.
 4. 375px·데스크톱, 두 테마에서 도입의 실제 가시성·수식·줄바꿈·목차·화면 이동·기존 링크를 확인하고 검증된 HTML·MD만 함께 반영한다. 실패하면 해당 노트는 기존 파일을 보존한다.
 5. 변경 날짜, 설명의 차이, 검사 결과, 백업·RUN과 미해결을 보고한다. PDF와 문제의 재검증을 이번 설명 수정의 검증인 것처럼 보고하지 않는다.
 
@@ -81,6 +81,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 ### 3. 작성
 - 모든 정리노트 작성자는 `references/learner-reasoning-patterns.md`를 전체 필수 읽기로 받고 해당 토픽의 학습자 연결 브리프를 적용한다. `lite`도 동일하다. 공분산 레퍼런스의 `적용 없음`은 이 일반 학습자 기준을 생략한다는 뜻이 아니다.
 - 모든 정리노트 작성자에게 큰 그림 브리프와 `references/big-picture-first.md`를 전달한다. 첫 토픽 작성자는 도입을 작성하고, 다른 작성자는 자기 유도의 목적과 처음 등장하는 기호를 설명한다. 관련 본문은 기억할 출발식에서 변경점·한 단계 연산·다음 결과의 대입까지 연결하고 짧은 복원 요약으로 마친다. 수업 공식과 재표현을 구별하며 같은 설명을 반복하지 않는다. lite도 동일하다.
+- 작성자는 `big-picture-first.md`의 핵심 전환 기준에 따라 기존 `RUN/learning-map.json` 저작 브리프에 출발식·도착식, 독자의 예상 질문과 필요한 연결을 기록한다. 작성·리뷰·감사의 실제 전개 대조는 같은 기준을 쓰며 새 manifest 필드나 필수 HTML 속성은 추가하지 않는다.
 - 섹션마다 작성자 1명을 띄운다. 브리프는 `references/content-rules.md`, 위젯 규칙은 `references/widget-rules.md`에 있다.
 - 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다. 미분 문항이면 `references/vector-derivative-convention.md`도 필수 읽기로 전달하고 변수/미분 차원·전치 단계·원문 관례 처리·동기화 대상 목록을 작성 결과에 포함시킨다.
 - 모두 **한 메시지에서 병렬로** 띄운다. 모델은 opus, `lite`이면 sonnet이다. Claude가 아닌 경우(GPT)에는 opus 대신 sol, sonnet 대신 luna를 쓴다.
@@ -153,6 +154,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 감사자에게 `references/learner-reasoning-patterns.md`와 적용 토픽의 학습자 연결 브리프도 전달한다. 같은 연결을 반복하는지, 목적·대상 설명 없이 조건만 선언하는지 본문으로 확인한다.
 - 형제 스킬 `ml-note-audit`의 SKILL.md "생성 절차에서 부를 때"를 따른다. `<대상>`은 stage의 정리노트·복습문제 HTML과 MD, `<형제 자료>`는 같은 날짜 공개 폴더의 기존 문제설명·인터렉티브(없으면 `없음`)다.
 - 결과는 `RUN/audit.md`에 저장한다. Critical·Important는 담당 작성자에게 모아서 한 번 되돌리고 4~5단계를 다시 한다. 5단계의 최대 2회 규칙에 포함된다. 남은 항목은 9단계 "미해결"에 적는다.
+- 일반 리뷰의 ‘연결 검토 근거’와 설명 감사의 같은 표를 토픽·전환별로 합친다. 핵심 전환의 통과 근거와 보충한 연결을 빠뜨리지 않고, 짧지만 충분한 구간도 대조한다. 수정한 전환은 현재 본문으로 다시 확인하고 기록을 갱신한다. lite는 작성자의 자기 검토와 설명 감사에서 같은 기록을 남긴다.
 
 ### 7. 브라우저 검증
 - `references/browser-check.md`대로 한다.
