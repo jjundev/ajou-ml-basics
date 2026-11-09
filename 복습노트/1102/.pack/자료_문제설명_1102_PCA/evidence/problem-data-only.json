@@ -1,0 +1,114 @@
+[
+ {
+  "id": "p1",
+  "title": "P1. 2×2 행렬의 고윳값과 고유공간",
+  "subparts": [
+   "a",
+   "b",
+   "c",
+   "d"
+  ],
+  "conditions_html": "<p>다음 $2\\times 2$ 행렬 $\\mathbf{A}$를 생각해요.</p>$$\\mathbf{A}=\\begin{bmatrix}5 &amp; 4\\\\1 &amp; 2\\end{bmatrix}$$<p>고유벡터 $\\mathbf{x}\\neq\\mathbf{0}$와 고윳값 $\\lambda$는 $\\mathbf{A}\\mathbf{x}=\\lambda\\mathbf{x}$, 곧 ${(\\mathbf{A}-\\lambda\\mathbf{I})\\mathbf{x}=\\mathbf{0}}$을 만족해요.</p>",
+  "ask_html": "<ol><li>(a) $\\mathbf{x}\\neq\\mathbf{0}$인 해가 있으려면 왜 $\\det(\\mathbf{A}-\\lambda\\mathbf{I})=0$이어야 하는지 설명해 보세요.</li><li>(b) 특성다항식 ${p_{\\mathbf{A}}(\\lambda)=\\det(\\mathbf{A}-\\lambda\\mathbf{I})}$를 인수분해해서 고윳값을 구해 보세요.</li><li>(c) (b)에서 구한 각 고윳값의 고유공간을 구해 보세요.</li><li>(d) (c)에서 구한 두 고유벡터가 서로 직교하는지 점곱으로 판정해 보세요.</li></ol>"
+ },
+ {
+  "id": "p2",
+  "title": "P2. 겹친 고윳값과 고유공간의 차원",
+  "subparts": [
+   "a",
+   "b",
+   "c"
+  ],
+  "conditions_html": "<p>다음 행렬을 생각해요.</p>$$\\mathbf{A}=\\begin{bmatrix}3 &amp; 1\\\\0 &amp; 3\\end{bmatrix}$$<p>고윳값 하나가 특성다항식의 근으로 여러 번 겹칠 수 있어요. 고유공간의 차원은 그 고유공간을 생성하는 일차독립인 고유벡터의 개수예요.</p>",
+  "ask_html": "<ol><li>(a) 특성다항식을 인수분해해서 $\\mathbf{A}$의 고윳값과, 그 고윳값이 근으로 몇 번 겹치는지 구해 보세요.</li><li>(b) (a)의 고윳값의 고유공간을 구해 보세요.</li><li>(c) (b)의 고유공간의 차원(일차독립인 고유벡터 개수)을 읽어 보세요.</li></ol>"
+ },
+ {
+  "id": "p3",
+  "title": "P3. 대칭행렬의 직교 고유벡터 만들기",
+  "subparts": [
+   "a",
+   "b",
+   "c",
+   "d"
+  ],
+  "conditions_html": "<p>다음 대칭행렬을 생각해요.</p>$$\\mathbf{A}=\\begin{bmatrix}4 &amp; 1 &amp; 1\\\\1 &amp; 4 &amp; 1\\\\1 &amp; 1 &amp; 4\\end{bmatrix}$$<p>$\\mathbf{A}$의 특성다항식은 다음과 같아요.</p>$$p_{\\mathbf{A}}(\\lambda)=-(\\lambda-3)^2(\\lambda-6)$$<p>고유벡터 후보를 ${\\mathbf{x}=[x_1,x_2,x_3]^T}$로 써요. 보통 글씨 $x_1,x_2,x_3$는 $\\mathbf{x}$의 성분이고, 굵은 $\\mathbf{x}_1,\\mathbf{x}_2,\\mathbf{x}_3$는 아래에서 정할 생성 벡터 이름이에요.</p>",
+  "ask_html": "<ol><li>(a) 고윳값 3, 6의 고유공간 $E_3$, $E_6$을 구해 보세요. $E_3$은 자유변수 $x_2$, $x_3$에 $(1,0)$, $(0,1)$을 넣어 생성 벡터 $\\mathbf{x}_1$, $\\mathbf{x}_2$를 정하고, $E_6$의 생성 벡터는 셋째 성분이 1인 $\\mathbf{x}_3$으로 정해요.</li><li>(b) 점곱 $\\mathbf{x}_3^T\\mathbf{x}_1$, $\\mathbf{x}_3^T\\mathbf{x}_2$, $\\mathbf{x}_1^T\\mathbf{x}_2$를 계산해서 어느 쌍이 직교하는지 확인해 보세요.</li><li>(c) $\\mathbf{x}_1$, $\\mathbf{x}_2$의 선형결합도 고윳값 3의 고유벡터라는 점을 써서, Gram-Schmidt로 서로 직교하는 고유벡터 $\\mathbf{x}_1'$, $\\mathbf{x}_2'$을 만들어 보세요.</li><li>(d) $\\mathbf{x}_1'$, $\\mathbf{x}_2'$, $\\mathbf{x}_3$이 서로 직교하는지 점곱으로 확인해 보세요.</li></ol>"
+ },
+ {
+  "id": "p4",
+  "title": "P4. 대칭행렬의 고윳값 분해",
+  "subparts": [
+   "a",
+   "b",
+   "c",
+   "d"
+  ],
+  "conditions_html": "<p>다음 대칭행렬의 고윳값 분해(eigendecomposition)를 구해요.</p>$$\\mathbf{A}=\\frac{1}{2}\\begin{bmatrix}7 &amp; -1\\\\-1 &amp; 7\\end{bmatrix}$$",
+  "ask_html": "<ol><li>(a) 특성다항식을 인수분해해서 고윳값 $\\lambda_1\\gt\\lambda_2$를 구해 보세요.</li><li>(b) 각 고윳값의 정규화된 고유벡터 $\\mathbf{p}_1$, $\\mathbf{p}_2$를 구해 보세요.</li><li>(c) ${\\mathbf{P}=[\\mathbf{p}_1,\\mathbf{p}_2]}$로 두고 $\\mathbf{P}^T\\mathbf{P}$를 계산해서, $\\mathbf{P}^{-1}$ 자리에 $\\mathbf{P}^T$를 쓸 수 있는지 판정해 보세요.</li><li>(d) (c)의 결과를 써서 $\\mathbf{A}$를 ${\\mathbf{A}=\\mathbf{P}\\mathbf{D}\\mathbf{P}^T}$ 꼴로 써 보세요. 대각행렬 $\\mathbf{D}$는 성분까지 적어요.</li></ol>"
+ },
+ {
+  "id": "p5",
+  "title": "P5. 3×3 행렬식과 열의 일차독립",
+  "subparts": [
+   "a",
+   "b"
+  ],
+  "conditions_html": "<p>다음 $3\\times 3$ 행렬을 생각해요.</p>$$\\mathbf{A}=\\begin{bmatrix}1 &amp; 3 &amp; 5\\\\2 &amp; 4 &amp; 6\\\\0 &amp; 2 &amp; 4\\end{bmatrix}$$",
+  "ask_html": "<ol><li>(a) 첫째 행을 따라 여인수 전개해서 $\\det(\\mathbf{A})$를 구해 보세요.</li><li>(b) (a)의 결과로 $\\mathbf{A}$의 세 열이 일차독립인지 판정해 보세요.</li></ol>"
+ },
+ {
+  "id": "p6",
+  "title": "P6. 두 행렬의 고유공간과 직교",
+  "subparts": [
+   "a",
+   "b",
+   "c"
+  ],
+  "conditions_html": "<p>두 행렬의 고유공간(eigenspace)을 구해요. 고윳값 $\\lambda$의 고유공간을 $E_\\lambda$라고 써요.</p>$${\\mathbf{A}=\\begin{bmatrix}1 &amp; 0\\\\1 &amp; 1\\end{bmatrix}},\\qquad{\\mathbf{B}=\\begin{bmatrix}-2 &amp; 2\\\\2 &amp; 1\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) $\\mathbf{A}$의 고유공간을 구해 보세요.</li><li>(b) $\\mathbf{B}$의 고유공간을 구해 보세요.</li><li>(c) (b)에서 구한 $\\mathbf{B}$의 두 고유벡터가 서로 직교하는지 점곱으로 판정해 보세요.</li></ol>"
+ },
+ {
+  "id": "p7",
+  "title": "P7. 대각화 가능성과 가역성은 따로예요",
+  "subparts": [
+   "a",
+   "b"
+  ],
+  "conditions_html": "<p>대각화 가능성(diagonalizability)은 가역성(invertibility)과 상관이 없어요. 다음 네 행렬을 봐요.</p>$${\\mathbf{M}_1=\\begin{bmatrix}1 &amp; 0\\\\0 &amp; 1\\end{bmatrix}},\\quad{\\mathbf{M}_2=\\begin{bmatrix}1 &amp; 0\\\\0 &amp; 0\\end{bmatrix}},\\quad{\\mathbf{M}_3=\\begin{bmatrix}1 &amp; 1\\\\0 &amp; 1\\end{bmatrix}},\\quad{\\mathbf{M}_4=\\begin{bmatrix}0 &amp; 1\\\\0 &amp; 0\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) 네 행렬 각각이 대각화 가능한지 판정해 보세요.</li><li>(b) 네 행렬 각각이 가역인지 판정해 보세요.</li></ol>"
+ },
+ {
+  "id": "p8",
+  "title": "P8. 고유공간으로 대각화 판정하기",
+  "subparts": [
+   "a",
+   "b",
+   "c",
+   "d"
+  ],
+  "conditions_html": "<p>다음 두 변환행렬의 고유공간을 구해요. 고윳값 $\\lambda$의 고유공간을 $E_\\lambda$라고 써요. 대각화는 가역 $\\mathbf{P}$로 ${\\mathbf{D}=\\mathbf{P}^{-1}\\mathbf{A}\\mathbf{P}}$를 만드는 것이고, $\\mathbf{P}$의 열은 일차독립인 고유벡터 $n$개여야 해요. 그래서 $n\\times n$ 행렬은 고유공간 차원의 합이 $n$이면 대각화할 수 있고, $n$보다 작으면 대각화할 수 없어요.</p>$${\\mathbf{A}_1=\\begin{bmatrix}2 &amp; 3 &amp; 0\\\\1 &amp; 4 &amp; 3\\\\0 &amp; 0 &amp; 1\\end{bmatrix}},\\qquad{\\mathbf{A}_2=\\begin{bmatrix}1 &amp; 1 &amp; 0 &amp; 0\\\\0 &amp; 0 &amp; 0 &amp; 0\\\\0 &amp; 0 &amp; 0 &amp; 0\\\\0 &amp; 0 &amp; 0 &amp; 0\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) $\\mathbf{A}_1$의 고유공간을 구해 보세요.</li><li>(b) (a)의 결과로 $\\mathbf{A}_1$이 대각화 가능한지 판정해 보세요.</li><li>(c) $\\mathbf{A}_2$의 고유공간을 구해 보세요.</li><li>(d) (c)의 결과로 $\\mathbf{A}_2$가 대각화 가능한지 판정해 보세요.</li></ol>"
+ },
+ {
+  "id": "p9",
+  "title": "P9. 대각화되는지 판정하고 대각 꼴 구하기",
+  "subparts": [
+   "a",
+   "b",
+   "c"
+  ],
+  "conditions_html": "<p>정방행렬 $\\mathbf{A}\\in\\mathbb{R}^{n\\times n}$는 가역인 실수 행렬 $\\mathbf{P}\\in\\mathbb{R}^{n\\times n}$와 대각행렬 $\\mathbf{D}$가 있어 ${\\mathbf{D}=\\mathbf{P}^{-1}\\mathbf{A}\\mathbf{P}}$로 쓸 수 있을 때 대각화 가능해요. 이때 $\\mathbf{P}$의 열은 $\\mathbf{A}$의 고유벡터예요. 고윳값 $\\lambda$의 고유공간을 $E_\\lambda$라고 써요.</p>$${\\mathbf{A}_1=\\begin{bmatrix}0 &amp; 1\\\\-8 &amp; 4\\end{bmatrix}},\\qquad{\\mathbf{A}_2=\\begin{bmatrix}5 &amp; -6 &amp; -6\\\\-1 &amp; 4 &amp; 2\\\\3 &amp; -6 &amp; -4\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) $\\mathbf{A}_1$이 실수 행렬 $\\mathbf{P}$로 대각화 가능한지 판정하고, 그 이유를 말해 보세요.</li><li>(b) $\\mathbf{A}_2$의 고윳값과 고유공간을 구해 보세요.</li><li>(c) (b)의 결과로 $\\mathbf{A}_2$가 대각화 가능한지 판정하고, 가능하면 대각행렬 $\\mathbf{D}$와 그 기저($\\mathbf{P}$의 열)를 적어 보세요.</li></ol>"
+ },
+ {
+  "id": "p10",
+  "title": "P10. 두 대칭행렬이 나눠 갖는 고윳값",
+  "subparts": [
+   "a",
+   "b",
+   "c"
+  ],
+  "conditions_html": "<p>임의의 행렬 $\\mathbf{A}\\in\\mathbb{R}^{m\\times n}$에 대해 두 정방행렬 $\\mathbf{A}^T\\mathbf{A}\\in\\mathbb{R}^{n\\times n}$와 $\\mathbf{A}\\mathbf{A}^T\\in\\mathbb{R}^{m\\times m}$를 생각해요. 두 행렬이 0이 아닌 고윳값을 똑같이 가진다는 것을 단계별로 보여요.</p>",
+  "ask_html": "<ol><li>(a) ${\\mathbf{A}^T\\mathbf{A}\\mathbf{x}=\\lambda\\mathbf{x}}$ ($\\mathbf{x}\\neq\\mathbf{0}$)일 때 ${\\mathbf{A}\\mathbf{A}^T(\\mathbf{A}\\mathbf{x})=\\lambda(\\mathbf{A}\\mathbf{x})}$임을 보여 보세요.</li><li>(b) 반대로 ${\\mathbf{A}\\mathbf{A}^T\\mathbf{u}=\\lambda\\mathbf{u}}$ ($\\mathbf{u}\\neq\\mathbf{0}$)일 때 ${\\mathbf{A}^T\\mathbf{A}(\\mathbf{A}^T\\mathbf{u})=\\lambda(\\mathbf{A}^T\\mathbf{u})}$임을 보여 보세요.</li><li>(c) (a), (b)에서 고윳값이 옮겨 가려면 $\\lambda\\neq 0$이라는 조건이 왜 필요한지 설명해 보세요. $\\mathbf{A}\\mathbf{x}$, $\\mathbf{A}^T\\mathbf{u}$가 $\\mathbf{0}$이 될 수 있는지 따져 보면 돼요.</li></ol>"
+ }
+]

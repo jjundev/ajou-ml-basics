@@ -1,0 +1,33 @@
+PASS p1:a | det A=6!=0 (lambda=0 not eigen), det(A-6I)=0
+PASS p1:b | p=(l-6)(l-1); product 6 = det A
+PASS p1:c | A[4,1]=6[4,1], A[1,-1]=[1,-1], each nullspace dim 1
+PASS p1:d | dot=3, scaled -6, A not symmetric
+PASS p2:a | p=(l-3)^2, det=9 const term
+PASS p2:b | E3=span[1,0]; A[0,1]=[1,3]
+PASS p2:c | dim E3=1
+PASS p3:a | p=-(l-3)^2(l-6); generators verified; dims 2,1
+PASS p3:b | x3.x1=0, x3.x2=0, x1.x2=1
+PASS p3:c | c=1/2, x2'=[-1/2,-1/2,1], Ax2'=3x2', pitfall no-denominator gives [0,-1,1] with dot -1
+PASS p3:d | all dots 0; |x2'|^2=3/2; normalized P^TP=I, P diag(3,3,6) P^T=A
+PASS p4:a | p=(l-4)(l-3); det=12=4*3
+PASS p4:b | eigvecs and unit length
+PASS p4:c | P^TP=PP^T=I
+PASS p4:d | PDP^T=A; PD; pitfall diag(3,4)->1/2[[7,1],[1,7]]; missing 1/2 -> 8,6
+PASS p5:a | minors 4,8,4; det 0; sign pitfall 48
+PASS p5:b | null [1,-2,1]; c3=-c1+2c2; no two columns proportional
+PASS p6:a | E1=span[0,1], A[1,0]=[1,1]
+PASS p6:b | p=(l-2)(l+3); eigvecs; det -6
+PASS p6:c | dot 0, B symmetric
+PASS p7:a | diag: T,T,F,F
+PASS p7:b | det 1,0,1,0; M3 inverse; M2 null vec
+PASS p8:a | p=-(l-1)^2(l-5); E1,E5 dim1
+PASS p8:b | not diagonalizable (sum 2<3)
+PASS p8:c | p=l^3(l-1); second minor 0; dims 3,1
+PASS p8:d | P invertible, A2 P = P diag(0,0,0,1)
+PASS p9:a | p=l^2-4l+8, disc -16, (l-2)^2+4, pitfall disc 48, no real eigenvalue
+PASS p9:b | minors l^2-4, l-2, 3l-6; p=-(l-1)(l-2)^2; eigvecs; dim E2=2
+PASS p9:c | det P=-1, P^-1 A2 P = diag(1,2,2), det A2=4
+PASS p10:a | associativity identity symbolic 2x3; example lambda=3
+PASS p10:b | symbolic identity; example
+PASS p10:c | counterexample A=[1,0]; proof by contradiction is the argument
+ALL PASS 32
