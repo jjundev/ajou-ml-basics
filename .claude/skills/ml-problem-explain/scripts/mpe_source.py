@@ -7,7 +7,7 @@ from datetime import datetime
 from pathlib import Path
 from mpe_choices import with_choices
 from mpe_types import ExplainError, Problem, SourcePack
-from mpe_shared import HOMEWORK, REVIEW, Node, ReviewPdfError, read_cards, normalize_cards, parse
+from mpe_shared import HOMEWORK, REVIEW, EXAM_ACTUAL, Node, ReviewPdfError, read_cards, normalize_cards, parse
 
 def nfc(value):
     return unicodedata.normalize('NFC', str(value))
@@ -59,6 +59,11 @@ def date_key(value):
     except ValueError as exc:
         raise ExplainError(f'잘못된 날짜: {value}') from exc
     return value
+
+def profile_for(name: str):
+    """Card profile by filename prefix: 과제→homework, 중간고사_→exam, otherwise review."""
+    name = nfc(name)
+    return HOMEWORK if name.startswith('과제') else EXAM_ACTUAL if name.startswith('중간고사_') else REVIEW
 
 def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
     repo = repo.resolve()
@@ -115,7 +120,7 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
         raise ExplainError('대상 없음: ' + str(target))
     by_range = {}
     for path in found:
-        match = re.fullmatch((HOMEWORK if nfc(path.name).startswith('과제') else REVIEW).filename_re, nfc(path.name))
+        match = re.fullmatch(profile_for(path.name).filename_re, nfc(path.name))
         by_range.setdefault(match[1], []).append(path)
     if any(len(group) > 1 for group in by_range.values()):
         raise ExplainError('여러 후보: HTML 경로를 명시하세요.\n' + '\n'.join(map(str, found)))
@@ -158,7 +163,7 @@ def ancestors(node, root):
 def load_source(path: Path, repo: Path) -> SourcePack:
     path = inside(Path(path), Path(repo))
     try:
-        profile = HOMEWORK if nfc(path.name).startswith('과제') else REVIEW
+        profile = profile_for(path.name)
         pack = read_cards(path, profile)
         layouts = None
         for card in pack.cards:

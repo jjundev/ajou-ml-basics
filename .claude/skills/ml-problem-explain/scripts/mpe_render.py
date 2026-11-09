@@ -20,16 +20,17 @@ from manifest import PACK_DIR  # ml-review-pack 공용 값(mpe_shared가 경로�
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
 
 def names(pack):
-    stem = f'과제{pack.range}_문제설명_{pack.slug}' if pack.profile == 'homework' else f'문제설명_{pack.range}_{pack.slug}'
-    range_ = f'hw{pack.range}' if pack.profile == 'homework' else pack.range
-    # 복습노트 날짜 폴더에는 HTML만 두고 나머지는 .pack/ 아래에 둔다. 과제 폴더는 그대로다.
-    sub = '' if pack.profile == 'homework' else PACK_DIR + '/'
+    stem = {'homework': f'과제{pack.range}_문제설명_{pack.slug}',
+            'exam': f'중간고사_{pack.range}_문제설명_{pack.slug}'}.get(pack.profile, f'문제설명_{pack.range}_{pack.slug}')
+    range_ = {'homework': f'hw{pack.range}', 'exam': f'exam{pack.range}'}.get(pack.profile, pack.range)
+    # 복습노트 날짜 폴더에는 HTML만 두고 나머지는 .pack/ 아래에 둔다. 과제·시험 폴더는 그대로다.
+    sub = '' if pack.profile in ('homework', 'exam') else PACK_DIR + '/'
     return stem, f'{sub}figures_문제설명_{range_}_{pack.slug}', f'{sub}자료_문제설명_{range_}_{pack.slug}'
 
 def md_name(pack):
     """HTML 폴더 기준 MD 경로."""
     stem = names(pack)[0]
-    return stem + '.md' if pack.profile == 'homework' else f'{PACK_DIR}/{stem}.md'
+    return stem + '.md' if pack.profile in ('homework', 'exam') else f'{PACK_DIR}/{stem}.md'
 
 def dump(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -166,7 +167,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
         toc.append(f'<li><a href="#{p.id}">{html.escape(p.title)}</a></li>')
         (data_dir / 'fragments').mkdir(exist_ok=True)
         (data_dir / 'fragments' / f'{p.id}.html').write_text(normalized, encoding='utf-8')
-    title = f'머신러닝기초 {"과제" if pack.profile == "homework" else "복습"} {pack.range} 문제설명'
+    title = f'머신러닝기초 {({"homework": "과제", "exam": "중간고사"}).get(pack.profile, "복습")} {pack.range} 문제설명'
     values = {'PAGE_TITLE': html.escape(title), 'BRAND': '문제풀이 입문 설명', 'DESCRIPTION': '첫 줄부터 완성 답과 검산까지 설명해요.',
               'TOC': '<ul class="toc-list">' + ''.join(toc) + '</ul>', 'TITLE': html.escape(title),
               'SUBTITLE': '주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.',
@@ -234,7 +235,7 @@ def check_artifacts(pack, artifacts):
                     nodes = list(reading[0].find_all(lambda n: n.attrs.get('data-source-field') == field))
                     if len(nodes) != 1 or compact(inner(nodes[0])) != compact(expected):
                         errors.append(f'{p.id}: {field} 원문 보존 실패')
-            if pack.profile == 'homework':
+            if pack.profile in ('homework', 'exam'):
                 original = list(document.find_all(lambda n: n.attrs.get('data-original-problem') == p.id))
                 if len(original) != 1 or compact(p.original_html) not in compact(original[0].text()):
                     errors.append(f'{p.id}: 영어 원문 보존 실패')
