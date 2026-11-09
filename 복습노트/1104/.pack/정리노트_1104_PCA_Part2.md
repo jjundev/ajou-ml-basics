@@ -84,22 +84,30 @@
 
 ##### 가중합 하나의 분산
 
-축 $\mathbf b$의 $d$번째 성분 $b_d$를 각 특성 $x_{dn}$에 곱해 더하면 한 숫자 $\mathbf b^\top\mathbf x_n=\sum_{d=1}^D b_dx_{dn}$가 나와요. 두 특성만 있으면 $b_1x_{1n}+b_2x_{2n}$이에요. 이 숫자의 표본 평균은 0이므로 분산은 이 가중합을 제곱해 평균낸 값이에요. 제곱 안에는 서로 다른 특성을 곱한 항도 들어가요.
+어느 방향으로 읽을 때 데이터가 가장 넓게 퍼지는지 비교하려고, 먼저 축 $\mathbf b$에 사영한 좌표를 구해요. 축의 $d$번째 성분은 $b_d$, $n$번째 표본의 $d$번째 특성값은 $x_{dn}$이에요. 사영 좌표를 잠시 $z_n$이라 쓰면 다음과 같아요.
 
-1. 실수인 좌표는 전치해도 값이 같아요. 곱의 전치는 순서를 바꾸므로 $(\mathbf b^\top\mathbf x_n)^\top=\mathbf x_n^\top\mathbf b$예요.
+$$z_n=\mathbf b^\top\mathbf x_n=\sum_{d=1}^D b_dx_{dn}.$$
 
-   $$
-   (\mathbf b^\top\mathbf x_n)^2=(\mathbf b^\top\mathbf x_n)(\mathbf x_n^\top\mathbf b)=\mathbf b^\top(\mathbf x_n\mathbf x_n^\top)\mathbf b.
-   $$
-2. 모든 표본에서 같은 축을 사용하므로 양쪽의 $\mathbf b$를 평균 바깥으로 꺼낼 수 있어요. 방향 분산을 $V(\mathbf b)$로 쓰면 다음과 같아요.
+두 특성만 있으면 $b_1x_{1n}+b_2x_{2n}$이에요. 입력은 이미 중심화했으므로 $\frac1N\sum_n\mathbf x_n=\mathbf0$이고, 사영 좌표의 평균도 $\bar z=\mathbf b^\top(\frac1N\sum_n\mathbf x_n)=0$이에요. 평균이 0인 좌표들의 분산은 제곱의 평균이에요. 이 방향 분산을 $V(\mathbf b)$라고 해요.
 
-   $$
-   V(\mathbf b)=\frac1N\sum_{n=1}^N(\mathbf b^\top\mathbf x_n)^2=\mathbf b^\top\mathbf S\mathbf b.
-   $$
+$$V(\mathbf b)=\frac1N\sum_{n=1}^N(z_n-\bar z)^2=\frac1N\sum_{n=1}^N(\mathbf b^\top\mathbf x_n)^2.$$
 
-   $$
-   \mathbf S=\frac1N\mathbf X\mathbf X^\top
-   $$
+제곱을 두 인자의 곱으로 써요. $\mathbf b^\top\mathbf x_n$은 실수 하나라 전치해도 같고, 곱의 전치는 순서를 뒤집어요.
+
+$$(\mathbf b^\top\mathbf x_n)^\top=\mathbf x_n^\top\mathbf b.$$
+$$(\mathbf b^\top\mathbf x_n)^2=(\mathbf b^\top\mathbf x_n)(\mathbf x_n^\top\mathbf b)=\mathbf b^\top(\mathbf x_n\mathbf x_n^\top)\mathbf b.$$
+
+이 식을 분산에 대입해요. 모든 표본에 같은 축을 쓰므로 양쪽의 $\mathbf b$는 합 밖에 고정하고 가운데 외적만 평균낼 수 있어요.
+
+$$V(\mathbf b)=\frac1N\sum_{n=1}^N\mathbf b^\top(\mathbf x_n\mathbf x_n^\top)\mathbf b.$$
+$$V(\mathbf b)=\mathbf b^\top\left[\frac1N\sum_{n=1}^N\mathbf x_n\mathbf x_n^\top\right]\mathbf b.$$
+
+가운데 묶음이 중심화 데이터의 공분산 행렬 $\mathbf S$예요. $\mathbf X$는 표본을 열로 모았으므로 $\mathbf X\mathbf X^\top=\sum_n\mathbf x_n\mathbf x_n^\top$예요.
+
+$$\mathbf S=\frac1N\sum_{n=1}^N\mathbf x_n\mathbf x_n^\top=\frac1N\mathbf X\mathbf X^\top.$$
+$$V(\mathbf b)=\mathbf b^\top\mathbf S\mathbf b.$$
+
+즉 $\mathbf b^\top\mathbf S\mathbf b$는 사영 좌표를 제곱해 평균내는 계산을 공분산 행렬로 묶은 재표현이에요.
 
 $\mathbf S$는 중심화한 데이터의 자기 공분산 행렬이에요. $\mathbf x_n\mathbf x_n^\top$의 $(i,j)$ 원소는 $x_{in}x_{jn}$이므로 평균을 내면 대각 원소는 특성별 분산이고, 비대각 원소는 두 특성의 공분산이에요. 성분을 서로 바꿔 곱해도 값이 같아 대칭이에요. 분산식의 크기는 $(1\times D)(D\times D)(D\times1)=1\times1$이에요. 임의의 $\mathbf b$에서도 제곱의 평균은 음수가 될 수 없으므로 $\mathbf S$는 양의 준정부호(PSD)예요.
 
@@ -148,11 +156,21 @@ $$
 
 고유기저 전개를 분산식에 대입하고, 서로 다른 축의 내적을 정리해요.
 
-1. $V(\mathbf b)$의 왼쪽과 오른쪽에 그 전개를 넣어요. 3차원이라면 왼쪽의 세 항과 오른쪽의 세 항이 만나 9개 항이 생겨요. 일반식은 다음과 같아요.
+1. 출발식은 $V(\mathbf b)=\mathbf b^\top\mathbf S\mathbf b$예요. 앞에서 구한 $\mathbf b=\sum_i c_i\mathbf p_i$를 양쪽에 넣어요. 왼쪽은 전치하므로 $\mathbf b^\top=\sum_i c_i\mathbf p_i^\top$이고, 실수 계수 $c_i$는 그대로예요.
 
-   $$
-   V(\mathbf b)=\sum_{i=1}^D\sum_{j=1}^D c_i c_j\mathbf p_i^\top\mathbf S\mathbf p_j.
-   $$
+$$V(\mathbf b)=\left(\sum_{i=1}^D c_i\mathbf p_i^\top\right)\mathbf S\left(\sum_{j=1}^D c_j\mathbf p_j\right).$$
+
+2차원에서 먼저 분배법칙을 써 볼게요. 왼쪽의 두 항 각각을 오른쪽의 두 항 각각과 곱하므로 네 항이 생겨요.
+
+$$V(\mathbf b)=(c_1\mathbf p_1^\top+c_2\mathbf p_2^\top)\mathbf S(c_1\mathbf p_1+c_2\mathbf p_2).$$
+$$\begin{aligned}V(\mathbf b)&=c_1^2\mathbf p_1^\top\mathbf S\mathbf p_1+c_1c_2\mathbf p_1^\top\mathbf S\mathbf p_2\\&\quad+c_2c_1\mathbf p_2^\top\mathbf S\mathbf p_1+c_2^2\mathbf p_2^\top\mathbf S\mathbf p_2.\end{aligned}$$
+
+행렬 곱의 순서는 유지하고 숫자 계수만 앞으로 모았어요. 왼쪽에서 고른 항의 번호가 $i$, 오른쪽에서 고른 항의 번호가 $j$예요. 두 번호를 각각 전부 돌려 모든 조합을 더하는 표기가 이중합이에요. 3차원에서는 $3\times3=9$개 항이고, 일반식은 다음과 같아요.
+
+$$V(\mathbf b)=\sum_{i=1}^D\sum_{j=1}^D c_i c_j\mathbf p_i^\top\mathbf S\mathbf p_j.$$
+
+여기까지는 대입과 분배법칙만 썼어요. 다음에 고유벡터 관계와 직교성으로 항을 줄여요.
+
 2. 오른쪽에 붙은 $\mathbf S\mathbf p_j$를 $\lambda_j\mathbf p_j$로 바꿔요. $\lambda_j$는 실수라 내적 앞에 꺼낼 수 있어요.
 
    $$
@@ -269,13 +287,38 @@ $\mathbf b_k=\mathbf p_k$가 이 값에 도달해요.
 
 ##### 여러 축을 한꺼번에 골라도 같은 이유
 
-강의에서 보인 순차 선택을 바탕으로, 여기서는 여러 축을 한꺼번에 비교할 때도 같은 선택이 최적인 이유를 덧붙여요. 임의의 정규직교 축을 모은 행렬을 $\mathbf C\in\mathbb R^{D\times M}$이라 하고, $w_i=\|\mathbf C^\top\mathbf p_i\|^2$를 $i$번째 고유방향을 얼마나 담는지 나타내는 가중치라 해요.
+강의에서 보인 순차 선택을 바탕으로, 여기서는 여러 축을 한꺼번에 비교할 때도 같은 선택이 최적인 이유를 덧붙여요. 임의의 정규직교 단위축 $\mathbf q_1,\ldots,\mathbf q_M\in\mathbb R^D$를 열로 모은 행렬을 $\mathbf C=[\mathbf q_1,\ldots,\mathbf q_M]\in\mathbb R^{D\times M}$이라 해요. 앞의 숫자 계수 $c_i$와 구별하려고 축 벡터에는 $\mathbf q_m$을 써요.
 
-1. 단위 고유벡터 $\mathbf p_i$를 사영한 제곱 길이이므로 $0\le w_i\le1$이에요. 각 축은 단위벡터라 고유기저 좌표의 제곱합이 1이고, $M$개 축에 대해 더하면 $\sum_i w_i=M$이에요.
-2. 축마다 $V(\mathbf b)=\sum_i\lambda_i c_i^2$를 적용해 더하면 전체 보존 분산은 $\sum_i\lambda_i w_i$예요.
-3. 앞쪽에서 비운 가중치 $\sum_{i\le M}(1-w_i)$와 뒤쪽에 둔 가중치 $\sum_{i\gt M}w_i$는 같아요. 앞쪽 고윳값은 모두 $\lambda_M$ 이상이고 뒤쪽은 모두 $\lambda_M$ 이하이므로, 앞쪽에서 잃는 분산이 뒤쪽에서 얻는 분산 이상이에요.
+$\mathbf C^\top\mathbf p_i$의 $m$번째 값은 $\mathbf q_m^\top\mathbf p_i$예요. 따라서 $i$번째 고유방향을 선택한 부분공간에 얼마나 담는지 나타내는 가중치는 다음과 같아요.
 
-따라서 앞 $M$개의 고유방향에 가중치를 1씩 두는 선택이 전체 보존 분산도 최대로 만들어요.
+$$w_i=\|\mathbf C^\top\mathbf p_i\|^2=\sum_{m=1}^M(\mathbf q_m^\top\mathbf p_i)^2.$$
+
+**가중치의 범위와 합을 구해요.** 선택한 축을 전체 정규직교 기저로 보태면, 단위벡터 $\mathbf p_i$의 전체 좌표 제곱합은 1이에요. $w_i$는 그중 $M$개만 더하므로 $0\le w_i\le1$이에요. 반대로 $m$을 고정하면, $\mathbf p_i^\top\mathbf q_m$은 단위축 $\mathbf q_m$의 전체 고유기저 좌표예요.
+
+$$\sum_{i=1}^D(\mathbf p_i^\top\mathbf q_m)^2=\|\mathbf q_m\|^2=1.$$
+
+내적은 실수라 $\mathbf q_m^\top\mathbf p_i=\mathbf p_i^\top\mathbf q_m$예요. 유한한 두 합의 순서를 바꾸면 다음과 같아요.
+
+$$\sum_{i=1}^D w_i=\sum_{m=1}^M\sum_{i=1}^D(\mathbf p_i^\top\mathbf q_m)^2=\sum_{m=1}^M1=M.$$
+
+**축별 분산을 더해요.** 앞의 방향 분산식에서 $\mathbf b=\mathbf q_m$, $c_i=\mathbf p_i^\top\mathbf q_m$을 대입해요.
+
+$$V(\mathbf q_m)=\sum_{i=1}^D\lambda_i(\mathbf p_i^\top\mathbf q_m)^2.$$
+
+모든 선택 축에 대해 더하고 합의 순서를 바꾸면 괄호 안이 $w_i$예요.
+
+$$\sum_{m=1}^M V(\mathbf q_m)=\sum_{i=1}^D\lambda_i\left[\sum_{m=1}^M(\mathbf p_i^\top\mathbf q_m)^2\right]=\sum_{i=1}^D\lambda_i w_i.$$
+
+**상위 고유축 선택과 비교해요.** $\sum_iw_i=M$을 앞뒤로 나누어 옮기면, 앞쪽에서 비운 가중치와 뒤쪽에 둔 가중치가 같아요.
+
+$$\sum_{i=1}^M(1-w_i)=M-\sum_{i=1}^M w_i=\sum_{i=M+1}^D w_i.$$
+
+상위 $M$축을 모두 담을 때의 분산에서 임의 선택의 분산을 빼요. 앞쪽에서는 $\lambda_i\ge\lambda_M$, 뒤쪽에서는 $\lambda_i\le\lambda_M$이고 각 가중치는 음수가 아니에요.
+
+$$\begin{aligned}\sum_{i=1}^M\lambda_i-\sum_{i=1}^D\lambda_iw_i&=\sum_{i=1}^M\lambda_i(1-w_i)-\sum_{i=M+1}^D\lambda_iw_i\\&\ge\lambda_M\left[\sum_{i=1}^M(1-w_i)-\sum_{i=M+1}^D w_i\right]\\&=0.\end{aligned}$$
+
+따라서 앞 $M$개의 고유방향에 가중치를 1씩 두는 선택이 전체 보존 분산도 최대로 만들어요. $M=D$라면 뒤쪽 합은 빈 합인 0이고 모든 방향을 보존해요.
+
 
 **교수님 말씀**
 
@@ -499,11 +542,21 @@ $$
 
 잔차의 제곱 길이에서 직교성으로 사라지는 교차항을 정리해요.
 
-잔차의 제곱 길이를 전개하면 서로 다른 축의 내적은 $0$, 자기 자신과의 내적은 $1$이에요. 따라서 버린 좌표 각각의 제곱만 남아요.
+잔차의 제곱 길이를 실제로 전개해 볼게요. 식을 짧게 쓰려고 잔차를 $\mathbf r_n=\mathbf x_n-\tilde{\mathbf x}_n\in\mathbb R^D$, 버린 축의 좌표를 실수 $a_{jn}=\mathbf b_j^\top\mathbf x_n$이라 잠시 이름 붙여요. 앞에서 구한 잔차는 $\mathbf r_n=\sum_{j=M+1}^D a_{jn}\mathbf b_j$예요.
 
-$$
-J_M=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.
-$$
+벡터의 제곱 길이는 자기 자신과의 내적이에요. 왼쪽 합을 전치하고 두 합을 분배해요.
+
+$$\|\mathbf r_n\|^2=\mathbf r_n^\top\mathbf r_n.$$
+$$\|\mathbf r_n\|^2=\left(\sum_{i=M+1}^D a_{in}\mathbf b_i^\top\right)\left(\sum_{j=M+1}^D a_{jn}\mathbf b_j\right).$$
+$$\|\mathbf r_n\|^2=\sum_{i=M+1}^D\sum_{j=M+1}^D a_{in}a_{jn}(\mathbf b_i^\top\mathbf b_j).$$
+
+서로 다른 축의 내적은 0이라 $i\ne j$인 교차항이 사라져요. 같은 축의 내적은 길이의 제곱 1이므로 $a_{jn}^2$만 남아요.
+
+$$\|\mathbf r_n\|^2=\sum_{j=M+1}^D a_{jn}^2=\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.$$
+
+마지막으로 표본 $N$개의 제곱오차를 평균내면 원래의 목적함수 $J_M$이에요.
+
+$$J_M=\frac1N\sum_{n=1}^N\|\mathbf r_n\|^2=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.$$
 
 <a id="s1-discarded-variance"></a>
 
@@ -523,11 +576,29 @@ $$
 J_M=\sum_{j=M+1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.
 $$
 
-남긴 축의 분산까지 합하면 전체 분산 $\operatorname{tr}\mathbf S$가 돼요. 이는 표본의 평균 제곱 길이 $\frac1N\sum_n\|\mathbf x_n\|^2$이고, 어느 직교 정규 기저를 써도 같아요. 보존 분산을 최대화하는 것과 복원오차를 최소화하는 것이 같은 이유예요.
+이제 버린 분산과 남긴 분산을 합쳐 볼게요. $\operatorname{tr}\mathbf S$는 행렬의 대각 원소를 모두 더한 값인 트레이스(trace)예요. $S_{dd}$는 $d$번째 특성의 분산이므로 대각합은 모든 특성의 분산 합이에요.
 
-$$
-J_M=\operatorname{tr}\mathbf S-\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m.
-$$
+$$\operatorname{tr}\mathbf S=\sum_{d=1}^D S_{dd}=\sum_{d=1}^D\left[\frac1N\sum_{n=1}^N x_{dn}^2\right].$$
+
+유한합의 순서를 바꾸면, 각 표본의 성분 제곱합이 제곱 길이가 돼요.
+
+$$\operatorname{tr}\mathbf S=\frac1N\sum_{n=1}^N\sum_{d=1}^D x_{dn}^2=\frac1N\sum_{n=1}^N\|\mathbf x_n\|^2.$$
+
+전체 정규직교 기저에서 벡터의 좌표 제곱합도 같은 제곱 길이예요. 이는 앞에서 잔차를 전개한 계산을 버린 축뿐 아니라 전체 축에 적용한 결과예요.
+
+$$\|\mathbf x_n\|^2=\sum_{j=1}^D(\mathbf b_j^\top\mathbf x_n)^2.$$
+
+표본 평균을 취하면 각 방향의 평균 제곱이 $\mathbf b_j^\top\mathbf S\mathbf b_j$가 되므로, 전체 분산은 어느 정규직교 기저를 써도 같아요.
+
+$$\operatorname{tr}\mathbf S=\sum_{j=1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.$$
+
+이 합을 남긴 $M$개 축과 버린 $D-M$개 축으로 나눠요. 버린 쪽은 앞에서 구한 $J_M$이에요.
+
+$$\operatorname{tr}\mathbf S=\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m+J_M.$$
+
+남긴 쪽을 이항하면 다음 식이 나와요. 같은 데이터를 고정했을 때 전체 분산은 상수라, 남긴 분산을 키우는 만큼 복원오차가 줄어요.
+
+$$J_M=\operatorname{tr}\mathbf S-\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m.$$
 
 <a id="s1-discarded-minimum"></a>
 
@@ -722,7 +793,28 @@ PCA의 축 선택에는 숫자 라벨을 쓰지 않아요. 라벨은 산점도�
 
 상위 왼쪽 특이벡터와의 내적으로 압축 좌표를 구해요.
 
-**남길 좌표.** $\mathbf U_M^\top\mathbf X$에 SVD를 대입하면 $\mathbf U_M^\top\mathbf U$가 처음 $M$개의 행만 골라요. 결과는 $\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}$이고, $\mathbf V_M$은 $\mathbf V$의 첫 $M$열, $\mathbf\Sigma_M$은 첫 $M$개 특잇값을 담은 대각행렬이에요.
+남길 좌표는 앞의 사영식에 $\mathbf B=\mathbf U_M$을 대입한 $\mathbf U_M^\top\mathbf X$예요. 이를 계산하려고 데이터의 SVD를 넣어요.
+
+$$\mathbf U_M^\top\mathbf X=(\mathbf U_M^\top\mathbf U)\mathbf\Sigma\mathbf V^\top.$$
+
+$\mathbf U_M$은 $\mathbf U$의 첫 $M$열이에요. 따라서 $\mathbf U_M^\top\mathbf U$의 $(i,j)$번째 칸은 $\mathbf u_i^\top\mathbf u_j$이고, $1\le i\le M$에서 같은 열이면 1, 다른 열이면 0이에요.
+
+$$\mathbf U_M^\top\mathbf U=[\,\mathbf I_M\ \mathbf0_{M\times(D-M)}\,]\in\mathbb R^{M\times D}.$$
+
+이 행렬의 $i$번째 행은 곱해지는 행렬의 $i$번째 행만 남겨요. 그래서 $\mathbf\Sigma$의 첫 $M$행을 골라요. $M=D$이면 오른쪽의 0 블록은 열이 없는 블록이에요.
+
+$$\mathbf U_M^\top\mathbf X=[\,\mathbf I_M\ \mathbf0\,]\mathbf\Sigma\mathbf V^\top.$$
+
+$\mathbf\Sigma_M\in\mathbb R^{M\times M}$은 첫 $M$개 특잇값을 담은 대각행렬이에요. $\mathbf\Sigma$의 첫 $M$행은 이 대각행렬 뒤에 0 열을 붙인 모양이에요.
+
+$$[\,\mathbf I_M\ \mathbf0\,]\mathbf\Sigma=[\,\mathbf\Sigma_M\ \mathbf0_{M\times(N-M)}\,].$$
+
+이제 $\mathbf V^\top$를 곱하면 뒤의 0 블록은 기여하지 않고 첫 $M$행만 쓰여요. $\mathbf V_M\in\mathbb R^{N\times M}$을 $\mathbf V$의 첫 $M$열이라 하면 그 행들이 바로 $\mathbf V_M^\top$예요.
+
+$$\mathbf U_M^\top\mathbf X=[\,\mathbf\Sigma_M\ \mathbf0\,]\mathbf V^\top=\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}.$$
+
+즉 각 표본마다 $M$개의 사영 좌표가 한 열에 모여요. 다음에는 이 좌표에 기저 $\mathbf U_M$을 곱해 복원해요.
+
 
 <a id="s2-low-rank-reconstruction"></a>
 
