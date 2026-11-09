@@ -1,0 +1,86 @@
+PASS p1:a | V_M - V_{M-1} = lambda_M (M=1..7, V_0=0)
+PASS p1:a | V_2 ~ 46+32 = 78 (figure reading arithmetic)
+PASS p1:b | 0->50: ~370, 150->200: ~525-505 = 20, 50->200: 525-370 = 155
+PASS p3:b | J_784 = empty sum over i=785..784 = 0
+PASS p3:c | J_M - J_{M+1} = lambda_{M+1} >= 0 (toy D=6)
+PASS p3:c | J_M nonincreasing so J_550 <= J_500 <= J_400 (toy monotone)
+PASS p3:b | square orthonormal B: B^T B = I and B B^T = I (4x4 example)
+PASS p3:c | pixel with zero variance: S e_d = 0 (eigenvalue 0)
+PASS p4:a | A^T A = [[1,1,0],[1,2,1],[0,1,1]]
+PASS p4:a | first-row cofactor form equals det
+PASS p4:a | det = (1-l)(l^2-3l) = -l(l-1)(l-3)
+PASS p4:a | (2-l)(1-l) = l^2-3l+2
+PASS p4:a | eigvecs (1,2,1),(1,0,-1),(1,-1,1) with AtA products (3,6,3),(1,0,-1),(0,0,0)
+PASS p4:a | pairwise dot products 0
+PASS p4:a | V orthonormal
+PASS p4:b | sigma = sqrt3, 1
+PASS p4:c | A v1 = (3,3)/sqrt6, u1 = (1,1)/sqrt2, 3/sqrt18 = 1/sqrt2
+PASS p4:c | U = 1/sqrt2 [[1,1],[1,-1]]
+PASS p4:c | A v3 = 0
+PASS p4:c | A = U Sigma V^T
+PASS p4:c | layer coefficients sqrt3/sqrt12 = 1/2 and layers sum to A
+PASS p4:b | A A^T = [[2,1],[1,2]] eigenvalues 3,1; |A v1| = sqrt3
+PASS p4:c | A A^T u1 = 3 u1, A A^T u2 = u2
+PASS p4:d | sizes U 2x2, Sigma 2x3, V 3x3; product 2x3
+PASS p4:pitfall | flipping u1 only gives [[0,-1,-1],[-1,-1,0]]
+PASS p4:pitfall | sigma1=3 => |A v1/3| = 1/sqrt3
+PASS p5:a | sigma1*(-0.1811) = -1.7465 (raw -1.74649)
+PASS p5:a | layer1 Chandra = (1.1719,1.2570,0.1640,0.2646)
+PASS p5:a | Star Wars entry 1.74649*0.6710 = 1.1719
+PASS p5:b | sigma2*(-0.9807) = -6.2411
+PASS p5:b | layer2 Chandra = (-0.1473,-1.2819,4.8087,3.7634)
+PASS p5:b | A(2) Chandra = (1.0246,-0.0250,4.9727,4.0280)
+PASS p5:b | Blade Runner 1.25695 + (-1.28192) = -0.02497
+PASS p5:b | differences (0.0246,0.0250,0.0273,0.0280) all <= 0.03
+PASS p5:b | max diff vs book (4.102) <= 0.0003
+PASS p5:c | row sums of squares 42,50,25,17; total 134
+PASS p5:c | sigma3^2 = 0.4979, ratio 0.37%
+PASS p5:c | sigma3/sigma1 ~ 0.07
+PASS p5:c | squares 93.003, 40.499, 0.498 sum 134.000; kept 99.63%
+PASS p5:a | book (4.100b) col3 * sigma1 = (1.1717,1.2566,0.1639,0.2642)
+PASS p5:pitfall | row mix-up gives Amelie row (0.6671,0.5900,0.1640)
+PASS p5:c | ||s u v^T||_F^2 = s^2 |u|^2 |v|^2
+PASS p6:a | example oblique projection P^2=P and (I-P)^2 = I-P
+PASS p6:a | (I-M)^2 = I - 2M + M^2 for generic 2x2 M
+PASS p6:pitfall | dropping one cross term then using M^2=M gives I (wrong)
+PASS p6:b | id - (id - P) = P
+PASS p6:a | B^T B = I => (BB^T)^2 = BB^T and (I-BB^T)^2 = I-BB^T
+PASS p7:a | A A^T = [[17,8],[8,17]], (17-l)^2-64, eigen 25,9
+PASS p7:a | A A^T u1 = 25 u1, u2 = 9 u2
+PASS p7:a | ||A||_F^2 = 34 = 25 + 9
+PASS p7:b | A^T(1,1) = (5,5,0), A^T(1,-1) = (1,-1,4)
+PASS p7:b | v1 = (1,1,0)/sqrt2, v2 = (1,-1,4)/(3sqrt2), |v2|^2 = 18/18
+PASS p7:b | A v1 = 5 u1, A(1,-1,4) = (9,-9), A v2 = 3 u2
+PASS p7:c | v3 orthogonal to (1,1,0),(1,-1,4), |(2,-2,-1)| = 3
+PASS p7:c | V orthonormal
+PASS p7:d | A v3 = 0 (rows: 6-4-2, 4-6+2)
+PASS p7:d | rows = 1/2(5,5,0) +- 1/2(1,-1,4)
+PASS p7:d | A V = U Sigma and A = U Sigma V^T
+PASS p7:d | 3 u2 v2^T coefficient 1/2 and layers sum to A
+PASS p7:pitfall | flip v2 only -> [[2,3,-2],[3,2,2]]
+PASS p7:pitfall | |A^T u1| = 5
+PASS p9:b | A1 = 5/2 [[1,1,0],[1,1,0]], u1 v1^T = 1/2[[1,1,0],[1,1,0]]
+PASS p9:c | A - A1 = [[1/2,-1/2,2],[-1/2,1/2,-2]], sum sq 9 = sigma2^2, = 3 u2 v2^T
+PASS p9:b | ||A1||_F^2 = 25
+PASS p9:a | A v1 = (5,5)/sqrt2
+PASS p9:pitfall | without sigma1 error sum sq = (2.5^2+1.5^2+2^2)*2 = 25
+PASS p9:pitfall | ||A-A1||_F = 3
+PASS p8:a | A^T A = [[5,3],[3,5]], (5-l)^2-9, eigen 8,2
+PASS p8:a | AtA(1,1) = 8(1,1), AtA(1,-1) = 2(1,-1)
+PASS p8:b | A(1,1) = (4,0), A(1,-1) = (0,-2)
+PASS p8:b | u1 = (1,0), u2 = (0,-1)
+PASS p8:b | U Sigma = [[2sqrt2,0],[0,-sqrt2]] and U Sigma V^T = A
+PASS p8:b | flip v2 -> u2 = (0,1) also valid
+PASS p8:c | A A^T = diag(8,2), u1->8u1, u2->2u2
+PASS p8:c | U (Sigma Sigma^T) U^T = diag(8,2)
+PASS p8:pitfall | u2=(0,1) with v2 unchanged -> [[2,2],[1,-1]]
+PASS p8:pitfall | sigma1=8 => |A v1/8| = 1/(2sqrt2)
+PASS p8:pitfall | det(A-lI) = l^2-3l+4, discriminant -7
+PASS p10:a | ||Ax||^2 - sum sigma_i^2 c_i^2 = 0 (symbolic, p9 matrix)
+PASS p10:a | ||x||^2 = sum c_i^2
+PASS p10:a | A^T A v_i = sigma_i^2 v_i
+PASS p10:verify | c=(1,1,0): ||Ax||^2 = 34, Av1+Av2 = (8,2)/sqrt2, sigma1^2||x||^2 = 50
+PASS p10:pitfall | wrong sum sigma|c| = 8 vs sqrt34 ~ 5.83
+PASS p10:c | ||A v1|| = 5 = sigma1
+PASS p10:d | random 4x3: max ratio over 2000 samples <= sigma1, ratio at v1 = sigma1 (numeric supplement)
+85 checks; ALL PASS

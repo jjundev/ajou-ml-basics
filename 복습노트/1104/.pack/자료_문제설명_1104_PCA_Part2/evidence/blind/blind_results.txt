@@ -1,0 +1,270 @@
+########## SECTION 1: blind_check.py output (python3 -I) ##########
+=== p3:b  J*_784 ===
+  index set {M+1..D} = range(785,785) has 0 terms -> empty sum = 0
+  [OK] J*_784 = 0 (empty sum)
+  [OK] toy D=5: B B^T = I when all D PCs used (so x~ = x)
+=== p4  A = [[1,1,0],[0,1,1]] ===
+  p4:a A^T A = [[1, 1, 0], [1, 2, 1], [0, 1, 1]]
+  [OK] det(A^T A - 3 I) = 0
+  [OK] det(A^T A - 1 I) = 0
+  [OK] det(A^T A - 0 I) = 0
+  [OK] A^T A [1, 2, 1] = 3*v
+  [OK] A^T A [1, 0, -1] = 1*v
+  [OK] A^T A [1, -1, 1] = 0*v
+  ||v~||^2 = [6, 2, 3] -> v1=(1,2,1)/sqrt6, v2=(1,0,-1)/sqrt2, v3=(1,-1,1)/sqrt3
+  [OK] V orthonormal
+  p4:b sigma = ['1.732051', '1.000000'] = (sqrt3, 1); Sigma = [[sqrt3,0,0],[0,1,0]] (2x3)
+  [OK] ||A v~1||^2 = sigma^2 ||v~||^2
+  p4:c A v~1 = [3, 3] -> u1 = [0.707107, 0.707107]
+  [OK] ||A v~2||^2 = sigma^2 ||v~||^2
+  p4:c A v~2 = [1, -1] -> u2 = [0.707107, -0.707107]
+        i.e. u1=(1,1)/sqrt2, u2=(1,-1)/sqrt2
+  [OK] U Sigma V^T = A
+  [OK] U orthonormal
+  p4:d sizes: U 2x2, Sigma 2x3, V 3x3 (V^T 3x3)
+=== p5  movie ratings ===
+  p5:a sigma1*v1[Chandra] = -1.746492; layer1 Chandra col = [1.171896, 1.256950, 0.163996, 0.264594]
+       rounded 4dp: [1.1719, 1.257, 0.164, 0.2646]
+  p5:b sigma2*v2[Chandra] = -6.241077; layer2 Chandra col = [-0.147289, -1.281917, 4.808750, 3.763369]
+       A^(2) Chandra col = [1.024607, -0.024967, 4.972745, 4.027963] (rounded [1.0246, -0.025, 4.9727, 4.028])
+       A - A^(2) (Chandra) = [-0.024607, 0.024967, 0.027255, -0.027963]  max|diff| = 0.0280
+  p5:c ||A||_F^2 = 134 ; sum sigma^2 = 134.0000
+       sigma3^2 = 0.497871; sigma3^2/||A||_F^2 = 0.371546%; (s1^2+s2^2)/||A||_F^2 = 99.6284%; sigma3/sigma1 = 0.0732
+       ||A - A^(2)||_F = sigma3 = 0.7056 (Eckart-Young), so every entry error <= 0.7056
+  independent: A^T A = [[51, 45, 9], [45, 41, 4], [9, 4, 42]] eig = ['93.003089', '40.499107', '0.497804']
+  independent: sigma = ['9.6438', '6.3639', '0.7056']
+    v1 (sign-free) = [0.7367, 0.6515, 0.1811]
+    v2 (sign-free) = [-0.0852, -0.1762, 0.9807]
+    v3 (sign-free) = [-0.6708, 0.7379, 0.0743]
+    u1 = [0.671, 0.7197, 0.0939, 0.1515]
+    u2 = [-0.0236, -0.2054, 0.7705, 0.603]
+    u3 = [-0.4647, 0.4759, 0.5268, -0.5293]
+  independent full A^(2) =
+     [4.7801, 4.2419, 1.0244]
+     [5.2252, 4.7522, -0.025]
+     [0.2493, -0.2743, 4.9724]
+     [0.7495, 0.2756, 4.0278]
+  [OK] ||A - A^(2)||_F == sigma3 (indep.)
+  [OK] given sigmas match independent to 4dp
+=== p6  projection identity ===
+  p6:a (id - pi)^2 with pi^2 = pi : {0: 1, 1: -1} == id - pi -> True
+  [OK] (id-pi)^2 = id-pi given pi^2=pi
+  without relation: (id-pi)^2 = id - 2 pi + pi^2 ; = id - pi  <=> pi^2 = pi (both directions)
+  [OK] P=[[1,2],[0,0]] oblique: P^2 = P
+  [OK] (I-P)^2 = I-P
+  [OK] rho=[[0,0],[3,1]]: rho^2 = rho
+  [OK] pi = I - rho satisfies pi^2 = pi
+  [OK] N non-projection => I-N non-projection
+=== p7 / p9  A = [[3,2,2],[2,3,-2]] ===
+  p7:a A A^T = [[17, 8], [8, 17]]
+  [OK] det(AA^T - 25 I) = 0
+  [OK] det(AA^T - 9 I) = 0
+  [OK] AA^T [1, 1] = 25 u
+  [OK] AA^T [1, -1] = 9 u
+       sigma1=5, sigma2=3 ; u1=(1,1)/sqrt2, u2=(1,-1)/sqrt2
+  p7:b A^T u~1 = [5, 5, 0] -> v1 = [5, 5, 0]/(5*sqrt2)
+  [OK] ||A^T u~1||^2 = sigma^2 * 2
+  p7:b A^T u~2 = [1, -1, 4] -> v2 = [1, -1, 4]/(3*sqrt2)
+  [OK] ||A^T u~2||^2 = sigma^2 * 2
+       v1 = (1,1,0)/sqrt2 ; v2 = (1,-1,4)/(3 sqrt2)
+  p7:c cross(v~1, v~2) = [20, -20, -10] ; ||.||^2 = 900
+  [OK] v3 = (2,-2,-1)/3 unit
+  [OK] v3 perp v1, v2
+  p7:d A v3 = [0, 0]
+  [OK] A v3 = 0
+  [OK] A^T A v3 = 0 (v3 eigvec with eigenvalue 0 = sigma3^2)
+  [OK] U Sigma V^T = A
+  p9:a sigma1 = 5, u1 = (1,1)/sqrt2, v1 = (1,1,0)/sqrt2
+  p9:b A1 = [[5/2, 5/2, 0], [5/2, 5/2, 0]]
+  p9:c A - A1 = [[1/2, -1/2, 2], [-1/2, 1/2, -2]] ; sum of squares = 9 ; sigma2^2 = 9
+  [OK] ||A-A1||_F^2 = 9 = sigma2^2
+  [OK] A - A1 = sigma2 u2 v2^T
+=== p8  A = [[2,2],[-1,1]] ===
+  p8:a A^T A = [[5, 3], [3, 5]]
+  [OK] A^T A [1, 1] = 8 v
+  [OK] A^T A [1, -1] = 2 v
+       V = (1/sqrt2)[[1,1],[1,-1]]  (columns v1=(1,1)/sqrt2, v2=(1,-1)/sqrt2)
+  p8:b sigma1 = sqrt8 = 2sqrt2, sigma2 = sqrt2
+       A v~1 = [4, 0] ; u1 = A v~/(sqrt2*sigma) = [1.000000, 0.000000]
+       A v~2 = [0, -2] ; u2 = A v~/(sqrt2*sigma) = [0.000000, -1.000000]
+       u1 = (1,0), u2 = (0,-1)  [with v2=(-1,1)/sqrt2 instead: u2=(0,1)]
+  [OK] U Sigma V^T = A
+  p8:c A A^T = [[8, 0], [0, 2]]
+  [OK] AA^T e1 = 8 e1 = sigma1^2 u1
+  [OK] AA^T (0,-1) = 2 (0,-1) = sigma2^2 u2
+=== p10  spectral norm = sigma1 (numeric sanity only) ===
+  sigma = [2.992017, 0.936932, 0.117101]
+  p10:a ||Ax||^2 = sum sigma_i^2 c_i^2 verified for 20000 random x
+  p10:b max ratio over random x = 2.991804 <= sigma1 = 2.992017
+  p10:c ||A v1|| / ||v1|| = 2.992017 = sigma1
+  [OK] random ratios never exceed sigma1
+  [OK] ratio at v1 equals sigma1
+ALL CHECKS PASSED
+
+########## SECTION 2: per-subpart blind answers (figure readings, proofs, judgements) ##########
+
+p1:a
+  V_M - V_{M-1} = sum_{m=1}^{M} lambda_m - sum_{m=1}^{M-1} lambda_m = lambda_M.
+  (Telescoping; the increment from adding the M-th PC is exactly the M-th largest eigenvalue, >= 0.)
+
+p1:b
+  Left plot reading: lambda_1 ~ 46-47, lambda_2 ~ 32, lambda_3 ~ 21, lambda_4 ~ 19, lambda_5 ~ 15-16,
+  lambda_6..8 ~ 11-13, then ~8-9 by index ~10, below ~5 by index ~25-30, ~2 around index 70-100,
+  and ~0.5-1 near index 150-200 (long flat tail). Since increments are lambda_M and the lambdas are
+  sorted and drop steeply, the first few PCs add the most (first one ~46 alone); later PCs add <1 each.
+  Right plot consistent: V_1 ~ 46, V_50 ~ 370, V_100 ~ 460, V_200 ~ 525; concave curve that flattens.
+  Answer: the cumulative variance grows much more when adding the first few PCs.
+
+p2:a
+  The two clouds are largely separated: 1s (orange) form a compact cluster at upper-left, 0s (blue) a large
+  cloud to the right/centre. They touch/overlap slightly at the boundary (a few orange points sit inside the
+  blue region's left edge, around the middle-left, and a few stray orange points lie lower-right of the orange
+  cluster). So: well (roughly linearly) separable in 2-D but not perfectly; small overlap zone.
+
+p2:b
+  The 0s (blue) are clearly more spread out (cloud spans most of the plot vertically and horizontally),
+  while the 1s (orange) are tightly concentrated. Within-class variance is larger for digit 0.
+  (Intuition: 1s are thin strokes differing mainly in slant; 0s vary in width/size/thickness.)
+
+p3:a
+  PCs 1: all four reconstructions look like nearly the same blurry generic "8" (mean + one direction);
+         individual shape lost (only slight differences, e.g. 4th a bit slanted).
+  PCs 10: rough individual features appear (slant/orientation e.g. 4th clearly tilted, 2nd's shape hints),
+          still blurry, grey background with ghost artefacts.
+  PCs 100: individual digits recognisable incl. finer stroke details, but noisy/greyish background artefacts remain.
+  PCs 500: visually nearly identical to the originals (sharp, black background).
+  Trend: more PCs -> progressively sharper, more individual, closer to originals.
+
+p3:b
+  J*_784 = sum_{i=785}^{784} lambda_i = empty sum = 0. With M = D = 784 the PCs form an orthonormal basis
+  B of R^784, B B^T = I, so the reconstruction x~ = mean + B B^T (x - mean) = x exactly: the originals
+  (training images, and in fact any 784-vector) are reconstructed perfectly (error 0).
+
+p3:c
+  J*_500 = sum_{i=501}^{784} lambda_i. The condition's error curve is ~0 beyond ~400 PCs (and ~exactly 0 by
+  ~550), so the discarded eigenvalues lambda_501..lambda_784 are (almost) all ~0 -- many are exactly 0 because
+  the always-black border pixels have zero variance (the data lie in a lower-dimensional subspace). Hence the
+  directions dropped carry essentially no variance; test 8s come from the same distribution (e.g. same black
+  border), so their components along those directions are also ~0, and 500 PCs reconstruct them almost perfectly.
+  Caveat: J*_M is a TRAINING-set error; transfer to test images needs the "same distribution" argument.
+
+p4:a
+  A^T A = [[1,1,0],[1,2,1],[0,1,1]]; eigenvalues 3, 1, 0.
+  v1 = (1,2,1)/sqrt6, v2 = (1,0,-1)/sqrt2, v3 = (1,-1,1)/sqrt3;  V = [v1 v2 v3] (each column up to sign).
+
+p4:b
+  sigma1 = sqrt3, sigma2 = 1 (sqrt of nonzero eigenvalues). Sigma = [[sqrt3,0,0],[0,1,0]] (2x3).
+
+p4:c
+  u1 = A v1/sqrt3 = (3,3)/(sqrt6 sqrt3) = (1,1)/sqrt2;  u2 = A v2/1 = (1,-1)/sqrt2.
+  U = (1/sqrt2)[[1,1],[1,-1]]. Verified U Sigma V^T = A.
+
+p4:d
+  U: 2x2, Sigma: 2x3, V: 3x3 (so V^T 3x3). (A is 2x3.)
+
+p5:a
+  sigma1 * v1[Chandra] = 9.6438 * (-0.1811) = -1.74649.
+  Layer-1 Chandra column = -1.74649 * u1 = (1.1719, 1.2570, 0.1640, 0.2646)^T  (SW, BR, Amelie, Delicatessen).
+
+p5:b
+  Layer-2 Chandra column = 6.3639 * (-0.9807) * u2 = -6.24108 * u2 = (-0.1473, -1.2819, 4.8088, 3.7634)^T.
+  A^(2) Chandra column = (1.0246, -0.0250, 4.9727, 4.0280)^T  vs  A's (1, 0, 5, 4)^T:
+  differences all within ~0.028 in absolute value -> rank-2 approx reproduces Chandra almost exactly.
+  (Note: layer 1 alone gets Chandra badly wrong -- it gives ~1.2 for the sci-fi movies and ~0.2 for the art
+  movies -- the 2nd layer supplies the "art-house" taste.)
+
+p5:c
+  sigma3^2 = 0.7056^2 = 0.4979. ||A||_F^2 = 134 (= sigma1^2+sigma2^2+sigma3^2 = 93.003+40.499+0.498).
+  Discarded fraction sigma3^2/||A||_F^2 = 0.37%; rank 2 keeps 99.63%. ||A - A^(2)||_F = sigma3 = 0.7056,
+  so no entry is off by more than 0.71 on a 0-5 scale (actual max entry error ~0.27). sigma3/sigma1 = 0.073.
+  Verdict: the 3rd layer can be dropped.
+  (Independent Jacobi SVD from A reproduces sigma = 9.6438, 6.3639, 0.7056 and the u/v tables up to a global sign.)
+
+p6:a
+  Proof: pi linear with pi∘pi = pi. id - pi is linear. For any x in V:
+  (id-pi)((id-pi)(x)) = (id-pi)(x - pi(x)) = (x - pi(x)) - pi(x - pi(x))
+                      = x - pi(x) - pi(x) + pi(pi(x))      [linearity of pi]
+                      = x - 2 pi(x) + pi(x) = x - pi(x) = (id-pi)(x).
+  Hence (id-pi)^2 = id - pi, i.e. id - pi is a projection.  (Linearity of pi is genuinely used.)
+
+p6:b
+  Let rho = id - pi and assume rho is a projection (rho linear since pi is). Apply (a) to rho:
+  id - rho is a projection. But id - rho = id - (id - pi) = pi. Hence pi is a projection.
+  (Together: pi is a projection <=> id - pi is a projection.)
+
+p7:a
+  A A^T = [[17,8],[8,17]], eigenvalues 25, 9 -> sigma1 = 5, sigma2 = 3; u1 = (1,1)/sqrt2, u2 = (1,-1)/sqrt2 (up to sign).
+
+p7:b
+  v1 = A^T u1/5 = (5,5,0)/(5 sqrt2) = (1,1,0)/sqrt2;  v2 = A^T u2/3 = (1,-1,4)/(3 sqrt2).
+
+p7:c
+  v3 ∝ v1 x v2 ∝ (2,-2,-1); v3 = (2,-2,-1)/3 (or its negative). V = [v1 v2 v3] with
+  V = [[1/sqrt2, 1/(3sqrt2), 2/3],[1/sqrt2, -1/(3sqrt2), -2/3],[0, 4/(3sqrt2), -1/3]].
+
+p7:d
+  A v3 = ((6-4-2)/3, (4-6+2)/3) = (0,0). Consistent: A V = U Sigma, and the 3rd column of U Sigma is
+  U * (3rd column of Sigma) = U * 0 = 0 since Sigma is 2x3 = [[5,0,0],[0,3,0]]. Yes, matches (v3 spans ker A).
+
+p8:a
+  A^T A = [[5,3],[3,5]], eigenvalues 8, 2; V = (1/sqrt2)[[1,1],[1,-1]] (v1=(1,1)/sqrt2, v2=(1,-1)/sqrt2; signs free).
+
+p8:b
+  sigma1 = 2 sqrt2, sigma2 = sqrt2. u1 = A v1/(2sqrt2) = (4,0)/4 = (1,0); u2 = A v2/sqrt2 = (0,-2)/2 = (0,-1).
+  U = [[1,0],[0,-1]]. (If v2 = (-1,1)/sqrt2 is chosen, u2 = (0,1) and U = I.) Verified A = U Sigma V^T.
+
+p8:c
+  A A^T = [[8,0],[0,2]]. AA^T u1 = 8 u1 = sigma1^2 u1, AA^T u2 = 2 u2 = sigma2^2 u2. Yes, confirmed.
+
+p9:a
+  sigma1 = 5, u1 = (1,1)/sqrt2, v1 = (1,1,0)/sqrt2 (or both negated together).
+
+p9:b
+  A1 = 5 * (1/2) * [1,1]^T [1,1,0] = [[5/2, 5/2, 0],[5/2, 5/2, 0]].
+
+p9:c
+  A - A1 = [[1/2, -1/2, 2],[-1/2, 1/2, -2]]; sum of squares = 4*(1/4) + 2*4 = 9 = sigma2^2 = 3^2. Yes, equal
+  (indeed A - A1 = sigma2 u2 v2^T exactly; Eckart-Young error ||A-A1||_F = sigma2 = 3).
+
+p10:a
+  x = sum c_i v_i. ||Ax||^2 = x^T A^T A x = (sum_i c_i v_i)^T (sum_j c_j A^T A v_j) = sum_{i,j} c_i c_j sigma_j^2 v_i^T v_j
+  = sum_i sigma_i^2 c_i^2 (orthonormality: v_i^T v_j = delta_ij; sigma_i = 0 for i > r).
+  (Alternative: Ax = sum_i c_i sigma_i u_i for i<=r with orthonormal u_i.)
+
+p10:b
+  Since sigma_1 >= sigma_i >= 0 for all i, sigma_i^2 <= sigma_1^2, so
+  ||Ax||^2 = sum sigma_i^2 c_i^2 <= sigma_1^2 sum c_i^2 = sigma_1^2 ||x||^2 (Parseval: ||x||^2 = sum c_i^2).
+
+p10:c
+  x = v1: c_1 = 1, c_i = 0 (i>=2). ||A v1||^2 = sigma_1^2 = sigma_1^2 ||v1||^2 (||v1|| = 1). Equality holds.
+
+p10:d
+  From (b), ||Ax||/||x|| <= sigma_1 for every x != 0 (take square roots of nonneg. quantities, divide by ||x||>0),
+  so sigma_1 is an upper bound; from (c) the bound is attained at x = v1 (ratio = sigma_1). An attained upper
+  bound is the maximum, so max_{x!=0} ||Ax||/||x|| = sigma_1 (spectral norm). Numeric sanity check on a random
+  4x3 matrix: 20000 random x never exceeded sigma_1, and v1 attains it.
+
+########## SECTION 3: ambiguities / defects ##########
+- p1: wording "정리노트에서 배운 식" V_M = sum lambda_m is fine (MML calls it captured variance; no normalisation
+  by total). Eigenvalue values read from the figure are approximate.
+- p2:a "얼마나 잘 나뉘나요" is qualitative; acceptable answers range "well separated with slight overlap at the
+  border". Figure has no axes/scale, so which axis is PC1 cannot be stated from the figure alone.
+- p3:c: J*_M is the mean squared reconstruction error on TRAINING data; claiming near-perfect reconstruction of TEST
+  images needs the extra (unstated) assumption that test digits follow the same distribution / have negligible
+  components in the discarded directions. Also, "약 400개 넘으면 거의 0" and "550개면 사실상 완전히" are given as
+  conditions (Fig 10.13 not shown), so (c) relies on stated facts rather than a figure reading.
+- p3:b: answer is 0 for training data; with all 784 PCs the reconstruction is identity, so it is exact for any image
+  (including test) -- explanation should mention B B^T = I, not only the empty sum.
+- p4/p7/p8/p9: singular vectors are determined only up to sign (paired u_i, v_i sign flips; v3 sign). In p8 the
+  natural choice v2 = (1,-1)/sqrt2 gives u2 = (0,-1); MML-style answers may show u2 = (0,1) with v2 = (-1,1)/sqrt2.
+  Graders should accept any consistent sign pair.
+- p4:a asks to build V from eigenvectors of A^T A including lambda=0 -> v3 = (1,-1,1)/sqrt3 needed for a full 3x3 V.
+- p5: conditions_html contains an empty slot where the u/v tables are (tables are delivered as figures_html) --
+  check that the tables are rendered next to "다음과 같아요". Given values are 4-dp rounded, so (b) results
+  are approximate (1.0246, -0.0250, 4.9727, 4.0280); small last-digit differences are expected depending on
+  whether one rounds intermediate products. Also sum of given sigma^2 = 134.0000 matches ||A||_F^2 = 134.
+- p5:c "버려도 되는지" has no explicit threshold; the judgement depends on the chosen criterion
+  (0.37% of energy, sigma3/sigma1 = 7.3%, Frobenius error 0.7056). All point to "yes".
+- p10: implicitly assumes A != 0 (r >= 1) so sigma_1 > 0 is defined; for A = 0 the statement holds with sigma_1 := 0.
+  Condition says "양의 특잇값 sigma_1..sigma_r" and pads with zeros for i>r up to n -- fine (needs r <= min(m,n)).
+- p6: proof uses linearity of pi (pi(x - pi x) = pi x - pi^2 x); problem gives linearity, OK.
