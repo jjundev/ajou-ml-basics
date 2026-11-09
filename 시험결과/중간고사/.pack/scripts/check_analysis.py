@@ -34,6 +34,11 @@ def check(md_path):
     for r in rows:
         if '전파' in r.split('|')[6] and not re.search(r'전파\(Q\d+[ab]\)', r):
             errors.append(f'{r.split("|")[1].strip()}: 전파 행은 원천을 전파(QNx)로 명시')
+    notes = '.pack/evidence/grading-notes-1109.md'
+    if f']({notes}' not in text or not (md_path.parent / notes).exists():
+        errors.append(f'1109 채점 기준 메모 링크 없음: {notes}')
+    if re.search(r'\]\([^)]*1109(%20| )머러기\.md', text):
+        errors.append('원본 녹음 전사본(다른 학생 이름 포함)에 직접 링크하지 않음')
     if lost_total != 21:
         errors.append(f'감점 합 {lost_total} != 21')
     if errors:

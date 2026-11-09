@@ -119,6 +119,8 @@ $f$를 이차형식으로 쓰면 $f=\tfrac12\mathbf x^\top\begin{bmatrix}4&-2\\-
 
 "State its dimensions" 같은 짧은 요구를 빠뜨리지 않아요. 계산이 다 맞아도 요구 항목이 없으면 감점돼요. 야코비안을 입력×출력 $2\times3$으로 뒤집어 쓰지 않는 것도 확인해요.
 
+**채점 기준 (1109 해설 시간):** 시험지가 "모든 벡터는 열벡터"이고 gradient도 열벡터라고 명시했으니 (a)의 gradient는 세로로 써요. 조교는 벡터 답을 가로로 쓴 경우 1점 정도 감점했다고 했어요. (b)는 차원 $3\times2$(3행 2열)를 꼭 써야 했어요. $\mathbb R^{3\times2}$ 기호는 없어도 돼요.
+
 #### 혼자 다시 풀어봐요
 
 1. 지시문의 $(\mathbf J_{\mathbf g})_{ij}=\partial g_i/\partial x_j$를 보고 행·열이 무엇인지 말해요.
@@ -137,7 +139,7 @@ $f$를 이차형식으로 쓰면 $f=\tfrac12\mathbf x^\top\begin{bmatrix}4&-2\\-
 
 #### 핵심 주의점
 
-$u-2v$에 대입하면 $-5$, 상수 $-1$은 그대로예요. "State its dimensions"를 답에 써요.
+$u-2v$에 대입하면 $-5$, 상수 $-1$은 그대로예요. "State its dimensions"를 답에 써요. 벡터 답은 세로로 써요.
 
 #### 답
 
@@ -145,7 +147,7 @@ $u-2v$에 대입하면 $-5$, 상수 $-1$은 그대로예요. "State its dimensio
 
 #### 다시 볼 자료
 
-[0928 그래디언트](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s0-gradient), [0928 자코비안](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s0-jacobian)
+[0928 그래디언트](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s0-gradient), [0928 자코비안](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s0-jacobian), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -240,6 +242,8 @@ $\begin{bmatrix}2&1\\1&2\end{bmatrix}\cdot\frac13\begin{bmatrix}2&-1\\-1&2\end{b
 
 $A$는 정사각행렬이 아니라서 $A^{-1}$이 없어요. $\mathbf p=A(A^\top A)^{-1}A^\top\mathbf y$를 $A A^{-1}(A^\top)^{-1}A^\top\mathbf y=\mathbf y$처럼 줄이면 안 돼요. 직교 확인은 "$\mathbf r^\top A=[0\ 0]$"처럼 두 열 모두에 대해 보여야 해요.
 
+**채점 기준 (1109 해설 시간):** (b)의 직교 확인은 $A^\top\mathbf r=\mathbf 0$을 수치로 보여 주면 충분해요. $\mathbf p$, $\mathbf r$도 시험지 지시대로 열벡터(세로)로 써요.
+
 #### 혼자 다시 풀어봐요
 
 1. $A^\top A$의 각 성분이 어떤 두 열의 내적인지 말하며 채워요.
@@ -258,7 +262,7 @@ $A^\top\mathbf y=(3,3)^\top$부터 계산해요.
 
 #### 핵심 주의점
 
-$A$는 $3\times2$라 $A^{-1}$이 없어요. 직교는 두 열 모두 확인해요.
+$A$는 $3\times2$라 $A^{-1}$이 없어요. 직교는 두 열 모두 확인해요. $A^\top\mathbf r=\mathbf 0$을 숫자로 보이면 충분해요.
 
 #### 답
 
@@ -266,7 +270,7 @@ $A$는 $3\times2$라 $A^{-1}$이 없어요. 직교는 두 열 모두 확인해�
 
 #### 다시 볼 자료
 
-[1019 평면과 열공간](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1019/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1019_Prediction_and_Projection.html#s2-plane), [1019 회귀계수와 예측벡터](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1019/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1019_Prediction_and_Projection.html#s2-regression)
+[1019 평면과 열공간](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1019/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1019_Prediction_and_Projection.html#s2-plane), [1019 회귀계수와 예측벡터](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1019/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1019_Prediction_and_Projection.html#s2-regression), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -374,6 +378,8 @@ $\Sigma\Sigma^{-1}=\tfrac12\begin{bmatrix}3-1&-3+3\\1-1&-1+3\end{bmatrix}=I$예�
 
 (a)는 "Expand in terms of $(x_1-2)$ and $(x_2+2)$"라서 $x_1,x_2$로 섞어 둔 곱보다 $(x_1-2)^2$, $(x_1-2)(x_2+2)$, $(x_2+2)^2$ 세 항으로 정리해야 해요. (b)는 $c$만 구하고 끝내기 쉬워요. "Identify its mean and variance"를 따로 답해요.
 
+**채점 기준 (1109 해설 시간):** (a)는 PDF 공식에 $\boldsymbol\mu$, $\Sigma$, $\det\Sigma=2$를 넣고, 이차식을 $x_1,x_2$로 다 풀지 말고 $(x_1-2)$, $(x_2+2)$ 항을 남긴 채로 정리해야 해요. (b)는 완전제곱식 꼴로 만들라는 지시를 따른 뒤 평균과 분산을 밝혀야 해요.
+
 #### 혼자 다시 풀어봐요
 
 1. $D$차원 가우시안 상수 $(2\pi)^{-D/2}|\Sigma|^{-1/2}$를 보지 않고 써요.
@@ -392,7 +398,7 @@ $p(\mathbf x)=(2\pi)^{-D/2}|\Sigma|^{-1/2}\exp(-\tfrac12\mathbf d^\top\Sigma^{-1
 
 #### 핵심 주의점
 
-2차원 상수는 $\frac1{2\pi\sqrt{|\Sigma|}}$이지 $\frac1{2\pi|\Sigma|}$가 아니에요. (b)는 평균·분산까지 답해요.
+2차원 상수는 $\frac1{2\pi\sqrt{|\Sigma|}}$이지 $\frac1{2\pi|\Sigma|}$가 아니에요. (b)는 평균·분산까지 답해요. (a)는 $(x_1-2)$, $(x_2+2)$ 항을 남겨요.
 
 #### 답
 
@@ -400,7 +406,7 @@ $p(\mathbf x)=(2\pi)^{-D/2}|\Sigma|^{-1/2}\exp(-\tfrac12\mathbf d^\top\Sigma^{-1
 
 #### 다시 볼 자료
 
-[1007 가우시안 랜덤 벡터 PDF](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1007/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1007_Product_of_Gaussians.html#s2-pdf), [1012 det Σ와 정규화](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s1-det), [1014 넓이를 1로](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize)
+[1007 가우시안 랜덤 벡터 PDF](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1007/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1007_Product_of_Gaussians.html#s2-pdf), [1012 det Σ와 정규화](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s1-det), [1014 넓이를 1로](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s0-normalize), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -487,6 +493,8 @@ $V=2$ 열만 떼어 다시 정규화하면 $(\tfrac1{10},\tfrac3{10})/\tfrac4{10
 
 조건부확률의 분모를 $P(U=1)$로 바꿔 쓰지 않아요. 조건으로 주어진 사건 $V=2$의 확률이 분모예요. 독립 판단은 "숫자로 정당화"하라고 했으니 비교한 두 값을 모두 적어요.
 
+**채점 기준 (1109 해설 시간):** (a)는 표의 행·열을 더한 주변 pmf만 쓰면 되고, 약분하지 않아도 감점하지 않았어요. (b)의 독립 판단은 결합 pmf와 주변 pmf의 곱이 다른 칸을 **하나만** 보여도 충분해요.
+
 #### 혼자 다시 풀어봐요
 
 1. 표에 행 합·열 합을 적고 각각 합이 1인지 봐요.
@@ -505,7 +513,7 @@ $V=2$ 열만 떼어 다시 정규화하면 $(\tfrac1{10},\tfrac3{10})/\tfrac4{10
 
 #### 핵심 주의점
 
-분모는 조건 사건 $P(V=2)$예요. 비교한 두 수를 모두 써요.
+분모는 조건 사건 $P(V=2)$예요. 비교한 두 수를 모두 써요. 곱이 다른 칸 하나만 보여도 충분해요.
 
 #### 답
 
@@ -513,7 +521,7 @@ $V=2$ 열만 떼어 다시 정규화하면 $(\tfrac1{10},\tfrac3{10})/\tfrac4{10
 
 #### 다시 볼 자료
 
-[0916 Joint · Marginal](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0916/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0916_MAP_and_Generative_Models.html#s2-joint), [0930 조건부확률](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0930/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0930_Bayesian_Linear_Regression.html#s0-cond-prob)
+[0916 Joint · Marginal](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0916/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0916_MAP_and_Generative_Models.html#s2-joint), [0930 조건부확률](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0930/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0930_Bayesian_Linear_Regression.html#s0-cond-prob), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -616,6 +624,8 @@ $\tfrac59<\tfrac23$이에요. 완전 베이즈 예측은 아직 사후확률 $\t
 
 예측식 $\sum_\theta P(X_3=1\mid\theta)P(\theta\mid\mathcal D)$를 맞게 써 놓고 숫자를 넣을 때 사전확률 $P(\theta)$를 넣는 실수가 흔해요. 조건 기호 "$\mid\mathcal D$"가 붙은 확률은 (a)에서 구한 사후확률이에요. "왜 다른가"는 "사후 불확실성을 평균하느냐, 하나의 점추정으로 버리느냐"로 설명해요.
 
+**채점 기준 (1109 해설 시간):** (b)의 $\hat\theta_{\mathrm{MAP}}$은 argmax이므로 확률값이 아니라 $\theta$ 값으로 써요. 이 시험지에서는 최대 사후확률도 $\tfrac23$이라 숫자가 같지만, 뜻은 "$\theta=\tfrac23$"이에요. MAP plug-in 예측값 $P(X_3=1\mid\hat\theta_{\mathrm{MAP}})=\tfrac23$도 써야 했어요.
+
 #### 혼자 다시 풀어봐요
 
 1. 우도·사전·주변우도·사후를 표 한 장에 정리해요.
@@ -634,7 +644,7 @@ $P(\mathcal D\mid\tfrac13)=\tfrac19$, $P(\mathcal D\mid\tfrac23)=\tfrac49$
 
 #### 핵심 주의점
 
-예측의 가중치에 사전확률을 넣으면 $\tfrac49$로 틀려요.
+예측의 가중치에 사전확률을 넣으면 $\tfrac49$로 틀려요. plug-in 값 $\tfrac23$도 답에 써요.
 
 #### 답
 
@@ -642,7 +652,7 @@ $P(\mathcal D\mid\tfrac13)=\tfrac19$, $P(\mathcal D\mid\tfrac23)=\tfrac49$
 
 #### 다시 볼 자료
 
-[0921 주변화 → 곱셈 규칙 → 조건부 독립](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0921/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0921_Bayesian_Inference_Model_Selection.html#s1-derivation), [0916 MAP](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0916/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0916_MAP_and_Generative_Models.html#s1-map)
+[0921 주변화 → 곱셈 규칙 → 조건부 독립](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0921/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0921_Bayesian_Inference_Model_Selection.html#s1-derivation), [0916 MAP](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0916/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0916_MAP_and_Generative_Models.html#s1-map), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -744,6 +754,8 @@ $(\Phi^\top\Phi+I)(1,1)^\top=(4,3)^\top=\Phi^\top\mathbf y$예요. MAP은 ML보�
 
 우도의 정규화 상수는 1차원 상수를 관측 수 $N=3$번 곱한 $(2\pi)^{-3/2}$예요. 잡음 공분산 $I_3$의 행렬식은 1이라 추가 계수가 없어요. 행 gradient로 계산했다면 0으로 놓은 뒤 양변을 전치해 $\Phi^\top\Phi\boldsymbol\theta=\Phi^\top\mathbf y$로 바꾸는 단계를 적어요. 이 시험은 열 gradient를 지정했어요.
 
+**채점 기준 (1109 해설 시간):** 우도는 스칼라 곱 꼴과 벡터($\Phi$) 꼴 모두 정답으로 인정했어요. 단, 벡터 꼴은 $\Phi$를 먼저 정의해야 정답이에요. (b)의 음의 로그 사후에서 더해지는 상수는 $C$로 뭉뚱그려도 되고, 핵심은 사전분포 항 $\tfrac12\lVert\boldsymbol\theta\rVert^2$을 썼는지예요. $\hat{\boldsymbol\theta}_{\mathrm{ML}}$, $\hat{\boldsymbol\theta}_{\mathrm{MAP}}$도 시험지 지시대로 열벡터(세로)로 써요.
+
 #### 혼자 다시 풀어봐요
 
 1. $\Phi$의 각 행이 $\phi(x_n)^\top=(1,x_n)$인지 확인하며 써요.
@@ -762,7 +774,7 @@ $\Phi^\top\Phi=\mathrm{diag}(3,2)$, $\Phi^\top\mathbf y=(4,3)^\top$
 
 #### 핵심 주의점
 
-상수 $(2\pi)^{-3/2}$, 행 표기로 풀었다면 양변 전치 단계를 써요.
+상수 $(2\pi)^{-3/2}$, 행 표기로 풀었다면 양변 전치 단계를 써요. (b)의 더해지는 상수는 $C$로 써도 되고, 사전 항 $\tfrac12\lVert\boldsymbol\theta\rVert^2$이 핵심이에요.
 
 #### 답
 
@@ -770,7 +782,7 @@ $\Phi^\top\Phi=\mathrm{diag}(3,2)$, $\Phi^\top\mathbf y=(4,3)^\top$
 
 #### 다시 볼 자료
 
-[0923 ML → 최소제곱](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0923/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0923_Linear_Regression.html#s2-nll), [0928 기울기를 0으로](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s1-theta-ml), [0916 가우시안 prior = L2](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0916/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0916_MAP_and_Generative_Models.html#s1-map-reg)
+[0923 ML → 최소제곱](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0923/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0923_Linear_Regression.html#s2-nll), [0928 기울기를 0으로](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s1-theta-ml), [0916 가우시안 prior = L2](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/0916/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0916_MAP_and_Generative_Models.html#s1-map-reg), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -874,6 +886,8 @@ $$
 
 $C_{xy}$를 $A\Sigma_xA^\top$이나 $A\Sigma_x$로 쓰지 않아요. 정의 $E[(\mathbf x-\boldsymbol\mu_x)(\mathbf y-\boldsymbol\mu_y)^\top]$에서 $\mathbf y$ 쪽이 전치되므로 $\Sigma_xA^\top$예요. 공유 잡음의 비대각 $2\cdot1\cdot2=4$를 0으로 두는 실수도 조심해요.
 
+**채점 기준 (1109 해설 시간):** (a)의 $\boldsymbol\mu_x$, $\boldsymbol\mu_y$도 시험지 지시대로 열벡터(세로)로 써요. 상수의 기댓값은 상수 그대로예요. (b)는 $\Sigma_y$와 함께 $C_{xy}$도 구해야 했어요. 두 계산 모두 $\mathbf x$와 $\varepsilon$이 독립이라 교차항이 0이 돼요. 강의 자료와 cross-covariance 기호 순서가 반대일 수 있으니 문제의 정의 $E[(\mathbf x-\boldsymbol\mu_x)(\mathbf y-\boldsymbol\mu_y)^\top]$를 따라요.
+
 #### 혼자 다시 풀어봐요
 
 1. $\mathbf y=A\mathbf x+\mathbf b+\mathbf w\varepsilon$ 꼴로 다시 써요.
@@ -892,7 +906,7 @@ $\mathbf y=A\mathbf x+\mathbf b+\mathbf w\varepsilon$, $A=\begin{bmatrix}1&1\\2&
 
 #### 핵심 주의점
 
-(b)의 $C_{xy}$를 빠뜨리지 않아요. $C_{xy}$는 $A^\top$를 한 번만 곱해요.
+(b)의 $C_{xy}$를 빠뜨리지 않아요. $C_{xy}$는 $A^\top$를 한 번만 곱해요. 평균 벡터는 세로로 써요.
 
 #### 답
 
@@ -900,7 +914,7 @@ $\mathbf y=A\mathbf x+\mathbf b+\mathbf w\varepsilon$, $A=\begin{bmatrix}1&1\\2&
 
 #### 다시 볼 자료
 
-[1012 분산은 A와 A의 전치](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s0-variance), [1012 교차공분산](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s0-cross)
+[1012 분산은 A와 A의 전치](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s0-variance), [1012 교차공분산](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s0-cross), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -991,6 +1005,8 @@ $Z\ne1$이라 $g$는 정규화된 확률밀도가 아니에요. 넓이 1을 맞�
 
 "두 가우시안의 곱은 가우시안"은 **모양**이 그렇다는 뜻이에요. 곱 자체는 넓이가 1이 아니에요. 독립인 두 확률변수의 합(분산이 더해짐)과 밀도의 곱(정밀도가 더해짐)을 혼동하지 않아요.
 
+**채점 기준 (1109 해설 시간):** (a)는 두 밀도를 그대로 곱한 뒤 지수를 완전제곱식으로 만들어 평균과 분산을 읽어요. (b)는 $Z$ 값을 구하고 "$Z\ne1$이므로 $g$는 정규화된 PDF가 아니다"라는 결론까지 써야 해요.
+
 #### 혼자 다시 풀어봐요
 
 1. 두 지수를 합쳐 $2(z-1)^2+2$를 다시 유도해요.
@@ -1009,7 +1025,7 @@ $g=\frac1{2\pi}\exp(-\tfrac12[z^2+(z-2)^2])$
 
 #### 핵심 주의점
 
-곱은 모양만 가우시안이고 넓이는 $Z\ne1$이에요.
+곱은 모양만 가우시안이고 넓이는 $Z\ne1$이에요. (b)는 "$Z\ne1$이라 PDF가 아니다"까지 써요.
 
 #### 답
 
@@ -1017,7 +1033,7 @@ $g=\frac1{2\pi}\exp(-\tfrac12[z^2+(z-2)^2])$
 
 #### 다시 볼 자료
 
-[1007 두 가우시안의 곱](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1007/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1007_Product_of_Gaussians.html#s3-product-scalar), [1012 완전제곱 렘마](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s2-lemma)
+[1007 두 가우시안의 곱](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1007/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1007_Product_of_Gaussians.html#s3-product-scalar), [1012 완전제곱 렘마](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1012/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1012_Several_Mathematical_Proofs.html#s2-lemma), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -1109,6 +1125,8 @@ $\mathbf m_N$은 정규화된 최소제곱 $(\Phi^\top\Phi+I)\boldsymbol\theta=\
 
 공식 바깥의 $^{-1}$을 빠뜨려 정밀도 $3I$를 공분산으로 쓰는 실수가 가장 치명적이에요. 그러면 $\mathbf m_N=(12,6)^\top$처럼 데이터 범위($y$는 1~3)를 크게 벗어난 값이 나와요. 숫자가 비현실적이면 공식을 다시 봐요. 2차원 밀도 상수는 $\frac{1}{2\pi|S_N|^{1/2}}$예요.
 
+**채점 기준 (1109 해설 시간):** $\Phi$의 행은 $(1,x_i)$예요. $y_1$이 $x_1$과 짝지어져야 하므로 $(1,x_1)$을 세로 열로 쓰면 안 돼요. $S_N$을 끝까지 구하지 않은 답이 꽤 있었는데, 공식과 $S_0=I$, $\mathbf m_0=\mathbf 0$, $\sigma^2=1$이 모두 문제에 주어져 있어 대입만 하면 돼요. (b)의 사후분포는 문제에 주어진 가우시안 꼴에 $\mathbf m_N$, $S_N$을 넣으면 되고, $\mathbf m_N$도 시험지 지시대로 열벡터(세로)로 써요.
+
 #### 혼자 다시 풀어봐요
 
 1. "정밀도를 더하고, 역행렬로 공분산"을 말로 한 번 말해요.
@@ -1127,7 +1145,7 @@ $\Phi=\begin{bmatrix}1&-1\\1&1\end{bmatrix}$, $\mathbf y=(1,3)^\top$
 
 #### 핵심 주의점
 
-$^{-1}$ 누락 → $S_N=3I$, $\mathbf m_N=(12,6)$의 비현실적 값이 돼요. 사후 공분산 &lt; 사전 공분산을 확인해요.
+$^{-1}$ 누락 → $S_N=3I$, $\mathbf m_N=(12,6)$의 비현실적 값이 돼요. 사후 공분산 &lt; 사전 공분산을 확인해요. $\Phi$의 행은 $(1,x_i)$예요.
 
 #### 답
 
@@ -1135,7 +1153,7 @@ $^{-1}$ 누락 → $S_N=3I$, $\mathbf m_N=(12,6)$의 비현실적 값이 돼요.
 
 #### 다시 볼 자료
 
-[1014 음의 로그를 이차식으로](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s1-expand), [1014 계수 맞추기](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s1-match)
+[1014 음의 로그를 이차식으로](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s1-expand), [1014 계수 맞추기](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s1-match), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 
@@ -1246,6 +1264,8 @@ $f_*=\Phi\boldsymbol\theta$처럼 학습 설계행렬을 쓰면 새 점 하나�
 
 (b)의 "왜 분산이 다른가"는 "posterior의 영향"이 아니라 "독립인 관측 잡음 $\sigma^2$가 더해져서"라고 구체적으로 답해요. 적분식만 쓰고 결과 분포의 수치를 빠뜨리지 않아요.
 
+**채점 기준 (1109 해설 시간):** (a)는 "가우시안의 선형결합도 가우시안"이라는 성질로 평균 $\phi_*^\top\mathbf m_N$, 분산 $\phi_*^\top S_N\phi_*$를 구하면 돼요. (b)는 적분식을 쓰고 결과 분포를 밝힌 뒤, 이유는 "독립인 관측 잡음의 분산 1만큼 커진다" 정도로 쓰면 정답이에요.
+
 #### 혼자 다시 풀어봐요
 
 1. $\phi_*$를 쓰고, 평균 $\phi_*^\top\mathbf m_N$·분산 $\phi_*^\top S_N\phi_*$를 계산해요.
@@ -1264,7 +1284,7 @@ $\phi_*=(1,2)^\top$, $\mathbf m_N=(\tfrac43,\tfrac23)^\top$, $S_N=\tfrac13I$
 
 #### 핵심 주의점
 
-학습 $\Phi$가 아니라 새 $\phi(x_*)$를 써요. 분산 차이 = 관측잡음 $\sigma^2$예요.
+학습 $\Phi$가 아니라 새 $\phi(x_*)$를 써요. 분산 차이 = 관측잡음 $\sigma^2$예요. 이유는 "잡음 분산 1만큼 커진다"면 충분해요.
 
 #### 답
 
@@ -1272,7 +1292,7 @@ $\phi_*=(1,2)^\top$, $\mathbf m_N=(\tfrac43,\tfrac23)^\top$, $S_N=\tfrac13I$
 
 #### 다시 볼 자료
 
-[1014 가중합의 분산](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s2-weighted), [1014 남아 있는 잡음](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s2-uncertainty), [1019 두 가지 불확실성](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1019/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1019_Prediction_and_Projection.html#s0-predictive)
+[1014 가중합의 분산](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s2-weighted), [1014 남아 있는 잡음](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s2-uncertainty), [1019 두 가지 불확실성](../../%EB%B3%B5%EC%8A%B5%EB%85%B8%ED%8A%B8/1019/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1019_Prediction_and_Projection.html#s0-predictive), [1109 해설 시간 채점 기준](.pack/evidence/grading-notes-1109.md)
 
 #### 용어
 

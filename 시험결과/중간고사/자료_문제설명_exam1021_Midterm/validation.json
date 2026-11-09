@@ -1,6 +1,6 @@
 {
   "review_policy_version": "problem-explain-2026-10-20-row-derivatives",
-  "input_hash": "b86dff3cdb38f4da509604a458855f69ce5f181aaf2d942cc958e03ded108644",
+  "input_hash": "5aa3a7df70b2c54aed3b2455827de636b57ead1db56c501d9721072b658c8bed",
   "references": [
     {
       "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/시험결과/중간고사/26-2 머러기 중간고사 스캔.pdf",
@@ -101,122 +101,130 @@
     {
       "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/복습노트/1019/정리노트_1019_Prediction_and_Projection.html",
       "sha256": "1187d710c23bf69ed8d467defc191edbf25ce4c6a8d0008463c0377c1359c2e2"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/시험결과/중간고사/1109 머러기.md",
+      "sha256": "209f438eb7e0ee5083ae56bd733ef408c29f3abdefbf471eb23e0bfd4ce1d41b"
+    },
+    {
+      "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/시험결과/중간고사/.pack/evidence/grading-notes-1109.md",
+      "sha256": "9468b7fae9fd1c4939e4375433082175156be157e3c2c8d21ebd8321f44ab838"
     }
   ],
   "source_visual": {
     "status": "pass",
     "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-    "evidence": "26-2 머러기 중간고사 스캔.pdf 11쪽을 110/150dpi로 렌더링해 전 쪽을 직접 읽고 transcript.json·카드 HTML(조건·질문·(a)(b) 소문항)과 대조. 지시문(열 gradient, (J_g)_ij, N(μ,v) 분산) 포함. 문항별 crop .pack/scan/q1–q10.webp(머리말 이름·학번 제외)이 원문 탭에 표시됨을 브라우저에서 확인. check_transcript.py: OK 10 questions, 20 parts, 79 points."
+    "evidence": "26-2 머러기 중간고사 스캔.pdf 11쪽을 110/150dpi로 렌더링해 전 쪽을 직접 읽고 transcript.json·카드 HTML(조건·질문·(a)(b) 소문항)과 대조. 지시문(열 gradient, (J_g)_ij, N(μ,v) 분산) 포함. 문항별 crop .pack/scan/q1–q10.webp(머리말 이름·학번 제외)이 원문 탭에 표시됨을 브라우저에서 확인. check_transcript.py: OK 10 questions, 20 parts, 79 points. a3: 문제·카드 입력 불변(source.json a2와 동일, cmp). 스캔 하단 Version 04 확인."
   },
   "browser": {
     "status": "pass",
     "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-    "evidence": "a2 stage(file://)에서 evidence/browser_sweep.py → browser-sweep.json: 1280×900·1024×900·375×812 × light/dark × p1–p10 = 60 views, KaTeX 오류·깨진 이미지·문서 가로 넘침·콘솔 오류·외부 요청 모두 0. evidence/math_overflow.py 표시 수식 넘침 0. 프로필 변경으로 읽음 키가 ml-problem-explain-midterm-1021-Midterm으로 바뀜을 확인. 링크 55개 대상·anchor 존재(a1에서 확인, 링크 내용 불변)."
+    "evidence": "a3 stage(file://)에서 evidence/browser_sweep.py → browser-sweep.json: 1280×900·1024×900·375×812 × light/dark × p1–p10 = 60 views, KaTeX 오류·깨진 이미지·가로 넘침·콘솔 오류·외부 요청 0. math_overflow.py 표시 수식 넘침 0. 새 링크 .pack/evidence/grading-notes-1109.md는 발행 위치(시험결과/중간고사/) 기준 존재. 증거만 바뀐 재build 후 HTML sha256 ba445cba… 불변."
   },
   "content": {
     "status": "pass",
     "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-    "evidence": "10개 조각 전체 대조. 감사(evidence/audit.md) Critical 3/Important 4/Minor 4 모두 수정 후 재build. 열 gradient는 시험 지시문이 명시한 관례로 원문 보존 분기 적용: p1·p6 understand와 sum에 강의 행 관례와의 전치 관계를 밝힘. check_vector_derivatives.py 결과(evidence/vector-derivatives.txt)의 p1·p6 지적은 이 의도된 열 관례이며 변수 열벡터, gradient 2×1, Jacobian 3×2 출력×입력, 정규방정식 Φ^TΦθ=Φ^Ty(열 gradient=0에서 직접)를 수동 확인. 요약은 각 조각 본문의 개념·첫 줄·주의·답과 일치. 재빌드(midterm1021-a2): 프로필 이름 exam→midterm 변경만 있고 조각은 a1과 바이트 동일(diff -rq).",
+    "evidence": "a3 변경은 각 조각 pitfall 끝 \"채점 기준 (1109 해설 시간)\" 문단, 핵심 주의점 한 문장, 다시 볼 자료 링크(채점 기준 메모)뿐(a2 대비 diff). 근거 1109 머러기.md 줄번호는 evidence/grading-notes-1109.md. 녹음 숫자가 이 버전과 다른 곳은 sympy 값 유지. 감사(evidence/audit-1109.md) Critical 0/Important 4 모두 수정: 원본 전사본 직접 링크 제거(다른 학생 이름 포함), \"1점 정도\"로 완화·p1에만 기재, p6 Φ 정의 조건 추가, p6 상수 C는 (b)로 한정. Minor 8건도 모두 수정(문장 중복·시제·표기·강도). 이름 grep 0건. 기존 a2 내용 검토는 유지: 10개 조각 전체 대조. 감사(evidence/audit.md) Critical 3/Important 4/Minor 4 모두 수정 후 재build. 열 gradient는 시험 지시문이 명시한 관례로 원문 보존 분기 적용: p1·p6 understand와 sum에 강의 행 관례와의 전치 관계를 밝힘. check_vector_derivatives.py 결과(evidence/vector-derivatives.txt)의 p1·p6 지적은 이 의도된 열 관례이며 변수 열벡터, gradient 2×1, Jacobian 3×2 출력×입력, 정규방정식 Φ^TΦθ=Φ^Ty(열 gradient=0에서 직접)를 수동 확인. 요약은 각 조각 본문의 개념·첫 줄·주의·답과 일치. 재빌드(midterm1021-a2): 프로필 이름 exam→midterm 변경만 있고 조각은 a1과 바이트 동일(diff -rq).",
     "items": {
       "p1:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p1.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p1:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p1.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p1:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p1:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p1.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p1:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p1.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p1:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p2:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p2.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p2:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p2.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p2:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p2:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p2.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p2:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p2.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p2:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p3:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p3.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p3:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p3.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p3:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p3:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p3.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p3:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p3.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p3:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p4:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p4.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p4:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p4.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p4:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p4:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p4.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p4:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p4.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p4:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p5:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p5.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p5:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p5.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p5:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p5:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p5.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p5:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p5.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p5:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p6:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p6.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p6:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p6.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p6:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p6:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p6.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p6:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p6.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p6:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p7:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p7.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p7:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p7.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p7:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p7:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p7.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p7:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p7.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p7:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p8:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p8.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p8:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p8.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p8:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p8:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p8.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p8:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p8.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p8:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p9:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p9.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p9:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p9.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p9:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p9:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p9.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p9:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p9.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p9:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p10:a": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p10.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p10:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p10.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p10:a와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       },
       "p10:b": {
         "status": "pass",
         "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-        "evidence": "explanations/p10.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p10:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
+        "evidence": "a3: 채점 기준 문단을 STT·sympy·조각 본문과 대조, 모순 없음. explanations/p10.html 7구역·solve/verify 표지 확인, recall 단서→개념→공식→적용 이유 연결, 완성 답이 answer-checks.json p10:b와 일치(키 값 문자열 대조 0 missing), ml-note-audit 지적 반영(evidence/audit.md)"
       }
     }
   },
@@ -380,26 +388,43 @@
     "figures_문제설명_exam1021_Midterm/fa26ef6c2ff73519-q1.webp": "fa26ef6c2ff7351909983a01dd866d7ddafb805e97233dbc3c44af6e7a9bb1dd",
     "자료_문제설명_exam1021_Midterm/evidence/answer-checks.json": "64579d7c71cbe7239c120abe4667e68930638422cfbdd12eb4439217c7f84513",
     "자료_문제설명_exam1021_Midterm/evidence/answer-checks.py": "a91bdc0b3722f08df8457ec7b8007e8f5968fcfc1e6908906f72a00b1bd5ad8d",
+    "자료_문제설명_exam1021_Midterm/evidence/audit-1109.md": "ad985caf084234a349dcd74c1d2abcff6723c1c5645109f9dbe2b6cb460c3088",
     "자료_문제설명_exam1021_Midterm/evidence/audit.md": "b77b6d77b9a9c18ccd8432f1fe657b5aba40a9dddc2ce9f9d70ff7b5a9c43bca",
-    "자료_문제설명_exam1021_Midterm/evidence/browser-sweep.json": "fcb62670a63025f9eef683520b1c88806cc2843f99daf8e0f457ca886517870d",
+    "자료_문제설명_exam1021_Midterm/evidence/browser-sweep.json": "d3ed0d6941b7c1632c6e295fe74aba511d8c775b44392c6919595ea73a44d907",
     "자료_문제설명_exam1021_Midterm/evidence/browser_sweep.py": "2c1846db54d6a60dd6e141ed6619f8429db50d1520f665acbfe21ecf7c8bc395",
+    "자료_문제설명_exam1021_Midterm/evidence/grading-notes-1109.md": "9468b7fae9fd1c4939e4375433082175156be157e3c2c8d21ebd8321f44ab838",
     "자료_문제설명_exam1021_Midterm/evidence/independent-solver.md": "0d287f93a0298b5c0f5bb02d91cd334e3021ca6d66ab4294fb73c5913052ad30",
     "자료_문제설명_exam1021_Midterm/evidence/math_overflow.py": "03d35e379021977b7810ed43abe09ca54b9aa9603ca5fcca0b60214ad801984c",
     "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-dark-p1.png": "b45c5aadc8b6e10cd3a7d2de1cd87b842fea82ca23b703f35f9a4a0e2df027fe",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-dark-p10.png": "62765ada7d696d1f7f0e31e665732f34af92e21af7114ad1966e0d5dba67e82f",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-dark-p7.png": "63c7006620b5caa882569553e6365e956e64a0f765747dd5b917509996f3a464",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-light-p1.png": "69799fd9f0fdc5850f5219ebe669162e71392c6983e77f4f4ffa1d96f3fc2ee4",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-light-p10.png": "038b3b7d2e5690f4753854f977a5e72b93652db2a77f05a3bf92ff7cbfbf87ef",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-light-p7.png": "2edf17648455440df75e1fbe2a3a190395bce887d35b520d1e0f3252c38fb49b",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-dark-p1.png": "91ca402d368effa82db12e9a0d3c6198634192d49bcfc13f7f6b81ef138624d8",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-dark-p10.png": "43999837737c755155113778f2bbb2cb7f6643b48d75c29ef517ac535c13b8f9",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-dark-p7.png": "4a0d9286a215541ee2ba1fb87afc3aca591ae282e0434f6f4d4cd5cb1bea8df0",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-light-p1.png": "11bceb576d4df77ed5b8c69e9dcbe94baa0f041311468409504528ac474c93b8",
     "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-light-p10.png": "09400bf0ba990d656b1f0114a42dd844f16577a8c45497de3cb4f5f19ef56042",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-light-p7.png": "78ccbacceb87870bd040f627ebb7e8b376f1823478a4871880e03018c345e38f",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-dark-p1.png": "02c30a61ab6775d4288ff630c52a31db968bb52eee64fdf8a499c07e0b94437c",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-dark-p10.png": "5fcf27da10d4e7ade475bbdb8a94f2966d6b58e76e9c9c702dd3defc99e223cf",
     "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-dark-p7.png": "d70d41d42e2e78fc54518182b75fefd7db1402d167d574c69e0a647166e6c9e4",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-light-p1.png": "a9d8c67cd93512bfb706ba678e189760bc9b8d3e82f74edfc27e60263543d779",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-light-p10.png": "5397bfb751e75cca6fbddc4706580948db8184601a446ef64da9fc104999961a",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-light-p7.png": "7a60d8fbb93e7d8adb23ba06c087d01dbe9d9b70b7a6bfa7ee3b4c9eca616fea",
     "자료_문제설명_exam1021_Midterm/evidence/transcript.json": "ddc1e10f046dabedd27d7670166b22a54aa8467796f9a200fad1ff093e75b956",
     "자료_문제설명_exam1021_Midterm/evidence/vector-derivatives.txt": "fb97de7171f7cdc6d33c5d6e631076b58f2d43143a652d530b40f69c9fcf0d57",
-    "자료_문제설명_exam1021_Midterm/fragments/p1.html": "ec0d552c661d51b473e802117c5a160ac5145f620a7cdb466bf1404dd5155f95",
-    "자료_문제설명_exam1021_Midterm/fragments/p10.html": "3f7ef94ffa717d5951de954dba4e48f9e943bebc329e2c7d8b3b70a673186fd8",
-    "자료_문제설명_exam1021_Midterm/fragments/p2.html": "c2654e52bab853787ddf7e811e1392975aba4f55361dec0329e269a7985ddea8",
-    "자료_문제설명_exam1021_Midterm/fragments/p3.html": "dd0da4628041b30b80aad85c5919e2e468e75b5cd76c86c27ef7abd19717795e",
-    "자료_문제설명_exam1021_Midterm/fragments/p4.html": "efc7c868e144cb083c4e1d78c1c6cccb7f4039e4f9863727f6205e32865149bf",
-    "자료_문제설명_exam1021_Midterm/fragments/p5.html": "50b6d68951679e03f9646d6421fdad31de3325ae3c4d118749ffc7149d8109a9",
-    "자료_문제설명_exam1021_Midterm/fragments/p6.html": "eea09c836d3d0cf292a4d75ebdd6c4364a98298aa3fd6d17b898f670b18e7239",
-    "자료_문제설명_exam1021_Midterm/fragments/p7.html": "b2a05d05f502d368c1a8a7d0a1fef5bc77e58f93529b5a80e558f9b0141531d8",
-    "자료_문제설명_exam1021_Midterm/fragments/p8.html": "87ba53556e005527b12793552081d9d7b0434a716cf8e9efed14212ed7401dbd",
-    "자료_문제설명_exam1021_Midterm/fragments/p9.html": "1c63b460dddbca04dad2ecfc70b87f10541ab56238bf7416a8c2edb7dc2ea8ae",
+    "자료_문제설명_exam1021_Midterm/fragments/p1.html": "b5f9a65ecb5abb7353f9bcee4bdf707918af532b4478262e3dbabb62d0d2458b",
+    "자료_문제설명_exam1021_Midterm/fragments/p10.html": "89db4a7bf93de1a3c8e65ab41279313d83985723d8e8ee684328bc637f1581c0",
+    "자료_문제설명_exam1021_Midterm/fragments/p2.html": "aa1ad388f0af63e53c8c27cc75bbbd4c922d2b9080b78964eba45203be59dfd2",
+    "자료_문제설명_exam1021_Midterm/fragments/p3.html": "6b721af8d5ad9ef143a711e5e78909aa04b7e989c784c85eee91980c1cc23653",
+    "자료_문제설명_exam1021_Midterm/fragments/p4.html": "1025315c14e24f5db3697c5aa7571012f47d0f2084c811a5c70d70a98a9e8e51",
+    "자료_문제설명_exam1021_Midterm/fragments/p5.html": "0bbf996a3dc341f3b979a38580eb92c040755d6e7cc93841d059df535c27d748",
+    "자료_문제설명_exam1021_Midterm/fragments/p6.html": "fa0035331d54cadf1eddef82da578d5408b1c7cc1ef791df767059aa9491bd70",
+    "자료_문제설명_exam1021_Midterm/fragments/p7.html": "c6ef46267cd014accc5dcb882deb4494b4e1ab391870f30bd245c04b60803a3c",
+    "자료_문제설명_exam1021_Midterm/fragments/p8.html": "9fa010e80bc2ed9794e22adc28eb533eb50a89b1029e5ead1328617a0bc0558c",
+    "자료_문제설명_exam1021_Midterm/fragments/p9.html": "3d042d44b02fdcdf0948ad4380e8bd15ff8b91b8ca6f0c20453b918bdb5fa55d",
     "자료_문제설명_exam1021_Midterm/template-provenance.json": "e64248c5ec7a72739800feabb5e51c6dc6afd73ba2af33fb938ef31035864ab1",
     "자료_문제설명_exam1021_Midterm/vendor/katex/LICENSE": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
     "자료_문제설명_exam1021_Midterm/vendor/katex/contrib/auto-render.min.js": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae",
@@ -486,8 +511,8 @@
     "자료_문제설명_exam1021_Midterm/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
     "자료_문제설명_exam1021_Midterm/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
     "자료_문제설명_exam1021_Midterm/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
-    "중간고사_1021_문제설명_Midterm.html": "f695f4e432c0ad3223757cfe866245eb35b679ba0600f99d6947dc397681ab10",
-    "중간고사_1021_문제설명_Midterm.md": "9b481fc610ebbf06ec064c3a211595ecae140a372c51218f589bb080f89dd50f",
-    "자료_문제설명_exam1021_Midterm/manifest.json": "4b517dad4bbb579879cf79c97d070ea3350e1fe7135c11fc26d742e9934257a2"
+    "중간고사_1021_문제설명_Midterm.html": "ba445cbacb19bf657c55e3026150f4296a05cd78815c46cafbbcf4f2842faf59",
+    "중간고사_1021_문제설명_Midterm.md": "ad7db7ac8593a5419ce60db45d658834284e1eab59050fe92542c72c8bfd2ea0",
+    "자료_문제설명_exam1021_Midterm/manifest.json": "96e9a0c2a055f7b888c4c3a3e5f0ff1c86793773c90162502de605314de1c45d"
   }
 }
