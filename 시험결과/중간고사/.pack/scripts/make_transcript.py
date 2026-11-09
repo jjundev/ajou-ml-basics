@@ -33,7 +33,7 @@ Q.append(dict(n=2, title='Matrix Algebra and Orthogonal Projection', pages=[2],
 Q.append(dict(n=3, title='Gaussian Probability Densities', pages=[3], context_tex='', parts=[
     part('a', r"A random vector $\mathbf x=(x_1,x_2)^\top$ has distribution $\mathbf x\sim\mathcal N\!\left(\begin{pmatrix}2\\-2\end{pmatrix},\begin{pmatrix}3&1\\1&1\end{pmatrix}\right)$. Write its joint density explicitly, including the normalizing constant. Expand the quadratic expression in terms of $(x_1-2)$ and $(x_2+2)$.",
          r"$|\Sigma|=2$, $\Sigma^{-1}=\tfrac12\begin{bmatrix}1&-1\\-1&3\end{bmatrix}$; $p(\mathbf x)=\left(\tfrac{1}{\sqrt{2\pi\cdot 2}}\right)^2\exp\!\left(-\tfrac12\cdot\tfrac12\{(x_1-x_2-4)(x_1-2)+(-x_1+3x_2+8)(x_2+2)\}\right)$ — 정규화 상수를 $1/(4\pi)$로 씀(정답 $1/(2\sqrt2\pi)$), 이차식은 $(x_1-2),(x_2+2)$의 제곱·교차항으로 정리하지 않음",
-         4, ['답 박스 위 별표'], 'low'),
+         4, [], 'low'),
     part('b', r"Suppose $p(z)=c\exp\!\left[-\tfrac12(9z^2+18z+13)\right]$, $z\in\mathbb R$. Determine $c>0$ so that $p$ is a normalized probability density. Identify its mean and variance, showing your completion of the square.",
          r"$9z^2+18z+13=9(z+1)^2+4$, $\int p=c e^{-2}\sqrt{2\pi/9}=1\Rightarrow c=3e^2/\sqrt{2\pi}$; 평균·분산은 쓰지 않음",
          3, ['빨간 "Mean? Var.?"'])]))
@@ -73,9 +73,9 @@ Q.append(dict(n=9, title='Bayesian Linear Regression: Parameter Posterior', page
               context_tex=r"$\mathbf y=\Phi\boldsymbol\theta+\boldsymbol\varepsilon$, $\boldsymbol\theta\sim\mathcal N(\mathbf m_0,S_0)$, $\boldsymbol\varepsilon\sim\mathcal N(\mathbf 0,\sigma^2I_N)$. Posterior $\mathcal N(\boldsymbol\theta\mid\mathbf m_N,S_N)$ with $S_N=(S_0^{-1}+\sigma^{-2}\Phi^\top\Phi)^{-1}$, $\mathbf m_N=S_N(S_0^{-1}\mathbf m_0+\sigma^{-2}\Phi^\top\mathbf y)$ (may be used without proof). $\phi(x)=(1,x)^\top$, observations $(-1,1),(1,3)$, $\mathbf m_0=\mathbf 0$, $S_0=I_2$, $\sigma^2=1$.", parts=[
     part('a', r"Construct the design matrix $\Phi$ and the observation vector $\mathbf y$. Calculate $\Phi^\top\Phi$ and the posterior covariance matrix $S_N$.",
          r"$\Phi=\begin{bmatrix}1&-1\\1&1\end{bmatrix}$, $\mathbf y=(1,3)^\top$, $\Phi^\top\Phi=2I$; $S_N=S_0^{-1}+\sigma^{-2}\Phi^\top\Phi=3I$ — 바깥 역행렬 $(\cdot)^{-1}$ 누락",
-         3, ['공식의 $^{-1}$에 빨간 박스']),
+         3, ['공식의 $^{-1}$에 빨간 박스', '$S_N=3I$ 옆 빨간 체크']),
     part('b', r"Calculate $\Phi^\top\mathbf y$ and the posterior mean $\mathbf m_N$. State the posterior distribution $p(\boldsymbol\theta\mid\mathcal D)$ with its numerical mean vector and covariance matrix.",
-         r"$\Phi^\top\mathbf y=(4,2)^\top$, $\mathbf m_N=3I\,\Phi^\top\mathbf y=(12,6)^\top$, $p(\boldsymbol\theta\mid\mathcal D)=\frac{1}{6\pi}\exp\!\left(-\frac{\|\boldsymbol\theta-\mathbf m_N\|^2}{2\times3}\right)$",
+         r"$\Phi^\top\mathbf y=(4,2)^\top$, $\mathbf m_N=3I\,\Phi^\top\mathbf y=(12,6)^\top$, $p(\boldsymbol\theta\mid\mathcal D)=\left(\frac{1}{\sqrt{2\pi|S_N|}}\right)^2\exp(\cdots)$에 $|S_N|=3$을 넣어(실제 $|3I|=9$) $\frac{1}{6\pi}\exp\!\left(-\frac{\|\boldsymbol\theta-\mathbf m_N\|^2}{2\times3}\right)$",
          2, ['$\\mathbf m_N$ 식에 체크(방법 인정)'])]))
 Q.append(dict(n=10, title='Bayesian Linear Regression: Predictive Distribution', pages=[11],
               context_tex=r"Continue with the numerical model and posterior from Question 9(b). At the new input $x_*=2$, $f_*=\phi(x_*)^\top\boldsymbol\theta=\theta_0+2\theta_1$, $y_*=f_*+\varepsilon_*$, $\varepsilon_*\sim\mathcal N(0,1)$. The fresh noise $\varepsilon_*$ is jointly independent of $\boldsymbol\theta$ and all training noise variables.", parts=[

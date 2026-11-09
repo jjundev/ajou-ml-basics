@@ -30,12 +30,12 @@ def test_resolve_exam_html_path(tmp_path):
 
 def test_load_source_exam_profile(tmp_path):
     pack = load_source(make(tmp_path), tmp_path)
-    assert (pack.profile, pack.range, pack.slug) == ('exam', '1021', 'Midterm')
+    assert (pack.profile, pack.range, pack.slug) == ('midterm', '1021', 'Midterm')
     assert [p.id for p in pack.problems] == ['p1', 'p2']
     assert pack.problems[0].subparts == ('a', 'b')
 
 def test_exam_output_names():
-    pack = SourcePack('exam', '1021', 'Midterm', Path('중간고사_1021_Midterm.html'), '0' * 64, ())
+    pack = SourcePack('midterm', '1021', 'Midterm', Path('중간고사_1021_Midterm.html'), '0' * 64, ())
     assert names(pack) == ('중간고사_1021_문제설명_Midterm', 'figures_문제설명_exam1021_Midterm', '자료_문제설명_exam1021_Midterm')
     assert md_name(pack) == '중간고사_1021_문제설명_Midterm.md'
 
@@ -45,3 +45,12 @@ def test_all_excludes_exam(tmp_path):
     review.parent.mkdir(parents=True)
     review.touch()
     assert resolve_sources(tmp_path, 'all') == (review,)
+
+def test_mock_exam_pack_keeps_review_style_outputs():
+    """ml-midterm's 예상문제 adapter builds SourcePack('exam', ...); its paths and title must not change."""
+    from mpe_render import names, md_name
+    pack = SourcePack('exam', '0909-1019', 'Midterm_Practice_01', Path('cards.html'), '0' * 64, ())
+    assert names(pack) == ('문제설명_0909-1019_Midterm_Practice_01',
+                           '.pack/figures_문제설명_0909-1019_Midterm_Practice_01',
+                           '.pack/자료_문제설명_0909-1019_Midterm_Practice_01')
+    assert md_name(pack) == '.pack/문제설명_0909-1019_Midterm_Practice_01.md'

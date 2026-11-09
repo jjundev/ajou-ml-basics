@@ -23,11 +23,17 @@ def check(md_path):
             errors.append(f'{key}: 감점 {lost} != 5-{got}')
         lost_total += int(lost)
         if int(lost) > 0:
-            kinds = [k.strip().replace('(추정)', '').strip() for k in kind.split('+')]
+            kinds = [re.sub(r'\(Q\d+[ab]\)|\(추정\)', '', k).strip() for k in kind.split('+')]
             if not kinds or any(k not in TYPES for k in kinds):
                 errors.append(f'{key}: 오류 유형 {kind!r}')
             if '.pack/scan/' not in r:
                 errors.append(f'{key}: 근거 crop 링크 없음')
+    propagated_q10 = any(re.match(r'\|\s*Q10[ab]\s*\|', r) and '전파' in r for r in rows)
+    if not propagated_q10 and re.search(r'9번 실수가 10번까지|10번까지 이어', text):
+        errors.append('요약이 Q9→Q10 전파를 주장하지만 Q10 행은 전파로 분류되지 않음')
+    for r in rows:
+        if '전파' in r.split('|')[6] and not re.search(r'전파\(Q\d+[ab]\)', r):
+            errors.append(f'{r.split("|")[1].strip()}: 전파 행은 원천을 전파(QNx)로 명시')
     if lost_total != 21:
         errors.append(f'감점 합 {lost_total} != 21')
     if errors:

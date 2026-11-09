@@ -15,6 +15,7 @@ description: 머신러닝기초의 기존 복습문제·과제·중간고사 예
 - `과제1` 또는 `hw1`: 저장된 과제1 카드.
 - `중간고사 N회` 또는 예상문제 원본/문제설명 HTML: [ml-midterm 해설 전용 경로](../ml-midterm/references/explanation-rules.md#해설만-처리)를 사용한다. 같은 폴더의 유일한 원본과 blueprint를 전용 resolver로 확인한다. 일반 extract/load_source는 EXAM을 지원하지 않는다. base/english를 실행하거나 문제·PDF를 바꾸지 않는다. 새 출제는 [ml-midterm](../ml-midterm/SKILL.md)으로 보낸다.
 - HTML 경로: 해당 파일을 명시한다.
+- 실제 시험(채점된 시험지): 스캔을 전사해 `시험결과/중간고사/중간고사_<MMDD>_<slug>.html` 카드(`data-source="Midterm <MMDD> Q<n>"`)를 먼저 만들고, 그 HTML 경로를 `--target`으로 명시한다. 프로필 이름은 `midterm`이다(ml-midterm 예상문제 어댑터의 `exam`과 구별). 산출물은 과제처럼 카드 HTML 옆에 `중간고사_<MMDD>_문제설명_<slug>.html/.md`, `figures_문제설명_exam<MMDD>_<slug>/`, `자료_문제설명_exam<MMDD>_<slug>/`로 둔다. `all`·날짜 대상으로는 선택되지 않는다. 예: `시험결과/중간고사/.pack/`(transcript·scan crop·검산 스크립트).
 - 인자 없음: 파일명 날짜 기준 최신 복습문제. 과제는 자동 선택하지 않는다.
 
 여러 slug나 통합/개별 팩이 겹치면 후보 경로를 보여 주고 대상을 명시하게 한다. PDF만 있는 과제는 카드 HTML 준비가 먼저 필요하다. 새 문제, 정리노트, PDF, 영상, 자동 채점은 만들지 않는다. 기존 원 HTML·MD·PDF·그림을 수정하지 않는다. 카드의 풀이·정답은 참고 답안이며 독립 검산을 대신하지 않는다.

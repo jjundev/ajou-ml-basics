@@ -8,7 +8,7 @@
     },
     {
       "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/시험결과/중간고사/.pack/transcript.json",
-      "sha256": "ab3403e9c450ed2516b0ade1bb946c58aa047e1d8c2fd29d2d9f34a8e7955b41"
+      "sha256": "ddc1e10f046dabedd27d7670166b22a54aa8467796f9a200fad1ff093e75b956"
     },
     {
       "path": "/Users/hyunjun_macbook_pro/Documents/Univ/머신러닝기초/시험결과/중간고사/.pack/evidence/answer-checks.json",
@@ -111,12 +111,12 @@
   "browser": {
     "status": "pass",
     "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-    "evidence": "evidence/browser_sweep.py → browser-sweep.json: 1280×900·1024×900·375×812 × light/dark × p1–p10 = 60 views, KaTeX 오류 0·깨진 이미지 0·문서 가로 넘침 0·콘솔 오류 0·외부 요청 0. evidence/math_overflow.py: 표시 수식 넘침 0(p3 두 식을 aligned로 분할 후). 수동: 원문 탭에 영어 원문+스캔 표시, 요약 패널·다크 테마·목차·이전/다음 확인(shots/). 링크 55개 대상 파일·anchor 존재 확인."
+    "evidence": "a2 stage(file://)에서 evidence/browser_sweep.py → browser-sweep.json: 1280×900·1024×900·375×812 × light/dark × p1–p10 = 60 views, KaTeX 오류·깨진 이미지·문서 가로 넘침·콘솔 오류·외부 요청 모두 0. evidence/math_overflow.py 표시 수식 넘침 0. 프로필 변경으로 읽음 키가 ml-problem-explain-midterm-1021-Midterm으로 바뀜을 확인. 링크 55개 대상·anchor 존재(a1에서 확인, 링크 내용 불변)."
   },
   "content": {
     "status": "pass",
     "reviewer": "Claude Opus 5.5 (author/controller, this session)",
-    "evidence": "10개 조각 전체 대조. 감사(evidence/audit.md) Critical 3/Important 4/Minor 4 모두 수정 후 재build. 열 gradient는 시험 지시문이 명시한 관례로 원문 보존 분기 적용: p1·p6 understand와 sum에 강의 행 관례와의 전치 관계를 밝힘. check_vector_derivatives.py 결과(evidence/vector-derivatives.txt)의 p1·p6 지적은 이 의도된 열 관례이며 변수 열벡터, gradient 2×1, Jacobian 3×2 출력×입력, 정규방정식 Φ^TΦθ=Φ^Ty(열 gradient=0에서 직접)를 수동 확인. 요약은 각 조각 본문의 개념·첫 줄·주의·답과 일치.",
+    "evidence": "10개 조각 전체 대조. 감사(evidence/audit.md) Critical 3/Important 4/Minor 4 모두 수정 후 재build. 열 gradient는 시험 지시문이 명시한 관례로 원문 보존 분기 적용: p1·p6 understand와 sum에 강의 행 관례와의 전치 관계를 밝힘. check_vector_derivatives.py 결과(evidence/vector-derivatives.txt)의 p1·p6 지적은 이 의도된 열 관례이며 변수 열벡터, gradient 2×1, Jacobian 3×2 출력×입력, 정규방정식 Φ^TΦθ=Φ^Ty(열 gradient=0에서 직접)를 수동 확인. 요약은 각 조각 본문의 개념·첫 줄·주의·답과 일치. 재빌드(midterm1021-a2): 프로필 이름 exam→midterm 변경만 있고 조각은 a1과 바이트 동일(diff -rq).",
     "items": {
       "p1:a": {
         "status": "pass",
@@ -381,13 +381,14 @@
     "자료_문제설명_exam1021_Midterm/evidence/answer-checks.json": "64579d7c71cbe7239c120abe4667e68930638422cfbdd12eb4439217c7f84513",
     "자료_문제설명_exam1021_Midterm/evidence/answer-checks.py": "a91bdc0b3722f08df8457ec7b8007e8f5968fcfc1e6908906f72a00b1bd5ad8d",
     "자료_문제설명_exam1021_Midterm/evidence/audit.md": "b77b6d77b9a9c18ccd8432f1fe657b5aba40a9dddc2ce9f9d70ff7b5a9c43bca",
-    "자료_문제설명_exam1021_Midterm/evidence/browser-sweep.json": "00d3ae36737aaa3a37d10c26d7b32509d9b3e43dc5c619043bde36dc57ef7016",
+    "자료_문제설명_exam1021_Midterm/evidence/browser-sweep.json": "fcb62670a63025f9eef683520b1c88806cc2843f99daf8e0f457ca886517870d",
     "자료_문제설명_exam1021_Midterm/evidence/browser_sweep.py": "2c1846db54d6a60dd6e141ed6619f8429db50d1520f665acbfe21ecf7c8bc395",
     "자료_문제설명_exam1021_Midterm/evidence/independent-solver.md": "0d287f93a0298b5c0f5bb02d91cd334e3021ca6d66ab4294fb73c5913052ad30",
     "자료_문제설명_exam1021_Midterm/evidence/math_overflow.py": "03d35e379021977b7810ed43abe09ca54b9aa9603ca5fcca0b60214ad801984c",
-    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-dark-p1.png": "be5dcd278113d0dd7ddbc8f01ebfdb43b20cab82696cb6b88a847bbc46609435",
-    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-light-p10.png": "54bcd5fbc22768e868d4f2dc60d1e5b600dea778fa8b34c2270c22320f73b2cb",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1024x900-dark-p1.png": "b45c5aadc8b6e10cd3a7d2de1cd87b842fea82ca23b703f35f9a4a0e2df027fe",
+    "자료_문제설명_exam1021_Midterm/evidence/shots/1280x900-light-p10.png": "09400bf0ba990d656b1f0114a42dd844f16577a8c45497de3cb4f5f19ef56042",
     "자료_문제설명_exam1021_Midterm/evidence/shots/375x812-dark-p7.png": "d70d41d42e2e78fc54518182b75fefd7db1402d167d574c69e0a647166e6c9e4",
+    "자료_문제설명_exam1021_Midterm/evidence/transcript.json": "ddc1e10f046dabedd27d7670166b22a54aa8467796f9a200fad1ff093e75b956",
     "자료_문제설명_exam1021_Midterm/evidence/vector-derivatives.txt": "fb97de7171f7cdc6d33c5d6e631076b58f2d43143a652d530b40f69c9fcf0d57",
     "자료_문제설명_exam1021_Midterm/fragments/p1.html": "ec0d552c661d51b473e802117c5a160ac5145f620a7cdb466bf1404dd5155f95",
     "자료_문제설명_exam1021_Midterm/fragments/p10.html": "3f7ef94ffa717d5951de954dba4e48f9e943bebc329e2c7d8b3b70a673186fd8",
@@ -485,8 +486,8 @@
     "자료_문제설명_exam1021_Midterm/vendor/pretendard/woff2/Pretendard-SemiBold.woff2": "c863f76a7de5c1ddc1ed8b2fa794964530774592c4f31407a84e2a2ae93f17f0",
     "자료_문제설명_exam1021_Midterm/vendor/pretendard/woff2/Pretendard-Thin.woff2": "1539755224a64719d5b18406762c476db74fcc299b9e4641ca1e9812fbc7a09b",
     "자료_문제설명_exam1021_Midterm/vendor/provenance.json": "c953ecb4573b74379b1599a52f234b195bb335cf119fd9b35997c2a98b6abfeb",
-    "중간고사_1021_문제설명_Midterm.html": "e29aa60c45f841ba56ebf6dc494ff5edd9c7b4b77af89e2f85d3f1ce4a1dbc42",
+    "중간고사_1021_문제설명_Midterm.html": "f695f4e432c0ad3223757cfe866245eb35b679ba0600f99d6947dc397681ab10",
     "중간고사_1021_문제설명_Midterm.md": "9b481fc610ebbf06ec064c3a211595ecae140a372c51218f589bb080f89dd50f",
-    "자료_문제설명_exam1021_Midterm/manifest.json": "bf803cbc838da1e52e4e8fdc07d1c61c7653565c7b9686d589b7c5a61c99c42a"
+    "자료_문제설명_exam1021_Midterm/manifest.json": "4b517dad4bbb579879cf79c97d070ea3350e1fe7135c11fc26d742e9934257a2"
   }
 }

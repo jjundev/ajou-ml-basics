@@ -39,7 +39,8 @@ class CardProfile:
         return self.source_fmt.format(range=range_, n=card_id[1:]) if self.source_fmt else None
 REVIEW = CardProfile('review', r'복습문제_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html', r'MML (Example|Exercise) \d+(?:\.\d+)+', None, '머신러닝기초 복습문제 {range}', '복습문제_{range}_{slug}')
 HOMEWORK = CardProfile('homework', r'과제(\d+)_([A-Za-z0-9_]+)\.html', r'HW\d+ Problem \d+', '과제', '머신러닝기초 과제{range}', '과제{range}_{slug}', 'HW{range} Problem {n}')
-EXAM_ACTUAL = CardProfile('exam', r'중간고사_(\d{4})_([A-Za-z0-9_]+)\.html', r'Midterm \d{4} Q\d+', '시험', '머신러닝기초 중간고사 {range}', '중간고사_{range}_{slug}', 'Midterm {range} Q{n}')
+# 'midterm' (not 'exam'): ml-midterm's 예상문제 adapter already uses SourcePack('exam', ...) with review-style outputs.
+EXAM_ACTUAL = CardProfile('midterm', r'중간고사_(\d{4})_([A-Za-z0-9_]+)\.html', r'Midterm \d{4} Q\d+', '시험', '머신러닝기초 중간고사 {range}', '중간고사_{range}_{slug}', 'Midterm {range} Q{n}')
 PROFILES = {p.name: p for p in (REVIEW, HOMEWORK, EXAM_ACTUAL)}
 @dataclass(frozen=True)
 class ReviewPack:
