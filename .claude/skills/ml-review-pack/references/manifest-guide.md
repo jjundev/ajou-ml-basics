@@ -38,7 +38,7 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
   각 항목은 `{"id": "partA", "title": "A. 교과서 예제 변형", "short": "A 예제"}`처럼 `id`·`title`·`short`가 모두 있어야 한다(`short`는 상단 목차 글자).
 - 문제 선별은 `references/problem-selection.md`. 개수 8~12.
 - 문제 `id`: `p1`, `p2`, … 빈 번호 없이 순서대로(카드 파일명 `cards/<id>.html`이 된다). `part`: 위 `parts`의 id 중 하나.
-- `source`: `"MML Example 9.1"` / `"MML Exercise 6.3"` 정확히 이 형식. `variant`: 본문 예제를 문제로 바꿨으면 `true`.
+- `source`: `"MML Example 9.1"` / `"MML Exercise 6.3"` 정확히 이 형식. 명세표 빈칸을 채운 자작 문제만 `"자작 pN"`(N은 이 문제의 id 번호, `problem-selection.md`의 "자작 문제" 절). `variant`: 본문 예제를 문제로 바꿨으면 `true`, 자작은 `false`.
 - `anchor`: 풀이가 기대는 정리노트 토픽 id(카드에 링크로 쓰지는 않는다). `level`: 1~3. `date`: 관련 수업 날짜.
 - `terms`: 카드에 반드시 나올 TeX/숫자(정답 포함). **모두 빈 문자열이 아닌 문자열**이다. 숫자도 따옴표로 쓴다(`"0.2"`, `"\\frac{1}{5}"`). `required_terms`, `forbidden_outside_preview`도 같다(`manifest.py`가 검사).
 - `answer`: Python으로 계산한 정답 문자열. 계산 예:

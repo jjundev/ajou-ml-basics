@@ -1,6 +1,7 @@
 import hashlib
 import json
 import unittest
+from dataclasses import replace
 from _util import FIXTURES, SKILL
 from review_pdf_cards import read_cards, normalize_cards
 from review_pdf_payload import to_workbook, inject_data, space_math
@@ -27,6 +28,11 @@ class TestPayload(unittest.TestCase):
         p=to_workbook(ps,{},'problems',profile=HOMEWORK)['problems'][0]
         self.assertEqual((p['kind'],p['section'],p['number']),('과제','HW9 Problem 1','P1'))
         self.assertEqual(to_workbook(self.ps[:1],{},'problems')['problems'][0]['kind'],'예제')
+    def test_self_made_kind_hides_basis_toggle(self):
+        ps=[replace(self.ps[0],card=replace(self.ps[0].card,source='자작 p1'))]
+        p=to_workbook(ps,{},'problems')['problems'][0]
+        self.assertEqual(p['kind'],'자작')
+        self.assertEqual(p['html']['original'],'')
     def test_hint_label_falls_back(self):
         from dataclasses import replace
         ps=self.ps[:1]

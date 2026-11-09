@@ -75,7 +75,8 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 문제 선별은 `references/problem-selection.md`를 따른다.
   - 정답은 `RUN/answers.py`(`fractions`)로 계산한다.
   - 문제별 교과서 쪽은 `RUN/problem-pages.txt`에 적는다.
-- 검증: `python3 "$SKILL/scripts/manifest.py" "$RUN/manifest.json"` 결과가 `OK`여야 한다.
+  - `REPO/시험결과/출제명세표.json`이 있으면 요구 구조 태그를 `RUN/blueprint.json`에 적는다(같은 파일의 "출제 명세표" 절).
+- 검증: `python3 "$SKILL/scripts/manifest.py" "$RUN/manifest.json"` 결과가 `OK`여야 한다. 명세표가 있으면 `scripts/check_blueprint.py`도 `OK`여야 한다(자작 문제가 있으면 `--self-checks "$RUN/self-checks.json"`). 자작 문제는 명세표 빈칸에만, `lite`에서는 만들지 않는다.
 
 ### 3. 작성
 - 모든 정리노트 작성자는 `references/learner-reasoning-patterns.md`를 전체 필수 읽기로 받고 해당 토픽의 학습자 연결 브리프를 적용한다. `lite`도 동일하다. 공분산 레퍼런스의 `적용 없음`은 이 일반 학습자 기준을 생략한다는 뜻이 아니다.
