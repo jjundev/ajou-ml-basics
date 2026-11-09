@@ -1,49 +1,60 @@
-{
- "note": "문제 데이터만 (참고 풀이·정답 제외)",
- "problems": [
-  {
-   "id": "p1",
-   "title": "P1. 좌표 하나만 기억하기",
-   "source": "MML Example 10.1",
-   "conditions_html": "<p>$\\mathbb{R}^2$와 표준기저(canonical basis) $\\mathbf{e}_1=[1,0]^T$, $\\mathbf{e}_2=[0,1]^T$를 생각해요. 벡터 $\\mathbf{x}$와, 첫 성분이 늘 0인 벡터 $\\tilde{\\mathbf{x}}$가 있어요.</p>$${\\mathbf{x}=\\begin{bmatrix}4\\\\-7\\end{bmatrix}},\\qquad{\\tilde{\\mathbf{x}}=\\begin{bmatrix}0\\\\z\\end{bmatrix}\\in\\mathbb{R}^2},\\quad{ z\\in\\mathbb{R}}$$",
-   "ask_html": "<ol><li>(a) $\\mathbf{x}$를 $\\mathbf{e}_1$, $\\mathbf{e}_2$의 선형결합으로 써 보세요.</li><li>(b) $\\tilde{\\mathbf{x}}$를 $\\mathbf{e}_1$, $\\mathbf{e}_2$의 선형결합으로 쓰고, 이 벡터를 나타내려면 어떤 수만 저장하면 되는지 말해 보세요.</li><li>(c) $\\tilde{\\mathbf{x}}$ 꼴 벡터 전체의 집합 $U$는 어떤 벡터가 생성(span)하는 부분공간인지, 그 차원은 얼마인지 구해 보세요.</li></ol>",
-   "subparts": [
-    "a",
-    "b",
-    "c"
-   ]
-  },
-  {
-   "id": "p2",
-   "title": "P2. 서로 수직이고 길이가 1인 두 벡터",
-   "source": "MML Example 3.8",
-   "conditions_html": "<p>$\\mathbb{R}^2$에서 내적은 벡터의 점곱(dot product)이에요. 두 벡터가 주어져요.</p>$${\\mathbf{b}_1=\\frac{1}{5}\\begin{bmatrix}3\\\\4\\end{bmatrix}},\\qquad{\\mathbf{b}_2=\\frac{1}{5}\\begin{bmatrix}4\\\\-3\\end{bmatrix}}$$",
-   "ask_html": "<p>$\\mathbf{b}_1$, $\\mathbf{b}_2$가 $\\mathbb{R}^2$의 정규직교 기저(orthonormal basis)임을 보여 보세요.</p>",
-   "subparts": [
-    "main"
-   ]
-  },
-  {
-   "id": "p3",
-   "title": "P3. $\\mathbb{R}^5$ 속 3차원 부분공간으로 내린 그림자",
-   "source": "MML Exercise 3.5",
-   "conditions_html": "<p>점곱을 내적으로 쓰는 유클리드 벡터공간 $\\mathbb{R}^5$를 생각해요. 부분공간 $U\\subseteq\\mathbb{R}^5$와 $\\mathbf{x}\\in\\mathbb{R}^5$가 주어져요.</p>$${U=\\operatorname{span}\\left[\\begin{bmatrix}0\\\\-1\\\\2\\\\0\\\\2\\end{bmatrix},\\begin{bmatrix}1\\\\-3\\\\1\\\\-1\\\\2\\end{bmatrix},\\begin{bmatrix}-3\\\\4\\\\1\\\\2\\\\1\\end{bmatrix},\\begin{bmatrix}-1\\\\-3\\\\5\\\\0\\\\7\\end{bmatrix}\\right]},\\qquad{\\mathbf{x}=\\begin{bmatrix}-1\\\\-9\\\\-1\\\\4\\\\1\\end{bmatrix}}$$",
-   "ask_html": "<ol><li>(a) $\\mathbf{x}$를 $U$로 내린 직교사영 $\\pi_U(\\mathbf{x})$를 구해 보세요.</li><li>(b) 거리 $d(\\mathbf{x},U)$를 구해 보세요.</li></ol>",
-   "subparts": [
-    "a",
-    "b"
-   ]
-  },
-  {
-   "id": "p4",
-   "title": "P4. 다른 내적으로 재는 직교사영",
-   "source": "MML Exercise 3.6",
-   "conditions_html": "<p>$\\mathbb{R}^3$에 아래 내적이 주어져요. $\\mathbf{e}_1,\\mathbf{e}_2,\\mathbf{e}_3$는 $\\mathbb{R}^3$의 표준기저예요.</p>$${\\langle\\mathbf{x},\\mathbf{y}\\rangle:=\\mathbf{x}^T\\mathbf{A}\\mathbf{y}},\\qquad{\\mathbf{A}=\\begin{bmatrix}2 &amp; 1 &amp; 0\\\\1 &amp; 2 &amp; -1\\\\0 &amp; -1 &amp; 2\\end{bmatrix}}$$",
-   "ask_html": "<ol><li>(a) $\\mathbf{e}_2$를 ${U=\\operatorname{span}[\\mathbf{e}_1,\\mathbf{e}_3]}$로 내린 직교사영 $\\pi_U(\\mathbf{e}_2)$를 구해 보세요.</li><li>(b) 거리 $d(\\mathbf{e}_2,U)$를 구해 보세요.</li></ol>",
-   "subparts": [
-    "a",
-    "b"
-   ]
-  }
- ]
-}
+[
+ {
+  "id": "p1",
+  "title": "P1. 좌표 하나만 기억하기",
+  "source": "MML Example 10.1",
+  "conditions_html": "<p>$\\mathbb{R}^2$와 표준기저(canonical basis) $\\mathbf{e}_1=[1,0]^T$, $\\mathbf{e}_2=[0,1]^T$를 생각해요. 벡터 $\\mathbf{x}$와, 첫 성분이 늘 0인 벡터 $\\tilde{\\mathbf{x}}$가 있어요.</p>$${\\mathbf{x}=\\begin{bmatrix}4\\\\-7\\end{bmatrix}},\\qquad{\\tilde{\\mathbf{x}}=\\begin{bmatrix}0\\\\z\\end{bmatrix}\\in\\mathbb{R}^2},\\quad{ z\\in\\mathbb{R}}$$",
+  "ask_html": "<ol><li>(a) $\\mathbf{x}$를 $\\mathbf{e}_1$, $\\mathbf{e}_2$의 선형결합으로 써 보세요.</li><li>(b) $\\tilde{\\mathbf{x}}$를 $\\mathbf{e}_1$, $\\mathbf{e}_2$의 선형결합으로 쓰고, 이 벡터를 나타내려면 어떤 수만 저장하면 되는지 말해 보세요.</li><li>(c) $\\tilde{\\mathbf{x}}$ 꼴 벡터 전체의 집합 $U$는 어떤 벡터가 생성(span)하는 부분공간인지 구해 보세요.</li><li>(d) $U$의 차원을 읽어 보세요.</li></ol>",
+  "subparts": [
+   "a",
+   "b",
+   "c",
+   "d"
+  ]
+ },
+ {
+  "id": "p2",
+  "title": "P2. 서로 수직이고 길이가 1인 두 벡터",
+  "source": "MML Example 3.8",
+  "conditions_html": "<p>$\\mathbb{R}^2$에서 내적은 벡터의 점곱(dot product)이에요. 두 벡터가 주어져요.</p>$${\\mathbf{b}_1=\\frac{1}{5}\\begin{bmatrix}3\\\\4\\end{bmatrix}},\\qquad{\\mathbf{b}_2=\\frac{1}{5}\\begin{bmatrix}4\\\\-3\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) ${\\mathbf{B}=[\\mathbf{b}_1,\\mathbf{b}_2]}$로 두고 $\\mathbf{B}^T\\mathbf{B}$를 계산해 보세요.</li><li>(b) (a)의 결과로 $\\mathbf{b}_1$, $\\mathbf{b}_2$가 $\\mathbb{R}^2$의 정규직교 기저(orthonormal basis)인지 판정해 보세요.</li></ol>",
+  "subparts": [
+   "a",
+   "b"
+  ]
+ },
+ {
+  "id": "p3",
+  "title": "P3. 길이가 1이 아닌 기저로 읽는 좌표",
+  "source": "MML Example 2.20",
+  "conditions_html": "<p>$\\mathbb{R}^2$의 벡터 $\\mathbf{x}$는 표준기저 $(\\mathbf{e}_1,\\mathbf{e}_2)$로 ${\\mathbf{x}=5\\mathbf{e}_1+\\mathbf{e}_2}$예요. 같은 벡터를 다른 기저 $(\\mathbf{b}_1,\\mathbf{b}_2)$로 나타내려 해요. 내적은 점곱이에요.</p>$${\\mathbf{x}=\\begin{bmatrix}5\\\\1\\end{bmatrix}},\\qquad{\\mathbf{b}_1=\\begin{bmatrix}1\\\\-1\\end{bmatrix}},\\qquad{\\mathbf{b}_2=\\begin{bmatrix}1\\\\1\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) 기저 $(\\mathbf{b}_1,\\mathbf{b}_2)$에 대한 $\\mathbf{x}$의 좌표를 구해 보세요.</li><li>(b) $\\mathbf{b}_1$, $\\mathbf{b}_2$가 정규화돼 있는지(길이가 1인지) 판정해 보세요.</li></ol>",
+  "subparts": [
+   "a",
+   "b"
+  ]
+ },
+ {
+  "id": "p4",
+  "title": "P4. 완전제곱으로 보는 양의 정부호",
+  "source": "MML Example 3.4",
+  "conditions_html": "<p>대칭행렬 $\\mathbf{A}\\in\\mathbb{R}^{2\\times2}$가 $\\mathbf{0}$이 아닌 모든 $\\mathbf{x}$에서 ${\\mathbf{x}^T\\mathbf{A}\\mathbf{x}\\gt 0}$이면 양의 정부호(positive definite)라고 해요. 두 대칭행렬과 벡터 $\\mathbf{x}$가 주어져요.</p>$${\\mathbf{A}_1=\\begin{bmatrix}4 &amp; 2\\\\2 &amp; 3\\end{bmatrix}},\\qquad{\\mathbf{A}_2=\\begin{bmatrix}4 &amp; 2\\\\2 &amp; 0\\end{bmatrix}},\\qquad{\\mathbf{x}=\\begin{bmatrix}x_1\\\\x_2\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) $\\mathbf{x}^T\\mathbf{A}_1\\mathbf{x}$를 완전제곱 꼴로 정리하고, $\\mathbf{A}_1$이 양의 정부호인지 판정해 보세요.</li><li>(b) $\\mathbf{x}^T\\mathbf{A}_2\\mathbf{x}$를 같은 방법으로 정리하고, $\\mathbf{A}_2$가 양의 정부호인지 판정해 보세요. 아니라면 ${\\mathbf{x}^T\\mathbf{A}_2\\mathbf{x}\\lt 0}$인 $\\mathbf{x}$를 하나 들어 보세요.</li></ol>",
+  "subparts": [
+   "a",
+   "b"
+  ]
+ },
+ {
+  "id": "p5",
+  "title": "P5. $\\mathbb{R}^5$ 속 3차원 부분공간으로 내린 그림자",
+  "source": "MML Exercise 3.5",
+  "conditions_html": "<p>점곱을 내적으로 쓰는 유클리드 벡터공간 $\\mathbb{R}^5$를 생각해요. 부분공간 $U\\subseteq\\mathbb{R}^5$와 $\\mathbf{x}\\in\\mathbb{R}^5$가 주어져요.</p>$${U=\\operatorname{span}\\left[\\begin{bmatrix}0\\\\-1\\\\2\\\\0\\\\2\\end{bmatrix},\\begin{bmatrix}1\\\\-3\\\\1\\\\-1\\\\2\\end{bmatrix},\\begin{bmatrix}-3\\\\4\\\\1\\\\2\\\\1\\end{bmatrix},\\begin{bmatrix}-1\\\\-3\\\\5\\\\0\\\\7\\end{bmatrix}\\right]},\\qquad{\\mathbf{x}=\\begin{bmatrix}-1\\\\-9\\\\-1\\\\4\\\\1\\end{bmatrix}}$$",
+  "ask_html": "<ol><li>(a) $\\mathbf{x}$를 $U$로 내린 직교사영 $\\pi_U(\\mathbf{x})$를 구해 보세요.</li><li>(b) (a)의 결과로 거리 $d(\\mathbf{x},U)$를 구해 보세요.</li><li>(c) 잔차 $\\mathbf{x}-\\pi_U(\\mathbf{x})$가 $U$를 생성하는 네 벡터와 모두 직교하는지 확인해 보세요.</li></ol>",
+  "subparts": [
+   "a",
+   "b",
+   "c"
+  ]
+ }
+]

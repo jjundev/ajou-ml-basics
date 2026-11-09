@@ -1,159 +1,19 @@
 {
- "p1": {
-  "coeffs_x": [
-   4,
-   -7
-  ],
-  "reconstruct_ok": true,
-  "coeffs_xtilde": [
-   "0",
-   "z"
-  ],
-  "code": "z",
-  "U_basis_rank": 1,
-  "dimU": 1
- },
- "p2": {
-  "b1.b2": "0",
-  "|b1|^2": "1",
-  "|b2|^2": "1",
-  "det[b1 b2]": "-1",
-  "BtB": [
-   [
-    "1",
-    "0"
-   ],
-   [
-    "0",
-    "1"
-   ]
-  ]
- },
- "p3": {
-  "rank": 3,
-  "pivots": [
-   0,
-   1,
-   2
-  ],
-  "u4_in_terms_of_u1u2u3": [
-   "1",
-   "2",
-   "1"
-  ],
-  "BtB": [
-   [
-    "9",
-    "9",
-    "0"
-   ],
-   [
-    "9",
-    "16",
-    "-14"
-   ],
-   [
-    "0",
-    "-14",
-    "31"
-   ]
-  ],
-  "det_BtB": 189,
-  "Btx": [
-   9,
-   23,
-   -25
-  ],
-  "lambda": [
-   "-3",
-   "4",
-   "1"
-  ],
-  "proj": [
-   "1",
-   "-5",
-   "-1",
-   "-2",
-   "3"
-  ],
-  "proj_gram_schmidt": [
-   "1",
-   "-5",
-   "-1",
-   "-2",
-   "3"
-  ],
-  "paths_agree": true,
-  "residual": [
-   "-2",
-   "-4",
-   "0",
-   "6",
-   "-2"
-  ],
-  "Bt_r": [
-   "0",
-   "0",
-   "0"
-  ],
-  "d2": "60",
-  "d": "2*sqrt(15)",
-  "u4_t_r": "0"
- },
- "p4_A_pos_def": {
-  "leading_minors": [
-   2,
-   3,
-   4
-  ],
-  "symmetric": true
- },
- "p4": {
-  "Gram_BtAB": [
-   [
-    "2",
-    "0"
-   ],
-   [
-    "0",
-    "2"
-   ]
-  ],
-  "rhs_BtAe2": [
-   1,
-   -1
-  ],
-  "lambda": [
-   "1/2",
-   "-1/2"
-  ],
-  "proj": [
-   "1/2",
-   "0",
-   "-1/2"
-  ],
-  "residual": [
-   "-1/2",
-   "1",
-   "1/2"
-  ],
-  "A_r": [
-   "0",
-   "1",
-   "0"
-  ],
-  "<r,e1>_A": "0",
-  "<r,e3>_A": "0",
-  "d2_A": "1",
-  "d_A": "1",
-  "sqdist_poly": "2*l1**2 - 2*l1 + 2*l3**2 + 2*l3 + 2",
-  "complete_square_matches": true,
-  "contrast_dot_product_projection": [
-   0,
-   0,
-   0
-  ],
-  "contrast_dot_distance": 1,
-  "contrast_euclid_norm_of_A_residual": "sqrt(6)/2"
- }
+ "p1:a": "x=4e1-7e2",
+ "p1:b": "xt=0e1+ze2, e2^Te2=1, code=e2^T xt=z, e2 z=xt",
+ "p1:c": "span[e2] elements [0,t]; e1 not in U",
+ "p1:d": "rank{e2}=1 -> dim U=1",
+ "p2:a": "B^TB=I; 1/25 factors",
+ "p2:b": "ONB; check point x=b1+2b2=(1/5)[11,-2], B^Tx=[1,2]",
+ "p2:pitfall": "single 1/5 gives 5",
+ "p3:a": "coords [2,3]; (B^TB)^-1 B^T x=[2,3]",
+ "p3:b": "norms sqrt2, orthogonal, B^Tx=[4,6]=2*coords; q-coords 2sqrt2,3sqrt2",
+ "p3:pitfall": "4b1+6b2=[10,2]",
+ "p4:a": "x^TA1x=(2x1+x2)^2+2x2^2; sum of squares zero iff x2=0 and 2x1+x2=0 -> x=0 (proof); A1[1,-2]=[0,-4], value 8",
+ "p4:b": "x^TA2x=(2x1+x2)^2-x2^2; x=[1,-2] -> -4; samples [1,0]->4, [1,1]->8, [0,1]->0",
+ "p4:pitfall": "single cross term is wrong",
+ "p5:basis": "u4=u1+2u2+u3; rank 3; B4 v=0 for v=[1,2,1,-1]",
+ "p5:a": "normal eq lambda=(-3,4,1), proj=[1,-5,-1,-2,3]; same as pseudo-inverse projector on all 4",
+ "p5:b": "r, |r|^2=60, d=2sqrt15; 100=40+60",
+ "p5:c": "r . u_i = 0 for all four; r . proj = 0"
 }

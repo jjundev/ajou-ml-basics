@@ -1,23 +1,32 @@
-== P1 ==
-a) x = 4 e1 - 7 e2
-b) xt = 0 e1 + z e2; store only z
-c) U = span[e2], dim = 1
-== P2 ==
-b1.b1 = 1  b2.b2 = 1  b1.b2 = 0
-det[b1 b2] = -1 (nonzero -> lin. indep., 2 vectors in R^2 -> basis)
-== P3 ==
-rank of spanning set = 3
-basis columns (indices): (0, 1, 2)
-lambda = [-3, 4, 1]
-Method1 pi_U(x) = [1, -5, -1, -2, 3]
-Method2 pi_U(x) = [1, -5, -1, -2, 3]
-residual = [-2, -4, 0, 6, -2]  V^T r = [0, 0, 0, 0]
-d(x,U) = 2*sqrt(15) = 7.74596669241483
-== P4 ==
-A sym: True  eigenvalues: {2: 1, 2 - sqrt(2): 1, sqrt(2) + 2: 1}  (all>0 -> pos. def.)
-lambda = [1/2, -1/2]  Method1 pi_U(e2) = [1/2, 0, -1/2]
-<e1,e3>_A = 0
-Method2 pi_U(e2) = [1/2, 0, -1/2]
-residual = [-1/2, 1, 1/2]  <r,e1>_A = 0  <r,e3>_A = 0
-d_A(e2,U) = 1 = 1.00000000000000
-(contrast, Euclidean dot) proj = [0,0,0], dist = 1
+
+=== P1 ===
+p1(a): x = 4*e1 + (-7)*e2
+p1(b): x~ = 0*e1 + z*e2 ; first coefficient always 0 -> only the single number z must be stored
+p1(c): U = span[e2] = span[[0,1]^T]  (every [0,z]^T = z*e2 and every z*e2 has first component 0)
+p1(d): dim U = rank([e2]) = 1
+
+=== P2 ===
+p2(a): B^T B = [[1, 0], [0, 1]]
+p2(b): B^T B == I ? True ; rank B = 2 -> orthonormal basis of R^2: YES
+
+=== P3 ===
+p3(a): coordinates of x w.r.t. (b1,b2) = [2, 3]  i.e. x = 2*b1 + 3*b2
+       check via orthogonal formula: <x,b1>/|b1|^2 = 2 , <x,b2>/|b2|^2 = 3 , <b1,b2> = 0
+p3(b): ||b1|| = sqrt(2) , ||b2|| = sqrt(2) -> NOT normalized (length sqrt(2) != 1); orthogonal but not orthonormal
+
+=== P4 ===
+p4(a): x^T A1 x = 4*x1**2 + 4*x1*x2 + 3*x2**2 = 2*x2**2 + (2*x1 + x2)**2
+       zero only when {x1: 0, x2: 0} -> A1 positive definite: YES
+       (cross-check: leading minors 4 8 ; eigenvalues [7/2 - sqrt(17)/2, sqrt(17)/2 + 7/2] )
+p4(b): x^T A2 x = 4*x1**2 + 4*x1*x2 = -x2**2 + (2*x1 + x2)**2 = 4*x1*(x1 + x2)
+       counterexample x = [-1, 2]^T: x^T A2 x = -4 < 0 -> A2 NOT positive definite (indefinite)
+       another: x = [1,-4]^T -> -12 ; general family: x = t[-1,2]^T gives -4*t**2
+       (cross-check: det A2 = -4 < 0 ; eigenvalues [2 - 2*sqrt(2), 2 + 2*sqrt(2)] )
+
+=== P5 ===
+rank of spanning set = 3 (dim U)
+pivot columns: (0, 1, 2)
+linear dependence (nullspace of [v1..v4]): [[-1, -2, -1, 1]]
+p5(a): pi_U(x) = [1, -5, -1, -2, 3]  (coeffs w.r.t. pivot basis: [-3, 4, 1] )
+p5(b): residual x - pi = [-2, -4, 0, 6, -2] ; ||res||^2 = 60 ; d(x,U) = 2*sqrt(15) ≈ 7.74596669241483
+p5(c): <x-pi, v_i> for i=1..4 = [0, 0, 0, 0] -> all orthogonal: True
