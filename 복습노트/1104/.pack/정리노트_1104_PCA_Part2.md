@@ -250,7 +250,7 @@ $$V(\mathbf b)=\sum_{i=1}^D\sum_{j=1}^D c_i c_j\mathbf p_i^\top\mathbf S\mathbf 
 
 <a id="s0-directions-first"></a>
 
-#### 1 / 3 첫 방향의 최댓값 찾기
+#### 1 / 2 첫 방향의 최댓값 찾기
 
 분산이 넘을 수 없는 값을 구하고, 그 값에 도달하는 축을 찾아요.
 
@@ -263,7 +263,7 @@ $$V(\mathbf b)=\sum_{i=1}^D\sum_{j=1}^D c_i c_j\mathbf p_i^\top\mathbf S\mathbf 
 
 <a id="s0-directions-remaining"></a>
 
-#### 2 / 3 직교하는 다음 방향 고르기
+#### 2 / 2 직교하는 다음 방향 고르기
 
 이미 고른 축과 직교하는 조건을 넣어, 남은 방향의 분산 상한을 구해요.
 
@@ -277,48 +277,63 @@ $$
 
 $\mathbf b_k=\mathbf p_k$가 이 값에 도달해요.
 
+[여러 축의 공동 최적성 증명](#s0-directions-joint)은 선택 보충에서 볼 수 있어요.
+
 첫 $M$개 축을 $\mathbf B=[\mathbf p_1,\ldots,\mathbf p_M]\in\mathbb R^{D\times M}$에 담으면, 각 좌표 분산을 더한 보존 분산은 $\sum_{i=1}^M\lambda_i$예요. 선택 경계에서 $M\lt D$이고 $\lambda_M=\lambda_{M+1}$이면 같은 고윳값의 공간에서 서로 다른 축 조합을 택해도 보존 분산은 같아요. 다음 [사영과 복원](#s1-projection)에서는 선택한 축을 좌표 계산과 복원에 사용해요.
 
 <a id="s0-directions-joint"></a>
 
-#### 3 / 3 여러 축의 최적성 확인하기
+#### 여러 축을 함께 고를 때의 결론
 
-여러 축을 한꺼번에 비교해도 상위 고유방향을 남기는 선택이 최적인지 확인해요.
+상위 $M$개 고유방향을 남기면 보존 분산 $\sum_{i=1}^M\lambda_i$가 최대예요. 여러 축을 한꺼번에 고르는 경우의 별도 증명은 선택 보충이에요.
 
-##### 여러 축을 한꺼번에 골라도 같은 이유
+<details><summary>선택 보충: 여러 축을 함께 비교하는 증명</summary>
 
 강의에서 보인 순차 선택을 바탕으로, 여기서는 여러 축을 한꺼번에 비교할 때도 같은 선택이 최적인 이유를 덧붙여요. 임의의 정규직교 단위축 $\mathbf q_1,\ldots,\mathbf q_M\in\mathbb R^D$를 열로 모은 행렬을 $\mathbf C=[\mathbf q_1,\ldots,\mathbf q_M]\in\mathbb R^{D\times M}$이라 해요. 앞의 숫자 계수 $c_i$와 구별하려고 축 벡터에는 $\mathbf q_m$을 써요.
 
 $\mathbf C^\top\mathbf p_i$의 $m$번째 값은 $\mathbf q_m^\top\mathbf p_i$예요. 따라서 $i$번째 고유방향을 선택한 부분공간에 얼마나 담는지 나타내는 가중치는 다음과 같아요.
 
-$$w_i=\|\mathbf C^\top\mathbf p_i\|^2=\sum_{m=1}^M(\mathbf q_m^\top\mathbf p_i)^2.$$
+$$
+w_i=\|\mathbf C^\top\mathbf p_i\|^2=\sum_{m=1}^M(\mathbf q_m^\top\mathbf p_i)^2.
+$$
 
-**가중치의 범위와 합을 구해요.** 선택한 축을 전체 정규직교 기저로 보태면, 단위벡터 $\mathbf p_i$의 전체 좌표 제곱합은 1이에요. $w_i$는 그중 $M$개만 더하므로 $0\le w_i\le1$이에요. 반대로 $m$을 고정하면, $\mathbf p_i^\top\mathbf q_m$은 단위축 $\mathbf q_m$의 전체 고유기저 좌표예요.
+1. **가중치의 범위와 합을 구해요.** 선택한 축을 전체 정규직교 기저로 보태면, 단위벡터 $\mathbf p_i$의 전체 좌표 제곱합은 1이에요. $w_i$는 그중 $M$개만 더하므로 $0\le w_i\le1$이에요. 반대로 $m$을 고정하면, $\mathbf p_i^\top\mathbf q_m$은 단위축 $\mathbf q_m$의 전체 고유기저 좌표예요.
 
-$$\sum_{i=1}^D(\mathbf p_i^\top\mathbf q_m)^2=\|\mathbf q_m\|^2=1.$$
+   $$
+   \sum_{i=1}^D(\mathbf p_i^\top\mathbf q_m)^2=\|\mathbf q_m\|^2=1.
+   $$
 
-내적은 실수라 $\mathbf q_m^\top\mathbf p_i=\mathbf p_i^\top\mathbf q_m$예요. 유한한 두 합의 순서를 바꾸면 다음과 같아요.
+   내적은 실수라 $\mathbf q_m^\top\mathbf p_i=\mathbf p_i^\top\mathbf q_m$예요. 유한한 두 합의 순서를 바꾸면 다음과 같아요.
 
-$$\sum_{i=1}^D w_i=\sum_{m=1}^M\sum_{i=1}^D(\mathbf p_i^\top\mathbf q_m)^2=\sum_{m=1}^M1=M.$$
+   $$
+   \sum_{i=1}^D w_i=\sum_{m=1}^M\sum_{i=1}^D(\mathbf p_i^\top\mathbf q_m)^2=\sum_{m=1}^M1=M.
+   $$
+2. **축별 분산을 더해요.** 앞의 방향 분산식에서 $\mathbf b=\mathbf q_m$, $c_i=\mathbf p_i^\top\mathbf q_m$을 대입해요.
 
-**축별 분산을 더해요.** 앞의 방향 분산식에서 $\mathbf b=\mathbf q_m$, $c_i=\mathbf p_i^\top\mathbf q_m$을 대입해요.
+   $$
+   V(\mathbf q_m)=\sum_{i=1}^D\lambda_i(\mathbf p_i^\top\mathbf q_m)^2.
+   $$
 
-$$V(\mathbf q_m)=\sum_{i=1}^D\lambda_i(\mathbf p_i^\top\mathbf q_m)^2.$$
+   모든 선택 축에 대해 더하고 합의 순서를 바꾸면 괄호 안이 $w_i$예요.
 
-모든 선택 축에 대해 더하고 합의 순서를 바꾸면 괄호 안이 $w_i$예요.
+   $$
+   \sum_{m=1}^M V(\mathbf q_m)=\sum_{i=1}^D\lambda_i\left[\sum_{m=1}^M(\mathbf p_i^\top\mathbf q_m)^2\right]=\sum_{i=1}^D\lambda_i w_i.
+   $$
+3. **상위 고유축 선택과 비교해요.** $\sum_iw_i=M$을 앞뒤로 나누어 옮기면, 앞쪽에서 비운 가중치와 뒤쪽에 둔 가중치가 같아요.
 
-$$\sum_{m=1}^M V(\mathbf q_m)=\sum_{i=1}^D\lambda_i\left[\sum_{m=1}^M(\mathbf p_i^\top\mathbf q_m)^2\right]=\sum_{i=1}^D\lambda_i w_i.$$
+   $$
+   \sum_{i=1}^M(1-w_i)=M-\sum_{i=1}^M w_i=\sum_{i=M+1}^D w_i.
+   $$
 
-**상위 고유축 선택과 비교해요.** $\sum_iw_i=M$을 앞뒤로 나누어 옮기면, 앞쪽에서 비운 가중치와 뒤쪽에 둔 가중치가 같아요.
+   상위 $M$축을 모두 담을 때의 분산에서 임의 선택의 분산을 빼요. 앞쪽에서는 $\lambda_i\ge\lambda_M$, 뒤쪽에서는 $\lambda_i\le\lambda_M$이고 각 가중치는 음수가 아니에요.
 
-$$\sum_{i=1}^M(1-w_i)=M-\sum_{i=1}^M w_i=\sum_{i=M+1}^D w_i.$$
-
-상위 $M$축을 모두 담을 때의 분산에서 임의 선택의 분산을 빼요. 앞쪽에서는 $\lambda_i\ge\lambda_M$, 뒤쪽에서는 $\lambda_i\le\lambda_M$이고 각 가중치는 음수가 아니에요.
-
-$$\begin{aligned}\sum_{i=1}^M\lambda_i-\sum_{i=1}^D\lambda_iw_i&=\sum_{i=1}^M\lambda_i(1-w_i)-\sum_{i=M+1}^D\lambda_iw_i\\&\ge\lambda_M\left[\sum_{i=1}^M(1-w_i)-\sum_{i=M+1}^D w_i\right]\\&=0.\end{aligned}$$
+   $$
+   \begin{aligned}\sum_{i=1}^M\lambda_i-\sum_{i=1}^D\lambda_iw_i&=\sum_{i=1}^M\lambda_i(1-w_i)-\sum_{i=M+1}^D\lambda_iw_i\\&\ge\lambda_M\left[\sum_{i=1}^M(1-w_i)-\sum_{i=M+1}^D w_i\right]\\&=0.\end{aligned}
+   $$
 
 따라서 앞 $M$개의 고유방향에 가중치를 1씩 두는 선택이 전체 보존 분산도 최대로 만들어요. $M=D$라면 뒤쪽 합은 빈 합인 0이고 모든 방향을 보존해요.
 
+</details>
 
 **교수님 말씀**
 
@@ -436,7 +451,7 @@ $$
    $$
    \mathbf B^\top\mathbf B\mathbf z_n=\mathbf B^\top\mathbf x_n.
    $$
-2. $\mathbf B$의 열이 선형독립이면 좌표에 대한 헤시안 $2\mathbf B^\top\mathbf B/N$이 양의 정부호이므로, 이 정지점이 제곱오차의 유일한 최소점이에요. 양변 왼쪽에 역행렬을 곱하면 유사역행렬(pseudoinverse) 해가 나와요.
+2. $\mathbf B$의 열이 선형독립이면 $\mathbf B^\top\mathbf B$가 가역이에요. 정규방정식 양변 왼쪽에 그 역행렬을 곱하면 제곱오차를 최소화하는 좌표를 얻어요. $\mathbf B^\dagger=(\mathbf B^\top\mathbf B)^{-1}\mathbf B^\top$를 $\mathbf B$의 유사역행렬(pseudoinverse)이라 불러요.
 
    $$
    \mathbf z_n=(\mathbf B^\top\mathbf B)^{-1}\mathbf B^\top\mathbf x_n.
@@ -546,17 +561,29 @@ $$
 
 벡터의 제곱 길이는 자기 자신과의 내적이에요. 왼쪽 합을 전치하고 두 합을 분배해요.
 
-$$\|\mathbf r_n\|^2=\mathbf r_n^\top\mathbf r_n.$$
-$$\|\mathbf r_n\|^2=\left(\sum_{i=M+1}^D a_{in}\mathbf b_i^\top\right)\left(\sum_{j=M+1}^D a_{jn}\mathbf b_j\right).$$
-$$\|\mathbf r_n\|^2=\sum_{i=M+1}^D\sum_{j=M+1}^D a_{in}a_{jn}(\mathbf b_i^\top\mathbf b_j).$$
+$$
+\|\mathbf r_n\|^2=\mathbf r_n^\top\mathbf r_n.
+$$
+
+$$
+\|\mathbf r_n\|^2=\left(\sum_{i=M+1}^D a_{in}\mathbf b_i^\top\right)\left(\sum_{j=M+1}^D a_{jn}\mathbf b_j\right).
+$$
+
+$$
+\|\mathbf r_n\|^2=\sum_{i=M+1}^D\sum_{j=M+1}^D a_{in}a_{jn}(\mathbf b_i^\top\mathbf b_j).
+$$
 
 서로 다른 축의 내적은 0이라 $i\ne j$인 교차항이 사라져요. 같은 축의 내적은 길이의 제곱 1이므로 $a_{jn}^2$만 남아요.
 
-$$\|\mathbf r_n\|^2=\sum_{j=M+1}^D a_{jn}^2=\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.$$
+$$
+\|\mathbf r_n\|^2=\sum_{j=M+1}^D a_{jn}^2=\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.
+$$
 
 마지막으로 표본 $N$개의 제곱오차를 평균내면 원래의 목적함수 $J_M$이에요.
 
-$$J_M=\frac1N\sum_{n=1}^N\|\mathbf r_n\|^2=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.$$
+$$
+J_M=\frac1N\sum_{n=1}^N\|\mathbf r_n\|^2=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2.
+$$
 
 <a id="s1-discarded-variance"></a>
 
@@ -564,13 +591,7 @@ $$J_M=\frac1N\sum_{n=1}^N\|\mathbf r_n\|^2=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\ma
 
 버린 좌표의 평균 제곱을 분산으로 읽고, 전체 분산과 연결해요.
 
-한 방향의 좌표 $\mathbf b_j^\top\mathbf x_n$은 $D$개 특성의 가중합이에요. 입력을 중심화했으므로 이 좌표의 평균도 $0$이에요. 따라서 평균 제곱은 그 좌표의 분산, 즉 스칼라 좌표의 자기 공분산이에요.
-
-$$
-(\mathbf b_j^\top\mathbf x_n)^2=(\mathbf b_j^\top\mathbf x_n)(\mathbf b_j^\top\mathbf x_n)^\top=\mathbf b_j^\top\mathbf x_n\mathbf x_n^\top\mathbf b_j.
-$$
-
-축 $\mathbf b_j$는 표본에 따라 바뀌지 않으므로 양쪽에 고정하고 가운데 외적만 평균해요. 그 평균이 $D\times D$ 공분산 행렬 $\mathbf S=\frac1N\sum_{n=1}^N\mathbf x_n\mathbf x_n^\top$예요. 첫 좌표의 계수 $\mathbf b_j^\top$가 왼쪽, 두 번째 좌표의 계수를 전치한 $\mathbf b_j$가 오른쪽에 있어요. 결과 크기는 $1\times1$이에요.
+앞의 [방향 분산식](#s0-spectral-weights) $V(\mathbf b)=\mathbf b^\top\mathbf S\mathbf b$에 버린 축 $\mathbf b_j$를 대입해요. 중심화했으므로 좌표 평균은 0이고, 각 좌표 제곱의 평균이 바로 그 방향의 분산이에요. 이를 버린 축 전체에 더해요.
 
 $$
 J_M=\sum_{j=M+1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.
@@ -578,27 +599,39 @@ $$
 
 이제 버린 분산과 남긴 분산을 합쳐 볼게요. $\operatorname{tr}\mathbf S$는 행렬의 대각 원소를 모두 더한 값인 트레이스(trace)예요. $S_{dd}$는 $d$번째 특성의 분산이므로 대각합은 모든 특성의 분산 합이에요.
 
-$$\operatorname{tr}\mathbf S=\sum_{d=1}^D S_{dd}=\sum_{d=1}^D\left[\frac1N\sum_{n=1}^N x_{dn}^2\right].$$
+$$
+\operatorname{tr}\mathbf S=\sum_{d=1}^D S_{dd}=\sum_{d=1}^D\left[\frac1N\sum_{n=1}^N x_{dn}^2\right].
+$$
 
 유한합의 순서를 바꾸면, 각 표본의 성분 제곱합이 제곱 길이가 돼요.
 
-$$\operatorname{tr}\mathbf S=\frac1N\sum_{n=1}^N\sum_{d=1}^D x_{dn}^2=\frac1N\sum_{n=1}^N\|\mathbf x_n\|^2.$$
+$$
+\operatorname{tr}\mathbf S=\frac1N\sum_{n=1}^N\sum_{d=1}^D x_{dn}^2=\frac1N\sum_{n=1}^N\|\mathbf x_n\|^2.
+$$
 
 전체 정규직교 기저에서 벡터의 좌표 제곱합도 같은 제곱 길이예요. 이는 앞에서 잔차를 전개한 계산을 버린 축뿐 아니라 전체 축에 적용한 결과예요.
 
-$$\|\mathbf x_n\|^2=\sum_{j=1}^D(\mathbf b_j^\top\mathbf x_n)^2.$$
+$$
+\|\mathbf x_n\|^2=\sum_{j=1}^D(\mathbf b_j^\top\mathbf x_n)^2.
+$$
 
 표본 평균을 취하면 각 방향의 평균 제곱이 $\mathbf b_j^\top\mathbf S\mathbf b_j$가 되므로, 전체 분산은 어느 정규직교 기저를 써도 같아요.
 
-$$\operatorname{tr}\mathbf S=\sum_{j=1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.$$
+$$
+\operatorname{tr}\mathbf S=\sum_{j=1}^D\mathbf b_j^\top\mathbf S\mathbf b_j.
+$$
 
 이 합을 남긴 $M$개 축과 버린 $D-M$개 축으로 나눠요. 버린 쪽은 앞에서 구한 $J_M$이에요.
 
-$$\operatorname{tr}\mathbf S=\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m+J_M.$$
+$$
+\operatorname{tr}\mathbf S=\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m+J_M.
+$$
 
 남긴 쪽을 이항하면 다음 식이 나와요. 같은 데이터를 고정했을 때 전체 분산은 상수라, 남긴 분산을 키우는 만큼 복원오차가 줄어요.
 
-$$J_M=\operatorname{tr}\mathbf S-\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m.$$
+$$
+J_M=\operatorname{tr}\mathbf S-\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m.
+$$
 
 <a id="s1-discarded-minimum"></a>
 
@@ -795,26 +828,17 @@ PCA의 축 선택에는 숫자 라벨을 쓰지 않아요. 라벨은 산점도�
 
 남길 좌표는 앞의 사영식에 $\mathbf B=\mathbf U_M$을 대입한 $\mathbf U_M^\top\mathbf X$예요. 이를 계산하려고 데이터의 SVD를 넣어요.
 
-$$\mathbf U_M^\top\mathbf X=(\mathbf U_M^\top\mathbf U)\mathbf\Sigma\mathbf V^\top.$$
+$$
+\mathbf U_M^\top\mathbf X=(\mathbf U_M^\top\mathbf U)\mathbf\Sigma\mathbf V^\top.
+$$
 
-$\mathbf U_M$은 $\mathbf U$의 첫 $M$열이에요. 따라서 $\mathbf U_M^\top\mathbf U$의 $(i,j)$번째 칸은 $\mathbf u_i^\top\mathbf u_j$이고, $1\le i\le M$에서 같은 열이면 1, 다른 열이면 0이에요.
+$\mathbf U_M$은 $\mathbf U$의 첫 $M$열이에요. 정규직교성 때문에 $\mathbf U_M^\top\mathbf U$는 앞 $M$개 방향만 골라요. $\mathbf\Sigma_M\in\mathbb R^{M\times M}$은 그 특잇값을 담은 대각행렬이고, $\mathbf V_M\in\mathbb R^{N\times M}$은 $\mathbf V$의 첫 $M$열이에요. 여기서는 $M\le\min(D,N)$으로 두어요.
 
-$$\mathbf U_M^\top\mathbf U=[\,\mathbf I_M\ \mathbf0_{M\times(D-M)}\,]\in\mathbb R^{M\times D}.$$
-
-이 행렬의 $i$번째 행은 곱해지는 행렬의 $i$번째 행만 남겨요. 그래서 $\mathbf\Sigma$의 첫 $M$행을 골라요. $M=D$이면 오른쪽의 0 블록은 열이 없는 블록이에요.
-
-$$\mathbf U_M^\top\mathbf X=[\,\mathbf I_M\ \mathbf0\,]\mathbf\Sigma\mathbf V^\top.$$
-
-$\mathbf\Sigma_M\in\mathbb R^{M\times M}$은 첫 $M$개 특잇값을 담은 대각행렬이에요. $\mathbf\Sigma$의 첫 $M$행은 이 대각행렬 뒤에 0 열을 붙인 모양이에요.
-
-$$[\,\mathbf I_M\ \mathbf0\,]\mathbf\Sigma=[\,\mathbf\Sigma_M\ \mathbf0_{M\times(N-M)}\,].$$
-
-이제 $\mathbf V^\top$를 곱하면 뒤의 0 블록은 기여하지 않고 첫 $M$행만 쓰여요. $\mathbf V_M\in\mathbb R^{N\times M}$을 $\mathbf V$의 첫 $M$열이라 하면 그 행들이 바로 $\mathbf V_M^\top$예요.
-
-$$\mathbf U_M^\top\mathbf X=[\,\mathbf\Sigma_M\ \mathbf0\,]\mathbf V^\top=\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}.$$
+$$
+\mathbf U_M^\top\mathbf X=\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}.
+$$
 
 즉 각 표본마다 $M$개의 사영 좌표가 한 열에 모여요. 다음에는 이 좌표에 기저 $\mathbf U_M$을 곱해 복원해요.
-
 
 <a id="s2-low-rank-reconstruction"></a>
 
@@ -844,11 +868,7 @@ $$
 
 마지막 등식은 앞의 $J_M^\star=\sum_{i\gt M}\lambda_i$에 $\lambda_i=\sigma_i^2/N$을 대입한 결과예요. 부족한 특잇값 자리는 0으로 봐요.
 
-에카르트–영 정리(Eckart–Young theorem)에 따르면 위 절단 SVD는 랭크가 $M$ 이하인 행렬 중 Frobenius 오차를 최소화하는 저랭크 근사예요. 원래 랭크가 $M$ 이하이면 그대로 복원돼요. $N\lt M\le D$이면 $\mathbf U$에는 축이 더 있지만 대응하는 특잇값을 0으로 채워 해석해요. 이때 $\min(D,N)$개까지만 사용해도 복원 결과가 같아요. 예를 들어 특잇값이 $5,3,1$일 때 두 겹을 남기면 버린 제곱합은 $1$이에요.
-
-**교수님 말씀**
-
-대규모 다중 안테나 예에서는 송신·수신 안테나가 각각 천 개라면 채널 계수가 백만 개예요. 공간적으로 닮은 채널의 변화가 소수 방향에 집중되면 적은 랭크로 근사할 수 있어요. 압축센싱은 희소성처럼 신호 구조를 활용하는 별도의 예로 언급했어요. 신경망을 비교 평가할 때는 이미 알려진 최적 해법을 먼저 확인하라고 강조했어요.
+에카르트–영 정리(Eckart–Young theorem)에 따르면 위 절단 SVD는 랭크가 $M$ 이하인 행렬 중 Frobenius 오차를 최소화하는 저랭크 근사예요. 원래 랭크가 $M$ 이하이면 그대로 복원돼요. 예를 들어 특잇값이 $5,3,1$일 때 두 겹을 남기면 버린 제곱합은 $1$이에요.
 
 **꼭 기억해요**
 
@@ -871,7 +891,7 @@ $$
   \|\mathbf X-\tilde{\mathbf X}_M\|_F^2=NJ_M^\star=\sum_{i\gt M}\sigma_i^2
   $$
 
-실제 랭크가 한도 이하이면 정확히 복원돼요. 채널 계수의 변화가 소수 방향에 집중될 때도 같은 아이디어를 적용할 수 있어요.
+실제 랭크가 한도 이하이면 정확히 복원돼요.
 
 ---
 
@@ -923,7 +943,7 @@ $$
 
 표준화 여부는 어느 단위에서 분산과 복원오차를 계산할지 결정해요. 같은 평균과 표준편차를 사영과 복원에 재사용해요.
 
-이 과정을 선형 오토인코더로 읽으면 $\mathbf B^\top$는 줄이는 인코더, $\mathbf B$는 펼치는 디코더예요. 수업에서는 비선형 오토인코더로의 확장도 소개했어요. 교수님은 Bayesian PCA도 확장 방향으로 언급했어요.
+이 과정을 선형 오토인코더로 읽으면 $\mathbf B^\top$는 줄이는 인코더, $\mathbf B$는 펼치는 디코더예요.
 
 **교수님 말씀**
 
