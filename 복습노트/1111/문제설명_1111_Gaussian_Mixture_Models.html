@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 복습 1111 문제설명</title>
+  <meta name="description" content="첫 줄부터 완성 답과 검산까지 설명해요.">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href=".pack/자료_문제설명_1111_Gaussian_Mixture_Models/vendor/pretendard/pretendard.css">
+  <link rel="stylesheet" href=".pack/자료_문제설명_1111_Gaussian_Mixture_Models/vendor/katex/katex.min.css">
+  <script defer src=".pack/자료_문제설명_1111_Gaussian_Mixture_Models/vendor/katex/katex.min.js"></script>
+  <script defer src=".pack/자료_문제설명_1111_Gaussian_Mixture_Models/vendor/katex/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']});window.mlLayoutMath?.()"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .topic > .layer:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
+    .layer [data-source-field] + h4 { margin-top: var(--s5); }
+    .layer p { margin: var(--s3) 0; }
+    .verdict-card { padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer li + li { margin-top: var(--s3); }
+    .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
+    .sum h4 { margin: 0 0 var(--s3); font-size: inherit; line-height: 1.5; }
+    .sum .summary-group > p { margin: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { padding: var(--s2) 0; }
+    pre { max-width: 100%; overflow-x: auto; tab-size: 4; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-p-min: 360px; --panel-p-max: 720px; --panel-r: clamp(300px, 22vw, 380px); --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto auto minmax(320px, 1fr) auto auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .panel-prob { grid-column: 2; border-right: 1px solid var(--line); }
+    .content { grid-column: 3; }
+    .panel-right { grid-column: 5; border-left: 1px solid var(--line); }
+    /* 문제 패널이 DOM에서 본문 앞에 있어도 오른쪽 칸(4)에 둘 때 줄이 바뀌지 않게 모두 첫 줄에 둔다 */
+    .layout > .panel, .layout > .content { grid-row: 1; }
+    .layout[data-prob-dock="right"] .panel-prob { grid-column: 4; border-right: 0; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 문제해설: 오른쪽 문제 · 원문 · 요약 탭, 좁은 화면은 해설 위 접힘 */
+    .panel-tabs { flex: 1 1 0; min-width: 0; display: flex; gap: var(--s1); border-bottom: 1px solid var(--line); }
+    .panel-tabs [role="tab"] { min-height: var(--tap); padding: 0 var(--s3); margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent;
+      background: transparent; color: var(--ink-2); font: 700 var(--fs-panel)/1 var(--font); cursor: pointer; }
+    .panel-tabs [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+    .probs, .orig-tab, .sum-tab { padding-top: var(--s2); }
+    /* 문제 패널 머리: [이동] [문제 | 원문] … [왼쪽 | 오른쪽 | 띄우기] — 탭과 버튼 사이 빈 띠를 끌면 패널이 떨어진다 */
+    .panel-prob .panel-head { align-items: center; min-height: 32px; margin-bottom: var(--s3); }
+    .panel-prob .panel-tabs { flex: 0 1 auto; border-bottom: 0; }
+    .panel-tabs [role="tab"] { white-space: nowrap; }
+    .problem-workspace { min-width: 0; }
+    .problem-workspace > .panel-tabs { flex-wrap: wrap; gap: var(--s2) var(--s3); padding-top: var(--s1); margin-bottom: var(--s4); border-bottom: 1px solid var(--line); }
+    .problem-workspace > .panel-tabs [role="tab"] { min-height: var(--tap); padding: var(--s2) var(--s3) var(--s3); line-height: 1.35; }
+    .problem-workspace > .probs, .problem-workspace > .orig-tab { padding-top: 0; }
+    .metadata-tab { font-size: var(--fs-panel); line-height: 1.75; }
+    .metadata-tab > [data-problem-panel] { margin-top: 0; }
+    .metadata-tab h4 { margin: 0 0 var(--s3); font-size: var(--fs-panel); }
+    .metadata-tab p { margin: 0 0 var(--s3); }
+    .metadata-tab .terms { margin: 0; }
+    .metadata-tab .terms dt { margin-top: var(--s4); }
+    .metadata-tab .terms dt:first-child { margin-top: 0; }
+    .metadata-tab .terms dd { font-size: var(--fs-panel); }
+    .topic > .problem-workspace { margin-top: var(--s3); padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); }
+    .prob-dock { display: flex; align-self: center; gap: 2px; margin-left: auto; }
+    .prob-dock button, .float-move { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0;
+      border: 0; border-radius: 6px; background: transparent; color: var(--ink-2); cursor: pointer; }
+    .prob-dock svg, .float-move svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .prob-dock .strip { fill: currentColor; stroke: none; }
+    .prob-dock button[aria-checked="true"] { color: var(--accent-ink); background: var(--surface); }
+    @media (hover: hover) { .prob-dock button:hover, .float-move:hover { background: var(--surface); } }
+    .float-move { display: none; align-self: center; cursor: grab; }
+    .float-resize { display: none; }
+    .dock-preview { display: none; }
+    #toggle-prob[data-dock="right"] .strip { transform: translateX(6px); }
+    .orig-tab details.original { margin-top: 0; padding-top: 0; border-top: 0; }
+    .orig-tab details.original > summary { display: none; }
+    .problem-pane > .layer:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .problem-pane details.original { margin-top: var(--s4); padding-top: var(--s2); border-top: 1px solid var(--line); }
+    .problem-pane details.original > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-weight: 600; color: var(--ink-2); }
+    .problem-pane img { max-width: 100%; height: auto; }
+    .topic > .problem-pane { margin-top: var(--s3); padding: var(--s4); border: 1px solid var(--line); border-radius: var(--radius); }
+    .problem-toggle { display: flex; align-items: center; justify-content: center; width: 100%; min-height: var(--tap); margin-top: var(--s3); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .problem-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent-ink); }
+    @media (hover: hover) { .problem-toggle:hover, .panel-tabs [role="tab"]:hover { background: var(--surface); } }
+    .problem-pane img, .problem-pane svg.zoomable { cursor: zoom-in; }
+    .is-target { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--radius); }
+    .figure-sheet { width: min(96vw, 1100px); max-height: 90dvh; margin: auto; border-radius: 16px; }
+    .figure-sheet img, .figure-sheet svg { display: block; width: 100%; max-width: 100%; height: auto; cursor: default; }
+
+    /* 클릭형 보기: pinned bio template review-interaction.css의 보기 규칙 */
+    .review-ready .choices { list-style:none; padding:0; }
+    .review-ready .choices > li { margin:0 0 var(--s3); }
+    .review-choice {
+      display:block; width:100%; min-height:44px; text-align:left; font:inherit;
+      color:var(--ink); background:var(--surface); border:1px solid var(--line);
+      border-radius:8px; padding:12px 16px; cursor:pointer; overflow-wrap:anywhere;
+    }
+    .review-choice:hover { border-color:var(--accent); }
+    .review-choice:focus-visible, .review-reset:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+    /* pinned bio template review-interaction.css에서 복사 — test_choice_feedback_copied_from_review_pack이 어긋남을 잡는다 */
+    .review-choice[data-result="correct"], .review-choice[data-result="intended"] { border:3px solid var(--accent); }
+    .review-choice[data-result="selected"] { border:3px solid var(--danger); }
+    .review-choice[data-result="uncertain"] { border:3px solid var(--ink-2); }
+    .review-choice-label { display:block; margin-top:6px; font-size:var(--fs-small); font-weight:700; color:var(--ink); }
+    .review-choice-label[hidden], .review-reset[hidden] { display:none; }
+    .review-status { margin:var(--s3) 0; font-weight:650; }
+    .review-status:empty { display:none; }
+    .review-reset { min-height:44px; margin:var(--s2) 0 var(--s4); }
+    .review-choice-content { padding:var(--s2) 0; }
+    .review-choice-content > :first-child { margin-top:0; }
+    .review-choice-content > :last-child { margin-bottom:0; }
+    /* 보기 판정 알림: pinned bio template review-interaction.css에서 복사 */
+    .review-feedback {
+      position:fixed; top:calc(env(safe-area-inset-top) + 72px); left:50%; z-index:100;
+      transform:translateX(-50%); width:max-content; max-width:calc(100vw - 32px);
+      display:flex; align-items:center; gap:12px; padding:10px 16px;
+      border:2px solid var(--line); border-radius:12px; background:var(--bg);
+      color:var(--ink); font-weight:700; pointer-events:none;
+      animation:review-feedback-in 180ms ease-out both;
+    }
+    .review-feedback[data-result="correct"] { border-color:var(--accent); }
+    .review-feedback[data-result="incorrect"] { border-color:var(--danger); }
+    .review-feedback-icon { position:relative; flex:none; width:20px; height:20px; }
+    .review-feedback[data-result="correct"] .review-feedback-icon {
+      border-radius:50%; background:var(--accent); transform:scale(.45);
+      animation:review-pop 350ms ease-out both;
+    }
+    .review-feedback[data-result="correct"] .review-feedback-icon::before,
+    .review-feedback[data-result="correct"] .review-feedback-icon::after {
+      content:""; position:absolute; left:8px; top:8px; width:4px; height:4px;
+      border-radius:50%; background:var(--accent);
+      box-shadow:0 -16px var(--accent), 16px 0 var(--accent), 0 16px var(--accent), -16px 0 var(--accent);
+      animation:review-burst 650ms ease-out both;
+    }
+    .review-feedback[data-result="correct"] .review-feedback-icon::after {
+      rotate:45deg; animation-delay:80ms;
+    }
+    .review-feedback[data-result="incorrect"] .review-feedback-icon {
+      animation:review-shake 320ms ease-in-out;
+    }
+    .review-feedback[data-result="incorrect"] .review-feedback-icon::before,
+    .review-feedback[data-result="incorrect"] .review-feedback-icon::after {
+      content:""; position:absolute; left:9px; top:0; width:3px; height:20px;
+      border-radius:2px; background:var(--danger); rotate:45deg;
+    }
+    .review-feedback[data-result="incorrect"] .review-feedback-icon::after { rotate:-45deg; }
+    @keyframes review-feedback-in {
+      from { opacity:0; translate:0 -8px; } to { opacity:1; translate:0 0; }
+    }
+    @keyframes review-pop {
+      from { transform:scale(.35); opacity:.5; } to { transform:scale(.65); opacity:1; }
+    }
+    @keyframes review-shake {
+      0%,100% { translate:0; } 25%,75% { translate:-5px; } 50% { translate:5px; }
+    }
+    @keyframes review-burst {
+      from { opacity:1; scale:.45; } to { opacity:0; scale:1.5; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .review-feedback, .review-feedback-icon, .review-feedback-icon::before,
+      .review-feedback-icon::after { animation:none !important; }
+      .review-feedback[data-result="correct"] .review-feedback-icon::before,
+      .review-feedback[data-result="correct"] .review-feedback-icon::after { display:none; }
+    }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .layout { --r: var(--panel-r-user, var(--panel-r)); }
+      .layout[data-right="closed"] { --r: 0px; }
+      .panel-left { width: var(--l); }
+      .panel-right { width: var(--r); }
+      /* 기본값: 목차·요약 패널과 본문 폭을 뺀 나머지를 문제 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-prob { width: var(--panel-p-user, clamp(var(--panel-p-min), calc(100vw - var(--l) - var(--r) - var(--measure) - var(--scrollbar)), var(--panel-p-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize, .panel-prob .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after, .panel-prob .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-prob-dock="right"] .panel-prob .panel-resize, .layout[data-prob-dock="right"] .panel-prob .panel-resize::after { left: 0; right: auto; }
+      /* 터치 화면에서도 머리·이동 버튼 끌기가 스크롤로 넘어가 취소되지 않게 */
+      .panel-prob .panel-head, .float-move { touch-action: none; }
+      /* 띄운 문제 창: grid에서 빠져 본문 위에 뜬다. 위치·크기는 스크립트가 --fx/--fy/--fw/--fh로 준다 */
+      .layout[data-prob-dock="float"] .panel-prob { position: fixed; left: var(--fx); top: var(--fy); width: var(--fw); height: var(--fh); z-index: 30;
+        border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgb(0 0 0 / .18); }
+      .layout[data-prob-dock="float"] .panel-prob .panel-head { position: sticky; top: calc(-1 * var(--s4)); z-index: 1; margin-top: calc(-1 * var(--s4)); padding-top: var(--s2); background: var(--bg); cursor: grab; }
+      .layout[data-prob-dock="float"] .panel-prob .panel-resize { display: none; }
+      /* 좁은 창에서도 머리가 한 줄에 들어가게 간격을 줄인다 */
+      .layout[data-prob-dock="float"] .panel-prob .panel-head { gap: var(--s1); }
+      .layout[data-prob-dock="float"] .panel-prob .panel-tabs [role="tab"] { padding: 0 var(--s2); }
+      .layout[data-prob-dock="float"] .float-move { display: inline-flex; }
+      .layout[data-prob-dock="float"] .float-resize { display: block; position: absolute; right: 0; bottom: 0; z-index: 3; width: 16px; height: 16px; cursor: nwse-resize; touch-action: none;
+        background: linear-gradient(135deg, transparent 50%, var(--ink-2) 50%, var(--ink-2) 58%, transparent 58%, transparent 70%, var(--ink-2) 70%, var(--ink-2) 78%, transparent 78%); border-bottom-right-radius: 12px; }
+      .float-resize:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+      body.is-dragging, body.is-dragging .panel-prob .panel-head { cursor: grabbing; user-select: none; }
+      body.is-sizing, body.is-sizing .float-resize { cursor: nwse-resize; user-select: none; }
+      .dock-preview:not([hidden]) { display: block; position: fixed; z-index: 29; bottom: 0; width: min(400px, 40vw); pointer-events: none;
+        background: color-mix(in srgb, var(--accent) 18%, transparent); border: 2px solid var(--accent); }
+      .dock-preview[data-side="left"] { left: 0; }
+      .dock-preview[data-side="right"] { right: 0; }
+      .layout[data-left="closed"] .panel-left, .layout[data-prob="closed"] .panel-prob, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+      /* 좁은 화면의 문제는 각 문항 안 '문제 보기'로 본다 */
+      .panel-prob, #toggle-prob { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-prob, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+      .verdict-card { break-inside: avoid; }
+    }
+
+    .topic, .layer, .content, main { min-width: 0; }
+    /* Inline formulas stay inline; only genuinely wide blocks may be panned. */
+    .katex-display { max-width:100%; }
+    .katex-display > .katex, .katex.math-block { display:block; white-space:normal; text-align:left; }
+    .katex.math-block { margin:0; }
+    .katex-display > .katex > .katex-html { white-space:normal; }
+    .math-row { display:block; max-width:100%; margin:var(--s3) 0; padding:var(--s2) var(--s1); }
+    .math-row .katex-display { margin:0; padding:0; }
+    .math-punctuation { margin-left:.15em; font-family:var(--font); }
+    .math-row.math-pan { overflow-x:auto; overflow-y:hidden; scrollbar-width:none; }
+    .math-row.math-pan::-webkit-scrollbar { display:none; }
+    .math-pan-hint { display:block; margin:var(--s1) 0 var(--s3); color:var(--ink-2); font:var(--fs-small)/1.5 var(--font); }
+    table { display:block; max-width:100%; overflow-x:auto; }
+    img, svg { max-width:100%; height:auto; }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="explain" data-range="ml-problem-explain-review-1111-Gaussian_Mixture_Models">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <button class="text-btn panel-toggle" id="toggle-prob" type="button" aria-controls="panel-prob" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="9" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16 M15 4v16"/></svg><span>문제</span></button>
+      <strong class="brand">문제풀이 입문 설명</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-prob="open" data-right="closed" data-prob-dock="left">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 두 번 뽑은 동전의 확률질량</a></li><li><a href="#p2">P2. 빈도표에서 조건부확률 읽기</a></li><li><a href="#p3">P3. 혼합 밀도의 봉우리 읽기</a></li><li><a href="#p4">P4. 두 상태의 확률로 평균 구하기</a></li><li><a href="#p5">P5. 밀도에서 누적확률 구하기</a></li><li><a href="#p6">P6. 세 가우시안을 섞은 밀도</a></li><li><a href="#p7">P7. 두 관측값의 책임도 계산</a></li><li><a href="#p8">P8. 책임도 표에서 성분별 합 읽기</a></li></ul></nav>
+      </div>
+    </aside>
+    <aside class="panel panel-prob" id="panel-prob" aria-labelledby="panel-prob-title">
+      <div class="panel-resize" data-side="prob" role="separator" aria-orientation="vertical" aria-controls="panel-prob" aria-label="문제 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <button class="float-move" type="button" aria-label="문제 창 이동. 화살표로 이동" title="끌어서 이동"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01" stroke-width="3"/></svg></button>
+          <h2 id="panel-prob-title">문제 패널</h2>
+          <div class="prob-dock" role="radiogroup" aria-label="문제 패널 위치">
+            <button type="button" role="radio" data-dock="left" aria-checked="true" tabindex="0" aria-label="왼쪽에 붙이기" title="왼쪽에 붙이기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="7" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg></button>
+            <button type="button" role="radio" data-dock="right" aria-checked="false" tabindex="-1" aria-label="오른쪽에 붙이기" title="오른쪽에 붙이기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="14" y="4" width="7" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg></button>
+            <button type="button" role="radio" data-dock="float" aria-checked="false" tabindex="-1" aria-label="띄우기" title="띄우기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><rect class="strip" x="11" y="8" width="7" height="6" rx="1"/></svg></button>
+          </div>
+        </div>
+        <div class="problem-workspace" id="problem-workspace">
+        <div class="panel-tabs" role="tablist" aria-label="문제 자료">
+          <button type="button" role="tab" id="tab-problem" data-tab="problem" aria-controls="tabpanel-problem" aria-selected="true">문제</button>
+          <button type="button" role="tab" id="tab-original" data-tab="original" aria-controls="tabpanel-original" aria-selected="false" tabindex="-1" hidden>원문</button>
+          <button type="button" role="tab" id="tab-provenance" data-tab="provenance" aria-controls="tabpanel-provenance" aria-selected="false" tabindex="-1">출제 근거</button>
+          <button type="button" role="tab" id="tab-terms" data-tab="terms" aria-controls="tabpanel-terms" aria-selected="false" tabindex="-1">용어</button>
+        </div>
+        <div class="probs" role="tabpanel" id="tabpanel-problem" aria-labelledby="tab-problem">
+          <p class="panel-empty" id="prob-empty">문항을 고르면 여기에 문제가 나와요.</p>
+        </div>
+        <div class="orig-tab" role="tabpanel" id="tabpanel-original" aria-labelledby="tab-original" hidden></div>
+        <div class="metadata-tab" role="tabpanel" id="tabpanel-provenance" aria-labelledby="tab-provenance" hidden></div>
+        <div class="metadata-tab" role="tabpanel" id="tabpanel-terms" aria-labelledby="tab-terms" hidden></div>
+        </div>
+      </div>
+      <div class="float-resize" role="button" tabindex="0" aria-label="문제 창 크기 조절. 화살표로 조절, Enter로 기본 크기"></div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>머신러닝기초 복습 1111 문제설명</h1>
+      <p>주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.</p>
+    </div>
+<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 두 번 뽑은 동전의 확률질량</h3><p class="panel-meta">MML Example 6.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p1">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p1"><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>미국 동전과 영국 동전이 든 주머니에서 동전 하나를 무작위로 뽑아요. 뽑은 동전을 다시 넣고 같은 방법으로 한 번 더 뽑아요. 매번 미국 동전이 나올 확률은 $0.3$이에요. 두 번 중 미국 동전이 나온 횟수를 $X$라고 해요.</p>
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) $X=0,1,2$ 각각의 확률을 구해 보세요.</li>
+      <li>(b) (a)의 세 확률이 합해서 $1$이 되는지 확인해 보세요.</li>
+    </ol></div></div><details class="original" data-original-problem="p1"><summary>원문 보기</summary><p>“Consider a statistical experiment where we model a funfair game consisting of drawing two coins from a bag (with replacement).” — Example 6.1</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>동전을 꺼냈다가 되돌리고 한 번 더 꺼내요. 미국 동전이 나온 횟수별 확률을 구하고, 전체가 1이 되는지 확인해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>복원한 뒤 같은 조건에서 다시 뽑으므로 두 번의 결과를 독립(independent)으로 계산해요. 한 순서의 확률은 두 번의 확률을 곱하고, 같은 횟수가 되는 서로 다른 순서의 확률은 더해요. 이렇게 얻은 횟수별 확률을 확률질량함수(PMF)라고 해요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s0-convex">이산확률과 가중치</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>미국 동전을 $U$, 영국 동전을 $B$로 놓고 $UU, UB, BU, BB$를 써요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$X=0$은 $BB$ 하나라서 $P(X=0)=0.7^2=0.49$예요. $X=1$은 $UB$와 $BU$라서 $P(X=1)=0.3\cdot0.7+0.7\cdot0.3=0.42$예요. $X=2$는 $UU$ 하나라서 $P(X=2)=0.3^2=0.09$예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>(a)에서 구한 세 경우가 가능한 횟수를 모두 덮어요. 합은 $0.49+0.42+0.09=1$이고 각 값은 음이 아니므로 유효한 PMF예요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>영국 동전만 나온 경우와 미국 동전만 나온 경우의 합은 $0.58$이에요. 남는 $1-0.58=0.42$가 한 번만 나온 경우의 값과 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>네 순서가 서로 겹치지 않으므로 확률 합은 $(0.7+0.3)^2=1$이 돼요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>$X=1$에는 첫 번째가 미국인 순서와 두 번째가 미국인 순서가 모두 들어가요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>네 순서를 적고 횟수가 같은 순서를 묶어요.</li><li>각 확률을 계산해 세 값의 합을 확인해요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>한 순서 안에서는 독립인 두 추출의 확률을 곱해요. 같은 횟수로 모이는 순서들의 확률은 더해요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>$P(X=0),P(X=1),P(X=2)$는 각각 $0.49,0.42,0.09$이고 합은 1이에요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>확률질량함수(PMF)</dt><dd>이산 변수의 각 값에 배정된 확률이에요. 가능한 값의 확률을 모두 더하면 1이에요.</dd><dt>독립(independence)</dt><dd>두 결과가 독립이면 함께 일어날 확률은 각 확률의 곱이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.1 · 책 p. 176 · 11월 11일 혼합비와 이산확률</p></section>
+</article><article class="topic" id="p2"><h3>P2. 빈도표에서 조건부확률 읽기</h3><p class="panel-meta">MML Example 6.2 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p2">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p2"><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>확률변수 $X$와 $Y$의 관측 결과를 빈도표로 정리했어요. 관측 한 건을 같은 확률로 뽑아요.</p>
+      <div class="table-wrap"></div>
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) 주변확률 $P(X=x_3)$과 $P(Y=y_2)$를 구해 보세요.</li>
+      <li>(b) (a)의 결과를 이용해 $P(Y=y_2\mid X=x_3)$과 $P(X=x_3\mid Y=y_2)$를 각각 기약분수로 써 보세요.</li>
+    </ol></div><table>
+        <thead><tr><th scope="col">$Y$ / $X$</th> <th scope="col">$x_1$</th> <th scope="col">$x_2$</th> <th scope="col">$x_3$</th> <th scope="col">$x_4$</th> <th scope="col">$x_5$</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$y_1$</th> <td>1</td> <td>2</td> <td>3</td> <td>4</td> <td>5</td></tr>
+          <tr><th scope="row">$y_2$</th> <td>2</td> <td>4</td> <td>6</td> <td>8</td> <td>10</td></tr>
+          <tr><th scope="row">$y_3$</th> <td>3</td> <td>6</td> <td>9</td> <td>12</td> <td>15</td></tr>
+        </tbody>
+      </table></div><details class="original" data-original-problem="p2"><summary>원문 보기</summary><p>“The conditional probability is the fraction of a row or column in a particular cell.” — Example 6.2</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>행은 두 번째 변수의 값, 열은 첫 번째 변수의 값이에요. 표 전체에서 뽑을 때와 한 행 또는 한 열 안에서만 뽑을 때의 비율을 구해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>주변확률(marginal probability)은 해당 행이나 열의 합을 전체 개수로 나눈 값이에요. 조건부확률(conditional probability)에서는 조건에 맞는 행 또는 열만 남겨요. 같은 교차 칸을 쓰더라도 조건이 달라지면 나누는 전체가 바뀌어요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s2-responsibility">조건부확률과 베이즈 정리</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x_3$ 열의 합은 $3+6+9$이고 $y_2$ 행의 합은 $2+4+6+8+10$이에요. 각 칸의 도수를 합쳐 전체도 적어요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$x_3$ 열은 $18$, $y_2$ 행은 $30$이고 전체는 $15+30+45=90$이에요. 따라서 $P(X=x_3)=18/90=1/5$, $P(Y=y_2)=30/90=1/3$이에요.</p></div><div data-subpart="b"><h4>(b)</h4><p>교차 칸의 도수는 6이에요. $X=x_3$이 주어지면 열 합 $18$을 분모로 사용해 $P(Y=y_2\mid X=x_3)=6/18=1/3$을 얻어요. $Y=y_2$가 주어지면 행 합 $30$으로 나눠 $P(X=x_3\mid Y=y_2)=6/30=1/5$를 얻어요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>각 행에서 $x_3$가 차지하는 비율은 $3/15=6/30=9/45=1/5$예요. 각 열에서 $y_2$의 비율도 항상 $1/3$이라서 전체에서도 (a)의 비율이 유지돼요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>조건부확률에 조건의 주변확률을 다시 곱하면 두 방향 모두 결합확률 $6/90=1/15$가 나와요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>조건부 기호 $\mid$ 오른쪽이 분모를 정해요. 이 표에서 행과 열의 합은 서로 달라서 같은 교차 칸이라도 조건부확률이 달라져요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>조건부 기호 오른쪽이 정하는 행이나 열을 표시해요.</li><li>같은 교차 칸의 도수를 각 합으로 나눠요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>주변확률은 행·열 합을 전체 90으로 나눠요. 조건부확률은 교차 칸을 조건에 해당하는 행·열 합으로 나눠요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>교차 칸 6을 찾아요. 조건부확률에 각 조건의 주변확률을 곱하면 같은 결합확률 $1/15$가 나와요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>주변확률(marginal probability)</dt><dd>다른 변수의 가능한 경우를 모두 합해서 얻는 한 변수의 확률이에요.</dd><dt>조건부확률(conditional probability)</dt><dd>조건으로 범위를 좁힌 뒤 그 범위 안에서 사건의 확률을 계산해요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.2 · 책 pp. 179–180 · 표의 크기와 확률 계산 구조를 사용했어요.</p></section>
+</article><article class="topic" id="p3"><h3>P3. 혼합 밀도의 봉우리 읽기</h3><p class="panel-meta">MML Example 6.4 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p3">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p3"><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>두 가우시안 성분을 각각 $0.4$와 $0.6$의 비율로 섞었어요. 가운데는 결합 밀도의 등고선이고, 위쪽은 $X_1$, 오른쪽은 $X_2$의 주변 밀도예요.</p>
+      
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) 결합 밀도에 봉우리가 몇 개 있는지 등고선에서 읽어 보세요.</li>
+      <li>(b) $X_1$과 $X_2$의 주변 밀도에서 각각 봉우리 개수를 세고, 결합 밀도의 봉우리 개수와 같은지 판단해 보세요.</li>
+    </ol></div><figure class="figure"><img src=".pack/figures_문제설명_1111_Gaussian_Mixture_Models/527d1546329b0762-mml-fig-6-4.png" width="280" alt="결합 밀도의 등고선과 위쪽 X1, 오른쪽 X2의 주변 밀도 곡선"><figcaption>결합 밀도와 두 좌표의 주변 밀도</figcaption></figure></div><details class="original" data-original-problem="p3"><summary>원문 보기</summary><p>“Consider the two-dimensional distribution illustrated in Figure 6.4” — Example 6.4</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>가운데는 두 좌표를 함께 본 지도예요. 위쪽은 가로 좌표만, 오른쪽은 세로 좌표만 남긴 그림이에요. 각 그림에서 밀도의 봉우리를 세어요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>이 그림에서는 국소적으로 밀도가 가장 높은 곳을 봉우리(mode)라고 해요. 결합밀도(joint density)의 봉우리는 등고선이 조밀하게 둘러싼 중심을 보고 찾을 수 있어요. 주변밀도(marginal density)의 봉우리는 해당 좌표를 따라 곡선이 올라갔다 내려가는 곳을 세어요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s1-mixture">혼합 밀도의 봉우리</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>가운데 등고선에서 별표를 찾고, 위쪽과 오른쪽 곡선의 최고점들을 따로 표시해요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>왼쪽에 길쭉한 등고선의 중심이 하나, 오른쪽에 둥근 등고선의 중심이 하나 있어요. 결합밀도의 봉우리는 두 개예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>위쪽 $X_1$ 곡선은 두 봉우리 사이에서 낮아지므로 봉우리가 두 개예요. 오른쪽 $X_2$ 곡선은 한 번 부풀어 오르므로 한 개예요. 따라서 두 좌표 중 $X_2$만 남기면 그림에서 봉우리 수가 줄어요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>가운데 두 별표가 서로 떨어진 등고선 중심에 놓여 있어요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>위쪽에는 별표가 두 개, 오른쪽에는 하나예요. 곡선 모양으로 읽은 결과와 일치해요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>범례의 별표가 최빈점이에요. 평균은 자주색 점, 중앙값은 빨간 사각형으로 표시돼요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>가운데와 위쪽, 오른쪽의 봉우리를 각각 세어요.</li><li>한 좌표만 남길 때 봉우리 수가 어떻게 달라지는지 말해요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>결합밀도는 등고선 중심, 주변밀도는 각 곡선의 봉우리를 읽어요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>가운데 두 개, 위쪽 $X_1$ 두 개, 오른쪽 $X_2$ 한 개예요. 별표로 대조해요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>봉우리(mode)</dt><dd>이웃한 곳과 비교해 밀도가 국소적으로 가장 높은 위치예요.</dd><dt>결합밀도(joint density)</dt><dd>두 좌표의 조합에 대응하는 밀도예요.</dd><dt>주변밀도(marginal density)</dt><dd>한 좌표를 남기고 다른 좌표에 걸친 결합밀도를 적분해 얻어요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.4 · 책 pp. 188–189 · Figure 6.4</p></section>
+</article><article class="topic" id="p4"><h3>P4. 두 상태의 확률로 평균 구하기</h3><p class="panel-meta">MML Example 6.8 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p4">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p4"><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>$X$는 $0$ 또는 $1$만 취해요. $P(X=1)=\mu$인 베르누이 분포의 확률질량함수는 아래와 같아요. 여기서 $\mu=0.7$이에요.</p>
+      $$p(x\mid\mu)=\mu^x(1-\mu)^{1-x},\qquad x\in\{0,1\}$$
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) $p(0\mid\mu)$와 $p(1\mid\mu)$를 구해 보세요.</li>
+      <li>(b) (a)의 확률을 가중치로 써서 $E[X]$를 구해 보세요.</li>
+    </ol></div></div><details class="original" data-original-problem="p4"><summary>원문 보기</summary><p>“The Bernoulli distribution is a distribution for a single binary random variable X with state x ∈ {0, 1}.” — Example 6.8</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>한 번의 시행 결과를 0과 1로 기록해요. 두 값의 확률을 구하고, 여러 번 반복할 때의 평균을 계산해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>베르누이 분포(Bernoulli distribution)는 0과 1만 가능한 분포예요. $P(X=1)=\mu$이면 가능한 결과의 확률 합이 1이므로 $P(X=0)=1-\mu$예요. 이산 기댓값(expectation)은 가능한 값마다 그 확률을 곱해 합한 값이에요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s0-convex">이산 기댓값</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$P(X=1)=0.7$, $P(X=0)=1-0.7$부터 적어요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$P(X=0)=0.3$, $P(X=1)=0.7$이에요.</p></div><div data-subpart="b"><h4>(b)</h4><p>(a)의 확률로 가중합을 만들어요. $\mathbb E[X]=0\cdot0.3+1\cdot0.7=0.7$이에요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$0.3+0.7=1$이고 두 확률은 모두 음이 아니에요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>0이 나올 때는 기록의 합에 0, 1이 나올 때는 1을 더해요. 평균이 1의 비율과 같은 이유예요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>두 가능한 값 0과 1에 동일한 가중치를 주면, 문제에 주어진 확률의 차이가 계산에서 사라져요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>0과 1의 확률을 따로 써요.</li><li>두 값에 각 확률을 곱한 뒤 더해요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$P(X=1)=\mu$, $P(X=0)=1-\mu$예요. 기댓값은 값과 확률의 곱을 더해요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>$P(X=0)=0.3$, $P(X=1)=0.7$이에요. $0\cdot0.3+1\cdot0.7=0.7$이에요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>베르누이 분포(Bernoulli distribution)</dt><dd>결과가 0 또는 1인 분포예요.</dd><dt>기댓값(expectation)</dt><dd>가능한 값들을 각각의 확률로 가중평균한 값이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.8 · 책 p. 205 · 11월 11일 이산 기댓값</p></section>
+</article><article class="topic" id="p5"><h3>P5. 밀도에서 누적확률 구하기</h3><p class="panel-meta">MML Example 6.16 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p5">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p5"><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>연속확률변수 $X$의 밀도는 $0\le x\le1$에서 $f_X(x)=3x^2$이고, 그 밖에서는 $0$이에요. $F_X(t)=P(X\le t)$를 누적분포함수라고 해요.</p>
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) $0\le t\le1$에서 $F_X(t)$를 적분으로 구해 보세요.</li>
+      <li>(b) (a)의 결과에 $t=\frac{1}{2}$를 대입해 $P(X\le\frac{1}{2})$를 구해 보세요.</li>
+    </ol></div></div><details class="original" data-original-problem="p5"><summary>원문 보기</summary><p>“Let X be a continuous random variable with probability density function on 0 ⩽ x ⩽ 1” — Example 6.16, 식 (6.128)–(6.129f)</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>밀도가 그려진 구간의 왼쪽부터 정해진 위치까지 면적을 구해요. 그 식에 위치를 넣으면 그 지점 이하일 확률이 나와요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>누적분포함수(CDF)는 $F_X(t)=P(X\le t)$예요. 연속 변수에서 확률은 밀도 아래 면적이므로 $F_X(t)=\int_{-\infty}^{t} f_X(u)\,du$로 구해요. 이 문제는 $u\lt0$에서 밀도가 0이에요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s0-pdf">밀도의 적분과 구간 확률</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$0\le t\le1$이면 $F_X(t)=\int_{0}^{t}3u^2\,du$라고 써요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$3u^2$를 적분한 $u^3$에 양 끝을 대입해요. $F_X(t)=[u^3]_0^t=t^3-0^3=t^3$이에요.</p></div><div data-subpart="b"><h4>(b)</h4><p>(a)의 $t$ 자리에 $1/2$를 넣어요. $P(X\le1/2)=F_X(1/2)=(1/2)^3=1/8$이에요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>왼쪽 끝은 $F_X(0)=0$이고 오른쪽 끝은 $F_X(1)=1$이에요. 구간 안에서 $t^3$은 증가해 누적확률의 성질과 맞아요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>누적확률식에 $1/2$를 넣었으므로 결과는 $0$과 $1$ 사이예요. $[0,1/2]$에서의 면적 $1/8$과 $[1/2,1]$의 면적 $7/8$을 합하면 1이에요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>$f_X(1/2)$를 계산하면 그 점의 높이가 나와요. 구할 값 $P(X\le1/2)$는 왼쪽부터 쌓은 면적이에요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>밀도가 0인 구간을 표시해 적분 하한을 정해요.</li><li>누적확률을 적분으로 구하고 물어본 위치를 넣어요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>누적확률은 왼쪽부터 $t$까지 밀도를 적분해요. 이 문제의 밀도는 0부터 1까지 값이 있어요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>$0\le t\le 1$에서 $F_X(t)=\int_0^t3u^2\,du=t^3$이에요. $F_X(1/2)=1/8$이에요. 양 끝에서 0과 1을 확인해요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>확률밀도(probability density)</dt><dd>연속 변수에서는 구간에 걸쳐 적분해 확률을 읽는 함수예요.</dd><dt>누적분포함수(cumulative distribution function)</dt><dd>주어진 위치 이하의 확률을 돌려주는 함수예요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.16 · 책 p. 216 · 식 (6.128), (6.129d–f)의 밀도 적분</p></section>
+</article><article class="topic" id="p6"><h3>P6. 세 가우시안을 섞은 밀도</h3><p class="panel-meta">MML Example 11.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p6">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p6"><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>관측값은 $-3,-2.5,-1,0,2,4,5$예요. 아래 표의 세 정규분포를 각각 $\frac{1}{3}$의 가중치로 섞어요.</p>
+      <div class="table-wrap"></div>
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) 혼합 밀도 $p(x)$의 식을 쓰고, $p(0)$을 소수점 아래 넷째 자리까지 구해 보세요.</li>
+      <li>(b) (a)의 가중 성분 밀도 중 $x=0$에서 가장 큰 값을 갖는 성분을 골라 보세요.</li>
+    </ol></div><table>
+        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">평균 $\mu_k$</th> <th scope="col">분산 $\sigma_k^2$</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1</th> <td>$-4$</td> <td>$1$</td></tr>
+          <tr><th scope="row">2</th> <td>$0$</td> <td>$0.2$</td></tr>
+          <tr><th scope="row">3</th> <td>$8$</td> <td>$3$</td></tr>
+        </tbody>
+      </table></div><details class="original" data-original-problem="p6"><summary>원문 보기</summary><p>“The corresponding model (and the data points) are shown in Figure 11.3.” — Example 11.1</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>중심과 퍼짐이 다른 세 곡선을 같은 비중으로 섞어요. 위치 0에서 전체 곡선의 높이와 가장 크게 보탠 성분을 구해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>가우시안 혼합 모델(GMM)의 한 점에서의 밀도는 성분 밀도의 가중합이에요. $k$번째 성분의 평균 $\mu_k$와 분산 $\sigma_k^2\gt0$를 사용해 $p_k(x)=\exp(-(x-\mu_k)^2/(2\sigma_k^2))/\sqrt{2\pi\sigma_k^2}$를 먼저 계산해요. 그런 뒤 각 혼합비 $\pi_k$를 곱해 더해요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s1-mixture">가우시안 혼합 밀도</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$p(x)=\frac13[p_1(x)+p_2(x)+p_3(x)]$부터 적고, 세 성분에 공통으로 $x=0$을 넣어요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>성분 2의 경우 $\mu_2=0$, $\sigma_2^2=0.2$예요. 지수항이 $\exp(0)=1$이어서 가중 밀도는 $1/(3\sqrt{2\pi\cdot0.2})\approx0.297354019$예요. 같은 식에 성분 1과 3의 값을 넣으면 각각 약 $0.000044610$과 $0.000001790$이에요. 합은 약 $0.297400419$여서 넷째 자리까지 $0.2974$예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>(a)의 세 값 중 $0.297354019$가 가장 커요. $x=0$의 혼합 밀도에 가장 많이 보태는 것은 성분 2예요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>각 항은 양수이므로 합 $0.297400419$는 가장 큰 단일 항보다 조금 커요. 셋을 섞는 비중의 합은 $3\cdot(1/3)=1$이에요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>성분 2의 가중 밀도는 $0.29$보다 커요. 나머지 두 성분은 각각 $0.00005$보다 작아서 성분 2가 가장 크게 기여해요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>분모의 제곱근 안에는 분산이 들어가요. 또한 각 성분에 같은 위치 0을 넣어야 같은 지점의 높이들을 비교할 수 있어요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>같은 위치에 각 평균과 분산을 대입해요.</li><li>성분별 밀도에 가중치를 곱하고, 합과 가장 큰 항을 찾아요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>세 정규밀도에 혼합비 $1/3$씩 곱해 더해요. 개별 가중 밀도를 비교하면 각 성분의 기여를 읽을 수 있어요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>$x=0$에서 세 항의 합은 약 $0.2974$예요. 가장 큰 항은 성분 2예요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>가우시안 혼합 모델(Gaussian mixture model)</dt><dd>정규밀도를 비음수 가중치로 섞은 모델이에요. 가중치의 합은 1이에요.</dd><dt>가중 성분 밀도(weighted component density)</dt><dd>한 성분의 밀도에 그 성분의 혼합비를 곱한 값이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 11.1 · 책 pp. 350–351 · Figure 11.3</p></section>
+</article><article class="topic" id="p7"><h3>P7. 두 관측값의 책임도 계산</h3><p class="panel-meta">MML Example 11.2 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p7">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p7"><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>성분 $k$에서 $x$가 나오는 밀도는 $\mathcal N(x\mid\mu_k,\sigma_k^2)$예요. 각 성분을 고르는 사전확률은 $\frac{1}{3}$이에요.</p>
+      <div class="table-wrap"></div>
+      <p>관측값은 $-1$과 $2$예요. 각 관측값 $x$에 대해 $r_k(x)$는 $x$를 관측한 뒤 성분 $k$에서 나왔을 확률이에요.</p>
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) 두 관측값의 책임도 $(r_1(x),r_2(x),r_3(x))$를 각각 소수점 아래 셋째 자리까지 구해 보세요.</li>
+      <li>(b) (a)의 결과에서 관측값마다 책임도가 가장 큰 성분을 골라 보세요.</li>
+    </ol></div><table>
+        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">평균 $\mu_k$</th> <th scope="col">분산 $\sigma_k^2$</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1</th> <td>$-4$</td> <td>$1$</td></tr>
+          <tr><th scope="row">2</th> <td>$0$</td> <td>$0.2$</td></tr>
+          <tr><th scope="row">3</th> <td>$8$</td> <td>$3$</td></tr>
+        </tbody>
+      </table></div><details class="original" data-original-problem="p7"><summary>원문 보기</summary><p>“Here the nth row tells us the responsibilities of all mixture components for xn.” — Example 11.2</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>주어진 두 관측값마다 세 성분 중 어디에서 나왔을지 확률을 계산해요. 두 관측값에 대한 판단은 각각 해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>책임도(responsibility)는 관측 위치를 본 뒤의 성분 확률이에요. 베이즈 정리(Bayes’ rule)로 $r_k(x)=\pi_k p_k(x)/\sum_{j=1}^3\pi_jp_j(x)$를 얻어요. 분자에는 성분 $k$의 기여, 분모에는 같은 위치에서 가능한 성분 전부의 기여를 넣어요. $\pi_k$는 관측 전 성분 선택 확률이며 여기서는 모두 $1/3$이에요. $p_k(x)$는 평균 $\mu_k$와 분산 $\sigma_k^2$를 넣은 가우시안 밀도예요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s2-responsibility">책임도의 분자와 분모</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x=-1$을 첫 번째 행으로 쓰고, $q_k(-1)=\frac13 p_k(-1)$을 성분마다 계산해요. $x=2$에도 같은 절차를 적용해요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>성분 1에 $x=-1$, 평균 $-4$, 분산 $1$을 넣으면 $q_1(-1)=\exp(-9/2)/(3\sqrt{2\pi})$예요. $x=-1$에서 가중 밀도 $q_k$는 약 $(0.00147728,\,0.02440830,\,0.0000001053)$이에요. 이 행의 합 $0.02588569$로 각각 나누면 책임도는 소수점 아래 셋째 자리까지 $(0.057,\,0.943,\,0.000)$이에요. $x=2$에서 가중 밀도는 약 $(2.0253\cdot10^{-9},\,0.00001349985,\,0.00019030986)$이에요. 합 $0.00020381174$로 나누면 $(0.000,\,0.066,\,0.934)$예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>첫 행에서는 $0.943$이 가장 크므로 성분 2예요. 둘째 행에서는 $0.934$가 가장 크므로 성분 3이에요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>각 행은 가중 밀도 전부의 합으로 나눴으므로 정확한 책임도의 행 합이 1이에요. 표시된 두 행도 각각 1이 돼요. $0.000$은 반올림 표시예요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>한 행에서는 분모가 공통이고 양수예요. 가중 밀도만 비교해도 첫 행은 둘째 항, 둘째 행은 셋째 항이 가장 커요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>분모를 만들 때는 관측값을 고정해요. 다른 관측값의 밀도까지 합하면 한 관측의 성분 확률을 얻을 수 없어요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>관측 하나를 고정하고 성분별 가중 밀도 세 개를 계산해요.</li><li>그 행의 합으로 나눈 뒤, 가장 큰 책임도의 성분을 읽어요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$r_k(x)$는 한 관측에서의 성분 $k$ 가중 밀도를 같은 위치의 혼합 밀도로 나눈 값이에요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>$x=-1$에서는 성분 2의 $0.943$, $x=2$에서는 성분 3의 $0.934$가 가장 커요. 각 행의 합은 1이에요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>책임도(responsibility)</dt><dd>모델과 관측값이 주어졌을 때 각 성분에서 나왔을 사후확률이에요.</dd><dt>혼합 밀도(mixture density)</dt><dd>해당 위치에서 모든 성분의 가중 밀도를 더한 값이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 11.2 · 책 p. 353 · Example 11.1의 모형 값은 pp. 350–351</p></section>
+</article><article class="topic" id="p8"><h3>P8. 책임도 표에서 성분별 합 읽기</h3><p class="panel-meta">MML Example 11.2 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models.html#p8">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p8"><div class="layer formal" data-source-problem="p8"><h4>주어진 조건</h4><div data-source-field="conditions">
+      <p>관측 $7$개의 책임도가 아래 행렬 $R$에 반올림되어 제시되어 있어요. 행은 관측값, 열은 성분 $1,2,3$을 뜻해요. 표에 적힌 수로 계산해요.</p>
+      $$R=\begin{bmatrix}1.0&amp;0.0&amp;0.0\\1.0&amp;0.0&amp;0.0\\0.057&amp;0.943&amp;0.0\\0.001&amp;0.999&amp;0.0\\0.0&amp;0.066&amp;0.934\\0.0&amp;0.0&amp;1.0\\0.0&amp;0.0&amp;1.0\end{bmatrix}$$
+    </div><h4>구할 것</h4><div data-source-field="ask"><ol>
+      <li>(a) 성분 $k$의 총 책임도 $N_k=\sum_{n=1}^7 r_{nk}$를 세 성분에 대해 구해 보세요.</li>
+      <li>(b) (a)에서 전체 관측에 대한 총 책임도가 가장 큰 성분을 찾아보세요.</li>
+    </ol></div></div><details class="original" data-original-problem="p8"><summary>원문 보기</summary><p>“The sum of all entries of a column gives us the values Nk, i.e., the total responsibility of the kth mixture component.” — Example 11.2</p></details></div><div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>표에서 한 행은 한 관측값의 책임도, 한 열은 한 성분의 책임도를 모은 것이에요. 성분별로 전체 관측에 걸친 합을 비교해요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>책임도 행렬(responsibility matrix)에서 $r_{nk}$의 $n$은 관측 번호이고 $k$는 성분 번호예요. 한 성분의 총 책임도는 $k$를 고정하고 $N_k=\sum_{n=1}^{7}r_{nk}$로 계산해요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1111_Gaussian_Mixture_Models.html#s2-matrix">책임도 표의 행과 열</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>첫 번째 열을 위에서 아래로 따라가며 1, 1, 0.057, 0.001을 더할 항으로 적어요. 표의 0은 합에 영향을 주지 않아요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$N_1=1+1+0.057+0.001=2.058$, $N_2=0.943+0.999+0.066=2.008$, $N_3=0.934+1+1=2.934$예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>같은 단위의 세 합을 비교하면 $2.934$가 가장 커요. 총 책임도가 가장 큰 것은 성분 3이에요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>제시된 각 행의 합이 1이고 행은 7개예요. 열 합들을 모아도 같은 원소를 모두 한 번씩 더하므로 $2.058+2.008+2.934=7$이에요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$2.934$는 $2.058$과 $2.008$보다 커요. 개별 관측에서 가장 큰 성분을 세는 대신 모든 책임도를 그대로 더한 결과예요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>행 합은 한 관측의 확률을 모두 합한 값이에요. 열 합은 같은 성분에 대한 여러 관측의 확률을 합하므로 1을 넘을 수 있어요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>한 성분을 고정하고 그 열을 끝까지 더해요.</li><li>세 열 합을 비교하고 전체 합이 7인지 확인해요.</li></ol></div>
+<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$N_k$를 구할 때 성분 번호 $k$를 고정하고 관측 방향으로 내려가며 더해요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>열 합은 $2.058,\,2.008,\,2.934$예요. 성분 3이 가장 크고 세 열 합을 더하면 7이에요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>책임도 행렬(responsibility matrix)</dt><dd>행은 관측값, 열은 성분이고 각 칸에는 해당 사후확률을 담아요.</dd><dt>총 책임도(total responsibility)</dt><dd>같은 성분에 배정된 확률을 모든 관측에 걸쳐 더한 값이에요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 11.2 · 책 p. 353 · 식 (11.19)의 인쇄된 표</p></section>
+</article></section>
+  </main>
+  <footer>원 문제·정리노트·PDF는 보존해요.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <div class="sum-tab">
+          <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+          <div class="sums" id="sum-for"></div>
+        </div>
+      </div>
+    </aside>
+    <div class="dock-preview" hidden></div>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+<script type="application/json" id="explain-choice-model">{}</script>
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const SIDES = ['left', 'prob', 'right'];
+      const panels = { left: document.getElementById('panel-left'), prob: document.getElementById('panel-prob'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), prob: document.getElementById('toggle-prob'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      // v2: 문제가 왼쪽 패널로 옮겨 오며 예전 저장값(오른쪽 = 문제)은 읽지 않는다
+      const PREF = 'od-panels:' + kind + ':v2';
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+      // 넓은 화면에서 공간이 모자라 잠시 숨긴 패널. 저장값은 그대로 두어 화면이 넓어지면 다시 보인다
+      let last = null;
+      const DOCKS = ['left', 'right', 'float'];
+      const SNAP = 32, UNDOCK = 24, FLOAT_MIN = { w: 280, h: 200 };
+      const topbar = document.querySelector('.topbar');
+      const pager = document.querySelector('.pager');
+      const preview = layout.querySelector('.dock-preview');
+      const dockBtns = panels.prob.querySelectorAll('.prob-dock [data-dock]');
+      const moveBtn = panels.prob.querySelector('.float-move');
+      const sizer = panels.prob.querySelector('.float-resize');
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        // 문제해설은 본문 왼쪽 문제 패널을 기본으로 연다
+        if (kind === 'explain') return { left: pref.left ?? wideMq.matches, prob: pref.prob ?? true, right: pref.right ?? false };
+        return { left: pref.left ?? true, prob: false, right: pref.right ?? roomyMq.matches };
+      }
+      // 본문이 최소 폭(320px)보다 좁아지면 먼저 직접 넓힌 패널(문제 → 요약)을 이번 화면에서만 줄이고,
+      // 그래도 모자라면 목차 → 요약 → 문제 순으로 숨긴다. 방금 연 패널은 마지막까지 남긴다
+      // 띄운 문제 창은 grid 칸을 차지하지 않으므로 폭 계산·숨김 순서에서 뺀다
+      const inGrid = (s) => layout.dataset[s] === 'open' && !(s === 'prob' && layout.dataset.probDock === 'float');
+      function fit() {
+        const order = ['left', 'right', 'prob'].filter((s) => s !== last).concat(last ? [last] : []);
+        const room = () => document.documentElement.clientWidth - SIDES.reduce((w, s) => w + (inGrid(s) ? panels[s].getBoundingClientRect().width : 0), 0);
+        applyWidths();
+        ['prob', 'right'].forEach((side) => {
+          const short = 320 - room();
+          if (short <= 0 || !inGrid(side) || !layout.style.getPropertyValue(WIDTH[side].prop)) return;
+          const w = panels[side].getBoundingClientRect().width;
+          layout.style.setProperty(WIDTH[side].prop, Math.max(WIDTH[side].min, Math.round(w - short)) + 'px');
+        });
+        for (const side of order) {
+          if (room() >= 320) break;
+          if (inGrid(side) && SIDES.filter(inGrid).length > 1) layout.dataset[side] = 'closed';
+        }
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        const pp = probPref();
+        layout.dataset.probDock = pp.dock;
+        dockBtns.forEach((b) => { const on = b.dataset.dock === pp.dock; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
+        SIDES.forEach((side) => { layout.dataset[side] = (wide ? d[side] : overlay === side) ? 'open' : 'closed'; });
+        if (wide) fit();
+        const floating = wide && pp.dock === 'float' && layout.dataset.prob === 'open';
+        if (floating) placeFloat(pp);
+        SIDES.forEach((side) => {
+          const open = layout.dataset[side] === 'open';
+          const p = panels[side];
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else if (side === 'prob' && floating) { p.setAttribute('role', 'dialog'); p.removeAttribute('aria-modal'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        placeToggle();
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          // 공간 때문에 숨긴 패널은 눌렀을 때 다시 연다
+          d[side] = layout.dataset[side] !== 'open';
+          store.set(PREF, d);
+          if (d[side]) last = side;
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      SIDES.forEach((side) => toggles[side].addEventListener('click', () => toggle(side)));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, prob: { min: 320, max: 720, prop: '--panel-p-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        SIDES.forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const otherW = SIDES.reduce((w, s) => w + (s !== side && inGrid(s) ? panels[s].getBoundingClientRect().width : 0), 0);
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        // 오른쪽에 붙은 패널은 왼쪽 경계를 끈다: 왼쪽으로 끌면 넓어진다
+        const dir = () => (side === 'right' || (side === 'prob' && layout.dataset.probDock === 'right') ? -1 : 1);
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          const d = dir();
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + d * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => { resetWidth(side); sync(); });
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir(), true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); sync(); }
+        });
+      });
+
+      // ---------- 문제 패널 자리: 왼쪽·오른쪽에 붙이기, 띄우기(옮기고 크기 조절하는 창) ----------
+      function probPref() {
+        const v = store.get(PREF + ':prob', {}) || {};
+        const num = (n, d) => (typeof n === 'number' && Number.isFinite(n) ? n : d);
+        const w = num(v.w, 420);
+        return {
+          dock: DOCKS.includes(v.dock) ? v.dock : 'left',
+          x: num(v.x, document.documentElement.clientWidth - w - 24),
+          y: num(v.y, topbar.getBoundingClientRect().bottom + 16),
+          w,
+          h: num(v.h, Math.min(560, Math.round(0.7 * window.innerHeight)))
+        };
+      }
+      function saveProb(patch) { store.set(PREF + ':prob', Object.assign(probPref(), patch)); }
+      function setDock(dock) {
+        saveProb({ dock });
+        last = 'prob';
+        sync();
+      }
+      function placeToggle() {
+        const dock = layout.dataset.probDock;
+        toggles.prob.dataset.dock = dock;
+        if (dock === 'right') { if (toggles.prob.nextElementSibling !== toggles.right) toggles.right.before(toggles.prob); }
+        else if (toggles.prob.previousElementSibling !== toggles.left) toggles.left.after(toggles.prob);
+      }
+      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), Math.max(lo, hi));
+      // 아래 경계: 이전/다음 바를 가리지 않게 그 위까지
+      function floor() {
+        const r = pager ? pager.getBoundingClientRect() : null;
+        return r && r.height ? Math.round(r.top) : document.documentElement.clientHeight;
+      }
+      // 창을 상단 바 아래·이전/다음 바 위·화면 안에 맞춘다. 크기를 먼저 줄이고 위치를 민다. 저장값은 건드리지 않는다
+      function placeFloat(g = probPref()) {
+        const top = Math.round(topbar.getBoundingClientRect().bottom);
+        const W = document.documentElement.clientWidth, H = floor();
+        const w = Math.round(clamp(g.w, FLOAT_MIN.w, W)), h = Math.round(clamp(g.h, FLOAT_MIN.h, H - top));
+        const r = { x: Math.round(clamp(g.x, 0, W - w)), y: Math.round(clamp(g.y, top, H - h)), w, h };
+        const st = panels.prob.style;
+        st.setProperty('--fx', r.x + 'px'); st.setProperty('--fy', r.y + 'px');
+        st.setProperty('--fw', r.w + 'px'); st.setProperty('--fh', r.h + 'px');
+        return r;
+      }
+      function dockPreview(side) {
+        preview.hidden = !side;
+        if (side) {
+          preview.dataset.side = side;
+          preview.style.top = Math.round(topbar.getBoundingClientRect().bottom) + 'px';
+          preview.style.bottom = (document.documentElement.clientHeight - floor()) + 'px';
+        }
+      }
+      // 끌기 도중 화면이 좁아지는 등 끌기를 끝내야 할 때 부른다
+      let endDrag = null;
+      dockBtns.forEach((b) => b.addEventListener('click', () => setDock(b.dataset.dock)));
+      // 단일 선택: 화살표로 이웃 자리를 고른다(페이지 넘김으로 번지지 않게)
+      panels.prob.querySelector('.prob-dock').addEventListener('keydown', (e) => {
+        const step = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key];
+        if (!step) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const next = DOCKS[(DOCKS.indexOf(layout.dataset.probDock) + step + DOCKS.length) % DOCKS.length];
+        setDock(next);
+        panels.prob.querySelector(`.prob-dock [data-dock="${next}"]`).focus();
+      });
+      // 머리 끌기: 띄운 창은 옮기고(가장자리 32px 안에서 놓으면 그쪽에 붙음), 붙인 패널은 24px 넘게 끌면 떨어져 나온다
+      const head = panels.prob.querySelector('.panel-head');
+      head.addEventListener('pointerdown', (e) => {
+        if (!wideMq.matches || e.button !== 0 || e.target.closest('button:not(.float-move),[role=tab],a,input')) return;
+        e.preventDefault();
+        let floating = layout.dataset.probDock === 'float';
+        let ox = e.clientX, oy = e.clientY;
+        let start = floating ? placeFloat() : null, cur = start, snap = null;
+        head.setPointerCapture(e.pointerId);
+        body.classList.add('is-dragging');
+        const move = (ev) => {
+          if (!floating) {
+            if (Math.hypot(ev.clientX - ox, ev.clientY - oy) <= UNDOCK) return;
+            saveProb({ x: ev.clientX - probPref().w / 2, y: ev.clientY - 20 });
+            setDock('float');
+            floating = true;
+            start = cur = placeFloat();
+            ox = ev.clientX; oy = ev.clientY;
+            return;
+          }
+          cur = placeFloat({ x: start.x + ev.clientX - ox, y: start.y + ev.clientY - oy, w: start.w, h: start.h });
+          const W = document.documentElement.clientWidth;
+          snap = ev.clientX <= SNAP ? 'left' : ev.clientX >= W - SNAP ? 'right' : null;
+          dockPreview(snap);
+        };
+        const up = (ev) => {
+          endDrag = null;
+          head.removeEventListener('pointermove', move);
+          head.removeEventListener('pointerup', up);
+          head.removeEventListener('pointercancel', up);
+          head.removeEventListener('lostpointercapture', up);
+          body.classList.remove('is-dragging');
+          dockPreview(null);
+          // 브라우저가 끌기를 취소했으면 가장자리 근처여도 붙이지 않는다
+          if (snap && ev.type === 'pointerup') setDock(snap);
+          else if (floating && cur) saveProb({ x: cur.x, y: cur.y });
+        };
+        head.addEventListener('pointermove', move);
+        head.addEventListener('pointerup', up);
+        head.addEventListener('pointercancel', up);
+        head.addEventListener('lostpointercapture', up);
+        endDrag = () => up({ type: 'pointercancel' });
+      });
+      // 모서리 손잡이로 크기 조절
+      sizer.addEventListener('pointerdown', (e) => {
+        if (!wideMq.matches || e.button !== 0) return;
+        e.preventDefault();
+        const start = placeFloat(), ox = e.clientX, oy = e.clientY;
+        let cur = start;
+        sizer.setPointerCapture(e.pointerId);
+        body.classList.add('is-sizing');
+        const move = (ev) => { cur = placeFloat({ x: start.x, y: start.y, w: start.w + ev.clientX - ox, h: start.h + ev.clientY - oy }); };
+        const up = () => {
+          endDrag = null;
+          sizer.removeEventListener('pointermove', move);
+          sizer.removeEventListener('pointerup', up);
+          sizer.removeEventListener('pointercancel', up);
+          sizer.removeEventListener('lostpointercapture', up);
+          body.classList.remove('is-sizing');
+          saveProb({ w: cur.w, h: cur.h });
+        };
+        sizer.addEventListener('pointermove', move);
+        sizer.addEventListener('pointerup', up);
+        sizer.addEventListener('pointercancel', up);
+        sizer.addEventListener('lostpointercapture', up);
+        endDrag = up;
+      });
+      // 키보드: 이동 버튼은 위치, 모서리는 크기(←→ 너비, ↑↓ 높이). 16px, Shift 64px
+      const ARROWS = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
+      function nudge(e, resize) {
+        const k = ARROWS[e.key];
+        if (!k || layout.dataset.probDock !== 'float') return;
+        e.preventDefault();
+        e.stopPropagation();
+        const step = e.shiftKey ? 64 : 16, g = placeFloat();
+        const r = placeFloat(resize ? { x: g.x, y: g.y, w: g.w + k[0] * step, h: g.h + k[1] * step } : { x: g.x + k[0] * step, y: g.y + k[1] * step, w: g.w, h: g.h });
+        saveProb(r);
+      }
+      moveBtn.addEventListener('keydown', (e) => nudge(e, false));
+      sizer.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && layout.dataset.probDock === 'float') {
+          e.preventDefault();
+          const g = placeFloat();
+          saveProb(placeFloat({ x: g.x, y: g.y, w: 420, h: Math.min(560, Math.round(0.7 * window.innerHeight)) }));
+        } else nudge(e, true);
+      });
+
+      applyWidths();
+      const onMq = () => { if (endDrag) endDrag(); overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+      let fitFrame = 0;
+      window.addEventListener('resize', () => { cancelAnimationFrame(fitFrame); fitFrame = requestAnimationFrame(() => { if (wideMq.matches) sync(); }); });
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 문제해설: 본문 왼쪽 = [문제 | 원문] 탭, 오른쪽 = 요약, 좁은 화면은 해설 위 접힘 ----------
+      function setupExplain() {
+        const KEY = 'od-note-read:' + RANGE;
+        const TAB = 'ml-problem-explain-tab';
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        const box = panels.right.querySelector('.sums');
+        const probs = panels.prob.querySelector('.probs');
+        const origTab = panels.prob.querySelector('.orig-tab');
+        const workspace = document.getElementById('problem-workspace');
+        const home = workspace.parentElement;
+        const metadata = {provenance: {}, terms: {}};
+        const metadataPanels = {};
+        const metadataEmpty = {};
+        Object.keys(metadata).forEach((kind) => {
+          metadataPanels[kind] = document.getElementById('tabpanel-' + kind);
+          const empty = document.createElement('p');
+          empty.className = 'panel-empty';
+          metadataPanels[kind].appendChild(empty);
+          metadataEmpty[kind] = empty;
+        });
+        const tabList = panels.prob.querySelector('.panel-tabs');
+        const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+        const empty = document.getElementById('sum-empty');
+        const probEmpty = document.getElementById('prob-empty');
+        const sums = {};
+        const panes = {};
+        const opens = {};
+        const origs = {};
+        const expanded = new Set();
+        let curId = null;
+        const saved = store.get(TAB, 'problem');
+        let tab = ['problem', 'original', 'provenance', 'terms'].includes(saved) ? saved : 'problem';
+        // 보기 문항의 판정 문단((1), A, ㄱ, ① 로 시작)을 보기별 카드로 보인다
+        const verdictRe = /^\(?([0-9]+|[A-Za-z]|[ㄱ-ㅎ]|[①-⑩])(\)|\.|\s)/;
+        topics.filter((t) => t.querySelector('.choices')).forEach((t) => {
+          t.querySelectorAll('[data-explanation="solve"] [data-subpart] > p').forEach((p) => {
+            if (verdictRe.test(p.textContent.trim())) p.classList.add('verdict-card');
+          });
+        });
+        topics.forEach((t) => {
+          // 조각의 <div class="sum" hidden> 을 요약 패널로 옮긴다. 없으면 안내 문구만 보인다.
+          const el = t.querySelector(':scope > .sum');
+          if (el) { el.hidden = true; box.appendChild(el); sums[t.id] = el; }
+          const pane = t.querySelector(':scope > .problem-pane');
+          if (!pane) return;
+          pane.id = 'problem-' + t.id;
+          const orig = pane.querySelector(':scope > details.original');
+          if (orig) origs[t.id] = orig;
+          Object.keys(metadata).forEach((kind) => {
+            const node = t.querySelector(':scope > [data-problem-panel="' + kind + '"]');
+            if (node) metadata[kind][t.id] = node;
+          });
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'problem-toggle';
+          btn.setAttribute('aria-controls', workspace.id);
+          btn.addEventListener('click', () => {
+            if (expanded.has(t.id)) expanded.delete(t.id); else expanded.add(t.id);
+            paintToggle(t.id);
+            window.mlLayoutMath?.();
+          });
+          panes[t.id] = pane;
+          opens[t.id] = btn;
+        });
+        function paintToggle(id) {
+          const on = expanded.has(id);
+          opens[id].setAttribute('aria-expanded', String(on));
+          opens[id].textContent = on ? '문제 접기' : '문제 보기';
+          if (!wideMq.matches && id === curId) workspace.hidden = !on;
+        }
+        // 저장된 탭(원문·출제 근거·용어)이 지금 문항에 없으면 문제 탭을 보이되 선호는 그대로 둔다
+        const has = (name) => name === 'problem' || (name === 'original' ? Boolean(origs[curId]) : Boolean(metadata[name] && metadata[name][curId]));
+        const effective = (name) => (has(name) ? name : 'problem');
+        function showTab(name, save) {
+          const shown = effective(name);
+          tabs.forEach((b) => { b.hidden = !has(b.dataset.tab); });
+          tabs.forEach((b) => { const on = b.dataset.tab === shown; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+          probs.hidden = shown !== 'problem';
+          origTab.hidden = shown !== 'original';
+          Object.keys(metadata).forEach((kind) => {
+            metadataPanels[kind].hidden = shown !== kind;
+            Object.entries(metadata[kind]).forEach(([id, node]) => { node.hidden = id !== curId; });
+            metadataEmpty[kind].hidden = Boolean(metadata[kind][curId]);
+            metadataEmpty[kind].textContent = !curId ? '문항을 고르면 여기에 자료가 나와요.' :
+              (kind === 'terms' ? '이 문항에 등록된 용어가 없어요.' : '이 문항에 등록된 출제 근거가 없어요.');
+          });
+          if (save) { tab = name; store.set(TAB, name); }
+          window.mlLayoutMath?.();
+        }
+        // 넓은 화면은 왼쪽 문제 패널의 문제 탭(원문은 원문 탭), 좁은 화면은 각 문항 메타 줄 뒤 "문제 보기" 아래로 옮긴다
+        // 좁은 화면으로 바뀌어 문제 패널이 사라질 때, 패널 안에 있던 초점을 그 문항의 '문제 보기'로 옮긴다
+        let lastFocus = null;
+        document.addEventListener('focusin', (e) => { lastFocus = e.target; });
+        function mountPanes() {
+          const wide = wideMq.matches;
+          const active = document.activeElement;
+          const refocus = lastFocus && (panels.prob.contains(lastFocus) || workspace.contains(lastFocus)) &&
+            (active === lastFocus || active === body || !active);
+          Object.entries(origs).forEach(([id, orig]) => {
+            orig.open = true; origTab.appendChild(orig); orig.hidden = id !== curId;
+          });
+          Object.entries(panes).forEach(([id, pane]) => {
+            probs.appendChild(pane); pane.hidden = id !== curId;
+            if (wide) opens[id].remove();
+            else {
+              const topic = document.getElementById(id);
+              (topic.querySelector(':scope > .panel-meta') || topic.querySelector('h3')).after(opens[id]);
+              paintToggle(id);
+            }
+          });
+          Object.keys(metadata).forEach((kind) => {
+            Object.values(metadata[kind]).forEach((node) => metadataPanels[kind].appendChild(node));
+          });
+          if (wide || !curId) home.appendChild(workspace);
+          else opens[curId].after(workspace);
+          workspace.hidden = !wide && (!curId || !expanded.has(curId));
+          probEmpty.hidden = Boolean(curId && panes[curId]);
+          showTab(tab, false);
+          if (refocus && wide && workspace.contains(lastFocus) && lastFocus.getClientRects().length) {
+            lastFocus.focus({preventScroll: true});
+          } else if (refocus && !wide && opens[curId]) opens[curId].focus();
+        }
+        // ---------- 보기 클릭: 복습노트와 같은 판정·알림·스크롤, 넓은 화면은 해설 판정 문단으로 이동 (선택은 메모리에만) ----------
+        let model = {};
+        try { model = JSON.parse((document.getElementById('explain-choice-model') || {}).textContent || '{}') || {}; } catch (e) { model = {}; }
+        const scroller = document.querySelector('.content');
+        const picks = new Map();
+        const ui = {};
+        let targetTimer = 0;
+        const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // 판정 알림과 보기 스크롤: pinned bio template review-interaction.js에서 복사 (root→document, win→window)
+        function scrollAnswerIntoView(scroller, selectedLi, answerLi, selectedButton, answerButton) {
+            if (!scroller || !selectedLi.getClientRects().length) return;
+            const viewport = scroller.getBoundingClientRect();
+            const height = scroller.clientHeight;
+            const margin = 16;
+            const span = (a, b) => {
+              const x = a.getBoundingClientRect(), y = b.getBoundingClientRect();
+              return {top:Math.min(x.top, y.top), bottom:Math.max(x.bottom, y.bottom)};
+            };
+            let target = span(selectedLi, answerLi);
+            if (target.bottom - target.top > height - 2 * margin)
+              target = span(selectedButton, answerButton);
+            if (target.bottom - target.top > height - 2 * margin)
+              target = span(selectedButton, selectedButton);
+            scroller.scrollTop += (target.top + target.bottom - viewport.top - viewport.bottom) / 2;
+          }
+
+        let feedback = null;
+        let feedbackTimer = null;
+        let feedbackOwner = null;
+        function clearFeedback(owner = null) {
+          if (owner !== null && owner !== feedbackOwner) return;
+          if (feedbackTimer !== null) window.clearTimeout(feedbackTimer);
+          feedbackTimer = null;
+          if (feedback) feedback.remove();
+          feedback = null;
+          feedbackOwner = null;
+        }
+        function showFeedback(result, id) {
+          clearFeedback();
+          if (result !== 'correct' && result !== 'incorrect') return;
+          feedback = document.createElement('div');
+          feedback.className = 'review-feedback';
+          feedback.dataset.reviewFeedback = '';
+          feedback.dataset.result = result;
+          feedback.setAttribute('aria-hidden', 'true');
+          const icon = document.createElement('span');
+          icon.className = 'review-feedback-icon';
+          const text = document.createElement('span');
+          text.className = 'review-feedback-text';
+          text.textContent = result === 'correct' ? '정답이에요' : '다시 확인해요';
+          feedback.append(icon, text);
+          document.body.append(feedback);
+          feedbackOwner = id;
+          feedbackTimer = window.setTimeout(clearFeedback, 1100);
+        }
+        const grade = (m, pick) => (m.mode === 'ambiguous' ? 'ambiguous' : pick === m.answer ? 'correct' : 'incorrect');
+        function paint(id) {
+          // 문구와 data-result 규칙은 review-interaction.js paint()와 같다
+          const { m, status, reset } = ui[id];
+          const pick = picks.get(id);
+          const answered = pick !== undefined;
+          const result = answered ? grade(m, pick) : '';
+          reset.hidden = !answered;
+          status.textContent = !answered ? '' : result === 'ambiguous'
+            ? '단일 정답 판정 주의'
+            : result === 'correct' ? '정답이에요.' : '정답이 아니에요. 보기별 이유를 확인해 보세요.';
+          status.dataset.result = result;
+          panes[id].querySelectorAll('.review-choice').forEach((b) => {
+            const cid = b.dataset.choiceId;
+            if (answered) b.removeAttribute('aria-pressed');
+            else b.setAttribute('aria-pressed', 'false');
+            b.dataset.result = !answered ? '' : cid === m.answer
+              ? (m.mode === 'ambiguous' ? 'intended' : 'correct')
+              : cid === pick ? (m.mode === 'ambiguous' ? 'uncertain' : 'selected') : '';
+            const badge = b.querySelector('.review-choice-label');
+            badge.hidden = !answered;
+            badge.textContent = !answered ? '' : [
+              cid === pick ? '내 선택' : '',
+              cid === m.answer ? (m.mode === 'ambiguous' ? '출제 의도상 답' : '정답')
+                : m.mode === 'single' ? '정답 아님' : ''
+            ].filter(Boolean).join(' · ');
+          });
+        }
+        function jump(id, cid) {
+          const solve = document.getElementById(id).querySelector('[data-explanation="solve"]');
+          if (!solve) return;
+          const re = new RegExp('^\\(?' + escapeRe(cid) + '(\\)|\\.|\\s)');
+          const target = Array.from(solve.querySelectorAll('p, li')).find((n) => re.test(n.textContent.trim())) || solve.querySelector('h4') || solve;
+          const top = scroller.scrollTop + target.getBoundingClientRect().top - scroller.getBoundingClientRect().top - scroller.clientHeight / 4;
+          scroller.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+          document.querySelectorAll('main .is-target').forEach((n) => n.classList.remove('is-target'));
+          target.classList.add('is-target');
+          clearTimeout(targetTimer);
+          targetTimer = setTimeout(() => target.classList.remove('is-target'), 1600);
+        }
+        Object.keys(panes).forEach((id) => {
+          const m = model[id];
+          const list = panes[id].querySelector('.choices');
+          if (!m || !list || !Array.isArray(m.options)) return;
+          const items = Array.from(list.children).filter((li) => li.tagName === 'LI');
+          // 모델과 보기 수가 다르면 정적 문제로 둔다
+          if (items.length !== m.options.length) return;
+          panes[id].classList.add('review-ready');
+          items.forEach((li, i) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'review-choice';
+            btn.dataset.choiceId = m.options[i];
+            btn.dataset.result = '';
+            btn.setAttribute('aria-pressed', 'false');
+            const content = document.createElement('div');
+            content.className = 'review-choice-content';
+            while (li.firstChild) content.appendChild(li.firstChild);
+            const badge = document.createElement('span');
+            badge.className = 'review-choice-label';
+            badge.hidden = true;
+            btn.append(content, badge);
+            li.appendChild(btn);
+            btn.addEventListener('click', () => {
+              // 첫 선택에서 잠그고, 다시 고르려면 "다시 풀기"
+              if (picks.has(id)) return;
+              const cid = m.options[i];
+              picks.set(id, cid);
+              paint(id);
+              showFeedback(grade(m, cid), id);
+              const at = m.options.indexOf(m.answer);
+              requestAnimationFrame(() => {
+                if (!panes[id].getClientRects().length) return;
+                scrollAnswerIntoView(panes[id].closest('.panel-inner') || scroller,
+                  items[i], items[at], btn, items[at].querySelector('.review-choice'));
+                if (wideMq.matches) jump(id, cid);
+              });
+            });
+          });
+          const status = document.createElement('p');
+          status.className = 'review-status';
+          status.setAttribute('role', 'status');
+          status.setAttribute('aria-live', 'polite');
+          status.dataset.result = '';
+          const reset = document.createElement('button');
+          reset.type = 'button';
+          reset.className = 'review-reset text-btn';
+          reset.textContent = '다시 풀기';
+          reset.hidden = true;
+          reset.addEventListener('click', () => {
+            clearFeedback(id);
+            picks.delete(id);
+            paint(id);
+            items[0].querySelector('.review-choice').focus();
+          });
+          list.before(status);
+          list.after(reset);
+          ui[id] = { m, status, reset };
+        });
+
+        // ---------- 문제 그림: 눌러서 크게 보기 ----------
+        let sheet = null;
+        // 확대본의 SVG id는 원본과 겹치지 않게 바꾸고, 내부 참조(url(#…), href)도 함께 바꾼다
+        function cloneSvg(svg) {
+          const copy = svg.cloneNode(true);
+          const nodes = [copy, ...copy.querySelectorAll('*')];
+          const ids = new Map();
+          nodes.forEach((n) => { if (n.id) { ids.set(n.id, n.id + '-zoom'); n.id += '-zoom'; } });
+          if (ids.size) nodes.forEach((n) => Array.from(n.attributes).forEach((a) => {
+            let v = a.value.replace(/url\(#([^)]*)\)/g, (m, id) => (ids.has(id) ? 'url(#' + ids.get(id) + ')' : m));
+            if (v.startsWith('#') && ids.has(v.slice(1))) v = '#' + ids.get(v.slice(1));
+            if (v !== a.value) n.setAttribute(a.name, v);
+          }));
+          copy.classList.remove('zoomable');
+          copy.style.width = '100%';
+          copy.style.maxWidth = '100%';
+          copy.style.height = 'auto';
+          return copy;
+        }
+        function zoom(fig) {
+          if (!sheet) {
+            sheet = document.createElement('dialog');
+            sheet.className = 'sheet figure-sheet';
+            sheet.setAttribute('aria-label', '그림 크게 보기');
+            sheet.innerHTML = '<div class="sheet-inner"><div class="sheet-head"><h2>그림</h2><button class="text-btn sheet-close" type="button">닫기</button></div><div class="figure-sheet-body"></div></div>';
+            sheet.querySelector('.sheet-close').addEventListener('click', () => sheet.close());
+            sheet.addEventListener('click', (e) => { if (e.target === sheet) sheet.close(); });
+            document.body.appendChild(sheet);
+          }
+          let big;
+          if (fig.tagName.toLowerCase() === 'img') {
+            big = document.createElement('img');
+            big.src = fig.currentSrc || fig.src;
+            big.alt = fig.alt;
+          } else big = cloneSvg(fig);
+          sheet.querySelector('.figure-sheet-body').replaceChildren(big);
+          sheet.showModal();
+        }
+        Object.values(panes).forEach((pane) => {
+          // 지금 있는 SVG는 모두 원본 그림이다(KaTeX는 나중에 렌더링된다). 중첩 SVG는 바깥 것만.
+          pane.querySelectorAll('svg').forEach((svg) => { if (!svg.parentElement.closest('svg')) svg.classList.add('zoomable'); });
+          pane.addEventListener('click', (e) => {
+            const fig = e.target.closest('img, svg.zoomable');
+            if (fig && !fig.closest('.review-choice')) zoom(fig);
+          });
+        });
+
+        // ---------- 인쇄: 문제를 모든 문항의 해설 위에 펼친다 ----------
+        function mountForPrint() {
+          workspace.hidden = true;
+          Object.keys(panes).forEach((id) => {
+            const topic = document.getElementById(id);
+            opens[id].remove();
+            (topic.querySelector(':scope > .panel-meta') || topic.querySelector('h3')).after(panes[id]);
+            panes[id].hidden = false;
+            if (origs[id]) { panes[id].appendChild(origs[id]); origs[id].open = true; origs[id].hidden = false; }
+            Object.keys(metadata).forEach((kind) => {
+              const node = metadata[kind][id];
+              if (node) { topic.appendChild(node); node.hidden = false; }
+            });
+          });
+        }
+        const printMq = matchMedia('print');
+        printMq.addEventListener('change', () => (printMq.matches ? mountForPrint() : mountPanes()));
+        window.addEventListener('beforeprint', mountForPrint);
+        window.addEventListener('afterprint', mountPanes);
+
+        tabs.forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab, true)));
+        tabList.addEventListener('keydown', (e) => {
+          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+          e.preventDefault();
+          e.stopPropagation();
+          const order = ['problem', 'original', 'provenance', 'terms'].filter(has);
+          const at = order.indexOf(effective(tab));
+          const next = e.key === 'Home' ? order[0] : e.key === 'End' ? order[order.length - 1] :
+            order[(at + (e.key === 'ArrowRight' ? 1 : order.length - 1)) % order.length];
+          showTab(next, true);
+          tabs.find((b) => b.dataset.tab === next).focus();
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          curId = key === 'intro' ? null : key;
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          mountPanes();
+          probEmpty.hidden = Boolean(curId && panes[curId]);
+          if (curId && !read.has(curId)) { read.add(curId); store.set(KEY, Array.from(read)); }
+          panels.prob.querySelector('.panel-inner').scrollTop = 0;
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+        wideMq.addEventListener('change', mountPanes);
+        mountPanes();
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'explain') setupExplain();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open') || document.querySelector('dialog[open]')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"], .math-row')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .math-row, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+  <script id="math-layout">
+    (function () {
+      let queued = false;
+      function markOverflow(row) {
+        row.classList.remove('math-pan');
+        row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+        if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+        if (row.scrollWidth > row.clientWidth + 2) {
+          row.classList.add('math-pan'); row.tabIndex = 0;
+          row.setAttribute('aria-label', '긴 수식. 좌우 화살표 또는 가로 밀기로 전체를 읽을 수 있어요.');
+          const hint = document.createElement('span'); hint.className = 'math-pan-hint';
+          hint.textContent = '가로로 밀어 전체 수식 읽기'; row.after(hint);
+        }
+      }
+      function layout() {
+        queued = false;
+        document.querySelectorAll('main .katex, .sums .katex, .problem-workspace .katex').forEach((math) => {
+          if (!math.getClientRects().length) return;
+          const tex = math.querySelector('annotation')?.textContent || '';
+          const display = math.parentElement.classList.contains('katex-display');
+          let row = math.closest('.math-row');
+          const container = math.closest('p, li, .part, [data-source-field], [data-subpart], .layer, .sum');
+          const width = container?.clientWidth || 0;
+          // Each matrix receives its own line; long inline equations become blocks.
+          if (!row && (display || /\\begin\{(?:bmatrix|pmatrix|matrix|aligned|array)\}/.test(tex) || (width > 0 && math.getBoundingClientRect().width > width - 8))) {
+            row = document.createElement('span');
+            row.className = 'math-row';
+            const autoWrapper = math.parentElement.tagName === 'SPAN' && math.parentElement.childNodes.length === 1;
+            const target = display || autoWrapper ? math.parentElement : math;
+            target.before(row); row.appendChild(target);
+            if (!display) math.classList.add('math-block');
+            // Keep sentence punctuation beside the last formula instead of orphaning it.
+            const tail = row.nextSibling;
+            if (tail?.nodeType === Node.TEXT_NODE) {
+              const match = tail.textContent.match(/^([.,;:]+["”]?)/);
+              if (match) {
+                const punctuation = document.createElement('span'); punctuation.className = 'math-punctuation';
+                punctuation.textContent = match[1]; math.appendChild(punctuation);
+                tail.textContent = tail.textContent.slice(match[1].length);
+              }
+            }
+          }
+          if (!row) return;
+          math.style.fontSize = '';
+          row.classList.remove('math-pan');
+          row.removeAttribute('tabindex'); row.removeAttribute('aria-label');
+          if (row.nextElementSibling?.classList.contains('math-pan-hint')) row.nextElementSibling.remove();
+          const available = row.clientWidth - 8;
+          if (available <= 0) return;
+          const bases = Array.from(math.querySelectorAll('.katex-html > .base'));
+          const widest = Math.max(0, ...bases.map((el) => el.getBoundingClientRect().width));
+          // Relations already split KaTeX's base groups, allowing natural line breaks.
+          // Reduce only unbreakable content, by at most 15%; retain readable body size.
+          if (widest > available) math.style.fontSize = (1.21 * Math.max(.85, available / widest)) + 'em';
+          markOverflow(row);
+        });
+        // Font-size changes and wrapping need one completed frame before final ink bounds.
+        requestAnimationFrame(() => document.querySelectorAll('.math-row').forEach((row) => {
+          if (row.getClientRects().length) markOverflow(row);
+        }));
+      }
+      function schedule() { if (!queued) { queued = true; requestAnimationFrame(layout); } }
+      window.mlLayoutMath = schedule;
+      document.addEventListener('od:screen', schedule);
+      new ResizeObserver(schedule).observe(document.querySelector('.content'));
+      new ResizeObserver(schedule).observe(document.querySelector('#panel-right .panel-inner'));
+      new ResizeObserver(schedule).observe(document.querySelector('#panel-prob .panel-inner'));
+      new MutationObserver(schedule).observe(document.querySelector('.sums'), {subtree:true, attributes:true, attributeFilter:['hidden']});
+      new MutationObserver(schedule).observe(document.querySelector('.probs'), {subtree:true, attributes:true, attributeFilter:['hidden']});
+      document.fonts.ready.then(schedule);
+      schedule();
+    })();
+  </script>
+</body>
+</html>
