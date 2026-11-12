@@ -150,6 +150,11 @@ def _render_document(payload,mode,html_path,pdf_path=None,*,layout: Layout='a4',
     if mode not in ('problems','answers'):raise ReviewPdfError(f'invalid mode: {mode}')
     html_path=Path(html_path);html_path.parent.mkdir(parents=True,exist_ok=True)
     template=load_template(mode,layout)
+    template = template.replace('</head>', '''<style>
+      .prose ol.lettered-subparts { list-style: none; margin: 0; padding: 0; }
+      .prose ol.lettered-subparts > li { padding-left: 0; }
+      .prose ol.lettered-subparts > li::before { content: none; }
+    </style></head>''', 1)
     payload=deepcopy(payload)
     if layout=='video-16x9':
         expected={p['id'] for p in payload['problems']}

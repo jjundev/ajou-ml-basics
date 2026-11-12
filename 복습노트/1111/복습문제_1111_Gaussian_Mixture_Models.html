@@ -98,6 +98,7 @@
     .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
     .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .math-scroll-hint { margin: 0 0 var(--s2); color: var(--ink-2); font-size: var(--fs-small); }
     .table-wrap { overflow-x: auto; }
     table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
     th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
@@ -142,6 +143,9 @@
     .card h3 { margin: 0 0 var(--s4); font-size: clamp(22px, 5vw, 26px); line-height: 1.4; letter-spacing: -0.01em; }
     .problem { margin: 0 0 var(--s5); }
     .problem ol { padding-left: 1.4em; }
+    .problem .lettered-subparts { list-style: none; padding-left: 0; }
+    .explanation-link { margin: 0 0 var(--s3); font-size: var(--fs-small); }
+    .explanation-link a { display: inline-flex; min-height: var(--tap); align-items: center; }
     details { border-top: 1px solid var(--line); }
     .card details:last-of-type { border-bottom: 1px solid var(--line); }
     details[open] { padding-bottom: var(--s4); }
@@ -371,15 +375,17 @@
     <div class="hero">
       <h1>복습문제 8선 · 11월 11일 수업 범위</h1>
       <p>교과서 예제 7개에서 8문항을 골랐어요. 먼저 풀어 보고, 막히면 힌트를 열어 보세요.</p>
+      <p><a href="문제설명_1111_Gaussian_Mixture_Models.html">문항별 문제설명</a></p>
     </div>
     <section id="partA"><h2>A. 교과서 예제 변형</h2>
 <article class="card" id="p1" data-source="MML Example 6.1">
   <h3>P1. 두 번 뽑은 동전의 확률질량</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p1">P1 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>미국 동전과 영국 동전이 든 주머니에서 동전 하나를 무작위로 뽑아요. 뽑은 동전을 다시 넣고 같은 방법으로 한 번 더 뽑아요. 매번 미국 동전이 나올 확률은 $0.3$이에요. 두 번 중 미국 동전이 나온 횟수를 $X$라고 해요.</p>
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) $X=0,1,2$ 각각의 확률을 구해 보세요.</li>
       <li>(b) (a)의 세 확률이 합해서 $1$이 되는지 확인해 보세요.</li>
     </ol></div>
@@ -406,6 +412,7 @@
 </article>
 <article class="card" id="p2" data-source="MML Example 6.2">
   <h3>P2. 빈도표에서 조건부확률 읽기</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p2">P2 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>확률변수 $X$와 $Y$의 관측 결과를 빈도표로 정리했어요. 관측 한 건을 같은 확률로 뽑아요.</p>
@@ -418,7 +425,7 @@
         </tbody>
       </table></div>
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) 주변확률 $P(X=x_3)$과 $P(Y=y_2)$를 구해 보세요.</li>
       <li>(b) (a)의 결과를 이용해 $P(Y=y_2\mid X=x_3)$과 $P(X=x_3\mid Y=y_2)$를 각각 기약분수로 써 보세요.</li>
     </ol></div>
@@ -445,12 +452,13 @@
 </article>
 <article class="card" id="p3" data-source="MML Example 6.4">
   <h3>P3. 혼합 밀도의 봉우리 읽기</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p3">P3 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>두 가우시안 성분을 각각 $0.4$와 $0.6$의 비율로 섞었어요. 가운데는 결합 밀도의 등고선이고, 위쪽은 $X_1$, 오른쪽은 $X_2$의 주변 밀도예요.</p>
       <figure class="figure"><img src=".pack/figures_1111/mml-fig-6-4.png" width="280" alt="결합 밀도의 등고선과 위쪽 X1, 오른쪽 X2의 주변 밀도 곡선"><figcaption>결합 밀도와 두 좌표의 주변 밀도</figcaption></figure>
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) 결합 밀도에 봉우리가 몇 개 있는지 등고선에서 읽어 보세요.</li>
       <li>(b) $X_1$과 $X_2$의 주변 밀도에서 각각 봉우리 개수를 세고, 결합 밀도의 봉우리 개수와 같은지 판단해 보세요.</li>
     </ol></div>
@@ -471,12 +479,13 @@
 </article>
 <article class="card" id="p4" data-source="MML Example 6.8">
   <h3>P4. 두 상태의 확률로 평균 구하기</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p4">P4 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>$X$는 $0$ 또는 $1$만 취해요. $P(X=1)=\mu$인 베르누이 분포의 확률질량함수는 아래와 같아요. 여기서 $\mu=0.7$이에요.</p>
       $$p(x\mid\mu)=\mu^x(1-\mu)^{1-x},\qquad x\in\{0,1\}$$
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) $p(0\mid\mu)$와 $p(1\mid\mu)$를 구해 보세요.</li>
       <li>(b) (a)의 확률을 가중치로 써서 $E[X]$를 구해 보세요.</li>
     </ol></div>
@@ -501,11 +510,12 @@
 </article>
 <article class="card" id="p5" data-source="MML Example 6.16">
   <h3>P5. 밀도에서 누적확률 구하기</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p5">P5 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>연속확률변수 $X$의 밀도는 $0\le x\le1$에서 $f_X(x)=3x^2$이고, 그 밖에서는 $0$이에요. $F_X(t)=P(X\le t)$를 누적분포함수라고 해요.</p>
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) $0\le t\le1$에서 $F_X(t)$를 적분으로 구해 보세요.</li>
       <li>(b) (a)의 결과에 $t=\frac{1}{2}$를 대입해 $P(X\le\frac{1}{2})$를 구해 보세요.</li>
     </ol></div>
@@ -531,6 +541,7 @@
 </article>
 <article class="card" id="p6" data-source="MML Example 11.1">
   <h3>P6. 세 가우시안을 섞은 밀도</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p6">P6 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>관측값은 $-3,-2.5,-1,0,2,4,5$예요. 아래 표의 세 정규분포를 각각 $\frac{1}{3}$의 가중치로 섞어요.</p>
@@ -543,7 +554,7 @@
         </tbody>
       </table></div>
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) 혼합 밀도 $p(x)$의 식을 쓰고, $p(0)$을 소수점 아래 넷째 자리까지 구해 보세요.</li>
       <li>(b) (a)의 가중 성분 밀도 중 $x=0$에서 가장 큰 값을 갖는 성분을 골라 보세요.</li>
     </ol></div>
@@ -571,6 +582,7 @@
 </article>
 <article class="card" id="p7" data-source="MML Example 11.2">
   <h3>P7. 두 관측값의 책임도 계산</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p7">P7 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>성분 $k$에서 $x$가 나오는 밀도는 $\mathcal N(x\mid\mu_k,\sigma_k^2)$예요. 각 성분을 고르는 사전확률은 $\frac{1}{3}$이에요.</p>
@@ -584,7 +596,7 @@
       </table></div>
       <p>관측값은 $-1$과 $2$예요. 각 관측값 $x$에 대해 $r_k(x)$는 $x$를 관측한 뒤 성분 $k$에서 나왔을 확률이에요.</p>
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) 두 관측값의 책임도 $(r_1(x),r_2(x),r_3(x))$를 각각 소수점 아래 셋째 자리까지 구해 보세요.</li>
       <li>(b) (a)의 결과에서 관측값마다 책임도가 가장 큰 성분을 골라 보세요.</li>
     </ol></div>
@@ -623,12 +635,13 @@
 </article>
 <article class="card" id="p8" data-source="MML Example 11.2">
   <h3>P8. 책임도 표에서 성분별 합 읽기</h3>
+  <p class="explanation-link"><a href="문제설명_1111_Gaussian_Mixture_Models.html#p8">P8 상세 풀이</a></p>
   <div class="problem">
     <div class="conditions">
       <p>관측 $7$개의 책임도가 아래 행렬 $R$에 반올림되어 제시되어 있어요. 행은 관측값, 열은 성분 $1,2,3$을 뜻해요. 표에 적힌 수로 계산해요.</p>
       $$R=\begin{bmatrix}1.0&0.0&0.0\\1.0&0.0&0.0\\0.057&0.943&0.0\\0.001&0.999&0.0\\0.0&0.066&0.934\\0.0&0.0&1.0\\0.0&0.0&1.0\end{bmatrix}$$
     </div>
-    <div class="ask"><ol>
+    <div class="ask"><ol class="lettered-subparts">
       <li>(a) 성분 $k$의 총 책임도 $N_k=\sum_{n=1}^7 r_{nk}$를 세 성분에 대해 구해 보세요.</li>
       <li>(b) (a)에서 전체 관측에 대한 총 책임도가 가장 큰 성분을 찾아보세요.</li>
     </ol></div>
@@ -1067,6 +1080,40 @@
 
       fromUrl();
     })();
+  </script>
+  <script>
+    window.addEventListener('load', async () => {
+      await document.fonts.ready;
+      const hints = new Map();
+      const observer = new ResizeObserver((entries) => {
+        for (const {target} of entries) {
+          const math = target.closest('.katex-display');
+          const overflow = math.clientWidth > 0 && math.scrollWidth > math.clientWidth + 1;
+          if (overflow && !hints.has(math)) {
+            const hint = document.createElement('p');
+            hint.className = 'math-scroll-hint';
+            hint.textContent = '수식 전체를 보려면 옆으로 스크롤하세요.';
+            math.before(hint);
+            hints.set(math, hint);
+          }
+          if (hints.has(math)) hints.get(math).hidden = !overflow;
+          if (overflow) {
+            math.tabIndex = 0;
+            math.setAttribute('role', 'region');
+            math.setAttribute('aria-label', '가로로 스크롤할 수식');
+          } else {
+            math.removeAttribute('tabindex');
+            math.removeAttribute('role');
+            math.removeAttribute('aria-label');
+          }
+        }
+      });
+      document.querySelectorAll('.katex-display').forEach((math) => {
+        observer.observe(math);
+        const content = math.querySelector(':scope > .katex');
+        if (content) observer.observe(content);
+      });
+    });
   </script>
 </body>
 </html>
