@@ -5,7 +5,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { nextNumber } = require('./resolve.cjs');
-const { build, canvasJson, titleOf, prepareVendor } = require('./build.cjs');
+const { build, canvasJson, titleOf, verifyVendor, findVendorDir } = require('./build.cjs');
 
 // A file name part: no path or reserved characters, no leading dot.
 function cleanName(name) {
@@ -37,8 +37,8 @@ function save({ src, dest, name }) {
     const copy = path.join(dir, 'Main.dc.html');
     fs.copyFileSync(src, copy);
     fs.writeFileSync(path.join(dir, 'canvas.json'), canvasJson(titleOf(fs.readFileSync(copy, 'utf8'))));
-    const output=build(copy,html);
-    prepareVendor(dest);
+    const vendorDir = verifyVendor(findVendorDir(dest));
+    const output = build(copy, html, { vendorDir });
     const fd=fs.openSync(html,'wx'); ownsHtml=true;
     try{fs.writeFileSync(fd,output);}finally{fs.closeSync(fd);}
   } catch (e) {

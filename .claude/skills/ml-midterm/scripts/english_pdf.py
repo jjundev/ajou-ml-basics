@@ -22,7 +22,8 @@ def english_template(repo:Path,layout:Layout,config):
  for old,new in [('lang="ko"','lang="en"'),('<title>문제집</title>',f'<title>Midterm Practice {config.round_number:02d}</title>'),("block('문제 원문'","block('Original problem'"),("block('조건'","block('Given'"),("block('구할 것'","block('Tasks'"),('문제 데이터를 읽지 못했습니다:','Unable to read problem data:'),('content: "넘침"','content: "Overflow"')]:
   if text.count(old)!=1:raise ValueError('English template replacement mismatch: '+old)
   text=text.replace(old,new)
- vendor=Path(repo)/'.agents/skills/ml-problem-explain/assets/vendor'
+ from mpe_render import resolve_vendor_dir
+ vendor=resolve_vendor_dir(repo)
  for url,rel in [('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css','pretendard/pretendard.css'),('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css','katex/katex.min.css'),('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js','katex/katex.min.js'),('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js','katex/contrib/auto-render.min.js')]:
   if text.count(url)!=1:raise ValueError('missing local resource replacement: '+url)
   text=text.replace(url,(vendor/rel).resolve().as_uri())

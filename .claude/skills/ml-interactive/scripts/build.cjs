@@ -4,34 +4,41 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const RUNTIME_PATH = path.join(__dirname, '..', 'assets', 'dc-runtime.js');
-const FONT_CSS = '.pack/vendor/ml-interactive/pretendard/pretendard.css';
-const VENDOR_SOURCE=path.join(__dirname,'../assets/vendor');
-const crypto=require('node:crypto');
+const FONT_CSS = 'assets/vendor/pretendard/pretendard.css';
+const VENDOR_SOURCE = path.resolve(__dirname, '../../../../assets/vendor');
+const crypto = require('node:crypto');
 
 function titleOf(src) {
   const m = src.match(/<title>([\s\S]*?)<\/title>/);
   return m ? m[1].trim() : '';
 }
 
-function prepareVendor(dest){
- const out=path.join(dest,'.pack/vendor/ml-interactive');
- const provenance=fs.readFileSync(path.join(VENDOR_SOURCE,'provenance.json'));
- const files=JSON.parse(provenance).files;
- const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
- // Validate the complete source and any existing destination before copying anything.
- for(const [rel,want] of Object.entries(files)){
-  if(hash(path.join(VENDOR_SOURCE,rel))!==want)throw new Error('VENDOR_HASH_MISMATCH:source:'+rel);
-  const f=path.join(out,rel);if(fs.existsSync(f)&&hash(f)!==want)throw new Error('VENDOR_HASH_MISMATCH:'+rel);
- }
- const manifest=path.join(out,'provenance.json');
- if(fs.existsSync(manifest)&&!fs.readFileSync(manifest).equals(provenance))throw new Error('VENDOR_HASH_MISMATCH:provenance');
- for(const rel of [...Object.keys(files),'provenance.json']){
-  const f=path.join(out,rel);fs.mkdirSync(path.dirname(f),{recursive:true});
-  if(!fs.existsSync(f))fs.copyFileSync(path.join(VENDOR_SOURCE,rel),f,fs.constants.COPYFILE_EXCL);
- }
- return out;
+function findVendorDir(fromDir) {
+  let cur = path.resolve(fromDir);
+  while (true) {
+    const candidate = path.join(cur, 'assets', 'vendor');
+    if (fs.existsSync(path.join(candidate, 'provenance.json'))) return candidate;
+    const parent = path.dirname(cur);
+    if (parent === cur) break;
+    cur = parent;
+  }
+  return VENDOR_SOURCE;
 }
-function build(srcFile, outFile, {vendorDir=path.join(path.dirname(outFile),'.pack/vendor/ml-interactive')}={}) {
+
+function verifyVendor(vendorDir = VENDOR_SOURCE) {
+  const root = path.resolve(vendorDir);
+  const manifestPath = path.join(root, 'provenance.json');
+  if (!fs.existsSync(manifestPath)) throw new Error('VENDOR_HASH_MISMATCH:provenance');
+  const files = JSON.parse(fs.readFileSync(manifestPath, 'utf8')).files;
+  const hash = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+  for (const [rel, want] of Object.entries(files)) {
+    const f = path.join(root, rel);
+    if (!fs.existsSync(f) || hash(f) !== want) throw new Error('VENDOR_HASH_MISMATCH:' + rel);
+  }
+  return root;
+}
+
+function build(srcFile, outFile, { vendorDir = findVendorDir(path.dirname(outFile)) } = {}) {
   const src = fs.readFileSync(srcFile, 'utf8');
   // Uploaded /_blob fonts only resolve inside the canvas; the page loads Pretendard from the CDN like the notes.
   const helmet = src.match(/<helmet>([\s\S]*?)<\/helmet>/)[1].replace(/@font-face\s*{[^}]*}\n?/g, '').trim();
@@ -93,12 +100,12 @@ if (require.main === module) {
     console.error('usage: node build.cjs <Main.dc.html> <out.html>');
     process.exit(2);
   }
-  const html=build(srcFile,outFile);
-  prepareVendor(path.dirname(outFile));
-  fs.writeFileSync(outFile,html);
+  const vendorDir = verifyVendor(findVendorDir(path.dirname(outFile)));
+  const html = build(srcFile, outFile, { vendorDir });
+  fs.writeFileSync(outFile, html);
   const manifest = path.join(path.dirname(srcFile), 'canvas.json');
   if (!fs.existsSync(manifest)) fs.writeFileSync(manifest, canvasJson(titleOf(fs.readFileSync(srcFile, 'utf8'))));
   console.log('wrote ' + outFile);
 }
 
-module.exports = { build, canvasJson, titleOf, FONT_CSS, prepareVendor };
+module.exports = { build, canvasJson, titleOf, FONT_CSS, verifyVendor, findVendorDir, VENDOR_SOURCE };

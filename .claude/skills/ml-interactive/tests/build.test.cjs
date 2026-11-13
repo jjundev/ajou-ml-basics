@@ -9,7 +9,7 @@ const { loadComponent } = require('../scripts/harness.cjs');
 
 const SKILL = path.join(__dirname, '..');
 const EX = path.join(SKILL, 'assets', 'template.dc.html');
-const PRETENDARD_CDN = '.pack/vendor/ml-interactive/pretendard/pretendard.css';
+const PRETENDARD_CDN = 'assets/vendor/pretendard/pretendard.css';
 
 test('build makes a standalone page from a dc source', () => {
   const h = build(EX, path.join(os.tmpdir(), 'x', '인터렉티브_01.html'));
@@ -47,9 +47,16 @@ test('cli writes the page and canvas.json', () => {
 test('build uses verified local assets and refuses corrupted vendor',()=>{
  const d=fs.mkdtempSync(path.join(os.tmpdir(),'ml-vendor-'));
  try{
-  const {prepareVendor}=require('../scripts/build.cjs');const vendor=prepareVendor(d),out=path.join(d,'preview.html');
-  const h=build(EX,out,{vendorDir:vendor});
-  for(const m of h.matchAll(/(?:href|src)="([^"{}]+)"/g)){if(m[1].startsWith('#'))continue;assert.ok(!/^https?:/.test(m[1]));assert.ok(fs.existsSync(path.resolve(d,decodeURIComponent(m[1]))),m[1]);}
-  fs.writeFileSync(path.join(vendor,'katex/katex.min.js'),'corrupt');assert.throws(()=>prepareVendor(d),/VENDOR_HASH_MISMATCH/);
+  const {verifyVendor,VENDOR_SOURCE}=require('../scripts/build.cjs');
+  const vendor=path.join(d,'assets','vendor');
+  fs.cpSync(VENDOR_SOURCE,vendor,{recursive:true});
+  assert.equal(verifyVendor(vendor),vendor);
+  const pageDir=path.join(d,'복습노트','1010');
+  fs.mkdirSync(pageDir,{recursive:true});
+  const out=path.join(pageDir,'preview.html');
+  const h=build(EX,out);
+  assert.ok(h.includes('../../assets/vendor/pretendard/pretendard.css'));
+  for(const m of h.matchAll(/(?:href|src)="([^"{}]+)"/g)){if(m[1].startsWith('#'))continue;assert.ok(!/^https?:/.test(m[1]));assert.ok(fs.existsSync(path.resolve(pageDir,decodeURIComponent(m[1]))),m[1]);}
+  fs.writeFileSync(path.join(vendor,'katex/katex.min.js'),'corrupt');assert.throws(()=>verifyVendor(vendor),/VENDOR_HASH_MISMATCH/);
  }finally{fs.rmSync(d,{recursive:true,force:true});}
 });

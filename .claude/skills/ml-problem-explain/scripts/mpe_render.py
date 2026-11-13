@@ -18,6 +18,29 @@ from mpe_labels import normalize_subpart_labels
 from manifest import PACK_DIR  # ml-review-pack 공용 값(mpe_shared가 경로를 잡는다)
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
+SHARED_VENDOR = Path(__file__).resolve().parents[4] / 'assets' / 'vendor'
+
+def resolve_vendor_dir(repo):
+    local = Path(repo).resolve() / 'assets' / 'vendor'
+    return local if (local / 'provenance.json').is_file() else SHARED_VENDOR
+
+def verify_shared_vendor(vendor_dir):
+    manifest_path = Path(vendor_dir) / 'provenance.json'
+    if not manifest_path.is_file():
+        raise ExplainError('공용 vendor provenance 없음')
+    files = json.loads(manifest_path.read_text(encoding='utf-8')).get('files', {})
+    if not files:
+        raise ExplainError('공용 vendor provenance 비어 있음')
+    root = Path(vendor_dir).resolve()
+    for rel, digest in files.items():
+        target = root / rel
+        if not target.resolve().is_relative_to(root) or not target.is_file() or sha256(target) != digest:
+            raise ExplainError('공용 vendor 해시 불일치: ' + rel)
+    return sha256(manifest_path)
+
+def vendor_relpath(pack, repo):
+    vendor_root = Path(repo).resolve() / 'assets' / 'vendor'
+    return Path(os.path.relpath(vendor_root, pack.path.parent.resolve())).as_posix()
 
 def names(pack):
     stem = {'homework': f'과제{pack.range}_문제설명_{pack.slug}',
@@ -145,7 +168,8 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     data_dir = stage / data_name
     data_dir.mkdir(parents=True)
     (stage / fig_name).mkdir(parents=True)
-    shutil.copytree(ASSETS / 'vendor', data_dir / 'vendor')
+    vendor_dir = resolve_vendor_dir(repo)
+    vendor_provenance_sha = verify_shared_vendor(vendor_dir)
     shutil.copy2(ASSETS / 'template-provenance.json', data_dir / 'template-provenance.json')
     articles = []
     toc = []
@@ -173,7 +197,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
               'SUBTITLE': '주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.',
               'SECTIONS': '<section id="problems"><h2>문항별 설명</h2>' + ''.join(articles) + '</section>',
               'FOOTER': '원 문제·정리노트·PDF는 보존해요.', 'SCRIPTS': '<script type="application/json" id="explain-choice-model">'+json.dumps({p.id:{'answer':p.choice.answer,'mode':p.choice.mode,'options':list(p.choice.option_ids)} for p in pack.problems if p.choice},ensure_ascii=False).replace('</','<\\/')+'</script>',
-              'RANGE': f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}', 'VENDOR': data_name + '/vendor'}
+              'RANGE': f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}', 'VENDOR': vendor_relpath(pack, repo)}
     text = (ASSETS / 'note-template.html').read_text(encoding='utf-8')
     for key, value in values.items():
         text = text.replace('{{' + key + '}}', value)
@@ -191,6 +215,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
                          'review_policy_version': POLICY_VERSION, 'source_resources': source_resources(pack,repo),
                          'input_hash': payload_hash(pack, fragments), 'reading_key': values['RANGE'],
                          'destination': str(pack.path.parent), 'repo': str(repo.resolve()),
+                         'shared_vendor_provenance_sha256': vendor_provenance_sha,
                          'problems': [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems],
                          'files': {p.relative_to(stage).as_posix(): sha256(p) for p in files}})
     return Artifacts(html_path, md_path, manifest_path, tuple(sorted((*files, manifest_path))))
@@ -239,6 +264,12 @@ def check_artifacts(pack, artifacts):
                 original = list(document.find_all(lambda n: n.attrs.get('data-original-problem') == p.id))
                 if len(original) != 1 or compact(p.original_html) not in compact(original[0].text()):
                     errors.append(f'{p.id}: 영어 원문 보존 실패')
+        repo_root = Path(manifest.get('repo') or pack.path.parent).resolve()
+        vendor_dir = resolve_vendor_dir(repo_root)
+        vendor_provenance_sha = verify_shared_vendor(vendor_dir)
+        if manifest.get('shared_vendor_provenance_sha256') and manifest['shared_vendor_provenance_sha256'] != vendor_provenance_sha:
+            errors.append('공용 vendor provenance 불일치')
+        expected_vendor_root = (repo_root / 'assets' / 'vendor').resolve()
         for node in document.find_all(lambda n: n.tag in ('img', 'link', 'script', 'a')):
             href = node.attrs.get('src') or node.attrs.get('href')
             if not href:
@@ -251,9 +282,16 @@ def check_artifacts(pack, artifacts):
                 if url.fragment and unquote(url.fragment) not in ids:
                     errors.append('링크 앵커 없음: ' + href)
                 continue
-            path = root / unquote(url.path)
-            if node.tag == 'a':
+            if node.tag in ('link', 'script'):
+                dest_target = (Path(manifest['destination']) / unquote(url.path)).resolve()
+                if dest_target.is_relative_to(expected_vendor_root):
+                    path = vendor_dir / dest_target.relative_to(expected_vendor_root)
+                else:
+                    path = root / unquote(url.path)
+            elif node.tag == 'a':
                 path = Path(manifest['destination']) / unquote(url.path)
+            else:
+                path = root / unquote(url.path)
             if not path.is_file():
                 errors.append('자원 없음: ' + href)
             elif node.tag == 'a' and url.fragment:

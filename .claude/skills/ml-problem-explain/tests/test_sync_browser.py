@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from playwright.sync_api import sync_playwright
 from test_sync import synthetic
-from mpe_render import build_explanation,check_artifacts
+from mpe_render import build_explanation,check_artifacts,resolve_vendor_dir
 
 
 def make_stage(root):
@@ -34,6 +34,9 @@ def make_stage(root):
 def stage_url(tmp_path_factory):
     root=tmp_path_factory.mktemp('explain-browser')
     a=make_stage(root)
+    preview_vendor=root/'assets'/'vendor'
+    preview_vendor.parent.mkdir(parents=True,exist_ok=True)
+    preview_vendor.symlink_to(resolve_vendor_dir(root/'repo'))
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self,*args): pass
     server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Quiet,directory=str(root)))

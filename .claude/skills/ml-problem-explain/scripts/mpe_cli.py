@@ -9,7 +9,7 @@ import sys
 import uuid
 from mpe_contract import initial_reviews, payload_hash, validate_fragment
 from mpe_source import inside, load_source, resolve_sources, sha256
-from mpe_render import build_explanation, check_artifacts, artifact_hashes, dump
+from mpe_render import build_explanation, check_artifacts, artifact_hashes, dump, resolve_vendor_dir
 from mpe_publish import publish_explanation
 from mpe_types import Artifacts, ExplainError
 
@@ -96,6 +96,10 @@ def build(item, fragments):
     folder = item['folder']
     stage = folder / 'stage' / uuid.uuid4().hex
     artifacts = build_explanation(item['pack'], fragments, stage, item['repo'])
+    preview_vendor = folder / 'assets' / 'vendor'
+    if not preview_vendor.exists() and not preview_vendor.is_symlink():
+        preview_vendor.parent.mkdir(parents=True, exist_ok=True)
+        preview_vendor.symlink_to(resolve_vendor_dir(item['repo']))
     # Evidence is copied before binding the artifact hashes; review approval comes later.
     evidence = inside(folder / 'evidence', item['run'])
     if evidence.is_dir():

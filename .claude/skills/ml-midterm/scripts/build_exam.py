@@ -1,6 +1,6 @@
 """Build this exam through the unchanged course PDF and explanation APIs."""
 from pathlib import Path
-import sys,json,shutil,re,argparse,uuid,html
+import sys,os,json,shutil,re,argparse,uuid,html
 from exam_config import config_for_output
 from exam_adapter import verify_baseline,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source,resolve,explanation_resources
 from check_vector_derivatives import check_text
@@ -19,12 +19,14 @@ def styled_source(repo,output,stage,config):
   head=parse('<summary>참고 풀이와 답</summary>');sol.children.insert(0,head.children[0]);sol.children[0].parent=sol
   cards.append(outer(node))
  template=(repo/'.agents/skills/ml-review-pack/assets/review-template.html').read_text()
- vendor=stage/'.pack/source_vendor';shutil.copytree(repo/'.agents/skills/ml-problem-explain/assets/vendor',vendor)
+ from mpe_render import resolve_vendor_dir,verify_shared_vendor
+ verify_shared_vendor(resolve_vendor_dir(repo))
+ vendor_rel=Path(os.path.relpath((repo/'assets'/'vendor').resolve(),config.output.resolve())).as_posix()
  replacements={
- 'https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css':'.pack/source_vendor/pretendard/pretendard.css',
- 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css':'.pack/source_vendor/katex/katex.min.css',
- 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js':'.pack/source_vendor/katex/katex.min.js',
- 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js':'.pack/source_vendor/katex/contrib/auto-render.min.js'}
+ 'https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css':f'{vendor_rel}/pretendard/pretendard.css',
+ 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css':f'{vendor_rel}/katex/katex.min.css',
+ 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js':f'{vendor_rel}/katex/katex.min.js',
+ 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js':f'{vendor_rel}/katex/contrib/auto-render.min.js'}
  for a,b in replacements.items():template=template.replace(a,b)
  values={'PAGE_TITLE':config.title_ko,'DESCRIPTION':'0909–1019 직교투영까지, 10문항 실전 연습','TOC':''.join(f'<a href="#p{i}">{i}번</a>' for i in range(1,11)),'NOTE_HREF':f'문제설명_{config.range_}_{config.slug}.html','TITLE':f'중간고사 예상문제 {config.round_number}회','INTRO':'처음부터 1019 직교투영까지 · 10문항. 과제 변형 5문항과 모델 분석 5문항으로 구성한 연습 자료예요. Gaussian의 둘째 인수는 분산이며 gradient는 강의와 같이 행벡터예요.','PARTS':'<section id="exam"><h2>예상문제</h2>'+''.join(cards)+'</section>','FOOTER':'1019 STT의 약 50:50 안내를 반영한 추천 구성입니다. 실제 시험의 세부 문항·배점·시간은 확정하지 않습니다.','SCRIPTS':'','RANGE':f'exam-{config.range_}-{config.slug}'}
  text=fill(template,values).replace('>정리노트</a>','>문제설명</a>')
@@ -57,8 +59,6 @@ def build_base(repo,output,run):
  mapping[output/snapshot.relative_to(stage)]=snapshot
  for p in snapshot.parent.rglob('*'):
   if p.is_file():mapping[output/p.relative_to(stage)]=p
- for p in (stage/'.pack/source_vendor').rglob('*'):
-  if p.is_file():mapping[output/p.relative_to(stage)]=p
  publish_files(mapping,run/('base-backup-'+uuid.uuid4().hex))
  from pdf_binding import binding_record
  binding=output/'.pack/evidence/korean-pdf-binding.json'
@@ -76,7 +76,11 @@ def korean_pdf_source(source,target,config):
  for n in root.find_all(lambda n:n.tag=='article' and 'card' in n.classes):
   for original in n.find_all(lambda n:'original' in n.classes):original.children=[]
  target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
- target.write_text(outer(root),encoding='utf-8')
+ src_vendor=Path(os.path.relpath((config.repo/'assets'/'vendor').resolve(),config.output.resolve())).as_posix()
+ dest_dir=(config.output/'.pack/evidence/korean-pdf-source') if target.parent.name=='korean-pdf-source' else config.output
+ snap_vendor=Path(os.path.relpath((config.repo/'assets'/'vendor').resolve(),dest_dir.resolve())).as_posix()
+ text=outer(root).replace(f'{src_vendor}/',f'{snap_vendor}/')
+ target.write_text(text,encoding='utf-8')
  if korean_content_digest(source,config)!=korean_content_digest(target,config):raise ValueError('Korean PDF projection changed content')
  # Preserve authored image URLs and card digests while mirroring their files.
  from urllib.parse import urlsplit,unquote

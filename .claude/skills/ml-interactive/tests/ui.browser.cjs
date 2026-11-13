@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),os=require('os'),assert=require('assert/strict'),{pathToFileURL}=require('url');
 const {chromium}=require(process.env.ML_PLAYWRIGHT_MODULE||'playwright');
-const skill=path.resolve(__dirname,'..'),{build,prepareVendor}=require('../scripts/build.cjs');
+const skill=path.resolve(__dirname,'..'),{build,verifyVendor,findVendorDir}=require('../scripts/build.cjs');
 (async()=>{const run=fs.mkdtempSync(path.join(os.tmpdir(),'ml-shared-ui-'));let src=fs.readFileSync(path.join(skill,'assets/template.dc.html'),'utf8');
 src=src.replace("key: 'a', label: '구조',", "key: 'a', label: '수식', title:'MAP과 사후평균 비교',view:'formula',").replace('autoSpin: true, rotatable: true','autoSpin: false, rotatable: false');
 src=src.replace(/STEPS: \[[\s\S]*?\n      \],/, `STEPS: [
@@ -11,7 +11,7 @@ src=src.replace(/STEPS: \[[\s\S]*?\n      \],/, `STEPS: [
 src=src.replace('<!-- SLOT:left -->','<!-- SLOT:left -->\n<style>.fixture-input{width:100%;height:44px}</style><span></span>');
 // Exercise both local overflow axes without modifying the actual template.
 src=src.replace('<h3 class="sec-title">예시 슬롯</h3>', '<h3 class="sec-title">입력</h3><input class="fixture-input" type="number" min="0" max="4" step="1" value="0">');
-const source=path.join(run,'Main.dc.html'),out=path.join(run,'preview.html');fs.writeFileSync(source,src);prepareVendor(run);fs.writeFileSync(out,build(source,out));
+const source=path.join(run,'Main.dc.html'),out=path.join(run,'preview.html');fs.writeFileSync(source,src);const vendorDir=verifyVendor(findVendorDir(run));fs.writeFileSync(out,build(source,out,{vendorDir}));
 const browser=await chromium.launch({headless:true,channel:'chrome'}),results=[];
 for(const width of [1440,375])for(const theme of ['light','dark']){const page=await browser.newPage({viewport:{width,height:width===375?812:900},colorScheme:theme});const errors=[],external=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url()))external.push(r.url())});await page.goto(pathToFileURL(out).href);await page.locator('.katex').first().waitFor();await page.evaluate(()=>document.fonts.ready);
 const prev=page.getByRole('button',{name:'이전 줄',exact:true}),next=page.getByRole('button',{name:'다음 줄 쓰기',exact:true});assert.equal(await prev.isDisabled(),true);await next.click();await page.waitForTimeout(100);assert.equal(await page.locator('.formula-row').count(),2);assert.equal(await page.locator('.formula-row > p').count(),1);

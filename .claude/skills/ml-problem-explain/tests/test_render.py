@@ -54,7 +54,8 @@ def test_render_preserves_questions_and_math_offline(tmp_path, source):
     assert 'https://cdn.' not in text
     if pack.profile == 'review':  # 복습노트: HTML 옆 .pack/에 MD·그림·자료
         assert result.md.parent == result.html.parent / '.pack'
-        assert 'href=".pack/자료_문제설명_' in text
+        assert 'href="../../assets/vendor/pretendard/pretendard.css"' in text
+        assert not (result.html.parent / '.pack' / f'자료_문제설명_{pack.range}_{pack.slug}' / 'vendor').exists()
         assert '](../복습문제_' in unquote(md)
     else:
         assert result.md.parent == result.html.parent
@@ -108,7 +109,7 @@ def test_tampered_output_detected(tmp_path):
     assert check_artifacts(pack, result)
 
 def test_vendor_files_and_hashes_present():
-    vendor = Path(__file__).resolve().parents[1] / 'assets/vendor'
+    vendor = Path(__file__).resolve().parents[4] / 'assets/vendor'
     manifest = json.loads((vendor / 'provenance.json').read_text(encoding='utf-8'))
     for name, digest in manifest['files'].items():
         assert sha256(vendor / name) == digest

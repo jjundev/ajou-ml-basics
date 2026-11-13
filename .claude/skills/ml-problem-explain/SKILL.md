@@ -57,7 +57,7 @@ description: 머신러닝기초의 기존 복습문제·과제·중간고사 예
 
 ## 산출 위치
 
-복습: HTML은 `복습노트/<날짜>/문제설명_<날짜>_<slug>.html`, 나머지는 날짜 폴더의 `.pack/` 아래에 둔다: `.pack/문제설명_<날짜>_<slug>.md`, 그림 `.pack/figures_문제설명_<날짜>_<slug>/`, 생성 기록·검토·조각·검산·로컬 자원 `.pack/자료_문제설명_<날짜>_<slug>/`.
+복습: HTML은 `복습노트/<날짜>/문제설명_<날짜>_<slug>.html`, 나머지는 날짜 폴더의 `.pack/` 아래에 둔다: `.pack/문제설명_<날짜>_<slug>.md`, 그림 `.pack/figures_문제설명_<날짜>_<slug>/`, 생성 기록·검토·조각·검산 `.pack/자료_문제설명_<날짜>_<slug>/` (KaTeX·Pretendard 로컬 자원은 저장소 루트 `assets/vendor/`를 상대 경로로 참조한다).
 
 과제: `과제/과제<N>/과제<N>_문제설명_<slug>.html/.md`, 그림 `figures_문제설명_hwN_<slug>/`, 자료 `자료_문제설명_hwN_<slug>/`(모두 HTML과 같은 폴더). 기존 정리노트에 링크를 자동 삽입하지 않는다. 읽음 상태는 원 노트와 다른 `ml-problem-explain-<profile>-<range>-<slug>` 범위로 저장한다.
 
