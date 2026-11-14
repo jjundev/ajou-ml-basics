@@ -5,7 +5,7 @@ import json
 import math
 from collections import Counter
 from urllib.parse import urlsplit
-from mpe_shared import Node, parse, math_delimiter_errors
+from mpe_shared import Node, parse, math_delimiter_errors, deriv_row_errors
 
 KEYS = ('understand', 'recall', 'start', 'solve', 'verify', 'pitfall', 'retry')
 
@@ -77,6 +77,7 @@ def validate_fragment(problem, fragment):
     if len(summaries) != 1 or summaries[0].parent is not root or 'hidden' not in summaries[0].attrs or not summaries[0].text().strip():
         errors.append('직계 sum[hidden] 요약 하나 필요')
     errors.extend(math_delimiter_errors(root.text()))
+    errors.extend(deriv_row_errors(fragment))
     return [f'{problem.id}: {e}' for e in errors]
 
 def initial_reviews(pack, fragments):
