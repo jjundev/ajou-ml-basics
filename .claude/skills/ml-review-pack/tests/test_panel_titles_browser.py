@@ -29,7 +29,7 @@ def test_note_and_review_panel_copy(tmp_path, width, height, theme):
     (run / 'cards/p2.html').write_text(card.replace('id="p1"', 'id="p2"').replace('P1. 두 수의 평균', 'P2. 다른 평균'))
     note, review = assemble.assemble(run, tmp_path)
     # Local bundled math resources avoid relying on CDN availability.
-    vendor = REPO / '.claude/skills/ml-problem-explain/assets/vendor'
+    vendor = REPO / 'assets/vendor'
     shutil.copytree(vendor, tmp_path / 'vendor')
     for path in (note, review):
         text = path.read_text()
