@@ -41,6 +41,17 @@ class TestPrimitives(unittest.TestCase):
         codes = [p.code for p in check_html.check_common(check_html.parse_html(src), src, Path("x.html"))]
         self.assertEqual(codes.count("deriv-row"), 2)
 
+    def test_deriv_rows_inside_outer_details_keep_visible_notes(self):
+        # 선택 보충 details 안에 놓인 ol.deriv: 바깥 details는 주석을 숨긴 것으로 보지 않는다
+        nested = ('<details><summary>선택 보충</summary><ol class="deriv">'
+                  '<li><div class="deriv-eq">$$a=b$$</div><div class="deriv-why"><p>정의</p></div></li>'
+                  '<li><div class="deriv-eq">$$c$$</div><div class="deriv-why">'
+                  '<details><summary>자세히</summary><p>숨김</p></details></div></li></ol></details>')
+        errs = check_html.deriv_row_errors(nested)
+        self.assertEqual(len(errs), 1)
+        self.assertIn("line 1", errs[0])
+        self.assertIn("보이는 주석 없음", errs[0])
+
     def test_plain_ordered_lists_are_not_deriv_rows(self):
         self.assertEqual(check_html.deriv_row_errors('<ol class="steps"><li>no math</li></ol>'), [])
 

@@ -299,8 +299,11 @@ class _DerivRows(HTMLParser):
             return
         if "eq" in self.stack:
             self.rows[-1]["eq"] += data
-        elif "why" in self.stack and "details" not in self.stack:
-            self.rows[-1]["why"] += data
+        elif "why" in self.stack:
+            # 이 줄의 .deriv-why 안쪽에 있는 details만 숨김으로 본다(바깥 선택 보충 details는 무관).
+            inner = self.stack[len(self.stack) - 1 - self.stack[::-1].index("why"):]
+            if "details" not in inner:
+                self.rows[-1]["why"] += data
 
 
 def deriv_row_errors(source: str) -> list[str]:
