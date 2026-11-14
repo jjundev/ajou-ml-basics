@@ -2,7 +2,7 @@
 """
 정리노트/복습문제 HTML 검사기 (표준 라이브러리만 사용).
 
-- 공통 검사: lang, 중복 id, 외부 리소스 허용 목록, 수식 구분자, 링크, 남은 슬롯, 위젯 정적 대체물
+- 공통 검사: lang, 중복 id, 외부 리소스 허용 목록, 수식 구분자, 링크, 남은 슬롯, 위젯 정적 대체물, 식 줄(ol.deriv) 형식
 - manifest 검사: 섹션·토픽 id, 필수 용어, 레이어, 보충 배지, 예고 밖 금지어, 링크, 문제 카드
 - 정리노트 검사: 녹음 위치(시각 없는 파트 포함), 전사·발언·오타 수정 경위
 CLI:
@@ -258,6 +258,65 @@ class Problem:
         return f"[{self.code}] {self.where}: {self.detail}"
 
 
+class _DerivRows(HTMLParser):
+    """ol.deriv의 각 li에서 .deriv-eq 수식 수와 .deriv-why 주석 글자를 모은다."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[str] = []  # 열린 요소의 역할: deriv, row, eq, why, details, other
+        self.rows: list[dict] = []
+        self.skip = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in VOID_TAGS:
+            return
+        cls = (dict(attrs).get("class") or "").split()
+        role = "other"
+        if tag == "ol" and "deriv" in cls:
+            role = "deriv"
+        elif tag == "li" and self.stack and self.stack[-1] == "deriv":
+            role = "row"
+            self.rows.append({"eq": "", "why": "", "line": self.getpos()[0]})
+        elif "deriv-eq" in cls and "row" in self.stack:
+            role = "eq"
+        elif "deriv-why" in cls and "row" in self.stack:
+            role = "why"
+        elif tag == "details":
+            role = "details"
+        if tag in ("script", "style"):
+            self.skip += 1
+        self.stack.append(role)
+
+    def handle_endtag(self, tag):
+        if tag in VOID_TAGS or not self.stack:
+            return
+        if tag in ("script", "style") and self.skip:
+            self.skip -= 1
+        self.stack.pop()
+
+    def handle_data(self, data):
+        if self.skip or not self.rows or "row" not in self.stack:
+            return
+        if "eq" in self.stack:
+            self.rows[-1]["eq"] += data
+        elif "why" in self.stack and "details" not in self.stack:
+            self.rows[-1]["why"] += data
+
+
+def deriv_row_errors(source: str) -> list[str]:
+    """식 줄 + 주석(ol.deriv): 줄마다 디스플레이 수식 1개와 보이는 주석이 있어야 한다."""
+    p = _DerivRows()
+    p.feed(source)
+    out = []
+    for r in p.rows:
+        n = len(re.findall(r"\$\$.+?\$\$", r["eq"], re.S))
+        if n != 1:
+            out.append(f"line {r['line']}: .deriv-eq 디스플레이 수식 {n}개 (1개여야 함)")
+        if not r["why"].strip():
+            out.append(f"line {r['line']}: .deriv-why 보이는 주석 없음")
+    return out
+
+
 def check_common(doc: Doc, source: str, path: Path) -> list[Problem]:
     name = Path(path).name
     out: list[Problem] = []
@@ -268,6 +327,7 @@ def check_common(doc: Doc, source: str, path: Path) -> list[Problem]:
     out += [Problem("math", name, e) for e in math_delimiter_errors(doc.body_text)]
     out += [Problem("broken-link", name, h) for h in broken_links(doc, Path(path).parent)]
     out += [Problem("leftover-slot", name, s) for s in sorted(set(SLOT_RE.findall(source)))]
+    out += [Problem("deriv-row", name, e) for e in deriv_row_errors(source)]
     out += [Problem("widget-static-missing", wid, "위젯에 .widget-static 정적 대체물이 없음")
             for wid, classes in sorted(doc.widgets.items()) if "widget-static" not in classes]
     return out

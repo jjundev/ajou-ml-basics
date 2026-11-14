@@ -46,13 +46,13 @@
 
 ## 긴 계산의 본문 서식
 
-긴 유도·계산은 [단계형 본문](staged-body.md)을 따른다. 목적·풀이·결과를 묶되 짧은 토픽에는 단계를 강제하지 않는다. 기존 노트의 도입·좌우 패널을 유지하고 결과는 일반 문단으로 쓴다.
+긴 유도·계산은 [단계형 본문](staged-body.md)을 따른다. 목적·풀이·결과를 묶되 짧은 토픽에는 단계를 강제하지 않는다. 기존 노트의 도입·좌우 패널을 유지하고 결과는 일반 문단으로 쓴다. 단계 안의 유도는 같은 파일의 **식 줄 + 주석** 서식(`ol.deriv`)으로 쓴다. 식을 한 줄씩 세우고 연산·이유는 옆 한 줄 주석에 두며, 문단과 식을 번갈아 쓰지 않는다.
 
 ## 토픽 마크업 (이 순서)
 ```html
 <article class="topic" id="…"><h3>…</h3><div class="tags"><span class="tag date">MMDD 수업</span><span class="tag slide">L0X sN</span></div>
   <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">한 문장 비유</p> …그림… </div>
-  <div class="layer formal"><span class="layer-title">정확히 말하면</span> …정의·수식·단계별 유도(ol.steps)… </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span> …정의·수식·단계별 유도(식 줄 ol.deriv, 알고리즘 순서는 ol.steps)… </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span> …비유·일화, 원문은 blockquote… </div>
   <div class="layer warn"><span class="layer-title">꼭 기억해요</span> …강조 발언 원문 인용… </div>   ← 강조 발언이 있을 때만
   <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span> … </div>             ← manifest supp=true만
@@ -81,7 +81,7 @@
 
 ## 문체
 - 쉽게 말하면(eli5): 초등학생이 이해할 1~3문장(figcaption 포함) + 그림. 전문용어·기호 없이(필요하면 정확히 말하면에 쓴다). 토스처럼 짧고 다정한 "~해요" 체.
-- 정확히 말하면(formal): 필요한 판단·조건·연결을 정확하게. 대표 유도의 핵심 연산은 한 줄에 한 단계로 쓰고, 이미 설명한 원리는 식·기호 대응으로 짧게 상기한다. 문장은 "~해요" 체로 쓴다.
+- 정확히 말하면(formal): 필요한 판단·조건·연결을 정확하게. 대표 유도의 핵심 연산은 한 줄에 한 단계로 쓰고(식 줄 + 주석), 이미 설명한 원리는 식·기호 대응으로 짧게 상기한다. 문장은 "~해요" 체로 쓴다.
 - 교수님 말씀(prof)/꼭 기억해요(warn): 원문 인용은 15단어 안팎으로 줄인다. 녹음 타임스탬프와 파트·시각 범위는 STT 요약에서 근거 확인에만 사용한다. 시각 없는 "(1104 Parts 06–07)", "1104 전사 Part 02", "Part 03에서는", "정확한 시각 없음"도 정리노트 HTML·대응 MD의 인용, 본문, 요약, 그림 설명, 각주, footer에 옮기지 않는다. 강의 제목의 "PCA Part1"과 일반적인 슬라이드·교과서·자료 출처는 유지한다.
 - UI 글은 한국어, 전문용어는 영어 병기(예: 과적합(overfitting)). 한 문장에 한 가지만 말하고, 군더더기 수식어("아주", "정말", "한번")는 뺀다.
 

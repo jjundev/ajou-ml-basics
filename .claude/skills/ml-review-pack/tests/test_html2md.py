@@ -220,3 +220,22 @@ class TestTermListMath(unittest.TestCase):
             p = Path(d) / "a.html"
             p.write_text(page('<dl><dt>$a$</dt><dd>$b$</dd></dl>'), encoding="utf-8")
             self.assertEqual(html2md.html_math_and_ids(str(p))[0], ["$a$", "$b$"])
+
+
+class TestDerivRows(unittest.TestCase):
+    BODY = ('<section id="s"><h2>A</h2><div class="deriv-body"><ol class="deriv">'
+            '<li><div class="deriv-eq">$$a=b$$</div><div class="deriv-why"><p>정의 $b$</p></div></li>'
+            '<li class="deriv-gen"><div class="deriv-eq">$$\\hphantom{a}=c$$</div>'
+            '<div class="deriv-why"><p>대입</p><details><summary>자세히</summary><p>이유 $c$</p></details></div></li>'
+            '</ol><p class="note-stage-result"><b>결론.</b></p></div></section>')
+
+    def test_deriv_rows_become_unnumbered_math_with_notes(self):
+        with tempfile.TemporaryDirectory() as d:
+            note, review = small_pack(d, self.BODY, '<section id="q"><h2>Q</h2><p>q</p></section>')
+            (note_md, _), _ = html2md.convert_pack(note, review)
+            md = Path(note_md).read_text(encoding="utf-8")
+            self.assertIn("$$\na=b\n$$\n\n↳ 정의 $b$", md)
+            self.assertIn("↳ 대입\n\n<details><summary>자세히</summary>", md)
+            self.assertNotIn("1. $$", md)
+            self.assertNotIn("2. ", md)
+            self.assertEqual(html2md.check_md(note, note_md), [])

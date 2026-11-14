@@ -25,6 +25,25 @@ class TestPrimitives(unittest.TestCase):
     def test_unbalanced_inline_math(self):
         self.assertEqual(check_html.math_delimiter_errors("a $x b"), ["unbalanced $ (inline math)"])
 
+    def test_deriv_rows_need_one_display_formula_and_visible_note(self):
+        ok = ('<ol class="deriv"><li><div class="deriv-eq">$$a=b$$</div>'
+              '<div class="deriv-why"><p>정의</p><details><summary>자세히</summary><p>x</p></details></div></li></ol>')
+        self.assertEqual(check_html.deriv_row_errors(ok), [])
+        bad = ('<ol class="deriv">'
+               '<li><div class="deriv-eq">$$a$$ $$b$$</div><div class="deriv-why"><p>둘</p></div></li>'
+               '<li><div class="deriv-eq">$$c$$</div><div class="deriv-why">'
+               '<details><summary>자세히</summary><p>숨김</p></details></div></li></ol>')
+        errs = check_html.deriv_row_errors(bad)
+        self.assertEqual(len(errs), 2)
+        self.assertIn("수식 2개", errs[0])
+        self.assertIn("보이는 주석 없음", errs[1])
+        src = f'<html lang="ko"><body>{bad}</body></html>'
+        codes = [p.code for p in check_html.check_common(check_html.parse_html(src), src, Path("x.html"))]
+        self.assertEqual(codes.count("deriv-row"), 2)
+
+    def test_plain_ordered_lists_are_not_deriv_rows(self):
+        self.assertEqual(check_html.deriv_row_errors('<ol class="steps"><li>no math</li></ol>'), [])
+
     def test_widget_without_static(self):
         src = '<html lang="ko"><body><div class="widget" id="w1"><h4>x</h4></div></body></html>'
         problems = check_html.check_common(check_html.parse_html(src), src, Path("x.html"))

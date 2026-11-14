@@ -277,6 +277,27 @@ def children_blocks(node, ctx):
     return join_blocks(blocks)
 
 
+def render_deriv(node, ctx):
+    """ol.deriv(식 줄 + 주석)를 번호 없는 식 블록과 `↳ 주석` 줄로 옮긴다."""
+    rows = []
+    for li in node.children:
+        if not (isinstance(li, Node) and li.tag == "li"):
+            continue
+        parts = [c for c in li.children if isinstance(c, Node)]
+        eq = next((c for c in parts if "deriv-eq" in c.classes), None)
+        why = next((c for c in parts if "deriv-why" in c.classes), None)
+        lines = children_blocks(eq, ctx) if eq else []
+        if why:
+            notes = [c for c in why.children if isinstance(c, Node) and c.tag != "details"]
+            text = " ".join("".join(inline(g, ctx) for g in n.children).strip() for n in notes).strip()
+            if text:
+                lines += ["", "↳ " + text]
+            for d in (c for c in why.children if isinstance(c, Node) and c.tag == "details"):
+                lines += [""] + block(d, ctx)
+        rows.append(lines)
+    return join_blocks(rows)
+
+
 def render_list(node, ctx, ordered):
     lines, n = [], 0
     for li in node.children:
@@ -401,6 +422,8 @@ def block(node, ctx):
         if t in ("h2", "h3") and node.parent is not None and node.parent.attrs.get("id") and node.parent.tag in ("section", "article"):
             anchor = node.parent.attrs["id"]
         return heading(int(t[1]), node, ctx, anchor)
+    if t == "ol" and "deriv" in cls:
+        return render_deriv(node, ctx)
     if t in ("ul", "ol"):
         items = [c for c in node.children if isinstance(c, Node) and c.tag == "li"]
         lettered = items and all(re.match(r"\s*\([a-z]\)", c.text()) for c in items)
