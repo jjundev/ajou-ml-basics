@@ -86,6 +86,38 @@
     .topic .note-subheading { margin: var(--s6) 0 var(--s3); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
     .topic .note-stage-result { margin-top: var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
     @media print { .note-stage-nav { display: none; } .note-stage { break-inside: auto; } }
+    /* 식 줄 + 주석: 유도는 식이 본문, 연산·이유는 옆 한 줄 주석 (staged-body.md) */
+    /* 간격 규칙: 덩어리 사이 24px · 짝을 이루는 줄 사이 8px · 식 줄 안쪽 12px */
+    .deriv-body { container-type: inline-size; --d-block: var(--s5); --d-pair: var(--s2); --d-row: var(--s3); }
+    .topic .deriv-body > * { margin: 0; }
+    .topic .deriv-body > * + * { margin-top: var(--d-block); }
+    .topic .deriv-body > .deriv-legend + .deriv,
+    .topic .deriv-body > .note-stage-result + .deriv-check { margin-top: var(--d-pair); }
+    .topic .deriv-body > .note-subheading { margin-top: var(--s6); }
+    .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
+    .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
+    .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+    .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
+    .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }
+    .deriv > li.is-wide { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .deriv-eq { min-width: 0; }
+    .deriv .katex-display { margin: 0; padding: 2px 0; text-align: left; }
+    .deriv .katex-display > .katex { text-align: left; }
+    .deriv .katex [style*="color:#"] { color: var(--accent-ink) !important; }
+    .deriv-why { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+    .topic .deriv-why p { margin: 0; }
+    .deriv-why details { margin-top: var(--s1); }
+    .deriv-why summary { display: inline-block; padding: 2px 0; cursor: pointer; color: var(--accent-ink); font-size: var(--fs-label); list-style: none; }
+    .deriv-why summary::-webkit-details-marker { display: none; }
+    .deriv-why summary::after { content: " ▾"; }
+    .deriv-why details[open] summary::after { content: " ▴"; }
+    .topic .deriv-why details p { margin-top: var(--s2); color: var(--ink); line-height: 1.7; }
+    @container (max-width: 620px) {
+      .deriv > li { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .deriv > li.deriv-gen { margin-inline: 0; padding-inline: var(--s3); }
+    }
+    @media print { .deriv-why details { display: block; } }
 
     /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
     .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
@@ -473,15 +505,23 @@ $$\begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}x_1\\ y_1\end{bmatrix}=x_1
 <h4 class="note-stage-title" id="s1-matrix-prepare"><span class="note-stage-number">1 / 3</span><span>방향과 데이터를 행렬로 모으기</span></h4>
 <p class="note-stage-goal">방향과 데이터를 각각 열벡터로 모으고, 내적에 쓸 전치의 모양을 확인해요.</p>
 <h5 class="note-subheading">방향을 가로로 나란히 붙여요</h5>
-<p>각 $\mathbf{b}_i\in\mathbb{R}^{D}$는 세로(열)벡터예요. 길이는 데이터의 차원 $D$와 같아요. 이 열벡터 $M$개를 가로로 나란히 붙이면 행이 $D$개, 열이 $M$개인 행렬이 돼요.</p>
-$$\mathbf{B}=\begin{bmatrix}\mathbf{b}_1 &amp; \mathbf{b}_2 &amp; \cdots &amp; \mathbf{b}_M\end{bmatrix},\qquad \mathbf{B}\in\mathbb{R}^{D\times M}$$<h5 class="note-subheading">전치는 열을 행으로</h5>
-<p>칠판의 예로 확인해요. 첫째 열이 첫째 행, 둘째 열이 둘째 행이 돼요.</p>
-$$\begin{bmatrix}1 &amp; 1\\ 0 &amp; 1\\ 3 &amp; 2\end{bmatrix}^T=\begin{bmatrix}1 &amp; 0 &amp; 3\\ 1 &amp; 1 &amp; 2\end{bmatrix}$$
-<p>그래서 $\mathbf{B}^T$의 $i$번째 행은 $\mathbf{b}_i$를 눕힌 $\mathbf{b}_i^T\in\mathbb{R}^{1\times D}$예요.</p>
-$$\mathbf{B}^T=\begin{bmatrix}\mathbf{b}_1^T\\ \vdots\\ \mathbf{b}_M^T\end{bmatrix}\in\mathbb{R}^{M\times D}$$<h5 class="note-subheading">데이터도 열로 모아요</h5>
+<div class="deriv-body">
+<p class="deriv-lead">각 $\mathbf{b}_i\in\mathbb{R}^{D}$는 세로(열)벡터이고, 길이는 데이터의 차원 $D$와 같아요. 이 열벡터를 모으고 전치해서 행으로 눕혀요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{B}=\begin{bmatrix}\mathbf{b}_1 &amp; \mathbf{b}_2 &amp; \cdots &amp; \mathbf{b}_M\end{bmatrix},\qquad \mathbf{B}\in\mathbb{R}^{D\times M}$$</div>
+<div class="deriv-why"><p>열벡터 $M$개를 가로로 붙여요</p>
+<details><summary>자세히</summary><p>행이 $D$개, 열이 $M$개인 행렬이 돼요.</p></details></div></li>
+<li><div class="deriv-eq">$$\begin{bmatrix}1 &amp; 1\\ 0 &amp; 1\\ 3 &amp; 2\end{bmatrix}^T=\begin{bmatrix}1 &amp; 0 &amp; 3\\ 1 &amp; 1 &amp; 2\end{bmatrix}$$</div>
+<div class="deriv-why"><p>전치는 열을 행으로: 칠판의 예</p>
+<details><summary>자세히</summary><p>첫째 열이 첫째 행, 둘째 열이 둘째 행이 돼요.</p></details></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{B}^T=\begin{bmatrix}\mathbf{b}_1^T\\ \vdots\\ \mathbf{b}_M^T\end{bmatrix}\in\mathbb{R}^{M\times D}$$</div>
+<div class="deriv-why"><p>$i$번째 행은 $\mathbf{b}_i$를 눕힌 $\mathbf{b}_i^T\in\mathbb{R}^{1\times D}$</p></div></li>
+</ol>
+<h5 class="note-subheading">데이터도 열로 모아요</h5>
 <p>데이터 $\mathbf{x}_n\in\mathbb{R}^{D}$ $N$개를 열로 나란히 붙이면 데이터 행렬이 돼요. 행은 $D$개, 열은 $N$개예요.</p>
 $$\mathbf{X}=\begin{bmatrix}\mathbf{x}_1 &amp; \cdots &amp; \mathbf{x}_N\end{bmatrix}\in\mathbb{R}^{D\times N}$$
 <p class="note-stage-result"><b>여기서 얻은 결과.</b> 방향 행렬의 각 행과 데이터를 내적할 준비가 됐어요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s1-matrix-coordinate"><span class="note-stage-number">2 / 3</span><span>내적 하나로 사영 좌표 구하기</span></h4>
@@ -791,22 +831,26 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       <li>$\mathbf{D}$: 같은 순서의 고윳값을 대각에 놓은 $n\times n$ 대각행렬이에요. 대각 성분은 차례로 $\lambda_1,\dots,\lambda_n$이에요.</li>
     </ul>
     <h5 class="note-subheading">칠판 유도 (L05 s18)</h5>
-<p>$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$를 만족하는 방향·배율 쌍을 열마다 나란히 모은 식이 $\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$예요. 새로운 고유벡터 조건을 추가한 것이 아니라, 같은 조건 $n$개를 행렬 식 하나로 묶는 거예요. 양변을 열 단위로 계산해 같음을 보여요.</p>
-    <ol class="steps">
-      <li>$\mathbf{A}$를 $\mathbf{P}$의 각 열에 나눠 곱해요(분배). 각 $\mathbf{A}\mathbf{p}_i$는 $n\times 1$이에요.
-      $$\mathbf{A}\mathbf{P}=\mathbf{A}[\mathbf{p}_1,\dots,\mathbf{p}_n]=[\mathbf{A}\mathbf{p}_1,\dots,\mathbf{A}\mathbf{p}_n]$$</li>
-      <li>$\mathbf{p}_i$가 고유벡터이므로 $\mathbf{A}\mathbf{p}_i$ 자리에 $\lambda_i\mathbf{p}_i$를 대입해요.
-      $$[\mathbf{A}\mathbf{p}_1,\dots,\mathbf{A}\mathbf{p}_n]=[\lambda_1\mathbf{p}_1,\dots,\lambda_n\mathbf{p}_n]$$</li>
-      <li>오른쪽 $\mathbf{P}\mathbf{D}$를 계산해요. $\mathbf{P}\mathbf{D}$의 $i$번째 열은 $\mathbf{P}$에 $\mathbf{D}$의 $i$번째 열 $\lambda_i\mathbf{e}_i$를 곱한 것이라 $\lambda_i\mathbf{p}_i$예요. 대각행렬을 오른쪽에 곱하면 열마다 배율이 곱해져요.
-      $$\mathbf{P}\mathbf{D}=[\mathbf{p}_1,\dots,\mathbf{p}_n]\begin{bmatrix}\lambda_1&amp;\cdots&amp;0\\\vdots&amp;\ddots&amp;\vdots\\0&amp;\cdots&amp;\lambda_n\end{bmatrix}=[\lambda_1\mathbf{p}_1,\dots,\lambda_n\mathbf{p}_n]$$</li>
-      <li>양쪽 열을 계산한 결과가 같으므로
-      $$\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$$</li>
-      <li>$\mathbf{P}$가 가역이면 양변 오른쪽에 $\mathbf{P}^{-1}$을 곱해요.
-      $$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$</li>
-      <li>$\mathbf{P}$가 가역일 때 두 행렬의 곱이 같다는 식의 양변 왼쪽에 $\mathbf{P}^{-1}$을 곱하면 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 정의식으로 돌아가요.
-      $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$</li>
-    </ol>
-    <p>열별 곱셈에서 $\mathbf{D}$는 오른쪽에 곱해야 열마다 배율이 곱해져요. 일반 행렬과는 곱 순서를 바꿀 수 없어요. <a href="#s3-spectral">대칭행렬의 고유벡터 분해</a>에서도 같은 순서를 유지해요.</p>
+<div class="deriv-body">
+<p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+<p class="deriv-lead">$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$를 만족하는 방향·배율 쌍 $n$개를 행렬 식 하나로 묶어요. 새 조건을 더하는 것이 아니라, 양변을 열 단위로 계산해 같음을 보여요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{A}\mathbf{P}=\mathbf{A}[\mathbf{p}_1,\dots,\mathbf{p}_n]=[\mathbf{A}\mathbf{p}_1,\dots,\mathbf{A}\mathbf{p}_n]$$</div>
+<div class="deriv-why"><p>$\mathbf{A}$를 열마다 나눠 곱해요(분배)</p>
+<details><summary>자세히</summary><p>각 $\mathbf{A}\mathbf{p}_i$는 $n\times 1$이에요.</p></details></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{A}\mathbf{P}}=[\textcolor{#3182f6}{\lambda_1\mathbf{p}_1},\dots,\textcolor{#3182f6}{\lambda_n\mathbf{p}_n}]$$</div>
+<div class="deriv-why"><p>고유벡터라 $\mathbf{A}\mathbf{p}_i=\lambda_i\mathbf{p}_i$ 대입</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{P}\mathbf{D}=[\mathbf{p}_1,\dots,\mathbf{p}_n]\begin{bmatrix}\lambda_1&amp;\cdots&amp;0\\\vdots&amp;\ddots&amp;\vdots\\0&amp;\cdots&amp;\lambda_n\end{bmatrix}=[\lambda_1\mathbf{p}_1,\dots,\lambda_n\mathbf{p}_n]$$</div>
+<div class="deriv-why"><p>대각행렬을 오른쪽에: 열마다 배율</p>
+<details><summary>자세히</summary><p>$\mathbf{P}\mathbf{D}$의 $i$번째 열은 $\mathbf{P}$에 $\mathbf{D}$의 $i$번째 열 $\lambda_i\mathbf{e}_i$를 곱한 것이라 $\lambda_i\mathbf{p}_i$예요.</p></details></div></li>
+<li><div class="deriv-eq">$$\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$$</div>
+<div class="deriv-why"><p>양쪽 열을 계산한 결과가 같아요</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1},\qquad \mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$</div>
+<div class="deriv-why"><p>$\mathbf{P}$가 가역이면 오른쪽·왼쪽에 $\mathbf{P}^{-1}$</p>
+<details><summary>자세히</summary><p>양변 오른쪽에 $\mathbf{P}^{-1}$을 곱하면 분해식이에요. 왼쪽에 곱하면 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 정의식으로 돌아가요.</p></details></div></li>
+</ol>
+<p class="deriv-check">열별 곱셈에서 $\mathbf{D}$는 오른쪽에 곱해야 열마다 배율이 곱해져요. 일반 행렬과는 곱 순서를 바꿀 수 없어요. <a href="#s3-spectral">대칭행렬의 고유벡터 분해</a>에서도 같은 순서를 유지해요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s2-evd-condition"><span class="note-stage-number">3 / 4</span><span>분해 가능한 조건 확인하기</span></h4>
@@ -827,23 +871,34 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 <h4 class="note-stage-title" id="s2-evd-use"><span class="note-stage-number">4 / 4</span><span>복잡한 계산을 대각행렬 계산으로 바꾸기</span></h4>
 <p class="note-stage-goal">분해한 식을 거듭제곱·행렬식·역행렬 계산에 사용해요.</p>
 <h5 class="note-subheading">EVD의 장점 (L05 s18)</h5>
-<p>어려운 계산을 대각행렬 계산으로 바꿔요.</p>
-    <ol class="steps">
-      <li>제곱: 가운데 $\mathbf{P}^{-1}\mathbf{P}=\mathbf{I}_n$이 사라져요.
-      $$\mathbf{A}^2=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}\mathbf{P}\mathbf{D}\mathbf{P}^{-1}=\mathbf{P}\mathbf{D}\mathbf{I}_n\mathbf{D}\mathbf{P}^{-1}=\mathbf{P}\mathbf{D}^2\mathbf{P}^{-1}$$
-      $$\mathbf{D}^2=\operatorname{diag}(\lambda_1^2,\dots,\lambda_n^2)$$</li>
-      <li>같은 상쇄를 $k$번 반복하면
-      $$\mathbf{A}^k=\mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$$</li>
-      <li>행렬식: 곱의 행렬식은 행렬식의 곱이에요.
-      $$\det(\mathbf{A})=\det(\mathbf{P})\det(\mathbf{D})\det(\mathbf{P}^{-1})$$</li>
-      <li>$\det(\mathbf{P})\det(\mathbf{P}^{-1})$는 $\det(\mathbf{P}\mathbf{P}^{-1})$과 같고 $\det(\mathbf{I}_n)=1$이라 남는 것은 $\det(\mathbf{D})$예요.
-      $$\det(\mathbf{A})=\det(\mathbf{D})=\prod_i d_{ii}=\prod_i\lambda_i$$
-      <small>$\det(\mathbf A)=\det(\mathbf D)$인 이유는 $\det(\mathbf P)\det(\mathbf P^{-1})=1$이기 때문이에요. 직교행렬의 행렬식은 $\det(\mathbf P)=\pm1$이에요.</small></li>
-      <li>역행렬: 수업에서는 역행렬 계산도 쉬워진다고만 했어요. 강의 내용을 식으로 옮긴 재표현은, 모든 $\lambda_i\neq 0$일 때 다음과 같아요. $\mathbf{A}$에 곱하면 가운데가 차례로 상쇄되어 $\mathbf{I}_n$이 돼요.
-      $$\mathbf{A}^{-1}=\mathbf{P}\mathbf{D}^{-1}\mathbf{P}^{-1}$$</li>
-    </ol>
+<div class="deriv-body">
+<p class="deriv-lead">어려운 계산을 대각행렬 계산으로 바꿔요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{A}^2=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$</div>
+<div class="deriv-why"><p>제곱: 분해식을 두 번 곱해요</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{A}^2}=\mathbf{P}\mathbf{D}\textcolor{#3182f6}{\mathbf{I}_n}\mathbf{D}\mathbf{P}^{-1}$$</div>
+<div class="deriv-why"><p>가운데 $\mathbf{P}^{-1}\mathbf{P}=\mathbf{I}_n$이 사라져요</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{A}^2}=\mathbf{P}\textcolor{#3182f6}{\mathbf{D}^2}\mathbf{P}^{-1}$$</div>
+<div class="deriv-why"><p>$\mathbf{D}\mathbf{D}=\mathbf{D}^2$</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{D}^2=\operatorname{diag}(\lambda_1^2,\dots,\lambda_n^2)$$</div>
+<div class="deriv-why"><p>대각행렬의 제곱은 대각 성분만 제곱</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{A}^k=\mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$$</div>
+<div class="deriv-why"><p>같은 상쇄를 $k$번 반복해요</p></div></li>
+</ol>
+<h5 class="note-subheading">행렬식과 역행렬</h5>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\det(\mathbf{A})=\det(\mathbf{P})\det(\mathbf{D})\det(\mathbf{P}^{-1})$$</div>
+<div class="deriv-why"><p>곱의 행렬식은 행렬식의 곱</p></div></li>
+<li><div class="deriv-eq">$$\det(\mathbf{A})=\det(\mathbf{D})=\prod_i d_{ii}=\prod_i\lambda_i$$</div>
+<div class="deriv-why"><p>$\det(\mathbf P)\det(\mathbf P^{-1})=1$이라 $\det(\mathbf{D})$만 남아요</p>
+<details><summary>자세히</summary><p>$\det(\mathbf{P})\det(\mathbf{P}^{-1})$는 $\det(\mathbf{P}\mathbf{P}^{-1})$과 같고 $\det(\mathbf{I}_n)=1$이에요. 직교행렬의 행렬식은 $\det(\mathbf P)=\pm1$이에요.</p></details></div></li>
+<li><div class="deriv-eq">$$\mathbf{A}^{-1}=\mathbf{P}\mathbf{D}^{-1}\mathbf{P}^{-1}$$</div>
+<div class="deriv-why"><p>모든 $\lambda_i\neq 0$일 때의 역행렬</p>
+<details><summary>자세히</summary><p>수업에서는 역행렬 계산도 쉬워진다고만 했어요. 이 식은 강의 내용을 식으로 옮긴 재표현이에요. $\mathbf{A}$에 곱하면 가운데가 차례로 상쇄되어 $\mathbf{I}_n$이 돼요.</p></details></div></li>
+</ol>
     <p>MML은 이 분해를 세 단계 변환으로 읽어요(MML 117쪽 그림 4.7). $\mathbf{P}^{-1}$이 좌표를 고유벡터 basis로 바꾸고, $\mathbf{D}$가 각 축을 $\lambda_i$배 늘이고, $\mathbf{P}$가 원래 좌표로 되돌려요.</p>
     <p><strong>복원 요령</strong>: 고유벡터를 열로 모은 $\mathbf{P}$와 고윳값을 대각에 둔 $\mathbf{D}$를 만들어요. 열마다 $\mathbf{A}\mathbf{p}_i$가 $\lambda_i\mathbf{p}_i$이므로 $\mathbf{A}\mathbf{P}$와 $\mathbf{P}\mathbf{D}$가 같고, $\mathbf{P}^{-1}$을 오른쪽에 곱하면 분해, 왼쪽에 곱하면 대각화예요.</p>
+</div>
 </div>
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">A = PDP⁻¹을 P⁻¹ → D → P 세 단계 변환으로 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" rel="noopener noreferrer" target="_self">고유벡터와 대칭행렬 실험</a>의 분해 모드에서 재생해 보세요.</p>
@@ -906,15 +961,20 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-spectral-symmetry"><span class="note-stage-number">1 / 4</span><span>공분산 행렬에 스펙트럼 정리 적용하기</span></h4>
 <p class="note-stage-goal">공분산 행렬이 대칭임을 확인하고, 정규직교 고유기저를 고를 수 있는 이유를 연결해요.</p>
-<p>앞 페이지의 고윳값 분해를 PCA의 데이터 공분산 행렬 $\mathbf{S}$에 적용해 볼게요. $\mathbf{x}_n$은 평균을 뺀 $n$번째 데이터예요. 곱을 전치하면 인수 순서가 뒤집히고, 두 번 전치한 벡터는 원래대로 돌아와요. 그래서 각 외적을 전치해도 그대로예요.</p>
-$$\begin{aligned}
-(\mathbf{x}_n\mathbf{x}_n^T)^T
-&amp;=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T,\\
-\mathbf{S}^T
-&amp;=\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T\right)^T\\
-&amp;=\frac{1}{N}\sum_{n=1}^{N}(\mathbf{x}_n\mathbf{x}_n^T)^T\\
-&amp;=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T=\mathbf{S}.
-\end{aligned}$$
+<div class="deriv-body">
+<p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+<p class="deriv-lead">앞 페이지의 고윳값 분해를 PCA의 데이터 공분산 행렬 $\mathbf{S}$에 적용해 볼게요. $\mathbf{x}_n$은 평균을 뺀 $n$번째 데이터예요. 먼저 $\mathbf{S}$가 대칭인지 확인해요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$(\mathbf{x}_n\mathbf{x}_n^T)^T=(\mathbf{x}_n^T)^T\mathbf{x}_n^T=\mathbf{x}_n\mathbf{x}_n^T$$</div>
+<div class="deriv-why"><p>곱의 전치는 순서가 뒤집히고, 두 번 전치하면 원래대로</p>
+<details><summary>자세히</summary><p>그래서 각 외적은 전치해도 그대로예요.</p></details></div></li>
+<li><div class="deriv-eq">$$\mathbf{S}^T=\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T\right)^T$$</div>
+<div class="deriv-why"><p>$\mathbf{S}$의 정의를 전치해요</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{S}^T}=\frac{1}{N}\sum_{n=1}^{N}\textcolor{#3182f6}{(\mathbf{x}_n\mathbf{x}_n^T)^T}$$</div>
+<div class="deriv-why"><p>합의 전치는 항마다 전치</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{S}^T}=\frac{1}{N}\sum_{n=1}^{N}\textcolor{#3182f6}{\mathbf{x}_n\mathbf{x}_n^T}=\mathbf{S}$$</div>
+<div class="deriv-why"><p>첫 줄대로 외적은 전치해도 그대로</p></div></li>
+</ol>
 <p>$\mathbf{S}$가 대칭이므로 스펙트럼 정리를 적용할 수 있어요.</p>
 <h5 class="note-subheading">기호</h5>
 <p>이 토픽의 기호는 다음과 같아요. 슬라이드는 차원을 $n$으로 쓰고, PCA에서는 이 $n$이 데이터 차원 $D$예요.</p>
@@ -927,10 +987,14 @@ $$\begin{aligned}
 </ul>
 <h5 class="note-subheading">정리(spectral theorem, 스펙트럼 정리)</h5>
 <p>대칭행렬 $\mathbf{S}\in\mathbb{R}^{n\times n}$는 다음처럼 분해돼요(L05 s19, MML Theorem 4.15·4.21).</p>
-$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$
-$$\mathbf{P}^{-1}=\mathbf{P}^T$$
-<p>두 식을 합쳐 다음처럼 써요.</p>
-$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$</div>
+<div class="deriv-why"><p>대칭행렬의 고윳값 분해</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{P}^{-1}=\mathbf{P}^T$$</div>
+<div class="deriv-why"><p>열이 정규직교라 역행렬이 전치(아래 성질 3)</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$</div>
+<div class="deriv-why"><p>두 식을 합쳐 써요</p></div></li>
+</ol>
 <p>이때 성립하는 성질은 세 가지예요.</p>
 <ol class="steps">
 <li>$\mathbf{D}$의 대각 성분, 곧 고윳값은 모두 <b>실수</b>예요. 일반 실행렬은 고윳값이 복소수일 수 있지만 대칭행렬은 그렇지 않아요.</li>
@@ -940,51 +1004,68 @@ $$\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T$$
 <p><a href="#s2-evd">2.3 고윳값 분해(EVD)</a>의 일반 분해와 달리, 실수 대칭행렬이면 $\mathbf{P}$를 직교로 고를 수 있어요. 특히 고윳값이 모두 단일근이면 서로 다른 고윳값의 고유벡터들이므로 서로 직교하고, 길이만 1로 맞추면 돼요. 일반 행렬에서는 고윳값이 서로 달라도 일차독립만 보장되고 직교는 보장되지 않아요. 2.1의 비대칭 예제 $\mathbf{A}=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}$는 고윳값이 1과 2로 서로 다르지만, 대응 벡터 $(1,0)^T$와 $(1,1)^T$의 내적이 1이에요.</p>
 <p class="note">실대칭행렬의 고유벡터는 정규직교하도록 고를 수 있어요. 이 고유벡터를 열로 모은 $\mathbf P$는 $\mathbf P^{-1}=\mathbf P^T$를 만족해요. 대칭행렬 자체의 역행렬이 항상 자기 전치라는 뜻은 아니에요.</p>
 </div>
+</div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-spectral-coordinates"><span class="note-stage-number">2 / 4</span><span>내적으로 새 좌표 읽기</span></h4>
 <p class="note-stage-goal">정규직교 기저에서는 전치가 역변환을 대신하는 이유를 확인해요.</p>
 <h5 class="note-subheading">$\mathbf{P}^{-1}=\mathbf{P}^T$를 좌표로 읽어요</h5>
-<p>다음은 강의 공식을 좌표변환으로 연결한 재표현이에요. 여기의 $\mathbf{P}$는 모든 축을 모은 $n\times n$ 정방행렬이에요. 원래 좌표 $\mathbf{x}\in\mathbb{R}^n$를 새 좌표 $\mathbf{z}\in\mathbb{R}^n$로 나타낸다고 해요. $\mathbf{P}$는 새 좌표를 가중합으로 원래 좌표에 옮기고, $\mathbf{P}^{-1}$은 원래 좌표에서 그 가중치들을 구해요.</p>
-$$\mathbf{x}=\mathbf{P}\mathbf{z}=\sum_{j=1}^{n}z_j\mathbf{p}_j,\qquad \mathbf{z}=\mathbf{P}^{-1}\mathbf{x}$$
-<p>열들이 정규직교이면 각 축과 내적하는 것만으로 가중치를 읽을 수 있어요. 아래 합에서 자기 축의 내적은 1이고 다른 축과의 내적은 0이라서 해당 가중치만 남아요.</p>
-$$\mathbf{p}_i^T\mathbf{x}=\sum_{j=1}^{n}z_j(\mathbf{p}_i^T\mathbf{p}_j)=z_i$$
-$$\mathbf{z}=\mathbf{P}^T\mathbf{x}=\mathbf{P}^{-1}\mathbf{x}$$
-<p>즉 $\mathbf{P}^T$가 역변환의 역할을 해요. 기하적으로는 원점을 고정한 회전·반사 또는 그 조합으로 축이 바뀌며 길이와 각도를 보존해요. 일부 축만 남기는 차원 축소는 그다음의 별도 단계예요. 일반적인 비직교 고유기저에서는 다른 축의 성분이 내적에 섞이므로 $\mathbf{P}^T$로 이 역변환을 대신할 수 없어요.</p>
+<div class="deriv-body">
+<p class="deriv-lead">다음은 강의 공식을 좌표변환으로 연결한 재표현이에요. 여기의 $\mathbf{P}$는 모든 축을 모은 $n\times n$ 정방행렬이고, 원래 좌표 $\mathbf{x}\in\mathbb{R}^n$를 새 좌표 $\mathbf{z}\in\mathbb{R}^n$로 나타낸다고 해요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{x}=\mathbf{P}\mathbf{z}=\sum_{j=1}^{n}z_j\mathbf{p}_j,\qquad \mathbf{z}=\mathbf{P}^{-1}\mathbf{x}$$</div>
+<div class="deriv-why"><p>$\mathbf{P}$는 가중합으로 옮기고, $\mathbf{P}^{-1}$은 가중치를 구해요</p>
+<details><summary>자세히</summary><p>$\mathbf{P}$는 새 좌표를 가중합으로 원래 좌표에 옮기고, $\mathbf{P}^{-1}$은 원래 좌표에서 그 가중치들을 구해요.</p></details></div></li>
+<li><div class="deriv-eq">$$\mathbf{p}_i^T\mathbf{x}=\sum_{j=1}^{n}z_j(\mathbf{p}_i^T\mathbf{p}_j)=z_i$$</div>
+<div class="deriv-why"><p>축과 내적: 자기 축 1, 다른 축 0</p>
+<details><summary>자세히</summary><p>열들이 정규직교이면 각 축과 내적하는 것만으로 가중치를 읽을 수 있어요. 합에서 해당 가중치만 남아요.</p></details></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{z}=\mathbf{P}^T\mathbf{x}=\mathbf{P}^{-1}\mathbf{x}$$</div>
+<div class="deriv-why"><p>모든 $i$를 모으면 행이 $\mathbf{p}_i^T$인 $\mathbf{P}^T$</p></div></li>
+</ol>
+<p class="note-stage-result"><b>즉 $\mathbf{P}^T$가 역변환의 역할을 해요.</b> 기하적으로는 원점을 고정한 회전·반사 또는 그 조합으로 축이 바뀌며 길이와 각도를 보존해요. 일부 축만 남기는 차원 축소는 그다음의 별도 단계예요.</p>
+<p class="deriv-check">일반적인 비직교 고유기저에서는 다른 축의 성분이 내적에 섞이므로 $\mathbf{P}^T$로 이 역변환을 대신할 수 없어요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-spectral-diagonal"><span class="note-stage-number">3 / 4</span><span>내적으로 대각 성분만 남기기</span></h4>
 <p class="note-stage-goal">행과 열의 내적에서 어떤 성분이 남고 사라지는지 계산해요.</p>
 <h5 class="note-subheading">직교 대각화 $\mathbf{D}=\mathbf{P}^T\mathbf{S}\mathbf{P}$를 오른쪽부터 내적으로 읽기</h5>
-<p>아래는 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 직교 대각화 식($\mathbf{D}=\mathbf{P}^T\mathbf{A}\mathbf{P}$에서 $\mathbf{A}=\mathbf{S}$)과 강의 공식을 연결하기 위한 재표현이에요. 오른쪽 두 행렬 $\mathbf{S}\mathbf{P}$부터 묶어 읽으면 왜 비대각 성분이 사라지고 대각선에 고윳값만 남는지 바로 보여요.</p>
-<ol class="steps">
-<li><b>오른쪽 $\mathbf{S}\mathbf{P}$ 먼저</b>: $\mathbf{P}=[\mathbf{p}_1,\dots,\mathbf{p}_n]$의 각 세로줄은 고유벡터이므로, $\mathbf{S}$를 곱하면 세로줄마다 자기 고윳값 $\lambda_j$배가 돼요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a> 칠판 유도의 열별 곱셈).
-$$\mathbf{S}\mathbf{P}=[\mathbf{S}\mathbf{p}_1\ \cdots\ \mathbf{S}\mathbf{p}_n]=[\lambda_1\mathbf{p}_1\ \cdots\ \lambda_n\mathbf{p}_n]$$</li>
-<li><b>왼쪽에 $\mathbf{P}^T$ 곱하기(가로줄×세로줄 내적)</b>: $\mathbf{P}^T$는 고유벡터들이 가로줄(행)로 누운 행렬이에요. 여기에 $\mathbf{S}\mathbf{P}$를 곱하면 $(i,j)$ 칸 성분 $D_{ij}$는 $\mathbf{P}^T$의 $i$번째 가로줄 $\mathbf{p}_i^T$와 $\mathbf{S}\mathbf{P}$의 $j$번째 세로줄 $\lambda_j\mathbf{p}_j$의 내적이에요.
-$$\mathbf{P}^T(\mathbf{S}\mathbf{P})=\begin{bmatrix}\mathbf{p}_1^T\\\vdots\\\mathbf{p}_n^T\end{bmatrix}[\lambda_1\mathbf{p}_1\ \cdots\ \lambda_n\mathbf{p}_n],\qquad D_{ij}=\mathbf{p}_i^T(\mathbf{S}\mathbf{p}_j)=\lambda_j(\mathbf{p}_i^T\mathbf{p}_j)$$</li>
-<li><b>정규직교성 적용</b>: 대각선 칸($i=j$)은 같은 단위 고유벡터끼리의 내적이라 $\mathbf{p}_i^T\mathbf{p}_i=1$이 되어 $\lambda_i$만 남고, 비대각선 칸($i\neq j$)은 서로 수직인 고유벡터끼리의 내적이라 $\mathbf{p}_i^T\mathbf{p}_j=0$이 되어 모두 $0$으로 지워져요.
-$$\mathbf{P}^T\mathbf{S}\mathbf{P}=\begin{bmatrix}\lambda_1(\mathbf{p}_1^T\mathbf{p}_1) &amp; \cdots &amp; \lambda_n(\mathbf{p}_1^T\mathbf{p}_n)\\ \vdots &amp; \ddots &amp; \vdots\\ \lambda_1(\mathbf{p}_n^T\mathbf{p}_1) &amp; \cdots &amp; \lambda_n(\mathbf{p}_n^T\mathbf{p}_n)\end{bmatrix}=\begin{bmatrix}\lambda_1 &amp; \cdots &amp; 0\\ \vdots &amp; \ddots &amp; \vdots\\ 0 &amp; \cdots &amp; \lambda_n\end{bmatrix}=\mathbf{D}$$</li>
+<div class="deriv-body">
+<p class="deriv-lead">아래는 <a href="#s2-diagonal">2.2 대각행렬과 대각화</a>의 직교 대각화 식($\mathbf{D}=\mathbf{P}^T\mathbf{A}\mathbf{P}$에서 $\mathbf{A}=\mathbf{S}$)과 강의 공식을 연결하기 위한 재표현이에요. 오른쪽 두 행렬 $\mathbf{S}\mathbf{P}$부터 묶어 읽으면 왜 비대각 성분이 사라지고 대각선에 고윳값만 남는지 바로 보여요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{S}\mathbf{P}=[\mathbf{S}\mathbf{p}_1\ \cdots\ \mathbf{S}\mathbf{p}_n]=[\lambda_1\mathbf{p}_1\ \cdots\ \lambda_n\mathbf{p}_n]$$</div>
+<div class="deriv-why"><p>오른쪽 $\mathbf{S}\mathbf{P}$ 먼저: 세로줄마다 $\lambda_j$배</p>
+<details><summary>자세히</summary><p>$\mathbf{P}=[\mathbf{p}_1,\dots,\mathbf{p}_n]$의 각 세로줄은 고유벡터라서 $\mathbf{S}$를 곱하면 자기 고윳값 $\lambda_j$배가 돼요(<a href="#s2-evd">2.3 고윳값 분해(EVD)</a> 칠판 유도의 열별 곱셈).</p></details></div></li>
+<li><div class="deriv-eq">$$\mathbf{P}^T(\mathbf{S}\mathbf{P})=\begin{bmatrix}\mathbf{p}_1^T\\\vdots\\\mathbf{p}_n^T\end{bmatrix}[\lambda_1\mathbf{p}_1\ \cdots\ \lambda_n\mathbf{p}_n],\qquad D_{ij}=\mathbf{p}_i^T(\mathbf{S}\mathbf{p}_j)=\lambda_j(\mathbf{p}_i^T\mathbf{p}_j)$$</div>
+<div class="deriv-why"><p>왼쪽에 $\mathbf{P}^T$: 가로줄 $\mathbf{p}_i^T$와 세로줄 $\lambda_j\mathbf{p}_j$의 내적</p>
+<details><summary>자세히</summary><p>$\mathbf{P}^T$는 고유벡터들이 가로줄(행)로 누운 행렬이에요. 그래서 $(i,j)$ 칸 성분 $D_{ij}$는 $\mathbf{P}^T$의 $i$번째 가로줄 $\mathbf{p}_i^T$와 $\mathbf{S}\mathbf{P}$의 $j$번째 세로줄 $\lambda_j\mathbf{p}_j$의 내적이에요.</p></details></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{P}^T\mathbf{S}\mathbf{P}=\begin{bmatrix}\lambda_1(\mathbf{p}_1^T\mathbf{p}_1) &amp; \cdots &amp; \lambda_n(\mathbf{p}_1^T\mathbf{p}_n)\\ \vdots &amp; \ddots &amp; \vdots\\ \lambda_1(\mathbf{p}_n^T\mathbf{p}_1) &amp; \cdots &amp; \lambda_n(\mathbf{p}_n^T\mathbf{p}_n)\end{bmatrix}=\begin{bmatrix}\lambda_1 &amp; \cdots &amp; 0\\ \vdots &amp; \ddots &amp; \vdots\\ 0 &amp; \cdots &amp; \lambda_n\end{bmatrix}=\mathbf{D}$$</div>
+<div class="deriv-why"><p>정규직교성: 같은 축끼리 1, 다른 축끼리 0</p>
+<details><summary>자세히</summary><p>대각선 칸($i=j$)은 같은 단위 고유벡터끼리의 내적이라 $\mathbf{p}_i^T\mathbf{p}_i=1$이 되어 $\lambda_i$만 남아요. 비대각선 칸($i\neq j$)은 서로 수직인 고유벡터끼리의 내적이라 $\mathbf{p}_i^T\mathbf{p}_j=0$이 되어 모두 $0$으로 지워져요.</p></details></div></li>
 </ol>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-spectral-pieces"><span class="note-stage-number">4 / 4</span><span>방향별 행렬 조각을 더하고 검산하기</span></h4>
 <p class="note-stage-goal">분해식을 외적의 합으로 쓰고, 고유벡터에 다시 곱해 확인해요.</p>
 <h5 class="note-subheading">유도: 행렬을 방향별 조각의 합으로</h5>
-<p>목적은 $\mathbf{S}$ 하나를 "방향 $\mathbf{p}_i$ 하나와 무게 $\lambda_i$ 하나"짜리 조각 $n$개의 합으로 다시 쓰는 거예요. 수업 칠판처럼 $n=3$으로 전개해요.</p>
-<ol class="steps">
-<li>분해식을 성분 모양으로 써요.
-$$\mathbf{S}=[\mathbf{p}_1\ \mathbf{p}_2\ \mathbf{p}_3]\begin{bmatrix}\lambda_1 &amp; 0 &amp; 0\\ 0 &amp; \lambda_2 &amp; 0\\ 0 &amp; 0 &amp; \lambda_3\end{bmatrix}\begin{bmatrix}\mathbf{p}_1^T\\ \mathbf{p}_2^T\\ \mathbf{p}_3^T\end{bmatrix}$$</li>
-<li>앞의 두 행렬을 먼저 곱해요. 대각행렬을 <b>오른쪽</b>에 곱하면 각 열이 해당 고윳값배가 돼요(열 스케일링).
-$$\mathbf{P}\mathbf{D}=[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]$$
-이 전개에 필요한 것은 이 열 스케일링뿐이에요.</li>
-<li>남은 곱은 "열들을 가로로 붙인 행렬" 곱하기 "행들을 세로로 쌓은 행렬"이에요. 행렬 곱의 열×행 전개(외적 합)에 따라 $k$번째 열과 $k$번째 행끼리만 곱해서 더해요.
-$$[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]\begin{bmatrix}\mathbf{p}_1^T\\ \mathbf{p}_2^T\\ \mathbf{p}_3^T\end{bmatrix}=\lambda_1\mathbf{p}_1\mathbf{p}_1^T+\lambda_2\mathbf{p}_2\mathbf{p}_2^T+\lambda_3\mathbf{p}_3\mathbf{p}_3^T$$
-$i\neq j$인 교차항 $\mathbf{p}_i\mathbf{p}_j^T$는 곱의 정의상 처음부터 생기지 않아요. 직교성과는 상관없어요.</li>
-<li>일반 $n$으로 쓰면 다음과 같아요.
-$$\mathbf{S}=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</li>
+<div class="deriv-body">
+<p class="deriv-lead">목적은 $\mathbf{S}$ 하나를 "방향 $\mathbf{p}_i$ 하나와 무게 $\lambda_i$ 하나"짜리 조각 $n$개의 합으로 다시 쓰는 거예요. 수업 칠판처럼 $n=3$으로 전개해요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{S}=[\mathbf{p}_1\ \mathbf{p}_2\ \mathbf{p}_3]\begin{bmatrix}\lambda_1 &amp; 0 &amp; 0\\ 0 &amp; \lambda_2 &amp; 0\\ 0 &amp; 0 &amp; \lambda_3\end{bmatrix}\begin{bmatrix}\mathbf{p}_1^T\\ \mathbf{p}_2^T\\ \mathbf{p}_3^T\end{bmatrix}$$</div>
+<div class="deriv-why"><p>분해식을 성분 모양으로 써요</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{P}\mathbf{D}=[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]$$</div>
+<div class="deriv-why"><p>대각행렬을 <b>오른쪽</b>에: 열마다 고윳값배</p>
+<details><summary>자세히</summary><p>앞의 두 행렬을 먼저 곱한 열 스케일링이에요. 이 전개에 필요한 것은 이 열 스케일링뿐이에요.</p></details></div></li>
+<li><div class="deriv-eq">$$[\lambda_1\mathbf{p}_1\ \lambda_2\mathbf{p}_2\ \lambda_3\mathbf{p}_3]\begin{bmatrix}\mathbf{p}_1^T\\ \mathbf{p}_2^T\\ \mathbf{p}_3^T\end{bmatrix}=\lambda_1\mathbf{p}_1\mathbf{p}_1^T+\lambda_2\mathbf{p}_2\mathbf{p}_2^T+\lambda_3\mathbf{p}_3\mathbf{p}_3^T$$</div>
+<div class="deriv-why"><p>열×행 전개: $k$번째 열과 $k$번째 행끼리만</p>
+<details><summary>자세히</summary><p>남은 곱은 "열들을 가로로 붙인 행렬" 곱하기 "행들을 세로로 쌓은 행렬"이에요. 행렬 곱의 열×행 전개(외적 합)에 따라 $k$번째 열과 $k$번째 행끼리만 곱해서 더해요.</p></details></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{S}=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$</div>
+<div class="deriv-why"><p>일반 $n$으로 써요</p></div></li>
 </ol>
-<p>합 $\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$의 각 조각 $\mathbf{p}_i\mathbf{p}_i^T$는 $(n\times1)(1\times n)$이라 $n\times n$ 행렬이에요. 고유벡터 하나를 세로와 가로로 곱해 만든 행렬에 $\lambda_i$를 곱하고, 이것을 $n$개 모두 더하면 원래 $\mathbf{S}$예요.</p>
-<p>직교성이 실제로 쓰이는 곳은 이 합을 다시 고유벡터에 곱할 때예요. 아래는 강의 공식을 확인하기 위한 재구성이에요. $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때만 1이므로 조각 하나만 남아요.</p>
+<p class="note-stage-result"><b>$i\neq j$인 교차항 $\mathbf{p}_i\mathbf{p}_j^T$는 곱의 정의상 처음부터 생기지 않아요. 직교성과는 상관없어요.</b> 각 조각 $\mathbf{p}_i\mathbf{p}_i^T$는 $(n\times1)(1\times n)$이라 $n\times n$ 행렬이에요. 고유벡터 하나를 세로와 가로로 곱해 만든 행렬에 $\lambda_i$를 곱하고, 이것을 $n$개 모두 더하면 원래 $\mathbf{S}$예요.</p>
+<p>직교성이 실제로 쓰이는 곳은 이 합 $\sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$를 다시 고유벡터에 곱할 때예요. 아래는 강의 공식을 확인하기 위한 재구성이에요. $\mathbf{p}_i^T\mathbf{p}_j$가 $i=j$일 때만 1이므로 조각 하나만 남아요.</p>
 $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\mathbf{p}_j)=\lambda_j\mathbf{p}_j$$
+</div>
 </div>
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">행렬 성분을 바꾸며 대칭일 때만 두 고유 방향이 수직인지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" rel="noopener noreferrer" target="_self">고유벡터와 대칭행렬 실험</a>에서 비교해 보세요.</p>
@@ -1050,32 +1131,49 @@ $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\math
 <h4 class="note-stage-title" id="s3-example-eigenvalues"><span class="note-stage-number">1 / 5</span><span>가능한 배율 찾기</span></h4>
 <p class="note-stage-goal">영벡터가 아닌 해가 존재할 조건으로 고윳값을 구해요.</p>
 <h5 class="note-subheading">고윳값을 구하는 목적</h5>
-<p>고유벡터 $\mathbf{x}$는 행렬을 곱한 결과가 자기 자신의 $\lambda$배가 되는, $\mathbf{0}$이 아닌 벡터예요. $\mathbf{x}=(x_1,x_2,x_3)^T$는 아직 모르는 세 성분을 가진 열벡터이고, $\lambda$는 그 배율이에요. 먼저 가능한 배율을 찾고, 그다음 그 배율을 갖는 벡터를 찾아요.</p>
-$$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}=\lambda\mathbf{I}\mathbf{x}$$
-<p>$\mathbf{I}$는 $\mathbf{I}\mathbf{x}=\mathbf{x}$인 $3\times3$ 단위행렬이에요. 양변에서 $\lambda\mathbf{I}\mathbf{x}$를 빼고 공통인 $\mathbf{x}$를 묶어요.</p>
-$$\mathbf{A}\mathbf{x}-\lambda\mathbf{I}\mathbf{x}=\mathbf{0}$$
-$$(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$$
+<div class="deriv-body">
+<p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+<p class="deriv-lead">고유벡터 $\mathbf{x}$는 행렬을 곱한 결과가 자기 자신의 $\lambda$배가 되는, $\mathbf{0}$이 아닌 벡터예요. $\mathbf{x}=(x_1,x_2,x_3)^T$는 아직 모르는 세 성분을 가진 열벡터이고, $\lambda$는 그 배율이에요. 먼저 가능한 배율을 찾고, 그다음 그 배율을 갖는 벡터를 찾아요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}=\lambda\mathbf{I}\mathbf{x}$$</div>
+<div class="deriv-why"><p>$\mathbf{I}$는 $\mathbf{I}\mathbf{x}=\mathbf{x}$인 $3\times3$ 단위행렬</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{A}\mathbf{x}-\lambda\mathbf{I}\mathbf{x}=\mathbf{0}$$</div>
+<div class="deriv-why"><p>양변에서 $\lambda\mathbf{I}\mathbf{x}$를 빼요</p></div></li>
+<li><div class="deriv-eq">$$(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$$</div>
+<div class="deriv-why"><p>공통인 $\mathbf{x}$를 묶어요</p></div></li>
+</ol>
 <p>$\mathbf{A}-\lambda\mathbf{I}$에 역행렬이 있다면 양변에 곱해서 $\mathbf{x}=\mathbf{0}$이 돼요. 원하는 것은 영벡터가 아닌 해이므로 역행렬이 없어야 해요. 정사각행렬에서는 역행렬이 없다는 조건과 행렬식이 $0$이라는 조건이 같아요. 그래서 가능한 배율을 찾는 특성방정식은 $\det(\mathbf{A}-\lambda\mathbf{I})=0$이에요.</p>
 <h5 class="note-subheading">행렬식을 일반적인 절차로 계산해요</h5>
-<p>수업과 슬라이드의 결과를 따라갈 수 있도록 계산을 재구성했어요. 단위행렬은 대각만 $1$이므로 $\mathbf{A}-\lambda\mathbf{I}$에서는 대각의 $3$에서만 $\lambda$를 빼요. 계산 중에만 쓰는 임시 이름 $a=3-\lambda$를 두어요.</p>
-$$\mathbf{A}-\lambda\mathbf{I}=\begin{bmatrix}3-\lambda&amp;2&amp;2\\2&amp;3-\lambda&amp;2\\2&amp;2&amp;3-\lambda\end{bmatrix}=\begin{bmatrix}a&amp;2&amp;2\\2&amp;a&amp;2\\2&amp;2&amp;a\end{bmatrix}$$
-<p>첫째 행을 기준으로 여인수 전개해요. 각 칸의 행과 열을 지운 $2\times2$ 행렬식을 그 칸의 값에 곱하고, 부호를 차례로 $+,-,+$로 붙여 더하는 방법이에요. $2\times2$ 행렬식의 규칙은 다음과 같아요.</p>
-$$\det\begin{bmatrix}b&amp;c\\d&amp;e\end{bmatrix}=be-cd$$
-<p>첫째 칸 $a$의 행과 열을 지우면 대각이 $a,a$인 행렬이 남아요. 둘째 칸 $2$에서는 첫째 행과 둘째 열을, 셋째 칸 $2$에서는 첫째 행과 셋째 열을 지워요.</p>
-$$p_A(\lambda)=a\det\begin{bmatrix}a&amp;2\\2&amp;a\end{bmatrix}-2\det\begin{bmatrix}2&amp;2\\2&amp;a\end{bmatrix}+2\det\begin{bmatrix}2&amp;a\\2&amp;2\end{bmatrix}$$
-$$p_A(\lambda)=a(a^2-4)-2(2a-4)+2(4-2a)$$
-<p>세 괄호를 각각 인수분해하면 공통인수 $a-2$가 보여요.</p>
-$$a^2-4=(a-2)(a+2),\qquad 2a-4=2(a-2),\qquad 4-2a=-2(a-2)$$
-$$p_A(\lambda)=a(a-2)(a+2)-4(a-2)-4(a-2)$$
-$$p_A(\lambda)=(a-2)\bigl[a(a+2)-4-4\bigr]$$
-$$p_A(\lambda)=(a-2)(a^2+2a-8)$$
-<p>곱해서 $-8$, 더해서 $2$가 되는 수는 $4$와 $-2$예요. 따라서 남은 이차식도 인수분해할 수 있어요.</p>
-$$a^2+2a-8=(a+4)(a-2)$$
-$$p_A(\lambda)=(a-2)^2(a+4)=(1-\lambda)^2(7-\lambda)$$
-<p>마지막 등식은 $a=3-\lambda$를 되돌려 넣은 거예요. 곱이 $0$이 되려면 $1-\lambda=0$이거나 $7-\lambda=0$이어야 하므로 고윳값은 $\lambda=1,7$이에요. $\lambda=1$은 같은 인수가 두 번 곱해진 중근이에요. 부호를 바꾸어 쓰면 노트와 같은 $p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$이에요. 슬라이드는 서로 다른 고윳값을 $\lambda_1=1$, $\lambda_2=7$로 번호 붙였어요.</p>
+<p class="deriv-lead">수업과 슬라이드의 결과를 따라갈 수 있도록 계산을 재구성했어요. 첫째 행을 기준으로 여인수 전개해요. 각 칸의 행과 열을 지운 $2\times2$ 행렬식을 그 칸의 값에 곱하고, 부호를 차례로 $+,-,+$로 붙여 더하는 방법이에요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{A}-\lambda\mathbf{I}=\begin{bmatrix}3-\lambda&amp;2&amp;2\\2&amp;3-\lambda&amp;2\\2&amp;2&amp;3-\lambda\end{bmatrix}=\begin{bmatrix}a&amp;2&amp;2\\2&amp;a&amp;2\\2&amp;2&amp;a\end{bmatrix}$$</div>
+<div class="deriv-why"><p>대각의 $3$에서만 $\lambda$를 빼고, 임시 이름 $a=3-\lambda$</p>
+<details><summary>자세히</summary><p>단위행렬은 대각만 $1$이에요. $a$는 계산 중에만 쓰는 이름이에요.</p></details></div></li>
+<li><div class="deriv-eq">$$\det\begin{bmatrix}b&amp;c\\d&amp;e\end{bmatrix}=be-cd$$</div>
+<div class="deriv-why"><p>도구: $2\times2$ 행렬식의 규칙</p></div></li>
+<li><div class="deriv-eq">$$p_A(\lambda)=a\det\begin{bmatrix}a&amp;2\\2&amp;a\end{bmatrix}-2\det\begin{bmatrix}2&amp;2\\2&amp;a\end{bmatrix}+2\det\begin{bmatrix}2&amp;a\\2&amp;2\end{bmatrix}$$</div>
+<div class="deriv-why"><p>첫째 행으로 여인수 전개, 부호 $+,-,+$</p>
+<details><summary>자세히</summary><p>첫째 칸 $a$의 행과 열을 지우면 대각이 $a,a$인 행렬이 남아요. 둘째 칸 $2$에서는 첫째 행과 둘째 열을, 셋째 칸 $2$에서는 첫째 행과 셋째 열을 지워요.</p></details></div></li>
+<li><div class="deriv-eq">$$p_A(\lambda)=a(a^2-4)-2(2a-4)+2(4-2a)$$</div>
+<div class="deriv-why"><p>$2\times2$ 규칙으로 계산해요</p></div></li>
+<li><div class="deriv-eq">$$a^2-4=(a-2)(a+2),\qquad 2a-4=2(a-2),\qquad 4-2a=-2(a-2)$$</div>
+<div class="deriv-why"><p>세 괄호를 각각 인수분해: 공통인수 $a-2$</p></div></li>
+<li><div class="deriv-eq">$$p_A(\lambda)=a(a-2)(a+2)-4(a-2)-4(a-2)$$</div>
+<div class="deriv-why"><p>인수분해한 괄호를 넣어요</p></div></li>
+<li><div class="deriv-eq">$$p_A(\lambda)=(a-2)\bigl[a(a+2)-4-4\bigr]$$</div>
+<div class="deriv-why"><p>공통인수 $a-2$를 밖으로</p></div></li>
+<li><div class="deriv-eq">$$p_A(\lambda)=(a-2)\textcolor{#3182f6}{(a^2+2a-8)}$$</div>
+<div class="deriv-why"><p>대괄호 안을 정리해요</p></div></li>
+<li><div class="deriv-eq">$$a^2+2a-8=(a+4)(a-2)$$</div>
+<div class="deriv-why"><p>곱해서 $-8$, 더해서 $2$인 수는 $4$와 $-2$</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$p_A(\lambda)=(a-2)^2(a+4)=(1-\lambda)^2(7-\lambda)$$</div>
+<div class="deriv-why"><p>$a=3-\lambda$를 되돌려 넣어요</p></div></li>
+</ol>
+<p>곱이 $0$이 되려면 $1-\lambda=0$이거나 $7-\lambda=0$이어야 하므로 고윳값은 $\lambda=1,7$이에요. $\lambda=1$은 같은 인수가 두 번 곱해진 중근이에요. 부호를 바꾸어 쓰면 노트와 같은 $p_A(\lambda)=-(\lambda-1)^2(\lambda-7)$이에요. 슬라이드는 서로 다른 고윳값을 $\lambda_1=1$, $\lambda_2=7$로 번호 붙였어요.</p>
 <h5 class="note-subheading">행을 더하는 요령은 언제 쓸까요?</h5>
 <p>이 예제는 각 열에 $a$ 하나와 $2$ 두 개가 있어 열의 합이 모두 $a+4$예요. 첫째 행에 둘째·셋째 행을 더하면 첫째 행이 $(a+4,a+4,a+4)$가 되므로 공통인수 $a+4$를 꺼낼 수 있어요. 다른 행을 더해도 행렬식의 값은 같고, 한 행 전체의 공통인수는 행렬식 밖으로 꺼낼 수 있기 때문이에요. 모든 열의 합이 같을 때 활용할 수 있는 계산 단축이에요. 처음 보는 행렬에서도 위의 여인수 전개는 적용할 수 있어요.</p>
 <p class="note-stage-result"><b>여기서 얻은 결과.</b> 고윳값은 1과 7이고, 1은 중근이에요. 다음에는 각 값을 연립방정식에 대입해요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-example-eigenspaces"><span class="note-stage-number">2 / 5</span><span>각 배율에 맞는 방향 찾기</span></h4>
@@ -1083,29 +1181,44 @@ $$p_A(\lambda)=(a-2)^2(a+4)=(1-\lambda)^2(7-\lambda)$$
 <h5 class="note-subheading">배율에 맞는 벡터를 찾아요</h5>
 <p>행렬식 계산으로 배율 $\lambda$를 찾았지만 벡터 $\mathbf{x}$는 아직 몰라요. 찾은 배율을 원래 조건 $(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$에 대입해 세 성분을 구해요. 행렬식 $\det(\mathbf{A}-\lambda\mathbf{I})$은 숫자 하나이고, $(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}$는 세 성분을 가진 벡터예요.</p>
 <h5 class="note-subheading">먼저 $\lambda=1$을 넣어요</h5>
-<p>조건 $\mathbf{A}\mathbf{x}=\mathbf{x}$는 양변에서 $\mathbf{x}=\mathbf{I}\mathbf{x}$를 빼면 $(\mathbf{A}-\mathbf{I})\mathbf{x}=\mathbf{0}$이 돼요. 이 조건을 성분별로 읽기 위해 왼쪽 곱셈을 계산해요.</p>
-$$\begin{bmatrix}2&amp;2&amp;2\\2&amp;2&amp;2\\2&amp;2&amp;2\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
-<p>행렬과 열벡터의 곱에서는 행렬의 한 행과 열벡터의 같은 위치 성분을 곱해 더한 값이 결과 벡터의 한 성분이 돼요. 첫째 행 $(2,2,2)$로 계산한 첫째 성분은 $2\cdot x_1+2\cdot x_2+2\cdot x_3$예요. 오른쪽 첫째 성분이 $0$이므로 이 합도 $0$이어야 해요. 둘째·셋째 행도 같은 방식으로 계산해요.</p>
-$$\begin{bmatrix}2x_1+2x_2+2x_3\\2x_1+2x_2+2x_3\\2x_1+2x_2+2x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
-<p>세 식이 같으므로 조건은 하나예요. $2$로 나눈 다음 $x_1$을 정리해요.</p>
-$$x_1+x_2+x_3=0,\qquad x_1=-x_2-x_3$$
-<p>$x_2,x_3$는 자유롭게 고를 수 있고, 그 값을 고르면 $x_1$이 정해져요. 이런 변수를 자유변수라고 해요. $x_2=s$, $x_3=t$로 놓아 모든 해를 적어요.</p>
-$$\mathbf{x}=\begin{bmatrix}-s-t\\s\\t\end{bmatrix}=s\begin{bmatrix}-1\\1\\0\end{bmatrix}+t\begin{bmatrix}-1\\0\\1\end{bmatrix}$$
-<p>$(s,t)=(1,0)$과 $(0,1)$을 골라 두 벡터를 얻었어요. 서로 상수배가 아닌 두 벡터의 조합으로 모든 해를 만들 수 있어요. 해 전체를 고유공간 $E_1$, 그 공간을 만드는 독립적인 두 벡터를 기저라고 해요. $\operatorname{span}$은 이처럼 상수배하고 더해서 만드는 벡터 전체를 뜻해요.</p>
-$$E_1=\operatorname{span}\left[\begin{bmatrix}-1\\1\\0\end{bmatrix},\begin{bmatrix}-1\\0\\1\end{bmatrix}\right]$$
-<p>고유공간에는 영벡터도 포함하지만, 고유벡터를 고를 때는 영벡터를 제외해요. 여기서는 자유변수가 둘임을 직접 확인했으므로 $E_1$이 2차원이에요. 일반 행렬에서 중근이라는 사실만으로 독립적인 고유벡터가 두 개 있다고 결론 내릴 수는 없어요.</p>
+<div class="deriv-body">
+<p class="deriv-lead">조건 $\mathbf{A}\mathbf{x}=\mathbf{x}$는 양변에서 $\mathbf{x}=\mathbf{I}\mathbf{x}$를 빼면 $(\mathbf{A}-\mathbf{I})\mathbf{x}=\mathbf{0}$이 돼요. 이 조건을 성분별로 읽어요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\begin{bmatrix}2&amp;2&amp;2\\2&amp;2&amp;2\\2&amp;2&amp;2\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$</div>
+<div class="deriv-why"><p>$(\mathbf{A}-\mathbf{I})\mathbf{x}=\mathbf{0}$을 그대로 써요</p></div></li>
+<li><div class="deriv-eq">$$\begin{bmatrix}2x_1+2x_2+2x_3\\2x_1+2x_2+2x_3\\2x_1+2x_2+2x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$</div>
+<div class="deriv-why"><p>행마다 행 성분과 $x$ 성분을 곱해 더해요</p>
+<details><summary>자세히</summary><p>행렬과 열벡터의 곱에서는 행렬의 한 행과 열벡터의 같은 위치 성분을 곱해 더한 값이 결과 벡터의 한 성분이 돼요. 첫째 행 $(2,2,2)$로 계산한 첫째 성분은 $2\cdot x_1+2\cdot x_2+2\cdot x_3$예요. 오른쪽 첫째 성분이 $0$이므로 이 합도 $0$이어야 해요.</p></details></div></li>
+<li><div class="deriv-eq">$$x_1+x_2+x_3=0,\qquad x_1=-x_2-x_3$$</div>
+<div class="deriv-why"><p>세 식이 같아 조건은 하나: $2$로 나누고 $x_1$ 정리</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{x}=\begin{bmatrix}-s-t\\s\\t\end{bmatrix}=s\begin{bmatrix}-1\\1\\0\end{bmatrix}+t\begin{bmatrix}-1\\0\\1\end{bmatrix}$$</div>
+<div class="deriv-why"><p>자유변수 $x_2=s$, $x_3=t$로 모든 해를 적어요</p>
+<details><summary>자세히</summary><p>$x_2,x_3$는 자유롭게 고를 수 있고, 그 값을 고르면 $x_1$이 정해져요. 이런 변수를 자유변수라고 해요.</p></details></div></li>
+<li><div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}-1\\1\\0\end{bmatrix},\begin{bmatrix}-1\\0\\1\end{bmatrix}\right]$$</div>
+<div class="deriv-why"><p>$(s,t)=(1,0)$과 $(0,1)$의 두 벡터가 기저</p>
+<details><summary>자세히</summary><p>서로 상수배가 아닌 두 벡터의 조합으로 모든 해를 만들 수 있어요. 해 전체를 고유공간 $E_1$, 그 공간을 만드는 독립적인 두 벡터를 기저라고 해요. $\operatorname{span}$은 이처럼 상수배하고 더해서 만드는 벡터 전체를 뜻해요.</p></details></div></li>
+</ol>
+<p class="deriv-check">고유공간에는 영벡터도 포함하지만, 고유벡터를 고를 때는 영벡터를 제외해요. 여기서는 자유변수가 둘임을 직접 확인했으므로 $E_1$이 2차원이에요. 일반 행렬에서 중근이라는 사실만으로 독립적인 고유벡터가 두 개 있다고 결론 내릴 수는 없어요.</p>
 <h5 class="note-subheading">이어서 $\lambda=7$을 넣어요</h5>
-<p>같은 곱셈 규칙으로 $(\mathbf{A}-7\mathbf{I})\mathbf{x}=\mathbf{0}$을 성분별로 풀어 써요.</p>
-$$\begin{bmatrix}-4&amp;2&amp;2\\2&amp;-4&amp;2\\2&amp;2&amp;-4\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
-$$\begin{aligned}-4x_1+2x_2+2x_3&amp;=0\\2x_1-4x_2+2x_3&amp;=0\\2x_1+2x_2-4x_3&amp;=0\end{aligned}$$
-<p>각 식을 $2$로 나누어요. 첫째 식에서 둘째 식을 빼면 $x_3$가 없어지고, 둘째 식에서 셋째 식을 빼면 $x_1$이 없어져요. 이 방법으로 성분 사이의 관계를 구해요.</p>
-$$\begin{aligned}-2x_1+x_2+x_3&amp;=0\\x_1-2x_2+x_3&amp;=0\\x_1+x_2-2x_3&amp;=0\end{aligned}$$
-$$(-2x_1+x_2+x_3)-(x_1-2x_2+x_3)=-3x_1+3x_2=0$$
-$$(x_1-2x_2+x_3)-(x_1+x_2-2x_3)=-3x_2+3x_3=0$$
-<p>첫 결과에서 $x_1=x_2$, 둘째 결과에서 $x_2=x_3$예요. 셋 다 $t$로 놓으면 원래 세 식도 모두 $0$이 되므로 모든 해는 $t(1,1,1)^T$예요. 자유변수 하나라서 고유공간은 1차원이에요.</p>
-$$E_7=\operatorname{span}\left[\begin{bmatrix}1\\1\\1\end{bmatrix}\right]$$
+<p class="deriv-lead">같은 곱셈 규칙으로 $(\mathbf{A}-7\mathbf{I})\mathbf{x}=\mathbf{0}$을 성분별로 풀어 써요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\begin{bmatrix}-4&amp;2&amp;2\\2&amp;-4&amp;2\\2&amp;2&amp;-4\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$</div>
+<div class="deriv-why"><p>$(\mathbf{A}-7\mathbf{I})\mathbf{x}=\mathbf{0}$</p></div></li>
+<li><div class="deriv-eq">$$\begin{aligned}-4x_1+2x_2+2x_3&amp;=0\\2x_1-4x_2+2x_3&amp;=0\\2x_1+2x_2-4x_3&amp;=0\end{aligned}$$</div>
+<div class="deriv-why"><p>행마다 곱해 세 식으로</p></div></li>
+<li><div class="deriv-eq">$$\begin{aligned}-2x_1+x_2+x_3&amp;=0\\x_1-2x_2+x_3&amp;=0\\x_1+x_2-2x_3&amp;=0\end{aligned}$$</div>
+<div class="deriv-why"><p>각 식을 $2$로 나눠요</p></div></li>
+<li><div class="deriv-eq">$$(-2x_1+x_2+x_3)-(x_1-2x_2+x_3)=-3x_1+3x_2=0$$</div>
+<div class="deriv-why"><p>첫째 − 둘째: $x_3$가 없어져 $x_1=x_2$</p></div></li>
+<li><div class="deriv-eq">$$(x_1-2x_2+x_3)-(x_1+x_2-2x_3)=-3x_2+3x_3=0$$</div>
+<div class="deriv-why"><p>둘째 − 셋째: $x_1$이 없어져 $x_2=x_3$</p></div></li>
+<li><div class="deriv-eq">$$E_7=\operatorname{span}\left[\begin{bmatrix}1\\1\\1\end{bmatrix}\right]$$</div>
+<div class="deriv-why"><p>셋 다 $t$: 해는 $t(1,1,1)^T$, 1차원</p>
+<details><summary>자세히</summary><p>셋 다 $t$로 놓으면 원래 세 식도 모두 $0$이 되므로 모든 해는 $t(1,1,1)^T$예요. 자유변수 하나라서 고유공간은 1차원이에요.</p></details></div></li>
+</ol>
 <p>이 예제에서는 고윳값 $1$에서 독립적인 방향 두 개, 고윳값 $7$에서 방향 하나를 얻었어요. 고유벡터는 각 방향의 상수배까지 포함해 무한히 많아요. 이제 $\mathbf{P}$의 열로 쓸 대표 벡터 세 개를 $\mathbf{x}_1=(-1,1,0)^T$, $\mathbf{x}_2=(-1,0,1)^T$, $\mathbf{x}_3=(1,1,1)^T$라고 부를게요. 앞에서 $x_1,x_2,x_3$는 한 벡터의 성분이었고, 여기의 굵은 $\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3$는 각각 벡터 전체예요.</p>
 <p class="note-stage-result"><b>여기서 얻은 결과.</b> 고윳값 1에서는 독립인 방향 두 개, 고윳값 7에서는 방향 한 개를 얻었어요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-example-orthogonalize"><span class="note-stage-number">3 / 5</span><span>같은 공간 안에서 수직으로 만들기</span></h4>
@@ -1156,20 +1269,25 @@ $$\begin{aligned}
 &amp;=\mathbf{x}_3^T\mathbf{x}_2-c\,\mathbf{x}_3^T\mathbf{x}_1\\
 &amp;=0-c\cdot0=0.
 \end{aligned}$$
-<p><strong>$c$를 고르는 목적은 $\mathbf{x}_1$과도 수직으로 만드는 것</strong>이에요. $\mathbf{x}_3$과의 수직성은 이미 유지되고, 추가 조건 $\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)=0$을 만족하는 값이 $c=1/2$예요. 그러면 세 방향이 모두 서로 수직이 돼요.</p>
-<ol class="steps">
-<li>첫 벡터는 그대로 둬요: $\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$.</li>
-<li>둘째 벡터에서 $c\mathbf{x}_1$을 빼요. 결과가 $\mathbf{x}_1$과 수직이어야 하므로 내적을 0으로 놓고 $c$를 풀어요.
-$$\begin{aligned}
-0&amp;=\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)\\
- &amp;=\mathbf{x}_1^T\mathbf{x}_2-c\,\mathbf{x}_1^T\mathbf{x}_1,\\
-c&amp;=\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}=\frac{1}{2}.
-\end{aligned}$$
-$$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</li>
-<li>확인해요. ${\mathbf{x}_1^T\mathbf{x}_2'=\frac12-\frac12+0=0}$이고 ${\mathbf{x}_3^T\mathbf{x}_2'=-\frac12-\frac12+1=0}$이에요. 또 $\mathbf{A}\mathbf{x}_2'=\mathbf{x}_2'$라서 여전히 $\lambda=1$의 고유벡터예요.</li>
+<h5 class="note-subheading">$c$를 구해 $\mathbf{x}_2'$ 만들기</h5>
+<div class="deriv-body">
+<p class="deriv-lead"><strong>$c$를 고르는 목적은 $\mathbf{x}_1$과도 수직으로 만드는 것</strong>이에요. $\mathbf{x}_3$과의 수직성은 이미 유지되고, 추가 조건 $\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)=0$을 만족하는 값이 $c=1/2$예요. 그러면 세 방향이 모두 서로 수직이 돼요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{x}_1'=\mathbf{x}_1=(-1,1,0)^T$$</div>
+<div class="deriv-why"><p>첫 벡터는 그대로 둬요</p></div></li>
+<li><div class="deriv-eq">$$0=\mathbf{x}_1^T(\mathbf{x}_2-c\mathbf{x}_1)$$</div>
+<div class="deriv-why"><p>$c\mathbf{x}_1$을 뺀 결과가 $\mathbf{x}_1$과 수직</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{0}=\mathbf{x}_1^T\mathbf{x}_2-c\,\mathbf{x}_1^T\mathbf{x}_1$$</div>
+<div class="deriv-why"><p>내적을 분배해요</p></div></li>
+<li><div class="deriv-eq">$$c=\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}=\frac{1}{2}$$</div>
+<div class="deriv-why"><p>$c$에 대해 풀어요</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^T\mathbf{x}_2}{\mathbf{x}_1^T\mathbf{x}_1}\mathbf{x}_1=\begin{bmatrix}-1\\ 0\\ 1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\ 1\\ 0\end{bmatrix}=\begin{bmatrix}-1/2\\ -1/2\\ 1\end{bmatrix}$$</div>
+<div class="deriv-why"><p>둘째 벡터에서 $c\mathbf{x}_1$을 빼요</p></div></li>
 </ol>
+<p class="deriv-check">확인: ${\mathbf{x}_1^T\mathbf{x}_2'=\frac12-\frac12+0=0}$이고 ${\mathbf{x}_3^T\mathbf{x}_2'=-\frac12-\frac12+1=0}$이에요. 또 $\mathbf{A}\mathbf{x}_2'=\mathbf{x}_2'$라서 여전히 $\lambda=1$의 고유벡터예요.</p>
 <p>이렇게 $(-1,1,0)^T$, $(-1/2,-1/2,1)^T$(고윳값 1)와 $(1,1,1)^T$(고윳값 7)가 $\mathbb{R}^3$의 직교 기저가 돼요. $E_1$ 안의 직교 기저는 이 한 쌍만 있는 것이 아니라서 $\mathbf{P}$도 하나로 정해지지 않아요.</p>
 <p class="note-stage-result"><b>여기서 얻은 결과.</b> 세 방향이 서로 수직이 됐어요. 이제 각 벡터의 길이를 1로 맞춰요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-example-normalize"><span class="note-stage-number">4 / 5</span><span>길이 1인 기저로 P 만들기</span></h4>
@@ -1188,14 +1306,18 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 <p>$\mathbf{P}^T\mathbf{P}$의 $(i,j)$ 성분은 $\mathbf{p}_i^T\mathbf{p}_j$예요. 대각은 길이의 제곱이라 정규화 뒤 모두 1이고, 비대각은 앞에서 직교성을 점검하고 직교화한 대로 0이에요. 그래서 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$예요.</p>
 <p class="note">정규직교하는 열벡터를 모으면 $\mathbf P^T\mathbf P=\mathbf I$예요. 정방 직교행렬이면 $\mathbf P\mathbf P^T=\mathbf I$도 성립해요.</p>
 <h5 class="note-subheading">조각의 합으로 $\mathbf{A}$ 복원</h5>
-<p>각 조각 $\mathbf{p}_i\mathbf{p}_i^T$를 계산해요.</p>
-$${\mathbf{p}_1\mathbf{p}_1^T=\frac{1}{2}\begin{bmatrix}1 &amp; -1 &amp; 0\\ -1 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 0\end{bmatrix}},\quad{\mathbf{p}_2\mathbf{p}_2^T=\frac{1}{6}\begin{bmatrix}1 &amp; 1 &amp; -2\\ 1 &amp; 1 &amp; -2\\ -2 &amp; -2 &amp; 4\end{bmatrix}},\quad{\mathbf{p}_3\mathbf{p}_3^T=\frac{1}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
-<p>고윳값 1인 두 조각을 더하고, 고윳값 7인 조각에 7을 곱해요.</p>
-$${1\cdot(\mathbf{p}_1\mathbf{p}_1^T+\mathbf{p}_2\mathbf{p}_2^T)=\frac{1}{3}\begin{bmatrix}2 &amp; -1 &amp; -1\\ -1 &amp; 2 &amp; -1\\ -1 &amp; -1 &amp; 2\end{bmatrix}},\quad{7\,\mathbf{p}_3\mathbf{p}_3^T=\frac{7}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$
-<p>두 행렬을 더하면 대각은 $\frac{2}{3}+\frac{7}{3}=3$, 비대각은 $-\frac{1}{3}+\frac{7}{3}=2$예요.</p>
-$$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}=\mathbf{A}$$
-<p>같은 확인을 ${\mathbf{P}\mathbf{D}\mathbf{P}^T=\mathbf{A}}$로 해도 돼요. 위 계산은 Python(fractions, sympy)으로 검산했어요.</p>
+<div class="deriv-body">
+<ol class="deriv">
+<li><div class="deriv-eq">$${\mathbf{p}_1\mathbf{p}_1^T=\frac{1}{2}\begin{bmatrix}1 &amp; -1 &amp; 0\\ -1 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 0\end{bmatrix}},\quad{\mathbf{p}_2\mathbf{p}_2^T=\frac{1}{6}\begin{bmatrix}1 &amp; 1 &amp; -2\\ 1 &amp; 1 &amp; -2\\ -2 &amp; -2 &amp; 4\end{bmatrix}},\quad{\mathbf{p}_3\mathbf{p}_3^T=\frac{1}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$</div>
+<div class="deriv-why"><p>각 조각 $\mathbf{p}_i\mathbf{p}_i^T$를 계산해요</p></div></li>
+<li><div class="deriv-eq">$${1\cdot(\mathbf{p}_1\mathbf{p}_1^T+\mathbf{p}_2\mathbf{p}_2^T)=\frac{1}{3}\begin{bmatrix}2 &amp; -1 &amp; -1\\ -1 &amp; 2 &amp; -1\\ -1 &amp; -1 &amp; 2\end{bmatrix}},\quad{7\,\mathbf{p}_3\mathbf{p}_3^T=\frac{7}{3}\begin{bmatrix}1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1\end{bmatrix}}$$</div>
+<div class="deriv-why"><p>고윳값 1인 두 조각은 더하고, 고윳값 7인 조각은 7배</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}=\mathbf{A}$$</div>
+<div class="deriv-why"><p>더하면 대각 $\frac{2}{3}+\frac{7}{3}=3$, 비대각 $-\frac{1}{3}+\frac{7}{3}=2$</p></div></li>
+</ol>
+<p class="deriv-check">같은 확인을 ${\mathbf{P}\mathbf{D}\mathbf{P}^T=\mathbf{A}}$로 해도 돼요. 위 계산은 Python(fractions, sympy)으로 검산했어요.</p>
 <p><b>복원 순서.</b> 특성다항식으로 고윳값을 구하고, 고유공간을 풀고, 이 실수 대칭행렬에서 중근 고유공간의 기저가 서로 직교하지 않으면 Gram–Schmidt로 직교화하고, 모든 기저 벡터를 정규화해요. 마지막으로 $\mathbf{P}^T\mathbf{P}=\mathbf{I}$와 조각의 합으로 검산해요.</p>
+</div>
 </div>
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A4%91%EA%B7%BC_%EA%B3%A0%EC%9C%A0%EA%B3%B5%EA%B0%84%EA%B3%BC_%EA%B7%B8%EB%9E%8C-%EC%8A%88%EB%AF%B8%ED%8A%B8.html">중근 λ = 1 평면에서 두 고유벡터를 골라 그람-슈미트 전후의 PDPᵀ 오차를 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EC%A4%91%EA%B7%BC_%EA%B3%A0%EC%9C%A0%EA%B3%B5%EA%B0%84%EA%B3%BC_%EA%B7%B8%EB%9E%8C-%EC%8A%88%EB%AF%B8%ED%8A%B8.html" rel="noopener noreferrer" target="_self">중근 고유공간과 그람-슈미트 실험</a>에서 비교해 보세요.</p>
@@ -1313,16 +1435,24 @@ $$\sum_{i=1}^{3}\lambda_i\mathbf{p}_i\mathbf{p}_i^T=\begin{bmatrix}3 &amp; 2 &am
 <h4 class="note-stage-title" id="s4-v1-scalar"><span class="note-stage-number">1 / 4</span><span>사영 좌표의 평균과 분산 구하기</span></h4>
 <p class="note-stage-goal">중심화된 데이터를 같은 방향에 사영하면 평균 항이 어떻게 정리되는지 확인해요.</p>
 <h5 class="note-subheading">사영 좌표는 가중합이에요</h5>
-<p>$\mathbf{b}_1 \in \mathbb{R}^D$는 크기 1인 방향(열벡터, $D \times 1$), $\mathbf{x}_n \in \mathbb{R}^D$는 centering된 $n$번째 데이터예요. $x_{dn}$을 $\mathbf{x}_n$의 $d$번째 성분, $b_{1d}$를 $\mathbf{b}_1$의 $d$번째 성분이라고 하면 다음과 같아요.</p>
-$$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n = \sum_{d=1}^{D} b_{1d}x_{dn}$$
-<p>$(1 \times D)(D \times 1) = 1 \times 1$이라 $z_{1n}$은 스칼라예요. 성분 $x_{dn}$에 무게 $b_{1d}$를 곱해 더한 가중합이에요. 모든 데이터에 같은 $\mathbf{b}_1^T$를 곱하므로 평균을 낼 때 합 밖으로 꺼낼 수 있어요. 괄호 안은 중심화된 데이터의 평균이라 영벡터예요.</p>
-$$\begin{aligned}
-\bar z_1 &amp;= \frac{1}{N}\sum_{n=1}^{N} z_{1n}\\
-         &amp;= \frac{1}{N}\sum_{n=1}^{N}\mathbf{b}_1^T\mathbf{x}_n\\
-         &amp;= \mathbf{b}_1^T\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\right)=0.
-\end{aligned}$$
-<p>따라서 분산에서 사영 좌표 평균의 제곱 $\bar z_1^2$이 사라져요.</p>
-$$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2-\bar z_1^2=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2.$$
+<div class="deriv-body">
+<p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+<p class="deriv-lead">$\mathbf{b}_1 \in \mathbb{R}^D$는 크기 1인 방향(열벡터, $D \times 1$), $\mathbf{x}_n \in \mathbb{R}^D$는 centering된 $n$번째 데이터예요. $x_{dn}$을 $\mathbf{x}_n$의 $d$번째 성분, $b_{1d}$를 $\mathbf{b}_1$의 $d$번째 성분이라고 해요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$z_{1n} = \mathbf{b}_1^T\mathbf{x}_n = \sum_{d=1}^{D} b_{1d}x_{dn}$$</div>
+<div class="deriv-why"><p>성분 $x_{dn}$에 무게 $b_{1d}$를 곱해 더한 가중합</p>
+<details><summary>자세히</summary><p>$(1 \times D)(D \times 1) = 1 \times 1$이라 $z_{1n}$은 스칼라예요.</p></details></div></li>
+<li><div class="deriv-eq">$$\bar z_1 = \frac{1}{N}\sum_{n=1}^{N} z_{1n}$$</div>
+<div class="deriv-why"><p>사영 좌표의 평균</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\bar z_1}= \frac{1}{N}\sum_{n=1}^{N}\textcolor{#3182f6}{\mathbf{b}_1^T\mathbf{x}_n}$$</div>
+<div class="deriv-why"><p>$z_{1n}=\mathbf{b}_1^T\mathbf{x}_n$ 대입</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\bar z_1}= \textcolor{#3182f6}{\mathbf{b}_1^T}\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\right)=0$$</div>
+<div class="deriv-why"><p>같은 $\mathbf{b}_1^T$는 합 밖으로, 괄호는 영벡터</p>
+<details><summary>자세히</summary><p>모든 데이터에 같은 $\mathbf{b}_1^T$를 곱하므로 평균을 낼 때 합 밖으로 꺼낼 수 있어요. 괄호 안은 중심화된 데이터의 평균이라 영벡터예요.</p></details></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2-\bar z_1^2=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2$$</div>
+<div class="deriv-why"><p>평균의 제곱 $\bar z_1^2$이 사라져요</p></div></li>
+</ol>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-v1-two-dimensions"><span class="note-stage-number">2 / 4</span><span>두 성분의 제곱을 먼저 전개하기</span></h4>
@@ -1333,20 +1463,36 @@ $$V_1=\frac{1}{N}\sum_{n=1}^{N}z_{1n}^2-\bar z_1^2=\frac{1}{N}\sum_{n=1}^{N}z_{1
 <h4 class="note-stage-title" id="s4-v1-covariance"><span class="note-stage-number">3 / 4</span><span>전치와 분배법칙으로 공분산 드러내기</span></h4>
 <p class="note-stage-goal">방향을 합의 양끝으로 꺼내고, 가운데 남은 평균을 공분산 행렬로 읽어요.</p>
 <h5 class="note-subheading">한 항씩 전치로 정리해요</h5>
-<p>곱의 전치 규칙을 써요.</p>
-$$(\mathbf{A}\mathbf{B})^T=\mathbf{B}^T\mathbf{A}^T$$
-<ol class="steps">
-<li>제곱을 곱으로 써요. ${z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)}$</li>
-<li>뒤쪽 인수는 스칼라라서 전치해도 그대로예요($3^T = 3$). ${z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)^T}$</li>
-<li>곱의 전치에 $\mathbf{A} = \mathbf{b}_1^T$, $\mathbf{B} = \mathbf{x}_n$을 넣어요. ${(\mathbf{b}_1^T\mathbf{x}_n)^T = \mathbf{x}_n^T(\mathbf{b}_1^T)^T = \mathbf{x}_n^T\mathbf{b}_1}$</li>
-<li>합치면 ${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$이에요. 차원은 $(1 \times D)(D \times 1)(1 \times D)(D \times 1)$이고, 가운데 $\mathbf{x}_n\mathbf{x}_n^T$는 $D \times D$ 행렬이에요.</li>
-<li>두 항만 더해 봐요. 왼쪽의 $\mathbf{b}_1^T$는 왼쪽으로, 오른쪽의 $\mathbf{b}_1$은 오른쪽으로 묶어요(행렬 곱의 분배법칙). $${\mathbf{b}_1^T\mathbf{x}_1\mathbf{x}_1^T\mathbf{b}_1 + \mathbf{b}_1^T\mathbf{x}_2\mathbf{x}_2^T\mathbf{b}_1 = \mathbf{b}_1^T(\mathbf{x}_1\mathbf{x}_1^T + \mathbf{x}_2\mathbf{x}_2^T)\mathbf{b}_1}$$</li>
-<li>$N$개로 늘리고 $\frac{1}{N}$을 괄호 안에 넣어요. $\mathbf{b}_1$은 $n$과 무관해서 합 밖으로 나와요. $$V_1 = \frac{1}{N}\sum_{n=1}^{N}\mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1$$ $$= \mathbf{b}_1^T\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T\right)\mathbf{b}_1$$</li>
-<li>괄호 안이 1028에서 정의한 데이터 공분산 행렬이에요. $$\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T$$ 따라서 $V_1$은 $\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$이에요.</li>
+<div class="deriv-body">
+<p class="deriv-lead">곱의 전치 규칙을 써요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$(\mathbf{A}\mathbf{B})^T=\mathbf{B}^T\mathbf{A}^T$$</div>
+<div class="deriv-why"><p>도구: 곱의 전치는 순서가 뒤집혀요</p></div></li>
+<li><div class="deriv-eq">$$z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)(\mathbf{b}_1^T\mathbf{x}_n)$$</div>
+<div class="deriv-why"><p>제곱을 곱으로 써요</p></div></li>
+<li><div class="deriv-eq">$$z_{1n}^2 = (\mathbf{b}_1^T\mathbf{x}_n)\textcolor{#3182f6}{(\mathbf{b}_1^T\mathbf{x}_n)^T}$$</div>
+<div class="deriv-why"><p>뒤쪽 인수는 스칼라라 전치해도 그대로($3^T = 3$)</p></div></li>
+<li><div class="deriv-eq">$$(\mathbf{b}_1^T\mathbf{x}_n)^T = \mathbf{x}_n^T(\mathbf{b}_1^T)^T = \mathbf{x}_n^T\mathbf{b}_1$$</div>
+<div class="deriv-why"><p>곱의 전치에 $\mathbf{A} = \mathbf{b}_1^T$, $\mathbf{B} = \mathbf{x}_n$</p></div></li>
+<li><div class="deriv-eq">$$z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\textcolor{#3182f6}{\mathbf{x}_n^T\mathbf{b}_1}$$</div>
+<div class="deriv-why"><p>합치면 가운데에 $D \times D$ 행렬 $\mathbf{x}_n\mathbf{x}_n^T$</p>
+<details><summary>자세히</summary><p>차원은 $(1 \times D)(D \times 1)(1 \times D)(D \times 1)$이고, 가운데 $\mathbf{x}_n\mathbf{x}_n^T$는 $D \times D$ 행렬이에요.</p></details></div></li>
+<li><div class="deriv-eq">$$\mathbf{b}_1^T\mathbf{x}_1\mathbf{x}_1^T\mathbf{b}_1 + \mathbf{b}_1^T\mathbf{x}_2\mathbf{x}_2^T\mathbf{b}_1 = \mathbf{b}_1^T(\mathbf{x}_1\mathbf{x}_1^T + \mathbf{x}_2\mathbf{x}_2^T)\mathbf{b}_1$$</div>
+<div class="deriv-why"><p>두 항만 더하면: $\mathbf{b}_1^T$는 왼쪽, $\mathbf{b}_1$은 오른쪽으로</p>
+<details><summary>자세히</summary><p>행렬 곱의 분배법칙으로 묶어요.</p></details></div></li>
+<li><div class="deriv-eq">$$V_1 = \frac{1}{N}\sum_{n=1}^{N}\mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1$$</div>
+<div class="deriv-why"><p>$N$개로 늘려 평균해요</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{V_1}= \mathbf{b}_1^T\textcolor{#3182f6}{\left(\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T\right)}\mathbf{b}_1$$</div>
+<div class="deriv-why"><p>$\mathbf{b}_1$은 $n$과 무관해서 합 밖으로, $\frac{1}{N}$은 괄호 안으로</p></div></li>
+<li><div class="deriv-eq">$$\mathbf{S}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T$$</div>
+<div class="deriv-why"><p>괄호 안은 1028에서 정의한 데이터 공분산 행렬</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$V_1=\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$</div>
+<div class="deriv-why"><p>괄호를 $\mathbf{S}$로 바꿔 써요</p></div></li>
 </ol>
 <h5 class="note-subheading">계수 위치와 차원</h5>
 <p>$\mathbf{S} \in \mathbb{R}^{D \times D}$이고, 이 강의의 표기 ${\mathbf{X} = [\mathbf{x}_1 \cdots \mathbf{x}_N] \in \mathbb{R}^{D \times N}}$으로는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T}$예요. 왼쪽에는 행벡터 $\mathbf{b}_1^T$($1 \times D$), 오른쪽에는 열벡터 $\mathbf{b}_1$($D \times 1$)이 붙어 ${(1 \times D)(D \times D)(D \times 1) = 1 \times 1}$ 스칼라가 돼요. 분산은 숫자 하나여야 하니 맞는 크기예요. 이 순서를 바꾸면 곱 자체가 정의되지 않아요.</p>
 <p>일반 규칙 $\operatorname{Cov}(\mathbf A\mathbf x)=\mathbf A\boldsymbol\Sigma\mathbf A^T$로도 읽을 수 있어요. 여기서는 $\mathbf A=\mathbf b_1^T$, 공분산 자리는 데이터로 구한 $\mathbf S$이므로 같은 $\mathbf b_1^T\mathbf S\mathbf b_1$이 돼요. 별도 암기식이 아니라 위 합 전개의 요약이에요.</p>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-v1-optimization"><span class="note-stage-number">4 / 4</span><span>크기를 고정하고 방향만 고르기</span></h4>
@@ -2071,6 +2217,40 @@ $$\begin{aligned}
       window.addEventListener('hashchange', schedule);
       window.addEventListener('load', schedule);
       schedule();
+    })();
+  </script>
+  <script id="deriv-fit">
+    (() => {
+      // 식이 주석 칸 옆에 다 들어가지 않으면 그 줄만 주석을 식 아래로 내린다.
+      function fit(list) {
+        const rows = Array.from(list.children);
+        rows.forEach(li => li.classList.remove('is-wide'));
+        const wide = rows.map(li => {
+          const k = li.querySelector('.katex-display');
+          return Boolean(k) && k.scrollWidth > k.clientWidth + 1;
+        });
+        rows.forEach((li, i) => li.classList.toggle('is-wide', wide[i]));
+      }
+      function start() {
+        const lists = Array.from(document.querySelectorAll('ol.deriv'));
+        if (!lists.length) return;
+        if (!('ResizeObserver' in window)) { lists.forEach(fit); return; }
+        const widths = new WeakMap();
+        const ro = new ResizeObserver(entries => entries.forEach(en => {
+          const w = Math.round(en.contentRect.width);
+          // 숨은 토픽(폭 0)은 기록을 지워, 다시 보일 때 같은 폭이어도 새로 잰다.
+          if (!w) { widths.delete(en.target); return; }
+          if (widths.get(en.target) !== w) { widths.set(en.target, w); fit(en.target); }
+        }));
+        lists.forEach(l => ro.observe(l));
+        // KaTeX 글꼴은 그 식이 처음 보일 때 늦게 불러와 폭이 바뀌므로, 글꼴 로드 뒤에도 다시 잰다.
+        const refitVisible = () => lists.forEach(l => { if (l.clientWidth) fit(l); });
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refitVisible);
+          if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refitVisible);
+        }
+      }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
     })();
   </script>
 </body>
