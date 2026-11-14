@@ -1,0 +1,58 @@
+{
+  "q1": {
+    "answer": "B",
+    "hash": "31fa40f226f6a8d49affc81c00f1c76b79903bea61cb05d131f7c2fc562224a6",
+    "objection": "",
+    "rationale": "`s0-convex`. 성분 선택 확률은 모두 비음수이고 합이 1이어야 한다. B는 $0.4+0.35+0.25=1$이고 세 가중치가 모두 양수다.",
+    "round": 2
+  },
+  "q2": {
+    "answer": "D",
+    "hash": "7eeb23b68cd0ddeace2bd841b574283f505195f4b52e25d916d59ddd20555a74",
+    "objection": "",
+    "rationale": "`s0-convex` 같은 위치에서 각 성분의 밀도에 해당 성분을 고를 확률을 곱해 더해요. $0.25\\cdot0.8+0.75\\cdot0.2=0.35$예요.",
+    "round": 1
+  },
+  "q3": {
+    "answer": "A",
+    "hash": "cd036441983be5e8c970da4356a93b298e207e812c2a23e8efdee89e617c9a42",
+    "objection": "",
+    "rationale": "`s1-parameters` 성분마다 평균 좌표 2개와 대칭 공분산의 대각 2개 및 비대각 1개가 있어요. 두 가중치의 합이 1이라 첫 가중치가 둘째를 결정하므로 $2(2+3)+1=11$개예요.",
+    "round": 1
+  },
+  "q4": {
+    "answer": "C",
+    "hash": "dc785144b31bfaf609f3376d4687ef4a67d4036265b2b6d68d535663ae15a568",
+    "objection": "",
+    "rationale": "`s2-likelihood`. 각 관측치의 혼합밀도는 $a_n+b_n$이다. 관측치가 독립이므로 우도는 $(a_1+b_1)(a_2+b_2)$이고, 두 인수가 양수이므로 로그우도는 $\\log(a_1+b_1)+\\log(a_2+b_2)$이다.",
+    "round": 2
+  },
+  "q5": {
+    "answer": "B",
+    "hash": "e3d5bb3964e27bde7dac8c149369264073a155f9f3a4a8daae673ba4e3ed96bd",
+    "objection": "",
+    "rationale": "`s2-responsibility` 공통 밀도 높이를 $h>0$라 하면 두 책임도는 같은 양수 $0.7h+0.3h$로 각각 $0.7h$와 $0.3h$를 나눈 값이에요. 성분 1의 분자가 더 커요.",
+    "round": 1
+  },
+  "q6": {
+    "answer": "0.25",
+    "hash": "b44270573054f0dd8c040a40c71225519b7c295a590f00a71f8f70df2e0148b9",
+    "objection": "",
+    "rationale": "`s2-responsibility` 성분 1의 가중 밀도 $0.15$를 혼합 밀도 $0.15+0.45=0.60$으로 나누면 $0.25$예요.",
+    "round": 1
+  },
+  "q7": {
+    "answer": "A",
+    "hash": "453fc0f730986f46223da8077430a2b590c9f24876c0dae747b5bc67bce5023d",
+    "objection": "",
+    "rationale": "`s2-matrix` 한 행은 관측치를 고정한 두 성분의 사후확률을 담으므로 두 값의 합이 항상 1이에요.",
+    "round": 1
+  },
+  "q8": {
+    "answer": "0.55",
+    "hash": "fcb8f3c0025ac2b1c94627459f581da6c6840833e5e2b31de9e88552a81e1222",
+    "objection": "",
+    "rationale": "`s2-matrix` 한 관측치의 성분별 책임도 합이 1이므로 셋째 값은 $1-0.17-0.28=0.55$예요.",
+    "round": 1
+  }
+}
