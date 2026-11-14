@@ -87,6 +87,39 @@
     .topic .note-stage-result { margin-top: var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
     @media print { .note-stage-nav { display: none; } .note-stage { break-inside: auto; } }
 
+    /* 식 줄 + 주석: 유도는 식이 본문, 연산·이유는 옆 한 줄 주석 (staged-body.md) */
+    /* 간격 규칙: 덩어리 사이 24px · 짝을 이루는 줄 사이 8px · 식 줄 안쪽 12px */
+    .deriv-body { container-type: inline-size; --d-block: var(--s5); --d-pair: var(--s2); --d-row: var(--s3); }
+    .topic .deriv-body > * { margin: 0; }
+    .topic .deriv-body > * + * { margin-top: var(--d-block); }
+    .topic .deriv-body > .deriv-legend + .deriv,
+    .topic .deriv-body > .note-stage-result + .deriv-check { margin-top: var(--d-pair); }
+    .topic .deriv-body > .note-subheading { margin-top: var(--s6); }
+    .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
+    .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
+    .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+    .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
+    .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }
+    .deriv > li.is-wide { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .deriv-eq { min-width: 0; }
+    .deriv .katex-display { margin: 0; padding: 2px 0; text-align: left; }
+    .deriv .katex-display > .katex { text-align: left; }
+    .deriv .katex [style*="color:#"] { color: var(--accent-ink) !important; }
+    .deriv-why { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+    .topic .deriv-why p { margin: 0; }
+    .deriv-why details { margin-top: var(--s1); }
+    .deriv-why summary { display: inline-block; padding: 2px 0; cursor: pointer; color: var(--accent-ink); font-size: var(--fs-label); list-style: none; }
+    .deriv-why summary::-webkit-details-marker { display: none; }
+    .deriv-why summary::after { content: " ▾"; }
+    .deriv-why details[open] summary::after { content: " ▴"; }
+    .topic .deriv-why details p { margin-top: var(--s2); color: var(--ink); line-height: 1.7; }
+    @container (max-width: 620px) {
+      .deriv > li { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .deriv > li.deriv-gen { margin-inline: 0; padding-inline: var(--s3); }
+    }
+    @media print { .deriv-why details { display: block; } }
+
     /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
     .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
     .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
@@ -622,13 +655,21 @@ $$=\sum_{k=1}^K\pi_k=1.$$
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-likelihood-log"><span class="note-stage-number">2 / 2</span> <span>표본별 로그의 합</span></h4>
       <p class="note-stage-goal">곱을 다루기 쉽게 바꾸면서 어떤 파라미터에 우도가 더 큰지 그 순서를 유지해요.</p>
-      <p>우도가 양수이면 로그를 취해도 후보의 순위가 같아요. 최대우도 추정(MLE)은 우도를 최대화하는 파라미터를 찾는 일이에요. 로그우도 $\ell(\boldsymbol{\theta})$를 최대화하거나 $-\ell(\boldsymbol{\theta})$를 최소화해도 목적은 같아요. 곱의 로그를 합으로 바꿔요.</p>
-      <div>$$\ell(\boldsymbol{\theta})=\log p(\mathcal{X}\mid\boldsymbol{\theta})$$</div>
-      <div>$$=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</div>
-      <p>각 로그의 입력에 한 표본의 혼합 밀도를 대입해요.</p>
-      <p>$p_k(\mathbf{x}_n)=\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 성분 $k$가 관측 $n$에서 주는 밀도예요.</p>
-      <div>$$\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log\left(\sum_{k=1}^K\pi_k p_k(\mathbf{x}_n)\right)$$</div>
-      <p>안쪽 $k$ 합은 같은 관측치에 대한 성분별 높이를 묶어요. 바깥 $n$ 합은 관측치별 로그를 모아요. 곱의 로그를 합으로 바꾸는 규칙은 표본별 밀도의 곱에 적용해요. 성분별 밀도는 더하므로 그 합은 로그 안에 둬요. 한 성분만 있으면 로그가 가우시안의 지수항을 풀어 주지만, 혼합 모델에서는 로그 안에 성분 합이 남아 성분별 파라미터를 따로 맞추기 어려워요.</p>
+      <div class="deriv-body">
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\ell(\boldsymbol{\theta})=\log p(\mathcal{X}\mid\boldsymbol{\theta})$$</div>
+            <div class="deriv-why"><p>우도가 양수라 로그를 취해도 순위가 같아요</p>
+              <details><summary>자세히</summary><p>최대우도 추정(MLE)은 우도를 최대화하는 파라미터를 찾는 일이에요. 로그우도 $\ell(\boldsymbol{\theta})$를 최대화하거나 $-\ell(\boldsymbol{\theta})$를 최소화해도 목적은 같아요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\ell(\boldsymbol{\theta})}=\textcolor{#3182f6}{\sum_{n=1}^N\log} p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</div>
+            <div class="deriv-why"><p>곱의 로그는 로그의 합</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log\textcolor{#3182f6}{\left(\sum_{k=1}^K\pi_k p_k(\mathbf{x}_n)\right)}$$</div>
+            <div class="deriv-why"><p>한 표본의 혼합 밀도 대입, $p_k$는 성분 $k$의 밀도</p>
+              <details><summary>자세히</summary><p>$p_k(\mathbf{x}_n)=\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 성분 $k$가 관측 $n$에서 주는 밀도예요. 안쪽 $k$ 합은 같은 관측치에 대한 성분별 높이를 묶고, 바깥 $n$ 합은 관측치별 로그를 모아요.</p></details></div></li>
+        </ol>
+        <p class="note-stage-result"><b>로그 안에 한 표본의 성분 합이 남아요.</b> 곱의 로그를 합으로 바꾸는 규칙은 표본별 밀도의 곱에 적용해요. 성분별 밀도는 더하므로 그 합은 로그 안에 둬요.</p>
+        <p class="deriv-check">한 성분만 있으면 로그가 가우시안의 지수항을 풀어 주지만, 혼합 모델에서는 로그 안에 성분 합이 남아 성분별 파라미터를 따로 맞추기 어려워요.</p>
+      </div>
     </div>
     <p><b>복원 순서.</b> 한 관측의 가중 밀도를 더해요. 독립인 관측들의 밀도를 곱하고 로그를 취하면 관측별 로그의 합이 돼요.</p>
   </div>
@@ -675,12 +716,20 @@ $$=\sum_{k=1}^K\pi_k=1.$$
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-responsibility-bayes"><span class="note-stage-number">1 / 2</span> <span>베이즈 식의 분자와 분모</span></h4>
       <p class="note-stage-goal">관측 전 가중치에 관측값의 정보를 반영해요.</p>
-      <p>베이즈 정리의 $P(A\mid B)=P(B\mid A)P(A)/P(B)$에서 $A$의 자리는 ‘성분 $k$가 선택됨’이에요. 연속 관측값 $\mathbf{x}_n$에 조건을 걸 때는 $B$가 들어가는 두 자리에서 그 점의 밀도를 써요. $P(A)$의 자리에는 관측 전 선택 확률 $\pi_k$, $P(B\mid A)$의 자리에는 성분 밀도 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 들어가요.</p>
-      <div>$$r_{nk}=P(Z_n=k\mid\mathbf{x}_n,\boldsymbol{\theta})$$</div>
-      <div>$$=\frac{p(\mathbf{x}_n\mid Z_n=k,\boldsymbol{\theta})P(Z_n=k\mid\boldsymbol{\theta})}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}$$</div>
-      <p>분모는 성분 번호를 모를 때의 전체 밀도예요. <a href="#s2-likelihood">표본별 혼합 밀도</a>를 그대로 넣어요. 합의 인덱스 $j$는 분자에서 선택한 $k$를 포함해 모든 성분을 훑어요.</p>
-      <div>$$r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$$</div>
-      <p>같은 관측치에 대해 분모가 양수이면, 각 분자는 비음수이고 분자들의 합이 분모와 같아요. 그래서 각각 $0\le r_{nk}\le1$이고 $\sum_{k=1}^K r_{nk}=1$이에요.</p>
+      <div class="deriv-body">
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <p class="deriv-lead">베이즈 정리의 $P(A\mid B)=P(B\mid A)P(A)/P(B)$에서 $A$의 자리는 ‘성분 $k$가 선택됨’이에요. 연속 관측값 $\mathbf{x}_n$에 조건을 걸 때는 $B$가 들어가는 두 자리에서 그 점의 밀도를 써요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$r_{nk}=P(Z_n=k\mid\mathbf{x}_n,\boldsymbol{\theta})$$</div>
+            <div class="deriv-why"><p>책임도는 관측 후 성분 번호의 확률</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{r_{nk}}=\frac{p(\mathbf{x}_n\mid Z_n=k,\boldsymbol{\theta})P(Z_n=k\mid\boldsymbol{\theta})}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}$$</div>
+            <div class="deriv-why"><p>베이즈 정리, $B$ 자리에는 $\mathbf x_n$의 밀도</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$r_{nk}=\frac{\textcolor{#3182f6}{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}}{\textcolor{#3182f6}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}}$$</div>
+            <div class="deriv-why"><p>분자에 $\pi_k$와 성분 밀도, 분모는 모든 성분 $j$의 합</p>
+              <details><summary>자세히</summary><p>$P(A)$의 자리에는 관측 전 선택 확률 $\pi_k$, $P(B\mid A)$의 자리에는 성분 밀도 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 들어가요. 분모는 성분 번호를 모를 때의 전체 밀도라 <a href="#s2-likelihood">표본별 혼합 밀도</a>를 그대로 넣어요. 합의 인덱스 $j$는 분자에서 선택한 $k$를 포함해 모든 성분을 훑어요.</p></details></div></li>
+        </ol>
+        <p class="note-stage-result"><b>각각 $0\le r_{nk}\le1$이고 $\sum_{k=1}^K r_{nk}=1$이에요.</b> 같은 관측치에 대해 분모가 양수이면, 각 분자는 비음수이고 분자들의 합이 분모와 같기 때문이에요.</p>
+      </div>
     </div>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-responsibility-example"><span class="note-stage-number">2 / 2</span> <span>책임도 계산과 해석</span></h4>
@@ -1247,6 +1296,40 @@ $$=\sum_{k=1}^K\pi_k=1.$$
         if (content) observer.observe(content);
       });
     });
+  </script>
+  <script id="deriv-fit">
+    (() => {
+      // 식이 주석 칸 옆에 다 들어가지 않으면 그 줄만 주석을 식 아래로 내린다.
+      function fit(list) {
+        const rows = Array.from(list.children);
+        rows.forEach(li => li.classList.remove('is-wide'));
+        const wide = rows.map(li => {
+          const k = li.querySelector('.katex-display');
+          return Boolean(k) && k.scrollWidth > k.clientWidth + 1;
+        });
+        rows.forEach((li, i) => li.classList.toggle('is-wide', wide[i]));
+      }
+      function start() {
+        const lists = Array.from(document.querySelectorAll('ol.deriv'));
+        if (!lists.length) return;
+        if (!('ResizeObserver' in window)) { lists.forEach(fit); return; }
+        const widths = new WeakMap();
+        const ro = new ResizeObserver(entries => entries.forEach(en => {
+          const w = Math.round(en.contentRect.width);
+          // 숨은 토픽(폭 0)은 기록을 지워, 다시 보일 때 같은 폭이어도 새로 잰다.
+          if (!w) { widths.delete(en.target); return; }
+          if (widths.get(en.target) !== w) { widths.set(en.target, w); fit(en.target); }
+        }));
+        lists.forEach(l => ro.observe(l));
+        // KaTeX 글꼴은 그 식이 처음 보일 때 늦게 불러와 폭이 바뀌므로, 글꼴 로드 뒤에도 다시 잰다.
+        const refitVisible = () => lists.forEach(l => { if (l.clientWidth) fit(l); });
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refitVisible);
+          if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refitVisible);
+        }
+      }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+    })();
   </script>
 </body>
 </html>

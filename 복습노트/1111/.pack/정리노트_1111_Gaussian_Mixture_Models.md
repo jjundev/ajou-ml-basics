@@ -356,25 +356,41 @@ $$
 
 곱을 다루기 쉽게 바꾸면서 어떤 파라미터에 우도가 더 큰지 그 순서를 유지해요.
 
-우도가 양수이면 로그를 취해도 후보의 순위가 같아요. 최대우도 추정(MLE)은 우도를 최대화하는 파라미터를 찾는 일이에요. 로그우도 $\ell(\boldsymbol{\theta})$를 최대화하거나 $-\ell(\boldsymbol{\theta})$를 최소화해도 목적은 같아요. 곱의 로그를 합으로 바꿔요.
+파란색은 바로 윗줄에서 바뀐 부분이에요.
 
 $$
 \ell(\boldsymbol{\theta})=\log p(\mathcal{X}\mid\boldsymbol{\theta})
 $$
 
+↳ 우도가 양수라 로그를 취해도 순위가 같아요
+
+<details><summary>자세히</summary>
+
+최대우도 추정(MLE)은 우도를 최대화하는 파라미터를 찾는 일이에요. 로그우도 $\ell(\boldsymbol{\theta})$를 최대화하거나 $-\ell(\boldsymbol{\theta})$를 최소화해도 목적은 같아요.
+
+</details>
+
 $$
-=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta})
+\hphantom{\ell(\boldsymbol{\theta})}=\textcolor{#3182f6}{\sum_{n=1}^N\log} p(\mathbf{x}_n\mid\boldsymbol{\theta})
 $$
 
-각 로그의 입력에 한 표본의 혼합 밀도를 대입해요.
-
-$p_k(\mathbf{x}_n)=\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 성분 $k$가 관측 $n$에서 주는 밀도예요.
+↳ 곱의 로그는 로그의 합
 
 $$
-\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log\left(\sum_{k=1}^K\pi_k p_k(\mathbf{x}_n)\right)
+\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log\textcolor{#3182f6}{\left(\sum_{k=1}^K\pi_k p_k(\mathbf{x}_n)\right)}
 $$
 
-안쪽 $k$ 합은 같은 관측치에 대한 성분별 높이를 묶어요. 바깥 $n$ 합은 관측치별 로그를 모아요. 곱의 로그를 합으로 바꾸는 규칙은 표본별 밀도의 곱에 적용해요. 성분별 밀도는 더하므로 그 합은 로그 안에 둬요. 한 성분만 있으면 로그가 가우시안의 지수항을 풀어 주지만, 혼합 모델에서는 로그 안에 성분 합이 남아 성분별 파라미터를 따로 맞추기 어려워요.
+↳ 한 표본의 혼합 밀도 대입, $p_k$는 성분 $k$의 밀도
+
+<details><summary>자세히</summary>
+
+$p_k(\mathbf{x}_n)=\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 성분 $k$가 관측 $n$에서 주는 밀도예요. 안쪽 $k$ 합은 같은 관측치에 대한 성분별 높이를 묶고, 바깥 $n$ 합은 관측치별 로그를 모아요.
+
+</details>
+
+**로그 안에 한 표본의 성분 합이 남아요.** 곱의 로그를 합으로 바꾸는 규칙은 표본별 밀도의 곱에 적용해요. 성분별 밀도는 더하므로 그 합은 로그 안에 둬요.
+
+한 성분만 있으면 로그가 가우시안의 지수항을 풀어 주지만, 혼합 모델에서는 로그 안에 성분 합이 남아 성분별 파라미터를 따로 맞추기 어려워요.
 
 **복원 순서.** 한 관측의 가중 밀도를 더해요. 독립인 관측들의 밀도를 곱하고 로그를 취하면 관측별 로그의 합이 돼요.
 
@@ -423,23 +439,35 @@ $$
 
 관측 전 가중치에 관측값의 정보를 반영해요.
 
-베이즈 정리의 $P(A\mid B)=P(B\mid A)P(A)/P(B)$에서 $A$의 자리는 ‘성분 $k$가 선택됨’이에요. 연속 관측값 $\mathbf{x}_n$에 조건을 걸 때는 $B$가 들어가는 두 자리에서 그 점의 밀도를 써요. $P(A)$의 자리에는 관측 전 선택 확률 $\pi_k$, $P(B\mid A)$의 자리에는 성분 밀도 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 들어가요.
+파란색은 바로 윗줄에서 바뀐 부분이에요.
+
+베이즈 정리의 $P(A\mid B)=P(B\mid A)P(A)/P(B)$에서 $A$의 자리는 ‘성분 $k$가 선택됨’이에요. 연속 관측값 $\mathbf{x}_n$에 조건을 걸 때는 $B$가 들어가는 두 자리에서 그 점의 밀도를 써요.
 
 $$
 r_{nk}=P(Z_n=k\mid\mathbf{x}_n,\boldsymbol{\theta})
 $$
 
-$$
-=\frac{p(\mathbf{x}_n\mid Z_n=k,\boldsymbol{\theta})P(Z_n=k\mid\boldsymbol{\theta})}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}
-$$
-
-분모는 성분 번호를 모를 때의 전체 밀도예요. [표본별 혼합 밀도](#s2-likelihood)를 그대로 넣어요. 합의 인덱스 $j$는 분자에서 선택한 $k$를 포함해 모든 성분을 훑어요.
+↳ 책임도는 관측 후 성분 번호의 확률
 
 $$
-r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}
+\hphantom{r_{nk}}=\frac{p(\mathbf{x}_n\mid Z_n=k,\boldsymbol{\theta})P(Z_n=k\mid\boldsymbol{\theta})}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}
 $$
 
-같은 관측치에 대해 분모가 양수이면, 각 분자는 비음수이고 분자들의 합이 분모와 같아요. 그래서 각각 $0\le r_{nk}\le1$이고 $\sum_{k=1}^K r_{nk}=1$이에요.
+↳ 베이즈 정리, $B$ 자리에는 $\mathbf x_n$의 밀도
+
+$$
+r_{nk}=\frac{\textcolor{#3182f6}{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}}{\textcolor{#3182f6}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}}
+$$
+
+↳ 분자에 $\pi_k$와 성분 밀도, 분모는 모든 성분 $j$의 합
+
+<details><summary>자세히</summary>
+
+$P(A)$의 자리에는 관측 전 선택 확률 $\pi_k$, $P(B\mid A)$의 자리에는 성분 밀도 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 들어가요. 분모는 성분 번호를 모를 때의 전체 밀도라 [표본별 혼합 밀도](#s2-likelihood)를 그대로 넣어요. 합의 인덱스 $j$는 분자에서 선택한 $k$를 포함해 모든 성분을 훑어요.
+
+</details>
+
+**각각 $0\le r_{nk}\le1$이고 $\sum_{k=1}^K r_{nk}=1$이에요.** 같은 관측치에 대해 분모가 양수이면, 각 분자는 비음수이고 분자들의 합이 분모와 같기 때문이에요.
 
 <a id="s2-responsibility-example"></a>
 
