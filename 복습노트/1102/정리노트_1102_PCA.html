@@ -1603,48 +1603,62 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-proof-expansion"><span class="note-stage-number">1 / 3</span><span>고유기저에서 분산 전개하기</span></h4>
 <p class="note-stage-goal">수업에서 대입한 식을 이어 계산하고, 정규직교성으로 교차항을 정리해요.</p>
-<ol class="steps">
-<li>수업에서 대입한 식의 오른쪽부터 계산해요. $\mathbf{S}$를 합의 각 항에 곱한 뒤 고윳값 방정식 $\mathbf{S}\mathbf{p}_j=\lambda_j\mathbf{p}_j$를 넣어요.
-$$\begin{aligned}
-\mathbf{S}\mathbf{b}_1
-&amp;=\mathbf{S}\left(\sum_{j=1}^{D}c_j\mathbf{p}_j\right)\\
-&amp;=\sum_{j=1}^{D}c_j\mathbf{S}\mathbf{p}_j\\
-&amp;=\sum_{j=1}^{D}c_j\lambda_j\mathbf{p}_j.
-\end{aligned}$$</li>
-<li>왼쪽의 $\mathbf{b}_1^T$에 전치를 적용하면 $\sum_i c_i\mathbf{p}_i^T$예요. 이 합과 앞에서 구한 합을 곱하면 모든 $(i,j)$ 짝의 내적이 나와요.
-$$\begin{aligned}
-V_1=\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1
-&amp;=\left(\sum_{i=1}^{D}c_i\mathbf{p}_i^T\right)
-  \left(\sum_{j=1}^{D}c_j\lambda_j\mathbf{p}_j\right)\\
-&amp;=\sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\lambda_j\mathbf{p}_i^T\mathbf{p}_j.
-\end{aligned}$$</li>
-<li>$i\ne j$이면 $\mathbf{p}_i^T\mathbf{p}_j=0$이라 교차항이 사라져요. $i=j$이면 내적이 1이므로 $c_i^2\lambda_i$만 남아요.
-$$V_1=\sum_{i=1}^{D}\lambda_i c_i^2.$$</li>
+<div class="deriv-body">
+<p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+<p class="deriv-lead">수업에서 대입한 식의 오른쪽 $\mathbf{S}\mathbf{b}_1$부터 계산해요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{S}\mathbf{b}_1=\mathbf{S}\left(\sum_{j=1}^{D}c_j\mathbf{p}_j\right)$$</div>
+<div class="deriv-why"><p>$\mathbf{b}_1$의 고유기저 전개를 넣어요</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{S}\mathbf{b}_1}=\sum_{j=1}^{D}c_j\textcolor{#3182f6}{\mathbf{S}\mathbf{p}_j}$$</div>
+<div class="deriv-why"><p>$\mathbf{S}$를 합의 각 항에 곱해요</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{S}\mathbf{b}_1}=\sum_{j=1}^{D}c_j\textcolor{#3182f6}{\lambda_j\mathbf{p}_j}$$</div>
+<div class="deriv-why"><p>고윳값 방정식 $\mathbf{S}\mathbf{p}_j=\lambda_j\mathbf{p}_j$</p></div></li>
+<li><div class="deriv-eq">$$V_1=\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1=\left(\sum_{i=1}^{D}c_i\mathbf{p}_i^T\right)\left(\sum_{j=1}^{D}c_j\lambda_j\mathbf{p}_j\right)$$</div>
+<div class="deriv-why"><p>왼쪽 $\mathbf{b}_1^T$는 전치해서 $\sum_i c_i\mathbf{p}_i^T$</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{V_1}=\sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\lambda_j\textcolor{#3182f6}{\mathbf{p}_i^T\mathbf{p}_j}$$</div>
+<div class="deriv-why"><p>두 합을 곱하면 모든 $(i,j)$ 짝의 내적</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$V_1=\sum_{i=1}^{D}\lambda_i c_i^2$$</div>
+<div class="deriv-why"><p>$i\ne j$면 $\mathbf{p}_i^T\mathbf{p}_j=0$, $i=j$면 1</p>
+<details><summary>자세히</summary><p>교차항이 사라지고, $i=j$인 항에서 $c_i^2\lambda_i$만 남아요.</p></details></div></li>
 </ol>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-proof-weights"><span class="note-stage-number">2 / 3</span><span>단위벡터 조건을 가중치로 바꾸기</span></h4>
 <p class="note-stage-goal">방향의 길이가 1이라는 조건을 전개해 가중치 제곱의 합을 확인해요.</p>
-<p>단위벡터 조건도 같은 방식으로 전개해요. 이번에는 가운데 $\mathbf{S}$가 없어서 $\lambda_j$가 붙지 않아요. 정규직교성을 적용하면 다시 $i=j$인 항만 남아요.
-$$\begin{aligned}
-1=\|\mathbf{b}_1\|^2
-&amp;=\left(\sum_{i=1}^{D}c_i\mathbf{p}_i^T\right)
-  \left(\sum_{j=1}^{D}c_j\mathbf{p}_j\right)\\
-&amp;=\sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\mathbf{p}_i^T\mathbf{p}_j\\
-&amp;=\sum_{i=1}^{D}c_i^2.
-\end{aligned}$$</p>
+<div class="deriv-body">
+<p class="deriv-lead">단위벡터 조건도 같은 방식으로 전개해요. 이번에는 가운데 $\mathbf{S}$가 없어서 $\lambda_j$가 붙지 않아요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$1=\|\mathbf{b}_1\|^2=\left(\sum_{i=1}^{D}c_i\mathbf{p}_i^T\right)\left(\sum_{j=1}^{D}c_j\mathbf{p}_j\right)$$</div>
+<div class="deriv-why"><p>길이의 제곱은 자기 자신과의 내적</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{1}=\sum_{i=1}^{D}\sum_{j=1}^{D}c_ic_j\mathbf{p}_i^T\mathbf{p}_j$$</div>
+<div class="deriv-why"><p>두 합을 곱해요</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$1=\sum_{i=1}^{D}c_i^2$$</div>
+<div class="deriv-why"><p>정규직교성: 다시 $i=j$인 항만 남아요</p></div></li>
+</ol>
+</div>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-proof-bound"><span class="note-stage-number">3 / 3</span><span>최댓값과 그 값에 닿는 방향 찾기</span></h4>
 <p class="note-stage-goal">가중평균의 상한을 구하고, 단일근과 중근에서 등호 조건을 구별해요.</p>
-<ol class="steps">
-<li>$c_i^2 \ge 0$이고 모든 $i$에서 $\lambda_i \le \lambda_1$이므로 각 항을 $\lambda_1 c_i^2$로 키워요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1=\sum_i\lambda_i c_i^2$$ $$\le\lambda_1\sum_i c_i^2$$ $$=\lambda_1$$</li>
-<li>상한에 실제로 닿는지 확인해요. $\mathbf{b}_1 = \mathbf{p}_1$이면 $c_1 = 1$, 나머지 $c_i = 0$이라 값이 정확히 $\lambda_1$이에요. 그래서 최댓값은 $\lambda_1$이고 $V_1 = \lambda_1$이에요.</li>
-<li><b>등호 조건</b>: 앞에서 얻은 부등식의 양변 차이는 $\sum_i(\lambda_1 - \lambda_i)c_i^2$이에요. 이것이 0이려면 $\lambda_i \lt \lambda_1$인 모든 $i$에서 $c_i = 0$이어야 해요. $\lambda_1$이 다른 고윳값보다 엄격히 크면 최대점은 $\mathbf{b}_1 = \pm\mathbf{p}_1$뿐이에요(부호는 같은 방향의 선). $\lambda_1$이 중근이면 그 고유공간 안의 어떤 단위벡터든 최대예요.</li>
+<div class="deriv-body">
+<ol class="deriv">
+<li><div class="deriv-eq">$$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1=\sum_i\lambda_i c_i^2$$</div>
+<div class="deriv-why"><p>고유기저로 전개한 분산</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}\le\textcolor{#3182f6}{\lambda_1}\sum_i c_i^2$$</div>
+<div class="deriv-why"><p>모든 $\lambda_i \le \lambda_1$, $c_i^2 \ge 0$</p>
+<details><summary>자세히</summary><p>$c_i^2 \ge 0$이고 모든 $i$에서 $\lambda_i \le \lambda_1$이므로 각 항을 $\lambda_1 c_i^2$로 키워요.</p></details></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}=\lambda_1$$</div>
+<div class="deriv-why"><p>가중치 제곱의 합은 1</p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathbf{b}_1 = \mathbf{p}_1\ \Rightarrow\ V_1 = \lambda_1$$</div>
+<div class="deriv-why"><p>$c_1 = 1$, 나머지 $c_i = 0$이면 값이 정확히 $\lambda_1$</p></div></li>
 </ol>
-
+<p class="note-stage-result"><b>상한에 실제로 닿으니 최댓값은 $\lambda_1$이고 $V_1 = \lambda_1$이에요.</b></p>
+<h5 class="note-subheading">등호 조건</h5>
+<p>앞에서 얻은 부등식의 양변 차이는 $\sum_i(\lambda_1 - \lambda_i)c_i^2$이에요. 이것이 0이려면 $\lambda_i \lt \lambda_1$인 모든 $i$에서 $c_i = 0$이어야 해요. $\lambda_1$이 다른 고윳값보다 엄격히 크면 최대점은 $\mathbf{b}_1 = \pm\mathbf{p}_1$뿐이에요(부호는 같은 방향의 선). $\lambda_1$이 중근이면 그 고유공간 안의 어떤 단위벡터든 최대예요.</p>
 <h5 class="note-subheading">직관</h5>
 <p>$c_i^2 \ge 0$이고 합이 1이므로 $\sum_i\lambda_i c_i^2$는 고윳값들의 가중평균이에요. 가중평균은 가장 큰 값을 넘을 수 없고, 무게를 전부 $\lambda_1$에 실을 때 최대예요. 같은 이유로 최솟값은 $\lambda_D$이고 $\mathbf{b}_1 = \mathbf{p}_D$일 때예요.</p>
+</div>
 </div>
 </details>
 <p id="s4-proof-check">위젯에서는 축을 돌려 $\mathbf b_1^T\mathbf S\mathbf b_1$이 가장 큰 방향을 확인할 수 있어요. 위 고유축 방향에서 최대 3, 수직인 고유축 방향에서 최소 1이에요.</p>
