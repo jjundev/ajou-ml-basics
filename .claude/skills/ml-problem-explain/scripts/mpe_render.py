@@ -222,10 +222,10 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     manifest_path = data_dir / 'manifest.json'
     files = tuple(sorted(p for p in stage.rglob('*') if p.is_file()))
     dump(manifest_path, {'version': 1, 'profile': pack.profile, 'range': pack.range, 'slug': pack.slug,
-                         'source': str(pack.path), 'source_sha256': pack.sha256,
+                         'source': pack.path.as_posix(), 'source_sha256': pack.sha256,
                          'review_policy_version': POLICY_VERSION, 'source_resources': source_resources(pack,repo),
                          'input_hash': payload_hash(pack, fragments), 'reading_key': values['RANGE'],
-                         'destination': str(pack.directory), 'repo': str(repo.resolve()),
+                         'destination': pack.directory.as_posix(), 'repo': repo.resolve().as_posix(),
                          'shared_vendor_provenance_sha256': vendor_provenance_sha,
                          'problems': [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems],
                          'files': {p.relative_to(stage).as_posix(): sha256(p) for p in files}})
@@ -236,7 +236,7 @@ def check_artifacts(pack, artifacts):
     try:
         root = artifacts.html.parent.resolve()
         manifest = json.loads(artifacts.manifest.read_text(encoding='utf-8'))
-        if manifest['source_sha256'] != pack.sha256 or manifest['source'] != str(pack.path):
+        if manifest['source_sha256'] != pack.sha256 or Path(manifest['source']) != pack.path:
             errors.append('manifest 입력 불일치')
         if manifest['problems'] != [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems]:
             errors.append('manifest 문항 집합 불일치')

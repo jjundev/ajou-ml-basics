@@ -65,6 +65,18 @@ def test_render_preserves_questions_and_math_offline(tmp_path, source):
     assert source.read_bytes() == before
     assert set(artifact_hashes(result)) == {str(p.relative_to(result.html.parent)).replace('\\', '/') for p in result.files}
 
+def test_manifest_paths_use_portable_separators(tmp_path):
+    pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
+    problem = pack.problems[0]
+    pack = replace(pack, problems=(problem,))
+    result = build_explanation(pack, {problem.id: fragment(problem)}, tmp_path / 'stage', ROOT)
+    manifest = json.loads(result.manifest.read_text(encoding='utf-8'))
+    assert manifest['source'] == pack.path.as_posix()
+    assert manifest['destination'] == pack.directory.as_posix()
+    assert manifest['repo'] == ROOT.as_posix()
+    assert check_artifacts(pack, result) == []
+
+
 def test_generated_question_has_top_spacing_before_ask_heading(tmp_path):
     from playwright.sync_api import sync_playwright
 
