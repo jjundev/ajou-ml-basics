@@ -5,7 +5,7 @@ description: 머신러닝기초 복습문제의 문제·답안 PDF 원본을 보
 
 # 머신러닝기초 문제풀이 영상
 
-저장된 복습문제 HTML/MD와 문제·답안 PDF를 사용한다. 원본 조건·그래프·행렬·기호·수치·줄바꿈을 바꾸지 않는다. 새 문제, 대체 유도, 원본에 없는 그래프를 만들지 않는다. PDF의 native glyph outlines를 공개하며 KaTeX 재조판이나 OCR을 쓰지 않는다. 내용 충돌은 해당 문항을 차단하고 보고한다.
+저장된 복습문제 문항 원고(`.cards.json`)와 MD와 문제·답안 PDF를 사용한다. 원본 조건·그래프·행렬·기호·수치·줄바꿈을 바꾸지 않는다. 새 문제, 대체 유도, 원본에 없는 그래프를 만들지 않는다. PDF의 native glyph outlines를 공개하며 KaTeX 재조판이나 OCR을 쓰지 않는다. 내용 충돌은 해당 문항을 차단하고 보고한다.
 
 ## 호출
 
@@ -22,7 +22,7 @@ description: 머신러닝기초 복습문제의 문제·답안 PDF 원본을 보
 
 스킬 폴더를 S, 반환된 문항 실행 폴더를 RUN으로 둔다. Python에는 PyMuPDF/Pillow, Node에는 로컬 HyperFrames와 puppeteer-core, Chrome, GSAP, libass FFmpeg가 필요하다. 설치 경로는 실제 실행 때 확인한다. 없는 패키지를 전역 자동 설치하지 않는다. `ML_PUPPETEER_CORE_PACKAGE`는 package.json 경로, `ML_CHROME`, `ML_FFMPEG`는 실행 파일 경로다. TTS/cache/budget, GSAP와 Pretendard Bold는 이 스킬 내부에 포함한다.
 
-1. `python3 "$S/scripts/video.py" prepare 1007 --repo "$PWD" [--problems P2,P3] [--pack SLUG] [--page-map FILE] [--review]`. HTML·MD·PDF·사용한 그림을 동결하고 페이지별 후보 SVG/native PNG를 만든다. 유료 요청은 0이다.
+1. `python3 "$S/scripts/video.py" prepare 1007 --repo "$PWD" [--problems P2,P3] [--pack SLUG] [--page-map FILE] [--review]`. 문항 원고·MD·PDF·사용한 그림을 동결하고 페이지별 후보 SVG/native PNG를 만든다. 유료 요청은 0이다.
 2. [PDF와 원문 대응](references/pdf-and-coverage.md)을 읽는다. 동결 원문·native PNG·후보 SVG를 직접 대조하고 `source/map.json`을 저작한다. `extract --run RUN`은 답안의 모든 페이지에 exact-zero 공개 검사를 실행한다.
 3. `source/manifest.json`, `coverage.json`, `math-review.json`, `lesson.json`을 저작한다. 이유→작성→검산 순서를 사용한다. 이유에 불필요한 그래프 표시를 강제하지 않는다. focus/annotations는 필요할 때만 저작한다. `check --run RUN`이 현재 원문·단계·해시·자막을 검증한다. 기계 검사는 수학적 진실을 증명하지 않는다.
 4. [음성과 타이밍](references/narration-and-timing.md)을 읽는다. `tts --run RUN [--env-file FILE] [--config FILE] [--approve-review]`가 원고만 합성한다. 키는 환경에서만 읽고 출력·설정·커밋에 넣지 않는다. 성공 청크와 raw WAV를 보존한다.
@@ -49,7 +49,7 @@ Vertex AI Express / gemini-2.5-flash-tts / Aoede / ko-KR / mono PCM 24kHz 16bit�
 
 `문제풀이영상/<선택범위>/`에는 자연스러운 제목의 최종 MP4와 `<선택범위>_제작자료/`만 둔다. 과제1은 `문제풀이영상/과제1/`에 생성한다. 검토용 영상도 선택범위 폴더 바로 아래에 두되 음성 검수 상태를 명시하고 publish/latest 승인을 대신하지 않는다. 모든 원고·캐시·검증·이전 버전은 제작자료 안에 둔다. 범위 영상은 날짜, 여러 팩은 slug도 파일명에 넣는다. 전체 성공일 때만 latest를 바꾼다. 게시 교체 실패는 journal로 롤백하며 강제 종료 상황의 원자적 다중 파일 갱신을 주장하지 않는다.
 
-EC2 기준은 `eeec3d56513fe9e8a34f45edb05ae1118b08cf62`다. `assets/port-provenance.json`에 84개 원본 파일과 6개 자체 부품의 SHA·이식 위치·검사 대응을 기록한다. 런타임은 다른 과목 checkout을 요구하지 않는다. `tests/ml_acceptance.py`는 실제 1007 P2/P3/P8의 고정 원자료로 scratch 검사를 하며 기본 synthetic/paid0/게시 차단이다. 다른 날짜의 저작 템플릿으로 좌표를 재사용하지 않는다.
+EC2 기준은 `eeec3d56513fe9e8a34f45edb05ae1118b08cf62`다. `assets/port-provenance.json`에 84개 원본 파일과 6개 자체 부품의 SHA·이식 위치·검사 대응을 기록한다. 런타임은 다른 과목 checkout을 요구하지 않는다. `tests/ml_acceptance.py`는 1007 P2/P3/P8의 고정 좌표 검사를 위해 `2e09a745`의 PDF를 scratch로 복사하고 현재 문항 원고와 당시 문항 조각의 동등성을 확인하며 기본 synthetic/paid0/게시 차단이다. 다른 날짜의 저작 템플릿으로 좌표를 재사용하지 않는다.
 
 ## 멀티코어 렌더 정책
 

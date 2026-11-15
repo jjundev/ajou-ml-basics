@@ -1,9 +1,9 @@
 """Local scratch acceptance: synthetic PCM is never a live audio approval."""
 from pathlib import Path
-import argparse,shutil,json,base64
+import argparse,json,base64
 from types import SimpleNamespace
 from fixtures import S,make_audio
-from ml_authored import author_run
+from ml_authored import AUTHORED_REVISION, author_run, stage_authored_fixture
 import video
 from solution_video.util import read,write,file_hash,digest
 from solution_video.sources import discover
@@ -28,8 +28,8 @@ def fake_voice(run):
 def run_acceptance(repo,dest,hyperframes_entry,*,env_file=None,live=False):
  repo=Path(repo).resolve();dest=Path(dest).resolve()
  if dest==repo or dest.is_relative_to(repo/'복습노트'):raise ValueError('acceptance requires a separate scratch destination')
- inputs=discover(repo,'1007',['P2','P3','P8']);source_hashes={path:file_hash(path) for b in inputs for path in b['source_files'].values()};folder=dest/'복습노트/1007';folder.parent.mkdir(parents=True,exist_ok=True)
- if not folder.exists():shutil.copytree(repo/'복습노트/1007',folder)
+ inputs=discover(repo,'1007',['P2','P3','P8']);source_hashes={path:file_hash(path) for b in inputs for path in b['source_files'].values()}
+ stage_authored_fixture(repo,dest)
  batch=video.prepare_batch(dest,'1007',['P2','P3','P8']);rows=[];errors=[]
  for item in read(batch/'batch.json')['items']:
   run=batch/item['run'];row=dict(problem_id=item['id'],run=str(run),checks={});rows.append(row)
@@ -41,7 +41,7 @@ def run_acceptance(repo,dest,hyperframes_entry,*,env_file=None,live=False):
     if result['status']!='passed':raise ValueError(result.get('reason',str(result)))
    report=video.verify_run(run,Path(hyperframes_entry));row.update(technical_complete=report.get('technical_complete',False),complete=report['complete'],live_audio=report['live_audio'],checks=report['checks'],final=str(run/'renders/final.mp4'),final_sha256=file_hash(run/'renders/final.mp4'))
   except Exception as ex:errors.append(dict(problem_id=item['id'],reason=str(ex)[:900]));row['technical_complete']=False
- unchanged=all(file_hash(path)==sha for path,sha in source_hashes.items());result=dict(technical_complete=unchanged and not errors and all(r.get('technical_complete') for r in rows),complete=False,live_audio='unverified',paid_requests=0 if not live else None,source_hashes=source_hashes,source_preserved=unchanged,checks=rows,errors=errors,evidence=[str(batch)],production_publish_blocked=True,synthetic_pcm=not live)
+ unchanged=all(file_hash(path)==sha for path,sha in source_hashes.items());result=dict(technical_complete=unchanged and not errors and all(r.get('technical_complete') for r in rows),complete=False,live_audio='unverified',paid_requests=0 if not live else None,source_hashes=source_hashes,source_preserved=unchanged,fixture_revision=AUTHORED_REVISION,checks=rows,errors=errors,evidence=[str(batch)],production_publish_blocked=True,synthetic_pcm=not live)
  write(batch/'acceptance.json',result);write(dest/'acceptance.json',result);return result
 
 def main():

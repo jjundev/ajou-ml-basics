@@ -19,6 +19,7 @@ def test_prepare_real_pack_without_manifest(tmp_path):
     assert result.returncode == 0, result.stderr
     scope = json.loads(result.stdout)
     assert scope["slug"] == "Gaussian_Mixture_Models"
+    assert scope["review"].endswith(".cards.json")
     assert "s2-responsibility" in scope["topics"]
     assert "s3-next" not in scope["topics"]
     assert scope["stt"]["1111"].endswith("1111 머러기.md")
@@ -27,7 +28,7 @@ def test_prepare_real_pack_without_manifest(tmp_path):
 
 def test_new_pack_lite_calls_concept_check_after_publication():
     skill = (REPO / ".claude/skills/ml-review-pack/SKILL.md").read_text()
-    publish = skill.index("publish_files", skill.index("### 8. PDF"))
+    publish = skill.index("publish_pack", skill.index("### 8. PDF"))
     followup = skill.index("### 확인문제 자동 생성", publish)
     report = skill.index("### 9. 보고", followup)
     assert "lite" in skill[followup:report]
@@ -79,6 +80,18 @@ def test_publish_without_browser_evidence_keeps_existing_quiz(tmp_path):
          "compute": {"op": "responsibility", "contributions": ["1", "3"], "component": 1},
          "solution": ["기여량 1을 전체 4로 나눠요."]},
     ]})
+    from quiz_sources import parse_html, read_json
+    from validation import check
+    items = read_json(src / "items.json")
+    duplicate = next(parse_html(Path(stage["review"]), review=True).find_all(
+        lambda node: "problem" in node.classes
+    ))
+    items["items"][0]["stem_html"] = duplicate.text()
+    candidate = src / "items.json"
+    original_items = candidate.read_bytes()
+    dump(candidate, items)
+    assert any("20자 이상 연속" in issue for issue in check(src, stage))
+    candidate.write_bytes(original_items)
     answers = run / "answers.md"
     answers.write_text("| q1 | 1/4 | s2-responsibility | |\n")
     blind.record(src, answers, src / "blind-ledger.json", 1)

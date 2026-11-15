@@ -1,6 +1,6 @@
 ---
 name: ml-problem-explain
-description: 머신러닝기초의 기존 복습문제·과제·중간고사 예상문제의 문제설명 HTML과 MD를 만든다. 문제해설, 입문 풀이 설명, 과제 풀이 설명 또는 /ml-problem-explain [날짜|기간|과제번호|중간고사 N회|HTML경로]에 사용한다. 새 출제는 ml-midterm 등 별도 스킬이다.
+description: 머신러닝기초의 기존 복습문제·과제·중간고사 예상문제의 문제설명 HTML과 MD를 만든다. 문제해설, 입문 풀이 설명, 과제 풀이 설명 또는 /ml-problem-explain [날짜|기간|과제번호|중간고사 N회|문항원고경로|HTML경로]에 사용한다. 새 출제는 ml-midterm 등 별도 스킬이다.
 ---
 
 # 머신러닝기초 문제풀이 입문 설명
@@ -16,15 +16,15 @@ description: 머신러닝기초의 기존 복습문제·과제·중간고사 예
 - `1007`: 해당 날짜 복습문제. `0909-0916`: 기간의 날짜별 팩을 각각 처리한다.
 - `과제1` 또는 `hw1`: 저장된 과제1 카드.
 - `중간고사 N회` 또는 예상문제 원본/문제설명 HTML: [ml-midterm 해설 전용 경로](../ml-midterm/references/explanation-rules.md#해설만-처리)를 사용한다. 같은 폴더의 유일한 원본과 blueprint를 전용 resolver로 확인한다. 일반 extract/load_source는 EXAM을 지원하지 않는다. base/english를 실행하거나 문제·PDF를 바꾸지 않는다. 새 출제는 [ml-midterm](../ml-midterm/SKILL.md)으로 보낸다.
-- HTML 경로: 해당 파일을 명시한다.
+- 복습팩은 `.pack/복습문제_<range>_<slug>.cards.json`을 지정할 수 있다. 과제는 카드 HTML 경로를 지정한다.
 - 실제 시험(채점된 시험지): 스캔을 전사해 `시험결과/중간고사/중간고사_<MMDD>_<slug>.html` 카드(`data-source="Midterm <MMDD> Q<n>"`)를 먼저 만들고, 그 HTML 경로를 `--target`으로 명시한다. 프로필 이름은 `midterm`이다(ml-midterm 예상문제 어댑터의 `exam`과 구별). 산출물은 과제처럼 카드 HTML 옆에 `중간고사_<MMDD>_문제설명_<slug>.html/.md`, `figures_문제설명_exam<MMDD>_<slug>/`, `자료_문제설명_exam<MMDD>_<slug>/`로 둔다. `all`·날짜 대상으로는 선택되지 않는다. 예: `시험결과/중간고사/.pack/`(transcript·scan crop·검산 스크립트).
 - 인자 없음: 파일명 날짜 기준 최신 복습문제. 과제는 자동 선택하지 않는다.
 
-여러 slug나 통합/개별 팩이 겹치면 후보 경로를 보여 주고 대상을 명시하게 한다. PDF만 있는 과제는 카드 HTML 준비가 먼저 필요하다. 새 문제, 정리노트, PDF, 영상, 자동 채점은 만들지 않는다. 기존 원 HTML·MD·PDF·그림을 수정하지 않는다. 카드의 풀이·정답은 참고 답안이며 독립 검산을 대신하지 않는다.
+여러 slug나 통합/개별 팩이 겹치면 후보 경로를 보여 주고 대상을 명시하게 한다. PDF만 있는 과제는 카드 HTML 준비가 먼저 필요하다. 새 문제, 정리노트, PDF, 영상, 자동 채점은 만들지 않는다. 기존 문항 원고·과제 HTML·MD·PDF·그림을 수정하지 않는다. 카드의 풀이·정답은 참고 답안이며 독립 검산을 대신하지 않는다.
 
 ## 실행
 
-저장소 루트에서 `python --version`으로 Python 3.10 이상을 확인한다. 실행기는 표준 라이브러리만 사용한다. 설치 작업 자체에서는 실제 수업 자료를 생성하지 않는다.
+저장소 루트에서 `python --version`으로 Python 3.10 이상을 확인한다. 복습팩의 PDF 문항 링크 검사에는 PyMuPDF가 필요하다. 설치 작업 자체에서는 실제 수업 자료를 생성하지 않는다.
 
 중간고사 대상은 위 EXAM 분기의 `midterm_cli.py explain → 실제 검토 → publish → check`로 처리한다. 다음 일반 절차는 날짜·기간·과제·인자 없음·all에 그대로 적용하며, 중간고사를 자동 선택하거나 all에 추가하지 않는다.
 

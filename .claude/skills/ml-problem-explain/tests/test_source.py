@@ -5,10 +5,11 @@ import unicodedata
 import pytest
 from mpe_source import load_source, resolve_sources, subparts
 from mpe_types import ExplainError
+from review_sources import html_name
 
 ROOT = Path(__file__).resolve().parents[4]
 HW = ROOT / '과제/과제1/과제1_Homework1.html'
-REVIEW = ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html'
+REVIEW = ROOT / '복습노트/1007/.pack/복습문제_1007_Product_of_Gaussians.cards.json'
 
 def test_homework_preserves_all_cards_and_subparts():
     before = HW.read_bytes()
@@ -52,12 +53,12 @@ def test_range_overlap_is_ambiguous(tmp_path):
 def test_nfd_paths(tmp_path):
     folder = tmp_path / unicodedata.normalize('NFD', '복습노트') / '1007'
     folder.mkdir(parents=True)
-    path = folder / unicodedata.normalize('NFD', REVIEW.name)
+    path = folder / unicodedata.normalize('NFD', html_name(REVIEW))
     path.touch()
     assert resolve_sources(tmp_path, '1007') == (path,)
 
 def test_legacy_layout_and_stale_rejection(tmp_path):
-    path = ROOT / '복습노트/0909/복습문제_0909_Data_Models_Learning.html'
+    path = ROOT / '복습노트/0909/.pack/복습문제_0909_Data_Models_Learning.cards.json'
     pack = load_source(path, ROOT)
     assert pack.problems[0].conditions_html
     assert 'f(10)' in pack.problems[0].ask_html
@@ -95,7 +96,7 @@ def test_original_subparts_cannot_be_collapsed_to_main():
 def test_explicit_nfc_path_resolves_existing_nfd_file(tmp_path):
     folder = tmp_path / unicodedata.normalize('NFD', '복습노트') / '1007'
     folder.mkdir(parents=True)
-    path = folder / unicodedata.normalize('NFD', REVIEW.name)
+    path = folder / unicodedata.normalize('NFD', html_name(REVIEW))
     path.touch()
     resolved = resolve_sources(tmp_path, unicodedata.normalize('NFC', str(path)))
     assert len(resolved) == 1 and resolved[0].samefile(path)

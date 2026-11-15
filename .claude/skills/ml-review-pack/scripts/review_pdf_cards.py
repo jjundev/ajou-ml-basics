@@ -1,11 +1,10 @@
 """Parse saved HTML rather than its JavaScript-mutated DOM."""
 from pathlib import Path
-import hashlib
 import html
 import re
-import unicodedata
 from html2md import Builder, Node, VOID, serialize
 from check_html import math_delimiter_errors
+from review_sources import html_name, legacy_digest, source_markup
 from review_pdf_types import CardProfile, REVIEW, FigureInput, ReviewCard, ReviewPack, NormalizedProblem, ReviewPdfError
 
 
@@ -54,9 +53,9 @@ def compact(text):
 
 def read_cards(path: Path, profile: CardProfile = REVIEW) -> ReviewPack:
     path=Path(path)
-    m=re.fullmatch(profile.filename_re,unicodedata.normalize('NFC',path.name))
+    m=re.fullmatch(profile.filename_re,html_name(path))
     if not m:raise ReviewPdfError(f'invalid {profile.name} filename: {path.name}')
-    root=parse(path.read_text(encoding='utf-8'));cards=[];seen=set()
+    root=parse(source_markup(path));cards=[];seen=set()
     for node in root.find_all(lambda n:n.tag=='article' and 'card' in n.classes):
         id_=node.attrs.get('id','')
         if not re.fullmatch(r'p[1-9]\d*',id_) or id_ in seen:raise ReviewPdfError(f'{m[1]} {id_}: invalid/duplicate id')
@@ -89,7 +88,7 @@ def read_cards(path: Path, profile: CardProfile = REVIEW) -> ReviewPack:
 
 def normalize_cards(pack: ReviewPack, layouts: dict | None, source_path: Path) -> tuple[NormalizedProblem,...]:
     if layouts is not None:
-        if layouts.get('source_sha256')!=hashlib.sha256(Path(source_path).read_bytes()).hexdigest():raise ReviewPdfError(f'{pack.range}: stale layout source')
+        if layouts.get('source_sha256')!=legacy_digest(source_path):raise ReviewPdfError(f'{pack.range}: stale layout source')
         if set(layouts.get('problems',{}))!={c.id for c in pack.cards}:raise ReviewPdfError(f'{pack.range}: layout ids do not match')
     out=[]
     for card in pack.cards:

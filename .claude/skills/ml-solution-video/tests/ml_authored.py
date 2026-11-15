@@ -1,18 +1,69 @@
 """Acceptance-only authoring inspected against the fixed 1007 PDFs; never runtime inference."""
 from pathlib import Path
 from fractions import Fraction
-from solution_video.util import read,write,local
+import hashlib
+import shutil
+import subprocess
+from solution_video.util import read,write,local,file_hash
 from solution_video.manifest import content_fingerprint
 from solution_video.bundle_layers import extract_bundle,flatten_layers
 from solution_video.contracts import InputError
+from solution_video.ml_cards import source_markup
+from review_sources import CardFragments
 from test_writing_units import unit
 # Authored semantic steps, column extents and physical row breaks (PDF points).
 LAYOUTS={
  'P2':[(496,65,908,120,[85,101]),(496,120,908,240,[140,158,175,190,204,222]),(496,240,908,389,[260,287,302,330,352]),(496,389,908,535,[411,430,445,464,478,499]),(908,65,1287,195,[85,104,119,138,151,175]),(908,195,1287,270,[222,246]),(496,600,1287,657,[631])],
  'P3':[(496,249,1287,314,[272,291]),(496,314,1287,395,[338,354,372]),(496,395,1287,442,[418]),(496,442,1287,477,[]),(496,477,1287,511,[]),(496,600,1287,657,[631])],
  'P8':[(496,65,908,117,[86]),(496,117,908,227,[135,156,171,189,204]),(496,227,908,373,[247,264,283,298,318,333,352]),(496,373,908,517,[389,409,423,442,457,477,491]),(496,517,908,564,[535]),(908,65,1287,168,[85,100,117,132,145]),(908,168,1287,317,[190,220,242,270,294]),(496,566,1287,657,[594,611,628])]}
-# PDF hash restriction is filled during acceptance preparation from pinned repo inputs.
-SOURCE_HASHES={'복습문제_1007_Product_of_Gaussians-답안.pdf': '154f174733cb6829235d580736ca45b0d8daf5af5412825bdfdc3c95c76e4d2d', '복습문제_1007_Product_of_Gaussians.html': '46455ef75fa1c4f084f5fddfbf87864d4f5a66af8a62f8417f674c2e3d7b36c1', '복습문제_1007_Product_of_Gaussians-문제.pdf': '8783330c3aaef9dd3822f09ecb23be69746265ec30e0d1aae8ffdf1b1bb4bc92', '복습문제_1007_Product_of_Gaussians.md': '7da68168f9ff9f54e26a244a5daee8a27df8608856d2f20398a567a739152d1f'}
+# The authored rectangles and row breaks were measured on these exact PDFs.
+AUTHORED_REVISION = '2e09a745fd8eb71a106ce73782c54ac541b9f6f3'
+AUTHORED_STEM = '복습문제_1007_Product_of_Gaussians'
+PACKAGE = Path('복습노트/1007')
+
+SOURCE_HASHES={'복습문제_1007_Product_of_Gaussians.cards.json': '589a0ecf14f90c615c0f4a45a859dbdacac83f39b93b40d7a721d1d27c7eb0c8', '복습문제_1007_Product_of_Gaussians-답안.pdf': '154f174733cb6829235d580736ca45b0d8daf5af5412825bdfdc3c95c76e4d2d', '복습문제_1007_Product_of_Gaussians.html': '46455ef75fa1c4f084f5fddfbf87864d4f5a66af8a62f8417f674c2e3d7b36c1', '복습문제_1007_Product_of_Gaussians-문제.pdf': '8783330c3aaef9dd3822f09ecb23be69746265ec30e0d1aae8ffdf1b1bb4bc92', '복습문제_1007_Product_of_Gaussians.md': '7da68168f9ff9f54e26a244a5daee8a27df8608856d2f20398a567a739152d1f'}
+def stage_authored_fixture(repo, scratch):
+    """Combine the equivalent published card archive with the pinned PDF geometry."""
+    repo, scratch = Path(repo).resolve(), Path(scratch).resolve()
+    if scratch == repo or scratch.is_relative_to(repo / '복습노트'):
+        raise InputError('acceptance requires a separate scratch destination')
+    archive_name = AUTHORED_STEM + '.cards.json'
+    archive = repo / PACKAGE / '.pack' / archive_name
+    if file_hash(archive) != SOURCE_HASHES[archive_name]:
+        raise InputError('acceptance card archive changed; reinspect before authoring')
+
+    def original(filename):
+        try:
+            data = subprocess.check_output(
+                ['git', '-C', str(repo), 'show', f'{AUTHORED_REVISION}:{PACKAGE / filename}'],
+                stderr=subprocess.DEVNULL,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise InputError(f'authored acceptance requires the Git fixture at {AUTHORED_REVISION}') from exc
+        if hashlib.sha256(data).hexdigest() != SOURCE_HASHES[filename]:
+            raise InputError('historical acceptance fixture hash mismatch: ' + filename)
+        return data
+
+    historical = CardFragments(original(AUTHORED_STEM + '.html').decode('utf-8'))
+    archived = CardFragments(source_markup(archive))
+    if (archived.cards, archived.interaction) != (historical.cards, historical.interaction):
+        raise InputError('archived card markup differs from the authored acceptance fixture')
+
+    fixture = scratch / PACKAGE
+    pdfs = {AUTHORED_STEM + suffix: original(AUTHORED_STEM + suffix)
+            for suffix in ('-문제.pdf', '-답안.pdf')}
+    if fixture.exists():
+        for name in (archive_name, AUTHORED_STEM + '.md', *pdfs):
+            path = fixture / '.pack' / name
+            if not path.is_file() or file_hash(path) != SOURCE_HASHES[name]:
+                raise InputError('choose a new scratch directory for the pinned acceptance fixture')
+    else:
+        shutil.copytree(repo / PACKAGE, fixture)
+        for name, data in pdfs.items():
+            (fixture / '.pack' / name).write_bytes(data)
+    return fixture
+
+
 SPEECH={
  'P2':[
   ('입력을 고정하면 특징 벡터는 상수가 됩니다.','φ(x*)는 6차원 특징 벡터입니다.','고정된 특징 벡터의 전치와 파라미터 벡터를 곱합니다.','f(x*) = φ(x*)ᵀθ입니다.'),
@@ -68,9 +119,8 @@ def author_units(page,pid):
 
 def author_run(run):
  run=Path(run);bundle=read(run/'source/pair.json')
- from solution_video.util import file_hash
- for role in ('html','md','problem_pdf','answer_pdf'):
-  path=local(run,bundle['source_files'][role]);expected=SOURCE_HASHES['복습문제_1007_Product_of_Gaussians'+({'html':'.html','md':'.md','problem_pdf':'-문제.pdf','answer_pdf':'-답안.pdf'}[role])]
+ for role in (('cards' if 'cards' in bundle['source_files'] else 'html'),'md','problem_pdf','answer_pdf'):
+  path=local(run,bundle['source_files'][role]);expected=SOURCE_HASHES['복습문제_1007_Product_of_Gaussians'+({'cards':'.cards.json','html':'.html','md':'.md','problem_pdf':'-문제.pdf','answer_pdf':'-답안.pdf'}[role])]
   if file_hash(path)!=expected:raise InputError('acceptance fixture source changed; reinspect before authoring')
  pid=bundle['problem_id'];candidate=read(run/'layers/candidates.json')['pages']['answer-1'];layouts=LAYOUTS[pid];steps=[]
  from solution_video.pdf_pages import inside
@@ -82,7 +132,9 @@ def author_run(run):
  if set(accounted)!={o['id'] for o in selected} or len(accounted)!=len(set(accounted)):raise InputError('acceptance authored rectangles do not cover PDF')
  page=dict(candidate,map=dict(work_bbox=work,steps=steps,answer_step_id=steps[-1]['id']),glyphs=[g for g in candidate['glyphs'] if g['id'] in accounted],shapes=[s for s in candidate['shapes'] if s['id'] in accounted]);author_units(page,pid)
  mp=dict(schema_version=2,pages={'answer-1':dict(work_bbox=work,steps=steps,terminal_step_id=steps[-1]['id'])},step_order=['answer-1::'+s['id'] for s in steps],answer_step_id='answer-1::'+steps[-1]['id']);write(run/'source/map.json',mp)
- layers=extract_bundle(read(run/'layers/candidates.json'),mp);flat=flatten_layers(layers);refs=['html:'+bundle['source_files']['html']+'#'+pid.lower(),'md:'+bundle['source_files']['md']+'#'+pid.lower(),'pdf:'+bundle['source_files']['answer_pdf']+'#page='+str(bundle['answer_pages'][0]['page_index']+1)]
+ layers=extract_bundle(read(run/'layers/candidates.json'),mp);flat=flatten_layers(layers)
+ card_kind='cards' if 'cards' in bundle['source_files'] else 'html'
+ refs=[card_kind+':'+bundle['source_files'][card_kind]+'#'+pid.lower(),'md:'+bundle['source_files']['md']+'#'+pid.lower(),'pdf:'+bundle['source_files']['answer_pdf']+'#page='+str(bundle['answer_pages'][0]['page_index']+1)]
  def segment(ident,kind,step,text,caption,page_id):return dict(id=ident,kind=kind,step_id=step,page_id=page_id,text=text,caption_text=caption,source_refs=refs,chunks=[dict(id='c1',text=text,caption_text=caption)])
  segments=[segment('problem','problem','', '원본 문제의 조건과 물음을 확인합니다.','원본 문제의 조건과 물음을 확인합니다.','problem-1')];lesson=[];coverage=[];math=[]
  for i,(step,speech) in enumerate(zip(flat['map']['steps'],SPEECH[pid])):

@@ -1,80 +1,10 @@
-<div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>2차원 혼합 가우시안의 결합 밀도 등고선(중앙)과 각 좌표의 1차원 주변 밀도 곡선($X_1$ 상단, $X_2$ 우측)이 주어져요.</p>
-  <p>결합 밀도 등고선에서 봉우리(최빈점) 개수를 세고, $X_1$과 $X_2$의 주변 밀도 봉우리 개수를 세어 결합 밀도와 일치하는지 판정해요.</p>
-</div>
-<div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘봉우리’라는 단서에서 국소적으로 밀도가 극대인 위치인 <b>최빈값(mode)</b>을 떠올려요.</p>
-  <p><b>결합 밀도(joint density) 판독:</b> 등고선이 폐곡선으로 둘러싸며 중심을 이루는 독립된 극대점의 개수가 결합 밀도의 봉우리 수예요.</p>
-  <p><b>주변 밀도(marginal density) 판독:</b> 1차원 투영 곡선에서 증가하다가 감소하는 봉우리(극댓점)의 개수를 세어요.</p>
-  <p>혼합 가우시안에서는 결합 밀도가 다봉(bimodal)이더라도 특정 축으로 적분(주변화)하면 두 성분의 중심 거리가 가까워 단봉(unimodal)으로 합쳐질 수 있어요.</p>
-  <p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s1-mixture">혼합 밀도의 봉우리</a></p>
-</div>
-<div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>가운데 등고선의 분리된 동심원 중심 개수와 위쪽 $X_1$, 오른쪽 $X_2$ 곡선의 극댓점 위치를 관찰해요.</p>
-  <p>풀이 로드맵: 1. 결합 밀도 등고선의 봉우리 개수 세기 → 2. X1, X2 주변 밀도 곡선의 극댓점 세기 → 3. 봉우리 개수 비교 판정.</p>
-</div>
-<div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
-  <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> 결합 밀도의 봉우리는 2개예요.</p>
-    <p>그림 중앙 등고선에서 왼쪽의 길쭉한 타원형 중심과 오른쪽의 둥근 타원형 중심이 서로 분리되어 존재해요. 등고선이 두 독립된 최고점을 감싸므로 결합 밀도의 봉우리는 2개예요.</p>
-  </div>
-  <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> $X_1$의 주변 밀도 봉우리는 2개, $X_2$의 주변 밀도 봉우리는 1개예요. $X_1$은 결합 밀도와 봉우리 개수가 같고, $X_2$는 달라요.</p>
-    <p>위쪽 $X_1$ 곡선은 가로 방향으로 두 성분이 충분히 떨어져 있어 두 곳에서 솟아오르고 가운데가 낮아져 봉우리가 2개예요 (결합 밀도와 일치).</p>
-    <p>오른쪽 $X_2$ 곡선은 세로 방향으로 두 성분의 중심 차이가 작아 하나의 완만한 단일 봉우리로 합쳐져 극댓점이 1개만 나타나요 (결합 밀도와 불일치).</p>
-  </div>
-</div>
-<div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
-  <div data-subpart="a">
-    <h4>(a) 검산</h4>
-    <p>그림 중앙에서 최빈점(mode)을 가리키는 두 개의 별표($*$)가 각각 등고선의 극대점 중심에 놓여 있어 2개임을 확인해요.</p>
-  </div>
-  <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>상단 $X_1$ 축 투영에는 별표가 2개, 우측 $X_2$ 축 투영에는 별표가 1개 표시되어 있어 곡선 모양 판독과 정확히 일치해요.</p>
-  </div>
-</div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>범례에서 별표($*$)가 최빈값(mode, 봉우리)이에요. 보라색 원(평균, mean)이나 빨간 사각형(중앙값, median)과 기호를 혼동하지 않아야 해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p>
-  <ol>
-    <li>등고선의 닫힌 동심원 중심 개수로 결합 밀도 봉우리를 읽어요.</li>
-    <li>각 좌표축 곡선의 극댓점 수를 세어 주변화 후 봉우리 수의 변화를 확인해요.</li>
-  </ol>
-</div>
-<div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>결합 밀도는 등고선 중심 개수, 주변 밀도는 1차원 곡선의 극댓점 개수로 봉우리를 읽어요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>첫 줄과 검산</h4>
-    <p>결합 밀도 2개, $X_1$ 2개, $X_2$ 1개예요. 범례의 별표($*$) 위치와 대조해요.</p>
-  </div>
-</div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>최빈값/봉우리(mode)</dt>
-    <dd>확률밀도함수에서 국소적으로 밀도가 가장 높은 극댓점 위치예요.</dd>
-    <dt>결합밀도(joint density)</dt>
-    <dd>여러 변수가 동시에 특정 값들을 가질 확률적 분포를 나타내는 밀도함수예요.</dd>
-    <dt>주변밀도(marginal density)</dt>
-    <dd>다른 변수들을 적분으로 소거하여 남은 한 변수만의 밀도함수예요.</dd>
-  </dl>
-</section>
-<section data-problem-panel="provenance">
-  <h4>출제 근거</h4>
-  <p>MML Example 6.4 · 책 pp. 188–189 · Figure 6.4</p>
-</section>
+<div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>가운데는 두 좌표를 함께 본 지도예요. 위쪽은 가로 좌표만, 오른쪽은 세로 좌표만 남긴 그림이에요. 각 그림에서 밀도의 봉우리를 세어요.</p></div>
+<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>이 그림에서는 국소적으로 밀도가 가장 높은 곳을 봉우리(mode)라고 해요. 결합밀도(joint density)의 봉우리는 등고선이 조밀하게 둘러싼 중심을 보고 찾을 수 있어요. 주변밀도(marginal density)의 봉우리는 해당 좌표를 따라 곡선이 올라갔다 내려가는 곳을 세어요.</p><p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s1-mixture">혼합 밀도의 봉우리</a></p></div>
+<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>가운데 등고선에서 별표를 찾고, 위쪽과 오른쪽 곡선의 최고점들을 따로 표시해요.</p></div>
+<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>왼쪽에 길쭉한 등고선의 중심이 하나, 오른쪽에 둥근 등고선의 중심이 하나 있어요. 결합밀도의 봉우리는 두 개예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>위쪽 $X_1$ 곡선은 두 봉우리 사이에서 낮아지므로 봉우리가 두 개예요. 오른쪽 $X_2$ 곡선은 한 번 부풀어 오르므로 한 개예요. 따라서 두 좌표 중 $X_2$만 남기면 그림에서 봉우리 수가 줄어요.</p></div></div>
+<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>가운데 두 별표가 서로 떨어진 등고선 중심에 놓여 있어요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>위쪽에는 별표가 두 개, 오른쪽에는 하나예요. 곡선 모양으로 읽은 결과와 일치해요.</p></div></div>
+<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>범례의 별표가 최빈점이에요. 평균은 자주색 점, 중앙값은 빨간 사각형으로 표시돼요.</p></div>
+<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>가운데와 위쪽, 오른쪽의 봉우리를 각각 세어요.</li><li>한 좌표만 남길 때 봉우리 수가 어떻게 달라지는지 말해요.</li></ol></div>
+<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>결합밀도는 등고선 중심, 주변밀도는 각 곡선의 봉우리를 읽어요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>가운데 두 개, 위쪽 $X_1$ 두 개, 오른쪽 $X_2$ 한 개예요. 별표로 대조해요.</p></div></div>
+<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>봉우리(mode)</dt><dd>이웃한 곳과 비교해 밀도가 국소적으로 가장 높은 위치예요.</dd><dt>결합밀도(joint density)</dt><dd>두 좌표의 조합에 대응하는 밀도예요.</dd><dt>주변밀도(marginal density)</dt><dd>한 좌표를 남기고 다른 좌표에 걸친 결합밀도를 적분해 얻어요.</dd></dl></section>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.4 · 책 pp. 188–189 · Figure 6.4</p></section>

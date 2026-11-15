@@ -14,7 +14,7 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
         if sha256(pack.path) != pack.sha256:
             raise ExplainError('입력 변경: 설명을 다시 검증하세요')
         destination = Path(destination).absolute()
-        if destination != pack.path.parent.absolute():
+        if destination != pack.directory.absolute():
             raise ExplainError('발행 위치는 입력 카드의 디렉터리여야 해요')
         errors = check_artifacts(pack, artifacts) + validate_reviews(pack, fragments, reviews)
         errors += [e for p in pack.problems for e in validate_fragment(p, fragments.get(p.id, ''))]

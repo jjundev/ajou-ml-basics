@@ -26,8 +26,10 @@ coverage는 status/passed, pdf_md_agree:true, rows의 `{step_id,pdf_text,md_text
 
 math-review는 모든 단계의 variables/dimensions/assumptions/derivation/numeric_checks/visual_checks를 `{applicable:boolean,evidence:string}`으로 기록하고 source_refs/meaning_review를 넣는다. applicable:false도 이유가 필요하다. 실제 계산을 검산하고 그래프 음영·표본/노이즈 의미를 구분한다. 기계 검사는 근거의 구조·현재 해시를 검사하며 수학적 진실을 증명하지 않는다.
 
-`content_fingerprint(manifest,layers,coverage)`로 coverage/math-review의 input_hash를 동일하게 저작한다. source_refs는 `html:source/snapshots/FILE#pN`, `md:...#pN`, `pdf:...#page=N`(1-based), `figure:...`이며 동결 입력에 실제 존재해야 한다. 원문 인용과 변경된 복습문제 조건이 다른 경우에는 명시된 문제 조건을 설명하고 그 차이를 근거에 적는다.
+`content_fingerprint(manifest,layers,coverage)`로 coverage/math-review의 input_hash를 동일하게 저작한다. source_refs는 `cards:source/snapshots/FILE#pN`, `md:...#pN`, `pdf:...#page=N`(1-based), `figure:...`이며 동결 입력에 실제 존재해야 한다. 원문 인용과 변경된 복습문제 조건이 다른 경우에는 명시된 문제 조건을 설명하고 그 차이를 근거에 적는다.
 
 lesson.json schema1의 steps는 전역 step 순서이며 `{step_id,mode:reasoned|calculation,meaning_notes,source_refs,reason_segment_ids,check_segment_ids,region_ids,annotation_ids}`다. reasoned는 이유가 write 앞에, check는 write 뒤에 있어야 한다. 그래프 focus/annotation은 필요한 경우만 저작한다. calculation은 exemption_reason과 비어 있는 이유/시각 연결 목록을 요구한다.
 
 이전 HTML에 conditions/ask 태그가 모두 없으면 statement_html에 전체 문제 원문을 보존하고 두 분리 필드는 비워 partition_status=author-required로 표시한다. 문장을 자동 분할하거나 질문을 다시 만들지 않는다. PDF의 조건·질문 패널과 전체 statement를 직접 대조한 뒤 source-bound 원고와 coverage를 저작한다. 태그가 한쪽만 빠졌거나 중복되면 손상 문항으로 차단한다.
+
+이전 실행에 동결된 HTML 카드는 기존 `html:...#pN` 참조를 유지한다.

@@ -9,6 +9,7 @@ from _util import REPO, copy_nfc, find_nfc
 import check_html
 import html2md
 from manifest import pdf_names
+from review_sources import html_name, source_markup
 
 
 PACKS = {
@@ -58,17 +59,23 @@ class TestRegression(unittest.TestCase):
     def setUp(self):
         self.packs_dir = self.required_path(REPO, "복습노트")
 
-    def pack_html(self, date, slug):
+    def pack_sources(self, date, slug):
         pack = self.packs_dir / date
-        return tuple(
-            self.required_path(pack, f"{kind}_{date}_{slug}.html")
-            for kind in ("정리노트", "복습문제")
-        )
+        note = self.required_path(pack, f"정리노트_{date}_{slug}.html")
+        review = self.required_path(pack / ".pack", f"복습문제_{date}_{slug}.cards.json")
+        return note, review
+
+    def work_review(self, source, folder):
+        result = folder / html_name(source)
+        result.write_text('<html lang="ko"><body><main><header class="hero"><h1>복습문제</h1></header>'
+                          + source_markup(source)
+                          + '</main></body></html>', encoding="utf-8")
+        return result
 
     def test_contract_checks_pass(self):
         for date, spec in PACKS.items():
             with self.subTest(date=date):
-                note, review = self.pack_html(date, spec["slug"])
+                note, review = self.pack_sources(date, spec["slug"])
                 sections = {}
                 for topic, terms in spec["topics"].items():
                     section = topic.split("-", 1)[0]
@@ -87,14 +94,17 @@ class TestRegression(unittest.TestCase):
                     "forbidden_outside_preview": [],
                     "links": [{
                         "topic": spec["links_topic"],
-                        "href": f"복습문제_{date}_{spec['slug']}.html",
+                        "href": f".pack/{pdf_names(date, spec['slug'])[0]}",
                     }],
                     "problems": [
                         {"id": f"p{number}", "source": source, "terms": []}
                         for number, source in enumerate(spec["sources"], start=1)
                     ],
                 }
-                issues = check_html.check_pack(contract, note, review)
+                with tempfile.TemporaryDirectory() as directory:
+                    folder = Path(directory)
+                    (folder / ".pack").symlink_to(review.parent, target_is_directory=True)
+                    issues = check_html.check_pack(contract, note, self.work_review(review, folder))
                 self.assertEqual([str(issue) for issue in issues], [])
 
     def test_markdown_has_no_missing_tokens(self):
@@ -110,12 +120,12 @@ class TestRegression(unittest.TestCase):
 
             for date, spec in PACKS.items():
                 with self.subTest(date=date):
-                    note, review = self.pack_html(date, spec["slug"])
+                    note, review = self.pack_sources(date, spec["slug"])
                     pack = packs / date
                     output = pack / ".pack"
                     output.mkdir(parents=True)
                     staged_note = copy_nfc(note, pack)
-                    staged_review = copy_nfc(review, pack)
+                    staged_review = self.work_review(review, pack)
                     for name in pdf_names(date, spec["slug"]):
                         (output / name).symlink_to(self.required_path(note.parent / ".pack", name))
                     (note_md, review_md), figures = html2md.convert_pack(staged_note, staged_review)
