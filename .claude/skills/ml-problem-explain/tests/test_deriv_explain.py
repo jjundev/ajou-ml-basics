@@ -66,6 +66,27 @@ def test_deriv_row_rejects_note_without_nonempty_first_paragraph(note):
     assert any('.deriv-why' in error and '<p>' in error for error in errors)
 
 
+@pytest.mark.parametrize('prefix', ['', '<div class="deriv-eq"></div>'])
+def test_deriv_row_rejects_formula_nested_outside_direct_equation(prefix):
+    equation = '<div class="deriv-eq">$$A = 1$$</div>'
+    solve = VALID_DERIV_SOLVE.replace(equation, prefix + '<div>' + equation + '</div>')
+    errors = validate_fragment(problem(), _swap_solve(fragment(), solve))
+    assert any('직계 .deriv-eq' in error for error in errors)
+
+
+@pytest.mark.parametrize('notes', [
+    '<div class="deriv-why">주석 앞부분<p>나머지 주석</p></div>',
+    '<div class="deriv-why"><p>첫째 주석</p></div>'
+    '<div class="deriv-why"><p>둘째 주석</p></div>',
+])
+def test_deriv_row_rejects_annotation_text_lost_in_markdown(notes):
+    solve = VALID_DERIV_SOLVE.replace(
+        '<div class="deriv-why"><p>주어진 조건을 그대로 써요.</p></div>', notes,
+    )
+    errors = validate_fragment(problem(), _swap_solve(fragment(), solve))
+    assert any('.deriv-why' in error for error in errors)
+
+
 def test_build_explanation_converts_deriv_to_markdown(tmp_path):
     pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
     p = pack.problems[0]
