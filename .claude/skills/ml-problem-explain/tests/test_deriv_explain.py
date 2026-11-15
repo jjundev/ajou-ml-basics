@@ -56,6 +56,16 @@ def test_deriv_row_requires_one_formula_visible_note_and_forbids_details():
     assert any('details' in e for e in validate_fragment(problem(), _swap_solve(base, bad_details)))
 
 
+@pytest.mark.parametrize('note', [
+    '주어진 조건을 그대로 써요.',
+    '<p> </p><p>첫 문단에 주석이 빠졌어요.</p>',
+])
+def test_deriv_row_rejects_note_without_nonempty_first_paragraph(note):
+    solve = VALID_DERIV_SOLVE.replace('<p>주어진 조건을 그대로 써요.</p>', note)
+    errors = validate_fragment(problem(), _swap_solve(fragment(), solve))
+    assert any('.deriv-why' in error and '<p>' in error for error in errors)
+
+
 def test_build_explanation_converts_deriv_to_markdown(tmp_path):
     pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
     p = pack.problems[0]

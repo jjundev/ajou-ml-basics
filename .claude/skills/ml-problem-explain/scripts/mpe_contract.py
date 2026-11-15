@@ -78,6 +78,16 @@ def validate_fragment(problem, fragment):
         errors.append('직계 sum[hidden] 요약 하나 필요')
     errors.extend(math_delimiter_errors(root.text()))
     errors.extend(deriv_row_errors(fragment))
+    for deriv in root.find_all(lambda n: n.tag == 'ol' and 'deriv' in n.classes):
+        rows = (n for n in deriv.children if isinstance(n, Node) and n.tag == 'li')
+        for row in rows:
+            note = next((n for n in row.children if isinstance(n, Node) and 'deriv-why' in n.classes), None)
+            if note is None:
+                errors.append('식 줄에 직계 .deriv-why 주석이 필요해요')
+                continue
+            paragraph = next((n for n in note.children if isinstance(n, Node) and n.tag == 'p'), None)
+            if paragraph is None or not paragraph.text().strip():
+                errors.append('.deriv-why의 첫 <p>에 주석을 작성하세요')
     return [f'{problem.id}: {e}' for e in errors]
 
 def initial_reviews(pack, fragments):
