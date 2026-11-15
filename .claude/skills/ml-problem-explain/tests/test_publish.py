@@ -8,13 +8,14 @@ from mpe_render import build_explanation
 from mpe_publish import publish_explanation
 from mpe_types import ExplainError
 import review_pdf_publish
+from review_sources import source_markup
 
 ROOT = Path(__file__).resolve().parents[4]
 
 def setup(tmp_path):
     src = tmp_path / 'repo/복습노트/1007/복습문제_1007_Product_of_Gaussians.html'
     src.parent.mkdir(parents=True)
-    src.write_bytes((ROOT / '복습노트/1007' / src.name).read_bytes())
+    src.write_text(source_markup(ROOT / '복습노트/1007/.pack' / (src.stem + '.cards.json')), encoding='utf-8')
     pack = load_source(src, tmp_path / 'repo')
     pack = replace(pack, problems=pack.problems[:1])
     fragments = {p.id: fragment(p) for p in pack.problems}

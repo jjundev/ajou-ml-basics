@@ -18,7 +18,7 @@
 
 ### P1. 확률의 합과 밀도의 넓이
 
-MML Example 6.3 · [원 문제 보기](./%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p1)
+MML Example 6.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -131,7 +131,7 @@ PMF는 상태별 확률의 합이 1이에요. 일정한 PDF는 구간 폭과 밀
 
 ### P2. 이차식에서 가우시안을 알아봐요
 
-MML Example 6.13 · [원 문제 보기](./%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction.html#p2)
+MML Example 6.13 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1014_Bayesian_Posterior_Prediction-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 

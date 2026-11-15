@@ -7,6 +7,7 @@ import pytest
 from helpers import fragment
 from mpe_source import load_source, sha256
 from mpe_types import ExplainError
+from review_sources import source_markup
 from mpe_shared import parse, compact
 from mpe_render import build_explanation, check_artifacts, artifact_hashes
 
@@ -31,7 +32,7 @@ def test_recall_and_summary_survive_html_and_markdown(tmp_path):
         assert '$n\\times m$' in output
     assert 'A\\cdot A' in md
 
-@pytest.mark.parametrize('source', ['복습노트/1007/복습문제_1007_Product_of_Gaussians.html', '과제/과제1/과제1_Homework1.html'])
+@pytest.mark.parametrize('source', ['복습노트/1007/.pack/복습문제_1007_Product_of_Gaussians.cards.json', '과제/과제1/과제1_Homework1.html'])
 def test_render_preserves_questions_and_math_offline(tmp_path, source):
     source = ROOT / source
     before = source.read_bytes()
@@ -56,7 +57,7 @@ def test_render_preserves_questions_and_math_offline(tmp_path, source):
         assert result.md.parent == result.html.parent / '.pack'
         assert 'href="../../assets/vendor/pretendard/pretendard.css"' in text
         assert not (result.html.parent / '.pack' / f'자료_문제설명_{pack.range}_{pack.slug}' / 'vendor').exists()
-        assert '](../복습문제_' in unquote(md)
+        assert '복습문제_1007_Product_of_Gaussians-문제.pdf#page=1' in unquote(md)
     else:
         assert result.md.parent == result.html.parent
     assert f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}' in text
@@ -83,7 +84,7 @@ def test_generated_question_has_top_spacing_before_ask_heading(tmp_path):
         browser.close()
 
 def test_missing_images_and_duplicate_svg_ids_refused(tmp_path):
-    path = ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html'
+    path = ROOT / '복습노트/1007/.pack/복습문제_1007_Product_of_Gaussians.cards.json'
     pack = load_source(path, ROOT)
     p = pack.problems[0]
     pack = replace(pack, problems=(p,))
@@ -93,7 +94,7 @@ def test_missing_images_and_duplicate_svg_ids_refused(tmp_path):
         build_explanation(pack, {p.id: fragment(p) + '<svg><g id="a"></g><g id="a"></g></svg>'}, tmp_path / 'dup', ROOT)
 
 def test_inline_svg_ids_rewritten_per_problem(tmp_path):
-    pack = load_source(ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html', ROOT)
+    pack = load_source(ROOT / '복습노트/1007/.pack/복습문제_1007_Product_of_Gaussians.cards.json', ROOT)
     pack = replace(pack, problems=pack.problems[:2])
     fragments = {p.id: fragment(p) + '<svg viewBox="0 0 10 10"><defs><clipPath id="clip"><rect width="5" height="5"/></clipPath></defs><rect clip-path="url(#clip)" width="10" height="10"/></svg>' for p in pack.problems}
     result = build_explanation(pack, fragments, tmp_path / 'stage', ROOT)
@@ -102,7 +103,7 @@ def test_inline_svg_ids_rewritten_per_problem(tmp_path):
     assert 'url(#p1-clip)' in text and 'url(#p2-clip)' in text
 
 def test_tampered_output_detected(tmp_path):
-    pack = load_source(ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html', ROOT)
+    pack = load_source(ROOT / '복습노트/1007/.pack/복습문제_1007_Product_of_Gaussians.cards.json', ROOT)
     pack = replace(pack, problems=pack.problems[:1])
     result = build_explanation(pack, {p.id: fragment(p) for p in pack.problems}, tmp_path / 'stage', ROOT)
     result.html.write_text(result.html.read_text(encoding='utf-8') + '변경', encoding='utf-8')
@@ -120,7 +121,7 @@ def test_vendor_files_and_hashes_present():
 def test_original_card_link_and_raster_image_survive_markdown(tmp_path):
     import base64
     source = tmp_path / '복습문제_1007_Product_of_Gaussians.html'
-    source.write_bytes((ROOT / '복습노트/1007' / source.name).read_bytes())
+    source.write_text(source_markup(ROOT / '복습노트/1007/.pack' / (source.stem + '.cards.json')), encoding='utf-8')
     # Tiny PNG is a controlled resource fixture, not a generated course illustration.
     (tmp_path / '그림.png').write_bytes(base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jJ1sAAAAASUVORK5CYII='))
     pack = load_source(source, tmp_path)

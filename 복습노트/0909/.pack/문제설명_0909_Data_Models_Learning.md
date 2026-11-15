@@ -21,7 +21,7 @@
 
 ### P1. 기울기만 다른 세 직선
 
-MML Example 9.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning.html#p1)
+MML Example 9.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -110,7 +110,7 @@ $f(10)=\theta\cdot10$을 먼저 적어요.
 
 ### P2. 곱할 수 있는 행렬인가요?
 
-MML Exercise 2.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning.html#p2)
+MML Exercise 2.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -184,7 +184,7 @@ $A:3\times2$, $B:3\times3$을 적어요.
 
 ### P3. 3×3 행렬 두 번 곱하기
 
-MML Exercise 2.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning.html#p3)
+MML Exercise 2.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -287,7 +287,7 @@ $$
 
 ### P4. 넓은 행렬과 긴 행렬의 곱
 
-MML Exercise 2.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning.html#p4)
+MML Exercise 2.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -371,7 +371,7 @@ $(2\times4)(4\times2)=2\times2$, 첫 칸 $0+2+2+10=14$예요.
 
 ### P5. 긴 행렬과 넓은 행렬의 곱
 
-MML Exercise 2.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning.html#p5)
+MML Exercise 2.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0909_Data_Models_Learning-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 

@@ -3,6 +3,7 @@ import json
 from dataclasses import replace
 from mpe_types import ChoiceModel
 from mpe_shared import Node, parse
+from review_sources import source_markup
 
 def choice_models(html_text, statements):
     scripts = list(parse(html_text).find_all(lambda n: n.tag == 'script' and n.attrs.get('id') == 'review-interaction-model' and n.attrs.get('type') == 'application/json'))
@@ -34,5 +35,5 @@ def choice_models(html_text, statements):
     return result
 
 def with_choices(path, problems):
-    models = choice_models(path.read_text(encoding='utf-8'), {p.id:p.conditions_html + p.ask_html for p in problems})
+    models = choice_models(source_markup(path), {p.id:p.conditions_html + p.ask_html for p in problems})
     return tuple(replace(p,choice=models.get(p.id)) for p in problems)

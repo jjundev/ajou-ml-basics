@@ -8,6 +8,7 @@ from pathlib import Path
 from mpe_choices import with_choices
 from mpe_types import ExplainError, Problem, SourcePack
 from mpe_shared import HOMEWORK, REVIEW, EXAM_ACTUAL, Node, ReviewPdfError, read_cards, normalize_cards, parse
+from review_sources import discover_reviews, find_review, html_name
 
 def nfc(value):
     return unicodedata.normalize('NFC', str(value))
@@ -67,10 +68,12 @@ def profile_for(name: str):
 
 def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
     repo = repo.resolve()
-    if target and target.lower().endswith('.html'):
+    if target and target.lower().endswith(('.html', '.cards.json')):
         path = Path(target)
         path = path if path.is_absolute() else repo / path
         path = inside(path, repo)
+        if re.fullmatch(REVIEW.filename_re, nfc(path.name)):
+            path = inside(find_review(path), repo)
         if not path.is_file():
             try:
                 path = inside(existing_path(path), repo)
@@ -78,14 +81,13 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
                 raise ExplainError(f'대상 없음: {path}') from exc
         return (path,)
     candidates = []
-    for path in repo.rglob('*.html'):
-        rel = nfc(path.relative_to(repo))
-        if rel.split('\\')[0].split('/')[0] not in ('복습노트', '과제'):
-            continue
-        for profile in (REVIEW, HOMEWORK):
-            match = re.fullmatch(profile.filename_re, nfc(path.name))
-            if match:
-                candidates.append((profile.name, match[1], path))
+    for directory in repo.iterdir():
+        if nfc(directory.name) == '복습노트':
+            candidates.extend((REVIEW.name, re.fullmatch(REVIEW.filename_re, html_name(path))[1], path)
+                              for path in discover_reviews(directory))
+        elif nfc(directory.name) == '과제':
+            candidates.extend((HOMEWORK.name, match[1], path) for path in directory.rglob('*.html')
+                              if (match := re.fullmatch(HOMEWORK.filename_re, nfc(path.name))))
     if target == 'all':
         found = [path for kind, _, path in candidates if kind == 'review']
     elif target and re.fullmatch(r'(?:과제|hw)\s*[1-9]\d*', target, re.I):
@@ -120,12 +122,12 @@ def resolve_sources(repo: Path, target: str | None) -> tuple[Path, ...]:
         raise ExplainError('대상 없음: ' + str(target))
     by_range = {}
     for path in found:
-        match = re.fullmatch(profile_for(path.name).filename_re, nfc(path.name))
+        match = re.fullmatch(profile_for(path.name).filename_re, html_name(path))
         by_range.setdefault(match[1], []).append(path)
     if any(len(group) > 1 for group in by_range.values()):
-        raise ExplainError('여러 후보: HTML 경로를 명시하세요.\n' + '\n'.join(map(str, found)))
+        raise ExplainError('여러 후보: 문항 원고 경로를 명시하세요.\n' + '\n'.join(map(str, found)))
     if target == 'all':
-        found.sort(key=lambda p: (re.fullmatch(REVIEW.filename_re,nfc(p.name))[1].split('-')[-1],nfc(p.name)),reverse=True)
+        found.sort(key=lambda p: (re.fullmatch(REVIEW.filename_re,html_name(p))[1].split('-')[-1],nfc(p.name)),reverse=True)
         return tuple(inside(path,repo) for path in found)
     return tuple(inside(path, repo) for path in sorted(found, key=lambda p: nfc(p.name)))
 

@@ -5,6 +5,7 @@ from copy import deepcopy
 from review_pdf_layout import Layout, Typography, load_template
 from playwright.sync_api import sync_playwright, Error as BrowserError
 from html2md import SVG_CSS
+from review_sources import html_name, review_dir
 from urllib.parse import urljoin,urlparse
 from review_pdf_cards import parse,inner
 from review_pdf_payload import inject_data
@@ -48,7 +49,7 @@ def freeze_figures(pack,build_dir):
                         if not urlparse(src).scheme:
                             if pack.source_path is None:
                                 raise ReviewPdfError(f'{c.id}: source path required for relative image {src}')
-                            node.attrs['src']=urljoin(pack.source_path.as_uri(),src)
+                            node.attrs['src']=urljoin((review_dir(pack.source_path) / html_name(pack.source_path)).as_uri(),src)
                     path.write_text(head+f'<style>{css}</style></head><body><div id="capture">'+inner(figure)+'''</div><script>addEventListener('DOMContentLoaded',async()=>{await document.fonts.ready;renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});await document.fonts.ready;document.documentElement.dataset.ready='true';});</script></body></html>''',encoding='utf-8')
                     failures.clear();page.goto(path.resolve().as_uri(),wait_until='load',timeout=120000)
                     page.wait_for_function("document.documentElement.dataset.ready==='true'",timeout=120000)

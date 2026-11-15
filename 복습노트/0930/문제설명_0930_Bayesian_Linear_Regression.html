@@ -378,7 +378,7 @@
       <h1>머신러닝기초 복습 0930 문제설명</h1>
       <p>주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.</p>
     </div>
-<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 종속인데 공분산이 0인 경우</h3><p class="panel-meta">MML Example 6.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p1">원 문제 보기</a></p><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$는 평균이 0이고($\mathbb{E}[x] = 0$), 세제곱의 평균도 0이에요($\mathbb{E}[x^3] = 0$).
+<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 종속인데 공분산이 0인 경우</h3><p class="panel-meta">MML Example 6.5 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=1">원 문제 보기</a></p><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$는 평균이 0이고($\mathbb{E}[x] = 0$), 세제곱의 평균도 0이에요($\mathbb{E}[x^3] = 0$).
   새 확률변수를 $y = x^2$으로 만들어요. $y$는 $x$로 정해지니까 $Y$는 $X$에 종속이에요.
   </div><h4>구할 것</h4><div data-source-field="ask">이때 $X$와 $Y$의 공분산 $\operatorname{Cov}[x, y]$를 구해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>종속인데 공분산이 0인 경우를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>공분산(covariance)은 $Cov(X,Y)=E[XY]-E[X]E[Y]$예요. Y=X²이면 XY=X³라 주어진1차·3차 모멘트를 바로 쓸 수 있어요. 관련 기댓값은 유한하다고 전제해요.</p>
@@ -398,7 +398,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>$Cov(X,X^2)=E[X^3]-E[X]E[X^2]$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>주어진 두 모멘트가0이므로 공분산은0이에요. 종속의 예로 X가−1,0,1을 각각1/3로 가지면 X²가 변하며 X에서 결정돼 독립이 아니에요. 반면 X=±1만 가지면 Y=1로 상수예요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>관련 기댓값은 유한하다고 전제해요. 공분산 $0$에서 독립을 결론내리지 않으며, $X^2$가 상수인 퇴화 사례와 구별해요.</p></div></div>
-</article><article class="topic" id="p2"><h3>P2. 독립인 가우시안의 가중합</h3><p class="panel-meta">MML Example 6.7 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">서로 독립인 가우시안 확률변수 $\mathbf{x}$와 $\mathbf{y}$가 있어요. $\mathbf{x}$의 평균은 $\boldsymbol{\mu}_x$, 공분산 행렬은 $\boldsymbol{\Sigma}_x$이고, $\mathbf{y}$의 평균은 $\boldsymbol{\mu}_y$, 공분산 행렬은 $\boldsymbol{\Sigma}_y$예요.
+</article><article class="topic" id="p2"><h3>P2. 독립인 가우시안의 가중합</h3><p class="panel-meta">MML Example 6.7 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=2">원 문제 보기</a></p><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">서로 독립인 가우시안 확률변수 $\mathbf{x}$와 $\mathbf{y}$가 있어요. $\mathbf{x}$의 평균은 $\boldsymbol{\mu}_x$, 공분산 행렬은 $\boldsymbol{\Sigma}_x$이고, $\mathbf{y}$의 평균은 $\boldsymbol{\mu}_y$, 공분산 행렬은 $\boldsymbol{\Sigma}_y$예요.
   상수 $a$, $b$로 가중합 $a\mathbf{x} + b\mathbf{y}$를 만들어요. 이 가중합도 가우시안이라는 사실은 주어진 것으로 써요.
   </div><h4>구할 것</h4><div data-source-field="ask">가중합의 평균과 공분산 행렬을 구해서 $p(a\mathbf{x} + b\mathbf{y})$를 적어 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>독립인 가우시안의 가중합를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>기댓값은 계수를 그대로 통과하지만 분산은 두 편차를 곱하므로 계수가 제곱돼요. 같은 차원의 독립 벡터에 대해 $Var(aX+bY)=a^2\Sigma_x+b^2\Sigma_y$예요. 독립이 교차항을0으로 만들어요.</p>
@@ -423,7 +423,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>$E[aX+bY]=a\mu_x+b\mu_y$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>편차 a(X−μx)+b(Y−μy)의 외적을 펼치면 자기항2개와 교차항2개예요. 독립으로 교차항이0이라 제시한 평균·공분산이 남아요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>가중합이 가우시안이라는 사실은 문제에서 주어졌어요. 같은 차원의 독립 벡터이므로 교차항이 $0$이고, 평균은 $a\mu_x+b\mu_y$, 공분산은 $a^2\Sigma_x+b^2\Sigma_y$예요.</p></div></div>
-</article><article class="topic" id="p3"><h3>P3. 시계열 모델에서 한 걸음 앞 예측하기</h3><p class="panel-meta">MML Exercise 6.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">시간에 따라 변하는 상태 $\mathbf{x}_t$를 아래 시계열 모델로 나타내요.
+</article><article class="topic" id="p3"><h3>P3. 시계열 모델에서 한 걸음 앞 예측하기</h3><p class="panel-meta">MML Exercise 6.5 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=3">원 문제 보기</a></p><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">시간에 따라 변하는 상태 $\mathbf{x}_t$를 아래 시계열 모델로 나타내요.
   $$\mathbf{x}_{t+1} = \mathbf{A}\mathbf{x}_t + \mathbf{w}, \quad \mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$$
   $$\mathbf{y}_t = \mathbf{C}\mathbf{x}_t + \mathbf{v}, \quad \mathbf{v} \sim \mathcal{N}(\mathbf{0}, \mathbf{R})$$
   $\mathbf{A}$, $\mathbf{C}$는 상수 행렬이고, $\mathbf{w}$, $\mathbf{v}$는 상태와 독립인 가우시안 노이즈예요. $\mathbf{y}_t$는 상태를 측정한 값이에요.
@@ -452,7 +452,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>$x_{t+1}-A\mu_t=A(x_t-\mu_t)+w$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>편차 외적의 교차항은 새 잡음과 과거 상태의 조건부 독립으로0이에요. A=I,Q=0이면 현재 평균·공분산이 그대로 복원돼요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>모든 평균·공분산은 시각 $t$까지 관측한 측정값을 조건으로 해요. 아직 다음 관측을 보지 않았으므로 상태 예측분산에는 $Q$를 더하며 $R$이나 $C$를 더하지 않아요.</p></div></div>
-</article><article class="topic" id="p4"><h3>P4. 분산은 제곱의 평균 빼기 평균의 제곱</h3><p class="panel-meta">MML Exercise 6.6 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$의 평균을 $\mu = \mathbb{E}[x]$라고 해요. 분산의 정의는 평균에서 벗어난 정도를 제곱해 평균 낸 값이에요.
+</article><article class="topic" id="p4"><h3>P4. 분산은 제곱의 평균 빼기 평균의 제곱</h3><p class="panel-meta">MML Exercise 6.6 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=4">원 문제 보기</a></p><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$의 평균을 $\mu = \mathbb{E}[x]$라고 해요. 분산의 정의는 평균에서 벗어난 정도를 제곱해 평균 낸 값이에요.
   $$\mathbb{V}[x] = \mathbb{E}[(x - \mu)^2]$$
   </div><h4>구할 것</h4><div data-source-field="ask">이 정의에서 출발해 아래 식을 증명해 보세요.
   $$\mathbb{V}[x] = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$$</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>분산은 제곱의 평균 빼기 평균의 제곱를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -474,7 +474,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>$(x-\mu)^2=x^2-2\mu x+\mu^2$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>선형성으로 E[X²]−2μE[X]+μ²=E[X²]−μ²예요. 정의와 같으므로0이상이며 상수변수이면0이에요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>이차 모멘트가 유한하다고 전제해요. $E[X^2]$와 $(E[X])^2$는 일반적으로 달라요.</p></div></div>
-</article><article class="topic" id="p5"><h3>P5. 노이즈가 섞인 선형 변환의 가능도</h3><p class="panel-meta">MML Exercise 6.12 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$가 있어요($\mathbf{x} \in \mathbb{R}^D$). 여기에 상수 행렬 $\mathbf{A}$를 곱하고 상수 벡터 $\mathbf{b}$와 노이즈 $\mathbf{w}$를 더해요.
+</article><article class="topic" id="p5"><h3>P5. 노이즈가 섞인 선형 변환의 가능도</h3><p class="panel-meta">MML Exercise 6.12 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=5">원 문제 보기</a></p><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$가 있어요($\mathbf{x} \in \mathbb{R}^D$). 여기에 상수 행렬 $\mathbf{A}$를 곱하고 상수 벡터 $\mathbf{b}$와 노이즈 $\mathbf{w}$를 더해요.
   $$\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$$
   $\mathbf{y} \in \mathbb{R}^E$이고, $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
  </div><h4>구할 것</h4><div data-source-field="ask"> $\mathbf{x}$ 값이 주어졌을 때 $\mathbf{y}$의 분포, 즉 가능도(likelihood) $p(\mathbf{y} \mid \mathbf{x})$를 적어 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>노이즈가 섞인 선형 변환의 가능도를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -496,7 +496,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>$p(y\mid x)=\mathcal N(y\mid Ax+b,Q)$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>x를 고정하면 y−(Ax+b)=w예요. 따라서 평균0, 공분산Q를 평행이동한 가우시안이 맞아요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>잡음은 입력과 독립이므로 입력을 고정해도 공분산은 $Q$예요. $A\Sigma_xA^{\top}$는 입력까지 랜덤하게 평균낸 주변분포에서 생기는 항이라 조건부 가능도에 더하지 않아요.</p></div></div>
-</article><article class="topic" id="p6"><h3>P6. 노이즈가 섞인 선형 변환의 평균과 공분산</h3><p class="panel-meta">MML Exercise 6.12 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$가 있어요($\mathbf{x} \in \mathbb{R}^D$). 여기에 상수 행렬 $\mathbf{A}$를 곱하고 상수 벡터 $\mathbf{b}$와 노이즈 $\mathbf{w}$를 더해요.
+</article><article class="topic" id="p6"><h3>P6. 노이즈가 섞인 선형 변환의 평균과 공분산</h3><p class="panel-meta">MML Exercise 6.12 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=6">원 문제 보기</a></p><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$가 있어요($\mathbf{x} \in \mathbb{R}^D$). 여기에 상수 행렬 $\mathbf{A}$를 곱하고 상수 벡터 $\mathbf{b}$와 노이즈 $\mathbf{w}$를 더해요.
   $$\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$$
   $\mathbf{y} \in \mathbb{R}^E$이고, $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
  </div><h4>구할 것</h4><div data-source-field="ask"> $\mathbf{y}$의 분포 $p(\mathbf{y})$가 가우시안이라는 사실은 주어진 것으로 써요. 그 평균 $\boldsymbol{\mu}_y$와 공분산 행렬 $\boldsymbol{\Sigma}_y$를 단계별로 유도해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>노이즈가 섞인 선형 변환의 평균과 공분산를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
@@ -521,7 +521,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>$y-E[y]=A(x-\mu_x)+w$예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>성분(i,j)은 ∑kl A_ik Cov(x_k,x_l)A_jl+Q_ij예요. 이것이 AΣxAᵀ+Q의 칸과 같아요. 차원은 E×E이고 b는 사라져요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>독립인 잡음으로 교차항이 사라져 $\mu_y=A\mu_x+b$, $\Sigma_y=A\Sigma_xA^{\top}+Q$예요. 행렬 곱 순서를 지키며 $A\Sigma_xA^{\top}$를 $AA^{\top}\Sigma_x$로 바꾸지 않아요.</p></div></div>
-</article><article class="topic" id="p7"><h3>P7. 한 번 더 변환해서 측정하기</h3><p class="panel-meta">MML Exercise 6.12 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p7">원 문제 보기</a></p><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$로 $\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$를 만들어요. $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
+</article><article class="topic" id="p7"><h3>P7. 한 번 더 변환해서 측정하기</h3><p class="panel-meta">MML Exercise 6.12 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=7">원 문제 보기</a></p><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions">가우시안 확률변수 $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_x, \boldsymbol{\Sigma}_x)$로 $\mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{b} + \mathbf{w}$를 만들어요. $\mathbf{w} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$는 $\mathbf{x}$와 독립인 가우시안 노이즈예요.
   이때 $\mathbf{y}$는 평균이 $\boldsymbol{\mu}_y = \mathbf{A}\boldsymbol{\mu}_x + \mathbf{b}$, 공분산 행렬이 $\boldsymbol{\Sigma}_y = \mathbf{A}\boldsymbol{\Sigma}_x\mathbf{A}^\top + \mathbf{Q}$인 가우시안이에요. 이 결과는 주어진 것으로 써요.
   이제 $\mathbf{y}$를 상수 행렬 $\mathbf{C}$로 한 번 더 변환해서 측정해요.
   $$\mathbf{z} = \mathbf{C}\mathbf{y} + \mathbf{v}$$
@@ -550,7 +550,7 @@
 </div><div class="summary-group"><h4>첫 줄</h4><p>(a)는 z−Cy=v, (b)는 z−Cμy=C(y−μy)+v예요.</p>
 </div><div class="summary-group"><h4>검산</h4><p>y 고정 뒤 v만 변하므로 N(Cy,R)예요. 평균은 Cμy이고 편차 외적은 CΣyCᵀ+R예요. 이를 y의 식에 넣으면 원 카드의 두 단계 변환 식과 일치해요.</p>
 </div><div class="summary-group"><h4>조건·구분</h4><p>측정 잡음은 $C$로 변환한 뒤 더하므로 $R$을 다시 $C$로 감싸지 않아요. 조건부는 $\mathcal{N}(Cy,R)$, 주변 공분산은 $C\Sigma_yC^{\top}+R$예요.</p></div></div>
-</article><article class="topic" id="p8"><h3>P8. 쌍끼리의 차이로 보는 분산</h3><p class="panel-meta">MML Exercise 6.7 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression.html#p8">원 문제 보기</a></p><div class="layer formal" data-source-problem="p8"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$에서 얻은 관측값 $x_1, \dots, x_N$이 있어요. 모든 쌍 $(x_i, x_j)$의 차이를 제곱해 평균 내면, "제곱의 평균 빼기 평균의 제곱"의 두 배가 돼요.
+</article><article class="topic" id="p8"><h3>P8. 쌍끼리의 차이로 보는 분산</h3><p class="panel-meta">MML Exercise 6.7 · <a href=".pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf#page=8">원 문제 보기</a></p><div class="layer formal" data-source-problem="p8"><h4>주어진 조건</h4><div data-source-field="conditions">확률변수 $X$에서 얻은 관측값 $x_1, \dots, x_N$이 있어요. 모든 쌍 $(x_i, x_j)$의 차이를 제곱해 평균 내면, "제곱의 평균 빼기 평균의 제곱"의 두 배가 돼요.
   $$\frac{1}{N^2}\sum_{i,j=1}^{N}(x_i - x_j)^2 = 2\left[\frac{1}{N}\sum_{i=1}^{N} x_i^2 - \left(\frac{1}{N}\sum_{i=1}^{N} x_i\right)^2\right]$$
   </div><h4>구할 것</h4><div data-source-field="ask">이 식을 증명해 보세요.</div></div><div class="layer eli5" data-explanation="understand"><h4>무엇을 구하는 문제인가요?</h4><p>쌍끼리의 차이로 보는 분산를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.</p>
 </div><div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>쌍별 제곱차(pairwise squared difference)는 이중합을 전개해요. $\sum_{ij}x_i^2=N\sum_i x_i^2$, $\sum_{ij}x_ix_j=(\sum_i x_i)^2$예요. N&gt;0이고 모든 순서쌍을 포함해요.</p>

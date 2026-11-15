@@ -153,7 +153,7 @@ def verified_references(references, old_repo, repo):
     return carried,True
 
 def source_resources(pack,repo):
-    base=pack.path.parent
+    base=pack.directory
     result={}
     for problem in pack.problems:
         markup=problem.conditions_html+problem.ask_html+problem.original_html+''.join(problem.figures_html)
@@ -183,7 +183,7 @@ def rerender(repo,target,run):
     for item in items:
         try:
             pack,folder=item['pack'],item['folder']
-            data=pack.path.parent/names(pack)[2]
+            data=pack.directory/names(pack)[2]
             ids={p.id for p in pack.problems}
             published=inside(data/'fragments',repo)
             if not published.is_dir() or {p.stem for p in published.glob('*.html')} != ids:
@@ -192,7 +192,7 @@ def rerender(repo,target,run):
             stored=read_json(inside(data/'validation.json',repo))
             intact=True
             for name,digest in manifest.get('files',{}).items():
-                source=inside(pack.path.parent/Path(name),repo)
+                source=inside(pack.directory/Path(name),repo)
                 intact = intact and source.is_file() and sha256(source)==digest
             if not manifest.get('files') or not intact:
                 raise ExplainError('발행된 조각/검산 자료 변경: 정상 저작 절차를 쓰세요')
@@ -207,14 +207,17 @@ def rerender(repo,target,run):
             same=stored.get('input_hash')==payload_hash(pack,fragments)
             # Only HTML adapters can recover a style-only historical input. EC2's digest covers all MD/images.
             if not same and True and pack.profile=='review' and stored.get('input_hash'):
-                old=git_blob(pack.path,manifest.get('source_sha256',''))
+                from review_sources import html_name
+                old_path = pack.directory / html_name(pack.path)
+                prior_sha = manifest.get('source_sha256', '')
+                old=git_blob(old_path,prior_sha)
                 if old is not None:
                     with tempfile.TemporaryDirectory() as tmp:
-                        path=Path(tmp)/pack.path.parent.name/pack.path.name
+                        path=Path(tmp)/pack.directory.name/html_name(pack.path)
                         path.parent.mkdir();path.write_bytes(old)
                         try:
                             previous=load_source(path,Path(tmp))
-                            same=(same_problems(previous.problems,pack.problems,pack.path,repo) and payload_hash(replace(pack,sha256=manifest['source_sha256']),fragments)==stored['input_hash'])
+                            same=(same_problems(previous.problems,pack.problems,old_path,repo) and payload_hash(replace(pack,sha256=manifest['source_sha256']),fragments)==stored['input_hash'])
                         except (ExplainError,OSError):
                             same=False
             if same and stored.get('input_hash')!=payload_hash(pack,fragments):

@@ -4,6 +4,7 @@ from urllib.parse import unquote,urlparse
 from .contracts import InputError
 from .util import file_hash,write,digest
 from .ml_cards import read_cards
+from review_sources import discover_reviews, html_name, review_dir, source_markdown, source_pdf
 from .page_pairs import map_pages,normalize_id,compare_conditions
 
 def _norm(s):return unicodedata.normalize('NFC',s)
@@ -18,8 +19,8 @@ def _find(parent,name):
  return matches[0]
 def discover(repo,selector,problem_ids=None,failures=None,*,pack=None,page_map=None):
  repo=Path(repo).resolve();lo,hi=_dates(selector);root=_find(repo,'복습노트');packs=[];cross=[]
- for p in sorted(root.rglob('*.html')):
-  m=re.fullmatch(r'복습문제_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html',_norm(p.name))
+ for p in discover_reviews(root):
+  m=re.fullmatch(r'복습문제_(\d{4}(?:-\d{4})?)_([A-Za-z0-9_]+)\.html',html_name(p))
   if not m:continue
   a,b=_dates(m[1])
   if b<lo or a>hi:continue
@@ -45,18 +46,19 @@ def discover(repo,selector,problem_ids=None,failures=None,*,pack=None,page_map=N
   try:
    card_errors=[];cards=read_cards(html,[n for d,n in requested if d is None or d==date] if requested else None,errors=card_errors if failures is not None else None)
    for error in card_errors:fail(error['problem_id'],date,slug,error['reason']);matched.update((d,n) for d,n in requested if n==error['problem_id'] and (d is None or d==date))
-  except (OSError,InputError) as ex:fail(None,date,slug,str(ex));continue
+  except (OSError,ValueError,InputError) as ex:fail(None,date,slug,str(ex));continue
   for card in cards:
    pid=card['id'];selections=[(d,n) for d,n in requested if n==pid and (d is None or d==date)]
    if requested and not selections:continue
    matched.update(selections)
    try:
-    stem=_norm(html.stem);md=_find(html.parent,stem+'.md');pp=_find(html.parent,stem+'-문제.pdf');ap=_find(html.parent,stem+'-답안.pdf')
-    sources=dict(html=str(html.resolve()),md=str(md.resolve()),problem_pdf=str(pp.resolve()),answer_pdf=str(ap.resolve()))
+    md=source_markdown(html);pp=source_pdf(html,'문제');ap=source_pdf(html,'답안')
+    source_kind = 'cards' if html.name.endswith('.cards.json') else 'html'
+    sources={source_kind:str(html.resolve()), 'md':str(md.resolve()), 'problem_pdf':str(pp.resolve()), 'answer_pdf':str(ap.resolve())}
     for relative in card['figure_paths']:
      u=urlparse(relative)
      if u.scheme or u.netloc:raise InputError('remote figure requires frozen local source')
-     target=(html.parent/unquote(u.path)).resolve()
+     target=(review_dir(html)/unquote(u.path)).resolve()
      if not target.is_relative_to(repo) or target.name.startswith('.') or target.suffix.lower() not in ('.svg','.png','.jpg','.jpeg','.webp'):raise InputError('unsafe source figure')
      if not target.is_file():raise InputError('figure missing: '+relative)
      sources['figure:'+relative]=str(target)

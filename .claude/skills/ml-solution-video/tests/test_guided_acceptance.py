@@ -6,9 +6,8 @@ class GuidedAcceptanceTests(Sandbox):
   try:from guided_acceptance import author_guided
   except ImportError:self.fail('guided author missing')
   import video
-  from solution_video.sources import discover
-  from unittest.mock import patch
-  __import__('shutil').copytree(REPO/'복습노트/1007',self.run/'복습노트/1007',dirs_exist_ok=True)
+  from ml_authored import stage_authored_fixture
+  stage_authored_fixture(REPO, self.run)
   batch=video.prepare_batch(self.run,'1007',['P3'],False)
   run=batch/read(batch/'batch.json')['items'][0]['run'];result=author_guided(run)
   return run,result

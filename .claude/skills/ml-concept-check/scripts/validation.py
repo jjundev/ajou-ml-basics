@@ -120,7 +120,7 @@ def check(src, scope):
 
     if not 1 <= len(items) <= 16:
         errors.append("문항은 1~16개여야 합니다")
-    review = parse_html(Path(scope["review"]))
+    review = parse_html(Path(scope["review"]), review=True)
     review_stems = ["".join(node.text().split()) for node in
                     review.find_all(lambda node: "problem" in node.classes)]
     review_windows = {stem[i:i+20] for stem in review_stems for i in range(len(stem) - 19)}

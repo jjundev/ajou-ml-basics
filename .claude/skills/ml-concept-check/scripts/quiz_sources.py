@@ -15,6 +15,7 @@ if str(REVIEW_SCRIPTS) not in sys.path:
     sys.path.append(str(REVIEW_SCRIPTS))
 
 from html2md import Builder
+from review_sources import find_review, source_markup
 
 RANGE = re.compile(r"[0-9]{4}(?:-[0-9]{4})?")
 SLUG = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]*")
@@ -55,9 +56,9 @@ def load_items(src):
     return objectives, items
 
 
-def parse_html(path):
+def parse_html(path, *, review=False):
     parser = Builder()
-    parser.feed(path.read_text(encoding="utf-8"))
+    parser.feed(source_markup(path) if review else path.read_text(encoding="utf-8"))
     parser.close()
     return parser.root
 
@@ -83,7 +84,7 @@ def source_scope(repo, range_, manifest_path=None):
     if not SLUG.fullmatch(slug):
         raise QuizError(f"정리노트 slug가 유효하지 않습니다: {slug}")
     md = day / ".pack" / f"{prefix}{slug}.md"
-    review = day / f"복습문제_{range_}_{slug}.html"
+    review = find_review(day / f"복습문제_{range_}_{slug}.html")
     for path in (md, review):
         if not path.is_file():
             raise QuizError(f"복습팩 근거가 없습니다: {path}")

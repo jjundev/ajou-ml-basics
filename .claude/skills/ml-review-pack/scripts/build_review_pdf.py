@@ -14,6 +14,7 @@ from review_pdf_pages import paginate
 from review_pdf_render import freeze_figures,render_workbook,measure_typography
 from review_pdf_publish import publish_files
 from review_pdf_layout import Layout,page_size_pt
+from review_sources import find_review, review_dir, source_pdf
 from review_pdf_types import BuildResult,ReviewPdfError,REVIEW,PROFILES
 
 
@@ -51,8 +52,14 @@ def _verify_pdf(path,expected_pages,layout: Layout):
 def build_pack(review_path,layouts_path,build_dir,*,layout: Layout="video-16x9",profile=REVIEW):
     size=page_size_pt(layout)
     review_path=Path(review_path).resolve()
+    if profile == REVIEW and not review_path.exists() and review_path.suffix == ".html":
+        review_path = find_review(review_path)
     source_hash=digest(review_path)
     pack=read_cards(review_path,profile)
+    if layouts_path is None and review_path.name.endswith('.cards.json'):
+        filename = f'{pack.range}_{pack.slug}.json'
+        layouts_path = next((root / 'workbook/layouts' / filename for root in review_dir(review_path).parents
+                             if (root / 'workbook/layouts' / filename).is_file()), None)
     layouts=json.loads(Path(layouts_path).read_text(encoding='utf-8')) if layouts_path else None
     problems=normalize_cards(pack,layouts,review_path)
     stage=Path(build_dir)/('run-'+uuid.uuid4().hex);stage.mkdir(parents=True,exist_ok=False)
@@ -87,15 +94,43 @@ def build_pack(review_path,layouts_path,build_dir,*,layout: Layout="video-16x9",
 
 def publish_build(result,pdf_dir,backup_dir):
     evidence=json.loads(result.report_path.read_text(encoding='utf-8'))
-    if digest(evidence['source_path'])!=evidence['source_sha256']:raise ReviewPdfError('stale source before publication')
+    source = Path(evidence['source_path'])
+    if digest(source)!=evidence['source_sha256']:raise ReviewPdfError('stale source before publication')
     for mode,path in [('problems',result.problems_pdf),('answers',result.answers_pdf)]:
         if digest(path)!=evidence['pdfs'][mode]['sha256']:raise ReviewPdfError(f'{mode}: staged PDF changed')
-    publish_files({Path(pdf_dir)/p.name:p for p in [result.problems_pdf,result.answers_pdf]},backup_dir)
+    files = {Path(pdf_dir)/p.name: p for p in (result.problems_pdf, result.answers_pdf)}
+    expected = {source: evidence['source_sha256']}
+    if source.name.endswith('.cards.json'):
+        pdf = source_pdf(source, '문제').resolve()
+        if pdf.is_file() and (Path(pdf_dir) / result.problems_pdf.name).resolve() == pdf:
+            from review_pdf_links import problem_pages, relocate_problem_links
+
+            expected[pdf] = digest(pdf)
+            old_pages = problem_pages(pdf, read_cards(source).cards)
+            new_pages = evidence['pages']['problems']
+            moves = {page: new_pages[pid][0] for pid, page in old_pages.items() if new_pages.get(pid)}
+            root = review_dir(source)
+            stem = f"{evidence['range']}_{evidence['slug']}"
+            revisions = result.report_path.parent / ('page-links-' + uuid.uuid4().hex)
+            for prefix in ('정리노트', '문제설명'):
+                for path in (root / f'{prefix}_{stem}.html', source.parent / f'{prefix}_{stem}.md'):
+                    if not path.is_file():
+                        continue
+                    raw = path.read_bytes()
+                    text = raw.decode('utf-8')
+                    updated = relocate_problem_links(text, path, pdf, moves)
+                    if updated != text:
+                        revisions.mkdir(exist_ok=True)
+                        staged = revisions / path.name
+                        staged.write_text(updated, encoding='utf-8')
+                        files[path] = staged
+                        expected[path] = hashlib.sha256(raw).hexdigest()
+    publish_files(files, backup_dir, expected_hashes=expected)
 
 
 def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--review',required=True,type=Path);ap.add_argument('--layouts',type=Path)
+    ap.add_argument('--review',required=True,type=Path,help='work-stage card HTML or published .cards.json');ap.add_argument('--layouts',type=Path)
     ap.add_argument('--build-dir',required=True,type=Path);ap.add_argument('--pdf-dir',type=Path)
     ap.add_argument('--report',required=True,type=Path);ap.add_argument('--stage-only',action='store_true')
     ap.add_argument('--layout',choices=['a4','video-16x9'],default='video-16x9')

@@ -40,7 +40,7 @@ def verify_shared_vendor(vendor_dir):
 
 def vendor_relpath(pack, repo):
     vendor_root = Path(repo).resolve() / 'assets' / 'vendor'
-    return Path(os.path.relpath(vendor_root, pack.path.parent.resolve())).as_posix()
+    return Path(os.path.relpath(vendor_root, pack.directory.resolve())).as_posix()
 
 def names(pack):
     stem = {'homework': f'과제{pack.range}_문제설명_{pack.slug}',
@@ -127,7 +127,7 @@ def resources(markup, problem, pack, repo, stage, fig_name, destination, scope="
             url = urlsplit(node.attrs.get('src', ''))
             if url.scheme or url.netloc or not url.path:
                 raise ExplainError(f'{problem.id}: 저장소 내부 그림만 허용')
-            source = inside(existing_path(pack.path.parent / unquote(url.path)), repo)
+            source = inside(existing_path(pack.directory / unquote(url.path)), repo)
             if not source.is_file():
                 raise ExplainError(f'{problem.id}: 그림 없음: {source}')
             target = stage / fig_name / (sha256(source)[:16] + '-' + source.name)
@@ -142,7 +142,7 @@ def resources(markup, problem, pack, repo, stage, fig_name, destination, scope="
                 raise ExplainError(f'{problem.id}: 개념 링크는 실제 저장소 자료만 허용')
             if not url.path:
                 continue
-            target = inside(existing_path(pack.path.parent / unquote(url.path)), repo)
+            target = inside(existing_path(pack.directory / unquote(url.path)), repo)
             if not target.is_file():
                 raise ExplainError(f'{problem.id}: 링크 파일 없음')
             if url.fragment:
@@ -173,18 +173,29 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     shutil.copy2(ASSETS / 'template-provenance.json', data_dir / 'template-provenance.json')
     articles = []
     toc = []
+    pdf_href = None
+    pages = {}
+    if pack.path.name.endswith('.cards.json'):
+        from review_sources import source_pdf
+        from review_pdf_links import problem_pages
+        pdf = source_pdf(pack.path, '문제')
+        pdf_href = quote(pdf.relative_to(pack.directory).as_posix(), safe='/')
+        pages = problem_pages(pdf, pack.problems)
     for p in pack.problems:
         reading = (f'<div class="layer formal" data-source-problem="{p.id}"><h4>주어진 조건</h4>'
                    + '<div data-source-field="conditions">' + p.conditions_html + '</div><h4>구할 것</h4>'
                    + '<div data-source-field="ask">' + p.ask_html + '</div>' + ''.join(p.figures_html) + '</div>')
-        reading = resources(reading,p,pack,repo,stage,fig_name,pack.path.parent)
+        reading = resources(reading,p,pack,repo,stage,fig_name,pack.directory)
         if p.original_html.strip():
-            original = resources(p.original_html,p,pack,repo,stage,fig_name,pack.path.parent,scope="original")
+            original = resources(p.original_html,p,pack,repo,stage,fig_name,pack.directory,scope="original")
             reading += f'<details class="original" data-original-problem="{p.id}"><summary>원문 보기</summary>'+original+'</details>'
         reading = f'<div class="problem-pane" data-problem-for="{p.id}">'+reading+'</div>'
         normalized = normalize_subpart_labels(fragments[p.id])
-        explanation = resources(normalized, p, pack, repo, stage, fig_name, pack.path.parent)
-        original_link = quote(pack.path.name, safe='') + '#' + p.id
+        explanation = resources(normalized, p, pack, repo, stage, fig_name, pack.directory)
+        if pdf_href is None:
+            original_link = quote(pack.path.name, safe='') + '#' + p.id
+        else:
+            original_link = pdf_href + (f'#page={pages[p.id]}' if p.id in pages else '')
         articles.append(f'<article class="topic" id="{p.id}"><h3>{html.escape(p.title)}</h3>'
                         + f'<p class="panel-meta">{html.escape(p.source)} · <a href="{original_link}">원 문제 보기</a></p>'
                         + reading + explanation + '</article>')
@@ -214,7 +225,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
                          'source': str(pack.path), 'source_sha256': pack.sha256,
                          'review_policy_version': POLICY_VERSION, 'source_resources': source_resources(pack,repo),
                          'input_hash': payload_hash(pack, fragments), 'reading_key': values['RANGE'],
-                         'destination': str(pack.path.parent), 'repo': str(repo.resolve()),
+                         'destination': str(pack.directory), 'repo': str(repo.resolve()),
                          'shared_vendor_provenance_sha256': vendor_provenance_sha,
                          'problems': [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems],
                          'files': {p.relative_to(stage).as_posix(): sha256(p) for p in files}})
@@ -264,7 +275,7 @@ def check_artifacts(pack, artifacts):
                 original = list(document.find_all(lambda n: n.attrs.get('data-original-problem') == p.id))
                 if len(original) != 1 or compact(p.original_html) not in compact(original[0].text()):
                     errors.append(f'{p.id}: 영어 원문 보존 실패')
-        repo_root = Path(manifest.get('repo') or pack.path.parent).resolve()
+        repo_root = Path(manifest.get('repo') or pack.directory).resolve()
         vendor_dir = resolve_vendor_dir(repo_root)
         vendor_provenance_sha = verify_shared_vendor(vendor_dir)
         if manifest.get('shared_vendor_provenance_sha256') and manifest['shared_vendor_provenance_sha256'] != vendor_provenance_sha:
@@ -294,6 +305,12 @@ def check_artifacts(pack, artifacts):
                 path = root / unquote(url.path)
             if not path.is_file():
                 errors.append('자원 없음: ' + href)
+            elif node.tag == 'a' and url.fragment and path.suffix.lower() == '.pdf':
+                import fitz
+                with fitz.open(path) as pdf:
+                    page = re.fullmatch(r'page=([1-9][0-9]*)', url.fragment)
+                    if not page or int(page[1]) > len(pdf):
+                        errors.append('PDF 페이지 없음: ' + href)
             elif node.tag == 'a' and url.fragment:
                 target_ids = {n.attrs.get('id') for n in parse(path.read_text(encoding='utf-8')).find_all(lambda n: True)}
                 if unquote(url.fragment) not in target_ids:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-manifest + 조각 파일 → 정리노트/복습문제 HTML 두 개 (표준 라이브러리만 사용).
+manifest와 조각 파일에서 정리노트와 검증용 복습문제 HTML을 조립한다.
 
 실행 폴더 구조:
   RUN/manifest.json
@@ -8,7 +8,8 @@ manifest + 조각 파일 → 정리노트/복습문제 HTML 두 개 (표준 라�
   RUN/cards/<problem-id>.html      (<article class="card"> 하나)
 조각 안의 {{NOTE_HREF}} / {{REVIEW_HREF}} 는 실제 파일명으로 바뀐다.
 <script> 블록은 조각에서 빼서 </body> 앞({{SCRIPTS}})으로 모은다.
-CLI: assemble.py --run RUN --out 복습노트/<range>
+CLI: assemble.py --run RUN --out RUN/work/stage/복습노트/<range>
+최종 발행에는 review_pdf_publish.publish_pack을 사용한다.
 """
 
 from __future__ import annotations
@@ -23,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import manifest as manifest_mod  # noqa: E402
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
+REPO_NOTES = Path(__file__).resolve().parents[4] / "복습노트"
 SLOT_RE = re.compile(r"\{\{([A-Z_]+)\}\}")
 SCRIPT_RE = re.compile(r"<script\b[^>]*>.*?</script>", re.S | re.I)
 
@@ -99,6 +101,8 @@ def build_review(m: dict, run_dir: Path) -> str:
 
 def assemble(run_dir: Path | str, out_dir: Path | str, *, include_pdf_links: bool = False) -> tuple[Path, Path]:
     run_dir, out_dir = Path(run_dir), Path(out_dir)
+    if out_dir.resolve().is_relative_to(REPO_NOTES.resolve()):
+        raise AssembleError("작업 폴더에서 HTML을 조립한 뒤 publish_pack으로 발행하세요.")
     m = manifest_mod.load(run_dir / "manifest.json")
     out_dir.mkdir(parents=True, exist_ok=True)
     note_path = out_dir / manifest_mod.note_name(m)

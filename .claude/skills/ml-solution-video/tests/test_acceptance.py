@@ -14,12 +14,15 @@ class AcceptanceTests(Sandbox):
         for i in data['checks']:
             self.assertTrue(i['technical_complete']);self.assertEqual(i['final_sha256'],hashlib.sha256(Path(i['final']).read_bytes()).hexdigest())
     def test_selected_real_pdf_acceptance_mapping(self):
-        import acceptance,video,shutil
+        import acceptance,video
+        from ml_authored import stage_authored_fixture
         from solution_video.util import read
-        shutil.copytree(REPO/'복습노트/1007',self.run/'복습노트/1007')
+        stage_authored_fixture(REPO, self.run)
         batch=video.prepare_batch(self.run,'1007',acceptance.IDS)
         data=read(batch/'batch.json');self.assertEqual([i['id'] for i in data['items']],acceptance.IDS)
         for item in data['items']:
-            m,l=acceptance.author(batch/item['run'])
+            run=batch/item['run']
+            self.assertIn('cards',read(run/'source/pair.json')['source_files'])
+            m,l=acceptance.author(run)
             self.assertEqual(m['problem_id'],item['id']);self.assertTrue(l['pages']['answer-1']['glyphs'])
         self.assertFalse((batch/'usage.json').exists())

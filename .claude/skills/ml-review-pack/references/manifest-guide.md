@@ -55,4 +55,4 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 - 이전 복습팩과 이어지는 개념이면 `../<이전 range>/정리노트_<이전 range>_<slug>.html#<토픽>` 링크를 건다(팩마다 `복습노트/<range>/` 폴더라 한 단계 위로 올라간다). 토픽은 기본 `s<N>-links`, 특정 토픽에 거는 편이 분명하면 그 토픽 id.
 
 ## PDF 연결
-PDF stage 빌드 후 links 토픽의 links에 `.pack/복습문제_<range>_<slug>-문제.pdf`, `.pack/…-답안.pdf` href(`manifest.pdf_hrefs`)를 추가한다. 기존 review HTML link는 유지한다. PDF가 없던 첫 HTML 검사에는 아직 PDF 링크를 넣지 않는다.
+PDF stage 빌드 후 links 토픽의 links에 `.pack/복습문제_<range>_<slug>-문제.pdf`, `.pack/…-답안.pdf` href(`manifest.pdf_hrefs`)를 추가한다. 작업용 review HTML link를 제거하고 문제지 PDF로 연결한다. PDF가 없던 첫 HTML 검사에는 아직 PDF 링크를 넣지 않는다.

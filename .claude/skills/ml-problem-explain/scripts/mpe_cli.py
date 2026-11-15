@@ -173,7 +173,7 @@ def main(argv=None):
                     else:
                         review = read_json(inside(item['folder'] / 'review.json', item['run']))
                         published = publish_explanation(item['pack'], artifacts, fragments, review,
-                                                        item['pack'].path.parent, item['folder'] / 'backups')
+                                                        item['pack'].directory, item['folder'] / 'backups')
                         print('publish:', published[0], 'backup:', item['folder'] / 'backups')
             except (ExplainError, OSError, ValueError, KeyError, TypeError) as exc:
                 failed = True

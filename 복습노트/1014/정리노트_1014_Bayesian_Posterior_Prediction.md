@@ -830,7 +830,7 @@ $\phi_*:=\phi(x_*)$, $\Phi\in\mathbb R^{N\times K}$, $m_N\in\mathbb R^K$, $S_N\i
 - [복습문제_1014_Bayesian_Posterior_Prediction](복습문제_1014_Bayesian_Posterior_Prediction.md)
 - [정리노트_1007_Product_of_Gaussians](../1007/정리노트_1007_Product_of_Gaussians.html)
 - [정리노트_1012_Several_Mathematical_Proofs](../1012/정리노트_1012_Several_Mathematical_Proofs.html)
-- [복습문제_0930_Bayesian_Linear_Regression](../0930/복습문제_0930_Bayesian_Linear_Regression.html)
+- [복습문제_0930_Bayesian_Linear_Regression](../0930/.pack/%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0930_Bayesian_Linear_Regression-%EB%AC%B8%EC%A0%9C.pdf)
 - [eli5_lecture10_statistical_inference_part1](../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
 - [eli5_lecture11_statistical_inference_part2](../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
 - [eli5_lecture12_statistical_inference_part3](../../강의노트/추가%20강의/eli5_lecture12_statistical_inference_part3.html)

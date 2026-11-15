@@ -35,6 +35,11 @@ class SourcePack:
     sha256: str
     problems: tuple[Problem, ...]
 
+    @property
+    def directory(self):
+        from review_sources import review_dir
+        return review_dir(self.path)
+
 @dataclass(frozen=True)
 class Artifacts:
     html: Path

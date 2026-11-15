@@ -6,6 +6,7 @@ import pytest
 from helpers import fragment, approved
 from mpe_source import load_source
 from mpe_cli import load_run
+from review_sources import source_markup, html_name, review_dir
 
 ROOT = Path(__file__).resolve().parents[4]
 CLI = Path(__file__).resolve().parents[1] / 'scripts/mpe_cli.py'
@@ -72,7 +73,7 @@ def test_one_stale_pack_does_not_block_other_pack(tmp_path):
     for date in ('1006', '1007'):
         source = repo / '복습노트' / date / f'복습문제_{date}_Product_of_Gaussians.html'
         source.parent.mkdir(parents=True)
-        source.write_bytes((ROOT / '복습노트/1007/복습문제_1007_Product_of_Gaussians.html').read_bytes())
+        source.write_bytes(source_markup(ROOT / '복습노트/1007/.pack/복습문제_1007_Product_of_Gaussians.cards.json').encode())
     run = tmp_path / 'run'
     assert call('extract', '--repo', repo, '--target', '1006-1007', '--run', run).returncode == 0
     for item in load_run(run):
@@ -102,19 +103,22 @@ def test_check_refuses_fragments_changed_after_build(tmp_path):
 def test_cli_explicit_review_path_ignores_newer_and_other_slug(tmp_path):
     import shutil
     repo = tmp_path / 'repo'
-    original = ROOT / '복습노트/0909/복습문제_0909_Data_Models_Learning.html'
+    original = ROOT / '복습노트/0909/.pack/복습문제_0909_Data_Models_Learning.cards.json'
     source = repo / original.relative_to(ROOT)
     source.parent.mkdir(parents=True)
     shutil.copy2(original, source)
+    for suffix in ('-문제.pdf','-답안.pdf'):
+        pdf = original.with_name(Path(html_name(original)).stem + suffix)
+        shutil.copy2(pdf, source.parent / pdf.name)
     layout = Path('workbook/layouts/0909_Data_Models_Learning.json')
     (repo / layout).parent.mkdir(parents=True)
     shutil.copy2(ROOT / layout, repo / layout)
     for date, slug in [('0909', 'Other'), ('1012', 'Latest')]:
         other = repo / '복습노트' / date / f'복습문제_{date}_{slug}.html'
         other.parent.mkdir(parents=True, exist_ok=True)
-        other.write_bytes(original.read_bytes())
+        other.write_text(source_markup(original), encoding='utf-8')
     before = source.read_bytes()
-    old = source.parent / '문제설명_0909_Data_Models_Learning.html'
+    old = review_dir(source) / '문제설명_0909_Data_Models_Learning.html'
     old.write_bytes(b'previous explanation')
     run = tmp_path / 'run'
     result = call('extract', '--repo', repo, '--target', source, '--run', run)

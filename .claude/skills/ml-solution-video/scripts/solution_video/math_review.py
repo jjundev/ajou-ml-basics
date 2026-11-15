@@ -17,14 +17,14 @@ def validate_source_refs(refs,run):
  from .util import read,local,file_hash
  allowed=read(Path(run)/'source/inputs.json')['files']
  for ref in refs:
-  m=re.fullmatch(r'(html|md|pdf|figure):([^#]+)(?:#(p\d+|page=\d+))?',ref)
+  m=re.fullmatch(r'(html|cards|md|pdf|figure):([^#]+)(?:#(p\d+|page=\d+))?',ref)
   if not m:raise ReviewError('invalid source_ref '+str(ref))
   kind,path,anchor=m.groups()
   if path not in allowed or not local(run,path).is_file() or file_hash(local(run,path))!=allowed[path]['sha256']:raise ReviewError('unfrozen/changed source_ref')
-  if kind in ('html','md') and not anchor:raise ReviewError('card anchor required')
-  if kind=='html':
+  if kind in ('html','cards','md') and not anchor:raise ReviewError('card anchor required')
+  if kind in ('html','cards'):
    from .ml_cards import read_cards
-   if anchor.upper() not in {c['id'] for c in read_cards(local(run,path),[anchor.upper()])}:raise ReviewError('unknown HTML card anchor')
+   if anchor.upper() not in {c['id'] for c in read_cards(local(run,path),[anchor.upper()])}:raise ReviewError('unknown source card anchor')
   if kind=='md':
    text=local(run,path).read_text();pid=anchor[1:]
    if not re.search(r'(?:P'+pid+r'\b|id=["\']'+anchor+r'["\']|\{#'+anchor+r'\})',text,re.I):raise ReviewError('unknown MD card anchor')

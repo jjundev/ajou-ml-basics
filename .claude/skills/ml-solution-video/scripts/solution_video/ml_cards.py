@@ -3,6 +3,12 @@ from html.parser import HTMLParser
 from html import escape
 from pathlib import Path
 import re
+import sys
+
+REVIEW_SCRIPTS = Path(__file__).resolve().parents[3] / "ml-review-pack" / "scripts"
+if str(REVIEW_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REVIEW_SCRIPTS))
+from review_sources import source_markup
 from .contracts import InputError
 VOID={'img','br','hr','input','meta','link','source','wbr'}
 class Node:
@@ -35,7 +41,7 @@ def one(n,pred,name):
  if len(found)!=1:raise InputError('missing or ambiguous '+name)
  return found[0]
 def read_cards(path:Path,problem_ids=None,*,errors=None)->list[dict]:
- parser=Parser();parser.feed(Path(path).read_text(encoding='utf-8'));out=[];seen=set()
+ parser=Parser();parser.feed(source_markup(path));out=[];seen=set()
  selected=set(problem_ids) if problem_ids is not None else None
  for node in parser.root.all(lambda n:n.tag=='article' and n.cls('card')):
   pid=node.attrs.get('id','');source=node.attrs.get('data-source','')
