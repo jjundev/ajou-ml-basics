@@ -3,9 +3,10 @@ from mpe_review_policy import POLICY_VERSION
 import hashlib
 import json
 import math
+import re
 from collections import Counter
 from urllib.parse import urlsplit
-from mpe_shared import Node, parse, math_delimiter_errors
+from mpe_shared import Node, parse, math_delimiter_errors, deriv_row_errors
 
 KEYS = ('understand', 'recall', 'start', 'solve', 'verify', 'pitfall', 'retry')
 
@@ -77,6 +78,24 @@ def validate_fragment(problem, fragment):
     if len(summaries) != 1 or summaries[0].parent is not root or 'hidden' not in summaries[0].attrs or not summaries[0].text().strip():
         errors.append('직계 sum[hidden] 요약 하나 필요')
     errors.extend(math_delimiter_errors(root.text()))
+    errors.extend(deriv_row_errors(fragment))
+    for deriv in root.find_all(lambda n: n.tag == 'ol' and 'deriv' in n.classes):
+        rows = (n for n in deriv.children if isinstance(n, Node) and n.tag == 'li')
+        for row in rows:
+            parts = [n for n in row.children if isinstance(n, Node)]
+            equations = [n for n in parts if 'deriv-eq' in n.classes]
+            if len(equations) != 1 or not re.search(r'\$\$.+?\$\$', equations[0].text(), re.S):
+                errors.append('식 줄에 디스플레이 수식을 담은 직계 .deriv-eq 하나가 필요해요')
+            notes = [n for n in parts if 'deriv-why' in n.classes]
+            if len(notes) != 1:
+                errors.append('식 줄에 직계 .deriv-why 주석 하나가 필요해요')
+                continue
+            children = notes[0].children
+            paragraph = next((n for n in children if isinstance(n, Node) and n.tag == 'p'), None)
+            if paragraph is None or not paragraph.text().strip():
+                errors.append('.deriv-why의 첫 <p>에 주석을 작성하세요')
+            if any(isinstance(n, str) and n.strip() for n in children):
+                errors.append('.deriv-why의 주석 텍스트는 <p> 안에 작성하세요')
     return [f'{problem.id}: {e}' for e in errors]
 
 def initial_reviews(pack, fragments):
