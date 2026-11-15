@@ -1,10 +1,145 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>행은 두 번째 변수의 값, 열은 첫 번째 변수의 값이에요. 표 전체에서 뽑을 때와 한 행 또는 한 열 안에서만 뽑을 때의 비율을 구해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>주변확률(marginal probability)은 해당 행이나 열의 합을 전체 개수로 나눈 값이에요. 조건부확률(conditional probability)에서는 조건에 맞는 행 또는 열만 남겨요. 같은 교차 칸을 쓰더라도 조건이 달라지면 나누는 전체가 바뀌어요.</p><p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s2-responsibility">조건부확률과 베이즈 정리</a></p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>$x_3$ 열의 합은 $3+6+9$이고 $y_2$ 행의 합은 $2+4+6+8+10$이에요. 각 칸의 도수를 합쳐 전체도 적어요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$x_3$ 열은 $18$, $y_2$ 행은 $30$이고 전체는 $15+30+45=90$이에요. 따라서 $P(X=x_3)=18/90=1/5$, $P(Y=y_2)=30/90=1/3$이에요.</p></div><div data-subpart="b"><h4>(b)</h4><p>교차 칸의 도수는 6이에요. $X=x_3$이 주어지면 열 합 $18$을 분모로 사용해 $P(Y=y_2\mid X=x_3)=6/18=1/3$을 얻어요. $Y=y_2$가 주어지면 행 합 $30$으로 나눠 $P(X=x_3\mid Y=y_2)=6/30=1/5$를 얻어요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>각 행에서 $x_3$가 차지하는 비율은 $3/15=6/30=9/45=1/5$예요. 각 열에서 $y_2$의 비율도 항상 $1/3$이라서 전체에서도 (a)의 비율이 유지돼요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>조건부확률에 조건의 주변확률을 다시 곱하면 두 방향 모두 결합확률 $6/90=1/15$가 나와요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>조건부 기호 $\mid$ 오른쪽이 분모를 정해요. 이 표에서 행과 열의 합은 서로 달라서 같은 교차 칸이라도 조건부확률이 달라져요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>조건부 기호 오른쪽이 정하는 행이나 열을 표시해요.</li><li>같은 교차 칸의 도수를 각 합으로 나눠요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>주변확률은 행·열 합을 전체 90으로 나눠요. 조건부확률은 교차 칸을 조건에 해당하는 행·열 합으로 나눠요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>교차 칸 6을 찾아요. 조건부확률에 각 조건의 주변확률을 곱하면 같은 결합확률 $1/15$가 나와요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>주변확률(marginal probability)</dt><dd>다른 변수의 가능한 경우를 모두 합해서 얻는 한 변수의 확률이에요.</dd><dt>조건부확률(conditional probability)</dt><dd>조건으로 범위를 좁힌 뒤 그 범위 안에서 사건의 확률을 계산해요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.2 · 책 pp. 179–180 · 표의 크기와 확률 계산 구조를 사용했어요.</p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>문제에서 주어진 것과 구할 것</h4>
+  <p>확률변수 $X$와 $Y$의 $3 \times 5$ 관측 빈도표(전체 90건)에서 무작위로 한 건을 추출해요.</p>
+  <p>특정 열과 행의 주변확률 $P(X=x_3)$과 $P(Y=y_2)$를 구하고, 두 방향의 조건부확률 $P(Y=y_2\mid X=x_3)$과 $P(X=x_3\mid Y=y_2)$를 기약분수로 나타내요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+  <p>‘빈도표에서 무작위 추출’이라는 조건에서 <b>주변확률(marginal probability)</b>과 <b>조건부확률(conditional probability)</b>을 떠올려요.</p>
+  <p>$n(y_j,x_k)$는 $y_j$ 행과 $x_k$ 열이 만나는 칸의 관측 빈도예요. 주변확률은 해당 행이나 열의 빈도 합을 전체 표본 수 $N=90$으로 나누어 구해요.</p>
+  <p>$$P(X=x_3) = \frac{\sum_j n(y_j, x_3)}{N}, \qquad P(Y=y_2) = \frac{\sum_k n(y_2, x_k)}{N}$$</p>
+  <p>조건부확률은 조건에 해당하는 행이나 열로 표본공간을 축소한 뒤, 교차 칸의 빈도를 나눈 값이에요:</p>
+  <p>$$P(Y=y_2 \mid X=x_3) = \frac{n(y_2, x_3)}{\sum_j n(y_j, x_3)}, \qquad P(X=x_3 \mid Y=y_2) = \frac{n(y_2, x_3)}{\sum_k n(y_2, x_k)}$$</p>
+  <p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s2-responsibility">조건부확률과 베이즈 정리</a></p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>종이에 적을 첫 줄</h4>
+  <p>$x_3$ 열의 합 $3+6+9=18$, $y_2$ 행의 합 $2+4+6+8+10=30$, 전체 합 $15+30+45=90$을 적어요.</p>
+  <p>풀이 로드맵: 1. 행 합·열 합·전체 빈도 집계 → 2. 주변확률 계산 및 약분 → 3. 교차 빈도(6)를 조건의 합으로 나누어 조건부확률 산출.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <div data-subpart="a">
+    <h4>(a)</h4>
+    <p><b>최종 답 구조:</b> 주변확률은 $P(X=x_3) = \frac{1}{5}$, $P(Y=y_2) = \frac{1}{3}$이에요.</p>
+    <p>$X=x_3$ 열의 빈도 합은 $3+6+9=18$이고, 전체 빈도는 $90$이므로 대표 확률은 $P(X=x_3) = \frac{18}{90} = \frac{1}{5}$예요. 빈도와 주변확률을 표로 정리해요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">사건</th>
+            <th scope="col">구성 칸</th>
+            <th scope="col">빈도 합</th>
+            <th scope="col">전체 대비 비율</th>
+            <th scope="col">기약분수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">$X=x_3$ (3열)</th>
+            <td>$3 + 6 + 9$</td>
+            <td>18</td>
+            <td>$\frac{18}{90}$</td>
+            <td>$\frac{1}{5}$</td>
+          </tr>
+          <tr>
+            <th scope="row">$Y=y_2$ (2행)</th>
+            <td>$2 + 4 + 6 + 8 + 10$</td>
+            <td>30</td>
+            <td>$\frac{30}{90}$</td>
+            <td>$\frac{1}{3}$</td>
+          </tr>
+          <tr>
+            <th scope="row">전체 ($N$)</th>
+            <td>$y_1(15) + y_2(30) + y_3(45)$</td>
+            <td>90</td>
+            <td>$\frac{90}{90}$</td>
+            <td>$1$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>전체 90건 중 $x_3$ 열은 5분의 1, $y_2$ 행은 3분의 1을 차지해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b)</h4>
+    <p><b>최종 답 요약:</b> 조건부확률은 $P(Y=y_2\mid X=x_3) = \frac{1}{3}$, $P(X=x_3\mid Y=y_2) = \frac{1}{5}$이에요.</p>
+    <p>교차 칸의 빈도가 $n(y_2,x_3)=6$이므로 결합확률은 $6/90$이에요. 이 값을 (a)의 주변확률 $P(X=x_3)=18/90$ 또는 $P(Y=y_2)=30/90$으로 각각 나눠요. 분자와 분모의 $90$이 약분되어 아래와 같이 빈도의 비율이 돼요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">조건부확률</th>
+            <th scope="col">분자(교차 칸)</th>
+            <th scope="col">분모(조건의 합)</th>
+            <th scope="col">계산 식</th>
+            <th scope="col">기약분수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">$P(Y=y_2 \mid X=x_3)$</th>
+            <td>$n(y_2, x_3) = 6$</td>
+            <td>$x_3$ 열 합 $= 18$</td>
+            <td>$\frac{6}{18}$</td>
+            <td>$\frac{1}{3}$</td>
+          </tr>
+          <tr>
+            <th scope="row">$P(X=x_3 \mid Y=y_2)$</th>
+            <td>$n(y_2, x_3) = 6$</td>
+            <td>$y_2$ 행 합 $= 30$</td>
+            <td>$\frac{6}{30}$</td>
+            <td>$\frac{1}{5}$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>조건이 $X=x_3$이면 18개 중 6개이므로 $\frac{1}{3}$이고, 조건이 $Y=y_2$이면 30개 중 6개이므로 $\frac{1}{5}$이에요.</p>
+  </div>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>완성 답과 검산</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>모든 행에서 $x_3$ 칸은 행 합의 $\frac{1}{5}$이고, 모든 열에서 $y_2$ 칸은 열 합의 $\frac{1}{3}$이에요. 예를 들어 $y_2$ 행에서 $6/30=1/5$이고 $x_3$ 열에서 $6/18=1/3$이에요. 각 비율이 표 전체에서도 유지되므로 (a)의 주변확률과 일치해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>곱셈정리 $P(X=x_3, Y=y_2) = P(X=x_3)P(Y=y_2\mid X=x_3) = \frac{1}{5}\cdot\frac{1}{3}=\frac{1}{15}$이고, 반대 방향 $P(Y=y_2)P(X=x_3\mid Y=y_2) = \frac{1}{3}\cdot\frac{1}{5}=\frac{1}{15}=\frac{6}{90}$로 양방향 결합확률이 일치해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall">
+  <h4>여기서 헷갈리기 쉬워요</h4>
+  <p>조건부 기호 $\mid$ 오른쪽이 분모를 결정해요. $P(Y=y_2\mid X=x_3)$의 분모는 열 합(18)이고, $P(X=x_3\mid Y=y_2)$의 분모는 행 합(30)인데, 분모를 서로 바꾸거나 전체 90으로 나누지 않도록 주의해요.</p>
+</div>
+<div class="layer formal" data-explanation="retry">
+  <h4>다시 풀 때 확인할 것</h4>
+  <p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p>
+  <ol>
+    <li>조건부 기호 오른쪽의 조건에 해당하는 행 합 또는 열 합을 분모로 먼저 찾아요.</li>
+    <li>교차 칸의 빈도를 분모로 나누고 기약분수로 약분해요.</li>
+  </ol>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group">
+    <h4>떠올릴 개념·공식</h4>
+    <p>주변확률은 행·열 합을 전체 90으로 나눠요. 조건부확률은 교차 칸을 조건에 해당하는 행·열 합으로 나눠요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>첫 줄과 검산</h4>
+    <p>주변확률은 $\frac{1}{5}, \frac{1}{3}$이고 조건부확률은 $\frac{1}{3}, \frac{1}{5}$예요. 결합확률 $\frac{6}{90}=\frac{1}{15}$로 검산해요.</p>
+  </div>
+</div>
+<section data-problem-panel="terms">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>주변확률(marginal probability)</dt>
+    <dd>다른 변수들의 값을 모두 합산(적분)하여 얻는 특정 변수만의 확률이에요.</dd>
+    <dt>조건부확률(conditional probability)</dt>
+    <dd>어떤 사건이 일어났다는 조건하에서 다른 사건이 발생할 확률이에요.</dd>
+  </dl>
+</section>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 6.2 · 책 pp. 179–180 · 표의 크기와 확률 계산 구조를 사용했어요.</p>
+</section>

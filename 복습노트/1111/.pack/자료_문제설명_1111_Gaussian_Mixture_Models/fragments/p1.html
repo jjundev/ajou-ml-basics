@@ -1,10 +1,158 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제에서 주어진 것과 구할 것</h4><p>동전을 꺼냈다가 되돌리고 한 번 더 꺼내요. 미국 동전이 나온 횟수별 확률을 구하고, 전체가 1이 되는지 확인해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>복원한 뒤 같은 조건에서 다시 뽑으므로 두 번의 결과를 독립(independent)으로 계산해요. 한 순서의 확률은 두 번의 확률을 곱하고, 같은 횟수가 되는 서로 다른 순서의 확률은 더해요. 이렇게 얻은 횟수별 확률을 확률질량함수(PMF)라고 해요.</p><p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s0-convex">이산확률과 가중치</a></p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 적을 첫 줄</h4><p>미국 동전을 $U$, 영국 동전을 $B$로 놓고 $UU, UB, BU, BB$를 써요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p>$X=0$은 $BB$ 하나라서 $P(X=0)=0.7^2=0.49$예요. $X=1$은 $UB$와 $BU$라서 $P(X=1)=0.3\cdot0.7+0.7\cdot0.3=0.42$예요. $X=2$는 $UU$ 하나라서 $P(X=2)=0.3^2=0.09$예요.</p></div><div data-subpart="b"><h4>(b)</h4><p>(a)에서 구한 세 경우가 가능한 횟수를 모두 덮어요. 합은 $0.49+0.42+0.09=1$이고 각 값은 음이 아니므로 유효한 PMF예요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>영국 동전만 나온 경우와 미국 동전만 나온 경우의 합은 $0.58$이에요. 남는 $1-0.58=0.42$가 한 번만 나온 경우의 값과 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>네 순서가 서로 겹치지 않으므로 확률 합은 $(0.7+0.3)^2=1$이 돼요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>여기서 헷갈리기 쉬워요</h4><p>$X=1$에는 첫 번째가 미국인 순서와 두 번째가 미국인 순서가 모두 들어가요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>다시 풀 때 확인할 것</h4><p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p><ol><li>네 순서를 적고 횟수가 같은 순서를 묶어요.</li><li>각 확률을 계산해 세 값의 합을 확인해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>한 순서 안에서는 독립인 두 추출의 확률을 곱해요. 같은 횟수로 모이는 순서들의 확률은 더해요.</p></div><div class="summary-group"><h4>첫 줄과 검산</h4><p>$P(X=0),P(X=1),P(X=2)$는 각각 $0.49,0.42,0.09$이고 합은 1이에요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>확률질량함수(PMF)</dt><dd>이산 변수의 각 값에 배정된 확률이에요. 가능한 값의 확률을 모두 더하면 1이에요.</dd><dt>독립(independence)</dt><dd>두 결과가 독립이면 함께 일어날 확률은 각 확률의 곱이에요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 6.1 · 책 p. 176 · 11월 11일 혼합비와 이산확률</p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>문제에서 주어진 것과 구할 것</h4>
+  <p>미국 동전($U$, $P(U)=0.3$)과 영국 동전($B$, $P(B)=0.7$)이 든 주머니에서 복원추출로 동전을 두 번 뽑아요.</p>
+  <p>미국 동전이 나온 횟수 $X \in \{0, 1, 2\}$에 대해 각 횟수의 확률을 구하고, 세 확률의 합이 1이 되는지 확인해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+  <p>‘뽑은 동전을 다시 넣고’라는 조건에서 복원추출과 각 시행의 <b>독립(independence)</b>을 떠올려요.</p>
+  <p>첫 번째 추출에서 원하는 결과가 나오는 사건을 $A_1$, 두 번째 추출에서 원하는 결과가 나오는 사건을 $A_2$라고 해요. 두 추출이 독립이므로 이 순서의 확률은 $P(A_1 \cap A_2) = P(A_1)P(A_2)$예요. 같은 횟수 $X=x$를 만드는 배타적 순서들의 확률을 더해 확률질량함수(PMF)를 구해요.</p>
+  <p>모든 $x$에 대해 $P(X=x) \ge 0$이고 $\sum_x P(X=x) = 1$을 만족해야 유효한 PMF가 돼요.</p>
+  <p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s0-convex">이산확률과 가중치</a></p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>종이에 적을 첫 줄</h4>
+  <p>두 번의 추출에서 가능한 4가지 순서 $(B,B), (U,B), (B,U), (U,U)$와 각 순서의 확률 곱을 적어요.</p>
+  <p>풀이 로드맵: 1. 4가지 순서별 확률 계산 → 2. 미국 동전 횟수 $X=0,1,2$별 집계 표 작성 → 3. 확률 합 1 검증.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <div data-subpart="a">
+    <h4>(a)</h4>
+    <p><b>최종 답 구조:</b> 미국 동전 횟수 $X=0, 1, 2$의 확률은 $(P(X=0), P(X=1), P(X=2)) = (0.49, 0.42, 0.09)$예요.</p>
+    <p>첫 번째와 두 번째 모두 영국 동전인 순서 $BB$는 $X=0$이고 확률은 $0.7 \times 0.7 = 0.49$예요. 4가지 순서와 확률을 표로 정리해요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">순서</th>
+            <th scope="col">첫 번째</th>
+            <th scope="col">두 번째</th>
+            <th scope="col">$X$ 값</th>
+            <th scope="col">계산 식</th>
+            <th scope="col">확률</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">$BB$</th>
+            <td>영국 ($0.7$)</td>
+            <td>영국 ($0.7$)</td>
+            <td>0</td>
+            <td>$0.7 \times 0.7$</td>
+            <td>$0.49$</td>
+          </tr>
+          <tr>
+            <th scope="row">$UB$</th>
+            <td>미국 ($0.3$)</td>
+            <td>영국 ($0.7$)</td>
+            <td>1</td>
+            <td>$0.3 \times 0.7$</td>
+            <td>$0.21$</td>
+          </tr>
+          <tr>
+            <th scope="row">$BU$</th>
+            <td>영국 ($0.7$)</td>
+            <td>미국 ($0.3$)</td>
+            <td>1</td>
+            <td>$0.7 \times 0.3$</td>
+            <td>$0.21$</td>
+          </tr>
+          <tr>
+            <th scope="row">$UU$</th>
+            <td>미국 ($0.3$)</td>
+            <td>미국 ($0.3$)</td>
+            <td>2</td>
+            <td>$0.3 \times 0.3$</td>
+            <td>$0.09$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>$X=1$은 서로 배타적인 두 순서 $UB$와 $BU$의 확률을 더해 $0.21 + 0.21 = 0.42$가 돼요. 따라서 $P(X=0)=0.49$, $P(X=1)=0.42$, $P(X=2)=0.09$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b)</h4>
+    <p><b>최종 답 요약:</b> 세 확률의 합은 $0.49 + 0.42 + 0.09 = 1.00$으로 정확히 1이에요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">$x$</th>
+            <th scope="col">해당 순서</th>
+            <th scope="col">확률 $P(X=x)$</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>$BB$</td>
+            <td>$0.49$</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>$UB, BU$</td>
+            <td>$0.42$</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>$UU$</td>
+            <td>$0.09$</td>
+          </tr>
+          <tr>
+            <th scope="row">합계</th>
+            <td>전체 경우</td>
+            <td><b>$1.00$</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>모든 확률이 $0$ 이상이고 가능한 모든 경우의 확률 합이 $1$이므로 유효한 확률질량함수예요.</p>
+  </div>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>완성 답과 검산</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>이항정리 $(q + p)^2 = q^2 + 2qp + p^2$에 $p=0.3, q=0.7$을 대입하면 $0.7^2 = 0.49$, $2(0.7)(0.3) = 0.42$, $0.3^2 = 0.09$로 정확히 일치해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$(0.7 + 0.3)^2 = 1.0^2 = 1.0$이므로 대수적으로도 확률의 총합이 1이 됨을 확인해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall">
+  <h4>여기서 헷갈리기 쉬워요</h4>
+  <p>$X=1$을 계산할 때 미국 동전이 첫 번째에 나오는 경우($UB$)와 두 번째에 나오는 경우($BU$)의 두 가지 서로 다른 순서를 놓치지 않아야 해요.</p>
+</div>
+<div class="layer formal" data-explanation="retry">
+  <h4>다시 풀 때 확인할 것</h4>
+  <p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p>
+  <ol>
+    <li>두 번 추출에서 가능한 4가지 순서와 각각의 확률 곱을 적어요.</li>
+    <li>미국 동전 횟수 $X=0,1,2$별로 배타적 순서의 확률을 합산하고 총합이 1인지 확인해요.</li>
+  </ol>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group">
+    <h4>떠올릴 개념·공식</h4>
+    <p>독립시행의 결합확률은 곱하고, 같은 횟수 $X=x$의 배타적 순서 확률은 더해요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>첫 줄과 검산</h4>
+    <p>$P(X=0)=0.49$, $P(X=1)=0.42$, $P(X=2)=0.09$이고 세 값의 합은 $(0.7+0.3)^2=1.00$이에요.</p>
+  </div>
+</div>
+<section data-problem-panel="terms">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>확률질량함수(probability mass function, PMF)</dt>
+    <dd>이산확률변수가 각 값을 취할 확률을 나타내는 함수로, 모든 값에 걸친 확률의 합은 1이에요.</dd>
+    <dt>독립(independence)</dt>
+    <dd>한 사건의 발생이 다른 사건의 확률에 영향을 주지 않아 결합확률이 각 확률의 곱과 같은 성질이에요.</dd>
+  </dl>
+</section>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 6.1 · 책 p. 176 · 11월 11일 혼합비와 이산확률</p>
+</section>
