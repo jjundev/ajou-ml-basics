@@ -74,6 +74,9 @@ def test_manifest_paths_use_portable_separators(tmp_path):
     assert manifest['source'] == pack.path.as_posix()
     assert manifest['destination'] == pack.directory.as_posix()
     assert manifest['repo'] == ROOT.as_posix()
+    for artifact in result.files:
+        if artifact.suffix in {'.html', '.md', '.json'}:
+            assert b'\r\n' not in artifact.read_bytes(), artifact
     assert check_artifacts(pack, result) == []
 
 

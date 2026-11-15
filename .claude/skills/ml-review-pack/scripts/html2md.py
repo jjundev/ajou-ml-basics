@@ -546,7 +546,7 @@ def convert(path, out_path, ctx, intro):
     lines = join_blocks(parts)
     text = "\n".join(lines)
     text = re.sub(r"\n{3,}", "\n\n", text).replace("---\n\n---", "---")
-    with open(out_path, "w", encoding="utf-8") as f:
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text.strip() + "\n")
 
 
