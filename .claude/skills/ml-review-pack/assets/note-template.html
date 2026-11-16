@@ -98,6 +98,11 @@
     .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
     .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
     .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    /* 계산 상자: 건너뛰어도 흐름이 이어지는 숫자 계산 (references/narrative-flow.md 규칙 3) */
+    .topic .calc-box { margin: var(--s4) 0; padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--surface); font-size: var(--fs-sub); line-height: 1.7; }
+    .topic .calc-box > .calc-label { margin: 0 0 var(--s1); font-size: var(--fs-label); font-weight: 700; color: var(--ink-2); }
+    .topic .calc-box .katex-display { margin: var(--s2) 0; }
+    .topic .calc-box table { font-size: var(--fs-sub); }
     .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
     .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
     .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }

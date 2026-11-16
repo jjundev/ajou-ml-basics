@@ -11,6 +11,8 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 
 **학습자 설명 기준**: 신규 생성·기존 설명 수정·`lite` 모두 시작할 때 메인은 [학습자 설명 기준](references/learner-reasoning-patterns.md)을 전체 읽는다. 대상의 구성·역할, 익숙한 개념과의 대응, 목적과 선택 제약을 연결하는 기준이다. 적용 토픽과 필요한 연결을 기존 `RUN/learning-map.json` 브리프에 적고 정리노트 작성자·리뷰어에게 필수 읽기로 전달한다. 수업 범위의 근거로 쓰거나 이해 반응을 숙달로 기록하지 않는다. 파일 누락은 일반 규칙으로 진행하고 참고 누락을 보고한다.
 
+**이야기 흐름 기준**: 신규 생성·기존 설명 수정·`lite` 모두 메인·정리노트 작성자·리뷰어는 [이야기 흐름으로 본문 쓰기](references/narrative-flow.md)를 전체 읽는다. 섹션마다 주 예시 하나를 코드로 검산해 끝까지 쓰고, 새 개념은 앞 도구가 숫자로 막히는 장면에서 꺼내며, 숫자 계산은 계산 상자로 빼고, 위치 표시·칠판 예는 토픽 끝 레이어로 보낸다.
+
 **벡터 미분 필수 규칙**: 미분이 포함된 새 저작·기존 자료 수정에서는 메인·정리노트 작성자·문제 작성자·리뷰어 모두 [벡터 미분 관례](references/vector-derivative-convention.md)를 전체 읽는다. 변수는 열벡터, 스칼라 목적함수의 미분은 행벡터로 쓰고 열 정규방정식으로 옮길 때 양변 전치를 보인다. 문제 조건·힌트·풀이·상세 해설·요약·용어·생성 원본·MD·PDF에 함께 적용한다. 기존 원문의 명시적 다른 관례는 이 레퍼런스의 원문 보존 분기로 처리한다. `lite`와 기존 자료 수정도 생략하지 않는다.
 
 **산출물** (`복습노트/<range>/`, 수업 날짜마다 폴더 하나):
@@ -74,6 +76,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 ### 2. manifest
 - 학습자 연결 브리프: `references/learner-reasoning-patterns.md`에서 이번 토픽에 필요한 대상·역할·익숙한 연결·목적과 선택 제약·성립 조건을 골라 `RUN/learning-map.json`의 기존 저작 브리프에 적는다. 새 manifest 필드나 필수 HTML 속성은 추가하지 않는다.
 - **큰 그림 먼저**: `references/big-picture-first.md`를 전체 읽고 `RUN/learning-map.json`에 질문·개념 관계·결과·유도 목적·예상 혼동과 근거를 정한다. 첫 학습 토픽은 이 큰 그림으로 계획한다. 위젯·비유·상세 유도보다 먼저 이 목표를 확정한다. 주요 결과를 다음 계산에 재사용하는 연결, 필요한 기존 공식과 실제 대입, 수업의 미분 관례와 보충 경계를 브리프에 함께 적는다. 기존 `learning-map.json` 브리프 안에 기록하며 manifest 스키마나 필수 HTML 속성을 추가하지 않는다.
+- **주 예시**: `references/narrative-flow.md` 규칙 1·2에 따라 섹션마다 주 예시와 막히는 장면을 설계하고, 모든 단계의 숫자를 코드로 계산해 `RUN/`에 남긴다. 주 예시·숫자·막히는 장면을 `RUN/learning-map.json` 저작 브리프에 적는다.
 - 요약들의 슬라이드 대조표와 용어·식 목록으로 `RUN/manifest.json`을 쓴다. 규칙은 `references/manifest-guide.md`에 있다.
 - 문제 선별은 `references/problem-selection.md`를 따른다.
   - 정답은 `RUN/answers.py`(`fractions`)로 계산한다.
@@ -85,6 +88,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 모든 정리노트 작성자는 `references/learner-reasoning-patterns.md`를 전체 필수 읽기로 받고 해당 토픽의 학습자 연결 브리프를 적용한다. `lite`도 동일하다. 공분산 레퍼런스의 `적용 없음`은 이 일반 학습자 기준을 생략한다는 뜻이 아니다.
 - 모든 정리노트 작성자에게 큰 그림 브리프와 `references/big-picture-first.md`를 전달한다. 첫 토픽 작성자는 도입을 작성하고, 다른 작성자는 자기 유도의 목적과 처음 등장하는 기호를 설명한다. 관련 본문은 기억할 출발식에서 변경점·한 단계 연산·다음 결과의 대입까지 연결하고 짧은 복원 요약으로 마친다. 수업 공식과 재표현을 구별하며 같은 설명을 반복하지 않는다. lite도 동일하다.
 - 작성자는 `big-picture-first.md`의 핵심 전환 기준에 따라 기존 `RUN/learning-map.json` 저작 브리프에 출발식·도착식, 독자의 예상 질문과 필요한 연결을 기록한다. 작성·리뷰·감사의 실제 전개 대조는 같은 기준을 쓰며 새 manifest 필드나 필수 HTML 속성은 추가하지 않는다.
+- 모든 정리노트 작성자에게 `references/narrative-flow.md`와 그 섹션의 주 예시 브리프를 전달한다. 작성자는 브리프의 숫자를 그대로 쓰고, 끝나면 같은 파일의 자기 검사를 수행한다. lite도 동일하다.
 - 섹션마다 작성자 1명을 띄운다. 브리프는 `references/content-rules.md`, 위젯 규칙은 `references/widget-rules.md`에 있다.
 - 문제 작성자 1명이 모든 카드를 쓴다. 브리프는 `references/card-rules.md`에 있다. 미분 문항이면 `references/vector-derivative-convention.md`도 필수 읽기로 전달하고 변수/미분 차원·전치 단계·원문 관례 처리·동기화 대상 목록을 작성 결과에 포함시킨다.
 - 모두 **한 메시지에서 병렬로** 띄운다. 모델은 opus, `lite`이면 sonnet이다. Claude가 아닌 경우(GPT)에는 opus 대신 sol, sonnet 대신 luna를 쓴다.
@@ -147,6 +151,7 @@ python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$
 - 리뷰어에게 `references/learner-reasoning-patterns.md`와 적용 토픽의 학습자 연결 브리프를 필수 읽기로 전달한다. 대상의 구성·역할과 목적·선택 제약이 조건·예외보다 먼저 연결되는지 본문으로 확인한다. `lite`에서는 작성자가 같은 질문으로 자기 검토한다.
 - 미분 문항의 조건·본문·summary/sum·terms·힌트·카드/JSON·생성기 소개·MD가 같은 관례인지 확인한다. 검토에는 변수/미분 차원, 전치 단계, 원문 보존/수정 권한을 기록한다. `lite`도 작성자의 자기 검토와 기계 검사를 수행한다.
 - 리뷰어에게 `RUN/learning-map.json`과 `references/big-picture-first.md`를 전달해, 도입만으로 학습 목표·비교 축·결과를 설명할 수 있는지 검토하게 한다. 본문에서 기존 결과 재사용·일반 공식의 대입·복원 요약이 이어지는지, 미분 관례·임시 기호 스케일·출처 경계가 일관되는지도 확인한다. lite에서는 작성자가 같은 질문으로 자기 검토한다.
+- 리뷰어에게 `references/narrative-flow.md`의 자기 검사 항목과 주 예시 브리프를 전달해, 주 예시가 섹션 끝까지 이어지는지, 계산 상자를 건너뛰어도 흐름이 이어지는지, 본문 문장에 위치 표시가 남지 않았는지 확인하게 한다. lite에서는 작성자가 같은 항목으로 자기 검토한다.
 - 리뷰어 1명을 띄운다. 브리프는 `references/review-prompt.md`에 있다.
 - 리뷰어 브리프의 `<학습 레퍼런스>`에는 3단계에서 전달한 적용 토픽 id와 필수 읽기 경로를 넣는다. 적용 대상이 없으면 `적용 없음`, 읽지 못했으면 `참고 누락: <원인>`으로 채운다. `lite`에서는 해당 섹션 작성자의 자기 검사로 공분산 설명을 확인한다.
 - Critical과 Important는 모두, Minor는 쉬운 것만 고친다.
