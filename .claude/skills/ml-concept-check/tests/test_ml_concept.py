@@ -26,12 +26,11 @@ def test_prepare_real_pack_without_manifest(tmp_path):
     assert Path(scope["src"]).is_dir()
 
 
-def test_new_pack_lite_calls_concept_check_after_publication():
+def test_new_pack_calls_concept_check_after_publication():
     skill = (REPO / ".claude/skills/ml-review-pack/SKILL.md").read_text()
     publish = skill.index("publish_pack", skill.index("### 8. PDF"))
     followup = skill.index("### 확인문제 자동 생성", publish)
     report = skill.index("### 9. 보고", followup)
-    assert "lite" in skill[followup:report]
     assert "ml-concept-check/SKILL.md" in skill[followup:report]
     assert "확인문제 보류" in skill[followup:report]
 

@@ -40,10 +40,9 @@ class TestAuditBrief(unittest.TestCase):
             text = (SKILLS / name / "SKILL.md").read_text(encoding="utf-8")
             self.assertIn("ml-note-audit", text, name)
 
-    def test_review_pack_lite_keeps_audit(self):
+    def test_review_pack_runs_explanation_audit(self):
         text = (SKILLS / "ml-review-pack" / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("6b 설명 감사는 생략하지 않는다", text)
-        self.assertIn("### 6b. 설명 감사 (`lite`도 수행)", text)
+        self.assertIn("### 6b. 설명 감사", text)
         self.assertIn("- 설명 감사: Critical n / Important n / 미해결 n", text)
 
 
