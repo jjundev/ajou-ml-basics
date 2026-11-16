@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1102 1장 시범본</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})"></script>
+  <style>
+    :root {
+      --bg: #f7f8fa; --card: #ffffff; --ink: #191f28; --sub: #4e5968; --line: #e5e8eb;
+      --accent: #3182f6; --accent-bg: #e8f3ff; --warn: #e8590c; --warn-bg: #fff4e5;
+      --calc-bg: #f2f4f6; --b: #12b886;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #17171c; --card: #202027; --ink: #ececf1; --sub: #a9b0bb; --line: #33343d;
+        --accent: #6aa9ff; --accent-bg: #1c2b44; --warn: #ffa94d; --warn-bg: #3a2a16;
+        --calc-bg: #2a2b33; --b: #38d9a9;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.75;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 96px; }
+    h1 { font-size: 1.55rem; margin: 0 0 4px; }
+    h2 { font-size: 1.25rem; margin: 48px 0 8px; }
+    h3 { font-size: 1.08rem; margin: 36px 0 6px; }
+    p { margin: 10px 0; }
+    .sub { color: var(--sub); margin: 0 0 20px; }
+    .pilot { background: var(--warn-bg); border-radius: 14px; padding: 14px 18px; font-size: .92rem; }
+    .pilot ol { margin: 6px 0 0; padding-left: 20px; }
+    .pilot a { color: var(--accent); }
+    .key { font-weight: 700; }
+    .data { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin: 16px 0; }
+    figure { margin: 16px 0; }
+    figure svg { width: 100%; height: auto; display: block; }
+    figcaption { color: var(--sub); font-size: .88rem; text-align: center; margin-top: 4px; }
+    .calc { background: var(--calc-bg); border-radius: 12px; padding: 12px 16px; margin: 14px 0; font-size: .93rem; }
+    .calc .tag { display: inline-block; font-size: .78rem; font-weight: 700; color: var(--sub); letter-spacing: .02em; margin-bottom: 2px; }
+    .calc .katex-display { margin: 6px 0; }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: .93rem; }
+    th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: center; }
+    th { color: var(--sub); font-weight: 600; }
+    .wide { overflow-x: auto; }
+    .next { border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; margin: 18px 0; }
+    .summary td:first-child, .summary th:first-child { text-align: left; }
+    .record { color: var(--sub); font-size: .92rem; }
+    .record blockquote { margin: 6px 0; padding-left: 12px; border-left: 3px solid var(--line); }
+    .record h3 { color: var(--ink); }
+    a { color: var(--accent); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+    /* svg */
+    .ax { stroke: var(--sub); stroke-width: 1; opacity: .55; }
+    .pt { fill: var(--accent); }
+    .ptB { fill: var(--b); }
+    .sh { stroke: var(--warn); stroke-width: 3; stroke-linecap: round; }
+    .shd { fill: var(--warn); }
+    .drop { stroke: var(--warn); stroke-width: 1.2; stroke-dasharray: 3 3; opacity: .8; }
+    .dir { stroke: var(--warn); stroke-width: 1.4; opacity: .7; }
+    .lbl { fill: var(--ink); font-size: 13px; font-weight: 700; }
+    .lbls { fill: var(--sub); font-size: 11.5px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>1장. 분산을 최대한 남기는 방향</h1>
+  <p class="sub">1102 PCA Part 1 · 시범본 (기존 1장 1.1–1.2와 같은 범위)</p>
+
+  <div class="pilot">
+    <strong>시범본이에요.</strong> 내용 범위는 <a href="정리노트_1102_PCA.html#s1">기존 정리노트 1장</a>과 같고, 쓰는 방식만 네 가지 바꿨어요.
+    <ol>
+      <li>점 4개짜리 데이터 하나를 장 끝까지 계속 써요.</li>
+      <li>새 개념은 앞의 도구가 막히는 장면에서 꺼내요.</li>
+      <li>계산은 회색 상자로 빼서, 건너뛰어도 이야기가 이어지게 했어요.</li>
+      <li>교수님 말씀, 슬라이드 번호, 칠판 예는 맨 아래 <a href="#record">수업 기록</a>으로 모았어요.</li>
+    </ol>
+  </div>
+
+  <h2>이 장에서 계속 쓰는 데이터</h2>
+  <div class="data">
+    <p>평면 위의 점 4개예요. 설명을 위해 만든 데이터이고, 평균이 이미 원점이라 중심화가 끝난 상태예요.</p>
+    $$\text{A}:\quad (4,2),\quad (2,4),\quad (-2,-4),\quad (-4,-2)$$
+    <p>비교용으로, A를 위아래로 뒤집은 데이터 B도 하나 둬요.</p>
+    $$\text{B}:\quad (4,-2),\quad (2,-4),\quad (-2,4),\quad (-4,2)$$
+    <figure>
+      <svg viewBox="0 0 440 236" role="img" aria-label="데이터 A는 오른쪽 위로, B는 오른쪽 아래로 기울어진 점 네 개">
+        <g transform="translate(10,10)">
+          <line class="ax" x1="0" y1="100" x2="200" y2="100"/><line class="ax" x1="100" y1="0" x2="100" y2="200"/>
+          <circle class="pt" cx="172" cy="64" r="6"/><circle class="pt" cx="136" cy="28" r="6"/>
+          <circle class="pt" cx="64" cy="172" r="6"/><circle class="pt" cx="28" cy="136" r="6"/>
+          <text class="lbl" x="6" y="18">A</text>
+        </g>
+        <g transform="translate(230,10)">
+          <line class="ax" x1="0" y1="100" x2="200" y2="100"/><line class="ax" x1="100" y1="0" x2="100" y2="200"/>
+          <circle class="ptB" cx="172" cy="136" r="6"/><circle class="ptB" cx="136" cy="172" r="6"/>
+          <circle class="ptB" cx="64" cy="28" r="6"/><circle class="ptB" cx="28" cy="64" r="6"/>
+          <text class="lbl" x="6" y="18">B</text>
+        </g>
+      </svg>
+      <figcaption>A는 오른쪽 위로, B는 오른쪽 아래로 길게 퍼져 있어요.</figcaption>
+    </figure>
+  </div>
+
+  <h2>1.1 분산은 데이터의 에너지</h2>
+
+  <h3>축 하나만 남기면 A의 에너지가 절반만 남아요</h3>
+  <p>2차원 점을 숫자 하나로 줄이려고 해요. 가장 쉬운 방법은 x축이나 y축 하나만 남기는 거예요. 점 $(4,2)$를 x축에 사영하면 $4$만 남고 $2$는 버려요.</p>
+  <p>무엇을 얼마나 버렸는지는 <span class="key">에너지</span>로 재요. 점 하나의 에너지는 원점에서 잰 거리의 제곱 $x^2+y^2$이고, 데이터 전체의 에너지는 그 평균이에요. A의 에너지는 20이고, x축 몫과 y축 몫으로 정확히 나뉘어요.</p>
+  $$\underbrace{\tfrac1N\textstyle\sum_n (x_n^2+y_n^2)}_{20}\;=\;\underbrace{\tfrac1N\textstyle\sum_n x_n^2}_{10}\;+\;\underbrace{\tfrac1N\textstyle\sum_n y_n^2}_{10}$$
+  <p>평균이 0이므로 각 축 몫은 그 축 좌표의 <span class="key">분산</span>이에요. 그래서 분산을 에너지라고 불러요. x축만 남기면 에너지 20 중 10, 곧 절반만 남아요. y축도 10이라 두 축 중 무엇을 골라도 결과는 같아요.</p>
+  <div class="calc">
+    <span class="tag">계산 확인</span>
+    <div class="wide"><table>
+      <tr><th>점</th><th>$x^2$</th><th>$y^2$</th><th>$x^2+y^2$</th></tr>
+      <tr><td>$(4,2)$</td><td>16</td><td>4</td><td>20</td></tr>
+      <tr><td>$(2,4)$</td><td>4</td><td>16</td><td>20</td></tr>
+      <tr><td>$(-2,-4)$</td><td>4</td><td>16</td><td>20</td></tr>
+      <tr><td>$(-4,-2)$</td><td>16</td><td>4</td><td>20</td></tr>
+      <tr><td>평균</td><td>10</td><td>10</td><td>20</td></tr>
+    </table></div>
+  </div>
+
+  <h3>비스듬히 재면 에너지가 18 남아요</h3>
+  <p>그림을 보면 A는 대각선 방향으로 길어요. 그렇다면 축 대신 대각선에 사영해 보면 어떨까요? 대각선 방향에서 잰 분산은 18이에요. 에너지 20 중 90%가 남아요.</p>
+  <figure>
+    <svg viewBox="0 0 440 250" role="img" aria-label="왼쪽은 A를 x축에 사영한 그림자, 오른쪽은 대각선에 사영한 그림자">
+      <g transform="translate(10,10)">
+        <line class="ax" x1="0" y1="100" x2="200" y2="100"/><line class="ax" x1="100" y1="0" x2="100" y2="200"/>
+        <line class="drop" x1="172" y1="64" x2="172" y2="100"/><line class="drop" x1="136" y1="28" x2="136" y2="100"/>
+        <line class="drop" x1="64" y1="172" x2="64" y2="100"/><line class="drop" x1="28" y1="136" x2="28" y2="100"/>
+        <circle class="shd" cx="172" cy="100" r="4"/><circle class="shd" cx="136" cy="100" r="4"/>
+        <circle class="shd" cx="64" cy="100" r="4"/><circle class="shd" cx="28" cy="100" r="4"/>
+        <circle class="pt" cx="172" cy="64" r="6"/><circle class="pt" cx="136" cy="28" r="6"/>
+        <circle class="pt" cx="64" cy="172" r="6"/><circle class="pt" cx="28" cy="136" r="6"/>
+        <text class="lbl" x="6" y="18">x축에 사영</text>
+        <text class="lbls" x="100" y="226" text-anchor="middle">분산 10 (에너지 절반)</text>
+      </g>
+      <g transform="translate(230,10)">
+        <line class="ax" x1="0" y1="100" x2="200" y2="100"/><line class="ax" x1="100" y1="0" x2="100" y2="200"/>
+        <line class="dir" x1="10" y1="190" x2="190" y2="10"/>
+        <line class="drop" x1="172" y1="64" x2="154" y2="46"/><line class="drop" x1="136" y1="28" x2="154" y2="46"/>
+        <line class="drop" x1="64" y1="172" x2="46" y2="154"/><line class="drop" x1="28" y1="136" x2="46" y2="154"/>
+        <circle class="shd" cx="154" cy="46" r="5"/><circle class="shd" cx="46" cy="154" r="5"/>
+        <circle class="pt" cx="172" cy="64" r="6"/><circle class="pt" cx="136" cy="28" r="6"/>
+        <circle class="pt" cx="64" cy="172" r="6"/><circle class="pt" cx="28" cy="136" r="6"/>
+        <text class="lbl" x="6" y="18">대각선에 사영</text>
+        <text class="lbls" x="100" y="226" text-anchor="middle">분산 18 (에너지 90%)</text>
+      </g>
+    </svg>
+    <figcaption>주황 점이 사영한 그림자예요. 대각선 쪽 그림자는 두 점씩 겹치지만 원점에서 더 멀리 떨어져 있어요.</figcaption>
+  </figure>
+  <p>방향을 한 바퀴 돌리며 재 보면, 가장 많이 남는 방향은 45°의 대각선이고 가장 적게 남는 방향은 그와 수직인 135° 방향이에요.</p>
+  <div class="calc">
+    <span class="tag">계산 확인 · 방향을 돌리며 잰 분산</span>
+    <div class="wide"><table>
+      <tr><th>방향</th><th>0° (x축)</th><th>45°</th><th>90° (y축)</th><th>135°</th></tr>
+      <tr><td>A의 분산</td><td>10</td><td><strong>18</strong></td><td>10</td><td>2</td></tr>
+      <tr><td>B의 분산</td><td>10</td><td>2</td><td>10</td><td><strong>18</strong></td></tr>
+    </table></div>
+    <p>45° 방향 좌표는 $(x+y)/\sqrt2$예요. A의 네 점은 $\pm 6/\sqrt2=\pm3\sqrt2$가 되고, 제곱하면 모두 18이에요. 이 좌표를 왜 이렇게 구하는지는 <a href="#s1-2">1.2</a>에서 다뤄요.</p>
+  </div>
+  <p class="next">PCA가 하는 일이 바로 이거예요. 사영한 뒤에도 분산, 곧 에너지가 가장 많이 남는 방향을 골라요. 그런데 이 방향은 축이 아닐 수 있어요.</p>
+
+  <h3>축별 분산만으로는 A와 B를 구별하지 못해요</h3>
+  <p>위 표의 0°와 90° 열을 보면, A와 B는 x축 분산도 10, y축 분산도 10으로 똑같아요. 그런데 가장 좋은 방향은 A가 45°, B가 135°로 달라요. 축별 분산 두 개만 들고 있으면 어느 쪽으로 기울었는지 알 수 없어요.</p>
+  <p>기울기를 잡아내는 숫자는 좌표의 <span class="key">곱</span> $xy$의 평균이에요. A는 네 점 모두 $xy=8$이라 평균이 $+8$이고, B는 모두 $-8$이라 평균이 $-8$이에요. 부호가 기울어진 방향을 알려 줘요. 이 값이 <span class="key">공분산</span>이에요.</p>
+  <p>분산 두 개와 공분산을 한 표에 모은 것이 <span class="key">공분산 행렬</span>이에요. 대각선에는 각 축의 분산을, 대각선 밖에는 공분산을 놓아요.</p>
+  $$\mathbf S_{\text A}=\begin{bmatrix}10&8\\8&10\end{bmatrix},\qquad \mathbf S_{\text B}=\begin{bmatrix}10&-8\\-8&10\end{bmatrix}$$
+  <p>이 표는 점마다 열벡터 $\mathbf x_n$과 행벡터 $\mathbf x_n^T$를 곱해 $2\times2$ 행렬을 만들고, 그것을 평균 내면 한 번에 나와요. 그 행렬의 대각선에 $x^2$, $y^2$이, 대각선 밖에 $xy$가 들어 있기 때문이에요.</p>
+  $$\mathbf S=\frac1N\sum_{n=1}^N \mathbf x_n\mathbf x_n^T$$
+  <div class="calc">
+    <span class="tag">계산 확인 · A의 공분산 행렬</span>
+    $$\begin{bmatrix}4\\2\end{bmatrix}\begin{bmatrix}4&2\end{bmatrix}=\begin{bmatrix}16&8\\8&4\end{bmatrix},\qquad \begin{bmatrix}2\\4\end{bmatrix}\begin{bmatrix}2&4\end{bmatrix}=\begin{bmatrix}4&8\\8&16\end{bmatrix}$$
+    <p>$(-2,-4)$, $(-4,-2)$는 부호가 둘 다 바뀌어서 곱이 위의 둘과 같아요. 네 개를 더하면 $\begin{bmatrix}40&32\\32&40\end{bmatrix}$이고, 4로 나누면 $\mathbf S_{\text A}$예요.</p>
+  </div>
+  <p>수업 칠판에는 이것을 확률벡터 $\mathbf a\in\mathbb R^D$의 식으로 썼어요. 스칼라 분산의 "제곱의 평균 빼기 평균의 제곱"에서 제곱 자리에 $\mathbf a\mathbf a^T$가 들어간 모양이에요.</p>
+  $$\boldsymbol\Sigma_{\mathbf a}=\mathbb E[\mathbf a\mathbf a^T]-\mathbb E[\mathbf a]\,\mathbb E[\mathbf a]^T$$
+  <p>A처럼 평균이 0이면 뒤 항이 영행렬이 되어 $\mathbb E[\mathbf a\mathbf a^T]$만 남아요. 위에서 $\mathbf x_n\mathbf x_n^T$의 평균만 계산한 것이 바로 이 경우예요. PCA가 데이터를 먼저 중심화하는 이유예요. 크기는 $(D\times1)(1\times D)=D\times D$라서 항상 정방행렬이에요.</p>
+  <p class="next">이제 남은 질문은 이거예요. 축이 아닌 아무 방향에서 분산을 재려면, 그 방향의 좌표를 어떻게 구할까요?</p>
+
+  <h2 id="s1-2">1.2 행렬로 다시 쓰는 사영 좌표</h2>
+
+  <h3>좌표는 방향 벡터와의 내적이에요</h3>
+  <p>x축에 사영한다는 것은 $[1,0]$과 내적하는 것이에요. $[1,0]\,(4,2)^T=4$예요. 일반 방향도 같아요. 방향을 단위벡터 $\mathbf b$로 정하면, 점 $\mathbf x$의 좌표는 내적 하나예요.</p>
+  $$z=\mathbf b^T\mathbf x$$
+  <p>A의 45° 방향은 $\mathbf b_1=\tfrac1{\sqrt2}(1,1)$이에요. 점 $(4,2)$의 좌표는 $\mathbf b_1^T\mathbf x=6/\sqrt2=3\sqrt2$이고, 앞에서 쓴 $(x+y)/\sqrt2$가 바로 이 내적이었어요.</p>
+  <p>$\mathbf b$의 길이는 꼭 1이어야 해요. 같은 방향이라도 길이 $\sqrt2$짜리 $(1,1)$을 쓰면 좌표가 6이 되고 분산은 36으로 두 배가 돼요. 길이를 키우는 것만으로 분산이 커지면 방향끼리 공정하게 비교할 수 없어요.</p>
+
+  <h3>방향을 여러 개 쓰면 서로 수직이어야 해요</h3>
+  <p>두 번째 방향 $\mathbf b_2=\tfrac1{\sqrt2}(1,-1)$을 쓰면 $(4,2)$의 좌표는 $\sqrt2$예요. $\mathbf b_1^T\mathbf b_2=0$이라 두 방향이 수직이고 길이도 둘 다 1이에요. 이런 쌍을 <span class="key">정규직교</span>라고 해요. x축과 y축의 $[1,0]$, $[0,1]$도 정규직교였어요. 정규직교하면 각 좌표를 내적 하나씩으로 따로 구할 수 있어요.</p>
+
+  <h3>방향과 데이터를 행렬로 모아요</h3>
+  <p>방향이 $M$개, 데이터가 $N$개이면 내적이 $MN$번 필요해요. 그래서 행렬 곱 하나로 묶어요.</p>
+  <ul>
+    <li>방향 열벡터 $\mathbf b_i\in\mathbb R^D$를 가로로 붙인 $\mathbf B=[\mathbf b_1\ \cdots\ \mathbf b_M]\in\mathbb R^{D\times M}$</li>
+    <li>데이터 열벡터 $\mathbf x_n\in\mathbb R^D$를 가로로 붙인 $\mathbf X=[\mathbf x_1\ \cdots\ \mathbf x_N]\in\mathbb R^{D\times N}$</li>
+  </ul>
+  <p>$\mathbf B^T$의 $i$번째 행은 $\mathbf b_i^T$예요. 그래서 $\mathbf B^T\mathbf x_n$의 $i$번째 칸은 $\mathbf b_i^T\mathbf x_n$, 곧 $i$번째 좌표 $z_{in}$이에요.</p>
+  $$\mathbf z_n=\mathbf B^T\mathbf x_n=\begin{bmatrix}\mathbf b_1^T\mathbf x_n\\ \vdots\\ \mathbf b_M^T\mathbf x_n\end{bmatrix}\in\mathbb R^M,\qquad (M\times D)(D\times1)=M\times1$$
+  <p>A에서 45° 방향 하나만 남기면($M=1$), 좌표 8개(점 4개 × 2)가 4개로 줄어요. 이것이 <span class="key">압축</span>이에요. 남는 에너지는 20 중 18이에요.</p>
+  <div class="calc">
+    <span class="tag">계산 확인 · A를 숫자 4개로 줄이기</span>
+    $$\mathbf B^T\mathbf X=\tfrac1{\sqrt2}\begin{bmatrix}1&1\end{bmatrix}\begin{bmatrix}4&2&-2&-4\\2&4&-4&-2\end{bmatrix}=\begin{bmatrix}3\sqrt2&3\sqrt2&-3\sqrt2&-3\sqrt2\end{bmatrix}$$
+    <p>크기는 $(1\times2)(2\times4)=1\times4$예요. 방향을 두 개 다 남기면($M=D=2$) 줄어드는 것 없이 좌표축만 바뀌어요. 예를 들어 $(4,2)$는 $(3\sqrt2,\sqrt2)$가 돼요.</p>
+  </div>
+  <p>일반적으로 $M\ll D$이면 숫자 $D$개짜리 $\mathbf x_n$이 $M$개짜리 $\mathbf z_n$으로 줄어요.</p>
+
+  <p class="next">목표를 기호로 다시 쓸 수 있어요. 에너지를 가장 많이 남기는 $\mathbf b_1,\dots,\mathbf b_M$을 찾는 거예요. A에서는 표를 보고 45°를 찾았지만, 차원이 크면 방향을 돌려 볼 수 없어요. 2장부터 그 방향을 계산으로 찾아요. 미리 말하면, A의 최대 분산 18과 최소 분산 2는 $\mathbf S_{\text A}$의 두 고윳값이고, 45°와 135° 방향은 그 고유벡터예요.</p>
+
+  <h2>한 장 요약</h2>
+  <div class="wide"><table class="summary">
+    <tr><th>무엇</th><th>식</th><th>A에서</th></tr>
+    <tr><td>에너지 = 각 축 분산의 합</td><td>$\frac1N\sum_n\|\mathbf x_n\|^2$</td><td>$20=10+10$</td></tr>
+    <tr><td>공분산 행렬(중심화한 데이터)</td><td>$\mathbf S=\frac1N\sum_n\mathbf x_n\mathbf x_n^T$</td><td>$\begin{bmatrix}10&8\\8&10\end{bmatrix}$</td></tr>
+    <tr><td>칠판의 일반식</td><td>$\boldsymbol\Sigma_{\mathbf a}=\mathbb E[\mathbf a\mathbf a^T]-\mathbb E[\mathbf a]\mathbb E[\mathbf a]^T$</td><td>평균 0이라 뒤 항 없음</td></tr>
+    <tr><td>좌표 하나</td><td>$z_{in}=\mathbf b_i^T\mathbf x_n$, $\|\mathbf b_i\|=1$</td><td>$(4,2)\to3\sqrt2$</td></tr>
+    <tr><td>좌표 전체</td><td>$\mathbf z_n=\mathbf B^T\mathbf x_n$, $\mathbf B\in\mathbb R^{D\times M}$</td><td>$M=1$: 숫자 8개 → 4개</td></tr>
+    <tr><td>목표</td><td>분산을 가장 많이 남기는 $\mathbf b_1,\dots,\mathbf b_M$</td><td>45°에서 분산 18</td></tr>
+  </table></div>
+
+  <h2 id="record">수업 기록</h2>
+  <div class="record">
+    <p>본문 흐름을 끊지 않으려고 따로 모은 것들이에요. 출처: 1102 수업, L05 s14–s15.</p>
+    <h3>교수님 말씀</h3>
+    <blockquote>"어느 축으로 에너지가 더 퍼져 있는 거 같애?"</blockquote>
+    <blockquote>"여기까지가 이제 아이디어고, 지금부터 수학으로 넘어가 봅시다"</blockquote>
+    <blockquote>"variance를 가장 잘 보존하면서, preserve 하면서 차원을 줄일 수"</blockquote>
+    <h3>칠판 예</h3>
+    <p>칠판의 2차원 예는 가로로 길게 퍼진 데이터였고, x축 하나를 남기는 경우를 비교했어요. 점 하나에서는 에너지 $x_1^2+y_1^2$을 $x_1^2$으로 근사하는 셈이에요. 전치는 이 예로 보였어요.</p>
+    $$\begin{bmatrix}1&1\\0&1\\3&2\end{bmatrix}^T=\begin{bmatrix}1&0&3\\1&1&2\end{bmatrix}$$
+    <h3>언급만 한 것</h3>
+    <p>Gram–Schmidt 정규직교화: 독립인 벡터들이 펼치는 공간을 유지하면서 서로 수직이고 길이 1인 벡터들로 바꾸는 방법이에요. 이번 수업에서 절차는 다루지 않았고, 3.2 예제에서 실제로 써요.</p>
+    <h3>함께 보면 좋은 자료</h3>
+    <p><a href="../1028/정리노트_1028_PCA.html#s3-cov-def">1028 정리노트: 공분산 행렬의 정의와 대칭성</a> · <a href="../1028/정리노트_1028_PCA.html#s4-code">1028 정리노트: code(정규직교 기저의 좌표)</a> · <a href="인터렉티브_01_사영_분산과_첫_주성분.html">사영 분산과 첫 주성분 실험</a> · <a href="../1104/인터렉티브_01_내적에서_행렬_사영으로.html">내적에서 행렬 사영으로 실험</a></p>
+  </div>
+</main>
+</body>
+</html>
