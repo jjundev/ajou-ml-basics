@@ -575,8 +575,8 @@ $$
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_1111_Gaussian_Mixture_Models-문제.pdf)
-- [해설지 PDF](복습문제_1111_Gaussian_Mixture_Models-답안.pdf)
+- [문제지 PDF](../복습문제_1111_Gaussian_Mixture_Models-문제.pdf)
+- [해설지 PDF](../복습문제_1111_Gaussian_Mixture_Models-답안.pdf)
 
 ---
 

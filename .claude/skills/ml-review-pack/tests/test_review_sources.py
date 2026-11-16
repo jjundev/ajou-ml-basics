@@ -23,6 +23,18 @@ def test_archive_preserves_cards_after_html_removal(tmp_path):
     assert source_pdf(data, '문제') == pdf
 
 
+def test_source_pdf_prefers_date_folder_and_can_read_older_packs(tmp_path):
+    html = tmp_path / FIXTURE.name
+    html.write_bytes(FIXTURE.read_bytes())
+    data = archive_cards(html)
+    pdf = html.with_name(html.stem + '-문제.pdf')
+    packed = data.parent / pdf.name
+    packed.write_bytes(b'packed')
+    assert source_pdf(data, '문제') == packed
+    pdf.write_bytes(b'current')
+    assert source_pdf(data, '문제') == pdf
+
+
 def test_publish_omits_private_review_html(tmp_path):
     stage = tmp_path / 'stage'
     stage.mkdir()
@@ -30,14 +42,21 @@ def test_publish_omits_private_review_html(tmp_path):
     note.write_text('<p>test</p>')
     html = stage / FIXTURE.name
     html.write_bytes(FIXTURE.read_bytes())
-    for p in [note.with_suffix('.md').name, html.with_suffix('.md').name,
-              html.stem + '-문제.pdf', html.stem + '-답안.pdf']:
-        (stage / '.pack').mkdir(exist_ok=True)
-        (stage / '.pack' / p).write_text(p)
+    storage = stage / '.pack'
+    storage.mkdir()
+    for name in (note.with_suffix('.md').name, html.with_suffix('.md').name):
+        (storage / name).write_text(name)
+    pdfs = [html.stem + '-문제.pdf', html.stem + '-답안.pdf']
+    for name in pdfs:
+        (stage / name).write_text(name)
+    (storage / pdfs[0]).write_text('stale staged copy')
     dest = tmp_path / 'published'
     publish_pack(stage, dest, tmp_path / 'backups', {'range': '0101', 'slug': 'Pdf_Test'})
     assert (dest / note.name).exists()
     assert not (dest / html.name).exists()
+    for name in pdfs:
+        assert (dest / name).read_text() == name
+        assert not (dest / '.pack' / name).exists()
     assert read_cards(find_review(dest / html.name)).cards == read_cards(html).cards
 
 

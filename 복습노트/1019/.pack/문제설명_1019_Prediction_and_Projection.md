@@ -24,7 +24,7 @@
 
 ### P1. 직선으로 내린 그림자
 
-MML Example 3.10 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 3.10 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -224,7 +224,7 @@ $$
 
 ### P2. 직선으로 내린 그림자
 
-MML Example 3.10 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 3.10 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -426,7 +426,7 @@ $$
 
 ### P3. 직선으로 내린 그림자
 
-MML Example 3.10 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 3.10 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -628,7 +628,7 @@ $$
 
 ### P4. 직선으로 내린 그림자
 
-MML Example 3.10 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 3.10 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -832,7 +832,7 @@ $\mathbf x=3\mathbf b$여서 잔차가 $0$인 특별한 입력이에요. 이 벡
 
 ### P5. 평면에 가장 가까운 점
 
-MML Example 3.11 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Example 3.11 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -1193,7 +1193,7 @@ $\mathbf B\in\mathbb R^{3\times2}$의 독립 기저 열과 보통의 내적을 �
 
 ### P6. 평면에 가장 가까운 점
 
-MML Example 3.11 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Example 3.11 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
@@ -1540,7 +1540,7 @@ $\mathbf B\in\mathbb R^{3\times2}$의 독립 기저 열과 보통의 내적을 �
 
 ### P7. 평면에 가장 가까운 점
 
-MML Example 3.11 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=7)
+MML Example 3.11 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=7)
 
 #### 주어진 조건
 
@@ -1903,7 +1903,7 @@ $\mathbf B\in\mathbb R^{3\times2}$의 독립 기저 열과 보통의 내적을 �
 
 ### P8. 평면에 가장 가까운 점
 
-MML Example 3.11 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=8)
+MML Example 3.11 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1019_Prediction_and_Projection-%EB%AC%B8%EC%A0%9C.pdf#page=8)
 
 #### 주어진 조건
 

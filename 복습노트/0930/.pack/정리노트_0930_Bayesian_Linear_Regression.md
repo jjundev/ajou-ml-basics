@@ -1906,8 +1906,8 @@ $\mathbf{x}\in\mathbb{R}^n$, $\mathbf{A}\in\mathbb{R}^{m\times n}$, $\mathbf{b}\
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_0930_Bayesian_Linear_Regression-문제.pdf)
-- [해설지 PDF](복습문제_0930_Bayesian_Linear_Regression-답안.pdf)
+- [문제지 PDF](../복습문제_0930_Bayesian_Linear_Regression-문제.pdf)
+- [해설지 PDF](../복습문제_0930_Bayesian_Linear_Regression-답안.pdf)
 
 ---
 

@@ -24,7 +24,7 @@
 
 ### P1. 행렬식으로 평행사변형 넓이 재기
 
-MML Example 4.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 4.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -121,7 +121,7 @@ $A=[b,g]$로 두 벡터를 열에 세워요.
 
 ### P2. 행렬식으로 역행렬 판정하기
 
-MML Example 4.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 4.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -228,7 +228,7 @@ det=36&gt;0이고 첫 대각도4&gt;0이므로 이 대칭행렬은 양의 정부
 
 ### P3. 선형 변환한 확률변수의 밀도 유도
 
-MML Example 6.17 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 6.17 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -332,7 +332,7 @@ $ad-bc\ne0$인 가역 $\mathbf A$가 조건이에요. 순방향 Jacobian $|\det\
 
 ### P4. 축을 늘리는 변환과 밀도
 
-MML Example 6.17 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 6.17 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -438,7 +438,7 @@ Y의 공분산은diag(9,4), 정규화상수는1/(2π√36)=1/(12π)예요. 원�
 
 ### P5. 기울이는 변환과 밀도
 
-MML Example 6.17 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Example 6.17 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -564,7 +564,7 @@ $y_2=2x_2$에서 $x_2=y_2/2$를 먼저 얻어요.
 
 ### P6. 잡음이 섞인 아핀 변환의 교차공분산
 
-MML Exercise 6.12 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Exercise 6.12 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
@@ -670,7 +670,7 @@ $\mathbf x$와 $\mathbf w$의 독립은 문제에서 별도로 주어진 조건�
 
 ### P7. 결합 가우시안 p(x, y) 세우기
 
-MML Exercise 6.12 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=7)
+MML Exercise 6.12 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=7)
 
 #### 주어진 조건
 
@@ -770,7 +770,7 @@ $\mathbf x$와 $\mathbf w$의 독립으로 교차항이 $0$이에요. $\mathbf Q
 
 ### P8. 시계열 모델의 다음 상태와 관측
 
-MML Exercise 6.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=8)
+MML Exercise 6.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1012_Several_Mathematical_Proofs-%EB%AC%B8%EC%A0%9C.pdf#page=8)
 
 #### 주어진 조건
 

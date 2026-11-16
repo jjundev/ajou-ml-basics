@@ -1150,8 +1150,8 @@ unseen data에서 잘하는 예측기를 위해 모델 선택, 트레이닝, 예
 
 복습문제 5문항
 
-- [문제지 PDF](복습문제_0909_Data_Models_Learning-문제.pdf)
-- [해설지 PDF](복습문제_0909_Data_Models_Learning-답안.pdf)
+- [문제지 PDF](../복습문제_0909_Data_Models_Learning-문제.pdf)
+- [해설지 PDF](../복습문제_0909_Data_Models_Learning-답안.pdf)
 
 ---
 

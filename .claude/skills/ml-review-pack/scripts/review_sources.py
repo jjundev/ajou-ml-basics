@@ -135,8 +135,9 @@ def source_pdf(path, kind):
         raise ReviewPdfError(f'invalid PDF kind: {kind}')
     root = review_dir(path)
     name = f'{Path(html_name(path)).stem}-{kind}.pdf'
+    current = root / name
     packed = root / '.pack' / name
-    return packed if packed.is_file() else root / name
+    return packed if not current.is_file() and packed.is_file() else current
 
 
 def source_markdown(path):

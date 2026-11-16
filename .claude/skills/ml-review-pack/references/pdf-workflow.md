@@ -1,6 +1,6 @@
 # PDF stage workflow
 
-이 절차는 HTML 카드와 정리노트가 `RUN/work/stage/복습노트/<range>/`에 있고 HTML/정답 검증이 끝난 뒤 실행한다. 4단계의 `review_pdf_stage.py`로 상대 경로 구조를 먼저 준비한다. 새 이미지도 이 날짜 stage 폴더의 `.pack/` 아래에 두고 상대 src로 참조한다. PNG 캡처는 원본 HTML 위치를 기준으로 읽는다. 날짜 stage 폴더의 복습문제 HTML은 브라우저·PDF 검증용이다. 발행 단계는 이 HTML에서 문항 원고를 추출하고 날짜 폴더에 두 PDF와 원고만 저장한다. 커밋·푸시는 별도 요청이 있을 때만 한다. 전자회로2 저장소를 실행 의존성으로 요구하지 않는다.
+이 절차는 HTML 카드와 정리노트가 `RUN/work/stage/복습노트/<range>/`에 있고 HTML/정답 검증이 끝난 뒤 실행한다. 4단계의 `review_pdf_stage.py`로 상대 경로 구조를 먼저 준비한다. 새 이미지도 이 날짜 stage 폴더의 `.pack/` 아래에 두고 상대 src로 참조한다. PNG 캡처는 원본 HTML 위치를 기준으로 읽는다. 날짜 stage 폴더의 복습문제 HTML은 브라우저·PDF 검증용이다. 발행할 때 두 PDF는 날짜 폴더 바로 아래에 저장하고, HTML에서 추출한 문항 원고는 `.pack/`에 저장한다. 커밋·푸시는 별도 요청이 있을 때만 한다. 전자회로2 저장소를 실행 의존성으로 요구하지 않는다.
 
 미분 수식이 있으면 `vector-derivative-convention.md`를 전체 읽고 조건·Hint·풀이·생성기 소개·원천 카드/JSON까지 관례를 확인한다. 변경된 원천에서 문제/답안 PDF를 모두 재생성하고 실제 전체 페이지에서 행벡터 식과 양변 전치 단계를 대조한다. HTML 본문만 수정했거나 수치 답만 같은 상태는 동기화 완료가 아니다. 원문 보존 분기는 해당 레퍼런스를 따른다.
 
@@ -14,7 +14,7 @@ python3 "$SKILL/scripts/build_review_pdf.py" --review "$RUN/work/stage/복습노
 
 템플릿 두 개와 video CSS는 EC2 `757fa081521008d46542e23d5a1a53112391aed2`의 고정 복사본이다. 실행 중 변경하지 말고 `assets/pdf-template-provenance.json`의 세 SHA256을 검사한다.
 
-발행된 팩의 PDF를 다시 만들 때 `--review`에 `.pack/복습문제_<range>_<slug>.cards.json`을 넘긴다. 예전 비구조화 카드의 수동 분리 데이터는 저장소의 `workbook/layouts/`에서 읽거나 `--layouts PATH`로 지정한다. layout의 `source_sha256`는 HTML 또는 원고에 기록된 원래 HTML 해시와 일치해야 하고 conditions+ask는 원문 문장·수식 순서를 보존해야 한다. 전체 render output 경로와 PDF 해시는 validation JSON에 있다. 실패는 종료코드 1이며 공개 파일을 쓰지 않는다.
+발행된 팩의 PDF를 다시 만들 때 `--review`에 `.pack/복습문제_<range>_<slug>.cards.json`을 넘긴다. 발행 경로를 직접 지정할 때는 `--pdf-dir 복습노트/<range>`를 쓴다. 예전 비구조화 카드의 수동 분리 데이터는 저장소의 `workbook/layouts/`에서 읽거나 `--layouts PATH`로 지정한다. layout의 `source_sha256`는 HTML 또는 원고에 기록된 원래 HTML 해시와 일치해야 하고 conditions+ask는 원문 문장·수식 순서를 보존해야 한다. 전체 render output 경로와 PDF 해시는 validation JSON에 있다. 실패는 종료코드 1이며 공개 파일을 쓰지 않는다.
 
 다음 Python의 `RUN`, `SKILL`, `REPO`를 환경변수로 넣는다. PDF 쌍을 stage에 복사하고 노트와 manifest 링크를 갱신한다.
 
@@ -23,7 +23,7 @@ import json, os, shutil, sys
 from pathlib import Path
 run, skill, repo = (Path(os.environ[k]) for k in ('RUN', 'SKILL', 'REPO'))
 sys.path.insert(0, str(skill / 'scripts'))
-from manifest import PACK_DIR, note_name, review_name, pdf_hrefs
+from manifest import note_name, review_name, pdf_names
 from review_pdf_links import add_pdf_links
 from review_pdf_cards import read_cards
 from build_review_pdf import digest
@@ -36,14 +36,13 @@ assert digest(review) == e['source_sha256'], 'stale source'
 for mode in ('problems', 'answers'):
     src = Path(e['pdfs'][mode]['path'])
     assert digest(src) == e['pdfs'][mode]['sha256'], 'PDF changed'
-    (stage / PACK_DIR).mkdir(exist_ok=True)
-    shutil.copy2(src, stage / PACK_DIR / src.name)
+    shutil.copy2(src, stage / src.name)
 note = stage / note_name(m)
 note.write_text(add_pdf_links(note.read_text(), m['range'], m['slug'], len(read_cards(review).cards), pdf_only=True))
 # Use the existing links topic id from this manifest; never invent another topic.
 links_topic = next(t['id'] for s in m['sections'] for t in s['topics'] if t['id'].endswith('-links'))
 m['links'] = [link for link in m['links'] if link['href'] != review.name]
-for href in pdf_hrefs(m['range'], m['slug']):
+for href in pdf_names(m['range'], m['slug']):
     if not any(link['topic'] == links_topic and link['href'] == href for link in m['links']):
         m['links'].append({'topic': links_topic, 'href': href})
 (run / 'manifest.json').write_text(json.dumps(m, ensure_ascii=False, indent=2) + '\n')

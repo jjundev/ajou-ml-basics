@@ -917,8 +917,8 @@ ML과 최소제곱의 동등성은 독립·등분산 가우시안 관측오차�
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_1019_Prediction_and_Projection-문제.pdf)
-- [해설지 PDF](복습문제_1019_Prediction_and_Projection-답안.pdf)
+- [문제지 PDF](../복습문제_1019_Prediction_and_Projection-문제.pdf)
+- [해설지 PDF](../복습문제_1019_Prediction_and_Projection-답안.pdf)
 
 ---
 

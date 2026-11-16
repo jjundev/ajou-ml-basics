@@ -1482,8 +1482,8 @@ $[1, \mathbf{x}^\top]^\top$은 특징 벡터 $\boldsymbol{\phi}(\mathbf{x})$의 
 
 복습문제 7문항
 
-- [문제지 PDF](복습문제_0923_Linear_Regression-문제.pdf)
-- [해설지 PDF](복습문제_0923_Linear_Regression-답안.pdf)
+- [문제지 PDF](../복습문제_0923_Linear_Regression-문제.pdf)
+- [해설지 PDF](../복습문제_0923_Linear_Regression-답안.pdf)
 
 ---
 

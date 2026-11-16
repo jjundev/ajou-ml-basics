@@ -108,8 +108,8 @@ def test_cli_explicit_review_path_ignores_newer_and_other_slug(tmp_path):
     source.parent.mkdir(parents=True)
     shutil.copy2(original, source)
     for suffix in ('-문제.pdf','-답안.pdf'):
-        pdf = original.with_name(Path(html_name(original)).stem + suffix)
-        shutil.copy2(pdf, source.parent / pdf.name)
+        pdf = review_dir(original) / (Path(html_name(original)).stem + suffix)
+        shutil.copy2(pdf, review_dir(source) / pdf.name)
     layout = Path('workbook/layouts/0909_Data_Models_Learning.json')
     (repo / layout).parent.mkdir(parents=True)
     shutil.copy2(ROOT / layout, repo / layout)

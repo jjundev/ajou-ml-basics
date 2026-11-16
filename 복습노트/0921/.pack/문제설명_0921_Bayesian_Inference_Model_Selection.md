@@ -22,7 +22,7 @@
 
 ### P1. 인수분해에서 의존 관계 읽기
 
-MML Example 8.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 8.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -122,7 +122,7 @@ p(c|a,b)의 조건이 a,b라서 두 부모예요. 실제 확률 의존의 강도
 
 ### P2. 인수분해로 방향 그래프 그리기
 
-MML Example 8.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 8.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -217,7 +217,7 @@ DAG에서는 조건에 있는 부모에서 인수의 대상으로 화살표를 �
 
 ### P3. 그래프에서 조건부 분포와 부모 찾기
 
-MML Example 8.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 8.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -321,7 +321,7 @@ x3의 조상 x5를 직접 부모 목록에 덧붙이지 않아요.
 
 ### P4. 그래프에서 결합분포 인수분해 쓰기
 
-MML Example 8.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 8.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -401,7 +401,7 @@ $p(x_1)p(x_5)$부터 적고 세 조건부 인수를 붙여요.
 
 ### P5. 망고는 어느 가방에서 나왔을까
 
-MML Exercise 6.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Exercise 6.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -479,7 +479,7 @@ $P(M\mid B_2)=1/2$는 우도이고 물은 값은 방향을 뒤집은 $P(B_2\mid 
 
 ### P6. 반복 기댓값 법칙 보이기
 
-MML Exercise 6.11 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Exercise 6.11 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0921_Bayesian_Inference_Model_Selection-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 

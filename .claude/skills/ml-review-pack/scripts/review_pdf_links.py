@@ -3,7 +3,7 @@ import html
 import re
 import unicodedata
 from urllib.parse import unquote, urlsplit
-from manifest import pdf_hrefs
+from manifest import pdf_names
 from review_pdf_types import ReviewPdfError
 
 
@@ -15,7 +15,7 @@ def add_pdf_links(note_html,range_,slug,logical_count, *, pdf_only=False):
     match=matches[0];topic=match.group()
     topic=re.sub(r'<div\b(?=[^>]*\bclass="review-pdf-links")(?=[^>]*\bdata-range="'+re.escape(range_)+r'")[^>]*>.*?</div>\s*','',topic,flags=re.S)
     legacy=f'복습문제_{range_}_{slug}.html'
-    problem,answer=pdf_hrefs(range_,slug)
+    problem,answer=pdf_names(range_,slug)
     def update_anchor(m):
         if unicodedata.normalize('NFC',unquote(html.unescape(m[2])))!=legacy:return m[0]
         return m[1]+(problem if pdf_only else m[2])+m[3]+re.sub(r'\d+(선|문항|문제)',lambda n:f'{logical_count}{n[1]}',m[4])+m[5]

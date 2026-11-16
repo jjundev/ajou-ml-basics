@@ -24,7 +24,7 @@
 
 ### P1. 사전분포가 만드는 함수들
 
-MML Example 9.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 9.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -124,7 +124,7 @@ $\theta_i\sim\mathcal N(0,I/4)$를 먼저 뽑아요.
 
 ### P2. 한 점에서 본 함수값의 평균과 분산
 
-MML Example 9.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 9.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -222,7 +222,7 @@ $1/2$는 계수 분산이지 표준편차가 아니에요. 입력을 고정해 $
 
 ### P3. 사후분포로 그린 함수 그림 읽기
 
-MML Example 9.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 9.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -324,7 +324,7 @@ log posterior의 이차항은 θ=mN에서0으로 최소라 mode=mean이에요. �
 
 ### P4. 2차원 가우시안에서 한 변수만 보기
 
-MML Example 6.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 6.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -412,7 +412,7 @@ x1의 주변분포는 아래 원 조건의 첫 평균과 첫 대각 분산을 �
 
 ### P5. 독립인 가우시안의 가중합 구하기
 
-MML Example 6.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Example 6.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -504,7 +504,7 @@ $E[2X-Y]=2E[X]-E[Y]$예요.
 
 ### P6. 가우시안 혼합의 차원별 주변분포
 
-MML Exercise 6.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Exercise 6.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
@@ -602,7 +602,7 @@ x1은0.4N(10,1)+0.6N(0,8.4), x2는0.4N(2,1)+0.6N(0,1.7)예요. 각각 적분은�
 
 ### P7. 가우시안 혼합의 평균
 
-MML Exercise 6.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=7)
+MML Exercise 6.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=7)
 
 #### 주어진 조건
 
@@ -711,7 +711,7 @@ $E[x]=0.4[10,2]^\top+0.6[0,0]^\top$예요.
 
 ### P8. 두 가우시안 밀도의 곱: 완전제곱식으로 유도하기
 
-MML Exercise 6.10 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=8)
+MML Exercise 6.10 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1007_Product_of_Gaussians-%EB%AC%B8%EC%A0%9C.pdf#page=8)
 
 #### 주어진 조건
 

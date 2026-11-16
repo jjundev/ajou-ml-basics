@@ -1896,8 +1896,8 @@ MAP 유도와 단계가 같고, $\frac{\sigma^2}{b^2}$ 자리에 $\lambda$가 �
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_0928_Linear_Regression-문제.pdf)
-- [해설지 PDF](복습문제_0928_Linear_Regression-답안.pdf)
+- [문제지 PDF](../복습문제_0928_Linear_Regression-문제.pdf)
+- [해설지 PDF](../복습문제_0928_Linear_Regression-답안.pdf)
 
 ---
 

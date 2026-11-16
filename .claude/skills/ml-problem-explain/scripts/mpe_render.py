@@ -46,7 +46,7 @@ def names(pack):
     stem = {'homework': f'과제{pack.range}_문제설명_{pack.slug}',
             'midterm': f'중간고사_{pack.range}_문제설명_{pack.slug}'}.get(pack.profile, f'문제설명_{pack.range}_{pack.slug}')
     range_ = {'homework': f'hw{pack.range}', 'midterm': f'exam{pack.range}'}.get(pack.profile, pack.range)
-    # 복습노트 날짜 폴더에는 HTML만 두고 나머지는 .pack/ 아래에 둔다. 과제·시험 폴더는 그대로다.
+    # 복습문제 설명의 부속 자료는 날짜 폴더의 .pack/에 둔다.
     sub = '' if pack.profile in ('homework', 'midterm') else PACK_DIR + '/'
     return stem, f'{sub}figures_문제설명_{range_}_{pack.slug}', f'{sub}자료_문제설명_{range_}_{pack.slug}'
 

@@ -24,7 +24,7 @@
 
 ### P1. 총 책임도로 혼합 가중치 갱신하기
 
-MML Example 11.5 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 11.5 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -150,7 +150,7 @@ MML Example 11.5(혼합 가중치 갱신), 교과서 360쪽(PDF 366쪽)과 Examp
 
 ### P2. 책임도 표로 평균 갱신하기
 
-MML Example 11.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 11.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -288,7 +288,7 @@ MML Example 11.3(평균 갱신), 교과서 355쪽(PDF 361쪽)의 계산 구조�
 
 ### P3. 교과서 책임도 표로 평균 갱신하기
 
-MML Example 11.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 11.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -420,7 +420,7 @@ MML Example 11.2의 책임도 표(교과서 353쪽, PDF 359쪽)와 Example 11.3(
 
 ### P4. 갱신된 평균으로 분산 갱신하기
 
-MML Example 11.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 11.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -560,7 +560,7 @@ MML Example 11.2의 책임도 표(교과서 353쪽, PDF 359쪽)와 Example 11.4(
 
 ### P5. 수렴한 GMM을 초기값과 비교하기
 
-MML Example 11.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Example 11.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -700,7 +700,7 @@ MML Example 11.6(GMM Fit), 교과서 361–362쪽(PDF 367–368쪽)의 최종 GM
 
 ### P6. 최소제곱 손실의 기울기와 차원
 
-MML Example 5.11 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Example 5.11 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
@@ -876,7 +876,7 @@ MML Example 5.11(Gradient of a Least-Squares Loss in a Linear Model), 교과서 
 
 ### P7. 분수로 분산 갱신하기
 
-MML Example 11.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=7)
+MML Example 11.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=7)
 
 #### 주어진 조건
 
@@ -1006,7 +1006,7 @@ MML Example 11.4(분산 갱신), 교과서 357–358쪽(PDF 363–364쪽)의 계
 
 ### P8. 벡터와 행렬로 스칼라 함수 미분하기
 
-MML Exercise 5.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=8)
+MML Exercise 5.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=8)
 
 #### 주어진 조건
 

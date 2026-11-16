@@ -1317,8 +1317,8 @@ $P(A\mid\theta,X)=P(A\mid\theta)$는 조건부 독립 **가정**이에요. 보�
 
 복습문제 6문항
 
-- [문제지 PDF](복습문제_0916_MAP_and_Generative_Models-문제.pdf)
-- [해설지 PDF](복습문제_0916_MAP_and_Generative_Models-답안.pdf)
+- [문제지 PDF](../복습문제_0916_MAP_and_Generative_Models-문제.pdf)
+- [해설지 PDF](../복습문제_0916_MAP_and_Generative_Models-답안.pdf)
 
 ---
 

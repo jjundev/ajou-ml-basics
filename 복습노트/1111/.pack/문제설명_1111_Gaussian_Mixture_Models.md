@@ -24,7 +24,7 @@
 
 ### P1. 두 번 뽑은 동전의 확률질량
 
-MML Example 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -139,7 +139,7 @@ MML Example 6.1 · 책 p. 176 · 11월 11일 혼합비와 이산확률
 
 ### P2. 빈도표에서 조건부확률 읽기
 
-MML Example 6.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 6.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -267,7 +267,7 @@ MML Example 6.2 · 책 pp. 179–180 · 표의 크기와 확률 계산 구조를
 
 ### P3. 혼합 밀도의 봉우리 읽기
 
-MML Example 6.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 6.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -375,7 +375,7 @@ MML Example 6.4 · 책 pp. 188–189 · Figure 6.4
 
 ### P4. 두 상태의 확률로 평균 구하기
 
-MML Example 6.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 6.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -496,7 +496,7 @@ MML Example 6.8 · 책 p. 205 · 11월 11일 이산 기댓값
 
 ### P5. 밀도에서 누적확률 구하기
 
-MML Example 6.16 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Example 6.16 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -629,7 +629,7 @@ MML Example 6.16 · 책 p. 216 · 식 (6.128), (6.129d–f)의 밀도 적분
 
 ### P6. 세 가우시안을 섞은 밀도
 
-MML Example 11.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Example 11.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
@@ -751,7 +751,7 @@ MML Example 11.1 · 책 pp. 350–351 · Figure 11.3
 
 ### P7. 두 관측값의 책임도 계산
 
-MML Example 11.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=7)
+MML Example 11.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=7)
 
 #### 주어진 조건
 
@@ -884,7 +884,7 @@ MML Example 11.2 · 책 p. 353 · Example 11.1의 모형 값은 pp. 350–351
 
 ### P8. 책임도 표에서 성분별 합 읽기
 
-MML Example 11.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=8)
+MML Example 11.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf#page=8)
 
 #### 주어진 조건
 

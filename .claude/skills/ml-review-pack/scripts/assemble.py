@@ -113,16 +113,21 @@ def assemble(run_dir: Path | str, out_dir: Path | str, *, include_pdf_links: boo
         from review_pdf_links import add_pdf_links
         from review_pdf_types import ReviewPdfError
         from build_review_pdf import _verify_pdf
+        from review_pdf_layout import page_size_pt
         import fitz
         try:
+            wide_width, _ = page_size_pt('video-16x9')
             for name in manifest_mod.pdf_names(m['range'], m['slug']):
-                path = out_dir / manifest_mod.PACK_DIR / name
+                path = out_dir / name
                 if not path.is_file():
                     raise AssembleError(f"검증된 PDF 쌍이 필요합니다: {path}")
                 with fitz.open(path) as doc:
                     count = len(doc)
-                _verify_pdf(path, count)
-            note_html = add_pdf_links(note_html, m['range'], m['slug'], len(m['problems']))
+                    if not count:
+                        raise AssembleError(f"페이지가 없는 PDF입니다: {path}")
+                    layout = 'video-16x9' if abs(doc[0].rect.width - wide_width) <= .1 else 'a4'
+                _verify_pdf(path, count, layout)
+            note_html = add_pdf_links(note_html, m['range'], m['slug'], len(m['problems']), pdf_only=True)
         except (ReviewPdfError, OSError, fitz.FileDataError) as e:
             raise AssembleError(f"PDF 링크 실패: {e}") from e
     note_path.write_text(note_html, encoding="utf-8")

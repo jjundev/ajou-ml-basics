@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-복습노트/<날짜>/ 정리: HTML만 최상위에 두고 나머지(MD·PDF·figures_*·자료_*)는 .pack/ 아래로 옮긴다
+복습노트/<날짜>/ 정리: HTML과 복습문제 PDF 쌍은 날짜 폴더에 두고 나머지는 .pack/ 아래로 옮긴다
 (표준 라이브러리만 사용).
 
 - 이동은 `git mv`로 한다(추적되지 않은 항목은 일반 이동).
@@ -25,6 +25,7 @@ from urllib.parse import quote, unquote
 
 PACK_DIR = ".pack"  # ml-review-pack/scripts/manifest.py의 PACK_DIR과 같은 값
 DATE_RE = re.compile(r"\d{4}(?:-\d{4})?")
+REVIEW_PDF_RE = re.compile(r"복습문제_.*-(문제|답안)\.pdf")
 ATTR_RE = re.compile(r'(\b(?:href|src)=")([^"]*)(")')
 MD_LINK_RE = re.compile(r"(\]\()([^)\s]+)(\))")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
@@ -90,6 +91,9 @@ def legacy_files(day: Path) -> dict[str, bytes]:
     out = {}
     for html in day.glob("*.html"):
         out[html.name] = unrewrite_html(html.read_text(encoding="utf-8")).encode("utf-8")
+    for pdf in day.glob("*.pdf"):
+        if REVIEW_PDF_RE.fullmatch(nfc(pdf.name)):
+            out[pdf.name] = pdf.read_bytes()
     for file in pack.rglob("*"):
         if file.is_file():
             rel = file.relative_to(pack)
@@ -129,7 +133,8 @@ def _move(src: Path, dst: Path, repo: Path) -> None:
 def migrate_day(day: Path, repo: Path, apply: bool) -> list[str]:
     if (day / PACK_DIR).exists():
         return []
-    entries = [p for p in sorted(day.iterdir()) if p.suffix != ".html" and p.name != ".DS_Store"]
+    entries = [p for p in sorted(day.iterdir()) if p.suffix != ".html" and p.name != ".DS_Store"
+               and not REVIEW_PDF_RE.fullmatch(nfc(p.name))]
     if not apply or not entries:
         return [p.name for p in entries]
     moved = {nfc(p.name) for p in entries}

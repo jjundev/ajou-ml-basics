@@ -1782,8 +1782,8 @@ L04 s11의 "Compare… Why?"는 스칼라 결과와 비교하라는 질문이었
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_1012_Several_Mathematical_Proofs-문제.pdf)
-- [해설지 PDF](복습문제_1012_Several_Mathematical_Proofs-답안.pdf)
+- [문제지 PDF](../복습문제_1012_Several_Mathematical_Proofs-문제.pdf)
+- [해설지 PDF](../복습문제_1012_Several_Mathematical_Proofs-답안.pdf)
 
 ---
 

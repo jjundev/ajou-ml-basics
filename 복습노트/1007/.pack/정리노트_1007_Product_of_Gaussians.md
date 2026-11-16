@@ -1663,8 +1663,8 @@ MLE·MAP은 선 하나를 주고, BLR은 평균 둘레의 띠로 불확실성까
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_1007_Product_of_Gaussians-문제.pdf)
-- [해설지 PDF](복습문제_1007_Product_of_Gaussians-답안.pdf)
+- [문제지 PDF](../복습문제_1007_Product_of_Gaussians-문제.pdf)
+- [해설지 PDF](../복습문제_1007_Product_of_Gaussians-답안.pdf)
 
 ---
 

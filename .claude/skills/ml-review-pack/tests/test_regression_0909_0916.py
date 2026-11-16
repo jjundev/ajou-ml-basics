@@ -94,7 +94,7 @@ class TestRegression(unittest.TestCase):
                     "forbidden_outside_preview": [],
                     "links": [{
                         "topic": spec["links_topic"],
-                        "href": f".pack/{pdf_names(date, spec['slug'])[0]}",
+                        "href": pdf_names(date, spec['slug'])[0],
                     }],
                     "problems": [
                         {"id": f"p{number}", "source": source, "terms": []}
@@ -127,7 +127,7 @@ class TestRegression(unittest.TestCase):
                     staged_note = copy_nfc(note, pack)
                     staged_review = self.work_review(review, pack)
                     for name in pdf_names(date, spec["slug"]):
-                        (output / name).symlink_to(self.required_path(note.parent / ".pack", name))
+                        (pack / name).symlink_to(self.required_path(note.parent, name))
                     (note_md, review_md), figures = html2md.convert_pack(staged_note, staged_review)
                     self.assertEqual(figures, spec["figures"])
                     self.assertEqual(html2md.check_md(staged_note, note_md), [])

@@ -109,8 +109,9 @@ def publish_pack(stage, destination, backup_dir, manifest):
     storage = stage / PACK_DIR
     required = [note, archived, storage / note.with_suffix('.md').name,
                 storage / review.with_suffix('.md').name]
-    required.extend(storage / name for name in pdf_names(manifest['range'], manifest['slug']))
+    pdfs = pdf_names(manifest['range'], manifest['slug'])
+    required.extend(stage / name for name in pdfs)
     optional = [p for p in storage.rglob('*') if p.is_file() and p not in required
-                and not re.fullmatch(r'복습문제_.*\.html', html_name(p))]
+                and html_name(p) not in pdfs and not re.fullmatch(r'복습문제_.*\.html', html_name(p))]
     mapping = {destination / p.relative_to(stage): p for p in [*required, *optional]}
     publish_files(mapping, backup_dir, remove=[destination / review.name])

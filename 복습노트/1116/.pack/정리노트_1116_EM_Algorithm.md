@@ -1757,15 +1757,15 @@ $$
 
 ### 관련 자료
 
-- [11월 16일 복습문제](복습문제_1116_EM_Algorithm-문제.pdf)
+- [11월 16일 복습문제](../복습문제_1116_EM_Algorithm-문제.pdf)
 - [11월 11일 정리노트: GMM과 책임도](../../1111/정리노트_1111_Gaussian_Mixture_Models.html)
 - [통계적 추론 1](../../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html)
 - [통계적 추론 2](../../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html)
 
 복습문제 8문항
 
-- [문제지 PDF](복습문제_1116_EM_Algorithm-문제.pdf)
-- [해설지 PDF](복습문제_1116_EM_Algorithm-답안.pdf)
+- [문제지 PDF](../복습문제_1116_EM_Algorithm-문제.pdf)
+- [해설지 PDF](../복습문제_1116_EM_Algorithm-답안.pdf)
 
 ---
 

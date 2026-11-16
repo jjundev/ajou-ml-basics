@@ -26,7 +26,7 @@
 
 ### P1. 숫자 8의 누적 설명 분산
 
-MML Example 10.2 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 10.2 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -180,7 +180,7 @@ MML Example 10.2와 그림 10.5, 교과서 324–325쪽(PDF 330–331쪽), 식 (
 
 ### P2. 주성분 평면에 놓인 숫자 0과 1
 
-MML Example 10.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Example 10.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -329,7 +329,7 @@ MML Example 10.3과 그림 10.10, 교과서 332–333쪽(PDF 338–339쪽).
 
 ### P3. 주성분 개수와 숫자 8의 복원
 
-MML Example 10.4 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Example 10.4 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -515,7 +515,7 @@ MML Example 10.4와 그림 10.12, 교과서 338–339쪽(PDF 344–345쪽). 그�
 
 ### P4. 가로로 긴 행렬의 특잇값 분해
 
-MML Example 4.13 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Example 4.13 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -761,7 +761,7 @@ MML Example 4.13(수치를 바꾼 변형), 교과서 125–126쪽(PDF 131–132�
 
 ### P5. 영화 평점 행렬의 랭크 2 근사
 
-MML Example 4.15 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Example 4.15 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -976,7 +976,7 @@ MML Example 4.15(그림 4.10, Example 4.14의 평점표와 SVD), 교과서 127�
 
 ### P6. 사영을 뺀 나머지도 사영일까
 
-MML Exercise 3.7 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Exercise 3.7 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
@@ -1145,7 +1145,7 @@ MML Exercise 3.7, 교과서 97쪽(PDF 103쪽). 원문 (a)의 ‘필요충분’ 
 
 ### P7. 왼쪽 특이벡터부터 구하는 특잇값 분해
 
-MML Exercise 4.8 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=7)
+MML Exercise 4.8 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=7)
 
 #### 주어진 조건
 
@@ -1383,7 +1383,7 @@ MML Exercise 4.8, 교과서 138쪽(PDF 144쪽). 원문은 ‘SVD를 구하라’
 
 ### P8. 2×2 행렬의 특잇값 분해
 
-MML Exercise 4.9 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=8)
+MML Exercise 4.9 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=8)
 
 #### 주어진 조건
 
@@ -1612,7 +1612,7 @@ MML Exercise 4.9, 교과서 138쪽(PDF 144쪽). 원문은 ‘SVD를 구하라’
 
 ### P9. 가장 큰 특잇값으로 만든 랭크 1 근사
 
-MML Exercise 4.10 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=9)
+MML Exercise 4.10 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=9)
 
 #### 주어진 조건
 
@@ -1835,7 +1835,7 @@ MML Exercise 4.10, 교과서 138쪽(PDF 144쪽). 원문은 ‘랭크 1 근사를
 
 ### P10. 행렬이 벡터의 길이를 가장 크게 늘리는 비율
 
-MML Exercise 4.12 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=10)
+MML Exercise 4.12 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1104_PCA_Part2-%EB%AC%B8%EC%A0%9C.pdf#page=10)
 
 #### 주어진 조건
 

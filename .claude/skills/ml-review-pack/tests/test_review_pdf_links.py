@@ -13,8 +13,8 @@ class TestLinks(unittest.TestCase):
     def test_idempotent_links_and_correct_count(self):
         once=add_pdf_links(self.note,'0914','ERM_and_MLE',7)
         self.assertEqual(add_pdf_links(once,'0914','ERM_and_MLE',7),once)
-        self.assertIn('href=".pack/복습문제_0914_ERM_and_MLE-문제.pdf"',once)
-        self.assertIn('href=".pack/복습문제_0914_ERM_and_MLE-답안.pdf"',once)
+        self.assertIn('href="복습문제_0914_ERM_and_MLE-문제.pdf"',once)
+        self.assertIn('href="복습문제_0914_ERM_and_MLE-답안.pdf"',once)
         self.assertIn('복습문제 7선',once);self.assertNotIn('8선',once)
         self.assertEqual(pdf_names('0914','ERM_and_MLE'),('복습문제_0914_ERM_and_MLE-문제.pdf','복습문제_0914_ERM_and_MLE-답안.pdf'))
     def test_preserve_unrelated_content(self):
@@ -27,6 +27,25 @@ class TestLinks(unittest.TestCase):
             out=Path(d)
             with self.assertRaisesRegex(AssembleError,'PDF'):assemble(MINI_RUN,out,include_pdf_links=True)
             self.assertEqual(list(out.iterdir()),[])
+
+    def test_assemble_links_to_staged_date_folder_pdfs(self):
+        import fitz
+        from manifest import load, pdf_names
+        from review_pdf_layout import page_size_pt
+
+        manifest = load(MINI_RUN / 'manifest.json')
+        names = pdf_names(manifest['range'], manifest['slug'])
+        for layout in ('a4', 'video-16x9'):
+            with self.subTest(layout=layout), tempfile.TemporaryDirectory() as d:
+                out = Path(d)
+                width, height = page_size_pt(layout)
+                with fitz.open() as pdf:
+                    pdf.new_page(width=width, height=height).insert_text((40, 40), 'Review')
+                    for name in names:
+                        pdf.save(out / name)
+                note, _ = assemble(MINI_RUN, out, include_pdf_links=True)
+                for name in names:
+                    self.assertIn(f'href="{name}"', note.read_text(encoding='utf-8'))
 
 class TestLegacyCounts(unittest.TestCase):
     def test_count_in_parenthetical_korean_label(self):

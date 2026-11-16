@@ -1262,8 +1262,8 @@ $$
 
 복습문제 6문항
 
-- [문제지 PDF](복습문제_0921_Bayesian_Inference_Model_Selection-문제.pdf)
-- [해설지 PDF](복습문제_0921_Bayesian_Inference_Model_Selection-답안.pdf)
+- [문제지 PDF](../복습문제_0921_Bayesian_Inference_Model_Selection-문제.pdf)
+- [해설지 PDF](../복습문제_0921_Bayesian_Inference_Model_Selection-답안.pdf)
 
 ---
 

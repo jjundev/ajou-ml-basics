@@ -4,7 +4,7 @@
 
 [문항별 문제설명](../문제설명_1111_Gaussian_Mixture_Models.html)
 
-> [HTML 원본](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf)과 같은 내용을 담았어요. 원문, 힌트, 풀이는 접혀 있어요. 먼저 풀어 보고 펼쳐 보세요.
+> [HTML 원본](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1111_Gaussian_Mixture_Models-%EB%AC%B8%EC%A0%9C.pdf)과 같은 내용을 담았어요. 원문, 힌트, 풀이는 접혀 있어요. 먼저 풀어 보고 펼쳐 보세요.
 
 **목차**
 

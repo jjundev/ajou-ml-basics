@@ -22,7 +22,7 @@
 
 ### P1. 가우시안 prior를 더한 MAP 목적함수
 
-MML Example 8.6 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=1)
+MML Example 8.6 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=1)
 
 #### 주어진 조건
 
@@ -111,7 +111,7 @@ $\Sigma$는 고정된 양의 정부호 $D\times D$ 공분산이고 $\theta\in\ma
 
 ### P2. Joint 표에서 p(x) 구하기
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=2)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=2)
 
 #### 주어진 조건
 
@@ -195,7 +195,7 @@ $x$가 열, $y$가 행이므로 $p(x)$는 같은 열을 더해요. 열마다 별
 
 ### P3. Joint 표에서 p(y) 구하기
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=3)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=3)
 
 #### 주어진 조건
 
@@ -279,7 +279,7 @@ $p(y)$는 $x$를 없애는 행 합이에요. 열 합은 $p(x)$라는 다른 질�
 
 ### P4. 조건부 분포 p(x | Y = y1)
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=4)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=4)
 
 #### 주어진 조건
 
@@ -363,7 +363,7 @@ $p(y_1)=26/100$을 먼저 적어요.
 
 ### P5. 조건부 분포 p(y | X = x3)
 
-MML Exercise 6.1 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=5)
+MML Exercise 6.1 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=5)
 
 #### 주어진 조건
 
@@ -443,7 +443,7 @@ $p(x_3)=0.03+0.05+0.03=0.11$예요.
 
 ### P6. 컴파일 성공률의 posterior
 
-MML Exercise 6.3 · [원 문제 보기](%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=6)
+MML Exercise 6.3 · [원 문제 보기](../%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_0916_MAP_and_Generative_Models-%EB%AC%B8%EC%A0%9C.pdf#page=6)
 
 #### 주어진 조건
 
