@@ -55,7 +55,7 @@ const textNodes = Array.from(document.querySelectorAll('main *, #panel-right *')
 
 개념 토픽 하나로 넘겨(`location.hash = '#<토픽 id>'`) 오른쪽 "페이지 요약" 패널에 그 토픽의 요약이 보이는지 스크린샷으로 확인한다(1280px 이상에서는 패널이 기본으로 열린다).
 
-위젯마다 그 토픽으로 넘긴 뒤 슬라이더 하나를 바꾸고(`input` 이벤트) readout 값이 `.widget-static` 표의 같은 설정 값과 같은지 확인한다.
+위젯마다 해당 토픽으로 이동해 실제 조작으로 대표 설정들을 비교한다. 입력 중 조작값만 바뀌고 고정할 데이터·대상이 유지되는지, 표시값이 `.widget-static` 표의 같은 설정과 일치하는지 확인한다. 최댓값이나 역전이 학습 포인트라면 경계와 인접 설정을 비교해 반올림이 의미 있는 차이를 가리지 않는지도 확인한다.
 
 ## 모바일·다크
 `resize_window`(`preset: "mobile"`, `colorScheme: "dark"`) → 새로고침 → `clientWidth > 0` 확인 → 위 스크립트 재실행(`hScroll: []`) → 스크린샷으로 그림·위젯 글자가 보이는지 확인 → 상단 바의 테마 버튼(`#theme-toggle`)을 눌러 `document.body` 배경색이 바뀌고 `aria-label`이 반대 모드로 바뀌는지 확인한 뒤 `localStorage.removeItem('od-theme')`로 지운다 → `preset: "desktop"`, `colorScheme: "light"`로 되돌린다.
