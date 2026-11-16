@@ -1,0 +1,302 @@
+{
+  "review_policy_version": "problem-explain-2026-10-20-row-derivatives",
+  "input_hash": "57bae128ad68dee5835c347959a6d366d84c08fd3833d15deccc1903b2c945a0",
+  "references": [
+    {
+      "path": "/home/user/ajou-ml-basics/교과서/Mathematics_for_Machine_Learning.pdf",
+      "sha256": "3f87b70c64a35d30ec4e565b4d5cfd18fe913002d3b3bed44691c7d0838911bc"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/복습문제_1116_EM_Algorithm-문제.pdf",
+      "sha256": "6c66ed03661fdae66e154eae0cae5eae5ae163a475a0c217ca62866c6491ae00"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/복습문제_1116_EM_Algorithm-답안.pdf",
+      "sha256": "db30181109a4df1926e9fa16543638047058eb1611829055faec97c22790e60f"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/복습문제_1116_EM_Algorithm.cards.json",
+      "sha256": "37c2137781c0e4b6f520fef4f51284aa6683177b185a980c9f32a35863ef86e1"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/정리노트_1116_EM_Algorithm.html",
+      "sha256": "739ee624f18aa61115382b8c2305879b7e22c1b5328cf9e07bf024f29439295f"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/정리노트_1116_EM_Algorithm.md",
+      "sha256": "4a1650455afdc46d18b0354b58cc36f13ab5929bdd8cc1025f73cefba3e680c2"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/fig-em-loop.svg",
+      "sha256": "d9eae245c6a122387f2248448f117ebfd800c07d99111467631b170963303a93"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/fig-matrix-deriv-cells.svg",
+      "sha256": "028ff2a8604508a64ecb7efc6959dd935caddcad4116f10375cdcfa67f4f70ce"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/fig-weighted-pull.svg",
+      "sha256": "57750d2f003329bce013864b187f4de5ae09fb7f86166cdec3e9c55d62dc713e"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/fig-why-iterate-cycle.svg",
+      "sha256": "7da6722fc845f2e19b3200d2a21383d19946f327fc4d5366b2267036992b35a1"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/widget-pull-static-1.svg",
+      "sha256": "732eaae8cba1c10c6fd8a4d19ad2d27e49f336239566a322daaf2c2c3c6e245b"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/widget-pull-static-2.svg",
+      "sha256": "c78ffc10dacad61f4817fde5d14332c8c34d782d8a3276ffd3885ea1e0e62d10"
+    },
+    {
+      "path": "/home/user/ajou-ml-basics/복습노트/1116/.pack/figures_1116/widget-pull-static-3.svg",
+      "sha256": "4f8d786ae959fb676b3589572e78d6f8f78ef80b434b898518c9193769646e27"
+    }
+  ],
+  "source_visual": {
+    "status": "pass",
+    "reviewer": "source-visual reviewer subagent (독립) + main",
+    "evidence": "visual/qpdf-p1..8.png, qtab-p3/p4/p7.png: 문제 PDF 1–8쪽과 stage 문제 구역 조건·표·소문항 일치; 원문 인용 MML PDF 366(Ex11.5), 361(Ex11.3), 363–364(Ex11.4), 368(Ex11.6, 식 11.57), 160(Ex5.11), 177(Ex5.6)에서 확인; 출제 근거 쪽수 일치"
+  },
+  "browser": {
+    "status": "pass",
+    "reviewer": "main (visual/browser-check.js 재실행, 새 stage 87b9a0cb)",
+    "evidence": "visual/browser-result.json: 1280×900·1024×900·375×812 × light/dark, 8문항 모두 콘솔 0·KaTeX 0·요청 실패 0·외부 요청 0·문서 가로 넘침 0·표 넘침 0·math-pan 0; 1023↔1024 목차/문제 기본 열림·저장 닫힘 유지, 문제|원문 탭, 붙이기·띄우기, read 키 payload, 정리노트 앵커 7종 200 anchor-ok, PDF #page 링크 200. 남은 것: 1280px의 deriv-gen.is-wide 템플릿 음수 여백으로 ol.deriv scrollWidth 648>632(패딩 안, 잘림·겹침 없음, 템플릿 기존 동작); 목차 aria-current 미표시는 기존 템플릿 공통 문제"
+  },
+  "content": {
+    "status": "pass",
+    "reviewer": "ml-note-audit 감사 subagent + main 재확인",
+    "evidence": "tmp/ml-problem-explain/1116-064306/audit.md: Critical 1(p5 수렴 방향 주장)·Important 1(p4 근거 문장)·Minor 6 모두 조각에서 수정 후 재build(87b9a0cb), 메인이 수정 문장을 grep으로 확인; 일곱 구역·소문항 solve/verify·답 구조 선제시·ol.deriv/table-wrap 형식은 mpe_cli check machine PASS와 감사 연결 검토 표로 확인; 행 관례(P6·P8) check_vector_derivatives pass; 금지어 0",
+    "items": {
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p3:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p3:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p6:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p6:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p7:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p7:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p8:a": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p8:b": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      },
+      "p8:c": {
+        "status": "pass",
+        "reviewer": "audit subagent + main",
+        "evidence": "audit.md 연결 검토 근거 표 및 수정 확인"
+      }
+    }
+  },
+  "independent": {
+    "status": "pass",
+    "reviewer": "블라인드 풀이 subagent(정답·조각 미열람) + 작성자 검산 대조",
+    "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/answers-blind.md, solve.py, solve-result.txt; evidence/check_p1_p8.py, check-result.txt(ALL ASSERTIONS PASSED)",
+    "items": {
+      "p1:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "π=(0.294,0.287,0.419), 정확한 합 7/7=1, 1/3보다 커진 성분 3",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p1:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "π=(0.294,0.287,0.419), 정확한 합 7/7=1, 1/3보다 커진 성분 3",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p2:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "N=(5/2,2,5/2), μ=(−13/5,1/4,22/5)",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p2:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "N=(5/2,2,5/2), μ=(−13/5,1/4,22/5)",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p3:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "μ=(−2.70,−0.40,3.70), 이동 (1.30,0.40,4.30) → 성분 3",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p3:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "μ=(−2.70,−0.40,3.70), 이동 (1.30,0.40,4.30) → 성분 3",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p4:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "σ²=(0.15,0.44,1.53), 1·3 축소 2 증가",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p4:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "σ²=(0.15,0.44,1.53), 1·3 축소 2 증가",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p5:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "가중치 합 1, σ=(0.24,0.50,1.28), 평균 이동 최대 성분 3(4.36), 분산 증가 성분 2",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p5:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "가중치 합 1, σ=(0.24,0.50,1.28), 평균 이동 최대 성분 3(4.36), 분산 증가 성분 2",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p6:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "symbolic",
+        "conclusion": "∂L/∂θ=−2eᵀΦ ∈ℝ^{1×D}; 1×N, N×D, 1×D",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p6:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "symbolic",
+        "conclusion": "∂L/∂θ=−2eᵀΦ ∈ℝ^{1×D}; 1×N, N×D, 1×D",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p7:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "σ²=(36/25,19/16,56/25), 1·3 축소 2 증가",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p7:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "exact",
+        "conclusion": "σ²=(36/25,19/16,56/25), 1·3 축소 2 증가",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p8:a": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "symbolic",
+        "conclusion": "df/dt=2cos(log tᵀt)tᵀ/(tᵀt) (1×D), dg/dX=AᵀBᵀ (E×F)",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p8:b": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "symbolic",
+        "conclusion": "df/dt=2cos(log tᵀt)tᵀ/(tᵀt) (1×D), dg/dX=AᵀBᵀ (E×F)",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      },
+      "p8:c": {
+        "status": "pass",
+        "reviewer": "blind solver",
+        "method": "symbolic",
+        "conclusion": "df/dt=2cos(log tᵀt)tᵀ/(tᵀt) (1×D), dg/dX=AᵀBᵀ (E×F)",
+        "evidence": "/tmp/claude-0/-home-user-ajou-ml-basics/0eb3aebd-a476-5411-a0dd-72c06012ad7c/scratchpad/review-pack/1116/work/blind-explain/solve-result.txt"
+      }
+    }
+  },
+  "artifact_hashes": {
+    ".pack/문제설명_1116_EM_Algorithm.md": "803b79362e8d33caf42119a3906826c9019e18f981d518275b79abf51137bd44",
+    ".pack/자료_문제설명_1116_EM_Algorithm/evidence/check-result.txt": "eec9cda8f4cf4df621ce2eb947d775003520be7d496f06e2f635f3fd7095f4b3",
+    ".pack/자료_문제설명_1116_EM_Algorithm/evidence/check_p1_p8.py": "de237389d0d378f5a72cdb41ea205a9f6357ad0105d410d12b114ecd0cb269da",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p1.html": "958281893dccfbf568d9dcce35265620bbc5354114be23ce74edb9ab9caac03e",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p2.html": "0c07b54af90b0bc23be2ef5cb60892f4860f98770cb08192f7457f35b5522a47",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p3.html": "b57279c11c5f65cc47f3c0faa8ebbcbc940cf0b4109a4a671d475f3bd614253b",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p4.html": "33f1a9ce9c3a91ef5898f73f834338c7495a7e8e8d5b15ed73090a959bc54cbd",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p5.html": "3c1453abf0f95d706598a3d971957c56ea93882f6a11a96947a34770e1b2e2f5",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p6.html": "ca8130098813a8cb1d3c8ab4ec2f518e403ada98531f04a55f3b323c48aba344",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p7.html": "1693c558cf8cbab3e0393671176457326c73afc670429bcbb5c2081a3529ab72",
+    ".pack/자료_문제설명_1116_EM_Algorithm/fragments/p8.html": "4c1db61981fdf2dff62f28fb66579d7f9c5ef2df5ac2ce4653407beb56f6db59",
+    ".pack/자료_문제설명_1116_EM_Algorithm/template-provenance.json": "e64248c5ec7a72739800feabb5e51c6dc6afd73ba2af33fb938ef31035864ab1",
+    "문제설명_1116_EM_Algorithm.html": "339fdaed2c931990e4676101d749c93d728356bf4a872890b2c179a629edeb68",
+    ".pack/자료_문제설명_1116_EM_Algorithm/manifest.json": "f8c10b77e1e62bf69c45f3469be3f16a48e2780e1959b644b81185aaa49eccfb"
+  }
+}

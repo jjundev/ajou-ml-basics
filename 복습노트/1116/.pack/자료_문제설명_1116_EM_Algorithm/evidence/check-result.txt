@@ -1,0 +1,35 @@
+P1 (a) pi_new exact = ['147/500', '251/875', '1467/3500'] float = [0.294, 0.28685714285714287, 0.41914285714285715]
+P1 (a) rounded 3dp = [0.294, 0.287, 0.419]
+P1 (b) sum Nk = 7  sum pi_new = 1
+P1 (b) components with pi_new > 1/3: [3]
+P2 (a) Nk = ['5/2', '2', '5/2']  sum = 7
+P2 (b) weighted sums = ['-13/2', '1/2', '11']
+P2 (b) mu_new = ['-13/5', '1/4', '22/5'] [-2.6, 0.25, 4.4]
+P7 (a) k=1: deviations ['-7/5', '3/5', '8/5']  weighted SS = 18/5  var_new = 36/25 1.44
+P7 (a) k=2: deviations ['-5/4', '-1/4', '7/4']  weighted SS = 19/8  var_new = 19/16 1.1875
+P7 (a) k=3: deviations ['-12/5', '-2/5', '8/5']  weighted SS = 28/5  var_new = 56/25 2.24
+P7 (b) compare old->new: [('2', '36/25', 'down'), ('1/2', '19/16', 'up'), ('3', '56/25', 'down')]
+P7 cross-check E[x^2]-mu^2 matches for all k
+P3 row sums = ['1', '1', '1', '1', '1', '1', '1']
+P3 (a) Nk = [2.058, 2.008, 2.934]  weighted sums = [-5.557, -0.811, 10.868]
+P3 (a) mu_new = [-2.7001943634596697, -0.4038844621513944, 3.704158145875937]  rounded 2dp = [-2.7, -0.4, 3.7]
+P3 (b) |mu_new-mu| from rounded = [1.3, 0.4, 4.3]  unrounded = [1.2998, 0.4039, 4.2958]
+P4 (a) k=1: weighted SS = 0.30202  var_new = 0.146754 -> 0.15
+P4 (a) k=2: weighted SS = 0.87948  var_new = 0.437988 -> 0.44
+P4 (a) k=3: weighted SS = 4.47926  var_new = 1.526673 -> 1.53
+P4 (b) old->new: [(1, 0.15, 'down'), (0.2, 0.44, 'up'), (3, 1.53, 'down')]
+P4 note: component-1 variance with unrounded table mean = 0.14675409244636353 (still 0.15 with this rounded table; textbook 0.14 uses unrounded responsibilities)
+P4 textbook check: unrounded r_{41} = 0.00015 (table 0.001)
+P4 textbook check: unrounded var_new = ['0.1440', '0.4385', '1.5266'] -> 2dp [0.14, 0.44, 1.53]
+P4 single-cell sensitivity: r_{41}=0.001 contributes 0.00729 ; with 0.00015 -> 0.0010935 ; var_1 becomes 0.1438
+P5 (a) sum weights = 1
+P5 (a) sigma = ['0.244949', '0.500000', '1.276715']  rounded = [0.24, 0.5, 1.28]
+P5 (b) mean shifts = [1.25, 0.5, 4.36]  variances old->new: [(1, 0.06, 'down'), (0.2, 0.25, 'up'), (3, 1.63, 'down')]
+P6 (a) row gradient shape (1, 3)  claim shape (1, 3)  difference zero: True
+P6 (b) dL/de shape (1, 4) (1xN); de/dtheta shape (4, 3) (NxD) equals -Phi; product 1xD
+P6 note: setting row gradient to 0^T and transposing gives Phi^T Phi theta = Phi^T y: True
+P8 (a) df/dt shape (1, 3)  matches 2cos(log u)/u t^T: True
+P8 (b) dg/dX shape (3, 4)  equals A^T B^T: True  (A^T B^T shape (3, 4) )
+P8 (b) note: A^T B^T = (BA)^T, BA is F x E, so result is E x F like X
+P8 (c) dims: df/dt in R^{1xD}; dg/dX in R^{ExF} (checked with D,E,F = 2,3,4)
+ALL ASSERTIONS PASSED

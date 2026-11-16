@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 1116</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · 1116 수업 (Lecture07 Density Estimation Part1, MML 11장)">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 긴 계산: 기존 패널 안에서 단계별로 읽는다 */
+    .note-stage-nav { position: sticky; top: 0; z-index: 2; display: flex; gap: var(--s1); overflow-x: auto; background: var(--bg); border-bottom: 1px solid var(--line); margin: var(--s5) 0; }
+    .note-stage-nav a { display: flex; align-items: center; flex: 0 0 auto; min-height: 44px; padding: 0 var(--s2); color: var(--ink-2); font-size: var(--fs-small); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; }
+    .note-stage-nav a[aria-current="step"] { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+    .note-stage { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
+    .topic .note-stage-title { display: flex; align-items: baseline; gap: var(--s4); margin: 0 0 var(--s2); font-size: clamp(22px, 4vw, 24px); font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; scroll-margin-top: 72px; }
+    .note-stage-number { flex: none; white-space: nowrap; color: var(--accent-ink); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0; }
+    .topic .note-stage-goal { margin: var(--s2) 0 var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    .topic .note-subheading { margin: var(--s6) 0 var(--s3); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .topic .note-stage-result { margin-top: var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    @media print { .note-stage-nav { display: none; } .note-stage { break-inside: auto; } }
+
+    /* 식 줄 + 주석: 유도는 식이 본문, 연산·이유는 옆 한 줄 주석 (staged-body.md) */
+    /* 간격 규칙: 덩어리 사이 24px · 짝을 이루는 줄 사이 8px · 식 줄 안쪽 12px */
+    .deriv-body { container-type: inline-size; --d-block: var(--s5); --d-pair: var(--s2); --d-row: var(--s3); }
+    .topic .deriv-body > * { margin: 0; }
+    .topic .deriv-body > * + * { margin-top: var(--d-block); }
+    .topic .deriv-body > .deriv-legend + .deriv,
+    .topic .deriv-body > .note-stage-result + .deriv-check { margin-top: var(--d-pair); }
+    .topic .deriv-body > .note-subheading { margin-top: var(--s6); }
+    .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
+    .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
+    .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+    .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
+    .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }
+    .deriv > li.is-wide { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .deriv-eq { min-width: 0; }
+    .deriv .katex-display { margin: 0; padding: 2px 0; text-align: left; }
+    .deriv .katex-display > .katex { text-align: left; }
+    .deriv .katex [style*="color:#"] { color: var(--accent-ink) !important; }
+    .deriv-why { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+    .topic .deriv-why p { margin: 0; }
+    .deriv-why details { margin-top: var(--s1); }
+    .deriv-why summary { display: inline-block; padding: 2px 0; cursor: pointer; color: var(--accent-ink); font-size: var(--fs-label); list-style: none; }
+    .deriv-why summary::-webkit-details-marker { display: none; }
+    .deriv-why summary::after { content: " ▾"; }
+    .deriv-why details[open] summary::after { content: " ▴"; }
+    .topic .deriv-why details p { margin-top: var(--s2); color: var(--ink); line-height: 1.7; }
+    @container (max-width: 620px) {
+      .deriv > li { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .deriv > li.deriv-gen { margin-inline: 0; padding-inline: var(--s3); }
+    }
+    @media print { .deriv-why details { display: block; } }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    body { height: 100vh; height: 100dvh; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="1116">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 큰 그림</a><a href="#s1">1 EM</a><a href="#s2">2 평균 유도</a><a href="#s3">3 공분산 유도</a><a href="#s4">4 요약·예고</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>EM 알고리즘과 GMM 갱신식 — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 1116 수업 (Lecture07 Density Estimation Part1, MML 11장)</p>
+    </div>
+    <section id="s0"><h2>0. 왜 반복해서 맞추나</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1">
+<h3>책임도로 평균·공분산·가중치를 고치는 반복</h3>
+<div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s12</span></div>
+<div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+<p data-map="goal">지난 수업에서 가우시안 혼합 모델(GMM)의 로그우도 $\mathcal{L}(\boldsymbol{\theta})$와 책임도 $r_{nk}$를 정의했어요. 오늘의 질문은 로그우도를 가장 크게 만드는 파라미터 ${\boldsymbol{\theta}=\{\pi_k,\boldsymbol{\mu}_k,\Sigma_k\}}$를 어떻게 찾느냐예요. 답은 책임도를 고정하고 파라미터를 고치는 일을 번갈아 되풀이하는 EM(Expectation-Maximization) 알고리즘이에요. 기울기를 0으로 놓은 식을 한 번에 풀 수 없는 까닭은 <a href="#s0-why-iterate">미분을 0으로 놓아도 바로 풀리지 않는 이유</a>에서 다뤄요.</p>
+<p data-map="bridge">책임도 $r_{nk}$는 지난 수업과 같은 양이에요. 현재 모델에서 점 $\mathbf{x}_n$이 성분 $k$에서 나왔을 사후확률이고, 한 점의 책임도를 모든 성분에 대해 더하면 1이에요. 오늘 달라지는 것은 이 값을 가중치로 쓴다는 점이에요. 성분 $k$의 평균·공분산·가중치를 다시 계산할 때 각 점은 $r_{nk}$만큼만 기여해요. 성분이 하나뿐이라 모든 가중치가 1이면, 이 계산은 가우시안 하나의 최대우도 추정값인 표본평균과 $1/N$ 표본공분산으로 돌아가요.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">단계</th><th scope="col">고정하는 것</th><th scope="col">새로 계산하는 것</th><th scope="col">결과의 모양</th></tr></thead>
+<tbody>
+<tr><th scope="row">E-step</th><td>현재 파라미터 값 $\pi_k$, $\boldsymbol{\mu}_k$, $\Sigma_k$ 전부</td><td>책임도 $r_{nk}$와 총 책임도 $N_k=\sum_{n}r_{nk}$</td><td>$r_{nk}$는 $N\times K$ 숫자 표(각 칸 0~1, 한 점의 행 합 1), $N_k$는 성분마다 실수 하나(열 합)</td></tr>
+<tr><th scope="row">M-step: 평균</th><td>E-step에서 구한 $r_{nk}$, $N_k$</td><td>$\boldsymbol{\mu}_k^{\text{new}}$: $r_{nk}$로 가중한 데이터 평균</td><td>성분마다 $D\times1$ 벡터 값</td></tr>
+<tr><th scope="row">M-step: 공분산</th><td>$r_{nk}$, $N_k$와 방금 구한 $\boldsymbol{\mu}_k^{\text{new}}$</td><td>$\Sigma_k^{\text{new}}$: $r_{nk}$로 가중한 외적 $(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top$의 평균</td><td>성분마다 $D\times D$ 대칭 행렬 값</td></tr>
+<tr><th scope="row">M-step: 가중치</th><td>$N_k$와 데이터 수 $N$</td><td>$\pi_k^{\text{new}}=N_k/N$: 전체 기여량 중 성분 $k$의 몫</td><td>성분마다 스칼라 값, $K$개의 합이 1</td></tr>
+</tbody></table></div>
+<p data-map="result">EM이 내놓는 것은 분포가 아니라 파라미터 값이에요. 한 번 돌 때마다 새 추정값 $\pi_k^{\text{new}}$, $\boldsymbol{\mu}_k^{\text{new}}$, $\Sigma_k^{\text{new}}$를 얻고, 이 값을 넣은 혼합 밀도가 그 회차의 모델이에요. M-step의 결과는 다음 E-step에서 고정하는 값이 돼요. 가중치 갱신식 $\pi_k^{\text{new}}=N_k/N$은 오늘 알고리즘 식과 '기여 비율'이라는 뜻만 다루고, 유도는 다음 수업에서 해요.</p>
+<p data-map="formula">M-step 식은 로그우도의 기울기를 0으로 놓는 조건에서 나와요. 2절과 3절은 ${\partial\mathcal{L}/\partial\boldsymbol{\mu}_k=\mathbf{0}^\top}$과 ${\partial\mathcal{L}/\partial\Sigma_k=\mathbf{0}}$을 풀면 책임도가 저절로 나타나 위 표의 갱신식이 된다는 것을 확인하는 계산이에요. 계산에 앞서 <a href="#s1-update-meaning">갱신식은 책임도로 가중한 평균·공분산·비율</a>에서 각 식이 무엇을 평균하는지 먼저 읽어요.</p>
+<p data-map="pitfall">갱신식은 한 번 대입하면 끝나는 닫힌 해가 아니에요. 오른쪽의 $r_{nk}$가 모든 성분의 $\pi_j$, $\boldsymbol{\mu}_j$, $\Sigma_j$로 계산되므로, 새 값을 넣으면 책임도도 바뀌어요. 그래서 E-step과 M-step을 되풀이해요. 또 한 점의 $r_{nk}$는 0과 1 사이지만, $N_k$는 여러 점의 확률을 더한 값이라 1보다 클 수 있어요.</p>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">책임도를 고정해 파라미터 값을 고치고, 새 값으로 책임도를 다시 구하는 일을 되풀이해요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">총 책임도</span>$$N_k=\sum_{n}r_{nk}$$</li>
+<li><span class="eq-name">가중치 갱신</span>$$\pi_k^{\text{new}}=N_k/N$$</li>
+</ul>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>E-step</dt><dd>현재 $\pi_k$, $\boldsymbol{\mu}_k$, $\Sigma_k$를 고정하고 $r_{nk}$와 $N_k$를 계산해요.</dd>
+<dt>M-step</dt><dd>$r_{nk}$를 고정하고 평균·공분산·가중치 값을 다시 계산해요.</dd>
+<dt>책임도(responsibility)</dt><dd>점 $\mathbf{x}_n$이 성분 $k$에서 나왔을 사후확률 $r_{nk}$예요. 한 점의 행 합은 1이에요.</dd>
+<dt>결과의 종류</dt><dd>분포가 아니라 파라미터 값이에요. 새 값을 넣으면 책임도가 바뀌어 반복해요.</dd>
+</dl>
+</div>
+</article>
+
+<article class="topic" id="s0-why-iterate"><h3>미분을 0으로 놓아도 바로 풀리지 않는 이유</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s7, s10, s14</span><span class="tag slide">MML §11.2</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+<p class="lead">무리의 중심을 알아야 점마다 어느 무리가 얼마나 맡을지 나눌 수 있고, 그 몫을 알아야 중심을 정할 수 있어요. 그래서 몫을 잠깐 나눠 두고 중심을 옮긴 뒤, 다시 몫을 나누는 일을 되풀이해요.</p>
+<figure class="figure">
+<svg id="fig-why-iterate-cycle" viewBox="0 0 340 130" role="img" aria-label="왼쪽 ‘몫 나누기’ 테두리 상자와 오른쪽 ‘중심 옮기기’ 테두리 상자를 위아래 두 곡선 화살표가 번갈아 잇는 순환 그림">
+<rect class="fig-ink" x="20" y="40" width="120" height="50" rx="8"/>
+<rect class="fig-ink" x="200" y="40" width="120" height="50" rx="8"/>
+<text class="fig-text" x="80" y="70" text-anchor="middle" font-size="14">몫 나누기</text>
+<text class="fig-text" x="260" y="70" text-anchor="middle" font-size="14">중심 옮기기</text>
+<path class="fig-accent" d="M80 40C110 10 230 10 260 40M260 40l-9.4 -3.4M260 40l-3.4 -9.4"/>
+<path class="fig-accent" d="M260 90C230 120 110 120 80 90M80 90l9.4 3.4M80 90l3.4 9.4"/>
+</svg>
+<figcaption>두 일을 번갈아 하면서 중심과 몫을 함께 맞춰 가요.</figcaption>
+</figure>
+</div>
+<div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p>로그우도를 최대로 만드는 파라미터는 보통 기울기를 0으로 놓아 찾아요. 가우시안 하나라면 그 식이 데이터만으로 바로 풀려요. 혼합 모델에서는 로그 안에 성분 합이 있어서 기울기 식마다 책임도 $r_{nk}$가 나타나고, $r_{nk}$는 모든 파라미터에 의존해요. 그래서 closed form(닫힌 해)이 없고, 책임도를 고정한 채 파라미터를 고치는 반복으로 가요.</p>
+<nav class="note-stage-nav" aria-label="반복이 필요한 이유 단계">
+<a href="#s0-why-iterate-goal" aria-current="step">1. 로그우도와 필요조건</a>
+<a href="#s0-why-iterate-single">2. 가우시안 하나</a>
+<a href="#s0-why-iterate-mixture">3. 혼합 모델</a>
+<a href="#s0-why-iterate-alternate">4. 번갈아 고치기</a>
+</nav>
+
+<div class="note-stage">
+<h4 class="note-stage-title" id="s0-why-iterate-goal"><span class="note-stage-number">1 / 4</span> <span>로그우도와 필요조건</span></h4>
+<p class="note-stage-goal">무엇을 최대로 만들고, 그 점이 어떤 조건을 만족해야 하는지 정해요.</p>
+<div class="deriv-body">
+<p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+<p class="deriv-lead">관측 데이터 ${\mathcal{X}=\{\mathbf{x}_1,\ldots,\mathbf{x}_N\}}$($\mathbf{x}_n\in\mathbb{R}^{D}$)이 같은 혼합 모델에서 독립적으로 뽑혔다고(i.i.d.) 가정해요. 한 단계씩 전개한 과정은 <a href="../1111/정리노트_1111_Gaussian_Mixture_Models.html#s2-likelihood">1111 정리노트의 ‘표본의 혼합밀도에서 로그우도로’</a>에 있어요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$p(\mathcal{X}\mid\boldsymbol{\theta})=\prod_{n=1}^{N}p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</div>
+<div class="deriv-why"><p>i.i.d.라서 점별 밀도의 곱</p></div></li>
+<li><div class="deriv-eq">$$\mathcal{L}(\boldsymbol{\theta})=\log p(\mathcal{X}\mid\boldsymbol{\theta})$$</div>
+<div class="deriv-why"><p>로그우도는 데이터 우도의 로그</p></div></li>
+<li><div class="deriv-eq">$$\hphantom{\mathcal{L}(\boldsymbol{\theta})}=\textcolor{#3182f6}{\sum_{n=1}^{N}\log}\,p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</div>
+<div class="deriv-why"><p>곱의 로그는 로그의 합</p>
+<details><summary>자세히</summary><p>로그는 증가함수라서 우도를 최대로 만드는 $\boldsymbol{\theta}$와 로그우도를 최대로 만드는 $\boldsymbol{\theta}$가 같아요. 수업에서 밑을 생략한 $\log$는 자연로그예요.</p></details></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\mathcal{L}(\boldsymbol{\theta})=\sum_{n=1}^{N}\log\textcolor{#3182f6}{\sum_{k=1}^{K}\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}$$</div>
+<div class="deriv-why"><p>점마다 혼합 밀도를 대입, 로그 안에 성분 합이 남아요</p></div></li>
+</ol>
+<h5 class="note-subheading">최대점이 만족해야 할 조건</h5>
+<p class="deriv-lead">$\boldsymbol{\theta}_{\text{ML}}$은 $\mathcal{L}(\boldsymbol{\theta})$를 최대로, 곧 $-\mathcal{L}(\boldsymbol{\theta})$를 최소로 만드는 값이에요. 그런 점에서는 각 파라미터에 대한 기울기가 0이어야 해요(MML 식 11.12–11.13).</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\boldsymbol{\theta}_{\text{ML}}=\arg\min_{\boldsymbol{\theta}}\big(-\mathcal{L}(\boldsymbol{\theta})\big)$$</div>
+<div class="deriv-why"><p>로그우도 최대화는 음의 로그우도 최소화</p></div></li>
+<li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top$$</div>
+<div class="deriv-why"><p>$\boldsymbol{\mu}_k$가 $D\times1$이라 기울기는 $1\times D$ 행벡터예요</p></div></li>
+<li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\mathbf{0}$$</div>
+<div class="deriv-why"><p>$\Sigma_k$와 같은 $D\times D$ 모양, 우변은 영행렬</p></div></li>
+</ol>
+<p>가중치 $\pi_k$는 모두 더해 1이어야 한다는 제약이 함께 있어서 조건을 세우는 방법이 달라요. $\pi_k$의 유도는 다음 수업에서 해요.</p>
+<p class="note-stage-result"><b>기울기 0은 필요조건이에요.</b> 최대점이면 기울기가 0이지만, 기울기가 0인 점은 최적이 아닐 수도 있고, 최적이어도 국소 최적(local optimum)일 수 있어요. 볼록하지 않은(non-convex) 문제에서는 조건을 만족하는 점이 여럿일 수 있어요. 그러면 이 조건식을 풀면 될까요? 가우시안 하나에서 먼저 확인해요.</p>
+</div>
+</div>
+
+<div class="note-stage">
+<h4 class="note-stage-title" id="s0-why-iterate-single"><span class="note-stage-number">2 / 4</span> <span>가우시안 하나면 바로 풀려요</span></h4>
+<p class="note-stage-goal">성분이 하나($K=1$, $\pi_1=1$)일 때 기울기 0 식이 데이터만으로 풀리는지 확인해요.</p>
+<div class="deriv-body">
+<p class="deriv-lead">성분 합 $\sum_k$가 사라지므로 로그가 가우시안에 바로 닿아 지수를 벗겨 내요(MML 식 11.11). 평균 $\boldsymbol{\mu}$는 $D\times1$, 공분산 $\Sigma$는 $D\times D$ 대칭·양의 정부호 행렬이에요.</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu},\Sigma)=-\frac{D}{2}\log(2\pi)-\frac12\log|\Sigma|-\frac12(\mathbf{x}_n-\boldsymbol{\mu})^\top\Sigma^{-1}(\mathbf{x}_n-\boldsymbol{\mu})$$</div>
+<div class="deriv-why"><p>로그가 지수를 벗겨 $\boldsymbol{\mu}$의 이차식만 남아요</p></div></li>
+<li><div class="deriv-eq">$$\sum_{n=1}^{N}(\mathbf{x}_n-\boldsymbol{\mu})^\top\Sigma^{-1}=\mathbf{0}^\top$$</div>
+<div class="deriv-why"><p>$\partial\mathcal{L}/\partial\boldsymbol{\mu}$($1\times D$ 행벡터)를 0으로, 미분은 <a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a></p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\boldsymbol{\mu}_{\text{ML}}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n$$</div>
+<div class="deriv-why"><p>오른쪽에서 $\Sigma$ 곱하고 양변 전치, $\sum_n\boldsymbol{\mu}=N\boldsymbol{\mu}$라 $N$으로 나눠요</p></div></li>
+</ol>
+<p class="note-stage-result"><b>오른쪽에 데이터만 남아 한 번에 계산돼요.</b> 구하려는 값을 주어진 양만으로 바로 쓴 해가 closed form이에요. 공분산도 같은 방식으로 $1/N$ 표본공분산이 닫힌 해로 나와요(MML 8장). 혼합에서 같은 계산을 하면 무엇이 달라질까요?</p>
+</div>
+</div>
+
+<div class="note-stage">
+<h4 class="note-stage-title" id="s0-why-iterate-mixture"><span class="note-stage-number">3 / 4</span> <span>혼합이면 책임도가 끼어들어요</span></h4>
+<p class="note-stage-goal">같은 기울기 0 조건을 혼합 로그우도에 적용하고, 어디서 막히는지 찾아요.</p>
+<div class="deriv-body">
+<p class="deriv-lead">이번에는 로그 안에 성분 합이 있어서 로그가 가우시안의 지수에 바로 닿지 못해요. log 안의 합 때문에 $1/p(\mathbf{x}_n\mid\boldsymbol{\theta})$가 남고, 이것이 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$와 묶여 책임도가 돼요(MML 식 11.15).</p>
+<ol class="deriv">
+<li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^{N}r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
+<div class="deriv-why"><p>$1/p$와 $\pi_k\mathcal{N}$이 묶여 $r_{nk}$, 유도는 <a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a></p></div></li>
+<li class="deriv-gen"><div class="deriv-eq">$$\boldsymbol{\mu}_k=\frac{\sum_{n=1}^{N}r_{nk}\mathbf{x}_n}{\sum_{n=1}^{N}r_{nk}}$$</div>
+<div class="deriv-why"><p>0으로 놓고 2단계와 같은 연산(오른쪽 $\Sigma_k$ 곱·양변 전치), $r_{nk}$는 스칼라</p></div></li>
+</ol>
+<h5 class="note-subheading">왜 이것이 닫힌 해가 아닌가</h5>
+<p>2단계의 결과와 비교하면 달라진 것은 가중치 $r_{nk}$ 하나예요. 모든 $r_{nk}$가 1이면 표본평균으로 돌아가요. 그런데 가중치를 정의대로 쓰면 다음과 같아요.</p>
+<div>$$r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^{K}\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$$</div>
+<p>분자에는 구하려는 $\boldsymbol{\mu}_k$가 다시 들어 있고, 분모에는 모든 성분의 $\pi_j$, $\boldsymbol{\mu}_j$, $\Sigma_j$가 들어 있어요. 그래서 위 식은 $\boldsymbol{\mu}_k$를 데이터만으로 나타낸 해가 아니라 양변에 $\boldsymbol{\mu}_k$가 있는 방정식이에요. $\Sigma_k$와 $\pi_k$의 조건도 똑같이 $r_{nk}$로 표현되어, 모든 파라미터가 책임도를 통해 서로 얽혀요(MML 정리 11.1 뒤 설명).</p>
+<p class="note-stage-result"><b>막히는 곳은 로그 안의 합이에요.</b> 합 때문에 기울기 식에 책임도가 나타나고, 책임도가 모든 파라미터에 의존해 식을 한 번에 풀 수 없어요. 그러면 책임도를 잠시 고정하면 어떨까요?</p>
+</div>
+</div>
+
+<div class="note-stage">
+<h4 class="note-stage-title" id="s0-why-iterate-alternate"><span class="note-stage-number">4 / 4</span> <span>책임도를 고정하고 번갈아 고쳐요</span></h4>
+<p class="note-stage-goal">얽힌 고리를 끊으려고 책임도를 현재 값으로 고정해요.</p>
+<p>$r_{nk}$를 현재 $\boldsymbol{\theta}$에서 계산한 숫자로 고정하면, 3단계 마지막 식의 오른쪽에는 데이터와 고정된 숫자만 남아요. 그러면 $\boldsymbol{\mu}_k$는 가중 평균으로 바로 계산돼요. 새 값을 넣으면 책임도가 달라지므로, 책임도를 다시 계산하고 또 고쳐요. 책임도를 계산하는 단계가 E-step이고, 고정한 책임도로 파라미터를 고치는 단계가 M-step이에요. 한쪽을 고정하고 다른 쪽을 고치는 이런 방식을 교대 최적화(alternating optimization)라고도 불러요.</p>
+<h5 class="note-subheading">작은 예: 점 세 개, 성분 두 개</h5>
+<p>1차원 점 $x_1=0$, $x_2=1$, $x_3=5$에 성분 두 개를 맞춰요. 1차원이라 평균은 스칼라 $\mu_1$, $\mu_2$예요. 예를 짧게 하려고 두 성분의 분산은 1, 가중치는 $\pi_1=\pi_2=1/2$로 고정하고 평균만 고쳐요. 처음 평균은 $\mu_1=0$, $\mu_2=4$예요.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">값</th><th scope="col">1회차</th><th scope="col">2회차</th></tr></thead>
+<tbody>
+<tr><th scope="row">고정한 평균 $(\mu_1,\mu_2)$</th><td>$(0,\ 4)$</td><td>$(0.496,\ 4.928)$</td></tr>
+<tr><th scope="row">성분 1의 책임도 $r_{11}$, $r_{21}$, $r_{31}$</th><td>$1.000$, $0.982$, $0.000$</td><td>$1.000$, $0.9995$, $0.000$</td></tr>
+<tr><th scope="row">새 평균 $\mu_1^{\text{new}}$, $\mu_2^{\text{new}}$</th><td>$0.496$, $4.928$</td><td>$0.500$, $4.998$</td></tr>
+</tbody></table></div>
+<p>1회차의 새 평균은 3단계 마지막 식에 고정한 책임도를 넣은 값이에요.</p>
+<div>$$\mu_1^{\text{new}}=\frac{1.000\cdot0+0.982\cdot1+0.000\cdot5}{1.000+0.982+0.000}=\frac{0.982}{1.982}\approx0.496$$</div>
+<p>이 값은 $\mu_1=0$일 때의 책임도로 계산했어요. $\mu_1=0.496$을 넣으면 $r_{21}$이 $0.982$에서 $0.9995$로 바뀌므로 다시 계산해야 해요. 이 예에서 2회차의 변화는 1회차보다 훨씬 작아요.</p>
+<p><b>복원 순서.</b> 로그우도의 기울기를 0으로 놓아요. 가우시안 하나면 데이터만으로 풀려요. 혼합이면 로그 안의 합 때문에 책임도가 끼어들고, 책임도가 모든 파라미터에 의존해 한 번에 풀리지 않아요. 책임도를 고정하면 풀리므로 E-step과 M-step을 번갈아 반복해요.</p>
+</div>
+</div>
+<div class="layer prof"><span class="layer-title">교수님 말씀</span>
+<blockquote>“말이 러닝이지 사실 최적화”</blockquote>
+<p>파라미터를 정하는 일을 학습이라고 부르지만, 실제로 하는 일은 로그우도를 최적화하는 것이라는 뜻이에요.</p>
+<blockquote>“단번에 미분을 해서 0이 되는 점을 클로즈드 폼으로 … 찾는 거는 거의 불가능하다.”</blockquote>
+<p>그래서 부분부분 미분해 0이 되는 점을 찾아 업데이트하고, 이를 반복하는 EM 알고리즘을 쓴다고 설명하셨어요.</p>
+<blockquote>“그 알고리즘에서 가장 중요한 역할을 하는 것 중의 하나가 리스폰서빌리티라는 거다.”</blockquote>
+</div>
+<div class="sum" hidden>
+<p class="sum-lead">가우시안 하나면 기울기 0 식이 바로 풀리지만, 혼합은 로그 안의 합 때문에 책임도가 끼어들어 반복으로 풀어요.</p>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">혼합 로그우도</span>$$\mathcal{L}(\boldsymbol{\theta})=\sum_{n=1}^{N}\log\sum_{k=1}^{K}\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li>
+<li><span class="eq-name">필요조건</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top$$</li>
+<li><span class="eq-name">혼합의 평균 기울기</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^{N}r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
+<li><span class="eq-name">가우시안 하나</span>$$\boldsymbol{\mu}_{\text{ML}}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n$$</li>
+<li><span class="eq-name">혼합의 평균 조건</span>$$\boldsymbol{\mu}_k=\frac{\sum_{n=1}^{N}r_{nk}\mathbf{x}_n}{\sum_{n=1}^{N}r_{nk}}$$</li>
+</ul>
+<p>$r_{nk}$ 안에 $\boldsymbol{\mu}_k$와 모든 성분의 $\pi_j$, $\boldsymbol{\mu}_j$, $\Sigma_j$가 들어 있어 혼합의 평균 조건은 닫힌 해가 아니에요.</p>
+<p class="panel-label">용어</p>
+<dl class="terms">
+<dt>필요조건(necessary condition)</dt><dd>최대점이면 기울기가 0이에요. 기울기가 0인 점은 최적이 아닐 수도 있어요.</dd>
+<dt>closed form(닫힌 해)</dt><dd>구하려는 값을 주어진 양만으로 바로 쓴 해예요.</dd>
+<dt>국소 최적(local optimum)</dt><dd>기울기가 0인 점이 최적이어도 국소 최적일 수 있어요.</dd>
+<dt>교대 최적화(alternating optimization)</dt><dd>책임도를 고정하고 파라미터를 고친 뒤 다시 책임도를 구해요.</dd>
+</dl>
+</div>
+</article>
+    </section>
+    <section id="s1"><h2>1. EM 알고리즘</h2>
+<article class="topic" id="s1-em-steps"><h3>E-step과 M-step의 순서</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s12</span><span class="tag slide">MML §11.3</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">먼저 점마다 어느 무리가 얼마나 맡을지 나누고, 그 몫대로 무리의 자리와 크기를 다시 정해요.</p>
+    <p>이 두 일을 더 바뀌지 않을 때까지 번갈아 되풀이해요.</p>
+    <figure class="figure">
+      <svg id="fig-em-loop" viewBox="0 0 340 150" role="img" aria-label="처음 정하기 상자에서 나눠 맡기기 상자로 가는 화살표, 나눠 맡기기와 다시 정하기 두 상자 사이를 오가는 두 화살표로 된 되풀이 고리">
+        <rect class="fig-ink" x="8" y="55" width="92" height="40" rx="6"/>
+        <text class="fig-text" x="54" y="80" text-anchor="middle">처음 정하기</text>
+        <rect class="fig-ink" x="140" y="8" width="110" height="40" rx="6"/>
+        <text class="fig-text" x="195" y="33" text-anchor="middle">나눠 맡기기</text>
+        <rect class="fig-ink" x="140" y="102" width="110" height="40" rx="6"/>
+        <text class="fig-text" x="195" y="127" text-anchor="middle">다시 정하기</text>
+        <path class="fig-accent" d="M100 70 L134 34"/>
+        <path class="fig-accent" d="M126 34 L134 34 L134 42"/>
+        <path class="fig-accent" d="M215 50 L215 98"/>
+        <path class="fig-accent" d="M209 91 L215 98 L221 91"/>
+        <path class="fig-accent" d="M175 100 L175 52"/>
+        <path class="fig-accent" d="M169 59 L175 52 L181 59"/>
+        <text class="fig-muted" x="262" y="80">되풀이</text>
+      </svg>
+      <figcaption>맡을 몫이 바뀌면 자리가 바뀌고, 자리가 바뀌면 맡을 몫도 다시 바뀌어요.</figcaption>
+    </figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>로그우도 $\mathcal{L}(\boldsymbol{\theta})$를 키우는 ${\boldsymbol{\theta}=\{\pi_k,\boldsymbol{\mu}_k,\Sigma_k\}}$는 어떤 순서로 계산할까요? 두 단계를 번갈아 되풀이해요. <b>E-step</b>은 파라미터를 고정하고 책임도 $r_{nk}$를 계산해요. <b>M-step</b>은 그 책임도를 고정하고 $\boldsymbol{\mu}_k$, $\Sigma_k$, $\pi_k$를 다시 계산해요. 이 둘을 묶은 절차가 EM(Expectation-Maximization) 알고리즘이에요.</p>
+    <p>한 번에 끝나지 않는 이유는 M-step 식 안의 $r_{nk}$가 다시 모든 $\pi_j$, $\boldsymbol{\mu}_j$, $\Sigma_j$로 계산되기 때문이에요. 새 파라미터를 얻으면 책임도도 달라져요(<a href="#s0-why-iterate">미분을 0으로 놓아도 바로 풀리지 않는 이유</a>).</p>
+    <ol class="steps">
+      <li><b>S1 초기화.</b> $\pi_k$, $\boldsymbol{\mu}_k$, $\Sigma_k$를 임의로 정해요. 평균은 영벡터, 모든 원소가 1인 벡터처럼 아무 곳에나 흩어 둬요. 가우시안 밀도를 계산할 수 있도록 $\Sigma_k$는 대칭·양의 정부호 행렬로, $\pi_k$는 합이 1이 되게 둬요.</li>
+      <li><b>S2 E-step.</b> 현재 파라미터로 모든 $n=1,\ldots,N$과 $k=1,\ldots,K$에 대해 책임도를 계산하고, 성분마다 데이터 방향으로 더한 총 책임도 $N_k$를 구해요.
+        $$r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$$
+        $$N_k=\sum_{n=1}^N r_{nk}$$</li>
+      <li><b>S3 M-step.</b> 방금 구한 $r_{nk}$를 고정하고 세 파라미터를 다시 계산해요. 평균을 먼저 구하고, 공분산에는 그 새 평균을 넣어요.
+        $$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$
+        $$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top$$
+        $$\pi_k^{\text{new}}=\frac{N_k}{N}$$
+        그다음 새 값을 들고 S2로 돌아가요. 로그우도나 파라미터가 거의 변하지 않으면 멈춰요.</li>
+    </ol>
+    <p>책임도는 관측치 $\mathbf{x}_n$을 현재 모델이 만들었다고 할 때 성분 $k$가 맡는 몫이에요. 정의와 베이즈 해석은 <a href="../1111/정리노트_1111_Gaussian_Mixture_Models.html#s2-responsibility">1111 정리노트의 책임도 설명</a>에 있어요. 여기서는 E-step이 만든 숫자들이 어떤 모양이고 M-step에 무엇을 넘기는지 봐요.</p>
+
+    <h5 class="note-subheading">E-step의 결과는 N×K 책임도 표예요</h5>
+    <p>$r_{nk}$를 행 $n$(관측치), 열 $k$(성분)에 놓으면 $N\times K$ 표가 돼요. 관측치 4개, 성분 2개인 작은 예로 읽어 봐요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>관측치</th><th>$r_{n1}$</th><th>$r_{n2}$</th><th>행 합</th></tr></thead>
+      <tbody>
+        <tr><td>$\mathbf{x}_1$</td><td>0.9</td><td>0.1</td><td>1</td></tr>
+        <tr><td>$\mathbf{x}_2$</td><td>0.7</td><td>0.3</td><td>1</td></tr>
+        <tr><td>$\mathbf{x}_3$</td><td>0.2</td><td>0.8</td><td>1</td></tr>
+        <tr><td>$\mathbf{x}_4$</td><td>0.1</td><td>0.9</td><td>1</td></tr>
+        <tr><td>열 합</td><td>$N_1=1.9$</td><td>$N_2=2.1$</td><td>$N=4$</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>행 합은 1이에요.</b> 한 관측치의 $r_{n1},\ldots,r_{nK}$는 그 점이 어느 성분에서 왔는지에 대한 확률분포라서 $\sum_{k=1}^K r_{nk}=1$이에요.</li>
+      <li><b>열 합은 $N_k$예요.</b> 성분 $k$가 데이터 전체에서 맡은 양이에요. 확률을 여러 개 더한 값이라 1보다 클 수 있고 정수일 필요도 없어요. 위 표의 $N_1=1.9$는 "관측치 약 1.9개 분량"으로 읽어요.</li>
+      <li><b>전체 합은 $N$이에요.</b> 표의 모든 칸을 행부터 더하든 열부터 더하든 같아요.</li>
+    </ul>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\sum_{k=1}^K N_k=\sum_{k=1}^K\sum_{n=1}^N r_{nk}$$</div>
+          <div class="deriv-why"><p>$N_k$의 정의를 넣어요</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\sum_{k=1}^K N_k}=\sum_{n=1}^N\sum_{k=1}^K r_{nk}$$</div>
+          <div class="deriv-why"><p>유한합이라 더하는 순서를 바꿔도 돼요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\sum_{k=1}^K N_k=\sum_{n=1}^N 1=N$$</div>
+          <div class="deriv-why"><p>각 행의 합이 1이에요</p></div></li>
+      </ol>
+    </div>
+
+    <h5 class="note-subheading">M-step은 표를 고정한 채 세 값을 계산해요</h5>
+    <p>M-step의 세 식은 모두 이 표의 열 $k$ 하나만 써요. 평균은 열 $k$를 가중치로 점들을 평균하고, 공분산은 같은 가중치로 편차를 평균하고, 비율은 열 합을 전체로 나눠요. 각 식의 뜻은 <a href="#s1-update-meaning">갱신식은 책임도로 가중한 평균·공분산·비율</a>에서 하나씩 풀어요.</p>
+    <p><b>공분산에는 새 평균을 써요.</b> 슬라이드 L07 s12는 공분산 식의 편차를 $\mathbf{x}_n-\boldsymbol{\mu}_k$로 적었어요. MML 11.3절은 (11.54)에서 갱신한 평균을 (11.55)의 공분산 갱신에 쓴다고 밝혀요. 그래서 이 식의 $\boldsymbol{\mu}_k$는 같은 M-step에서 방금 구한 $\boldsymbol{\mu}_k^{\text{new}}$예요. 공분산은 "같은 가중치로 본 중심에서 얼마나 퍼졌나"를 재므로, 그 중심도 같은 가중치로 구한 평균이어야 앞뒤가 맞아요.</p>
+    <p><b>비율은 전체 몫 중 성분 $k$의 몫이에요.</b> 모든 관측치의 책임도를 더한 전체 기여량은 $N$이고, 그중 성분 $k$의 몫이 $N_k$예요. 그래서 $\pi_k^{\text{new}}=\frac{N_k}{N}$이에요. 위 표에서는 $\pi_1^{\text{new}}=1.9/4=0.475$, $\pi_2^{\text{new}}=2.1/4=0.525$이고 합은 1이에요. 이 식을 로그우도에서 유도하는 과정은 다음 수업에서 다뤄요.</p>
+    <p><b>복원 요령.</b> E-step은 "파라미터 고정, $N\times K$ 표 채우기"예요. 행 합은 1, 열 합은 $N_k$예요. M-step은 "표 고정, 열 $k$로 평균 먼저, 그 평균으로 공분산, 열 합으로 비율"이에요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">파라미터를 고정해 책임도 표를 채우는 E-step과, 표를 고정해 파라미터를 다시 계산하는 M-step을 번갈아 되풀이해요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">E-step: 책임도</span>$$r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$$</li>
+      <li><span class="eq-name">E-step: 총 책임도(열 합)</span>$$N_k=\sum_{n=1}^N r_{nk}$$</li>
+      <li><span class="eq-name">M-step: 평균</span>$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</li>
+      <li><span class="eq-name">M-step: 공분산(새 평균 사용)</span>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top$$</li>
+      <li><span class="eq-name">M-step: 비율</span>$$\pi_k^{\text{new}}=\frac{N_k}{N}$$</li>
+      <li><span class="eq-name">표의 전체 합</span>$$\sum_{k=1}^K N_k=\sum_{n=1}^N 1=N$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>E-step</dt><dd>현재 파라미터로 $r_{nk}$와 $N_k$를 계산하는 단계</dd>
+      <dt>M-step</dt><dd>책임도를 고정하고 $\boldsymbol{\mu}_k$, $\Sigma_k$, $\pi_k$를 다시 계산하는 단계</dd>
+      <dt>총 책임도 $N_k$</dt><dd>책임도 표의 열 합. 1보다 클 수 있는 실수</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s1-update-meaning"><h3>갱신식은 책임도로 가중한 평균·공분산·비율</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s15</span><span class="tag slide">L07 s18</span><span class="tag slide">L07 s21</span><span class="tag slide">MML §11.2.2–11.2.4</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">새 중심은 점들의 평균인데, 이 무리가 맡은 몫만큼만 세어서 내요.</p>
+    <figure class="figure">
+      <svg id="fig-weighted-pull" viewBox="0 0 340 120" role="img" aria-label="수직선 왼쪽에 색칠된 점 네 개, 오른쪽 멀리 테두리만 있는 원 하나, 왼쪽 무리 가운데의 선 하나와 그보다 오른쪽으로 옮겨 간 강조선 하나">
+        <line class="fig-ink" x1="10" y1="80" x2="330" y2="80"/>
+        <circle class="fig-dot" cx="40" cy="80" r="6"/>
+        <circle class="fig-dot" cx="65" cy="80" r="6"/>
+        <circle class="fig-dot" cx="90" cy="80" r="6"/>
+        <circle class="fig-dot" cx="115" cy="80" r="6"/>
+        <circle class="fig-ink" cx="265" cy="80" r="6"/>
+        <line class="fig-ink" x1="77" y1="30" x2="77" y2="72"/>
+        <text class="fig-muted" x="77" y="22" text-anchor="middle">먼 점을 빼면</text>
+        <line class="fig-accent" x1="98" y1="44" x2="98" y2="72"/>
+        <text class="fig-text" x="106" y="56">반만 세면</text>
+        <text class="fig-muted" x="265" y="104" text-anchor="middle">먼 점</text>
+      </svg>
+      <figcaption>멀리 있는 점(테두리 원)을 더 많이 맡을수록 중심이 그쪽으로 끌려가고, 퍼진 폭도 넓어져요.</figcaption>
+    </figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>세 갱신식은 각각 무엇을 계산할까요? 책임도를 가중치로 쓴 평균, 그 평균 주위의 퍼짐(공분산), 맡은 몫의 비율이에요. 책임도가 모두 1이면 익숙한 표본평균·표본공분산이 그대로 나와요. 그래서 갱신식은 새 공식이 아니라 "점마다 맡은 몫만큼만 센" 표본 통계량이에요.</p>
+    <p>계속 쓸 예를 하나 정해요. 1차원($D=1$) 관측치 다섯 개 $x_n=1,2,3,4,10$과 성분 하나 $k$를 봐요. 앞 네 점의 책임도는 $1$로 고정하고, 멀리 있는 $x_5=10$의 책임도만 $r$로 둬요. 1차원이라 $x_n$과 $\mu_k$는 스칼라이고, 공분산은 분산 $\sigma_k^2$ 하나예요. 이 예에서 $N_k=4+r$이에요.</p>
+    <nav class="note-stage-nav" aria-label="갱신식 해석 단계">
+      <a href="#s1-meaning-mean" aria-current="step">1. 평균</a>
+      <a href="#s1-meaning-cov">2. 공분산</a>
+      <a href="#s1-meaning-pi">3. 비율</a>
+    </nav>
+
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-meaning-mean"><span class="note-stage-number">1 / 3</span> <span>평균: 합이 1인 가중치로 낸 평균</span></h4>
+      <p class="note-stage-goal">평균 갱신식에서 각 점이 받는 가중치를 꺼내 보고, 그 합이 1인지 확인해요.</p>
+      <div class="deriv-body">
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</div>
+            <div class="deriv-why"><p>M-step의 평균 갱신식</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\boldsymbol{\mu}_k^{\text{new}}}=\sum_{n=1}^N\textcolor{#3182f6}{\frac{r_{nk}}{N_k}}\mathbf{x}_n$$</div>
+            <div class="deriv-why"><p>$1/N_k$는 $n$과 무관해서 합 안으로 넣어요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\sum_{n=1}^N\frac{r_{nk}}{N_k}=\frac{N_k}{N_k}=1$$</div>
+            <div class="deriv-why"><p>가중치 $r_{nk}/N_k$는 0 이상이고 합이 1</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>$\boldsymbol{\mu}_k^{\text{new}}$는 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요.</b> 성분 $k$가 많이 맡은 점일수록 평균을 그쪽으로 세게 끌어당겨요(MML 그림 11.4).</p>
+        <p><b>왜 $N$이 아니라 $N_k$로 나누나요?</b> $N$으로 나누면 가중치 합이 $N_k/N$이 되어 1보다 작아요. 예를 들어 모든 점의 책임도가 0.5인 성분이라면 평균이 실제 점들의 평균의 절반으로 줄어 원점 쪽으로 쏠려요. $N_k$로 나눠야 가중치 합이 1이라 결과가 점들 사이에 놓여요.</p>
+        <p><b>책임도가 모두 1이면</b> $N_k=N$, 가중치는 모두 $1/N$이라 ${\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n}$, 곧 보통의 표본평균이에요.</p>
+        <p class="deriv-check">예: $r=0$이면 먼 점을 빼고 $(1+2+3+4)/4=2.5$예요. $r=0.5$이면 $N_k=4.5$이고 ${(1+2+3+4+0.5\cdot10)/4.5=15/4.5\approx3.33}$이에요. 먼 점의 가중치는 $0.5/4.5\approx0.11$이에요. $r=1$이면 $20/5=4$로, 다섯 점의 보통 평균이에요.</p>
+      </div>
+    </div>
+
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-meaning-cov"><span class="note-stage-number">2 / 3</span> <span>공분산: 같은 가중치로 낸 편차 외적의 평균</span></h4>
+      <p class="note-stage-goal">평균을 구했으니, 같은 가중치로 그 평균 주위의 퍼짐을 재요.</p>
+      <div class="deriv-body">
+        <h5 class="note-subheading">1차원에서는 가중 분산이에요</h5>
+        <p>1차원이면 공분산 갱신식은 편차 제곱의 가중 평균이에요. 가중치는 평균 때와 같은 $r_{nk}/N_k$이고, 편차는 방금 구한 새 평균에서 재요.</p>
+        <div>$$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(x_n-\mu_k^{\text{new}})^2$$</div>
+        <p class="deriv-check">예: $r=0.5$이면 $\mu_k^{\text{new}}=10/3$이에요. 앞 네 점의 편차 제곱은 $49/9$, $16/9$, $1/9$, $4/9$로 합이 $70/9\approx7.78$이에요. 먼 점은 $0.5\cdot(20/3)^2=200/9\approx22.22$를 보태요. 합 $30$을 $N_k=4.5$로 나누면 $(\sigma_k^{\text{new}})^2\approx6.67$이에요. 먼 점은 가중치가 작아도 편차가 커서 제곱하면 분산을 크게 키워요. $r=0$이면 $1.25$, $r=1$이면 $10$이에요.</p>
+        <h5 class="note-subheading">D차원에서는 제곱 대신 외적을 평균해요</h5>
+        <p>$D$차원에서 한 점의 편차를 ${\mathbf{d}_n=\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}}}$($D\times1$)라고 임시로 이름 붙여요. 1차원의 "편차 제곱" 자리에 들어가는 것은 편차의 외적 $\mathbf{d}_n\mathbf{d}_n^\top$이에요. 크기는 $(D\times1)(1\times D)=D\times D$라서 $\Sigma_k$와 같아요. 2차원 편차 하나로 칸을 펼쳐 봐요.</p>
+        <div>$${\mathbf{d}=\begin{bmatrix}2\\-1\end{bmatrix}},\qquad{\mathbf{d}\mathbf{d}^\top=\begin{bmatrix}2\cdot2&amp;2\cdot(-1)\\(-1)\cdot2&amp;(-1)\cdot(-1)\end{bmatrix}=\begin{bmatrix}4&amp;-2\\-2&amp;1\end{bmatrix}}$$</div>
+        <p>$(i,j)$ 칸은 $i$번째 좌표 편차와 $j$번째 좌표 편차의 곱 $d_id_j$예요. 대각선 $(1,1)$, $(2,2)$는 각 좌표의 편차 제곱이에요. 대각선 밖 $-2$는 첫 좌표는 평균보다 크고 둘째 좌표는 작다는, 두 좌표가 엇갈려 움직인 정도예요. 일반적으로 외적 $\mathbf{u}\mathbf{v}^\top$의 $(i,j)$ 칸은 첫 인수의 $i$번째 성분 × 둘째 인수의 $j$번째 성분이에요. 서로 다른 벡터의 외적 $\mathbf{u}\mathbf{v}^\top$는 일반적으로 대칭이 아니고, $\mathbf{d}\mathbf{d}^\top$는 같은 벡터의 외적이라 $d_id_j=d_jd_i$가 되어 대칭이에요.</p>
+        <p>행렬들의 가중 평균은 칸마다 따로 낸 가중 평균이에요. 그래서 갱신된 공분산의 칸은 이렇게 읽혀요.</p>
+        <div>$$[\Sigma_k^{\text{new}}]_{ij}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\,d_{ni}\,d_{nj}$$</div>
+        <p>$i=j$이면 바로 위 1차원 가중 분산을 좌표 $i$에 적용한 값이에요. $i\neq j$이면 두 좌표가 함께 움직인 정도의 가중 평균, 곧 가중 공분산이에요. 이 칸들을 $D\times D$로 모은 식이 공분산 갱신식이에요.</p>
+        <div>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top$$</div>
+        <p class="note-stage-result"><b>$\Sigma_k^{\text{new}}$는 책임도로 가중한 표본 공분산이에요.</b> 슬라이드 L07 s18의 "중심화한 데이터의 제곱의 책임도 가중 기댓값"에서 "제곱"이 외적이에요.</p>
+        <p><b>왜 내적 $\mathbf{d}_n^\top\mathbf{d}_n$이 아닌가요?</b> 내적은 $1\times1$이라 $d_1^2+d_2^2$처럼 대각선 칸의 합 하나만 남아요. 두 좌표가 함께 움직이는 방향 정보를 잃고, 가우시안에 넣을 $D\times D$ 행렬도 되지 않아요.</p>
+        <p><b>책임도가 모두 1이면</b> $N_k=N$이고 $\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\bar{\mathbf{x}})(\mathbf{x}_n-\bar{\mathbf{x}})^\top$, 곧 $N$으로 나누는 보통의 표본공분산이에요. 여기서 $\bar{\mathbf{x}}$는 표본평균이에요. 행렬 미분으로 이 식이 나오는 과정은 <a href="#s3-sigma-proof">공분산 갱신식을 손으로 정리하기</a>에서 봐요.</p>
+      </div>
+    </div>
+
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-meaning-pi"><span class="note-stage-number">3 / 3</span> <span>비율: 전체 몫 중 성분 k의 몫</span></h4>
+      <p class="note-stage-goal">평균과 퍼짐을 정했으니, 이 성분을 얼마나 자주 고를지 정해요.</p>
+      <div class="deriv-body">
+        <div>$$\pi_k^{\text{new}}=\frac{N_k}{N}=\frac{1}{N}\sum_{n=1}^N r_{nk}$$</div>
+        <p>모든 점의 책임도를 더한 전체 기여량은 $N$이고, 그중 성분 $k$가 맡은 몫이 $N_k$예요. 바꿔 말하면 열 $k$의 책임도를 점마다 같은 가중치 $1/N$로 평균한 값이에요. $\sum_k N_k=N$이라 $\sum_k\pi_k^{\text{new}}=1$이 저절로 맞아요.</p>
+        <p class="deriv-check">예: 다섯 점에서 $N_k=4+r$이므로 $r=0.5$이면 $\pi_k^{\text{new}}=4.5/5=0.9$예요. 남은 $0.5$만큼의 몫은 다른 성분이 맡아요.</p>
+        <p>이 식을 로그우도에서 유도하는 과정은 다음 수업에서 다뤄요.</p>
+      </div>
+    </div>
+    <p><b>복원 요령.</b> 세 식 모두 "맡은 몫만큼만 센" 값이에요. 평균은 $r_{nk}/N_k$로 점을, 공분산은 같은 가중치로 새 평균 기준 편차의 외적을, 비율은 $1/N$로 책임도를 평균해요. 책임도를 모두 1로 놓으면 표본평균·표본공분산으로 돌아가는지 확인하면 식을 다시 만들 수 있어요.</p>
+
+    <div class="widget" id="widget-pull"><h4>직접 해 보기: 먼 점을 얼마나 맡으면 평균과 분산이 어떻게 바뀔까</h4>
+      <p class="widget-help">먼 점 $x_5=10$의 책임도 $r$을 움직이면, 새 평균이 그 점 쪽으로 끌려가고 가우시안 곡선과 ±σ 막대가 넓어져요. 앞 네 점의 책임도는 1로 고정이에요.</p>
+      <div class="controls">
+        <label>먼 점의 책임도 r <input type="range" id="pull-r" min="0" max="1" step="0.05" value="0.5"> <b id="pull-r-val">0.50</b></label>
+      </div>
+      <svg id="pull-plot" viewBox="0 0 560 300" role="img" aria-label="수직선 위 점 다섯 개, 새 평균 μ와 분산으로 그린 가우시안 곡선, 새 평균 위치의 세로선, 먼 점을 뺀 평균 2.5의 점선, ±σ 막대"></svg>
+      <p class="readout">$N_k$ = <b id="pull-nk">4.50</b>, $\mu_k^{\text{new}}$ = <b id="pull-mu">3.33</b>, $(\sigma_k^{\text{new}})^2$ = <b id="pull-var">6.67</b>, 먼 점의 가중치 $r/N_k$ = <b id="pull-w">0.11</b></p>
+      <p class="legend"><span><span class="sw train"></span>책임도 1로 고정한 네 점</span><span><span class="sw test"></span>책임도 r을 바꾸는 점</span><span><span class="sw fit"></span>새 평균·분산의 가우시안 곡선과 평균선</span><span><span class="sw like"></span>±σ 막대</span><span><span class="sw truth"></span>먼 점을 뺀 평균 2.5</span></p>
+      <div class="widget-static" hidden>
+        <figure class="figure"><svg id="widget-pull-static-1" viewBox="0 0 560 300" role="img" aria-label="대표 설정 1: r = 0.00, N_k = 4.00, 새 평균 2.50, (σₖⁿᵉʷ)² = 1.25"><line class="axis" x1="40" y1="230" x2="525" y2="230"/><line class="axis" x1="77.0" y1="230" x2="77.0" y2="235"/><text class="tick" x="77.0" y="249" text-anchor="middle">0</text><line class="axis" x1="151.0" y1="230" x2="151.0" y2="235"/><text class="tick" x="151.0" y="249" text-anchor="middle">2</text><line class="axis" x1="225.0" y1="230" x2="225.0" y2="235"/><text class="tick" x="225.0" y="249" text-anchor="middle">4</text><line class="axis" x1="299.0" y1="230" x2="299.0" y2="235"/><text class="tick" x="299.0" y="249" text-anchor="middle">6</text><line class="axis" x1="373.0" y1="230" x2="373.0" y2="235"/><text class="tick" x="373.0" y="249" text-anchor="middle">8</text><line class="axis" x1="447.0" y1="230" x2="447.0" y2="235"/><text class="tick" x="447.0" y="249" text-anchor="middle">10</text><line class="axis" x1="521.0" y1="230" x2="521.0" y2="235"/><text class="tick" x="521.0" y="249" text-anchor="middle">12</text><path class="plot-fit" d="M40.0 228.8L43.7 228.4L47.4 227.8L51.1 227.2L54.8 226.4L58.5 225.4L62.2 224.2L65.9 222.7L69.6 220.9L73.3 218.8L77.0 216.2L80.7 213.3L84.4 209.8L88.1 205.8L91.8 201.3L95.5 196.1L99.2 190.4L102.9 184.1L106.6 177.2L110.3 169.8L114.0 161.8L117.7 153.4L121.4 144.7L125.1 135.7L128.8 126.6L132.5 117.6L136.2 108.7L139.9 100.2L143.6 92.1L147.3 84.8L151.0 78.3L154.7 72.7L158.4 68.2L162.1 65.0L165.8 63.0L169.5 62.3L173.2 63.0L176.9 65.0L180.6 68.2L184.3 72.7L188.0 78.3L191.7 84.8L195.4 92.1L199.1 100.2L202.8 108.7L206.5 117.6L210.2 126.6L213.9 135.7L217.6 144.7L221.3 153.4L225.0 161.8L228.7 169.8L232.4 177.2L236.1 184.1L239.8 190.4L243.5 196.1L247.2 201.3L250.9 205.8L254.6 209.8L258.3 213.3L262.0 216.2L265.7 218.8L269.4 220.9L273.1 222.7L276.8 224.2L280.5 225.4L284.2 226.4L287.9 227.2L291.6 227.8L295.3 228.4L299.0 228.8L302.7 229.1L306.4 229.3L310.1 229.5L313.8 229.6L317.5 229.7L321.2 229.8L324.9 229.9L328.6 229.9L332.3 229.9L336.0 229.9L339.7 230.0L343.4 230.0L347.1 230.0L350.8 230.0L354.5 230.0L358.2 230.0L361.9 230.0L365.6 230.0L369.3 230.0L373.0 230.0L376.7 230.0L380.4 230.0L384.1 230.0L387.8 230.0L391.5 230.0L395.2 230.0L398.9 230.0L402.6 230.0L406.3 230.0L410.0 230.0L413.7 230.0L417.4 230.0L421.1 230.0L424.8 230.0L428.5 230.0L432.2 230.0L435.9 230.0L439.6 230.0L443.3 230.0L447.0 230.0L450.7 230.0L454.4 230.0L458.1 230.0L461.8 230.0L465.5 230.0L469.2 230.0L472.9 230.0L476.6 230.0L480.3 230.0L484.0 230.0L487.7 230.0L491.4 230.0L495.1 230.0L498.8 230.0L502.5 230.0L506.2 230.0L509.9 230.0L513.6 230.0L517.3 230.0L521.0 230.0"/><line class="plot-truth" x1="169.5" y1="230" x2="169.5" y2="60"/><line class="mark-ml" x1="169.5" y1="230" x2="169.5" y2="36"/><text class="tick" x="174.5" y="44">μ 새 평균</text><line class="plot-like" x1="128.1" y1="276" x2="210.9" y2="276"/><line class="plot-like" x1="128.1" y1="269" x2="128.1" y2="283"/><line class="plot-like" x1="210.9" y1="269" x2="210.9" y2="283"/><text class="tick" x="216.9" y="280">±σ</text><circle class="pt-train" cx="114.0" cy="230" r="6"/><circle class="pt-train" cx="151.0" cy="230" r="6"/><circle class="pt-train" cx="188.0" cy="230" r="6"/><circle class="pt-train" cx="225.0" cy="230" r="6"/><circle class="pt-test" cx="447.0" cy="230" r="6"/><text class="tick" x="447.0" y="216" text-anchor="middle">r = 0.00</text></svg><figcaption>$r=0.00$: 먼 점을 뺀 네 점의 보통 평균·분산</figcaption></figure>
+        <figure class="figure"><svg id="widget-pull-static-2" viewBox="0 0 560 300" role="img" aria-label="대표 설정 2: r = 0.50, N_k = 4.50, 새 평균 3.33, (σₖⁿᵉʷ)² = 6.67"><line class="axis" x1="40" y1="230" x2="525" y2="230"/><line class="axis" x1="77.0" y1="230" x2="77.0" y2="235"/><text class="tick" x="77.0" y="249" text-anchor="middle">0</text><line class="axis" x1="151.0" y1="230" x2="151.0" y2="235"/><text class="tick" x="151.0" y="249" text-anchor="middle">2</text><line class="axis" x1="225.0" y1="230" x2="225.0" y2="235"/><text class="tick" x="225.0" y="249" text-anchor="middle">4</text><line class="axis" x1="299.0" y1="230" x2="299.0" y2="235"/><text class="tick" x="299.0" y="249" text-anchor="middle">6</text><line class="axis" x1="373.0" y1="230" x2="373.0" y2="235"/><text class="tick" x="373.0" y="249" text-anchor="middle">8</text><line class="axis" x1="447.0" y1="230" x2="447.0" y2="235"/><text class="tick" x="447.0" y="249" text-anchor="middle">10</text><line class="axis" x1="521.0" y1="230" x2="521.0" y2="235"/><text class="tick" x="521.0" y="249" text-anchor="middle">12</text><path class="plot-fit" d="M40.0 212.2L43.7 211.1L47.4 209.8L51.1 208.6L54.8 207.2L58.5 205.9L62.2 204.5L65.9 203.0L69.6 201.5L73.3 200.0L77.0 198.4L80.7 196.8L84.4 195.2L88.1 193.6L91.8 191.9L95.5 190.2L99.2 188.5L102.9 186.8L106.6 185.1L110.3 183.4L114.0 181.7L117.7 180.0L121.4 178.4L125.1 176.7L128.8 175.1L132.5 173.6L136.2 172.0L139.9 170.5L143.6 169.1L147.3 167.8L151.0 166.4L154.7 165.2L158.4 164.0L162.1 163.0L165.8 162.0L169.5 161.1L173.2 160.3L176.9 159.5L180.6 158.9L184.3 158.4L188.0 158.0L191.7 157.7L195.4 157.5L199.1 157.4L202.8 157.4L206.5 157.5L210.2 157.8L213.9 158.1L217.6 158.6L221.3 159.1L225.0 159.8L228.7 160.5L232.4 161.4L236.1 162.3L239.8 163.3L243.5 164.4L247.2 165.6L250.9 166.9L254.6 168.2L258.3 169.6L262.0 171.0L265.7 172.5L269.4 174.1L273.1 175.7L276.8 177.3L280.5 178.9L284.2 180.6L287.9 182.3L291.6 184.0L295.3 185.7L299.0 187.4L302.7 189.1L306.4 190.8L310.1 192.5L313.8 194.1L317.5 195.8L321.2 197.4L324.9 199.0L328.6 200.5L332.3 202.0L336.0 203.5L339.7 204.9L343.4 206.3L347.1 207.7L350.8 209.0L354.5 210.3L358.2 211.5L361.9 212.6L365.6 213.7L369.3 214.8L373.0 215.8L376.7 216.8L380.4 217.7L384.1 218.6L387.8 219.4L391.5 220.2L395.2 220.9L398.9 221.6L402.6 222.3L406.3 222.9L410.0 223.5L413.7 224.0L417.4 224.5L421.1 225.0L424.8 225.4L428.5 225.8L432.2 226.2L435.9 226.5L439.6 226.8L443.3 227.1L447.0 227.4L450.7 227.7L454.4 227.9L458.1 228.1L461.8 228.3L465.5 228.5L469.2 228.6L472.9 228.8L476.6 228.9L480.3 229.0L484.0 229.1L487.7 229.2L491.4 229.3L495.1 229.4L498.8 229.4L502.5 229.5L506.2 229.6L509.9 229.6L513.6 229.7L517.3 229.7L521.0 229.7"/><line class="plot-truth" x1="169.5" y1="230" x2="169.5" y2="60"/><line class="mark-ml" x1="200.3" y1="230" x2="200.3" y2="36"/><text class="tick" x="205.3" y="44">μ 새 평균</text><line class="plot-like" x1="104.8" y1="276" x2="295.9" y2="276"/><line class="plot-like" x1="104.8" y1="269" x2="104.8" y2="283"/><line class="plot-like" x1="295.9" y1="269" x2="295.9" y2="283"/><text class="tick" x="301.9" y="280">±σ</text><circle class="pt-train" cx="114.0" cy="230" r="6"/><circle class="pt-train" cx="151.0" cy="230" r="6"/><circle class="pt-train" cx="188.0" cy="230" r="6"/><circle class="pt-train" cx="225.0" cy="230" r="6"/><circle class="pt-test" cx="447.0" cy="230" r="6"/><text class="tick" x="447.0" y="216" text-anchor="middle">r = 0.50</text></svg><figcaption>$r=0.50$: 평균이 먼 점 쪽으로 끌리고 분산이 커져요</figcaption></figure>
+        <figure class="figure"><svg id="widget-pull-static-3" viewBox="0 0 560 300" role="img" aria-label="대표 설정 3: r = 1.00, N_k = 5.00, 새 평균 4.00, (σₖⁿᵉʷ)² = 10.00"><line class="axis" x1="40" y1="230" x2="525" y2="230"/><line class="axis" x1="77.0" y1="230" x2="77.0" y2="235"/><text class="tick" x="77.0" y="249" text-anchor="middle">0</text><line class="axis" x1="151.0" y1="230" x2="151.0" y2="235"/><text class="tick" x="151.0" y="249" text-anchor="middle">2</text><line class="axis" x1="225.0" y1="230" x2="225.0" y2="235"/><text class="tick" x="225.0" y="249" text-anchor="middle">4</text><line class="axis" x1="299.0" y1="230" x2="299.0" y2="235"/><text class="tick" x="299.0" y="249" text-anchor="middle">6</text><line class="axis" x1="373.0" y1="230" x2="373.0" y2="235"/><text class="tick" x="373.0" y="249" text-anchor="middle">8</text><line class="axis" x1="447.0" y1="230" x2="447.0" y2="235"/><text class="tick" x="447.0" y="249" text-anchor="middle">10</text><line class="axis" x1="521.0" y1="230" x2="521.0" y2="235"/><text class="tick" x="521.0" y="249" text-anchor="middle">12</text><path class="plot-fit" d="M40.0 213.0L43.7 212.2L47.4 211.3L51.1 210.4L54.8 209.4L58.5 208.5L62.2 207.5L65.9 206.5L69.6 205.5L73.3 204.4L77.0 203.4L80.7 202.3L84.4 201.2L88.1 200.1L91.8 199.0L95.5 197.9L99.2 196.7L102.9 195.6L106.6 194.5L110.3 193.3L114.0 192.2L117.7 191.1L121.4 189.9L125.1 188.8L128.8 187.7L132.5 186.6L136.2 185.5L139.9 184.5L143.6 183.5L147.3 182.4L151.0 181.5L154.7 180.5L158.4 179.6L162.1 178.7L165.8 177.8L169.5 177.0L173.2 176.2L176.9 175.5L180.6 174.8L184.3 174.2L188.0 173.6L191.7 173.1L195.4 172.6L199.1 172.1L202.8 171.8L206.5 171.4L210.2 171.2L213.9 171.0L217.6 170.8L221.3 170.7L225.0 170.7L228.7 170.7L232.4 170.8L236.1 171.0L239.8 171.2L243.5 171.4L247.2 171.8L250.9 172.1L254.6 172.6L258.3 173.1L262.0 173.6L265.7 174.2L269.4 174.8L273.1 175.5L276.8 176.2L280.5 177.0L284.2 177.8L287.9 178.7L291.6 179.6L295.3 180.5L299.0 181.5L302.7 182.4L306.4 183.5L310.1 184.5L313.8 185.5L317.5 186.6L321.2 187.7L324.9 188.8L328.6 189.9L332.3 191.1L336.0 192.2L339.7 193.3L343.4 194.5L347.1 195.6L350.8 196.7L354.5 197.9L358.2 199.0L361.9 200.1L365.6 201.2L369.3 202.3L373.0 203.4L376.7 204.4L380.4 205.5L384.1 206.5L387.8 207.5L391.5 208.5L395.2 209.4L398.9 210.4L402.6 211.3L406.3 212.2L410.0 213.0L413.7 213.8L417.4 214.7L421.1 215.4L424.8 216.2L428.5 216.9L432.2 217.6L435.9 218.3L439.6 219.0L443.3 219.6L447.0 220.2L450.7 220.8L454.4 221.3L458.1 221.9L461.8 222.4L465.5 222.8L469.2 223.3L472.9 223.7L476.6 224.1L480.3 224.5L484.0 224.9L487.7 225.2L491.4 225.6L495.1 225.9L498.8 226.2L502.5 226.4L506.2 226.7L509.9 226.9L513.6 227.2L517.3 227.4L521.0 227.6"/><line class="plot-truth" x1="169.5" y1="230" x2="169.5" y2="60"/><line class="mark-ml" x1="225.0" y1="230" x2="225.0" y2="36"/><text class="tick" x="230.0" y="44">μ 새 평균</text><line class="plot-like" x1="108.0" y1="276" x2="342.0" y2="276"/><line class="plot-like" x1="108.0" y1="269" x2="108.0" y2="283"/><line class="plot-like" x1="342.0" y1="269" x2="342.0" y2="283"/><text class="tick" x="348.0" y="280">±σ</text><circle class="pt-train" cx="114.0" cy="230" r="6"/><circle class="pt-train" cx="151.0" cy="230" r="6"/><circle class="pt-train" cx="188.0" cy="230" r="6"/><circle class="pt-train" cx="225.0" cy="230" r="6"/><circle class="pt-test" cx="447.0" cy="230" r="6"/><text class="tick" x="447.0" y="216" text-anchor="middle">r = 1.00</text></svg><figcaption>$r=1.00$: 다섯 점의 보통 표본평균·표본분산</figcaption></figure>
+        <div class="table-wrap"><table>
+          <thead><tr><th>먼 점의 책임도 $r$</th><th>$N_k$</th><th>$\mu_k^{\text{new}}$</th><th>$(\sigma_k^{\text{new}})^2$</th><th>먼 점의 가중치</th></tr></thead>
+          <tbody>
+            <tr><td>$0.00$</td><td>$4.00$</td><td>$2.50$</td><td>$1.25$</td><td>$0.00$</td></tr>
+            <tr><td>$0.50$</td><td>$4.50$</td><td>$3.33$</td><td>$6.67$</td><td>$0.11$</td></tr>
+            <tr><td>$1.00$</td><td>$5.00$</td><td>$4.00$</td><td>$10.00$</td><td>$0.20$</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>교수님은 갱신식을 증명하기 전에 식이 무엇을 하는지부터 설명했어요.</p>
+    <blockquote>"이 증명보다 이 수식을 팔짱을 딱 끼고 이해하는 게 훨씬 더 중요하다고 생각하는"</blockquote>
+    <p>평균 갱신식은 각 데이터에서 그 성분이 기여한 양만큼만 $\mathbf{x}_n$을 더하고 $N_k$로 정규화한 것이라서 평균이 그쪽으로 옮겨 간다고 했어요. 이를 사후확률에 대한 평균(conditional expectation)이라고도 불렀어요. 점 하나의 책임도가 50%, 25%, 25%라면 그 몫대로 세 성분에 나눠 넣고, 성분마다 자기 몫끼리 가중 평균을 낸다는 예도 들었어요. 공분산은 $r_{nk}$가 없으면 그냥 샘플 공분산이고, 각 샘플에 $r_{nk}$만큼 가중치를 준 것만 다르다고 했어요.</p>
+    <blockquote>"데이터를 가장 잘 설명할 수 있는 곳으로 가는 게 중요하겠죠?"</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">세 갱신식은 책임도로 가중한 평균, 같은 가중치의 표본 공분산, 맡은 몫의 비율이에요. 책임도가 모두 1이면 보통의 표본평균·표본공분산이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">가중 평균</span>$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</li>
+      <li><span class="eq-name">가중치 합</span>$$\sum_{n=1}^N\frac{r_{nk}}{N_k}=\frac{N_k}{N_k}=1$$</li>
+      <li><span class="eq-name">1차원 가중 분산</span>$$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(x_n-\mu_k^{\text{new}})^2$$</li>
+      <li><span class="eq-name">공분산의 한 칸</span>$$[\Sigma_k^{\text{new}}]_{ij}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\,d_{ni}\,d_{nj}$$</li>
+      <li><span class="eq-name">가중 표본 공분산</span>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top$$</li>
+      <li><span class="eq-name">비율</span>$$\pi_k^{\text{new}}=\frac{N_k}{N}=\frac{1}{N}\sum_{n=1}^N r_{nk}$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>가중 평균(weighted average)</dt><dd>합이 1인 가중치 $r_{nk}/N_k$로 낸 평균. 많이 맡은 점일수록 평균을 세게 끌어요</dd>
+      <dt>편차의 외적 $\mathbf{d}_n\mathbf{d}_n^\top$</dt><dd>$(D\times1)(1\times D)=D\times D$. $(i,j)$ 칸은 첫 인수의 $i$번째 성분 × 둘째 인수의 $j$번째 성분이라 $d_{ni}d_{nj}$. 같은 벡터의 외적이라 대칭이고, 서로 다른 벡터의 외적 $\mathbf{u}\mathbf{v}^\top$는 일반적으로 대칭이 아니에요</dd>
+      <dt>가중 표본 공분산</dt><dd>새 평균 기준 편차 외적을 같은 가중치로 평균한 값</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s1-em-example"><h3>반복하면서 밀도가 데이터에 맞춰지는 모습</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s13</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>EM을 실제 2차원 데이터에 돌리면 무엇이 보일까요? 처음에 아무렇게나 둔 가우시안 세 개가 반복할수록 데이터 덩어리 쪽으로 옮겨 가고 모양을 바꿔요. 62회 반복 뒤에는 데이터를 거의 그대로 설명하는 혼합 밀도가 돼요.</p>
+    <h5 class="note-subheading">무엇을 사람이 정하고, 무엇을 EM이 정하나</h5>
+    <p>슬라이드 L07 s13의 데이터는 교수님이 하트 모양이라고 부른 2차원($D=2$) 점들이에요. 성분 개수 $K=3$은 데이터를 보고 사람이 정한 <b>하이퍼파라미터</b>(hyperparameter)예요. EM은 $K$를 바꾸지 않고, $K$가 정해진 뒤의 ${\boldsymbol{\theta}=\{\pi_k,\boldsymbol{\mu}_k,\Sigma_k\}}$만 계산해요.</p>
+    <p>그때 계산할 실수의 개수는 성분마다 $\pi_k$ 1개, $\boldsymbol{\mu}_k$의 $D$개, $\Sigma_k$의 $D\times D$ 칸 $D^2$개예요. 성분이 $K$개이므로 모두 $K(1+D+D^2)$개예요.</p>
+    <div>$$K(1+D+D^2)=3\,(1+2+4)=21$$</div>
+    <p>수업에서는 $\Sigma_k$의 칸을 모두 셌어요. $\Sigma_k$가 대칭이고 $\pi_k$의 합이 1이라 실제로 따로 정해야 하는 값은 이보다 적어요. 그래도 이 정도 개수를 미분이 0인 조건에서 한꺼번에 푸는 대신, EM은 E-step과 M-step을 되풀이해 조금씩 맞춰 가요.</p>
+    <h5 class="note-subheading">반복 횟수에 따라 달라지는 모습</h5>
+    <div class="table-wrap"><table>
+      <thead><tr><th>시점</th><th>슬라이드 그림에서 보이는 것</th></tr></thead>
+      <tbody>
+        <tr><td>초기화</td><td>가우시안 세 개가 데이터 왼쪽 가운데 한곳에 겹쳐 있어요. 데이터 대부분을 설명하지 못해요.</td></tr>
+        <tr><td>1회 반복 뒤</td><td>왼쪽에 등고선 하나가 따로 서고, 오른쪽 큰 덩어리를 두 성분이 함께 덮어요.</td></tr>
+        <tr><td>10회 반복 뒤</td><td>왼쪽 하나는 따로, 오른쪽 두 성분이 나뉘기 시작해요.</td></tr>
+        <tr><td>62회 반복 뒤</td><td>세 성분이 각자 데이터 덩어리 하나씩을 맡은 최종 분포예요.</td></tr>
+      </tbody>
+    </table></div>
+    <p>각 반복은 <a href="#s1-em-steps">E-step과 M-step의 순서</a>대로 진행돼요. 책임도가 바뀌면 평균이 그 점들 쪽으로 끌려가고 공분산이 그 점들의 퍼짐에 맞춰지므로, 반복할수록 등고선이 덩어리 위로 옮겨 가요. 교수님은 최종 결과가 원래 분포와 거의 비슷하다고 했어요.</p>
+    <h5 class="note-subheading">한 번 반복에서 무거운 계산은 밀도값이에요</h5>
+    <p>가장 무거운 계산은 ${N\times K}$개의 가우시안 밀도값 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$이고, M-step은 고정한 $r_{nk}$로 가중해 더하는 계산이라 가벼워요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>$K=3$을 고른 이유를 데이터 모양에서 찾았어요.</p>
+    <blockquote>"동그라미가 세 개 정도 있으면 될 것 같아서"</blockquote>
+    <p>가장 복잡한 계산은 가우시안 값 자체를 구하는 것 하나이고, 그것도 테이블 룩업으로 처리할 수 있다고 했어요. 그래서 EM이 빠르고 밀도추정에서 널리 쓰인다고 설명했어요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">사람이 정한 $K=3$ 아래에서 EM이 21개 값을 되풀이해 고치면, 세 가우시안이 데이터 덩어리 하나씩을 맡게 돼요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">파라미터 개수(Σ 칸 모두 셈)</span>$$K(1+D+D^2)=3\,(1+2+4)=21$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>하이퍼파라미터(hyperparameter)</dt><dd>EM이 학습하지 않고 사람이 미리 정하는 값. 여기서는 성분 개수 $K$</dd>
+      <dt>반복 1·10·62회</dt><dd>겹쳐 있던 성분이 갈라져 덩어리를 하나씩 맡아 가는 과정</dd>
+      <dt>계산 비용</dt><dd>가장 무거운 것은 $N\times K$개의 가우시안 밀도값, M-step은 고정한 $r_{nk}$로 가중해 더하는 가벼운 계산</dd>
+    </dl>
+  </div>
+</article>
+    </section>
+    <section id="s2"><h2>2. 평균 갱신식 유도</h2>
+<article class="topic" id="s2-zero-gradient"><h3>기울기를 0으로: 무엇을 무엇으로 미분하나</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s14 · s16</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>M-step 식은 왜 그 모양일까요? 평균과 공분산의 식은 로그우도를 그 파라미터로 미분해 0으로 놓고 풀면 나와요. 이 섹션은 평균 $\boldsymbol{\mu}_k$ 쪽을 끝까지 풀어서 <a href="#s1-update-meaning">갱신식은 책임도로 가중한 평균·공분산·비율</a>의 $\boldsymbol{\mu}_k^{\text{new}}$가 나오는지 확인해요.</p>
+    <p>출발식은 1111에서 세운 GMM 로그우도예요. $\mathcal{L}(\boldsymbol{\theta})$는 숫자 하나(스칼라)이고, 혼합 합의 첨자는 미분할 성분 $k$와 구별하려고 $j$로 써요.</p>
+    $$\mathcal{L}(\boldsymbol{\theta})=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta}),\qquad p(\mathbf{x}_n\mid\boldsymbol{\theta})=\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)$$
+    <p>최댓값에서는 기울기가 0이어야 해요. 이것은 필요조건이라서, 기울기가 0인 점은 최적이 아닐 수도 있고, 최적이어도 국소 최적일 수 있어요. 평균과 공분산은 다른 파라미터에 묶이지 않으니 기울기를 그대로 0으로 놓아요.</p>
+    $$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top,\qquad \frac{\partial\mathcal{L}}{\partial\Sigma_k}=\mathbf{0}_{D\times D}$$
+    <p>혼합 가중치는 그대로 0으로 놓을 수 없어요. $\pi_k$는 모두 더해 1이어야 하는 제약이 있고, $\partial\mathcal{L}/\partial\pi_k$를 직접 계산하면 항상 양수예요.</p>
+    $$\frac{\partial\mathcal{L}}{\partial\pi_k}=\sum_{n=1}^N\frac{\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}=\frac{1}{\pi_k}\sum_{n=1}^N r_{nk}=\frac{N_k}{\pi_k}\gt 0$$
+    <p>그래서 합이 1이라는 제약을 함께 넣은 조건으로 바꿔 풀어요. 슬라이드의 $\partial\mathcal{L}/\partial\pi_k=0$은 이 제약까지 포함한 약식 표기이고, 그 방법은 다음 수업에서 다뤄요.</p>
+    <p>세 조건의 모양이 다른 이유는 미분하는 대상의 모양이 다르기 때문이에요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>조건</th><th>미분하는 대상</th><th>미분 결과와 0의 모양</th></tr></thead>
+      <tbody>
+        <tr><td>평균</td><td>$\boldsymbol{\mu}_k\in\mathbb{R}^{D\times1}$ (열벡터)</td><td>$1\times D$ 행벡터, 영 행벡터 $\mathbf{0}^\top$</td></tr>
+        <tr><td>공분산</td><td>$\Sigma_k\in\mathbb{R}^{D\times D}$</td><td>$D\times D$ 행렬, 영행렬 $\mathbf{0}_{D\times D}$</td></tr>
+        <tr><td>혼합 가중치</td><td>$\pi_k$ (스칼라, 합이 1인 제약)</td><td>스칼라 $N_k/\pi_k\gt 0$, 단독으로는 0이 안 돼서 제약과 함께 풀어요(다음 수업)</td></tr>
+      </tbody>
+    </table></div>
+    <p>평균 쪽이 행벡터인 이유는 이 과목의 미분 관례 때문이에요. 스칼라 $\mathcal{L}$을 $\boldsymbol{\mu}_k$의 성분 $\mu_{k1},\ldots,\mu_{kD}$로 하나씩 편미분해 가로로 놓아요. $\boldsymbol{\mu}_k$ 자체는 여전히 열벡터예요.</p>
+    $$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\begin{bmatrix}\dfrac{\partial\mathcal{L}}{\partial\mu_{k1}}&amp;\cdots&amp;\dfrac{\partial\mathcal{L}}{\partial\mu_{kD}}\end{bmatrix}\in\mathbb{R}^{1\times D}$$
+    <p>공분산 쪽은 원소마다 미분해 같은 자리에 놓은 행렬이고, <a href="#s3-matrix-deriv">스칼라를 행렬로 미분한다는 뜻</a>에서 다뤄요.</p>
+    <nav class="note-stage-nav" aria-label="평균 기울기 출발 단계">
+      <a href="#s2-zero-gradient-log" aria-current="step">1. 로그 벗기기</a>
+      <a href="#s2-zero-gradient-kth">2. k번째 항만 남기기</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-zero-gradient-log"><span class="note-stage-number">1 / 2</span> <span>로그 벗기기</span></h4>
+      <p class="note-stage-goal">로그 안에 혼합 합이 있어 로그를 합 안으로 넣을 수 없어요. 그래서 연쇄법칙으로 바깥의 로그부터 벗겨요.</p>
+      <div class="deriv-body">
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N\frac{\partial\log p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>합의 미분은 항별 미분의 합이에요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\textcolor{#3182f6}{\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>로그의 연쇄법칙 $\partial\log f=\frac{1}{f}\,\partial f$</p>
+              <details><summary>자세히</summary><p>1변수의 $(\log f)'=f'/f$와 같은 규칙이에요. $p(\mathbf{x}_n\mid\boldsymbol{\theta})$는 양수인 스칼라라서 $1/p$는 배율일 뿐이고, $1\times D$ 행벡터 $\partial p/\partial\boldsymbol{\mu}_k$에 곱해도 모양이 그대로예요.</p></details></div></li>
+        </ol>
+        <p class="note-stage-result"><b>로그가 벗겨지고 배율 $1/p$가 남아요.</b> 이제 남은 질문은 혼합 밀도 $p(\mathbf{x}_n\mid\boldsymbol{\theta})$ 하나를 $\boldsymbol{\mu}_k$로 미분하면 무엇이 되느냐예요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-zero-gradient-kth"><span class="note-stage-number">2 / 2</span> <span>k번째 항만 남기기</span></h4>
+      <p class="note-stage-goal">혼합 합의 $K$개 항 가운데 $\boldsymbol{\mu}_k$에 실제로 의존하는 항을 골라요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}=\sum_{j=1}^K\pi_j\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>$\pi_j$는 $\boldsymbol{\mu}_k$와 무관한 상수라 앞에 둬요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}}=\textcolor{#3182f6}{\pi_k}\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>$j\neq k$ 항에는 $\boldsymbol{\mu}_k$가 없어 미분이 $\mathbf{0}^\top$이에요</p></div></li>
+        </ol>
+        <p class="deriv-check">$K=2$, $k=1$이면 ${\pi_1\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_1,\Sigma_1)+\pi_2\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_2,\Sigma_2)}$에서 뒤 항은 $\boldsymbol{\mu}_2$만의 식이에요. 그래서 $\boldsymbol{\mu}_1$로 미분하면 앞 항만 남아요.</p>
+        <p class="note-stage-result"><b>남은 일은 가우시안 밀도 하나를 평균으로 미분하는 거예요.</b> 그 계산은 <a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>에서 하고, 두 결과를 합치는 일은 <a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a>에서 해요.</p>
+      </div>
+    </div>
+  </div>
+  <div class="layer warn"><span class="layer-title">꼭 기억해요</span>
+    <blockquote>“복잡하기는 하지만 어렵지 않아요.”</blockquote>
+    <p>벡터 미분이라 식이 길어 보여도, 쓰는 규칙은 로그의 연쇄법칙과 상수 처리, 그리고 공식 하나예요.</p>
+    <blockquote>“여러분 손으로 꼭 한번 해보세요, 별로 어려운 거 아니니까.”</blockquote>
+    <p>$\boldsymbol{\mu}_k$ 갱신식 유도를 종이에 처음부터 직접 써 보라는 당부예요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">평균·공분산의 M-step 식은 로그우도의 기울기를 0으로 놓은 필요조건을 풀어서 나와요. 평균에 대한 기울기는 1×D 행벡터라 0도 영 행벡터예요. 혼합 가중치는 합이 1인 제약 때문에 기울기 자체가 0이 되지 않아, 제약과 함께 푸는 방법을 다음 수업에서 다뤄요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">평균·공분산의 필요조건</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top,\qquad \frac{\partial\mathcal{L}}{\partial\Sigma_k}=\mathbf{0}_{D\times D}$$</li>
+      <li><span class="eq-name">혼합 가중치의 미분은 0이 아님</span>$$\frac{\partial\mathcal{L}}{\partial\pi_k}=\sum_{n=1}^N\frac{\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}=\frac{1}{\pi_k}\sum_{n=1}^N r_{nk}=\frac{N_k}{\pi_k}\gt 0$$</li>
+      <li><span class="eq-name">로그 벗기기</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}$$</li>
+      <li><span class="eq-name">k번째 항만 남음</span>$$\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}=\pi_k\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>필요조건(necessary condition)</dt><dd>최적점이면 기울기가 0이에요. 기울기가 0인 점은 최적이 아닐 수도 있고, 최적이어도 국소 최적일 수 있어요.</dd>
+      <dt>합이 1인 제약</dt><dd>$\pi_k$는 따로 움직일 수 없어 $\partial\mathcal{L}/\partial\pi_k=0$을 그대로 풀지 않아요. 슬라이드의 $=0$은 제약을 포함한 약식 표기예요.</dd>
+      <dt>행벡터 미분</dt><dd>스칼라를 열벡터 $\boldsymbol{\mu}_k$로 미분하면 편미분을 가로로 놓은 $1\times D$ 행벡터예요.</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s2-log-gauss"><h3>가우시안 밀도를 평균으로 미분하기</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s17</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>가우시안 밀도 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$를 평균 $\boldsymbol{\mu}_k$로 미분하면 무엇이 될까요? 밀도 자신에 $1\times D$ 행벡터 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$를 곱한 것이에요. 이 값이 <a href="#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>에서 남긴 $\partial\mathcal{N}/\partial\boldsymbol{\mu}_k$ 자리에 들어가요.</p>
+    <p>밀도를 바로 미분하지 않고 로그를 먼저 미분해요. $\boldsymbol{\mu}_k$는 지수 안의 이차식에만 들어 있어서, 로그로 지수를 벗기면 그 이차식만 미분하면 되기 때문이에요. 마지막에 같은 로그의 연쇄법칙을 거꾸로 써서 밀도를 다시 곱해요.</p>
+    <nav class="note-stage-nav" aria-label="가우시안 미분 단계">
+      <a href="#s2-log-gauss-expand" aria-current="step">1. 로그 전개</a>
+      <a href="#s2-log-gauss-quad">2. 이차식 미분</a>
+      <a href="#s2-log-gauss-back">3. 밀도로 되돌리기</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-log-gauss-expand"><span class="note-stage-number">1 / 3</span> <span>로그 전개</span></h4>
+      <p class="note-stage-goal">로그를 취해 $\boldsymbol{\mu}_k$에 의존하는 항만 골라내요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">$\mathbf{x}_n$과 $\boldsymbol{\mu}_k$는 $D\times1$ 열벡터, $\Sigma_k$는 $D\times D$ 대칭·양의 정부호 행렬, $|\Sigma_k|$는 그 행렬식이에요.</p>
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)=\frac{1}{(2\pi)^{D/2}|\Sigma_k|^{1/2}}\exp\!\Big(-\frac12(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)\Big)$$</div>
+            <div class="deriv-why"><p>$D$차원 가우시안 밀도</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)=\textcolor{#3182f6}{-\frac D2\log(2\pi)-\frac12\log|\Sigma_k|}-\frac12(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)$$</div>
+            <div class="deriv-why"><p>분모의 상수는 로그에서 빼기, $\log\exp$는 지수만 남겨요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>마지막 이차식 항만 미분하면 돼요.</b> 앞의 두 항에는 $\boldsymbol{\mu}_k$가 없어서 미분하면 $\mathbf{0}^\top$이에요. 이차식은 $(1\times D)(D\times D)(D\times1)$이라 스칼라예요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-log-gauss-quad"><span class="note-stage-number">2 / 3</span> <span>이차식 미분</span></h4>
+      <p class="note-stage-goal">이차식 항을 $\boldsymbol{\mu}_k$로 미분해요. 이차형식 미분 공식 하나와 연쇄법칙 하나를 써요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">이 토픽 안에서만 임시 이름 $\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$ ($D\times1$)와 $\mathbf{A}=\Sigma_k^{-1}$ ($D\times D$)를 써요. $\Sigma_k$가 대칭이므로 ${(\Sigma_k^{-1})^\top=(\Sigma_k^\top)^{-1}=\Sigma_k^{-1}}$이고, $\mathbf{A}$도 대칭이에요. 구조는 <a href="../0928/정리노트_0928_Linear_Regression.html#s1-chain">연쇄법칙으로 손실을 파라미터로 미분하기</a>와 같아요. 거기서 ${\mathbf{e}=\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}}$의 미분이 $-\boldsymbol{\Phi}$였듯, 여기서는 $\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$의 미분이 $-\mathbf{I}$예요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial}{\partial\boldsymbol{\mu}_k}\Big(-\frac12\mathbf{a}^\top\mathbf{A}\mathbf{a}\Big)=-\frac12\,\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}\,\frac{\partial\mathbf{a}}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>연쇄법칙: $(1\times D)(D\times D)=1\times D$</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial}{\partial\boldsymbol{\mu}_k}\Big(-\frac12\mathbf{a}^\top\mathbf{A}\mathbf{a}\Big)}=-\frac12\,\textcolor{#3182f6}{\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)}\,\frac{\partial\mathbf{a}}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>이차형식 미분 공식(수업에서 받아들인 공식)</p>
+              <details><summary>자세히</summary><p>2차원 성분으로 펼쳐 확인하는 과정은 <a href="#s2-quadform">이차형식 미분 공식 확인</a>에 있어요. MML 5.5절 식 (5.107)에도 같은 형태로 실려 있어요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial}{\partial\boldsymbol{\mu}_k}\Big(-\frac12\mathbf{a}^\top\mathbf{A}\mathbf{a}\Big)}=-\frac12\,\textcolor{#3182f6}{2\mathbf{a}^\top\mathbf{A}}\,\frac{\partial\mathbf{a}}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>$\mathbf{A}$가 대칭이라 $\mathbf{A}+\mathbf{A}^\top=2\mathbf{A}$</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial}{\partial\boldsymbol{\mu}_k}\Big(-\frac12\mathbf{a}^\top\mathbf{A}\mathbf{a}\Big)}=-\frac12\cdot2\mathbf{a}^\top\mathbf{A}\,\textcolor{#3182f6}{(-\mathbf{I})}$$</div>
+            <div class="deriv-why"><p>$\mathbf{x}_n$은 상수라 $\partial\mathbf{a}/\partial\boldsymbol{\mu}_k=-\mathbf{I}$ ($D\times D$)</p>
+              <details><summary>자세히</summary><p>$\mathbf{a}$의 $d$번째 성분 $x_{nd}-\mu_{kd}$를 $\mu_{kd}$로 미분하면 $-1$, 다른 성분 $\mu_{ke}$로 미분하면 $0$이에요. 그래서 이 야코비안(출력×입력)은 대각선이 $-1$인 $D\times D$ 행렬이에요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial}{\partial\boldsymbol{\mu}_k}\Big(-\frac12\mathbf{a}^\top\mathbf{A}\mathbf{a}\Big)}=\textcolor{#3182f6}{\mathbf{a}^\top\mathbf{A}}$$</div>
+            <div class="deriv-why"><p>$(-\frac12)\cdot2\cdot(-1)=+1$, 마이너스가 사라져요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
+            <div class="deriv-why"><p>임시 이름을 되돌리고 상수 항의 $\mathbf{0}^\top$을 더해요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>결과는 $1\times D$ 행벡터예요.</b> 스칼라 $\log\mathcal{N}$을 $D\times1$ 열벡터 $\boldsymbol{\mu}_k$로 미분했으니 행벡터이고, 실제로 $\mathbf{a}^\top$($1\times D$)에 $\mathbf{A}$($D\times D$)를 곱한 모양이에요.</p>
+        <p class="deriv-check">1차원($D=1$, $\Sigma_k=\sigma_k^2$)에서는 이차식 항이 $-(x_n-\mu_k)^2/(2\sigma_k^2)$이고, $\mu_k$로 미분하면 $(x_n-\mu_k)/\sigma_k^2$예요. 예를 들어 $x_n=3$, $\mu_k=1$, $\sigma_k^2=2$이면 $1$이에요. 양수이므로 평균을 $x_n$ 쪽으로 옮기면 그 점의 로그 밀도가 커져요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-log-gauss-back"><span class="note-stage-number">3 / 3</span> <span>밀도로 되돌리기</span></h4>
+      <p class="note-stage-goal">필요한 것은 $\log\mathcal{N}$이 아니라 $\mathcal{N}$의 미분이에요. 로그의 연쇄법칙을 거꾸로 써요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">이 단계의 $\mathcal{N}$은 밀도 값 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$의 줄임이고, 양수인 스칼라예요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial\log\mathcal{N}}{\partial\boldsymbol{\mu}_k}=\frac{1}{\mathcal{N}}\,\frac{\partial\mathcal{N}}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>로그의 연쇄법칙</p></div></li>
+          <li><div class="deriv-eq">$$\frac{\partial\mathcal{N}}{\partial\boldsymbol{\mu}_k}=\textcolor{#3182f6}{\mathcal{N}}\cdot\frac{\partial\log\mathcal{N}}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>양변에 스칼라 $\mathcal{N}$을 곱해요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=\textcolor{#3182f6}{(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}}\,\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</div>
+            <div class="deriv-why"><p>앞 단계 결과 대입, 스칼라 $\mathcal{N}$은 뒤에 써도 같아요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>밀도의 미분은 밀도 × 로그 밀도의 미분이에요.</b> 이 $1\times D$ 행벡터에 $\pi_k$를 곱한 것이 혼합 밀도의 미분 $\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})/\partial\boldsymbol{\mu}_k$이고, <a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a>에서 로그우도의 기울기에 대입해요.</p>
+        <p class="deriv-check">밀도를 바로 미분해도 지수함수의 미분이 자기 자신을 다시 내놓아 같은 결과가 나와요. 로그를 먼저 쓰면 정규화 상수와 지수를 한 번에 떼어 놓을 수 있어요.</p>
+      </div>
+    </div>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <blockquote>“이거 벡터 캘큘러스에서 배우는 건데 이거는 그냥 받아들이세요, 이렇게 될 거라고.”</blockquote>
+    <p>이차형식 미분 공식은 증명 없이 썼어요. 2차원 성분 확인은 <a href="#s2-quadform">이차형식 미분 공식 확인</a>에 있어요.</p>
+    <blockquote>“어, 교수님 그런데 이게 마이너스 어디 갔어요?”</blockquote>
+    <p>교수님이 학생 질문처럼 던지고 직접 답했어요. $\boldsymbol{\mu}_k$로 미분할 때 곱해지는 $-1$이 $-\frac12\cdot2$의 마이너스를 지워요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">로그를 먼저 미분하면 이차식만 남고, 밀도를 다시 곱하면 가우시안의 평균 미분이 나와요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">로그 가우시안</span>$$\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)=-\frac D2\log(2\pi)-\frac12\log|\Sigma_k|-\frac12(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)$$</li>
+      <li><span class="eq-name">부호 정리</span>$$-\frac12\cdot2\mathbf{a}^\top\mathbf{A}\,(-\mathbf{I})=\mathbf{a}^\top\mathbf{A}$$</li>
+      <li><span class="eq-name">로그 밀도의 미분 (1×D)</span>$$\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
+      <li><span class="eq-name">밀도의 미분</span>$$\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}\,\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>임시 이름 $\mathbf{a}$, $\mathbf{A}$</dt><dd>$\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$, $\mathbf{A}=\Sigma_k^{-1}$(대칭). 이 미분 안에서만 써요.</dd>
+      <dt>안쪽 미분 $-\mathbf{I}$</dt><dd>$\mathbf{x}_n$은 상수라 $\partial\mathbf{a}/\partial\boldsymbol{\mu}_k=-\mathbf{I}$이고, 이 마이너스가 $-\frac12$의 부호를 지워요.</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s2-quadform"><h3>이차형식 미분 공식 확인</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s17 · MML §5.5</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>왜 $\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})/\partial\mathbf{a}=\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)$일까요? 이차형식을 성분으로 펼쳐 각 성분으로 편미분하고, 그 값을 가로로 모으면 바로 이 행벡터가 돼요. 수업에서는 이 공식을 증명 없이 받아들였어요.</p>
+    $$\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}=\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)\in\mathbb{R}^{1\times D},\qquad \mathbf{A}=\mathbf{A}^\top\ \Rightarrow\ 2\mathbf{a}^\top\mathbf{A}$$
+    <p>풀이에 필요한 것은 두 가지예요. 결과는 $1\times D$ 행벡터이고, $\mathbf{A}$가 대칭이면 $2\mathbf{a}^\top\mathbf{A}$예요. 평균 미분에서는 $\mathbf{A}=\Sigma_k^{-1}$가 대칭이라 두 번째 형태를 써요(<a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>).</p>
+  </div>
+  <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+    <p>2차원에서 확인해요. ${\mathbf{a}=\begin{bmatrix}a_1\\ a_2\end{bmatrix}}$, ${\mathbf{A}=\begin{bmatrix}p&amp;q\\ s&amp;t\end{bmatrix}}$로 두고, 대칭이 아닐 수도 있게 $q$와 $s$를 따로 써요.</p>
+    <div class="deriv-body">
+      <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\mathbf{a}^\top\mathbf{A}\mathbf{a}=\begin{bmatrix}a_1&amp;a_2\end{bmatrix}\begin{bmatrix}pa_1+qa_2\\ sa_1+ta_2\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>먼저 $\mathbf{A}\mathbf{a}$ ($2\times1$)를 계산해요</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\mathbf{a}^\top\mathbf{A}\mathbf{a}}=pa_1^2+\textcolor{#3182f6}{(q+s)a_1a_2}+ta_2^2$$</div>
+          <div class="deriv-why"><p>내적을 펼치고 $a_1a_2$ 항을 모아요</p></div></li>
+        <li><div class="deriv-eq">$$\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial a_1}=2pa_1+(q+s)a_2,\qquad \frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial a_2}=(q+s)a_1+2ta_2$$</div>
+          <div class="deriv-why"><p>성분별 편미분</p></div></li>
+        <li><div class="deriv-eq">$$\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}=\begin{bmatrix}2pa_1+(q+s)a_2&amp;(q+s)a_1+2ta_2\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>두 편미분을 가로로 놓아요 ($1\times2$)</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}}=\begin{bmatrix}a_1&amp;a_2\end{bmatrix}\textcolor{#3182f6}{\begin{bmatrix}2p&amp;q+s\\ q+s&amp;2t\end{bmatrix}}$$</div>
+          <div class="deriv-why"><p>행벡터 × 행렬로 다시 묶어요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}}=\mathbf{a}^\top\textcolor{#3182f6}{(\mathbf{A}+\mathbf{A}^\top)}$$</div>
+          <div class="deriv-why"><p>가운데 행렬이 $\mathbf{A}+\mathbf{A}^\top$이에요</p></div></li>
+      </ol>
+      <p class="note-stage-result"><b>대칭이면 $2\mathbf{a}^\top\mathbf{A}$예요.</b> $q=s$이면 가운데 행렬이 $2\mathbf{A}$가 돼요.</p>
+      <p class="deriv-check">미분을 세로로 세우는 열벡터 관례의 책에서는 같은 내용이 $(\mathbf{A}+\mathbf{A}^\top)\mathbf{a}$로 적혀요. 위 행벡터를 전치한 것이고, 이 과목은 행벡터로 써요.</p>
+    </div>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">이차형식을 성분으로 펼쳐 편미분을 가로로 모으면 $\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)$이고, 대칭이면 $2\mathbf{a}^\top\mathbf{A}$예요. 수업에서는 받아들인 공식이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">이차형식 미분 (1×D)</span>$$\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}=\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)\in\mathbb{R}^{1\times D},\qquad \mathbf{A}=\mathbf{A}^\top\ \Rightarrow\ 2\mathbf{a}^\top\mathbf{A}$$</li>
+      <li><span class="eq-name">2차원 성분 전개</span>$$\mathbf{a}^\top\mathbf{A}\mathbf{a}=pa_1^2+(q+s)a_1a_2+ta_2^2$$</li>
+    </ul>
+    <p>열벡터 관례의 $(\mathbf{A}+\mathbf{A}^\top)\mathbf{a}$는 이 행벡터의 전치예요.</p>
+  </div>
+</article>
+
+<article class="topic" id="s2-mu-proof"><h3>책임도가 나타나고 평균 갱신식이 나오기까지</h3><div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s16</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>$\partial\mathcal{L}/\partial\boldsymbol{\mu}_k=\mathbf{0}^\top$을 풀면 왜 ${\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n}$이 될까요? 앞에서 구한 두 결과를 대입하면 책임도 $r_{nk}$가 저절로 묶여 나와요. 그다음 0으로 놓은 행벡터 식에서 역행렬을 지우고, 양변 전치로 열벡터 식으로 바꾸고, $\boldsymbol{\mu}_k$를 꺼내면 돼요.</p>
+    <p>이 토픽에서 $\mathcal{N}$은 가우시안 밀도, $N$은 데이터 개수, ${N_k=\sum_{n=1}^N r_{nk}}$는 성분 $k$의 총 책임도예요. 세 기호는 서로 달라요.</p>
+    <nav class="note-stage-nav" aria-label="평균 갱신식 유도 단계">
+      <a href="#s2-mu-proof-resp" aria-current="step">1. 책임도가 나타나요</a>
+      <a href="#s2-mu-proof-transpose">2. 영 행벡터에서 열벡터 식으로</a>
+      <a href="#s2-mu-proof-solve">3. 평균 꺼내기</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-mu-proof-resp"><span class="note-stage-number">1 / 3</span> <span>책임도가 나타나요</span></h4>
+      <p class="note-stage-goal">로그우도의 기울기에 두 결과를 대입해, 기울기를 책임도로 다시 써요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">출발식은 <a href="#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>의 로그 벗기기와 $k$번째 항만 남기기, 그리고 <a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>의 마지막 식이에요.</p>
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>로그의 연쇄법칙까지 온 식</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\,\textcolor{#3182f6}{\pi_k(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}$$</div>
+            <div class="deriv-why"><p>$k$번째 항만 남긴 식에 가우시안 미분을 대입</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\textcolor{#3182f6}{\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
+            <div class="deriv-why"><p>스칼라 $\pi_k\mathcal{N}$을 $1/p$와 묶고, $p$에 혼합 합 대입</p>
+              <details><summary>자세히</summary><p>$\pi_k$와 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 스칼라라서 행벡터 앞으로 옮겨도 값이 같아요. 분모는 ${p(\mathbf{x}_n\mid\boldsymbol{\theta})=\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$를 그대로 쓴 거예요.</p></details></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
+            <div class="deriv-why"><p>파란 분수가 정확히 책임도 $r_{nk}$의 정의예요</p>
+              <details><summary>자세히</summary><p>책임도는 점 $\mathbf{x}_n$의 혼합 밀도 가운데 성분 $k$의 가중 밀도가 차지하는 비율이에요. E-step에서 계산하는 바로 그 값이고, 정의는 <a href="#s1-em-steps">E-step과 M-step의 순서</a>에 있어요.</p></details></div></li>
+        </ol>
+        <p class="note-stage-result"><b>기울기는 책임도로 가중한 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$의 합이에요.</b> 각 항이 $1\times D$ 행벡터라 합도 $1\times D$예요. 이제 이 행벡터를 $\mathbf{0}^\top$으로 놓고 풀면 돼요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-mu-proof-transpose"><span class="note-stage-number">2 / 3</span> <span>영 행벡터에서 열벡터 식으로</span></h4>
+      <p class="note-stage-goal">역행렬 $\Sigma_k^{-1}$을 지우고, 행벡터 식을 열벡터 $\boldsymbol{\mu}_k$에 대한 식으로 바꿔요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">책임도 $r_{nk}$를 현재 값(E-step에서 계산한 값)으로 고정하면 이 식의 해가 하나로 정해지고, 그 해를 새 평균 $\boldsymbol{\mu}_k^{\text{new}}$로 둬요. 실제 로그우도의 기울기가 0이 되는 것은 반복이 수렴해 책임도가 더 바뀌지 않을 때예요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top\Sigma_k^{-1}=\mathbf{0}^\top$$</div>
+            <div class="deriv-why"><p>$r_{nk}$를 고정한 기울기 식을 영 행벡터($1\times D$)로 놓아요</p></div></li>
+          <li><div class="deriv-eq">$$\textcolor{#3182f6}{\Big(}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top\textcolor{#3182f6}{\Big)}\Sigma_k^{-1}=\mathbf{0}^\top$$</div>
+            <div class="deriv-why"><p>$\Sigma_k^{-1}$은 $n$과 무관해 합 밖으로 묶어요</p></div></li>
+          <li><div class="deriv-eq">$$\Big(\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top\Big)\Sigma_k^{-1}\textcolor{#3182f6}{\Sigma_k}=\mathbf{0}^\top\textcolor{#3182f6}{\Sigma_k}$$</div>
+            <div class="deriv-why"><p>양변 오른쪽에 $\Sigma_k$를 곱해요</p>
+              <details><summary>자세히</summary><p>$\Sigma_k^{-1}$이 행벡터의 오른쪽 끝에 있으니 그 바로 오른쪽에 $\Sigma_k$를 붙여야 $\Sigma_k^{-1}\Sigma_k=\mathbf{I}$가 돼요. $1\times D$ 행벡터의 왼쪽에 $D\times D$ 행렬을 곱하는 것은 크기가 맞지 않아요. $\Sigma_k$는 양의 정부호라 역행렬이 있어요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top=\mathbf{0}^\top$$</div>
+            <div class="deriv-why"><p>$\Sigma_k^{-1}\Sigma_k=\mathbf{I}$이고 $\mathbf{0}^\top\Sigma_k=\mathbf{0}^\top$</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>양변 전치: $r_{nk}$는 스칼라라 그대로, 결과는 $D\times1$</p>
+              <details><summary>자세히</summary><p>합의 전치는 전치의 합이고, $(\mathbf{v}^\top)^\top=\mathbf{v}$예요. 스칼라 $r_{nk}$는 전치해도 같아요. 오른쪽의 $\mathbf{0}^\top$($1\times D$)은 영벡터 $\mathbf{0}$($D\times1$)이 돼요.</p></details></div></li>
+        </ol>
+        <p class="note-stage-result"><b>열벡터 방정식 하나가 남아요.</b> 책임도로 가중한 차이 $\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}}$의 합이 영벡터예요. 남은 질문은 이 식에서 $\boldsymbol{\mu}_k^{\text{new}}$를 어떻게 꺼내느냐예요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-mu-proof-solve"><span class="note-stage-number">3 / 3</span> <span>평균 꺼내기</span></h4>
+      <p class="note-stage-goal">$\boldsymbol{\mu}_k^{\text{new}}$가 $n$과 무관하다는 점을 써서 합 밖으로 꺼내요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\sum_{n=1}^N r_{nk}\mathbf{x}_n-\sum_{n=1}^N r_{nk}\boldsymbol{\mu}_k^{\text{new}}=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>괄호를 풀어 합을 둘로 나눠요</p></div></li>
+          <li><div class="deriv-eq">$$\sum_{n=1}^N r_{nk}\mathbf{x}_n=\textcolor{#3182f6}{\Big(\sum_{n=1}^N r_{nk}\Big)}\boldsymbol{\mu}_k^{\text{new}}$$</div>
+            <div class="deriv-why"><p>$\boldsymbol{\mu}_k^{\text{new}}$는 $n$과 무관해 합 밖으로, 오른쪽으로 이항</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\sum_{n=1}^N r_{nk}\mathbf{x}_n}=\textcolor{#3182f6}{N_k}\,\boldsymbol{\mu}_k^{\text{new}}$$</div>
+            <div class="deriv-why"><p>총 책임도 $N_k=\sum_n r_{nk}$</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</div>
+            <div class="deriv-why"><p>스칼라 $N_k\gt 0$으로 양변을 나눠요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>새 평균은 책임도로 가중한 평균이에요.</b> 가중치 $r_{nk}/N_k$의 합이 1이에요.</p>
+        <p class="deriv-check">1차원 점 $0, 2, 6$의 책임도가 $1, 1, 0.5$이면 $N_k=2.5$이고, ${\mu_k^{\text{new}}=(0+2+3)/2.5=2}$예요. $r_{nk}$가 모두 1이면 $N_k=N$이고 보통의 표본평균 ${\frac1N\sum_{n=1}^N\mathbf{x}_n}$이 돼요.</p>
+      </div>
+    </div>
+    <p>오른쪽의 $r_{nk}$ 자체가 $\boldsymbol{\mu}_k$를 포함한 모든 파라미터에 의존하므로, 이 식은 한 번에 끝나는 닫힌 해가 아니에요. 새 평균으로 책임도를 다시 계산하고 갱신하는 일을 반복해요(<a href="#s0-why-iterate">미분을 0으로 놓아도 바로 풀리지 않는 이유</a>).</p>
+    <p><b>복원 요령.</b> 로그의 연쇄법칙으로 $1/p$를 꺼내요. 혼합 합에서 $k$번째 항만 남겨요. 가우시안은 로그를 먼저 미분해 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$을 얻고 밀도를 다시 곱해요. $1/p$와 $\pi_k\mathcal{N}$을 묶으면 $r_{nk}$예요. $r_{nk}$를 고정한 채 $\mathbf{0}^\top$으로 놓고 오른쪽에 $\Sigma_k$를 곱하고, 양변 전치하고, $\boldsymbol{\mu}_k^{\text{new}}$를 꺼내 $N_k$로 나눠요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <blockquote>“어우 소름.”</blockquote>
+    <p>$1/p$와 $\pi_k\mathcal{N}$을 묶자 책임도가 그대로 나타나는 순간의 반응이에요. E-step의 $r_{nk}$가 M-step 식에 들어가는 이유가 여기서 보여요.</p>
+    <blockquote>“그냥 곱해도 돼요. 왜냐면 summation하고 상관이 없잖아.”</blockquote>
+    <p>$\Sigma_k$가 $n$과 무관해서 합 밖에서 오른쪽에 곱해도 된다는 설명이에요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">두 미분 결과를 대입하면 책임도가 나타나요. 책임도를 현재 값으로 고정하고 $\mathbf{0}^\top$으로 놓은 행벡터 식을 오른쪽 $\Sigma_k$ 곱, 양변 전치, 평균 꺼내기로 풀면 책임도 가중 평균이 나와요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">평균에 대한 기울기 (1×D)</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
+      <li><span class="eq-name">오른쪽에 $\Sigma_k$를 곱한 뒤</span>$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top=\mathbf{0}^\top$$</li>
+      <li><span class="eq-name">양변 전치 (D×1)</span>$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})=\mathbf{0}$$</li>
+      <li><span class="eq-name">평균 갱신식</span>$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>책임도 $r_{nk}$</dt><dd>$1/p$와 $\pi_k\mathcal{N}$을 묶은 비율이에요. E-step에서 계산해 고정해요.</dd>
+      <dt>총 책임도 $N_k$</dt><dd>${N_k=\sum_{n=1}^N r_{nk}}$. 데이터 개수 $N$, 밀도 $\mathcal{N}$과 다른 기호예요.</dd>
+      <dt>닫힌 해가 아님</dt><dd>$r_{nk}$가 모든 파라미터에 의존해요. $r_{nk}$를 고정해 새 평균을 구하고 E-step과 번갈아 반복하며, 수렴해 책임도가 더 바뀌지 않을 때 실제 기울기가 0이 돼요.</dd>
+    </dl>
+  </div>
+</article>
+    </section>
+    <section id="s3"><h2>3. 공분산 갱신식 유도</h2>
+<article class="topic" id="s3-matrix-deriv">
+  <h3>스칼라를 행렬로 미분한다는 뜻</h3>
+  <div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s19</span></div>
+  <div class="layer eli5">
+    <span class="layer-title">쉽게 말하면</span>
+    <p class="lead">숫자 네 개가 든 표에서 한 칸만 살짝 바꾸고, 결과가 얼마나 변하는지 그 칸 자리에 적어요.</p>
+    <figure class="figure">
+      <svg id="fig-matrix-deriv-cells" viewBox="0 0 340 140" role="img" aria-label="왼쪽 두 줄 두 칸 표의 왼쪽 위 칸이 색칠되어 있고, 화살표를 따라 오른쪽 같은 크기 표의 같은 자리에 그 칸을 바꿀 때의 변화가 적힌 그림">
+        <rect class="fig-dot" opacity=".24" x="20" y="20" width="50" height="40"/>
+        <rect class="fig-dot" opacity=".24" x="220" y="20" width="50" height="40"/>
+        <path class="fig-ink" d="M20 20H120V100H20ZM70 20V100M20 60H120"/>
+        <path class="fig-ink" d="M220 20H320V100H220ZM270 20V100M220 60H320"/>
+        <path class="fig-accent" d="M132 60H206M198 54L206 60L198 66"/>
+        <text class="fig-text" x="45" y="45" text-anchor="middle">2</text>
+        <text class="fig-text" x="95" y="45" text-anchor="middle">1</text>
+        <text class="fig-text" x="45" y="85" text-anchor="middle">1</text>
+        <text class="fig-text" x="95" y="85" text-anchor="middle">1</text>
+        <text class="fig-text" x="245" y="45" text-anchor="middle">1</text>
+        <text class="fig-text" x="295" y="45" text-anchor="middle">−1</text>
+        <text class="fig-text" x="245" y="85" text-anchor="middle">−1</text>
+        <text class="fig-text" x="295" y="85" text-anchor="middle">2</text>
+        <text class="fig-muted" x="169" y="48" text-anchor="middle">한 칸씩</text>
+        <text class="fig-muted" x="70" y="124" text-anchor="middle">원래 표</text>
+        <text class="fig-muted" x="270" y="124" text-anchor="middle">칸마다 적은 변화</text>
+      </svg>
+      <figcaption>색칠된 칸을 바꿀 때의 변화를 오른쪽 같은 자리에 적고, 네 칸을 모두 채우면 크기가 같은 표가 돼요.</figcaption>
+    </figure>
+  </div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>공분산 갱신식을 얻으려면 로그우도 $\mathcal{L}(\boldsymbol{\theta})$를 $D\times D$ 행렬 $\Sigma_k$로 미분해 0으로 놓아야 해요. 그러면 스칼라를 행렬로 미분한 결과는 무엇일까요? 답은 <b>$\Sigma_k$의 칸마다 편미분해서 그 칸과 같은 자리에 놓은 $D\times D$ 행렬</b>이에요. 수업에서 정한 정의예요.</p>
+    <nav class="note-stage-nav" aria-label="행렬 미분 단계">
+      <a href="#s3-matrix-deriv-def" aria-current="step">1. 칸마다 미분하는 정의</a>
+      <a href="#s3-matrix-deriv-identities">2. 받아들인 항등식 두 개</a>
+      <a href="#s3-matrix-deriv-logn">3. 로그 가우시안에 넣기</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s3-matrix-deriv-def"><span class="note-stage-number">1 / 3</span> <span>칸마다 미분하는 정의</span></h4>
+      <p class="note-stage-goal">행렬로 미분한 결과가 어떤 모양인지 2×2 행렬로 직접 만들어 봐요.</p>
+      <p>수업에서는 ${\Sigma=\left[\begin{matrix}a\\c\end{matrix}\;\;\begin{matrix}b\\d\end{matrix}\right]}$로 두고, 스칼라 함수 $f$를 $a,b,c,d$로 각각 미분해 같은 자리에 놓았어요. 일반적으로 쓰면 $i$행 $j$열 칸의 값이 그 칸에 대한 편미분이에요.</p>
+      <div>$$\left[\frac{\partial f}{\partial\Sigma_k}\right]_{ij}=\frac{\partial f}{\partial[\Sigma_k]_{ij}},\qquad \frac{\partial f}{\partial\Sigma_k}\in\mathbb{R}^{D\times D}$$</div>
+      <p>열벡터 $\boldsymbol{\mu}_k$($D\times1$)로 미분했을 때는 수업 관례대로 $1\times D$ 행벡터를 얻었어요(<a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>). 행렬로 미분할 때는 이 정의대로 $\Sigma_k$와 같은 $D\times D$ 모양이 나와요. 그래서 기울기를 0으로 놓을 때도 행벡터 $\mathbf{0}^\top$ 대신 $D\times D$ 영행렬 $\mathbf{0}$을 써요. 칸이 $D^2$개이니 식도 $D^2$개를 한꺼번에 세우는 셈이에요.</p>
+      <p>정의를 확인하려고 $D=2$에서 $f(\Sigma)=\log|\Sigma|$를 칸마다 미분해 봐요. 수업에서 받아들인 식을 정의로 확인해 보는 재구성이에요. 이 함수가 바로 다음 단계의 첫 항등식에 나와요. $|\Sigma|$는 행렬식이에요.</p>
+      <div class="deriv-body">
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$f=\log|\Sigma|=\log(ad-bc)$$</div>
+            <div class="deriv-why"><p>2×2 행렬식을 칸으로 펼쳐요</p></div></li>
+          <li><div class="deriv-eq">$$\frac{\partial f}{\partial a}=\frac{d}{ad-bc},\qquad \frac{\partial f}{\partial b}=\frac{-c}{ad-bc}$$</div>
+            <div class="deriv-why"><p>로그 미분: 안쪽의 미분 ÷ 안쪽</p>
+              <details><summary>자세히</summary><p>$a$로 미분할 때는 $b,c,d$를 상수로 봐요. $ad-bc$를 $a$로 미분하면 $d$, $b$로 미분하면 $-c$예요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\frac{\partial f}{\partial c}=\frac{-b}{ad-bc},\qquad \frac{\partial f}{\partial d}=\frac{a}{ad-bc}$$</div>
+            <div class="deriv-why"><p>나머지 두 칸도 같은 방법이에요</p></div></li>
+          <li><div class="deriv-eq">$$\frac{\partial f}{\partial\Sigma}=\frac{1}{ad-bc}\left[\begin{matrix}\textcolor{#3182f6}{d}\\\textcolor{#3182f6}{-b}\end{matrix}\;\;\begin{matrix}\textcolor{#3182f6}{-c}\\\textcolor{#3182f6}{a}\end{matrix}\right]$$</div>
+            <div class="deriv-why"><p>$a,b,c,d$ 자리에 각 편미분을 놓아요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\log|\Sigma|}{\partial\Sigma}=\left(\Sigma^{-1}\right)^\top$$</div>
+            <div class="deriv-why"><p>${\Sigma^{-1}=\frac{1}{ad-bc}\left[\begin{matrix}d\\-c\end{matrix}\;\;\begin{matrix}-b\\a\end{matrix}\right]}$의 전치예요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>일반 행렬이면 역행렬의 전치가 나와요.</b> $b$와 $c$를 따로 움직일 수 있는 칸으로 보고 미분했기 때문이에요. 이렇게 칸들을 서로 독립인 변수로 보는 것이 슬라이드의 '$\Sigma_k$를 일반 행렬로 취급'이라는 말의 뜻이에요.</p>
+        <p class="deriv-check">공분산처럼 $b=c$인 ${\Sigma=\left[\begin{matrix}2\\1\end{matrix}\;\;\begin{matrix}1\\1\end{matrix}\right]}$이면 $|\Sigma|=1$이고, 결과는 ${\left[\begin{matrix}1\\-1\end{matrix}\;\;\begin{matrix}-1\\2\end{matrix}\right]}$예요. 이 행렬은 대칭이라 전치해도 같으니 $\Sigma^{-1}$ 그대로예요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s3-matrix-deriv-identities"><span class="note-stage-number">2 / 3</span> <span>받아들인 항등식 두 개</span></h4>
+      <p class="note-stage-goal">2×2에서 본 전치가 왜 슬라이드 식에는 없는지, 항등식 두 개의 성립 조건으로 정리해요.</p>
+      <p>수업에서는 다음 두 식을 증명 없이 받아들였어요. 둘째 식의 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)$는 가우시안 지수에 있는 이차형식이고, 값은 스칼라예요.</p>
+      <div>$$\frac{\partial\log|\Sigma_k|}{\partial\Sigma_k}=\Sigma_k^{-1}$$</div>
+      <div>$$\frac{\partial}{\partial\Sigma_k}\left[(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)\right]=-\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
+      <p>칸마다 같은 자리에 놓는 정의로 <b>일반 정방행렬</b> $X$를 미분하면, 두 식에는 전치가 붙어요. 첫 식은 MML 5.5절의 행렬식 미분(식 5.101)에서 나오고, 위 2×2 계산이 그 확인이에요. 둘째 식은 MML 식 5.103에 $\mathbf{a}=\mathbf{b}=\mathbf{x}_n-\boldsymbol{\mu}_k$를 넣은 경우예요.</p>
+      <div>$$\frac{\partial\log|X|}{\partial X}=\left(X^{-1}\right)^\top,\qquad \frac{\partial\,\mathbf{a}^\top X^{-1}\mathbf{b}}{\partial X}=-\left(X^{-1}\right)^\top\mathbf{a}\mathbf{b}^\top\left(X^{-1}\right)^\top$$</div>
+      <p>$\Sigma_k$는 공분산이라 대칭($\Sigma_k^\top=\Sigma_k$)이에요. 그러면 역행렬도 대칭이에요.</p>
+      <div>$$\left(\Sigma_k^{-1}\right)^\top=\left(\Sigma_k^\top\right)^{-1}=\Sigma_k^{-1}$$</div>
+      <p>그래서 두 식의 전치가 모두 사라져 슬라이드의 모양이 돼요. 정리하면 "일반 행렬로 미분하고, 결과에만 대칭을 쓴다"는 순서예요. 또 $\Sigma_k$는 양의 정부호라서 $|\Sigma_k|\gt0$이므로 $\log|\Sigma_k|$가 정의되고 역행렬도 있어요.</p>
+      <p class="note-stage-result"><b>둘째 식의 모양도 확인해요.</b> 가운데 $(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$는 $D\times1$과 $1\times D$를 곱한 외적이라 $D\times D$예요. 앞뒤에 $D\times D$인 $\Sigma_k^{-1}$이 붙어도 결과는 $\Sigma_k$와 같은 $D\times D$로 정의와 맞아요. 이 증명은 싣지 않아요. 갱신식 유도에는 결과만 쓰기 때문이에요.</p>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s3-matrix-deriv-logn"><span class="note-stage-number">3 / 3</span> <span>로그 가우시안에 넣기</span></h4>
+      <p class="note-stage-goal">평균 때 쓴 로그 가우시안 전개식을 이번에는 $\Sigma_k$로 미분해요.</p>
+      <p><a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>에서 쓴 전개식에서 출발해요.</p>
+      <div>$$\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)=-\frac{D}{2}\log(2\pi)-\frac{1}{2}\log|\Sigma_k|-\frac{1}{2}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)$$</div>
+      <p>$\boldsymbol{\mu}_k$로 미분할 때는 이차형식 항만 남았어요. $\Sigma_k$로 미분하면 $\log|\Sigma_k|$ 항과 이차형식 항이 모두 남아요. 첫 항만 상수예요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial\log\mathcal{N}}{\partial\Sigma_k}=-\frac{1}{2}\frac{\partial\log|\Sigma_k|}{\partial\Sigma_k}-\frac{1}{2}\frac{\partial}{\partial\Sigma_k}\left[(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)\right]$$</div>
+            <div class="deriv-why"><p>항마다 미분, 상수항은 0</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\log\mathcal{N}}{\partial\Sigma_k}}=-\frac{1}{2}\textcolor{#3182f6}{\Sigma_k^{-1}}-\frac{1}{2}\textcolor{#3182f6}{\left(-\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}\right)}$$</div>
+            <div class="deriv-why"><p>항등식 두 개를 대입해요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}=-\frac{1}{2}\Sigma_k^{-1}+\frac{1}{2}\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
+            <div class="deriv-why"><p>마이너스 두 개가 만나 플러스예요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>두 항 모두 $D\times D$ 행렬이에요.</b> 이 결과를 로그우도의 미분에 넣어 <a href="#s3-sigma-proof">공분산 갱신식을 손으로 정리하기</a>로 이어가요.</p>
+      </div>
+    </div>
+  </div>
+  <div class="layer prof">
+    <span class="layer-title">교수님 말씀</span>
+    <p>칸마다 미분해 같은 자리에 놓는 방식은 "수학자들이 그냥 저렇게 정의한 것"이라고 했어요. 두 항등식은 증명하지 않고 받아들인 뒤 바로 $\Sigma_k$ 갱신식 유도에 썼어요.</p>
+    <blockquote>"자 이거는 그냥 받아들이세요. 이거는 수학자들이 잘 만들어 놓은 공식이니까"</blockquote>
+    <blockquote>"이거는 수학자들이 열심히 해놓은 거니까 그냥 받아들입시다."</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">스칼라를 행렬로 미분하면 칸마다 편미분해 같은 자리에 놓은, $\Sigma_k$와 같은 $D\times D$ 행렬이 돼요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">정의</span>$$\left[\frac{\partial f}{\partial\Sigma_k}\right]_{ij}=\frac{\partial f}{\partial[\Sigma_k]_{ij}}$$</li>
+      <li><span class="eq-name">일반 행렬일 때</span>$$\frac{\partial\log|X|}{\partial X}=\left(X^{-1}\right)^\top$$</li>
+      <li><span class="eq-name">항등식 1 (대칭 $\Sigma_k$)</span>$$\frac{\partial\log|\Sigma_k|}{\partial\Sigma_k}=\Sigma_k^{-1}$$</li>
+      <li><span class="eq-name">항등식 2 (대칭 $\Sigma_k$)</span>$$\frac{\partial}{\partial\Sigma_k}\left[(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)\right]=-\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
+      <li><span class="eq-name">로그 가우시안의 미분</span>$$\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}=-\frac{1}{2}\Sigma_k^{-1}+\frac{1}{2}\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
+    </ul>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>일반 행렬로 취급</dt><dd>칸들을 서로 독립인 변수로 보고 미분해요. 그러면 역행렬의 전치가 나오고, $\Sigma_k$가 대칭이라 $\left(\Sigma_k^{-1}\right)^\top=\Sigma_k^{-1}$로 전치가 사라져요.</dd>
+      <dt>영행렬</dt><dd>행렬로 미분한 기울기는 $D\times D$라서 행벡터 $\mathbf{0}^\top$ 대신 $D\times D$ 영행렬 $\mathbf{0}$으로 놓아요.</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s3-sigma-proof">
+  <h3>공분산 갱신식을 손으로 정리하기</h3>
+  <div class="tags"><span class="tag date">1116 수업</span><span class="tag slide">L07 s19–s20</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>로그우도의 $\Sigma_k$ 기울기를 영행렬로 놓고 풀면 무엇이 나올까요? 답은 각 점의 외적을 책임도로 가중해 평균한 행렬, 즉 가중 공분산이에요.</p>
+    <div>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$$</div>
+    <p>여기서 $r_{nk}$는 점 $\mathbf{x}_n$에 대한 성분 $k$의 책임도이고, $N_k=\sum_{n=1}^N r_{nk}$는 성분 $k$의 총 책임도예요. 아래 단계로 이 답을 확인해요. 마지막 정리는 수업에서 손으로 해 보라고 남긴 부분이라 한 줄씩 보여요.</p>
+    <nav class="note-stage-nav" aria-label="공분산 갱신식 유도 단계">
+      <a href="#s3-sigma-gradient" aria-current="step">1. 로그우도의 기울기</a>
+      <a href="#s3-sigma-tidy">2. 영행렬로 놓고 묶기</a>
+      <a href="#s3-sigma-cancel">3. 역행렬 지우고 풀기</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s3-sigma-gradient"><span class="note-stage-number">1 / 3</span> <span>로그우도의 기울기</span></h4>
+      <p class="note-stage-goal">평균 때와 같은 단계로 $\partial\mathcal{L}/\partial\Sigma_k$를 구해요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead"><a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a>와 같은 연산이고, 미분하는 변수만 $\Sigma_k$로 바뀌어요. 출발식은 로그우도예요.</p>
+        <div>$$\mathcal{L}(\boldsymbol{\theta})=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta}),\qquad p(\mathbf{x}_n\mid\boldsymbol{\theta})=\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)$$</div>
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\sum_{n=1}^N\frac{\partial\log p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\Sigma_k}$$</div>
+            <div class="deriv-why"><p>표본별 로그를 하나씩 미분해요</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{r_{nk}}\,\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}$$</div>
+            <div class="deriv-why"><p><a href="#s2-mu-proof">평균 때</a>와 같은 세 연산이에요: 로그 연쇄법칙, $k$번째 항만 남기기, ${\partial\mathcal{N}/\partial\Sigma_k=\mathcal{N}\cdot\partial\log\mathcal{N}/\partial\Sigma_k}$</p>
+              <p>그러면 $1/p(\mathbf{x}_n\mid\boldsymbol{\theta})$와 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 묶여 책임도 $r_{nk}$가 돼요</p>
+              <details><summary>자세히</summary><p>중간식은 ${\sum_n\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial\log\mathcal{N}}{\partial\Sigma_k}}$예요. 혼합 합 $p(\mathbf{x}_n\mid\boldsymbol{\theta})$에서 $\Sigma_k$가 든 항은 $k$번째뿐이고, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워서 로그를 거쳐요.</p></details></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)$$</div>
+            <div class="deriv-why"><p><a href="#s3-matrix-deriv">스칼라를 행렬로 미분한다는 뜻</a>의 결과를 넣고 $\frac{1}{2}$을 묶어요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>책임도가 다시 저절로 나타나요.</b> 마지막 줄의 $S_n$은 이 유도에서만 쓰는 임시 이름이에요. 점 하나의 편차 외적을 뜻해요.</p>
+        <div>$$S_n=(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\in\mathbb{R}^{D\times D}$$</div>
+        <p class="deriv-check">차원을 확인해요. $(\mathbf{x}_n-\boldsymbol{\mu}_k)$는 $D\times1$, 그 전치는 $1\times D$라서 $S_n$은 $D\times D$예요. 괄호 안 두 항이 모두 $D\times D$이고 $r_{nk}$는 스칼라라서, 기울기 전체도 $\Sigma_k$와 같은 $D\times D$예요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s3-sigma-tidy"><span class="note-stage-number">2 / 3</span> <span>영행렬로 놓고 묶기</span></h4>
+      <p class="note-stage-goal">기울기를 영행렬로 놓고, 합을 두 덩어리로 나눠 $\Sigma_k^{-1}$이 어디에 붙어 있는지 드러내요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">책임도를 현재 값으로 고정하면 이 식의 해가 정해지고, 그 해를 새 공분산 $\Sigma_k^{\text{new}}$로 둬요. 실제 로그우도의 기울기가 0이 되는 것은 반복이 수렴해 책임도가 더 바뀌지 않을 때예요. 영행렬 $\mathbf{0}$은 $D\times D$이고, 평균 때와 달리 기울기가 이미 $\Sigma_k$와 같은 모양이라 전치는 필요 없어요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>기울기를 $D\times D$ 영행렬로 놓아요</p></div></li>
+          <li><div class="deriv-eq">$$\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>양변에 2를 곱해 $\frac{1}{2}$을 지워요</p></div></li>
+          <li><div class="deriv-eq">$$-\textcolor{#3182f6}{\left(\sum_{n=1}^N r_{nk}\right)}\Sigma_k^{-1}+\Sigma_k^{-1}\textcolor{#3182f6}{\left(\sum_{n=1}^N r_{nk}S_n\right)}\Sigma_k^{-1}=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>합을 두 항으로 나누고, $n$과 무관한 $\Sigma_k^{-1}$을 합 밖으로</p>
+              <details><summary>자세히</summary><p>$\Sigma_k^{-1}$은 모든 $n$에서 같은 행렬이에요. 둘째 항은 $\sum_n r_{nk}\Sigma_k^{-1}S_n\Sigma_k^{-1}$에서 왼쪽 $\Sigma_k^{-1}$은 왼쪽으로, 오른쪽 $\Sigma_k^{-1}$은 오른쪽으로 꺼내요. 행렬 곱은 순서를 바꿀 수 없어서 꺼낸 쪽을 지켜요.</p></details></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$-N_k\Sigma_k^{-1}+\Sigma_k^{-1}\left(\sum_{n=1}^N r_{nk}S_n\right)\Sigma_k^{-1}=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>$\sum_n r_{nk}=N_k$ (총 책임도)</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>첫 항은 $\Sigma_k^{-1}$ 하나, 둘째 항은 양쪽에 $\Sigma_k^{-1}$이 붙어 있어요.</b> 그렇다면 이 역행렬들은 어떻게 지울까요? 행렬은 나눌 수 없으니 곱해서 지워요.</p>
+      </div>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s3-sigma-cancel"><span class="note-stage-number">3 / 3</span> <span>역행렬 지우고 풀기</span></h4>
+      <p class="note-stage-goal">양변의 오른쪽, 이어서 왼쪽에 $\Sigma_k$를 곱해 $\Sigma_k^{-1}$을 모두 지우고 $\Sigma_k$에 대해 풀어요.</p>
+      <div class="deriv-body">
+        <p class="deriv-lead">같은 두 행렬에 같은 행렬을 같은 쪽에서 곱해도 등식은 유지돼요. $\Sigma_k$는 역행렬이 있으므로 이 곱은 정보를 잃지 않아요. 오른쪽에서 곱하면 각 항의 맨 오른쪽 $\Sigma_k^{-1}$이, 왼쪽에서 곱하면 맨 왼쪽 $\Sigma_k^{-1}$이 지워져요. $\mathbf{I}$는 $D\times D$ 단위행렬이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$-N_k\Sigma_k^{-1}\textcolor{#3182f6}{\Sigma_k}+\Sigma_k^{-1}\left(\sum_{n=1}^N r_{nk}S_n\right)\Sigma_k^{-1}\textcolor{#3182f6}{\Sigma_k}=\mathbf{0}\,\textcolor{#3182f6}{\Sigma_k}$$</div>
+            <div class="deriv-why"><p>양변의 오른쪽에 $\Sigma_k$를 곱해요</p></div></li>
+          <li><div class="deriv-eq">$$-N_k\textcolor{#3182f6}{\mathbf{I}}+\Sigma_k^{-1}\left(\sum_{n=1}^N r_{nk}S_n\right)=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>$\Sigma_k^{-1}\Sigma_k=\mathbf{I}$, $\mathbf{0}\Sigma_k=\mathbf{0}$</p>
+              <details><summary>자세히</summary><p>둘째 항은 $(\cdots)\mathbf{I}=(\cdots)$이라 오른쪽 역행렬이 사라졌어요. MML 식 (11.37b)는 왼쪽부터 곱해 ${N_k\mathbf{I}=\left(\sum_n r_{nk}S_n\right)\Sigma_k^{-1}}$을 먼저 얻어요. 곱하는 순서만 다르고 결과는 같아요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\textcolor{#3182f6}{\Sigma_k}\left(-N_k\mathbf{I}\right)+\textcolor{#3182f6}{\Sigma_k}\Sigma_k^{-1}\left(\sum_{n=1}^N r_{nk}S_n\right)=\textcolor{#3182f6}{\Sigma_k}\,\mathbf{0}$$</div>
+            <div class="deriv-why"><p>양변의 왼쪽에 $\Sigma_k$를 곱해요</p></div></li>
+          <li><div class="deriv-eq">$$-N_k\textcolor{#3182f6}{\Sigma_k}+\sum_{n=1}^N r_{nk}S_n=\mathbf{0}$$</div>
+            <div class="deriv-why"><p>$\Sigma_k\mathbf{I}=\Sigma_k$, $\Sigma_k\Sigma_k^{-1}=\mathbf{I}$</p></div></li>
+          <li><div class="deriv-eq">$$N_k\Sigma_k^{\text{new}}=\sum_{n=1}^N r_{nk}S_n$$</div>
+            <div class="deriv-why"><p>첫 항을 옮기고, 이 해를 새 공분산으로 둬요</p></div></li>
+          <li><div class="deriv-eq">$$\Sigma_k^{\text{new}}=\textcolor{#3182f6}{\frac{1}{N_k}}\sum_{n=1}^N r_{nk}S_n$$</div>
+            <div class="deriv-why"><p>스칼라 $N_k\gt0$으로 양변을 나눠요</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$$</div>
+            <div class="deriv-why"><p>임시 이름 $S_n$을 원래 외적으로 되돌려요</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>각 항에서 남은 것.</b> 첫 항은 양쪽 곱을 합치면 ${\Sigma_k\Sigma_k^{-1}\Sigma_k=\Sigma_k}$라서 $\Sigma_k$ 하나가 남아요. 둘째 항은 양쪽 $\Sigma_k^{-1}$이 모두 지워져 $\sum_n r_{nk}S_n$만 남아요. 오른쪽과 왼쪽 중 어느 쪽을 먼저 곱해도 결과는 같아요.</p>
+        <p class="deriv-check">식의 $\boldsymbol{\mu}_k$ 자리에는 방금 갱신한 평균 $\boldsymbol{\mu}_k^{\text{new}}$를 넣어요. 책임도를 고정하고 세운 두 식 $\partial\mathcal{L}/\partial\boldsymbol{\mu}_k=\mathbf{0}^\top$과 $\partial\mathcal{L}/\partial\Sigma_k=\mathbf{0}$을 함께 만족하는 값을 찾아요. 평균 조건의 해는 $\Sigma_k$와 무관하므로(<a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a>에서 $\Sigma_k^{-1}$이 지워졌어요) 평균을 먼저 구해 공분산 식에 대입해요. MML 11.3절의 알고리즘도 이 순서로 써요.</p>
+      </div>
+    </div>
+    <p>얻은 식은 <a href="#s1-update-meaning">갱신식은 책임도로 가중한 평균·공분산·비율</a>에서 읽은 가중 표본 공분산이에요. $D=1$이면 $S_n=(x_n-\mu_k)^2$라 가중 분산이 돼요.</p>
+    <div>$$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(x_n-\mu_k)^2$$</div>
+    <p><b>복원 요령.</b> 기울기 ${\frac{1}{2}\sum_n r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)}$ 하나만 기억해요. 영행렬로 놓고 2를 곱한 뒤, 오른쪽과 왼쪽에서 $\Sigma_k$를 곱해요. 그러면 $N_k\Sigma_k=\sum_n r_{nk}S_n$이 되고 $N_k$로 나눠요. 마지막에 $D=1$로 놓아 가중 분산 모양인지 검산해요.</p>
+  </div>
+  <div class="layer warn">
+    <span class="layer-title">꼭 기억해요</span>
+    <p>수업에서는 마지막 정리를 학생 몫으로 남기며 직접 손으로 해 보라고 거듭 당부했어요.</p>
+    <blockquote>"요거 여러분 손으로 한번 해 보세요. 이거 어렵지 않습니다."</blockquote>
+    <blockquote>"그리고 두 번째, 여러분 손으로 이거 꼭 해봐야 됩니다."</blockquote>
+    <blockquote>"팔짱 딱 끼고 '어어 이렇게 하면 되겠네' … 그건 여러분 게 아니에요, 내 거지."</blockquote>
+    <p>손으로 할 때 $\Sigma_k^{-1}$을 '나눠서' 없애지 않아요. 행렬 곱은 순서를 바꿀 수 없으니 지우려는 역행렬이 있는 쪽(오른쪽 또는 왼쪽)에서 $\Sigma_k$를 곱해요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">기울기를 영행렬로 놓고 $\Sigma_k$를 오른쪽·왼쪽에서 곱해 역행렬을 지우면, 책임도로 가중한 외적의 평균이 새 공분산이에요.</p>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">로그우도의 기울기</span>$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)$$</li>
+      <li><span class="eq-name">임시 이름 (외적)</span>$$S_n=(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\in\mathbb{R}^{D\times D}$$</li>
+      <li><span class="eq-name">역행렬을 지운 뒤</span>$$N_k\Sigma_k^{\text{new}}=\sum_{n=1}^N r_{nk}S_n$$</li>
+      <li><span class="eq-name">공분산 갱신식</span>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$$</li>
+      <li><span class="eq-name">1차원이면 가중 분산</span>$$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(x_n-\mu_k)^2$$</li>
+    </ul>
+    <p>책임도를 현재 값으로 고정해 이 식의 해를 새 공분산으로 둬요. 실제 로그우도의 기울기가 0이 되는 것은 반복이 수렴해 책임도가 더 바뀌지 않을 때예요. 오른쪽에서 곱한 $\Sigma_k$는 맨 오른쪽 $\Sigma_k^{-1}$을, 왼쪽에서 곱한 $\Sigma_k$는 맨 왼쪽 $\Sigma_k^{-1}$을 지워요. 식의 $\boldsymbol{\mu}_k$ 자리에는 방금 갱신한 $\boldsymbol{\mu}_k^{\text{new}}$를 넣어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>외적 $S_n$</dt><dd>이 유도에서만 쓰는 임시 이름이에요. $D\times1$ 편차와 $1\times D$ 전치의 곱이라 $D\times D$예요.</dd>
+      <dt>가중 공분산</dt><dd>각 점의 외적을 책임도로 가중해 평균한 행렬이에요. $D=1$이면 가중 분산이에요.</dd>
+    </dl>
+  </div>
+</article>
+    </section>
+    <section id="s4"><h2>4. 요약 · 예고</h2>
+<article class="topic" id="s4-cheatsheet">
+<h3>핵심 식 정리</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">구할 것</th><th scope="col">계산과 조건</th></tr></thead><tbody>
+<tr><td><a href="#s1-em-steps">E-step: 책임도 $r_{nk}$와 $N_k$</a></td><td>
+<p>현재 $\boldsymbol{\theta}$를 고정하고 모든 점 $\mathbf{x}_n$과 성분 $k$에 대해 계산해요.</p>
+$$r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$$
+<p>한 점의 책임도는 성분에 대해 더하면 $\sum_{k=1}^K r_{nk}=1$이에요. 한 성분의 열을 더한 $N_k=\sum_{n=1}^N r_{nk}$는 확률들의 합이라 1보다 클 수 있고, 모두 더하면 $\sum_{k=1}^K N_k=N$이에요.</p>
+</td></tr>
+<tr><td><a href="#s2-mu-proof">M-step: 평균 갱신</a></td><td>
+<p>책임도를 고정하고, 성분 $k$에 대한 책임도로 가중한 평균을 구해요. 결과는 $D\times1$ 열벡터예요.</p>
+$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$
+<p>가중치 $r_{nk}/N_k$를 $n$에 대해 더하면 1이라서 가중 평균이에요. 모든 $r_{nk}$가 1이면 보통의 표본평균이 돼요.</p>
+</td></tr>
+<tr><td><a href="#s3-sigma-proof">M-step: 공분산 갱신</a></td><td>
+<p>같은 가중치로 각 점의 외적 $(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$($D\times D$)을 평균해요.</p>
+$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$$
+<p>여기서 $\boldsymbol{\mu}_k$ 자리에는 방금 구한 새 평균 $\boldsymbol{\mu}_k^{\text{new}}$를 넣어요. 모든 $r_{nk}$가 1이면 $N$으로 나눈 표본 공분산이 돼요.</p>
+</td></tr>
+<tr><td><a href="#s1-em-steps">M-step: 가중치 갱신</a></td><td>
+$$\pi_k^{\text{new}}=\frac{N_k}{N}$$
+<p>전체 기여량 $N$ 중에서 성분 $k$가 맡은 몫 $N_k$의 비율이에요. $\sum_{k=1}^K N_k=N$이라서 새 가중치의 합도 1이에요. 이 식이 나오는 과정은 <a href="#s4-next">다음 수업</a>에서 다뤄요.</p>
+</td></tr>
+<tr><td><a href="#s2-mu-proof">평균의 미분을 0으로 놓고 풀기</a></td><td>
+<p>스칼라 $\mathcal{L}(\boldsymbol{\theta})$를 열벡터 $\boldsymbol{\mu}_k$($D\times1$)로 미분하면 $1\times D$ 행벡터예요.</p>
+$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$
+<p>이것을 ${\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top}$로 놓아요. 오른쪽에서 $\Sigma_k$를 곱하면 $\Sigma_k^{-1}$이 지워지고 $\mathbf{0}^\top\Sigma_k=\mathbf{0}^\top$이에요. 이어서 양변 전치하면 ($r_{nk}$는 스칼라) 열벡터 식이 돼요.</p>
+$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)=\mathbf{0}$$
+<p>$\boldsymbol{\mu}_k$는 $n$과 무관하므로 ${\sum_{n=1}^N r_{nk}\boldsymbol{\mu}_k=N_k\boldsymbol{\mu}_k}$로 묶이고, $N_k$로 나누면 평균 갱신식이에요.</p>
+</td></tr>
+</tbody></table></div>
+</article>
+<article class="topic" id="s4-next">
+<h3>다음 수업</h3>
+<ul>
+<li>$\pi_k$ 갱신식 유도: 라그랑주 승수(L07 s22)</li>
+<li>잠재변수 관점과 Q 함수(L08)</li>
+<li>ELBO와 KL 발산, EM이 로그우도를 줄이지 않는 이유(L08)</li>
+<li>GMM과 일반 EM 틀의 비교, 실무에서의 문제(L08)</li>
+</ul>
+</article>
+<article class="topic" id="s4-links">
+<h3>관련 자료</h3>
+<ul>
+<li><a href=".pack/복습문제_1116_EM_Algorithm-문제.pdf">11월 16일 복습문제</a></li>
+<li><a href="../1111/정리노트_1111_Gaussian_Mixture_Models.html">11월 11일 정리노트: GMM과 책임도</a></li>
+<li><a href="../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html">통계적 추론 1</a></li>
+<li><a href="../../강의노트/추가%20강의/eli5_lecture11_statistical_inference_part2.html">통계적 추론 2</a></li>
+</ul>
+<div class="review-pdf-links" data-range="1116"><p>복습문제 8문항</p><ul><li><a href=".pack/복습문제_1116_EM_Algorithm-문제.pdf">문제지 PDF</a></li><li><a href=".pack/복습문제_1116_EM_Algorithm-답안.pdf">해설지 PDF</a></li></ul></div></article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture07) · 수업 녹음 전사(1116) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 5장·11장.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums" id="sum-for"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+  <script id="widget-pull-ui">(function () {
+  var PULL_X = [1, 2, 3, 4, 10];
+  var PULL_RFIX = [1, 1, 1, 1];
+  function pullModel(r) {
+    var w = PULL_RFIX.concat([r]), Nk = 0, s = 0, v = 0, i;
+    for (i = 0; i < PULL_X.length; i++) { Nk += w[i]; s += w[i] * PULL_X[i]; }
+    var mu = s / Nk;
+    for (i = 0; i < PULL_X.length; i++) { v += w[i] * (PULL_X[i] - mu) * (PULL_X[i] - mu); }
+    v = v / Nk;
+    return { r: r, Nk: Nk, mu: mu, v: v, sd: Math.sqrt(v), wFar: r / Nk };
+  }
+  function pullSvg(o) {
+    var BASE = 230, H = 470;
+    function sx(x) { return (40 + 37 * (x + 1)).toFixed(1); }
+    function sy(p) { return (BASE - H * p).toFixed(1); }
+    function pdf(x) { var z = (x - o.mu) / o.sd; return Math.exp(-0.5 * z * z) / (o.sd * Math.sqrt(2 * Math.PI)); }
+    var s = '<line class="axis" x1="40" y1="' + BASE + '" x2="525" y2="' + BASE + '"/>';
+    for (var t = 0; t <= 12; t += 2) {
+      s += '<line class="axis" x1="' + sx(t) + '" y1="' + BASE + '" x2="' + sx(t) + '" y2="' + (BASE + 5) + '"/>';
+      s += '<text class="tick" x="' + sx(t) + '" y="' + (BASE + 19) + '" text-anchor="middle">' + t + '</text>';
+    }
+    var d = '';
+    for (var k = 0; k <= 130; k++) { var x = -1 + k * 0.1; d += (k ? 'L' : 'M') + sx(x) + ' ' + sy(pdf(x)); }
+    s += '<path class="plot-fit" d="' + d + '"/>';
+    s += '<line class="plot-truth" x1="' + sx(2.5) + '" y1="' + BASE + '" x2="' + sx(2.5) + '" y2="60"/>';
+    s += '<line class="mark-ml" x1="' + sx(o.mu) + '" y1="' + BASE + '" x2="' + sx(o.mu) + '" y2="36"/>';
+    s += '<text class="tick" x="' + (Number(sx(o.mu)) + 5).toFixed(1) + '" y="44">μ 새 평균</text>';
+    var a = sx(o.mu - o.sd), b = sx(o.mu + o.sd);
+    s += '<line class="plot-like" x1="' + a + '" y1="276" x2="' + b + '" y2="276"/>';
+    s += '<line class="plot-like" x1="' + a + '" y1="269" x2="' + a + '" y2="283"/>';
+    s += '<line class="plot-like" x1="' + b + '" y1="269" x2="' + b + '" y2="283"/>';
+    s += '<text class="tick" x="' + (Number(b) + 6).toFixed(1) + '" y="280">±σ</text>';
+    for (var i = 0; i < 4; i++) { s += '<circle class="pt-train" cx="' + sx(PULL_X[i]) + '" cy="' + BASE + '" r="6"/>'; }
+    s += '<circle class="pt-test" cx="' + sx(PULL_X[4]) + '" cy="' + BASE + '" r="6"/>';
+    s += '<text class="tick" x="' + sx(PULL_X[4]) + '" y="' + (BASE - 14) + '" text-anchor="middle">r = ' + o.r.toFixed(2) + '</text>';
+    return s;
+  }
+  var slider = document.getElementById('pull-r');
+  var plot = document.getElementById('pull-plot');
+  if (!slider || !plot) return;
+  var rVal = document.getElementById('pull-r-val');
+  var nk = document.getElementById('pull-nk');
+  var mu = document.getElementById('pull-mu');
+  var vv = document.getElementById('pull-var');
+  var ww = document.getElementById('pull-w');
+  function draw() {
+    var o = pullModel(Number(slider.value));
+    plot.innerHTML = pullSvg(o);
+    if (rVal) rVal.textContent = o.r.toFixed(2);
+    if (nk) nk.textContent = o.Nk.toFixed(2);
+    if (mu) mu.textContent = o.mu.toFixed(2);
+    if (vv) vv.textContent = o.v.toFixed(2);
+    if (ww) ww.textContent = o.wFar.toFixed(2);
+  }
+  slider.addEventListener('input', draw);
+  draw();
+})();</script>
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+  <script id="note-stage-navigation">
+    (() => {
+      const scroller = document.querySelector('.content');
+      const topics = Array.from(document.querySelectorAll('article.topic')).filter(t => t.querySelector('.note-stage-nav'));
+      if (!scroller || !topics.length) return;
+      let pending = false;
+      function paint() {
+        pending = false;
+        topics.forEach(topic => {
+          if (!topic.getClientRects().length) return;
+          const nav = topic.querySelector('.note-stage-nav');
+          const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+          const boundary = nav.getBoundingClientRect().bottom + 48;
+          let current = 0;
+          links.forEach((link, i) => {
+            const heading = document.getElementById(link.hash.slice(1));
+            if (heading && heading.getBoundingClientRect().top <= boundary) current = i;
+          });
+          // 짧은 마지막 단계는 제목이 기준선에 닿기 전에 스크롤이 끝날 수 있다.
+          if (scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= 1) current = links.length - 1;
+          const changed = links[current] && links[current].getAttribute('aria-current') !== 'step';
+          links.forEach((link, i) => {
+            if (i === current) link.setAttribute('aria-current', 'step');
+            else link.removeAttribute('aria-current');
+          });
+          if (changed) {
+            const bounds = nav.getBoundingClientRect();
+            const active = links[current].getBoundingClientRect();
+            if (active.right > bounds.right) nav.scrollLeft += active.right - bounds.right + 8;
+            else if (active.left < bounds.left) nav.scrollLeft += active.left - bounds.left - 8;
+          }
+        });
+      }
+      function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+      scroller.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      document.addEventListener('od:screen', schedule);
+      window.addEventListener('hashchange', schedule);
+      window.addEventListener('load', schedule);
+      schedule();
+    })();
+  </script>
+  <script id="deriv-fit">
+    (() => {
+      // 식이 주석 칸 옆에 다 들어가지 않으면 그 줄만 주석을 식 아래로 내린다.
+      function fit(list) {
+        const rows = Array.from(list.children);
+        rows.forEach(li => li.classList.remove('is-wide'));
+        const wide = rows.map(li => {
+          const k = li.querySelector('.katex-display');
+          return Boolean(k) && k.scrollWidth > k.clientWidth + 1;
+        });
+        rows.forEach((li, i) => li.classList.toggle('is-wide', wide[i]));
+      }
+      function start() {
+        const lists = Array.from(document.querySelectorAll('ol.deriv'));
+        if (!lists.length) return;
+        if (!('ResizeObserver' in window)) { lists.forEach(fit); return; }
+        const widths = new WeakMap();
+        const ro = new ResizeObserver(entries => entries.forEach(en => {
+          const w = Math.round(en.contentRect.width);
+          // 숨은 토픽(폭 0)은 기록을 지워, 다시 보일 때 같은 폭이어도 새로 잰다.
+          if (!w) { widths.delete(en.target); return; }
+          if (widths.get(en.target) !== w) { widths.set(en.target, w); fit(en.target); }
+        }));
+        lists.forEach(l => ro.observe(l));
+        // KaTeX 글꼴은 그 식이 처음 보일 때 늦게 불러와 폭이 바뀌므로, 글꼴 로드 뒤에도 다시 잰다.
+        const refitVisible = () => lists.forEach(l => { if (l.clientWidth) fit(l); });
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refitVisible);
+          if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refitVisible);
+        }
+      }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+    })();
+  </script>
+</body>
+</html>

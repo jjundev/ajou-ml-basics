@@ -1,0 +1,95 @@
+<div class="layer eli5" data-explanation="understand">
+  <h4>문제에서 주어진 것과 구할 것</h4>
+  <p>주어진 것: 관측 $-3,-2.5,-1,0,2,4,5$, 갱신 전 평균 $(\mu_1,\mu_2,\mu_3)=(-4,0,8)$, 반올림된 $7\times3$ 책임도 표, 평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$이에요. 표에 적힌 수로 계산해요.</p>
+  <p>구할 것: (a) 세 $\mu_k^{\text{new}}$를 소수점 아래 둘째 자리까지, (b) 이동 거리 $|\mu_k^{\text{new}}-\mu_k|$와 가장 많이 움직인 성분이에요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+  <p>‘책임도 표로 평균 갱신’이라는 단서에서 M-step의 <b>책임도 가중 평균</b>을 떠올려요. 표의 열 $k$ 하나만 써요.</p>
+  $$\mu_k^{\text{new}}=\frac{\overbrace{\sum_{n=1}^{7} r_{nk}x_n}^{\text{열 }k\text{로 가중한 합}}}{\underbrace{N_k=\sum_{n=1}^{7} r_{nk}}_{\text{열 }k\text{의 합}}}$$
+  <ul>
+    <li>분자와 분모 모두 같은 열 $k$의 책임도를 써요. 분모 $N_k$로 나누므로 가중치 $r_{nk}/N_k$의 합이 $1$이에요.</li>
+    <li>새 평균에는 갱신 전 평균 $\mu_k$가 직접 들어가지 않아요. $\mu_k$는 E-step에서 책임도를 만들 때 이미 쓰였고, (b)에서 비교 기준으로만 다시 써요.</li>
+  </ul>
+  <p>가중 평균의 뜻은 <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>에서 다뤘어요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>종이에 적을 첫 줄</h4>
+  <p>열마다 $0$이 아닌 칸만 골라 $N_1=1.0+1.0+0.057+0.001$을 먼저 적어요.</p>
+  <p>풀이 로드맵: 1. 열 합 $N_k$ → 2. 가중합 $\sum_nr_{nk}x_n$ → 3. 나눠서 반올림한 $\mu_k^{\text{new}}$와 갱신 전 평균의 차이를 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <div data-subpart="a">
+    <h4>(a)</h4>
+    <p><b>최종 답 구조:</b> $(\mu_1^{\text{new}},\mu_2^{\text{new}},\mu_3^{\text{new}})\approx(-2.70,\,-0.40,\,3.70)$이에요.</p>
+    <p>대표로 성분 $1$은 $N_1=2.058$, $\sum_nr_{n1}x_n=-3-2.5+0.057\cdot(-1)+0.001\cdot0=-5.557$이라서 $\mu_1^{\text{new}}=\frac{-5.557}{2.058}\approx-2.70$이에요. 같은 방법으로 성분 $2$는 $N_2=0.943+0.999+0.066$, $\sum_nr_{n2}x_n=-0.943+0+0.132$, 성분 $3$은 $N_3=0.934+1.0+1.0$, $\sum_nr_{n3}x_n=1.868+4+5$예요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$N_k$</th> <th scope="col">$\sum_nr_{nk}x_n$</th> <th scope="col">$\mu_k^{\text{new}}$ (반올림 전)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$1$</th> <td>$2.058$</td> <td>$-5.557$</td> <td>$-2.70$ ($-2.7002$)</td></tr>
+          <tr><th scope="row">$2$</th> <td>$2.008$</td> <td>$-0.811$</td> <td>$-0.40$ ($-0.4039$)</td></tr>
+          <tr><th scope="row">$3$</th> <td>$2.934$</td> <td>$10.868$</td> <td>$3.70$ ($3.7042$)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>교과서 Example 11.3의 $-4\to-2.7$, $0\to-0.4$, $8\to3.7$과 같은 값이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b)</h4>
+    <p><b>최종 답 요약:</b> 이동 거리는 $(1.30,\,0.40,\,4.30)$이고, 가장 많이 움직인 성분은 성분 $3$이에요.</p>
+    <p>$|-2.70-(-4)|=1.30$, $|-0.40-0|=0.40$, $|3.70-8|=4.30$이에요.</p>
+    <p>성분 $3$은 갱신 전 평균 $8$이 데이터 오른쪽 끝 $5$보다 바깥에 있었는데, 맡은 관측 $2,4,5$의 가중 평균으로 옮겨 가서 가장 많이 움직였어요.</p>
+  </div>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>완성 답과 검산</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>세 $N_k$의 합은 $2.058+2.008+2.934=7$이고, 표의 각 행 합도 $1$이에요. 또 각 평균은 그 성분이 맡은 관측 범위 안에 있어요. 성분 $1$은 $[-3,0]$, 성분 $2$는 $[-1,2]$, 성분 $3$은 $[2,5]$ 안이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>반올림 전 값으로 재도 $1.2998$, $0.4039$, $4.2958$로 순서가 같아서 결론이 바뀌지 않아요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall">
+  <h4>여기서 헷갈리기 쉬워요</h4>
+  <p>$0.001$이나 $0.066$처럼 작은 칸도 표에 적힌 대로 $N_k$와 가중합에 넣어요. 분자에만 넣고 분모에서 빠뜨리면 가중치 합이 $1$이 아니게 돼요.</p>
+  <p>(b)의 이동 거리는 부호 없는 거리예요. 성분 $1$은 오른쪽으로, 성분 $2$와 $3$은 왼쪽으로 움직였지만 크기만 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="retry">
+  <h4>다시 풀 때 확인할 것</h4>
+  <ol>
+    <li>열마다 $N_k$와 $\sum_nr_{nk}x_n$을 같은 칸들로 계산해요.</li>
+    <li>나눈 값을 둘째 자리까지 반올림하고 맡은 관측 범위 안에 있는지 봐요.</li>
+    <li>갱신 전 평균과의 차이의 절댓값으로 가장 큰 이동을 골라요.</li>
+  </ol>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group">
+    <h4>떠올릴 개념·공식</h4>
+    <p>$\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$, 분자와 분모 모두 열 $k$의 책임도를 써요. 갱신 전 평균은 (b)의 비교 기준이에요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>결론과 검산</h4>
+    <p>$N_k=(2.058,2.008,2.934)$, 새 평균 $(-2.70,-0.40,3.70)$이에요. 이동 거리 $(1.30,0.40,4.30)$으로 성분 $3$이 가장 많이 움직였어요. 반올림 전 값으로도 순서가 같아요.</p>
+  </div>
+</div>
+<section data-problem-panel="terms">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>책임도(responsibility) $r_{nk}$</dt>
+    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 이 표는 교과서 값을 반올림한 것이고 각 행의 합은 $1$이에요.</dd>
+    <dt>총 책임도 $N_k$</dt>
+    <dd>$N_k=\sum_nr_{nk}$, 열 $k$의 합이에요.</dd>
+    <dt>평균 갱신(mean update)</dt>
+    <dd>책임도를 고정하고 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$으로 평균을 다시 계산하는 M-step의 한 식이에요.</dd>
+  </dl>
+</section>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 11.2의 책임도 표(교과서 353쪽, PDF 359쪽)와 Example 11.3(평균 갱신, 교과서 355쪽, PDF 361쪽)이에요.</p>
+  <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a></p>
+</section>

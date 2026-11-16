@@ -1,0 +1,86 @@
+{
+  "q1": {
+    "answer": "B",
+    "hash": "78ec9ad31d4b8624890bfee78e2a602c7ba505c64f5070c142cdfaba22c50183",
+    "objection": "",
+    "rationale": "s0-learning-map 표와 s1-em-steps: E-step은 현재 π_k, μ_k, Σ_k를 고정하고 r_nk와 N_k를 계산하고, M-step은 r_nk(N_k)를 고정하고 세 파라미터를 다시 계산함. A는 두 단계가 뒤바뀌었고, C와 D는 고정/계산 구분이 틀림",
+    "round": 1
+  },
+  "q10": {
+    "answer": "-3/2",
+    "hash": "bce0409d1404ffd5b29597f4341e71c87210e049eba85cda8278f85d3c402e73",
+    "objection": "",
+    "rationale": "s2-log-gauss 2/3 1차원 예: ∂logN/∂μ=(x−μ)/σ²=(1−4)/2=−3/2",
+    "round": 1
+  },
+  "q11": {
+    "answer": "B",
+    "hash": "ca14008c8306fb3118a6580c8d4c945376a3dd146ff9170270849a032c763898",
+    "objection": "",
+    "rationale": "s3-matrix-deriv 1/3: 칸마다 편미분해 같은 자리에 놓은 D×D 행렬로 정의, (i,j) 칸은 ∂L/∂[Σ_k]_ij, 0으로 놓을 때는 D×D 영행렬",
+    "round": 1
+  },
+  "q12": {
+    "answer": "C",
+    "hash": "aa51369355a7a3a1d23c6ecb8c57d3f8da82d24c1863782e4279729778fde67f",
+    "objection": "",
+    "rationale": "s3-sigma-proof 3/3: 오른쪽에 Σ_k를 곱하면 −N_kI+Σ_k^{-1}(Σr_nkS_n)=0, 이어서 왼쪽에 Σ_k를 곱하면 −N_kΣ_k+Σr_nkS_n=0, 곧 N_kΣ_k=Σr_nkS_n. A는 오른쪽만 곱해 Σ_k^{-1}이 남는데 이를 빠뜨렸고, B의 전치와 D의 Σ_k^{-1} 곱으로는 역행렬이 지워지지 않음",
+    "round": 1
+  },
+  "q2": {
+    "answer": "D",
+    "hash": "5759ea30ce8d342d8a529620a2d355a06437d5231b1ed21c44941fc3c7ab7337",
+    "objection": "",
+    "rationale": "s1-em-steps \"공분산에는 새 평균을 써요\"와 s3-sigma-proof 끝부분: 같은 M-step에서 방금 구한 μ_k^new를 편차 기준으로 씀(MML 11.54→11.55). 평균 조건의 해가 Σ_k와 무관해서 평균을 먼저 구해 대입함",
+    "round": 1
+  },
+  "q3": {
+    "answer": "C",
+    "hash": "2f86f01b3700a2afa923a5030f79f0112ba124d82adecd75f7b12ca181e192a3",
+    "objection": "",
+    "rationale": "s1-em-steps 책임도 표: 각 칸은 0~1이고, 행 합은 1, 열 합 N_k는 확률 여러 개의 합이라 1보다 클 수 있음. π_k^new=N_k/N은 N_k≤N이라 1 이하(합 1)",
+    "round": 1
+  },
+  "q4": {
+    "answer": "3.6",
+    "hash": "c0fc31d34ab850d72ef5a3d5d79dad32e79aec1ce60bc7374db61383f6f1b561",
+    "objection": "",
+    "rationale": "s1-em-steps의 표 전체 합 ΣN_k=N에서 N_2=6−2.4=3.6",
+    "round": 1
+  },
+  "q5": {
+    "answer": "1/15",
+    "hash": "ba568da08a5f55a7939ab4d493c68e57606b747e71ebc4b1f5101259bb4ee5e3",
+    "objection": "",
+    "rationale": "s1-meaning-mean: 가중치는 r_nk/N_k. N_k=0.2+1+0.8+1=3이므로 x_1의 가중치는 0.2/3=1/15",
+    "round": 1
+  },
+  "q6": {
+    "answer": "A",
+    "hash": "3713caeaf1a330f146a39e72158b603b9931b1b56fd201f707658bb0bc2a0da1",
+    "objection": "",
+    "rationale": "s1-meaning-mean \"왜 N이 아니라 N_k로 나누나요?\": Σ0.5·x_n/N=0.5·x̄. 가중치 합이 N_k/N=0.5라 평균의 절반으로 줄어듦",
+    "round": 1
+  },
+  "q7": {
+    "answer": "B",
+    "hash": "b7d5d5b5a5045b43f41bd6ee9f9acb27500aace9bc873a41e66c39d9eca05cda",
+    "objection": "",
+    "rationale": "s0-why-iterate 3/4와 s2-mu-proof 3/3: 우변의 r_nk 분자에 μ_k가 다시 있고 분모에 모든 성분의 π_j, μ_j, Σ_j가 있어 양변에 μ_k가 있는 방정식임. A는 Σ_k가 양의 정부호라 역행렬이 있으므로 틀림, C는 i.i.d. 가정과 어긋남",
+    "round": 1
+  },
+  "q8": {
+    "answer": "D",
+    "hash": "021b5061446663157fe5f30597ef1a4956980eff854159c775639e50dc65bf64",
+    "objection": "",
+    "rationale": "s2-zero-gradient 표: 스칼라를 D×1 열벡터로 미분하면 수업 관례상 1×D 행벡터이고 0도 영 행벡터 0^T. D=3이면 1×3",
+    "round": 1
+  },
+  "q9": {
+    "answer": "A",
+    "hash": "fadbda5bb6ad59221f9f1efdff4b7c249cb992b47fe8926e97898d3280f51c7d",
+    "objection": "",
+    "rationale": "s2-mu-proof 2/3: Σ_k^{-1}이 행벡터의 오른쪽 끝에 있으므로 오른쪽에 Σ_k를 곱해 지우고(0^TΣ_k=0^T), 양변을 전치해 D×1 열벡터 식을 얻음. 왼쪽 곱은 크기가 맞지 않고, 행렬은 나눌 수 없음",
+    "round": 1
+  }
+}

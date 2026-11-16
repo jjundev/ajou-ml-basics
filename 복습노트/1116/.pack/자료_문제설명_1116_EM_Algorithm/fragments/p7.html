@@ -1,0 +1,94 @@
+<div class="layer eli5" data-explanation="understand">
+  <h4>문제에서 주어진 것과 구할 것</h4>
+  <p>주어진 것: 관측 $-4,-2,-1,0,2,4,6$과 분수 책임도 표 $r_{nk}$, $(N_1,N_2,N_3)=\left(\frac{5}{2},2,\frac{5}{2}\right)$, 새 평균 $\left(-\frac{13}{5},\frac{1}{4},\frac{22}{5}\right)$, 갱신 전 분산 $\left(2,\frac{1}{2},3\right)$이에요.</p>
+  <p>구할 것: (a) $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$을 기약분수로, (b) 갱신 전보다 줄어든 성분과 커진 성분이에요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+  <p>‘분산 갱신식’과 ‘이미 갱신된 평균’이라는 단서에서 1차원 <b>가중 분산(weighted variance)</b>을 떠올려요. 평균을 낼 때와 같은 가중치로 새 평균 주위의 퍼짐을 재요.</p>
+  $$(\sigma_k^{\text{new}})^2=\frac{1}{\underbrace{N_k}_{\text{열 }k\text{의 합}}}\sum_{n=1}^{7}\underbrace{r_{nk}}_{\text{가중치}}\,\underbrace{(x_n-\mu_k^{\text{new}})^2}_{\text{새 평균 기준 편차 제곱}}$$
+  <ul>
+    <li>$r_{nk}=0$인 관측은 항이 $0$이라 빼고 계산해요. 성분마다 관측 세 개만 남아요.</li>
+    <li>편차를 분수로 먼저 구하면 분모가 같아져서 제곱해 더하기 쉬워요. 갱신 전 분산은 식에 들어가지 않고 (b)의 비교 기준이에요.</li>
+  </ul>
+  <p><a href="정리노트_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a>의 1차원 가중 분산과 같은 식이에요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>종이에 적을 첫 줄</h4>
+  <p>성분 $1$의 편차부터 적어요. $\mu_1^{\text{new}}=-\frac{13}{5}$에서 $x_n=-4,-2,-1$의 편차는 $-\frac{7}{5},\ \frac{3}{5},\ \frac{8}{5}$이에요.</p>
+  <p>풀이 로드맵: 1. 성분별 편차를 분수로 → 2. $r_{nk}\times$편차 제곱을 더해 가중합 → 3. $N_k$로 나눠 약분하고 갱신 전 분산과 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <div data-subpart="a">
+    <h4>(a)</h4>
+    <p><b>최종 답 구조:</b> $\bigl((\sigma_1^{\text{new}})^2,(\sigma_2^{\text{new}})^2,(\sigma_3^{\text{new}})^2\bigr)=\left(\frac{36}{25},\,\frac{19}{16},\,\frac{56}{25}\right)$이에요.</p>
+    <p>대표로 성분 $1$은 $1\cdot\frac{49}{25}+1\cdot\frac{9}{25}+\frac{1}{2}\cdot\frac{64}{25}=\frac{90}{25}=\frac{18}{5}$이고, $\frac{18/5}{5/2}=\frac{36}{25}$이에요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">편차 $x_n-\mu_k^{\text{new}}$</th> <th scope="col">$r_{nk}\times$편차 제곱</th> <th scope="col">가중합</th> <th scope="col">$\div N_k$</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$1$</th> <td>$-\frac{7}{5},\ \frac{3}{5},\ \frac{8}{5}$</td> <td>$\frac{49}{25}+\frac{9}{25}+\frac{1}{2}\cdot\frac{64}{25}$</td> <td>$\frac{18}{5}$</td> <td>$\frac{18}{5}\cdot\frac{2}{5}=\frac{36}{25}$</td></tr>
+          <tr><th scope="row">$2$</th> <td>$-\frac{5}{4},\ -\frac{1}{4},\ \frac{7}{4}$</td> <td>$\frac{1}{2}\cdot\frac{25}{16}+\frac{1}{16}+\frac{1}{2}\cdot\frac{49}{16}$</td> <td>$\frac{19}{8}$</td> <td>$\frac{19}{8}\cdot\frac{1}{2}=\frac{19}{16}$</td></tr>
+          <tr><th scope="row">$3$</th> <td>$-\frac{12}{5},\ -\frac{2}{5},\ \frac{8}{5}$</td> <td>$\frac{1}{2}\cdot\frac{144}{25}+\frac{4}{25}+\frac{64}{25}$</td> <td>$\frac{28}{5}$</td> <td>$\frac{28}{5}\cdot\frac{2}{5}=\frac{56}{25}$</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>성분 $2$의 가중합은 $\frac{25}{32}+\frac{2}{32}+\frac{49}{32}=\frac{76}{32}=\frac{19}{8}$이에요. 세 결과 모두 분자와 분모의 공약수가 $1$이라 기약분수예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b)</h4>
+    <p><b>최종 답 요약:</b> 성분 $1$과 성분 $3$은 분산이 줄었고, 성분 $2$는 커졌어요.</p>
+    <p>소수로 바꾸면 $\frac{36}{25}=1.44\lt2$, $\frac{19}{16}=1.1875\gt\frac{1}{2}$, $\frac{56}{25}=2.24\lt3$이에요.</p>
+  </div>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>완성 답과 검산</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mu_k^{\text{new}}$가 같은 가중치 $r_{nk}/N_k$로 낸 평균이라서, 같은 가중치로 ‘제곱의 평균 − 평균의 제곱’을 계산해도 같아야 해요. 성분 $2$는 $\frac{1}{2}\left(\frac{1}{2}\cdot1+1\cdot0+\frac{1}{2}\cdot4\right)=\frac{5}{4}$이고, $\frac{5}{4}-\left(\frac{1}{4}\right)^2=\frac{20}{16}-\frac{1}{16}=\frac{19}{16}$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>분수끼리 비교해도 $\frac{36}{25}\lt\frac{50}{25}$, $\frac{19}{16}\gt\frac{8}{16}$, $\frac{56}{25}\lt\frac{75}{25}$로 같은 결론이에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall">
+  <h4>여기서 헷갈리기 쉬워요</h4>
+  <p>반씩 맡은 관측($-1$, $2$)은 편차 제곱에 $\frac{1}{2}$을 곱해요. 이 가중치를 빼먹고 세 항을 그대로 더하면 성분 $1$의 가중합이 $\frac{122}{25}$가 되어 답이 달라져요.</p>
+  <p>나누는 수는 맡은 관측 개수 $3$이 아니라 $N_k$예요. 성분 $1$·$3$은 $\frac{5}{2}$, 성분 $2$는 $2$로 나눠요.</p>
+</div>
+<div class="layer formal" data-explanation="retry">
+  <h4>다시 풀 때 확인할 것</h4>
+  <ol>
+    <li>$r_{nk}\neq0$인 관측만 골라 새 평균 기준 편차를 분수로 적어요.</li>
+    <li>편차 제곱에 $r_{nk}$를 곱해 더하고 $N_k$로 나눠 약분해요.</li>
+    <li>새 평균이 같은 가중치의 평균이니 ‘제곱의 평균 − 평균의 제곱’으로 한 성분을 검산해요.</li>
+  </ol>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group">
+    <h4>떠올릴 개념·공식</h4>
+    <p>1차원 가중 분산 $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$이에요. 편차는 새 평균에서 재고, 반씩 맡은 관측은 $\frac{1}{2}$로 가중해요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>결론과 검산</h4>
+    <p>가중합 $\left(\frac{18}{5},\frac{19}{8},\frac{28}{5}\right)$을 $N_k$로 나누면 $\left(\frac{36}{25},\frac{19}{16},\frac{56}{25}\right)$이에요. 성분 $1$·$3$은 줄고 성분 $2$는 커졌어요. 새 평균이 같은 가중치의 평균이라 ‘제곱의 평균 − 평균의 제곱’으로도 같은 값이 나와요.</p>
+  </div>
+</div>
+<section data-problem-panel="terms">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>가중 분산(weighted variance)</dt>
+    <dd>$\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$, 책임도로 가중한 편차 제곱의 평균이에요. $D=1$일 때의 공분산 갱신식이에요.</dd>
+    <dt>새 평균 $\mu_k^{\text{new}}$</dt>
+    <dd>같은 M-step에서 먼저 구한 가중 평균이에요. 분산 갱신의 편차 기준이에요.</dd>
+    <dt>기약분수</dt>
+    <dd>분자와 분모의 최대공약수가 $1$인 분수예요.</dd>
+  </dl>
+</section>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 11.4(분산 갱신), 교과서 357–358쪽(PDF 363–364쪽)의 계산 구조를 분수로 끝나는 책임도 표로 바꾼 문항이에요. 표와 새 평균은 복습문제 2번과 같아요.</p>
+  <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a></p>
+</section>
