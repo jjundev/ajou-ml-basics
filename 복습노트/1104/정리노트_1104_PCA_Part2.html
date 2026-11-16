@@ -149,6 +149,9 @@
     .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
     .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .topic .calc-box { margin: var(--s4) 0; padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--surface); font-size: var(--fs-sub); line-height: 1.7; }
+    .topic .calc-box > .calc-label { margin: 0 0 var(--s1); font-size: var(--fs-label); font-weight: 700; color: var(--ink-2); }
+    .topic .calc-box .katex-display { margin: var(--s2) 0; }
     .table-wrap { overflow-x: auto; }
     table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
     th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
@@ -416,8 +419,8 @@
   <h3>어떤 축을 남겨야 복원오차가 작아질까?</h3>
   <div class="tags"><span class="tag date">1104 수업</span><span class="tag slide">L05 s26–28 · L06 s5–17</span></div>
   <div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
-    <p data-map="goal">표본 하나가 숫자 $D$개로 되어 있을 때, 그보다 적은 $M$개만 저장했다가 다시 $D$개로 펼치고 싶어요. 어떤 축에서 읽은 숫자를 남겨야 다시 펼친 결과가 원래와 가장 가까울까요?</p>
-    <p data-map="bridge">1102에서는 축 하나가 정해졌을 때 그 축에서 읽은 좌표와 좌표의 분산을 구했어요. 1104에서는 축을 고르는 문제를 풀어요. 분산이 가장 큰 축이 무엇인지 증명하고, 그 축을 남기면 복원오차도 가장 작다는 것을 계산으로 확인해요.</p>
+    <p data-map="goal">표본을 $D$개 숫자에서 $M$개로 줄였다가 다시 펼치고 싶어요. 남길 좌표 수 $M$을 정했을 때, 어느 축에서 좌표를 읽어야 원래 표본에 가장 가깝게 복원할까요?</p>
+    <p data-map="bridge">1102에서는 축이 주어지면 그 축과의 내적으로 좌표를 읽고, 좌표의 분산을 구했어요. 이번에는 같은 점들을 두고 축을 바꿔요. 축을 하나만 남겨도 어느 방향을 고르느냐에 따라 담기는 분산과 복원한 점까지의 거리가 달라져요.</p>
     <div class="table-wrap"><table>
       <thead><tr><th scope="col">보는 방향</th><th scope="col">계산하는 것</th><th scope="col">다음에 쓰는 곳</th></tr></thead>
       <tbody>
@@ -425,8 +428,8 @@
         <tr><td>버리는 쪽</td><td>빠진 축에 담긴 분산</td><td>복원 벡터의 평균 제곱오차를 구해요.</td></tr>
       </tbody>
     </table></div>
-    <p data-map="result">오늘 구하는 것은 네 가지예요. 남길 축을 모은 행렬, 표본마다 줄여 적은 좌표, 그 좌표를 원래 차원으로 펼친 복원 벡터, 그리고 원래 벡터와 복원 벡터의 차이를 제곱해 평균낸 복원오차예요. 평균을 뺀 데이터가 정해지면 남긴 분산과 버린 분산의 합은 변하지 않아요. 그래서 분산을 가장 많이 남기는 축과 오차를 가장 적게 만드는 축이 같아요.</p>
-    <p data-map="formula">계산은 네 걸음이에요. 먼저 <a href="#s0-spectral-weights">어느 방향의 분산이든 공분산 행렬의 고윳값들을 섞은 평균</a>임을 보여요. 그러면 <a href="#s0-top-directions">가장 큰 고윳값의 방향부터 고르면</a> 돼요. 다음으로 <a href="#s1-discarded">복원오차가 버린 축의 고윳값 합</a>임을 계산해요. 마지막으로 공분산을 만들지 않고 <a href="#s2-svd">데이터 행렬을 바로 분해하는 특잇값 분해(SVD)</a>로 같은 축을 구해요. 그 축의 분산은 특잇값의 제곱을 표본 수로 나눈 값이에요.</p>
+    <p data-map="result">선택한 축들에서 좌표를 읽고, 읽은 좌표로 축을 가중합해 복원해요. 중심화한 데이터의 전체 분산은 고정되어 있어요. 남긴 분산이 커지는 만큼 버린 분산이 줄고, 버린 분산이 바로 표본당 평균 제곱 복원오차예요.</p>
+    <p data-map="formula"><a href="#s0-spectral-weights">방향별 분산</a>을 고윳값의 가중평균으로 쓰면 <a href="#s0-top-directions">어느 축에 분산이 가장 많이 담기는지</a> 알 수 있어요. <a href="#s1-discarded">복원오차</a>는 버린 축에 남은 좌표로 계산해요. <a href="#s2-svd">데이터 행렬의 특잇값 분해(SVD)</a>로도 같은 주성분 축을 구해요.</p>
     <p data-map="pitfall">줄여 적은 좌표는 남긴 축의 수인 $M$차원이고, 복원 벡터는 원래 특성 수인 $D$차원이에요. 남기는 마지막 축과 버리는 첫 축의 고윳값이 같다면 최적 축을 여러 방식으로 고를 수 있어요.</p>
   </div>
   <div class="sum" hidden><p class="sum-lead">평균을 뺀 데이터에서 남긴 분산을 최대로 하면 버린 축의 분산 합인 평균 제곱 복원오차가 최소가 돼요.</p><p>줄여 적은 좌표는 남긴 축 수인 $M$차원이고, 복원 벡터는 원래 특성 수인 $D$차원이에요. 남기는 마지막 축과 버리는 첫 축의 고윳값이 같으면 최적 축을 여러 방식으로 고를 수 있어요.</p></div>
@@ -448,8 +451,17 @@
     </figure>
   </div>
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-    <p>이 페이지가 답하는 질문은 하나예요. <b>자를 어느 방향에 놓아야 눈금이 가장 넓게 퍼질까요?</b> 답을 먼저 말하면, 어느 방향의 퍼짐이든 공분산 행렬의 고윳값들을 섞은 평균이에요. 그래서 가장 큰 고윳값보다 더 넓게 퍼질 수는 없어요.</p>
-    <p>그림의 자 방향이 길이 1인 벡터 $\mathbf b\in\mathbb R^D$이고, 자에서 읽은 눈금이 내적 $\mathbf b^\top\mathbf x_n$이에요. $\mathbf x_n\in\mathbb R^D$는 특성별 평균을 이미 뺀 $n$번째 표본이고, 표본은 $N$개, 특성은 $D$개예요.</p>
+    <p><b>같은 점에 자를 가로로 놓을 때와 대각선으로 놓을 때, 어느 쪽 눈금이 더 넓게 퍼질까요?</b> 설명용으로 평균이 0인 네 점 $(\sqrt3,\sqrt3)$, $(-\sqrt3,-\sqrt3)$, $(1,-1)$, $(-1,1)$을 써요. 같은 눈금 간격을 쓰도록 자의 방향 벡터 $\mathbf b$는 길이 1로 맞춰요.</p>
+    <div class="table-wrap"><table aria-label="같은 네 점을 읽은 두 방향의 분산">
+      <thead><tr><th scope="col">읽는 방향</th><th scope="col">좌표의 제곱</th><th scope="col">분산</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">가로축</th><td>3, 3, 1, 1</td><td>2</td></tr>
+        <tr><th scope="row">오른쪽 위 대각선</th><td>6, 6, 0, 0</td><td>3</td></tr>
+      </tbody>
+    </table></div>
+    <p>$\mathbf x_n$을 $n$번째 점이라 하면 읽은 좌표는 내적 $\mathbf b^\top\mathbf x_n$이에요. 좌표의 평균이 0이라 분산 $V(\mathbf b)$는 표에 있는 좌표 제곱의 평균이에요. $N=4$를 넣으면 대각선의 분산은 다음처럼 나와요.</p>
+    $$V\big((1,1)^\top/\sqrt2\big)=\frac{6+6+0+0}{4}=3.$$
+    <p>두 방향 중에서는 대각선이 앞서요. 모든 방향에서도 이 값이 최대인지 보려면, 점마다 좌표를 다시 읽지 않고 방향끼리 비교할 식이 필요해요. 이제 $D$개의 특성을 가진 중심화 표본 $\mathbf x_n\in\mathbb R^D$가 $N$개 있는 경우로 넓혀요.</p>
     <nav class="note-stage-nav" aria-label="계산 단계">
 <a href="#s0-weights-variance" aria-current="step">1. 퍼짐을 식으로</a>
 <a href="#s0-weights-coordinates">2. 고유벡터로 쓰기</a>
@@ -474,19 +486,13 @@
 <details><summary>자세히</summary><p>가운데 묶음이 공분산 행렬 $\mathbf S$예요. $(i,j)$ 칸은 $x_{in}x_{jn}$의 평균이라 $i$와 $j$를 바꿔도 같아요. 그래서 $\mathbf S$는 대칭이고, 2단계에서 이 사실을 써요.</p></details></div></li>
 </ol>
 <p class="note-stage-result"><b>데이터는 $\mathbf S$에 한 번만 모으고, 방향을 바꿀 때는 $\mathbf b$만 갈아 끼워요.</b></p>
-<h5 class="note-subheading">작은 예로 넣어 보기</h5>
-<ol class="deriv">
-<li><div class="deriv-eq">$$\mathbf S=\begin{bmatrix}2&1\\1&2\end{bmatrix}$$</div>
-<div class="deriv-why"><p>특성이 두 개인 공분산</p></div></li>
-<li><div class="deriv-eq">$$V\big((1,0)^\top\big)=2$$</div>
-<div class="deriv-why"><p>가로 방향</p></div></li>
-<li><div class="deriv-eq">$$V\big((1,1)^\top/\sqrt2\big)=\tfrac12(2+1+1+2)=3$$</div>
-<div class="deriv-why"><p>대각선 방향이 더 넓게 퍼져요</p></div></li>
-<li><div class="deriv-eq">$$V(\alpha\mathbf b)=\alpha^2V(\mathbf b)$$</div>
-<div class="deriv-why"><p>자를 늘이면 눈금도 커져요</p>
-<details><summary>자세히</summary><p>그래서 방향끼리 공정하게 비교하려고 $\|\mathbf b\|=1$인 벡터만 넣어요.</p></details></div></li>
-</ol>
-<p class="deriv-check">3이 최댓값일까요? 하나씩 넣어 보는 방법으로는 알 수 없어서, 모든 방향을 한꺼번에 비교할 식이 필요해요.</p>
+<div class="calc-box">
+<p class="calc-label">계산 확인</p>
+<p>네 점에 대해 $\mathbf x_n\mathbf x_n^\top$를 평균 내면 다음 공분산이 나와요. 대각선의 두 점은 같은 바깥곱을 내고, 나머지 두 점도 같은 바깥곱을 내요.</p>
+$$\mathbf S=\frac14\left(2\begin{bmatrix}3&3\\3&3\end{bmatrix}+2\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\right)=\begin{bmatrix}2&1\\1&2\end{bmatrix}.$$
+<p>가로 방향에서는 $V\big((1,0)^\top\big)=S_{11}=2$이고, 대각선에서는 $\mathbf b^\top\mathbf S\mathbf b=\tfrac12(2+1+1+2)=3$이에요. 자의 길이를 $\alpha$배 하면 $V(\alpha\mathbf b)=\alpha^2V(\mathbf b)$로 변하므로 방향을 비교할 때는 길이를 1로 맞춰요.</p>
+</div>
+<p class="deriv-check">이제 점들을 다시 읽지 않고도 방향별 분산을 구할 수 있어요. 모든 방향을 한꺼번에 비교하려면 행렬 곱을 어떻게 바꾸면 될까요?</p>
 </div>
 </div>
 <div class="note-stage">
@@ -563,14 +569,15 @@
     <p>내적의 항을 직접 써 보면 어떤 교차항이 0인지 확인할 수 있어요.</p>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">방향 분산은, 축을 고유벡터로 다시 쓰면 고윳값의 가중평균이에요.</p>
-    <p class="panel-label">핵심 식</p>
+    <p class="sum-lead">같은 네 점을 가로축과 대각선에서 읽어, 좌표의 퍼짐이 방향마다 어떻게 달라지는지 비교해요.</p>
+    <details><summary>핵심 식 보기</summary>
     <ul class="eq-list"><li><span class="eq-name">방향 분산</span>$$V(\mathbf b)=\mathbf b^\top\mathbf S\mathbf b,\quad \mathbf S=\frac1N\sum_n\mathbf x_n\mathbf x_n^\top$$</li>
     <li><span class="eq-name">고유기저로 분해</span>$$\mathbf S=\mathbf P\boldsymbol\Lambda\mathbf P^\top$$</li>
     <li><span class="eq-name">고윳값의 가중평균</span>$$V(\mathbf b)=\sum_{i=1}^D\lambda_i c_i^2,\quad c_i=\mathbf p_i^\top\mathbf b$$ <p>제곱 가중치의 합은 $\sum_i c_i^2=1$이에요.</p></li></ul>
     <p>$\mathbf S$가 실수 대칭행렬이라 고유벡터를 서로 수직, 길이 1로 고를 수 있어요. 방향끼리 비교하려고 $\|\mathbf b\|=1$로 맞춰요.</p>
     <p class="panel-label">예</p>
     <p>$\mathbf S=\begin{bmatrix}2&1\\1&2\end{bmatrix}$에서 $\lambda_1=3$, $\lambda_2=1$이에요. 가로 방향의 분산은 $3\cdot\frac12+1\cdot\frac12=2$예요.</p>
+    </details>
   </div>
 </article>
 
@@ -590,8 +597,8 @@
     </figure>
   </div>
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-    <p>이 페이지의 질문은 <b>어느 축들을 남겨야 분산을 가장 많이 담을까요?</b>예요. 답을 먼저 말하면, 공분산 $\mathbf S$의 고윳값이 큰 순서대로 고유벡터 $M$개를 남기면 돼요.</p>
-    <p>출발점은 <a href="#s0-spectral-weights">고유기저에서 방향 분산 계산하기</a>의 결과예요. 길이 1인 방향 $\mathbf b$를 고유벡터 $\mathbf p_i$의 가중합 $\mathbf b=\sum_i c_i\mathbf p_i$로 쓰면 분산은 고윳값의 가중평균이었어요. 고윳값은 큰 순서로 $\lambda_1\ge\cdots\ge\lambda_D\ge0$이에요.</p>
+    <p><b>방향을 더 돌려 보면 네 점의 분산 3을 넘을 수 있을까요? 축을 여러 개 남기려면 그다음에는 어느 방향을 골라야 할까요?</b> 고윳값이 큰 순서대로 고유벡터 $M$개를 남기면 돼요. 먼저 어떤 방향도 3을 넘을 수 없는 이유부터 봐요.</p>
+    <p><a href="#s0-spectral-weights">앞에서 구한 가중평균</a>에서 네 점의 분산은 $3c_1^2+1\cdot c_2^2$예요. 대각선 $\mathbf p_1$에서는 분산 3에 무게 1을 전부 두고, 가로축에서는 무게를 절반씩 나눠서 2를 만들어요. 일반적으로 길이 1인 $\mathbf b=\sum_i c_i\mathbf p_i$에서 무게의 합은 1이에요. 고윳값은 $\lambda_1\ge\cdots\ge\lambda_D\ge0$의 순서로 놓아요.</p>
     $$V(\mathbf b)=\sum_{i=1}^D\lambda_i c_i^2,\qquad \sum_{i=1}^D c_i^2=1.$$
     <nav class="note-stage-nav" aria-label="계산 단계">
 <a href="#s0-directions-first" aria-current="step">1. 첫 방향</a>
@@ -614,7 +621,7 @@
 <div class="deriv-why"><p>$c_1=1$, 나머지 0이면 상한을 실제로 만들어요</p></div></li>
 </ol>
 <p class="note-stage-result"><b>상한을 실제로 만드는 방향이 있으니 $\lambda_1$이 최댓값이고, 첫 축은 $\mathbf b_1=\mathbf p_1$이에요.</b></p>
-<p class="deriv-check">예: $3c_1^2+1\cdot c_2^2$은 $c_1^2=1$일 때 가장 큰 값 3이에요. $-\mathbf p_1$도 같은 축이라 어느 쪽을 써도 돼요. 가장 큰 고윳값이 여러 개로 같으면 그 고유벡터들이 만드는 공간의 어떤 단위벡터도 같은 최댓값이에요.</p>
+<p class="deriv-check">$-\mathbf p_1$도 같은 축이에요. 가장 큰 고윳값이 여러 개로 같으면 그 고유벡터들이 만드는 공간의 어떤 단위벡터도 같은 최댓값을 얻어요. 축을 하나 더 남기려면 이미 담은 방향을 어떻게 제외할까요?</p>
 </div>
 </div>
 <div class="note-stage">
@@ -636,7 +643,7 @@
 <div class="deriv-why"><p>보존 분산: 축마다 담긴 분산의 합</p></div></li>
 </ol>
 <p class="note-stage-result"><b>$k$번째 축은 $\mathbf p_k$예요. 고윳값이 큰 순서로 고유벡터를 고르면 돼요.</b></p>
-<p class="deriv-check">예: 고윳값이 3과 1이면 축 하나를 남길 때 전체 분산 4 중 3을 담아요. $M\lt D$이고 $\lambda_M=\lambda_{M+1}$이면 같은 고윳값의 공간에서 다른 축을 골라도 보존 분산은 같아요. 다음 <a href="#s1-projection">기저를 고정하고 좌표 구하기</a>에서 이 $\mathbf B$로 좌표를 구하고 복원해요.</p>
+<p class="deriv-check">네 점에서는 두 번째 축 $\mathbf p_2=(1,-1)^\top/\sqrt2$에 분산 1이 담겨요. $M\lt D$이고 $\lambda_M=\lambda_{M+1}$이면 같은 고윳값의 공간에서 다른 축을 골라도 보존 분산은 같아요.</p>
 </div>
 </div>
 <h4 id="s0-directions-joint">여러 축을 함께 고를 때의 결론</h4>
@@ -664,6 +671,7 @@ $$\begin{aligned}\sum_{i=1}^M\lambda_i-\sum_{i=1}^D\lambda_iw_i&=\sum_{i=1}^M\la
 <p>따라서 앞 $M$개의 고유방향에 가중치를 1씩 두는 선택이 전체 보존 분산도 최대로 만들어요. $M=D$라면 뒤쪽 합은 빈 합인 0이고 모든 방향을 보존해요.</p>
 
 </details>
+<p>남길 축을 정했으면, 각 표본에서 어떤 숫자 $M$개를 읽어야 <a href="#s1-projection">가장 가까운 점으로 복원할 수 있을까요?</a></p>
 </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <blockquote>“그러면 b를 어떻게 선택하면 λ1이 만들어질까? 그게 optimal이잖아.”</blockquote>
@@ -773,15 +781,16 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 <div class="deriv-why"><p>정규방정식을 한쪽으로: 잔차는 모든 축과 수직</p>
 <details><summary>자세히</summary><p>원래 표본에서 복원값을 뺀 벡터가 잔차예요. 그림에서 길에 직각으로 내려간 선이 잔차이고, 그래서 이 복원을 직교사영(orthogonal projection)이라 해요.</p></details></div></li>
 </ol>
-<p class="deriv-check">예: 점 $(6,8)$에서 가로축 $\mathbf B=(1,0)^\top$만 남기면 좌표는 6, 복원값은 $(6,0)$, 잔차는 $(0,8)$이고, 잔차와 가로축의 내적은 0이에요.</p>
+<p class="deriv-check"><a href="#s0-spectral-weights">앞의 네 점</a> 중 $\mathbf x_3=(1,-1)^\top$을 가로축 $\mathbf B=(1,0)^\top$에 사영해 봐요. $z_3=1\cdot1+0\cdot(-1)=1$을 읽고, $\tilde{\mathbf x}_3=1\cdot(1,0)^\top$으로 복원해요. 차이는 $(0,-1)^\top$이고 가로축과 수직이에요.</p>
 <h5 class="note-subheading">헷갈리기 쉬운 두 곱</h5>
 <ol class="deriv">
 <li><div class="deriv-eq">$$\mathbf B^\top\mathbf B=\mathbf I_M$$</div>
 <div class="deriv-why"><p>$M\times M$: 조립했다가 다시 읽으면 같은 좌표</p></div></li>
 <li><div class="deriv-eq">$$\mathbf B\mathbf B^\top\ne\mathbf I_D\quad(M\lt D)$$</div>
 <div class="deriv-why"><p>$D\times D$: 남긴 공간으로 보내는 사영행렬</p>
-<details><summary>자세히</summary><p>위 예에서도 $(6,8)$이 $(6,0)$으로 바뀌었어요. 표본이 처음부터 남긴 공간 안에 있을 때만 복원값이 원래 벡터와 같아요.</p></details></div></li>
+<details><summary>자세히</summary><p>위 예에서도 $(1,-1)$이 $(1,0)$으로 바뀌었어요. 표본이 처음부터 남긴 공간 안에 있을 때만 복원값이 원래 벡터와 같아요.</p></details></div></li>
 </ol>
+<p>남길 축이 정해지면 복원값을 구할 수 있어요. <a href="#s1-discarded">같은 네 점에서 남길 축을 바꾸면</a> 복원오차는 얼마나 달라질까요?</p>
 </div>
 </div>
 </div>
@@ -811,8 +820,17 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 </svg><figcaption>가로로 간 거리는 그대로라서, 원래 자리와의 차이는 높이만큼이에요.</figcaption></figure>
 </div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-<p>이 페이지의 질문은 두 가지예요. <b>복원하면 얼마나 틀릴까요? 그리고 어떤 축을 남겨야 가장 덜 틀릴까요?</b> 답을 먼저 말하면, 복원오차는 버린 축들에 담긴 분산의 합이에요. 그래서 분산이 큰 축을 남기고 작은 축을 버리면 오차가 가장 작아요.</p>
-<p>출발점은 <a href="#s1-projection">기저를 고정하고 좌표 구하기</a>의 복원식 $\tilde{\mathbf x}_n=\mathbf B\mathbf B^\top\mathbf x_n$이에요. 1단계부터 3단계까지는 서로 수직이고 길이 1인 축이면 무엇이든 성립하고, 4단계에서 고유벡터를 골라 넣어요.</p>
+<p><b>같은 네 점에서 축을 하나만 남길 때, 가로축과 오른쪽 위 대각선 중 어디에 사영하면 오차가 더 작을까요?</b> $M=1$로 두고 방향만 바꿔요. 앞에서 본 좌표의 분산 옆에 원래 점에서 복원한 점까지의 거리 제곱을 적어 봐요.</p>
+<div class="table-wrap"><table aria-label="같은 네 점을 한 축에 사영했을 때 보존 분산과 오차">
+  <thead><tr><th scope="col">남긴 축</th><th scope="col">보존 분산</th><th scope="col">네 점의 거리 제곱</th><th scope="col">평균 제곱오차</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">가로축</th><td>2</td><td>3, 3, 1, 1</td><td>2</td></tr>
+    <tr><th scope="row">대각선 $\mathbf p_1$</th><td>3</td><td>0, 0, 2, 2</td><td>1</td></tr>
+  </tbody>
+</table></div>
+<p>복원오차 $J_M$은 원래 점과 복원한 점 사이의 거리 제곱을 표본 $N$개에 걸쳐 평균한 값이에요. 한 축으로 대각선을 남기면 표의 $0,0,2,2$가 $N=4$인 합의 네 항에 들어가요.</p>
+$$J_1=\frac14(0+0+2+2)=1.$$
+<p>가로축에서 대각선으로 바꾸면 보존 분산은 2에서 3으로 늘고, 오차는 2에서 1로 줄어요. 이 관계가 왜 성립하는지 <a href="#s1-projection">직교사영</a> $\tilde{\mathbf x}_n=\mathbf B\mathbf B^\top\mathbf x_n$에서 확인해요. 먼저 임의의 직교 정규 축에서 계산하고, 마지막에 PCA 축을 골라 넣을 거예요.</p>
 <nav class="note-stage-nav" aria-label="계산 단계">
 <a href="#s1-discarded-residual" aria-current="step">1. 버린 성분</a>
 <a href="#s1-discarded-squares">2. 제곱오차</a>
@@ -832,7 +850,7 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 <div class="deriv-why"><p>복원값을 빼면 버린 쪽만 남아요</p></div></li>
 </ol>
 <p class="note-stage-result"><b>틀린 부분은 버린 축 방향의 성분이에요.</b></p>
-<p class="deriv-check">예: 점 $(6,8)$에서 가로축만 남기면 남긴 성분이 6, 버린 성분이 8이에요.</p>
+<p class="deriv-check">대각선 $\mathbf p_1$을 남기면 세 번째 점 $(1,-1)^\top$은 그대로 잔차가 돼요. 이 점이 $\mathbf p_1$과 수직인 $\mathbf p_2$ 방향에 있기 때문이에요.</p>
 </div>
 </div>
 <div class="note-stage">
@@ -853,7 +871,7 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 <li class="deriv-gen"><div class="deriv-eq">$$J_M=\frac1N\sum_{n=1}^N\sum_{j=M+1}^D(\mathbf b_j^\top\mathbf x_n)^2$$</div>
 <div class="deriv-why"><p>표본 $N$개에서 평균</p></div></li>
 </ol>
-<p class="deriv-check">예: $(6,8)$에서 버린 좌표가 8 하나라 오차의 제곱이 64예요.</p>
+<p class="deriv-check">세 번째 점의 버린 좌표는 $\mathbf p_2^\top\mathbf x_3=(1+1)/\sqrt2=\sqrt2$라서 표에 적힌 거리 제곱 2가 나와요. 이 제곱을 네 점에 걸쳐 평균하면 무엇이 될까요?</p>
 </div>
 </div>
 <div class="note-stage">
@@ -866,6 +884,7 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 <li class="deriv-gen"><div class="deriv-eq">$$J_M=\sum_{j=M+1}^D\mathbf b_j^\top\mathbf S\mathbf b_j$$</div>
 <div class="deriv-why"><p>복원오차는 버린 축의 분산 합</p></div></li>
 </ol>
+<p>표에서 대각선 $\mathbf p_1$을 남겼을 때 얻은 $J_1=1$은 버린 축 $\mathbf p_2$의 분산 $\mathbf p_2^\top\mathbf S\mathbf p_2=1$이에요.</p>
 <h5 class="note-subheading">남긴 분산과의 관계</h5>
 <p class="deriv-lead">버린 분산을 줄이는 일과 남긴 분산을 키우는 일이 같으려면, 둘의 합이 축을 어떻게 고르든 변하지 않아야 해요.</p>
 <ol class="deriv">
@@ -893,7 +912,7 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 <li class="deriv-gen"><div class="deriv-eq">$$J_M^\star=\sum_{j=M+1}^D\lambda_j$$</div>
 <div class="deriv-why"><p>최소 복원오차는 버린 고윳값의 합</p></div></li>
 </ol>
-<p class="deriv-check">예: $\mathbf S=\begin{bmatrix}2&1\\1&2\end{bmatrix}$의 고윳값은 3과 1이에요. 축 하나를 남기면 남긴 분산 3, 복원오차 1이고, 합 4가 $\operatorname{tr}\mathbf S=2+2$와 같아요.</p>
+<p class="deriv-check">네 점에서 $M=1$이면 두 번째 고윳값 $\lambda_2=1$만 더해서 $J_1^\star=1$을 얻어요. 어느 축으로 사영해도 전체 분산은 $\operatorname{tr}\mathbf S=2+2=4$예요. 좌표 두 개로 줄였을 때 실제 <a href="#s1-mnist">손글씨 이미지에서는 어떤 모습</a>을 볼 수 있을까요?</p>
 </div>
 </div>
 </div>
@@ -903,11 +922,11 @@ $$\mathbf z_n=\mathbf B^\top\mathbf x_n,\qquad \tilde{\mathbf x}_n=\mathbf B\mat
 <p>내적의 제곱을 스칼라와 그 전치의 곱으로 써도 값은 같지만, 가운데 두 벡터를 묶으면 공분산을 알아볼 수 있다고 설명했어요. 전체 에너지가 일정하니 남기는 쪽이 커지면 잃는 쪽이 작아진다고 연결했어요.</p>
 </div>
 <div class="sum" hidden>
-<p class="sum-lead">원래 벡터와 복원값에서 남긴 축의 항이 상쇄되므로 복원오차는 버린 방향의 분산 합이에요.</p>
-<p class="panel-label">핵심 식</p><ul class="eq-list">
+<p class="sum-lead">같은 네 점의 좌표를 하나씩 남겨요. 가로축과 대각선에서 보존 분산이 얼마나 달라지고 거리 제곱의 평균은 어떻게 움직이는지 비교해요.</p>
+<details><summary>핵심 식 보기</summary><ul class="eq-list">
 <li><span class="eq-name">전체 분산과 보존 분산의 차이</span>$$J_M=\operatorname{tr}\mathbf S-\sum_{m=1}^M\mathbf b_m^\top\mathbf S\mathbf b_m.$$</li>
 <li><span class="eq-name">상위 축을 남겼을 때 최소 복원오차</span>$$J_M^\star=\sum_{j=M+1}^D\lambda_j.$$</li></ul>
-<p class="panel-label">용어</p><dl class="terms"><dt>직교여공간(orthogonal complement)</dt><dd>남긴 부분공간의 모든 벡터에 수직인 벡터들의 공간.</dd></dl>
+<p class="panel-label">용어</p><dl class="terms"><dt>직교여공간(orthogonal complement)</dt><dd>남긴 부분공간의 모든 벡터에 수직인 벡터들의 공간.</dd></dl></details>
 </div>
 </article>
 
@@ -1005,7 +1024,8 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
 <div class="deriv-why"><p>가운데 대각 원소끼리 맞대요</p></div></li>
 </ol>
 <p class="note-stage-result"><b>왼쪽 특이벡터가 주성분 축이고, 축의 분산은 특잇값의 제곱을 표본 수로 나눈 값이에요.</b></p>
-<p class="deriv-check">예: 표본 12개, 가장 큰 특잇값 6이면 첫 주성분의 분산은 $36/12=3$이에요. 특잇값 자체는 분산이 아니에요. $N\lt D$이면 특잇값은 $N$개뿐이고 남는 방향의 분산은 0이에요. 두 방법의 축은 부호가 반대일 수 있고, 고윳값이 같은 축들은 그 공간 안에서 다르게 골라질 수 있어요.</p>
+<p class="deriv-check">앞의 네 점을 열로 모은 $\mathbf X$에서는 특잇값의 제곱이 12와 4예요. 이를 $N=4$로 나누면 공분산에서 구한 방향 분산 $12/4=3$과 $4/4=1$을 되찾아요. $N\lt D$이면 특잇값은 $N$개이고, 남는 방향의 분산은 0이에요. 두 방법의 축은 부호가 반대일 수 있고, 고윳값이 같은 축들은 그 공간 안에서 다르게 골라질 수 있어요.</p>
+<p>이제 찾은 축 중 일부만 쓰면 <a href="#s2-low-rank">데이터 행렬 전체를 어떻게 복원할 수 있을까요?</a></p>
 </div>
 </div>
 </div>

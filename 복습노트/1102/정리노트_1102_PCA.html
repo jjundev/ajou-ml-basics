@@ -80,6 +80,10 @@
     .note-stage-nav a { display: flex; align-items: center; flex: 0 0 auto; min-height: 44px; padding: 0 var(--s2); color: var(--ink-2); font-size: var(--fs-small); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; }
     .note-stage-nav a[aria-current="step"] { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
     .note-stage { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
+    .topic .calc-box { margin: var(--s4) 0; padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--surface); font-size: var(--fs-sub); line-height: 1.7; }
+    .topic .calc-box > .calc-label { margin: 0 0 var(--s1); font-size: var(--fs-label); font-weight: 700; color: var(--ink-2); }
+    .topic .calc-box .katex-display { margin: var(--s2) 0; }
+    .topic .calc-box table { font-size: var(--fs-sub); }
     .topic .note-stage-title { display: flex; align-items: baseline; gap: var(--s4); margin: 0 0 var(--s2); font-size: clamp(22px, 4vw, 24px); font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; scroll-margin-top: 72px; }
     .note-stage-number { flex: none; white-space: nowrap; color: var(--accent-ink); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0; }
     .topic .note-stage-goal { margin: var(--s2) 0 var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
@@ -149,6 +153,7 @@
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
     .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
     .table-wrap { overflow-x: auto; }
+    #s5-cheatsheet .table-wrap { position: relative; }
     table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
     th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
     th { color: var(--ink-2); font-weight: 600; }
@@ -377,6 +382,13 @@
       .panel, .scrim { display: none !important; }
     }
   </style>
+  <noscript>
+    <style>
+      #widget-quadform .widget-static[hidden] { display: block !important; }
+      #widget-quadform .controls, #quadform-plot,
+      #widget-quadform .readout, #widget-quadform .legend { display: none; }
+    </style>
+  </noscript>
 </head>
 <body data-screens="article.topic" data-panels="note" data-range="1102">
   <header class="topbar">
@@ -504,12 +516,13 @@
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
 <p>1028 수업에서는 데이터를 방향 몇 개에 사영해 짧은 좌표로 적는 방법까지 세웠어요. 이 토픽은 "어떤 방향이 좋은 방향인가"의 기준을 정해요. 기준은 사영한 뒤에도 남는 분산, 곧 variance예요.</p>
 <p>basis vector는 데이터를 적을 때 기준이 되는 방향이에요. 그 방향을 적게 고르면서도 원래의 퍼짐을 많이 남기는 것이 목표예요.</p>
+<p><a href="#widget-pca-projection">첫 실험의 네 점</a>에서는 가로 0°에서 분산이 2.5이고 30°에서 3이에요. 가로와 세로처럼 익숙한 축을 먼저 비교하고, 다른 각도의 사영 분산까지 계산할 도구가 필요해요.</p>
 <h4>칠판의 공분산 행렬</h4>
 <p>"분산을 남긴다"를 계산하려면 벡터의 분산이 무엇인지 알아야 해요. 수업에서는 확률벡터(random vector) $\mathbf{a}$의 공분산 행렬(covariance matrix)을 칠판에 바로 썼어요. $\mathbf{a}$는 성분이 $D$개인 세로(열)벡터예요.</p>
 $$\boldsymbol{\Sigma}_{\mathbf{a}}=\mathbb{E}[\mathbf{a}\mathbf{a}^T]-\mathbb{E}[\mathbf{a}]\mathbb{E}[\mathbf{a}]^T$$
 <p>학습을 위한 재구성으로 스칼라 분산 ${\operatorname{Var}(a)=\mathbb{E}[a^2]-(\mathbb{E}[a])^2}$, 곧 "제곱의 평균 빼기 평균의 제곱"과 나란히 놓으면 읽기 쉬워요. 제곱 $a^2$ 자리에 세로벡터와 가로벡터의 곱 $\mathbf{a}\mathbf{a}^T$가 들어간 모양이에요.</p>
 <ul>
-<li>크기: ${(D\times 1)(1\times D)=D\times D}$라서 $\boldsymbol{\Sigma}_{\mathbf{a}}$는 정방행렬이에요. 대각선 칸은 각 성분의 분산이에요.</li>
+<li>크기: ${(D\times 1)(1\times D)=D\times D}$라서 $\boldsymbol{\Sigma}_{\mathbf{a}}$는 정방행렬이에요. 대각선 칸은 각 성분의 분산이고, 비대각선 칸은 두 성분이 함께 변하는 정도인 공분산이에요.</li>
 <li>평균이 0이면 뒤 항은 영벡터끼리의 곱이라 영행렬이 되고, 제곱의 평균만 남아요. PCA가 데이터를 먼저 centering하는 이유예요. 뒤의 데이터 공분산 행렬도 이 모양으로 다시 나와요(<a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>).</li>
 </ul>
 $$\mathbb{E}[\mathbf{a}]=\mathbf{0}\ \Rightarrow\ \boldsymbol{\Sigma}_{\mathbf{a}}=\mathbb{E}[\mathbf{a}\mathbf{a}^T]$$
@@ -610,6 +623,7 @@ $$\mathbf{X}=\begin{bmatrix}\mathbf{x}_1 &amp; \cdots &amp; \mathbf{x}_N\end{bma
 <p>$n$번째 데이터를 $i$번째 방향에 사영한 좌표예요. 2차원 예에서 $[1,0]$을 곱한 것을 일반 방향 $\mathbf{b}_i$로 바꾼 것이에요.</p>
 $$z_{in}=\mathbf{b}_i^T\mathbf{x}_n$$
 <p>크기는 ${(1\times D)(D\times 1)=1\times 1}$이라 스칼라예요. 이 값이 사영 좌표와 같으려면 $\mathbf{b}_i$의 길이가 1이어야 하고, PCA는 서로 직교하는 단위벡터(orthonormal)를 방향으로 써요.</p>
+<p><a href="#widget-pca-projection">첫 실험</a>의 A점은 원점에서 30° 방향으로 $\sqrt6$만큼 떨어져 있어요. 그 방향의 단위벡터를 $\mathbf b_1$이라 하면 $\mathbf x_A=\sqrt6\,\mathbf b_1$의 사영 좌표는 $\mathbf b_1^T\mathbf x_A=\sqrt6\,\mathbf b_1^T\mathbf b_1=\sqrt6$이에요. 실험에서 읽은 좌표를 내적으로 구했어요.</p>
 <p class="note-stage-result"><b>여기서 얻은 결과.</b> 방향 하나에 대응하는 좌표는 숫자 하나예요.</p>
 </div>
 <div class="note-stage">
@@ -681,21 +695,30 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
   </div>
   <div class="layer formal"><span class="layer-title">정확히 말하면</span>
     <p>PCA에서 분산을 가장 많이 남기는 방향은 데이터 공분산 행렬의 고유벡터로 나와요(<a href="#s4-goal">4.1 목표와 결론 미리 보기</a>). 그래서 그 답을 읽는 도구인 고윳값과 고유벡터부터 복습해요.</p>
-    <p><strong>정의 (L05 s16, MML 정의 4.6)</strong>: 정방행렬 $\mathbf{A}\in\mathbb{R}^{n\times n}$에 대해, 스칼라 $\lambda\in\mathbb{R}$와 영벡터가 아닌 벡터 $\mathbf{x}\in\mathbb{R}^{n}$가</p>
+    <p>같은 행렬을 다른 방향에 곱하면 언제 입력한 벡터의 배수만 남을까요? 설명용 예제에서 $\mathbf A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}$를 고정해요.</p>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">입력 벡터</th><th scope="col">곱한 결과</th><th scope="col">배율</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$(1,0)^T$</th><td>$(1,0)^T$</td><td>1</td></tr>
+          <tr><th scope="row">$(1,1)^T$</th><td>$(2,2)^T$</td><td>2</td></tr>
+          <tr><th scope="row">$(0,1)^T$</th><td>$(1,2)^T$</td><td>배수로 쓸 수 없어요</td></tr>
+        </tbody>
+      </table></div>
+      <p>예를 들어 $(1,1)^T$를 곱할 때 첫 성분은 $1\cdot1+1\cdot1=2$, 둘째 성분은 $0\cdot1+2\cdot1=2$예요.</p>
+    </div>
+    <p>표의 둘째 줄에서 $\mathbf A(1,1)^T=2(1,1)^T$예요. 입력 벡터를 $\mathbf x$, 배율을 $\lambda$라고 하면 여기서는 $\mathbf x=(1,1)^T$이고 $\lambda=2$예요. 이 예의 두 고유벡터 $(1,0)^T$와 $(1,1)^T$는 <a href="#s2-evd">고윳값 분해</a>에서 다시 사용할 거예요.</p>
+    <p><strong>정의.</strong> 정방행렬 $\mathbf{A}\in\mathbb{R}^{n\times n}$에 대해, 스칼라 $\lambda\in\mathbb{R}$와 영벡터가 아닌 벡터 $\mathbf{x}\in\mathbb{R}^{n}$가</p>
     $$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$$
     <p>를 만족하면 $\lambda$를 고윳값(eigenvalue), $\mathbf{x}$를 그에 대응하는 고유벡터(eigenvector)라고 해요. 이 식을 고윳값 방정식(eigenvalue equation)이라고 불러요.</p>
     <ul>
       <li>$\mathbf{A}$: $n\times n$ 정방행렬이에요. 벡터를 받아 다른 벡터로 보내는 선형변환 역할을 해요. PCA에서는 이 자리에 $D\times D$ 공분산 행렬 $\mathbf{S}$가 들어가요(이때 $n=D$).</li>
       <li>$\mathbf{x}$: $n\times 1$ 열벡터예요. $\mathbf{A}$를 곱한 결과가 자기 자신의 배수가 되는, 0이 아닌 벡터예요.</li>
-      <li>$\lambda$: 스칼라예요. 그 방향으로 몇 배 늘어나는지(음수면 방향이 뒤집힘)를 알려 줘요.</li>
+      <li>$\lambda$: 스칼라예요. 양수이면 같은 방향으로 크기가 바뀌고, 음수이면 반대 방향으로 향해요. 0이면 영벡터가 돼요.</li>
       <li>$\mathbf{x}\neq\mathbf{0}$ 조건이 필요한 이유: $\mathbf{x}=\mathbf{0}$이면 어떤 $\lambda$로도 식이 성립해서 의미가 없어요.</li>
     </ul>
     <p>고유벡터는 길이가 정해져 있지 않아요. $\mathbf{x}$가 고유벡터이면 0이 아닌 상수 $c$에 대해 $c\mathbf{x}$도 같은 $\lambda$의 고유벡터예요(MML 105쪽). 그래서 뒤에서 고유벡터를 길이 1로 정규화해서 쓸 수 있어요.</p>
-    <p><strong>방향과 배율을 한 쌍으로 읽어요.</strong> 고유벡터는 방향을, 대응하는 고윳값은 그 방향에서의 배율을 알려 줘요. 아래는 정의를 확인하기 위한 설명용 재구성이에요. 이 예제의 $\mathbf{A}$는 $2\times2$ 행렬이고 $\mathbf{p}_1,\mathbf{p}_2$는 길이를 아직 1로 맞추지 않은 열벡터예요.</p>
-    $${\mathbf{A}=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}},\quad{\mathbf{p}_1=\begin{bmatrix}1\\0\end{bmatrix}},\quad{\mathbf{p}_2=\begin{bmatrix}1\\1\end{bmatrix}}$$
-    $$\mathbf{A}\mathbf{p}_1=\begin{bmatrix}1\cdot1+1\cdot0\\0\cdot1+2\cdot0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}=1\mathbf{p}_1$$
-    $$\mathbf{A}\mathbf{p}_2=\begin{bmatrix}1\cdot1+1\cdot1\\0\cdot1+2\cdot1\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}=2\mathbf{p}_2$$
-    <p>오른쪽 수평 방향의 $\mathbf{p}_1$은 고윳값 1, 대각선 방향의 $\mathbf{p}_2$는 고윳값 2와 짝이에요. 이 둘을 열로 모으는 행렬이 뒤에서 쓸 $\mathbf{P}$예요. 이 예제처럼 고윳값이 양수면 방향이 유지되고, 음수면 반대 방향으로 뒤집히며, 0이면 영벡터로 보내져요.</p>
     <nav class="note-stage-nav" aria-label="계산 단계">
 <a href="#s2-eigen-equation" aria-current="step">1. 식 정리</a>
 <a href="#s2-eigen-characteristic">2. 행렬식 조건</a>
@@ -723,7 +746,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       $$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$$</li>
 </ol>
 
-    <h5 class="note-subheading">동치인 진술 (L05 s16)</h5>
+    <h5 class="note-subheading">고윳값을 판별하는 동치 조건</h5>
 <p>다음은 모두 같은 말이에요.</p>
     <ul>
       <li>$\lambda$가 $\mathbf{A}$의 고윳값이에요.</li>
@@ -732,7 +755,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       <li>$\mathbf{A}-\lambda\mathbf{I}_n$의 rank가 $n$보다 작아요(rank-deficient).</li>
       <li>$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$이에요.</li>
     </ul>
-    <p>$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$을 특성방정식(characteristic equation)이라고 해요. 왼쪽 $\det(\mathbf{A}-\lambda\mathbf{I}_n)$을 전개하면 $\lambda$에 대한 $n$차 다항식이 되는데, 이것이 특성다항식(characteristic polynomial) $p_{\mathbf{A}}(\lambda)$예요. 고윳값은 이 다항식의 근이에요(MML 정리 4.8).</p>
+    <p>$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$을 특성방정식(characteristic equation)이라고 해요. 왼쪽 $\det(\mathbf{A}-\lambda\mathbf{I}_n)$을 전개하면 $\lambda$에 대한 $n$차 다항식이 되는데, 이것이 특성다항식(characteristic polynomial) $p_{\mathbf{A}}(\lambda)$예요. 고윳값은 이 다항식의 근이에요.</p>
     <p>먼저 characteristic equation을 풀어 고윳값 $\lambda$를 얻고, 각 $\lambda$를 앞에서 정리한 연립방정식에 다시 넣어 고유벡터 $\mathbf{x}$를 구해요. 이 전체를 eigenvalue–eigenvector problem이라고 불러요. 실제 계산 예는 <a href="#s3-spectral-example">3.2 예제: 3×3 대칭행렬</a>에 있어요.</p>
     <p><strong>복원 요령</strong>: $\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$에서 이항하고 $\mathbf{I}_n$으로 묶어요. 0이 아닌 해가 있으려면 rank-deficient, 즉 행렬식이 0이어야 해요.</p>
 </div>
@@ -740,13 +763,14 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html">단위벡터 x를 돌리며 Ax가 x와 같은 직선에 놓이는 방향을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EA%B3%A0%EC%9C%A0%EB%B2%A1%ED%84%B0%EC%99%80_%EB%8C%80%EC%B9%AD%ED%96%89%EB%A0%AC.html" rel="noopener noreferrer" target="_self">고유벡터와 대칭행렬 실험</a>의 방향 모드에서 찾아 보세요.</p>
 
   <div class="sum" hidden>
-    <p class="sum-lead">고유벡터는 행렬을 곱한 결과가 자기 자신의 배수가 되는 0이 아닌 벡터이고, 고윳값은 그 배율이에요. 양수는 방향 유지, 음수는 반전, 0은 영벡터로 보내는 경우예요. 고윳값은 행렬식이 0이 되는 조건으로 찾아요.</p>
-    <p class="panel-label">핵심 식</p>
+    <p class="sum-lead">예제 행렬을 세 방향에 곱해 어느 결과가 입력 벡터의 배수가 되는지 비교해요. 양수는 방향 유지, 음수는 반전, 0은 영벡터로 보내는 경우예요. 고윳값은 행렬식이 0이 되는 조건으로 찾아요.</p>
+    <details><summary>핵심 식 보기</summary>
     <ul class="eq-list">
       <li><span class="eq-name">고윳값 방정식</span>$$\mathbf{A}\mathbf{x}=\lambda\mathbf{x}$$</li>
       <li><span class="eq-name">이항해서 묶기</span>$$(\mathbf{A}-\lambda\mathbf{I}_n)\mathbf{x}=\mathbf{0}$$</li>
       <li><span class="eq-name">특성방정식</span>$$\det(\mathbf{A}-\lambda\mathbf{I}_n)=0$$</li>
     </ul>
+    </details>
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>고윳값(eigenvalue) $\lambda$</dt><dd>고유벡터 방향으로 늘어나는 배수, 스칼라</dd>
@@ -794,7 +818,7 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
       $$\det\begin{bmatrix}a&amp;b\\c&amp;d\end{bmatrix}=ad-bc$$
       대각행렬은 $b=c=0$이라 $ad$만 남아요. 이것을 $n\times n$으로 넓히면 대각 성분의 곱이 돼요.</li>
     </ul>
-    <p><strong>왜 새 축을 고유벡터로 고를까요?</strong> 익숙한 $\hat{\mathbf{x}},\hat{\mathbf{y}}$는 서로 수직인 단위벡터예요. 좌표축을 자유롭게 정한다면 그런 직각 축을 고를 수 있어요. 여기서 목표는 $\mathbf{A}$의 작용을 새 축마다 정해진 배율을 곱하는 계산으로 바꾸는 것이에요. 그러려면 새 축 $\mathbf{p}_i$가 $\mathbf{A}\mathbf{p}_i=\lambda_i\mathbf{p}_i$를 만족해야 해요. 그래서 대각화에 쓰는 $\mathbf{P}$는 공간 전체를 표현할 만큼 독립인 고유벡터들을 열로 모아요. 이 방향들이 서로 수직이라는 보장은 일반적으로 없어요.</p>
+    <p><strong>왜 새 축을 고유벡터로 고를까요?</strong> <a href="#s2-eigen">2.1의 행렬 비교</a>에서 y축을 넣으면 x성분이 1 생겼고, $(1,1)^T$를 넣으면 자기 축에서 두 배가 됐어요. 대각화의 목표는 새 좌표에서 각 축에 정해진 배율만 곱해도 같은 변환 결과를 얻는 거예요. 그러려면 새 축 $\mathbf{p}_i$가 $\mathbf{A}\mathbf{p}_i=\lambda_i\mathbf{p}_i$를 만족해야 해요. 그래서 대각화에 쓰는 $\mathbf{P}$는 공간 전체를 표현할 만큼 독립인 고유벡터들을 열로 모아요. 이 방향들이 서로 수직이라는 보장은 일반적으로 없어요.</p>
     <p><strong>대각화 가능(diagonalizable)</strong>: $\mathbf{A}\in\mathbb{R}^{n\times n}$가 대각행렬과 닮음(similar)이면, 즉 가역행렬 $\mathbf{P}\in\mathbb{R}^{n\times n}$가 있어서</p>
     $$\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$$
     <p>로 쓸 수 있으면 $\mathbf{A}$는 diagonalizable이에요.</p>
@@ -1032,6 +1056,8 @@ $$\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n\in\mathbb{R}^{M}$$
 </svg><figcaption>대각선으로 접으면 겹치는 표 하나가 무게가 다른 조각 세 개를 더한 것과 같아요.</figcaption></figure>
 </div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+<p><a href="#widget-pca-projection">첫 실험의 네 점</a>에서 만든 공분산 행렬 $\mathbf S$를 어떤 축으로 읽으면 축끼리 섞이지 않을까요? 같은 $\mathbf S$로 0° 단위벡터를 변환하면 y성분이 약 0.87 생겨요. 30° 단위벡터를 변환하면 그 축으로 세 배가 되고, 120° 축 성분은 0이에요. <a href="#widget-quadform">각도를 돌리며 행렬 곱 읽기</a>에서 두 변환의 결과를 확인해요.</p>
+<p>30°와 120° 단위벡터를 각각 $\mathbf p_1,\mathbf p_2$로 두면, 방금 본 0은 $\mathbf p_2^T\mathbf S\mathbf p_1=0$이에요. $\mathbf S\mathbf p_1$을 새 축 $\mathbf p_2$에 사영한 좌표예요. 이런 좌표를 모두 모으면 $\mathbf P^T\mathbf S\mathbf P$가 돼요. $\mathbf P$는 새 축을 열로 모은 행렬이고, $\mathbf P^T$가 변환 결과의 새 좌표를 읽어요.</p>
 <nav class="note-stage-nav" aria-label="계산 단계">
 <a href="#s3-spectral-symmetry" aria-current="step">1. 대칭성·정리</a>
 <a href="#s3-spectral-coordinates">2. 좌표변환</a>
@@ -1205,7 +1231,7 @@ $$\mathbf{S}\mathbf{p}_j=\sum_{i=1}^{n}\lambda_i\mathbf{p}_i(\mathbf{p}_i^T\math
 <a href="#s3-example-normalize">4. 정규화</a>
 <a href="#s3-example-verify">5. 검산</a>
 </nav>
-<p>목적은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 ${\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T}$를 숫자로 확인하는 거예요. 특히 고윳값이 중근이라 고유벡터가 저절로 직교하지 않는 경우를 다뤄요(L05 s19, MML Example 4.8). 대칭행렬 하나를 잡아요.</p>
+<p>목적은 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 ${\mathbf{S}=\mathbf{P}\mathbf{D}\mathbf{P}^T}$를 숫자로 확인하는 거예요. 네 점 예제의 $\mathbf S$는 고윳값이 3과 1이라 각 고유공간에 방향이 하나씩 있었어요. 같은 고윳값에 독립인 방향이 둘 있을 때도 직각인 축을 고를 수 있는지 보려고, 수업의 $3\times3$ 대칭행렬을 써요.</p>
 <p>${\mathbf{A}=\begin{bmatrix}3 &amp; 2 &amp; 2\\ 2 &amp; 3 &amp; 2\\ 2 &amp; 2 &amp; 3\end{bmatrix}}$는 대각 성분이 3, 나머지가 2라서 $\mathbf{A}^T=\mathbf{A}$예요.</p>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s3-example-eigenvalues"><span class="note-stage-number">1 / 5</span><span>가능한 배율 찾기</span></h4>
@@ -1538,7 +1564,17 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-v1-two-dimensions"><span class="note-stage-number">2 / 4</span><span>두 성분의 제곱을 먼저 전개하기</span></h4>
 <p class="note-stage-goal">익숙한 제곱 전개로 교차항을 확인하고 행렬 식과 비교해요.</p>
-<p>$D=2$라면 $z_{1n}=b_{11}x_{1n}+b_{12}x_{2n}$이에요. 이 합을 제곱하면 두 성분의 제곱뿐 아니라 교차항도 생겨요. 공분산 행렬의 비대각 성분이 그 교차항을 담으므로, 각 성분의 분산만 따로 더하면 안 돼요. 이 계산을 아래에서 모든 차원에 한꺼번에 적용해요.</p>
+<p>가로 방향과 세로 방향의 분산만 알면 30°의 분산 3도 계산할 수 있을까요? 같은 네 점에서 가로 분산은 2.5, 세로 분산은 1.5예요. 30°는 가로와 세로 좌표를 함께 읽어요. 두 제곱항만 쓰면 2.25가 나와요. 빠진 0.75는 두 좌표의 곱에서 나와요.</p>
+<p>$D=2$에서 $z_{1n}=b_{11}x_{1n}+b_{12}x_{2n}$을 제곱해 평균하면, $x_{1n}x_{2n}$의 평균인 공분산 $S_{12}$가 가운데 항에 들어가요. $S_{ii}$는 각 기존 축의 분산이에요.</p>
+$$V_1=b_{11}^2 S_{11}+2b_{11}b_{12}S_{12}+b_{12}^2 S_{22}$$
+<p>30°에 대입하면 두 제곱항의 합 2.25에 교차항 0.75를 더해 $3$이 돼요.</p>
+<div class="calc-box">
+  <p class="calc-label">계산 확인</p>
+  <p>30° 단위벡터의 성분은 $(\sqrt3/2,\ 1/2)$예요. 네 점에서 $x_{1n}x_{2n}$을 평균하면 $S_{12}=\sqrt3/2$예요.</p>
+  $$b_{11}^2 S_{11}+b_{12}^2 S_{22}=\tfrac34\cdot2.5+\tfrac14\cdot1.5=2.25$$
+  $$2b_{11}b_{12}S_{12}=2\cdot\tfrac{\sqrt3}{2}\cdot\tfrac12\cdot\tfrac{\sqrt3}{2}=0.75$$
+</div>
+<p>차원이 늘어나도 같은 종류의 항을 한 식에 담도록, 사영 좌표의 제곱을 행렬 곱으로 바꿔요.</p>
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s4-v1-covariance"><span class="note-stage-number">3 / 4</span><span>전치와 분배법칙으로 공분산 드러내기</span></h4>
@@ -1580,11 +1616,12 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 <h4 class="note-stage-title" id="s4-v1-optimization"><span class="note-stage-number">4 / 4</span><span>크기를 고정하고 방향만 고르기</span></h4>
 <p class="note-stage-goal">분산의 행렬 식을 목적함수로 쓰고 단위벡터 제약이 필요한 이유를 확인해요.</p>
 <h5 class="note-subheading">최적화 문제</h5>
-<p>이제 $V_1$을 최대로 하는 $\mathbf{b}_1$을 찾아요(MML (10.10)).</p>
+<p>30°에서 방향벡터의 길이만 두 배로 바꾸면 사영선은 같지만 내적값은 두 배로 커져요. 같은 네 점에서 그렇게 얻은 숫자의 분산은 3에서 12로 올라가요. 이 길이 비교는 단위벡터 조건을 설명하기 위한 재구성이에요.</p>
+$$(2\mathbf b_1)^T\mathbf S(2\mathbf b_1)=4\mathbf b_1^T\mathbf S\mathbf b_1=4\cdot3=12$$
+<p>일반적으로 $c$배 하면 분산은 $c^2$배예요. 분산이 양수인 방향에서 길이 제한이 없으면 얼마든지 값을 키울 수 있어요. 방향끼리 비교하려면 길이를 1로 고정해요.</p>
 $$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject to} \quad \|\mathbf{b}_1\|^2 = 1$$
-<p>제약 $\|\mathbf{b}_1\|^2=1$은 수업에서 "정규화된 벡터"라고만 했고 이유는 말하지 않았어요. 다음은 학습을 위한 재구성이에요(MML 10.2.1, 321쪽에 같은 설명이 있어요). $\mathbf{b}_1$ 대신 $c\mathbf{b}_1$을 넣으면 값이 $c^2$배가 되므로, 사영 분산이 양수인 방향에서는 제약 없이 크기만 키워 $V_1$을 무한대로 보낼 수 있어요. 우리가 원하는 것은 크기가 아니라 방향이라 크기를 1로 묶어요.</p>
 <p><b>복원용 요약.</b> 스칼라 $z_{1n}$을 자기 전치와 곱한다 → 곱의 전치로 $\mathbf{x}_n^T\mathbf{b}_1$을 만든다 → $\mathbf{b}_1^T$는 왼쪽, $\mathbf{b}_1$은 오른쪽으로 꺼낸다 → 가운데 평균이 $\mathbf{S}$.</p>
-<p class="footnote">바깥으로 꺼내는 벡터는 첫 번째 주성분 방향 $\mathbf b_1$이에요.</p>
+<p>길이를 고정했으니, 이제 사영 분산 $\mathbf b_1^T\mathbf S\mathbf b_1$이 가장 커지는 방향을 <a href="#s4-max-proof">4.3의 고유기저</a>에서 찾아요.</p>
 </div>
 </div>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">점마다 사영해 평균한 V₁이 b₁ᵀSb₁과 늘 같은지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" rel="noopener noreferrer" target="_self">사영 분산과 첫 주성분 실험</a>에서 방향 θ를 돌리며 확인해 보세요.</p>
@@ -1623,34 +1660,15 @@ $$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject t
 </svg><figcaption>가장 긴 방향이 첫 번째 답이고, 그와 수직인 방향에서 퍼짐이 가장 작아요.</figcaption></figure>
 </div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-<p>이 증명의 목적은 크기 1인 $\mathbf{b}_1$ 중에서 목표식을 가장 크게 만드는 방향이 무엇인지, 그때 값이 얼마인지 구하는 거예요. 출발식은 <a href="#s4-v1">4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</a>에서 얻은 결과예요.</p>
-$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$
-<p>답을 읽는 도구는 <a href="#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>의 스펙트럼 정리예요. $\mathbf{S} \in \mathbb{R}^{D \times D}$는 대칭이라 정규직교 고유벡터 $\mathbf{p}_1, \dots, \mathbf{p}_D \in \mathbb{R}^D$로 분해돼요.<sup>1</sup></p>
-$$\mathbf{S}\mathbf{p}_i = \lambda_i\mathbf{p}_i, \qquad \mathbf{p}_i^T\mathbf{p}_j = \begin{cases}1 & (i = j)\\ 0 & (i \ne j)\end{cases}$$
-$$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
-<p>고윳값은 PCA 관례대로 큰 순서 ${\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_D}$로 번호를 붙여요. 가장 큰 고윳값이 $\lambda_1$이에요.</p>
-<p>30°와 120°의 단위벡터를 각각 $\mathbf p_1,\mathbf p_2$라고 해요. A와 B는 $\pm\sqrt{6}\,\mathbf p_1$, C와 D는 $\pm\sqrt{2}\,\mathbf p_2$에 놓여 있어요. 네 점의 바깥곱을 더해 4로 나누면 첫째 쌍은 $3\mathbf p_1\mathbf p_1^T$, 둘째 쌍은 $\mathbf p_2\mathbf p_2^T$를 남겨요.</p>
-$$\mathbf S=3\mathbf p_1\mathbf p_1^T+\mathbf p_2\mathbf p_2^T.$$
-<p>두 축이 직교하므로 각 벡터를 곱하면 $\mathbf S\mathbf p_1=3\mathbf p_1$, $\mathbf S\mathbf p_2=\mathbf p_2$가 돼요. 30°의 $\mathbf p_1$을 양쪽에 넣으면 $\mathbf p_1^T\mathbf S\mathbf p_1=3$으로, 좌표를 제곱해 구한 값과 같아요.</p>
-<p>중간 각도의 단위벡터를 $\mathbf b=c_1\mathbf p_1+c_2\mathbf p_2$로 나누어 봐요. 두 축이 직교하므로 $c_1^2+c_2^2=1$이고, 축을 섞어 곱한 항은 모두 0이에요. 그래서 그 방향의 사영 분산은 $3c_1^2+c_2^2$예요. 3과 1의 가중평균이므로 3을 넘을 수 없고, $c_1^2=1$일 때 3에 닿아요. 그래서 30°의 직선이 <b>첫 번째 주성분 축</b>이에요.</p>
-<p>차원이 더 높아도 사영 분산은 같은 방식으로 고윳값들의 가중평균이 돼요. 가장 큰 고윳값에 무게를 모두 주는 단위 고유벡터를 첫 축으로 고를 수 있어요.</p>
-<p><b>수업에서 한 부분.</b></p>
-<ol class="steps">
-<li><b>전개 아이디어</b>: $\mathbf{p}_1, \dots, \mathbf{p}_D$는 정규직교이고 $\mathbb{R}^D$ 전체를 덮는 기저예요. 3차원이면 $3 \times 1$ 벡터 3개의 가중합으로 모든 점을 나타낼 수 있는 것과 같아요. 그래서 어떤 $\mathbf{b}_1$이든 고유벡터의 가중합으로 써요. 여기서 $c_i$는 스칼라 가중치예요. $$\mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$</li>
-<li><b>대입 시작</b>: 출발식에 그대로 넣어요. 수업은 이 줄에서 멈췄어요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \left(\sum_{i=1}^{D}c_i\mathbf{p}_i\right)^T\mathbf{S}\left(\sum_{i=1}^{D}c_i\mathbf{p}_i\right)$$</li>
-<li><b>결론(말로만)</b>: "산수로 부등호 몇 개"면 끝나고, $\mathbf{b}_1 = \mathbf{p}_1$일 때 최대예요. 즉 첫 방향은 가장 큰 고윳값 $\lambda_1$의 고유벡터예요. 그때의 분산 $V_1 = \lambda_1$은 아래 보충 증명에서 얻는 결과예요.</li>
-</ol>
-<p>나머지 부등식은 다음 시간으로 미뤘어요. 끝까지의 계산은 아래 보충에 있어요.</p>
 <div class="widget" id="widget-quadform"><h4>직접 해 보기: 방향을 돌리며 bᵀSb 재기</h4>
 <p class="widget-help">처음의 네 점에서 구한 공분산을 이번에는 행렬로 읽어요. 각도를 돌리면 단위원 위의 b와 Sb 화살표, 그리고 오른쪽 곡선의 bᵀSb 값이 함께 바뀌어요.</p>
-<p class="widget-help">예시 행렬은 ${\mathbf{S} = \begin{bmatrix}2.5 & \sqrt{3}/2\\ \sqrt{3}/2 & 1.5\end{bmatrix}}$이에요. 고윳값은 3과 1이고, 고유벡터 $\mathbf{p}_1$은 30°, $\mathbf{p}_2$는 120° 방향이에요.</p>
+<p class="widget-help">같은 $\mathbf S$를 두고 0°, 30°, 75°, 120°에서 화살표가 벌어지는지와 사영 분산을 함께 비교해 보세요.</p>
 <div class="controls">
 <label>b의 각도 θ <input type="range" id="quadform-a" min="0" max="180" step="1" value="0"> <b id="quadform-a-val">0°</b></label>
 </div>
 <svg id="quadform-plot" viewBox="0 0 560 300" role="img" aria-label="왼쪽은 단위원과 두 고유벡터 방향의 점선, b 화살표와 Sb 화살표. 오른쪽은 각도에 따른 bᵀSb 곡선과 현재 값의 점, 최댓값 3과 최솟값 1의 기준선."></svg>
 <p class="readout">b = <b id="quadform-b">(1.00, 0.00)</b>, Sb = <b id="quadform-sb">(2.50, 0.87)</b>, b와 Sb 사이 각 <b id="quadform-ang">19.1°</b>, bᵀSb = <b id="quadform-out">2.50</b></p>
 <p class="legend"><span><span class="sw fit"></span>b(단위벡터), 오른쪽은 bᵀSb 곡선</span><span><span class="sw post"></span>Sb</span><span><span class="sw truth"></span>고유벡터 방향 p₁, p₂</span><span>회색 점선 가로줄: λ₁ = 3, λ₂ = 1</span></p>
-<p class="widget-help">θ = 30°에서 Sb가 b와 평행해지고(길이 3배), bᵀSb가 최댓값 3 = λ₁이 돼요. 수직인 θ = 120°에서도 평행해지지만(길이 그대로), 이때가 최솟값 1이에요.</p>
 <div class="widget-static" hidden>
 <figure class="figure"><svg id="widget-quadform-static-1" viewBox="0 0 560 300" role="img" aria-label="대표 설정 1: θ = 0°, b와 Sb가 19.1° 벌어져 있고 bᵀSb = 2.50"><line class="axis" x1="10" y1="150" x2="270" y2="150"/><line class="axis" x1="140" y1="15" x2="140" y2="285"/><circle class="fig-ink" cx="140" cy="150" r="40"/><line class="plot-truth" x1="29.1" y1="214.0" x2="250.9" y2="86.0"/><text class="tick" x="13.7" y="220.0">p₁</text><line class="plot-truth" x1="204.0" y1="260.9" x2="76.0" y2="39.1"/><text class="tick" x="210.0" y="268.3">p₂</text><line class="plot-post" x1="140" y1="150" x2="240.0" y2="115.4"/><polyline class="plot-post" points="233.1,123.0 240.0,115.4 229.9,113.6"/><line class="fig-accent" x1="140" y1="150" x2="180.0" y2="150.0"/><polyline class="fig-accent" points="171.0,155.0 180.0,150.0 171.0,145.0"/><text class="tick" x="159.0" y="142.0">b</text><text class="tick" x="246.0" y="111.4">Sb</text><line class="axis" x1="335" y1="262" x2="545" y2="262"/><line class="axis" x1="335" y1="262" x2="335" y2="30"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="82" x2="545" y2="82"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="202" x2="545" y2="202"/><text class="tick" x="291" y="86">λ₁=3</text><text class="tick" x="291" y="206">λ₂=1</text><path class="plot-fit" d="M335.0 112.0 L338.5 106.7 L342.0 101.9 L345.5 97.4 L349.0 93.5 L352.5 90.0 L356.0 87.2 L359.5 84.9 L363.0 83.3 L366.5 82.3 L370.0 82.0 L373.5 82.3 L377.0 83.3 L380.5 84.9 L384.0 87.2 L387.5 90.0 L391.0 93.5 L394.5 97.4 L398.0 101.9 L401.5 106.7 L405.0 112.0 L408.5 117.6 L412.0 123.5 L415.5 129.5 L419.0 135.7 L422.5 142.0 L426.0 148.3 L429.5 154.5 L433.0 160.5 L436.5 166.4 L440.0 172.0 L443.5 177.3 L447.0 182.1 L450.5 186.6 L454.0 190.5 L457.5 194.0 L461.0 196.8 L464.5 199.1 L468.0 200.7 L471.5 201.7 L475.0 202.0 L478.5 201.7 L482.0 200.7 L485.5 199.1 L489.0 196.8 L492.5 194.0 L496.0 190.5 L499.5 186.6 L503.0 182.1 L506.5 177.3 L510.0 172.0 L513.5 166.4 L517.0 160.5 L520.5 154.5 L524.0 148.3 L527.5 142.0 L531.0 135.7 L534.5 129.5 L538.0 123.5 L541.5 117.6 L545.0 112.0"/><text class="tick" x="327.0" y="278">0°</text><text class="tick" x="362.0" y="278">30°</text><text class="tick" x="432.0" y="278">90°</text><text class="tick" x="467.0" y="278">120°</text><text class="tick" x="537.0" y="278">180°</text><text class="tick" x="339" y="24">bᵀSb</text><text class="tick" x="537" y="256">θ</text><line class="plot-truth" x1="335.0" y1="262" x2="335.0" y2="112.0"/><circle class="pt-train" cx="335.0" cy="112.0" r="5"/></svg><figcaption>θ = 0°: b와 Sb가 평행하지 않아요.</figcaption></figure>
 <figure class="figure"><svg id="widget-quadform-static-2" viewBox="0 0 560 300" role="img" aria-label="대표 설정 2: θ = 30°, b가 p₁ 방향이고 Sb가 b와 평행, bᵀSb = 3.00으로 최대"><line class="axis" x1="10" y1="150" x2="270" y2="150"/><line class="axis" x1="140" y1="15" x2="140" y2="285"/><circle class="fig-ink" cx="140" cy="150" r="40"/><line class="plot-truth" x1="29.1" y1="214.0" x2="250.9" y2="86.0"/><text class="tick" x="13.7" y="220.0">p₁</text><line class="plot-truth" x1="204.0" y1="260.9" x2="76.0" y2="39.1"/><text class="tick" x="210.0" y="268.3">p₂</text><line class="plot-post" x1="140" y1="150" x2="243.9" y2="90.0"/><polyline class="plot-post" points="238.6,98.8 243.9,90.0 233.6,90.2"/><line class="fig-accent" x1="140" y1="150" x2="174.6" y2="130.0"/><polyline class="fig-accent" points="169.3,138.8 174.6,130.0 164.3,130.2"/><text class="tick" x="150.1" y="132.6">b</text><text class="tick" x="249.9" y="86.0">Sb</text><line class="axis" x1="335" y1="262" x2="545" y2="262"/><line class="axis" x1="335" y1="262" x2="335" y2="30"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="82" x2="545" y2="82"/><line class="axis" stroke-dasharray="4 4" x1="335" y1="202" x2="545" y2="202"/><text class="tick" x="291" y="86">λ₁=3</text><text class="tick" x="291" y="206">λ₂=1</text><path class="plot-fit" d="M335.0 112.0 L338.5 106.7 L342.0 101.9 L345.5 97.4 L349.0 93.5 L352.5 90.0 L356.0 87.2 L359.5 84.9 L363.0 83.3 L366.5 82.3 L370.0 82.0 L373.5 82.3 L377.0 83.3 L380.5 84.9 L384.0 87.2 L387.5 90.0 L391.0 93.5 L394.5 97.4 L398.0 101.9 L401.5 106.7 L405.0 112.0 L408.5 117.6 L412.0 123.5 L415.5 129.5 L419.0 135.7 L422.5 142.0 L426.0 148.3 L429.5 154.5 L433.0 160.5 L436.5 166.4 L440.0 172.0 L443.5 177.3 L447.0 182.1 L450.5 186.6 L454.0 190.5 L457.5 194.0 L461.0 196.8 L464.5 199.1 L468.0 200.7 L471.5 201.7 L475.0 202.0 L478.5 201.7 L482.0 200.7 L485.5 199.1 L489.0 196.8 L492.5 194.0 L496.0 190.5 L499.5 186.6 L503.0 182.1 L506.5 177.3 L510.0 172.0 L513.5 166.4 L517.0 160.5 L520.5 154.5 L524.0 148.3 L527.5 142.0 L531.0 135.7 L534.5 129.5 L538.0 123.5 L541.5 117.6 L545.0 112.0"/><text class="tick" x="327.0" y="278">0°</text><text class="tick" x="362.0" y="278">30°</text><text class="tick" x="432.0" y="278">90°</text><text class="tick" x="467.0" y="278">120°</text><text class="tick" x="537.0" y="278">180°</text><text class="tick" x="339" y="24">bᵀSb</text><text class="tick" x="537" y="256">θ</text><line class="plot-truth" x1="370.0" y1="262" x2="370.0" y2="82.0"/><circle class="pt-train" cx="370.0" cy="82.0" r="5"/></svg><figcaption>θ = 30°: b = p₁, Sb = 3b, 최댓값이에요.</figcaption></figure>
@@ -1665,6 +1683,22 @@ $$\mathbf S=3\mathbf p_1\mathbf p_1^T+\mathbf p_2\mathbf p_2^T.$$
 </table></div>
 </div>
 </div>
+
+<p id="s4-proof-check">75°에서는 $\mathbf b$와 $\mathbf S\mathbf b$가 약 26.6° 벌어지고, 사영 분산은 2예요. 30°와 120°에서는 두 화살표가 나란하지만 분산은 각각 3과 1이에요. 방향이 유지되는 두 경우 중 어느 쪽을 고를지는 배율을 비교해서 정해요.</p>
+<p>네 점의 바깥곱을 평균한 행렬은 $\mathbf S=\begin{bmatrix}2.5 &amp; \sqrt3/2\\ \sqrt3/2 &amp; 1.5\end{bmatrix}$예요. 30°와 120° 단위벡터를 각각 $\mathbf p_1,\mathbf p_2$라 부르면, 위젯에서 본 두 배율은 $\mathbf S\mathbf p_1=3\mathbf p_1$과 $\mathbf S\mathbf p_2=\mathbf p_2$에 들어가요. 30°를 <a href="#s4-v1">4.2의 분산 식</a>에 넣으면 $\mathbf p_1^T\mathbf S\mathbf p_1=3\mathbf p_1^T\mathbf p_1=3$이 돼요.</p>
+<p>75°처럼 두 화살표 사이 각도가 0이 아닌 후보도 비교하려면, 후보 방향을 두 축으로 나눠요. $\mathbf b=c_1\mathbf p_1+c_2\mathbf p_2$이고 $c_i=\mathbf p_i^T\mathbf b$예요. <a href="#s3-spectral-diagonal">직교 대각화</a>에서 구한 것처럼 다른 축끼리의 내적은 0이라 분산에 같은 축의 항만 남아요. 이 예제에서는 $\mathbf b^T\mathbf S\mathbf b=3c_1^2+c_2^2$예요.</p>
+<p>75°는 두 고유축과 각각 45°를 이루므로 $c_1^2=c_2^2=1/2$이에요. 위젯에서 본 2가 식에서는 이렇게 나와요.</p>
+$$3c_1^2+c_2^2=3\cdot\tfrac12+1\cdot\tfrac12=2$$
+<p>단위벡터라서 $c_1^2+c_2^2=1$이에요. 3과 1의 가중평균은 3을 넘을 수 없어요. 30°에서는 $c_1^2=1$, $c_2^2=0$이 되어 실제로 3에 닿으므로 이 직선이 첫 번째 주성분 축이에요.</p>
+<p>이 예는 학습을 위한 재구성이에요. 일반적으로도 실수 대칭 공분산 행렬 $\mathbf S\in\mathbb R^{D\times D}$의 정규직교 고유기저 $\mathbf p_1,\ldots,\mathbf p_D\in\mathbb R^D$를 써요.<sup>1</sup> 분산은 각 고윳값 $\lambda_i$에 제곱한 좌표 $c_i^2$를 무게로 준 평균이에요. 고윳값을 $\lambda_1\ge\cdots\ge\lambda_D$로 정렬하면 가장 큰 값 $\lambda_1$에 무게를 모두 주는 $\mathbf p_1$을 첫 축으로 고를 수 있어요.</p>
+<p>출발식은 $V_1=\mathbf b_1^T\mathbf S\mathbf b_1$이고 조건은 $\|\mathbf b_1\|^2=1$이에요. <a href="#s3-spectral">스펙트럼 정리</a>에서 $\mathbf S\mathbf p_i=\lambda_i\mathbf p_i$였어요.</p>
+<p><b>수업에서 한 부분.</b></p>
+<ol class="steps">
+<li><b>전개 아이디어</b>: $\mathbf{p}_1, \dots, \mathbf{p}_D$는 정규직교이고 $\mathbb{R}^D$ 전체를 덮는 기저예요. 3차원이면 $3 \times 1$ 벡터 3개의 가중합으로 모든 점을 나타낼 수 있는 것과 같아요. 그래서 어떤 $\mathbf{b}_1$이든 고유벡터의 가중합으로 써요. 여기서 $c_i$는 스칼라 가중치예요. $$\mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$</li>
+<li><b>대입 시작</b>: 출발식에 그대로 넣어요. 수업은 이 줄에서 멈췄어요. $$\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 = \left(\sum_{i=1}^{D}c_i\mathbf{p}_i\right)^T\mathbf{S}\left(\sum_{i=1}^{D}c_i\mathbf{p}_i\right)$$</li>
+<li><b>결론(말로만)</b>: "산수로 부등호 몇 개"면 끝나고, $\mathbf{b}_1 = \mathbf{p}_1$일 때 최대예요. 즉 첫 방향은 가장 큰 고윳값 $\lambda_1$의 고유벡터예요. 그때의 분산 $V_1 = \lambda_1$은 가중평균에서 얻는 결과예요.</li>
+</ol>
+<p>다음 축은 앞서 고른 축과 수직인 방향에서 찾아요. 첫 축의 계수를 어떻게 0으로 만드는지는 <a href="#s4-goal">4.1의 다음 축 선택</a>과 이어져요.</p>
 <p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">다른 점 40개에서 사영 분산과 버린 성분의 분산이 어떻게 달라지는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" rel="noopener noreferrer" target="_self">사영 분산과 첫 주성분 실험</a>에서 다시 확인해 보세요.</p>
 
 <p class="footnote"><sup>1</sup> $\mathbf b_1,\mathbf p_i\in\mathbb R^D$이고 $\mathbf S\in\mathbb R^{D\times D}$예요. 이 강의의 표기 $\mathbf X\in\mathbb R^{D\times N}$에서는 $\mathbf S=\frac1N\mathbf X\mathbf X^T$예요. 반면 $\mathbf X^T\mathbf X$는 $N\times N$ 행렬이에요.</p>
@@ -1680,7 +1714,7 @@ $$\mathbf S=3\mathbf p_1\mathbf p_1^T+\mathbf p_2\mathbf p_2^T.$$
 <blockquote>"저를 믿으세요."</blockquote>
 </div>
 <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
-<p>단위축의 분산은 고윳값들의 가중평균이라 가장 큰 고윳값을 넘지 못해요. 따라서 $\mathbf b_1=\mathbf p_1$에서 최대 분산 $\lambda_1$을 얻어요. 결과는 <a href="#s4-proof-check">위젯으로 확인</a>할 수 있고, 다음 시간에 이어질 완결 증명을 미리 볼 때만 아래를 펼쳐요.</p>
+<p><a href="#s4-proof-check">위젯에서 본 값</a>을 임의의 차원에서 확인하는 전개예요. 가장 큰 고윳값이 중근인 경우의 등호 조건도 확인해요.</p>
 <details><summary>선택 보충: 가중평균과 상한의 완결 증명</summary>
 <nav class="note-stage-nav" aria-label="보충 증명 단계">
 <a href="#s4-proof-expansion" aria-current="step">1. 고유기저 전개</a>
@@ -1748,12 +1782,11 @@ $$\mathbf S=3\mathbf p_1\mathbf p_1^T+\mathbf p_2\mathbf p_2^T.$$
 </div>
 </div>
 </details>
-<p id="s4-proof-check">위젯에서는 축을 돌려 $\mathbf b_1^T\mathbf S\mathbf b_1$이 가장 큰 방향을 확인할 수 있어요. 위 고유축 방향에서 최대 3, 수직인 고유축 방향에서 최소 1이에요.</p>
 </div>
 <div class="sum" hidden>
-<p class="sum-lead">첫 축은 가장 큰 고윳값의 단위 고유벡터예요. 수업에서 미룬 완결 증명은 선택 보충이에요.</p>
-<p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">출발식</span>$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$</li><li><span class="eq-name">결론</span>$$\mathbf{b}_1 = \mathbf{p}_1,\qquad V_1=\lambda_1$$</li></ul>
-<p>가장 큰 고윳값이 하나이면 부호만 다른 두 단위벡터가 같은 최적 축이에요. 중근이면 그 고유공간의 어떤 단위벡터도 최적이에요(등호 조건은 선택 보충).</p>
+<p class="sum-lead">같은 공분산 행렬에서 방향을 돌려 화살표의 각도와 사영 분산이 어떻게 바뀌는지 비교해요.</p>
+<details><summary>핵심 식 보기</summary><ul class="eq-list"><li><span class="eq-name">출발식</span>$$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$</li><li><span class="eq-name">결론</span>$$\mathbf{b}_1 = \mathbf{p}_1,\qquad V_1=\lambda_1$$</li></ul>
+<p>가장 큰 고윳값이 하나이면 부호만 다른 두 단위벡터가 같은 최적 축이에요. 중근이면 그 고유공간의 어떤 단위벡터도 최적이에요(등호 조건은 선택 보충).</p></details>
 </div>
 </article>
     </section>
@@ -1770,7 +1803,7 @@ $$\mathbf S=3\mathbf p_1\mathbf p_1^T+\mathbf p_2\mathbf p_2^T.$$
 <tr><td><a href="#s2-evd">EVD</a></td><td>${\mathbf{A}\mathbf{P} = \mathbf{P}\mathbf{D}}$<br>${\mathbf{A} = \mathbf{P}\mathbf{D}\mathbf{P}^{-1}}$<br>${\mathbf{A}^k = \mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}}$<br>${\det\mathbf{A} = \prod_i \lambda_i}$</td><td>$\mathbf{P}$의 열은 고유벡터, $\mathbf{D}$의 대각은 대응 고윳값이에요. ${\mathbf{A}\mathbf{p}_i = \lambda_i\mathbf{p}_i}$를 열마다 모으면 ${\mathbf{A}\mathbf{P} = \mathbf{P}\mathbf{D}}$가 돼요. 일반 EVD의 $\mathbf{P}$는 직교일 필요가 없고, $\det\mathbf{A} = \det\mathbf{D}$인 이유는 $\det\mathbf{P}\,\det\mathbf{P}^{-1} = 1$이기 때문이에요.</td></tr>
 <tr><td><a href="#s3-spectral">스펙트럼 정리</a></td><td>${\mathbf{S} = \mathbf{P}\mathbf{D}\mathbf{P}^T}$<br>${\mathbf{S} = \sum_{i=1}^{n}\lambda_i\mathbf{p}_i\mathbf{p}_i^T}$</td><td>대칭행렬 $\mathbf{S}^T = \mathbf{S}$는 $\mathbf{P}^T\mathbf{P} = \mathbf{I}$인 고유벡터 행렬로 분해되고 고윳값은 모두 실수예요. 합 꼴은 열×행 곱의 정의에서 바로 나와요. 대각행렬이 일반 행렬과 교환되는 것은 아니에요.</td></tr>
 <tr><td><a href="#s4-v1">분산 $V_1$</a></td><td>${V_1 = \frac{1}{N}\sum_{n=1}^{N}z_{1n}^2}$<br>${V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$</td><td>centering 덕분에 평균 제곱이 곧 분산이에요. ${z_{1n}^2 = \mathbf{b}_1^T\mathbf{x}_n\mathbf{x}_n^T\mathbf{b}_1}$(스칼라 전치, ${(\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T}$)로 바꾸면 $\mathbf{b}_1$이 합 밖으로 나오고 괄호 안이 ${\mathbf{S} = \frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n\mathbf{x}_n^T}$예요. covariance matrix를 쓰는 이유가 여기서 나와요.</td></tr>
-<tr><td><a href="#s4-v1">최적화 문제</a></td><td>${\max_{\mathbf{b}_1}\ \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$<br>${\|\mathbf{b}_1\|^2 = 1}$</td><td>$\mathbf{b}_1$은 normalized 벡터여야 해요. 제약이 없으면 $\mathbf{b}_1$을 키워 값을 얼마든지 크게 만들 수 있어요(수업에서 말하지 않은 이유를 덧붙인 것이에요).</td></tr>
+<tr><td><a href="#s4-v1">최적화 문제</a></td><td>${\max_{\mathbf{b}_1}\ \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1}$<br>${\|\mathbf{b}_1\|^2 = 1}$</td><td>$\mathbf{b}_1$은 normalized 벡터여야 해요. 사영 분산이 양수인 방향에서 길이 제한이 없으면 $\mathbf{b}_1$을 키워 값을 얼마든지 크게 만들 수 있어요.</td></tr>
 <tr><td><a href="#s4-max-proof">결론</a></td><td>${\mathbf{b}_1 = \mathbf{p}_1}$, $V_1 = \lambda_1$</td><td>$\mathbf{b}_1$은 $\mathbf{S}$의 가장 큰 고윳값 $\lambda_1$의 고유벡터예요. 교수님은 ${\mathbf{b}_1 = \sum_{i=1}^{D}c_i\mathbf{p}_i}$로 전개해 대입하는 데까지 했고, 증명은 다음 시간에 마무리해요. $M$개가 필요하면 고윳값 큰 순서로 고유벡터 $M$개를 고른다는 결론만 들었어요.</td></tr>
 </tbody>
 </table></div>

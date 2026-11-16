@@ -465,7 +465,9 @@ $$P(a\le X\le b)=\int_a^b f_X(x)\,dx.$$
 <h3>확률을 가중치로 쓰는 이유</h3>
 <div class="tags"><span class="tag date">1111 수업</span></div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-<p>같은 공간에서 정의한 $K$개의 밀도 $p_1,\ldots,p_K$를 가중합해 새 밀도를 만들어요. 각 성분에 곱하는 혼합비 $\pi_k$는 음이 아니고 모두 더하면 1이에요. 이런 가중합을 볼록 결합(convex combination)이라고 해요.</p>
+<p>면적이 1인 두 밀도를 한 곡선으로 합치면 전체 면적은 어떻게 될까요? 같은 두 곡선의 높이를 그대로 더하면 면적은 $1+1=2$예요. 첫째 높이의 75%, 둘째 높이의 25%만 더하면 각 곡선의 면적도 같은 비율로 줄어요.</p>
+$$0.75\cdot1+0.25\cdot1=1.$$
+<p>면적이 1인 성분을 몇 개 섞더라도, 각 성분에 곱하는 혼합비 $\pi_k$가 음이 아니고 합이 1이면 새 밀도가 돼요. 같은 공간의 $K$개 밀도 $p_1,\ldots,p_K$를 이렇게 섞는 것을 볼록 결합(convex combination)이라고 해요.</p>
 $$p(\mathbf{x})=\sum_{k=1}^{K}\pi_k p_k(\mathbf{x}).$$
 $$\pi_k\ge0,\qquad \sum_{k=1}^{K}\pi_k=1.$$
 <p>비음수끼리 곱해 더하므로 $p(\mathbf{x})\ge0$이에요. 또 적분을 항별로 하면 각 성분의 면적 1이 남아, 전체 면적은 혼합비의 합이 돼요.</p>
@@ -629,33 +631,35 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   <div class="tags"><span class="tag date">1111 수업</span><span class="tag slide">MML §11.2</span></div>
   <div class="layer eli5">
     <span class="layer-title">쉽게 말하면</span>
-    <p class="lead">모형을 하나 골라 관측된 점마다 그 자리의 높이를 읽어요. 한 점을 뽑은 결과가 다른 점을 뽑는 데 영향을 주지 않으면, 높이를 전부 곱해 모형들을 비교할 수 있어요.</p>
+    <p class="lead">같은 두 점을 두고 두 모형을 비교해요. 두 곡선은 그대로 두고, 첫째 곡선을 섞는 비율만 A에서는 60%, B에서는 80%로 바꿨어요. 한 점씩 보면 두 모형 중 어느 쪽의 높이가 더 클까요?</p>
     <figure class="figure">
-      <svg id="fig-gmm-likelihood" viewBox="0 0 340 114" role="img" aria-label="첫째, 둘째, 셋째 관측 위치에서 같은 모형이 준 세 높이를 곱하는 그림">
-        <path class="fig-ink" d="M25 71H89M137 71H201M249 71H313"/>
-        <path class="fig-accent" d="M56 71V29M168 71V42M280 71V22"/>
-        <circle class="fig-dot" cx="56" cy="29" r="4"/>
-        <circle class="fig-dot" cx="168" cy="42" r="4"/>
-        <circle class="fig-dot" cx="280" cy="22" r="4"/>
-        <text class="fig-text" x="112" y="55" text-anchor="middle">×</text>
-        <text class="fig-text" x="224" y="55" text-anchor="middle">×</text>
-        <text class="fig-muted" x="56" y="95" text-anchor="middle">첫째 관측</text>
-        <text class="fig-muted" x="168" y="95" text-anchor="middle">둘째 관측</text>
-        <text class="fig-muted" x="280" y="95" text-anchor="middle">셋째 관측</text>
+      <svg id="fig-gmm-likelihood" viewBox="0 0 340 145" role="img" aria-label="공통 눈금에서 첫째 점의 혼합 밀도는 A가 0.36, B가 0.28이고, 둘째 점에서는 A가 0.44, B가 0.52">
+        <path class="fig-ink" d="M24 102H316"/>
+        <path class="fig-accent" d="M64 102V52M216 102V40"/>
+        <path class="fig-ink" stroke-dasharray="4 3" d="M124 102V63M276 102V29"/>
+        <text class="fig-text" x="64" y="44" text-anchor="middle">A 0.36</text>
+        <text class="fig-text" x="124" y="55" text-anchor="middle">B 0.28</text>
+        <text class="fig-text" x="216" y="32" text-anchor="middle">A 0.44</text>
+        <text class="fig-text" x="276" y="21" text-anchor="middle">B 0.52</text>
+        <text class="fig-text" x="94" y="125" text-anchor="middle">첫째 점 x₁</text>
+        <text class="fig-text" x="246" y="125" text-anchor="middle">둘째 점 x₂</text>
       </svg>
-      <figcaption>같은 모형에서 읽은 높이를 관측마다 하나씩 써요.</figcaption>
+      <figcaption>첫째 점에서는 A가, 둘째 점에서는 B가 높아요. 점별로 이긴 횟수는 1대 1이에요.</figcaption>
     </figure>
   </div>
   <div class="layer formal">
     <span class="layer-title">정확히 말하면</span>
-    <p>관측값 $\mathbf{x}_1,\ldots,\mathbf{x}_N$을 고정하고, 후보 파라미터 $\boldsymbol{\theta}$가 이 데이터 전체에 얼마만큼의 밀도를 주는지 비교해요. 그 밀도를 $\boldsymbol{\theta}$의 함수로 보면 <b>우도</b>예요.</p>
+    <p>이 예시는 계산을 위해 두 점의 위치를 골랐어요. 성분별 높이는 $x_1$에서 첫째 0.2, 둘째 0.6이고 $x_2$에서는 반대로 첫째 0.6, 둘째 0.2예요. 예를 들어 A가 $x_1$에 주는 높이는 두 성분의 가중 밀도를 합한 $0.6\cdot0.2+0.4\cdot0.6=0.36$이에요.</p>
     <nav class="note-stage-nav" aria-label="로그우도 계산 단계">
       <a href="#s2-likelihood-product" aria-current="step">1. 표본별 밀도의 곱</a>
       <a href="#s2-likelihood-log">2. 표본별 로그의 합</a>
     </nav>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-likelihood-product"><span class="note-stage-number">1 / 2</span> <span>표본별 밀도의 곱</span></h4>
-      <p class="note-stage-goal">한 표본의 <a href="#s1-mixture">혼합 밀도</a>를 데이터 전체의 우도로 묶어요.</p>
+      <p class="note-stage-goal">두 관측을 묶어 $\mathcal{X}=(x_1,x_2)$로 적어요. 같은 모델에서 독립적으로 뽑았다고 가정하면, 그림에서 읽은 밀도를 모델별로 곱해요.</p>
+      <div>$$p(\mathcal{X}\mid\boldsymbol{\theta}_A)=0.36\cdot0.44=0.1584$$</div>
+      <div>$$p(\mathcal{X}\mid\boldsymbol{\theta}_B)=0.28\cdot0.52=0.1456$$</div>
+      <p>두 점의 결합 밀도는 A에서 더 커요. 이처럼 데이터 $\mathcal{X}$를 고정하고 어떤 후보 파라미터 $\boldsymbol{\theta}$가 더 큰 결합 밀도를 주는지 비교할 때, 그 값을 $\boldsymbol{\theta}$의 함수인 <b>우도</b>로 읽어요.</p>
       <p>$n$번째 관측 열벡터 $\mathbf{x}_n$에서 $K$개 성분의 가중 밀도를 더해요. $\pi_k$는 성분 $k$의 가중치이고, $\boldsymbol{\mu}_k$와 $\Sigma_k$는 그 성분의 평균 벡터와 공분산 행렬이에요.</p>
       <div>$$p(\mathbf{x}_n\mid\boldsymbol{\theta})=\sum_{k=1}^K\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</div>
       <p>관측치가 같은 혼합 모델에서 독립적으로 뽑혔다고 가정해요(i.i.d.). 그러면 데이터 $\mathcal{X}=(\mathbf{x}_1,\ldots,\mathbf{x}_N)$의 결합 밀도는 개별 밀도의 곱이에요.</p>
@@ -663,7 +667,8 @@ $$=\sum_{k=1}^K\pi_k=1.$$
     </div>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-likelihood-log"><span class="note-stage-number">2 / 2</span> <span>표본별 로그의 합</span></h4>
-      <p class="note-stage-goal">곱을 다루기 쉽게 바꾸면서 어떤 파라미터에 우도가 더 큰지 그 순서를 유지해요.</p>
+      <p class="note-stage-goal">두 점의 높이가 각각 500번씩 곱에 들어간다면 어떻게 될까요? 일반적인 64비트 부동소수점 계산에서는 $0.1584^{500}$과 $0.1456^{500}$이 모두 0으로 반올림돼요.</p>
+      <p>곱을 만들기 전에 각 높이에 자연로그를 취해 더하면 두 값을 구별할 수 있어요. A에서는 $500(\log 0.36+\log 0.44)\approx-921.3$이에요. B에서는 $500(\log 0.28+\log 0.52)\approx-963.4$예요. 로그는 증가함수라서 정확한 곱에서 더 컸던 A가 로그값에서도 앞서요.</p>
       <div class="deriv-body">
         <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
         <ol class="deriv">
@@ -680,16 +685,18 @@ $$=\sum_{k=1}^K\pi_k=1.$$
         <p class="deriv-check">한 성분만 있으면 로그가 가우시안의 지수항을 풀어 주지만, 혼합 모델에서는 로그 안에 성분 합이 남아 성분별 파라미터를 따로 맞추기 어려워요.</p>
       </div>
     </div>
-    <p><b>복원 순서.</b> 한 관측의 가중 밀도를 더해요. 독립인 관측들의 밀도를 곱하고 로그를 취하면 관측별 로그의 합이 돼요.</p>
+    <p><b>복원 순서.</b> 한 관측의 가중 밀도를 더해요. 독립인 관측들의 로그우도를 계산할 때는 그 합에 각각 로그를 취한 뒤 모든 관측에 걸쳐 더해요.</p>
+    <p>모형 A가 첫째 점에 준 높이 0.36은 두 성분이 보탠 값의 합이에요. 이 점을 보고 어느 성분에서 왔을지 판단하려면 두 기여를 어떻게 읽어야 할까요?</p>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">같은 모델의 독립 표본은 밀도를 곱하고, 로그를 취해 표본별 로그우도를 더해요.</p>
-    <p class="panel-label">핵심 식</p>
-    <ul class="eq-list">
-      <li><span class="eq-name">데이터 우도</span>$$p(\mathcal{X}\mid\boldsymbol{\theta})=\prod_{n=1}^N p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</li>
-      <li><span class="eq-name">로그우도</span>$$\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</li>
-    </ul>
-    <p>로그 안에 한 표본의 성분 합이 남아요. 바깥 합은 여러 표본을 모아요. 최대우도 추정은 로그우도를 최대화해도 돼요.</p>
+    <p class="sum-lead">같은 두 점에서 혼합비가 다른 모형 A와 B를 비교해요. 점별 높이에서 이긴 횟수가 같을 때 두 점을 함께 보면 어떤 모형이 앞설까요?</p>
+    <details><summary>핵심 식 보기</summary>
+      <ul class="eq-list">
+        <li><span class="eq-name">데이터 우도</span>$$p(\mathcal{X}\mid\boldsymbol{\theta})=\prod_{n=1}^N p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</li>
+        <li><span class="eq-name">로그우도</span>$$\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</li>
+      </ul>
+      <p>로그 안에 한 표본의 성분 합이 남아요. 바깥 합은 독립인 여러 표본을 모아요. 최대우도 추정은 로그우도를 최대화해도 돼요.</p>
+    </details>
   </div>
 </article>
 
@@ -698,7 +705,7 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   <div class="tags"><span class="tag date">1111 수업</span><span class="tag slide">MML §11.2.1, §11.4.3</span></div>
   <div class="layer eli5">
     <span class="layer-title">쉽게 말하면</span>
-    <p class="lead">이 점에서 둘째 곡선은 첫째보다 세 배 높아요. 첫째 성분이 평소에 더 자주 뽑힌다면, 어느 쪽이 이 점을 만들었을 가능성이 더 클까요?</p>
+    <p class="lead"><a href="#s2-likelihood">모형을 비교했던 두 점</a> 가운데 첫째 점을 다시 볼게요. 여기서 둘째 곡선은 첫째보다 세 배 높아요. 첫째 성분이 더 자주 뽑힌다면, 어느 쪽이 이 점을 만들었을 가능성이 더 클까요?</p>
     <figure class="figure">
       <svg id="fig-gmm-responsibility" viewBox="0 0 340 139" role="img" aria-label="고정된 관측값에서 첫째 가우시안 곡선의 높이는 0.2, 둘째 가우시안 곡선의 높이는 0.6">
         <line class="axis" x1="16" y1="113" x2="324" y2="113"/>
@@ -766,7 +773,9 @@ $$=\sum_{k=1}^K\pi_k=1.$$
     </nav>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-responsibility-bayes"><span class="note-stage-number">1 / 2</span> <span>베이즈 식의 분자와 분모</span></h4>
-      <p class="note-stage-goal">반반일 때 첫째의 가중 밀도 $0.15$를 분자에, 두 가중 밀도의 합 $0.30$을 분모에 넣었어요. 베이즈 정리로 성분이 $K$개인 경우에도 같은 계산이 나와요.</p>
+      <p class="note-stage-goal">75% 설정에서 읽은 첫째의 가중 밀도 $0.15$를 분자에 놓고, 두 가중 밀도를 더해 분모에 놓아요.</p>
+      <div>$$r_{n1}=\frac{0.15}{0.15+0.15}=\frac{0.15}{0.30}=\frac12.$$</div>
+      <p>베이즈 정리로 성분이 $K$개인 경우에도 같은 계산이 나와요.</p>
       <div class="deriv-body">
         <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
         <p class="deriv-lead">베이즈 정리의 $P(A\mid B)=P(B\mid A)P(A)/P(B)$에서 $A$의 자리는 ‘성분 $k$가 선택됨’이에요. 연속 관측값 $\mathbf{x}_n$에 조건을 걸 때는 $B$가 들어가는 두 자리에서 그 점의 밀도를 써요.</p>
@@ -792,13 +801,14 @@ $$=\sum_{k=1}^K\pi_k=1.$$
     <p>이 점의 책임도는 $(1/3, 2/3)$ 한 줄로 적을 수 있어요. 다른 점들의 책임도까지 구하면 표에는 어떻게 모을까요?</p>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">고정한 모델에서 가중 밀도의 비율로 관측 후 성분 확률을 구해요.</p>
-    <p class="panel-label">핵심 식</p>
-    <ul class="eq-list">
-      <li><span class="eq-name">책임도</span>$$r_{nk}=P(Z_n=k\mid\mathbf{x}_n,\boldsymbol{\theta})$$</li>
-      <li><span class="eq-name">한 관측의 합</span>$$\sum_{k=1}^K r_{nk}=1$$</li>
-    </ul>
-    <p>관측 전의 $\pi_k$에 해당 관측에서의 성분 밀도를 곱해요. 전체 밀도가 양수일 때 그 값으로 나눠요.</p>
+    <p class="sum-lead">점과 두 곡선을 고정하고 혼합비를 바꿔요. 이 점에서 두 성분이 보탠 밀도가 언제 같은지 비교해요.</p>
+    <details><summary>핵심 식 보기</summary>
+      <ul class="eq-list">
+        <li><span class="eq-name">책임도</span>$$r_{nk}=P(Z_n=k\mid\mathbf{x}_n,\boldsymbol{\theta})$$</li>
+        <li><span class="eq-name">한 관측의 합</span>$$\sum_{k=1}^K r_{nk}=1$$</li>
+      </ul>
+      <p>관측 전의 $\pi_k$에 해당 관측에서의 성분 밀도를 곱해요. 전체 밀도가 양수일 때 그 값으로 나눠요.</p>
+    </details>
   </div>
 </article>
 
@@ -808,7 +818,7 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   <div class="layer formal">
     <span class="layer-title">정확히 말하면</span>
     <p><a href="#s2-responsibility">한 관측의 책임도</a>를 $K\times1$ 열벡터 $\mathbf{r}_n=(r_{n1},\ldots,r_{nK})^\top$로 모아요. $N$개의 관측치를 한 표에 넣을 때는 각 $\mathbf{r}_n$을 전치해 가로 한 줄로 적어요. 이렇게 만든 행렬 $\mathbf{R}=[r_{nk}]\in\mathbb{R}^{N\times K}$의 $n$행 $k$열은 관측 $n$에 대한 성분 $k$의 사후확률이에요.</p>
-    <p id="responsibility-table-description">교과서 표와 같은 방식으로 읽을 수 있게 두 관측치로 만든 예시예요.</p>
+    <p id="responsibility-table-description"><a href="#s2-likelihood">같은 두 점</a>에 모형 A를 고정해요. 첫째 점의 책임도는 실험의 60% 설정에서 얻은 $(1/3,2/3)$예요. 둘째 점에서는 두 가중 밀도가 $0.6\cdot0.6=0.36$과 $0.4\cdot0.2=0.08$이에요. 각각을 합 $0.44$로 나누면 둘째 행의 $(9/11,2/11)$이 돼요.</p>
     <div class="table-wrap">
       <table aria-labelledby="responsibility-table-description">
         <thead>
@@ -816,12 +826,13 @@ $$=\sum_{k=1}^K\pi_k=1.$$
         </thead>
         <tbody>
           <tr><th scope="row">$\mathbf{x}_1$</th><td>$1/3$</td><td>$2/3$</td></tr>
-          <tr><th scope="row">$\mathbf{x}_2$</th><td>$1/6$</td><td>$5/6$</td></tr>
+          <tr><th scope="row">$\mathbf{x}_2$</th><td>$9/11$</td><td>$2/11$</td></tr>
         </tbody>
       </table>
     </div>
     <p><b>행을 읽을 때</b> 관측 번호를 고정해요. 첫째 행은 $\mathbf{x}_1$의 두 확률을 담고, 그 합은 $1/3+2/3=1$이에요. 성분 2가 더 그럴듯해요.</p>
-    <p><b>교과서의 열 읽기.</b> 성분 번호를 고정하고 관측치들에 걸쳐 책임도를 더해요. 성분 2의 합 $2/3+5/6=3/2$는 그 성분에 확률로 배정한 관측 수예요. 열 합은 여러 관측치의 확률을 더하므로 1보다 클 수 있어요.</p>
+    <p><b>열을 읽을 때</b> 성분 번호를 고정하고 여러 관측치의 책임도를 더해요. 성분 1의 열 합 $1/3+9/11=38/33$은 이 성분에 확률로 배정한 관측 수예요. 여러 점의 몫을 합치므로 열 합은 1보다 클 수 있어요.</p>
+    <p>다음에는 이 표를 써서 성분의 위치와 모양, 혼합비를 새로 맞춰요. 그러면 책임도도 어떻게 달라질까요?</p>
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">책임도 행렬의 행은 관측치 하나에 대해, 열은 성분 하나에 대해 읽어요.</p>
