@@ -1,0 +1,95 @@
+<div class="layer eli5" data-explanation="understand">
+  <h4>문제에서 주어진 것과 구할 것</h4>
+  <p>주어진 것: 관측 수 $N=7$, 성분 $3$개의 총 책임도 $N_1=2.058$, $N_2=2.008$, $N_3=2.934$, 갱신 전 가중치 $\pi_k=\frac{1}{3}$, 그리고 M-step 식 $\pi_k^{\text{new}}=\frac{N_k}{N}$이에요.</p>
+  <p>구할 것: (a) 세 $\pi_k^{\text{new}}$를 소수점 아래 셋째 자리까지, (b) 세 값의 합이 $1$인지와 $\frac{1}{3}$보다 커진 성분이에요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+  <p>‘총 책임도 $N_k$’와 ‘혼합 가중치 갱신’이라는 단서에서 M-step의 <b>혼합 가중치(mixing weight) 갱신식</b>을 떠올려요. 이 문제에서는 식이 주어져 있으니 대입만 하면 돼요.</p>
+  $$\pi_k^{\text{new}}=\frac{\overbrace{N_k}^{\text{성분 }k\text{가 맡은 몫}}}{\underbrace{N}_{\text{전체 관측 수}}}$$
+  <ul>
+    <li>$N_k=\sum_{n=1}^{N} r_{nk}$는 책임도 표의 열 $k$를 더한 값이에요. 확률을 여러 개 더한 값이라 정수가 아니어도 되고 $1$보다 클 수 있어요.</li>
+    <li>책임도 표의 각 행은 합이 $1$이라서, 표 전체를 더하면 $\sum_{k}N_k=N$이에요. 그래서 새 가중치의 합은 저절로 $1$이 돼요.</li>
+  </ul>
+  <p>E-step의 책임도 표에서 열 합이 $N_k$, 전체 합이 $N$이라는 구조는 <a href="정리노트_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>에서, 비율의 뜻은 <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-pi">비율: 전체 몫 중 성분 k의 몫</a>에서 다뤘어요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>종이에 적을 첫 줄</h4>
+  <p>$N=7$을 먼저 적고, 첫 성분부터 $\pi_1^{\text{new}}=\frac{2.058}{7}$로 시작해요.</p>
+  <p>풀이 로드맵: 1. $N_k$를 $7$로 나눠 세 가중치 계산 → 2. 분자 합 $\sum_k N_k$로 합이 $1$인지 확인 → 3. 세 값을 $\frac{1}{3}\approx0.333$과 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <div data-subpart="a">
+    <h4>(a)</h4>
+    <p><b>최종 답 구조:</b> $(\pi_1^{\text{new}},\pi_2^{\text{new}},\pi_3^{\text{new}})=(0.294,\,0.287,\,0.419)$예요.</p>
+    <p>대표로 성분 $1$은 $\pi_1^{\text{new}}=\frac{2.058}{7}=0.294$예요. 세 성분을 같은 방법으로 표에 정리해요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$N_k$</th> <th scope="col">$N_k/7$</th> <th scope="col">셋째 자리 반올림</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$1$</th> <td>$2.058$</td> <td>$0.294$</td> <td>$0.294$</td></tr>
+          <tr><th scope="row">$2$</th> <td>$2.008$</td> <td>$0.28686\ldots$</td> <td>$0.287$</td></tr>
+          <tr><th scope="row">$3$</th> <td>$2.934$</td> <td>$0.41914\ldots$</td> <td>$0.419$</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>모든 성분을 같은 $N=7$로 나누므로, 총 책임도가 큰 성분일수록 새 가중치도 커요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b)</h4>
+    <p><b>최종 답 요약:</b> 합은 정확히 $1$이고, $\frac{1}{3}$보다 커진 성분은 성분 $3$뿐이에요.</p>
+    <p>반올림 전 값으로 더하면 분자끼리 먼저 더할 수 있어요. $\frac{2.058+2.008+2.934}{7}=\frac{7}{7}=1$이에요. 반올림한 값도 $0.294+0.287+0.419=1.000$이에요.</p>
+    <p>$\frac{1}{3}\approx0.333$과 비교하면 $0.294$와 $0.287$은 작고 $0.419$만 커요. 같은 말로 $N_k\gt\frac{7}{3}\approx2.333$인 성분은 $N_3=2.934$뿐이에요.</p>
+  </div>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>완성 답과 검산</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>거꾸로 곱해 봐요. $0.294\times7=2.058$, $0.287\times7=2.009$, $0.419\times7=2.933$으로 주어진 $N_k$와 반올림 오차 안에서 맞아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\sum_k N_k=7=N$이 성립하므로 합 $1$은 반올림과 무관한 정확한 값이에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall">
+  <h4>여기서 헷갈리기 쉬워요</h4>
+  <p>분모는 성분 개수 $K=3$이 아니라 관측 수 $N=7$이에요. $N_k$를 $3$으로 나누면 합이 $\frac{7}{3}$이 되어 확률이 될 수 없어요.</p>
+  <p>(b)의 합 확인을 반올림한 값으로만 하면 $1.000$이 우연처럼 보여요. 분자 합 $\sum_kN_k=N$에서 정확히 $1$임을 설명해요.</p>
+</div>
+<div class="layer formal" data-explanation="retry">
+  <h4>다시 풀 때 확인할 것</h4>
+  <ol>
+    <li>분모에 들어갈 $N$이 관측 수인지 확인하고 $\pi_k^{\text{new}}=N_k/N$을 적어요.</li>
+    <li>$\sum_k N_k=N$으로 새 가중치 합이 $1$임을 한 줄로 보여요.</li>
+    <li>$N_k$와 $N/K=\frac{7}{3}$을 비교해 커진 성분을 골라요.</li>
+  </ol>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group">
+    <h4>떠올릴 개념·공식</h4>
+    <p>주어진 M-step 식 $\pi_k^{\text{new}}=N_k/N$에서 $N$은 관측 수 $7$이에요. $N_k$는 책임도 표의 열 합이고, 열 합을 모두 더하면 $N$이에요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>결론과 검산</h4>
+    <p>새 가중치는 $(0.294,\,0.287,\,0.419)$이고, 분자 합이 $7$이라 합은 정확히 $1$이에요. $\frac{1}{3}$보다 커진 것은 성분 $3$뿐이에요.</p>
+  </div>
+</div>
+<section data-problem-panel="terms">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>혼합 가중치(mixing weight) $\pi_k$</dt>
+    <dd>GMM에서 성분 $k$를 고를 확률이에요. $\pi_k\ge0$이고 $\sum_k\pi_k=1$이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_{n=1}^{N}r_{nk}$로, 책임도 표의 열 $k$의 합이에요. 성분 $k$가 데이터 전체에서 맡은 관측 수 분량이고 정수가 아니어도 돼요.</dd>
+    <dt>M-step</dt>
+    <dd>E-step에서 구한 책임도를 고정하고 $\boldsymbol{\mu}_k$, $\Sigma_k$, $\pi_k$를 다시 계산하는 단계예요.</dd>
+  </dl>
+</section>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 11.5(혼합 가중치 갱신), 교과서 360쪽(PDF 366쪽)과 Example 11.2의 $N_1=2.058$, $N_2=2.008$, $N_3=2.934$(교과서 353쪽, PDF 359쪽).</p>
+  <p>수업: 1116 L07 s12의 M-step 식. 관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-pi">비율: 전체 몫 중 성분 k의 몫</a></p>
+</section>

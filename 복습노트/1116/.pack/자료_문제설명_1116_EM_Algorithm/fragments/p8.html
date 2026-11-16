@@ -1,0 +1,146 @@
+<div class="layer eli5" data-explanation="understand">
+  <h4>문제에서 주어진 것과 구할 것</h4>
+  <p>주어진 것: 스칼라 함수 $f(\mathbf{t})=\sin\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)$($\mathbf{t}\in\mathbb{R}^{D}$, 영벡터 아닌 열벡터)와 $g(\mathbf{X})=\operatorname{tr}(\mathbf{A}\mathbf{X}\mathbf{B})$($\mathbf{A}\in\mathbb{R}^{D\times E}$, $\mathbf{X}\in\mathbb{R}^{E\times F}$, $\mathbf{B}\in\mathbb{R}^{F\times D}$)예요. 열벡터로 미분하면 행벡터, 행렬 $\mathbf{X}$로 미분하면 $\partial g/\partial X_{pq}$를 같은 $(p,q)$ 자리에 둔 행렬이에요.</p>
+  <p>구할 것: (a) $\frac{df}{d\mathbf{t}}$, (b) $\frac{dg}{d\mathbf{X}}$를 $\mathbf{A}$, $\mathbf{B}$로, (c) 두 미분의 차원이에요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
+  <p>(a) ‘$\sin$ 안에 $\log$, 그 안에 $\mathbf{t}^\top\mathbf{t}$’라는 겹친 구조에서 <b>연쇄법칙(chain rule)</b>을 떠올려요. 안쪽 스칼라에 $u=\mathbf{t}^\top\mathbf{t}$라는 이름을 붙이면 1변수 미분과 벡터 미분이 나뉘어요.</p>
+  $$\frac{df}{d\mathbf{t}}=\underbrace{\frac{df}{du}}_{\text{스칼라}}\;\underbrace{\frac{du}{d\mathbf{t}}}_{1\times D\text{ 행벡터}},\qquad\frac{d(\mathbf{t}^\top\mathbf{t})}{d\mathbf{t}}=2\mathbf{t}^\top$$
+  <ul>
+    <li>$\mathbf{t}^\top\mathbf{t}=\sum_dt_d^2$를 $t_d$로 편미분하면 $2t_d$이고, 이것을 가로로 모으면 $2\mathbf{t}^\top$이에요.</li>
+    <li>$\mathbf{t}\neq\mathbf{0}$이라 $u\gt0$이고, 그래서 $\log u$와 $\frac{1}{u}$이 정의돼요.</li>
+  </ul>
+  <p>(b) ‘스칼라를 행렬로 미분’이라는 단서에서 <b>칸마다 편미분해 같은 자리에 두는 정의</b>를 떠올려요. 대각합(trace)을 성분 합으로 펼친 뒤 $X_{pq}$ 하나로 편미분해요.</p>
+  $$\left[\frac{dg}{d\mathbf{X}}\right]_{pq}=\frac{\partial g}{\partial X_{pq}},\qquad\operatorname{tr}(\mathbf{M})=\sum_iM_{ii},\qquad(\mathbf{A}\mathbf{X})_{il}=\sum_jA_{ij}X_{jl}$$
+  <p>행렬 미분의 정의는 <a href="정리노트_1116_EM_Algorithm.html#s3-matrix-deriv-def">칸마다 미분하는 정의</a>, 열벡터로 미분하면 행벡터가 되는 관례는 <a href="정리노트_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>에서 다뤘어요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>종이에 적을 첫 줄</h4>
+  <p>(a)는 $u=\mathbf{t}^\top\mathbf{t}=\sum_{d=1}^{D}t_d^2$, (b)는 $g=\sum_{i=1}^{D}(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}$를 먼저 적어요.</p>
+  <p>풀이 로드맵: 1. (a) $\frac{du}{d\mathbf{t}}$와 $\frac{df}{du}$를 곱하기 → 2. (b) 삼중합으로 펼쳐 $X_{pq}$로 편미분하고 행렬곱 꼴로 묶기 → 3. (c) 결과의 행·열 수 읽기예요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <div data-subpart="a">
+    <h4>(a)</h4>
+    <p><b>최종 답 구조:</b> $\frac{df}{d\mathbf{t}}=\frac{2\cos\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)}{\mathbf{t}^\top\mathbf{t}}\,\mathbf{t}^\top$, 스칼라 × $1\times D$ 행벡터예요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$u=\mathbf{t}^\top\mathbf{t}=\sum_{d=1}^{D}t_d^2$$</div>
+          <div class="deriv-why"><p>안쪽 스칼라에 이름을 붙여요</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\frac{du}{d\mathbf{t}}=\begin{bmatrix}2t_1&\cdots&2t_D\end{bmatrix}=2\mathbf{t}^\top$$</div>
+          <div class="deriv-why"><p>$\partial u/\partial t_d=2t_d$를 가로로 모아요</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\frac{df}{du}=\cos(\log u)\cdot\frac{1}{u}$$</div>
+          <div class="deriv-why"><p>$\sin$의 미분 × $\log$의 미분이에요</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\frac{df}{d\mathbf{t}}=\frac{df}{du}\frac{du}{d\mathbf{t}}=\frac{2\cos\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)}{\mathbf{t}^\top\mathbf{t}}\,\mathbf{t}^\top$$</div>
+          <div class="deriv-why"><p>연쇄법칙으로 곱하고 $u$를 되돌려요</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b)</h4>
+    <p><b>최종 답 구조:</b> $\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top$이에요. 첨자 $i=1,\dots,D$, $j=1,\dots,E$, $l=1,\dots,F$로 펼쳐요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}=\sum_{l=1}^{F}(\mathbf{A}\mathbf{X})_{il}B_{li}$$</div>
+          <div class="deriv-why"><p>$(\mathbf{A}\mathbf{X})\mathbf{B}$의 행×열 곱이에요</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}=\sum_{j=1}^{E}\sum_{l=1}^{F}A_{ij}X_{jl}B_{li}$$</div>
+          <div class="deriv-why"><p>$(\mathbf{A}\mathbf{X})_{il}$도 행×열로 펼쳐요</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$g=\sum_{i=1}^{D}\sum_{j=1}^{E}\sum_{l=1}^{F}A_{ij}X_{jl}B_{li}$$</div>
+          <div class="deriv-why"><p>대각합은 대각 성분을 $i$로 더한 값</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\frac{\partial g}{\partial X_{pq}}=\sum_{i=1}^{D}A_{ip}B_{qi}$$</div>
+          <div class="deriv-why"><p>$j=p$, $l=q$인 항만 $X_{pq}$를 포함해요</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\frac{\partial g}{\partial X_{pq}}=\sum_{i=1}^{D}(\mathbf{A}^\top)_{pi}(\mathbf{B}^\top)_{iq}=(\mathbf{A}^\top\mathbf{B}^\top)_{pq}$$</div>
+          <div class="deriv-why"><p>전치로 첨자를 행×열 순서로 맞춰요</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top$$</div>
+          <div class="deriv-why"><p>$(p,q)$ 자리에 같은 값을 두면 전체 행렬</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="c">
+    <h4>(c)</h4>
+    <p><b>최종 답 요약:</b> $\frac{df}{d\mathbf{t}}\in\mathbb{R}^{1\times D}$, $\frac{dg}{d\mathbf{X}}\in\mathbb{R}^{E\times F}$예요.</p>
+    <p>(a)는 스칼라 $\frac{2\cos(\log(\mathbf{t}^\top\mathbf{t}))}{\mathbf{t}^\top\mathbf{t}}$에 $1\times D$ 행벡터 $\mathbf{t}^\top$을 곱했으니 $1\times D$예요. (b)는 $\mathbf{A}^\top$($E\times D$)과 $\mathbf{B}^\top$($D\times F$)의 곱이라 $E\times F$이고, $\mathbf{X}$와 모양이 같아요.</p>
+  </div>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>완성 답과 검산</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$D=1$, $t\gt0$이면 $f=\sin(\log t^2)=\sin(2\log t)$이고 1변수 미분은 $\frac{2\cos(2\log t)}{t}$예요. 답에 넣으면 $\frac{2\cos(\log t^2)}{t^2}\cdot t=\frac{2\cos(2\log t)}{t}$로 같아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$D=E=F=1$이면 $g=aXb$이고 $\frac{dg}{dX}=ab$예요. 답 $\mathbf{A}^\top\mathbf{B}^\top$도 $ab$예요. 또 $\mathbf{A}^\top\mathbf{B}^\top=(\mathbf{B}\mathbf{A})^\top$이고 $\mathbf{B}\mathbf{A}$는 $F\times E$라서 전치하면 $E\times F$로 정의와 맞아요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>열벡터로 미분한 결과의 칸 수는 $\mathbf{t}$의 성분 수 $D$, 행렬로 미분한 결과의 칸 수는 $\mathbf{X}$의 원소 수 $EF$여야 해요. $1\times D$와 $E\times F$가 둘 다 맞아요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall">
+  <h4>여기서 헷갈리기 쉬워요</h4>
+  <p>(a)에서 $\frac{du}{d\mathbf{t}}$를 열벡터 $2\mathbf{t}$로 쓰면 수업 관례와 달라요. 스칼라를 열벡터로 미분했으니 $2\mathbf{t}^\top$이고, 최종 답도 $\mathbf{t}^\top$으로 끝나요.</p>
+  <p>(b)에서 $\mathbf{B}\mathbf{A}$($F\times E$)를 답으로 쓰면 $E\neq F$일 때는 $\mathbf{X}$($E\times F$)와 모양이 달라 바로 걸러지고, $E=F$여도 $(p,q)$ 성분이 $\sum_iA_{ip}B_{qi}$와 달라요. 답은 첨자 계산에서 나오고 모양은 점검용이에요.</p>
+</div>
+<div class="layer formal" data-explanation="retry">
+  <h4>다시 풀 때 확인할 것</h4>
+  <ol>
+    <li>(a) $u=\mathbf{t}^\top\mathbf{t}$로 두고 $\frac{df}{du}\cdot2\mathbf{t}^\top$을 적어요.</li>
+    <li>(b) $g=\sum_{i,j,l}A_{ij}X_{jl}B_{li}$로 펼친 뒤 $j=p$, $l=q$ 항만 남겨요.</li>
+    <li>(c) 결과의 모양을 미분 대상($\mathbf{t}$의 성분 수, $\mathbf{X}$의 모양)과 맞춰 봐요.</li>
+  </ol>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group">
+    <h4>떠올릴 개념·공식</h4>
+    <p>(a) $u=\mathbf{t}^\top\mathbf{t}$로 두는 연쇄법칙, $\frac{du}{d\mathbf{t}}=2\mathbf{t}^\top$(행벡터). (b) 칸마다 미분해 같은 자리에 두는 정의와 $\operatorname{tr}$의 삼중합 전개예요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>결론</h4>
+    <p>$\frac{df}{d\mathbf{t}}=\frac{2\cos(\log(\mathbf{t}^\top\mathbf{t}))}{\mathbf{t}^\top\mathbf{t}}\mathbf{t}^\top\in\mathbb{R}^{1\times D}$, $\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top\in\mathbb{R}^{E\times F}$예요.</p>
+  </div>
+  <div class="summary-group">
+    <h4>검산</h4>
+    <p>모두 1차원으로 줄이면 1변수 미분과 같아요. 행렬 미분 결과는 $\mathbf{X}$와 같은 $E\times F$예요.</p>
+  </div>
+</div>
+<section data-problem-panel="terms">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>대각합(trace) $\operatorname{tr}$</dt>
+    <dd>정사각행렬의 대각 성분 합 $\operatorname{tr}(\mathbf{M})=\sum_iM_{ii}$예요. 여기서 $\mathbf{A}\mathbf{X}\mathbf{B}$는 $D\times D$라 정의돼요.</dd>
+    <dt>행벡터 미분</dt>
+    <dd>스칼라를 $D\times1$ 열벡터 $\mathbf{t}$로 미분한 결과예요. 편미분을 가로로 놓은 $1\times D$ 행벡터예요.</dd>
+    <dt>스칼라의 행렬 미분</dt>
+    <dd>$\partial g/\partial X_{pq}$를 $(p,q)$ 자리에 둔 행렬이에요. 결과는 $\mathbf{X}$와 같은 $E\times F$ 모양이에요.</dd>
+    <dt>연쇄법칙(chain rule)</dt>
+    <dd>합성함수의 미분을 바깥 함수의 미분과 안쪽 함수의 미분의 곱으로 구하는 규칙이에요.</dd>
+  </dl>
+</section>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Exercise 5.6, 교과서 171쪽(PDF 177쪽)이에요. 미분 방향은 수업 관례(열벡터 변수에 대한 스칼라 미분은 행벡터, 행렬 미분은 원소별 같은 자리)를 문제 조건에 명시했어요.</p>
+  <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s3-matrix-deriv-def">칸마다 미분하는 정의</a></p>
+</section>

@@ -1,0 +1,414 @@
+{
+  "items": [
+    {
+      "id": "q1",
+      "format": "mcq",
+      "objective": "o1",
+      "title": "두 단계가 붙잡아 두는 값",
+      "stem_html": "<p>EM 한 회차는 E-step 다음 M-step으로 진행해요. 각 단계에서 <strong>고정</strong>하는 것과 <strong>새로 계산</strong>하는 것을 바르게 짝지은 것은 무엇인가요?</p>",
+      "hint": "책임도 공식의 우변과 갱신식의 우변에 각각 무엇이 들어가는지 나눠 보세요.",
+      "answer": "B",
+      "options": [
+        {
+          "id": "A",
+          "text": "E-step은 $r_{nk}$를 고정하고 $\\pi_k,\\boldsymbol{\\mu}_k,\\Sigma_k$를 계산, M-step은 파라미터를 고정하고 $r_{nk}$를 계산",
+          "why": "두 단계의 역할이 뒤바뀌었어요. 책임도는 현재 파라미터로 계산하는 E-step의 결과이고, M-step은 그 책임도를 고정한 채 파라미터를 다시 구해요.",
+          "misconception": "E-step과 M-step의 역할을 뒤바꿈",
+          "source": "note:s0-learning-map"
+        },
+        {
+          "id": "B",
+          "text": "E-step은 $\\pi_k,\\boldsymbol{\\mu}_k,\\Sigma_k$를 고정하고 $r_{nk}$와 $N_k$를 계산, M-step은 $r_{nk}$를 고정하고 $\\pi_k,\\boldsymbol{\\mu}_k,\\Sigma_k$를 계산",
+          "why": "E-step은 현재 파라미터를 모두 고정해 $N\\times K$ 책임도 표와 $N_k$를 채워요. M-step은 그 표를 고정하고 평균·공분산·가중치를 다시 계산해요."
+        },
+        {
+          "id": "C",
+          "text": "E-step은 $\\boldsymbol{\\mu}_k$만 고정하고 $\\Sigma_k,\\pi_k,r_{nk}$를 함께 계산, M-step은 $\\boldsymbol{\\mu}_k$만 계산",
+          "why": "E-step에서는 파라미터를 하나도 바꾸지 않아요. $\\Sigma_k$와 $\\pi_k$도 책임도를 계산하는 데 쓰는 고정값이고, 갱신은 M-step에서 해요.",
+          "misconception": "책임도를 계산하는 동안에도 일부 파라미터가 함께 바뀐다고 생각함",
+          "source": "note:s1-em-steps"
+        },
+        {
+          "id": "D",
+          "text": "두 단계 모두 $r_{nk}$와 파라미터를 동시에 바꾸고, 기울기가 0이 될 때까지 되풀이",
+          "why": "둘을 동시에 바꾸면 서로 얽힌 식을 한꺼번에 풀어야 해요. EM은 한쪽을 고정하고 다른 쪽을 고치는 일을 번갈아 해요.",
+          "misconception": "한쪽을 고정하고 다른 쪽을 고치는 교대 구조를 놓침",
+          "source": "note:s0-why-iterate"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "format": "mcq",
+      "objective": "o1",
+      "title": "공분산 편차의 기준점",
+      "stem_html": "<p>한 M-step 안에서 성분 $k$의 평균을 $\\boldsymbol{\\mu}_k^{\\text{old}}$에서 $\\boldsymbol{\\mu}_k^{\\text{new}}$로 막 갱신했어요. 같은 M-step에서 $\\Sigma_k^{\\text{new}}$를 계산할 때, 편차 $\\mathbf{x}_n-(\\ \\cdot\\ )$의 빈칸에 들어가는 것은 무엇인가요?</p>",
+      "hint": "공분산이 어느 중심에서의 퍼짐을 재는지, 그 중심을 같은 M-step에서 이미 구했는지 생각해 보세요.",
+      "answer": "D",
+      "options": [
+        {
+          "id": "A",
+          "text": "$\\boldsymbol{\\mu}_k^{\\text{old}}$, E-step에서 책임도를 계산할 때 쓴 평균",
+          "why": "$\\boldsymbol{\\mu}_k^{\\text{old}}$는 책임도를 계산할 때 쓴 값이에요. 공분산은 같은 책임도로 구한 중심에서의 퍼짐을 재므로, 이미 갱신한 평균을 써야 앞뒤가 맞아요.",
+          "misconception": "공분산 편차도 E-step에서 쓴 이전 평균으로 잰다고 생각함",
+          "source": "note:s1-em-steps"
+        },
+        {
+          "id": "B",
+          "text": "$\\frac1N\\sum_n\\mathbf{x}_n$, 책임도와 무관한 모든 점의 보통 평균",
+          "why": "모든 점의 보통 평균에는 책임도 가중이 없어요. 성분 $k$의 공분산은 성분 $k$가 맡은 몫으로 구한 중심에서 재요.",
+          "misconception": "성분별 가중 중심 대신 전체 표본평균을 기준으로 삼음",
+          "source": "note:s1-update-meaning"
+        },
+        {
+          "id": "C",
+          "text": "$\\mathbf{0}$, 그래서 편차 대신 $\\mathbf{x}_n\\mathbf{x}_n^\\top$을 평균",
+          "why": "$\\mathbf{x}_n\\mathbf{x}_n^\\top$은 원점 기준의 곱이에요. 공분산은 평균을 뺀 편차의 외적을 평균해요.",
+          "misconception": "공분산에서 중심화(평균 빼기)를 빼먹음",
+          "source": "note:s1-update-meaning"
+        },
+        {
+          "id": "D",
+          "text": "$\\boldsymbol{\\mu}_k^{\\text{new}}$, 같은 책임도로 방금 구한 평균",
+          "why": "평균을 먼저 구하고 공분산에는 그 새 평균을 넣어요. 평균 조건의 해는 $\\Sigma_k$와 무관해서 먼저 풀 수 있어요."
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "format": "mcq",
+      "objective": "o2",
+      "title": "책임도 표의 여러 합",
+      "stem_html": "<p>E-step이 끝나면 관측치 $N$개, 성분 $K$개의 책임도 $r_{nk}$가 $N\\times K$ 표로 나와요. 행은 관측치, 열은 성분이에요. 다음 중 <strong>1보다 클 수 있는</strong> 값은 무엇인가요?</p>",
+      "hint": "각 값이 확률 하나 또는 확률분포 하나의 합인지, 여러 점의 확률을 모은 양인지 구분해 보세요.",
+      "answer": "C",
+      "options": [
+        {
+          "id": "A",
+          "text": "한 칸의 값 $r_{nk}$",
+          "why": "$r_{nk}$는 점 $\\mathbf{x}_n$이 성분 $k$에서 나왔을 사후확률이라 $0$과 $1$ 사이예요.",
+          "misconception": "책임도 한 칸을 밀도값처럼 1을 넘을 수 있다고 봄",
+          "source": "note:s1-em-steps"
+        },
+        {
+          "id": "B",
+          "text": "한 행의 합 $\\sum_{k} r_{nk}$",
+          "why": "한 행은 점 하나에 대한 성분들의 확률분포라서 합이 항상 $1$이에요.",
+          "misconception": "행 합과 열 합을 혼동함",
+          "source": "stt:1116#Part 04, 행을 더하면 항상 1"
+        },
+        {
+          "id": "C",
+          "text": "한 열의 합 $N_k=\\sum_{n} r_{nk}$",
+          "why": "한 열의 합은 여러 점의 확률을 더한 총 책임도예요. 성분 $k$가 맡은 관측치 분량이라 $1.9$, $5.8$처럼 1을 넘을 수 있어요."
+        },
+        {
+          "id": "D",
+          "text": "새 가중치 $\\pi_k^{\\text{new}}=N_k/N$",
+          "why": "$\\sum_k N_k=N$이라 $N_k/N$은 $0$과 $1$ 사이이고, 모두 더하면 $1$이에요.",
+          "misconception": "N_k가 1을 넘으면 새 가중치도 1을 넘을 수 있다고 생각함",
+          "source": "note:s1-update-meaning"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "format": "short",
+      "objective": "o2",
+      "title": "다른 성분의 총 책임도",
+      "stem_html": "<p>성분이 $2$개인 GMM을 관측치 $6$개로 학습하는 중이에요. 이번 E-step에서 성분 1의 총 책임도가 $N_1=2.4$로 나왔어요. 성분 2의 총 책임도 $N_2$를 소수 첫째 자리까지 입력하세요.</p>",
+      "hint": "책임도 표의 모든 칸을 행 방향으로 먼저 더하면 얼마가 되는지 떠올려 보세요.",
+      "answer": {
+        "canonical": "3.6",
+        "accepted": [
+          "3.60",
+          "18/5"
+        ]
+      },
+      "compute": {
+        "op": "difference",
+        "values": [
+          "6",
+          "2.4"
+        ]
+      },
+      "solution": [
+        "각 행(관측치 하나)의 책임도 합은 $1$이라서, 표 전체의 합은 관측치 수 $N=6$이에요.",
+        "같은 전체 합을 열 합으로 묶으면 $N_1+N_2$이므로 $N_1+N_2=6$이에요.",
+        "$N_2=6-2.4=3.6$이에요. 1보다 크지만 성분 2가 관측치 약 $3.6$개 분량을 맡았다는 뜻이에요."
+      ]
+    },
+    {
+      "id": "q5",
+      "format": "short",
+      "objective": "o3",
+      "title": "평균에 들어가는 한 점의 몫",
+      "stem_html": "<p>1차원 관측치 네 개에 대한 성분 $k$의 책임도가 $r_{1k}=0.2$, $r_{2k}=1$, $r_{3k}=0.8$, $r_{4k}=1$이에요. M-step에서 새 평균을 $x_1,\\ldots,x_4$의 가중합으로 썼을 때 $x_1$에 곱해지는 가중치를 기약분수로 입력하세요.</p>",
+      "hint": "먼저 네 책임도를 더해 총 책임도를 구해 보세요.",
+      "answer": {
+        "canonical": "1/15",
+        "accepted": []
+      },
+      "compute": {
+        "op": "ratio",
+        "values": [
+          "0.2",
+          "3"
+        ]
+      },
+      "solution": [
+        "총 책임도는 $N_k=0.2+1+0.8+1=3$이에요.",
+        "새 평균은 $\\mu_k^{\\text{new}}=\\sum_n \\frac{r_{nk}}{N_k}x_n$이라 $x_1$의 가중치는 $\\frac{r_{1k}}{N_k}=\\frac{0.2}{3}=\\frac{1}{15}$이에요.",
+        "네 가중치 $\\frac{1}{15},\\frac{5}{15},\\frac{4}{15},\\frac{5}{15}$를 더하면 $1$이라서 새 평균은 가중 평균이에요."
+      ]
+    },
+    {
+      "id": "q6",
+      "format": "mcq",
+      "objective": "o3",
+      "title": "평균을 나누는 값",
+      "stem_html": "<p>성분 $k$가 모든 관측치를 똑같이 반씩 맡아서 $r_{nk}=0.5$($n=1,\\ldots,N$)예요. 보통 평균을 $\\bar{\\mathbf{x}}=\\frac1N\\sum_n\\mathbf{x}_n$이라 할 때, 평균 갱신에서 $\\sum_n r_{nk}\\mathbf{x}_n$을 $N_k$ 대신 $N$으로 나누면 결과는 무엇인가요?</p>",
+      "hint": "모든 가중치가 0.5일 때 가중치들의 합을 N으로 나누면 얼마가 되는지 계산해 보세요.",
+      "answer": "A",
+      "options": [
+        {
+          "id": "A",
+          "text": "$\\frac12\\bar{\\mathbf{x}}$, 보통 평균의 절반",
+          "why": "분자는 $0.5\\sum_n\\mathbf{x}_n$이라 $N$으로 나누면 $\\frac12\\bar{\\mathbf{x}}$예요. 가중치 합이 $N_k/N=0.5$라서 줄어든 거예요. $N_k=0.5N$으로 나눠야 가중치 합이 $1$이 되어 $\\bar{\\mathbf{x}}$가 나와요."
+        },
+        {
+          "id": "B",
+          "text": "$\\bar{\\mathbf{x}}$, $N_k$로 나눈 결과와 같음",
+          "why": "가중치가 모두 같아도 나누는 값이 가중치 합과 다르면 결과의 크기가 바뀌어요. $N$으로 나누면 가중치 합이 $0.5$예요.",
+          "misconception": "가중치가 균일하면 정규화 상수가 결과에 영향을 주지 않는다고 생각함",
+          "source": "note:s1-update-meaning"
+        },
+        {
+          "id": "C",
+          "text": "$2\\bar{\\mathbf{x}}$, 보통 평균의 두 배",
+          "why": "$0.5$를 곱한 합을 $N$으로 나눴으니 커지지 않고 작아져요. $2\\bar{\\mathbf{x}}$는 $0.5$로 나눴을 때의 결과예요.",
+          "misconception": "책임도를 곱하는 것과 책임도로 나누는 것을 혼동함",
+          "source": "note:s1-update-meaning"
+        },
+        {
+          "id": "D",
+          "text": "$\\pi_k^{\\text{new}}=0.5$, 성분 $k$의 새 가중치",
+          "why": "$\\pi_k^{\\text{new}}$는 책임도만 $N$으로 평균한 스칼라예요. 이 계산에는 $\\mathbf{x}_n$이 곱해져 있어 위치를 나타내는 벡터가 나와요.",
+          "misconception": "N으로 나누는 가중치 갱신식과 평균 갱신식을 혼동함",
+          "source": "note:s1-update-meaning"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "format": "mcq",
+      "objective": "o4",
+      "title": "한 번에 풀리지 않는 까닭",
+      "stem_html": "<p>가우시안 하나라면 $\\partial\\mathcal{L}/\\partial\\,\\boldsymbol{\\mu}=\\mathbf{0}^\\top$을 풀어 표본평균이 바로 나와요. GMM에서 같은 조건을 풀어 얻은 $\\boldsymbol{\\mu}_k=\\frac{\\sum_n r_{nk}\\mathbf{x}_n}{\\sum_n r_{nk}}$이 데이터만으로 쓴 닫힌 해가 되지 못하는 이유는 무엇인가요?</p>",
+      "hint": "책임도 정의식의 분자와 분모에 어떤 파라미터가 들어 있는지 살펴보세요.",
+      "answer": "B",
+      "options": [
+        {
+          "id": "A",
+          "text": "$\\Sigma_k$의 역행렬이 없을 수 있어서 $\\Sigma_k^{-1}$을 지울 수 없어요",
+          "why": "$\\Sigma_k$는 양의 정부호라 역행렬이 있고, 오른쪽에 $\\Sigma_k$를 곱해 이미 지웠어요. 막히는 곳은 가중치 쪽이에요.",
+          "misconception": "공분산의 역행렬 때문에 식이 풀리지 않는다고 생각함",
+          "source": "note:s2-mu-proof"
+        },
+        {
+          "id": "B",
+          "text": "우변의 $r_{nk}$가 $\\boldsymbol{\\mu}_k$를 포함한 모든 성분의 $\\pi_j,\\boldsymbol{\\mu}_j,\\Sigma_j$로 계산돼요",
+          "why": "책임도의 분자에는 $\\boldsymbol{\\mu}_k$가, 분모에는 모든 성분의 파라미터가 들어 있어요. 그래서 우변에도 $\\boldsymbol{\\mu}_k$가 숨은 방정식이고, 책임도를 고정한 채 번갈아 고쳐요."
+        },
+        {
+          "id": "C",
+          "text": "관측치들이 서로 독립이 아니라서 로그우도를 점별 합으로 쓸 수 없어요",
+          "why": "GMM에서도 관측치를 i.i.d.로 두어 로그우도가 점별 로그의 합이에요. 막히는 곳은 로그 안의 성분 합에서 나온 책임도예요.",
+          "misconception": "i.i.d. 가정이 깨져서 반복이 필요하다고 생각함",
+          "source": "note:s0-why-iterate"
+        },
+        {
+          "id": "D",
+          "text": "기울기가 행벡터라서 양변을 전치하면 해가 달라져요",
+          "why": "전치는 같은 식을 열벡터로 옮겨 적을 뿐 해를 바꾸지 않아요.",
+          "misconception": "행벡터 식을 전치하면 해가 바뀐다고 생각함",
+          "source": "note:s2-mu-proof"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "format": "mcq",
+      "objective": "o5",
+      "title": "평균 기울기의 모양",
+      "stem_html": "<p>$\\boldsymbol{\\mu}_k\\in\\mathbb{R}^{3\\times1}$이에요. 스칼라 로그우도의 기울기 $\\partial\\mathcal{L}/\\partial\\,\\boldsymbol{\\mu}_k$의 크기와, 이것을 0으로 놓는 식의 우변으로 맞는 것은 무엇인가요? 미분은 수업 관례를 따라요.</p>",
+      "hint": "스칼라를 열벡터의 각 성분으로 편미분한 값을 어느 방향으로 늘어놓는지 떠올려 보세요.",
+      "answer": "D",
+      "options": [
+        {
+          "id": "A",
+          "text": "$3\\times1$ 열벡터, 우변은 $\\mathbf{0}$",
+          "why": "변수 $\\boldsymbol{\\mu}_k$는 열벡터지만, 이 과목에서 스칼라를 열벡터로 미분한 결과는 편미분을 가로로 놓은 행벡터예요.",
+          "misconception": "미분 결과의 모양을 변수의 모양과 같다고 봄",
+          "source": "note:s2-zero-gradient"
+        },
+        {
+          "id": "B",
+          "text": "$3\\times3$ 행렬, 우변은 $3\\times3$ 영행렬",
+          "why": "$3\\times3$ 행렬 모양은 행렬 $\\Sigma_k$로 미분할 때의 결과예요. $\\boldsymbol{\\mu}_k$의 성분은 세 개뿐이에요.",
+          "misconception": "평균에 대한 미분과 공분산에 대한 미분의 모양을 혼동함",
+          "source": "note:s3-matrix-deriv"
+        },
+        {
+          "id": "C",
+          "text": "스칼라, 우변은 $0$",
+          "why": "성분 세 개마다 편미분이 하나씩 있어서 결과는 세 값을 가진 벡터예요.",
+          "misconception": "스칼라 함수를 미분한 결과도 스칼라라고 생각함",
+          "source": "note:s2-zero-gradient"
+        },
+        {
+          "id": "D",
+          "text": "$1\\times3$ 행벡터, 우변은 $\\mathbf{0}^\\top$",
+          "why": "$\\partial\\mathcal{L}/\\partial\\mu_{k1}$, $\\partial\\mathcal{L}/\\partial\\mu_{k2}$, $\\partial\\mathcal{L}/\\partial\\mu_{k3}$을 가로로 놓은 $1\\times3$ 행벡터라서 영 행벡터 $\\mathbf{0}^\\top$과 같다고 놓아요."
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "format": "mcq",
+      "objective": "o6",
+      "title": "영 행벡터 식에서 역행렬 지우기",
+      "stem_html": "<p>책임도를 고정하고 $\\sum_n r_{nk}(\\mathbf{x}_n-\\boldsymbol{\\mu}_k)^\\top\\Sigma_k^{-1}=\\mathbf{0}^\\top$을 풀어요. 열벡터 식 $\\sum_n r_{nk}(\\mathbf{x}_n-\\boldsymbol{\\mu}_k)=\\mathbf{0}$에 이르는 올바른 연산은 무엇인가요?</p>",
+      "hint": "역행렬이 행벡터의 어느 쪽 끝에 붙어 있는지, 곱셈의 크기가 맞는지 확인해 보세요.",
+      "answer": "A",
+      "options": [
+        {
+          "id": "A",
+          "text": "양변 오른쪽에 $\\Sigma_k$를 곱한 뒤 양변을 전치해요",
+          "why": "$\\Sigma_k^{-1}$이 행벡터의 오른쪽 끝에 있어서 바로 오른쪽에 $\\Sigma_k$를 붙여야 $\\mathbf{I}$가 되고, $\\mathbf{0}^\\top\\Sigma_k=\\mathbf{0}^\\top$이에요. 이어서 양변을 전치하면 스칼라 $r_{nk}$는 그대로이고 $D\\times1$ 식이 돼요."
+        },
+        {
+          "id": "B",
+          "text": "양변 왼쪽에 $\\Sigma_k$를 곱한 뒤 양변을 전치해요",
+          "why": "$D\\times D$ 행렬을 $1\\times D$ 행벡터의 왼쪽에 곱하면 크기가 맞지 않아요. 지울 역행렬이 오른쪽 끝에 있으니 오른쪽에서 곱해요.",
+          "misconception": "행렬을 곱하는 쪽을 가리지 않음",
+          "source": "note:s2-mu-proof"
+        },
+        {
+          "id": "C",
+          "text": "양변을 전치만 해요, 전치하면 $\\Sigma_k^{-1}$이 사라져요",
+          "why": "전치하면 $\\Sigma_k^{-1}(\\mathbf{x}_n-\\boldsymbol{\\mu}_k)$ 꼴이 되어 역행렬이 왼쪽으로 옮겨 갈 뿐 남아 있어요.",
+          "misconception": "전치가 역행렬을 없앤다고 생각함",
+          "source": "note:s2-mu-proof"
+        },
+        {
+          "id": "D",
+          "text": "양변을 $\\Sigma_k^{-1}$로 나눠요",
+          "why": "행렬은 나눌 수 없어요. 역행렬을 지우려면 그 옆에서 $\\Sigma_k$를 곱해 $\\Sigma_k^{-1}\\Sigma_k=\\mathbf{I}$를 만들어요.",
+          "misconception": "스칼라처럼 행렬로 양변을 나눌 수 있다고 생각함",
+          "source": "stt:1116#Part 07, 양변에 Σ_k를 곱해"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "format": "short",
+      "objective": "o7",
+      "title": "1차원 로그 밀도의 기울기",
+      "stem_html": "<p>1차원 가우시안에서 $\\log\\mathcal N(x\\mid\\mu,\\sigma^2)$를 $\\mu$로 미분한 값을 $x=1$, $\\mu=4$, $\\sigma^2=2$에서 구해요. 기약분수로 입력하고, 음수면 부호도 넣으세요.</p>",
+      "hint": "로그를 취해 남은 이차식 항을 μ로 미분할 때 안쪽 (x−μ)의 미분 −1까지 곱했는지 확인해 보세요.",
+      "answer": {
+        "canonical": "-3/2",
+        "accepted": [
+          "-1.5"
+        ]
+      },
+      "compute": {
+        "op": "ratio",
+        "values": [
+          "-3",
+          "2"
+        ]
+      },
+      "solution": [
+        "로그를 취하면 $\\mu$가 든 항은 $-\\frac{(x-\\mu)^2}{2\\sigma^2}$뿐이고, 나머지 항은 $\\mu$로 미분하면 $0$이에요.",
+        "연쇄법칙으로 $-\\frac{2(x-\\mu)}{2\\sigma^2}\\cdot(-1)=\\frac{x-\\mu}{\\sigma^2}$예요. 안쪽 미분 $-1$이 앞의 마이너스를 지워요.",
+        "값을 넣으면 $\\frac{1-4}{2}=-\\frac{3}{2}$예요. 음수이므로 $\\mu$를 $x$ 쪽(작아지는 쪽)으로 옮겨야 이 점의 로그 밀도가 커져요."
+      ]
+    },
+    {
+      "id": "q11",
+      "format": "mcq",
+      "objective": "o8",
+      "title": "행렬로 미분한 결과의 모양",
+      "stem_html": "<p>$D=3$일 때 스칼라 로그우도 $\\mathcal{L}$을 공분산 $\\Sigma_k$로 미분해요. 수업의 정의에 따른 $\\partial\\mathcal{L}/\\partial\\Sigma_k$와, 이것을 0으로 놓는 식의 우변으로 맞는 것은 무엇인가요?</p>",
+      "hint": "공분산의 칸 하나로 편미분한 값을 결과의 어느 자리에 놓는지 떠올려 보세요.",
+      "answer": "B",
+      "options": [
+        {
+          "id": "A",
+          "text": "$1\\times9$ 행벡터, 아홉 칸의 편미분을 가로로 놓고 우변은 $\\mathbf{0}^\\top$",
+          "why": "$1\\times D$ 행벡터는 열벡터 $\\boldsymbol{\\mu}_k$로 미분할 때의 관례예요. 행렬로 미분하면 칸마다 편미분한 값을 같은 자리에 놓아 $\\Sigma_k$와 같은 모양이 돼요.",
+          "misconception": "평균 미분의 행벡터 관례를 행렬 미분에 그대로 적용함",
+          "source": "note:s3-matrix-deriv"
+        },
+        {
+          "id": "B",
+          "text": "$3\\times3$ 행렬, $(i,j)$ 칸은 $\\partial\\mathcal{L}/\\partial[\\Sigma_k]_{ij}$이고 우변은 영행렬",
+          "why": "$\\Sigma_k$의 각 칸으로 편미분해 같은 $(i,j)$ 자리에 놓아요. 그래서 $3\\times3$이고, 0으로 놓을 때도 $3\\times3$ 영행렬이에요."
+        },
+        {
+          "id": "C",
+          "text": "스칼라, 행렬식 $|\\Sigma_k|$ 하나로 미분하고 우변은 $0$",
+          "why": "행렬식은 $\\Sigma_k$에서 계산한 숫자 하나일 뿐 미분 변수가 아니에요. 변수는 $\\Sigma_k$의 칸 아홉 개예요.",
+          "misconception": "행렬을 행렬식 하나로 대표해 미분한다고 생각함",
+          "source": "note:s3-matrix-deriv"
+        },
+        {
+          "id": "D",
+          "text": "$3\\times1$ 열벡터, 대각 칸 세 개로만 편미분하고 우변은 $\\mathbf{0}$",
+          "why": "대각선 밖 칸도 변수로 보고 미분해요. 칸이 $D^2=9$개라 식도 아홉 개를 한꺼번에 세워요.",
+          "misconception": "공분산의 대각 칸만 변수로 봄",
+          "source": "stt:1116#Part 07, a·b·c·d로 각각 미분해 행렬로"
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "format": "mcq",
+      "objective": "o9",
+      "title": "양쪽에 붙은 역행렬 지우기",
+      "stem_html": "<p>공분산 기울기를 영행렬로 놓고 정리했더니 $-N_k\\Sigma_k^{-1}+\\Sigma_k^{-1}\\big(\\sum_n r_{nk}S_n\\big)\\Sigma_k^{-1}=\\mathbf{0}$이 됐어요. 여기서 $S_n=(\\mathbf{x}_n-\\boldsymbol{\\mu}_k)(\\mathbf{x}_n-\\boldsymbol{\\mu}_k)^\\top$이에요. 역행렬을 모두 지우는 연산과 그 결과로 맞는 것은 무엇인가요?</p>",
+      "hint": "역행렬이 각 항의 어느 쪽에 붙어 있는지 보고, 그쪽에서 무엇을 곱해야 단위행렬이 되는지 생각해 보세요.",
+      "answer": "C",
+      "options": [
+        {
+          "id": "A",
+          "text": "양변 오른쪽에만 $\\Sigma_k$를 곱해서 $-N_k\\mathbf{I}+\\sum_n r_{nk}S_n=\\mathbf{0}$",
+          "why": "오른쪽에서 곱하면 각 항의 맨 오른쪽 역행렬만 지워져 $-N_k\\mathbf{I}+\\Sigma_k^{-1}\\sum_n r_{nk}S_n=\\mathbf{0}$이에요. 둘째 항의 왼쪽 역행렬이 남아요.",
+          "misconception": "한쪽에서 곱하면 양쪽 역행렬이 모두 지워진다고 생각함",
+          "source": "note:s3-sigma-proof"
+        },
+        {
+          "id": "B",
+          "text": "양변을 전치해서 $-N_k\\Sigma_k+\\sum_n r_{nk}S_n=\\mathbf{0}$",
+          "why": "$\\Sigma_k$가 대칭이라 $\\Sigma_k^{-1}$을 전치해도 $\\Sigma_k^{-1}$ 그대로예요. 전치로는 역행렬이 없어지지 않아요.",
+          "misconception": "전치가 역행렬을 원래 행렬로 바꾼다고 생각함",
+          "source": "note:s3-matrix-deriv"
+        },
+        {
+          "id": "C",
+          "text": "양변 오른쪽과 왼쪽에 각각 $\\Sigma_k$를 곱해서 $N_k\\Sigma_k=\\sum_n r_{nk}S_n$",
+          "why": "오른쪽 곱으로 맨 오른쪽 역행렬을, 왼쪽 곱으로 맨 왼쪽 역행렬을 지워요. 첫 항은 $\\Sigma_k\\Sigma_k^{-1}\\Sigma_k=\\Sigma_k$가 남아 $N_k\\Sigma_k=\\sum_n r_{nk}S_n$이고, $N_k$로 나누면 가중 공분산이에요."
+        },
+        {
+          "id": "D",
+          "text": "양변 오른쪽과 왼쪽에 각각 $\\Sigma_k^{-1}$을 곱해서 $N_k\\Sigma_k^{-1}=\\sum_n r_{nk}S_n$",
+          "why": "$\\Sigma_k^{-1}$을 곱하면 역행렬이 겹쳐 쌓일 뿐 지워지지 않아요. $\\Sigma_k^{-1}\\Sigma_k=\\mathbf{I}$가 되도록 $\\Sigma_k$를 곱해요.",
+          "misconception": "역행렬을 지우려고 역행렬을 한 번 더 곱함",
+          "source": "stt:1116#Part 08, 우변에 Σ_k를 하나 곱하면"
+        }
+      ]
+    }
+  ]
+}
