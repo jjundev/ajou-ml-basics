@@ -1,6 +1,6 @@
 ---
 name: ml-concept-check
-description: 머신러닝기초에서 특정 수업의 새 개념을 확인하는 즉시 채점 HTML 확인문제를 만들 때 사용한다. 단독 호출은 /ml-concept-check <MMDD|MMDD-MMDD>. ml-review-pack 신규 생성과 lite에서도 발행 뒤 호출한다.
+description: 머신러닝기초에서 특정 수업의 새 개념을 확인하는 즉시 채점 HTML 확인문제를 만들 때 사용한다. 단독 호출은 /ml-concept-check <MMDD|MMDD-MMDD>. ml-review-pack은 신규 팩을 발행한 뒤 호출한다.
 ---
 
 # 머신러닝기초 확인문제

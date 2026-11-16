@@ -67,7 +67,7 @@ class TestSkillFiles(unittest.TestCase):
         self.assertTrue(ref.is_file(), 'full explanation handoff is missing')
         self.assertIn('references/problem-explain.md', self.text)
         text = ref.read_text(encoding='utf-8')
-        for term in ('ABS_REVIEW', 'extract', '저작', '독립', 'source_visual', 'content', 'independent', 'browser', 'lite', 'publish', '보류'):
+        for term in ('ABS_REVIEW', 'extract', '저작', '독립', 'source_visual', 'content', 'independent', 'browser', 'publish', '보류'):
             self.assertIn(term, text)
         sections = re.split(r'\n### \d+\. ', self.text)
         self.assertIn('mpe_cli.py', sections[1])

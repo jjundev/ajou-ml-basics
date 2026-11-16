@@ -39,7 +39,6 @@ MML 후보를 모두 본 뒤에도 명세표 목표가 비면, 그 빈칸에만 
   - 팩당 최대 `targets.max_self_made`(2)문항.
   - `uses`: 풀이 단계가 기대는 이번 팩 토픽 id 전부. 예고 토픽과 `-links` 토픽은 쓸 수 없다. 이 토픽들로 풀 수 없으면 만들지 않는다.
   - `RUN/self-checks.py`(sympy)가 문제 조건에서 정답을 처음부터 계산해 소문항마다 assert하고, 문제가 성립하는지(가역, 적분 1, 양의 정부호 등)도 assert한다. 결과는 `RUN/self-checks.json`에 `{"pN": {"status": "pass", "method": "sympy exact"}}`. 형식은 `시험결과/중간고사/.pack/evidence/answer-checks.py`와 같다.
-- `lite`에서는 독립 재풀이 리뷰어가 없으므로 자작 문제를 만들지 않는다. 빈칸은 `gaps`에 이유를 적는다.
 - manifest: `part`는 `partC`(`{"id": "partC", "title": "C. 명세표 보충", "short": "C 보충"}`), `source`는 `"자작 pN"`(N은 카드 id 번호), `variant`는 `false`. 정답은 `answers.py`에도 넣어 `answer`·`terms`를 채운다.
 - 숫자는 정답부터 정한다. 중간 결과(역행렬, 행렬식, 사후 공분산 등)가 작은 정수나 간단한 분수가 되도록 거꾸로 고른다. 중간고사 9번의 $\Phi^\top\Phi=2I$처럼.
 - 문장은 한국어, 기호는 수업·MML 표기. 덧붙이는 요구 규칙과 (a)/(b) 이어짐 규칙을 똑같이 따른다.
