@@ -180,6 +180,15 @@
     .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
     .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
     .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    #widget-responsibility label { flex-wrap: wrap; }
+    #responsibility-mix { flex: 1 1 100%; margin: 0; min-height: 24px; }
+    #widget-responsibility .readout,
+    #widget-responsibility output { font-variant-numeric: tabular-nums; }
+    .responsibility-presets { display: flex; flex-wrap: wrap; gap: var(--s2); }
+    .responsibility-presets button { min-width: 0; padding: 0 var(--s3); border: 1px solid var(--line); font-size: var(--fs-small); }
+    .responsibility-presets button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+    .responsibility-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--prof); }
+    .responsibility-bar span { background: var(--accent); }
     .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
     .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
     .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
@@ -689,33 +698,75 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   <div class="tags"><span class="tag date">1111 수업</span><span class="tag slide">MML §11.2.1, §11.4.3</span></div>
   <div class="layer eli5">
     <span class="layer-title">쉽게 말하면</span>
-    <p class="lead">점을 보기 전에는 각 무리가 평소에 얼마나 자주 뽑히는지만 알아요. 점을 본 뒤에는 그 위치가 각 무리에서 얼마나 흔한지도 반영해요.</p>
+    <p class="lead">이 점에서 둘째 곡선은 첫째보다 세 배 높아요. 첫째 성분이 평소에 더 자주 뽑힌다면, 어느 쪽이 이 점을 만들었을 가능성이 더 클까요?</p>
     <figure class="figure">
-      <svg id="fig-gmm-responsibility" viewBox="0 0 340 122" role="img" aria-label="관측 전에는 첫째 쪽이 크고 관측 후에는 둘째 쪽이 큰 비율 막대">
-        <text class="fig-muted" x="14" y="33">보기 전</text>
-        <text class="fig-muted" x="14" y="73">본 뒤</text>
-        <rect class="fig-dot" x="74" y="17" width="144" height="24" rx="3"/>
-        <rect class="fig-ink" x="218" y="17" width="96" height="24" rx="3"/>
-        <rect class="fig-dot" x="74" y="57" width="80" height="24" rx="3"/>
-        <rect class="fig-ink" x="154" y="57" width="160" height="24" rx="3"/>
-        <circle class="fig-dot" cx="110" cy="102" r="4"/>
-        <text class="fig-text" x="120" y="106">첫째 무리</text>
-        <circle class="fig-ink" cx="221" cy="102" r="4"/>
-        <text class="fig-text" x="231" y="106">둘째 무리</text>
+      <svg id="fig-gmm-responsibility" viewBox="0 0 340 139" role="img" aria-label="고정된 관측값에서 첫째 가우시안 곡선의 높이는 0.2, 둘째 가우시안 곡선의 높이는 0.6">
+        <line class="axis" x1="16" y1="113" x2="324" y2="113"/>
+        <path class="plot-like" d="M16.0,108.4 L21.0,107.2 L25.9,105.6 L30.9,103.8 L35.9,101.6 L40.8,99.0 L45.8,96.1 L50.8,92.7 L55.7,88.9 L60.7,84.8 L65.7,80.2 L70.6,75.3 L75.6,70.2 L80.6,64.9 L85.5,59.4 L90.5,54.0 L95.5,48.7 L100.5,43.7 L105.4,39.1 L110.4,35.1 L115.4,31.6 L120.3,29.0 L125.3,27.1 L130.3,26.1 L135.2,26.1 L140.2,27.0 L145.2,28.7 L150.1,31.3 L155.1,34.7 L160.1,38.7 L165.0,43.3 L170.0,48.2 L175.0,53.5 L179.9,58.9 L184.9,64.3 L189.9,69.6 L194.8,74.8 L199.8,79.7 L204.8,84.3 L209.7,88.5 L214.7,92.3 L219.7,95.7 L224.6,98.7 L229.6,101.3 L234.6,103.6 L239.5,105.5 L244.5,107.0 L249.5,108.3 L254.5,109.4 L259.4,110.2 L264.4,110.9 L269.4,111.4 L274.3,111.8 L279.3,112.1 L284.3,112.4 L289.2,112.5 L294.2,112.7 L299.2,112.8 L304.1,112.8 L309.1,112.9 L314.1,112.9 L319.0,112.9 L324.0,113.0"/>
+        <path class="plot-prior" d="M16.0,113.0 L21.0,112.9 L25.9,112.9 L30.9,112.9 L35.9,112.8 L40.8,112.7 L45.8,112.6 L50.8,112.5 L55.7,112.3 L60.7,112.0 L65.7,111.6 L70.6,111.2 L75.6,110.6 L80.6,109.8 L85.5,108.9 L90.5,107.7 L95.5,106.2 L100.5,104.5 L105.4,102.5 L110.4,100.0 L115.4,97.2 L120.3,94.0 L125.3,90.4 L130.3,86.4 L135.2,82.0 L140.2,77.2 L145.2,72.2 L150.1,66.9 L155.1,61.5 L160.1,56.0 L165.0,50.7 L170.0,45.6 L175.0,40.8 L179.9,36.5 L184.9,32.9 L189.9,29.9 L194.8,27.7 L199.8,26.4 L204.8,26.0 L209.7,26.5 L214.7,28.0 L219.7,30.3 L224.6,33.3 L229.6,37.1 L234.6,41.5 L239.5,46.3 L244.5,51.5 L249.5,56.8 L254.5,62.2 L259.4,67.6 L264.4,72.9 L269.4,77.9 L274.3,82.6 L279.3,87.0 L284.3,90.9 L289.2,94.5 L294.2,97.7 L299.2,100.4 L304.1,102.8 L309.1,104.8 L314.1,106.5 L319.0,107.9 L324.0,109.0"/>
+        <line class="axis" x1="204.4" y1="26" x2="204.4" y2="113"/>
+        <circle class="fig-dot" cx="204.4" cy="84" r="4"/>
+        <circle class="plot-prior" cx="204.4" cy="26" r="4"/>
+        <circle class="fig-dot" cx="204.4" cy="113" r="3"/>
+        <text class="fig-text" x="68" y="17">첫째 성분</text>
+        <text class="fig-text" x="218" y="17">둘째 성분</text>
+        <text class="fig-text" x="200" y="87" text-anchor="end">0.2</text>
+        <text class="fig-text" x="216" y="30">0.6</text>
+        <text class="fig-text" x="204.4" y="131" text-anchor="middle">관측값</text>
       </svg>
-      <figcaption>예를 들어, 값이 둘째 무리에서 더 자주 나오는 위치에 있으면 둘째 쪽이 앞설 수 있어요.</figcaption>
+      <figcaption>같은 관측값에서 읽은 밀도는 첫째 0.2, 둘째 0.6이에요. 관측값과 두 곡선은 고정해요.</figcaption>
     </figure>
+
+    <div class="widget" id="widget-responsibility" data-density-first="0.2" data-density-second="0.6">
+      <h4>직접 해 보기: 혼합비만 바꾸기</h4>
+      <p class="widget-help">혼합비는 점을 보기 전에 각 성분을 뽑을 확률이에요. 첫째가 60%일 때부터 시작해서 두 성분이 언제 같은 몫이 되는지 찾아보세요.</p>
+      <div id="responsibility-interactive" hidden>
+        <div class="controls">
+          <label for="responsibility-mix">첫째 성분의 혼합비 <output id="responsibility-mix-value" for="responsibility-mix" aria-live="off">60%</output>
+            <input type="range" id="responsibility-mix" min="0" max="100" step="1" value="60" aria-valuetext="60%">
+          </label>
+        </div>
+        <div class="responsibility-presets" role="group" aria-label="혼합비 빠른 선택">
+          <button type="button" class="btn btn-ghost" data-mix="60" aria-pressed="true">60%</button>
+          <button type="button" class="btn btn-ghost" data-mix="75" aria-pressed="false">75%</button>
+          <button type="button" class="btn btn-ghost" data-mix="80" aria-pressed="false">80%</button>
+        </div>
+        <div class="readout" id="responsibility-results" aria-live="polite" aria-atomic="true">
+          <p>가중 밀도<br>
+            첫째 <span data-result="prior1">60%</span> × 0.2 = <b data-result="weighted1">0.12</b><br>
+            둘째 <span data-result="prior2">40%</span> × 0.6 = <b data-result="weighted2">0.24</b>
+          </p>
+          <p>관측 후 책임도<br>첫째 <b data-result="posterior1">33.3%</b> · 둘째 <b data-result="posterior2">66.7%</b><br>
+            <span data-result="comparison">이 점을 보면 둘째가 더 그럴듯해요.</span>
+          </p>
+        </div>
+        <div class="responsibility-bar" aria-hidden="true"><span style="width:33.333%"></span></div>
+      </div>
+      <div class="widget-static">
+        <div class="table-wrap"><table aria-label="혼합비를 바꿨을 때 두 성분의 가중 밀도와 책임도">
+          <thead><tr><th scope="col">첫째 혼합비</th><th scope="col">가중 밀도<br>첫째 / 둘째</th><th scope="col">책임도<br>첫째 / 둘째</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">60%</th><td>0.12 / 0.24</td><td>1/3 / 2/3</td></tr>
+            <tr><th scope="row">75%</th><td>0.15 / 0.15</td><td>1/2 / 1/2</td></tr>
+            <tr><th scope="row">80%</th><td>0.16 / 0.12</td><td>4/7 / 3/7</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <p><b>왜 75%에서 반반일까요?</b> 이 점에서 둘째의 밀도가 세 배 높죠. 첫째가 관측 전에 둘째보다 세 배 자주 뽑히면 두 효과가 균형을 이뤄요. 혼합비를 75%와 25%로 나누면 두 가중 밀도가 각각 $0.75\cdot0.2=0.15$, $0.25\cdot0.6=0.15$예요. 이 점의 전체 혼합 밀도 $0.30$을 두 성분이 절반씩 차지해요.</p>
+    <p>이렇게 <b>이 점을 본 뒤</b> 각 성분에 돌아가는 몫을 책임도라고 해요. 이제 방금 곱한 값과 더한 값이 베이즈 식에서 어디에 들어가는지 볼게요.</p>
   </div>
   <div class="layer formal">
     <span class="layer-title">정확히 말하면</span>
-    <p>현재 모델 $\boldsymbol{\theta}$와 관측치 하나 $\mathbf{x}_n$을 고정해요. 관측치는 성분 하나에서 뽑혔고, 어떤 성분에서 뽑혔는지 나타내는 번호 $Z_n\in\{1,\ldots,K\}$는 관측되지 않았어요. 이 번호가 $k$일 사후확률을 <b>책임도</b>(responsibility) $r_{nk}$라고 해요.</p>
+    <p>위 실험에서는 혼합비를 바꿀 때마다 다른 모델을 비교했어요. 책임도를 한 번 계산할 때는 그중 한 모델 $\boldsymbol{\theta}$와 관측값 $\mathbf{x}_n$을 고정해요. 어느 성분에서 뽑혔는지 나타내는 번호 $Z_n\in\{1,\ldots,K\}$는 관측되지 않았어요. 이 번호가 $k$일 사후확률을 $r_{nk}$라고 써요.</p>
     <nav class="note-stage-nav" aria-label="책임도 계산 단계">
       <a href="#s2-responsibility-bayes" aria-current="step">1. 베이즈 식의 분자와 분모</a>
       <a href="#s2-responsibility-example">2. 책임도 계산과 해석</a>
     </nav>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-responsibility-bayes"><span class="note-stage-number">1 / 2</span> <span>베이즈 식의 분자와 분모</span></h4>
-      <p class="note-stage-goal">관측 전 가중치에 관측값의 정보를 반영해요.</p>
+      <p class="note-stage-goal">반반일 때 첫째의 가중 밀도 $0.15$를 분자에, 두 가중 밀도의 합 $0.30$을 분모에 넣었어요. 베이즈 정리로 성분이 $K$개인 경우에도 같은 계산이 나와요.</p>
       <div class="deriv-body">
         <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
         <p class="deriv-lead">베이즈 정리의 $P(A\mid B)=P(B\mid A)P(A)/P(B)$에서 $A$의 자리는 ‘성분 $k$가 선택됨’이에요. 연속 관측값 $\mathbf{x}_n$에 조건을 걸 때는 $B$가 들어가는 두 자리에서 그 점의 밀도를 써요.</p>
@@ -725,7 +776,7 @@ $$=\sum_{k=1}^K\pi_k=1.$$
           <li><div class="deriv-eq">$$\hphantom{r_{nk}}=\frac{p(\mathbf{x}_n\mid Z_n=k,\boldsymbol{\theta})P(Z_n=k\mid\boldsymbol{\theta})}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}$$</div>
             <div class="deriv-why"><p>베이즈 정리, $B$ 자리에는 $\mathbf x_n$의 밀도</p></div></li>
           <li class="deriv-gen"><div class="deriv-eq">$$r_{nk}=\frac{\textcolor{#3182f6}{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}}{\textcolor{#3182f6}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}}$$</div>
-            <div class="deriv-why"><p>분자에 $\pi_k$와 성분 밀도, 분모는 모든 성분 $j$의 합</p>
+            <div class="deriv-why"><p>분자는 성분 $k$의 가중 밀도, 분모는 모든 성분의 가중 밀도를 더한 전체 혼합 밀도</p>
               <details><summary>자세히</summary><p>$P(A)$의 자리에는 관측 전 선택 확률 $\pi_k$, $P(B\mid A)$의 자리에는 성분 밀도 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 들어가요. 분모는 성분 번호를 모를 때의 전체 밀도라 <a href="#s2-likelihood">표본별 혼합 밀도</a>를 그대로 넣어요. 합의 인덱스 $j$는 분자에서 선택한 $k$를 포함해 모든 성분을 훑어요.</p></details></div></li>
         </ol>
         <p class="note-stage-result"><b>각각 $0\le r_{nk}\le1$이고 $\sum_{k=1}^K r_{nk}=1$이에요.</b> 같은 관측치에 대해 분모가 양수이면, 각 분자는 비음수이고 분자들의 합이 분모와 같기 때문이에요.</p>
@@ -733,12 +784,12 @@ $$=\sum_{k=1}^K\pi_k=1.$$
     </div>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-responsibility-example"><span class="note-stage-number">2 / 2</span> <span>책임도 계산과 해석</span></h4>
-      <p class="note-stage-goal">관측 후에는 어떤 성분의 가능성이 더 큰지 확인해요.</p>
-      <p>성분이 두 개이고 가중치가 $(0.6,0.4)$라고 해요. 이 관측치에서 성분별 밀도가 $(0.2,0.6)$이라면 가중 밀도는 각각 $0.6\cdot0.2=0.12$, $0.4\cdot0.6=0.24$예요. 분모는 $0.12+0.24=0.36$이에요.</p>
+      <p class="note-stage-goal">혼합비가 60%였던 자리로 돌아가 두 책임도를 베이즈 식으로 계산해 봐요.</p>
+      <p>실험에서 읽은 가중 밀도 $0.12$와 $0.24$를 각각 분자에 넣어요. 분모는 두 성분에 공통으로 $0.12+0.24=0.36$이에요.</p>
       <div>$$r_{n1}=\frac{0.12}{0.36}=\frac13,\qquad r_{n2}=\frac{0.24}{0.36}=\frac23$$</div>
-      <p>관측 전에는 성분 1의 가중치가 더 컸어요. 이 관측을 보고 나면 성분 2가 더 그럴듯해요. 두 성분의 확률을 함께 남기는 방식이 <b>소프트 할당</b>(soft assignment)이에요. 관측치가 달라지면 성분 밀도와 책임도도 달라질 수 있어요.</p>
+      <p>관측 전에는 첫째가 앞섰지만 이 점을 본 뒤에는 둘째가 앞서요. 두 성분의 확률을 함께 남기는 방식이 <b>소프트 할당</b>(soft assignment)이에요.</p>
     </div>
-    <p><b>복원 요령.</b> 성분 가중치와 관측값에서의 성분 밀도를 곱해요. 모든 성분의 가중 밀도를 더한 값으로 각 항을 나눠요.</p>
+    <p>이 점의 책임도는 $(1/3, 2/3)$ 한 줄로 적을 수 있어요. 다른 점들의 책임도까지 구하면 표에는 어떻게 모을까요?</p>
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">고정한 모델에서 가중 밀도의 비율로 관측 후 성분 확률을 구해요.</p>
@@ -831,6 +882,54 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   </nav>
   <p class="sr-only" id="pager-status" aria-live="polite"></p>
 
+  <script id="widget-responsibility-ui">
+    (() => {
+      const widget = document.getElementById('widget-responsibility');
+      const slider = widget.querySelector('#responsibility-mix');
+      const mixture = widget.querySelector('#responsibility-mix-value');
+      const results = widget.querySelector('#responsibility-results');
+      const { prior1, prior2, weighted1, weighted2, posterior1, posterior2, comparison } =
+        Object.fromEntries(Array.from(results.querySelectorAll('[data-result]'),
+          (element) => [element.dataset.result, element]));
+      const fill = widget.querySelector('.responsibility-bar span');
+      const presets = widget.querySelectorAll('[data-mix]');
+      const firstDensity = Number(widget.dataset.densityFirst);
+      const secondDensity = Number(widget.dataset.densitySecond);
+      const formatDensity = (density) => density.toFixed(3).replace(/0$/, '');
+
+      function update() {
+        const firstMix = slider.valueAsNumber;
+        const secondMix = 100 - firstMix;
+        const firstWeighted = firstMix * firstDensity / 100;
+        const secondWeighted = secondMix * secondDensity / 100;
+        const total = firstWeighted + secondWeighted;
+        const firstShare = 100 * firstWeighted / total;
+        const secondShare = 100 * secondWeighted / total;
+
+        mixture.value = prior1.textContent = firstMix + '%';
+        slider.setAttribute('aria-valuetext', mixture.value);
+        prior2.textContent = secondMix + '%';
+        weighted1.textContent = formatDensity(firstWeighted);
+        weighted2.textContent = formatDensity(secondWeighted);
+        posterior1.textContent = firstShare.toFixed(1) + '%';
+        posterior2.textContent = secondShare.toFixed(1) + '%';
+        comparison.textContent = firstWeighted === secondWeighted
+          ? '두 가중 밀도가 같으니 책임도도 반반이에요.'
+          : '이 점을 보면 ' + (firstWeighted > secondWeighted ? '첫째' : '둘째') + '가 더 그럴듯해요.';
+        fill.style.width = firstShare + '%';
+        presets.forEach((button) => button.setAttribute('aria-pressed', button.dataset.mix === slider.value));
+      }
+
+      slider.addEventListener('input', update);
+      presets.forEach((button) => button.addEventListener('click', () => {
+        slider.value = button.dataset.mix;
+        update();
+      }));
+      update();
+      widget.querySelector('.widget-static').hidden = true;
+      widget.querySelector('#responsibility-interactive').hidden = false;
+    })();
+  </script>
   <script id="theme-ui">
     (function () {
       const root = document.documentElement;

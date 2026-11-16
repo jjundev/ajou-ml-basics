@@ -178,6 +178,14 @@
     .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
     .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
     .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    #widget-pca-projection .controls label { flex-wrap: wrap; }
+    #pca-direction { flex: 1 1 100%; min-height: 24px; margin: 0; }
+    .pca-projection-presets { display: flex; flex-wrap: wrap; gap: var(--s2); }
+    .pca-projection-presets button { min-width: 0; padding: 0 var(--s3); border: 1px solid var(--line); font-size: var(--fs-small); }
+    .pca-projection-presets button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+    #pca-projection-plot { display: block; max-width: 440px; margin: var(--s3) auto 0; color: var(--ink); }
+    #pca-projection-values { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); }
+    #pca-projection-results { font-variant-numeric: tabular-nums; }
     .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
     .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
     .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
@@ -401,18 +409,90 @@
     </div>
     <section id="s0"><h2>0. 오늘의 큰 그림</h2>
 <article class="topic" id="s0-learning-map" data-learning-map="v1"><h3>가장 많이 퍼진 방향 찾기</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s14–s21</span></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+<p class="lead">평면의 점 네 개를 한 줄에 옮겨 담아 볼까요? 사영선을 돌려서 네 점의 그림자가 어느 방향에서 가장 넓게 퍼지는지 찾아보세요.</p>
+<div class="widget" id="widget-pca-projection">
+  <h4>직접 해 보기: 사영 방향 돌리기</h4>
+  <div id="pca-projection-interactive" hidden>
+    <p class="widget-help">빈 원은 원래 점이고, 파란 점은 사영선에 수직으로 내린 위치예요. 아래 수직선에도 같은 사영 좌표를 표시했어요. 좌표가 겹친 점은 위아래로 놓았어요.</p>
+    <div class="controls">
+      <label for="pca-direction">사영 방향 <output id="pca-direction-value" for="pca-direction" aria-live="off">0°</output>
+        <input id="pca-direction" type="range" min="0" max="180" step="1" value="0" aria-valuetext="0도">
+      </label>
+    </div>
+    <div class="pca-projection-presets" role="group" aria-label="사영 각도 빠른 선택">
+      <button class="btn btn-ghost" type="button" data-angle="0" aria-pressed="true">0°</button>
+      <button class="btn btn-ghost" type="button" data-angle="30" aria-pressed="false">30°</button>
+      <button class="btn btn-ghost" type="button" data-angle="120" aria-pressed="false">120°</button>
+    </div>
+    <svg id="pca-projection-plot" viewBox="0 0 360 268" role="img" aria-label="평면의 고정된 점 A, B, C, D를 회전하는 직선에 정사영하고, 그 좌표를 아래 수직선에 표시한 그림">
+      <line class="axis" x1="52" y1="113" x2="308" y2="113"/>
+      <line class="axis" x1="180" y1="8" x2="180" y2="218"/>
+      <line id="pca-projection-axis" class="fig-accent"/>
+      <g id="pca-projection-legs"></g>
+      <g id="pca-projection-points"></g>
+      <g id="pca-projected-points"></g>
+      <text class="fig-text" x="40" y="223">사영 좌표</text>
+      <line class="axis" x1="51" y1="242" x2="309" y2="242"/>
+      <line class="axis" x1="180" y1="235" x2="180" y2="249"/>
+      <text class="fig-text" x="180" y="263" text-anchor="middle">0</text>
+      <g id="pca-projection-track"></g>
+    </svg>
+    <div class="readout" id="pca-projection-results" aria-live="polite" aria-atomic="true">
+      <p id="pca-projection-values" aria-label="점별 사영 좌표">
+        <span>A <b data-coordinate>2.12</b></span>
+        <span>B <b data-coordinate>−2.12</b></span>
+        <span>C <b data-coordinate>−0.71</b></span>
+        <span>D <b data-coordinate>0.71</b></span>
+      </p>
+      <p>사영 좌표의 분산 <b id="pca-projection-variance">2.500</b></p>
+    </div>
+  </div>
+  <div class="widget-static">
+    <figure class="figure">
+      <svg id="fig-pca-projection-comparison" viewBox="0 0 360 111" role="img" aria-label="같은 네 점을 사영해 비교하면 30도에서 점들이 120도보다 넓게 퍼진다. 두 각도 모두 사영 좌표 0에 두 점이 겹친다.">
+        <text class="fig-text" x="15" y="35">30°</text>
+        <line class="axis" x1="66" y1="31" x2="346" y2="31"/>
+        <line class="axis" x1="205" y1="21" x2="205" y2="41"/>
+        <circle class="pt-train" cx="99.67" cy="31" r="4"/>
+        <circle class="pt-train" cx="310.33" cy="31" r="4"/>
+        <circle class="pt-train" cx="205" cy="26" r="4"/>
+        <circle class="pt-train" cx="205" cy="36" r="4"/>
+        <text class="fig-text" x="15" y="91">120°</text>
+        <line class="axis" x1="66" y1="87" x2="346" y2="87"/>
+        <line class="axis" x1="205" y1="77" x2="205" y2="97"/>
+        <circle class="pt-train" cx="144.19" cy="87" r="4"/>
+        <circle class="pt-train" cx="265.81" cy="87" r="4"/>
+        <circle class="pt-train" cx="205" cy="82" r="4"/>
+        <circle class="pt-train" cx="205" cy="92" r="4"/>
+      </svg>
+      <figcaption>두 줄의 눈금은 같아요. 가운데 위아래로 찍힌 점들은 모두 좌표 0이에요.</figcaption>
+    </figure>
+    <div class="table-wrap"><table aria-label="방향별 사영 좌표의 분산">
+      <thead><tr><th scope="col">사영 방향</th><th scope="col">사영 좌표의 분산</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">0°</th><td>2.500</td></tr>
+        <tr><th scope="row">30°</th><td>3.000</td></tr>
+        <tr><th scope="row">120°</th><td>1.000</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+<p>원래 점들은 원점을 사이에 두고 짝을 이루므로 어느 방향에 사영해도 좌표의 평균은 0이에요. 그래서 이 그림에서 퍼짐은 <b>네 사영 좌표를 각각 제곱해 평균 낸 값</b>으로 잴 수 있어요.</p>
+</div>
 <div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
 <p data-map="goal">$D$차원 데이터를 $M$개 방향으로 줄일 때, 퍼짐을 가장 많이 남기는 방향을 찾아요. 퍼짐의 척도는 분산(variance)이에요.</p>
 <p data-map="bridge">1028에서 배운 사영 좌표 $\mathbf{z}_n=\mathbf{B}^T\mathbf{x}_n$에, 오늘은 “어떤 축 $\mathbf B$를 고를까?”라는 기준을 붙여요. 데이터 $\mathbf x_n$은 평균을 빼 중심화한 열벡터예요.</p>
 <ul><li>방향 하나의 좌표를 구해요.</li><li>그 좌표의 분산을 공분산 행렬 $\mathbf S$로 써요.</li><li>고윳값·고유벡터로 좋은 방향을 읽어요.</li></ul>
+<p>같은 네 점에서 30°의 분산은 3이고, 그와 수직인 120°에서는 1이에요.</p>
+<p data-map="formula">사영 좌표 $\mathbf b_1^T\mathbf x_n$을 제곱하면 $\mathbf b_1^T(\mathbf x_n\mathbf x_n^T)\mathbf b_1$이에요. 네 점의 제곱을 평균 낼 때 양끝의 방향벡터를 밖으로 꺼내면, 가운데의 평균이 공분산 행렬 $\mathbf S$가 돼요. 그래서 화면의 분산을 $V_1=\mathbf b_1^T\mathbf S\mathbf b_1$로도 계산할 수 있어요. $\|\mathbf b_1\|^2=1$로 크기를 고정하고 방향만 비교해요. 식을 만드는 과정은 <a href="#s4-v1">4.2 분산 유도</a>에서 한 번 전개해요.</p>
 <p data-map="result">첫 방향 $\mathbf b_1$은 $\mathbf S$의 가장 큰 고윳값 $\lambda_1$에 대응하는 단위 고유벡터 $\mathbf p_1$이에요. 이 결론은 수업에서 미리 들었고, 완결 증명은 다음 시간으로 미뤘어요(<a href="#s4-max-proof">4.3 결론과 선택 보충</a>).</p>
-<p data-map="formula">목표식 $V_1=\mathbf b_1^T\mathbf S\mathbf b_1$은 방향별 분산을 계산해요. $\|\mathbf b_1\|^2=1$로 크기를 고정하고 방향만 비교해요. 식을 만드는 과정은 <a href="#s4-v1">4.2 분산 유도</a>에서 한 번 전개해요.</p>
 <p data-map="pitfall">대각화의 축은 아무 벡터가 아니라 고유벡터여야 해요. 일반 행렬과 달리, PCA의 실수 대칭 공분산 행렬에서는 정규직교 고유기저를 선택할 수 있어요(<a href="#s2-evd">EVD</a>, <a href="#s3-spectral">스펙트럼 정리</a>).</p>
 </div>
 <div class="sum" hidden>
-<p class="sum-lead">방향별 분산을 계산하고, 가장 큰 고윳값의 고유벡터를 첫 축으로 골라요. 수업에서는 결론을 미리 들었고 완결 증명은 미뤘어요.</p>
-<p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">단위축의 분산</span>$$V_1=\mathbf b_1^T\mathbf S\mathbf b_1,\qquad \|\mathbf b_1\|^2=1$$</li></ul>
-<p>데이터는 중심화해요. 정규직교 고유기저를 고를 수 있다는 보장은 실수 대칭행렬에 적용해요.</p>
+<p class="sum-lead">같은 점들을 여러 방향에 사영해 보세요. 한 방향만 남길 때는 사영한 좌표의 분산이 가장 큰 방향을 골라요.</p>
+<p class="panel-label">무엇을 볼까요?</p>
+<p>선의 각도만 바꾸면서 아래 수직선에 표시된 네 사영 좌표의 퍼짐을 비교해요.</p>
 </div>
 </article>
     </section>
@@ -1412,7 +1492,8 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 
 <article class="topic" id="s4-v1"><h3>4.2 분산 V₁을 b₁ᵀSb₁로 바꾸기</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s21</span></div>
 <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
-<p class="lead">점마다 정한 방향으로 얼마나 뻗었는지 재서 제곱하고 평균 내면, 그 방향의 퍼짐이 돼요.</p>
+<p class="lead"><a href="#widget-pca-projection">처음에 사영한 네 점</a>으로 돌아가요. 30°에서 A와 B는 각각 $\sqrt{6}$과 $-\sqrt{6}$, C와 D는 모두 0에 놓였어요.</p>
+<p>좌표 평균이 0이므로 분산은 제곱의 평균 $(6+6+0+0)/4=3$이에요. 네 점에서 나온 이 값을 공분산 행렬로 다시 계산해 볼게요.</p>
 <figure class="figure"><svg id="fig-v1-factor" viewBox="0 0 560 190" role="img" aria-label="왼쪽에 방향, 점, 점, 방향이 적힌 테두리 상자 세 줄이 있고, 화살표 오른쪽에는 양 끝의 방향 두 개 사이에 점들을 모은 표 하나가 놓인 그림">
 <rect class="fig-ink" x="10" y="15" width="200" height="40" rx="6"/><text class="fig-text" x="110" y="40" text-anchor="middle">방향 · 점1 · 점1 · 방향</text>
 <rect class="fig-ink" x="10" y="70" width="200" height="40" rx="6"/><text class="fig-text" x="110" y="95" text-anchor="middle">방향 · 점2 · 점2 · 방향</text>
@@ -1489,6 +1570,7 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 <li class="deriv-gen"><div class="deriv-eq">$$V_1=\mathbf{b}_1^T\mathbf{S}\mathbf{b}_1$$</div>
 <div class="deriv-why"><p>괄호를 $\mathbf{S}$로 바꿔 써요</p></div></li>
 </ol>
+<p class="deriv-check">같은 네 점으로 $\mathbf S$를 만들었으니 사영선을 돌려도 $\mathbf S$는 그대로예요. 바뀌는 것은 양쪽의 단위벡터 $\mathbf b_1$이에요.</p>
 <h5 class="note-subheading">계수 위치와 차원</h5>
 <p>$\mathbf{S} \in \mathbb{R}^{D \times D}$이고, 이 강의의 표기 ${\mathbf{X} = [\mathbf{x}_1 \cdots \mathbf{x}_N] \in \mathbb{R}^{D \times N}}$으로는 ${\mathbf{S} = \frac{1}{N}\mathbf{X}\mathbf{X}^T}$예요. 왼쪽에는 행벡터 $\mathbf{b}_1^T$($1 \times D$), 오른쪽에는 열벡터 $\mathbf{b}_1$($D \times 1$)이 붙어 ${(1 \times D)(D \times D)(D \times 1) = 1 \times 1}$ 스칼라가 돼요. 분산은 숫자 하나여야 하니 맞는 크기예요. 이 순서를 바꾸면 곱 자체가 정의되지 않아요.</p>
 <p>일반 규칙 $\operatorname{Cov}(\mathbf A\mathbf x)=\mathbf A\boldsymbol\Sigma\mathbf A^T$로도 읽을 수 있어요. 여기서는 $\mathbf A=\mathbf b_1^T$, 공분산 자리는 데이터로 구한 $\mathbf S$이므로 같은 $\mathbf b_1^T\mathbf S\mathbf b_1$이 돼요. 별도 암기식이 아니라 위 합 전개의 요약이에요.</p>
@@ -1500,7 +1582,7 @@ $${\mathbf{P}=\begin{bmatrix}-1/\sqrt2 &amp; -1/\sqrt6 &amp; 1/\sqrt3\\ 1/\sqrt2
 <h5 class="note-subheading">최적화 문제</h5>
 <p>이제 $V_1$을 최대로 하는 $\mathbf{b}_1$을 찾아요(MML (10.10)).</p>
 $$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject to} \quad \|\mathbf{b}_1\|^2 = 1$$
-<p>제약 $\|\mathbf{b}_1\|^2=1$은 수업에서 "정규화된 벡터"라고만 했고 이유는 말하지 않았어요. 다음은 학습을 위한 재구성이에요(MML 10.2.1, 321쪽에 같은 설명이 있어요). $\mathbf{b}_1$ 대신 $c\mathbf{b}_1$을 넣으면 값이 $c^2$배가 되므로, 제약이 없으면 크기만 키워 $V_1$을 무한대로 보낼 수 있어요. 우리가 원하는 것은 크기가 아니라 방향이라 크기를 1로 묶어요.</p>
+<p>제약 $\|\mathbf{b}_1\|^2=1$은 수업에서 "정규화된 벡터"라고만 했고 이유는 말하지 않았어요. 다음은 학습을 위한 재구성이에요(MML 10.2.1, 321쪽에 같은 설명이 있어요). $\mathbf{b}_1$ 대신 $c\mathbf{b}_1$을 넣으면 값이 $c^2$배가 되므로, 사영 분산이 양수인 방향에서는 제약 없이 크기만 키워 $V_1$을 무한대로 보낼 수 있어요. 우리가 원하는 것은 크기가 아니라 방향이라 크기를 1로 묶어요.</p>
 <p><b>복원용 요약.</b> 스칼라 $z_{1n}$을 자기 전치와 곱한다 → 곱의 전치로 $\mathbf{x}_n^T\mathbf{b}_1$을 만든다 → $\mathbf{b}_1^T$는 왼쪽, $\mathbf{b}_1$은 오른쪽으로 꺼낸다 → 가운데 평균이 $\mathbf{S}$.</p>
 <p class="footnote">바깥으로 꺼내는 벡터는 첫 번째 주성분 방향 $\mathbf b_1$이에요.</p>
 </div>
@@ -1529,7 +1611,7 @@ $$\max_{\mathbf{b}_1} \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1 \quad \text{subject t
 
 <article class="topic" id="s4-max-proof"><h3>4.3 왜 가장 큰 고윳값의 고유벡터일까</h3><div class="tags"><span class="tag date">1102 수업</span><span class="tag slide">L05 s21</span></div>
 <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
-<p class="lead">점들은 기울어진 길쭉한 타원처럼 퍼져 있어서, 화살표를 빙 돌리다가 타원의 긴 쪽에 오면 퍼짐이 가장 커요.</p>
+<p class="lead"><a href="#widget-pca-projection">처음 돌려 본 사영선</a>에서 30°에 놓았을 때 분산은 3, 120°에서는 1이었어요. 다른 각도에서도 3을 넘을 수 없다는 걸 어떻게 알까요?</p>
 <figure class="figure"><svg id="fig-max-ellipse" viewBox="0 0 560 220" role="img" aria-label="기울어진 타원의 테두리 안에 긴 축을 따라 굵은 강조선, 짧은 축을 따라 가는 선이 그어진 그림">
 <g transform="translate(280 110) rotate(-30)">
 <ellipse class="fig-ink" cx="0" cy="0" rx="170" ry="70"/>
@@ -1547,6 +1629,11 @@ $$V_1 = \mathbf{b}_1^T\mathbf{S}\mathbf{b}_1, \qquad \|\mathbf{b}_1\|^2 = 1$$
 $$\mathbf{S}\mathbf{p}_i = \lambda_i\mathbf{p}_i, \qquad \mathbf{p}_i^T\mathbf{p}_j = \begin{cases}1 & (i = j)\\ 0 & (i \ne j)\end{cases}$$
 $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 <p>고윳값은 PCA 관례대로 큰 순서 ${\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_D}$로 번호를 붙여요. 가장 큰 고윳값이 $\lambda_1$이에요.</p>
+<p>30°와 120°의 단위벡터를 각각 $\mathbf p_1,\mathbf p_2$라고 해요. A와 B는 $\pm\sqrt{6}\,\mathbf p_1$, C와 D는 $\pm\sqrt{2}\,\mathbf p_2$에 놓여 있어요. 네 점의 바깥곱을 더해 4로 나누면 첫째 쌍은 $3\mathbf p_1\mathbf p_1^T$, 둘째 쌍은 $\mathbf p_2\mathbf p_2^T$를 남겨요.</p>
+$$\mathbf S=3\mathbf p_1\mathbf p_1^T+\mathbf p_2\mathbf p_2^T.$$
+<p>두 축이 직교하므로 각 벡터를 곱하면 $\mathbf S\mathbf p_1=3\mathbf p_1$, $\mathbf S\mathbf p_2=\mathbf p_2$가 돼요. 30°의 $\mathbf p_1$을 양쪽에 넣으면 $\mathbf p_1^T\mathbf S\mathbf p_1=3$으로, 좌표를 제곱해 구한 값과 같아요.</p>
+<p>중간 각도의 단위벡터를 $\mathbf b=c_1\mathbf p_1+c_2\mathbf p_2$로 나누어 봐요. 두 축이 직교하므로 $c_1^2+c_2^2=1$이고, 축을 섞어 곱한 항은 모두 0이에요. 그래서 그 방향의 사영 분산은 $3c_1^2+c_2^2$예요. 3과 1의 가중평균이므로 3을 넘을 수 없고, $c_1^2=1$일 때 3에 닿아요. 그래서 30°의 직선이 <b>첫 번째 주성분 축</b>이에요.</p>
+<p>차원이 더 높아도 사영 분산은 같은 방식으로 고윳값들의 가중평균이 돼요. 가장 큰 고윳값에 무게를 모두 주는 단위 고유벡터를 첫 축으로 고를 수 있어요.</p>
 <p><b>수업에서 한 부분.</b></p>
 <ol class="steps">
 <li><b>전개 아이디어</b>: $\mathbf{p}_1, \dots, \mathbf{p}_D$는 정규직교이고 $\mathbb{R}^D$ 전체를 덮는 기저예요. 3차원이면 $3 \times 1$ 벡터 3개의 가중합으로 모든 점을 나타낼 수 있는 것과 같아요. 그래서 어떤 $\mathbf{b}_1$이든 고유벡터의 가중합으로 써요. 여기서 $c_i$는 스칼라 가중치예요. $$\mathbf{b}_1=\sum_{i=1}^{D}c_i\mathbf{p}_i$$</li>
@@ -1555,8 +1642,8 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 </ol>
 <p>나머지 부등식은 다음 시간으로 미뤘어요. 끝까지의 계산은 아래 보충에 있어요.</p>
 <div class="widget" id="widget-quadform"><h4>직접 해 보기: 방향을 돌리며 bᵀSb 재기</h4>
-<p class="widget-help">각도를 돌리면 단위원 위의 b와 Sb 화살표, 그리고 오른쪽 곡선 위의 bᵀSb 값이 함께 바뀌어요.</p>
-<p class="widget-help">예시 행렬은 ${\mathbf{S} = \begin{bmatrix}2.5 & 0.866\\ 0.866 & 1.5\end{bmatrix}}$이에요. 고윳값은 3과 1이고, 고유벡터 $\mathbf{p}_1$은 30°, $\mathbf{p}_2$는 120° 방향이에요.</p>
+<p class="widget-help">처음의 네 점에서 구한 공분산을 이번에는 행렬로 읽어요. 각도를 돌리면 단위원 위의 b와 Sb 화살표, 그리고 오른쪽 곡선의 bᵀSb 값이 함께 바뀌어요.</p>
+<p class="widget-help">예시 행렬은 ${\mathbf{S} = \begin{bmatrix}2.5 & \sqrt{3}/2\\ \sqrt{3}/2 & 1.5\end{bmatrix}}$이에요. 고윳값은 3과 1이고, 고유벡터 $\mathbf{p}_1$은 30°, $\mathbf{p}_2$는 120° 방향이에요.</p>
 <div class="controls">
 <label>b의 각도 θ <input type="range" id="quadform-a" min="0" max="180" step="1" value="0"> <b id="quadform-a-val">0°</b></label>
 </div>
@@ -1578,7 +1665,7 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
 </table></div>
 </div>
 </div>
-<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">같은 최댓값을 데이터 점 40개의 사영과 버린 성분의 분산으로 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" rel="noopener noreferrer" target="_self">사영 분산과 첫 주성분 실험</a>에서 다시 확인해 보세요.</p>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html">다른 점 40개에서 사영 분산과 버린 성분의 분산이 어떻게 달라지는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EC%82%AC%EC%98%81_%EB%B6%84%EC%82%B0%EA%B3%BC_%EC%B2%AB_%EC%A3%BC%EC%84%B1%EB%B6%84.html" rel="noopener noreferrer" target="_self">사영 분산과 첫 주성분 실험</a>에서 다시 확인해 보세요.</p>
 
 <p class="footnote"><sup>1</sup> $\mathbf b_1,\mathbf p_i\in\mathbb R^D$이고 $\mathbf S\in\mathbb R^{D\times D}$예요. 이 강의의 표기 $\mathbf X\in\mathbb R^{D\times N}$에서는 $\mathbf S=\frac1N\mathbf X\mathbf X^T$예요. 반면 $\mathbf X^T\mathbf X$는 $N\times N$ 행렬이에요.</p>
 </div>
@@ -1733,6 +1820,87 @@ $$\mathbf{S} = \sum_{i=1}^{D}\lambda_i\mathbf{p}_i\mathbf{p}_i^T$$
     </div>
   </nav>
   <p class="sr-only" id="pager-status" aria-live="polite"></p>
+  <script id="widget-pca-projection-ui">
+    (() => {
+      const widget = document.getElementById('widget-pca-projection');
+      const slider = widget.querySelector('#pca-direction');
+      const angleValue = widget.querySelector('#pca-direction-value');
+      const variance = widget.querySelector('#pca-projection-variance');
+      const coordinates = widget.querySelectorAll('[data-coordinate]');
+      const presets = widget.querySelectorAll('[data-angle]');
+      const axis = widget.querySelector('#pca-projection-axis');
+      const samples = widget.querySelector('#pca-projection-points');
+      const legs = widget.querySelector('#pca-projection-legs');
+      const projections = widget.querySelector('#pca-projected-points');
+      const track = widget.querySelector('#pca-projection-track');
+
+      const cx = 180;
+      const cy = 113;
+      const scale = 38;
+      const sx = (x) => cx + scale * x;
+      const sy = (y) => cy - scale * y;
+      const p1 = [Math.sqrt(3) / 2, 1 / 2];
+      const p2 = [-1 / 2, Math.sqrt(3) / 2];
+      // Opposite pairs give zero mean and covariance 3 p1 p1ᵀ + p2 p2ᵀ.
+      const points = [Math.sqrt(6), -Math.sqrt(6), Math.sqrt(2), -Math.sqrt(2)]
+        .map((radius, index) => (index < 2 ? p1 : p2).map((value) => radius * value));
+
+      const circle = (x, y, cls, radius = 4) =>
+        '<circle class="' + cls + '" cx="' + x + '" cy="' + y + '" r="' + radius + '"/>';
+      const line = (x1, y1, x2, y2) =>
+        '<line class="plot-truth" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
+      const format = (n) => n.toFixed(2).replace('-', '−');
+
+      samples.innerHTML = points.map(([x, y], index) =>
+        circle(sx(x), sy(y), 'fig-ink', 5) + '<text class="fig-text" x="' +
+          (sx(x) + 8) + '" y="' + (sy(y) - 7) + '">' + 'ABCD'[index] + '</text>').join('');
+
+      function update() {
+        const angle = slider.valueAsNumber;
+        const rad = angle * Math.PI / 180;
+        const bx = Math.cos(rad);
+        const by = Math.sin(rad);
+        const scores = points.map(([x, y]) => {
+          const score = x * bx + y * by;
+          return Math.abs(score) < 1e-12 ? 0 : score;
+        });
+        const sumSquares = scores.reduce((sum, z) => sum + z * z, 0);
+        angleValue.value = angle + '°';
+        slider.setAttribute('aria-valuetext', angle + '도');
+        variance.textContent = (sumSquares / points.length).toFixed(3);
+        presets.forEach((button) => button.setAttribute('aria-pressed', button.dataset.angle === slider.value));
+
+        axis.setAttribute('x1', sx(-2.7 * bx));
+        axis.setAttribute('y1', sy(-2.7 * by));
+        axis.setAttribute('x2', sx(2.7 * bx));
+        axis.setAttribute('y2', sy(2.7 * by));
+        legs.innerHTML = points.map(([x, y], index) => {
+          const z = scores[index];
+          return line(sx(x), sy(y), sx(z * bx), sy(z * by));
+        }).join('');
+        projections.innerHTML = scores.map((z) =>
+          circle(sx(z * bx), sy(z * by), 'pt-train')).join('');
+
+        const counts = new Map();
+        track.innerHTML = scores.map((z, index) => {
+          const x = sx(z).toFixed(2);
+          const occurrence = counts.get(x) || 0;
+          counts.set(x, occurrence + 1);
+          coordinates[index].textContent = format(z);
+          return circle(x, 242 - occurrence * 9, 'pt-train');
+        }).join('');
+      }
+
+      slider.addEventListener('input', update);
+      presets.forEach((button) => button.addEventListener('click', () => {
+        slider.value = button.dataset.angle;
+        update();
+      }));
+      update();
+      widget.querySelector('.widget-static').hidden = true;
+      widget.querySelector('#pca-projection-interactive').hidden = false;
+    })();
+  </script>
   <script id="widget-quadform-ui">(function () {
   var S = [[2.5, Math.sqrt(3) / 2], [Math.sqrt(3) / 2, 1.5]]; // = 3 p1 p1^T + 1 p2 p2^T, p1 at 30 deg
   var CX = 140, CY = 150, K = 40;           // left panel: origin, px per unit

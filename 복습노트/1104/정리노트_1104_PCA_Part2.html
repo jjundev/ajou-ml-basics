@@ -179,6 +179,16 @@
     .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
     .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
     .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    #widget-svd-image .controls label { flex-wrap: wrap; }
+    #svd-component-count { flex: 1 1 100%; min-height: 24px; margin: 0; }
+    .svd-image-presets { display: flex; flex-wrap: wrap; gap: var(--s2); }
+    .svd-image-presets button { min-width: 0; padding: 0 var(--s3); border: 1px solid var(--line); font-size: var(--fs-small); }
+    .svd-image-presets button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+    .svd-image-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); max-width: 420px; margin: var(--s3) auto; }
+    .svd-image-pair .figure { margin: 0; }
+    .svd-image-pair svg { display: block; border: 1px solid var(--line); }
+    #svd-error-readout { font-variant-numeric: tabular-nums; }
+    .svd-image-error-help { margin-bottom: 0; }
     .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
     .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
     .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
@@ -935,6 +945,7 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
 <article class="topic" id="s2-svd">
 <h3>데이터의 SVD에서 주성분 찾기</h3><div class="tags"><span class="tag date">1104 수업</span><span class="tag slide">L06 s13</span></div>
 <div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">한 점씩 모아 만든 지도에서도 점들이 길게 늘어선 방향을 찾을 수 있어요.</p>
+<p>SVD를 수식으로 보기 전에, <a href="#widget-svd-image">같은 하트에서 몇 성분을 남길지 바꿔 보세요.</a></p>
 <figure class="figure"><svg id="fig-svd-cloud" viewBox="0 0 280 145" role="img" aria-label="길게 늘어선 점 구름의 긴 방향을 잇는 선"><path class="fig-ink" d="M25 124H256M45 136V14"/><path class="fig-accent" d="M65 116L231 30"/><circle class="fig-dot" cx="84" cy="102" r="4"/><circle class="fig-dot" cx="118" cy="94" r="4"/><circle class="fig-dot" cx="145" cy="70" r="4"/><circle class="fig-dot" cx="175" cy="68" r="4"/><circle class="fig-dot" cx="196" cy="44" r="4"/><text class="fig-text" x="153" y="111" font-size="14">가장 긴 방향</text></svg><figcaption>긴 방향을 먼저 고르면 점들의 퍼짐을 많이 담을 수 있어요.</figcaption></figure></div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
 <p>지금까지는 공분산 $\mathbf S$를 만든 다음 그 고유벡터를 구했어요. 이 페이지의 질문은 <b>$\mathbf S$를 만들지 않고 데이터 행렬에서 바로 같은 축을 구할 수 있을까요?</b>예요. 답을 먼저 말하면, 데이터 행렬을 특잇값 분해했을 때 나오는 왼쪽 특이벡터가 그 축이고, 축의 분산은 특잇값의 제곱을 표본 수로 나눈 값이에요.</p>
@@ -1004,10 +1015,240 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
 
 <article class="topic" id="s2-low-rank">
 <h3>작은 행렬 두 개로 데이터 복원하기</h3><div class="tags"><span class="tag date">1104 수업</span><span class="tag slide">L06 s14</span></div>
-<div class="layer eli5"><span class="layer-title">쉽게 말하면</span><p class="lead">여러 겹의 그림을 포개서 한 장을 만들어요. 가장 진한 겹부터 몇 장 남기면 적은 양으로도 원래 모양을 많이 살릴 수 있어요.</p>
-<figure class="figure"><svg id="fig-rank-layers" viewBox="0 0 300 135" role="img" aria-label="진한 두 겹을 남기고 흐린 한 겹을 빼는 그림"><rect class="fig-accent" x="30" y="28" width="72" height="72" rx="5"/><rect class="fig-accent" x="43" y="17" width="72" height="72" rx="5"/><rect class="fig-danger" x="170" y="25" width="72" height="72" rx="5"/><circle class="fig-dot" cx="60" cy="55" r="8"/><circle class="fig-dot" cx="83" cy="62" r="12"/><text class="fig-text" x="30" y="123" font-size="14">남길 두 겹</text><text class="fig-muted" x="170" y="123" font-size="14">뺄 한 겹</text></svg></figure></div>
+<div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+<p class="lead">같은 하트에서 SVD 성분을 몇 개 남겨야 모양이 돌아올까요? 성분 수만 바꿔 오른쪽 그림과 오차를 비교해 보세요.</p>
+<div class="widget" id="widget-svd-image">
+  <h4>직접 해 보기: 남길 성분 수 바꾸기</h4>
+  <p class="widget-help">Serrano의 SVD 영상에 나온 6×7 하트예요. 특잇값이 큰 성분부터 선택한 개수만큼 더해 복원해요.</p>
+  <div id="svd-image-interactive" hidden>
+    <div class="controls">
+      <label for="svd-component-count">남긴 성분 <output id="svd-component-value" for="svd-component-count" aria-live="off">1개</output>
+        <input id="svd-component-count" type="range" min="0" max="4" step="1" value="1" aria-valuetext="1개">
+      </label>
+    </div>
+    <div class="svd-image-presets" role="group" aria-label="남길 성분 수 빠른 선택">
+      <button class="btn btn-ghost" type="button" data-components="1" aria-pressed="true">1개</button>
+      <button class="btn btn-ghost" type="button" data-components="2" aria-pressed="false">2개</button>
+      <button class="btn btn-ghost" type="button" data-components="3" aria-pressed="false">3개</button>
+      <button class="btn btn-ghost" type="button" data-components="4" aria-pressed="false">4개</button>
+    </div>
+    <div class="svd-image-pair">
+      <figure class="figure">
+        <svg id="svd-original-pixels" viewBox="0 0 7 6" shape-rendering="crispEdges" role="img" aria-label="원본 6×7 하트 이미지"></svg>
+        <figcaption>원본</figcaption>
+      </figure>
+      <figure class="figure">
+        <svg id="svd-reconstructed-pixels" viewBox="0 0 7 6" shape-rendering="crispEdges" role="img" aria-label="성분 1개로 복원한 6×7 하트 이미지"></svg>
+        <figcaption>복원</figcaption>
+      </figure>
+    </div>
+    <p class="readout" id="svd-error-readout" aria-live="polite" aria-atomic="true">픽셀 차이의 제곱합 <b id="svd-pixel-error">4.534</b></p>
+  </div>
+  <div class="widget-static">
+    <figure class="figure">
+      <svg id="fig-svd-heart-comparison" viewBox="0 0 400 104" role="img" aria-label="하트 원본과 성분 1개, 3개, 4개를 남겨 복원한 하트 비교">
+        <text class="fig-text" x="49.5" y="19" text-anchor="middle">원본</text>
+        <g shape-rendering="crispEdges">
+        <rect x="11" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="22" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="33" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="44" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="55" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="66" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="77" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="11" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="22" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="33" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="44" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="55" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="66" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="77" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="11" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="22" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="33" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="44" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="55" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="66" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="77" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="11" y="61" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="22" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="33" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="44" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="55" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="66" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="77" y="61" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="11" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="22" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="33" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="44" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="55" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="66" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="77" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="11" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="22" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="33" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="44" y="83" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="55" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="66" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="77" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        </g>
+        <text class="fig-text" x="149.5" y="19" text-anchor="middle">1개</text>
+        <g shape-rendering="crispEdges">
+        <rect x="111" y="28" width="11" height="11" fill="rgb(155,155,155)"/>
+        <rect x="122" y="28" width="11" height="11" fill="rgb(81,81,81)"/>
+        <rect x="133" y="28" width="11" height="11" fill="rgb(55,55,55)"/>
+        <rect x="144" y="28" width="11" height="11" fill="rgb(81,81,81)"/>
+        <rect x="155" y="28" width="11" height="11" fill="rgb(55,55,55)"/>
+        <rect x="166" y="28" width="11" height="11" fill="rgb(81,81,81)"/>
+        <rect x="177" y="28" width="11" height="11" fill="rgb(155,155,155)"/>
+        <rect x="111" y="39" width="11" height="11" fill="rgb(105,105,105)"/>
+        <rect x="122" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="133" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="144" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="155" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="166" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="177" y="39" width="11" height="11" fill="rgb(105,105,105)"/>
+        <rect x="111" y="50" width="11" height="11" fill="rgb(105,105,105)"/>
+        <rect x="122" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="133" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="144" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="155" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="166" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="177" y="50" width="11" height="11" fill="rgb(105,105,105)"/>
+        <rect x="111" y="61" width="11" height="11" fill="rgb(132,132,132)"/>
+        <rect x="122" y="61" width="11" height="11" fill="rgb(40,40,40)"/>
+        <rect x="133" y="61" width="11" height="11" fill="rgb(9,9,9)"/>
+        <rect x="144" y="61" width="11" height="11" fill="rgb(40,40,40)"/>
+        <rect x="155" y="61" width="11" height="11" fill="rgb(9,9,9)"/>
+        <rect x="166" y="61" width="11" height="11" fill="rgb(40,40,40)"/>
+        <rect x="177" y="61" width="11" height="11" fill="rgb(132,132,132)"/>
+        <rect x="111" y="72" width="11" height="11" fill="rgb(178,178,178)"/>
+        <rect x="122" y="72" width="11" height="11" fill="rgb(121,121,121)"/>
+        <rect x="133" y="72" width="11" height="11" fill="rgb(102,102,102)"/>
+        <rect x="144" y="72" width="11" height="11" fill="rgb(121,121,121)"/>
+        <rect x="155" y="72" width="11" height="11" fill="rgb(102,102,102)"/>
+        <rect x="166" y="72" width="11" height="11" fill="rgb(121,121,121)"/>
+        <rect x="177" y="72" width="11" height="11" fill="rgb(178,178,178)"/>
+        <rect x="111" y="83" width="11" height="11" fill="rgb(232,232,232)"/>
+        <rect x="122" y="83" width="11" height="11" fill="rgb(214,214,214)"/>
+        <rect x="133" y="83" width="11" height="11" fill="rgb(208,208,208)"/>
+        <rect x="144" y="83" width="11" height="11" fill="rgb(214,214,214)"/>
+        <rect x="155" y="83" width="11" height="11" fill="rgb(208,208,208)"/>
+        <rect x="166" y="83" width="11" height="11" fill="rgb(214,214,214)"/>
+        <rect x="177" y="83" width="11" height="11" fill="rgb(232,232,232)"/>
+        </g>
+        <text class="fig-text" x="249.5" y="19" text-anchor="middle">3개</text>
+        <g shape-rendering="crispEdges">
+        <rect x="211" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="222" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="233" y="28" width="11" height="11" fill="rgb(4,4,4)"/>
+        <rect x="244" y="28" width="11" height="11" fill="rgb(251,251,251)"/>
+        <rect x="255" y="28" width="11" height="11" fill="rgb(4,4,4)"/>
+        <rect x="266" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="277" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="211" y="39" width="11" height="11" fill="rgb(3,3,3)"/>
+        <rect x="222" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="233" y="39" width="11" height="11" fill="rgb(6,6,6)"/>
+        <rect x="244" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="255" y="39" width="11" height="11" fill="rgb(6,6,6)"/>
+        <rect x="266" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="277" y="39" width="11" height="11" fill="rgb(3,3,3)"/>
+        <rect x="211" y="50" width="11" height="11" fill="rgb(3,3,3)"/>
+        <rect x="222" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="233" y="50" width="11" height="11" fill="rgb(6,6,6)"/>
+        <rect x="244" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="255" y="50" width="11" height="11" fill="rgb(6,6,6)"/>
+        <rect x="266" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="277" y="50" width="11" height="11" fill="rgb(3,3,3)"/>
+        <rect x="211" y="61" width="11" height="11" fill="rgb(234,234,234)"/>
+        <rect x="222" y="61" width="11" height="11" fill="rgb(40,40,40)"/>
+        <rect x="233" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="244" y="61" width="11" height="11" fill="rgb(40,40,40)"/>
+        <rect x="255" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="266" y="61" width="11" height="11" fill="rgb(40,40,40)"/>
+        <rect x="277" y="61" width="11" height="11" fill="rgb(234,234,234)"/>
+        <rect x="211" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="222" y="72" width="11" height="11" fill="rgb(206,206,206)"/>
+        <rect x="233" y="72" width="11" height="11" fill="rgb(51,51,51)"/>
+        <rect x="244" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="255" y="72" width="11" height="11" fill="rgb(51,51,51)"/>
+        <rect x="266" y="72" width="11" height="11" fill="rgb(206,206,206)"/>
+        <rect x="277" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="211" y="83" width="11" height="11" fill="rgb(232,232,232)"/>
+        <rect x="222" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="233" y="83" width="11" height="11" fill="rgb(208,208,208)"/>
+        <rect x="244" y="83" width="11" height="11" fill="rgb(44,44,44)"/>
+        <rect x="255" y="83" width="11" height="11" fill="rgb(208,208,208)"/>
+        <rect x="266" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="277" y="83" width="11" height="11" fill="rgb(232,232,232)"/>
+        </g>
+        <text class="fig-text" x="349.5" y="19" text-anchor="middle">4개</text>
+        <g shape-rendering="crispEdges">
+        <rect x="311" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="322" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="333" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="344" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="355" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="366" y="28" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="377" y="28" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="311" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="322" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="333" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="344" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="355" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="366" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="377" y="39" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="311" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="322" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="333" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="344" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="355" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="366" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="377" y="50" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="311" y="61" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="322" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="333" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="344" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="355" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="366" y="61" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="377" y="61" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="311" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="322" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="333" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="344" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="355" y="72" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="366" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="377" y="72" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="311" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="322" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="333" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="344" y="83" width="11" height="11" fill="rgb(0,0,0)"/>
+        <rect x="355" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="366" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        <rect x="377" y="83" width="11" height="11" fill="rgb(255,255,255)"/>
+        </g>
+      </svg>
+      <figcaption>같은 하트를 1개, 3개, 4개 성분으로 복원한 결과예요.</figcaption>
+    </figure>
+    <div class="table-wrap"><table aria-label="남긴 성분 수에 따른 복원오차">
+      <thead><tr><th scope="col">남긴 성분 수</th><th scope="col">픽셀 차이의 제곱합</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">0개</th><td>27.000</td></tr>
+        <tr><th scope="row">1개</th><td>4.534</td></tr>
+        <tr><th scope="row">2개</th><td>2.534</td></tr>
+        <tr><th scope="row">3개</th><td>0.534</td></tr>
+        <tr><th scope="row">4개</th><td>0.000</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p class="widget-help svd-image-error-help">원본 픽셀에서 0은 흰색, 1은 검정이에요. 그림을 표시할 때만 값을 0과 1 사이로 잘라요. 오차는 자르기 전의 복원값과 원본을 픽셀마다 빼고, 제곱해 더한 값이에요.</p>
+</div>
+<p>1개만 남기면 윤곽이 흐리고, 3개를 남기면 원본과 거의 비슷해 보여도 오차는 0.534 남아요. 4개를 남기면 원본의 42개 픽셀을 모두 되찾아요. 왜 추가한 성분마다 오차가 줄고, 네 번째에서 0이 될까요?</p>
+</div>
 <div class="layer formal"><span class="layer-title">정확히 말하면</span>
-<p>이 페이지의 질문은 <b>표본 전체를 한꺼번에 압축하면 무엇을 저장하게 되고, 얼마나 틀릴까요?</b>예요. 답을 먼저 말하면, 축을 담은 행렬과 좌표를 담은 행렬 두 개를 저장하고, 틀리는 양은 버린 특잇값의 제곱합이에요.</p>
+<p>실험에서는 하트의 픽셀 행렬 $\mathbf A$를 SVD로 나눴어요. 왼쪽·오른쪽 단위 특이벡터 $\mathbf u_i,\mathbf v_i$의 바깥곱에 특잇값 $\sigma_i$를 곱하면, 원본과 같은 크기의 그림 한 겹 $\sigma_i\mathbf u_i\mathbf v_i^\top$이 돼요. 특잇값을 큰 순서로 놓고 앞의 $M$겹만 더하면 복원 이미지 $\tilde{\mathbf A}_M$을 얻어요.</p>
+<p>각 겹의 열은 모두 같은 방향 $\mathbf u_i$의 배수예요. $M$겹을 더한 복원 행렬의 열은 남긴 $M$개 방향으로만 만들 수 있으므로 랭크가 $M$ 이하예요. 픽셀 수는 그대로 두면서 랭크를 줄이는 것이 <b>저랭크 근사</b>예요.</p>
+<p>수업에서는 같은 계산을 중심화한 표본들을 열로 모은 데이터 행렬 $\mathbf X$에 적용해요. 하트 실험에서는 이미지 한 장이 행렬이고, 아래에서 $\mathbf X$의 한 열은 한 표본이에요.</p>
 <p>출발점은 표본 하나의 복원식 $\tilde{\mathbf x}_n=\mathbf B\mathbf B^\top\mathbf x_n$이에요. $\mathbf X$의 열마다 같은 계산을 하므로 전체로는 $\tilde{\mathbf X}_M=\mathbf B\mathbf B^\top\mathbf X$예요. 축 $\mathbf B$에는 <a href="#s2-svd">데이터의 SVD에서 주성분 찾기</a>에서 구한 상위 $M$개의 왼쪽 특이벡터를 넣어요. 이 행렬을 $\mathbf U_M\in\mathbb R^{D\times M}$이라 쓰고, $M\le\min(D,N)$으로 둬요.</p>
 <nav class="note-stage-nav" aria-label="계산 단계">
 <a href="#s2-low-rank-coordinates" aria-current="step">1. 남길 좌표</a>
@@ -1035,6 +1276,7 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
 <div class="note-stage">
 <h4 class="note-stage-title" id="s2-low-rank-reconstruction"><span class="note-stage-number">2 / 3</span> <span>원래 크기로 복원하기</span></h4>
 <p class="note-stage-goal">축 행렬과 좌표 행렬을 곱해 모든 표본을 원래 차원으로 되돌려요.</p>
+<figure class="figure"><svg id="fig-rank-layers" viewBox="0 0 300 135" role="img" aria-label="진한 두 겹을 남기고 흐린 한 겹을 빼는 그림"><rect class="fig-accent" x="30" y="28" width="72" height="72" rx="5"/><rect class="fig-accent" x="43" y="17" width="72" height="72" rx="5"/><rect class="fig-danger" x="170" y="25" width="72" height="72" rx="5"/><circle class="fig-dot" cx="60" cy="55" r="8"/><circle class="fig-dot" cx="83" cy="62" r="12"/><text class="fig-text" x="30" y="123" font-size="14">남길 두 겹</text><text class="fig-muted" x="170" y="123" font-size="14">뺄 한 겹</text></svg></figure>
 <div class="deriv-body">
 <ol class="deriv">
 <li><div class="deriv-eq">$$\tilde{\mathbf X}_M=\mathbf U_M\,\mathbf\Sigma_M\mathbf V_M^\top$$</div>
@@ -1048,7 +1290,15 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
 </div>
 <div class="note-stage">
 <h4 class="note-stage-title" id="s2-low-rank-error"><span class="note-stage-number">3 / 3</span> <span>버린 정보의 양 계산하기</span></h4>
-<p class="note-stage-goal">복원오차를 버린 특잇값으로 계산해요.</p>
+<p class="note-stage-goal">하트의 픽셀 차이 제곱합이 왜 버린 특잇값의 제곱합과 같은지 확인해요.</p>
+<p>원본에서 남긴 겹을 빼면 버린 겹만 남아요.</p>
+$$\mathbf A-\tilde{\mathbf A}_M=\sum_{i>M}\sigma_i\mathbf u_i\mathbf v_i^\top.$$
+<p>한 겹의 픽셀 값은 행 계수와 열 계수의 곱이에요. 두 겹의 같은 위치 픽셀끼리 곱해 모두 더하면 행 계수끼리의 내적과 열 계수끼리의 내적을 곱한 값이 돼요. $\langle\cdot,\cdot\rangle_F$는 픽셀 곱의 합을 뜻해요.</p>
+$$\langle\mathbf u_i\mathbf v_i^\top,\mathbf u_j\mathbf v_j^\top\rangle_F=(\mathbf u_i^\top\mathbf u_j)(\mathbf v_i^\top\mathbf v_j).$$
+<p>다른 겹끼리는 특이벡터들이 직교해서 이 곱이 0이고, 같은 겹끼리는 단위벡터라 1이에요. 그래서 잔차를 제곱해 더하면 교차항은 모두 사라지고, 각 겹에 곱했던 $\sigma_i$의 제곱만 남아요.</p>
+$$\|\mathbf A-\tilde{\mathbf A}_M\|_F^2=\sum_{i\gt M}\sigma_i^2.$$
+<p>3겹을 남기면 버린 겹 중 0이 아닌 특잇값은 네 번째 값 $\sigma_4\approx0.731$뿐이라 오차가 약 0.534예요. 4겹을 남기면 0이 아닌 특잇값을 모두 썼으니 오차는 0이에요.</p>
+<p>수업의 데이터 행렬에서도 픽셀 대신 행렬 원소의 차이를 제곱해 더해요. 앞에서 구한 표본당 평균 복원오차 $J_M^\star$를 쓰면 같은 식을 얻어요.</p>
 <div class="deriv-body">
 <ol class="deriv">
 <li><div class="deriv-eq">$$\|\mathbf X-\tilde{\mathbf X}_M\|_F^2=NJ_M^\star$$</div>
@@ -1060,12 +1310,14 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
 <div class="deriv-why"><p>$N$이 약분돼요</p></div></li>
 </ol>
 <p class="note-stage-result"><b>틀리는 양은 버린 특잇값의 제곱합이에요.</b></p>
-<p class="deriv-check">예: 특잇값이 $5,3,1$일 때 두 겹을 남기면 $1^2=1$, 한 겹만 남기면 $3^2+1^2=10$이에요. 큰 특잇값부터 $M$겹 남긴 행렬은 랭크 $M$ 이하인 모든 행렬 중 이 오차가 가장 작아요(에카르트–영 정리, 저랭크 근사). $\mathbf X$의 랭크가 처음부터 $M$ 이하이면 그대로 복원돼요.</p>
+<p class="deriv-check">하트에서 2겹을 남기면 세 번째 특잇값 $\sqrt{2}$도 버리므로 오차는 $2+\sigma_4^2\approx2.534$예요. 큰 특잇값부터 $M$겹 남긴 행렬은 랭크 $M$ 이하인 모든 행렬 중 이 오차가 가장 작아요(에카르트–영 정리, 저랭크 근사). $\mathbf X$의 랭크가 처음부터 $M$ 이하이면 그대로 복원돼요.</p>
 </div>
 </div>
 </div>
 <div class="layer warn"><span class="layer-title">꼭 기억해요</span><blockquote>“low-rank matrix approximation이라는 것도 있는데 여러분 이게 요, 진짜 중요해요.”</blockquote></div>
-<div class="sum" hidden><p class="sum-lead">큰 특잇값에 대응하는 층부터 남기면 같은 랭크 한도에서 행렬의 제곱 복원오차가 가장 작아요.</p><p class="panel-label">핵심 식</p><ul class="eq-list"><li><span class="eq-name">전체 표본의 좌표</span>$$\mathbf U_M^\top\mathbf X=\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}.$$</li><li><span class="eq-name">랭크 제한 복원 ($M\le\min(D,N)$)</span>$$\tilde{\mathbf X}_M=\mathbf U_M\mathbf\Sigma_M\mathbf V_M^\top.$$ $$\tilde{\mathbf X}_M=\sum_{i=1}^M\sigma_i\mathbf u_i\mathbf v_i^\top.$$</li><li><span class="eq-name">전체 샘플의 제곱오차</span>$$\|\mathbf X-\tilde{\mathbf X}_M\|_F^2=NJ_M^\star.$$ $$\|\mathbf X-\tilde{\mathbf X}_M\|_F^2=\sum_{i\gt M}\sigma_i^2.$$</li></ul><p>실제 랭크가 한도 이하이면 정확히 복원돼요.</p></div>
+<div class="sum" hidden>
+<p class="sum-lead">원본과 복원 이미지를 비교해요. 성분을 하나 더 남길 때마다 픽셀 차이의 제곱합이 얼마나 줄어드는지 보세요.</p>
+<details><summary>핵심 식 보기</summary><ul class="eq-list"><li><span class="eq-name">전체 표본의 좌표</span>$$\mathbf U_M^\top\mathbf X=\mathbf\Sigma_M\mathbf V_M^\top\in\mathbb R^{M\times N}.$$</li><li><span class="eq-name">랭크 제한 복원 ($M\le\min(D,N)$)</span>$$\tilde{\mathbf X}_M=\mathbf U_M\mathbf\Sigma_M\mathbf V_M^\top.$$ $$\tilde{\mathbf X}_M=\sum_{i=1}^M\sigma_i\mathbf u_i\mathbf v_i^\top.$$</li><li><span class="eq-name">전체 샘플의 제곱오차</span>$$\|\mathbf X-\tilde{\mathbf X}_M\|_F^2=NJ_M^\star.$$ $$\|\mathbf X-\tilde{\mathbf X}_M\|_F^2=\sum_{i\gt M}\sigma_i^2.$$</li></ul><p>실제 랭크가 한도 이하이면 정확히 복원돼요.</p></details></div>
 </article>
 
 <article class="topic" id="s2-workflow">
@@ -1167,6 +1419,79 @@ $$\mathbf z_n=(\mathbf b_1^\top\mathbf x_n,\ \mathbf b_2^\top\mathbf x_n)^\top\i
   </nav>
   <p class="sr-only" id="pager-status" aria-live="polite"></p>
 
+  <script id="widget-svd-image-ui">
+    (() => {
+      const widget = document.getElementById('widget-svd-image');
+      const slider = widget.querySelector('#svd-component-count');
+      const countValue = widget.querySelector('#svd-component-value');
+      const originalPlot = widget.querySelector('#svd-original-pixels');
+      const rebuiltPlot = widget.querySelector('#svd-reconstructed-pixels');
+      const errorValue = widget.querySelector('#svd-pixel-error');
+      const presets = widget.querySelectorAll('[data-components]');
+
+      // SVD of the fixed 6×7 heart. Store only the four nonzero terms.
+      const original = [
+        [0, 1, 1, 0, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0]
+      ];
+      const components = [
+        {s: 4.73981604071,
+          u: [0.361249459555, 0.541874189333, 0.541874189333, 0.445394591684, 0.277104327426, 0.0841451321291],
+          v: [0.228647772268, 0.398832447013, 0.457295544535, 0.398832447013, 0.457295544535, 0.398832447013, 0.228647772268]},
+        {s: 1.41421356237,
+          u: [-6.54197398411e-16, 0.353553390593, 0.353553390593, -0.353553390593, -0.707106781187, -0.353553390593],
+          v: [0.5, 0.25, -0.25, -0.5, -0.25, 0.25, 0.5]},
+        {s: 1.41421356237,
+          u: [0.73029674334, -0.273861278753, -0.273861278753, 0.273861278753, -0.182574185835, -0.456435464588],
+          v: [-0.387298334621, 0.322748612184, 0.19364916731, -0.645497224368, 0.19364916731, 0.322748612184, -0.387298334621]},
+        {s: 0.730851489887,
+          u: [-0.0532180543088, -0.0798270814631, -0.0798270814631, 0.517967493541, -0.624403602158, 0.57118554785],
+          v: [-0.218449527894, 0.417451808648, -0.436899055788, 0.417451808648, -0.436899055788, 0.417451808648, -0.218449527894]}
+      ];
+
+      function draw(image) {
+        return image.map((row, y) => row.map((value, x) => {
+          // Clip only the display; the error uses the full reconstruction.
+          const tone = Math.round(255 * (1 - Math.min(1, Math.max(0, value))));
+          return '<rect x="' + x + '" y="' + y +
+            '" width="1" height="1" fill="rgb(' + [tone, tone, tone].join(',') + ')"/>';
+        }).join('')).join('');
+      }
+
+      function update() {
+        const count = slider.valueAsNumber;
+        const kept = components.slice(0, count);
+        let squaredError = 0;
+        const rebuilt = original.map((row, y) => row.map((pixel, x) => {
+          const value = kept.reduce((sum, {s, u, v}) => sum + s * u[y] * v[x], 0);
+          squaredError += (pixel - value) ** 2;
+          return value;
+        }));
+
+        rebuiltPlot.innerHTML = draw(rebuilt);
+        rebuiltPlot.setAttribute('aria-label', '성분 ' + count + '개로 복원한 6×7 하트 이미지');
+        errorValue.textContent = squaredError.toFixed(3);
+        countValue.value = count + '개';
+        slider.setAttribute('aria-valuetext', countValue.value);
+        presets.forEach((button) =>
+          button.setAttribute('aria-pressed', button.dataset.components === slider.value));
+      }
+
+      originalPlot.innerHTML = draw(original);
+      slider.addEventListener('input', update);
+      presets.forEach((button) => button.addEventListener('click', () => {
+        slider.value = button.dataset.components;
+        update();
+      }));
+      update();
+      widget.querySelector('.widget-static').hidden = true;
+      widget.querySelector('#svd-image-interactive').hidden = false;
+    })();
+  </script>
   <script id="theme-ui">
     (function () {
       const root = document.documentElement;
