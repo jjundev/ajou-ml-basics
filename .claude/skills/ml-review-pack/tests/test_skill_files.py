@@ -39,6 +39,29 @@ class TestSkillFiles(unittest.TestCase):
             with self.subTest(ref=path.name):
                 self.assertIn(f"references/{path.name}", self.text)
 
+    def test_stage_two_selection_precedes_planner(self):
+        stage = self.text.split("\n### 2. ", 1)[1].split("\n### 3. ", 1)[0]
+        selection, planning = stage.split("#### 2b. 기획과 작성 준비", 1)
+        self.assertIn("#### 2a. 문항 선별 판정", selection)
+        for term in ("8~12문항", "WITHHELD", "RUN/problem-pages.txt",
+                     "gaps.levels", "기획 없이 종료"):
+            self.assertIn(term, selection)
+        self.assertNotIn("기획 담당 1명", selection)
+        self.assertIn("`PASS` 후 기획 담당 1명", planning)
+        self.assertIn("기획은 진행하고 발행은 별도로 판단", selection)
+        self.assertIn("갱신 대상 팩은 중복 대조에서 제외", selection)
+        self.assertIn("기존 문항도 출처와 수업 범위를 다시 확인", selection)
+
+    def test_stage_two_verifies_planner_after_completion(self):
+        planning = self.text.split("#### 2b. 기획과 작성 준비", 1)[1].split("\n### 3. ", 1)[0]
+        self.assertLess(planning.index("완료 신호"), planning.index("완료 후 한 번에 검증"))
+        for term in ("작업자 ID", "파일 폴링 금지", "타임아웃", "메인 직접 수행",
+                     "2a 재판정", "토픽 ID", "예시 검산", "3단계 진입"):
+            self.assertIn(term, planning)
+        report = self.text.split("\n### 9. 보고", 1)[1]
+        self.assertIn("최초 보류면 기획 미실행", report)
+        self.assertIn("재판정 보류면 이미 실행한 기획", report)
+
     def test_problem_explain_handoff(self):
         ref = SKILL / 'references/problem-explain.md'
         self.assertTrue(ref.is_file(), 'full explanation handoff is missing')
