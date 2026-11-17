@@ -100,7 +100,7 @@ def test_publish_without_browser_evidence_keeps_existing_quiz(tmp_path):
     assert not (repo / "복습노트/1111/.pack" / src.name).exists()
 
 
-def test_template_and_interaction_assets_match_ds_snapshot():
+def test_template_and_interaction_assets_match_documented_digests():
     from quiz_sources import digest
 
     provenance = (SKILL / "assets/SOURCE.md").read_text()
