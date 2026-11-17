@@ -1587,16 +1587,28 @@ $$
 ↳ 표본별 로그를 하나씩 미분해요
 
 $$
+\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\Sigma_k}
+$$
+
+↳ 로그의 연쇄법칙 $\partial\log f=\frac{1}{f}\,\partial f$ (평균 때: [로그 벗기기](#s2-zero-gradient-log))
+
+$$
+\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\,\textcolor{#3182f6}{\pi_k\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}}
+$$
+
+↳ 혼합 합에서 $\Sigma_k$가 든 항은 $k$번째뿐이에요 (평균 때: [k번째 항만 남기기](#s2-zero-gradient-kth))
+
+$$
+\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\pi_k\textcolor{#3182f6}{\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}}
+$$
+
+↳ $\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워요 (평균 때: [밀도로 되돌리기](#s2-log-gauss-back))
+
+$$
 \hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{r_{nk}}\,\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}
 $$
 
-↳ [평균 때](#s2-mu-proof)와 같은 세 연산이에요: 로그 연쇄법칙, $k$번째 항만 남기기, ${\partial\mathcal{N}/\partial\Sigma_k=\mathcal{N}\cdot\partial\log\mathcal{N}/\partial\Sigma_k}$ 그러면 $1/p(\mathbf{x}_n\mid\boldsymbol{\theta})$와 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 묶여 책임도 $r_{nk}$가 돼요
-
-<details><summary>자세히</summary>
-
-중간식은 ${\sum_n\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial\log\mathcal{N}}{\partial\Sigma_k}}$예요. 혼합 합 $p(\mathbf{x}_n\mid\boldsymbol{\theta})$에서 $\Sigma_k$가 든 항은 $k$번째뿐이고, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워서 로그를 거쳐요.
-
-</details>
+↳ 스칼라 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)/p(\mathbf{x}_n\mid\boldsymbol{\theta})$가 바로 책임도예요 (평균 때: [책임도가 나타나요](#s2-mu-proof-resp)) 평균 때는 미분을 먼저 대입했지만, 여기서는 $\partial\log\mathcal{N}/\partial\Sigma_k$를 앞 절에서 따로 구해 뒀으니 먼저 묶어요
 
 $$
 \frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)
@@ -1742,6 +1754,12 @@ $$
 - **가중 공분산** — 각 점의 외적을 책임도로 가중해 평균한 행렬이에요. $D=1$이면 가중 분산이에요.
 
 *핵심 식*
+
+- 책임도가 나타남
+
+  $$
+  \frac{\partial\mathcal{L}}{\partial\Sigma_k}=\sum_{n=1}^N r_{nk}\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}
+  $$
 
 - 로그우도의 기울기
 

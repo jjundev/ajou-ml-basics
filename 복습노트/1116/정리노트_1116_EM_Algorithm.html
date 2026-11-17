@@ -1335,10 +1335,15 @@
         <ol class="deriv">
           <li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\sum_{n=1}^N\frac{\partial\log p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\Sigma_k}$$</div>
             <div class="deriv-why"><p>표본별 로그를 하나씩 미분해요</p></div></li>
-          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{r_{nk}}\,\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}$$</div>
-            <div class="deriv-why"><p><a href="#s2-mu-proof">평균 때</a>와 같은 세 연산이에요: 로그 연쇄법칙, $k$번째 항만 남기기, ${\partial\mathcal{N}/\partial\Sigma_k=\mathcal{N}\cdot\partial\log\mathcal{N}/\partial\Sigma_k}$</p>
-              <p>그러면 $1/p(\mathbf{x}_n\mid\boldsymbol{\theta})$와 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$가 묶여 책임도 $r_{nk}$가 돼요</p>
-              <details><summary>자세히</summary><p>중간식은 ${\sum_n\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial\log\mathcal{N}}{\partial\Sigma_k}}$예요. 혼합 합 $p(\mathbf{x}_n\mid\boldsymbol{\theta})$에서 $\Sigma_k$가 든 항은 $k$번째뿐이고, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워서 로그를 거쳐요.</p></details></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\Sigma_k}$$</div>
+            <div class="deriv-why"><p>로그의 연쇄법칙 $\partial\log f=\frac{1}{f}\,\partial f$ (평균 때: <a href="#s2-zero-gradient-log">로그 벗기기</a>)</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\,\textcolor{#3182f6}{\pi_k\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}}$$</div>
+            <div class="deriv-why"><p>혼합 합에서 $\Sigma_k$가 든 항은 $k$번째뿐이에요 (평균 때: <a href="#s2-zero-gradient-kth">k번째 항만 남기기</a>)</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\pi_k\textcolor{#3182f6}{\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}}$$</div>
+            <div class="deriv-why"><p>$\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워요 (평균 때: <a href="#s2-log-gauss-back">밀도로 되돌리기</a>)</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{r_{nk}}\,\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}$$</div>
+            <div class="deriv-why"><p>스칼라 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)/p(\mathbf{x}_n\mid\boldsymbol{\theta})$가 바로 책임도예요 (평균 때: <a href="#s2-mu-proof-resp">책임도가 나타나요</a>)</p>
+              <p>평균 때는 미분을 먼저 대입했지만, 여기서는 $\partial\log\mathcal{N}/\partial\Sigma_k$를 앞 절에서 따로 구해 뒀으니 먼저 묶어요</p></div></li>
           <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)$$</div>
             <div class="deriv-why"><p><a href="#s3-matrix-deriv">스칼라를 행렬로 미분한다는 뜻</a>의 결과를 넣고 $\frac{1}{2}$을 묶어요</p></div></li>
         </ol>
@@ -1414,6 +1419,7 @@
     </dl>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
+      <li><span class="eq-name">책임도가 나타남</span>$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\sum_{n=1}^N r_{nk}\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}$$</li>
       <li><span class="eq-name">로그우도의 기울기</span>$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)$$</li>
       <li><span class="eq-name">임시 이름 (외적)</span>$$S_n=(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\in\mathbb{R}^{D\times D}$$</li>
       <li><span class="eq-name">역행렬을 지운 뒤</span>$$N_k\Sigma_k^{\text{new}}=\sum_{n=1}^N r_{nk}S_n$$</li>
