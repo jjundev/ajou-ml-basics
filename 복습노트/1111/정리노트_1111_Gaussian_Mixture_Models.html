@@ -516,16 +516,16 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">가우시안 하나의 봉우리는 평균에 있어요. 양의 정부호인 공분산은 방향별 퍼짐과 정규화에 쓰여요.</p>
-    <p class="panel-label">핵심 식</p>
-    <ul class="eq-list">
-      <li><span class="eq-name">편차의 제곱 거리</span>$$d_k^2(\mathbf{x})=(\mathbf{x}-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}-\boldsymbol{\mu}_k)$$</li>
-      <li><span class="eq-name">가우시안 밀도</span>$$\mathcal{N}(\mathbf{x}\mid\boldsymbol{\mu}_k,\Sigma_k)=c_k\exp(-d_k^2(\mathbf{x})/2)$$</li>
-    </ul>
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>공분산 행렬 (covariance matrix)</dt><dd>대각에는 각 좌표의 분산, 대각 밖에는 두 좌표의 공분산을 담는 대칭 행렬이에요.</dd>
       <dt>정규화 상수 (normalization constant)</dt><dd>$c_k=(2\pi)^{-D/2}|\Sigma_k|^{-1/2}$로, 전체 적분을 1로 맞춰요.</dd>
     </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">편차의 제곱 거리</span>$$d_k^2(\mathbf{x})=(\mathbf{x}-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}-\boldsymbol{\mu}_k)$$</li>
+      <li><span class="eq-name">가우시안 밀도</span>$$\mathcal{N}(\mathbf{x}\mid\boldsymbol{\mu}_k,\Sigma_k)=c_k\exp(-d_k^2(\mathbf{x})/2)$$</li>
+    </ul>
   </div>
 </article>
 
@@ -589,13 +589,13 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">같은 위치에서 가우시안별 밀도에 선택 확률을 곱해 더해요. 가중치가 음이 아니고 합이 1이면 혼합 밀도도 전체 적분이 1이에요.</p>
-    <p class="panel-label">핵심 식</p>
-    <ul class="eq-list"><li><span class="eq-name">가우시안 혼합 밀도</span>$$p(\mathbf{x}\mid\boldsymbol{\theta})=\sum_{k=1}^{K}\pi_k\mathcal{N}(\mathbf{x}\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li></ul>
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>혼합 가중치 (mixture weight)</dt><dd>관측을 뽑기 전에 성분을 선택할 확률이에요.</dd>
       <dt>가중 성분 (weighted component)</dt><dd>가중치와 해당 위치에서의 가우시안 밀도를 곱한 값이에요. 곡선이 겹치는 곳에서 여러 성분이 같은 봉우리에 기여해요.</dd><dt>주변 밀도의 봉우리</dt><dd>한 좌표만 남기면 결합 밀도와 봉우리 수가 달라질 수 있어요.</dd>
     </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list"><li><span class="eq-name">가우시안 혼합 밀도</span>$$p(\mathbf{x}\mid\boldsymbol{\theta})=\sum_{k=1}^{K}\pi_k\mathcal{N}(\mathbf{x}\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li></ul>
   </div>
 </article>
 
@@ -690,13 +690,12 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">같은 두 점에서 혼합비가 다른 모형 A와 B를 비교해요. 점별 높이에서 이긴 횟수가 같을 때 두 점을 함께 보면 어떤 모형이 앞설까요?</p>
-    <details><summary>핵심 식 보기</summary>
+    <p class="panel-label">핵심 식</p>
       <ul class="eq-list">
         <li><span class="eq-name">데이터 우도</span>$$p(\mathcal{X}\mid\boldsymbol{\theta})=\prod_{n=1}^N p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</li>
         <li><span class="eq-name">로그우도</span>$$\ell(\boldsymbol{\theta})=\sum_{n=1}^N\log p(\mathbf{x}_n\mid\boldsymbol{\theta})$$</li>
       </ul>
       <p>로그 안에 한 표본의 성분 합이 남아요. 바깥 합은 독립인 여러 표본을 모아요. 최대우도 추정은 로그우도를 최대화해도 돼요.</p>
-    </details>
   </div>
 </article>
 
@@ -802,13 +801,12 @@ $$=\sum_{k=1}^K\pi_k=1.$$
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">점과 두 곡선을 고정하고 혼합비를 바꿔요. 이 점에서 두 성분이 보탠 밀도가 언제 같은지 비교해요.</p>
-    <details><summary>핵심 식 보기</summary>
+    <p class="panel-label">핵심 식</p>
       <ul class="eq-list">
         <li><span class="eq-name">책임도</span>$$r_{nk}=P(Z_n=k\mid\mathbf{x}_n,\boldsymbol{\theta})$$</li>
         <li><span class="eq-name">한 관측의 합</span>$$\sum_{k=1}^K r_{nk}=1$$</li>
       </ul>
       <p>관측 전의 $\pi_k$에 해당 관측에서의 성분 밀도를 곱해요. 전체 밀도가 양수일 때 그 값으로 나눠요.</p>
-    </details>
   </div>
 </article>
 

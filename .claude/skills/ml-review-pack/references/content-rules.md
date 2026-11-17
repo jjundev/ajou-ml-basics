@@ -70,13 +70,14 @@
 ```html
 <div class="sum" hidden>
   <p class="sum-lead">토픽 핵심 한 문장("~해요" 체)</p>
-  <p class="panel-label">핵심 식</p>
-  <ul class="eq-list"><li><span class="eq-name">식 이름</span>$$…$$</li></ul>
   <p class="panel-label">용어</p>
   <dl class="terms"><dt>용어(영어)</dt><dd>한 줄 뜻</dd></dl>
+  <p class="panel-label">핵심 식</p>
+  <ul class="eq-list"><li><span class="eq-name">식 이름</span>$$…$$</li></ul>
 </div>
 ```
 - 새 내용을 쓰지 않는다. 본문에 이미 나온 핵심 개념·식·용어를 **같은 TeX 표기로** 필요한 만큼 고르며 작동 원리·성립 조건·혼동 구분을 보존한다. 개수에 고정 상한을 두지 않는다. 요약에만 있는 식이나 설명은 두지 않는다.
+- 요약 문장 뒤에 용어, 그 아래에 핵심 식을 둔다. 핵심 식 라벨과 목록은 `.sum`의 직계 자식으로 두고 `details`로 감싸지 않는다. 대응 MD에서도 같은 순서와 항상 표시되는 목록을 유지한다.
 - 식이 없는 토픽은 "핵심 식" 줄과 `eq-list`를 빼고, 용어가 없으면 "용어" 줄과 `dl`을 뺀다. `sum-lead`는 항상 쓴다.
 - 요약·예고 섹션처럼 `layers`가 `[]`인 토픽에는 두지 않는다.
 

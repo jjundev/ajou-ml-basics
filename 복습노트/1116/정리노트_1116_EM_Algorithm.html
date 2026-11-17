@@ -428,11 +428,6 @@
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">책임도를 고정해 파라미터 값을 고치고, 새 값으로 책임도를 다시 구하는 일을 되풀이해요.</p>
-<p class="panel-label">핵심 식</p>
-<ul class="eq-list">
-<li><span class="eq-name">총 책임도</span>$$N_k=\sum_{n}r_{nk}$$</li>
-<li><span class="eq-name">가중치 갱신</span>$$\pi_k^{\text{new}}=N_k/N$$</li>
-</ul>
 <p class="panel-label">용어</p>
 <dl class="terms">
 <dt>E-step</dt><dd>현재 $\pi_k$, $\boldsymbol{\mu}_k$, $\Sigma_k$를 고정하고 $r_{nk}$와 $N_k$를 계산해요.</dd>
@@ -440,6 +435,11 @@
 <dt>책임도(responsibility)</dt><dd>점 $\mathbf{x}_n$이 성분 $k$에서 나왔을 사후확률 $r_{nk}$예요. 한 점의 행 합은 1이에요.</dd>
 <dt>결과의 종류</dt><dd>분포가 아니라 파라미터 값이에요. 새 값을 넣으면 책임도가 바뀌어 반복해요.</dd>
 </dl>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">총 책임도</span>$$N_k=\sum_{n}r_{nk}$$</li>
+<li><span class="eq-name">가중치 갱신</span>$$\pi_k^{\text{new}}=N_k/N$$</li>
+</ul>
 </div>
 </article>
 
@@ -558,15 +558,6 @@
 </div>
 <div class="sum" hidden>
 <p class="sum-lead">같은 다섯 점에 가우시안 하나와 두 개를 맞춰 봐요. 먼 점이 성분 1의 평균에 보태는 몫은 평균 후보를 바꿨을 때 어떻게 달라질까요?</p>
-<details><summary>핵심 식 보기</summary>
-<ul class="eq-list">
-<li><span class="eq-name">혼합 로그우도</span>$$\mathcal{L}(\boldsymbol{\theta})=\sum_{n=1}^{N}\log\sum_{k=1}^{K}\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li>
-<li><span class="eq-name">필요조건</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top$$</li>
-<li><span class="eq-name">혼합의 평균 기울기</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^{N}r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
-<li><span class="eq-name">가우시안 하나</span>$$\boldsymbol{\mu}_{\text{ML}}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n$$</li>
-<li><span class="eq-name">혼합의 평균 조건</span>$$\boldsymbol{\mu}_k=\frac{\sum_{n=1}^{N}r_{nk}\mathbf{x}_n}{\sum_{n=1}^{N}r_{nk}}$$</li>
-</ul>
-    </details>
 <p>$r_{nk}$ 안에 $\boldsymbol{\mu}_k$와 모든 성분의 $\pi_j$, $\boldsymbol{\mu}_j$, $\Sigma_j$가 들어 있어 혼합의 평균 조건은 닫힌 해가 아니에요.</p>
 <p class="panel-label">용어</p>
 <dl class="terms">
@@ -575,6 +566,14 @@
 <dt>국소 최적(local optimum)</dt><dd>기울기가 0인 점이 최적이어도 국소 최적일 수 있어요.</dd>
 <dt>교대 최적화(alternating optimization)</dt><dd>책임도를 고정하고 파라미터를 고친 뒤 다시 책임도를 구해요.</dd>
 </dl>
+<p class="panel-label">핵심 식</p>
+<ul class="eq-list">
+<li><span class="eq-name">혼합 로그우도</span>$$\mathcal{L}(\boldsymbol{\theta})=\sum_{n=1}^{N}\log\sum_{k=1}^{K}\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li>
+<li><span class="eq-name">필요조건</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top$$</li>
+<li><span class="eq-name">혼합의 평균 기울기</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^{N}r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
+<li><span class="eq-name">가우시안 하나</span>$$\boldsymbol{\mu}_{\text{ML}}=\frac{1}{N}\sum_{n=1}^{N}\mathbf{x}_n$$</li>
+<li><span class="eq-name">혼합의 평균 조건</span>$$\boldsymbol{\mu}_k=\frac{\sum_{n=1}^{N}r_{nk}\mathbf{x}_n}{\sum_{n=1}^{N}r_{nk}}$$</li>
+</ul>
 </div>
 </article>
     </section>
@@ -675,7 +674,13 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">점 $1,2,3,4,10$을 고정하고 초기 모델과 한 번 갱신한 모델을 비교해요. 점 $10$에서 두 성분의 가중 밀도를 읽고 성분 1이 맡는 비율을 구해요.</p>
-    <details><summary>핵심 식 보기</summary>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>E-step</dt><dd>현재 파라미터로 $r_{nk}$와 $N_k$를 계산하는 단계</dd>
+      <dt>M-step</dt><dd>책임도를 고정하고 $\boldsymbol{\mu}_k$, $\Sigma_k$, $\pi_k$를 다시 계산하는 단계</dd>
+      <dt>총 책임도 $N_k$</dt><dd>책임도 표의 열 합. 1보다 클 수 있는 실수</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">E-step: 책임도</span>$$r_{nk}=\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$$</li>
       <li><span class="eq-name">E-step: 총 책임도(열 합)</span>$$N_k=\sum_{n=1}^N r_{nk}$$</li>
@@ -684,13 +689,6 @@
       <li><span class="eq-name">M-step: 비율</span>$$\pi_k^{\text{new}}=\frac{N_k}{N}$$</li>
       <li><span class="eq-name">표의 전체 합</span>$$\sum_{k=1}^K N_k=\sum_{n=1}^N 1=N$$</li>
     </ul>
-    </details>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>E-step</dt><dd>현재 파라미터로 $r_{nk}$와 $N_k$를 계산하는 단계</dd>
-      <dt>M-step</dt><dd>책임도를 고정하고 $\boldsymbol{\mu}_k$, $\Sigma_k$, $\pi_k$를 다시 계산하는 단계</dd>
-      <dt>총 책임도 $N_k$</dt><dd>책임도 표의 열 합. 1보다 클 수 있는 실수</dd>
-    </dl>
   </div>
 </article>
 
@@ -814,7 +812,13 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">점 $1,2,3,4,10$과 앞 네 점의 책임도 $1$을 고정해요. 먼 점의 몫만 바꾸면서 $N_k$, 새 평균선의 위치, 표준편차 막대의 폭을 비교해요.</p>
-    <details><summary>핵심 식 보기</summary>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>가중 평균(weighted average)</dt><dd>합이 1인 가중치 $r_{nk}/N_k$로 낸 평균. 많이 맡은 점일수록 평균을 세게 끌어요</dd>
+      <dt>편차의 외적 $\mathbf{d}_n\mathbf{d}_n^\top$</dt><dd>$(D\times1)(1\times D)=D\times D$. $(i,j)$ 칸은 첫 인수의 $i$번째 성분 × 둘째 인수의 $j$번째 성분이라 $d_{ni}d_{nj}$. 같은 벡터의 외적이라 대칭이고, 서로 다른 벡터의 외적 $\mathbf{u}\mathbf{v}^\top$는 일반적으로 대칭이 아니에요</dd>
+      <dt>가중 표본 공분산</dt><dd>새 평균 기준 편차 외적을 같은 가중치로 평균한 값</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">가중 평균</span>$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</li>
       <li><span class="eq-name">가중치 합</span>$$\sum_{n=1}^N\frac{r_{nk}}{N_k}=\frac{N_k}{N_k}=1$$</li>
@@ -823,13 +827,6 @@
       <li><span class="eq-name">가중 표본 공분산</span>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top$$</li>
       <li><span class="eq-name">비율</span>$$\pi_k^{\text{new}}=\frac{N_k}{N}=\frac{1}{N}\sum_{n=1}^N r_{nk}$$</li>
     </ul>
-    </details>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>가중 평균(weighted average)</dt><dd>합이 1인 가중치 $r_{nk}/N_k$로 낸 평균. 많이 맡은 점일수록 평균을 세게 끌어요</dd>
-      <dt>편차의 외적 $\mathbf{d}_n\mathbf{d}_n^\top$</dt><dd>$(D\times1)(1\times D)=D\times D$. $(i,j)$ 칸은 첫 인수의 $i$번째 성분 × 둘째 인수의 $j$번째 성분이라 $d_{ni}d_{nj}$. 같은 벡터의 외적이라 대칭이고, 서로 다른 벡터의 외적 $\mathbf{u}\mathbf{v}^\top$는 일반적으로 대칭이 아니에요</dd>
-      <dt>가중 표본 공분산</dt><dd>새 평균 기준 편차 외적을 같은 가중치로 평균한 값</dd>
-    </dl>
   </div>
 </article>
 
@@ -864,17 +861,16 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">같은 2차원 데이터와 성분 세 개로 초기화와 1·10·62회 뒤의 등고선을 비교해요. 각 반복에서 새 평균과 공분산은 다음 책임도를 계산할 가중 밀도에 들어가요.</p>
-    <details><summary>핵심 식 보기</summary>
-    <ul class="eq-list">
-      <li><span class="eq-name">파라미터 개수(Σ 칸 모두 셈)</span>$$K(1+D+D^2)=3\,(1+2+4)=21$$</li>
-    </ul>
-    </details>
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>하이퍼파라미터(hyperparameter)</dt><dd>EM이 학습하지 않고 사람이 미리 정하는 값. 여기서는 성분 개수 $K$</dd>
       <dt>반복 1·10·62회</dt><dd>겹쳐 있던 성분이 갈라져 덩어리를 하나씩 맡아 가는 과정</dd>
       <dt>계산 비용</dt><dd>가장 무거운 것은 $N\times K$개의 가우시안 밀도값, M-step은 고정한 $r_{nk}$로 가중해 더하는 가벼운 계산</dd>
     </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">파라미터 개수(Σ 칸 모두 셈)</span>$$K(1+D+D^2)=3\,(1+2+4)=21$$</li>
+    </ul>
   </div>
 </article>
     </section>
@@ -943,6 +939,12 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">평균·공분산의 M-step 식은 로그우도의 기울기를 0으로 놓은 필요조건을 풀어서 나와요. 평균에 대한 기울기는 1×D 행벡터라 0도 영 행벡터예요. 혼합 가중치는 합이 1인 제약 때문에 기울기 자체가 0이 되지 않아, 제약과 함께 푸는 방법을 다음 수업에서 다뤄요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>필요조건(necessary condition)</dt><dd>최적점이면 기울기가 0이에요. 기울기가 0인 점은 최적이 아닐 수도 있고, 최적이어도 국소 최적일 수 있어요.</dd>
+      <dt>합이 1인 제약</dt><dd>전체 합을 $1$로 유지하면서 혼합 가중치를 움직여야 하므로 제약을 포함한 최적화 조건을 세워요.</dd>
+      <dt>행벡터 미분</dt><dd>스칼라를 열벡터 $\boldsymbol{\mu}_k$로 미분하면 편미분을 가로로 놓은 $1\times D$ 행벡터예요.</dd>
+    </dl>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">평균·공분산의 필요조건</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top,\qquad \frac{\partial\mathcal{L}}{\partial\Sigma_k}=\mathbf{0}_{D\times D}$$</li>
@@ -950,12 +952,6 @@
       <li><span class="eq-name">로그 벗기기</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}$$</li>
       <li><span class="eq-name">k번째 항만 남음</span>$$\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}=\pi_k\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}$$</li>
     </ul>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>필요조건(necessary condition)</dt><dd>최적점이면 기울기가 0이에요. 기울기가 0인 점은 최적이 아닐 수도 있고, 최적이어도 국소 최적일 수 있어요.</dd>
-      <dt>합이 1인 제약</dt><dd>전체 합을 $1$로 유지하면서 혼합 가중치를 움직여야 하므로 제약을 포함한 최적화 조건을 세워요.</dd>
-      <dt>행벡터 미분</dt><dd>스칼라를 열벡터 $\boldsymbol{\mu}_k$로 미분하면 편미분을 가로로 놓은 $1\times D$ 행벡터예요.</dd>
-    </dl>
   </div>
 </article>
 
@@ -1034,6 +1030,11 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">로그를 먼저 미분하면 이차식만 남고, 밀도를 다시 곱하면 가우시안의 평균 미분이 나와요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>임시 이름 $\mathbf{a}$, $\mathbf{A}$</dt><dd>$\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$, $\mathbf{A}=\Sigma_k^{-1}$(대칭). 이 미분 안에서만 써요.</dd>
+      <dt>안쪽 미분 $-\mathbf{I}$</dt><dd>$\mathbf{x}_n$은 상수라 $\partial\mathbf{a}/\partial\boldsymbol{\mu}_k=-\mathbf{I}$이고, 이 마이너스가 $-\frac12$의 부호를 지워요.</dd>
+    </dl>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">로그 가우시안</span>$$\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)=-\frac D2\log(2\pi)-\frac12\log|\Sigma_k|-\frac12(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)$$</li>
@@ -1041,11 +1042,6 @@
       <li><span class="eq-name">로그 밀도의 미분 (1×D)</span>$$\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
       <li><span class="eq-name">밀도의 미분</span>$$\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}\,\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</li>
     </ul>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>임시 이름 $\mathbf{a}$, $\mathbf{A}$</dt><dd>$\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$, $\mathbf{A}=\Sigma_k^{-1}$(대칭). 이 미분 안에서만 써요.</dd>
-      <dt>안쪽 미분 $-\mathbf{I}$</dt><dd>$\mathbf{x}_n$은 상수라 $\partial\mathbf{a}/\partial\boldsymbol{\mu}_k=-\mathbf{I}$이고, 이 마이너스가 $-\frac12$의 부호를 지워요.</dd>
-    </dl>
   </div>
 </article>
 
@@ -1079,12 +1075,12 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">이차형식을 성분으로 펼쳐 편미분을 가로로 모으면 $\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)$이고, 대칭이면 $2\mathbf{a}^\top\mathbf{A}$예요. 수업에서는 받아들인 공식이에요.</p>
+    <p>열벡터 관례의 $(\mathbf{A}+\mathbf{A}^\top)\mathbf{a}$는 이 행벡터의 전치예요.</p>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">이차형식 미분 (1×D)</span>$$\frac{\partial(\mathbf{a}^\top\mathbf{A}\mathbf{a})}{\partial\mathbf{a}}=\mathbf{a}^\top(\mathbf{A}+\mathbf{A}^\top)\in\mathbb{R}^{1\times D},\qquad \mathbf{A}=\mathbf{A}^\top\ \Rightarrow\ 2\mathbf{a}^\top\mathbf{A}$$</li>
       <li><span class="eq-name">2차원 성분 전개</span>$$\mathbf{a}^\top\mathbf{A}\mathbf{a}=pa_1^2+(q+s)a_1a_2+ta_2^2$$</li>
     </ul>
-    <p>열벡터 관례의 $(\mathbf{A}+\mathbf{A}^\top)\mathbf{a}$는 이 행벡터의 전치예요.</p>
   </div>
 </article>
 
@@ -1169,6 +1165,12 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">두 미분 결과를 대입하면 책임도가 나타나요. 책임도를 현재 값으로 고정하고 $\mathbf{0}^\top$으로 놓은 행벡터 식을 오른쪽 $\Sigma_k$ 곱, 양변 전치, 평균 꺼내기로 풀면 책임도 가중 평균이 나와요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>책임도 $r_{nk}$</dt><dd>$1/p$와 $\pi_k\mathcal{N}$을 묶은 비율이에요. E-step에서 계산해 고정해요.</dd>
+      <dt>총 책임도 $N_k$</dt><dd>${N_k=\sum_{n=1}^N r_{nk}}$. 데이터 개수 $N$, 밀도 $\mathcal{N}$과 다른 기호예요.</dd>
+      <dt>닫힌 해가 아님</dt><dd>$r_{nk}$가 모든 파라미터에 의존해요. $r_{nk}$를 고정해 새 평균을 구하고 E-step과 번갈아 반복하며, 수렴해 책임도가 더 바뀌지 않을 때 실제 기울기가 0이 돼요.</dd>
+    </dl>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">평균에 대한 기울기 (1×D)</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
@@ -1176,12 +1178,6 @@
       <li><span class="eq-name">양변 전치 (D×1)</span>$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})=\mathbf{0}$$</li>
       <li><span class="eq-name">평균 갱신식</span>$$\boldsymbol{\mu}_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}\mathbf{x}_n$$</li>
     </ul>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>책임도 $r_{nk}$</dt><dd>$1/p$와 $\pi_k\mathcal{N}$을 묶은 비율이에요. E-step에서 계산해 고정해요.</dd>
-      <dt>총 책임도 $N_k$</dt><dd>${N_k=\sum_{n=1}^N r_{nk}}$. 데이터 개수 $N$, 밀도 $\mathcal{N}$과 다른 기호예요.</dd>
-      <dt>닫힌 해가 아님</dt><dd>$r_{nk}$가 모든 파라미터에 의존해요. $r_{nk}$를 고정해 새 평균을 구하고 E-step과 번갈아 반복하며, 수렴해 책임도가 더 바뀌지 않을 때 실제 기울기가 0이 돼요.</dd>
-    </dl>
   </div>
 </article>
     </section>
@@ -1296,7 +1292,12 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">그림의 행렬에서 오른쪽 위 칸만 바꾸고 그 칸의 편미분과 역행렬의 같은 칸을 비교해요. 각 칸의 미분값은 입력과 같은 모양의 행렬로 모아요.</p>
-    <details><summary>핵심 식 보기</summary>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>일반 행렬로 취급</dt><dd>칸들을 서로 독립인 변수로 보고 미분해요. 그러면 역행렬의 전치가 나오고, $\Sigma_k$가 대칭이라 $\left(\Sigma_k^{-1}\right)^\top=\Sigma_k^{-1}$로 전치가 사라져요.</dd>
+      <dt>영행렬</dt><dd>행렬로 미분한 기울기는 $D\times D$라서 행벡터 $\mathbf{0}^\top$ 대신 $D\times D$ 영행렬 $\mathbf{0}$으로 놓아요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">정의</span>$$\left[\frac{\partial f}{\partial\Sigma_k}\right]_{ij}=\frac{\partial f}{\partial[\Sigma_k]_{ij}}$$</li>
       <li><span class="eq-name">일반 행렬일 때</span>$$\frac{\partial\log|X|}{\partial X}=\left(X^{-1}\right)^\top$$</li>
@@ -1304,12 +1305,6 @@
       <li><span class="eq-name">항등식 2 (대칭 $\Sigma_k$)</span>$$\frac{\partial}{\partial\Sigma_k}\left[(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)\right]=-\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
       <li><span class="eq-name">로그 가우시안의 미분</span>$$\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}=-\frac{1}{2}\Sigma_k^{-1}+\frac{1}{2}\Sigma_k^{-1}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
     </ul>
-    </details>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>일반 행렬로 취급</dt><dd>칸들을 서로 독립인 변수로 보고 미분해요. 그러면 역행렬의 전치가 나오고, $\Sigma_k$가 대칭이라 $\left(\Sigma_k^{-1}\right)^\top=\Sigma_k^{-1}$로 전치가 사라져요.</dd>
-      <dt>영행렬</dt><dd>행렬로 미분한 기울기는 $D\times D$라서 행벡터 $\mathbf{0}^\top$ 대신 $D\times D$ 영행렬 $\mathbf{0}$으로 놓아요.</dd>
-    </dl>
   </div>
 </article>
 
@@ -1407,6 +1402,12 @@
   </div>
   <div class="sum" hidden>
     <p class="sum-lead">기울기를 영행렬로 놓고 $\Sigma_k$를 오른쪽·왼쪽에서 곱해 역행렬을 지우면, 책임도로 가중한 외적의 평균이 새 공분산이에요.</p>
+    <p>책임도를 현재 값으로 고정해 이 식의 해를 새 공분산으로 둬요. 실제 로그우도의 기울기가 0이 되는 것은 반복이 수렴해 책임도가 더 바뀌지 않을 때예요. 오른쪽에서 곱한 $\Sigma_k$는 맨 오른쪽 $\Sigma_k^{-1}$을, 왼쪽에서 곱한 $\Sigma_k$는 맨 왼쪽 $\Sigma_k^{-1}$을 지워요. 식의 $\boldsymbol{\mu}_k$ 자리에는 방금 갱신한 $\boldsymbol{\mu}_k^{\text{new}}$를 넣어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>외적 $S_n$</dt><dd>이 유도에서만 쓰는 임시 이름이에요. $D\times1$ 편차와 $1\times D$ 전치의 곱이라 $D\times D$예요.</dd>
+      <dt>가중 공분산</dt><dd>각 점의 외적을 책임도로 가중해 평균한 행렬이에요. $D=1$이면 가중 분산이에요.</dd>
+    </dl>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
       <li><span class="eq-name">로그우도의 기울기</span>$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)$$</li>
@@ -1415,12 +1416,6 @@
       <li><span class="eq-name">공분산 갱신식</span>$$\Sigma_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top$$</li>
       <li><span class="eq-name">1차원이면 가중 분산</span>$$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^N r_{nk}(x_n-\mu_k)^2$$</li>
     </ul>
-    <p>책임도를 현재 값으로 고정해 이 식의 해를 새 공분산으로 둬요. 실제 로그우도의 기울기가 0이 되는 것은 반복이 수렴해 책임도가 더 바뀌지 않을 때예요. 오른쪽에서 곱한 $\Sigma_k$는 맨 오른쪽 $\Sigma_k^{-1}$을, 왼쪽에서 곱한 $\Sigma_k$는 맨 왼쪽 $\Sigma_k^{-1}$을 지워요. 식의 $\boldsymbol{\mu}_k$ 자리에는 방금 갱신한 $\boldsymbol{\mu}_k^{\text{new}}$를 넣어요.</p>
-    <p class="panel-label">용어</p>
-    <dl class="terms">
-      <dt>외적 $S_n$</dt><dd>이 유도에서만 쓰는 임시 이름이에요. $D\times1$ 편차와 $1\times D$ 전치의 곱이라 $D\times D$예요.</dd>
-      <dt>가중 공분산</dt><dd>각 점의 외적을 책임도로 가중해 평균한 행렬이에요. $D=1$이면 가중 분산이에요.</dd>
-    </dl>
   </div>
 </article>
     </section>
