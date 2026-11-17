@@ -1010,7 +1010,7 @@
     </div>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-log-gauss-back"><span class="note-stage-number">3 / 3</span> <span>밀도로 되돌리기</span></h4>
-      <p class="note-stage-goal">필요한 것은 $\log\mathcal{N}$이 아니라 $\mathcal{N}$의 미분이에요. 로그의 연쇄법칙을 거꾸로 써요.</p>
+      <p class="note-stage-goal">혼합 밀도에 들어 있는 것은 $\log\mathcal{N}$이 아니라 $\mathcal{N}$이에요. 로그의 연쇄법칙을 거꾸로 써서 $\mathcal{N}$의 미분을 로그 밀도의 미분으로 바꿔요.</p>
       <div class="deriv-body">
         <p class="deriv-lead">이 단계의 $\mathcal{N}$은 밀도 값 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$의 줄임이고, 양수인 스칼라예요.</p>
         <ol class="deriv">
@@ -1021,7 +1021,7 @@
           <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}=\textcolor{#3182f6}{(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}}\,\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$$</div>
             <div class="deriv-why"><p>앞 단계 결과 대입, 스칼라 $\mathcal{N}$은 뒤에 써도 같아요</p></div></li>
         </ol>
-        <p class="note-stage-result"><b>밀도의 미분은 밀도 × 로그 밀도의 미분이에요.</b> 이 $1\times D$ 행벡터에 $\pi_k$를 곱한 것이 혼합 밀도의 미분 $\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})/\partial\boldsymbol{\mu}_k$이고, <a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a>에서 로그우도의 기울기에 대입해요.</p>
+        <p class="note-stage-result"><b>밀도의 미분은 밀도 × 로그 밀도의 미분이에요.</b> 둘째 줄의 항등식 $\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$을 <a href="#s2-mu-proof">책임도가 나타나고 평균 갱신식이 나오기까지</a>의 셋째 줄에서 써요. 이 항등식은 무엇으로 미분하든 성립해서 공분산 유도에서도 그대로 써요. 마지막 줄은 앞 단계 결과를 넣어 본 $1\times D$ 행벡터예요.</p>
         <p class="deriv-check">밀도를 바로 미분해도 지수함수의 미분이 자기 자신을 다시 내놓아 같은 결과가 나와요. 로그를 먼저 쓰면 정규화 상수와 지수를 한 번에 떼어 놓을 수 있어요.</p>
       </div>
     </div>
@@ -1099,21 +1099,23 @@
     </nav>
     <div class="note-stage">
       <h4 class="note-stage-title" id="s2-mu-proof-resp"><span class="note-stage-number">1 / 3</span> <span>책임도가 나타나요</span></h4>
-      <p class="note-stage-goal">로그우도의 기울기에 두 결과를 대입해, 기울기를 책임도로 다시 써요.</p>
+      <p class="note-stage-goal">로그우도의 기울기를 책임도 × 로그 밀도의 미분으로 묶은 뒤, 로그 밀도의 미분을 대입해요.</p>
       <div class="deriv-body">
-        <p class="deriv-lead">출발식은 <a href="#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>의 로그 벗기기와 $k$번째 항만 남기기, 그리고 <a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>의 마지막 식이에요.</p>
+        <p class="deriv-lead">출발식은 <a href="#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>의 로그 벗기기와 $k$번째 항만 남기기예요. 여기에 <a href="#s2-log-gauss">가우시안 밀도를 평균으로 미분하기</a>의 항등식 $\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$과 로그 밀도의 미분을 차례로 써요.</p>
         <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
         <ol class="deriv">
           <li><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\frac{\partial p(\mathbf{x}_n\mid\boldsymbol{\theta})}{\partial\boldsymbol{\mu}_k}$$</div>
-            <div class="deriv-why"><p>로그의 연쇄법칙까지 온 식</p></div></li>
-          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\,\textcolor{#3182f6}{\pi_k(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}$$</div>
-            <div class="deriv-why"><p>$k$번째 항만 남긴 식에 가우시안 미분을 대입</p></div></li>
-          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\textcolor{#3182f6}{\frac{\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
-            <div class="deriv-why"><p>스칼라 $\pi_k\mathcal{N}$을 $1/p$와 묶고, $p$에 혼합 합 대입</p>
-              <details><summary>자세히</summary><p>$\pi_k$와 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 스칼라라서 행벡터 앞으로 옮겨도 값이 같아요. 분모는 ${p(\mathbf{x}_n\mid\boldsymbol{\theta})=\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$를 그대로 쓴 거예요.</p></details></div></li>
-          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</div>
-            <div class="deriv-why"><p>파란 분수가 정확히 책임도 $r_{nk}$의 정의예요</p>
-              <details><summary>자세히</summary><p>책임도는 점 $\mathbf{x}_n$의 혼합 밀도 가운데 성분 $k$의 가중 밀도가 차지하는 비율이에요. E-step에서 계산하는 바로 그 값이고, 정의는 <a href="#s1-em-steps">E-step과 M-step의 순서</a>에 있어요.</p></details></div></li>
+            <div class="deriv-why"><p>로그의 연쇄법칙까지 온 식 (<a href="#s2-zero-gradient-log">로그 벗기기</a>)</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\,\textcolor{#3182f6}{\pi_k\frac{\partial\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}}$$</div>
+            <div class="deriv-why"><p>혼합 합에서 $\boldsymbol{\mu}_k$가 든 항은 $k$번째뿐이에요 (<a href="#s2-zero-gradient-kth">k번째 항만 남기기</a>)</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\frac{1}{p(\mathbf{x}_n\mid\boldsymbol{\theta})}\pi_k\textcolor{#3182f6}{\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}}$$</div>
+            <div class="deriv-why"><p>$\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워요 (<a href="#s2-log-gauss-back">밀도로 되돌리기</a>)</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}}=\sum_{n=1}^N\textcolor{#3182f6}{r_{nk}}\,\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}$$</div>
+            <div class="deriv-why"><p>스칼라 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)/p(\mathbf{x}_n\mid\boldsymbol{\theta})$가 바로 책임도예요</p>
+              <p>여기까지는 미분하는 변수가 $\boldsymbol{\mu}_k$라는 사실을 한 번도 쓰지 않았어요. 공분산을 미분할 때도 이 줄까지 똑같이 와요(<a href="#s3-sigma-gradient">공분산의 로그우도 기울기</a>).</p>
+              <details><summary>자세히</summary><p>$\pi_k$와 $\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)$는 스칼라라서 $1/p$와 묶어 앞으로 옮겨도 값이 같아요. 분모 ${p(\mathbf{x}_n\mid\boldsymbol{\theta})=\sum_{j=1}^K\pi_j\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_j,\Sigma_j)}$를 쓰면 이 비율은 점 $\mathbf{x}_n$의 혼합 밀도 가운데 성분 $k$의 가중 밀도가 차지하는 몫, 곧 E-step에서 계산하는 책임도예요. 정의는 <a href="#s1-em-steps">E-step과 M-step의 순서</a>에 있어요.</p></details></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}\textcolor{#3182f6}{(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}}$$</div>
+            <div class="deriv-why"><p>로그 밀도의 미분을 대입해요 (<a href="#s2-log-gauss-quad">이차식 미분</a>의 결과)</p></div></li>
         </ol>
         <p class="note-stage-result"><b>기울기는 책임도로 가중한 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$의 합이에요.</b> 각 항이 $1\times D$ 행벡터라 합도 $1\times D$예요. 이제 이 행벡터를 $\mathbf{0}^\top$으로 놓고 풀면 돼요.</p>
       </div>
@@ -1159,7 +1161,7 @@
       </div>
     </div>
     <p>오른쪽의 $r_{nk}$ 자체가 $\boldsymbol{\mu}_k$를 포함한 모든 파라미터에 의존하므로, 이 식은 한 번에 끝나는 닫힌 해가 아니에요. 새 평균으로 책임도를 다시 계산하고 갱신하는 일을 반복해요(<a href="#s0-why-iterate">미분을 0으로 놓아도 바로 풀리지 않는 이유</a>).</p>
-    <p><b>복원 요령.</b> 로그의 연쇄법칙으로 $1/p$를 꺼내요. 혼합 합에서 $k$번째 항만 남겨요. 가우시안은 로그를 먼저 미분해 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$을 얻고 밀도를 다시 곱해요. $1/p$와 $\pi_k\mathcal{N}$을 묶으면 $r_{nk}$예요. $r_{nk}$를 고정한 채 $\mathbf{0}^\top$으로 놓고 오른쪽에 $\Sigma_k$를 곱하고, 양변 전치하고, $\boldsymbol{\mu}_k^{\text{new}}$를 꺼내 $N_k$로 나눠요.</p>
+    <p><b>복원 요령.</b> 로그의 연쇄법칙으로 $1/p$를 꺼내요. 혼합 합에서 $k$번째 항만 남기고, $\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$으로 바꿔요. $1/p$와 $\pi_k\mathcal{N}$을 묶으면 $r_{nk}$예요. 남은 로그 밀도의 미분 $(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$을 넣어요. $r_{nk}$를 고정한 채 $\mathbf{0}^\top$으로 놓고 오른쪽에 $\Sigma_k$를 곱하고, 양변 전치하고, $\boldsymbol{\mu}_k^{\text{new}}$를 꺼내 $N_k$로 나눠요.</p>
   </div>
   <div class="layer prof"><span class="layer-title">교수님 말씀</span>
     <blockquote>“어우 소름.”</blockquote>
@@ -1168,7 +1170,7 @@
     <p>$\Sigma_k$가 $n$과 무관해서 합 밖에서 오른쪽에 곱해도 된다는 설명이에요.</p>
   </div>
   <div class="sum" hidden>
-    <p class="sum-lead">두 미분 결과를 대입하면 책임도가 나타나요. 책임도를 현재 값으로 고정하고 $\mathbf{0}^\top$으로 놓은 행벡터 식을 오른쪽 $\Sigma_k$ 곱, 양변 전치, 평균 꺼내기로 풀면 책임도 가중 평균이 나와요.</p>
+    <p class="sum-lead">기울기를 정리하면 책임도 × 로그 밀도의 미분이 나타나요. 책임도를 현재 값으로 고정하고 $\mathbf{0}^\top$으로 놓은 행벡터 식을 오른쪽 $\Sigma_k$ 곱, 양변 전치, 평균 꺼내기로 풀면 책임도 가중 평균이 나와요.</p>
     <p class="panel-label">용어</p>
     <dl class="terms">
       <dt>책임도 $r_{nk}$</dt><dd>$1/p$와 $\pi_k\mathcal{N}$을 묶은 비율이에요. E-step에서 계산해 고정해요.</dd>
@@ -1177,6 +1179,7 @@
     </dl>
     <p class="panel-label">핵심 식</p>
     <ul class="eq-list">
+      <li><span class="eq-name">책임도가 나타남</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\boldsymbol{\mu}_k}$$</li>
       <li><span class="eq-name">평균에 대한 기울기 (1×D)</span>$$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}$$</li>
       <li><span class="eq-name">오른쪽에 $\Sigma_k$를 곱한 뒤</span>$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})^\top=\mathbf{0}^\top$$</li>
       <li><span class="eq-name">양변 전치 (D×1)</span>$$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k^{\text{new}})=\mathbf{0}$$</li>
@@ -1343,11 +1346,14 @@
             <div class="deriv-why"><p>$\partial\mathcal{N}=\mathcal{N}\cdot\partial\log\mathcal{N}$, 지수가 있는 $\mathcal{N}$보다 $\log\mathcal{N}$이 미분하기 쉬워요 (평균 때: <a href="#s2-log-gauss-back">밀도로 되돌리기</a>)</p></div></li>
           <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\frac{\partial\mathcal{L}}{\partial\Sigma_k}}=\sum_{n=1}^N\textcolor{#3182f6}{r_{nk}}\,\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\Sigma_k}$$</div>
             <div class="deriv-why"><p>스칼라 $\pi_k\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)/p(\mathbf{x}_n\mid\boldsymbol{\theta})$가 바로 책임도예요 (평균 때: <a href="#s2-mu-proof-resp">책임도가 나타나요</a>)</p>
-              <p>평균 때는 미분을 먼저 대입했지만, 여기서는 $\partial\log\mathcal{N}/\partial\Sigma_k$를 앞 절에서 따로 구해 뒀으니 먼저 묶어요</p></div></li>
+              <p>평균 때와 같은 순서예요. 이 줄까지는 평균 유도와 글자만 다르고, 다른 점은 다음 줄에 넣는 $\partial\log\mathcal{N}/\partial\Sigma_k$뿐이에요</p></div></li>
           <li class="deriv-gen"><div class="deriv-eq">$$\frac{\partial\mathcal{L}}{\partial\Sigma_k}=\frac{1}{2}\sum_{n=1}^N r_{nk}\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)$$</div>
             <div class="deriv-why"><p><a href="#s3-matrix-deriv">스칼라를 행렬로 미분한다는 뜻</a>의 결과를 넣고 $\frac{1}{2}$을 묶어요</p></div></li>
         </ol>
-        <p class="note-stage-result"><b>책임도가 다시 저절로 나타나요.</b> 마지막 줄의 $S_n$은 이 유도에서만 쓰는 임시 이름이에요. 점 하나의 편차 외적을 뜻해요.</p>
+        <p class="note-stage-result"><b>책임도가 다시 저절로 나타나요.</b> 평균과 공분산의 유도는 책임도가 나타나는 줄까지 같아요. 가우시안 안에 들어 있는 파라미터 $\theta_k\in\{\boldsymbol{\mu}_k,\Sigma_k\}$라면 무엇으로 미분하든 다음 꼴이 되고, 갈라지는 곳은 로그 밀도의 미분 하나예요.</p>
+        <div>$$\frac{\partial\mathcal{L}}{\partial\theta_k}=\sum_{n=1}^N r_{nk}\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\theta_k}$$</div>
+        <p>혼합 가중치 $\pi_k$는 예외예요. $\pi_k$는 가우시안 밖에 곱해져 있어서 $\partial\log\mathcal{N}$ 대신 $\partial\log\pi_k/\partial\pi_k=1/\pi_k$가 나오고, 합이 1인 제약도 함께 다뤄야 해요(<a href="#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>).</p>
+        <p>마지막 줄의 $S_n$은 이 유도에서만 쓰는 임시 이름이에요. 점 하나의 편차 외적을 뜻해요.</p>
         <div>$$S_n=(\mathbf{x}_n-\boldsymbol{\mu}_k)(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\in\mathbb{R}^{D\times D}$$</div>
         <p class="deriv-check">차원을 확인해요. $(\mathbf{x}_n-\boldsymbol{\mu}_k)$는 $D\times1$, 그 전치는 $1\times D$라서 $S_n$은 $D\times D$예요. 괄호 안 두 항이 모두 $D\times D$이고 $r_{nk}$는 스칼라라서, 기울기 전체도 $\Sigma_k$와 같은 $D\times D$예요.</p>
       </div>
@@ -1458,6 +1464,16 @@ $$\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\sum_{n=1}^N r_{nk}(\ma
 <p>이것을 ${\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mu}_k}=\mathbf{0}^\top}$로 놓아요. 오른쪽에서 $\Sigma_k$를 곱하면 $\Sigma_k^{-1}$이 지워지고 $\mathbf{0}^\top\Sigma_k=\mathbf{0}^\top$이에요. 이어서 양변 전치하면 ($r_{nk}$는 스칼라) 열벡터 식이 돼요.</p>
 $$\sum_{n=1}^N r_{nk}(\mathbf{x}_n-\boldsymbol{\mu}_k)=\mathbf{0}$$
 <p>$\boldsymbol{\mu}_k$는 $n$과 무관하므로 ${\sum_{n=1}^N r_{nk}\boldsymbol{\mu}_k=N_k\boldsymbol{\mu}_k}$로 묶이고, $N_k$로 나누면 평균 갱신식이에요.</p>
+</td></tr>
+<tr><td><a href="#s3-sigma-gradient">공통 틀: 가우시안 안 파라미터의 기울기</a></td><td>
+<p>$\boldsymbol{\mu}_k$든 $\Sigma_k$든, 성분 $k$의 가우시안 안에 있는 파라미터 $\theta_k$로 미분하면 책임도가 나타나는 줄까지 같은 꼴이에요.</p>
+$$\frac{\partial\mathcal{L}}{\partial\theta_k}=\sum_{n=1}^N r_{nk}\frac{\partial\log\mathcal{N}(\mathbf{x}_n\mid\boldsymbol{\mu}_k,\Sigma_k)}{\partial\theta_k}$$
+<p>갈라지는 곳은 로그 밀도의 미분 하나예요.</p>
+<ul>
+<li>평균: ${\partial\log\mathcal{N}/\partial\boldsymbol{\mu}_k=(\mathbf{x}_n-\boldsymbol{\mu}_k)^\top\Sigma_k^{-1}}$ ($1\times D$)</li>
+<li>공분산: ${\partial\log\mathcal{N}/\partial\Sigma_k=\frac12\left(-\Sigma_k^{-1}+\Sigma_k^{-1}S_n\Sigma_k^{-1}\right)}$ ($D\times D$)</li>
+<li>혼합 가중치는 예외: 가우시안 밖에 있어 $1/\pi_k$가 나오고, 합이 1인 제약과 함께 풀어요(<a href="#s4-next">다음 수업</a>).</li>
+</ul>
 </td></tr>
 </tbody></table></div>
 </article>
