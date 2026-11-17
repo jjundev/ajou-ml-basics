@@ -549,6 +549,8 @@
 <p><b>복원 순서.</b> 기울기를 0으로 놓고 평균을 정리해요. 로그 안에 성분 합이 있으면 아직 구하지 못한 파라미터가 책임도 속에 남아요. 현재 값으로 먼저 책임도를 정한 뒤, 고정한 책임도로 평균을 계산해요. 이 새 평균을 다른 새 파라미터와 함께 다시 넣으면 책임도가 얼마나 달라질까요? <a href="#s1-em-steps">E-step과 M-step의 순서</a>에서 같은 다섯 점으로 확인해요.</p>
 </div>
 </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EC%96%91%EB%B3%80%EC%97%90_%ED%8F%89%EA%B7%A0%EC%9D%B4_%EC%9E%88%EB%8A%94_%EB%B0%A9%EC%A0%95%EC%8B%9D.html">책임도를 고정한 직선과 실제 기울기 곡선, 반복이 멈추는 고정점을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_%EC%96%91%EB%B3%80%EC%97%90_%ED%8F%89%EA%B7%A0%EC%9D%B4_%EC%9E%88%EB%8A%94_%EB%B0%A9%EC%A0%95%EC%8B%9D.html" target="_self">양변에 평균이 있는 방정식 실험</a>에서 직접 움직여 보세요.</p>
+
 <div class="layer prof"><span class="layer-title">교수님 말씀</span>
 <blockquote>“말이 러닝이지 사실 최적화”</blockquote>
 <p>파라미터를 정하는 일을 학습이라고 부르지만, 실제로 하는 일은 로그우도를 최적화하는 것이라는 뜻이에요.</p>
@@ -672,6 +674,8 @@
     <p>두 성분 가운데 성분 1의 분산이 $16$에서 약 $5.1771$로 더 많이 줄었어요. 새 혼합비·평균·분산을 함께 책임도 식에 넣으면 점 $10$의 가중 밀도가 첫 비교 표의 둘째 행처럼 바뀌어요. 그래서 다음 E-step에서도 이 점을 포함한 모든 점의 책임도를 다시 계산해요.</p>
     <p><b>복원 요령.</b> E-step은 현재 파라미터로 $N\times K$ 표를 채워요. 행 합은 $1$, 열 합은 $N_k$예요. M-step은 열 $k$를 고정한 채 평균을 구하고 그 평균으로 공분산을 구해요. 열 합은 $\pi_k$ 갱신에 써요. 점들의 위치를 그대로 두고, 책임도 하나만 달라질 때 이 세 값은 어떻게 반응할까요? <a href="#s1-update-meaning">갱신식은 책임도로 가중한 평균·공분산·비율</a>에서 직접 바꿔 봐요.</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%A1%9C%EA%B7%B8%EC%9A%B0%EB%8F%84_%EC%A7%80%ED%98%95%EA%B3%BC_EM_%EB%B0%9C%EC%9E%90%EA%B5%AD.html">출발점과 공통 분산을 바꾸며 EM이 로그우도 지형의 어디에 멈추는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%A1%9C%EA%B7%B8%EC%9A%B0%EB%8F%84_%EC%A7%80%ED%98%95%EA%B3%BC_EM_%EB%B0%9C%EC%9E%90%EA%B5%AD.html" target="_self">로그우도 지형과 EM 발자국 실험</a>에서 비교해 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">점 $1,2,3,4,10$을 고정하고 초기 모델과 한 번 갱신한 모델을 비교해요. 점 $10$에서 두 성분의 가중 밀도를 읽고 성분 1이 맡는 비율을 구해요.</p>
     <p class="panel-label">용어</p>
