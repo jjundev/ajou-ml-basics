@@ -52,6 +52,30 @@ class TestPrimitives(unittest.TestCase):
         self.assertIn("line 1", errs[0])
         self.assertIn("보이는 주석 없음", errs[0])
 
+    def test_deriv_rows_reject_bundled_reuse(self):
+        # 1116 공분산 유도 회귀: 참조 하나가 세 연산을 대신하고 중간식은 펼치기 안에만 있었다
+        bundled = ('<ol class="deriv"><li><div class="deriv-eq">$$=\\sum_n r_{nk}\\,\\partial\\log\\mathcal{N}$$</div>'
+                   '<div class="deriv-why"><p><a href="#s2-mu-proof">평균 때</a>와 같은 세 연산이에요: '
+                   '로그 연쇄법칙, $k$번째 항만 남기기</p>'
+                   '<details><summary>자세히</summary><p>중간식은 $\\sum_n\\frac{\\pi_k\\mathcal{N}}{p}$예요.</p>'
+                   '</details></div></li></ol>')
+        errs = check_html.deriv_bundle_errors(bundled)
+        self.assertEqual(len(errs), 2)
+        self.assertIn("와 같은 세 연산", errs[0])
+        self.assertIn("중간식", errs[1])
+        src = f'<html lang="ko"><body>{bundled}</body></html>'
+        codes = [p.code for p in check_html.check_common(check_html.parse_html(src), src, Path("x.html"))]
+        self.assertEqual(codes.count("deriv-bundled"), 2)
+        # 펼친 뒤: 줄마다 연산 하나와 대응 링크, 결과 인용, 평범한 '같은' 표현은 통과한다
+        unfolded = ('<ol class="deriv">'
+                    '<li><div class="deriv-eq">$$=\\sum_n \\frac{1}{p}\\partial p$$</div><div class="deriv-why">'
+                    '<p>로그의 연쇄법칙 (평균 때: <a href="#s2-zero-gradient-log">로그 벗기기</a>)</p></div></li>'
+                    '<li><div class="deriv-eq">$$=\\sum_n r_{nk}\\,\\partial\\log\\mathcal{N}$$</div><div class="deriv-why">'
+                    '<p>앞 절의 결과를 넣어요</p></div></li>'
+                    '<li><div class="deriv-eq">$$2x=2y$$</div><div class="deriv-why">'
+                    '<p>양변에 같은 수를 곱해요</p><details><summary>자세히</summary><p>부연</p></details></div></li></ol>')
+        self.assertEqual(check_html.deriv_bundle_errors(unfolded), [])
+
     def test_plain_ordered_lists_are_not_deriv_rows(self):
         self.assertEqual(check_html.deriv_row_errors('<ol class="steps"><li>no math</li></ol>'), [])
 

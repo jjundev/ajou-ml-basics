@@ -2,7 +2,7 @@
 """
 정리노트/복습문제 HTML 검사기 (표준 라이브러리만 사용).
 
-- 공통 검사: lang, 중복 id, 외부 리소스 허용 목록, 수식 구분자, 링크, 남은 슬롯, 위젯 정적 대체물, 식 줄(ol.deriv) 형식
+- 공통 검사: lang, 중복 id, 외부 리소스 허용 목록, 수식 구분자, 링크, 남은 슬롯, 위젯 정적 대체물, 식 줄(ol.deriv) 형식, 묶인 재사용(deriv-bundled)
 - manifest 검사: 섹션·토픽 id, 필수 용어, 레이어, 보충 배지, 예고 밖 금지어, 링크, 문제 카드
 - 정리노트 검사: 녹음 위치(시각 없는 파트 포함), 전사·발언·오타 수정 경위
 CLI:
@@ -276,7 +276,7 @@ class _DerivRows(HTMLParser):
             role = "deriv"
         elif tag == "li" and self.stack and self.stack[-1] == "deriv":
             role = "row"
-            self.rows.append({"eq": "", "why": "", "line": self.getpos()[0]})
+            self.rows.append({"eq": "", "why": "", "hidden": "", "line": self.getpos()[0]})
         elif "deriv-eq" in cls and "row" in self.stack:
             role = "eq"
         elif "deriv-why" in cls and "row" in self.stack:
@@ -304,6 +304,8 @@ class _DerivRows(HTMLParser):
             inner = self.stack[len(self.stack) - 1 - self.stack[::-1].index("why"):]
             if "details" not in inner:
                 self.rows[-1]["why"] += data
+            else:
+                self.rows[-1]["hidden"] += data
 
 
 def deriv_row_errors(source: str) -> list[str]:
@@ -320,6 +322,24 @@ def deriv_row_errors(source: str) -> list[str]:
     return out
 
 
+# 앞 유도 참조가 여러 연산을 대신하는 주석: "평균 때와 같은 세 연산이에요" (staged-body.md '앞 유도의 재사용')
+BUNDLE_RE = re.compile(r"(?:와|과)\s*(?:똑)?같은\s*(?:두|세|네|여러)\s*(?:가지\s*)?(?:연산|단계)")
+
+
+def deriv_bundle_errors(source: str) -> list[str]:
+    """식 줄(ol.deriv): 참조 하나로 여러 연산을 묶거나, 중간식을 펼치기 안에만 두면 안 된다."""
+    p = _DerivRows()
+    p.feed(source)
+    out = []
+    for r in p.rows:
+        m = BUNDLE_RE.search(r["why"])
+        if m:
+            out.append(f"line {r['line']}: 앞 유도 참조가 여러 연산을 대신함 \"{m.group(0)}\" (줄을 펼치고 줄마다 링크)")
+        if "중간식" in r["hidden"]:
+            out.append(f"line {r['line']}: 중간식이 펼치기 안에만 있음 (본문 줄로 꺼내기)")
+    return out
+
+
 def check_common(doc: Doc, source: str, path: Path) -> list[Problem]:
     name = Path(path).name
     out: list[Problem] = []
@@ -331,6 +351,7 @@ def check_common(doc: Doc, source: str, path: Path) -> list[Problem]:
     out += [Problem("broken-link", name, h) for h in broken_links(doc, Path(path).parent)]
     out += [Problem("leftover-slot", name, s) for s in sorted(set(SLOT_RE.findall(source)))]
     out += [Problem("deriv-row", name, e) for e in deriv_row_errors(source)]
+    out += [Problem("deriv-bundled", name, e) for e in deriv_bundle_errors(source)]
     out += [Problem("widget-static-missing", wid, "위젯에 .widget-static 정적 대체물이 없음")
             for wid, classes in sorted(doc.widgets.items()) if "widget-static" not in classes]
     return out
