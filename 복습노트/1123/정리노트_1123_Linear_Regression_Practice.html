@@ -491,6 +491,8 @@
       <p>직선을 가장 잘 골랐는데도 점들의 굽은 흐름까지 따라가기는 어려워요. 같은 점에 다항식의 차수를 높여 맞추면 어떻게 될까요?</p>
     </div>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80%EC%99%80_%EA%B3%BC%EC%A0%81%ED%95%A9.html">기울기와 절편을 움직여 직선과 잔차가 어떻게 바뀌는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80%EC%99%80_%EA%B3%BC%EC%A0%81%ED%95%A9.html" target="_self">다항회귀와 과적합 실험</a>의 직선 맞추기 모드에서 확인해 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">같은 10개 점에 직선을 맞추면 잔차제곱합이 25.62에서 1.62로 줄어요. 독립인 공통 분산 가우시안 잡음에서 최대우도 직선은 최소제곱 직선이에요.</p>
     <p class="panel-label">용어</p>
@@ -650,6 +652,8 @@
     <p>서로 다른 입력 10개에 9차를 쓰면 계수 10개로 학습점 모두를 통과하는 다항식을 만들 수 있어요. 이번에는 관측에 섞인 잡음까지 따라가면서 관측 범위 끝에서 곡선이 크게 흔들렸어요. 학습 데이터의 오차는 작지만 새 입력에 잘 일반화되지 않는 현상이 과적합(overfitting)이에요.</p>
     <p>9차로 표현할 수 있는 곡선은 그대로 두고, 계수를 고르는 기준을 바꾸어 끝에서 크게 흔들리는 곡선을 덜 선호하게 만들 수 있을까요?</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80%EC%99%80_%EA%B3%BC%EC%A0%81%ED%95%A9.html">차수를 움직이며 훈련 RSS와 양 끝 예측을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_01_%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80%EC%99%80_%EA%B3%BC%EC%A0%81%ED%95%A9.html" target="_self">다항회귀와 과적합 실험</a>에서 비교해 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">같은 10개 점에서 9차의 학습 오차는 거의 0이지만, 새 입력 $x=-5$에서 21.61을 내놓아 생성 함수의 1.13과 크게 벌어져요.</p>
     <p class="panel-label">용어</p>
@@ -899,6 +903,8 @@ Phi_plot = np.vander(x_plot / 5, 10, increasing=True)
 y_fit = Phi_plot @ theta</code></pre>
     <p>MAP은 이 절차로 계수 벡터 하나를 골라요. 같은 가우시안 가정을 쓰면서 <a href="#s2-posterior">계수의 분포도 가지고 있으면</a> 어떤 예측을 할 수 있을까요?</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_MAP%EA%B3%BC_%EC%A0%95%EA%B7%9C%ED%99%94_%EA%B0%95%EB%8F%84.html">λ를 움직여 계수 크기와 MAP 곡선이 어떻게 바뀌는지 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_02_MAP%EA%B3%BC_%EC%A0%95%EA%B7%9C%ED%99%94_%EA%B0%95%EB%8F%84.html" target="_self">MAP과 정규화 강도 실험</a>에서 확인해 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">같은 9차 모델에서도 $\lambda$가 커지면 계수 제곱합이 내려가고 훈련 RSS는 올라가요. 새 입력에서의 결과는 평가 위치에 따라 달라져요.</p>
     <p class="panel-label">용어</p>
@@ -1021,6 +1027,8 @@ y_fit = Phi_plot @ theta</code></pre>
     </div>
     <p>여기서는 새 입력을 지정해 분포를 읽었어요. 같은 입력에서 $y_*$까지 실제로 얻어 학습에 포함하면 계수의 사후분포부터 바뀌어요.</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EA%B4%80%EC%B8%A1_%EC%B6%94%EA%B0%80%EC%99%80_%EC%98%88%EC%B8%A1%EA%B5%AC%EA%B0%84.html">예측 입력을 움직여 함수값과 새 관측값의 95% 구간 폭을 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EA%B4%80%EC%B8%A1_%EC%B6%94%EA%B0%80%EC%99%80_%EC%98%88%EC%B8%A1%EA%B5%AC%EA%B0%84.html" target="_self">관측 추가와 예측구간 실험</a>에서 비교해 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">관측 10개를 고정하고 $x_*=0$에서 보면 함수값과 새 관측값의 평균은 같아요. 분산은 계수에서 온 약 $0.027$에 새 잡음의 $0.04$가 더해져요.</p>
     <p class="panel-label">용어</p>
@@ -1149,6 +1157,8 @@ y_fit = Phi_plot @ theta</code></pre>
     <div>$$p(\boldsymbol{\theta}\mid\mathcal D_{N+1})\propto p(y_{\mathrm{new}}\mid x_{\mathrm{new}},\boldsymbol{\theta})\,p(\boldsymbol{\theta}\mid\mathcal D_N)$$</div>
     <p>계수의 사후분포를 더 좁게 갱신해도 앞으로 측정할 때마다 잡음 분산 $0.04$는 그대로 더해져요. 입력만 주어지면 현재 사후분포로 예측하고, 입력과 관측값을 함께 얻으면 사후분포를 갱신한 뒤 다시 예측해요.</p>
   </div>
+<p class="interactive-note" data-ml-interactive="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EA%B4%80%EC%B8%A1_%EC%B6%94%EA%B0%80%EC%99%80_%EC%98%88%EC%B8%A1%EA%B5%AC%EA%B0%84.html">관측 수를 30개까지 늘리거나 직접 추가 모드에서 한 점씩 더하며 예측구간의 변화를 <a href="%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C_03_%EA%B4%80%EC%B8%A1_%EC%B6%94%EA%B0%80%EC%99%80_%EC%98%88%EC%B8%A1%EA%B5%AC%EA%B0%84.html" target="_self">관측 추가와 예측구간 실험</a>에서 비교해 보세요.</p>
+
   <div class="sum" hidden>
     <p class="sum-lead">처음 10개 점에 $x=-5$의 관측값을 더하자, 같은 입력에서 다음 관측의 95% 예측구간 폭이 약 $1.95$에서 $1.06$으로 줄어요.</p>
     <p class="panel-label">용어</p>
