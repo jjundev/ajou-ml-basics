@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 1123</title>
+  <meta name="description" content="2026년 11월 23일 · 조교 실습 1 · 최대우도, MAP, 베이지안 선형회귀">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 긴 계산: 기존 패널 안에서 단계별로 읽는다 */
+    .note-stage-nav { position: sticky; top: 0; z-index: 2; display: flex; gap: var(--s1); overflow-x: auto; background: var(--bg); border-bottom: 1px solid var(--line); margin: var(--s5) 0; }
+    .note-stage-nav a { display: flex; align-items: center; flex: 0 0 auto; min-height: 44px; padding: 0 var(--s2); color: var(--ink-2); font-size: var(--fs-small); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; }
+    .note-stage-nav a[aria-current="step"] { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+    .note-stage { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
+    .topic .note-stage-title { display: flex; align-items: baseline; gap: var(--s4); margin: 0 0 var(--s2); font-size: clamp(22px, 4vw, 24px); font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; scroll-margin-top: 72px; }
+    .note-stage-number { flex: none; white-space: nowrap; color: var(--accent-ink); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0; }
+    .topic .note-stage-goal { margin: var(--s2) 0 var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    .topic .note-subheading { margin: var(--s6) 0 var(--s3); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .topic .note-stage-result { margin-top: var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    @media print { .note-stage-nav { display: none; } .note-stage { break-inside: auto; } }
+
+    /* 식 줄 + 주석: 유도는 식이 본문, 연산·이유는 옆 한 줄 주석 (staged-body.md) */
+    /* 간격 규칙: 덩어리 사이 24px · 짝을 이루는 줄 사이 8px · 식 줄 안쪽 12px */
+    .deriv-body { container-type: inline-size; --d-block: var(--s5); --d-pair: var(--s2); --d-row: var(--s3); }
+    .topic .deriv-body > * { margin: 0; }
+    .topic .deriv-body > * + * { margin-top: var(--d-block); }
+    .topic .deriv-body > .deriv-legend + .deriv,
+    .topic .deriv-body > .note-stage-result + .deriv-check { margin-top: var(--d-pair); }
+    .topic .deriv-body > .note-subheading { margin-top: var(--s6); }
+    .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
+    .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
+    .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    /* 계산 상자: 건너뛰어도 흐름이 이어지는 숫자 계산 (references/narrative-flow.md 규칙 3) */
+    .topic .calc-box { margin: var(--s4) 0; padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--surface); font-size: var(--fs-sub); line-height: 1.7; }
+    .topic .calc-box > .calc-label { margin: 0 0 var(--s1); font-size: var(--fs-label); font-weight: 700; color: var(--ink-2); }
+    .topic .calc-box .katex-display { margin: var(--s2) 0; }
+    .topic .calc-box table { font-size: var(--fs-sub); }
+    .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+    .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
+    .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }
+    .deriv > li.is-wide { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .deriv-eq { min-width: 0; }
+    .deriv .katex-display { margin: 0; padding: 2px 0; text-align: left; }
+    .deriv .katex-display > .katex { text-align: left; }
+    .deriv .katex [style*="color:#"] { color: var(--accent-ink) !important; }
+    .deriv-why { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+    .topic .deriv-why p { margin: 0; }
+    .deriv-why details { margin-top: var(--s1); }
+    .deriv-why summary { display: inline-block; padding: 2px 0; cursor: pointer; color: var(--accent-ink); font-size: var(--fs-label); list-style: none; }
+    .deriv-why summary::-webkit-details-marker { display: none; }
+    .deriv-why summary::after { content: " ▾"; }
+    .deriv-why details[open] summary::after { content: " ▴"; }
+    .topic .deriv-why details p { margin-top: var(--s2); color: var(--ink); line-height: 1.7; }
+    @container (max-width: 620px) {
+      .deriv > li { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .deriv > li.deriv-gen { margin-inline: 0; padding-inline: var(--s3); }
+    }
+    @media print { .deriv-why details { display: block; } }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    html { height: 100%; } body { height: 100%; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+  <link rel="icon" href="data:,">
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="1123">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">1 최대우도</a><a href="#s1">2 MAP</a><a href="#s2">3 베이지안</a><a href="#s3">4 마무리</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>선형회귀 실습으로 다시 보는 중간고사</h1>
+      <p>2026년 11월 23일 · 조교 실습 1 · 최대우도, MAP, 베이지안 선형회귀</p>
+    </div>
+    <section id="s0"><h2>1. 최대우도와 과적합</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1">
+  <h3>같은 데이터로 어떤 예측을 만들 수 있을까요?</h3>
+  <div class="tags"><span class="tag date">1123 조교 실습</span><span class="tag slide">실습자료 7–20쪽</span></div>
+  <div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+    <p data-map="goal">관측점 10개로 곡선을 맞추면, 아직 보지 않은 입력에서 무엇을 말할 수 있을까요? 이번 실습은 중간고사에서 푼 계산을 실제 곡선과 예측구간으로 확인해요.</p>
+    <p data-map="bridge">출발점은 직선의 절편과 기울기예요. 다항식으로 넓혀도 관측값과 비교해 계수를 정하고, 정해진 계수로 새 입력을 계산한다는 흐름은 같아요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">중간고사에서 한 계산</th><th scope="col">실습에서 읽는 결과</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">6번 · 최대우도(ML)와 최대사후(MAP)</th><td>데이터를 잘 맞추는 계수 한 벌을 골라 곡선을 그려요. MAP에서는 사전분포도 선택에 반영해요.</td></tr>
+        <tr><th scope="row">9번 · 계수의 사후분포</th><td>데이터를 보고 계수의 평균과 공분산을 계산해요. 평균으로 대표 곡선을 그리고 공분산을 예측에 넘겨요.</td></tr>
+        <tr><th scope="row">10번 · 새 입력의 예측분포</th><td>계수의 불확실성을 새 함수값에 옮겨요. 새 관측값을 예측할 때는 관측 잡음까지 더해 예측구간을 그려요.</td></tr>
+      </tbody>
+    </table></div>
+    <p data-map="result">6번의 답은 계수 한 벌, 9번의 답은 계수의 분포, 10번의 답은 새 입력에서 출력의 분포예요.</p>
+    <p data-map="formula">설계행렬은 10개 입력에서 계산한 특징을 한 줄씩 모아, 계수와 예측값을 연결해요. 먼저 이 행렬로 직선을 구하고, 이어서 사전분포와 새 관측을 더해 봐요.</p>
+    <p data-map="pitfall">관측점 10개를 모두 통과하는 곡선도 새 입력에서 크게 빗나갈 수 있어요. 우선 같은 10개 점에 대해 어느 직선이 더 잘 맞는지 숫자로 비교할 수 있을까요?</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">같은 관측으로 계수 한 벌을 고르고, 계수의 분포를 구하고, 새 입력의 예측분포까지 만들어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>최대우도(ML)</dt><dd>관측된 데이터의 우도를 가장 크게 하는 계수를 골라요.</dd>
+      <dt>최대사후(MAP)</dt><dd>사전분포를 반영해 사후밀도를 가장 크게 하는 계수를 골라요.</dd>
+      <dt>예측분포(predictive distribution)</dt><dd>새 입력에서 함수값이나 관측값이 얼마나 퍼지는지 보여 줘요.</dd>
+    </dl>
+  </div>
+</article>
+
+<article class="topic" id="s0-line">
+  <h3>직선 하나를 데이터에 맞추기</h3>
+  <div class="tags"><span class="tag date">1123 조교 실습</span><span class="tag slide">실습자료 7–10쪽</span><span class="tag">중간고사 6번</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>직선이 관측점에 더 잘 맞았는지 어떻게 비교할까요? 실습의 관측점 10개에 임의 직선과 최대우도 직선을 각각 넣어 보니, 잔차제곱합이 25.62에서 1.62로 줄었어요. 수치는 실습과 같은 난수 시드 19로 다시 계산했어요. 입력은 $[-5,5]$에서 균등하게 뽑아요. 각 입력의 함수값에 가우시안 잡음을 더해 관측값을 만들어요.</p>
+    <nav class="note-stage-nav" aria-label="계산 단계">
+      <a href="#s0-line-design" aria-current="step">1. 잔차와 설계행렬</a>
+      <a href="#s0-line-optimum">2. 우도와 정규방정식</a>
+    </nav>
+
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s0-line-design"><span class="note-stage-number">1 / 2</span> <span>한 점의 잔차를 10개로 모으기</span></h4>
+      <p class="note-stage-goal">첫 관측점 $(-4.170,0.275)$을 임의 직선에 넣어 잔차제곱합의 한 항이 어떻게 생기는지 확인해요.</p>
+      <p>절편을 $b$, 기울기를 $a$라고 하면 입력 $x_n$의 직선 예측값은 $b+ax_n$이에요. 각 $y_n$에서 예측값을 뺀 잔차를 제곱해 더한 값을 잔차제곱합(RSS)이라고 해요. 첫 점의 항에는 $y_1\approx 0.275$와 $x_1\approx -4.170$이 들어가요.</p>
+      $$Q(b,a)=\sum_{n=1}^{N}\bigl(y_n-(b+ax_n)\bigr)^2$$
+      <div class="calc-box">
+        <p class="calc-label">계산 확인</p>
+        <p>임의 직선 $b=0.7$, $a=0.2$에서 첫 점의 항은 $(0.275-(0.7+0.2(-4.170)))^2=0.409^2$예요. 이 항에 나머지 9개 항을 더하면 약 25.62예요.</p>
+      </div>
+      <p>같은 계산을 한 번에 쓰려면 관측마다 $(1,x_n)$을 한 행으로 쌓아요. 이 설계행렬 $\Phi$는 $10\times2$이고 계수 $\boldsymbol{\theta}=(b,a)^\top$는 $2\times1$이에요. 첫 행을 곱하면 $1\cdot b+(-4.170)\cdot a$가 되고, 전체 예측값 $\Phi\boldsymbol{\theta}$는 $10\times1$ 열벡터예요. 관측값을 모은 열벡터를 $\mathbf y$라고 하면 같은 잔차제곱합을 이렇게 써요.</p>
+      $$Q(\boldsymbol{\theta})=\|\mathbf y-\Phi\boldsymbol{\theta}\|^2$$
+      <p class="note-stage-result">이제 잔차의 크기를 비교할 수 있어요. 가우시안 잡음 가정에서는 왜 이 값을 가장 작게 하는 직선이 최대우도 해일까요?</p>
+    </div>
+
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s0-line-optimum"><span class="note-stage-number">2 / 2</span> <span>가우시안 우도에서 직선의 계수 구하기</span></h4>
+      <p class="note-stage-goal">같은 10개 점에서 모형의 가정을 이용해, 잔차제곱합이 가장 작은 계수를 구해요.</p>
+      <p>잡음 $\varepsilon_n$은 서로 독립이고 평균 0, 공통 분산 $\sigma^2$인 가우시안으로 가정해요. 실습에서 잡음의 표준편차는 $\sigma=0.2$예요. 이 가정에서 직선이 주는 관측 모형을 $\mathbf y=\Phi\boldsymbol{\theta}+\boldsymbol{\varepsilon}$로 쓰면, $\boldsymbol{\varepsilon}$는 잡음 $N$개를 모은 열벡터예요.</p>
+      $$p(\mathbf y\mid\Phi,\boldsymbol{\theta})=(2\pi\sigma^2)^{-N/2}\exp\!\left(-\frac{Q(\boldsymbol{\theta})}{2\sigma^2}\right)$$
+      <p>독립인 관측의 밀도를 곱하면 이 우도가 나와요. 음의 로그를 취하면 $Q(\boldsymbol{\theta})/(2\sigma^2)$에 계수와 무관한 상수만 더해져요. 그래서 우도 최대화는 $Q$를 최소화하는 최소제곱(least squares) 문제와 같아요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li>
+            <div class="deriv-eq">$$\frac{\partial Q}{\partial\boldsymbol{\theta}}=-2(\mathbf y-\Phi\boldsymbol{\theta})^\top\Phi$$</div>
+            <div class="deriv-why"><p>잔차의 제곱을 미분하면 $1\times2$ 행벡터가 돼요.</p></div>
+          </li>
+          <li>
+            <div class="deriv-eq">$$\boldsymbol{\theta}^\top\Phi^\top\Phi=\mathbf y^\top\Phi$$</div>
+            <div class="deriv-why"><p>그 행벡터를 0으로 놓고 계수 항을 모아요.</p></div>
+          </li>
+          <li>
+            <div class="deriv-eq">$$\Phi^\top\Phi\boldsymbol{\theta}=\Phi^\top\mathbf y$$</div>
+            <div class="deriv-why"><p>양변을 전치해 열벡터 형태의 정규방정식을 얻어요.</p></div>
+          </li>
+          <li class="deriv-gen">
+            <div class="deriv-eq">$$\hat{\boldsymbol{\theta}}_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top\mathbf y$$</div>
+            <div class="deriv-why"><p>$\Phi$의 두 열이 독립이면 역행렬을 곱해 해를 구해요.</p></div>
+          </li>
+        </ol>
+      </div>
+      <p>실습의 $x_n$ 중 서로 다른 값이 있으므로 $1$로 채운 열과 $x_n$을 모은 열이 독립이에요. 해는 $(\hat b,\hat a)\approx(-0.5324,-0.1281)$이고, 이 직선의 잔차제곱합이 약 1.62예요. <code>np.column_stack((np.ones(N), x))</code>는 두 열을 이 순서로 놓아요. <code>np.polyfit(x, y, 1)</code>도 같은 최소제곱 직선을 구하며, 출력은 높은 차수부터 $[a,b]$ 순서예요. <code>np.polyval</code>은 이 순서로 주어진 계수를 새 입력에 대입해요.</p>
+      <p>중간고사 6(a)도 같은 순서로 풀어요. 그 문항에서는 $N=3$, $\sigma^2=1$을 우도에 넣어요. 세 점으로 만든 $\Phi^\top\Phi$의 대각선은 $(3,2)$이고 나머지 원소는 0이에요. 우변이 $(4,3)^\top$이라 최대우도 해는 $(4/3,3/2)^\top$이에요. 여기의 행 미분을 전치하면 시험에서 지정한 미분 방향과 같아요. <a href="../../%EC%8B%9C%ED%97%98%EA%B2%B0%EA%B3%BC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC_1021_%EB%AC%B8%EC%A0%9C%EC%84%A4%EB%AA%85_Midterm.html#p6">중간고사 6번 풀이</a></p>
+      <p>직선을 가장 잘 골랐는데도 점들의 굽은 흐름까지 따라가기는 어려워요. 같은 점에 다항식의 차수를 높여 맞추면 어떻게 될까요?</p>
+    </div>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">같은 10개 점에 직선을 맞추면 잔차제곱합이 25.62에서 1.62로 줄어요. 독립인 공통 분산 가우시안 잡음에서 최대우도 직선은 최소제곱 직선이에요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>설계행렬(design matrix)</dt><dd>관측마다 $(1,x_n)$을 한 행에 담아요. 계수 $(b,a)^\top$를 곱하면 직선 예측값들이 나와요.</dd>
+      <dt>최소제곱(least squares)</dt><dd>관측값과 예측값의 차이를 제곱해 더한 값을 최소화해요.</dd>
+      <dt>정규방정식(normal equation)</dt><dd>잔차제곱합의 행 미분을 0으로 놓고 양변을 전치해 얻어요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">잔차제곱합</span>$$Q(\boldsymbol{\theta})=\|\mathbf y-\Phi\boldsymbol{\theta}\|^2$$</li>
+      <li><span class="eq-name">정규방정식</span>$$\Phi^\top\Phi\boldsymbol{\theta}=\Phi^\top\mathbf y$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s0-degree">
+  <h3>차수를 올리면 왜 새 점에서 빗나갈까요?</h3>
+  <div class="tags"><span class="tag date">1123 조교 실습</span><span class="tag slide">실습자료 11쪽</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>같은 관측점 10개에 차수만 바꿔 맞추면 어떤 일이 생길까요? 9차 곡선의 학습 잔차제곱합은 거의 0이에요. 그런데 학습에 쓰이지 않은 $x=-5$에서는 21.61을 예측해요. 잡음 없는 생성 함수의 값 1.13과 크게 벌어져요.</p>
+    <figure class="figure"><svg id="fig-degree-comparison" viewBox="0 0 560 392" role="img" style="max-width:560px" aria-label="같은 관측점에 2차, 4차, 6차, 9차 다항식을 맞춘 네 그래프. 9차 곡선은 양 끝에서 눈금을 벗어난다.">
+<defs><clipPath id="clip-degrees-0-0-280-196-2차"><rect x="31" y="30" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="31" y="19">2차</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="31.0" x2="31.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="31.0" y="188" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="148.5" x2="148.5" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="148.5" y="188" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="266.0" x2="266.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="266.0" y="188" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="168.0" y2="168.0"/>
+<text class="fig-text" style="font-size:14px" x="24" y="173.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="126.6" y2="126.6"/>
+<text class="fig-text" style="font-size:14px" x="24" y="131.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="85.2" y2="85.2"/>
+<text class="fig-text" style="font-size:14px" x="24" y="90.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="43.8" y2="43.8"/>
+<text class="fig-text" style="font-size:14px" x="24" y="48.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-degrees-0-0-280-196-2차)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="31.00,111.07 33.35,112.57 35.70,114.09 38.05,115.63 40.40,117.17 42.75,118.70 45.10,120.20 47.45,121.67 49.80,123.09 52.15,124.44 54.50,125.72 56.85,126.91 59.20,128.01 61.55,129.00 63.90,129.88 66.25,130.63 68.60,131.26 70.95,131.77 73.30,132.14 75.65,132.37 78.00,132.47 80.35,132.44 82.70,132.27 85.05,131.98 87.40,131.57 89.75,131.04 92.10,130.40 94.45,129.67 96.80,128.84 99.15,127.94 101.50,126.97 103.85,125.94 106.20,124.87 108.55,123.78 110.90,122.66 113.25,121.55 115.60,120.44 117.95,119.36 120.30,118.32 122.65,117.33 125.00,116.40 127.35,115.55 129.70,114.79 132.05,114.12 134.40,113.56 136.75,113.11 139.10,112.79 141.45,112.59 143.80,112.52 146.15,112.59 148.50,112.80 150.85,113.14 153.20,113.63 155.55,114.24 157.90,114.99 160.25,115.87 162.60,116.86 164.95,117.97 167.30,119.18 169.65,120.49 172.00,121.89 174.35,123.35 176.70,124.88 179.05,126.46 181.40,128.07 183.75,129.70 186.10,131.34 188.45,132.98 190.80,134.60 193.15,136.18 195.50,137.72 197.85,139.19 200.20,140.60 202.55,141.92 204.90,143.15 207.25,144.27 209.60,145.28 211.95,146.17 214.30,146.93 216.65,147.56 219.00,148.05 221.35,148.41 223.70,148.62 226.05,148.69 228.40,148.62 230.75,148.41 233.10,148.07 235.45,147.61 237.80,147.02 240.15,146.32 242.50,145.52 244.85,144.62 247.20,143.64 249.55,142.59 251.90,141.48 254.25,140.32 256.60,139.13 258.95,137.92 261.30,136.70 263.65,135.49 266.00,134.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="31.00,126.75 33.35,126.81 35.70,126.88 38.05,126.95 40.40,127.02 42.75,127.09 45.10,127.17 47.45,127.25 49.80,127.33 52.15,127.41 54.50,127.50 56.85,127.58 59.20,127.68 61.55,127.77 63.90,127.86 66.25,127.96 68.60,128.06 70.95,128.16 73.30,128.26 75.65,128.37 78.00,128.48 80.35,128.59 82.70,128.70 85.05,128.82 87.40,128.93 89.75,129.05 92.10,129.18 94.45,129.30 96.80,129.43 99.15,129.56 101.50,129.69 103.85,129.82 106.20,129.96 108.55,130.10 110.90,130.24 113.25,130.38 115.60,130.53 117.95,130.67 120.30,130.82 122.65,130.98 125.00,131.13 127.35,131.29 129.70,131.45 132.05,131.61 134.40,131.77 136.75,131.94 139.10,132.10 141.45,132.27 143.80,132.45 146.15,132.62 148.50,132.80 150.85,132.98 153.20,133.16 155.55,133.35 157.90,133.53 160.25,133.72 162.60,133.91 164.95,134.11 167.30,134.30 169.65,134.50 172.00,134.70 174.35,134.90 176.70,135.11 179.05,135.31 181.40,135.52 183.75,135.74 186.10,135.95 188.45,136.17 190.80,136.39 193.15,136.61 195.50,136.83 197.85,137.06 200.20,137.28 202.55,137.51 204.90,137.75 207.25,137.98 209.60,138.22 211.95,138.46 214.30,138.70 216.65,138.94 219.00,139.19 221.35,139.44 223.70,139.69 226.05,139.94 228.40,140.20 230.75,140.46 233.10,140.72 235.45,140.98 237.80,141.24 240.15,141.51 242.50,141.78 244.85,142.05 247.20,142.33 249.55,142.60 251.90,142.88 254.25,143.16 256.60,143.44 258.95,143.73 261.30,144.02 263.65,144.31 266.00,144.60"/>
+<circle cx="50.50" cy="122.81" r="3" fill="currentColor"/>
+<circle cx="53.92" cy="129.45" r="3" fill="currentColor"/>
+<circle cx="63.46" cy="133.99" r="3" fill="currentColor"/>
+<circle cx="89.03" cy="130.48" r="3" fill="currentColor"/>
+<circle cx="108.89" cy="123.62" r="3" fill="currentColor"/>
+<circle cx="180.38" cy="130.17" r="3" fill="currentColor"/>
+<circle cx="188.91" cy="132.99" r="3" fill="currentColor"/>
+<circle cx="209.89" cy="148.69" r="3" fill="currentColor"/>
+<circle cx="220.55" cy="144.01" r="3" fill="currentColor"/>
+<circle cx="261.94" cy="138.94" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-degrees-280-0-280-196-4차"><rect x="311" y="30" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="311" y="19">4차</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="311.0" x2="311.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="311.0" y="188" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="428.5" x2="428.5" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="428.5" y="188" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="546.0" x2="546.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="546.0" y="188" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="168.0" y2="168.0"/>
+<text class="fig-text" style="font-size:14px" x="304" y="173.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="126.6" y2="126.6"/>
+<text class="fig-text" style="font-size:14px" x="304" y="131.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="85.2" y2="85.2"/>
+<text class="fig-text" style="font-size:14px" x="304" y="90.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="43.8" y2="43.8"/>
+<text class="fig-text" style="font-size:14px" x="304" y="48.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-degrees-280-0-280-196-4차)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="311.00,111.07 313.35,112.57 315.70,114.09 318.05,115.63 320.40,117.17 322.75,118.70 325.10,120.20 327.45,121.67 329.80,123.09 332.15,124.44 334.50,125.72 336.85,126.91 339.20,128.01 341.55,129.00 343.90,129.88 346.25,130.63 348.60,131.26 350.95,131.77 353.30,132.14 355.65,132.37 358.00,132.47 360.35,132.44 362.70,132.27 365.05,131.98 367.40,131.57 369.75,131.04 372.10,130.40 374.45,129.67 376.80,128.84 379.15,127.94 381.50,126.97 383.85,125.94 386.20,124.87 388.55,123.78 390.90,122.66 393.25,121.55 395.60,120.44 397.95,119.36 400.30,118.32 402.65,117.33 405.00,116.40 407.35,115.55 409.70,114.79 412.05,114.12 414.40,113.56 416.75,113.11 419.10,112.79 421.45,112.59 423.80,112.52 426.15,112.59 428.50,112.80 430.85,113.14 433.20,113.63 435.55,114.24 437.90,114.99 440.25,115.87 442.60,116.86 444.95,117.97 447.30,119.18 449.65,120.49 452.00,121.89 454.35,123.35 456.70,124.88 459.05,126.46 461.40,128.07 463.75,129.70 466.10,131.34 468.45,132.98 470.80,134.60 473.15,136.18 475.50,137.72 477.85,139.19 480.20,140.60 482.55,141.92 484.90,143.15 487.25,144.27 489.60,145.28 491.95,146.17 494.30,146.93 496.65,147.56 499.00,148.05 501.35,148.41 503.70,148.62 506.05,148.69 508.40,148.62 510.75,148.41 513.10,148.07 515.45,147.61 517.80,147.02 520.15,146.32 522.50,145.52 524.85,144.62 527.20,143.64 529.55,142.59 531.90,141.48 534.25,140.32 536.60,139.13 538.95,137.92 541.30,136.70 543.65,135.49 546.00,134.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="311.00,101.65 313.35,105.73 315.70,109.45 318.05,112.82 320.40,115.86 322.75,118.60 325.10,121.04 327.45,123.20 329.80,125.10 332.15,126.75 334.50,128.17 336.85,129.37 339.20,130.37 341.55,131.17 343.90,131.80 346.25,132.26 348.60,132.58 350.95,132.75 353.30,132.79 355.65,132.72 358.00,132.55 360.35,132.28 362.70,131.92 365.05,131.50 367.40,131.01 369.75,130.47 372.10,129.89 374.45,129.27 376.80,128.62 379.15,127.95 381.50,127.27 383.85,126.59 386.20,125.91 388.55,125.25 390.90,124.59 393.25,123.97 395.60,123.37 397.95,122.80 400.30,122.27 402.65,121.78 405.00,121.34 407.35,120.96 409.70,120.62 412.05,120.35 414.40,120.13 416.75,119.98 419.10,119.90 421.45,119.88 423.80,119.93 426.15,120.05 428.50,120.24 430.85,120.50 433.20,120.83 435.55,121.23 437.90,121.71 440.25,122.25 442.60,122.86 444.95,123.53 447.30,124.27 449.65,125.07 452.00,125.93 454.35,126.85 456.70,127.81 459.05,128.83 461.40,129.89 463.75,130.98 466.10,132.12 468.45,133.28 470.80,134.47 473.15,135.67 475.50,136.89 477.85,138.11 480.20,139.33 482.55,140.54 484.90,141.73 487.25,142.90 489.60,144.03 491.95,145.13 494.30,146.17 496.65,147.15 499.00,148.06 501.35,148.89 503.70,149.63 506.05,150.27 508.40,150.79 510.75,151.20 513.10,151.46 515.45,151.58 517.80,151.53 520.15,151.31 522.50,150.90 524.85,150.30 527.20,149.47 529.55,148.42 531.90,147.12 534.25,145.57 536.60,143.74 538.95,141.62 541.30,139.19 543.65,136.44 546.00,133.36"/>
+<circle cx="330.50" cy="122.81" r="3" fill="currentColor"/>
+<circle cx="333.92" cy="129.45" r="3" fill="currentColor"/>
+<circle cx="343.46" cy="133.99" r="3" fill="currentColor"/>
+<circle cx="369.03" cy="130.48" r="3" fill="currentColor"/>
+<circle cx="388.89" cy="123.62" r="3" fill="currentColor"/>
+<circle cx="460.38" cy="130.17" r="3" fill="currentColor"/>
+<circle cx="468.91" cy="132.99" r="3" fill="currentColor"/>
+<circle cx="489.89" cy="148.69" r="3" fill="currentColor"/>
+<circle cx="500.55" cy="144.01" r="3" fill="currentColor"/>
+<circle cx="541.94" cy="138.94" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-degrees-0-196-280-196-6차"><rect x="31" y="226" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="31" y="215">6차</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="31.0" x2="31.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="31.0" y="384" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="148.5" x2="148.5" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="148.5" y="384" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="266.0" x2="266.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="266.0" y="384" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="364.0" y2="364.0"/>
+<text class="fig-text" style="font-size:14px" x="24" y="369.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="322.6" y2="322.6"/>
+<text class="fig-text" style="font-size:14px" x="24" y="327.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="281.2" y2="281.2"/>
+<text class="fig-text" style="font-size:14px" x="24" y="286.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="239.8" y2="239.8"/>
+<text class="fig-text" style="font-size:14px" x="24" y="244.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-degrees-0-196-280-196-6차)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="31.00,307.07 33.35,308.57 35.70,310.09 38.05,311.63 40.40,313.17 42.75,314.70 45.10,316.20 47.45,317.67 49.80,319.09 52.15,320.44 54.50,321.72 56.85,322.91 59.20,324.01 61.55,325.00 63.90,325.88 66.25,326.63 68.60,327.26 70.95,327.77 73.30,328.14 75.65,328.37 78.00,328.47 80.35,328.44 82.70,328.27 85.05,327.98 87.40,327.57 89.75,327.04 92.10,326.40 94.45,325.67 96.80,324.84 99.15,323.94 101.50,322.97 103.85,321.94 106.20,320.87 108.55,319.78 110.90,318.66 113.25,317.55 115.60,316.44 117.95,315.36 120.30,314.32 122.65,313.33 125.00,312.40 127.35,311.55 129.70,310.79 132.05,310.12 134.40,309.56 136.75,309.11 139.10,308.79 141.45,308.59 143.80,308.52 146.15,308.59 148.50,308.80 150.85,309.14 153.20,309.63 155.55,310.24 157.90,310.99 160.25,311.87 162.60,312.86 164.95,313.97 167.30,315.18 169.65,316.49 172.00,317.89 174.35,319.35 176.70,320.88 179.05,322.46 181.40,324.07 183.75,325.70 186.10,327.34 188.45,328.98 190.80,330.60 193.15,332.18 195.50,333.72 197.85,335.19 200.20,336.60 202.55,337.92 204.90,339.15 207.25,340.27 209.60,341.28 211.95,342.17 214.30,342.93 216.65,343.56 219.00,344.05 221.35,344.41 223.70,344.62 226.05,344.69 228.40,344.62 230.75,344.41 233.10,344.07 235.45,343.61 237.80,343.02 240.15,342.32 242.50,341.52 244.85,340.62 247.20,339.64 249.55,338.59 251.90,337.48 254.25,336.32 256.60,335.13 258.95,333.92 261.30,332.70 263.65,331.49 266.00,330.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="31.00,292.10 33.35,296.26 35.70,300.25 38.05,304.06 40.40,307.66 42.75,311.03 45.10,314.16 47.45,317.03 49.80,319.65 52.15,322.01 54.50,324.10 56.85,325.92 59.20,327.48 61.55,328.79 63.90,329.84 66.25,330.64 68.60,331.22 70.95,331.57 73.30,331.70 75.65,331.64 78.00,331.39 80.35,330.97 82.70,330.40 85.05,329.69 87.40,328.85 89.75,327.91 92.10,326.87 94.45,325.76 96.80,324.59 99.15,323.38 101.50,322.14 103.85,320.89 106.20,319.64 108.55,318.41 110.90,317.21 113.25,316.06 115.60,314.96 117.95,313.93 120.30,312.98 122.65,312.11 125.00,311.35 127.35,310.68 129.70,310.13 132.05,309.69 134.40,309.38 136.75,309.19 139.10,309.13 141.45,309.19 143.80,309.39 146.15,309.71 148.50,310.16 150.85,310.74 153.20,311.43 155.55,312.24 157.90,313.16 160.25,314.17 162.60,315.29 164.95,316.49 167.30,317.77 169.65,319.11 172.00,320.51 174.35,321.96 176.70,323.44 179.05,324.94 181.40,326.46 183.75,327.97 186.10,329.46 188.45,330.92 190.80,332.35 193.15,333.72 195.50,335.02 197.85,336.25 200.20,337.39 202.55,338.42 204.90,339.35 207.25,340.16 209.60,340.85 211.95,341.40 214.30,341.82 216.65,342.10 219.00,342.23 221.35,342.23 223.70,342.09 226.05,341.81 228.40,341.41 230.75,340.90 233.10,340.28 235.45,339.57 237.80,338.80 240.15,337.99 242.50,337.16 244.85,336.35 247.20,335.59 249.55,334.92 251.90,334.38 254.25,334.02 256.60,333.91 258.95,334.10 261.30,334.65 263.65,335.64 266.00,337.14"/>
+<circle cx="50.50" cy="318.81" r="3" fill="currentColor"/>
+<circle cx="53.92" cy="325.45" r="3" fill="currentColor"/>
+<circle cx="63.46" cy="329.99" r="3" fill="currentColor"/>
+<circle cx="89.03" cy="326.48" r="3" fill="currentColor"/>
+<circle cx="108.89" cy="319.62" r="3" fill="currentColor"/>
+<circle cx="180.38" cy="326.17" r="3" fill="currentColor"/>
+<circle cx="188.91" cy="328.99" r="3" fill="currentColor"/>
+<circle cx="209.89" cy="344.69" r="3" fill="currentColor"/>
+<circle cx="220.55" cy="340.01" r="3" fill="currentColor"/>
+<circle cx="261.94" cy="334.94" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-degrees-280-196-280-196-9차"><rect x="311" y="226" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="311" y="215">9차</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="311.0" x2="311.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="311.0" y="384" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="428.5" x2="428.5" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="428.5" y="384" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="546.0" x2="546.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="546.0" y="384" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="364.0" y2="364.0"/>
+<text class="fig-text" style="font-size:14px" x="304" y="369.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="322.6" y2="322.6"/>
+<text class="fig-text" style="font-size:14px" x="304" y="327.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="281.2" y2="281.2"/>
+<text class="fig-text" style="font-size:14px" x="304" y="286.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="239.8" y2="239.8"/>
+<text class="fig-text" style="font-size:14px" x="304" y="244.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-degrees-280-196-280-196-9차)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="311.00,307.07 313.35,308.57 315.70,310.09 318.05,311.63 320.40,313.17 322.75,314.70 325.10,316.20 327.45,317.67 329.80,319.09 332.15,320.44 334.50,321.72 336.85,322.91 339.20,324.01 341.55,325.00 343.90,325.88 346.25,326.63 348.60,327.26 350.95,327.77 353.30,328.14 355.65,328.37 358.00,328.47 360.35,328.44 362.70,328.27 365.05,327.98 367.40,327.57 369.75,327.04 372.10,326.40 374.45,325.67 376.80,324.84 379.15,323.94 381.50,322.97 383.85,321.94 386.20,320.87 388.55,319.78 390.90,318.66 393.25,317.55 395.60,316.44 397.95,315.36 400.30,314.32 402.65,313.33 405.00,312.40 407.35,311.55 409.70,310.79 412.05,310.12 414.40,309.56 416.75,309.11 419.10,308.79 421.45,308.59 423.80,308.52 426.15,308.59 428.50,308.80 430.85,309.14 433.20,309.63 435.55,310.24 437.90,310.99 440.25,311.87 442.60,312.86 444.95,313.97 447.30,315.18 449.65,316.49 452.00,317.89 454.35,319.35 456.70,320.88 459.05,322.46 461.40,324.07 463.75,325.70 466.10,327.34 468.45,328.98 470.80,330.60 473.15,332.18 475.50,333.72 477.85,335.19 480.20,336.60 482.55,337.92 484.90,339.15 487.25,340.27 489.60,341.28 491.95,342.17 494.30,342.93 496.65,343.56 499.00,344.05 501.35,344.41 503.70,344.62 506.05,344.69 508.40,344.62 510.75,344.41 513.10,344.07 515.45,343.61 517.80,343.02 520.15,342.32 522.50,341.52 524.85,340.62 527.20,339.64 529.55,338.59 531.90,337.48 534.25,336.32 536.60,335.13 538.95,333.92 541.30,332.70 543.65,331.49 546.00,330.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="311.00,24.39 313.35,106.00 315.70,168.51 318.05,215.75 320.40,250.92 322.75,276.65 325.10,295.10 327.45,308.02 329.80,316.80 332.15,322.57 334.50,326.18 336.85,328.29 339.20,329.41 341.55,329.89 343.90,329.99 346.25,329.88 348.60,329.67 350.95,329.42 353.30,329.15 355.65,328.88 358.00,328.58 360.35,328.25 362.70,327.87 365.05,327.42 367.40,326.90 369.75,326.28 372.10,325.59 374.45,324.82 376.80,323.99 379.15,323.12 381.50,322.23 383.85,321.35 386.20,320.51 388.55,319.72 390.90,319.03 393.25,318.44 395.60,317.98 397.95,317.66 400.30,317.50 402.65,317.49 405.00,317.64 407.35,317.93 409.70,318.35 412.05,318.89 414.40,319.53 416.75,320.23 419.10,320.99 421.45,321.75 423.80,322.51 426.15,323.23 428.50,323.90 430.85,324.48 433.20,324.97 435.55,325.36 437.90,325.64 440.25,325.82 442.60,325.90 444.95,325.91 447.30,325.86 449.65,325.79 452.00,325.73 454.35,325.71 456.70,325.79 459.05,325.99 461.40,326.35 463.75,326.92 466.10,327.71 468.45,328.76 470.80,330.05 473.15,331.60 475.50,333.37 477.85,335.31 480.20,337.37 482.55,339.45 484.90,341.43 487.25,343.19 489.60,344.56 491.95,345.35 494.30,345.36 496.65,344.39 499.00,342.21 501.35,338.61 503.70,333.38 506.05,326.36 508.40,317.42 510.75,306.51 513.10,293.68 515.45,279.10 517.80,263.09 520.15,246.18 522.50,229.17 524.85,213.12 527.20,199.49 529.55,190.13 531.90,187.44 534.25,194.36 536.60,214.54 538.95,252.44 541.30,313.39 543.65,403.76 546.00,531.11"/>
+<circle cx="330.50" cy="318.81" r="3" fill="currentColor"/>
+<circle cx="333.92" cy="325.45" r="3" fill="currentColor"/>
+<circle cx="343.46" cy="329.99" r="3" fill="currentColor"/>
+<circle cx="369.03" cy="326.48" r="3" fill="currentColor"/>
+<circle cx="388.89" cy="319.62" r="3" fill="currentColor"/>
+<circle cx="460.38" cy="326.17" r="3" fill="currentColor"/>
+<circle cx="468.91" cy="328.99" r="3" fill="currentColor"/>
+<circle cx="489.89" cy="344.69" r="3" fill="currentColor"/>
+<circle cx="500.55" cy="340.01" r="3" fill="currentColor"/>
+<circle cx="541.94" cy="334.94" r="3" fill="currentColor"/>
+</g>
+</svg><figcaption>점은 관측값, 점선은 생성 함수, 실선은 ML 곡선이에요. 네 그림의 눈금은 같고 9차 곡선의 두 끝은 표시 범위를 벗어나요.</figcaption></figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">차수 $M$</th><th scope="col">학습점 10개의 잔차제곱합</th><th scope="col">$x=-5$에서의 예측값</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">2</th><td>1.586</td><td>−0.011</td></tr>
+        <tr><th scope="row">4</th><td>0.320</td><td>1.808</td></tr>
+        <tr><th scope="row">6</th><td>0.184</td><td>2.210</td></tr>
+        <tr><th scope="row">9</th><td>거의 0</td><td>21.61</td></tr>
+      </tbody>
+    </table></div>
+    <p>9차의 21.61은 직선의 $(1,x)$를 $(1,x,\ldots,x^9)$로 늘리고, 학습한 10개 계수 $\hat\theta_0,\ldots,\hat\theta_9$에 $x=-5$를 대입한 값이에요. 절편은 $\hat\theta_0$이고 뒤의 각 계수가 대응하는 거듭제곱에 곱해져요.</p>
+    $$\hat f_9(-5)=\sum_{k=0}^{9}\hat\theta_k(-5)^k\approx 21.61$$
+    <p>실습에서는 관측을 만들 때 쓴 잡음 없는 함수 $g(x)=-\sin(x/5)+\cos(x)$를 알고 있어요. 그래서 같은 입력에서 $g(-5)\approx1.13$과 바로 비교할 수 있어요. 학습에 쓴 $y_n$에는 잡음이 섞여 있으므로, $g$에 가까운지와 학습점의 $y_n$에 가까운지는 다른 기준이에요.</p>
+    <p>일반적으로 차수 $M$은 가장 높은 거듭제곱이고, 설계행렬의 각 행은 $(1,x_n,\ldots,x_n^M)$이 돼요. 직선에 쓴 것과 같은 최소제곱으로 $M+1$개 계수를 골라요. 새 계수를 0으로 놓으면 낮은 차수도 그대로 표현할 수 있어서, 차수를 늘려 구한 최소 학습 오차는 커지지 않아요.</p>
+    <p>서로 다른 입력 10개에 9차를 쓰면 계수 10개로 학습점 모두를 통과하는 다항식을 만들 수 있어요. 이번에는 관측에 섞인 잡음까지 따라가면서 관측 범위 끝에서 곡선이 크게 흔들렸어요. 학습 데이터의 오차는 작지만 새 입력에 잘 일반화되지 않는 현상이 과적합(overfitting)이에요.</p>
+    <p>9차로 표현할 수 있는 곡선은 그대로 두고, 계수를 고르는 기준을 바꾸어 끝에서 크게 흔들리는 곡선을 덜 선호하게 만들 수 있을까요?</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">같은 10개 점에서 9차의 학습 오차는 거의 0이지만, 새 입력 $x=-5$에서 21.61을 내놓아 생성 함수의 1.13과 크게 벌어져요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>다항식 차수(degree)</dt><dd>가장 높은 거듭제곱의 지수예요. $M$차에서는 절편을 포함해 계수 $M+1$개를 맞춰요.</dd>
+      <dt>과적합(overfitting)</dt><dd>학습점은 잘 맞추지만 새 입력에 잘 일반화되지 않는 현상이에요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">9차 곡선의 끝점 예측</span>$$\hat f_9(-5)=\sum_{k=0}^{9}\hat\theta_k(-5)^k\approx 21.61$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s1"><h2>2. MAP과 정규화</h2>
+<article class="topic" id="s1-ridge">
+  <h3>계수의 크기에 비용을 붙이기</h3>
+  <div class="tags"><span class="tag date">1123 실습</span><span class="tag slide">TA 실습 12–13쪽</span><span class="tag">MML §9.2</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p class="lead">같은 점 10개에 같은 9차 모델을 쓰면서, 왼쪽 끝에서 튀는 예측을 줄일 수 있을까요? 계수 크기에도 비용을 매기면, 훈련 오차를 조금 허용하는 대신 큰 계수에 기대는 해를 피할 수 있어요.</p>
+    <p>실습 데이터를 다시 계산하면, $x=-5$에서 기준 함수의 값은 1.13이에요. 9차 ML의 예측은 21.61이고, 같은 9차 모델에 정규화 강도 $\lambda=0.01$을 적용한 MAP의 예측은 3.19예요. 두 계산 모두 $z=x/5$를 써요. $x=-5$이면 $z=-1$이므로, 두 곡선의 예측값을 읽는 연산은 같아요.</p>
+    $$f_{\boldsymbol{\theta}}(-5)=\sum_{k=0}^{9}\theta_k(-1)^k$$
+    <p>달라진 것은 계수 열벡터 $\boldsymbol{\theta}=(\theta_0,\ldots,\theta_9)^\top$를 고르는 기준이에요. 관측값을 모은 $\mathbf y$와 예측값 $\Phi\boldsymbol{\theta}$의 차이만 제곱해 더하던 ML 목적함수에 계수 제곱합 $\sum_{k=0}^{9}\theta_k^2$의 비용을 더해요. $\Phi$의 한 행은 한 입력 $z_n$에서의 $(1,z_n,\ldots,z_n^9)$예요.</p>
+    $$J_\lambda(\boldsymbol{\theta})=\|\mathbf y-\Phi\boldsymbol{\theta}\|^2+\lambda\|\boldsymbol{\theta}\|^2$$
+    <p>같은 기준 $J_{0.01}$으로 두 해를 비교해 볼게요. ML 해는 훈련 잔차제곱합(RSS)이 거의 0이지만, $0.01$을 곱한 계수 비용은 약 3,589.46이에요. MAP 해는 $0.346+0.01\cdot21.962\approx0.566$이에요. 앞 항만 보면 ML 해의 값이 작고, 두 항을 더하면 MAP 해의 값이 훨씬 작아져요.</p>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">계수를 구할 때의 $\lambda$</th><th scope="col">훈련 RSS</th><th scope="col">계수 제곱합</th><th scope="col">$x=-5$ 예측</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0</th><td>≈0</td><td>358945.908</td><td>21.61</td></tr>
+            <tr><th scope="row">0.01</th><td>0.346</td><td>21.962</td><td>3.19</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>두 해를 평가할 때는 같은 $\lambda=0.01$을 사용했어요. 첫 행은 $0+0.01\cdot358945.908\approx3589.459$, 둘째 행은 $0.346+0.01\cdot21.962\approx0.566$이에요.</p>
+    </div>
+    <nav class="note-stage-nav" aria-label="계산 단계">
+      <a href="#s1-ridge-objective" aria-current="step">1. 사전분포에서 비용으로</a>
+      <a href="#s1-ridge-equation">2. 행 미분에서 계수로</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-ridge-objective"><span class="note-stage-number">1 / 2</span> <span>가우시안 사전분포에서 비용 읽기</span></h4>
+      <p class="note-stage-goal">왜 계수를 제곱하고 $\lambda$를 곱할까요? 관측 우도와 사전밀도가 사후밀도에 각각 어떤 항을 보태는지 확인해요.</p>
+      <p>관측한 입력·출력 쌍을 모아 $\mathcal D$라고 써요. 독립 가우시안 잡음의 표준편차가 $\sigma$이면, 잔차제곱합이 커질수록 관측 우도가 낮아져요. 계수의 사전분포를 $\mathcal N(\mathbf 0,\gamma^2 I)$로 두면 각 계수의 사전 표준편차가 $\gamma$예요. 계수가 0에서 멀수록 사전밀도가 낮아지고, 그 감소가 $\|\boldsymbol{\theta}\|^2/(2\gamma^2)$에 들어가요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$p(\boldsymbol{\theta}\mid\mathcal D)\propto p(\mathbf y\mid\Phi,\boldsymbol{\theta})\,p(\boldsymbol{\theta})$$</div><div class="deriv-why"><p>관측의 우도에 계수의 사전밀도를 곱해요.</p></div></li>
+          <li><div class="deriv-eq">$$\frac{\|\mathbf y-\Phi\boldsymbol{\theta}\|^2}{2\sigma^2}+\frac{\|\boldsymbol{\theta}\|^2}{2\gamma^2}$$</div><div class="deriv-why"><p>음의 로그를 취해 곱을 더하기로 바꾸고, 계수와 무관한 상수를 빼요.</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$J_\lambda(\boldsymbol{\theta})=\|\mathbf y-\Phi\boldsymbol{\theta}\|^2+\lambda\|\boldsymbol{\theta}\|^2$$</div><div class="deriv-why"><p>양수 $2\sigma^2$를 곱해도 최소점은 같아요. $\lambda=\sigma^2/\gamma^2$예요.</p></div></li>
+        </ol>
+      </div>
+      <p class="note-stage-result">같은 잡음에서 $\gamma$를 작게 두면 사전분포가 0에 더 모이고, $\lambda$가 커져 큰 계수에 더 큰 비용이 붙어요. 이제 이 비용이 정규방정식에서 어느 자리에 들어가는지 구해요.</p>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-ridge-equation"><span class="note-stage-number">2 / 2</span> <span>미분해 MAP 계수 구하기</span></h4>
+      <p class="note-stage-goal">훈련 자료와 $\lambda$를 고정하고, 스칼라 비용이 최소가 되는 계수 열벡터를 찾아요. 먼저 계수에 대한 행벡터 미분을 0으로 놓아요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\frac{1}{2}\frac{\partial J_\lambda}{\partial\boldsymbol{\theta}}=(\Phi\boldsymbol{\theta}-\mathbf y)^\top\Phi+\lambda\boldsymbol{\theta}^\top$$</div><div class="deriv-why"><p>두 제곱합을 미분하고 공통인 2로 나눠요. 결과는 $1\times10$이에요.</p></div></li>
+          <li><div class="deriv-eq">$$0_{1\times10}=(\Phi\boldsymbol{\theta}-\mathbf y)^\top\Phi+\lambda\boldsymbol{\theta}^\top$$</div><div class="deriv-why"><p>최소점에서 행 미분을 0으로 놓아요.</p></div></li>
+          <li><div class="deriv-eq">$$0_{1\times10}=\boldsymbol{\theta}^\top\Phi^\top\Phi-\mathbf y^\top\Phi+\lambda\boldsymbol{\theta}^\top$$</div><div class="deriv-why"><p>잔차 항을 계수 항과 관측값 항으로 펼쳐요.</p></div></li>
+          <li><div class="deriv-eq">$$\boldsymbol{\theta}^\top\Phi^\top\Phi+\lambda\boldsymbol{\theta}^\top=\mathbf y^\top\Phi$$</div><div class="deriv-why"><p>관측값이 들어간 항을 오른쪽으로 옮겨요.</p></div></li>
+          <li><div class="deriv-eq">$$\Phi^\top\Phi\boldsymbol{\theta}+\lambda\boldsymbol{\theta}=\Phi^\top\mathbf y$$</div><div class="deriv-why"><p>양변을 전치해 $10\times1$ 열벡터 방정식을 얻어요.</p></div></li>
+          <li><div class="deriv-eq">$$(\Phi^\top\Phi+\lambda I)\boldsymbol{\theta}=\Phi^\top\mathbf y$$</div><div class="deriv-why"><p>$I=I_{10}$을 써서 두 항의 공통 열벡터를 묶어요.</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\widehat{\boldsymbol{\theta}}_{\mathrm{MAP}}=(\Phi^\top\Phi+\lambda I)^{-1}\Phi^\top\mathbf y$$</div><div class="deriv-why"><p>$\lambda\gt0$이면 왼쪽 행렬은 양의 정부호라 유일한 최소점을 구할 수 있어요.</p></div></li>
+        </ol>
+      </div>
+      <p class="note-stage-result">어떤 0이 아닌 열벡터 $\mathbf u$로 확인해도 이 행렬의 이차식은 $\|\Phi\mathbf u\|^2+\lambda\|\mathbf u\|^2\gt0$이에요. 이 실습의 $\lambda I$는 $\theta_0$에도 비용을 붙여요. $\|\boldsymbol{\theta}\|^2$의 합이 $k=0$에서 시작하고, $I$의 첫 대각 원소도 1이기 때문이에요.</p>
+    </div>
+    <div class="calc-box"><p class="calc-label">계산 확인</p><p>$\sigma^2=1$인 중간고사 6(b)는 사전공분산이 $I_2$라 $\gamma^2=1$이에요. 그래서 $\lambda=1$이에요. 6(a)에서 구한 $\Phi^\top\Phi$에 $I_2$를 더해 대각선이 $(4,3)$이 돼요. 같은 우변 $(4,3)^\top$을 쓰면 MAP 해는 $(1,1)^\top$이에요.</p></div>
+    <p>입력 스케일링과 정규화의 역할도 나눠서 기억해요. $z=x/5$는 거듭제곱 열의 숫자 크기를 줄여 계산을 다루기 쉽게 해요. $x^k$의 계수에 $5^k$를 곱하면 같은 곡선을 $z^k$로 표현할 수 있어요. 정규화는 그 $z$ 기저에서 계수가 작도록 해를 골라요. 따라서 $x$ 기저에 같은 $\lambda$를 쓰면 같은 곡선에 매기는 비용이 달라질 수 있어요.</p>
+    <p>그럼 같은 설계행렬에서 <a href="#s1-lambda">정규화 강도만 바꾸면</a>, 계수 크기와 훈련 오차가 어떻게 움직일까요?</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">같은 9차 모델에서 $\lambda=0.01$을 쓰면 $x=-5$ 예측이 21.61에서 3.19로 바뀌어요. 훈련 오차를 조금 허용해 큰 계수의 비용을 줄인 결과예요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>최대 사후 추정(MAP)</dt><dd>관측 우도와 사전밀도의 곱을 최대화하는 계수 벡터 하나를 골라요.</dd>
+      <dt>정규화(regularization)</dt><dd>이 실습에서는 상수항을 포함한 계수의 제곱합에 비용을 붙여요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">MAP 비용</span>$$J_\lambda(\boldsymbol{\theta})=\|\mathbf y-\Phi\boldsymbol{\theta}\|^2+\lambda\|\boldsymbol{\theta}\|^2$$</li>
+      <li><span class="eq-name">정규화 강도</span>$$\lambda=\sigma^2/\gamma^2$$</li>
+      <li><span class="eq-name">MAP 정규방정식</span>$$(\Phi^\top\Phi+\lambda I)\boldsymbol{\theta}=\Phi^\top\mathbf y$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s1-lambda">
+  <h3>차수는 그대로 두고 정규화 강도만 바꾸기</h3>
+  <div class="tags"><span class="tag date">1123 실습</span><span class="tag slide">TA 실습 14쪽</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p class="lead">계수에 더 큰 비용을 매기면 어디까지 도움이 될까요? 점 10개와 9차식, $z=x/5$를 고정하고 $\lambda$만 0.0001, 0.01, 0.1, 1로 바꿔요.</p>
+    <figure class="figure"><svg id="fig-lambda-comparison" viewBox="0 0 560 392" role="img" style="max-width:560px" aria-label="동일한 9차 모델의 정규화 강도 네 가지를 비교한 그래프. 강해질수록 곡선이 평평해진다.">
+<defs><clipPath id="clip-lambda-0-0-280-196-lambda=0.0001"><rect x="31" y="30" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="31" y="19">λ=0.0001</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="31.0" x2="31.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="31.0" y="188" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="148.5" x2="148.5" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="148.5" y="188" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="266.0" x2="266.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="266.0" y="188" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="168.0" y2="168.0"/>
+<text class="fig-text" style="font-size:14px" x="24" y="173.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="126.6" y2="126.6"/>
+<text class="fig-text" style="font-size:14px" x="24" y="131.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="85.2" y2="85.2"/>
+<text class="fig-text" style="font-size:14px" x="24" y="90.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="43.8" y2="43.8"/>
+<text class="fig-text" style="font-size:14px" x="24" y="48.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-lambda-0-0-280-196-lambda=0.0001)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="31.00,111.07 33.35,112.57 35.70,114.09 38.05,115.63 40.40,117.17 42.75,118.70 45.10,120.20 47.45,121.67 49.80,123.09 52.15,124.44 54.50,125.72 56.85,126.91 59.20,128.01 61.55,129.00 63.90,129.88 66.25,130.63 68.60,131.26 70.95,131.77 73.30,132.14 75.65,132.37 78.00,132.47 80.35,132.44 82.70,132.27 85.05,131.98 87.40,131.57 89.75,131.04 92.10,130.40 94.45,129.67 96.80,128.84 99.15,127.94 101.50,126.97 103.85,125.94 106.20,124.87 108.55,123.78 110.90,122.66 113.25,121.55 115.60,120.44 117.95,119.36 120.30,118.32 122.65,117.33 125.00,116.40 127.35,115.55 129.70,114.79 132.05,114.12 134.40,113.56 136.75,113.11 139.10,112.79 141.45,112.59 143.80,112.52 146.15,112.59 148.50,112.80 150.85,113.14 153.20,113.63 155.55,114.24 157.90,114.99 160.25,115.87 162.60,116.86 164.95,117.97 167.30,119.18 169.65,120.49 172.00,121.89 174.35,123.35 176.70,124.88 179.05,126.46 181.40,128.07 183.75,129.70 186.10,131.34 188.45,132.98 190.80,134.60 193.15,136.18 195.50,137.72 197.85,139.19 200.20,140.60 202.55,141.92 204.90,143.15 207.25,144.27 209.60,145.28 211.95,146.17 214.30,146.93 216.65,147.56 219.00,148.05 221.35,148.41 223.70,148.62 226.05,148.69 228.40,148.62 230.75,148.41 233.10,148.07 235.45,147.61 237.80,147.02 240.15,146.32 242.50,145.52 244.85,144.62 247.20,143.64 249.55,142.59 251.90,141.48 254.25,140.32 256.60,139.13 258.95,137.92 261.30,136.70 263.65,135.49 266.00,134.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="31.00,42.51 33.35,59.85 35.70,74.44 38.05,86.65 40.40,96.83 42.75,105.26 45.10,112.18 47.45,117.83 49.80,122.38 52.15,126.02 54.50,128.86 56.85,131.05 59.20,132.68 61.55,133.85 63.90,134.63 66.25,135.08 68.60,135.26 70.95,135.22 73.30,134.99 75.65,134.61 78.00,134.10 80.35,133.50 82.70,132.81 85.05,132.06 87.40,131.25 89.75,130.41 92.10,129.54 94.45,128.65 96.80,127.76 99.15,126.85 101.50,125.95 103.85,125.06 106.20,124.19 108.55,123.34 110.90,122.51 113.25,121.72 115.60,120.97 117.95,120.26 120.30,119.60 122.65,118.99 125.00,118.44 127.35,117.95 129.70,117.53 132.05,117.19 134.40,116.92 136.75,116.73 139.10,116.62 141.45,116.61 143.80,116.68 146.15,116.84 148.50,117.11 150.85,117.46 153.20,117.92 155.55,118.47 157.90,119.12 160.25,119.87 162.60,120.72 164.95,121.65 167.30,122.68 169.65,123.78 172.00,124.97 174.35,126.23 176.70,127.55 179.05,128.93 181.40,130.35 183.75,131.80 186.10,133.28 188.45,134.75 190.80,136.22 193.15,137.66 195.50,139.06 197.85,140.39 200.20,141.64 202.55,142.78 204.90,143.80 207.25,144.66 209.60,145.36 211.95,145.88 214.30,146.18 216.65,146.25 219.00,146.09 221.35,145.67 223.70,145.00 226.05,144.07 228.40,142.88 230.75,141.46 233.10,139.82 235.45,138.00 237.80,136.06 240.15,134.07 242.50,132.10 244.85,130.28 247.20,128.73 249.55,127.63 251.90,127.18 254.25,127.60 256.60,129.17 258.95,132.24 261.30,137.17 263.65,144.41 266.00,154.46"/>
+<circle cx="50.50" cy="122.81" r="3" fill="currentColor"/>
+<circle cx="53.92" cy="129.45" r="3" fill="currentColor"/>
+<circle cx="63.46" cy="133.99" r="3" fill="currentColor"/>
+<circle cx="89.03" cy="130.48" r="3" fill="currentColor"/>
+<circle cx="108.89" cy="123.62" r="3" fill="currentColor"/>
+<circle cx="180.38" cy="130.17" r="3" fill="currentColor"/>
+<circle cx="188.91" cy="132.99" r="3" fill="currentColor"/>
+<circle cx="209.89" cy="148.69" r="3" fill="currentColor"/>
+<circle cx="220.55" cy="144.01" r="3" fill="currentColor"/>
+<circle cx="261.94" cy="138.94" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-lambda-280-0-280-196-lambda=0.01"><rect x="311" y="30" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="311" y="19">λ=0.01</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="311.0" x2="311.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="311.0" y="188" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="428.5" x2="428.5" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="428.5" y="188" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="546.0" x2="546.0" y1="30" y2="168"/>
+<text class="fig-text" style="font-size:14px" x="546.0" y="188" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="168.0" y2="168.0"/>
+<text class="fig-text" style="font-size:14px" x="304" y="173.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="126.6" y2="126.6"/>
+<text class="fig-text" style="font-size:14px" x="304" y="131.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="85.2" y2="85.2"/>
+<text class="fig-text" style="font-size:14px" x="304" y="90.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="43.8" y2="43.8"/>
+<text class="fig-text" style="font-size:14px" x="304" y="48.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-lambda-280-0-280-196-lambda=0.01)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="311.00,111.07 313.35,112.57 315.70,114.09 318.05,115.63 320.40,117.17 322.75,118.70 325.10,120.20 327.45,121.67 329.80,123.09 332.15,124.44 334.50,125.72 336.85,126.91 339.20,128.01 341.55,129.00 343.90,129.88 346.25,130.63 348.60,131.26 350.95,131.77 353.30,132.14 355.65,132.37 358.00,132.47 360.35,132.44 362.70,132.27 365.05,131.98 367.40,131.57 369.75,131.04 372.10,130.40 374.45,129.67 376.80,128.84 379.15,127.94 381.50,126.97 383.85,125.94 386.20,124.87 388.55,123.78 390.90,122.66 393.25,121.55 395.60,120.44 397.95,119.36 400.30,118.32 402.65,117.33 405.00,116.40 407.35,115.55 409.70,114.79 412.05,114.12 414.40,113.56 416.75,113.11 419.10,112.79 421.45,112.59 423.80,112.52 426.15,112.59 428.50,112.80 430.85,113.14 433.20,113.63 435.55,114.24 437.90,114.99 440.25,115.87 442.60,116.86 444.95,117.97 447.30,119.18 449.65,120.49 452.00,121.89 454.35,123.35 456.70,124.88 459.05,126.46 461.40,128.07 463.75,129.70 466.10,131.34 468.45,132.98 470.80,134.60 473.15,136.18 475.50,137.72 477.85,139.19 480.20,140.60 482.55,141.92 484.90,143.15 487.25,144.27 489.60,145.28 491.95,146.17 494.30,146.93 496.65,147.56 499.00,148.05 501.35,148.41 503.70,148.62 506.05,148.69 508.40,148.62 510.75,148.41 513.10,148.07 515.45,147.61 517.80,147.02 520.15,146.32 522.50,145.52 524.85,144.62 527.20,143.64 529.55,142.59 531.90,141.48 534.25,140.32 536.60,139.13 538.95,137.92 541.30,136.70 543.65,135.49 546.00,134.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="311.00,82.58 313.35,91.18 315.70,98.59 318.05,104.94 320.40,110.35 322.75,114.93 325.10,118.78 327.45,121.98 329.80,124.62 332.15,126.76 334.50,128.46 336.85,129.79 339.20,130.79 341.55,131.52 343.90,132.00 346.25,132.28 348.60,132.39 350.95,132.36 353.30,132.21 355.65,131.96 358.00,131.64 360.35,131.25 362.70,130.82 365.05,130.36 367.40,129.87 369.75,129.37 372.10,128.87 374.45,128.37 376.80,127.88 379.15,127.41 381.50,126.95 383.85,126.52 386.20,126.11 388.55,125.73 390.90,125.38 393.25,125.07 395.60,124.78 397.95,124.54 400.30,124.32 402.65,124.15 405.00,124.01 407.35,123.91 409.70,123.85 412.05,123.83 414.40,123.85 416.75,123.90 419.10,123.99 421.45,124.12 423.80,124.29 426.15,124.50 428.50,124.75 430.85,125.03 433.20,125.35 435.55,125.71 437.90,126.11 440.25,126.54 442.60,127.01 444.95,127.52 447.30,128.05 449.65,128.63 452.00,129.24 454.35,129.88 456.70,130.55 459.05,131.26 461.40,132.00 463.75,132.76 466.10,133.56 468.45,134.38 470.80,135.22 473.15,136.09 475.50,136.98 477.85,137.88 480.20,138.80 482.55,139.73 484.90,140.67 487.25,141.61 489.60,142.55 491.95,143.49 494.30,144.40 496.65,145.30 499.00,146.17 501.35,147.00 503.70,147.78 506.05,148.51 508.40,149.16 510.75,149.73 513.10,150.19 515.45,150.54 517.80,150.76 520.15,150.82 522.50,150.70 524.85,150.38 527.20,149.82 529.55,149.01 531.90,147.91 534.25,146.48 536.60,144.69 538.95,142.50 541.30,139.86 543.65,136.72 546.00,133.03"/>
+<circle cx="330.50" cy="122.81" r="3" fill="currentColor"/>
+<circle cx="333.92" cy="129.45" r="3" fill="currentColor"/>
+<circle cx="343.46" cy="133.99" r="3" fill="currentColor"/>
+<circle cx="369.03" cy="130.48" r="3" fill="currentColor"/>
+<circle cx="388.89" cy="123.62" r="3" fill="currentColor"/>
+<circle cx="460.38" cy="130.17" r="3" fill="currentColor"/>
+<circle cx="468.91" cy="132.99" r="3" fill="currentColor"/>
+<circle cx="489.89" cy="148.69" r="3" fill="currentColor"/>
+<circle cx="500.55" cy="144.01" r="3" fill="currentColor"/>
+<circle cx="541.94" cy="138.94" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-lambda-0-196-280-196-lambda=0.1"><rect x="31" y="226" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="31" y="215">λ=0.1</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="31.0" x2="31.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="31.0" y="384" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="148.5" x2="148.5" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="148.5" y="384" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="266.0" x2="266.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="266.0" y="384" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="364.0" y2="364.0"/>
+<text class="fig-text" style="font-size:14px" x="24" y="369.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="322.6" y2="322.6"/>
+<text class="fig-text" style="font-size:14px" x="24" y="327.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="281.2" y2="281.2"/>
+<text class="fig-text" style="font-size:14px" x="24" y="286.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="31" x2="266" y1="239.8" y2="239.8"/>
+<text class="fig-text" style="font-size:14px" x="24" y="244.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-lambda-0-196-280-196-lambda=0.1)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="31.00,307.07 33.35,308.57 35.70,310.09 38.05,311.63 40.40,313.17 42.75,314.70 45.10,316.20 47.45,317.67 49.80,319.09 52.15,320.44 54.50,321.72 56.85,322.91 59.20,324.01 61.55,325.00 63.90,325.88 66.25,326.63 68.60,327.26 70.95,327.77 73.30,328.14 75.65,328.37 78.00,328.47 80.35,328.44 82.70,328.27 85.05,327.98 87.40,327.57 89.75,327.04 92.10,326.40 94.45,325.67 96.80,324.84 99.15,323.94 101.50,322.97 103.85,321.94 106.20,320.87 108.55,319.78 110.90,318.66 113.25,317.55 115.60,316.44 117.95,315.36 120.30,314.32 122.65,313.33 125.00,312.40 127.35,311.55 129.70,310.79 132.05,310.12 134.40,309.56 136.75,309.11 139.10,308.79 141.45,308.59 143.80,308.52 146.15,308.59 148.50,308.80 150.85,309.14 153.20,309.63 155.55,310.24 157.90,310.99 160.25,311.87 162.60,312.86 164.95,313.97 167.30,315.18 169.65,316.49 172.00,317.89 174.35,319.35 176.70,320.88 179.05,322.46 181.40,324.07 183.75,325.70 186.10,327.34 188.45,328.98 190.80,330.60 193.15,332.18 195.50,333.72 197.85,335.19 200.20,336.60 202.55,337.92 204.90,339.15 207.25,340.27 209.60,341.28 211.95,342.17 214.30,342.93 216.65,343.56 219.00,344.05 221.35,344.41 223.70,344.62 226.05,344.69 228.40,344.62 230.75,344.41 233.10,344.07 235.45,343.61 237.80,343.02 240.15,342.32 242.50,341.52 244.85,340.62 247.20,339.64 249.55,338.59 251.90,337.48 254.25,336.32 256.60,335.13 258.95,333.92 261.30,332.70 263.65,331.49 266.00,330.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="31.00,315.98 33.35,317.45 35.70,318.72 38.05,319.82 40.40,320.76 42.75,321.57 45.10,322.25 47.45,322.81 49.80,323.29 52.15,323.67 54.50,323.98 56.85,324.23 59.20,324.42 61.55,324.56 63.90,324.66 66.25,324.73 68.60,324.77 70.95,324.78 73.30,324.77 75.65,324.75 78.00,324.72 80.35,324.68 82.70,324.64 85.05,324.59 87.40,324.54 89.75,324.49 92.10,324.45 94.45,324.41 96.80,324.37 99.15,324.35 101.50,324.32 103.85,324.31 106.20,324.31 108.55,324.32 110.90,324.34 113.25,324.36 115.60,324.40 117.95,324.45 120.30,324.52 122.65,324.59 125.00,324.68 127.35,324.78 129.70,324.89 132.05,325.01 134.40,325.15 136.75,325.30 139.10,325.47 141.45,325.64 143.80,325.83 146.15,326.03 148.50,326.25 150.85,326.48 153.20,326.72 155.55,326.98 157.90,327.25 160.25,327.54 162.60,327.84 164.95,328.15 167.30,328.48 169.65,328.82 172.00,329.17 174.35,329.54 176.70,329.92 179.05,330.32 181.40,330.73 183.75,331.15 186.10,331.59 188.45,332.04 190.80,332.50 193.15,332.97 195.50,333.46 197.85,333.95 200.20,334.45 202.55,334.96 204.90,335.48 207.25,336.00 209.60,336.53 211.95,337.05 214.30,337.57 216.65,338.09 219.00,338.60 221.35,339.09 223.70,339.56 226.05,340.01 228.40,340.42 230.75,340.80 233.10,341.12 235.45,341.39 237.80,341.60 240.15,341.72 242.50,341.74 244.85,341.66 247.20,341.45 249.55,341.09 251.90,340.57 254.25,339.85 256.60,338.91 258.95,337.72 261.30,336.26 263.65,334.47 266.00,332.33"/>
+<circle cx="50.50" cy="318.81" r="3" fill="currentColor"/>
+<circle cx="53.92" cy="325.45" r="3" fill="currentColor"/>
+<circle cx="63.46" cy="329.99" r="3" fill="currentColor"/>
+<circle cx="89.03" cy="326.48" r="3" fill="currentColor"/>
+<circle cx="108.89" cy="319.62" r="3" fill="currentColor"/>
+<circle cx="180.38" cy="326.17" r="3" fill="currentColor"/>
+<circle cx="188.91" cy="328.99" r="3" fill="currentColor"/>
+<circle cx="209.89" cy="344.69" r="3" fill="currentColor"/>
+<circle cx="220.55" cy="340.01" r="3" fill="currentColor"/>
+<circle cx="261.94" cy="334.94" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-lambda-280-196-280-196-lambda=1.0"><rect x="311" y="226" width="235" height="138"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="311" y="215">λ=1.0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="311.0" x2="311.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="311.0" y="384" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="428.5" x2="428.5" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="428.5" y="384" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="546.0" x2="546.0" y1="226" y2="364"/>
+<text class="fig-text" style="font-size:14px" x="546.0" y="384" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="364.0" y2="364.0"/>
+<text class="fig-text" style="font-size:14px" x="304" y="369.0" text-anchor="end">−3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="322.6" y2="322.6"/>
+<text class="fig-text" style="font-size:14px" x="304" y="327.6" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="281.2" y2="281.2"/>
+<text class="fig-text" style="font-size:14px" x="304" y="286.2" text-anchor="end">3</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="311" x2="546" y1="239.8" y2="239.8"/>
+<text class="fig-text" style="font-size:14px" x="304" y="244.8" text-anchor="end">6</text>
+<g clip-path="url(#clip-lambda-280-196-280-196-lambda=1.0)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="311.00,307.07 313.35,308.57 315.70,310.09 318.05,311.63 320.40,313.17 322.75,314.70 325.10,316.20 327.45,317.67 329.80,319.09 332.15,320.44 334.50,321.72 336.85,322.91 339.20,324.01 341.55,325.00 343.90,325.88 346.25,326.63 348.60,327.26 350.95,327.77 353.30,328.14 355.65,328.37 358.00,328.47 360.35,328.44 362.70,328.27 365.05,327.98 367.40,327.57 369.75,327.04 372.10,326.40 374.45,325.67 376.80,324.84 379.15,323.94 381.50,322.97 383.85,321.94 386.20,320.87 388.55,319.78 390.90,318.66 393.25,317.55 395.60,316.44 397.95,315.36 400.30,314.32 402.65,313.33 405.00,312.40 407.35,311.55 409.70,310.79 412.05,310.12 414.40,309.56 416.75,309.11 419.10,308.79 421.45,308.59 423.80,308.52 426.15,308.59 428.50,308.80 430.85,309.14 433.20,309.63 435.55,310.24 437.90,310.99 440.25,311.87 442.60,312.86 444.95,313.97 447.30,315.18 449.65,316.49 452.00,317.89 454.35,319.35 456.70,320.88 459.05,322.46 461.40,324.07 463.75,325.70 466.10,327.34 468.45,328.98 470.80,330.60 473.15,332.18 475.50,333.72 477.85,335.19 480.20,336.60 482.55,337.92 484.90,339.15 487.25,340.27 489.60,341.28 491.95,342.17 494.30,342.93 496.65,343.56 499.00,344.05 501.35,344.41 503.70,344.62 506.05,344.69 508.40,344.62 510.75,344.41 513.10,344.07 515.45,343.61 517.80,343.02 520.15,342.32 522.50,341.52 524.85,340.62 527.20,339.64 529.55,338.59 531.90,337.48 534.25,336.32 536.60,335.13 538.95,333.92 541.30,332.70 543.65,331.49 546.00,330.30"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="311.00,321.95 313.35,322.22 315.70,322.47 318.05,322.70 320.40,322.91 322.75,323.11 325.10,323.30 327.45,323.48 329.80,323.64 332.15,323.79 334.50,323.94 336.85,324.08 339.20,324.21 341.55,324.34 343.90,324.46 346.25,324.57 348.60,324.68 350.95,324.79 353.30,324.90 355.65,325.00 358.00,325.10 360.35,325.20 362.70,325.30 365.05,325.40 367.40,325.49 369.75,325.59 372.10,325.69 374.45,325.78 376.80,325.88 379.15,325.98 381.50,326.08 383.85,326.18 386.20,326.28 388.55,326.38 390.90,326.48 393.25,326.59 395.60,326.69 397.95,326.80 400.30,326.91 402.65,327.02 405.00,327.14 407.35,327.25 409.70,327.37 412.05,327.49 414.40,327.61 416.75,327.73 419.10,327.86 421.45,327.99 423.80,328.12 426.15,328.25 428.50,328.39 430.85,328.53 433.20,328.67 435.55,328.81 437.90,328.96 440.25,329.11 442.60,329.26 444.95,329.42 447.30,329.58 449.65,329.74 452.00,329.90 454.35,330.07 456.70,330.25 459.05,330.42 461.40,330.60 463.75,330.78 466.10,330.97 468.45,331.16 470.80,331.35 473.15,331.55 475.50,331.75 477.85,331.96 480.20,332.16 482.55,332.37 484.90,332.59 487.25,332.80 489.60,333.02 491.95,333.25 494.30,333.47 496.65,333.69 499.00,333.92 501.35,334.15 503.70,334.37 506.05,334.60 508.40,334.82 510.75,335.04 513.10,335.25 515.45,335.46 517.80,335.66 520.15,335.85 522.50,336.02 524.85,336.18 527.20,336.32 529.55,336.44 531.90,336.54 534.25,336.60 536.60,336.63 538.95,336.62 541.30,336.56 543.65,336.46 546.00,336.29"/>
+<circle cx="330.50" cy="318.81" r="3" fill="currentColor"/>
+<circle cx="333.92" cy="325.45" r="3" fill="currentColor"/>
+<circle cx="343.46" cy="329.99" r="3" fill="currentColor"/>
+<circle cx="369.03" cy="326.48" r="3" fill="currentColor"/>
+<circle cx="388.89" cy="319.62" r="3" fill="currentColor"/>
+<circle cx="460.38" cy="326.17" r="3" fill="currentColor"/>
+<circle cx="468.91" cy="328.99" r="3" fill="currentColor"/>
+<circle cx="489.89" cy="344.69" r="3" fill="currentColor"/>
+<circle cx="500.55" cy="340.01" r="3" fill="currentColor"/>
+<circle cx="541.94" cy="334.94" r="3" fill="currentColor"/>
+</g>
+</svg><figcaption>점은 관측값, 점선은 생성 함수, 실선은 MAP 곡선이에요. 같은 눈금에서 λ만 바꿨어요.</figcaption></figure>
+    <p>가장 약한 $\lambda=0.0001$에서 $x=-5$ 예측은 6.09예요. 알려진 기준 함수의 1.13보다 높아요. 0.01과 0.1에서는 양 끝의 큰 이탈이 완화돼요. $\lambda=1$에서는 왼쪽 예측이 0.05까지 낮아지고 그래프가 필요한 굽힘도 놓쳐요. 이렇게 수축이 지나쳐 구조를 놓치면 과소적합(underfitting)이 생길 수 있어요.</p>
+    <p>왼쪽 끝에서 읽은 값은 $f_{\boldsymbol{\theta}}(-5)=\sum_{k=0}^{9}\theta_k(-1)^k$에 각 $\lambda$로 구한 계수를 넣은 결과예요. 예컨대 $\lambda=0.1$에서 이 합은 약 0.48이고, 그 계수의 목적함수 값은 $J_{0.1}\approx0.917+0.1\cdot3.147$이에요. 두 항을 따로 읽으면 어떤 적합을 내주고 계수 크기를 줄였는지 보여요.</p>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">$\lambda$</th><th scope="col">훈련 RSS</th><th scope="col">계수 제곱합</th><th scope="col">$x=-5$ 예측</th><th scope="col">$x=5$ 예측</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0.0001</th><td>0.110</td><td>445.010</td><td>6.09</td><td>−2.02</td></tr>
+            <tr><th scope="row">0.01</th><td>0.346</td><td>21.962</td><td>3.19</td><td>−0.47</td></tr>
+            <tr><th scope="row">0.1</th><td>0.917</td><td>3.147</td><td>0.48</td><td>−0.71</td></tr>
+            <tr><th scope="row">1</th><td>1.580</td><td>0.514</td><td>0.05</td><td>−0.99</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>같은 데이터에서 오른쪽 끝 기준값은 −0.56이에요. 네 경우 중 왼쪽 끝에서는 0.1이 기준값에 더 가깝고, 오른쪽 끝에서는 0.01이 더 가까워요.</p>
+    </div>
+    <p>표에서는 $\lambda$가 커질수록 계수 제곱합이 작아지는 대신 훈련 RSS가 커져요. 어느 $\lambda$가 좋은지는 새 입력에서 무엇을 기준으로 평가할지에 달렸어요. 이 실습은 합성 데이터라 알려진 기준 함수와 비교할 수 있어요.</p>
+    <p>코드에서는 <code>np.vander</code>로 한 행씩 $1,z,\ldots,z^9$를 만들어요. <code>np.linalg.solve</code>에는 정규방정식의 왼쪽 행렬과 오른쪽 벡터를 넣어요. 평가 입력도 학습 입력처럼 5로 나눠요.</p>
+    <pre style="overflow-x:auto"><code>lam = 0.1
+Phi = np.vander(x / 5, 10, increasing=True)
+lhs = Phi.T @ Phi + lam * np.eye(10)
+rhs = Phi.T @ y
+theta = np.linalg.solve(lhs, rhs)
+x_plot = np.linspace(-5, 5, 300)
+Phi_plot = np.vander(x_plot / 5, 10, increasing=True)
+y_fit = Phi_plot @ theta</code></pre>
+    <p>MAP은 이 절차로 계수 벡터 하나를 골라요. 같은 가우시안 가정을 쓰면서 <a href="#s2-posterior">계수의 분포도 가지고 있으면</a> 어떤 예측을 할 수 있을까요?</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">같은 9차 모델에서도 $\lambda$가 커지면 계수 제곱합이 내려가고 훈련 RSS는 올라가요. 새 입력에서의 결과는 평가 위치에 따라 달라져요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>과소적합(underfitting)</dt><dd>정규화가 지나치면 데이터의 구조를 따라갈 굽힘도 약해질 수 있어요.</dd>
+      <dt>반데르몽드 행렬(Vandermonde matrix)</dt><dd>입력 하나의 $1,z,\ldots,z^9$를 한 행에 담아요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">왼쪽 끝의 예측</span>$$f_{\boldsymbol{\theta}}(-5)=\sum_{k=0}^{9}\theta_k(-1)^k$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s2"><h2>3. 베이지안 선형회귀</h2>
+<article class="topic" id="s2-posterior">
+  <h3>관측값으로 계수의 분포 갱신하기</h3>
+  <div class="tags"><span class="tag date">1123 실습</span><span class="tag slide">조교 실습자료 15–16쪽</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>관측 10개를 보기 전과 본 뒤에 어떤 계수가 그럴듯할까요? 베이지안 선형회귀는 계수의 사전분포(prior)를 출발점으로 삼고, 관측값의 우도를 반영해 계수의 사후분포(posterior)를 계산해요.</p>
+    <p>실습은 차수를 $M=4$로 바꾸고 같은 관측 10개를 써요. 입력 $x$를 $z=x/5$로 놓으면 특성 열벡터는 $\boldsymbol{\phi}(x)=(1,z,z^2,z^3,z^4)^\top$예요. 계수 열벡터 $\boldsymbol{\theta}=(\theta_0,\theta_1,\theta_2,\theta_3,\theta_4)^\top$를 한 번 뽑으면, 각 $x$에서 $\boldsymbol{\phi}(x)^\top\boldsymbol{\theta}=\theta_0+z\theta_1+z^2\theta_2+z^3\theta_3+z^4\theta_4$를 계산해 곡선 하나를 얻어요. 실습에서는 사전분포 $\mathcal N(\mathbf 0,\gamma^2 I_5)$에서 $\gamma=2$로 계수 벡터를 다섯 번 뽑아요. 계수는 사전분포에서만 뽑아요. 관측점은 그린 곡선을 비교할 때 써요.</p>
+    <figure class="figure"><svg id="fig-prior-curves" viewBox="0 0 430 194" role="img" style="max-width:430px" aria-label="관측을 반영하기 전 가우시안 사전분포에서 뽑은 4차 곡선 다섯 개">
+<defs><clipPath id="clip-prior-8-3-414-181-사전분포에서"><rect x="39" y="33" width="369" height="123"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="39" y="22">사전분포에서 뽑은 4차 곡선</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="39.0" x2="39.0" y1="33" y2="156"/>
+<text class="fig-text" style="font-size:14px" x="39.0" y="176" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="223.5" x2="223.5" y1="33" y2="156"/>
+<text class="fig-text" style="font-size:14px" x="223.5" y="176" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="408.0" x2="408.0" y1="33" y2="156"/>
+<text class="fig-text" style="font-size:14px" x="408.0" y="176" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="408" y1="150.14285714285714" y2="150.14285714285714"/>
+<text class="fig-text" style="font-size:14px" x="32" y="155.14285714285714" text-anchor="end">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="408" y1="91.57142857142857" y2="91.57142857142857"/>
+<text class="fig-text" style="font-size:14px" x="32" y="96.57142857142857" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="408" y1="33.0" y2="33.0"/>
+<text class="fig-text" style="font-size:14px" x="32" y="38.0" text-anchor="end">5</text>
+<g clip-path="url(#clip-prior-8-3-414-181-사전분포에서)">
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="39.00,78.39 42.69,79.66 46.38,80.95 50.07,82.26 53.76,83.57 57.45,84.86 61.14,86.14 64.83,87.39 68.52,88.59 72.21,89.74 75.90,90.83 79.59,91.84 83.28,92.77 86.97,93.61 90.66,94.35 94.35,94.99 98.04,95.53 101.73,95.96 105.42,96.27 109.11,96.47 112.80,96.55 116.49,96.53 120.18,96.39 123.87,96.14 127.56,95.79 131.25,95.34 134.94,94.80 138.63,94.18 142.32,93.48 146.01,92.71 149.70,91.88 153.39,91.01 157.08,90.11 160.77,89.17 164.46,88.23 168.15,87.28 171.84,86.34 175.53,85.43 179.22,84.54 182.91,83.70 186.60,82.91 190.29,82.19 193.98,81.54 197.67,80.98 201.36,80.50 205.05,80.12 208.74,79.85 212.43,79.68 216.12,79.62 219.81,79.68 223.50,79.86 227.19,80.15 230.88,80.56 234.57,81.08 238.26,81.72 241.95,82.46 245.64,83.31 249.33,84.25 253.02,85.28 256.71,86.39 260.40,87.57 264.09,88.81 267.78,90.11 271.47,91.45 275.16,92.82 278.85,94.20 282.54,95.60 286.23,96.99 289.92,98.36 293.61,99.70 297.30,101.01 300.99,102.26 304.68,103.45 308.37,104.58 312.06,105.62 315.75,106.57 319.44,107.43 323.13,108.18 326.82,108.83 330.51,109.37 334.20,109.78 337.89,110.08 341.58,110.26 345.27,110.32 348.96,110.26 352.65,110.09 356.34,109.80 360.03,109.41 363.72,108.91 367.41,108.31 371.10,107.63 374.79,106.87 378.48,106.04 382.17,105.14 385.86,104.20 389.55,103.22 393.24,102.21 396.93,101.18 400.62,100.14 404.31,99.12 408.00,98.11"/>
+<polyline class="fig-accent" style="stroke-width:1.8;opacity:0.44;stroke-linejoin:round;stroke-linecap:round" points="39.00,98.59 42.69,97.96 46.38,97.29 50.07,96.59 53.76,95.86 57.45,95.09 61.14,94.30 64.83,93.48 68.52,92.63 72.21,91.77 75.90,90.89 79.59,89.99 83.28,89.08 86.97,88.16 90.66,87.22 94.35,86.28 98.04,85.34 101.73,84.39 105.42,83.44 109.11,82.48 112.80,81.53 116.49,80.59 120.18,79.65 123.87,78.71 127.56,77.79 131.25,76.87 134.94,75.97 138.63,75.07 142.32,74.20 146.01,73.33 149.70,72.49 153.39,71.66 157.08,70.85 160.77,70.06 164.46,69.29 168.15,68.54 171.84,67.81 175.53,67.11 179.22,66.43 182.91,65.78 186.60,65.15 190.29,64.55 193.98,63.97 197.67,63.42 201.36,62.90 205.05,62.41 208.74,61.95 212.43,61.51 216.12,61.10 219.81,60.72 223.50,60.37 227.19,60.05 230.88,59.76 234.57,59.50 238.26,59.26 241.95,59.06 245.64,58.88 249.33,58.73 253.02,58.61 256.71,58.52 260.40,58.45 264.09,58.41 267.78,58.39 271.47,58.40 275.16,58.44 278.85,58.49 282.54,58.57 286.23,58.68 289.92,58.80 293.61,58.94 297.30,59.10 300.99,59.28 304.68,59.48 308.37,59.69 312.06,59.92 315.75,60.16 319.44,60.41 323.13,60.68 326.82,60.95 330.51,61.23 334.20,61.51 337.89,61.80 341.58,62.09 345.27,62.38 348.96,62.67 352.65,62.96 356.34,63.24 360.03,63.51 363.72,63.78 367.41,64.04 371.10,64.28 374.79,64.50 378.48,64.71 382.17,64.90 385.86,65.07 389.55,65.21 393.24,65.33 396.93,65.41 400.62,65.46 404.31,65.48 408.00,65.46"/>
+<polyline class="fig-accent" style="stroke-width:1.8;opacity:0.54;stroke-linejoin:round;stroke-linecap:round" points="39.00,116.31 42.69,115.96 46.38,115.63 50.07,115.32 53.76,115.02 57.45,114.74 61.14,114.47 64.83,114.21 68.52,113.97 72.21,113.74 75.90,113.52 79.59,113.31 83.28,113.11 86.97,112.92 90.66,112.74 94.35,112.57 98.04,112.40 101.73,112.24 105.42,112.09 109.11,111.95 112.80,111.81 116.49,111.68 120.18,111.55 123.87,111.42 127.56,111.30 131.25,111.18 134.94,111.07 138.63,110.96 142.32,110.85 146.01,110.74 149.70,110.63 153.39,110.53 157.08,110.43 160.77,110.32 164.46,110.22 168.15,110.12 171.84,110.01 175.53,109.91 179.22,109.80 182.91,109.70 186.60,109.59 190.29,109.48 193.98,109.38 197.67,109.26 201.36,109.15 205.05,109.04 208.74,108.92 212.43,108.81 216.12,108.69 219.81,108.57 223.50,108.44 227.19,108.32 230.88,108.19 234.57,108.06 238.26,107.93 241.95,107.79 245.64,107.66 249.33,107.52 253.02,107.38 256.71,107.24 260.40,107.10 264.09,106.96 267.78,106.81 271.47,106.67 275.16,106.52 278.85,106.38 282.54,106.23 286.23,106.08 289.92,105.94 293.61,105.79 297.30,105.65 300.99,105.50 304.68,105.36 308.37,105.22 312.06,105.08 315.75,104.94 319.44,104.80 323.13,104.67 326.82,104.55 330.51,104.42 334.20,104.30 337.89,104.19 341.58,104.08 345.27,103.98 348.96,103.88 352.65,103.79 356.34,103.71 360.03,103.63 363.72,103.57 367.41,103.51 371.10,103.46 374.79,103.43 378.48,103.40 382.17,103.39 385.86,103.38 389.55,103.39 393.24,103.42 396.93,103.46 400.62,103.51 404.31,103.58 408.00,103.67"/>
+<polyline class="fig-accent" style="stroke-width:1.8;opacity:0.64;stroke-linejoin:round;stroke-linecap:round" points="39.00,150.96 42.69,148.50 46.38,146.09 50.07,143.73 53.76,141.42 57.45,139.16 61.14,136.94 64.83,134.78 68.52,132.67 72.21,130.60 75.90,128.59 79.59,126.62 83.28,124.70 86.97,122.82 90.66,120.99 94.35,119.21 98.04,117.48 101.73,115.79 105.42,114.14 109.11,112.54 112.80,110.99 116.49,109.47 120.18,108.00 123.87,106.58 127.56,105.19 131.25,103.85 134.94,102.54 138.63,101.28 142.32,100.06 146.01,98.87 149.70,97.72 153.39,96.61 157.08,95.54 160.77,94.50 164.46,93.49 168.15,92.52 171.84,91.59 175.53,90.68 179.22,89.81 182.91,88.97 186.60,88.15 190.29,87.37 193.98,86.61 197.67,85.88 201.36,85.17 205.05,84.49 208.74,83.84 212.43,83.20 216.12,82.59 219.81,82.00 223.50,81.43 227.19,80.87 230.88,80.33 234.57,79.81 238.26,79.30 241.95,78.81 245.64,78.33 249.33,77.86 253.02,77.39 256.71,76.94 260.40,76.49 264.09,76.05 267.78,75.61 271.47,75.18 275.16,74.75 278.85,74.31 282.54,73.88 286.23,73.44 289.92,73.00 293.61,72.55 297.30,72.09 300.99,71.63 304.68,71.15 308.37,70.66 312.06,70.16 315.75,69.64 319.44,69.10 323.13,68.55 326.82,67.98 330.51,67.38 334.20,66.76 337.89,66.11 341.58,65.43 345.27,64.73 348.96,63.99 352.65,63.23 356.34,62.42 360.03,61.58 363.72,60.70 367.41,59.78 371.10,58.82 374.79,57.81 378.48,56.76 382.17,55.66 385.86,54.50 389.55,53.30 393.24,52.04 396.93,50.72 400.62,49.34 404.31,47.90 408.00,46.40"/>
+<polyline class="fig-accent" style="stroke-width:1.8;opacity:0.74;stroke-linejoin:round;stroke-linecap:round" points="39.00,111.43 42.69,108.07 46.38,104.92 50.07,101.95 53.76,99.17 57.45,96.57 61.14,94.13 64.83,91.86 68.52,89.75 72.21,87.79 75.90,85.98 79.59,84.32 83.28,82.78 86.97,81.38 90.66,80.11 94.35,78.95 98.04,77.92 101.73,76.99 105.42,76.17 109.11,75.44 112.80,74.82 116.49,74.28 120.18,73.83 123.87,73.47 127.56,73.18 131.25,72.97 134.94,72.82 138.63,72.74 142.32,72.72 146.01,72.76 149.70,72.86 153.39,73.00 157.08,73.19 160.77,73.43 164.46,73.70 168.15,74.01 171.84,74.36 175.53,74.73 179.22,75.13 182.91,75.56 186.60,76.01 190.29,76.48 193.98,76.96 197.67,77.46 201.36,77.97 205.05,78.49 208.74,79.01 212.43,79.54 216.12,80.07 219.81,80.61 223.50,81.14 227.19,81.67 230.88,82.20 234.57,82.72 238.26,83.24 241.95,83.74 245.64,84.24 249.33,84.72 253.02,85.20 256.71,85.66 260.40,86.10 264.09,86.54 267.78,86.95 271.47,87.36 275.16,87.74 278.85,88.11 282.54,88.47 286.23,88.80 289.92,89.12 293.61,89.42 297.30,89.71 300.99,89.98 304.68,90.23 308.37,90.47 312.06,90.69 315.75,90.90 319.44,91.09 323.13,91.27 326.82,91.44 330.51,91.60 334.20,91.75 337.89,91.88 341.58,92.02 345.27,92.14 348.96,92.26 352.65,92.38 356.34,92.49 360.03,92.61 363.72,92.72 367.41,92.85 371.10,92.97 374.79,93.11 378.48,93.26 382.17,93.42 385.86,93.59 389.55,93.79 393.24,94.00 396.93,94.24 400.62,94.50 404.31,94.80 408.00,95.12"/>
+<polyline class="fig-accent" style="stroke-width:1.8;opacity:0.84;stroke-linejoin:round;stroke-linecap:round" points="39.00,120.38 42.69,120.20 46.38,120.03 50.07,119.86 53.76,119.70 57.45,119.56 61.14,119.43 64.83,119.31 68.52,119.21 72.21,119.13 75.90,119.07 79.59,119.03 83.28,119.01 86.97,119.02 90.66,119.05 94.35,119.11 98.04,119.19 101.73,119.30 105.42,119.44 109.11,119.61 112.80,119.81 116.49,120.04 120.18,120.30 123.87,120.59 127.56,120.91 131.25,121.27 134.94,121.65 138.63,122.06 142.32,122.50 146.01,122.97 149.70,123.47 153.39,124.00 157.08,124.56 160.77,125.14 164.46,125.75 168.15,126.39 171.84,127.05 175.53,127.73 179.22,128.43 182.91,129.15 186.60,129.89 190.29,130.65 193.98,131.42 197.67,132.21 201.36,133.01 205.05,133.81 208.74,134.63 212.43,135.45 216.12,136.27 219.81,137.09 223.50,137.91 227.19,138.72 230.88,139.53 234.57,140.32 238.26,141.10 241.95,141.87 245.64,142.62 249.33,143.34 253.02,144.04 256.71,144.70 260.40,145.34 264.09,145.93 267.78,146.49 271.47,147.00 275.16,147.47 278.85,147.88 282.54,148.23 286.23,148.53 289.92,148.75 293.61,148.91 297.30,149.00 300.99,149.00 304.68,148.93 308.37,148.76 312.06,148.50 315.75,148.14 319.44,147.68 323.13,147.11 326.82,146.42 330.51,145.62 334.20,144.69 337.89,143.63 341.58,142.43 345.27,141.09 348.96,139.60 352.65,137.96 356.34,136.15 360.03,134.18 363.72,132.04 367.41,129.71 371.10,127.20 374.79,124.50 378.48,121.59 382.17,118.48 385.86,115.16 389.55,111.61 393.24,107.84 396.93,103.83 400.62,99.58 404.31,95.07 408.00,90.31"/>
+<circle cx="69.63" cy="88.35" r="3" fill="currentColor"/>
+<circle cx="74.99" cy="93.99" r="3" fill="currentColor"/>
+<circle cx="89.97" cy="97.85" r="3" fill="currentColor"/>
+<circle cx="130.12" cy="94.87" r="3" fill="currentColor"/>
+<circle cx="161.30" cy="89.04" r="3" fill="currentColor"/>
+<circle cx="273.56" cy="94.60" r="3" fill="currentColor"/>
+<circle cx="286.96" cy="97.00" r="3" fill="currentColor"/>
+<circle cx="319.90" cy="110.32" r="3" fill="currentColor"/>
+<circle cx="336.63" cy="106.35" r="3" fill="currentColor"/>
+<circle cx="401.63" cy="102.05" r="3" fill="currentColor"/>
+</g>
+</svg><figcaption>실선 다섯 개는 사전분포에서 뽑은 곡선이에요. 점과 점선은 비교용 관측값과 생성 함수예요.</figcaption></figure>
+    <nav class="note-stage-nav" aria-label="계산 단계"><a href="#s2-posterior-fit">1. 사후분포 계산</a><a href="#s2-posterior-map">2. MAP과 평균 비교</a></nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-posterior-fit"><span class="note-stage-number">1 / 2</span> <span>관측값의 우도와 사전분포 곱하기</span></h4>
+      <p class="note-stage-goal">실제 관측값을 계산에 넣으면 계수 분포의 중심과 퍼짐이 어떻게 바뀔까요?</p>
+      <p>관측 집합을 $\mathcal D_N=\{(x_n,y_n)\}_{n=1}^N$으로 써요. 설계행렬 $\Phi$의 $n$번째 행에 $\boldsymbol{\phi}(x_n)^\top$를 넣고, $\mathbf y$에는 관측값 $y_n$을 같은 순서로 넣어요. 실습의 $\Phi$는 $10\times5$이고 $\mathbf y$는 $10\times1$이에요. $\boldsymbol{\varepsilon}$은 계수와 독립인 잡음 열벡터이고, 각 관측의 잡음은 서로 독립인 $\mathcal N(0,\sigma^2)$를 따라요. 실습에서 $\sigma=0.2$이므로 분산 $\sigma^2=0.04$예요.</p>
+      <p>모형 $\mathbf y=\Phi\boldsymbol{\theta}+\boldsymbol{\varepsilon}$의 가우시안 우도와 사전밀도 $\mathcal N(\mathbf m_0,S_0)$를 곱해 정규화하면 가우시안 사후분포를 얻어요. $\mathbf m_0$는 사전평균이며 $S_0$는 양의 정부호인 사전공분산이에요. 실습에서는 $\mathbf m_0=\mathbf 0$, $S_0=4I_5$를 써요.</p>
+      <p>먼저 사후공분산 $S_N$을 구해요. 역공분산을 정밀도(precision)라고 불러요. 사전 정밀도 $S_0^{-1}$에 설계행렬에서 온 $\sigma^{-2}\Phi^\top\Phi$를 더하고 역행렬을 취해요.</p>
+      <div>$$S_N=(S_0^{-1}+\sigma^{-2}\Phi^\top\Phi)^{-1}$$</div>
+      <p>계수의 중심은 사전평균과 실제 관측값을 반영해 정해져요. 사전평균에 사전 정밀도를 곱한 값과, 관측값을 특성 방향으로 합산한 $\sigma^{-2}\Phi^\top\mathbf y$를 더한 뒤 $S_N$을 곱해요.</p>
+      <div>$$\mathbf m_N=S_N(S_0^{-1}\mathbf m_0+\sigma^{-2}\Phi^\top\mathbf y)$$</div>
+      <p>$S_N$은 계수 다섯 개에 대한 $5\times5$ 행렬이고, $\mathbf m_N$은 다섯 계수의 평균을 모은 열벡터예요. $\mathcal N(\mathbf m_N,S_N)$의 중심으로 그린 곡선은 MAP으로 그린 곡선과 왜 겹칠까요?</p>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s2-posterior-map"><span class="note-stage-number">2 / 2</span> <span>같은 모형에서 MAP 복원하기</span></h4>
+      <p class="note-stage-goal">4차 특성과 관측 10개를 고정하면 두 곡선은 $x=0$에서 같은 높이 약 $0.078$을 보여요. 두 계산에 들어간 계수부터 비교해요.</p>
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\mathbf m_N=S_N\,\sigma^{-2}\Phi^\top\mathbf y$$</div><div class="deriv-why"><p>$\mathbf m_0=\mathbf 0$을 대입해요.</p></div></li>
+        <li><div class="deriv-eq">$$S_N=\bigl(\gamma^{-2}I_5+\sigma^{-2}\Phi^\top\Phi\bigr)^{-1}$$</div><div class="deriv-why"><p>$S_0=\gamma^2 I_5$를 대입해요.</p></div></li>
+        <li><div class="deriv-eq">$$S_N=\Bigl[\sigma^{-2}\bigl(\Phi^\top\Phi+\tfrac{\sigma^2}{\gamma^2}I_5\bigr)\Bigr]^{-1}$$</div><div class="deriv-why"><p>괄호 안에서 $\sigma^{-2}$를 묶어요.</p></div></li>
+        <li><div class="deriv-eq">$$S_N=\sigma^2\bigl(\Phi^\top\Phi+\tfrac{\sigma^2}{\gamma^2}I_5\bigr)^{-1}$$</div><div class="deriv-why"><p>역행렬을 취할 때 배율은 역수가 돼요.</p></div></li>
+        <li><div class="deriv-eq">$$\mathbf m_N=\sigma^2(\Phi^\top\Phi+\lambda I_5)^{-1}\,\sigma^{-2}\Phi^\top\mathbf y$$</div><div class="deriv-why"><p>평균 식에 $S_N$을 넣어요. $\lambda=\sigma^2/\gamma^2=0.01$이에요.</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\mathbf m_N=(\Phi^\top\Phi+\lambda I_5)^{-1}\Phi^\top\mathbf y$$</div><div class="deriv-why"><p>$\sigma^2$와 $\sigma^{-2}$가 상쇄돼요.</p></div></li>
+      </ol>
+      <p>마지막 식은 같은 특성·관측·사전분포를 쓴 $\hat{\boldsymbol{\theta}}_{\mathrm{MAP}}$의 식이에요. 가우시안 사후분포의 평균은 밀도가 가장 높은 최빈값(mode)이므로, 일반적인 가우시안 사전 $\mathcal N(\mathbf m_0,S_0)$를 써도 같은 모형의 MAP과 사후평균이 일치해요. 위 식의 $\lambda I_5$ 형태는 이번 실습의 $\mathbf m_0=\mathbf 0$, $S_0=\gamma^2I_5$를 적용한 결과예요.</p>
+    </div>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <p><a href="../../%EC%8B%9C%ED%97%98%EA%B2%B0%EA%B3%BC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC_1021_%EB%AC%B8%EC%A0%9C%EC%84%A4%EB%AA%85_Midterm.html#p9">중간고사 9번</a>은 점 두 개 $(-1,1)$, $(1,3)$로 이 계산을 줄여 보여 줘요. 특성 행 $(1,-1)$, $(1,1)$을 쌓으면 $\Phi^\top\Phi=2I_2$와 $\Phi^\top\mathbf y=(4,2)^\top$를 얻어요. 시험 조건 $S_0=I_2$, $\mathbf m_0=\mathbf 0$, $\sigma^2=1$을 넣으면 $S_N=(I_2+2I_2)^{-1}=I_2/3$, $\mathbf m_N=(I_2/3)(4,2)^\top=(4/3,2/3)^\top$예요.</p>
+    </div>
+    <p>평균 계수로는 곡선의 중심을 그릴 수 있어요. 새 입력에서 그 주변의 범위를 알려면 $S_N$이 출력에 만드는 퍼짐도 계산해야 해요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">관측값으로 계수의 사전분포를 갱신해요. 같은 가우시안 모형에서 사후평균으로 그린 곡선은 MAP 곡선과 겹쳐요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>사후공분산(posterior covariance)</dt><dd>관측을 반영한 계수 간 공분산을 모은 $S_N$이에요.</dd><dt>최빈값(mode)</dt><dd>사후밀도가 가장 큰 계수예요. 가우시안 사후분포에서는 평균과 같아요.</dd></dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">사후공분산</span>$$S_N=(S_0^{-1}+\sigma^{-2}\Phi^\top\Phi)^{-1}$$</li>
+      <li><span class="eq-name">사후평균</span>$$\mathbf m_N=S_N(S_0^{-1}\mathbf m_0+\sigma^{-2}\Phi^\top\mathbf y)$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s2-prediction">
+  <h3>예측평균은 같은데 구간은 어디서 올까요?</h3>
+  <div class="tags"><span class="tag date">1123 실습</span><span class="tag slide">조교 실습자료 17쪽</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>관측 10개를 유지하고 $x_*=0$에서 곡선의 함수값 $f_*$와 새 관측값 $y_*$를 비교해요. 실습을 재현하면 두 평균은 약 $0.078$이에요. $f_*$의 분산은 약 $0.027$이고, $y_*$의 분산은 새 잡음의 분산 $0.04$가 더해져 약 $0.067$이에요.</p>
+    <p>$\boldsymbol{\phi}_*=\boldsymbol{\phi}(x_*)$는 새 입력을 고정했을 때 계수에 곱하는 가중치 열벡터예요. $f_*=\boldsymbol{\phi}_*^\top\boldsymbol{\theta}$에서 $\boldsymbol{\theta}$는 $\mathcal N(\mathbf m_N,S_N)$를 따르므로, 고정 가중치로 더한 $f_*$도 가우시안이에요. 평균은 계수 평균의 가중합이에요.</p>
+    <div>$$\mu_*=\boldsymbol{\phi}_*^\top\mathbf m_N$$</div>
+    <p>스칼라의 분산 $\operatorname{Var}(aX)=a^2\operatorname{Var}(X)$에서는 같은 계수 $a$가 두 번 곱해져요. 계수가 여러 개면 두 가중치의 곱 $\phi_{*,i}\phi_{*,j}$가 계수쌍의 공분산 $(S_N)_{ij}$마다 붙어요. 이를 행렬곱으로 모으면 $(1\times5)(5\times5)(5\times1)$이 되어 스칼라 분산이 나와요.</p>
+    <div>$$v_f=\sum_{i,j=0}^4\phi_{*,i}\phi_{*,j}(S_N)_{ij}$$</div>
+    <div>$$v_f=\boldsymbol{\phi}_*^\top S_N\boldsymbol{\phi}_*$$</div>
+    <p>$x_*=0$에서는 $\boldsymbol{\phi}_*=(1,0,0,0,0)^\top$라서 $f_*=\theta_0$예요. 이 입력에서 $\mu_*$는 $\mathbf m_N$의 첫 성분인 약 $0.078$이에요. $v_f$에 남는 항은 $S_N$의 첫 대각 원소, 약 $0.027$이에요. 새로 측정할 값은 $y_*=f_*+\varepsilon_*$예요. 새 잡음 $\varepsilon_*\sim\mathcal N(0,\sigma^2)$는 계수 및 기존 잡음과 독립이므로 평균에는 $0$, 분산에는 $\sigma^2=0.04$가 더해져요.</p>
+    <div>$$f_*\mid x_*,\mathcal D_N\sim\mathcal N(\mu_*,v_f)$$</div>
+    <div>$$y_*\mid x_*,\mathcal D_N\sim\mathcal N(\mu_*,v_f+\sigma^2)$$</div>
+    <p>독립 잡음을 더하는 계산은 계수 후보별 관측 우도를 사후밀도로 가중해 평균 내는 것과 같아요. 이를 계수에 대한 주변화(marginalization)라고 해요.</p>
+    <div>$$p(y_*\mid x_*,\mathcal D_N)=\int p(y_*\mid x_*,\boldsymbol{\theta})\,p(\boldsymbol{\theta}\mid\mathcal D_N)\,d\boldsymbol{\theta}$$</div>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <p>정규분포의 중앙 약 95%를 잡으려면 표준편차의 $1.96$배를 평균의 양옆에 놓아요. $s_*=\sqrt{v_f+\sigma^2}$일 때 예측구간은 $\mu_*\pm1.96s_*$예요. 실습의 $x_*=0$에 넣으면 $0.078\pm1.96\sqrt{0.027+0.04}$, 약 $[-0.429,0.585]$예요.</p>
+      <p><a href="../../%EC%8B%9C%ED%97%98%EA%B2%B0%EA%B3%BC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC_1021_%EB%AC%B8%EC%A0%9C%EC%84%A4%EB%AA%85_Midterm.html#p10">중간고사 10번</a>은 9번에서 구한 2계수 사후분포를 이어 써요. $x_*=2$에서 특성이 $(1,2)^\top$이므로 평균은 $4/3+2(2/3)=8/3$이에요. $S_N=I_2/3$이라 함수값의 분산은 $1^2/3+2^2/3=5/3$이고, 관측값의 분산은 새 잡음 분산 $1$을 더한 $8/3$이에요.</p>
+    </div>
+    <p>여기서는 새 입력을 지정해 분포를 읽었어요. 같은 입력에서 $y_*$까지 실제로 얻어 학습에 포함하면 계수의 사후분포부터 바뀌어요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">관측 10개를 고정하고 $x_*=0$에서 보면 함수값과 새 관측값의 평균은 같아요. 분산은 계수에서 온 약 $0.027$에 새 잡음의 $0.04$가 더해져요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>예측구간(predictive interval)</dt><dd>고정한 입력에서 새 관측값을 정해진 확률로 포함하는 범위예요.</dd><dt>주변화(marginalization)</dt><dd>계수 후보별 관측 우도를 계수의 사후밀도로 가중해 적분해요.</dd></dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">함수값의 분산</span>$$v_f=\boldsymbol{\phi}_*^\top S_N\boldsymbol{\phi}_*$$</li>
+      <li><span class="eq-name">새 관측값의 분포</span>$$y_*\mid x_*,\mathcal D_N\sim\mathcal N(\mu_*,v_f+\sigma^2)$$</li>
+      <li><span class="eq-name">중앙 약 95% 예측구간</span>$$\mu_*\pm1.96s_*$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s2-update">
+  <h3>실제 관측값을 하나씩 더하면</h3>
+  <div class="tags"><span class="tag date">1123 실습</span><span class="tag slide">조교 실습자료 18–20쪽</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>실제 관측을 더하면 새 관측값의 예측구간은 어디에서 얼마나 좁아질까요? 차수, 사전분포 설정, 잡음 분산은 고정하고 처음 10개 점에 실습에서 생성한 $(-5,1.12538)$와 $(5,-0.49806)$을 차례로 추가해요.</p>
+    <figure class="figure"><svg id="fig-observation-updates" viewBox="0 0 455 453" role="img" style="max-width:455px" aria-label="같은 눈금에서 관측 수 10, 11, 12일 때 95퍼센트 예측구간 비교. 관측을 추가한 왼쪽 끝과 오른쪽 끝의 구간이 각각 좁아진다.">
+<defs><clipPath id="clip-update-8-0-440-150-관측"><rect x="39" y="30" width="395" height="92"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="39" y="19">관측 10개</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="39.0" x2="39.0" y1="30" y2="122"/>
+<text class="fig-text" style="font-size:14px" x="39.0" y="142" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="236.5" x2="236.5" y1="30" y2="122"/>
+<text class="fig-text" style="font-size:14px" x="236.5" y="142" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="434.0" x2="434.0" y1="30" y2="122"/>
+<text class="fig-text" style="font-size:14px" x="434.0" y="142" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="117.81818181818181" y2="117.81818181818181"/>
+<text class="fig-text" style="font-size:14px" x="32" y="122.81818181818181" text-anchor="end">−2</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="76.0" y2="76.0"/>
+<text class="fig-text" style="font-size:14px" x="32" y="81.0" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="34.18181818181819" y2="34.18181818181819"/>
+<text class="fig-text" style="font-size:14px" x="32" y="39.18181818181819" text-anchor="end">2</text>
+<g clip-path="url(#clip-update-8-0-440-150-관측)">
+<polygon class="fig-dot" opacity=".21" points="39.00,38.09 40.32,39.86 41.63,41.57 42.95,43.23 44.27,44.83 45.58,46.37 46.90,47.86 48.22,49.29 49.53,50.67 50.85,52.00 52.17,53.28 53.48,54.50 54.80,55.67 56.12,56.79 57.43,57.86 58.75,58.88 60.07,59.86 61.38,60.78 62.70,61.66 64.02,62.50 65.33,63.28 66.65,64.03 67.97,64.73 69.28,65.39 70.60,66.01 71.92,66.59 73.23,67.13 74.55,67.63 75.87,68.10 77.18,68.54 78.50,68.94 79.82,69.31 81.13,69.65 82.45,69.97 83.77,70.25 85.08,70.51 86.40,70.75 87.72,70.96 89.03,71.15 90.35,71.32 91.67,71.47 92.98,71.60 94.30,71.71 95.62,71.81 96.93,71.89 98.25,71.95 99.57,72.00 100.88,72.04 102.20,72.06 103.52,72.08 104.83,72.08 106.15,72.07 107.47,72.05 108.78,72.02 110.10,71.98 111.42,71.93 112.73,71.88 114.05,71.81 115.37,71.74 116.68,71.66 118.00,71.58 119.32,71.49 120.63,71.39 121.95,71.29 123.27,71.18 124.58,71.06 125.90,70.95 127.22,70.82 128.53,70.70 129.85,70.56 131.17,70.43 132.48,70.29 133.80,70.15 135.12,70.00 136.43,69.86 137.75,69.71 139.07,69.55 140.38,69.40 141.70,69.24 143.02,69.08 144.33,68.92 145.65,68.76 146.97,68.59 148.28,68.43 149.60,68.26 150.92,68.09 152.23,67.92 153.55,67.76 154.87,67.59 156.18,67.42 157.50,67.25 158.82,67.08 160.13,66.91 161.45,66.75 162.77,66.58 164.08,66.41 165.40,66.25 166.72,66.09 168.03,65.93 169.35,65.77 170.67,65.61 171.98,65.45 173.30,65.30 174.62,65.15 175.93,65.00 177.25,64.85 178.57,64.71 179.88,64.57 181.20,64.43 182.52,64.30 183.83,64.17 185.15,64.04 186.47,63.92 187.78,63.81 189.10,63.69 190.42,63.58 191.73,63.48 193.05,63.38 194.37,63.29 195.68,63.20 197.00,63.12 198.32,63.04 199.63,62.97 200.95,62.90 202.27,62.84 203.58,62.79 204.90,62.74 206.22,62.70 207.53,62.67 208.85,62.64 210.17,62.62 211.48,62.60 212.80,62.59 214.12,62.59 215.43,62.60 216.75,62.62 218.07,62.64 219.38,62.67 220.70,62.70 222.02,62.75 223.33,62.80 224.65,62.86 225.97,62.93 227.28,63.00 228.60,63.09 229.92,63.18 231.23,63.28 232.55,63.39 233.87,63.50 235.18,63.63 236.50,63.76 237.82,63.90 239.13,64.05 240.45,64.21 241.77,64.37 243.08,64.54 244.40,64.73 245.72,64.91 247.03,65.11 248.35,65.32 249.67,65.53 250.98,65.75 252.30,65.98 253.62,66.22 254.93,66.46 256.25,66.71 257.57,66.97 258.88,67.24 260.20,67.51 261.52,67.79 262.83,68.08 264.15,68.37 265.47,68.68 266.78,68.98 268.10,69.30 269.42,69.62 270.73,69.95 272.05,70.28 273.37,70.62 274.68,70.97 276.00,71.32 277.32,71.67 278.63,72.03 279.95,72.40 281.27,72.77 282.58,73.15 283.90,73.53 285.22,73.91 286.53,74.30 287.85,74.69 289.17,75.09 290.48,75.48 291.80,75.89 293.12,76.29 294.43,76.70 295.75,77.11 297.07,77.52 298.38,77.93 299.70,78.34 301.02,78.76 302.33,79.18 303.65,79.59 304.97,80.01 306.28,80.43 307.60,80.85 308.92,81.26 310.23,81.68 311.55,82.10 312.87,82.51 314.18,82.93 315.50,83.34 316.82,83.75 318.13,84.16 319.45,84.56 320.77,84.97 322.08,85.37 323.40,85.77 324.72,86.16 326.03,86.55 327.35,86.94 328.67,87.32 329.98,87.70 331.30,88.07 332.62,88.44 333.93,88.81 335.25,89.16 336.57,89.52 337.88,89.87 339.20,90.21 340.52,90.55 341.83,90.88 343.15,91.20 344.47,91.52 345.78,91.83 347.10,92.13 348.42,92.43 349.73,92.72 351.05,93.00 352.37,93.27 353.68,93.54 355.00,93.80 356.32,94.05 357.63,94.29 358.95,94.52 360.27,94.74 361.58,94.95 362.90,95.15 364.22,95.35 365.53,95.53 366.85,95.70 368.17,95.86 369.48,96.01 370.80,96.15 372.12,96.28 373.43,96.40 374.75,96.50 376.07,96.59 377.38,96.67 378.70,96.73 380.02,96.78 381.33,96.82 382.65,96.84 383.97,96.85 385.28,96.84 386.60,96.81 387.92,96.77 389.23,96.72 390.55,96.64 391.87,96.55 393.18,96.43 394.50,96.30 395.82,96.15 397.13,95.98 398.45,95.78 399.77,95.57 401.08,95.33 402.40,95.06 403.72,94.78 405.03,94.46 406.35,94.12 407.67,93.75 408.98,93.35 410.30,92.92 411.62,92.46 412.93,91.97 414.25,91.44 415.57,90.87 416.88,90.27 418.20,89.63 419.52,88.96 420.83,88.24 422.15,87.47 423.47,86.66 424.78,85.81 426.10,84.91 427.42,83.96 428.73,82.96 430.05,81.91 431.37,80.81 432.68,79.65 434.00,78.44 434.00,103.76 432.68,104.45 431.37,105.13 430.05,105.78 428.73,106.43 427.42,107.06 426.10,107.67 424.78,108.27 423.47,108.86 422.15,109.42 420.83,109.97 419.52,110.51 418.20,111.02 416.88,111.52 415.57,112.00 414.25,112.46 412.93,112.90 411.62,113.32 410.30,113.72 408.98,114.10 407.67,114.46 406.35,114.80 405.03,115.12 403.72,115.41 402.40,115.69 401.08,115.94 399.77,116.18 398.45,116.39 397.13,116.58 395.82,116.75 394.50,116.90 393.18,117.03 391.87,117.14 390.55,117.23 389.23,117.30 387.92,117.35 386.60,117.38 385.28,117.39 383.97,117.38 382.65,117.35 381.33,117.31 380.02,117.25 378.70,117.17 377.38,117.08 376.07,116.96 374.75,116.84 373.43,116.70 372.12,116.54 370.80,116.37 369.48,116.18 368.17,115.98 366.85,115.77 365.53,115.54 364.22,115.30 362.90,115.05 361.58,114.79 360.27,114.52 358.95,114.24 357.63,113.95 356.32,113.65 355.00,113.33 353.68,113.02 352.37,112.69 351.05,112.35 349.73,112.01 348.42,111.66 347.10,111.31 345.78,110.94 344.47,110.58 343.15,110.21 341.83,109.83 340.52,109.45 339.20,109.06 337.88,108.67 336.57,108.28 335.25,107.89 333.93,107.49 332.62,107.09 331.30,106.69 329.98,106.29 328.67,105.89 327.35,105.48 326.03,105.08 324.72,104.67 323.40,104.27 322.08,103.86 320.77,103.46 319.45,103.06 318.13,102.65 316.82,102.25 315.50,101.85 314.18,101.46 312.87,101.06 311.55,100.67 310.23,100.28 308.92,99.89 307.60,99.50 306.28,99.12 304.97,98.74 303.65,98.36 302.33,97.98 301.02,97.61 299.70,97.25 298.38,96.88 297.07,96.52 295.75,96.16 294.43,95.81 293.12,95.46 291.80,95.12 290.48,94.78 289.17,94.44 287.85,94.11 286.53,93.78 285.22,93.46 283.90,93.14 282.58,92.82 281.27,92.51 279.95,92.21 278.63,91.90 277.32,91.61 276.00,91.32 274.68,91.03 273.37,90.75 272.05,90.47 270.73,90.20 269.42,89.93 268.10,89.67 266.78,89.41 265.47,89.16 264.15,88.91 262.83,88.67 261.52,88.44 260.20,88.21 258.88,87.98 257.57,87.76 256.25,87.54 254.93,87.33 253.62,87.13 252.30,86.93 250.98,86.74 249.67,86.55 248.35,86.37 247.03,86.19 245.72,86.02 244.40,85.85 243.08,85.69 241.77,85.54 240.45,85.39 239.13,85.25 237.82,85.11 236.50,84.98 235.18,84.85 233.87,84.73 232.55,84.62 231.23,84.51 229.92,84.41 228.60,84.31 227.28,84.22 225.97,84.13 224.65,84.05 223.33,83.98 222.02,83.91 220.70,83.85 219.38,83.79 218.07,83.74 216.75,83.70 215.43,83.66 214.12,83.63 212.80,83.60 211.48,83.58 210.17,83.56 208.85,83.55 207.53,83.55 206.22,83.55 204.90,83.56 203.58,83.57 202.27,83.59 200.95,83.61 199.63,83.64 198.32,83.68 197.00,83.72 195.68,83.76 194.37,83.81 193.05,83.87 191.73,83.93 190.42,84.00 189.10,84.07 187.78,84.15 186.47,84.23 185.15,84.32 183.83,84.41 182.52,84.51 181.20,84.61 179.88,84.71 178.57,84.82 177.25,84.94 175.93,85.05 174.62,85.18 173.30,85.30 171.98,85.43 170.67,85.56 169.35,85.70 168.03,85.84 166.72,85.98 165.40,86.12 164.08,86.27 162.77,86.42 161.45,86.57 160.13,86.72 158.82,86.88 157.50,87.03 156.18,87.19 154.87,87.35 153.55,87.51 152.23,87.67 150.92,87.82 149.60,87.98 148.28,88.14 146.97,88.30 145.65,88.46 144.33,88.61 143.02,88.76 141.70,88.92 140.38,89.06 139.07,89.21 137.75,89.35 136.43,89.49 135.12,89.63 133.80,89.76 132.48,89.89 131.17,90.01 129.85,90.13 128.53,90.24 127.22,90.35 125.90,90.45 124.58,90.54 123.27,90.63 121.95,90.71 120.63,90.78 119.32,90.85 118.00,90.91 116.68,90.95 115.37,90.99 114.05,91.02 112.73,91.05 111.42,91.06 110.10,91.06 108.78,91.05 107.47,91.03 106.15,91.00 104.83,90.96 103.52,90.91 102.20,90.85 100.88,90.78 99.57,90.69 98.25,90.60 96.93,90.49 95.62,90.37 94.30,90.25 92.98,90.11 91.67,89.96 90.35,89.80 89.03,89.63 87.72,89.45 86.40,89.26 85.08,89.06 83.77,88.85 82.45,88.63 81.13,88.41 79.82,88.18 78.50,87.94 77.18,87.69 75.87,87.44 74.55,87.18 73.23,86.92 71.92,86.66 70.60,86.39 69.28,86.12 67.97,85.84 66.65,85.56 65.33,85.28 64.02,85.00 62.70,84.71 61.38,84.42 60.07,84.13 58.75,83.83 57.43,83.53 56.12,83.23 54.80,82.93 53.48,82.62 52.17,82.31 50.85,81.99 49.53,81.66 48.22,81.34 46.90,81.00 45.58,80.66 44.27,80.31 42.95,79.96 41.63,79.60 40.32,79.23 39.00,78.85"/>
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="39.00,52.47 42.95,54.74 46.90,57.04 50.85,59.37 54.80,61.71 58.75,64.03 62.70,66.31 66.65,68.53 70.60,70.68 74.55,72.73 78.50,74.67 82.45,76.47 86.40,78.13 90.35,79.63 94.30,80.96 98.25,82.11 102.20,83.07 106.15,83.83 110.10,84.39 114.05,84.74 118.00,84.89 121.95,84.84 125.90,84.59 129.85,84.15 133.80,83.53 137.75,82.73 141.70,81.76 145.65,80.65 149.60,79.40 153.55,78.03 157.50,76.56 161.45,75.00 165.40,73.38 169.35,71.72 173.30,70.03 177.25,68.34 181.20,66.67 185.15,65.03 189.10,63.45 193.05,61.95 197.00,60.55 200.95,59.26 204.90,58.10 208.85,57.09 212.80,56.24 216.75,55.56 220.70,55.07 224.65,54.77 228.60,54.67 232.55,54.78 236.50,55.09 240.45,55.61 244.40,56.34 248.35,57.28 252.30,58.41 256.25,59.74 260.20,61.25 264.15,62.93 268.10,64.76 272.05,66.75 276.00,68.86 279.95,71.08 283.90,73.39 287.85,75.78 291.80,78.22 295.75,80.70 299.70,83.19 303.65,85.67 307.60,88.12 311.55,90.52 315.50,92.84 319.45,95.08 323.40,97.21 327.35,99.21 331.30,101.07 335.25,102.78 339.20,104.31 343.15,105.65 347.10,106.81 351.05,107.76 355.00,108.51 358.95,109.04 362.90,109.36 366.85,109.47 370.80,109.36 374.75,109.05 378.70,108.54 382.65,107.83 386.60,106.94 390.55,105.88 394.50,104.67 398.45,103.31 402.40,101.82 406.35,100.23 410.30,98.54 414.25,96.79 418.20,94.98 422.15,93.14 426.10,91.30 430.05,89.47 434.00,87.66"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="39.00,58.47 42.95,61.59 46.90,64.43 50.85,66.99 54.80,69.30 58.75,71.36 62.70,73.19 66.65,74.80 70.60,76.20 74.55,77.41 78.50,78.44 82.45,79.30 86.40,80.00 90.35,80.56 94.30,80.98 98.25,81.27 102.20,81.46 106.15,81.53 110.10,81.52 114.05,81.42 118.00,81.24 121.95,81.00 125.90,80.70 129.85,80.35 133.80,79.96 137.75,79.53 141.70,79.08 145.65,78.61 149.60,78.12 153.55,77.63 157.50,77.14 161.45,76.66 165.40,76.19 169.35,75.73 173.30,75.30 177.25,74.89 181.20,74.52 185.15,74.18 189.10,73.88 193.05,73.63 197.00,73.42 200.95,73.26 204.90,73.15 208.85,73.09 212.80,73.10 216.75,73.16 220.70,73.28 224.65,73.46 228.60,73.70 232.55,74.00 236.50,74.37 240.45,74.80 244.40,75.29 248.35,75.84 252.30,76.46 256.25,77.13 260.20,77.86 264.15,78.64 268.10,79.48 272.05,80.38 276.00,81.32 279.95,82.30 283.90,83.33 287.85,84.40 291.80,85.50 295.75,86.64 299.70,87.80 303.65,88.98 307.60,90.17 311.55,91.38 315.50,92.60 319.45,93.81 323.40,95.02 327.35,96.21 331.30,97.38 335.25,98.53 339.20,99.64 343.15,100.70 347.10,101.72 351.05,102.68 355.00,103.57 358.95,104.38 362.90,105.10 366.85,105.73 370.80,106.26 374.75,106.67 378.70,106.95 382.65,107.10 386.60,107.10 390.55,106.93 394.50,106.60 398.45,106.09 402.40,105.38 406.35,104.46 410.30,103.32 414.25,101.95 418.20,100.33 422.15,98.45 426.10,96.29 430.05,93.85 434.00,91.10"/>
+<circle cx="71.78" cy="70.25" r="3" fill="currentColor"/>
+<circle cx="77.53" cy="80.32" r="3" fill="currentColor"/>
+<circle cx="93.56" cy="87.20" r="3" fill="currentColor"/>
+<circle cx="136.54" cy="81.88" r="3" fill="currentColor"/>
+<circle cx="169.92" cy="71.48" r="3" fill="currentColor"/>
+<circle cx="290.09" cy="81.41" r="3" fill="currentColor"/>
+<circle cx="304.43" cy="85.69" r="3" fill="currentColor"/>
+<circle cx="339.69" cy="109.47" r="3" fill="currentColor"/>
+<circle cx="357.60" cy="102.38" r="3" fill="currentColor"/>
+<circle cx="427.18" cy="94.70" r="3" fill="currentColor"/>
+</g>
+<defs><clipPath id="clip-update-8-151-440-150-−5"><rect x="39" y="181" width="395" height="92"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="39" y="170">−5 관측 추가 · 11개</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="39.0" x2="39.0" y1="181" y2="273"/>
+<text class="fig-text" style="font-size:14px" x="39.0" y="293" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="236.5" x2="236.5" y1="181" y2="273"/>
+<text class="fig-text" style="font-size:14px" x="236.5" y="293" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="434.0" x2="434.0" y1="181" y2="273"/>
+<text class="fig-text" style="font-size:14px" x="434.0" y="293" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="268.8181818181818" y2="268.8181818181818"/>
+<text class="fig-text" style="font-size:14px" x="32" y="273.8181818181818" text-anchor="end">−2</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="227.0" y2="227.0"/>
+<text class="fig-text" style="font-size:14px" x="32" y="232.0" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="185.1818181818182" y2="185.1818181818182"/>
+<text class="fig-text" style="font-size:14px" x="32" y="190.1818181818182" text-anchor="end">2</text>
+<g clip-path="url(#clip-update-8-151-440-150-−5)">
+<polygon class="fig-dot" opacity=".21" points="39.00,193.33 40.32,194.81 41.63,196.24 42.95,197.62 44.27,198.95 45.58,200.22 46.90,201.45 48.22,202.64 49.53,203.78 50.85,204.87 52.17,205.92 53.48,206.93 54.80,207.90 56.12,208.82 57.43,209.71 58.75,210.56 60.07,211.38 61.38,212.16 62.70,212.91 64.02,213.62 65.33,214.30 66.65,214.95 67.97,215.57 69.28,216.16 70.60,216.72 71.92,217.25 73.23,217.76 74.55,218.24 75.87,218.70 77.18,219.13 78.50,219.54 79.82,219.93 81.13,220.29 82.45,220.63 83.77,220.95 85.08,221.26 86.40,221.54 87.72,221.80 89.03,222.04 90.35,222.27 91.67,222.48 92.98,222.67 94.30,222.84 95.62,223.00 96.93,223.15 98.25,223.27 99.57,223.39 100.88,223.49 102.20,223.57 103.52,223.64 104.83,223.70 106.15,223.75 107.47,223.78 108.78,223.80 110.10,223.81 111.42,223.81 112.73,223.80 114.05,223.77 115.37,223.74 116.68,223.70 118.00,223.64 119.32,223.58 120.63,223.51 121.95,223.43 123.27,223.34 124.58,223.25 125.90,223.15 127.22,223.03 128.53,222.92 129.85,222.79 131.17,222.66 132.48,222.53 133.80,222.38 135.12,222.23 136.43,222.08 137.75,221.92 139.07,221.76 140.38,221.59 141.70,221.42 143.02,221.25 144.33,221.07 145.65,220.89 146.97,220.70 148.28,220.51 149.60,220.32 150.92,220.13 152.23,219.94 153.55,219.74 154.87,219.55 156.18,219.35 157.50,219.15 158.82,218.95 160.13,218.75 161.45,218.55 162.77,218.35 164.08,218.16 165.40,217.96 166.72,217.76 168.03,217.57 169.35,217.38 170.67,217.19 171.98,217.00 173.30,216.81 174.62,216.63 175.93,216.45 177.25,216.27 178.57,216.10 179.88,215.92 181.20,215.76 182.52,215.59 183.83,215.44 185.15,215.28 186.47,215.13 187.78,214.99 189.10,214.85 190.42,214.71 191.73,214.58 193.05,214.46 194.37,214.34 195.68,214.23 197.00,214.12 198.32,214.02 199.63,213.93 200.95,213.84 202.27,213.76 203.58,213.69 204.90,213.62 206.22,213.56 207.53,213.51 208.85,213.47 210.17,213.43 211.48,213.40 212.80,213.38 214.12,213.37 215.43,213.36 216.75,213.36 218.07,213.37 219.38,213.39 220.70,213.42 222.02,213.45 223.33,213.49 224.65,213.54 225.97,213.60 227.28,213.67 228.60,213.75 229.92,213.83 231.23,213.93 232.55,214.03 233.87,214.14 235.18,214.26 236.50,214.38 237.82,214.52 239.13,214.67 240.45,214.82 241.77,214.98 243.08,215.15 244.40,215.33 245.72,215.51 247.03,215.71 248.35,215.91 249.67,216.12 250.98,216.34 252.30,216.57 253.62,216.81 254.93,217.05 256.25,217.30 257.57,217.56 258.88,217.83 260.20,218.10 261.52,218.38 262.83,218.67 264.15,218.97 265.47,219.27 266.78,219.58 268.10,219.90 269.42,220.22 270.73,220.55 272.05,220.88 273.37,221.22 274.68,221.57 276.00,221.93 277.32,222.28 278.63,222.65 279.95,223.02 281.27,223.39 282.58,223.77 283.90,224.15 285.22,224.54 286.53,224.93 287.85,225.33 289.17,225.73 290.48,226.13 291.80,226.54 293.12,226.95 294.43,227.36 295.75,227.78 297.07,228.20 298.38,228.62 299.70,229.04 301.02,229.46 302.33,229.89 303.65,230.32 304.97,230.74 306.28,231.17 307.60,231.60 308.92,232.03 310.23,232.46 311.55,232.89 312.87,233.32 314.18,233.74 315.50,234.17 316.82,234.60 318.13,235.02 319.45,235.44 320.77,235.86 322.08,236.28 323.40,236.70 324.72,237.11 326.03,237.52 327.35,237.93 328.67,238.33 329.98,238.73 331.30,239.13 332.62,239.52 333.93,239.91 335.25,240.30 336.57,240.67 337.88,241.05 339.20,241.42 340.52,241.78 341.83,242.14 343.15,242.49 344.47,242.83 345.78,243.17 347.10,243.50 348.42,243.82 349.73,244.14 351.05,244.45 352.37,244.75 353.68,245.04 355.00,245.33 356.32,245.60 357.63,245.87 358.95,246.13 360.27,246.37 361.58,246.61 362.90,246.84 364.22,247.05 365.53,247.26 366.85,247.45 368.17,247.63 369.48,247.80 370.80,247.96 372.12,248.11 373.43,248.24 374.75,248.36 376.07,248.46 377.38,248.55 378.70,248.62 380.02,248.68 381.33,248.73 382.65,248.75 383.97,248.76 385.28,248.76 386.60,248.73 387.92,248.69 389.23,248.62 390.55,248.54 391.87,248.44 393.18,248.31 394.50,248.16 395.82,248.00 397.13,247.80 398.45,247.59 399.77,247.35 401.08,247.08 402.40,246.79 403.72,246.47 405.03,246.12 406.35,245.74 407.67,245.33 408.98,244.89 410.30,244.42 411.62,243.92 412.93,243.38 414.25,242.80 415.57,242.19 416.88,241.54 418.20,240.85 419.52,240.12 420.83,239.35 422.15,238.53 423.47,237.67 424.78,236.77 426.10,235.82 427.42,234.82 428.73,233.77 430.05,232.67 431.37,231.52 432.68,230.31 434.00,229.06 434.00,254.17 432.68,254.96 431.37,255.72 430.05,256.47 428.73,257.19 427.42,257.89 426.10,258.57 424.78,259.23 423.47,259.86 422.15,260.48 420.83,261.07 419.52,261.65 418.20,262.20 416.88,262.72 415.57,263.23 414.25,263.71 412.93,264.18 411.62,264.62 410.30,265.03 408.98,265.43 407.67,265.80 406.35,266.15 405.03,266.48 403.72,266.79 402.40,267.07 401.08,267.33 399.77,267.57 398.45,267.79 397.13,267.98 395.82,268.15 394.50,268.31 393.18,268.44 391.87,268.55 390.55,268.64 389.23,268.71 387.92,268.76 386.60,268.79 385.28,268.80 383.97,268.79 382.65,268.77 381.33,268.72 380.02,268.66 378.70,268.58 377.38,268.48 376.07,268.37 374.75,268.24 373.43,268.09 372.12,267.93 370.80,267.76 369.48,267.57 368.17,267.36 366.85,267.15 365.53,266.92 364.22,266.67 362.90,266.42 361.58,266.15 360.27,265.87 358.95,265.58 357.63,265.28 356.32,264.97 355.00,264.65 353.68,264.32 352.37,263.99 351.05,263.64 349.73,263.29 348.42,262.93 347.10,262.56 345.78,262.18 344.47,261.80 343.15,261.42 341.83,261.02 340.52,260.63 339.20,260.23 337.88,259.82 336.57,259.41 335.25,259.00 333.93,258.58 332.62,258.17 331.30,257.75 329.98,257.32 328.67,256.90 327.35,256.47 326.03,256.05 324.72,255.62 323.40,255.19 322.08,254.77 320.77,254.34 319.45,253.91 318.13,253.49 316.82,253.06 315.50,252.64 314.18,252.22 312.87,251.80 311.55,251.38 310.23,250.96 308.92,250.55 307.60,250.14 306.28,249.73 304.97,249.33 303.65,248.92 302.33,248.53 301.02,248.13 299.70,247.74 298.38,247.35 297.07,246.97 295.75,246.59 294.43,246.22 293.12,245.85 291.80,245.48 290.48,245.12 289.17,244.77 287.85,244.42 286.53,244.07 285.22,243.73 283.90,243.39 282.58,243.06 281.27,242.74 279.95,242.42 278.63,242.11 277.32,241.80 276.00,241.50 274.68,241.20 273.37,240.91 272.05,240.62 270.73,240.35 269.42,240.07 268.10,239.81 266.78,239.55 265.47,239.29 264.15,239.04 262.83,238.80 261.52,238.56 260.20,238.34 258.88,238.11 257.57,237.89 256.25,237.68 254.93,237.48 253.62,237.28 252.30,237.09 250.98,236.91 249.67,236.73 248.35,236.55 247.03,236.39 245.72,236.23 244.40,236.08 243.08,235.93 241.77,235.79 240.45,235.66 239.13,235.53 237.82,235.41 236.50,235.30 235.18,235.19 233.87,235.09 232.55,234.99 231.23,234.90 229.92,234.82 228.60,234.74 227.28,234.68 225.97,234.61 224.65,234.55 223.33,234.50 222.02,234.46 220.70,234.42 219.38,234.39 218.07,234.36 216.75,234.34 215.43,234.33 214.12,234.32 212.80,234.32 211.48,234.32 210.17,234.33 208.85,234.34 207.53,234.36 206.22,234.39 204.90,234.42 203.58,234.46 202.27,234.50 200.95,234.55 199.63,234.60 198.32,234.66 197.00,234.72 195.68,234.79 194.37,234.86 193.05,234.94 191.73,235.02 190.42,235.11 189.10,235.20 187.78,235.30 186.47,235.40 185.15,235.50 183.83,235.61 182.52,235.73 181.20,235.84 179.88,235.96 178.57,236.09 177.25,236.21 175.93,236.34 174.62,236.48 173.30,236.62 171.98,236.76 170.67,236.90 169.35,237.04 168.03,237.19 166.72,237.34 165.40,237.49 164.08,237.64 162.77,237.80 161.45,237.96 160.13,238.11 158.82,238.27 157.50,238.43 156.18,238.59 154.87,238.75 153.55,238.92 152.23,239.08 150.92,239.24 149.60,239.40 148.28,239.56 146.97,239.72 145.65,239.87 144.33,240.03 143.02,240.18 141.70,240.33 140.38,240.48 139.07,240.63 137.75,240.77 136.43,240.91 135.12,241.05 133.80,241.18 132.48,241.31 131.17,241.43 129.85,241.55 128.53,241.66 127.22,241.76 125.90,241.86 124.58,241.96 123.27,242.04 121.95,242.12 120.63,242.20 119.32,242.26 118.00,242.31 116.68,242.36 115.37,242.40 114.05,242.42 112.73,242.44 111.42,242.44 110.10,242.44 108.78,242.42 107.47,242.39 106.15,242.35 104.83,242.30 103.52,242.23 102.20,242.15 100.88,242.06 99.57,241.95 98.25,241.83 96.93,241.69 95.62,241.53 94.30,241.36 92.98,241.17 91.67,240.97 90.35,240.74 89.03,240.50 87.72,240.25 86.40,239.97 85.08,239.67 83.77,239.36 82.45,239.02 81.13,238.67 79.82,238.29 78.50,237.89 77.18,237.48 75.87,237.04 74.55,236.58 73.23,236.09 71.92,235.59 70.60,235.06 69.28,234.51 67.97,233.94 66.65,233.35 65.33,232.73 64.02,232.09 62.70,231.43 61.38,230.74 60.07,230.03 58.75,229.30 57.43,228.54 56.12,227.77 54.80,226.96 53.48,226.14 52.17,225.29 50.85,224.42 49.53,223.53 48.22,222.61 46.90,221.67 45.58,220.71 44.27,219.72 42.95,218.72 41.63,217.68 40.32,216.63 39.00,215.55"/>
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="39.00,203.47 42.95,205.74 46.90,208.04 50.85,210.37 54.80,212.71 58.75,215.03 62.70,217.31 66.65,219.53 70.60,221.68 74.55,223.73 78.50,225.67 82.45,227.47 86.40,229.13 90.35,230.63 94.30,231.96 98.25,233.11 102.20,234.07 106.15,234.83 110.10,235.39 114.05,235.74 118.00,235.89 121.95,235.84 125.90,235.59 129.85,235.15 133.80,234.53 137.75,233.73 141.70,232.76 145.65,231.65 149.60,230.40 153.55,229.03 157.50,227.56 161.45,226.00 165.40,224.38 169.35,222.72 173.30,221.03 177.25,219.34 181.20,217.67 185.15,216.03 189.10,214.45 193.05,212.95 197.00,211.55 200.95,210.26 204.90,209.10 208.85,208.09 212.80,207.24 216.75,206.56 220.70,206.07 224.65,205.77 228.60,205.67 232.55,205.78 236.50,206.09 240.45,206.61 244.40,207.34 248.35,208.28 252.30,209.41 256.25,210.74 260.20,212.25 264.15,213.93 268.10,215.76 272.05,217.75 276.00,219.86 279.95,222.08 283.90,224.39 287.85,226.78 291.80,229.22 295.75,231.70 299.70,234.19 303.65,236.67 307.60,239.12 311.55,241.52 315.50,243.84 319.45,246.08 323.40,248.21 327.35,250.21 331.30,252.07 335.25,253.78 339.20,255.31 343.15,256.65 347.10,257.81 351.05,258.76 355.00,259.51 358.95,260.04 362.90,260.36 366.85,260.47 370.80,260.36 374.75,260.05 378.70,259.54 382.65,258.83 386.60,257.94 390.55,256.88 394.50,255.67 398.45,254.31 402.40,252.82 406.35,251.23 410.30,249.54 414.25,247.79 418.20,245.98 422.15,244.14 426.10,242.30 430.05,240.47 434.00,238.66"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="39.00,204.44 42.95,208.17 46.90,211.56 50.85,214.65 54.80,217.43 58.75,219.93 62.70,222.17 66.65,224.15 70.60,225.89 74.55,227.41 78.50,228.72 82.45,229.83 86.40,230.75 90.35,231.51 94.30,232.10 98.25,232.55 102.20,232.86 106.15,233.05 110.10,233.12 114.05,233.10 118.00,232.98 121.95,232.78 125.90,232.50 129.85,232.17 133.80,231.78 137.75,231.35 141.70,230.88 145.65,230.38 149.60,229.86 153.55,229.33 157.50,228.79 161.45,228.25 165.40,227.73 169.35,227.21 173.30,226.71 177.25,226.24 181.20,225.80 185.15,225.39 189.10,225.03 193.05,224.70 197.00,224.42 200.95,224.20 204.90,224.02 208.85,223.91 212.80,223.85 216.75,223.85 220.70,223.92 224.65,224.05 228.60,224.25 232.55,224.51 236.50,224.84 240.45,225.24 244.40,225.70 248.35,226.23 252.30,226.83 256.25,227.49 260.20,228.22 264.15,229.01 268.10,229.85 272.05,230.75 276.00,231.71 279.95,232.72 283.90,233.77 287.85,234.87 291.80,236.01 295.75,237.19 299.70,238.39 303.65,239.62 307.60,240.87 311.55,242.13 315.50,243.40 319.45,244.68 323.40,245.95 327.35,247.20 331.30,248.44 335.25,249.65 339.20,250.82 343.15,251.95 347.10,253.03 351.05,254.04 355.00,254.99 358.95,255.85 362.90,256.63 366.85,257.30 370.80,257.86 374.75,258.30 378.70,258.60 382.65,258.76 386.60,258.76 390.55,258.59 394.50,258.24 398.45,257.69 402.40,256.93 406.35,255.95 410.30,254.73 414.25,253.26 418.20,251.52 422.15,249.51 426.10,247.19 430.05,244.57 434.00,241.61"/>
+<circle cx="71.78" cy="221.25" r="3" fill="currentColor"/>
+<circle cx="77.53" cy="231.32" r="3" fill="currentColor"/>
+<circle cx="93.56" cy="238.20" r="3" fill="currentColor"/>
+<circle cx="136.54" cy="232.88" r="3" fill="currentColor"/>
+<circle cx="169.92" cy="222.48" r="3" fill="currentColor"/>
+<circle cx="290.09" cy="232.41" r="3" fill="currentColor"/>
+<circle cx="304.43" cy="236.69" r="3" fill="currentColor"/>
+<circle cx="339.69" cy="260.47" r="3" fill="currentColor"/>
+<circle cx="357.60" cy="253.38" r="3" fill="currentColor"/>
+<circle cx="427.18" cy="245.70" r="3" fill="currentColor"/>
+</g>
+<path class="fig-danger" style="stroke-width:2.8" d="M35.00,203.47h8 M39.00,199.47v8"/>
+<defs><clipPath id="clip-update-8-302-440-150-+5"><rect x="39" y="332" width="395" height="92"/></clipPath></defs>
+<text class="fig-text" style="font-size:17px;font-weight:650" x="39" y="321">+5 관측 추가 · 12개</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="39.0" x2="39.0" y1="332" y2="424"/>
+<text class="fig-text" style="font-size:14px" x="39.0" y="444" text-anchor="middle">−5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="236.5" x2="236.5" y1="332" y2="424"/>
+<text class="fig-text" style="font-size:14px" x="236.5" y="444" text-anchor="middle">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.12" x1="434.0" x2="434.0" y1="332" y2="424"/>
+<text class="fig-text" style="font-size:14px" x="434.0" y="444" text-anchor="middle">5</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="419.8181818181818" y2="419.8181818181818"/>
+<text class="fig-text" style="font-size:14px" x="32" y="424.8181818181818" text-anchor="end">−2</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="378.0" y2="378.0"/>
+<text class="fig-text" style="font-size:14px" x="32" y="383.0" text-anchor="end">0</text>
+<line class="fig-ink" style="stroke-width:1;opacity:.17" x1="39" x2="434" y1="336.1818181818182" y2="336.1818181818182"/>
+<text class="fig-text" style="font-size:14px" x="32" y="341.1818181818182" text-anchor="end">2</text>
+<g clip-path="url(#clip-update-8-302-440-150-+5)">
+<polygon class="fig-dot" opacity=".21" points="39.00,344.19 40.32,345.69 41.63,347.13 42.95,348.53 44.27,349.87 45.58,351.16 46.90,352.41 48.22,353.60 49.53,354.75 50.85,355.86 52.17,356.92 53.48,357.94 54.80,358.92 56.12,359.85 57.43,360.75 58.75,361.61 60.07,362.44 61.38,363.22 62.70,363.98 64.02,364.70 65.33,365.38 66.65,366.04 67.97,366.66 69.28,367.26 70.60,367.82 71.92,368.36 73.23,368.87 74.55,369.35 75.87,369.81 77.18,370.25 78.50,370.66 79.82,371.04 81.13,371.41 82.45,371.75 83.77,372.07 85.08,372.37 86.40,372.65 87.72,372.91 89.03,373.16 90.35,373.38 91.67,373.58 92.98,373.77 94.30,373.95 95.62,374.10 96.93,374.24 98.25,374.36 99.57,374.47 100.88,374.57 102.20,374.65 103.52,374.72 104.83,374.77 106.15,374.81 107.47,374.84 108.78,374.85 110.10,374.86 111.42,374.85 112.73,374.83 114.05,374.81 115.37,374.77 116.68,374.72 118.00,374.66 119.32,374.59 120.63,374.51 121.95,374.43 123.27,374.34 124.58,374.23 125.90,374.13 127.22,374.01 128.53,373.89 129.85,373.75 131.17,373.62 132.48,373.48 133.80,373.33 135.12,373.17 136.43,373.01 137.75,372.85 139.07,372.68 140.38,372.51 141.70,372.33 143.02,372.15 144.33,371.97 145.65,371.78 146.97,371.59 148.28,371.40 149.60,371.20 150.92,371.00 152.23,370.81 153.55,370.61 154.87,370.41 156.18,370.20 157.50,370.00 158.82,369.80 160.13,369.59 161.45,369.39 162.77,369.19 164.08,368.99 165.40,368.79 166.72,368.59 168.03,368.39 169.35,368.19 170.67,368.00 171.98,367.81 173.30,367.62 174.62,367.43 175.93,367.25 177.25,367.07 178.57,366.89 179.88,366.72 181.20,366.55 182.52,366.38 183.83,366.22 185.15,366.07 186.47,365.92 187.78,365.77 189.10,365.63 190.42,365.49 191.73,365.36 193.05,365.24 194.37,365.12 195.68,365.01 197.00,364.90 198.32,364.80 199.63,364.71 200.95,364.62 202.27,364.54 203.58,364.47 204.90,364.40 206.22,364.34 207.53,364.29 208.85,364.25 210.17,364.21 211.48,364.18 212.80,364.16 214.12,364.15 215.43,364.14 216.75,364.15 218.07,364.16 219.38,364.18 220.70,364.21 222.02,364.24 223.33,364.29 224.65,364.34 225.97,364.40 227.28,364.47 228.60,364.55 229.92,364.64 231.23,364.74 232.55,364.84 233.87,364.96 235.18,365.08 236.50,365.21 237.82,365.35 239.13,365.50 240.45,365.66 241.77,365.82 243.08,366.00 244.40,366.18 245.72,366.37 247.03,366.57 248.35,366.78 249.67,367.00 250.98,367.22 252.30,367.45 253.62,367.69 254.93,367.94 256.25,368.20 257.57,368.46 258.88,368.74 260.20,369.02 261.52,369.30 262.83,369.60 264.15,369.90 265.47,370.21 266.78,370.52 268.10,370.85 269.42,371.18 270.73,371.51 272.05,371.85 273.37,372.20 274.68,372.56 276.00,372.92 277.32,373.28 278.63,373.65 279.95,374.03 281.27,374.41 282.58,374.79 283.90,375.18 285.22,375.58 286.53,375.98 287.85,376.38 289.17,376.79 290.48,377.20 291.80,377.61 293.12,378.03 294.43,378.45 295.75,378.87 297.07,379.29 298.38,379.72 299.70,380.15 301.02,380.57 302.33,381.01 303.65,381.44 304.97,381.87 306.28,382.30 307.60,382.74 308.92,383.17 310.23,383.60 311.55,384.04 312.87,384.47 314.18,384.90 315.50,385.33 316.82,385.76 318.13,386.18 319.45,386.61 320.77,387.03 322.08,387.45 323.40,387.87 324.72,388.28 326.03,388.69 327.35,389.10 328.67,389.50 329.98,389.90 331.30,390.30 332.62,390.69 333.93,391.07 335.25,391.45 336.57,391.83 337.88,392.20 339.20,392.56 340.52,392.92 341.83,393.27 343.15,393.61 344.47,393.95 345.78,394.28 347.10,394.61 348.42,394.92 349.73,395.23 351.05,395.53 352.37,395.82 353.68,396.10 355.00,396.37 356.32,396.64 357.63,396.89 358.95,397.13 360.27,397.37 361.58,397.59 362.90,397.80 364.22,398.00 365.53,398.19 366.85,398.37 368.17,398.54 369.48,398.69 370.80,398.83 372.12,398.96 373.43,399.07 374.75,399.17 376.07,399.25 377.38,399.32 378.70,399.38 380.02,399.42 381.33,399.44 382.65,399.45 383.97,399.44 385.28,399.41 386.60,399.37 387.92,399.31 389.23,399.22 390.55,399.12 391.87,399.00 393.18,398.86 394.50,398.70 395.82,398.52 397.13,398.31 398.45,398.08 399.77,397.83 401.08,397.55 402.40,397.25 403.72,396.92 405.03,396.57 406.35,396.19 407.67,395.78 408.98,395.34 410.30,394.87 411.62,394.37 412.93,393.83 414.25,393.27 415.57,392.67 416.88,392.03 418.20,391.36 419.52,390.65 420.83,389.90 422.15,389.11 423.47,388.27 424.78,387.40 426.10,386.48 427.42,385.51 428.73,384.49 430.05,383.43 431.37,382.31 432.68,381.14 434.00,379.92 434.00,400.49 432.68,401.47 431.37,402.43 430.05,403.36 428.73,404.27 427.42,405.15 426.10,406.00 424.78,406.83 423.47,407.64 422.15,408.41 420.83,409.16 419.52,409.89 418.20,410.58 416.88,411.25 415.57,411.89 414.25,412.50 412.93,413.09 411.62,413.64 410.30,414.17 408.98,414.68 407.67,415.15 406.35,415.60 405.03,416.02 403.72,416.42 402.40,416.78 401.08,417.13 399.77,417.44 398.45,417.73 397.13,418.00 395.82,418.24 394.50,418.45 393.18,418.64 391.87,418.81 390.55,418.95 389.23,419.07 387.92,419.17 386.60,419.25 385.28,419.30 383.97,419.33 382.65,419.35 381.33,419.34 380.02,419.31 378.70,419.26 377.38,419.20 376.07,419.12 374.75,419.01 373.43,418.89 372.12,418.76 370.80,418.61 369.48,418.44 368.17,418.26 366.85,418.06 365.53,417.85 364.22,417.62 362.90,417.38 361.58,417.13 360.27,416.87 358.95,416.59 357.63,416.30 356.32,416.00 355.00,415.70 353.68,415.38 352.37,415.05 351.05,414.71 349.73,414.37 348.42,414.01 347.10,413.65 345.78,413.29 344.47,412.91 343.15,412.53 341.83,412.14 340.52,411.75 339.20,411.35 337.88,410.95 336.57,410.55 335.25,410.14 333.93,409.72 332.62,409.31 331.30,408.89 329.98,408.47 328.67,408.05 327.35,407.62 326.03,407.19 324.72,406.77 323.40,406.34 322.08,405.91 320.77,405.48 319.45,405.06 318.13,404.63 316.82,404.20 315.50,403.78 314.18,403.35 312.87,402.93 311.55,402.51 310.23,402.09 308.92,401.67 307.60,401.26 306.28,400.85 304.97,400.44 303.65,400.03 302.33,399.63 301.02,399.23 299.70,398.84 298.38,398.44 297.07,398.06 295.75,397.67 294.43,397.29 293.12,396.92 291.80,396.55 290.48,396.18 289.17,395.82 287.85,395.46 286.53,395.11 285.22,394.77 283.90,394.42 282.58,394.09 281.27,393.76 279.95,393.43 278.63,393.11 277.32,392.80 276.00,392.49 274.68,392.18 273.37,391.89 272.05,391.60 270.73,391.31 269.42,391.03 268.10,390.76 266.78,390.49 265.47,390.23 264.15,389.97 262.83,389.72 261.52,389.48 260.20,389.24 258.88,389.01 257.57,388.79 256.25,388.57 254.93,388.36 253.62,388.16 252.30,387.96 250.98,387.77 249.67,387.58 248.35,387.40 247.03,387.23 245.72,387.07 244.40,386.91 243.08,386.75 241.77,386.61 240.45,386.47 239.13,386.34 237.82,386.21 236.50,386.09 235.18,385.98 233.87,385.87 232.55,385.77 231.23,385.68 229.92,385.59 228.60,385.51 227.28,385.44 225.97,385.37 224.65,385.31 223.33,385.26 222.02,385.21 220.70,385.17 219.38,385.13 218.07,385.10 216.75,385.08 215.43,385.06 214.12,385.05 212.80,385.05 211.48,385.05 210.17,385.06 208.85,385.07 207.53,385.09 206.22,385.11 204.90,385.14 203.58,385.18 202.27,385.22 200.95,385.27 199.63,385.32 198.32,385.38 197.00,385.44 195.68,385.51 194.37,385.59 193.05,385.67 191.73,385.75 190.42,385.84 189.10,385.93 187.78,386.03 186.47,386.13 185.15,386.24 183.83,386.35 182.52,386.47 181.20,386.59 179.88,386.71 178.57,386.84 177.25,386.97 175.93,387.10 174.62,387.24 173.30,387.38 171.98,387.53 170.67,387.67 169.35,387.82 168.03,387.97 166.72,388.13 165.40,388.29 164.08,388.44 162.77,388.60 161.45,388.77 160.13,388.93 158.82,389.09 157.50,389.26 156.18,389.43 154.87,389.59 153.55,389.76 152.23,389.93 150.92,390.09 149.60,390.26 148.28,390.43 146.97,390.59 145.65,390.76 144.33,390.92 143.02,391.08 141.70,391.24 140.38,391.39 139.07,391.54 137.75,391.69 136.43,391.84 135.12,391.98 133.80,392.12 132.48,392.25 131.17,392.38 129.85,392.51 128.53,392.63 127.22,392.74 125.90,392.84 124.58,392.94 123.27,393.04 121.95,393.12 120.63,393.20 119.32,393.27 118.00,393.33 116.68,393.38 115.37,393.42 114.05,393.45 112.73,393.48 111.42,393.49 110.10,393.49 108.78,393.47 107.47,393.45 106.15,393.41 104.83,393.37 103.52,393.30 102.20,393.23 100.88,393.14 99.57,393.03 98.25,392.91 96.93,392.77 95.62,392.62 94.30,392.45 92.98,392.27 91.67,392.06 90.35,391.84 89.03,391.60 87.72,391.35 86.40,391.07 85.08,390.78 83.77,390.46 82.45,390.13 81.13,389.77 79.82,389.39 78.50,389.00 77.18,388.58 75.87,388.14 74.55,387.68 73.23,387.19 71.92,386.69 70.60,386.16 69.28,385.60 67.97,385.03 66.65,384.43 65.33,383.81 64.02,383.16 62.70,382.49 61.38,381.80 60.07,381.09 58.75,380.35 57.43,379.58 56.12,378.80 54.80,377.98 53.48,377.15 52.17,376.29 50.85,375.41 49.53,374.50 48.22,373.57 46.90,372.62 45.58,371.64 44.27,370.64 42.95,369.62 41.63,368.57 40.32,367.50 39.00,366.40"/>
+<polyline class="fig-ink" style="stroke-dasharray:5 5;stroke-width:1.7;opacity:.72;stroke-linejoin:round;stroke-linecap:round" points="39.00,354.47 42.95,356.74 46.90,359.04 50.85,361.37 54.80,363.71 58.75,366.03 62.70,368.31 66.65,370.53 70.60,372.68 74.55,374.73 78.50,376.67 82.45,378.47 86.40,380.13 90.35,381.63 94.30,382.96 98.25,384.11 102.20,385.07 106.15,385.83 110.10,386.39 114.05,386.74 118.00,386.89 121.95,386.84 125.90,386.59 129.85,386.15 133.80,385.53 137.75,384.73 141.70,383.76 145.65,382.65 149.60,381.40 153.55,380.03 157.50,378.56 161.45,377.00 165.40,375.38 169.35,373.72 173.30,372.03 177.25,370.34 181.20,368.67 185.15,367.03 189.10,365.45 193.05,363.95 197.00,362.55 200.95,361.26 204.90,360.10 208.85,359.09 212.80,358.24 216.75,357.56 220.70,357.07 224.65,356.77 228.60,356.67 232.55,356.78 236.50,357.09 240.45,357.61 244.40,358.34 248.35,359.28 252.30,360.41 256.25,361.74 260.20,363.25 264.15,364.93 268.10,366.76 272.05,368.75 276.00,370.86 279.95,373.08 283.90,375.39 287.85,377.78 291.80,380.22 295.75,382.70 299.70,385.19 303.65,387.67 307.60,390.12 311.55,392.52 315.50,394.84 319.45,397.08 323.40,399.21 327.35,401.21 331.30,403.07 335.25,404.78 339.20,406.31 343.15,407.65 347.10,408.81 351.05,409.76 355.00,410.51 358.95,411.04 362.90,411.36 366.85,411.47 370.80,411.36 374.75,411.05 378.70,410.54 382.65,409.83 386.60,408.94 390.55,407.88 394.50,406.67 398.45,405.31 402.40,403.82 406.35,402.23 410.30,400.54 414.25,398.79 418.20,396.98 422.15,395.14 426.10,393.30 430.05,391.47 434.00,389.66"/>
+<polyline class="fig-accent" style="stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round" points="39.00,355.30 42.95,359.07 46.90,362.51 50.85,365.63 54.80,368.45 58.75,370.98 62.70,373.24 66.65,375.23 70.60,376.99 74.55,378.52 78.50,379.83 82.45,380.94 86.40,381.86 90.35,382.61 94.30,383.20 98.25,383.64 102.20,383.94 106.15,384.11 110.10,384.17 114.05,384.13 118.00,383.99 121.95,383.78 125.90,383.48 129.85,383.13 133.80,382.72 137.75,382.27 141.70,381.78 145.65,381.27 149.60,380.73 153.55,380.18 157.50,379.63 161.45,379.08 165.40,378.54 169.35,378.01 173.30,377.50 177.25,377.02 181.20,376.57 185.15,376.15 189.10,375.78 193.05,375.45 197.00,375.17 200.95,374.94 204.90,374.77 208.85,374.66 212.80,374.60 216.75,374.61 220.70,374.69 224.65,374.83 228.60,375.03 232.55,375.31 236.50,375.65 240.45,376.06 244.40,376.54 248.35,377.09 252.30,377.71 256.25,378.39 260.20,379.13 264.15,379.94 268.10,380.80 272.05,381.72 276.00,382.70 279.95,383.73 283.90,384.80 287.85,385.92 291.80,387.08 295.75,388.27 299.70,389.49 303.65,390.73 307.60,392.00 311.55,393.27 315.50,394.55 319.45,395.83 323.40,397.10 327.35,398.36 331.30,399.59 335.25,400.80 339.20,401.96 343.15,403.07 347.10,404.13 351.05,405.12 355.00,406.03 358.95,406.86 362.90,407.59 366.85,408.21 370.80,408.72 374.75,409.09 378.70,409.32 382.65,409.40 386.60,409.31 390.55,409.04 394.50,408.58 398.45,407.91 402.40,407.02 406.35,405.89 410.30,404.52 414.25,402.88 418.20,400.97 422.15,398.76 426.10,396.24 430.05,393.39 434.00,390.20"/>
+<circle cx="71.78" cy="372.25" r="3" fill="currentColor"/>
+<circle cx="77.53" cy="382.32" r="3" fill="currentColor"/>
+<circle cx="93.56" cy="389.20" r="3" fill="currentColor"/>
+<circle cx="136.54" cy="383.88" r="3" fill="currentColor"/>
+<circle cx="169.92" cy="373.48" r="3" fill="currentColor"/>
+<circle cx="290.09" cy="383.41" r="3" fill="currentColor"/>
+<circle cx="304.43" cy="387.69" r="3" fill="currentColor"/>
+<circle cx="339.69" cy="411.47" r="3" fill="currentColor"/>
+<circle cx="357.60" cy="404.38" r="3" fill="currentColor"/>
+<circle cx="427.18" cy="396.70" r="3" fill="currentColor"/>
+</g>
+<path class="fig-danger" style="stroke-width:2.8" d="M35.00,354.47h8 M39.00,350.47v8"/>
+<path class="fig-danger" style="stroke-width:2.8" d="M430.00,388.41h8 M434.00,384.41v8"/>
+</svg><figcaption>실선은 예측평균, 띠는 새 관측값의 95% 예측구간, 점선은 생성 함수예요. +는 처음 10개에 이어 추가한 관측값이에요.</figcaption></figure>
+    <p>실습을 재현한 값으로 보면 $x=-5$에서 관측한 뒤, 같은 위치의 다음 관측값에 대한 95% 예측구간 전체 폭은 약 $1.95$에서 $1.06$으로 줄어요. 이후 $x=5$에서 관측하자 오른쪽 끝의 폭도 약 $1.20$에서 $0.98$로 줄어요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">사용한 관측</th><th scope="col">$x_*=-5$ 구간 폭</th><th scope="col">$x_*=5$ 구간 폭</th></tr></thead>
+      <tbody>
+        <tr><td>처음 10개</td><td>1.95</td><td>1.21</td></tr>
+        <tr><td>11개 · $x=-5$ 관측 추가</td><td>1.06</td><td>1.20</td></tr>
+        <tr><td>12개 · $x=5$ 관측 추가</td><td>1.06</td><td>0.98</td></tr>
+      </tbody>
+    </table></div>
+    <p>폭을 계산할 때는 평균의 양옆에 표준편차의 $1.96$배씩 두므로 $3.92\sqrt{v_f+\sigma^2}$가 돼요. $x_*=-5$에서 점 하나를 추가하기 전후로 함수값의 분산 $v_f$가 약 $0.2073$에서 $0.0335$로 바뀌어요.</p>
+    <div>$$3.92\sqrt{0.2073+0.04}\approx1.95$$</div>
+    <div>$$3.92\sqrt{0.0335+0.04}\approx1.06$$</div>
+    <p>이 차이는 학습에 넣는 관측 쌍 $(x_{\mathrm{new}},y_{\mathrm{new}})$에서 시작해요. 실습에서는 $\Phi$에 새 특성 행 $\boldsymbol{\phi}(x_{\mathrm{new}})^\top$를, $\mathbf y$에는 $y_{\mathrm{new}}$를 추가해 $S_{N+1}$과 $\mathbf m_{N+1}$을 다시 계산해요. $\Phi^\top\Phi$에 추가되는 항은 $\boldsymbol{\phi}(x_{\mathrm{new}})\boldsymbol{\phi}(x_{\mathrm{new}})^\top$라서, 어떤 입력에서 관측했는지가 다음 예측구간의 폭에 영향을 줘요. 관측값 $y_{\mathrm{new}}$는 $\Phi^\top\mathbf y$에 들어가 평균을 갱신해요.</p>
+    <p>같은 갱신을 순차적으로 표현하면 기존 사후분포가 새 사전분포 역할을 해요. 실습 모형에서는 계수와 입력이 주어졌을 때 새 관측이 앞선 관측과 독립이므로, 새 관측 하나의 우도에 기존 사후밀도를 곱하고 정규화해요.</p>
+    <div>$$p(\boldsymbol{\theta}\mid\mathcal D_{N+1})\propto p(y_{\mathrm{new}}\mid x_{\mathrm{new}},\boldsymbol{\theta})\,p(\boldsymbol{\theta}\mid\mathcal D_N)$$</div>
+    <p>계수의 사후분포를 더 좁게 갱신해도 앞으로 측정할 때마다 잡음 분산 $0.04$는 그대로 더해져요. 입력만 주어지면 현재 사후분포로 예측하고, 입력과 관측값을 함께 얻으면 사후분포를 갱신한 뒤 다시 예측해요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">처음 10개 점에 $x=-5$의 관측값을 더하자, 같은 입력에서 다음 관측의 95% 예측구간 폭이 약 $1.95$에서 $1.06$으로 줄어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms"><dt>순차 갱신(sequential update)</dt><dd>직전 사후분포를 새 사전분포로 써서 다음 관측 하나를 반영해요.</dd><dt>새 관측의 잡음 분산</dt><dd>계수의 사후분포를 갱신해도 새 관측값에는 $\sigma^2$가 더해져요.</dd></dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">순차 갱신</span>$$p(\boldsymbol{\theta}\mid\mathcal D_{N+1})\propto p(y_{\mathrm{new}}\mid x_{\mathrm{new}},\boldsymbol{\theta})\,p(\boldsymbol{\theta}\mid\mathcal D_N)$$</li>
+      <li><span class="eq-name">95% 구간의 전체 폭</span>$$3.92\sqrt{v_f+\sigma^2}$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s3"><h2>4. 요약 · 예고</h2>
+<article class="topic" id="s3-cheatsheet">
+  <h3>중간고사 풀이를 다시 꺼내는 순서</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th scope="col">문항과 답의 대상</th><th scope="col">계산을 복원하는 순서</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">6번 · 계수 벡터</th><td>입력마다 특징 행을 만들어요. 분산이 같은 독립 가우시안 잡음이면 최대우도는 잔차제곱합을 줄여요. 평균이 0이고 공분산이 $\gamma^2 I$인 사전을 쓰는 MAP에서는 정규방정식의 왼쪽에 $\lambda I$가 붙어요.</td></tr>
+      <tr><th scope="row">9번 · 계수의 분포</th><td>$\Phi^\top\Phi$의 잡음 분산 역수 배와 사전 정밀도를 더해 역행렬을 취하면 $S_N$이에요. $\Phi^\top\mathbf y$와 사전평균을 반영해 $\mathbf m_N$을 구해요.</td></tr>
+      <tr><th scope="row">10번 · 출력의 분포</th><td>새 특징 벡터를 $\mathbf m_N$과 $S_N$에 각각 넣어요. 새 관측값을 예측할 때는 함수값의 분산에 독립 잡음 분산 $\sigma^2$을 더해요.</td></tr>
+    </tbody>
+  </table></div>
+  <p>실습에서는 차수, 정규화 강도, 관측 수를 차례로 바꿨어요. 9차 ML은 학습점 사이와 구간 끝에서 크게 휘었고, 4차 베이지안 회귀에서는 양 끝의 관측을 추가하자 그 위치의 예측구간이 좁아졌어요.</p>
+</article>
+<article class="topic" id="s3-next">
+  <h3>다음 실습 예고</h3>
+  <ul><li>주성분분석(PCA)</li><li>EM 알고리즘</li></ul>
+</article>
+<article class="topic" id="s3-links">
+  <h3>실습 자료와 다시 볼 정리노트</h3>
+  <ul>
+    <li><a href="../../%EA%B0%95%EC%9D%98%EB%85%B8%ED%8A%B8/TA_Lecture_Introduction_to_Machine_Learning_Practice_1.pdf">이영석 조교 실습자료 · Linear Regression</a></li>
+    <li><a href="../../%EA%B5%90%EA%B3%BC%EC%84%9C/Mathematics_for_Machine_Learning.pdf#page=297">교과서 · MML 9장 선형회귀</a></li>
+    <li><a href="../0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s1-theta-ml">기존 정리노트 · 최대우도 정규방정식 (0928)</a></li>
+    <li><a href="../1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s2-uncertainty">기존 정리노트 · 함수값과 새 관측값의 불확실성 (1014)</a></li>
+  </ul>
+</article>
+    </section>
+  </main>
+  <footer>이영석 조교 실습자료 7–20쪽, 머신러닝기초 중간고사 6·9·10번, <i>Mathematics for Machine Learning</i> 9장.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums" id="sum-for"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+  <script id="note-stage-navigation">
+    (() => {
+      const scroller = document.querySelector('.content');
+      const topics = Array.from(document.querySelectorAll('article.topic')).filter(t => t.querySelector('.note-stage-nav'));
+      if (!scroller || !topics.length) return;
+      let pending = false;
+      function paint() {
+        pending = false;
+        topics.forEach(topic => {
+          if (!topic.getClientRects().length) return;
+          const nav = topic.querySelector('.note-stage-nav');
+          const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+          const boundary = nav.getBoundingClientRect().bottom + 48;
+          let current = 0;
+          links.forEach((link, i) => {
+            const heading = document.getElementById(link.hash.slice(1));
+            if (heading && heading.getBoundingClientRect().top <= boundary) current = i;
+          });
+          // 짧은 마지막 단계는 제목이 기준선에 닿기 전에 스크롤이 끝날 수 있다.
+          if (scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= 1) current = links.length - 1;
+          const changed = links[current] && links[current].getAttribute('aria-current') !== 'step';
+          links.forEach((link, i) => {
+            if (i === current) link.setAttribute('aria-current', 'step');
+            else link.removeAttribute('aria-current');
+          });
+          if (changed) {
+            const bounds = nav.getBoundingClientRect();
+            const active = links[current].getBoundingClientRect();
+            if (active.right > bounds.right) nav.scrollLeft += active.right - bounds.right + 8;
+            else if (active.left < bounds.left) nav.scrollLeft += active.left - bounds.left - 8;
+          }
+        });
+      }
+      function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+      scroller.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      document.addEventListener('od:screen', schedule);
+      window.addEventListener('hashchange', schedule);
+      window.addEventListener('load', schedule);
+      schedule();
+    })();
+  </script>
+  <script id="deriv-fit">
+    (() => {
+      // 식이 주석 칸 옆에 다 들어가지 않으면 그 줄만 주석을 식 아래로 내린다.
+      function fit(list) {
+        const rows = Array.from(list.children);
+        rows.forEach(li => li.classList.remove('is-wide'));
+        const wide = rows.map(li => {
+          const k = li.querySelector('.katex-display');
+          return Boolean(k) && k.scrollWidth > k.clientWidth + 1;
+        });
+        rows.forEach((li, i) => li.classList.toggle('is-wide', wide[i]));
+      }
+      function start() {
+        const lists = Array.from(document.querySelectorAll('ol.deriv'));
+        if (!lists.length) return;
+        if (!('ResizeObserver' in window)) { lists.forEach(fit); return; }
+        const widths = new WeakMap();
+        const ro = new ResizeObserver(entries => entries.forEach(en => {
+          const w = Math.round(en.contentRect.width);
+          // 숨은 토픽(폭 0)은 기록을 지워, 다시 보일 때 같은 폭이어도 새로 잰다.
+          if (!w) { widths.delete(en.target); return; }
+          if (widths.get(en.target) !== w) { widths.set(en.target, w); fit(en.target); }
+        }));
+        lists.forEach(l => ro.observe(l));
+        // KaTeX 글꼴은 그 식이 처음 보일 때 늦게 불러와 폭이 바뀌므로, 글꼴 로드 뒤에도 다시 잰다.
+        const refitVisible = () => lists.forEach(l => { if (l.clientWidth) fit(l); });
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refitVisible);
+          if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refitVisible);
+        }
+      }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+    })();
+  </script>
+</body>
+</html>
