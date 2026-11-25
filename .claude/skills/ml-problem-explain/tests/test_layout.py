@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from mpe_source import load_source
 from mpe_render import build_explanation
-from helpers import fragment
+from helpers import course_stage, fragment
 
 ROOT=Path(__file__).resolve().parents[4]
 
@@ -14,7 +14,8 @@ def test_summary_preserves_math_when_navigating_after_render(tmp_path, width):
     pack=load_source(ROOT/'과제/과제1/과제1_Homework1.html',ROOT)
     # Plain and formula titles catch stale content when navigating in both directions.
     pack=replace(pack,problems=(pack.problems[0],pack.problems[19]))
-    artifact=build_explanation(pack,{p.id:fragment(p) for p in pack.problems},tmp_path/'stage',ROOT)
+    sums={'p1':'평문 요약','p20':r'규제 $\lambda I$ 요약'}
+    artifact=build_explanation(pack,{p.id:fragment(p).replace('시작·판단·검산',sums[p.id]) for p in pack.problems},course_stage(tmp_path),ROOT)
     with pw.sync_playwright() as playwright:
         browser=playwright.chromium.launch(headless=True)
         page=browser.new_page(viewport={'width':width,'height':900},color_scheme='dark')
@@ -22,15 +23,15 @@ def test_summary_preserves_math_when_navigating_after_render(tmp_path, width):
         for problem_id in ['p20','p1','p20']:
             page.evaluate('(id)=>{location.hash=id}',problem_id)
             page.wait_for_function('(id)=>document.querySelector("#"+id).hidden===false',arg=problem_id)
-            heading=page.locator(f'#{problem_id} h3')
-            summary=page.locator('#sum-for')
-            assert summary.locator('.katex').count()==heading.locator('.katex').count()
-            assert summary.inner_html()==heading.inner_html()
-        assert page.locator('#sum-for .katex').count()==1
+            # The panel shows only the current summary; titles stay in the main column.
+            shown=page.locator('#sum-for .sum:not([hidden])')
+            assert shown.count()==1
+            assert shown.locator('.katex').count()==(1 if problem_id=='p20' else 0)
+            assert '요약' in shown.text_content() and '$' not in shown.text_content()
+            assert page.locator(f'#{problem_id} h3 .katex').count()==(1 if problem_id=='p20' else 0)
         assert page.locator('.katex-error').count()==0
         page.evaluate('location.hash="intro"')
-        page.wait_for_function('document.querySelector("#sum-for").textContent==="전체 흐름"')
-        assert page.locator('#sum-for .katex').count()==0
+        page.wait_for_function('!document.querySelector("#sum-for .sum:not([hidden])")')
         browser.close()
 
 def test_short_math_and_layer_spacing_remain_readable(tmp_path):
@@ -39,7 +40,7 @@ def test_short_math_and_layer_spacing_remain_readable(tmp_path):
     pack=replace(pack,problems=pack.problems[:1])
     p=pack.problems[0]
     body=fragment(p).replace('$A=1$', '$(A^\\top)_{ij}=A_{ji}$')
-    artifact=build_explanation(pack,{'p1':body},tmp_path/'stage',ROOT)
+    artifact=build_explanation(pack,{'p1':body},course_stage(tmp_path),ROOT)
     with pw.sync_playwright() as playwright:
         browser=playwright.chromium.launch(headless=True)
         page=browser.new_page(viewport={'width':375,'height':812})
@@ -65,7 +66,7 @@ def test_long_likelihood_overflow_is_accessible_after_layout(tmp_path):
     pack=load_source(ROOT/'과제/과제1/과제1_Homework1.html',ROOT)
     p=pack.problems[14];pack=replace(pack,problems=(p,))
     body=fragment(p).replace('$A=1$',p.reference_answer)
-    artifact=build_explanation(pack,{'p15':body},tmp_path/'stage',ROOT)
+    artifact=build_explanation(pack,{'p15':body},course_stage(tmp_path),ROOT)
     with pw.sync_playwright() as playwright:
         browser=playwright.chromium.launch(headless=True)
         page=browser.new_page(viewport={'width':375,'height':812})

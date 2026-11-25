@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import http.server
 import os
+import random
 from pathlib import Path
 import shutil
 import sys
@@ -32,3 +34,17 @@ def copy_nfc(src: Path, dst_dir: Path) -> Path:
     dst = dst_dir / unicodedata.normalize("NFC", src.name)
     shutil.copyfile(src, dst)
     return dst
+
+
+class _Server(http.server.ThreadingHTTPServer):
+    allow_reuse_address = False  # on Windows reuse would let two servers share one port
+
+
+def local_server(handler):
+    """Serve on a free port that Chrome accepts; it blocks several ports up to 10080."""
+    for port in random.sample(range(20000, 60000), 50):
+        try:
+            return _Server(('127.0.0.1', port), handler)
+        except OSError:
+            continue
+    raise RuntimeError('no free local port')

@@ -2,7 +2,7 @@
 from dataclasses import replace
 from pathlib import Path
 import pytest
-from helpers import TERMS, fragment
+from helpers import TERMS, course_stage, fragment, local_server
 from mpe_contract import validate_fragment
 from mpe_render import build_explanation, check_artifacts
 from mpe_source import load_source
@@ -22,7 +22,7 @@ def panel_stage(tmp_path):
                '<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>선형독립</dt><dd>$V\\alpha=0$의 해가 $\\alpha=0$뿐인 성질. $$p(y\\mid\\theta,X)=\\prod_{n=1}^{N}\\frac{1}{\\sqrt{2\\pi\\sigma^2}}\\exp\\left(-\\frac{(y_n-\\phi(x_n)^\\top\\theta)^2}{2\\sigma^2}\\right)$$</dd></dl></section>',
         p2.id: fragment(p2).replace('시작·판단·검산', '둘째 문제 판단 요약'),
     }
-    art = build_explanation(pack, bodies, tmp_path / 'stage', ROOT)
+    art = build_explanation(pack, bodies, course_stage(tmp_path), ROOT)
     assert check_artifacts(pack, art) == []
     assert '선형독립' in art.md.read_text(encoding='utf-8')
     return art
@@ -94,7 +94,7 @@ def test_long_panel_formula_receives_accessible_math_layout(tmp_path):
     p = pack.problems[0]
     pack = replace(pack, problems=(p,))
     body = fragment(p).replace(TERMS, '') + r'<section data-problem-panel="terms"><p>$$p(y\mid\theta,X)=\prod_{n=1}^{N}\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y_n-\phi(x_n)^\top\theta)^2}{2\sigma^2}\right)$$</p></section>'
-    art = build_explanation(pack, {p.id: body}, tmp_path/'stage', ROOT)
+    art = build_explanation(pack, {p.id: body}, course_stage(tmp_path), ROOT)
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
         page = browser.new_page(viewport={'width': 1024, 'height': 900})
@@ -130,7 +130,7 @@ def test_summary_title_removal_keeps_question_tabs(panel_stage, width, height, t
     from playwright.sync_api import sync_playwright, expect
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self, *args): pass
-    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(panel_stage.html.parent)))
+    server = local_server(functools.partial(Quiet, directory=str(panel_stage.html.parents[2])))
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
     try:
         with sync_playwright() as pw:
@@ -140,7 +140,7 @@ def test_summary_title_removal_keeps_question_tabs(panel_stage, width, height, t
                 context.add_init_script(f"localStorage.setItem('od-theme', '{theme}')")
                 page = context.new_page(); page.set_default_timeout(5000); page_errors = []
                 page.on('pageerror', lambda e: page_errors.append(str(e)))
-                page.goto(f'http://127.0.0.1:{server.server_port}/{panel_stage.html.name}', wait_until='networkidle')
+                page.goto(f'http://127.0.0.1:{server.server_port}/{panel_stage.html.relative_to(panel_stage.html.parents[2]).as_posix()}', wait_until='networkidle')
                 if not page.locator('#panel-right').is_visible(): page.locator('#toggle-right').click()
                 expect(page.locator('#panel-right')).to_be_in_viewport(ratio=0.95)
                 expect(page.locator('#sum-empty')).to_be_visible()

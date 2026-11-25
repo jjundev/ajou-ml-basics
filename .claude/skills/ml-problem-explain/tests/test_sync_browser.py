@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 from playwright.sync_api import sync_playwright
 from test_sync import synthetic
+from helpers import local_server
 from mpe_render import build_explanation,check_artifacts,resolve_vendor_dir
 
 
@@ -39,7 +40,7 @@ def stage_url(tmp_path_factory):
     preview_vendor.symlink_to(resolve_vendor_dir(root/'repo'))
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self,*args): pass
-    server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Quiet,directory=str(root)))
+    server=local_server(functools.partial(Quiet,directory=str(root)))
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     yield f'http://127.0.0.1:{server.server_port}/stage/{a.html.name}#p1'
     server.shutdown();thread.join();server.server_close()

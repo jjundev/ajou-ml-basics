@@ -7,7 +7,7 @@ import shutil
 import threading
 import pytest
 from playwright.sync_api import sync_playwright, expect
-from _util import MINI_RUN, REPO
+from _util import MINI_RUN, REPO, local_server
 import assemble
 
 
@@ -39,7 +39,7 @@ def test_note_and_review_panel_copy(tmp_path, width, height, theme):
         path.write_text(text, encoding='utf-8')
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self, *args): pass
-    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(tmp_path)))
+    server = local_server(functools.partial(Quiet, directory=str(tmp_path)))
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:
