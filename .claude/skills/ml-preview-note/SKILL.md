@@ -27,7 +27,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 1. `REPO`에 `강의노트/`와 `교과서/Mathematics_for_Machine_Learning.pdf`가 있는지 확인한다. 없으면 "머신러닝기초 저장소에서만 동작합니다"라고 알리고 멈춘다.
 2. Lecture를 고른다.
    ```bash
-   python3 "$SKILL/scripts/preview_files.py" pick --repo "$REPO" [--lecture Lxx]
+   uv run python "$SKILL/scripts/preview_files.py" pick --repo "$REPO" [--lecture Lxx]
    ```
    출력은 `Lxx<TAB>PDF 경로<TAB>slug`. 종료 코드가 1이면 표준에러 메시지(사용 가능 목록, ajou-bb 안내)를 그대로 보여 주고 멈춘다.
 3. 실행 폴더를 만든다. 서브에이전트에게는 `RUN`, `RUN/repo`, `SKILL` 경로만 넘긴다.
@@ -39,7 +39,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 ### 1. 자료 파악
 1. 슬라이드 텍스트를 슬라이드 번호와 함께 `RUN/slides.txt`로 뽑는다.
    ```bash
-   LEC=<Lxx> PDF=<PDF 경로> RUN=… python3 - <<'EOF'
+   LEC=<Lxx> PDF=<PDF 경로> RUN=… uv run python - <<'EOF'
    import fitz, os
    d = fitz.open(os.environ["PDF"])
    with open(os.path.join(os.environ["RUN"], "slides.txt"), "w", encoding="utf-8") as f:
@@ -52,7 +52,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 2. `slides.txt`를 끝까지 읽고 슬라이드를 개념 단위(1~3장)로 묶는다.
 3. MML에서 관련 장과 쪽을 찾는다. `keys`는 슬라이드 핵심어(영어 소문자)로 바꾼다. 출력 숫자가 링크 `#page=N`의 N이다.
    ```bash
-   REPO=… python3 - <<'EOF'
+   REPO=… uv run python - <<'EOF'
    import fitz, os
    d = fitz.open(os.path.join(os.environ["REPO"], "교과서/Mathematics_for_Machine_Learning.pdf"))
    keys = ["linear regression", "least-squares", "maximum likelihood"]
@@ -66,7 +66,7 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 
 ### 2. manifest
 - `RUN/manifest.json`을 쓴다. 규칙은 `references/manifest-guide.md`.
-- 검증: `python3 "$SKILL/scripts/preview_manifest.py" "$RUN/manifest.json"` → `OK`
+- 검증: `uv run python "$SKILL/scripts/preview_manifest.py" "$RUN/manifest.json"` → `OK`
 
 ### 3. 작성
 - 섹션마다 작성자 1명을 **한 메시지에서 병렬로** 띄운다. 브리프는 `references/content-rules.md`.
@@ -76,17 +76,17 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
 ### 4. 조립
 - **처음 조립할 때만** 기존 예습노트를 백업한다(다시 조립할 때는 하지 않는다. 스킬이 만든 초안이 백업에 섞이기 때문이다).
   ```bash
-  python3 "$SKILL/scripts/preview_files.py" backup --repo "$REPO" --lecture <Lxx> --run "$RUN"
+  uv run python "$SKILL/scripts/preview_files.py" backup --repo "$REPO" --lecture <Lxx> --run "$RUN"
   ```
   종료 코드가 1이면 조립하지 말고 원인을 고친다. 조립기가 "다른 slug의 예습노트가 남아 있어요" 경고를 내면 지우지 말고 보고서 "미해결"에 적는다(사용자가 정한다).
 - 조립:
   ```bash
-  python3 "$SKILL/scripts/preview_assemble.py" --run "$RUN" --out "$REPO/예습노트/<Lxx>"
+  uv run python "$SKILL/scripts/preview_assemble.py" --run "$RUN" --out "$REPO/예습노트/<Lxx>"
   ```
 
 ### 5. 기계 검사
 ```bash
-python3 "$SKILL/scripts/preview_check.py" --manifest "$RUN/manifest.json" --note "$REPO/예습노트/<Lxx>/<예습노트>.html"
+uv run python "$SKILL/scripts/preview_check.py" --manifest "$RUN/manifest.json" --note "$REPO/예습노트/<Lxx>/<예습노트>.html"
 ```
 - `FAIL`이면 Problem의 `where`(토픽·섹션 id)로 담당 작성자를 찾아 문제 목록을 보낸다(SendMessage, 안 되면 같은 브리프로 새 에이전트).
 - `topic-long`·`eli5-long`·`listen-long`은 "줄여 주세요"로 보낸다. 내용을 다른 토픽으로 옮기지 말고 덜 중요한 문장을 뺀다.
@@ -102,7 +102,7 @@ python3 "$SKILL/scripts/preview_check.py" --manifest "$RUN/manifest.json" --note
 
 ### 8. MD 변환
 ```bash
-python3 "$SKILL/scripts/preview_md.py" "$REPO/예습노트/<Lxx>/<예습노트>.html" --check
+uv run python "$SKILL/scripts/preview_md.py" "$REPO/예습노트/<Lxx>/<예습노트>.html" --check
 ```
 `OK`가 나와야 한다. 누락은 대부분 조각의 마크업 문제다. 조각을 고치고 4단계부터 다시 한다.
 

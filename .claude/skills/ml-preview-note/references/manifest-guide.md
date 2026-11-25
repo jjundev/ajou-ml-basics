@@ -2,7 +2,7 @@
 
 manifest는 이번 예습노트의 계약이다. 작성자, 검사기, 조립기가 모두 이 파일을 기준으로 삼는다.
 정본 예시: `tests/fixtures/mini-run/manifest.json`.
-작성 후 반드시 `python3 <SKILL>/scripts/preview_manifest.py <RUN>/manifest.json` → `OK`.
+작성 후 반드시 `uv run python <SKILL>/scripts/preview_manifest.py <RUN>/manifest.json` → `OK`.
 
 ## 최상위
 | 키 | 값 |

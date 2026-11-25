@@ -58,7 +58,7 @@ $$\nabla_\theta J=\frac{(\Phi\theta-y)^\top\Phi}{\sigma^2}
 행 관례로 새로 저작한 HTML·MD(조각 포함)는 다음도 실행한다. 저장소 루트 기준 명령이며 환경에 따라 `python3`를 사용할 수 있다.
 
 ```sh
-python .claude/skills/ml-review-pack/scripts/check_vector_derivatives.py <저작한 HTML/MD 경로...>
+uv run python .claude/skills/ml-review-pack/scripts/check_vector_derivatives.py <저작한 HTML/MD 경로...>
 ```
 
 검사기는 대표적 열 gradient 선언·식을 찾는 보조 도구이며 모든 수학적 오류를 증명하지 않는다. 보존할 열 관례 원문·인용까지 일괄 입력하지 않는다. 명시적 열 관례 문항은 수동으로 원문 일치와 전치 대응을 검토하고 이유를 기록한다. 검사 통과 후에도 차원·성분 검산과 실제 PDF의 전체 페이지 시각 검수가 필요하다.

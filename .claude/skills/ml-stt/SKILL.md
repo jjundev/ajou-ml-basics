@@ -60,19 +60,20 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
 1. **컨텍스트 추출**:
    ```bash
    REPO="$(git rev-parse --show-toplevel)"
-   python3 "$REPO/.agents/skills/ml-stt/scripts/infer_context.py" "<AUDIO_PATH>" --repo "$REPO" --json > "/tmp/ml_stt_context.json"
+   mkdir -p "$REPO/tmp/ml-stt"
+   uv run python "$REPO/.agents/skills/ml-stt/scripts/infer_context.py" "<AUDIO_PATH>" --repo "$REPO" --json > "$REPO/tmp/ml-stt/ml_stt_context.json"
    ```
 2. **1fps 블랙 MP4 래핑 (정확한 재생 길이 매칭)**:
    ```bash
    dur=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "<AUDIO_PATH>")
-   ffmpeg -y -f lavfi -i color=c=black:s=320x240:r=1 -i "<AUDIO_PATH>" -t "$dur" -c:v libx264 -c:a aac -b:a 128k "/tmp/_temp_ml_stt.mp4" -loglevel error
+   ffmpeg -y -f lavfi -i color=c=black:s=320x240:r=1 -i "<AUDIO_PATH>" -t "$dur" -c:v libx264 -c:a aac -b:a 128k "$REPO/tmp/ml-stt/_temp_ml_stt.mp4" -loglevel error
    ```
 3. **메인 에이전트 직접 `read_file` 전사**:
-   - 서브에이전트 없이 메인 에이전트가 `/tmp/_temp_ml_stt.mp4`에 `read_file` (또는 `view_file`)을 호출.
+   - 서브에이전트 없이 메인 에이전트가 `$REPO/tmp/ml-stt/_temp_ml_stt.mp4`에 `read_file` (또는 `view_file`)을 호출.
    - `infer_context.py`에서 추출한 도메인 프롬프트와 Safe Verbatim 원칙을 컨텍스트로 두고 축어적 전사.
 4. **저장 및 정리**:
    - `STT/<MMDD> 머러기.md`로 저장.
-   - `rm -f "/tmp/_temp_ml_stt.mp4"`
+   - `rm -f "$REPO/tmp/ml-stt/_temp_ml_stt.mp4"`
 5. **완료 보고 및 `/ml-review-pack <MMDD>` 안내**.
 
 ---
@@ -83,13 +84,14 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
 1. **날짜 및 단원 컨텍스트 추출**:
    ```bash
    REPO="$(git rev-parse --show-toplevel)"
-   python3 "$REPO/.agents/skills/ml-stt/scripts/infer_context.py" "<AUDIO_PATH>" --repo "$REPO" --json > "/tmp/ml_stt_context.json"
+   mkdir -p "$REPO/tmp/ml-stt"
+   uv run python "$REPO/.agents/skills/ml-stt/scripts/infer_context.py" "<AUDIO_PATH>" --repo "$REPO" --json > "$REPO/tmp/ml-stt/ml_stt_context.json"
    ```
    - 파일명에서 날짜를 파싱할 수 없는 경우 임의 추측하지 않고 즉시 `--date MMDD` 입력을 안내하고 중단.
 
 2. **10분 분할 및 병렬 1fps MP4 래핑**:
    ```bash
-   DATE=$(python3 -c "import json; print(json.load(open('/tmp/ml_stt_context.json'))['date'])")
+   DATE=$(uv run python -c "import json; print(json.load(open('$REPO/tmp/ml-stt/ml_stt_context.json', encoding='utf-8'))['date'])")
    WORK_DIR="$REPO/STT/_temp_${DATE}"
    mkdir -p "$WORK_DIR"
 
@@ -148,7 +150,7 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
 4. **마스터 전사본 병합 및 자동 정리**:
    ```bash
    REPO="$(git rev-parse --show-toplevel)"
-   python3 "$REPO/.agents/skills/ml-stt/scripts/merge_transcripts.py" \
+   uv run python "$REPO/.agents/skills/ml-stt/scripts/merge_transcripts.py" \
      --dir "$WORK_DIR" \
      --prefix "${DATE} 머러기" \
      --out "$REPO/STT/${DATE} 머러기.md"

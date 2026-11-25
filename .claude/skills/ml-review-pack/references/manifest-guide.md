@@ -2,7 +2,7 @@
 
 manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모두 이 파일을 기준으로 삼는다.
 정본 예시: `tests/fixtures/mini-run/manifest.json`, 실제 규모 예시: `tests/fixtures/manifest-0909-0916.json`.
-작성 후 반드시 `python3 <SKILL>/scripts/manifest.py <RUN>/manifest.json` → `OK`.
+작성 후 반드시 `uv run python <SKILL>/scripts/manifest.py <RUN>/manifest.json` → `OK`.
 
 ## 최상위
 | 키 | 값 |
@@ -43,7 +43,7 @@ manifest는 이번 팩의 계약이다. 작성자, 검사기, 조립기가 모�
 - `terms`: 카드에 반드시 나올 TeX/숫자(정답 포함). **모두 빈 문자열이 아닌 문자열**이다. 숫자도 따옴표로 쓴다(`"0.2"`, `"\\frac{1}{5}"`). `required_terms`, `forbidden_outside_preview`도 같다(`manifest.py`가 검사).
 - `answer`: Python으로 계산한 정답 문자열. 계산 예:
   ```bash
-  python3 -c "from fractions import Fraction as F; print(F(2,10), F(2+3,10+6))"
+  uv run python -c "from fractions import Fraction as F; print(F(2,10), F(2+3,10+6))"
   ```
   계산 스크립트를 `<RUN>/answers.py`로 남기고 보고서에 경로를 적는다.
 

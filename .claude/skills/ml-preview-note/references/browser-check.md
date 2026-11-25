@@ -2,8 +2,8 @@
 
 ## 서버
 file:// 미리보기에서는 스크립트가 돌지 않는다. 빈 포트로 서버를 띄운다. 셸 상태가 이어지지 않으므로 포트 번호를 먼저 출력하고 이후에는 그 숫자를 직접 쓴다.
-1. 빈 포트: `python3 -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1])"`
-2. 서버: Bash 도구의 `run_in_background: true`로 `python3 -m http.server <port> --directory "<RUN>/repo"` (끝에 `&` 없이)
+1. 빈 포트: `uv run python -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1])"`
+2. 서버: Bash 도구의 `run_in_background: true`로 `uv run python -m http.server <port> --directory "<RUN>/repo"` (끝에 `&` 없이)
 3. URL: `http://localhost:<port>/예습노트/<Lxx>/<파일명>` (한글 그대로)
 4. 끝나면 그 백그라운드 작업을 멈추거나 `pkill -f "http.server <port>"`.
 

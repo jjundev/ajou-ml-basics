@@ -17,8 +17,9 @@ class MlSttTests(unittest.TestCase):
     def test_01_skill_entrypoints_and_metadata(self):
         skill_md = SKILL_DIR / "SKILL.md"
         self.assertTrue(skill_md.is_file(), "SKILL.md must exist in .agents/skills/ml-stt/")
-        # Ensure it is NOT linked into .claude/skills (disallow Claude)
-        self.assertFalse(CLAUDE_DIR.exists(), ".claude/skills/ml-stt must NOT exist (disallow Claude)")
+        # .claude/skills holds the source of every skill; Gemini-only use is enforced by SKILL.md.
+        self.assertTrue(CLAUDE_DIR.is_dir(), ".claude/skills/ml-stt must hold the skill source")
+        self.assertEqual(SKILL_DIR.resolve(), CLAUDE_DIR.resolve(), ".agents/skills/ml-stt must link to the source")
 
         content = skill_md.read_text(encoding="utf-8")
         self.assertTrue(content.startswith("---"), "SKILL.md must have frontmatter")

@@ -37,7 +37,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 사용자가 큰 그림·개념 연결·기호 설명 등 기존 정리노트의 설명 개선을 요청하면 이 경로를 쓴다. 복습문제·답안 PDF·문제설명·영상의 내용이 바뀌지 않으면 전체 복습팩을 재생성하지 않는다.
 1. `references/big-picture-first.md`, `references/learner-reasoning-patterns.md`, `references/problem-solving-depth.md`, `references/narrative-flow.md`를 전체 읽고 대상 HTML·MD·기존 첫 토픽·연결을 확인한다. 이번 풀이에 필요한 연결과 편집 판단을 RUN의 저작 브리프에 기록한다. 관찰이 필요한 토픽에는 고정할 대상·바꿀 값 또는 방법·볼 차이·그 결과를 받는 첫 식을 적고 기존 위젯 재사용 여부를 판단한다. 기존 ID·위젯·PDF·인터랙티브 링크와 필요한 수식의 의미·조건을 보존한다. 사용자가 내용 축약을 요청한 경우 불필요한 설명·수식은 선별 삭제하고 독립적 보충은 선택 읽기로 둘 수 있다. 레이아웃만 바꿀 때는 원문·수식을 보존한다.
 2. 원자료와 기존 설명을 대조해 도입·유도 연결을 작성한다. `big-picture-first.md`의 전체 연결·출발식·변경점·단계별 연산·결과 재사용·복원 요약을 필요한 개념 묶음에 적용한다. 일반 공식의 실제 대입과 수업 관례를 보이고 수업 공식·동치 재표현·보충을 구분한다. 대상 HTML과 모든 대응 MD를 RUN에 백업하고 stage에서 수정한다. 큰 그림이 이미 있으면 중복 토픽 대신 기존 도입을 보강한다.
-3. `python3 SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. 녹음 위치와 편집 경위 금지는 `references/content-rules.md`에 따라 본문·인용·요약·그림 설명·각주·footer 및 대응 MD에 적용한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 도입과 수정한 유도를 실제로 읽고, 적용 토픽의 관찰에서 첫 식까지 HTML·MD 양쪽으로 따라간다. 설명 감사에도 학습자 기준, 이야기 흐름 기준, 적용 토픽 브리프를 전달한다. `big-picture-first.md`의 핵심 전환 기준으로 충분한 구간까지 본문 근거·검토자가 보충한 연결을 대조하고 `RUN/audit.md`에 남긴다.
+3. `uv run python SKILL/scripts/check_learning_map.py <정리노트 HTML...>`와 `check_html.py`를 실행한다. 녹음 위치와 편집 경위 금지는 `references/content-rules.md`에 따라 본문·인용·요약·그림 설명·각주·footer 및 대응 MD에 적용한다. MD의 새 설명·수식·링크가 HTML과 대응하는지 확인한다. 도입과 수정한 유도를 실제로 읽고, 적용 토픽의 관찰에서 첫 식까지 HTML·MD 양쪽으로 따라간다. 설명 감사에도 학습자 기준, 이야기 흐름 기준, 적용 토픽 브리프를 전달한다. `big-picture-first.md`의 핵심 전환 기준으로 충분한 구간까지 본문 근거·검토자가 보충한 연결을 대조하고 `RUN/audit.md`에 남긴다.
 4. 375px·데스크톱, 두 테마에서 도입의 실제 가시성·수식·줄바꿈·목차·화면 이동·기존 링크를 확인한다. 수정한 위젯은 `references/browser-check.md`의 대표 설정을 비교한다. 검증된 HTML·MD를 함께 반영하고, 실패하면 해당 노트는 기존 파일을 보존한다.
 5. 변경 날짜, 설명의 차이, 검사 결과, 백업·RUN과 미해결을 보고한다. PDF와 문제의 재검증을 이번 설명 수정의 검증인 것처럼 보고하지 않는다.
 
@@ -48,7 +48,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
    형제 `ml-problem-explain/SKILL.md`와 형제 설명 스킬의 실행기 `mpe_cli.py`도 시작 전에 확인한다. 없으면 경로와 원인을 보고하고 시작하지 않는다.
 2. STT 목록은 NFC로 읽는다. macOS에는 NFD 파일명이 섞여 있다.
    ```bash
-   python3 -c "import os,unicodedata as u,re;n=[u.normalize('NFC',f) for f in os.listdir('$REPO/STT')];print(sorted(m.group(1) for f in n if f.endswith('머러기.md') and (m:=re.match(r'(\d{4})',f))))"
+   uv run python -c "import os,unicodedata as u,re;n=[u.normalize('NFC',f) for f in os.listdir('$REPO/STT')];print(sorted(m.group(1) for f in n if f.endswith('머러기.md') and (m:=re.match(r'(\d{4})',f))))"
    ```
 3. 기간을 정한다.
    - 인자가 있으면 그 기간을 쓴다.
@@ -90,7 +90,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
 - 독립 작업 뒤에는 보관한 ID의 완료 신호를 받거나 그 ID로 차단 대기한다. 전체 알림만 지원하면 해당 작업자의 완료를 골라 확인한다. 다른 작업자의 알림으로 기획 파일을 조회하지 않는다. **파일 폴링 금지.** 타임아웃·실패면 해당 작업자의 상태·실패 근거를 확인해 대기를 이어가거나 복구한다. 위임을 끝내 마칠 수 없으면 해당 작업자의 쓰기가 종료된 뒤 기획 필수 읽기·브리프·예시 검산을 메인 직접 수행으로 완료한다. 부분 파일은 완료 근거가 될 수 없다.
 - **완료 후 한 번에 검증**한다. 짧은 요약과 현재 실행의 `RUN/learning-map.json`을 최종 manifest의 범위·선정 문항·토픽 ID 및 첫 학습 토픽과 대조하고, `RUN/work/`의 섹션별 예시 검산 근거를 같은 묶음에서 확인한다. 출처·범위 쟁점은 판단에 필요한 자료 구간을 확인한다.
 - 범위·출처·선정 문항·토픽 ID가 달라지면 2a 재판정부터 한다. `WITHHELD`가 되면 보류를 보고하고 종료한다. `PASS`면 최신 입력으로 manifest·정답·해당 명세표를 맞추고 기획 담당에게 브리프를 갱신하게 한다. 갱신도 작업자 완료 뒤 한 번에 대조한다.
-- **3단계 진입 조건**은 최신 입력의 2a `PASS`, 기획 브리프 대조 완료와 `python3 "$SKILL/scripts/manifest.py" "$RUN/manifest.json"`의 `OK`다. 명세표가 있으면 `scripts/check_blueprint.py`도 `OK`여야 한다(자작 문항은 `--self-checks "$RUN/self-checks.json"` 추가). 정답 검산은 최종 선정 문항과 일치해야 한다.
+- **3단계 진입 조건**은 최신 입력의 2a `PASS`, 기획 브리프 대조 완료와 `uv run python "$SKILL/scripts/manifest.py" "$RUN/manifest.json"`의 `OK`다. 명세표가 있으면 `scripts/check_blueprint.py`도 `OK`여야 한다(자작 문항은 `--self-checks "$RUN/self-checks.json"` 추가). 정답 검산은 최종 선정 문항과 일치해야 한다.
 
 ### 3. 작성
 - 2b의 진입 조건을 모두 확인한 뒤 작성자를 호출한다.
@@ -112,7 +112,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
   - `RANGE`, `REPO`, `RUN`을 모두 실제 값으로 바꿔 한 명령으로 실행한다. 파일명은 NFC로 비교하므로 NFD 파일명도 잡힌다.
   - 백업은 매번 새 폴더 `RUN/previous-<시각>-<임의>/`에 만든다(이전 백업을 덮어쓰지 않음). `RANGE`가 형식에 안 맞거나, 대상이 있는데 복사된 파일 수가 다르면 종료 코드 1로 멈춘다. 이때는 조립하지 말고 원인을 고친다.
 ```bash
-RANGE=<range> REPO=… RUN=… python3 - <<'EOF'
+RANGE=<range> REPO=… RUN=… uv run python - <<'EOF'
 import os, re, shutil, sys, tempfile, time, unicodedata as u
 r, run = os.environ["RANGE"], os.environ["RUN"]
 notes = os.path.join(os.environ["REPO"], "복습노트")
@@ -141,16 +141,16 @@ print(f"백업 {len(hits)}항목(파일 {got_n}개): {dst}", *(a for _, a in hit
 EOF
 ```
 ```bash
-python3 "$SKILL/scripts/review_pdf_stage.py" --run "$RUN" --repo "$REPO" --range "<range>"
-python3 "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습노트/<range>"
+uv run python "$SKILL/scripts/review_pdf_stage.py" --run "$RUN" --repo "$REPO" --range "<range>"
+uv run python "$SKILL/scripts/assemble.py" --run "$RUN" --out "$RUN/work/stage/복습노트/<range>"
 ```
 
 ### 5. 기계 검사
-- 미분이 포함된 행 관례 저작 HTML·MD와 조각은 `python3 SKILL/scripts/check_vector_derivatives.py <저작 HTML/MD 경로...>`도 실행한다. 보존할 다른 관례의 원문은 검사 대상에서 분리하고 근거를 기록한다. 이 검사는 차원·곱 순서·성분 검산을 대체하지 않는다.
-- 정리노트에는 추가로 `python3 SKILL/scripts/check_learning_map.py <stage의 정리노트 HTML>`을 실행한다. 구조 검사는 의미 검토를 대체하지 않는다.
+- 미분이 포함된 행 관례 저작 HTML·MD와 조각은 `uv run python SKILL/scripts/check_vector_derivatives.py <저작 HTML/MD 경로...>`도 실행한다. 보존할 다른 관례의 원문은 검사 대상에서 분리하고 근거를 기록한다. 이 검사는 차원·곱 순서·성분 검산을 대체하지 않는다.
+- 정리노트에는 추가로 `uv run python SKILL/scripts/check_learning_map.py <stage의 정리노트 HTML>`을 실행한다. 구조 검사는 의미 검토를 대체하지 않는다.
 - `check_html.py`는 정리노트의 녹음 타임스탬프(`stt-timestamp`), 시각 없는 파트 위치(`stt-location`), 명백한 전사·말실수·오타 정정 경위(`editorial-history`)를 파일명과 줄 번호로 보고한다. 기본 생성, 기존 정리노트 갱신 모두 이 검사를 통과해야 한다. 검출되면 작성 원고에서 위치·편집 경위를 제거하고 필요한 개념·식·조건을 직접 설명한 뒤 다시 검사한다. 일반적인 강의 제목·자료 출처는 유지한다. 패턴 검사는 의미 검토를 대체하지 않으며 대응 MD도 함께 확인한다.
 ```bash
-python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
+uv run python "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
 ```
 - `FAIL`이면 Problem의 `where`(토픽 id, 카드 id, 섹션 id)로 담당 작성자를 찾는다.
 - 그 작성자에게 문제 목록을 보내 조각을 고치게 한다(SendMessage, 안 되면 같은 브리프로 새 에이전트).

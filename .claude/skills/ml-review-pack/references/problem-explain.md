@@ -8,7 +8,7 @@
 - `EXPLAIN_RUN`: 팩마다 `tmp/ml-problem-explain/<고유ID>/`의 비어 있는 절대 경로.
 
 1. `EXPLAIN_SKILL/SKILL.md`, `references/authoring.md`, `references/verification.md`를 읽고 전체 절차를 적용한다.
-2. `python <EXPLAIN_SKILL>/scripts/mpe_cli.py extract --repo <ABS_REPO> --target <ABS_REVIEW> --run <EXPLAIN_RUN>`을 실행한다.
+2. `uv run python <EXPLAIN_SKILL>/scripts/mpe_cli.py extract --repo <ABS_REPO> --target <ABS_REVIEW> --run <EXPLAIN_RUN>`을 실행한다.
 3. source.json의 모든 문항·소문항과 관련 MML·교안·원 PDF·정리노트를 읽고, 각 설명 조각을 저작한다. understand → recall → start → solve → verify → pitfall → retry와 요약을 작성한다. CLI는 저작기가 아니다.
 4. 별도 계산·상징 계산·증명/정성 검토로 독립 검산하고 evidence에 스크립트·결과·쪽·근거를 남긴다. 수치 예제만으로 증명을 승인하지 않는다.
 5. `build --run <EXPLAIN_RUN>`, `check --run <EXPLAIN_RUN>`을 실행한다.

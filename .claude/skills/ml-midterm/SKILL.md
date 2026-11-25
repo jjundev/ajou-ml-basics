@@ -17,10 +17,10 @@ description: 머신러닝기초 중간고사 예상문제·모의고사의 새 �
 ## 제작
 
 1. [출제 규칙](references/exam-rules.md)과 [해설 규칙·검토/발행](references/explanation-rules.md)을 읽는다. 이들이 연결하는 MPE 저작·검증·벡터 미분 reference도 필수다. 기준 1회의 `.pack/cards/`, `.pack/explanations/`와 실제 출처를 확인한다. 오래된 `questions.json`, `solutions.json`, `panel-content.json`으로 최신 조각을 재생성하지 않는다.
-2. Python 3.10+, pytest/Playwright/PyMuPDF, 로컬 Chrome을 확인한다. 필요하면 저장소 `tmp/`의 전용 venv에만 의존성을 설치한다. 저장소 루트에서 고유 RUN으로 시작한다.
+2. `uv run python --version`과 로컬 Chrome을 확인한다. Python 의존성은 `uv sync`로 설치한다. 저장소 루트에서 고유 RUN으로 시작한다.
 
    ```powershell
-   python .claude/skills/ml-midterm/scripts/midterm_cli.py init --repo . --round 2 --run tmp/ml-midterm/round02-first
+   uv run python .claude/skills/ml-midterm/scripts/midterm_cli.py init --repo . --round 2 --run tmp/ml-midterm/round02-first
    ```
 
    회차 생략은 `--round`를 뺀다. 반환된 `out`이 OUT이다. init은 RUN 메타데이터만 만든다. 명시한 회차가 이미 있으면 충돌을 알리고 기존 파일을 보존한다. 번호를 임의로 바꾸지 않으며, 다른 회차 선택이나 기존 회차 수정은 사용자가 명시한 범위를 따른다.
