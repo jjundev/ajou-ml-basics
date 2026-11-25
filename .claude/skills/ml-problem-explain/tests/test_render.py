@@ -71,13 +71,32 @@ def test_manifest_paths_use_portable_separators(tmp_path):
     pack = replace(pack, problems=(problem,))
     result = build_explanation(pack, {problem.id: fragment(problem)}, tmp_path / 'stage', ROOT)
     manifest = json.loads(result.manifest.read_text(encoding='utf-8'))
-    assert manifest['source'] == pack.path.as_posix()
-    assert manifest['destination'] == pack.directory.as_posix()
-    assert manifest['repo'] == ROOT.as_posix()
+    assert manifest['source'] == '과제/과제1/과제1_Homework1.html'
+    assert manifest['destination'] == '과제/과제1'
+    assert 'repo' not in manifest
     for artifact in result.files:
         if artifact.suffix in {'.html', '.md', '.json'}:
             assert b'\r\n' not in artifact.read_bytes(), artifact
     assert check_artifacts(pack, result) == []
+
+@pytest.mark.parametrize('old', ['/Users/someone/머신러닝기초', 'C:/Users/someone/ml'])
+def test_manifest_from_another_checkout_is_checked_where_the_pack_is(tmp_path, old):
+    pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
+    problem = pack.problems[0]
+    pack = replace(pack, problems=(problem,))
+    result = build_explanation(pack, {problem.id: fragment(problem)}, tmp_path / 'stage', ROOT)
+    def save(**change):
+        manifest = json.loads(result.manifest.read_text(encoding='utf-8'))
+        manifest.update(change)
+        result.manifest.write_text(json.dumps(manifest), encoding='utf-8')
+    here = {'source': old + '/과제/과제1/과제1_Homework1.html', 'destination': old + '/과제/과제1', 'repo': old}
+    save(**here)
+    assert check_artifacts(pack, result) == []
+    save(source=old + '/과제/과제1/other.html')
+    assert 'manifest 입력 불일치' in check_artifacts(pack, result)
+    for wrong in (old + '/과제/과제2', old + '-other/과제/과제1', old + '/../과제/과제1'):
+        save(**{**here, 'destination': wrong})
+        assert any('manifest' in e for e in check_artifacts(pack, result))
 
 
 def test_generated_question_has_top_spacing_before_ask_heading(tmp_path):

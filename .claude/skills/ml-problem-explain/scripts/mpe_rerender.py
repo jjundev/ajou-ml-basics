@@ -126,9 +126,9 @@ def verified_references(references, old_repo, repo):
     for ref in references:
         if not isinstance(ref,dict) or not isinstance(ref.get('path'),str) or not isinstance(ref.get('sha256'),str):
             return [],False
-        path=Path(old_repo)/ref['path']
-        if path.is_relative_to(old_repo):
-            path=repo/path.relative_to(old_repo)
+        # Compare as text: the old checkout may be from another OS.
+        text,old_root=(str(x).replace('\\','/') for x in (ref['path'],old_repo))
+        path=repo/text.removeprefix(old_root.rstrip('/')+'/')
         current=relocated(path,repo)
         if not current.is_file():
             print('rerender: 참조 자료 없음: 검토를 다시 하세요: '+path.name)
@@ -222,7 +222,7 @@ def rerender(repo,target,run):
                             same=False
             if same and stored.get('input_hash')!=payload_hash(pack,fragments):
                 print('rerender: 원본 파일은 바뀌었지만 문항 내용은 같아요')
-            refs,valid=verified_references(stored.get('references'),Path(manifest.get('repo',str(repo))),repo)
+            refs,valid=verified_references(stored.get('references'),manifest.get('repo',str(repo)),repo)
             same=same and valid and verified_resources(manifest.get('source_resources'),source_resources(pack,repo),repo)
             build(item,fragments)
             fresh=read_json(folder/'review.json')

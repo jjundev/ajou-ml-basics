@@ -201,6 +201,9 @@ def test_reference_image_dependency_must_have_its_own_hash(tmp_path):
     assert verified_references(records,repo,repo)[1] is False
     records.append({'path':str(image),'sha256':sha256(image)})
     assert verified_references(records,repo,repo)[1] is True
+    for old in ('/Users/someone/ml','C:/Users/someone/ml'):
+        moved=[{**r,'path':old+'/'+Path(r['path']).resolve().relative_to(Path(repo).resolve()).as_posix()} for r in records]
+        assert verified_references(moved,old,repo)[1] is True
     image.write_bytes(b'changed-image')
     assert verified_references(records,repo,repo)[1] is False
 

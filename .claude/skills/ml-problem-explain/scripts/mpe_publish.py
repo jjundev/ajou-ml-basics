@@ -4,7 +4,7 @@ from mpe_review_policy import POLICY_VERSION
 import json
 from pathlib import Path
 from mpe_contract import validate_fragment, validate_reviews, payload_hash
-from mpe_render import artifact_hashes, check_artifacts, dump, md_name, names
+from mpe_render import artifact_hashes, check_artifacts, dump, manifest_location, md_name, names
 from mpe_source import sha256, inside
 from mpe_shared import publish_files, ReviewPdfError
 from mpe_types import ExplainError
@@ -27,7 +27,7 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
             raise ExplainError('stage와 현재 조각 불일치')
         if not isinstance(reviews.get('artifact_hashes'), dict) or reviews['artifact_hashes'] != artifact_hashes(artifacts):
             raise ExplainError('검토 후 생성 파일 변경: 다시 화면·내용을 검토하세요')
-        repo = Path(manifest['repo'])
+        repo = manifest_location(manifest, pack)[0]
         inside(pack.path, repo)
         references = reviews.get('references')
         if not isinstance(references, list):
