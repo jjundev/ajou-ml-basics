@@ -18,16 +18,16 @@ def test_round_two_english_and_dynamic_subparts(repo, exam):
     from english_source import load_english_problems, english_payload
     from exam_adapter import parse, outer
     source = source_for(exam)
-    root = parse(source.read_text())
+    root = parse(source.read_text(encoding='utf-8'))
     card = next(root.find_all(lambda n:n.attrs.get('id') == 'p1'))
     for attr, cls in [('data-english-ask', None), (None, 'ask')]:
         block = next(card.find_all(lambda n: attr in n.attrs if attr else cls in n.classes))
         ol = next(block.find_all(lambda n:n.tag == 'ol'))
         lis = [n for n in ol.children if not isinstance(n,str) and n.tag == 'li']
         ol.children.remove(lis[-1])
-    source.write_text(outer(root))
-    bp = exam.output / '.pack/blueprint.json'; b = json.loads(bp.read_text())
-    b['questions'][0]['subparts'].pop(); bp.write_text(json.dumps(b))
+    source.write_text(outer(root), encoding='utf-8')
+    bp = exam.output / '.pack/blueprint.json'; b = json.loads(bp.read_text(encoding='utf-8'))
+    b['questions'][0]['subparts'].pop(); bp.write_text(json.dumps(b), encoding='utf-8')
     ps = load_english_problems(source, bp, repo, exam)
     assert sum(len(re.findall('data-english-part=', p.ask_html)) for p in ps) == 41
     data = english_payload(ps, exam)
@@ -37,13 +37,13 @@ def test_round_two_english_and_dynamic_subparts(repo, exam):
 @pytest.mark.parametrize('mutation', ['missing','duplicate','korean','reorder','override'])
 def test_english_missing_or_reordered_parts_rejected(repo, exam, mutation):
     from english_source import load_english_problems
-    source = source_for(exam); text = source.read_text()
+    source = source_for(exam); text = source.read_text(encoding='utf-8')
     if mutation == 'missing': text = text.replace('data-english-title','data-no-title',1)
     if mutation == 'duplicate': text = text.replace('</h4>','</h4><h4 data-english-title>Duplicate</h4>',1)
     if mutation == 'korean': text = text.replace('data-english-title>','data-english-title>한글',1)
     if mutation == 'reorder': text = text.replace('data-english-part="a"','data-english-part="z"',1)
     if mutation == 'override': text = text.replace('data-english-part="a"','value="2" data-english-part="a"',1)
-    source.write_text(text)
+    source.write_text(text, encoding='utf-8')
     with pytest.raises(ValueError): load_english_problems(source, exam.output / '.pack/blueprint.json', repo, exam)
 
 def test_korean_pdf_projection_preserves_full_source(exam):
@@ -61,10 +61,10 @@ def test_korean_pdf_projection_preserves_full_source(exam):
     for mode,suffix in [('problems','-문제.pdf'),('answers','-답안.pdf')]:
         p = exam.output / (exam.stem + suffix); p.write_bytes(mode.encode())
         report['pdfs'][mode] = {'sha256':sha(p)}
-    (e/'pdf-validation.json').write_text(json.dumps(report))
-    (e/'korean-pdf-binding.json').write_text(json.dumps(binding_record(exam.output, exam)))
+    (e/'pdf-validation.json').write_text(json.dumps(report), encoding='utf-8')
+    (e/'korean-pdf-binding.json').write_text(json.dumps(binding_record(exam.output, exam)), encoding='utf-8')
     assert check_pdf_binding(exam.output, exam.repo, exam) == []
-    snapshot.write_text(snapshot.read_text() + 'changed')
+    snapshot.write_text(snapshot.read_text(encoding='utf-8') + 'changed', encoding='utf-8')
     assert check_pdf_binding(exam.output, exam.repo, exam)
 
 @pytest.mark.pdf

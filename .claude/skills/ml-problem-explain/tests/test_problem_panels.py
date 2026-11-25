@@ -24,7 +24,7 @@ def panel_stage(tmp_path):
     }
     art = build_explanation(pack, bodies, tmp_path / 'stage', ROOT)
     assert check_artifacts(pack, art) == []
-    assert '선형독립' in art.md.read_text()
+    assert '선형독립' in art.md.read_text(encoding='utf-8')
     return art
 
 

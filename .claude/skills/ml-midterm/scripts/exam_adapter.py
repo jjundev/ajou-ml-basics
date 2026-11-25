@@ -49,10 +49,10 @@ def load_exam_source(cards_path,blueprint_path,repo,config):
  if Path(repo).resolve()!=config.repo:raise ValueError('repository/config mismatch')
  cards_path=resolve(repo,cards_path);blueprint_path=resolve(repo,blueprint_path)
  if unicodedata.normalize('NFC',cards_path.name)!=config.stem+'.html':raise ValueError('source identity mismatch')
- b=json.loads(Path(blueprint_path).read_text());errors=validate_blueprint(b,repo,config)
+ b=json.loads(Path(blueprint_path).read_text(encoding='utf-8'));errors=validate_blueprint(b,repo,config)
  if errors:raise ValueError('; '.join(errors))
  pack=read_cards(cards_path,config.profile);norm=normalize_cards(pack,None,cards_path)
- nodes=list(parse(Path(cards_path).read_text()).find_all(lambda n:n.tag=='article' and 'card' in n.classes))
+ nodes=list(parse(Path(cards_path).read_text(encoding='utf-8')).find_all(lambda n:n.tag=='article' and 'card' in n.classes))
  if [n.attrs.get('id') for n in nodes]!=[x['id'] for x in b['questions']]:raise ValueError('card ID mismatch')
  problems=[]
  for n,x,q in zip(nodes,b['questions'],norm):
@@ -63,9 +63,9 @@ def load_exam_source(cards_path,blueprint_path,repo,config):
  return SourcePack('exam',pack.range,pack.slug,Path(cards_path).resolve(),sha(cards_path),tuple(problems))
 
 def assemble_cards(card_dir,target,config):
- cards='\n'.join((Path(card_dir)/f'p{i}.html').read_text() for i in range(1,11))
+ cards='\n'.join((Path(card_dir)/f'p{i}.html').read_text(encoding='utf-8') for i in range(1,11))
  Path(target).parent.mkdir(parents=True,exist_ok=True)
- Path(target).write_text(f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{html.escape(config.title_ko)}</title></head><body><section id="exam">'+cards+'</section></body></html>')
+ Path(target).write_text(f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{html.escape(config.title_ko)}</title></head><body><section id="exam">'+cards+'</section></body></html>', encoding='utf-8')
  return Path(target)
 
 def verify_baseline(repo,baseline_path):

@@ -23,7 +23,7 @@ def test_round_two_profile(repo):
 def test_blueprint_and_card_contract(repo, exam):
     from exam_adapter import validate_blueprint, load_exam_source, assemble_cards
     bp = exam.output / '.pack/blueprint.json'
-    value = json.loads(bp.read_text())
+    value = json.loads(bp.read_text(encoding='utf-8'))
     assert validate_blueprint(value, repo, exam) == []
     source = assemble_cards(exam.output / '.pack/cards', exam.output / (exam.stem + '.html'), exam)
     pack = load_exam_source(source, bp, repo, exam)
@@ -36,7 +36,7 @@ def test_blueprint_and_card_contract(repo, exam):
     for mutate in mutations:
         bad = copy.deepcopy(value); mutate(bad)
         assert validate_blueprint(bad, repo, exam)
-    source.write_text(source.read_text().replace('data-origin-ref="HW1 P6-P8"', 'data-origin-ref="invented"'))
+    source.write_text(source.read_text(encoding='utf-8').replace('data-origin-ref="HW1 P6-P8"', 'data-origin-ref="invented"'), encoding='utf-8')
     with pytest.raises(ValueError, match='origin mismatch'): load_exam_source(source, bp, repo, exam)
 
 def test_unicode_worktree_and_paths(tmp_path, repo, baseline):
@@ -45,19 +45,22 @@ def test_unicode_worktree_and_paths(tmp_path, repo, baseline):
     path = (baseline / '.pack/blueprint.json').relative_to(repo).as_posix()
     assert resolve(repo, unicodedata.normalize('NFD', path)) == resolve(repo, unicodedata.normalize('NFC', path))
     with pytest.raises(ValueError): resolve(repo, '../outside')
-    (tmp_path / '.git').write_text('gitdir: elsewhere')
+    (tmp_path / '.git').write_text('gitdir: elsewhere', encoding='utf-8')
     out = tmp_path / '예상문제_12회'; out.mkdir()
     (out / '.pack').mkdir()
-    (out / '.pack/blueprint.json').write_text(json.dumps({'range':'0909-1019','slug':'Midterm_Practice_12'}))
+    (out / '.pack/blueprint.json').write_text(json.dumps({'range':'0909-1019','slug':'Midterm_Practice_12'}), encoding='utf-8')
     assert config_for_output(tmp_path, out).round_number == 12
-    a = tmp_path / '가'; a.write_text('a')
-    b = tmp_path / unicodedata.normalize('NFD', '가'); b.write_text('b')
-    with pytest.raises(ValueError, match='ambiguous'): resolve(tmp_path, a)
+    a = tmp_path / '가'; a.write_text('a', encoding='utf-8')
+    b = tmp_path / unicodedata.normalize('NFD', '가'); b.write_text('b', encoding='utf-8')
+    if a.samefile(b):  # macOS: both spellings name one file, so nothing is ambiguous
+        assert resolve(tmp_path, a).samefile(b)
+    else:
+        with pytest.raises(ValueError, match='ambiguous'): resolve(tmp_path, a)
 
 def test_baseline_change_is_reported(tmp_path):
     from exam_adapter import verify_baseline, sha
-    p = tmp_path / 'template'; p.write_text('fixed')
-    pin = tmp_path / 'baseline.json'; pin.write_text(json.dumps({'files': {'template': sha(p)}}))
+    p = tmp_path / 'template'; p.write_text('fixed', encoding='utf-8')
+    pin = tmp_path / 'baseline.json'; pin.write_text(json.dumps({'files': {'template': sha(p)}}), encoding='utf-8')
     assert verify_baseline(tmp_path, pin) == []
-    p.write_text('changed')
+    p.write_text('changed', encoding='utf-8')
     assert 'template' in ' '.join(verify_baseline(tmp_path, pin))

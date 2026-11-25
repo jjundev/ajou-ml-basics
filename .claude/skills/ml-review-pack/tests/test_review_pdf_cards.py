@@ -22,12 +22,12 @@ class TestCards(unittest.TestCase):
         self.assertNotIn('<table',ps[1].conditions_html)
     def invalid(self, text, message):
         with tempfile.TemporaryDirectory() as d:
-            p=Path(d)/SOURCE.name;p.write_text(text)
+            p=Path(d)/SOURCE.name;p.write_text(text, encoding='utf-8')
             with self.assertRaisesRegex(ReviewPdfError,message):read_cards(p)
     def test_duplicate_id(self):
-        self.invalid(SOURCE.read_text().replace('id="p2"','id="p1"'),'duplicate')
+        self.invalid(SOURCE.read_text(encoding='utf-8').replace('id="p2"','id="p1"'),'duplicate')
     def test_missing_solution(self):
-        self.invalid(SOURCE.read_text().replace('class="solution"','class="missing"'),'p1.*solution')
+        self.invalid(SOURCE.read_text(encoding='utf-8').replace('class="solution"','class="missing"'),'p1.*solution')
     def test_layout_stale_source(self):
         with self.assertRaisesRegex(ReviewPdfError,'stale'):
             normalize_cards(read_cards(SOURCE),{'source_sha256':'bad','problems':{}},SOURCE)

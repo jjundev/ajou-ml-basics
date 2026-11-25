@@ -54,4 +54,8 @@ def main():
         errors=check_source(Path(f).read_text(encoding='utf-8'));failed+=len(errors)
         for e in errors: print(f+': '+e)
     print('OK' if not failed else f'FAIL ({failed})');return int(bool(failed))
-if __name__=='__main__': raise SystemExit(main())
+if __name__=='__main__':
+    import sys
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding='utf-8')
+    raise SystemExit(main())

@@ -39,23 +39,23 @@ def test_publish_omits_private_review_html(tmp_path):
     stage = tmp_path / 'stage'
     stage.mkdir()
     note = stage / '정리노트_0101_Pdf_Test.html'
-    note.write_text('<p>test</p>')
+    note.write_text('<p>test</p>', encoding='utf-8')
     html = stage / FIXTURE.name
     html.write_bytes(FIXTURE.read_bytes())
     storage = stage / '.pack'
     storage.mkdir()
     for name in (note.with_suffix('.md').name, html.with_suffix('.md').name):
-        (storage / name).write_text(name)
+        (storage / name).write_text(name, encoding='utf-8')
     pdfs = [html.stem + '-문제.pdf', html.stem + '-답안.pdf']
     for name in pdfs:
-        (stage / name).write_text(name)
-    (storage / pdfs[0]).write_text('stale staged copy')
+        (stage / name).write_text(name, encoding='utf-8')
+    (storage / pdfs[0]).write_text('stale staged copy', encoding='utf-8')
     dest = tmp_path / 'published'
     publish_pack(stage, dest, tmp_path / 'backups', {'range': '0101', 'slug': 'Pdf_Test'})
     assert (dest / note.name).exists()
     assert not (dest / html.name).exists()
     for name in pdfs:
-        assert (dest / name).read_text() == name
+        assert (dest / name).read_text(encoding='utf-8') == name
         assert not (dest / '.pack' / name).exists()
     assert read_cards(find_review(dest / html.name)).cards == read_cards(html).cards
 

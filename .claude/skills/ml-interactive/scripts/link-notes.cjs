@@ -61,6 +61,24 @@ const samePath = (a, b) => {
   const normalize = p => { p = p.normalize('NFC'); return process.platform === 'win32' ? p.toLowerCase() : p; };
   return normalize(path.resolve(a)) === normalize(path.resolve(b));
 };
+// Find the on-disk spelling of a path whose names may differ only by NFC/NFD.
+// macOS treats both spellings as one name; NTFS and ext4 keep them distinct.
+function diskPath(file) {
+  const { root } = path.parse(file);
+  let current = root;
+  for (const part of file.slice(root.length).split(path.sep).filter(Boolean)) {
+    let name = part;
+    if (/[^\x00-\x7f]/.test(part)) {
+      let entries = [];
+      try { entries = fs.readdirSync(current); } catch { /* missing or unreadable: keep the given spelling */ }
+      const hits = entries.filter(e => e.normalize('NFC') === part.normalize('NFC'));
+      if (hits.length > 1) throw Object.assign(new Error('ambiguous path: ' + file), { code: 'PATH_AMBIGUOUS' });
+      if (hits.length) name = hits[0];
+    }
+    current = path.join(current, name);
+  }
+  return current;
+}
 const isFile = file => { try { return fs.statSync(file).isFile(); } catch { return false; } };
 
 function hrefPath(note, href) {
@@ -78,16 +96,21 @@ function currentTabTag(tag) {
   return stripped.replace(/>$/, ' target="_self">');
 }
 
-function linkNotes({ note, links, dryRun = false }) {
-  if (!path.isAbsolute(note) || !Array.isArray(links)) throw new Error('note must be absolute and links must be an array');
+function linkNotes({ note: givenNote, links, dryRun = false }) {
+  if (!path.isAbsolute(givenNote) || !Array.isArray(links)) throw new Error('note must be absolute and links must be an array');
   const results = [];
-  if (!isFile(note)) return { note, changed: false, results: links.map(l => ({ sectionId: l.sectionId, html: l.html, status: 'skipped', reason: 'NOTE_MISSING' })) };
+  const skipAll = reason => ({ note: givenNote, changed: false, results: links.map(l => ({ sectionId: l.sectionId, html: l.html, status: 'skipped', reason })) });
+  let note;
+  try { note = diskPath(path.resolve(givenNote)); } catch (e) { if (e.code !== 'PATH_AMBIGUOUS') throw e; return skipAll('NOTE_AMBIGUOUS'); }
+  if (!isFile(note)) return skipAll('NOTE_MISSING');
   const original = fs.readFileSync(note, 'utf8');
   let source = original;
-  for (const link of links) {
+  for (const given of links) {
+    let link = given;
     const result = { sectionId: link.sectionId, html: link.html, status: 'skipped' };
     results.push(result);
     if (typeof link.html !== 'string' || !path.isAbsolute(link.html) || path.extname(link.html).toLowerCase() !== '.html' || samePath(note, link.html)) { result.reason = 'TARGET_INVALID'; continue; }
+    try { link = { ...link, html: diskPath(path.resolve(link.html)) }; } catch (e) { if (e.code !== 'PATH_AMBIGUOUS') throw e; result.reason = 'TARGET_AMBIGUOUS'; continue; }
     if (!isFile(link.html)) { result.reason = 'TARGET_MISSING'; continue; }
     if (!['sectionId', 'label', 'before', 'after'].every(k => typeof link[k] === 'string') || !link.label.trim()) { result.reason = 'LINK_INVALID'; continue; }
     const nodes = elements(source);
@@ -136,7 +159,7 @@ function linkNotes({ note, links, dryRun = false }) {
     const temp=note+'.'+require('node:crypto').randomUUID()+'.tmp';
     try{fs.writeFileSync(temp,source,{flag:'wx'});fs.renameSync(temp,note);}finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}
   }
-  return { note, changed, results };
+  return { note: givenNote, changed, results };
 }
 
 if (require.main === module) {

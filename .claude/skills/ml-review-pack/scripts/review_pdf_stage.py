@@ -45,4 +45,8 @@ def main():
     ap.add_argument('--run',required=True,type=Path);ap.add_argument('--repo',required=True,type=Path);ap.add_argument('--range',required=True)
     args=ap.parse_args()
     print(prepare_stage(args.run,args.repo,args.range))
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import sys
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding='utf-8')
+    main()

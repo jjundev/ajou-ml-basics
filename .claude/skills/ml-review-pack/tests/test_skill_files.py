@@ -102,8 +102,8 @@ class TestBackupSnippet(unittest.TestCase):
         self._tmp.cleanup()
 
     def backup(self, range_):
-        env = dict(os.environ, RANGE=range_, REPO=str(self.tmp / "repo"), RUN=str(self.run_dir))
-        return subprocess.run([sys.executable, "-"], input=self.code, env=env, capture_output=True, text=True)
+        env = dict(os.environ, RANGE=range_, REPO=str(self.tmp / "repo"), RUN=str(self.run_dir), PYTHONIOENCODING='utf-8')
+        return subprocess.run([sys.executable, "-"], input=self.code, env=env, capture_output=True, text=True, encoding='utf-8')
 
     def backups(self):
         return sorted(p for p in self.run_dir.iterdir() if p.name.startswith("previous-"))

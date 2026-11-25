@@ -20,23 +20,23 @@ def test_note_and_review_panel_copy(tmp_path, width, height, theme):
     summaries = iter(['첫 토픽 요약', '둘째 토픽 요약'])
     section.write_text(re.sub(r'<div class="sum" hidden>.*?</article>',
         lambda m: '<div class="sum" hidden><p>' + next(summaries) + '</p></div></article>',
-        section.read_text(), flags=re.S))
+        section.read_text(encoding='utf-8'), flags=re.S), encoding='utf-8')
     # A second distinct card is temporary; real fixture learning data stays intact.
-    manifest = json.loads((run / 'manifest.json').read_text())
+    manifest = json.loads((run / 'manifest.json').read_text(encoding='utf-8'))
     manifest['problems'].append({**manifest['problems'][0], 'id': 'p2'})
-    (run / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False))
-    card = (run / 'cards/p1.html').read_text()
-    (run / 'cards/p2.html').write_text(card.replace('id="p1"', 'id="p2"').replace('P1. 두 수의 평균', 'P2. 다른 평균'))
+    (run / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False), encoding='utf-8')
+    card = (run / 'cards/p1.html').read_text(encoding='utf-8')
+    (run / 'cards/p2.html').write_text(card.replace('id="p1"', 'id="p2"').replace('P1. 두 수의 평균', 'P2. 다른 평균'), encoding='utf-8')
     note, review = assemble.assemble(run, tmp_path)
     # Local bundled math resources avoid relying on CDN availability.
     vendor = REPO / 'assets/vendor'
     shutil.copytree(vendor, tmp_path / 'vendor')
     for path in (note, review):
-        text = path.read_text()
+        text = path.read_text(encoding='utf-8')
         for prefix, local in [('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/', 'vendor/pretendard/'),
                               ('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/', 'vendor/katex/')]:
             text = text.replace(prefix, local)
-        path.write_text(text)
+        path.write_text(text, encoding='utf-8')
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self, *args): pass
     server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(tmp_path)))

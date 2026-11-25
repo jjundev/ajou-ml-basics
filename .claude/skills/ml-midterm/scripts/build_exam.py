@@ -12,13 +12,13 @@ def problem_payload(source,config):
 def styled_source(repo,output,stage,config):
  from assemble import fill
  raw=assemble_cards(output/'.pack/cards',stage/(config.stem+'.html'),config)
- root=parse(raw.read_text());cards=[]
+ root=parse(raw.read_text(encoding='utf-8'));cards=[]
  for node in root.find_all(lambda n:n.tag=='article' and 'card' in n.classes):
   sol=next(node.find_all(lambda n:'solution' in n.classes));sol.tag='details'
   # Add a native summary while preserving all authored solution steps.
   head=parse('<summary>참고 풀이와 답</summary>');sol.children.insert(0,head.children[0]);sol.children[0].parent=sol
   cards.append(outer(node))
- template=(repo/'.agents/skills/ml-review-pack/assets/review-template.html').read_text()
+ template=(repo/'.agents/skills/ml-review-pack/assets/review-template.html').read_text(encoding='utf-8')
  from mpe_render import resolve_vendor_dir,verify_shared_vendor
  verify_shared_vendor(resolve_vendor_dir(repo))
  vendor_rel=Path(os.path.relpath((repo/'assets'/'vendor').resolve(),config.output.resolve())).as_posix()
@@ -43,7 +43,7 @@ def build_base(repo,output,run):
  errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
  if errors:raise ValueError('; '.join(errors))
  stage=run/('base-'+uuid.uuid4().hex);stage.mkdir()
- assets=repo/'.agents/skills/ml-review-pack/assets';provenance=json.loads((assets/'pdf-template-provenance.json').read_text())
+ assets=repo/'.agents/skills/ml-review-pack/assets';provenance=json.loads((assets/'pdf-template-provenance.json').read_text(encoding='utf-8'))
  for v in provenance['templates'].values():
   if sha(assets/v['local_path'])!=v['sha256']:raise ValueError('pinned PDF template hash mismatch')
  source=styled_source(repo,output,stage,config);load_exam_source(source,output/'.pack/blueprint.json',repo,config)
@@ -52,9 +52,9 @@ def build_base(repo,output,run):
  snapshot=korean_pdf_source(source,stage/'.pack/evidence/korean-pdf-source'/source.name,config)
  result=build_pack(snapshot,None,run/('pdf-'+uuid.uuid4().hex),layout='video-16x9',profile=config.profile)
  from pdf_binding import korean_resource_hashes
- report=json.loads(result.report_path.read_text())
+ report=json.loads(result.report_path.read_text(encoding='utf-8'))
  report['korean_resources']=korean_resource_hashes(source,config)
- result.report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+ result.report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
  mapping={output/source.name:source,output/result.problems_pdf.name:result.problems_pdf,output/result.answers_pdf.name:result.answers_pdf,output/'.pack/evidence/pdf-validation.json':result.report_path}
  mapping[output/snapshot.relative_to(stage)]=snapshot
  for p in snapshot.parent.rglob('*'):
@@ -63,10 +63,10 @@ def build_base(repo,output,run):
  from pdf_binding import binding_record
  binding=output/'.pack/evidence/korean-pdf-binding.json'
  binding_stage=stage/'korean-pdf-binding.json'
- binding_stage.write_text(json.dumps(binding_record(output,config),ensure_ascii=False,indent=2)+'\n')
+ binding_stage.write_text(json.dumps(binding_record(output,config),ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
  publish_files({binding:binding_stage},run/('binding-backup-'+uuid.uuid4().hex))
  value={'source':output/source.name,'problems_pdf':output/result.problems_pdf.name,'answers_pdf':output/result.answers_pdf.name,'pdf_validation':output/'.pack/evidence/pdf-validation.json'}
- (run/'base-result.json').write_text(json.dumps({k:str(v) for k,v in value.items()},ensure_ascii=False,indent=2)+'\n')
+ (run/'base-result.json').write_text(json.dumps({k:str(v) for k,v in value.items()},ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
  return value
 
 
@@ -112,20 +112,20 @@ def build_explain(repo,output,run):
  errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
  if errors:raise ValueError('; '.join(errors))
  pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
- fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text() for p in pack.problems}
+ fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text(encoding='utf-8') for p in pack.problems}
  errors=[f'{pid}: {e}' for pid,text in fragments.items() for e in check_text(text)]
  if errors:raise ValueError('; '.join(errors))
  stage=run/('explanation-'+uuid.uuid4().hex);art=build_explanation(pack,fragments,stage,repo)
  # Keep this exam's requested reader-facing title across rebuilds.
  for document in (art.html,art.md):
   old=f'머신러닝기초 복습 {config.range_} 문제설명'
-  text=document.read_text()
+  text=document.read_text(encoding='utf-8')
   if text.count(old)!=(2 if document==art.html else 1):raise ValueError('explanation title replacement mismatch')
-  document.write_text(text.replace(old,f'머신러닝기초 중간고사 모의평가 {config.round_number}회 문제설명'))
- manifest=json.loads(art.manifest.read_text());files=tuple(sorted(p for p in stage.rglob('*') if p.is_file() and p!=art.manifest));manifest['files']={p.relative_to(stage).as_posix():sha(p) for p in files};dump(art.manifest,manifest)
+  document.write_text(text.replace(old,f'머신러닝기초 중간고사 모의평가 {config.round_number}회 문제설명'), encoding='utf-8')
+ manifest=json.loads(art.manifest.read_text(encoding='utf-8'));files=tuple(sorted(p for p in stage.rglob('*') if p.is_file() and p!=art.manifest));manifest['files']={p.relative_to(stage).as_posix():sha(p) for p in files};dump(art.manifest,manifest)
  art=Artifacts(art.html,art.md,art.manifest,files+(art.manifest,));review=initial_reviews(pack,fragments);review['artifact_hashes']=artifact_hashes(art)
- bp=json.loads((output/'.pack/blueprint.json').read_text());refs=[resolve(repo,x['path']) for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
- pins=json.loads((Path(__file__).resolve().parents[1]/'references/baseline.json').read_text())
+ bp=json.loads((output/'.pack/blueprint.json').read_text(encoding='utf-8'));refs=[resolve(repo,x['path']) for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
+ pins=json.loads((Path(__file__).resolve().parents[1]/'references/baseline.json').read_text(encoding='utf-8'))
  refs+= [resolve(repo,rel) for rel in pins['files']]
  resources=explanation_resources(pack,fragments,repo)
  refs+=[Path(path) for path in resources]

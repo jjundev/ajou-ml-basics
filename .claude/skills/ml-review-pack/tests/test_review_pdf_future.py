@@ -17,10 +17,10 @@ class TestFuture(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);repo=root/'repo';repo.mkdir();run=root/'run';run.mkdir()
             (repo/'강의노트').mkdir();(repo/'강의노트/lecture.pdf').write_bytes(b'lecture')
-            prior=repo/'복습노트/0923';prior.mkdir(parents=True);(prior/'note.html').write_text('<html lang="ko">earlier</html>')
+            prior=repo/'복습노트/0923';prior.mkdir(parents=True);(prior/'note.html').write_text('<html lang="ko">earlier</html>', encoding='utf-8')
             stage=prepare_stage(run,repo,'0930')
             self.assertEqual(stage,(run/'work/stage/복습노트/0930').resolve())
-            note=stage/'note.html';note.write_text('<a href="../0923/note.html">earlier</a><a href="../../강의노트/lecture.pdf">lecture</a>')
+            note=stage/'note.html';note.write_text('<a href="../0923/note.html">earlier</a><a href="../../강의노트/lecture.pdf">lecture</a>', encoding='utf-8')
             self.assertEqual(broken_links(parse_file(note),stage),[])
             self.assertFalse((repo/'복습노트/0930').exists())
             self.assertEqual(prepare_stage(run,repo,'0930'),stage)
@@ -38,8 +38,8 @@ class TestFuture(unittest.TestCase):
     def test_relative_image_is_source_relative(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);source=root/'복습문제_0101_Pdf_Test.html'
-            text=(FIXTURES/'pdf/복습문제_0101_Pdf_Test.html').read_text().replace('조건 $a=1$ &amp; $b=5$.','조건 $a=1$ &amp; $b=5$.<img src="diagram.png">')
-            source.write_text(text)
+            text=(FIXTURES/'pdf/복습문제_0101_Pdf_Test.html').read_text(encoding='utf-8').replace('조건 $a=1$ &amp; $b=5$.','조건 $a=1$ &amp; $b=5$.<img src="diagram.png">')
+            source.write_text(text, encoding='utf-8')
             (root/'diagram.png').write_bytes(base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII='))
             assets=freeze_figures(read_cards(source),root/'different/build/figures')
             self.assertIn(('p1','f1'),assets)

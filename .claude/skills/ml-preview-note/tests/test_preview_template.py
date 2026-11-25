@@ -13,7 +13,7 @@ SLOTS = {"BRAND", "DESCRIPTION", "FOOTER", "PAGE_TITLE", "RANGE", "SCRIPTS", "SE
 class TestSharedTemplate(unittest.TestCase):
     def test_relative_symlink_to_review_template(self):
         self.assertTrue(TEMPLATE.is_symlink())
-        self.assertEqual(os.readlink(TEMPLATE), "../../ml-review-pack/assets/note-template.html")
+        self.assertEqual(os.readlink(TEMPLATE).replace(os.sep, "/"), "../../ml-review-pack/assets/note-template.html")
         self.assertEqual(TEMPLATE.resolve(), (REVIEW_SKILL / "assets" / "note-template.html").resolve())
 
     def test_slots(self):

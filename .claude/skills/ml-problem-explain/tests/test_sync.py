@@ -69,7 +69,7 @@ def test_source_svg_numeric_stroke_width_is_allowed(tmp_path):
 def test_all_selects_only_reviews_newest_first(tmp_path):
     repo=tmp_path/'repo'
     for name in ['복습노트/1007/복습문제_1007_A.html','복습노트/1014/복습문제_1014_B.html','과제/과제1/과제1_Homework1.html']:
-        p=repo/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('fixture')
+        p=repo/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('fixture', encoding='utf-8')
     assert [p.parent.name for p in resolve_sources(repo,'all')]==['1014','1007']
 
 
@@ -102,8 +102,11 @@ def test_canonically_equal_sibling_directory_is_not_inside_repo(tmp_path):
     from mpe_types import ExplainError
     repo=tmp_path/'저장소'
     other=tmp_path/unicodedata.normalize('NFD','저장소')
-    repo.mkdir();other.mkdir()
-    source=other/'outside.txt';source.write_text('outside')
+    repo.mkdir();other.mkdir(exist_ok=True)
+    source=other/'outside.txt';source.write_text('outside', encoding='utf-8')
+    if other.samefile(repo):  # macOS: both spellings name one directory, so the file is inside
+        assert inside(source,repo).samefile(source)
+        return
     with pytest.raises(ExplainError,match='저장소 밖'):
         inside(source,repo)
 
@@ -155,7 +158,7 @@ def test_rerender_current_policy_preserves_only_content_checks(tmp_path):
 
 def test_rerender_legacy_policy_requires_fresh_content_checks(tmp_path):
     repo,source,data=published_fixture(tmp_path)
-    p=data/'validation.json';old=json.loads(p.read_text());old.pop('review_policy_version')
+    p=data/'validation.json';old=json.loads(p.read_text(encoding='utf-8'));old.pop('review_policy_version')
     p.write_text(json.dumps(old),encoding='utf-8')
     review=rebuilt_review(tmp_path,repo,source)
     assert review['content']['status']=='not_run'
@@ -167,7 +170,7 @@ def test_rerender_changed_or_missing_reference_resets_approval(tmp_path,action):
     repo,source,data=published_fixture(tmp_path,reference=True)
     ref=repo/'reference.html'
     if action=='remove': ref.unlink()
-    else: ref.write_text('<p>different theory</p>')
+    else: ref.write_text('<p>different theory</p>', encoding='utf-8')
     review=rebuilt_review(tmp_path,repo,source)
     assert review['content']['status']=='not_run'
     assert review['independent']['status']=='not_run'
@@ -176,7 +179,7 @@ def test_rerender_changed_or_missing_reference_resets_approval(tmp_path,action):
 def test_rerender_rejects_changed_published_fragment(tmp_path):
     from mpe_cli import rerender
     repo,source,data=published_fixture(tmp_path)
-    p=data/'fragments/p1.html';p.write_text(p.read_text()+'<p>tampered</p>')
+    p=data/'fragments/p1.html';p.write_text(p.read_text(encoding='utf-8')+'<p>tampered</p>', encoding='utf-8')
     assert rerender(repo,'1007' if False else str(source),tmp_path/'rebuilt')==1
 
 
@@ -192,7 +195,7 @@ def test_reference_image_dependency_must_have_its_own_hash(tmp_path):
     from mpe_rerender import verified_references
     from mpe_source import sha256
     repo=tmp_path/'repo';repo.mkdir()
-    ref=repo/'theory.html';ref.write_text('<img src="theory.png">')
+    ref=repo/'theory.html';ref.write_text('<img src="theory.png">', encoding='utf-8')
     image=repo/'theory.png';image.write_bytes(b'old-image')
     records=[{'path':str(ref),'sha256':sha256(ref)}]
     assert verified_references(records,repo,repo)[1] is False

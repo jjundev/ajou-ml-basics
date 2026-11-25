@@ -26,7 +26,7 @@ def check_english_delivery(output,repo):
  try:
   from english_source import load_english_problems,english_digests
   output=Path(output);config=config_for_output(repo,output);source=resolve(repo,output/(config.stem+'.html'));pdf=resolve(repo,output/(config.stem+'-문제-English.pdf'))
-  r=json.loads((output/'.pack/evidence/english-pdf-validation.json').read_text())
+  r=json.loads((output/'.pack/evidence/english-pdf-validation.json').read_text(encoding='utf-8'))
   ps=load_english_problems(source,output/'.pack/blueprint.json',repo,config)
   if r.get('status')!='pass' or r.get('errors')!=[] or r.get('source_sha256')!=sha(source) or r.get('english_digests')!=english_digests(ps) or r.get('pdf_sha256')!=sha(pdf):return ['stale English PDF/source/review']
   if r.get('logical_count')!=10 or r.get('subpart_count')!=sum(len(__import__('mpe_source').subparts(p.ask_html,'')) for p in ps) or set(r['pages'])!={f'p{i}' for i in range(1,11)} or any(not x for x in r['pages'].values()):return ['English PDF page mapping missing']
@@ -39,7 +39,7 @@ def check_english_delivery(output,repo):
    visual=r.get('visual_review',{})
    if (not isinstance(visual,dict) or any(not isinstance(visual.get(k),str) or not visual[k].strip() for k in ('reviewer','evidence'))
        or visual.get('pages')!=list(range(1,len(doc)+1))):return ['English PDF whole-page visual review missing']
-  delivery=json.loads((output/'.pack/delivery.json').read_text())
+  delivery=json.loads((output/'.pack/delivery.json').read_text(encoding='utf-8'))
   if pdf.name not in delivery['files']:return ['English PDF not delivered']
   return []
  except (ValueError,OSError,KeyError,TypeError) as e:return ['English PDF: '+str(e)]
@@ -72,8 +72,8 @@ def check_delivery(output,repo):
   pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
   authored=[pack.path]+list((output/'.pack/cards').glob('*.html'))+list((output/'.pack/explanations').glob('*.html'))
   errors += [str(p)+': '+e for p in authored for e in check_text(p.read_text(encoding='utf-8'))]
-  errors+=validate_answer_checks(pack,json.loads((output/'.pack/evidence/answer-checks.json').read_text())['items'])
-  delivery=json.loads((output/'.pack/delivery.json').read_text())
+  errors+=validate_answer_checks(pack,json.loads((output/'.pack/evidence/answer-checks.json').read_text(encoding='utf-8'))['items'])
+  delivery=json.loads((output/'.pack/delivery.json').read_text(encoding='utf-8'))
   errors+=check_file_hashes(output,delivery['files'],repo)
   for suffix in ['-문제.pdf','-답안.pdf']:
    p=output/(config.stem+suffix)
@@ -82,17 +82,17 @@ def check_delivery(output,repo):
   from mpe_types import Artifacts
   from mpe_contract import validate_reviews
   stem,fig,data=names(pack);manifest=output/data/'manifest.json'
-  m=json.loads(manifest.read_text());files=tuple(output/n for n in m['files'])+(manifest,)
+  m=json.loads(manifest.read_text(encoding='utf-8'));files=tuple(output/n for n in m['files'])+(manifest,)
   artifacts=Artifacts(output/(stem+'.html'),output/md_name(pack),manifest,files)
-  browser=json.loads((output/'.pack/evidence/browser-check.json').read_text())
+  browser=json.loads((output/'.pack/evidence/browser-check.json').read_text(encoding='utf-8'))
   errors+=validate_browser_report(browser,artifacts.html)
-  pdf_report=json.loads((output/'.pack/evidence/pdf-validation.json').read_text())
+  pdf_report=json.loads((output/'.pack/evidence/pdf-validation.json').read_text(encoding='utf-8'))
   if pdf_report.get('logical_count')!=10:errors.append('stale PDF count')
   if pdf_report.get('source_sha256')!=pack.sha256:
    from pdf_binding import check_pdf_binding
    errors+=check_pdf_binding(output,repo,config)
   errors+=check_english_delivery(output,repo)
-  reviews=json.loads((output/data/'validation.json').read_text());fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text() for p in pack.problems}
+  reviews=json.loads((output/data/'validation.json').read_text(encoding='utf-8'));fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text(encoding='utf-8') for p in pack.problems}
   from exam_adapter import explanation_resources
   resources=explanation_resources(pack,fragments,repo)
   recorded={str(resolve(repo,x['path'])):x['sha256'] for x in reviews.get('references',[])}
@@ -103,7 +103,7 @@ def check_delivery(output,repo):
             *(config.stem+suffix for suffix in ('-문제.pdf','-답안.pdf','-문제-English.pdf')),*m['files']}
   if pdf_report.get('source_sha256')!=pack.sha256:
    required.add('.pack/evidence/korean-pdf-binding.json')
-   binding=json.loads((output/'.pack/evidence/korean-pdf-binding.json').read_text())
+   binding=json.loads((output/'.pack/evidence/korean-pdf-binding.json').read_text(encoding='utf-8'))
    required.add(binding['snapshot_path'])
   errors+=['delivery missing: '+name for name in sorted(required-set(delivery['files']))]
   errors+=check_artifacts(pack,artifacts)+validate_reviews(pack,fragments,reviews)
@@ -116,4 +116,6 @@ def check_delivery(output,repo):
  except (OSError,ValueError,KeyError,TypeError) as e:errors.append(str(e))
  return errors
 if __name__=='__main__':
+ for stream in (sys.stdout, sys.stderr):
+  stream.reconfigure(encoding='utf-8')
  ap=argparse.ArgumentParser();ap.add_argument('--out',type=Path,required=True);ap.add_argument('--repo',type=Path,required=True);a=ap.parse_args();errors=check_delivery(a.out.resolve(),a.repo.resolve());print(json.dumps({'status':'fail' if errors else 'pass','errors':errors},ensure_ascii=False,indent=2));sys.exit(bool(errors))

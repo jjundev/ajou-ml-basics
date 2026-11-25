@@ -24,7 +24,7 @@ def exam(tmp_path):
     out = tmp_path / '예상문제_2회'
     for folder in ('cards', 'explanations'):
         shutil.copytree(BASE / '.pack' / folder, out / '.pack' / folder)
-    b = json.loads((BASE / '.pack/blueprint.json').read_text())
+    b = json.loads((BASE / '.pack/blueprint.json').read_text(encoding='utf-8'))
     b['slug'] = 'Midterm_Practice_02'
-    (out / '.pack/blueprint.json').write_text(json.dumps(b, ensure_ascii=False))
+    (out / '.pack/blueprint.json').write_text(json.dumps(b, ensure_ascii=False), encoding='utf-8')
     return ExamConfig(REPO, out, 2)

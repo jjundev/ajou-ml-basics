@@ -162,7 +162,7 @@ class TestPack(unittest.TestCase):
         for marker in markers:
             with self.subTest(marker=marker):
                 note, review = assemble.assemble(self.run, self.tmp / 'out')
-                note.write_text(note.read_text().replace('평균부터 봐요.', '평균부터 봐요. ' + marker))
+                note.write_text(note.read_text(encoding='utf-8').replace('평균부터 봐요.', '평균부터 봐요. ' + marker), encoding='utf-8')
                 for problems in (check_html.check_pack(self.m, note, review), check_html.check_file(note)):
                     self.assertIn('stt-location', [p.code for p in problems])
                     self.assertTrue(all(p.where.startswith(f'{note.name}:') for p in problems))
@@ -183,7 +183,7 @@ class TestPack(unittest.TestCase):
         for remark in remarks:
             with self.subTest(remark=remark):
                 note, review = assemble.assemble(self.run, self.tmp / 'out')
-                note.write_text(note.read_text().replace('평균부터 봐요.', '평균부터 봐요. ' + remark))
+                note.write_text(note.read_text(encoding='utf-8').replace('평균부터 봐요.', '평균부터 봐요. ' + remark), encoding='utf-8')
                 for problems in (check_html.check_pack(self.m, note, review), check_html.check_file(note)):
                     self.assertIn('editorial-history', [p.code for p in problems])
 
@@ -192,7 +192,7 @@ class TestPack(unittest.TestCase):
         note.write_text('<html lang="ko"><body>\n<!-- (1104 Part 06) -->\n'
                         '<script>const evidence = "(1104 Part 06)";</script>\n'
                         '<p>(1104&nbsp;<em>Parts</em>\n06–07)</p>\n'
-                        '<p>STT의 <span>g</span>는 z예요.</p></body></html>')
+                        '<p>STT의 <span>g</span>는 z예요.</p></body></html>', encoding='utf-8')
         problems = check_html.check_file(note)
         self.assertEqual([(p.code, p.where) for p in problems], [
             ('stt-location', f'{note.name}:4'), ('editorial-history', f'{note.name}:6'),

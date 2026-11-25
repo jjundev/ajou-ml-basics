@@ -15,7 +15,7 @@ from playwright.sync_api import sync_playwright
 
 def english_template(repo:Path,layout:Layout,config):
  assets=Path(repo)/'.agents/skills/ml-review-pack/assets'
- provenance=json.loads((assets/'pdf-template-provenance.json').read_text())
+ provenance=json.loads((assets/'pdf-template-provenance.json').read_text(encoding='utf-8'))
  for v in provenance['templates'].values():
   if sha(assets/v['local_path'])!=v['sha256']:raise ValueError('pinned PDF template hash mismatch')
  text=load_template('problems',layout)

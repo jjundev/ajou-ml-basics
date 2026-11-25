@@ -59,7 +59,7 @@ class TestPayload(unittest.TestCase):
         self.assertNotIn('</script><script>',s)
         self.assertEqual(json.loads(s.split('>',1)[1].rsplit('<',1)[0])['text'],'</script><script>bad</script>')
     def test_templates_unchanged(self):
-        record=json.loads((SKILL/'assets/pdf-template-provenance.json').read_text())
+        record=json.loads((SKILL/'assets/pdf-template-provenance.json').read_text(encoding='utf-8'))
         self.assertEqual(record['source_commit'], '757fa081521008d46542e23d5a1a53112391aed2')
         expected = {'problem': '1ddb009d96f3a844778bd8f4378126d0fd52d037296dff89223adb69bc38bdc7', 'answer': '557b30b2918b4b41ff37763c80869ce28ce6b55f81c42e1ce34bfa30af3c1b06', 'video': 'd56658538e1b67df08a7eea0282e733afd999c6255e58ecc13cd4c72d13ad870'}
         for mode, sha in expected.items():
