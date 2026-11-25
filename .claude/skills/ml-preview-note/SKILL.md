@@ -32,8 +32,9 @@ description: 머신러닝기초 다음 강의의 강의노트 PDF와 MML 교과�
    출력은 `Lxx<TAB>PDF 경로<TAB>slug`. 종료 코드가 1이면 표준에러 메시지(사용 가능 목록, ajou-bb 안내)를 그대로 보여 주고 멈춘다.
 3. 실행 폴더를 만든다. 서브에이전트에게는 `RUN`, `RUN/repo`, `SKILL` 경로만 넘긴다.
    ```bash
-   rm -rf "$RUN/sections" "$RUN/work" && mkdir -p "$RUN"/{sections,work} && ln -sfn "$REPO" "$RUN/repo"
+   rm -rf "$RUN/sections" "$RUN/work" && mkdir -p "$RUN"/{sections,work} && MSYS=winsymlinks:nativestrict ln -sfn "$REPO" "$RUN/repo"
    ```
+   `MSYS=…`는 Windows Git Bash가 저장소를 복사하지 않고 링크를 만들게 하며, macOS에는 영향이 없다.
    같은 세션에서 다시 실행해도 이전 실행의 조각이 섞이지 않게 `sections/`와 `work/`를 비우고 시작한다(`RUN` 아래 scratch 폴더만 지운다). 에이전트는 `RUN` 밖에 쓰지 않는다. 임시 파일은 `RUN/work/`에만 둔다. `예습노트/`에는 메인 에이전트만 쓴다.
 
 ### 1. 자료 파악

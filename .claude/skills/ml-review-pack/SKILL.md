@@ -48,7 +48,7 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
    형제 `ml-problem-explain/SKILL.md`와 형제 설명 스킬의 실행기 `mpe_cli.py`도 시작 전에 확인한다. 없으면 경로와 원인을 보고하고 시작하지 않는다.
 2. STT 목록은 NFC로 읽는다. macOS에는 NFD 파일명이 섞여 있다.
    ```bash
-   uv run python -c "import os,unicodedata as u,re;n=[u.normalize('NFC',f) for f in os.listdir('$REPO/STT')];print(sorted(m.group(1) for f in n if f.endswith('머러기.md') and (m:=re.match(r'(\d{4})',f))))"
+   uv run python -c "import os,sys,unicodedata as u,re;n=[u.normalize('NFC',f) for f in os.listdir(sys.argv[1])];print(sorted(m.group(1) for f in n if f.endswith('머러기.md') and (m:=re.match(r'(\d{4})',f))))" "$REPO/STT"
    ```
 3. 기간을 정한다.
    - 인자가 있으면 그 기간을 쓴다.
@@ -58,8 +58,9 @@ description: 머신러닝기초 수업의 STT·강의노트·MML 교과서로 EL
    - 해당 범위에 기존 정리노트 HTML, 복습문제 원고 또는 예전 복습문제 HTML이 있으면 기존 팩 갱신으로 기록한다. 날짜 폴더와 예전 복습노트 루트 형식을 모두 확인한다. 기존 기본 팩 산출물이 없으면 신규 팩이다. 확인문제 파일만 있을 때도 신규 팩으로 진행한다.
 4. 실행 폴더를 만든다. 서브에이전트에게는 `RUN`, `RUN/repo`, `SKILL` 경로만 넘긴다.
    ```bash
-   mkdir -p "$RUN"/{summaries,sections,cards,work} && ln -sfn "$REPO" "$RUN/repo"
+   mkdir -p "$RUN"/{summaries,sections,cards,work} && MSYS=winsymlinks:nativestrict ln -sfn "$REPO" "$RUN/repo"
    ```
+   `MSYS=…`는 Windows Git Bash가 저장소를 복사하지 않고 링크를 만들게 하며, macOS에는 영향이 없다.
    에이전트는 `RUN` 밖에 쓰지 않는다. 임시·보조 파일(그림 생성 스크립트, 초안, 복사본)은 `RUN/work/`에만 둔다. 저장소(`STT/`, `강의노트/`, `교과서/`)에는 아무도 쓰지 않고, `복습노트/`에는 메인 에이전트만 쓴다.
 
 ### 1. 범위 파악

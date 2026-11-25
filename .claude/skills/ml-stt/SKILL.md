@@ -91,7 +91,7 @@ description: "[Gemini Only] Use when transcribing machine learning lecture audio
 
 2. **10분 분할 및 병렬 1fps MP4 래핑**:
    ```bash
-   DATE=$(uv run python -c "import json; print(json.load(open('$REPO/tmp/ml-stt/ml_stt_context.json', encoding='utf-8'))['date'])")
+   DATE=$(uv run python -c "import json, sys; print(json.load(open(sys.argv[1], encoding='utf-8'))['date'])" "$REPO/tmp/ml-stt/ml_stt_context.json")
    WORK_DIR="$REPO/STT/_temp_${DATE}"
    mkdir -p "$WORK_DIR"
 
