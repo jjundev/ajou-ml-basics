@@ -106,6 +106,10 @@ def test_canonically_equal_sibling_directory_is_not_inside_repo(tmp_path):
     source=other/'outside.txt';source.write_text('outside', encoding='utf-8')
     if other.samefile(repo):  # macOS: both spellings name one directory, so the file is inside
         assert inside(source,repo).samefile(source)
+        outside=tmp_path/'outside.txt';outside.write_text('outside', encoding='utf-8')
+        (repo/'link.txt').symlink_to(outside)
+        for escape in (other/'..'/'outside.txt',other/'link.txt'):
+            with pytest.raises(ExplainError): inside(escape,repo)
         return
     with pytest.raises(ExplainError,match='저장소 밖'):
         inside(source,repo)
