@@ -1,0 +1,305 @@
+{
+ "items": [
+  {
+   "id": "q1",
+   "objective": "o1",
+   "title": "점 하나의 Q 함수 고르기",
+   "format": "mcq",
+   "stem_html": "<p>두 성분의 현재 혼합비는 $\\pi_1^{(t)}=\\pi_2^{(t)}=1/2$이에요. 관측 $x$에서 현재 파라미터 $\\boldsymbol{\\theta}^{(t)}$로 계산한 결합 밀도가 $p(x,z=1\\mid\\boldsymbol{\\theta}^{(t)})=0.3$, $p(x,z=2\\mid\\boldsymbol{\\theta}^{(t)})=0.1$이에요.</p><p>성분 번호 $z$를 모를 때, 이 점 하나에 대한 $Q(\\boldsymbol{\\theta}\\mid\\boldsymbol{\\theta}^{(t)})$를 고르세요.</p>",
+   "hint": "먼저 관측 x를 본 뒤의 성분 확률을 두 결합 밀도로 구해요.",
+   "answer": "B",
+   "options": [
+    {
+     "id": "A",
+     "text": "$\\log\\bigl(p(x,z=1\\mid\\boldsymbol{\\theta})+p(x,z=2\\mid\\boldsymbol{\\theta})\\bigr)$",
+     "misconception": "Q 함수를 관측 로그우도와 혼동",
+     "why": "이것은 관측 로그우도예요. 로그 안에 합이 있어서 바로 이 식을 피하려고 Q를 만들어요. Q는 합이 로그 밖에 있어요.",
+     "source": "note:s1-why-q"
+    },
+    {
+     "id": "B",
+     "text": "$\\tfrac34\\log p(x,z=1\\mid\\boldsymbol{\\theta})+\\tfrac14\\log p(x,z=2\\mid\\boldsymbol{\\theta})$",
+     "why": "사후확률은 $0.3/(0.3+0.1)=3/4$, $0.1/0.4=1/4$이에요. Q는 각 성분의 완전 데이터 로그우도를 이 사후확률로 가중평균해요."
+    },
+    {
+     "id": "C",
+     "text": "$\\tfrac12\\log p(x,z=1\\mid\\boldsymbol{\\theta})+\\tfrac12\\log p(x,z=2\\mid\\boldsymbol{\\theta})$",
+     "misconception": "가중치로 관측 전 혼합비(사전분포)를 사용",
+     "why": "1/2은 관측 전 혼합비예요. x를 봤다는 정보를 버리게 돼요. 가중치는 x를 본 뒤의 사후확률이어야 해요.",
+     "source": "stt:1125#E-step: Q 함수의 정의와 θ의 두 역할"
+    },
+    {
+     "id": "D",
+     "text": "$\\log p(x,z=1\\mid\\boldsymbol{\\theta})$",
+     "misconception": "가장 그럴듯한 성분 하나만 골라 나머지를 버림",
+     "why": "가능성이 더 큰 성분 하나만 남기면 다른 성분의 1/4 몫을 버려요. Q는 모든 성분을 사후확률만큼 반영해요.",
+     "source": "note:s1-why-q"
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "objective": "o2",
+   "title": "M-step 동안 움직이지 않는 값",
+   "format": "mcq",
+   "stem_html": "<p>GMM의 Q 함수는 $$Q(\\boldsymbol{\\theta}\\mid\\boldsymbol{\\theta}^{(t)})=\\sum_n\\sum_k r_{nk}^{(t)}\\log\\bigl(\\pi_k\\,\\mathcal{N}(x_n\\mid\\boldsymbol{\\mu}_k,\\boldsymbol{\\Sigma}_k)\\bigr)$$예요.</p><p>M-step에서 $\\boldsymbol{\\theta}$를 바꿔 가며 이 식을 최대화하는 동안 <b>숫자로 고정된 채 움직이지 않는</b> 것을 고르세요.</p>",
+   "hint": "각 기호를 계산할 때 θ와 θ^(t) 중 어느 쪽을 썼는지 살펴봐요.",
+   "answer": "D",
+   "options": [
+    {
+     "id": "A",
+     "text": "로그 안의 혼합비 $\\pi_k$",
+     "misconception": "로그 안의 파라미터도 현재 추정값으로 고정된다고 봄",
+     "why": "로그 안의 $\\pi_k$는 최적화 대상 θ의 일부라 M-step에서 바뀌어요.",
+     "source": "note:s1-q-function"
+    },
+    {
+     "id": "B",
+     "text": "로그 안의 평균 $\\boldsymbol{\\mu}_k$와 공분산 $\\boldsymbol{\\Sigma}_k$",
+     "misconception": "성분 파라미터를 E-step 결과로 봄",
+     "why": "$\\boldsymbol{\\mu}_k,\\boldsymbol{\\Sigma}_k$도 θ의 일부예요. M-step이 새 값을 구하는 대상이에요.",
+     "source": "note:s1-q-function"
+    },
+    {
+     "id": "C",
+     "text": "고정된 것은 없고 모든 기호가 θ와 함께 바뀐다",
+     "misconception": "θ와 θ^(t)를 같은 변수로 봄",
+     "why": "두 θ는 역할이 달라요. 가중치는 θ^(t)로 이미 계산한 숫자라서 θ를 바꿔도 변하지 않아요.",
+     "source": "stt:1125#E-step: Q 함수의 정의와 θ의 두 역할"
+    },
+    {
+     "id": "D",
+     "text": "가중치 $r_{nk}^{(t)}$",
+     "why": "$r_{nk}^{(t)}=p(z_n=k\\mid x_n,\\boldsymbol{\\theta}^{(t)})$는 현재 추정값 θ^(t)로 E-step에서 계산한 숫자예요. M-step에서는 로그 안의 θ만 움직여요."
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "objective": "o3",
+   "title": "Q의 혼합비 부분으로 갱신하기",
+   "format": "short",
+   "stem_html": "<p>세 점에서 E-step 책임도를 성분별로 모았더니 $N_1=9/4$, $N_2=3/4$이에요($N=3$).</p><p>Q에서 혼합비만 들어 있는 부분 $N_1\\log\\pi_1+N_2\\log\\pi_2$를 $\\pi_1+\\pi_2=1$ 조건에서 최대화한 새 $\\pi_1$을 기약분수로 입력하세요.</p>",
+   "hint": "합 1 제약에서 나오는 갱신식은 성분 몫을 전체 관측 수로 나눈 꼴이에요.",
+   "answer": {
+    "canonical": "3/4",
+    "accepted": [
+     "0.75"
+    ]
+   },
+   "compute": {
+    "op": "ratio",
+    "values": [
+     "9/4",
+     "3"
+    ]
+   },
+   "solution": [
+    "Q의 혼합비 부분을 합 1 제약으로 최대화하면 $\\pi_k=N_k/N$이에요.",
+    "여기서 N은 점의 수 3이고, 점마다 책임도 합이 1이라 N_1+N_2=9/4+3/4=3과도 같아요.",
+    "새 π_1 = (9/4)/3 = 3/4예요."
+   ]
+  },
+  {
+   "id": "q4",
+   "objective": "o4",
+   "title": "로그우도와 ELBO의 간격",
+   "format": "short",
+   "stem_html": "<p>어떤 분포 $q(z)$와 파라미터 $\\boldsymbol{\\theta}$에서 $\\log p(x\\mid\\boldsymbol{\\theta})=-3/2$, $\\mathrm{ELBO}(q,\\boldsymbol{\\theta})=-2$예요.</p><p>$D_{\\mathrm{KL}}\\bigl(q(z)\\,\\|\\,p(z\\mid x,\\boldsymbol{\\theta})\\bigr)$의 값을 기약분수로 입력하세요.</p>",
+   "hint": "같은 q와 θ에서 로그우도, ELBO, KL 사이에 항상 성립하는 등식을 떠올려요.",
+   "answer": {
+    "canonical": "1/2",
+    "accepted": [
+     "0.5"
+    ]
+   },
+   "compute": {
+    "op": "difference",
+    "values": [
+     "-3/2",
+     "-2"
+    ]
+   },
+   "solution": [
+    "어떤 q와 θ에서도 log p(x|θ) = ELBO(q,θ) + KL(q || p(z|x,θ))예요.",
+    "따라서 KL = log p − ELBO = −3/2 − (−2) = 1/2예요.",
+    "KL이 0보다 크니 이 q는 진짜 사후분포가 아니고, ELBO는 로그우도보다 1/2만큼 아래에 있어요."
+   ]
+  },
+  {
+   "id": "q5",
+   "objective": "o5",
+   "title": "한 바퀴 뒤 로그우도의 범위",
+   "format": "mcq",
+   "stem_html": "<p>현재 $\\log p(x\\mid\\boldsymbol{\\theta}^{(t)})=-10$이에요. E-step에서 $q^{(t)}$를 사후분포로 정한 뒤 M-step을 했더니 $\\mathrm{ELBO}(q^{(t)},\\boldsymbol{\\theta}^{(t+1)})=-9.4$가 됐어요.</p><p>$\\log p(x\\mid\\boldsymbol{\\theta}^{(t+1)})$로 가능한 값을 고르세요.</p>",
+   "hint": "새 파라미터에서 ELBO와 로그우도 사이에는 어떤 크기 관계가 있는지 생각해요.",
+   "answer": "C",
+   "options": [
+    {
+     "id": "A",
+     "text": "$-10.2$",
+     "misconception": "M-step 뒤 로그우도가 줄 수 있다고 봄",
+     "why": "사슬 $-10=\\mathrm{ELBO}(q^{(t)},\\boldsymbol{\\theta}^{(t)})\\le-9.4\\le\\log p(x\\mid\\boldsymbol{\\theta}^{(t+1)})$ 때문에 −10보다 작아질 수 없어요.",
+     "source": "note:s2-monotone"
+    },
+    {
+     "id": "B",
+     "text": "$-9.6$",
+     "misconception": "ELBO가 로그우도보다 클 수 있다고 봄",
+     "why": "KL이 0 이상이라 ELBO는 하한이에요. 새 θ에서도 로그우도는 −9.4 이상이에요.",
+     "source": "note:s2-elbo-identity"
+    },
+    {
+     "id": "C",
+     "text": "$-9.1$",
+     "why": "ELBO는 로그우도의 하한이라 $\\log p(x\\mid\\boldsymbol{\\theta}^{(t+1)})\\ge-9.4$예요. −9.1은 그 조건을 만족하고, 둘의 차 0.3은 새 θ에서의 KL이에요."
+    },
+    {
+     "id": "D",
+     "text": "$-9.8$",
+     "misconception": "ELBO 증가분만 확인하고 하한 관계를 빠뜨림",
+     "why": "−9.8은 −10보다 크지만 ELBO −9.4보다 작아요. 하한 관계 $\\mathrm{ELBO}\\le\\log p$에 어긋나요.",
+     "source": "note:s2-monotone"
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "objective": "o5",
+   "title": "EM 반복이 보장하는 것",
+   "format": "mcq",
+   "stem_html": "<p>E-step과 M-step을 번갈아 반복하는 EM 알고리즘에 대해 보장되는 성질을 고르세요.</p>",
+   "hint": "부등식 사슬의 양 끝이 무엇이고, 사슬이 말하지 않는 것은 무엇인지 구별해요.",
+   "answer": "A",
+   "options": [
+    {
+     "id": "A",
+     "text": "반복마다 관측 로그우도가 줄지 않는다",
+     "why": "E-step은 KL을 0으로 만들고 M-step은 ELBO를 올리며, KL ≥ 0이라 $\\log p(x\\mid\\boldsymbol{\\theta}^{(t)})\\le\\log p(x\\mid\\boldsymbol{\\theta}^{(t+1)})$예요."
+    },
+    {
+     "id": "B",
+     "text": "전역 최대인 MLE에 반드시 도달한다",
+     "misconception": "단조 증가를 전역 최적 수렴으로 착각",
+     "why": "목적함수가 볼록하지 않아 봉우리가 여럿일 수 있어요. 단조 증가해도 국소 최댓값에서 멈출 수 있어요.",
+     "source": "stt:1125#E-step·M-step의 역할과 단조 증가 증명"
+    },
+    {
+     "id": "C",
+     "text": "로그우도가 매번 Q의 증가량과 정확히 같은 만큼 오른다",
+     "misconception": "부등식을 등식으로 읽음",
+     "why": "로그우도 증가량은 Q(ELBO) 증가량에 새 θ에서의 KL을 더한 값이라 같거나 더 커요.",
+     "source": "note:s2-monotone"
+    },
+    {
+     "id": "D",
+     "text": "E-step 하나만으로도 관측 로그우도가 오른다",
+     "misconception": "E-step이 파라미터를 바꾼다고 봄",
+     "why": "E-step은 q만 사후분포로 바꿔 ELBO를 로그우도에 붙여요. θ가 그대로라 로그우도 자체는 변하지 않아요.",
+     "source": "note:s2-monotone"
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "objective": "o6",
+   "title": "성분 밀도를 바꿔도 남는 성질",
+   "format": "mcq",
+   "stem_html": "<p>성분 수가 유한한 혼합모델에서 성분 밀도를 가우시안이 아닌 다른 분포로 바꾸고 EM을 적용해요.</p><p>가우시안이 아니어도 <b>그대로 성립한다고 확신할 수 있는</b> 것을 고르세요.</p>",
+   "hint": "단조 증가 증명에 쓰인 재료가 성분 밀도의 모양에 기대는지 떠올려요.",
+   "answer": "D",
+   "options": [
+    {
+     "id": "A",
+     "text": "M-step에서 가우시안 성분일 때 구한 $\\boldsymbol{\\mu}_k$, $\\boldsymbol{\\Sigma}_k$의 닫힌 해를 그대로 갱신식으로 쓸 수 있다",
+     "misconception": "닫힌 해도 성분 밀도와 무관하다고 봄",
+     "why": "그 닫힌 해는 가우시안 로그밀도를 최대화해서 얻은 결과예요. 성분 밀도가 바뀌면 M-step에서 최대화할 식도 바뀌어서, 같은 해를 그대로 쓸 수 있다고 확신할 수 없어요.",
+     "source": "note:s3-general-em"
+    },
+    {
+     "id": "B",
+     "text": "분산을 0으로 보내면 K-means와 같아진다",
+     "misconception": "K-means 극한을 모든 혼합모델의 성질로 봄",
+     "why": "K-means 극한은 공분산이 $\\sigma^2\\mathbf{I}$인 가우시안 성분에서 σ²→0일 때의 결과예요.",
+     "source": "note:s3-kmeans"
+    },
+    {
+     "id": "C",
+     "text": "책임도를 $\\mathcal{N}(x_n\\mid\\boldsymbol{\\mu}_k,\\boldsymbol{\\Sigma}_k)$로 계산한다",
+     "misconception": "책임도 계산에 가우시안 밀도를 그대로 씀",
+     "why": "책임도는 혼합비와 해당 성분 밀도의 곱을 정규화한 값이에요. 성분 밀도가 바뀌면 가우시안 대신 새 밀도를 넣어요.",
+     "source": "note:s3-general-em"
+    },
+    {
+     "id": "D",
+     "text": "반복마다 관측 로그우도가 줄지 않는다",
+     "why": "단조 증가 증명은 로그우도 = ELBO + KL 항등식과 KL ≥ 0만 써요. 성분이 가우시안인지와 무관해요."
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "objective": "o7",
+   "title": "분산이 작아질 때의 책임도",
+   "format": "mcq",
+   "stem_html": "<p>1차원에서 두 성분의 평균은 0과 4, 분산은 둘 다 $\\sigma^2$, 혼합비는 $\\pi_1=0.2$, $\\pi_2=0.8$이에요. 관측 $x=1.5$에서 $\\sigma^2\\to0$으로 보낼 때 성분 1의 책임도 $r_1$이 다가가는 값을 고르세요.</p>",
+   "hint": "두 평균까지의 거리를 먼저 비교해요.",
+   "answer": "A",
+   "options": [
+    {
+     "id": "A",
+     "text": "$1$",
+     "why": "x=1.5는 평균 0에 더 가까워요(거리 1.5 대 2.5). 가장 가까운 평균이 하나뿐이고 혼합비가 양수이면, σ²→0에서 그 성분의 책임도가 1로 가요."
+    },
+    {
+     "id": "B",
+     "text": "$0$",
+     "misconception": "혼합비가 큰 성분이 극한을 차지한다고 봄",
+     "why": "혼합비의 비는 고정된 상수라 0으로 가는 지수 항을 막지 못해요. 극한은 거리로 정해져요.",
+     "source": "note:s3-kmeans"
+    },
+    {
+     "id": "C",
+     "text": "$0.2$",
+     "misconception": "극한에서 책임도가 혼합비로 돌아간다고 봄",
+     "why": "책임도가 혼합비로 남는 것은 두 평균까지의 거리가 같을 때예요. 여기서는 거리가 달라요.",
+     "source": "note:s3-kmeans"
+    },
+    {
+     "id": "D",
+     "text": "$0.5$",
+     "misconception": "분산이 작아지면 책임도가 반반이 된다고 봄",
+     "why": "분산이 작아질수록 가까운 성분과 먼 성분의 밀도 차가 커져 책임도가 0이나 1로 굳어요.",
+     "source": "note:s3-kmeans"
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "objective": "o7",
+   "title": "거리가 같은 점의 극한",
+   "format": "short",
+   "stem_html": "<p>같은 설정(평균 0과 4, 분산 둘 다 $\\sigma^2$, $\\pi_1=0.2$, $\\pi_2=0.8$)에서 관측 $x=2$를 봐요.</p><p>$\\sigma^2\\to0$으로 보낼 때 성분 1의 책임도 $r_1$의 극한을 기약분수로 입력하세요.</p>",
+   "hint": "두 평균까지의 거리가 같으면 지수 항이 어떻게 되는지 봐요.",
+   "answer": {
+    "canonical": "1/5",
+    "accepted": [
+     "0.2"
+    ]
+   },
+   "compute": {
+    "op": "responsibility",
+    "contributions": [
+     "1/5",
+     "4/5"
+    ],
+    "component": 1
+   },
+   "solution": [
+    "x=2는 두 평균 0과 4에서 거리가 2로 같아서, 두 성분의 가우시안 밀도가 어떤 σ²에서도 같아요.",
+    "그래서 밀도가 약분되고 책임도는 혼합비만 남아 r_1 = 0.2/(0.2+0.8) = 1/5예요.",
+    "σ²를 0으로 보내도 이 값은 변하지 않아요. 거리가 같은 점에서는 극한이 혼합비의 비로 정해져요."
+   ]
+  }
+ ]
+}

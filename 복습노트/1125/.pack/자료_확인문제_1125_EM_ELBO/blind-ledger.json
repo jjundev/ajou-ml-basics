@@ -1,0 +1,65 @@
+{
+  "q1": {
+    "answer": "B",
+    "hash": "3997b03b977dd1d1563a1e4c425dcb57cdf1b262d954082898d93c58a44d0380",
+    "objection": "",
+    "rationale": "s1-why-q, s1-q-function: Q의 가중치는 사전 혼합비가 아니라 사후분포 p(z=k 조건 x, θ^(t)) = 결합 밀도 / 합. 0.3/(0.3+0.1)=3/4, 0.1/0.4=1/4이고 합은 로그 바깥에 있으므로 3/4 log p(x,z=1)+1/4 log p(x,z=2). C는 사전분포 1/2를 쓴 오답, A는 관측 로그우도, D는 하나만 고른 하드 배정",
+    "round": 2
+  },
+  "q2": {
+    "answer": "D",
+    "hash": "8f5e6f5a81b3c98e605a782f4ea51f1d6bfcbaf39f3250a913dee0ea3929cf0b",
+    "objection": "",
+    "rationale": "s1-q-function, s1-gmm-q(1/3): r_nk^(t)는 θ^(t)로 E-step에서 계산을 끝낸 숫자라 M-step에서는 상수이고, 로그 안의 π_k, μ_k, Σ_k는 최적화할 자유 변수 θ임",
+    "round": 1
+  },
+  "q3": {
+    "answer": "3/4",
+    "hash": "4d21b7be331b898f25b68e500e0e66a8b5feb539a69b8bb7c7253a0473c212fa",
+    "objection": "",
+    "rationale": "s1-gmm-q(3/3): 라그랑주 조건 N_k+λπ_k=0에서 λ=−N, π_k=N_k/N. π_1=(9/4)/3=3/4 (확인: N_1+N_2=3=N)",
+    "round": 1
+  },
+  "q4": {
+    "answer": "1/2",
+    "hash": "025740f483a26f4a8e4793443a97d651b9c34ebadd30b6f337c60fb88f62b50a",
+    "objection": "",
+    "rationale": "s2-elbo-identity: log p = ELBO + KL이므로 KL = −3/2 − (−2) = 1/2 (s2-kl-gap의 KL≥0과도 맞음)",
+    "round": 1
+  },
+  "q5": {
+    "answer": "C",
+    "hash": "b81163d8432c9dce26cc62e707e5af936b2ef3d907b2c84d028fe1f50903b081",
+    "objection": "",
+    "rationale": "s2-monotone: 사슬 log p(x∣θ^(t)) = ELBO(q^(t),θ^(t)) ≤ ELBO(q^(t),θ^(t+1)) ≤ log p(x∣θ^(t+1)). 마지막 부등호(KL≥0, s2-kl-gap)로 log p(x∣θ^(t+1)) ≥ −9.4. 보기 중 −9.4 이상은 −9.1뿐. −9.6, −9.8은 −10보다 크지만 ELBO 하한을 어김",
+    "round": 1
+  },
+  "q6": {
+    "answer": "A",
+    "hash": "e0636bda8b1535c7c062f5cc6150fd427bc04a5d2f9bdfd2a43d9d0eeab79d11",
+    "objection": "",
+    "rationale": "s2-monotone: 등호(E-step)·부등호(M-step 최대화)·부등호(KL≥0)로 로그우도가 줄지 않음만 보장. B는 non-convex라 국소 최댓값에 멈출 수 있어 틀림. C는 증가분이 ΔQ(0.0279)+새 KL(0.0262)로 Q 증가량보다 클 수 있어 틀림. D는 E-step은 q만 바꾸고 θ는 그대로라 로그우도 불변",
+    "round": 1
+  },
+  "q7": {
+    "answer": "D",
+    "hash": "c69e5de44e8fe50215cb795317b46e6f589f134f02986db0b8713dbf7be561cc",
+    "objection": "",
+    "rationale": "s3-general-em: 단조 증가 근거는 log p = ELBO + KL 항등식과 KL 0 이상뿐이라 가우시안 모양을 쓰지 않아 모든 잠재변수 모델에 성립. A의 μ, Σ 닫힌 해와 C의 N(x 조건 μ,Σ) 책임도는 가우시안 성분 덕분, B의 K-means 극한(s3-kmeans)도 σ²I 가우시안 전제",
+    "round": 2
+  },
+  "q8": {
+    "answer": "A",
+    "hash": "0f71ea33d94a8efa765b0123ac1453c27d5fbb092dfc5e0e74dea85f4536bfee",
+    "objection": "",
+    "rationale": "s3-kmeans: x=1.5에서 평균 0까지 거리 1.5, 평균 4까지 거리 2.5로 성분 1이 유일하게 가장 가까움. d2²-d1²=6.25-2.25=4>0이라 σ²→0이면 다른 항의 지수 부분이 0으로 가고, π 비 0.8/0.2=4는 유한 상수라 막지 못해 r1→1. C(0.2)는 혼합비를 극한으로 착각한 오답",
+    "round": 2
+  },
+  "q9": {
+    "answer": "1/5",
+    "hash": "c12e011847d6a4ec6da7a7d6b419a4b84d64511987c18d00f82fd6f6c46e42dc",
+    "objection": "",
+    "rationale": "s3-kmeans: x=2에서 d_1=d_2=2라 지수 항이 약분되고 r_1=π_1/(π_1+π_2)=0.2/(0.2+0.8)=1/5 (σ²와 무관하게 상수이므로 극한도 1/5)",
+    "round": 1
+  }
+}
