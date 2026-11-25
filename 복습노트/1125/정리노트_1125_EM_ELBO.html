@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>머신러닝기초 정리노트 1125</title>
+  <meta name="description" content="정방철 교수님 머신러닝기초 · 1125 수업 (Lecture08, MML 11장)">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('od-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="../../assets/vendor/pretendard/pretendard.css">
+  <link rel="stylesheet" href="../../assets/vendor/katex/katex.min.css">
+  <script defer src="../../assets/vendor/katex/katex.min.js"></script>
+  <script defer src="../../assets/vendor/katex/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+  <style>
+    /* ---------- 토큰 ---------- */
+    :root {
+      color-scheme: light;
+      --scroll: #c9d0db; --scroll-hover: #9aa3b2;
+      --bg: #ffffff; --surface: #f7f8fa; --ink: #111111; --ink-2: #6b7280; --line: #d9dee7;
+      --accent: #1677ff; --accent-ink: #1b64da; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #b54708; --prof: #6941c6; --supp: #067647; --danger: #d92d20;
+      --font: 'Pretendard', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --fs-title: clamp(28px, 6vw, 36px); --fs-h3: clamp(26px, 5.4vw, 32px); --fs-layer: 19px; --fs-lead: 22px; --fs-body: 17px; --fs-sub: 15px; --fs-small: 14px; --fs-label: 13px; --fs-fig: 12px;
+      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+      --radius: 8px; --measure: 680px; --tap: 48px; --btn-min: 160px;
+      --dur: 220ms; --dur-exit: 150ms; --ease-out: cubic-bezier(.2, .8, .2, 1);
+      /* 예전 조각이 참조할 수 있는 이름 */
+      --surface-2: var(--surface); --accent-soft: var(--surface); --warn-soft: var(--surface);
+      --prof-soft: var(--surface); --supp-soft: var(--surface); --eli5: var(--accent-ink); --eli5-soft: var(--surface);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --scroll: #3f414b; --scroll-hover: #5b5e6a;
+        --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+        --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+        --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --scroll: #3f414b; --scroll-hover: #5b5e6a;
+      --bg: #17171c; --surface: #212128; --ink: #f2f4f6; --ink-2: #a3abb8; --line: #34353d;
+      --accent: #3182f6; --accent-ink: #6ea4ff; --btn-bg: #1b64da; --on-btn: #ffffff;
+      --warn: #f5a15c; --prof: #b69cff; --supp: #5fd39a; --danger: #ff6b61;
+    }
+
+    /* ---------- 기본 ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--fs-body); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 상단 바 ---------- */
+    .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s2) var(--s4); display: flex; align-items: center; gap: var(--s3); min-height: 56px; }
+    .brand { flex: 1 1 auto; min-width: 0; font-size: var(--fs-body); font-weight: 700; white-space: nowrap; }
+    .text-btn { flex: none; min-height: 44px; min-width: 44px; padding: 0 var(--s3); border: 0; border-radius: var(--radius);
+      background: transparent; color: var(--ink); font: 600 var(--fs-small)/1 var(--font); cursor: pointer; }
+    .bar { height: 2px; background: var(--line); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+
+    /* ---------- 본문 ---------- */
+    main { flex: 1 0 auto; width: 100%; max-width: var(--measure); margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); }
+    .hero h1 { font-size: var(--fs-title); line-height: 1.3; margin: 0 0 var(--s3); letter-spacing: -0.02em; }
+    .hero p { color: var(--ink-2); margin: 0; }
+    section { margin-top: var(--s7); }
+    section > h2 { font-size: 22px; line-height: 1.4; margin: 0 0 var(--s4); }
+    .topic { padding: var(--s6) 0; border-top: 1px solid var(--line); }
+    .topic h3 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+    .tags { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+    .tag { font-size: var(--fs-label); line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+
+    /* 긴 계산: 기존 패널 안에서 단계별로 읽는다 */
+    .note-stage-nav { position: sticky; top: 0; z-index: 2; display: flex; gap: var(--s1); overflow-x: auto; background: var(--bg); border-bottom: 1px solid var(--line); margin: var(--s5) 0; }
+    .note-stage-nav a { display: flex; align-items: center; flex: 0 0 auto; min-height: 44px; padding: 0 var(--s2); color: var(--ink-2); font-size: var(--fs-small); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; }
+    .note-stage-nav a[aria-current="step"] { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+    .note-stage { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
+    .topic .note-stage-title { display: flex; align-items: baseline; gap: var(--s4); margin: 0 0 var(--s2); font-size: clamp(22px, 4vw, 24px); font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; scroll-margin-top: 72px; }
+    .note-stage-number { flex: none; white-space: nowrap; color: var(--accent-ink); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0; }
+    .topic .note-stage-goal { margin: var(--s2) 0 var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    .topic .note-subheading { margin: var(--s6) 0 var(--s3); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .topic .note-stage-result { margin-top: var(--s5); font-size: var(--fs-body); font-weight: 400; line-height: 1.7; }
+    @media print { .note-stage-nav { display: none; } .note-stage { break-inside: auto; } }
+
+    /* 식 줄 + 주석: 유도는 식이 본문, 연산·이유는 옆 한 줄 주석 (staged-body.md) */
+    /* 간격 규칙: 덩어리 사이 24px · 짝을 이루는 줄 사이 8px · 식 줄 안쪽 12px */
+    .deriv-body { container-type: inline-size; --d-block: var(--s5); --d-pair: var(--s2); --d-row: var(--s3); }
+    .topic .deriv-body > * { margin: 0; }
+    .topic .deriv-body > * + * { margin-top: var(--d-block); }
+    .topic .deriv-body > .deriv-legend + .deriv,
+    .topic .deriv-body > .note-stage-result + .deriv-check { margin-top: var(--d-pair); }
+    .topic .deriv-body > .note-subheading { margin-top: var(--s6); }
+    .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
+    .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
+    .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    /* 계산 상자: 건너뛰어도 흐름이 이어지는 숫자 계산 (references/narrative-flow.md 규칙 3) */
+    .topic .calc-box { margin: var(--s4) 0; padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--surface); font-size: var(--fs-sub); line-height: 1.7; }
+    .topic .calc-box > .calc-label { margin: 0 0 var(--s1); font-size: var(--fs-label); font-weight: 700; color: var(--ink-2); }
+    .topic .calc-box .katex-display { margin: var(--s2) 0; }
+    .topic .calc-box table { font-size: var(--fs-sub); }
+    .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+    .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
+    .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }
+    .deriv > li.is-wide { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .deriv-eq { min-width: 0; }
+    .deriv .katex-display { margin: 0; padding: 2px 0; text-align: left; }
+    .deriv .katex-display > .katex { text-align: left; }
+    .deriv .katex [style*="color:#"] { color: var(--accent-ink) !important; }
+    .deriv-why { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+    .topic .deriv-why p { margin: 0; }
+    .deriv-why details { margin-top: var(--s1); }
+    .deriv-why summary { display: inline-block; padding: 2px 0; cursor: pointer; color: var(--accent-ink); font-size: var(--fs-label); list-style: none; }
+    .deriv-why summary::-webkit-details-marker { display: none; }
+    .deriv-why summary::after { content: " ▾"; }
+    .deriv-why details[open] summary::after { content: " ▴"; }
+    .topic .deriv-why details p { margin-top: var(--s2); color: var(--ink); line-height: 1.7; }
+    @container (max-width: 620px) {
+      .deriv > li { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .deriv > li.deriv-gen { margin-inline: 0; padding-inline: var(--s3); }
+    }
+    @media print { .deriv-why details { display: block; } }
+
+    /* 레이어: 배경 없이 라벨과 구분선으로 나눈다 */
+    .layer { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
+    .layer.eli5 { margin-top: 0; padding-top: 0; border-top: 0; }
+    .layer > :first-child { margin-top: 0; }
+    .layer > :last-child { margin-bottom: 0; }
+    .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
+    .layer.eli5 .layer-title { color: var(--accent-ink); }
+    .layer.eli5 .lead { font-size: var(--fs-lead); font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; margin: 0 0 var(--s4); }
+    /* 정확히 말하면: 본문 크기 그대로, 굵은 첫머리만 진하게 */
+    .layer.formal b { font-weight: 700; color: var(--ink); }
+    /* 교수님 말씀 · 주의: 보조 정보는 한 단계 작게 */
+    .layer.prof, .layer.warn, .layer.listen { font-size: var(--fs-sub); line-height: 1.7; }
+    .layer.prof blockquote { font-size: var(--fs-sub); }
+    .layer.prof .layer-title { color: var(--prof); }
+    .layer.warn, .layer.listen { background: var(--surface); border-top: 0; border-radius: var(--radius); padding: var(--s4); }
+    .layer.warn .layer-title { color: var(--warn); font-size: var(--fs-body); }
+    .layer.listen .layer-title { color: var(--accent-ink); font-size: var(--fs-body); }
+    .layer.supp .badge.supp { margin-bottom: var(--s2); }
+    .badge { display: inline-block; font-size: var(--fs-label); font-weight: 600; line-height: 1.5; padding: 2px var(--s2); border-radius: 6px; background: var(--surface); color: var(--ink-2); }
+    .badge.supp { color: var(--supp); }
+    blockquote { margin: var(--s3) 0; padding: 0 0 0 var(--s3); border-left: 2px solid var(--line); color: var(--ink-2); }
+    ol.steps { padding-left: 1.4em; }
+    ol.steps li { margin: var(--s2) 0; }
+
+    /* 그림 · 수식 · 표 */
+    .figure { margin: var(--s4) 0; text-align: center; }
+    .figure svg { width: 100%; height: auto; max-width: 560px; color: var(--ink); }
+    .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: var(--s1) 0; }
+    .table-wrap { overflow-x: auto; position: relative; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
+    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    th { color: var(--ink-2); font-weight: 600; }
+    td:first-child, th:first-child { min-width: 6em; }
+
+    /* 위젯 */
+    .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
+    .widget h4 { margin: 0 0 var(--s1); font-size: var(--fs-layer); line-height: 1.4; }
+    .widget-help { font-size: var(--fs-small); color: var(--ink-2); margin: 0 0 var(--s3); }
+    .controls { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: var(--s2); font-size: var(--fs-small); }
+    .controls label { display: flex; align-items: center; gap: var(--s2); min-height: 44px; }
+    .controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .widget svg { width: 100%; height: auto; background: var(--bg); border-radius: var(--radius); }
+    .readout { font-size: var(--fs-small); margin-top: var(--s2); }
+    .legend { font-size: var(--fs-label); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: var(--s3); }
+    .sw { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: var(--s1); border-radius: 2px; }
+    .sw.truth { background: var(--ink-2); } .sw.fit { background: var(--accent); } .sw.train { background: var(--accent); height: 10px; width: 10px; border-radius: 50%; }
+    .sw.test { background: var(--warn); height: 10px; width: 10px; border-radius: 50%; } .sw.like { background: var(--accent); } .sw.prior { background: var(--prof); } .sw.post { background: var(--supp); }
+    .axis { stroke: var(--line); stroke-width: 1.5; }
+    .tick { fill: var(--ink-2); font-size: 11px; }
+    .plot-truth { fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .plot-fit { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+    .pt-train { fill: var(--accent); }
+    .pt-test { fill: var(--warn); }
+    .plot-like { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .plot-prior { fill: none; stroke: var(--prof); stroke-width: 2; stroke-dasharray: 6 4; }
+    .plot-post { fill: none; stroke: var(--supp); stroke-width: 3; }
+    .mark-ml { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .mark-map { stroke: var(--supp); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .fig-ink { stroke: currentColor; fill: none; stroke-width: 2; }
+    .fig-accent { stroke: var(--accent); fill: none; stroke-width: 2.5; }
+    .fig-danger { stroke: var(--danger); fill: none; stroke-width: 2.5; }
+    .fig-dot { fill: var(--accent); }
+    .fig-text { fill: currentColor; font-size: 13px; font-family: inherit; }
+    .fig-muted { fill: var(--ink-2); font-size: var(--fs-fig); font-family: inherit; }
+
+    footer { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 var(--s5) var(--s6); color: var(--ink-2); font-size: var(--fs-small); }
+
+    /* ---------- 하단 이동 바 ---------- */
+    .pager { position: sticky; bottom: 0; z-index: 10; background: var(--bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .pager-inner { max-width: var(--measure); margin: 0 auto; padding: var(--s3) var(--s4); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s3); }
+    .pager-count { font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: center; min-width: 4em; }
+    .btn { min-height: var(--tap); min-width: var(--btn-min); padding: 0 var(--s6); border-radius: var(--radius); border: 0; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; white-space: nowrap;
+      transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+    .btn-ghost { justify-self: start; background: var(--surface); color: var(--ink); }
+    .btn-primary { justify-self: end; background: var(--btn-bg); color: var(--on-btn); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .text-btn:hover, .btn-ghost:not(:disabled):hover { background: var(--line); }
+      .btn-primary:not(:disabled):hover { box-shadow: inset 0 0 0 100px rgba(0, 0, 0, .14); }
+    }
+
+    /* ---------- 목차 시트 ---------- */
+    .sheet { width: min(100%, var(--measure)); max-width: 100%; max-height: 80dvh; margin: auto auto 0; padding: 0; border: 0;
+      border-radius: 16px 16px 0 0; background: var(--bg); color: var(--ink); }
+    .sheet::backdrop { background: rgba(0, 0, 0, .4); }
+    .sheet-inner { padding: var(--s4) var(--s5) calc(var(--s5) + env(safe-area-inset-bottom)); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+    .sheet-head h2 { margin: 0; font-size: var(--fs-lead); }
+    .toc { display: flex; flex-direction: column; }
+    .toc > a, .toc-group > a { display: block; padding: var(--s3) 0 var(--s1); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); text-decoration: none; }
+    .toc-list { list-style: none; margin: 0 0 var(--s2); padding: 0; }
+    .toc-list a { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) var(--s3); margin: 0 calc(-1 * var(--s3));
+      border-radius: var(--radius); color: var(--ink); text-decoration: none; line-height: 1.4; }
+    .toc-list a[aria-current="true"] { background: var(--surface); font-weight: 700; color: var(--accent-ink); }
+    .toc-list .toc-title { flex: 1 1 0; min-width: 0; }
+    @media (hover: hover) { .toc-list a:hover { background: var(--surface); } }
+
+    /* ---------- 한 화면에 하나씩 (JS가 켤 때만) ---------- */
+    html:not(.js) .pager, html:not(.js) #toc-open { display: none; }
+    html:not(.js) .sheet { display: block; position: static; width: 100%; max-height: none; margin: 0 auto; border-radius: 0; border-bottom: 1px solid var(--line); }
+    html:not(.js) .sheet-close { display: none; }
+    .js main > .hero:not(.is-current), .js main > section:not(.is-on), .js .screen:not(.is-current) { display: none; }
+    .js main > section { margin-top: 0; }
+    .js main > section > h2 { font-size: var(--fs-small); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s2); }
+    .js .topic { padding: 0; border-top: 0; }
+    .js .hero { padding-top: 12vh; }
+    .js footer { display: none; }
+    .js body.at-end footer { display: block; }
+    .screen.enter-next { animation: enter-next var(--dur) var(--ease-out); }
+    .screen.enter-prev { animation: enter-prev var(--dur) var(--ease-out); }
+    @keyframes enter-next { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes enter-prev { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen.enter-next, .screen.enter-prev { animation: none; }
+      .bar > span, .btn { transition: none; }
+    }
+    @media (max-width: 480px) {
+      main { padding: var(--s5) var(--s4) var(--s6); }
+      footer { padding: 0 var(--s4) var(--s5); }
+      .btn { min-width: 120px; padding: 0 var(--s5); }
+    }
+    @media print {
+      .topbar, .pager, .sheet { display: none !important; }
+      .js main > .hero, .js main > section, .js .screen, .js footer { display: block !important; }
+    }
+
+    /* ---------- 좌우 패널 (drawer) ---------- */
+    :root { --panel-l: clamp(240px, 18vw, 320px); --panel-r-min: 320px; --panel-r-max: 720px; --scrollbar: 16px; --drawer-l: 304px; --drawer-r: 360px; --fs-panel: 16px; --scrim: rgba(0, 0, 0, .4); }
+    html { height: 100%; } body { height: 100%; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .topbar-inner { max-width: none; padding: var(--s2) var(--s3); gap: var(--s2); }
+    .panel-toggle { display: inline-flex; align-items: center; gap: var(--s1); padding: 0 var(--s2); }
+    .panel-toggle svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .panel-toggle .strip { fill: transparent; stroke: none; transition: fill 150ms ease-out; }
+    .panel-toggle[aria-expanded="true"] { color: var(--accent-ink); }
+    .panel-toggle[aria-expanded="true"] .strip { fill: currentColor; }
+    .theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
+    }
+
+    .layout { display: grid; grid-template-columns: auto minmax(320px, 1fr) auto; min-height: 0; }
+    .content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: var(--s4); }
+    .panel { position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-size: var(--fs-panel); line-height: 1.6; }
+    .panel-left { grid-column: 1; border-right: 1px solid var(--line); }
+    .content { grid-column: 2; }
+    .panel-right { grid-column: 3; border-left: 1px solid var(--line); }
+    .panel-inner { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--s4) var(--s4) var(--s6); }
+    .content::-webkit-scrollbar, .panel-inner::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-track, .panel-inner::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb, .panel-inner::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 2px solid var(--bg); }
+    .content::-webkit-scrollbar-thumb:hover, .panel-inner::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
+    @supports (scrollbar-color: auto) { .content, .panel-inner { scrollbar-width: thin; scrollbar-color: var(--scroll) transparent; } }
+    .panel-resize { display: none; }
+    .panel-head { display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin-bottom: var(--s2); }
+    .panel-head h2 { flex: 1 1 0; min-width: 0; margin: 0; font-size: var(--fs-lead); line-height: 1.4; }
+    .panel-sub { margin: 0 0 var(--s4); font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+    .panel-empty { margin: 0; color: var(--ink-2); }
+    .panel-label { display: block; margin: var(--s5) 0 var(--s2); font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+
+    /* 진행 상태 */
+    .panel-meta { margin: 0 0 var(--s2); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .panel-meta b { color: var(--ink); }
+    .progress { height: 4px; margin-bottom: var(--s3); border-radius: 2px; background: var(--line); overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); }
+    .panel .toc-list a { margin: 0 calc(-1 * var(--s2)); padding: var(--s2); font-size: var(--fs-panel); }
+    .toc-mark { flex: none; display: block; width: 20px; height: 20px; color: var(--ink-2); }
+    .toc-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .toc-mark.is-done { color: var(--accent-ink); }
+
+    /* 복습문제: 원문 · 힌트 · 풀이 */
+    .aid details:last-of-type { border-bottom: 1px solid var(--line); }
+    .aid details.original > summary { font-size: var(--fs-panel); }
+    .solved-btn { display: flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: var(--tap); margin-top: var(--s5); padding: 0 var(--s4);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); font: 700 var(--fs-panel)/1.2 var(--font); cursor: pointer; }
+    .solved-btn svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .solved-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+    /* 정리노트: 페이지 요약 */
+    .sum-lead { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.6; }
+    .eq-list { list-style: none; margin: 0; padding: 0; }
+    .eq-list li { padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+    .eq-list li:first-child { padding-top: 0; }
+    .eq-name { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--ink-2); }
+    .eq-list .katex-display { margin: var(--s1) 0 0; text-align: left; }
+    .eq-list .katex-display > .katex { text-align: left; }
+    .terms { margin: 0; }
+    .terms dt { font-size: var(--fs-panel); font-weight: 700; margin-top: var(--s4); }
+    .terms dt:first-child { margin-top: 0; }
+    .terms dd { margin: var(--s1) 0 0; font-size: var(--fs-sub); line-height: 1.6; color: var(--ink-2); }
+    .flow { margin: 0; padding-left: 1.4em; font-size: var(--fs-sub); }
+    .flow li { margin: var(--s2) 0; }
+
+    @media (hover: hover) { .solved-btn:hover { background: var(--surface); } }
+
+    /* 넓은 화면: 본문 옆에 붙는 패널 */
+    @media (min-width: 1024px) {
+      .layout { --l: var(--panel-l-user, var(--panel-l)); }
+      .layout[data-left="closed"] { --l: 0px; }
+      .panel-left { width: var(--l); }
+      /* 기본값: 왼쪽 패널과 본문 폭을 뺀 나머지를 오른쪽 패널이 차지 → 본문 옆 빈 여백이 생기지 않는다 */
+      .panel-right { width: var(--panel-r-user, clamp(var(--panel-r-min), calc(100vw - var(--l) - var(--measure) - var(--scrollbar)), var(--panel-r-max))); }
+      .panel-resize { display: block; position: absolute; top: 0; bottom: 0; z-index: 2; width: 12px; padding: 0; border: 0; background: transparent; cursor: col-resize; touch-action: none; }
+      .panel-left .panel-resize { right: 0; }
+      .panel-right .panel-resize { left: 0; }
+      .panel-resize::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 150ms ease-out; }
+      .panel-left .panel-resize::after { right: 0; }
+      .panel-right .panel-resize::after { left: 0; }
+      .panel-resize:focus-visible { outline: none; }
+      .panel-resize:focus-visible::after, .is-resizing .panel-resize:active::after { opacity: 1; }
+      @media (hover: hover) { .panel-resize:hover::after { opacity: 1; } }
+      body.is-resizing { cursor: col-resize; user-select: none; }
+      .layout[data-left="closed"] .panel-left, .layout[data-right="closed"] .panel-right { display: none; }
+      .panel.is-shown { animation: panel-fade var(--dur) var(--ease-out); }
+      .scrim, .panel-close { display: none; }
+    }
+    @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 좁은 화면: 가장자리에서 밀려 나오는 drawer */
+    @media (max-width: 1023.98px) {
+      .panel { position: fixed; top: 0; bottom: 0; z-index: 40; visibility: hidden;
+        transition: transform var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .panel-left { left: 0; width: min(var(--drawer-l), 88vw); transform: translateX(-100%); }
+      .panel-right { right: 0; width: min(var(--drawer-r), 88vw); transform: translateX(100%); }
+      .panel.is-open { visibility: visible; transform: none; transition: transform var(--dur) var(--ease-out); }
+      .panel-inner { padding-top: calc(var(--s3) + env(safe-area-inset-top)); padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+      .scrim { position: fixed; inset: 0; z-index: 35; background: var(--scrim); opacity: 0; visibility: hidden;
+        transition: opacity var(--dur-exit) ease-in, visibility 0s linear var(--dur-exit); }
+      .scrim.is-on { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out); }
+      html:not(.js) .panel-left { display: none; }
+    }
+    @media (max-width: 480px) { .panel-toggle { padding: 0 var(--s1); } }
+    html:not(.js) .panel-toggle, html:not(.js) .panel-right, html:not(.js) .scrim { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .panel, .panel.is-open, .scrim, .scrim.is-on, .progress > span, .panel-toggle .strip { transition: none; }
+      .panel.is-shown { animation: none; }
+      .panel-resize::after { transition: none; }
+    }
+    @media print {
+      body { display: block; height: auto; overflow: visible; }
+      .layout { display: block; }
+      .content { overflow: visible; }
+      .panel, .scrim { display: none !important; }
+    }
+  </style>
+</head>
+<body data-screens="article.topic" data-panels="note" data-range="1125">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="text-btn panel-toggle" id="toggle-left" type="button" aria-controls="panel-left" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="3" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg><span>목차</span></button>
+      <strong class="brand">정리노트</strong>
+      <button class="text-btn theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="다크 모드로 전환"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="text-btn panel-toggle" id="toggle-right" type="button" aria-controls="panel-right" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="strip" x="15" y="4" width="6" height="16" rx="1"/><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg><span>요약</span></button>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="pager-bar"></span></div>
+  </header>
+  <div class="layout" data-left="open" data-right="closed">
+    <aside class="panel panel-left" id="panel-left" aria-labelledby="panel-left-title">
+      <div class="panel-resize" data-side="left" role="separator" aria-orientation="vertical" aria-controls="panel-left" aria-label="왼쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-left-title">목차</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        <nav class="toc" aria-label="목차"><a href="#s0">0 시작</a><a href="#s1">1 Q 함수</a><a href="#s2">2 ELBO</a><a href="#s3">3 일반 EM</a><a href="#s4">4 요약·예고</a></nav>
+      </div>
+    </aside>
+    <div class="content">
+  <main>
+    <div class="hero">
+      <h1>Q 함수와 ELBO로 보는 EM — 5살도 이해하는 정리노트</h1>
+      <p>정방철 교수님 머신러닝기초 · 1125 수업 (Lecture08, MML 11장)</p>
+    </div>
+    <section id="s0"><h2>시작</h2>
+<article class="topic" id="s0-learning-map" data-learning-map="v1">
+  <h3>성분을 모르는데 어떻게 로그우도를 올리나요?</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s7–14</span></div>
+  <div class="layer formal"><span class="layer-title">먼저 큰 그림</span>
+    <p data-map="goal">관측 $x$만 보고 로그우도 $\log p(x\mid\boldsymbol{\theta})$를 키우는 파라미터 $\boldsymbol{\theta}$를 찾고 싶어요. 그런데 점마다 로그 안에 성분 합 $\sum_k\pi_k\phi_{nk}$가 들어 있어서(${\phi_{nk}=\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)}$는 점 $x_n$에서 본 성분 $k$의 밀도), 미분하면 모든 성분의 파라미터가 한 분모에 얽혀요. 오늘의 답은 다루기 쉬운 대리 목표인 Q 함수와 ELBO를 올리면 원래 로그우도도 줄지 않는다는 거예요.</p>
+    <p data-map="bridge">1118에서는 성분 번호 $z_n$을 안다고 가정하면 완전 데이터 로그우도 ${\log p(x_n,z_n\mid\boldsymbol{\theta})=\log(\pi_{z_n}\phi_{n,z_n})}$에서 로그 안의 합이 사라진다는 것을 봤어요. 오늘은 $z_n$을 모르므로 값 하나를 고르지 않고, 각 $k$의 완전 데이터 로그우도를 사후분포 ${p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})}$, 곧 책임도 $r_{nk}^{(t)}$로 평균 내요. 1116에서 배운 EM 갱신식은 그대로이고, 그 반복이 왜 로그우도를 올리는지를 새로 증명해요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>무엇을 바꾸나</th><th>$z$를 아는 경우(완전 데이터)</th><th>$z$를 모르는 경우(1125)</th></tr></thead>
+      <tbody>
+        <tr><td>목표 함수</td><td>$\log p(x,z\mid\boldsymbol{\theta})$: 로그 안에 합이 없어요</td><td>$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$: 사후분포로 평균 낸 $\log p(x,z\mid\boldsymbol{\theta})$</td></tr>
+        <tr><td>$z$의 역할</td><td>관측값</td><td>사후분포 $p(z\mid x,\boldsymbol{\theta}^{(t)})$, 곧 책임도 $r_{nk}^{(t)}$</td></tr>
+        <tr><td>올라간다는 보장</td><td>직접 MLE로 바로 최대화해요</td><td>로그우도 = ELBO + KL, $D_{\mathrm{KL}}\ge 0$이라 단조 증가(전역 최대는 보장 없음)</td></tr>
+      </tbody>
+    </table></div>
+    <p data-map="result">한 번 반복해서 얻는 것은 새 파라미터 값 $\boldsymbol{\theta}^{(t+1)}$과, 그 값에서 로그우도가 줄지 않는다는 부등식 보장이에요. E-step에서 정한 분포 $q(z)$는 그 계산의 가중치로 쓰여요. 1118 노트의 두 성분 예를 이어 가면 혼합비가 $(1/2,1/2)$에서 $(7/12,5/12)$로 바뀌고, 두 점의 로그우도가 $\log(19/18)\approx0.054$만큼 올라가요.</p>
+    <p data-map="formula">식은 이 순서로 나와요. 먼저 Q 함수를 사후분포로 평균 낸 완전 데이터 로그우도로 정의하고(E-step), GMM에서는 그것이 책임도 가중합이 되어 파라미터별로 나뉘는 것을 봐요(M-step). 이어서 아무 분포 $q(z)$에서나 성립하는 항등식을 만들어요. $$\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}(q,\boldsymbol{\theta})+D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)$$ ELBO(evidence lower bound)는 로그우도의 하한이고, 0 이상인 KL 발산(KL divergence)이 그 차이를 채워요. 마지막으로 이 항등식으로 E-step과 M-step을 잇는 부등식 사슬을 세워요.</p>
+    <p data-map="pitfall">단조 증가는 로그우도가 반복마다 줄지 않는다는 뜻이지, 전역 최대(MLE)에 닿는다는 보장이 아니에요. 로그우도에 봉우리가 여러 개 있을 수 있어서(non-convex) 국소 최댓값에서 멈출 수 있어요. 또 Q 함수 안의 $\boldsymbol{\theta}^{(t)}$는 사후분포를 계산하는 데만 쓰는 고정된 현재 값이고, $\boldsymbol{\theta}$는 최대화할 자유 변수예요.</p>
+    <p>성분 번호를 모를 때 완전 데이터 로그우도의 어느 항을 써야 할지, <a href="#s1-why-q">모르는 성분을 사후확률로 평균 내기</a>에서 이어서 따져 봐요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">성분 번호를 모르면 완전 데이터 로그우도를 사후분포(책임도)로 평균 낸 Q 함수를 올리고, 로그우도 = ELBO + KL 항등식으로 로그우도가 줄지 않음을 보여요. 전역 최대는 보장하지 않아요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>Q 함수(Q function)</dt><dd>사후분포 $p(z\mid x,\boldsymbol{\theta}^{(t)})$로 평균 낸 $\log p(x,z\mid\boldsymbol{\theta})$</dd>
+      <dt>ELBO(evidence lower bound)</dt><dd>로그우도의 하한</dd>
+      <dt>KL 발산(KL divergence)</dt><dd>로그우도와 ELBO의 차이, $D_{\mathrm{KL}}\ge 0$</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">로그우도 = ELBO + KL</span>$$\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}(q,\boldsymbol{\theta})+D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s1"><h2>1. Q 함수</h2>
+<article class="topic" id="s1-why-q">
+  <h3>모르는 성분을 사후확률로 평균 내기</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s7–9</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">어느 반에서 온 학생인지 모를 때는, 그 반일 가능성만큼 점수를 나눠 매겨요.</p>
+    <figure class="figure">
+      <svg id="fig-why-q-split" viewBox="0 0 340 150" role="img" aria-label="가운데 색칠된 점에서 왼쪽 '가 반' 테두리 상자로 굵은 선이, 오른쪽 '나 반' 테두리 상자로 가는 선이 이어진 그림. 굵은 선 옆에는 3분의 2, 가는 선 옆에는 3분의 1이 적혀 있다.">
+        <rect class="fig-ink" x="10" y="95" width="110" height="44" rx="8"/>
+        <rect class="fig-ink" x="220" y="95" width="110" height="44" rx="8"/>
+        <text class="fig-text" x="65" y="122" text-anchor="middle" font-size="14">가 반</text>
+        <text class="fig-text" x="275" y="122" text-anchor="middle" font-size="14">나 반</text>
+        <circle class="fig-dot" cx="170" cy="28" r="10"/>
+        <text class="fig-muted" x="170" y="56" text-anchor="middle" font-size="12">새로 온 학생</text>
+        <path class="fig-accent" stroke-width="5" d="M160 38L80 92"/>
+        <path class="fig-ink" stroke-width="1.5" d="M180 38L260 92"/>
+        <text class="fig-text" x="92" y="62" text-anchor="middle" font-size="14">3분의 2</text>
+        <text class="fig-text" x="250" y="62" text-anchor="middle" font-size="14">3분의 1</text>
+      </svg>
+      <figcaption>가 반일 가능성이 더 크니 그쪽에 더 많이 나눠 줘요.</figcaption>
+    </figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>성분 번호 $z_n$을 알면 완전 데이터 로그우도 $\log p(x_n,z_n\mid\boldsymbol{\theta})$ 하나로 파라미터를 평가하면 돼요. 그런데 실제로는 $z_n$이 숨어 있으니 어느 성분의 항을 써야 할까요? 같은 점 하나를 두고 "성분 1이라고 가정", "성분 2라고 가정", "두 가정을 가능성만큼 섞기"의 세 가지를 비교해 봐요.</p>
+    <p>먼저 왜 $z_n$을 끌어들였는지 짧게 상기해요. $\boldsymbol{\theta}$는 혼합비·평균·공분산을 모은 파라미터이고, $\phi_{nk}=\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$는 성분 $k$의 밀도를 $x_n$에서 읽은 값이에요. 성분을 모르면 <a href="../1118/정리노트_1118_Latent_Variable_EM.html#s2-marginal">두 성분의 기여를 모두 더한 밀도</a>에 로그를 씌워야 해요.</p>
+    $$\log p(x_n\mid\boldsymbol{\theta})=\log\sum_{k=1}^{K}\pi_k\phi_{nk}$$
+    <p>이 식을 $\pi_1$로 편미분하면 $\phi_{n1}/\sum_j\pi_j\phi_{nj}$가 나와요. 분모의 합 때문에 $\pi_1$의 조건식에 다른 성분의 $\pi_2$, $\boldsymbol{\mu}_2$, $\boldsymbol{\Sigma}_2$가 함께 섞여 들어가요. 반면 $z_n=k$로 주어지면 로그 안에는 곱 $\pi_k\phi_{nk}$ 하나만 남아 이 얽힘이 사라져요.</p>
+    <p>설명을 위해 만든 예로 1118 노트의 예를 그대로 이어 써요. 두 성분은 평균이 모두 $0$이고 분산이 각각 $1$, $4$예요. $\boldsymbol{\theta}^{(t)}$는 $t$번째 반복에서 가진 현재 추정값이고, 여기서는 혼합비가 $\pi_1^{(t)}=\pi_2^{(t)}=\frac12$예요. 이 섹션에서는 평균과 분산을 고정하고 혼합비만 바꿔요. 관측은 $x_1=0$과, 두 성분의 밀도가 같아지는 $x_2\approx1.36$ 두 개예요. $c=\sqrt{2\pi}$로 두고 우선 $x_1=0$ 하나만 봐요. 이 노트의 $\log$는 자연로그예요. 숫자로 비교하려고 지금은 로그 안에도 현재 값 $\boldsymbol{\theta}^{(t)}$를 넣어요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">$z_1$에 대한 태도</th><th scope="col">로그 안에 넣는 값</th><th scope="col">로그 값</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">$z_1=1$이라고 가정</th><td>$\pi_1^{(t)}\phi_{11}=\frac12\cdot\frac1c=\frac1{2c}$</td><td>$\approx-1.612$</td></tr>
+        <tr><th scope="row">$z_1=2$라고 가정</th><td>$\pi_2^{(t)}\phi_{12}=\frac12\cdot\frac1{2c}=\frac1{4c}$</td><td>$\approx-2.305$</td></tr>
+        <tr><th scope="row">사후확률로 가중평균</th><td>두 로그 값에 바로 아래에서 구할 사후확률 $\frac23$, $\frac13$을 곱해 더함</td><td>$\approx-1.843$</td></tr>
+      </tbody>
+    </table></div>
+    <p>두 가정의 로그 값은 $0.693$만큼 달라서, 어느 쪽을 믿느냐에 따라 평가가 바뀌어요. $x_1$만 보고는 성분을 확정할 수 없지만, $x_1$을 본 뒤 각 성분이었을 확률은 구할 수 있어요. 이것이 $z_1$의 <b>사후분포</b>(posterior distribution)이고, 1118에서 구한 책임도와 같은 값이에요. 결합 밀도를 두 기여의 합 $\frac1{2c}+\frac1{4c}=\frac3{4c}$로 나눠요.</p>
+    $$p(z_1=1\mid x_1,\boldsymbol{\theta}^{(t)})=\frac{p(x_1,z_1=1\mid\boldsymbol{\theta}^{(t)})}{p(x_1\mid\boldsymbol{\theta}^{(t)})}$$
+    $$=\frac{1/(2c)}{3/(4c)}=\frac23$$
+    <p>같은 방식으로 $p(z_1=2\mid x_1,\boldsymbol{\theta}^{(t)})=\frac13$이에요. 표의 셋째 줄은 두 가정의 로그 값을 이 사후확률로 가중평균한 거예요. 로그 안을 아직 정하지 않은 $\boldsymbol{\theta}$로 남겨 두면 다음 식이 돼요.</p>
+    $$\sum_{k=1}^{2}p(z_1=k\mid x_1,\boldsymbol{\theta}^{(t)})\log p(x_1,z_1=k\mid\boldsymbol{\theta})$$
+    <p>이 식에서 성분에 대한 합은 <b>로그 바깥</b>에 있어요. 각 항의 로그 안에는 곱 $\pi_k\phi_{1k}$ 하나뿐이라, 성분 번호를 알 때처럼 로그를 쪼갤 수 있어요. 결국 "$z_n$을 안다"는 가정을 "$z_n$의 사후분포로 각 경우를 평균 낸다"로 바꾼 셈이에요.</p>
+    <div class="calc-box"><p class="calc-label">계산 확인</p>
+      <p>$\frac23\times(-1.612)\approx-1.075$, $\frac13\times(-2.305)\approx-0.768$이고, 더하면 $-1.843$이에요. 두 가정의 차이는 $-1.612-(-2.305)=0.693$이에요.</p>
+      <p>같은 점의 관측 로그우도는 $\log\frac3{4c}\approx-1.207$로, 가중평균 $-1.843$과 같은 값이 아니에요. 차이는 가중치 $q=(\frac23,\frac13)$의 엔트로피 $-\mathbb{E}_q[\log q]=-\frac23\log\frac23-\frac13\log\frac13\approx0.6365$이고, $-1.8431+0.6365=-1.2066$이에요. 이 관계는 <a href="#s2-elbo-identity">로그우도 = ELBO + KL</a>의 항등식으로 설명돼요.</p>
+    </div>
+    <p>가장 그럴듯한 성분 하나만 고르면 어떨까요? $z_1=1$로 정하면 $-1.612$만 쓰고, 성분 2였을 가능성 $\frac13$을 버려요. 확률을 $0$과 $1$로만 나누는 배정의 한 예가 <a href="#s3-kmeans">분산을 0으로 보내면 K-means가 돼요</a>의 극한이에요. EM은 $\frac13$의 가능성도 가중치로 남겨 둬요.</p>
+    <p>가중치 속에는 $\boldsymbol{\theta}^{(t)}$를, 로그 속에는 $\boldsymbol{\theta}$를 썼는데, <a href="#s1-q-function">이 두 θ는 각각 무슨 역할일까요?</a></p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <blockquote>“이게 바로 EM 알고리즘에 숨겨져 있는 철학이라는 거예요.”</blockquote>
+    <p>$z$를 주어진 값으로 놓고 계산한 뒤, 그 값이 나올 사후확률을 곱해 $z$에 대해 평균 낸다(average out)는 설명에 붙인 말씀이에요.</p>
+    <blockquote>“한꺼번에 최적화하기 어려우니 왔다 갔다 하면서”</blockquote>
+    <p>교수님은 이 방식을 coordinate descent에 비유하셨어요. 파라미터가 많아 한꺼번에 최적화하기 어려우면 일부를 고정하고 나머지를 최적화해요. GMM의 EM도 "이 점이 어느 봉우리에서 왔을지에 대한 믿음"인 사후확률을 고정해 두고 파라미터를 갱신해요.</p>
+    <p>칠판 예: $\log(a+b)$를 $a$로 미분하면 $\frac1{a+b}$가 앞에 붙어서 $a$의 조건에 $b$가 남아요. $\log a+\log b$ 꼴이면 $a$로 미분할 때 $\log b$는 상관이 없어요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">같은 $x_1=0$에서 두 가정의 로그 값 $-1.612$, $-2.305$를 사후확률 $\frac23$, $\frac13$으로 가중평균하면 $-1.843$이에요. 성분에 대한 합이 로그 바깥에 있어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>사후분포(posterior distribution)</dt><dd>$x_n$을 본 뒤 $z_n$이 각 성분이었을 확률이에요. 1118의 책임도와 같아요.</dd>
+      <dt>완전 데이터 로그우도</dt><dd>성분 번호까지 안다고 가정한 로그우도 $\log p(x_n,z_n\mid\boldsymbol{\theta})$예요. 로그 안에 곱 하나만 있어요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">관측 로그우도(로그 안의 합)</span>$$\log p(x_n\mid\boldsymbol{\theta})=\log\sum_{k=1}^{K}\pi_k\phi_{nk}$$</li>
+      <li><span class="eq-name">사후확률(주 예시)</span>$$p(z_1=1\mid x_1,\boldsymbol{\theta}^{(t)})=\frac{p(x_1,z_1=1\mid\boldsymbol{\theta}^{(t)})}{p(x_1\mid\boldsymbol{\theta}^{(t)})}$$</li>
+      <li><span class="eq-name">점 하나의 가중평균</span>$$\sum_{k=1}^{2}p(z_1=k\mid x_1,\boldsymbol{\theta}^{(t)})\log p(x_1,z_1=k\mid\boldsymbol{\theta})$$</li>
+    </ul>
+  </div>
+</article>
+<article class="topic" id="s1-q-function">
+  <h3>Q 함수의 두 θ</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s9</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>Q 함수 $Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$에는 θ가 두 번 나와요. 각각 무슨 역할일까요? 가중치를 만드는 $\boldsymbol{\theta}^{(t)}$는 이미 숫자로 정해진 현재 추정값이고, 로그 안의 $\boldsymbol{\theta}$는 이제부터 고를 미지수예요.</p>
+    <p><a href="#s1-why-q">모르는 성분을 사후확률로 평균 내기</a>에서 만든 점 하나의 가중평균부터 다시 봐요. 점 $x_1$ 하나만 쓴 Q라는 뜻으로 임시로 $Q_1$이라고 부를게요.</p>
+    $$Q_1(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{k=1}^{2}p(z_1=k\mid x_1,\boldsymbol{\theta}^{(t)})\log p(x_1,z_1=k\mid\boldsymbol{\theta})$$
+    <p>주 예시에서는 평균과 분산을 고정했으니 $\phi_{11}=\frac1c$, $\phi_{12}=\frac1{2c}$는 그대로이고, 로그 안에서 움직이는 것은 혼합비뿐이에요.</p>
+    $$Q_1=\frac23\log\frac{\pi_1}{c}+\frac13\log\frac{\pi_2}{2c}$$
+    <p>가중치 $\frac23$, $\frac13$은 $\boldsymbol{\theta}^{(t)}$로 계산을 끝낸 숫자예요. 로그 안의 $\pi_1$, $\pi_2$는 아직 정하지 않은 값이라, 이를 바꿔도 가중치 $\frac23$, $\frac13$은 그대로예요. $\pi_1=\pi_2=\frac12$을 넣으면 앞 토픽의 $-1.843$이 다시 나와요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">자리</th><th scope="col">들어 있는 θ</th><th scope="col">역할</th><th scope="col">주 예시</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">가중치 $p(z\mid x,\boldsymbol{\theta}^{(t)})$</th><td>$\boldsymbol{\theta}^{(t)}$</td><td>사후분포 계산에만 쓰는 고정된 현재 추정값</td><td>$\frac23$, $\frac13$</td></tr>
+        <tr><th scope="row">로그 안 $\log p(x,z\mid\boldsymbol{\theta})$</th><td>$\boldsymbol{\theta}$</td><td>최적화 대상인 자유 변수</td><td>$\pi_1$, $\pi_2$</td></tr>
+      </tbody>
+    </table></div>
+    <p>이제 모든 관측을 $x$, 모든 잠재변수를 $z$로 묶어 써요. <b>Q 함수</b>는 완전 데이터 로그우도를, 관측 $x$와 현재 추정값 $\boldsymbol{\theta}^{(t)}$가 주어졌을 때의 $z$의 사후분포로 평균 낸 조건부 기댓값이에요. 그래서 기대 완전 데이터 로그우도(expected complete-data log-likelihood)라고도 불러요.</p>
+    $$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\mathbb{E}_{z\mid x,\boldsymbol{\theta}^{(t)}}\big[\log p(x,z\mid\boldsymbol{\theta})\big]$$
+    $$=\int\log p(x,z\mid\boldsymbol{\theta})\,p(z\mid x,\boldsymbol{\theta}^{(t)})\,dz$$
+    <p>아래첨자 $z\mid x,\boldsymbol{\theta}^{(t)}$는 "이 분포로 $z$를 평균 낸다"는 표시예요. $z$가 연속이면 적분이고, GMM의 성분 번호처럼 이산이면 적분이 합으로 바뀌어요.</p>
+    $$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{z}p(z\mid x,\boldsymbol{\theta}^{(t)})\log p(x,z\mid\boldsymbol{\theta})$$
+    <p>관측이 $x_1$ 하나이고 $z=z_1\in\{1,2\}$이면 이 합은 $Q_1$과 같아요. Q의 값은 확률이 아니라 로그우도들의 가중평균이에요. 가중치, 곧 사후분포를 $\boldsymbol{\theta}^{(t)}$로 계산하는 일이 E-step이고, Q를 $\boldsymbol{\theta}$에 대해 최대로 만드는 일이 M-step이에요.</p>
+    $$\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$$
+    <p>다음 반복에서는 방금 구한 $\boldsymbol{\theta}^{(t+1)}$이 가중치 쪽으로 옮겨 가 새 고정값이 돼요. 한 반복 안에서 가중치와 로그 안의 θ를 섞으면 "고정한 것"과 "고를 것"이 뒤섞이므로, 두 자리를 늘 구별해요.</p>
+    <p>가중치로 사전분포 $p(z\mid\boldsymbol{\theta}^{(t)})$가 아니라 사후분포를 쓰는 이유는, $x$를 이미 관측했는데 사전분포만 쓰면 그 정보를 버리기 때문이에요. 주 예시에서 사전분포는 혼합비 $(\frac12,\frac12)$라 $x_1=0$에서 성분 1의 밀도가 성분 2의 두 배라는 사실이 가중치에 들어가지 않아요. 사후분포 $(\frac23,\frac13)$은 이 사실을 반영해요. 또 사후분포로 평균 낼 때만 뒤에서 만들 하한이 $\boldsymbol{\theta}^{(t)}$에서 로그우도와 딱 맞닿는데, 이는 <a href="#s2-kl-gap">q를 바꾸면 ELBO와 KL이 어떻게 나뉘나요?</a>에서 수치로 확인해요.</p>
+    <p>GMM의 점 $N$개 전체로 이 Q를 펼치면 가중치와 로그 안은 각각 무엇이 될까요? <a href="#s1-gmm-q">GMM의 Q에서 책임도가 나오고 갱신식이 분리돼요</a>로 이어가요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <blockquote>“그냥 내가 나중에 이거 써먹기 좋으라고 정의한 거예요.”</blockquote>
+    <p>Q 함수의 정의 자체에 깊은 이유를 찾을 필요는 없고, 뒤의 증명과 계산에 쓰기 좋게 정의했다는 뜻이에요.</p>
+    <blockquote>“진짜 주인공은 θ”</blockquote>
+    <p>Q는 로그를 취한 우도의 평균이고, 최적화로 찾는 대상은 로그 안의 θ라는 말씀이에요. 왜 사후확률로 기댓값을 취하느냐는 질문에는 데이터를 무시하지 않기 위해서라고 답하셨어요.</p>
+  </div>
+  <div class="layer warn"><span class="layer-title">꼭 기억해요</span>
+    <blockquote>“여기 이 θ^t … 요놈들은요, 일단 fixed예요, fixed.”</blockquote>
+    <p>가중치 안의 $\boldsymbol{\theta}^{(t)}$는 이전 반복에서 정해진 고정값이고, 최적화 대상은 로그 안의 $\boldsymbol{\theta}$라는 뜻이에요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">Q 함수는 완전 데이터 로그우도를 사후분포로 평균 낸 값이에요. 가중치 속 $\boldsymbol{\theta}^{(t)}$는 고정된 현재 추정값이고, 로그 속 $\boldsymbol{\theta}$는 최적화 대상이에요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>Q 함수(expected complete-data log-likelihood)</dt><dd>$z$의 사후분포로 평균 낸 완전 데이터 로그우도예요. 확률이 아니라 로그우도들의 가중평균이에요.</dd>
+      <dt>$\boldsymbol{\theta}^{(t)}$</dt><dd>사후분포 계산에만 쓰는 고정된 현재 추정값이에요.</dd>
+      <dt>$\boldsymbol{\theta}$</dt><dd>로그 안에 있는 자유 변수로, M-step에서 고르는 대상이에요.</dd>
+      <dt>사전분포 대신 사후분포</dt><dd>이미 관측한 $x$의 정보를 가중치에 반영하기 위해서예요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">Q 함수</span>$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\mathbb{E}_{z\mid x,\boldsymbol{\theta}^{(t)}}\big[\log p(x,z\mid\boldsymbol{\theta})\big]$$</li>
+      <li><span class="eq-name">이산 z일 때</span>$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{z}p(z\mid x,\boldsymbol{\theta}^{(t)})\log p(x,z\mid\boldsymbol{\theta})$$</li>
+      <li><span class="eq-name">주 예시의 점 하나</span>$$Q_1=\frac23\log\frac{\pi_1}{c}+\frac13\log\frac{\pi_2}{2c}$$</li>
+      <li><span class="eq-name">M-step</span>$$\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$$</li>
+    </ul>
+  </div>
+</article>
+<article class="topic" id="s1-gmm-q">
+  <h3>GMM의 Q에서 책임도가 나오고 갱신식이 분리돼요</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s10–11</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>GMM에서 Q를 쓰면 왜 미분이 쉬워지고, 갱신식은 어떻게 나올까요? Q의 가중치는 고정된 책임도 $r_{nk}^{(t)}$이고, 로그 안에는 곱 $\pi_k\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$ 하나만 있어요. 그래서 로그를 합으로 쪼개면 혼합비만 든 묶음과 평균·공분산만 든 묶음이 따로 떨어지고, 묶음마다 최대화하면 1116에서 본 갱신식이 그대로 나와요.</p>
+    <nav class="note-stage-nav" aria-label="GMM의 Q 단계">
+      <a href="#s1-gmm-q-resp" aria-current="step">1. 가중치 = 책임도</a>
+      <a href="#s1-gmm-q-split">2. 로그를 쪼개 분리</a>
+      <a href="#s1-gmm-q-update">3. 갱신식</a>
+    </nav>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-gmm-q-resp"><span class="note-stage-number">1 / 3</span><span>가중치가 책임도임을 확인하기</span></h4>
+      <p class="note-stage-goal"><a href="#s1-q-function">Q 함수의 두 θ</a>의 정의를 GMM의 점 $N$개에 적용하면 가중치가 무엇인지 확인해요.</p>
+      <p>점들이 독립이면 완전 데이터 로그우도는 점별 항의 합 $\sum_n\log p(x_n,z_n\mid\boldsymbol{\theta})$예요. 기댓값은 합의 각 항에 나눠 들어가고, $n$번째 항은 $z_n$만 포함하므로 $z_n$의 사후분포로만 평균 내면 돼요. 점들이 독립이라 이 사후분포는 $x_n$만으로 정해지고, 이산인 $z_n$의 평균은 $k$에 대한 합이에요. 로그 안은 결합 밀도 $p(x_n,z_n=k\mid\boldsymbol{\theta})=\pi_k\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$예요. 1118에서 $\pi_k\phi_{nk}$로 쓴 값인데, 여기서는 $\boldsymbol{\mu}_k$, $\boldsymbol{\Sigma}_k$도 자유 변수라 숫자 $\phi_{nk}$ 대신 $\mathcal{N}$을 그대로 써요.</p>
+      $$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})\log\big(\pi_k\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\big)$$
+      <div class="deriv-body">
+        <p class="deriv-lead">가중치를 베이즈 정리로 풀어 보면 1118에서 정의한 책임도가 나와요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})=\frac{p(x_n,z_n=k\mid\boldsymbol{\theta}^{(t)})}{p(x_n\mid\boldsymbol{\theta}^{(t)})}$$</div><div class="deriv-why"><p>조건부확률의 정의(베이즈 정리)예요.</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})}=\frac{\pi_k^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_k^{(t)},\boldsymbol{\Sigma}_k^{(t)})}{p(x_n\mid\boldsymbol{\theta}^{(t)})}$$</div><div class="deriv-why"><p>분자에 결합 밀도를 대입해요.</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})}=\frac{\pi_k^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_k^{(t)},\boldsymbol{\Sigma}_k^{(t)})}{\sum_{j=1}^{K}\pi_j^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_j^{(t)},\boldsymbol{\Sigma}_j^{(t)})}$$</div><div class="deriv-why"><p>분모를 주변화로 펼쳐요.</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})}=r_{nk}^{(t)}$$</div><div class="deriv-why"><p>1118의 책임도와 같은 식이에요.</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>가중치는 책임도 그 자체예요.</b> $\boldsymbol{\theta}^{(t)}$만으로 계산하므로 M-step에서는 상수이고, 모든 $n$, $k$의 $r_{nk}^{(t)}$를 계산하는 일이 GMM의 E-step이에요.</p>
+        <p class="deriv-check">주 예시: $r_{11}^{(t)}=\frac23$, $r_{12}^{(t)}=\frac13$이에요. $x_2$에서는 두 성분의 밀도가 같아서 $r_{21}^{(t)}=r_{22}^{(t)}=\frac12$예요.</p>
+      </div>
+      $$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\log\big(\pi_k\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\big)$$
+      <p>로그 안의 곱을 어떻게 다루면 파라미터들이 서로 떨어질까요?</p>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-gmm-q-split"><span class="note-stage-number">2 / 3</span><span>곱의 로그를 쪼개 파라미터를 분리하기</span></h4>
+      <p class="note-stage-goal">로그 안의 곱을 로그의 합으로 바꿔, 혼합비 묶음과 평균·공분산 묶음을 나눠요.</p>
+      <div class="deriv-body">
+        <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\log\big(\pi_k\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\big)$$</div><div class="deriv-why"><p>1단계에서 얻은 GMM의 Q예요.</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})}=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\big[\textcolor{#3182f6}{\log\pi_k+\log\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)}\big]$$</div><div class="deriv-why"><p>곱의 로그는 로그의 합이에요.</p></div></li>
+          <li><div class="deriv-eq">$$\hphantom{Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})}=\textcolor{#3182f6}{\sum_{n,k}r_{nk}^{(t)}\log\pi_k}+\sum_{n,k}r_{nk}^{(t)}\log\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$$</div><div class="deriv-why"><p>분배법칙으로 두 합으로 나눠요.</p><details><summary>자세히</summary><p>$\sum_{n,k}$는 $\sum_{n=1}^{N}\sum_{k=1}^{K}$를 짧게 쓴 거예요.</p></details></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})}=\textcolor{#3182f6}{\sum_{k=1}^{K}N_k\log\pi_k}+\sum_{n,k}r_{nk}^{(t)}\log\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$$</div><div class="deriv-why"><p>첫 합에서 $n$을 먼저 더해 $N_k$로 묶어요.</p><details><summary>자세히</summary><p>$\log\pi_k$는 $n$과 무관하므로 합 밖으로 나오고, 남은 $\sum_n r_{nk}^{(t)}$가 성분 $k$의 유효 관측 수 $N_k$예요.</p></details></div></li>
+        </ol>
+        <p class="note-stage-result"><b>첫 묶음에는 혼합비만, 둘째 묶음에는 평균·공분산만 들어 있어요.</b> 둘째 묶음도 $k$마다 $\boldsymbol{\mu}_k$, $\boldsymbol{\Sigma}_k$만 든 항으로 나뉘어서, $\boldsymbol{\mu}_1$로 미분하면 $\boldsymbol{\mu}_1$이 든 항 외에는 모두 사라져요.</p>
+      </div>
+      <p>여기서 $N_k=\sum_{n=1}^{N}r_{nk}^{(t)}$는 1118의 유효 관측 수와 같아요. 주 예시에서는 $N_1=\frac23+\frac12=\frac76$, $N_2=\frac13+\frac12=\frac56$이에요. 혼합비 부분만 놓고 직접 로그우도와 비교하면 차이가 보여요.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">목표 함수</th><th scope="col">$x_1=0$과 관련한 혼합비 부분</th><th scope="col">$\pi_1$, $\pi_2$의 관계</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">관측 로그우도</th><td>$\log\big(\frac{\pi_1}{c}+\frac{\pi_2}{2c}\big)$</td><td>한 로그 안에 섞여 있어요</td></tr>
+          <tr><th scope="row">Q의 첫 묶음(두 점 모두)</th><td>$\frac76\log\pi_1+\frac56\log\pi_2$</td><td>항마다 하나씩 따로 있어요</td></tr>
+        </tbody>
+      </table></div>
+      <p>관측 로그우도의 $x_2$ 항은 두 성분 밀도가 같아서 $\pi_1+\pi_2=1$이면 혼합비와 무관하므로, 혼합비에 관한 비교는 $x_1$ 항만 보면 돼요. 이렇게 떨어진 묶음을 각각 최대화하면 갱신식은 어떤 모양일까요?</p>
+    </div>
+    <div class="note-stage">
+      <h4 class="note-stage-title" id="s1-gmm-q-update"><span class="note-stage-number">3 / 3</span><span>묶음마다 최대화해 갱신식 얻기</span></h4>
+      <p class="note-stage-goal">분리된 두 묶음을 따로 최대화해 M-step의 갱신식을 얻어요.</p>
+      <p>혼합비 묶음 $\sum_kN_k\log\pi_k$는 혼합비의 합이 $1$이라는 제약 아래 최대화해요. 제약 항 $\lambda(\sum_k\pi_k-1)$을 붙여 $\pi_k$로 편미분하면 $N_k/\pi_k+\lambda=0$이고, 양변에 $\pi_k$를 곱하면 1118의 성분식 $N_k+\lambda\pi_k=0$이 바로 나와요. 그 뒤는 <a href="../1118/정리노트_1118_Latent_Variable_EM.html#s1-weight-constraint">혼합비의 합을 1로 맞춰 갱신하기</a>와 같은 계산이에요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$N_k+\lambda\pi_k=0$$</div><div class="deriv-why"><p>성분 $k$의 식이에요.</p></div></li>
+          <li><div class="deriv-eq">$$\sum_kN_k+\lambda\sum_k\pi_k=0$$</div><div class="deriv-why"><p>모든 성분의 식을 $k$에 대해 더해요.</p></div></li>
+          <li><div class="deriv-eq">$$N+\lambda=0$$</div><div class="deriv-why"><p>점마다 책임도 합이 $1$이라 $\sum_kN_k=N$, 그리고 $\sum_k\pi_k=1$이에요.</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\pi_k=\frac{N_k}{N}$$</div><div class="deriv-why"><p>$\lambda=-N$을 성분식에 넣고 $\pi_k$를 풀어요.</p></div></li>
+        </ol>
+      </div>
+      <p>1118에서는 관측 로그우도에서 출발해 $N_k$ 안에 미지 혼합비가 남았기 때문에, 이전 값으로 책임도를 고정하는 단계를 따로 둬야 했어요. Q에서는 가중치 $r_{nk}^{(t)}$가 처음부터 고정된 숫자라 그 고정이 정의 안에 들어 있어요.</p>
+      <p>주 예시의 혼합비 묶음과 제약은 다음과 같아요.</p>
+      $$\frac76\log\pi_1+\frac56\log\pi_2,\qquad\pi_1+\pi_2=1$$
+      <p>주 예시에서는 $N_1+N_2=\frac76+\frac56=2=N$이에요. 그래서 각 $N_k$를 $N=2$로 나누면 새 혼합비가 나와요.</p>
+      $$\pi_1^{(t+1)}=\frac{7/6}{2}=\frac7{12},\qquad\pi_2^{(t+1)}=\frac{5/6}{2}=\frac5{12}$$
+      <div class="calc-box"><p class="calc-label">계산 확인</p>
+        <p>혼합비 묶음의 값은 $(\frac12,\frac12)$에서 $\frac76\log\frac12+\frac56\log\frac12=2\log\frac12\approx-1.3863$이에요. $(\frac7{12},\frac5{12})$에서는 $\approx-1.3584$로 $0.0279$만큼 커요. 평균과 분산은 고정했으니 Q 전체도 $0.0279$만큼 올라요.</p>
+      </div>
+      <p>평균·공분산 묶음은 $k$번째 항을 $\boldsymbol{\mu}_k$, $\boldsymbol{\Sigma}_k$로 미분해 0으로 놓아 풀어요. 결과는 1116에서 관측 로그우도를 직접 미분해 얻은 갱신식(그때 new로 표시한 식)과 같아요. 직접 미분할 때는 $r_{nk}$ 안에도 미지 파라미터가 들어 있었는데, Q에서는 $r_{nk}^{(t)}$를 상수로 두고 미분하므로 유도가 훨씬 깔끔해요. $x_n$이 $D$차원 벡터일 때도 같은 식이며, 그때는 $x_n$을 $\mathbf{x}_n$으로 읽어요.</p>
+      <div class="deriv-body">
+        <ol class="deriv">
+          <li><div class="deriv-eq">$$\boldsymbol{\mu}_k^{(t+1)}=\frac{1}{N_k}\sum_{n=1}^{N}r_{nk}^{(t)}x_n$$</div><div class="deriv-why"><p>책임도로 가중한 평균이에요.</p></div></li>
+          <li><div class="deriv-eq">$$\boldsymbol{\Sigma}_k^{(t+1)}=\frac{1}{N_k}\sum_{n=1}^{N}r_{nk}^{(t)}(x_n-\boldsymbol{\mu}_k^{(t+1)})(x_n-\boldsymbol{\mu}_k^{(t+1)})^\top$$</div><div class="deriv-why"><p>책임도로 가중한 공분산이에요.</p></div></li>
+          <li class="deriv-gen"><div class="deriv-eq">$$\pi_k^{(t+1)}=\frac{N_k}{N},\qquad N_k=\sum_{n=1}^{N}r_{nk}^{(t)}$$</div><div class="deriv-why"><p>유효 관측 수를 전체 관측 수로 나눠요.</p></div></li>
+        </ol>
+        <p class="note-stage-result"><b>세 식 모두 E-step에서 고정한 $r_{nk}^{(t)}$와 $N_k$만으로 바로 계산돼요.</b> 주 예시는 평균과 분산을 고정했으므로 혼합비만 $\frac7{12}$, $\frac5{12}$로 바뀌어요.</p>
+      </div>
+    </div>
+    <p>Q를 $0.0279$만큼 올렸는데, 이것이 왜 원래 관측 로그우도 $\log p(x\mid\boldsymbol{\theta})$도 올린다는 보장이 될까요? <a href="#s2-elbo-identity">로그우도 = ELBO + KL</a>에서 답해요.</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>칠판 예: 점 하나($N=1$), 성분 셋($K=3$)으로 첨자 $n$을 생략하고 Q를 여섯 항으로 펼치셨어요.</p>
+    $$r_1^{(t)}\log\pi_1+r_2^{(t)}\log\pi_2+r_3^{(t)}\log\pi_3$$
+    $$+\,r_1^{(t)}\log\mathcal{N}(x\mid\boldsymbol{\mu}_1,\boldsymbol{\Sigma}_1)+r_2^{(t)}\log\mathcal{N}(x\mid\boldsymbol{\mu}_2,\boldsymbol{\Sigma}_2)+r_3^{(t)}\log\mathcal{N}(x\mid\boldsymbol{\mu}_3,\boldsymbol{\Sigma}_3)$$
+    <p>$\boldsymbol{\mu}_1$로 미분하면 $\boldsymbol{\mu}_1$이 든 항만 남고, $\boldsymbol{\Sigma}_2$로 미분하면 해당 항 외에는 모두 0이라고 짚으셨어요.</p>
+    <blockquote>“그게 지금 현실적으로 드러난 거예요.”</blockquote>
+    <p>로그 안의 합이 사라져 파라미터별로 미분이 쉬워진다는 점이 식에 그대로 보인다는 뜻이에요. 교수님은 이런 Q를 최적화하기 "아주 예쁜" 대리 함수(surrogate function)라고 부르셨어요.</p>
+    <blockquote>“사실 있는데 교수님이 손으로 써준 거예요.”</blockquote>
+    <p>지난 시간에 정의로 둔 책임도가 사실은 사후확률을 계산하면 나오는 식이라는 말씀이에요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">GMM의 Q에서 가중치는 고정된 책임도 $r_{nk}^{(t)}$이고, 곱의 로그를 합으로 쪼개면 혼합비 묶음과 평균·공분산 묶음이 분리돼요. 주 예시의 혼합비는 $\frac7{12}$, $\frac5{12}$로 갱신돼요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>책임도(responsibility)</dt><dd>$\boldsymbol{\theta}^{(t)}$로 계산한 $z_n$의 사후확률 $r_{nk}^{(t)}$예요. M-step에서는 상수예요.</dd>
+      <dt>유효 관측 수 $N_k$</dt><dd>성분 $k$가 모든 점에서 받은 책임도의 합이에요.</dd>
+      <dt>M-step</dt><dd>분리된 묶음마다 Q를 최대화해 $\boldsymbol{\theta}^{(t+1)}$을 정해요. 결과는 1116의 갱신식과 같아요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">GMM의 Q</span>$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\log\big(\pi_k\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\big)$$</li>
+      <li><span class="eq-name">책임도</span>$$r_{nk}^{(t)}=\frac{\pi_k^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_k^{(t)},\boldsymbol{\Sigma}_k^{(t)})}{\sum_{j=1}^{K}\pi_j^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_j^{(t)},\boldsymbol{\Sigma}_j^{(t)})}$$</li>
+      <li><span class="eq-name">분리된 Q</span>$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{k=1}^{K}N_k\log\pi_k+\sum_{n,k}r_{nk}^{(t)}\log\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$$</li>
+      <li><span class="eq-name">평균 갱신</span>$$\boldsymbol{\mu}_k^{(t+1)}=\frac{1}{N_k}\sum_{n=1}^{N}r_{nk}^{(t)}x_n$$</li>
+      <li><span class="eq-name">공분산 갱신</span>$$\boldsymbol{\Sigma}_k^{(t+1)}=\frac{1}{N_k}\sum_{n=1}^{N}r_{nk}^{(t)}(x_n-\boldsymbol{\mu}_k^{(t+1)})(x_n-\boldsymbol{\mu}_k^{(t+1)})^\top$$</li>
+      <li><span class="eq-name">혼합비 갱신</span>$$\pi_k^{(t+1)}=\frac{N_k}{N},\qquad N_k=\sum_{n=1}^{N}r_{nk}^{(t)}$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s2"><h2>2. ELBO와 단조 증가</h2>
+<article class="topic" id="s2-elbo-identity">
+  <h3>로그우도 = ELBO + KL</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s13–14</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>EM은 원래 목표인 로그우도 $\log p(x\mid\boldsymbol{\theta})$ 대신 Q 함수를 최대화해요(<a href="#s1-q-function">Q 함수의 두 θ</a>). 그런데 Q를 키우면 왜 로그우도가 올라갈까요? 답하려면 먼저 둘을 잇는 정확한 등식이 필요해요. 그 등식은 $z$에 대한 아무 분포 $q(z)$를 골라도 로그우도가 ELBO와 KL 발산의 합으로 정확히 나뉜다는 거예요.</p>
+    $$\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}(q,\boldsymbol{\theta})+D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)$$
+    <p>여기서 $x$는 관측, $z$는 숨은 성분 번호예요. $q(z)$는 $z$가 각 값일 확률을 우리가 직접 정한 분포예요. 값마다 0 이상이고 합이 1이기만 하면 되고, 진짜 사후분포 $p(z\mid x,\boldsymbol{\theta})$일 필요는 없어요. $q$로 평균 낸다는 것은 $\mathbb E_q[f(z)]=\sum_z q(z)f(z)$를 뜻해요($z$가 연속이면 합 대신 적분). 두 항은 다음처럼 정의해요.</p>
+    $$\mathrm{ELBO}(q,\boldsymbol{\theta}):=\mathbb E_q[\log p(x,z\mid\boldsymbol{\theta})]-\mathbb E_q[\log q(z)]$$
+    $$\mathrm{ELBO}(q,\boldsymbol{\theta})=\mathbb E_q\Big[\log\frac{p(x,z\mid\boldsymbol{\theta})}{q(z)}\Big]$$
+    $$D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big):=\mathbb E_q\Big[\log\frac{q(z)}{p(z\mid x,\boldsymbol{\theta})}\Big]$$
+    <p>ELBO는 evidence lower bound의 줄임말이고, evidence는 로그우도 $\log p(x\mid\boldsymbol{\theta})$를 가리켜요. KL 발산(KL divergence)은 우리가 고른 $q(z)$가 진짜 사후분포와 얼마나 다른지를 재요. 왜 '하한'이라는 이름이 붙는지는 KL의 부호를 봐야 알 수 있어요.</p>
+    <p>등식을 세우는 데 필요한 사실은 두 가지예요. 첫째, $\log p(x\mid\boldsymbol{\theta})$에는 $z$가 없어서 $q$로 평균 내도 그대로예요. 상수에 합이 1인 가중치를 곱해 더하는 셈이니까요. 둘째, 곱셈 규칙 ${p(x,z\mid\boldsymbol{\theta})=p(z\mid x,\boldsymbol{\theta})\,p(x\mid\boldsymbol{\theta})}$에 로그를 취하면 모든 $z$에서 다음이 성립해요.</p>
+    $$\log p(x\mid\boldsymbol{\theta})=\log p(x,z\mid\boldsymbol{\theta})-\log p(z\mid x,\boldsymbol{\theta})$$
+    <p>이 두 사실에서 출발해 한 줄에 연산 하나씩 진행해요.</p>
+    <div class="deriv-body">
+      <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\log p(x\mid\boldsymbol{\theta})=\mathbb E_q[\log p(x\mid\boldsymbol{\theta})]$$</div>
+          <div class="deriv-why"><p>첫째 사실: $z$와 무관한 값은 평균 내도 그대로예요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta})}=\mathbb E_q[\textcolor{#3182f6}{\log p(x,z\mid\boldsymbol{\theta})-\log p(z\mid x,\boldsymbol{\theta})}]$$</div>
+          <div class="deriv-why"><p>둘째 사실로 괄호 안을 바꿔요.</p>
+            <details><summary>자세히</summary><p>둘째 사실은 모든 $z$에서 성립하는 등식이라, 평균 안의 값을 $z$마다 바꿔 넣어도 평균은 같아요.</p></details></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta})}=\mathbb E_q[\log p(x,z\mid\boldsymbol{\theta})]\textcolor{#3182f6}{-\mathbb E_q[\log p(z\mid x,\boldsymbol{\theta})]}$$</div>
+          <div class="deriv-why"><p>차의 평균은 평균의 차예요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta})}=\mathbb E_q[\log p(x,z\mid\boldsymbol{\theta})]\textcolor{#3182f6}{-\mathbb E_q[\log q(z)]+\mathbb E_q[\log q(z)]}-\mathbb E_q[\log p(z\mid x,\boldsymbol{\theta})]$$</div>
+          <div class="deriv-why"><p>같은 양을 빼고 더해요(합은 0).</p>
+            <details><summary>자세히</summary><p>log q 트릭이라고 불러요. 두 묶음을 모두 $q(z)$와 비교하는 꼴로 만들려는 목적이에요. $q(z)=0$인 $z$는 평균에 기여하지 않으니 $q(z)\gt0$인 $z$만 더한다고 보면 돼요.</p></details></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta})}=\textcolor{#3182f6}{\mathbb E_q\Big[\log\frac{p(x,z\mid\boldsymbol{\theta})}{q(z)}\Big]}+\textcolor{#3182f6}{\mathbb E_q\Big[\log\frac{q(z)}{p(z\mid x,\boldsymbol{\theta})}\Big]}$$</div>
+          <div class="deriv-why"><p>앞 두 항, 뒤 두 항을 로그의 나눗셈으로 묶어요.</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}(q,\boldsymbol{\theta})+D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)$$</div>
+          <div class="deriv-why"><p>두 묶음이 각각 ELBO와 KL의 정의예요.</p></div></li>
+      </ol>
+      <p class="note-stage-result"><b>근사가 아닌 정확한 등식이에요.</b> $q$와 $\boldsymbol{\theta}$를 무엇으로 골라도 성립하고, $q$를 바꾸면 달라지는 것은 로그우도가 두 항으로 나뉘는 몫뿐이에요.</p>
+    </div>
+    <p>이 등식이 Q 함수와 로그우도를 잇는 다리예요. $q$를 현재 사후분포 $p(z\mid x,\boldsymbol{\theta}^{(t)})$로 고르면, ELBO의 첫 항 $\mathbb E_q[\log p(x,z\mid\boldsymbol{\theta})]$가 바로 $Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$의 정의와 같아져요.</p>
+    <p>1118부터 써 온 같은 두 성분 예로 등식을 확인해요. 성분은 $\mathcal{N}(x\mid0,1)$과 $\mathcal{N}(x\mid0,4)$이고 현재 혼합비는 $\pi^{(t)}=(1/2,1/2)$, 관측은 $x_1=0$ 하나예요. log는 앞에서처럼 자연로그예요. $q$를 혼합비 그대로 ${q(z_1=1)=q(z_1=2)=1/2}$로 고르면 두 항의 합이 로그우도와 맞아요.</p>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">$k$</th><th scope="col">${p(x_1,z_1=k\mid\boldsymbol{\theta}^{(t)})=\pi_k\phi_{1k}}$</th><th scope="col">사후분포 ${p(z_1=k\mid x_1,\boldsymbol{\theta}^{(t)})}$</th><th scope="col">$q(z_1=k)$</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1</th><td>$\tfrac12\times0.39894=0.19947$</td><td>$2/3$</td><td>$1/2$</td></tr>
+          <tr><th scope="row">2</th><td>$\tfrac12\times0.19947=0.09974$</td><td>$1/3$</td><td>$1/2$</td></tr>
+        </tbody>
+      </table></div>
+      <p>로그우도는 두 결합 밀도의 합의 로그예요.</p>
+      $$\log p(x_1\mid\boldsymbol{\theta}^{(t)})=\log(0.19947+0.09974)=\log0.29921\approx-1.2066$$
+      <p>ELBO는 결합 밀도를 $q=1/2$로 나눈 값의 로그를 평균 내요.</p>
+      $$\mathrm{ELBO}=\tfrac12\log\frac{0.19947}{1/2}+\tfrac12\log\frac{0.09974}{1/2}=-0.4595-0.8060=-1.2655$$
+      <p>ELBO는 로그우도보다 작고, 그 차이가 항등식의 KL 자리를 채워요. KL의 정확한 값은 <a href="#s2-kl-gap">q를 바꾸면 ELBO와 KL이 어떻게 나뉘나요?</a>에서 정의로 구해요.</p>
+      $$D_{\mathrm{KL}}=-1.2066-(-1.2655)=0.0589$$
+      <p>$q$를 사후분포 $(2/3,1/3)$로 고르면 이번에는 KL이 0이라 ELBO가 로그우도와 같아져요. 두 항을 따로 계산해 확인해요.</p>
+      $$\mathbb E_q[\log p(x_1,z_1\mid\boldsymbol{\theta}^{(t)})]=\tfrac23\log0.19947+\tfrac13\log0.09974=-1.8431$$
+      $$-\mathbb E_q[\log q(z_1)]=-\big(\tfrac23\log\tfrac23+\tfrac13\log\tfrac13\big)=0.6365$$
+      $$\mathrm{ELBO}=-1.8431+0.6365=-1.2066=\log p(x_1\mid\boldsymbol{\theta}^{(t)})$$
+      <p>첫 줄의 $-1.8431$은 <a href="#s1-why-q">모르는 성분을 사후확률로 평균 내기</a>에서 구한 가중평균 $-1.843$이에요. 가중평균만으로는 로그우도보다 작고, $q$의 엔트로피 항 $0.6365$를 더해야 로그우도와 같아져요.</p>
+    </div>
+    <p>등식은 어떤 $q$에서도 맞지만, $q$를 바꾸면 ELBO와 KL의 몫은 달라져요. 어떤 $q$를 골라야 ELBO가 로그우도와 같아질까요(<a href="#s2-kl-gap">q를 바꾸면 ELBO와 KL이 어떻게 나뉘나요?</a>)?</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>교수님은 이 등식을 칠판에서 두 사실로 유도했어요. 첫째 사실의 직관은 상수를 평균 내도 그대로라는 점이에요.</p>
+    <blockquote>"constant 3을 uniform random variable에 대해서 expectation 취하면 … 3이지."</blockquote>
+    <p>$\mathbb E_q[\log q(z)]$를 빼고 다시 더하는 단계는 값을 바꾸지 않는 "하나마나 한 짓"이라고 불렀어요. 기댓값을 두 항으로 나눈 셋째 줄은 별표를 쳐 두고 뒤에서 다시 썼어요.</p>
+    <blockquote>"자 이 별표 기억해 놓으세요."</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">아무 분포 $q(z)$를 골라도 로그우도는 ELBO와 KL 발산의 합으로 정확히 나뉘어요. 근사가 아니라 언제나 성립하는 등식이에요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>$q(z)$</dt><dd>$z$에 대한 아무 분포(값마다 0 이상, 합 1)예요. 사후분포일 필요는 없어요.</dd>
+      <dt>ELBO(evidence lower bound)</dt><dd>$q$로 평균 낸 $\log$(결합 밀도 / $q$)예요. evidence는 로그우도예요.</dd>
+      <dt>KL 발산(KL divergence)</dt><dd>$q(z)$가 사후분포 $p(z\mid x,\boldsymbol{\theta})$와 얼마나 다른지 재는 양이에요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">로그우도 = ELBO + KL</span>$$\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}(q,\boldsymbol{\theta})+D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)$$</li>
+      <li><span class="eq-name">ELBO 정의</span>$$\mathrm{ELBO}(q,\boldsymbol{\theta})=\mathbb E_q\Big[\log\frac{p(x,z\mid\boldsymbol{\theta})}{q(z)}\Big]$$</li>
+      <li><span class="eq-name">KL 정의</span>$$D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big):=\mathbb E_q\Big[\log\frac{q(z)}{p(z\mid x,\boldsymbol{\theta})}\Big]$$</li>
+      <li><span class="eq-name">출발점(모든 $z$에서)</span>$$\log p(x\mid\boldsymbol{\theta})=\log p(x,z\mid\boldsymbol{\theta})-\log p(z\mid x,\boldsymbol{\theta})$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s2-kl-gap">
+  <h3>q를 바꾸면 ELBO와 KL이 어떻게 나뉘나요?</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s12–14</span></div>
+  <div class="layer eli5"><span class="layer-title">쉽게 말하면</span>
+    <p class="lead">짐작이 진짜 답에서 멀수록 바닥과 천장 사이의 틈이 커져요.</p>
+    <figure class="figure">
+      <svg id="fig-floor-ceiling" viewBox="0 0 360 210" role="img" aria-label="가로로 그은 천장 선 아래에 위로 볼록한 바닥 곡선이 있어요. 곡선 꼭대기의 색칠된 점에서 바닥이 천장에 닿고, 왼쪽에서는 세로 선만큼 틈이 벌어져 있어요.">
+        <line class="fig-ink" x1="30" y1="50" x2="330" y2="50"/>
+        <text class="fig-text" x="30" y="40">천장</text>
+        <path class="fig-accent" d="M30 170 L50 147.2 L70 126.8 L90 108.8 L110 93.2 L130 80 L150 69.2 L170 60.8 L190 54.8 L210 51.2 L230 50 L250 51.2 L270 54.8 L290 60.8 L310 69.2 L330 80"/>
+        <text class="fig-text" x="70" y="168">바닥</text>
+        <line class="fig-danger" x1="110" y1="91" x2="110" y2="53"/>
+        <text class="fig-text" x="118" y="77">틈</text>
+        <circle class="fig-dot" cx="230" cy="50" r="6"/>
+        <text class="fig-text" x="230" y="34" text-anchor="middle">딱 닿아요</text>
+        <text class="fig-muted" x="330" y="200" text-anchor="end">짐작</text>
+      </svg>
+      <figcaption>짐작을 바꾸면 바닥만 오르내리고, 짐작이 진짜 답과 같을 때만 바닥이 천장에 닿아요.</figcaption>
+    </figure>
+  </div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p><a href="#s2-elbo-identity">로그우도 = ELBO + KL</a>은 어떤 $q$에서도 성립해요. 그러면 $q$를 바꿀 때 로그우도, ELBO, KL은 각각 어떻게 움직이고, 어떤 $q$에서 ELBO가 로그우도와 같아질까요? 같은 예에서 관측 $x_1=0$과 현재 파라미터 $\boldsymbol{\theta}^{(t)}$(혼합비 1/2씩, 분산 1과 4)를 고정하고, $z_1=1$에 줄 확률 $q(z_1=1)$만 바꿔 봐요. $z_1$은 값이 두 개뿐이라 ${q(z_1=2)=1-q(z_1=1)}$이에요.</p>
+    <div class="widget" id="widget-elbo-gap"><h4>직접 해 보기: q를 바꾸면 갈라지는 ELBO와 KL</h4>
+      <p class="widget-help">q(z₁=1)을 움직이면 ELBO 곡선 위의 점이 움직이고, 그 점에서 로그우도 점선까지의 세로 간격이 KL이에요.</p>
+      <div class="controls">
+        <label>q(z₁=1) <input type="range" id="elbo-gap-q" min="0.02" max="0.98" step="0.01" value="0.50"> <b id="elbo-gap-q-val">0.50</b></label>
+      </div>
+      <svg id="elbo-gap-plot" viewBox="0 0 560 300" role="img" aria-label="가로축은 q(z₁=1), 세로축은 값이에요. 점선 수평선은 로그우도 −1.2066이고, 곡선은 ELBO예요. 곡선은 q=2/3에서만 수평선에 닿고, 현재 q에서 곡선 위 점과 수평선 사이 세로 선의 길이가 KL이에요."><line class="axis" x1="64" y1="250" x2="540" y2="250"/><line class="axis" x1="64" y1="20" x2="64" y2="250"/><text class="tick" x="64.0" y="266" text-anchor="middle">0</text><text class="tick" x="183.0" y="266" text-anchor="middle">0.25</text><text class="tick" x="302.0" y="266" text-anchor="middle">0.5</text><text class="tick" x="421.0" y="266" text-anchor="middle">0.75</text><text class="tick" x="540.0" y="266" text-anchor="middle">1</text><text class="tick" x="58" y="234.8" text-anchor="end">−2.2</text><text class="tick" x="58" y="158.2" text-anchor="end">−1.8</text><text class="tick" x="58" y="81.5" text-anchor="end">−1.4</text><text class="fig-muted" x="302" y="292" text-anchor="middle">q(z₁=1)</text><line class="plot-prior" x1="381.3" y1="20" x2="381.3" y2="250"/><text class="fig-muted" x="387.3" y="242">q=2/3</text><line class="plot-truth" x1="64" y1="40.4" x2="540" y2="40.4"/><text class="fig-muted" x="72" y="32.4">log p(x₁|θ⁽ᵗ⁾) ≈ −1.2066</text><path class="plot-fit" d="M73.5 229.6 L78.3 221.2 L83.0 213.5 L87.8 206.3 L92.6 199.5 L97.3 193.1 L102.1 186.9 L106.8 181.1 L111.6 175.4 L116.4 170.0 L121.1 164.7 L125.9 159.7 L130.6 154.8 L135.4 150.1 L140.2 145.5 L144.9 141.0 L149.7 136.7 L154.4 132.6 L159.2 128.5 L164.0 124.6 L168.7 120.8 L173.5 117.1 L178.2 113.5 L183.0 110.0 L187.8 106.6 L192.5 103.3 L197.3 100.2 L202.0 97.1 L206.8 94.1 L211.6 91.2 L216.3 88.3 L221.1 85.6 L225.8 83.0 L230.6 80.4 L235.4 77.9 L240.1 75.5 L244.9 73.2 L249.6 71.0 L254.4 68.9 L259.2 66.8 L263.9 64.8 L268.7 62.9 L273.4 61.1 L278.2 59.3 L283.0 57.7 L287.7 56.1 L292.5 54.5 L297.2 53.1 L302.0 51.7 L306.8 50.4 L311.5 49.2 L316.3 48.1 L321.0 47.0 L325.8 46.0 L330.6 45.1 L335.3 44.3 L340.1 43.6 L344.8 42.9 L349.6 42.3 L354.4 41.8 L359.1 41.4 L363.9 41.0 L368.6 40.7 L373.4 40.6 L378.2 40.5 L382.9 40.4 L387.7 40.5 L392.4 40.7 L397.2 40.9 L402.0 41.3 L406.7 41.7 L411.5 42.2 L416.2 42.9 L421.0 43.6 L425.8 44.4 L430.5 45.3 L435.3 46.4 L440.0 47.5 L444.8 48.8 L449.6 50.2 L454.3 51.7 L459.1 53.4 L463.8 55.1 L468.6 57.1 L473.4 59.1 L478.1 61.4 L482.9 63.8 L487.6 66.3 L492.4 69.1 L497.2 72.1 L501.9 75.3 L506.7 78.8 L511.4 82.6 L516.2 86.7 L521.0 91.3 L525.7 96.3 L530.5 102.0"/><text class="fig-muted" x="121.1" y="186.7">ELBO(q)</text><line class="plot-post" x1="302.0" y1="51.7" x2="302.0" y2="40.4"/><circle class="fig-dot" cx="302.0" cy="51.7" r="5"/><text class="fig-text" x="312.0" y="71.7" text-anchor="start">KL = 0.0589</text></svg>
+      <p class="readout">ELBO = <b id="elbo-gap-elbo">−1.2655</b> · KL = <b id="elbo-gap-kl">0.0589</b> · 합 = <b id="elbo-gap-out">−1.2066</b></p>
+      <p class="legend"><span><span class="sw truth"></span>로그우도 log p(x₁|θ⁽ᵗ⁾)</span><span><span class="sw fit"></span>ELBO(q)</span><span><span class="sw post"></span>KL 간격</span><span><span class="sw prior"></span>사후분포 q=2/3</span></p>
+      <div class="widget-static" hidden>
+        <p>세 설정 모두 $x_1=0$과 $\boldsymbol{\theta}^{(t)}$는 같고 $q(z_1=1)$만 달라요. 읽을 값은 ELBO 점과 로그우도 점선 사이의 세로 간격(KL)이에요.</p>
+        <figure class="figure"><svg id="widget-elbo-gap-static-1" viewBox="0 0 560 300" role="img" aria-label="q(z₁=1)=0.50일 때: ELBO −1.2655가 로그우도 점선 −1.2066보다 0.0589 아래에 있어요."><line class="axis" x1="64" y1="250" x2="540" y2="250"/><line class="axis" x1="64" y1="20" x2="64" y2="250"/><text class="tick" x="64.0" y="266" text-anchor="middle">0</text><text class="tick" x="183.0" y="266" text-anchor="middle">0.25</text><text class="tick" x="302.0" y="266" text-anchor="middle">0.5</text><text class="tick" x="421.0" y="266" text-anchor="middle">0.75</text><text class="tick" x="540.0" y="266" text-anchor="middle">1</text><text class="tick" x="58" y="234.8" text-anchor="end">−2.2</text><text class="tick" x="58" y="158.2" text-anchor="end">−1.8</text><text class="tick" x="58" y="81.5" text-anchor="end">−1.4</text><text class="fig-muted" x="302" y="292" text-anchor="middle">q(z₁=1)</text><line class="plot-prior" x1="381.3" y1="20" x2="381.3" y2="250"/><text class="fig-muted" x="387.3" y="242">q=2/3</text><line class="plot-truth" x1="64" y1="40.4" x2="540" y2="40.4"/><text class="fig-muted" x="72" y="32.4">log p(x₁|θ⁽ᵗ⁾) ≈ −1.2066</text><path class="plot-fit" d="M73.5 229.6 L78.3 221.2 L83.0 213.5 L87.8 206.3 L92.6 199.5 L97.3 193.1 L102.1 186.9 L106.8 181.1 L111.6 175.4 L116.4 170.0 L121.1 164.7 L125.9 159.7 L130.6 154.8 L135.4 150.1 L140.2 145.5 L144.9 141.0 L149.7 136.7 L154.4 132.6 L159.2 128.5 L164.0 124.6 L168.7 120.8 L173.5 117.1 L178.2 113.5 L183.0 110.0 L187.8 106.6 L192.5 103.3 L197.3 100.2 L202.0 97.1 L206.8 94.1 L211.6 91.2 L216.3 88.3 L221.1 85.6 L225.8 83.0 L230.6 80.4 L235.4 77.9 L240.1 75.5 L244.9 73.2 L249.6 71.0 L254.4 68.9 L259.2 66.8 L263.9 64.8 L268.7 62.9 L273.4 61.1 L278.2 59.3 L283.0 57.7 L287.7 56.1 L292.5 54.5 L297.2 53.1 L302.0 51.7 L306.8 50.4 L311.5 49.2 L316.3 48.1 L321.0 47.0 L325.8 46.0 L330.6 45.1 L335.3 44.3 L340.1 43.6 L344.8 42.9 L349.6 42.3 L354.4 41.8 L359.1 41.4 L363.9 41.0 L368.6 40.7 L373.4 40.6 L378.2 40.5 L382.9 40.4 L387.7 40.5 L392.4 40.7 L397.2 40.9 L402.0 41.3 L406.7 41.7 L411.5 42.2 L416.2 42.9 L421.0 43.6 L425.8 44.4 L430.5 45.3 L435.3 46.4 L440.0 47.5 L444.8 48.8 L449.6 50.2 L454.3 51.7 L459.1 53.4 L463.8 55.1 L468.6 57.1 L473.4 59.1 L478.1 61.4 L482.9 63.8 L487.6 66.3 L492.4 69.1 L497.2 72.1 L501.9 75.3 L506.7 78.8 L511.4 82.6 L516.2 86.7 L521.0 91.3 L525.7 96.3 L530.5 102.0"/><text class="fig-muted" x="121.1" y="186.7">ELBO(q)</text><line class="plot-post" x1="302.0" y1="51.7" x2="302.0" y2="40.4"/><circle class="fig-dot" cx="302.0" cy="51.7" r="5"/><text class="fig-text" x="312.0" y="71.7" text-anchor="start">KL = 0.0589</text></svg><figcaption>q(z₁=1)=0.50 (혼합비 그대로)</figcaption></figure>
+        <figure class="figure"><svg id="widget-elbo-gap-static-2" viewBox="0 0 560 300" role="img" aria-label="q(z₁=1)=2/3일 때: ELBO가 −1.2066으로 로그우도 점선에 닿고 KL은 0이에요."><line class="axis" x1="64" y1="250" x2="540" y2="250"/><line class="axis" x1="64" y1="20" x2="64" y2="250"/><text class="tick" x="64.0" y="266" text-anchor="middle">0</text><text class="tick" x="183.0" y="266" text-anchor="middle">0.25</text><text class="tick" x="302.0" y="266" text-anchor="middle">0.5</text><text class="tick" x="421.0" y="266" text-anchor="middle">0.75</text><text class="tick" x="540.0" y="266" text-anchor="middle">1</text><text class="tick" x="58" y="234.8" text-anchor="end">−2.2</text><text class="tick" x="58" y="158.2" text-anchor="end">−1.8</text><text class="tick" x="58" y="81.5" text-anchor="end">−1.4</text><text class="fig-muted" x="302" y="292" text-anchor="middle">q(z₁=1)</text><line class="plot-prior" x1="381.3" y1="20" x2="381.3" y2="250"/><text class="fig-muted" x="387.3" y="242">q=2/3</text><line class="plot-truth" x1="64" y1="40.4" x2="540" y2="40.4"/><text class="fig-muted" x="72" y="32.4">log p(x₁|θ⁽ᵗ⁾) ≈ −1.2066</text><path class="plot-fit" d="M73.5 229.6 L78.3 221.2 L83.0 213.5 L87.8 206.3 L92.6 199.5 L97.3 193.1 L102.1 186.9 L106.8 181.1 L111.6 175.4 L116.4 170.0 L121.1 164.7 L125.9 159.7 L130.6 154.8 L135.4 150.1 L140.2 145.5 L144.9 141.0 L149.7 136.7 L154.4 132.6 L159.2 128.5 L164.0 124.6 L168.7 120.8 L173.5 117.1 L178.2 113.5 L183.0 110.0 L187.8 106.6 L192.5 103.3 L197.3 100.2 L202.0 97.1 L206.8 94.1 L211.6 91.2 L216.3 88.3 L221.1 85.6 L225.8 83.0 L230.6 80.4 L235.4 77.9 L240.1 75.5 L244.9 73.2 L249.6 71.0 L254.4 68.9 L259.2 66.8 L263.9 64.8 L268.7 62.9 L273.4 61.1 L278.2 59.3 L283.0 57.7 L287.7 56.1 L292.5 54.5 L297.2 53.1 L302.0 51.7 L306.8 50.4 L311.5 49.2 L316.3 48.1 L321.0 47.0 L325.8 46.0 L330.6 45.1 L335.3 44.3 L340.1 43.6 L344.8 42.9 L349.6 42.3 L354.4 41.8 L359.1 41.4 L363.9 41.0 L368.6 40.7 L373.4 40.6 L378.2 40.5 L382.9 40.4 L387.7 40.5 L392.4 40.7 L397.2 40.9 L402.0 41.3 L406.7 41.7 L411.5 42.2 L416.2 42.9 L421.0 43.6 L425.8 44.4 L430.5 45.3 L435.3 46.4 L440.0 47.5 L444.8 48.8 L449.6 50.2 L454.3 51.7 L459.1 53.4 L463.8 55.1 L468.6 57.1 L473.4 59.1 L478.1 61.4 L482.9 63.8 L487.6 66.3 L492.4 69.1 L497.2 72.1 L501.9 75.3 L506.7 78.8 L511.4 82.6 L516.2 86.7 L521.0 91.3 L525.7 96.3 L530.5 102.0"/><text class="fig-muted" x="121.1" y="186.7">ELBO(q)</text><line class="plot-post" x1="381.3" y1="40.4" x2="381.3" y2="40.4"/><circle class="fig-dot" cx="381.3" cy="40.4" r="5"/><text class="fig-text" x="391.3" y="60.4" text-anchor="start">KL = 0.0000</text></svg><figcaption>q(z₁=1)=0.67 (=2/3, 사후분포)</figcaption></figure>
+        <figure class="figure"><svg id="widget-elbo-gap-static-3" viewBox="0 0 560 300" role="img" aria-label="q(z₁=1)=0.90일 때: ELBO −1.3563이 로그우도 점선보다 0.1497 아래에 있어요."><line class="axis" x1="64" y1="250" x2="540" y2="250"/><line class="axis" x1="64" y1="20" x2="64" y2="250"/><text class="tick" x="64.0" y="266" text-anchor="middle">0</text><text class="tick" x="183.0" y="266" text-anchor="middle">0.25</text><text class="tick" x="302.0" y="266" text-anchor="middle">0.5</text><text class="tick" x="421.0" y="266" text-anchor="middle">0.75</text><text class="tick" x="540.0" y="266" text-anchor="middle">1</text><text class="tick" x="58" y="234.8" text-anchor="end">−2.2</text><text class="tick" x="58" y="158.2" text-anchor="end">−1.8</text><text class="tick" x="58" y="81.5" text-anchor="end">−1.4</text><text class="fig-muted" x="302" y="292" text-anchor="middle">q(z₁=1)</text><line class="plot-prior" x1="381.3" y1="20" x2="381.3" y2="250"/><text class="fig-muted" x="387.3" y="242">q=2/3</text><line class="plot-truth" x1="64" y1="40.4" x2="540" y2="40.4"/><text class="fig-muted" x="72" y="32.4">log p(x₁|θ⁽ᵗ⁾) ≈ −1.2066</text><path class="plot-fit" d="M73.5 229.6 L78.3 221.2 L83.0 213.5 L87.8 206.3 L92.6 199.5 L97.3 193.1 L102.1 186.9 L106.8 181.1 L111.6 175.4 L116.4 170.0 L121.1 164.7 L125.9 159.7 L130.6 154.8 L135.4 150.1 L140.2 145.5 L144.9 141.0 L149.7 136.7 L154.4 132.6 L159.2 128.5 L164.0 124.6 L168.7 120.8 L173.5 117.1 L178.2 113.5 L183.0 110.0 L187.8 106.6 L192.5 103.3 L197.3 100.2 L202.0 97.1 L206.8 94.1 L211.6 91.2 L216.3 88.3 L221.1 85.6 L225.8 83.0 L230.6 80.4 L235.4 77.9 L240.1 75.5 L244.9 73.2 L249.6 71.0 L254.4 68.9 L259.2 66.8 L263.9 64.8 L268.7 62.9 L273.4 61.1 L278.2 59.3 L283.0 57.7 L287.7 56.1 L292.5 54.5 L297.2 53.1 L302.0 51.7 L306.8 50.4 L311.5 49.2 L316.3 48.1 L321.0 47.0 L325.8 46.0 L330.6 45.1 L335.3 44.3 L340.1 43.6 L344.8 42.9 L349.6 42.3 L354.4 41.8 L359.1 41.4 L363.9 41.0 L368.6 40.7 L373.4 40.6 L378.2 40.5 L382.9 40.4 L387.7 40.5 L392.4 40.7 L397.2 40.9 L402.0 41.3 L406.7 41.7 L411.5 42.2 L416.2 42.9 L421.0 43.6 L425.8 44.4 L430.5 45.3 L435.3 46.4 L440.0 47.5 L444.8 48.8 L449.6 50.2 L454.3 51.7 L459.1 53.4 L463.8 55.1 L468.6 57.1 L473.4 59.1 L478.1 61.4 L482.9 63.8 L487.6 66.3 L492.4 69.1 L497.2 72.1 L501.9 75.3 L506.7 78.8 L511.4 82.6 L516.2 86.7 L521.0 91.3 L525.7 96.3 L530.5 102.0"/><text class="fig-muted" x="121.1" y="186.7">ELBO(q)</text><line class="plot-post" x1="492.4" y1="69.1" x2="492.4" y2="40.4"/><circle class="fig-dot" cx="492.4" cy="69.1" r="5"/><text class="fig-text" x="482.4" y="89.1" text-anchor="end">KL = 0.1497</text></svg><figcaption>q(z₁=1)=0.90</figcaption></figure>
+        <div class="table-wrap"><table>
+          <thead><tr><th scope="col">q(z₁=1)</th><th scope="col">ELBO</th><th scope="col">KL</th><th scope="col">ELBO + KL</th><th scope="col">읽을 점</th></tr></thead>
+          <tbody>
+            <tr><td>0.50 (혼합비 그대로)</td><td>−1.2655</td><td>0.0589</td><td>−1.2066</td><td>본문 첫 식에 쓰는 값</td></tr>
+            <tr><td>0.67 (=2/3, 사후분포)</td><td>−1.2066</td><td>0.0000</td><td>−1.2066</td><td>ELBO가 로그우도에 닿아요</td></tr>
+            <tr><td>0.90</td><td>−1.3563</td><td>0.1497</td><td>−1.2066</td><td>사후분포에서 멀어질수록 KL이 커져요</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+    <p>세 지점을 비교해요. $q(z_1=1)=0.50$이면 ELBO는 $-1.2655$로 수평선보다 $0.0589$ 아래에 있어요. $q(z_1=1)=0.90$이면 $-1.3563$으로 $0.1497$ 아래예요. $q(z_1=1)=2/3$일 때만 ELBO가 $-1.2066$이 되어 수평선에 닿아요. 수평선 ${\log p(x_1\mid\boldsymbol{\theta}^{(t)})\approx-1.2066}$은 어느 경우에도 움직이지 않아요. 로그우도에는 $q$가 들어 있지 않으니까요. 닿는 지점 2/3은 <a href="#s1-why-q">모르는 성분을 사후확률로 평균 내기</a>에서 구한 책임도 $r_{11}^{(t)}$, 곧 사후분포 ${p(z_1=1\mid x_1,\boldsymbol{\theta}^{(t)})}$예요.</p>
+    <p>세로 간격이 바로 KL이에요. $q(z_1=1)=0.50$에서 읽은 세 값을 항등식의 자리에 놓으면 다음과 같아요.</p>
+    $$\log p(x_1\mid\boldsymbol{\theta}^{(t)})=\mathrm{ELBO}(q,\boldsymbol{\theta}^{(t)})+D_{\mathrm{KL}}\big(q(z_1)\,\|\,p(z_1\mid x_1,\boldsymbol{\theta}^{(t)})\big)$$
+    $$-1.2066=-1.2655+0.0589$$
+    <p>간격 0.0589는 KL 정의에 $q=(1/2,1/2)$와 사후분포 $(2/3,1/3)$을 넣은 값이에요. 정확한 값으로 적으면 왜 0이 아닌지 보여요.</p>
+    <div class="deriv-body">
+      <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$D_{\mathrm{KL}}=\sum_{k=1}^{2}q(z_1=k)\log\frac{q(z_1=k)}{p(z_1=k\mid x_1,\boldsymbol{\theta}^{(t)})}$$</div>
+          <div class="deriv-why"><p>KL 정의를 두 값의 합으로 써요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{D_{\mathrm{KL}}}=\textcolor{#3182f6}{\tfrac12\log\frac{1/2}{2/3}+\tfrac12\log\frac{1/2}{1/3}}$$</div>
+          <div class="deriv-why"><p>$q=1/2$, 사후분포 $2/3$, $1/3$을 넣어요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{D_{\mathrm{KL}}}=\tfrac12\log\tfrac34+\tfrac12\log\tfrac32$$</div>
+          <div class="deriv-why"><p>분수를 정리해요.</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$D_{\mathrm{KL}}=\tfrac12\log\tfrac98\approx0.0589$$</div>
+          <div class="deriv-why"><p>로그의 합은 곱의 로그예요.</p></div></li>
+      </ol>
+    </div>
+    <p>$q=(1/2,1/2)$은 혼합비 그대로, 곧 $x_1$을 보기 전의 사전분포 $p(z_1\mid\boldsymbol{\theta}^{(t)})$예요. $x_1=0$이 좁은 성분 1에서 더 잘 설명된다는 정보를 반영하지 않은 만큼 $\tfrac12\log\tfrac98$이 틈으로 남아요. 반대로 $q=(2/3,1/3)$을 넣으면 두 로그가 모두 $\log1=0$이라 KL이 0이고, ELBO가 로그우도와 같아져요.</p>
+    <p>이 관찰은 예에만 해당하지 않아요. 어떤 분포 $q$에서도 KL 발산은 0 이상이고, 0이 되는 것은 모든 $z$에서 $q(z)=p(z\mid x,\boldsymbol{\theta})$일 때뿐이에요(증명은 보충). 이 성질을 항등식에 넣으면 ELBO가 로그우도의 하한(lower bound)이라는 결론이 나와요.</p>
+    $$D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)\ge0$$
+    $$\mathrm{ELBO}(q,\boldsymbol{\theta})\le\log p(x\mid\boldsymbol{\theta})$$
+    <p>여기서 보장과 선택을 구별해 둬요. KL이 0 이상이라는 것과 사후분포에서만 0이 된다는 것은 증명되는 성질이라, $q$를 무엇으로 골라도 바뀌지 않는 보장이에요. 반면 $q$를 무엇으로 고를지는 우리의 선택이에요. E-step은 $q$를 현재 사후분포 $p(z\mid x,\boldsymbol{\theta}^{(t)})$로 골라 틈을 0으로 만들어요. 이때 하한이 $\boldsymbol{\theta}^{(t)}$에서 로그우도에 딱 붙는다(tight)고 말해요.</p>
+    <p>E-step으로 틈을 0으로 만든 뒤 M-step에서 $\boldsymbol{\theta}$를 바꾸면, 로그우도도 따라 올라갈까요(<a href="#s2-monotone">E-step과 M-step이 로그우도를 올리는 이유</a>)?</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>교수님은 KL 발산을 동전으로 설명했어요. 참 확률이 앞면 0.5, 뒷면 0.5인데 짧은 지식으로 0.6, 0.4라고 믿으면, 분포를 잘못 믿어서 생기는 비효율이 KL이에요. 수학과 통신·신호처리에서는 상대 엔트로피(relative entropy)라고 부른다고 했어요.</p>
+    <p>하한의 뜻은 $x=y+2$로 설명했어요. 양수를 더해야 $x$가 되니 $y$는 $x$의 하한이에요. 로그우도 = ELBO + (0 이상인 양)이라서, ELBO를 끌어올리면 로그우도도 함께 끌려 올라간다는 그림이에요.</p>
+    <blockquote>"큰 그림은 이거예요. 스토리텔링은 이거예요."</blockquote>
+    <p>KL 발산의 정의와 자세한 성질은 다음 학기 인공지능수학 과목으로 미뤘어요.</p>
+  </div>
+  <div class="layer supp"><span class="badge supp">보충 · 수업에서 유도하진 않았어요</span>
+    <p>KL 발산이 0 이상이라는 사실은 부등식 하나로 보일 수 있어요. 양수 $u$에 대해 다음이 성립하고, 등호는 $u=1$일 때뿐이에요. 여기서 $\ln$은 본문의 $\log$와 같은 자연로그예요.</p>
+    $$\ln u\le u-1\qquad(u\gt0)$$
+    <p>$g(u)=u-1-\ln u$로 두면 $g'(u)=1-1/u$라서 $g$는 $u\lt1$에서 줄고 $u\gt1$에서 늘어요. 최솟값이 $g(1)=0$이므로 $g(u)\ge0$이고, 0이 되는 곳은 $u=1$뿐이에요. 그래프로 보면 $\ln u$ 곡선이 $u=1$에서 그은 접선 $u-1$ 아래에 있다는 뜻이에요.</p>
+    <p>이제 $u=p(z\mid x,\boldsymbol{\theta})/q(z)$로 놓아요. 합은 $q(z)\gt0$인 $z$에 대해서만 해요. 사후분포가 0인 $z$에 $q$가 확률을 주면 KL이 무한대라 부등식이 저절로 성립하므로, 아래에서는 그런 $z$가 없다고 둬요. GMM에서는 가우시안 밀도가 늘 양수이므로, 혼합비가 모두 양수이면 사후분포도 늘 양수예요. $z$가 연속이면 합을 적분으로 바꿔 같은 순서로 보이면 돼요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$-D_{\mathrm{KL}}=\sum_z q(z)\ln\frac{p(z\mid x,\boldsymbol{\theta})}{q(z)}$$</div>
+          <div class="deriv-why"><p>KL 정의의 분수를 뒤집어 부호를 바꿔요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{-D_{\mathrm{KL}}}\le\sum_z q(z)\Big(\frac{p(z\mid x,\boldsymbol{\theta})}{q(z)}-1\Big)$$</div>
+          <div class="deriv-why"><p>항마다 $\ln u\le u-1$, 양수 $q(z)$를 곱해도 방향 유지예요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{-D_{\mathrm{KL}}}=\sum_z p(z\mid x,\boldsymbol{\theta})-\sum_z q(z)$$</div>
+          <div class="deriv-why"><p>$q(z)$를 괄호 안에 곱해요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{-D_{\mathrm{KL}}}\le1-1=0$$</div>
+          <div class="deriv-why"><p>앞 합은 사후분포의 일부라 1 이하, 뒤 합은 1이에요.</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$D_{\mathrm{KL}}\big(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\big)\ge0$$</div>
+          <div class="deriv-why"><p>$-1$을 곱하면 부등호가 뒤집혀요.</p></div></li>
+      </ol>
+      <p class="note-stage-result"><b>등호 조건도 같은 줄에서 읽어요.</b> 둘째 줄이 등호이려면 $q(z)\gt0$인 모든 $z$에서 $u=1$, 곧 $q(z)=p(z\mid x,\boldsymbol{\theta})$여야 해요. 넷째 줄이 등호이려면 사후분포의 확률이 모두 $q(z)\gt0$인 $z$에 있어야 해요. 두 조건을 합치면 모든 $z$에서 두 분포가 같을 때만 KL이 0이에요.</p>
+    </div>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">$x_1=0$과 $\boldsymbol{\theta}^{(t)}$를 고정하고 $q(z_1=1)$만 바꾸면 로그우도 $-1.2066$은 그대로이고, ELBO는 사후분포 2/3에서만 로그우도에 닿고 나머지에서는 KL만큼 아래예요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>하한(lower bound)</dt><dd>언제나 그 값 이하인 양이에요. ELBO는 어떤 $q$에서도 로그우도의 하한이에요.</dd>
+      <dt>tight</dt><dd>$q$를 사후분포로 골라 하한이 로그우도와 같아진 상태예요. E-step이 만드는 상태예요.</dd>
+      <dt>상대 엔트로피(relative entropy)</dt><dd>KL 발산의 다른 이름이에요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">$q(z_1=1)=0.50$에서 로그우도 = ELBO + KL</span>$$-1.2066=-1.2655+0.0589$$</li>
+      <li><span class="eq-name">그 간격의 정확한 값</span>$$D_{\mathrm{KL}}=\tfrac12\log\tfrac98\approx0.0589$$</li>
+      <li><span class="eq-name">KL이 0 이상(등호는 사후분포일 때만)이라 ELBO는 하한</span>$$\mathrm{ELBO}(q,\boldsymbol{\theta})\le\log p(x\mid\boldsymbol{\theta})$$</li>
+      <li><span class="eq-name">보충의 부등식</span>$$\ln u\le u-1\qquad(u\gt0)$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s2-monotone">
+  <h3>E-step과 M-step이 로그우도를 올리는 이유</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s12</span></div>
+  <div class="layer formal"><span class="layer-title">정확히 말하면</span>
+    <p>E-step은 $q$를 사후분포로 골라 ELBO와 로그우도 사이의 틈을 0으로 만들고, M-step은 Q 함수를 최대화해요. 이 한 바퀴 뒤에 로그우도가 줄지 않는다는 것을 어떻게 보일까요? 같은 예에 관측을 하나 더해 실제로 한 바퀴 돌린 뒤, 네 값의 크기를 비교해 봐요.</p>
+    <p>두 번째 관측은 $x_2=\sqrt{8\log2/3}\approx1.36$이에요. 두 성분의 밀도가 같아지는 점이라 책임도가 $(1/2,1/2)$이에요. 이제 $x$는 관측 전체 $(x_1,x_2)$, $z$는 $(z_1,z_2)$를 뜻해요. E-step에서 정한 $q^{(t)}$는 점별 책임도로, $x_1$은 $(2/3,1/3)$, $x_2$는 $(1/2,1/2)$이에요. 평균·분산은 고정하고 혼합비만 갱신하면 $N_1=7/6$, $N_2=5/6$에서 $\pi^{(t+1)}=(7/12,5/12)$가 나와요(<a href="#s1-gmm-q">GMM의 Q에서 책임도가 나오고 갱신식이 분리돼요</a>). $q^{(t)}$는 그대로 두고 $\boldsymbol{\theta}$만 $\boldsymbol{\theta}^{(t)}$에서 $\boldsymbol{\theta}^{(t+1)}$로 바꿔 계산해요. 출발 로그우도 ${L_0=\log p(x\mid\boldsymbol{\theta}^{(t)})\approx-3.0498}$을 기준으로 적으면 다음과 같아요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">값</th><th scope="col">크기</th><th scope="col">어느 단계 뒤</th></tr></thead>
+      <tbody>
+        <tr><td>$\log p(x\mid\boldsymbol{\theta}^{(t)})$</td><td>$L_0$</td><td>출발</td></tr>
+        <tr><td>$\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t)})$</td><td>$L_0$</td><td>E-step</td></tr>
+        <tr><td>$\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t+1)})$</td><td>$L_0+0.0279$</td><td>M-step</td></tr>
+        <tr><td>$\log p(x\mid\boldsymbol{\theta}^{(t+1)})$</td><td>$L_0+0.0541\approx-2.9957$</td><td>한 바퀴 끝</td></tr>
+      </tbody>
+    </table></div>
+    <p>위에서 아래로 값이 줄지 않아요. 이 순서를 등호와 부등호로 이으면 사슬 하나가 돼요.</p>
+    $$\underbrace{\log p(x\mid\boldsymbol{\theta}^{(t)})}_{L_0}=\underbrace{\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t)})}_{L_0}\le\underbrace{\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t+1)})}_{L_0+0.0279}\le\underbrace{\log p(x\mid\boldsymbol{\theta}^{(t+1)})}_{L_0+0.0541}$$
+    <p>이 사슬이 예에서만이 아니라 언제나 맞는 이유를 고리 하나씩 확인해요. 가운데 부등호에는 M-step이 최대화하는 Q와 ELBO의 관계가 필요해요. ${q^{(t)}(z)=p(z\mid x,\boldsymbol{\theta}^{(t)})}$로 고정하고 ELBO를 $\boldsymbol{\theta}$의 함수로 보면 이래요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta})=\mathbb E_{q^{(t)}}[\log p(x,z\mid\boldsymbol{\theta})]-\mathbb E_{q^{(t)}}[\log q^{(t)}(z)]$$</div>
+          <div class="deriv-why"><p>ELBO 정의에 $q=q^{(t)}$를 넣어요.</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta})=Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})-\mathbb E_{q^{(t)}}[\log q^{(t)}(z)]$$</div>
+          <div class="deriv-why"><p>첫 항은 사후분포로 평균 낸 완전 데이터 로그우도, 곧 Q예요.</p></div></li>
+      </ol>
+    </div>
+    <p>둘째 항에는 $\boldsymbol{\theta}^{(t)}$로 이미 계산한 $q^{(t)}$만 들어 있어서, 자유 변수 $\boldsymbol{\theta}$를 바꿔도 변하지 않는 숫자예요. 그래서 ELBO를 최대화하는 $\boldsymbol{\theta}$와 Q를 최대화하는 $\boldsymbol{\theta}$가 같아요.</p>
+    $$\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\arg\max_{\boldsymbol{\theta}}\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta})$$
+    <p>이제 사슬을 한 고리씩 세워요.</p>
+    <div class="deriv-body">
+      <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\log p(x\mid\boldsymbol{\theta}^{(t)})=\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t)})+D_{\mathrm{KL}}\big(q^{(t)}\,\|\,p(z\mid x,\boldsymbol{\theta}^{(t)})\big)$$</div>
+          <div class="deriv-why"><p>항등식을 $\boldsymbol{\theta}^{(t)}$에서 써요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta}^{(t)})}=\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t)})$$</div>
+          <div class="deriv-why"><p>E-step: $q^{(t)}$가 그 사후분포라 KL이 0이에요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta}^{(t)})}\le\mathrm{ELBO}(q^{(t)},\textcolor{#3182f6}{\boldsymbol{\theta}^{(t+1)}})$$</div>
+          <div class="deriv-why"><p>M-step: $\boldsymbol{\theta}^{(t+1)}$이 최대점이고 $\boldsymbol{\theta}^{(t)}$도 후보예요.</p>
+            <details><summary>자세히</summary><p>최댓값은 후보 중 어느 값보다도 작지 않아요. 옛 값 $\boldsymbol{\theta}^{(t)}$도 후보 중 하나라서, 그 자리의 ELBO보다 새 값의 ELBO가 작을 수 없어요.</p></details></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta}^{(t)})}\le\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t+1)})\textcolor{#3182f6}{+D_{\mathrm{KL}}\big(q^{(t)}\,\|\,p(z\mid x,\boldsymbol{\theta}^{(t+1)})\big)}$$</div>
+          <div class="deriv-why"><p>0 이상인 KL을 더해도 줄지 않아요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\log p(x\mid\boldsymbol{\theta}^{(t)})}=\textcolor{#3182f6}{\log p(x\mid\boldsymbol{\theta}^{(t+1)})}$$</div>
+          <div class="deriv-why"><p>같은 $q^{(t)}$로 항등식을 $\boldsymbol{\theta}^{(t+1)}$에서 써요.</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$${\log p(x\mid\boldsymbol{\theta}^{(t)})\le\log p(x\mid\boldsymbol{\theta}^{(t+1)})}$$</div>
+          <div class="deriv-why"><p>처음과 끝만 남겨요.</p></div></li>
+      </ol>
+      <p class="note-stage-result"><b>세 고리의 근거가 서로 달라요.</b> 등호는 E-step의 선택에서, 첫 부등호는 M-step의 최대화에서, 둘째 부등호는 KL이 0 이상이라는 성질에서 나와요.</p>
+    </div>
+    <p>예의 두 간격도 이 고리로 읽을 수 있어요. 첫 간격 0.0279는 M-step이 Q를 올린 만큼이에요. 빼는 항이 그대로라 ELBO도 같은 만큼 올라요. 둘째 간격 0.0262는 새 $\boldsymbol{\theta}^{(t+1)}$에서 생긴 KL이에요. $q^{(t)}$는 옛 $\boldsymbol{\theta}^{(t)}$의 사후분포라서, $\boldsymbol{\theta}$가 바뀌면 새 사후분포와 더 이상 같지 않아요. $x_1$의 새 사후분포는 $(14/19,5/19)$인데 $q^{(t)}$는 여전히 $(2/3,1/3)$이에요. 로그우도는 두 간격을 합친 0.0541만큼 올라가고, 다음 E-step이 $q$를 새 사후분포로 바꾸면 이 틈은 다시 0이 돼요.</p>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <p>첫 간격: Q에서 평균·분산 항은 그대로이고 혼합비 부분 $N_1\log\pi_1+N_2\log\pi_2$만 바뀌어요.</p>
+      $$\Delta Q=\tfrac76\log\frac{7/12}{1/2}+\tfrac56\log\frac{5/12}{1/2}=\tfrac76\log\tfrac76+\tfrac56\log\tfrac56=0.1798-0.1519=0.0279$$
+      <p>로그우도 증가: $x_2$에서는 두 성분 밀도가 같은 값 $b$라 ${p(x_2\mid\boldsymbol{\theta})=\pi_1b+\pi_2b=b}$로 혼합비와 무관해요. 증가는 $x_1$ 항에서만 나와요. $x_1=0$에서는 $\phi_{11}=2\phi_{12}$이므로 ${p(x_1\mid\boldsymbol{\theta})=(2\pi_1+\pi_2)\phi_{12}}$예요.</p>
+      $$\frac{p(x_1\mid\boldsymbol{\theta}^{(t+1)})}{p(x_1\mid\boldsymbol{\theta}^{(t)})}=\frac{14/12+5/12}{1+1/2}=\frac{19/12}{18/12}=\frac{19}{18},\qquad\log\tfrac{19}{18}\approx0.0541$$
+      <p>둘째 간격: 점마다 $z$가 독립이라 KL도 점별 합이에요. $\boldsymbol{\theta}^{(t+1)}$에서 $x_1$의 두 가중 밀도 비는 ${\tfrac{7}{12}\cdot2:\tfrac{5}{12}\cdot1=14:5}$라 사후분포가 $(14/19,5/19)$이고, $x_2$의 사후분포는 혼합비 그대로 $(7/12,5/12)$예요.</p>
+      $$x_1:\ \tfrac23\log\frac{2/3}{14/19}+\tfrac13\log\frac{1/3}{5/19}=\tfrac23\log\tfrac{19}{21}+\tfrac13\log\tfrac{19}{15}=-0.0667+0.0788=0.0121$$
+      $$x_2:\ \tfrac12\log\frac{1/2}{7/12}+\tfrac12\log\frac{1/2}{5/12}=\tfrac12\log\tfrac{36}{35}\approx0.0141$$
+      $$0.0121+0.0141=0.0262=0.0541-0.0279$$
+    </div>
+    <p>사슬이 보장하는 것은 로그우도가 반복마다 줄지 않는다는 것까지예요. Q의 최대점이 이미 $\boldsymbol{\theta}^{(t)}$이면 두 부등호가 모두 등호가 되어 더 움직이지 않아요. 그 멈춘 점이 전역 최대, 곧 MLE라는 보장은 없어요. 목적함수가 볼록하지 않아(non-convex) 봉우리가 여러 개일 수 있고, 출발점에 따라 국소 최댓값(local maximum)에서 멈출 수 있어요.</p>
+    <p>이 증명은 항등식, KL이 0 이상이라는 성질, M-step이 Q를 최대화한다는 사실만 썼고 가우시안 모양은 어디에도 쓰지 않았어요. 그렇다면 GMM이 아닌 다른 잠재변수 모델에서도 같은 E-step과 M-step을 그대로 쓸 수 있을까요(<a href="#s3-general-em">GMM의 EM과 일반 EM은 어떻게 대응하나요?</a>)?</p>
+  </div>
+  <div class="layer prof"><span class="layer-title">교수님 말씀</span>
+    <p>교수님은 칠판에 다루기 어려운 원함수 $A(\boldsymbol{\theta})$와, 늘 그 아래에 있는 다루기 쉬운 함수 $A'(\boldsymbol{\theta})$를 그렸어요. $A'$을 올리면 그 위의 $A$도 함께 올라간다는 그림이에요. 둘 사이의 틈은 남으니 진짜 최적은 아니지만 "꽤 좋은 옵티멀"이라고 했어요.</p>
+    <blockquote>"log-likelihood를 maximize 하는 것 대신에 ELBO 함수를 maximize 해도 상관이 없다"</blockquote>
+    <p>부등식 사슬을 마친 뒤에는 오늘의 결론을 이렇게 정리했어요.</p>
+    <blockquote>"내가 업데이트한 세타(θ)에서 x가 더 말이 될 수밖에 없다"</blockquote>
+  </div>
+  <div class="layer warn"><span class="layer-title">꼭 기억해요</span>
+    <blockquote>"improve 된다고 해서 꼭 이 값이 이 값과 같다는 보장은 없다. 그래서 이제 그거는 좀 구별해야 돼요."</blockquote>
+    <p>로그우도가 줄지 않는 것(단조 증가)과 MLE에 수렴하는 것은 달라요. 교수님은 봉우리가 여러 개인 그림으로, 목적함수가 non-convex라 EM이 국소 최댓값에 멈출 수 있다고 강조했어요.</p>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">E-step이 KL을 0으로 만들고, M-step이 ELBO(Q에서 $\boldsymbol{\theta}$와 무관한 항을 뺀 것)를 올리고, KL이 0 이상이라서 한 바퀴 뒤 로그우도는 줄지 않아요. 전역 최대(MLE)는 보장하지 않고 국소 최댓값에 멈출 수 있어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>단조 증가(monotone improvement)</dt><dd>반복마다 로그우도가 줄지 않는 성질이에요.</dd>
+      <dt>국소 최댓값(local maximum)</dt><dd>주변보다는 높지만 전체에서 가장 높지는 않을 수 있는 봉우리예요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">M-step에서 ELBO와 Q</span>$$\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta})=Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})-\mathbb E_{q^{(t)}}[\log q^{(t)}(z)]$$</li>
+      <li><span class="eq-name">같은 최대점</span>$$\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\arg\max_{\boldsymbol{\theta}}\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta})$$</li>
+      <li><span class="eq-name">결론</span>$${\log p(x\mid\boldsymbol{\theta}^{(t)})\le\log p(x\mid\boldsymbol{\theta}^{(t+1)})}$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s3"><h2>3. 일반 EM과 확장</h2>
+<article class="topic" id="s3-general-em">
+  <h3>GMM의 EM과 일반 EM은 어떻게 대응하나요?</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s16–17</span></div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>GMM에서 쓴 EM은 GMM만의 방법이 아니에요. EM의 두 단계는 숨은 변수의 사후분포로 완전 데이터 로그우도를 평균 내 $Q$를 만들고(E-step), 그 $Q$를 $\boldsymbol{\theta}$에 대해 최대화하는(M-step) 일반 틀이에요. GMM은 이 틀의 숨은 변수 자리에 성분 번호를 넣은 한 사례예요. 관측 뒤에 숨은 변수 $z$를 함께 두는 확률모델을 <b>잠재변수 모델</b>(latent variable model)이라고 하는데, 잠재변수 모델이면 같은 두 단계를 쓸 수 있어요.</p>
+    <p>일반 틀에서 $x$는 관측 전체, $z$는 숨은 변수 전체예요. E-step은 현재 추정값 $\boldsymbol{\theta}^{(t)}$로 사후분포 $p(z\mid x,\boldsymbol{\theta}^{(t)})$를 구해 $Q$를 만들고, M-step은 그 $Q$를 가장 크게 하는 $\boldsymbol{\theta}$를 다음 추정값으로 삼아요.</p>
+    $$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\mathbb{E}_{z\mid x,\boldsymbol{\theta}^{(t)}}\big[\log p(x,z\mid\boldsymbol{\theta})\big]=\int\log p(x,z\mid\boldsymbol{\theta})\,p(z\mid x,\boldsymbol{\theta}^{(t)})\,dz$$
+    $$\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$$
+    <p>GMM에서는 $z=(z_1,\dots,z_N)$이고 $z_n\in\{1,\dots,K\}$는 $x_n$을 만든 성분 번호예요. $z_n$이 이산값이라 적분이 $k$에 대한 합으로 바뀌어요. 점들이 독립이라 완전 데이터 로그우도는 점별 합으로 갈라지고, 각 항은 그 점의 사후분포 ${p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})}$로만 평균 내요. 이 사후분포가 책임도 $r_{nk}^{(t)}$예요(<a href="#s1-gmm-q">GMM의 Q에서 책임도가 나오고 갱신식이 분리돼요</a>).</p>
+    $$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\log\big(\pi_k\,\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\big)$$
+    <p>두 틀을 단계별로 나란히 놓으면 이렇게 대응해요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">단계</th><th scope="col">일반 EM</th><th scope="col">GMM의 EM</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">숨은 변수</th><td>관측 $x$ 뒤의 아무 변수 $z$(이산이면 합, 연속이면 적분)</td><td>성분 번호 $z_n\in\{1,\dots,K\}$</td></tr>
+          <tr><th scope="row">E-step</th><td>사후분포 ${q^{(t)}(z)=p(z\mid x,\boldsymbol{\theta}^{(t)})}$로 $Q$를 만들어요</td><td>책임도 ${r_{nk}^{(t)}=p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})}$와 ${N_k=\sum_n r_{nk}^{(t)}}$를 계산해요</td></tr>
+          <tr><th scope="row">M-step</th><td>${\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})}$</td><td>$\boldsymbol{\mu}_k$, $\boldsymbol{\Sigma}_k$, $\pi_k=N_k/N$을 닫힌 식으로 갱신해요</td></tr>
+          <tr><th scope="row">보장</th><td>로그우도가 줄지 않아요(전역 최대는 보장 안 됨)</td><td>같아요</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>1118 노트에서 이어 온 주 예시에서는 책임도 $2/3$·$1/3$이 일반 E-step의 사후분포이고, 혼합비 $1/2\to7/12$ 갱신이 일반 M-step의 $\arg\max$예요.</p>
+    <p>그러면 어디까지가 공통이고 어디부터 GMM 전용일까요? <a href="#s2-monotone">E-step과 M-step이 로그우도를 올리는 이유</a>에서 쓴 근거는 아무 $q$에서나 성립하는 $\log p=\mathrm{ELBO}+\mathrm{KL}$ 항등식과 $\mathrm{KL}\ge0$뿐이고, 가우시안 모양은 쓰지 않았어요. 그래서 로그우도가 줄지 않는다는 보장도, 국소 최댓값에 멈출 수 있다는 한계도 모든 잠재변수 모델에 그대로 적용돼요. 사후분포를 베이즈 정리로 바로 적어 책임도로 얻는 것과 $Q$가 $\pi_k$ 부분과 성분 파라미터 부분으로 갈라지는 것은, 성분 수가 유한하고 결합밀도가 $\pi_k\times$(성분 $k$의 밀도)인 혼합모델이면 성분 밀도가 무엇이든 성립해요. 그중 $\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k$가 닫힌 식으로 풀리는 것이 가우시안 성분 덕분이에요. 일반 틀에서는 사후분포가 확률밀도여도 되고, 성분이 가우시안일 필요도 없어요.</p>
+    <p>EM이 정하지 않는 값도 하나 있어요. 성분 수 $K$는 $\boldsymbol{\theta}$에 들어 있는 파라미터의 개수 자체를 정하므로, $Q$를 최대화해도 $K$는 바뀌지 않아요. 수업에서는 $K=3,5,7$처럼 여러 $K$로 EM을 각각 돌려 보고 데이터를 더 잘 설명하는 쪽을 고른다고 했어요. '더 잘'을 재는 기준은 이번 수업에서 다루지 않았어요.</p>
+    <p>슬라이드는 EM을 쓰는 잠재변수 모델의 예로 HMM(hidden Markov model), factor analysis, 결측 데이터(missing data) 문제, VAE(variational autoencoder)를 이름만 들었어요.</p>
+    <p>GMM 쪽에 남은 공분산 $\boldsymbol{\Sigma}_k$를 모든 성분에서 같은 아주 작은 값으로 만들면 책임도는 어떻게 바뀔까요? <a href="#s3-kmeans">분산을 0으로 보내면 K-means가 돼요</a>에서 이어 봐요.</p>
+  </div>
+  <div class="layer prof">
+    <span class="layer-title">교수님 말씀</span>
+    <blockquote>“일반적인 어떤 믹스처 모델이나 … 임의의 … density에 대해서도 EM 알고리즘은 적용할 수 있다.”</blockquote>
+    <p>GMM으로 EM을 설명하는 이유는 가우시안으로 파라미터를 나타내면 계산이 쉽기 때문일 뿐이고, 일반형은 GMM을 가정할 필요가 없다고 하셨어요. 동시에 본인도 EM을 GMM에서만 써 봤다며, 실제로는 GMM에서 쓰는 경우가 많다고 덧붙이셨어요.</p>
+    <blockquote>“K가 3일 때도 해 보고 5일 때도 해 보고 7일 때도 해 보고”</blockquote>
+    <p>$K$도 EM 바깥에서 따로 정해야 하는 값이라는 뜻이에요.</p>
+    <blockquote>“하나 알고 있으면 여러 가지의 그 툴을 장착한 거예요”</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">EM은 숨은 변수의 사후분포로 $Q$를 만들고(E-step) $Q$를 최대화하는(M-step) 잠재변수 모델의 일반 틀이고, GMM은 사후분포가 책임도이고 M-step이 닫힌 식인 한 사례예요. 책임도와 $Q$의 분리는 유한 혼합모델이면 성립하고, $\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k$의 닫힌 식은 가우시안 성분 덕분이에요. 단조 증가 보장은 가우시안을 쓰지 않아 모든 잠재변수 모델에 적용되고, $K$는 EM 바깥에서 여러 값을 시도해 골라요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>잠재변수 모델(latent variable model)</dt><dd>관측 뒤에 숨은 변수 $z$를 함께 두는 확률모델이에요.</dd>
+      <dt>E-step</dt><dd>${q^{(t)}(z)=p(z\mid x,\boldsymbol{\theta}^{(t)})}$로 $Q$를 만들어요. GMM에서는 책임도 계산이에요.</dd>
+      <dt>M-step</dt><dd>$Q$를 최대화하는 $\boldsymbol{\theta}$로 갱신해요. GMM에서는 닫힌 식이에요.</dd>
+      <dt>성분 수 $K$</dt><dd>EM이 바꾸지 않는 값이라 여러 $K$로 돌려 보고 비교해요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">일반 E-step</span>$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\mathbb{E}_{z\mid x,\boldsymbol{\theta}^{(t)}}\big[\log p(x,z\mid\boldsymbol{\theta})\big]=\int\log p(x,z\mid\boldsymbol{\theta})\,p(z\mid x,\boldsymbol{\theta}^{(t)})\,dz$$</li>
+      <li><span class="eq-name">일반 M-step</span>$$\boldsymbol{\theta}^{(t+1)}=\arg\max_{\boldsymbol{\theta}}Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})$$</li>
+      <li><span class="eq-name">GMM의 Q</span>$$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\log\big(\pi_k\,\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\big)$$</li>
+    </ul>
+  </div>
+</article>
+
+<article class="topic" id="s3-kmeans">
+  <h3>분산을 0으로 보내면 K-means가 돼요</h3>
+  <div class="tags"><span class="tag date">1125 수업</span><span class="tag slide">L08 s17</span></div>
+  <div class="layer eli5">
+    <span class="layer-title">쉽게 말하면</span>
+    <p class="lead">두 모둠 사이에 선 아이를, 기준이 느슨할 때는 두 모둠에 나눠서 세어요.</p>
+    <p>기준을 엄격하게 할수록 조금이라도 더 가까운 모둠에 통째로 넣어요.</p>
+    <figure class="figure">
+      <svg id="fig-kmeans-harden" viewBox="0 0 340 200" role="img" aria-label="위쪽 가로선 위 왼쪽과 오른쪽에 테두리 원 두 개가 있고, 왼쪽 원에 더 가까운 자리에 색칠된 점 하나가 있어요. 아래에는 같은 길이의 테두리 막대 네 개가 있고, 아래 막대일수록 왼쪽부터 색칠된 부분이 길어져 마지막 막대는 끝까지 채워져 있어요. 막대들 가운데에 절반을 표시한 점선이 있어요.">
+        <line class="fig-ink" x1="40" y1="28" x2="300" y2="28"/>
+        <circle class="fig-ink" cx="60" cy="28" r="9"/>
+        <circle class="fig-ink" cx="280" cy="28" r="9"/>
+        <circle class="fig-dot" cx="148" cy="28" r="6"/>
+        <text class="fig-text" x="60" y="54" text-anchor="middle" font-size="13">가까운 모둠</text>
+        <text class="fig-text" x="280" y="54" text-anchor="middle" font-size="13">먼 모둠</text>
+        <text class="fig-text" x="148" y="54" text-anchor="middle" font-size="13">아이</text>
+        <rect class="fig-ink" x="90" y="72" width="220" height="18"/>
+        <rect class="fig-dot" x="90" y="72" width="132" height="18"/>
+        <rect class="fig-ink" x="90" y="98" width="220" height="18"/>
+        <rect class="fig-dot" x="90" y="98" width="183" height="18"/>
+        <rect class="fig-ink" x="90" y="124" width="220" height="18"/>
+        <rect class="fig-dot" x="90" y="124" width="216" height="18"/>
+        <rect class="fig-ink" x="90" y="150" width="220" height="18"/>
+        <rect class="fig-dot" x="90" y="150" width="220" height="18"/>
+        <text class="fig-text" x="84" y="86" text-anchor="end" font-size="12">느슨하게</text>
+        <text class="fig-text" x="84" y="112" text-anchor="end" font-size="12">조금 엄격</text>
+        <text class="fig-text" x="84" y="138" text-anchor="end" font-size="12">더 엄격</text>
+        <text class="fig-text" x="84" y="164" text-anchor="end" font-size="12">아주 엄격</text>
+        <line class="fig-ink" x1="200" y1="66" x2="200" y2="174" stroke-dasharray="3 3"/>
+        <text class="fig-muted" x="200" y="190" text-anchor="middle" font-size="12">절반</text>
+      </svg>
+      <figcaption>아래 막대일수록 기준이 엄격하고, 색칠된 부분이 가까운 모둠에 넣는 몫이에요.</figcaption>
+    </figure>
+  </div>
+  <div class="layer formal">
+    <span class="layer-title">정확히 말하면</span>
+    <p>모든 성분의 공분산을 같은 $\boldsymbol{\Sigma}_k=\sigma^2\mathbf{I}$로 두고 $\sigma^2$만 줄여 가면 책임도는 어떻게 될까요? $\sigma^2\mathbf{I}$는 모든 방향의 분산이 $\sigma^2$로 같은 둥근 가우시안이고, 여기서는 모든 성분이 같은 $\sigma^2$를 써요. 평균과 혼합비는 그대로 두고 $\sigma^2$만 1, 0.25, 0.1, 0.01로 줄이며 한 점의 책임도를 비교해요.</p>
+    <p>이 현상은 주 예시로는 볼 수 없어요. 주 예시의 두 성분은 평균이 모두 0이라 어느 점이든 두 평균까지의 거리가 같아서, '가까운 평균'이 정해지지 않아요. 그래서 이 토픽에서만 평균이 다른 보조 예시를 써요. 1차원에서 평균 $\mu_1=0$, $\mu_2=2$, 혼합비 $\pi_1=\pi_2=1/2$, 관측 $x=0.8$이고, 1차원이라 $\sigma^2\mathbf{I}$는 분산 $\sigma^2$ 하나예요. 이것도 설명을 위해 만든 예예요. 점이 하나뿐이라 $n$ 첨자를 빼고 이 점의 책임도를 $r_1$, $r_2$로 써요. 두 평균까지의 거리는 $d_1=\lvert x-\mu_1\rvert=0.8$, $d_2=\lvert x-\mu_2\rvert=1.2$라 성분 1이 더 가까워요.</p>
+    <p>책임도 공식으로 계산하면 이렇게 나와요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">$\sigma^2$</th><th scope="col">1</th><th scope="col">0.25</th><th scope="col">0.1</th><th scope="col">0.01</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$r_1$</th><td>0.599</td><td>0.832</td><td>0.982</td><td>1.000</td></tr>
+          <tr><th scope="row">$r_2$</th><td>0.401</td><td>0.168</td><td>0.018</td><td>0.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>$\sigma^2=1$에서는 가까운 성분 1도 0.599만 가져가지만, $\sigma^2=0.01$에서는 사실상 전부 가져가요. 왜 분산이 작을수록 1에 다가갈까요? 책임도를 두 거리로 다시 써 보면 알 수 있어요.</p>
+    <div class="deriv-body">
+      <p class="deriv-legend">파란색은 바로 윗줄에서 바뀐 부분이에요.</p>
+      <p class="deriv-lead">1차원 가우시안 밀도는 ${\mathcal{N}(x\mid\mu,\sigma^2)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)}$이고, 지수 안의 $(x-\mu_k)^2$이 $d_k^2$예요.</p>
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$r_1=\frac{\pi_1\mathcal{N}(x\mid\mu_1,\sigma^2)}{\pi_1\mathcal{N}(x\mid\mu_1,\sigma^2)+\pi_2\mathcal{N}(x\mid\mu_2,\sigma^2)}$$</div>
+          <div class="deriv-why"><p>점 하나, 성분 둘의 책임도 정의예요.</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{r_1}=\textcolor{#3182f6}{\frac{e^{-d_1^2/(2\sigma^2)}}{e^{-d_1^2/(2\sigma^2)}+e^{-d_2^2/(2\sigma^2)}}}$$</div>
+          <div class="deriv-why"><p>$\pi_1=\pi_2$와 앞 상수 $1/\sqrt{2\pi\sigma^2}$가 모든 항에 같아 약분해요.</p>
+            <details><summary>자세히</summary><p>앞 상수가 같은 것은 두 성분이 같은 $\sigma^2$를 쓰기 때문이에요. 분산이 성분마다 다르면 이 상수가 남아요.</p></details></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$r_1=\frac{1}{1+e^{-(d_2^2-d_1^2)/(2\sigma^2)}}$$</div>
+          <div class="deriv-why"><p>분자·분모를 분자 $e^{-d_1^2/(2\sigma^2)}$로 나눠요.</p></div></li>
+      </ol>
+      <p class="deriv-check">$d_1^2=0.64$, $d_2^2=1.44$라 $d_2^2-d_1^2=0.8$이에요.</p>
+    </div>
+    <p>표의 첫 값을 이 식에 놓아 봐요. $\sigma^2=1$이면 지수가 $-0.8/2=-0.4$라서</p>
+    $$r_1=\frac{1}{1+e^{-0.4}}\approx\frac{1}{1.670}\approx0.599$$
+    <p>이고, 표의 0.599와 같아요. 나머지 $\sigma^2$도 지수만 바꿔 같은 식에 넣어요.</p>
+    <div class="calc-box">
+      <p class="calc-label">계산 확인</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">$\sigma^2$</th><th scope="col">$(d_2^2-d_1^2)/(2\sigma^2)$</th><th scope="col">$e^{-(d_2^2-d_1^2)/(2\sigma^2)}$</th><th scope="col">$r_1$</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>0.4</td><td>0.6703</td><td>$1/1.6703\approx0.5987$</td></tr>
+            <tr><td>0.25</td><td>1.6</td><td>0.2019</td><td>$1/1.2019\approx0.8320$</td></tr>
+            <tr><td>0.1</td><td>4</td><td>0.0183</td><td>$1/1.0183\approx0.9820$</td></tr>
+            <tr><td>0.01</td><td>40</td><td>$\approx4.2\times10^{-18}$</td><td>$\approx1.0000$</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p>식에서 $\sigma^2$가 들어가는 곳은 지수의 분모 하나뿐이에요. $x$가 성분 1에 더 가까우면 $d_2^2-d_1^2\gt0$이라, $\sigma^2\to0$일 때 지수 $-(d_2^2-d_1^2)/(2\sigma^2)$가 $-\infty$로 가고 $e^{\cdots}\to0$이 되어 $r_1\to1$, $r_2\to0$이에요. 반대로 성분 2가 더 가까우면 지수가 $+\infty$로 가서 $r_1\to0$이에요. 두 거리가 정확히 같은 점($x=1$)에서는 지수가 0이고 두 혼합비도 같아서, $\sigma^2$와 상관없이 $r_1=1/2$에 머물러요.</p>
+    <p>성분이 $K$개이고 관측이 $D$차원 벡터 $\mathbf{x}_n$이어도 같아요. $\boldsymbol{\Sigma}_k=\sigma^2\mathbf{I}$이면 역행렬이 $\mathbf{I}/\sigma^2$이라 지수 안 이차식이 $\lVert \mathbf{x}_n-\boldsymbol{\mu}_k\rVert^2/\sigma^2$이 되고, 행렬식에서 나오는 앞 상수 $(2\pi\sigma^2)^{-D/2}$는 모든 성분에서 같아 약분돼요(반복 번호 $(t)$는 생략해요).</p>
+    $$r_{nk}=\frac{\pi_k\,e^{-\lVert \mathbf{x}_n-\boldsymbol{\mu}_k\rVert^2/(2\sigma^2)}}{\sum_{j=1}^{K}\pi_j\,e^{-\lVert \mathbf{x}_n-\boldsymbol{\mu}_j\rVert^2/(2\sigma^2)}}$$
+    <p>평균이 가장 가까운 성분이 하나뿐이라 하고 그 성분을 $k^\ast$라 해요. 분자·분모를 그 항으로 나누면, 다른 성분 $j$의 항마다 $(\pi_j/\pi_{k^\ast})\,e^{-(\lVert \mathbf{x}_n-\boldsymbol{\mu}_j\rVert^2-\lVert \mathbf{x}_n-\boldsymbol{\mu}_{k^\ast}\rVert^2)/(2\sigma^2)}$가 남아요. 괄호 안 거리 차이가 양수라 $\sigma^2\to0$이면 지수 부분이 0으로 가요. 모든 혼합비가 $\pi_k\gt0$이면 혼합비의 비 $\pi_j/\pi_{k^\ast}$는 고정된 유한 상수라서 0으로 가는 지수를 막지 못해요. 그래서 이 두 조건에서는 혼합비 크기와 상관없이 $r_{nk^\ast}\to1$, 나머지 $r_{nk}\to0$이에요. 가장 가까운 평균과 거리가 같은 성분이 여럿이면(그 모음을 $S$라 해요), 그 성분들의 지수 항은 같은 속도로 줄어 서로 약분되므로 극한은 혼합비의 비로 정해져요. $k\in S$이면 ${r_{nk}\to\pi_k/\sum_{j\in S}\pi_j}$이고, $S$ 밖의 성분은 0으로 가요.</p>
+    <p>이렇게 책임도가 0과 1로 굳어 한 점을 한 성분에 통째로 주는 배정을 <b>하드</b> 배정(hard assignment)이라고 해요. 책임도가 0과 1뿐이면 M-step도 단순해져요. <a href="#s1-gmm-q">GMM의 Q에서 책임도가 나오고 갱신식이 분리돼요</a>의 평균 갱신식 ${\boldsymbol{\mu}_k=\frac{1}{N_k}\sum_n r_{nk}\mathbf{x}_n}$에서 $r_{nk}$가 1인 점만 더해지므로, $N_k$는 성분 $k$에 배정된 점의 개수이고 $\boldsymbol{\mu}_k$는 그 점들의 산술평균이에요. 공분산은 $\sigma^2\mathbf{I}$로 정해 둔 극한이라 갱신하지 않아요. 결국 '각 점을 가장 가까운 평균에 배정한다'(E-step)와 '배정된 점들의 평균으로 중심을 옮긴다'(M-step)를 되풀이하는데, 이것이 K-means예요.</p>
+    <p>보조 예시의 $\sigma^2=1$에서 GMM은 $x=0.8$을 성분 1에 0.599, 성분 2에 0.401로 나눠 결정을 미뤄요. 이런 배정을 소프트 클러스터링(soft clustering)이라고 해요. K-means는 같은 점을 성분 1에 1, 성분 2에 0으로 정하는 하드 클러스터링(hard clustering)이에요.</p>
+    <p>지금까지 본 Q 함수, ELBO, 단조 증가, 일반 EM과 K-means를 식 몇 개로 다시 만들려면 무엇을 기억하면 될까요? <a href="#s4-cheatsheet">Q 함수 · ELBO · 단조 증가 한눈에</a>에서 한 표로 모아요.</p>
+  </div>
+  <div class="layer prof">
+    <span class="layer-title">교수님 말씀</span>
+    <blockquote>“K-means 알고리즘이 우리 스페셜 케이스로 시그마가 0인 케이스거든요.”</blockquote>
+    <p>점이 어느 봉우리에 속할지를 K-means는 아예 결정해 버린다는 뜻으로 설명하셨어요. 공분산을 $\sigma^2\mathbf{I}$로 두고 $\sigma^2$를 0으로 보내는 극한이에요.</p>
+    <blockquote>“그 점 하나가 30%는 이쪽, 50%는 이쪽, 20%는 이쪽”</blockquote>
+    <p>GMM은 한 점을 여러 성분에 이렇게 나눠 준다는 예예요.</p>
+    <blockquote>“K-means 알고리즘은 하드 클러스터링이고, GMM 알고리즘은 소프트 클러스터링이에요. 결정을 유보하기 때문에.”</blockquote>
+  </div>
+  <div class="sum" hidden>
+    <p class="sum-lead">평균 0과 2, 관측 $x=0.8$에서 $\sigma^2$를 1, 0.25, 0.1, 0.01로 줄이면 $r_1$이 0.599, 0.832, 0.982, 1.000으로 굳어요. 모든 성분이 같은 $\boldsymbol{\Sigma}_k=\sigma^2\mathbf{I}$에서 $\sigma^2\to0$이면, 평균이 가장 가까운 성분이 하나뿐이고 모든 $\pi_k\gt0$일 때 혼합비 크기와 상관없이 그 성분에 하드 배정되고, 배정된 점들의 평균으로 중심을 옮기는 K-means가 돼요. 거리가 같은 성분이 여럿이면 극한은 그 성분들의 혼합비 비로 나뉘어요.</p>
+    <p class="panel-label">용어</p>
+    <dl class="terms">
+      <dt>소프트 클러스터링(soft clustering)</dt><dd>책임도로 한 점을 여러 성분에 나눠 배정해요. GMM의 방식이에요.</dd>
+      <dt>하드 클러스터링(hard clustering)</dt><dd>한 점을 한 성분에 통째로(1, 나머지 0) 배정해요. K-means의 방식이에요.</dd>
+      <dt>K-means</dt><dd>가장 가까운 평균에 배정하기와 배정된 점들의 평균으로 중심 옮기기를 되풀이해요.</dd>
+    </dl>
+    <p class="panel-label">핵심 식</p>
+    <ul class="eq-list">
+      <li><span class="eq-name">두 성분, 같은 분산·혼합비의 책임도</span>$$r_1=\frac{1}{1+e^{-(d_2^2-d_1^2)/(2\sigma^2)}}$$</li>
+      <li><span class="eq-name">같은 $\sigma^2\mathbf{I}$의 책임도</span>$$r_{nk}=\frac{\pi_k\,e^{-\lVert \mathbf{x}_n-\boldsymbol{\mu}_k\rVert^2/(2\sigma^2)}}{\sum_{j=1}^{K}\pi_j\,e^{-\lVert \mathbf{x}_n-\boldsymbol{\mu}_j\rVert^2/(2\sigma^2)}}$$</li>
+    </ul>
+  </div>
+</article>
+    </section>
+    <section id="s4"><h2>4. 요약 · 예고</h2>
+<article class="topic" id="s4-cheatsheet">
+  <h3>Q 함수 · ELBO · 단조 증가 한눈에</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>상황</th><th>쓸 식</th><th>확인할 조건</th></tr></thead>
+    <tbody>
+      <tr><td>E-step에서 만들 목표(Q 함수)</td><td>$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\mathbb{E}_{z\mid x,\boldsymbol{\theta}^{(t)}}\bigl[\log p(x,z\mid\boldsymbol{\theta})\bigr]$<br>$=\sum_{z}p(z\mid x,\boldsymbol{\theta}^{(t)})\log p(x,z\mid\boldsymbol{\theta})$</td><td>$\boldsymbol{\theta}^{(t)}$는 사후분포를 계산하는 데만 쓰는 고정된 숫자이고, $\boldsymbol{\theta}$는 M-step에서 최적화할 자유 변수예요. $z$가 연속이면 합 대신 적분을 써요.</td></tr>
+      <tr><td>GMM의 Q(책임도 가중합)</td><td>$r_{nk}^{(t)}=\dfrac{\pi_k^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_k^{(t)},\boldsymbol{\Sigma}_k^{(t)})}{\sum_{j}\pi_j^{(t)}\mathcal{N}(x_n\mid\boldsymbol{\mu}_j^{(t)},\boldsymbol{\Sigma}_j^{(t)})}$<br>$Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}^{(t)}\log\bigl(\pi_k\,\mathcal{N}(x_n\mid\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\bigr)$</td><td>책임도는 $z_n$의 사후분포 $p(z_n=k\mid x_n,\boldsymbol{\theta}^{(t)})$이고 숫자로 고정돼요. 책임도 공식과 아래 분리는 성분이 유한 개인 혼합이면 성립해요. 합이 로그 밖에 있어서 $\log\pi_k$ 묶음과 $\log\mathcal{N}$ 묶음이 서로 다른 파라미터에만 의존해요.</td></tr>
+      <tr><td>M-step 갱신식</td><td>$N_k=\sum_{n=1}^{N}r_{nk}^{(t)}$<br>$\boldsymbol{\mu}_k^{(t+1)}=\dfrac{1}{N_k}\sum_{n=1}^{N}r_{nk}^{(t)}x_n$<br>$\boldsymbol{\Sigma}_k^{(t+1)}=\dfrac{1}{N_k}\sum_{n=1}^{N}r_{nk}^{(t)}(x_n-\boldsymbol{\mu}_k^{(t+1)})(x_n-\boldsymbol{\mu}_k^{(t+1)})^\top$<br>$\pi_k^{(t+1)}=N_k/N$</td><td>Q를 최대화한 결과이고, 1116에서 구한 갱신식과 같아요. $\boldsymbol{\mu}_k$, $\boldsymbol{\Sigma}_k$가 이렇게 닫힌 해로 나오는 것은 성분이 가우시안이기 때문이에요. $\boldsymbol{\Sigma}_k$에는 방금 구한 새 평균을 넣어요. 혼합비는 합이 1이라는 제약 아래에서 최대화해요.</td></tr>
+      <tr><td>ELBO와 KL의 항등식</td><td>$\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}(q,\boldsymbol{\theta})+D_{\mathrm{KL}}\bigl(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\bigr)$<br>$\mathrm{ELBO}(q,\boldsymbol{\theta})=\mathbb{E}_{q}\Bigl[\log\dfrac{p(x,z\mid\boldsymbol{\theta})}{q(z)}\Bigr]$<br>$D_{\mathrm{KL}}\bigl(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\bigr)=\mathbb{E}_{q}\Bigl[\log\dfrac{q(z)}{p(z\mid x,\boldsymbol{\theta})}\Bigr]$</td><td>$q(z)$는 $z$에 대한 아무 분포(음이 아니고 합이 1)예요. 근사가 아닌 정확한 등식이라 어떤 $q$, 어떤 $\boldsymbol{\theta}$에서도 성립해요.</td></tr>
+      <tr><td>KL이 음이 아님과 등호 조건</td><td>$D_{\mathrm{KL}}\bigl(q(z)\,\|\,p(z\mid x,\boldsymbol{\theta})\bigr)\ge 0$<br>등호 $\iff$ 모든 $z$에서 $q(z)=p(z\mid x,\boldsymbol{\theta})$</td><td>그래서 ELBO는 로그우도의 하한이고, $q$가 사후분포일 때만 로그우도와 같아져요. 증명은 $\ln u\le u-1$($u\gt 0$, 등호는 $u=1$)을 $u=p(z\mid x,\boldsymbol{\theta})/q(z)$에 적용해요. 이 증명은 <a href="#s2-kl-gap">q를 바꾸면 ELBO와 KL이 어떻게 나뉘나요?</a>의 보충에 있어요.</td></tr>
+      <tr><td>한 번 반복의 부등식 사슬</td><td>$q^{(t)}(z)=p(z\mid x,\boldsymbol{\theta}^{(t)})$<br>$\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta})=Q(\boldsymbol{\theta}\mid\boldsymbol{\theta}^{(t)})-\mathbb{E}_{q^{(t)}}\bigl[\log q^{(t)}(z)\bigr]$<br>$\log p(x\mid\boldsymbol{\theta}^{(t)})=\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t)})$<br>$\le\mathrm{ELBO}(q^{(t)},\boldsymbol{\theta}^{(t+1)})$<br>$\le\log p(x\mid\boldsymbol{\theta}^{(t+1)})$</td><td>등호는 E-step에서 KL이 0이 되기 때문이에요. 첫 부등호는 M-step이 Q를 최대화하고, 빼는 항이 $\boldsymbol{\theta}$와 무관하기 때문이에요. 둘째 부등호는 KL이 음이 아니기 때문이에요. 로그우도가 줄지 않는다는 것만 보장되고, 전역 최대(MLE) 보장은 없어요. 로그우도가 볼록하지 않아 국소 최댓값에서 멈출 수 있어요.</td></tr>
+      <tr><td>주 예시 숫자(설명을 위해 만든 예)</td><td>$x_1=0$, $x_2\approx1.36$, 성분 $\mathcal{N}(x\mid0,1)$, $\mathcal{N}(x\mid0,4)$<br>$r_{1k}^{(t)}=(2/3,\,1/3)$, $r_{2k}^{(t)}=(1/2,\,1/2)$, $N_1=7/6$, $N_2=5/6$<br>$\pi^{(t)}=(1/2,\,1/2)\to\pi^{(t+1)}=(7/12,\,5/12)$<br>$x_1$, $q=1/2$: $-1.2655+0.0589=-1.2066=\log p(x_1\mid\boldsymbol{\theta}^{(t)})$<br>로그우도 $-3.0498\to-2.9957$, 증가 $\log(19/18)\approx0.054$</td><td>평균·분산은 고정하고 혼합비만 갱신해요. $x_2$에서는 두 성분 밀도가 같아 그 항이 혼합비와 무관하므로, 증가분은 모두 $x_1$ 항에서 나와요. 증가분 중 ELBO가 오른 몫은 약 $0.0279$이고, 나머지 약 $0.0262$는 새 $\boldsymbol{\theta}^{(t+1)}$에서의 KL이에요.</td></tr>
+      <tr><td>K-means 극한</td><td>$\boldsymbol{\Sigma}_k=\sigma^2\mathbf{I}$, $\sigma^2\to0$<br>$\Rightarrow\ r_{nk}\in\{0,1\}$</td><td>모든 성분이 같은 구형 공분산을 쓰고 분산을 0으로 보낼 때, 가장 가까운 평균이 하나뿐이고 모든 $\pi_k\gt 0$이면 책임도가 그 평균 하나에 1을 주는 하드 배정이 돼요. 이 배정과 평균 갱신을 번갈아 하면 K-means예요. 보조 예시(평균 0과 2, $x=0.8$)에서 $r_1$은 $\sigma^2=1,\,0.25,\,0.1,\,0.01$일 때 $0.599\to0.832\to0.982\to1.000$이에요.</td></tr>
+    </tbody>
+  </table></div>
+  <p>표의 위 세 줄은 한 번 반복에서 계산할 절차이고, 가운데 세 줄(항등식, KL이 음이 아님, 부등식 사슬)은 그 절차가 관측 로그우도를 줄이지 않는 이유예요. 복원할 때는 $\log p(x\mid\boldsymbol{\theta})=\mathrm{ELBO}+D_{\mathrm{KL}}$ 하나에서 출발해 E-step은 KL을 0으로, M-step은 ELBO를 위로 올린다고 기억하면 사슬을 다시 쓸 수 있어요.</p>
+  <p>이 사슬은 $z$의 사후분포를 계산할 수 있는 잠재변수 모델이면 GMM이 아니어도 그대로 쓰여요. 그러면 다음 수업은 어디로 넘어갈까요?</p>
+</article>
+<article class="topic" id="s4-next">
+  <h3>다음 수업에서 이어질 내용</h3>
+  <ul>
+    <li>이번 수업으로 EM과 GMM을 마무리했어요. 다음 주에는 SVM(서포트 벡터 머신)을 배워요.</li>
+    <li>밀도추정에는 분포의 모양을 정해 두지 않는 비모수 방법도 있어요. 히스토그램 추정과 커널 밀도추정(KDE)은 이름만 소개됐고, 자세한 내용은 나중으로 미뤘어요.</li>
+    <li>공지: 시험 범위는 12월 2일 수업까지예요.</li>
+  </ul>
+</article>
+<article class="topic" id="s4-links">
+  <h3>확인문제와 관련 자료</h3>
+  <ul>
+    <li><a href="확인문제_1125_EM_ELBO.html">1125 확인문제</a></li>
+    <li><a href="../1118/정리노트_1118_Latent_Variable_EM.html#s2-complete-data">1118 정리노트 · 완전 데이터 로그우도</a></li>
+    <li><a href="../1116/정리노트_1116_EM_Algorithm.html#s1-em-steps">1116 정리노트 · E-step과 M-step</a></li>
+    <li><a href="../1116/인터렉티브_01_로그우도_지형과_EM_발자국.html">1116 인터렉티브 · 로그우도 지형과 EM 발자국</a></li>
+    <li><a href="../../강의노트/추가%20강의/eli5_lecture10_statistical_inference_part1.html">추가 강의 · 통계적 추론 1</a></li>
+  </ul>
+  <p>이번 범위는 교과서에서 새로 낼 문제가 없어 복습문제를 만들지 않았어요.</p>
+</article>
+    </section>
+  </main>
+  <footer>출처: 정방철 교수님 강의자료(Lecture08) · 수업 녹음 전사(1125) · Deisenroth, Faisal, Ong, <i>Mathematics for Machine Learning</i> (2020) 11장.</footer>
+    </div>
+    <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
+      <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
+      <div class="panel-inner">
+        <div class="panel-head">
+          <h2 id="panel-right-title">페이지 요약</h2>
+          <button class="text-btn panel-close" type="button" data-panel-close>닫기</button>
+        </div>
+        <p class="panel-empty" id="sum-empty">페이지를 넘기면 그 페이지의 핵심 식과 용어가 여기에 나옵니다.</p>
+        <div class="sums" id="sum-for"></div>
+      </div>
+    </aside>
+  </div>
+  <div class="scrim" id="panel-scrim" aria-hidden="true"></div>
+  <nav class="pager" aria-label="화면 이동">
+    <div class="pager-inner">
+      <button class="btn btn-ghost" id="pager-prev" type="button">이전</button>
+      <span class="pager-count" id="pager-count"></span>
+      <button class="btn btn-primary" id="pager-next" type="button">시작하기</button>
+    </div>
+  </nav>
+  <p class="sr-only" id="pager-status" aria-live="polite"></p>
+  <script id="widget-elbo-gap-ui">(function () {
+function elboGapModel() {
+  var a = 1 / (2 * Math.sqrt(2 * Math.PI));   // phi_12 = N(0|0,4); pi_1*phi_11 = a
+  var j1 = a, j2 = a / 2;                      // p(x1, z1=k | theta^(t))
+  var logp = Math.log(j1 + j2);                // log p(x1 | theta^(t)) ~ -1.2066
+  var post = j1 / (j1 + j2);                   // p(z1=1 | x1, theta^(t)) = 2/3
+  function elbo(q) { return q * Math.log(j1 / q) + (1 - q) * Math.log(j2 / (1 - q)); }
+  function kl(q) { return q * Math.log(q / post) + (1 - q) * Math.log((1 - q) / (1 - post)); }
+  var L = 64, R = 540, T = 20, B = 250, YMIN = -2.3, YMAX = -1.1;
+  function X(q) { return L + (R - L) * q; }
+  function Y(v) { return B - (B - T) * (v - YMIN) / (YMAX - YMIN); }
+  function f(n) { return (Math.round(n * 10) / 10).toFixed(1); }
+  function m(n) { return n.toFixed(4).replace('-', '−'); }
+  function svgInner(q) {
+    var s = [];
+    s.push('<line class="axis" x1="' + L + '" y1="' + B + '" x2="' + R + '" y2="' + B + '"/>');
+    s.push('<line class="axis" x1="' + L + '" y1="' + T + '" x2="' + L + '" y2="' + B + '"/>');
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (t) {
+      s.push('<text class="tick" x="' + f(X(t)) + '" y="' + (B + 16) + '" text-anchor="middle">' + t + '</text>');
+    });
+    [-2.2, -1.8, -1.4].forEach(function (t) {
+      s.push('<text class="tick" x="' + (L - 6) + '" y="' + f(Y(t) + 4) + '" text-anchor="end">' + t.toFixed(1).replace('-', '−') + '</text>');
+    });
+    s.push('<text class="fig-muted" x="' + ((L + R) / 2) + '" y="292" text-anchor="middle">q(z₁=1)</text>');
+    // posterior mark at q = 2/3
+    s.push('<line class="plot-prior" x1="' + f(X(post)) + '" y1="' + T + '" x2="' + f(X(post)) + '" y2="' + B + '"/>');
+    s.push('<text class="fig-muted" x="' + f(X(post) + 6) + '" y="' + (B - 8) + '">q=2/3</text>');
+    // log p horizontal line
+    s.push('<line class="plot-truth" x1="' + L + '" y1="' + f(Y(logp)) + '" x2="' + R + '" y2="' + f(Y(logp)) + '"/>');
+    s.push('<text class="fig-muted" x="' + (L + 8) + '" y="' + f(Y(logp) - 8) + '">log p(x₁|θ⁽ᵗ⁾) ≈ −1.2066</text>');
+    // ELBO curve
+    var d = '';
+    for (var i = 2; i <= 98; i++) {
+      var qq = i / 100;
+      d += (i === 2 ? 'M' : 'L') + f(X(qq)) + ' ' + f(Y(elbo(qq))) + ' ';
+    }
+    s.push('<path class="plot-fit" d="' + d.trim() + '"/>');
+    s.push('<text class="fig-muted" x="' + f(X(0.12)) + '" y="' + f(Y(elbo(0.12)) + 22) + '">ELBO(q)</text>');
+    // current q: KL gap + point
+    var e = elbo(q), k = kl(q);
+    s.push('<line class="plot-post" x1="' + f(X(q)) + '" y1="' + f(Y(e)) + '" x2="' + f(X(q)) + '" y2="' + f(Y(logp)) + '"/>');
+    s.push('<circle class="fig-dot" cx="' + f(X(q)) + '" cy="' + f(Y(e)) + '" r="5"/>');
+    var tx = q > 0.8 ? X(q) - 10 : X(q) + 10, anchor = q > 0.8 ? 'end' : 'start';
+    var ty = Y(e) + 20 > B - 6 ? Y(e) - 10 : Y(e) + 20;
+    s.push('<text class="fig-text" x="' + f(tx) + '" y="' + f(ty) + '" text-anchor="' + anchor + '">KL = ' + m(k) + '</text>');
+    return s.join('');
+  }
+  return { logp: logp, post: post, elbo: elbo, kl: kl, svgInner: svgInner, fmt: m };
+}
+  var M = elboGapModel();
+  var slider = document.getElementById('elbo-gap-q');
+  var plot = document.getElementById('elbo-gap-plot');
+  if (!slider || !plot) return;
+  var qv = document.getElementById('elbo-gap-q-val');
+  var eo = document.getElementById('elbo-gap-elbo');
+  var ko = document.getElementById('elbo-gap-kl');
+  var so = document.getElementById('elbo-gap-out');
+  function update() {
+    var q = parseFloat(slider.value);
+    var e = M.elbo(q), k = M.kl(q);
+    plot.innerHTML = M.svgInner(q);
+    if (qv) qv.textContent = q.toFixed(2);
+    if (eo) eo.textContent = M.fmt(e);
+    if (ko) ko.textContent = M.fmt(k);
+    if (so) so.textContent = M.fmt(e + k);
+  }
+  slider.addEventListener('input', update);
+  update();
+})();</script>
+  <script id="theme-ui">
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const sysDark = matchMedia('(prefers-color-scheme: dark)');
+      const KEY = 'od-theme';
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : sysDark.matches;
+      function label() {
+        const next = isDark() ? '라이트 모드로 전환' : '다크 모드로 전환';
+        btn.setAttribute('aria-label', next);
+        btn.title = next;
+      }
+      btn.addEventListener('click', () => {
+        const t = isDark() ? 'light' : 'dark';
+        // 시스템 설정과 같아지면 저장을 지워 다시 시스템을 따른다
+        if ((t === 'dark') === sysDark.matches) { delete root.dataset.theme; try { localStorage.removeItem(KEY); } catch (e) {} }
+        else { root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+        label();
+      });
+      sysDark.addEventListener('change', label);
+      window.addEventListener('storage', (e) => {
+        if (e.key !== KEY) return;
+        if (e.newValue === 'light' || e.newValue === 'dark') root.dataset.theme = e.newValue; else delete root.dataset.theme;
+        label();
+      });
+      label();
+    })();
+  </script>
+  <script id="panels-ui">
+    (function () {
+      const body = document.body;
+      const layout = document.querySelector('.layout');
+      const kind = body.dataset.panels;
+      const panels = { left: document.getElementById('panel-left'), right: document.getElementById('panel-right') };
+      const toggles = { left: document.getElementById('toggle-left'), right: document.getElementById('toggle-right') };
+      const scrim = document.getElementById('panel-scrim');
+      const blockers = [document.querySelector('.topbar'), document.querySelector('.content'), document.querySelector('.pager')];
+      const wideMq = matchMedia('(min-width: 1024px)');
+      const roomyMq = matchMedia('(min-width: 1280px)');
+      const store = {
+        get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+        set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가: 이번 방문에만 유지 */ } }
+      };
+      const PREF = 'od-panels:' + kind;
+      // 팩마다 문제·토픽 id가 p1, s1-…로 겹치므로 진행 기록은 기간별로 나눈다
+      const RANGE = body.dataset.range || '';
+      const ICON_TODO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>';
+      const ICON_DONE = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 10"/></svg>';
+      let overlay = null;
+
+      // ---------- 열고 닫기 ----------
+      function docked() {
+        const pref = store.get(PREF, {});
+        return { left: pref.left ?? true, right: pref.right ?? roomyMq.matches };
+      }
+      function sync() {
+        const wide = wideMq.matches;
+        const d = docked();
+        ['left', 'right'].forEach((side) => {
+          const open = wide ? d[side] : overlay === side;
+          const p = panels[side];
+          layout.dataset[side] = open ? 'open' : 'closed';
+          p.classList.toggle('is-open', !wide && open);
+          p.inert = !open;
+          if (!wide && open) { p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); }
+          else { p.removeAttribute('role'); p.removeAttribute('aria-modal'); }
+          toggles[side].setAttribute('aria-expanded', String(open));
+        });
+        const drawer = !wide && overlay !== null;
+        scrim.classList.toggle('is-on', drawer);
+        body.classList.toggle('drawer-open', drawer);
+        blockers.forEach((el) => { el.inert = drawer; });
+      }
+      function openDrawer(side) {
+        overlay = side;
+        sync();
+        requestAnimationFrame(() => panels[side].querySelector('[data-panel-close]').focus());
+      }
+      function closeDrawer(refocus) {
+        if (overlay === null) return;
+        const side = overlay;
+        overlay = null;
+        sync();
+        if (refocus) toggles[side].focus();
+      }
+      function toggle(side) {
+        if (wideMq.matches) {
+          const d = docked();
+          d[side] = !d[side];
+          store.set(PREF, d);
+          sync();
+          if (d[side]) { const p = panels[side]; p.classList.remove('is-shown'); void p.offsetWidth; p.classList.add('is-shown'); }
+        } else if (overlay === side) closeDrawer(true);
+        else openDrawer(side);
+      }
+
+      toggles.left.addEventListener('click', () => toggle('left'));
+      toggles.right.addEventListener('click', () => toggle('right'));
+      scrim.addEventListener('click', () => closeDrawer(true));
+      document.querySelectorAll('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeDrawer(true)));
+      panels.left.addEventListener('click', (e) => { if (e.target.closest('.toc a')) closeDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay !== null) { e.preventDefault(); closeDrawer(true); } });
+
+      // ---------- 패널 너비: 기본은 화면 폭에 맞춰 자동, 경계를 끌면 직접 조절 ----------
+      const WIDTH = { left: { min: 220, max: 480, prop: '--panel-l-user' }, right: { min: 280, max: 720, prop: '--panel-r-user' } };
+      function applyWidths() {
+        const w = store.get(PREF + ':w', {});
+        ['left', 'right'].forEach((side) => {
+          if (w[side]) layout.style.setProperty(WIDTH[side].prop, w[side] + 'px');
+          else layout.style.removeProperty(WIDTH[side].prop);
+        });
+      }
+      function maxFor(side) {
+        const other = side === 'left' ? panels.right : panels.left;
+        const otherW = layout.dataset[side === 'left' ? 'right' : 'left'] === 'open' ? other.getBoundingClientRect().width : 0;
+        return Math.max(WIDTH[side].min, Math.min(WIDTH[side].max, window.innerWidth - otherW - 400));
+      }
+      function setWidth(side, px, save) {
+        const v = Math.round(Math.min(Math.max(px, WIDTH[side].min), maxFor(side)));
+        layout.style.setProperty(WIDTH[side].prop, v + 'px');
+        panels[side].querySelector('.panel-resize').setAttribute('aria-valuenow', String(v));
+        if (save) { const w = store.get(PREF + ':w', {}); w[side] = v; store.set(PREF + ':w', w); }
+      }
+      function resetWidth(side) {
+        const w = store.get(PREF + ':w', {});
+        delete w[side];
+        store.set(PREF + ':w', w);
+        layout.style.removeProperty(WIDTH[side].prop);
+      }
+      document.querySelectorAll('.panel-resize').forEach((handle) => {
+        const side = handle.dataset.side;
+        const dir = side === 'left' ? 1 : -1;
+        handle.setAttribute('aria-valuemin', String(WIDTH[side].min));
+        handle.setAttribute('aria-valuemax', String(WIDTH[side].max));
+        handle.addEventListener('pointerdown', (e) => {
+          if (!wideMq.matches || e.button !== 0) return;
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panels[side].getBoundingClientRect().width;
+          handle.setPointerCapture(e.pointerId);
+          body.classList.add('is-resizing');
+          const move = (ev) => setWidth(side, startW + dir * (ev.clientX - startX), false);
+          const up = () => {
+            handle.removeEventListener('pointermove', move);
+            handle.removeEventListener('pointerup', up);
+            handle.removeEventListener('pointercancel', up);
+            body.classList.remove('is-resizing');
+            setWidth(side, panels[side].getBoundingClientRect().width, true);
+          };
+          handle.addEventListener('pointermove', move);
+          handle.addEventListener('pointerup', up);
+          handle.addEventListener('pointercancel', up);
+        });
+        handle.addEventListener('dblclick', () => resetWidth(side));
+        handle.addEventListener('keydown', (e) => {
+          const step = e.shiftKey ? 64 : 16;
+          const cur = panels[side].getBoundingClientRect().width;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            e.stopPropagation();
+            setWidth(side, cur + (e.key === 'ArrowRight' ? step : -step) * dir, true);
+          } else if (e.key === 'Home') { e.preventDefault(); resetWidth(side); }
+        });
+      });
+      applyWidths();
+      const onMq = () => { overlay = null; sync(); };
+      wideMq.addEventListener('change', onMq);
+      roomyMq.addEventListener('change', onMq);
+
+      // ---------- 목차의 진행 표시 ----------
+      const progressN = document.getElementById('progress-n');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTotal = document.getElementById('progress-total');
+      function markToc(done, total, doneLabel) {
+        panels.left.querySelectorAll('.toc-list a').forEach((a) => {
+          const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          let mark = a.querySelector('.toc-mark');
+          if (!mark) {
+            mark = document.createElement('span');
+            mark.className = 'toc-mark';
+            mark.setAttribute('aria-hidden', 'true');
+            const state = document.createElement('span');
+            state.className = 'sr-only toc-state';
+            a.append(mark, state);
+          }
+          const isDone = done.has(id);
+          mark.classList.toggle('is-done', isDone);
+          mark.innerHTML = isDone ? ICON_DONE : ICON_TODO;
+          a.querySelector('.toc-state').textContent = isDone ? ' (' + doneLabel + ')' : '';
+        });
+        progressN.textContent = String(done.size);
+        progressTotal.textContent = String(total);
+        progressBar.style.transform = 'scaleX(' + (total ? done.size / total : 0) + ')';
+      }
+      function revealCurrent() {
+        const link = panels.left.querySelector('.toc-list a[aria-current="true"]');
+        if (link && layout.dataset.left === 'open') link.scrollIntoView({ block: 'nearest' });
+      }
+
+      // ---------- 복습문제: 오른쪽 = 원문 · 힌트 · 풀이 ----------
+      function setupReview() {
+        const KEY = 'od-review-solved:' + RANGE;
+        const cards = Array.from(document.querySelectorAll('main article.card'));
+        const aids = panels.right.querySelector('.aids');
+        const empty = panels.right.querySelector('.panel-empty');
+        const btn = document.getElementById('solved-btn');
+        const groups = {};
+        const solved = new Set(store.get(KEY, []).filter((id) => cards.some((c) => c.id === id)));
+        cards.forEach((card) => {
+          const g = document.createElement('div');
+          g.className = 'aid';
+          g.hidden = true;
+          card.querySelectorAll(':scope > details').forEach((d) => g.appendChild(d));
+          aids.appendChild(g);
+          groups[card.id] = g;
+        });
+        let curId = null;
+        function paintBtn() {
+          const on = solved.has(curId);
+          btn.setAttribute('aria-pressed', String(on));
+          btn.innerHTML = (on ? ICON_DONE : ICON_TODO) + '<span>' + (on ? '푼 문제 · 표시 해제' : '푼 문제로 표시') + '</span>';
+        }
+        btn.addEventListener('click', () => {
+          if (!curId) return;
+          if (solved.has(curId)) solved.delete(curId); else solved.add(curId);
+          store.set(KEY, Array.from(solved));
+          paintBtn();
+          markToc(solved, cards.length, '푼 문제');
+        });
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          curId = s.matches('article.card') ? s.id : null;
+          Object.keys(groups).forEach((id) => { groups[id].hidden = id !== curId; });
+          empty.hidden = Boolean(curId);
+          btn.hidden = !curId;
+          if (curId) paintBtn();
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(solved, cards.length, '푼 문제');
+          revealCurrent();
+        });
+      }
+
+      // ---------- 정리노트: 오른쪽 = 페이지(토픽)별 요약 ----------
+      function setupNote() {
+        const KEY = 'od-note-read:' + RANGE;
+        const topics = Array.from(document.querySelectorAll('main article.topic'));
+        const read = new Set(store.get(KEY, []).filter((id) => topics.some((t) => t.id === id)));
+        // 조각의 <div class="sum" hidden> 을 오른쪽 패널로 옮긴다. 없으면 안내 문구만 보인다.
+        const box = panels.right.querySelector('.sums');
+        const sums = {};
+        topics.forEach((t) => {
+          const el = t.querySelector(':scope > .sum');
+          if (!el) return;
+          el.hidden = true;
+          box.appendChild(el);
+          sums[t.id] = el;
+        });
+        const empty = document.getElementById('sum-empty');
+        document.addEventListener('od:screen', (e) => {
+          const s = e.detail.screen;
+          const key = s.matches('article.topic') ? s.id : 'intro';
+          Object.keys(sums).forEach((id) => { sums[id].hidden = id !== key; });
+          empty.hidden = Boolean(sums[key]);
+          if (s.matches('article.topic') && !read.has(s.id)) { read.add(s.id); store.set(KEY, Array.from(read)); }
+          panels.right.querySelector('.panel-inner').scrollTop = 0;
+          markToc(read, topics.length, '읽음');
+          revealCurrent();
+        });
+      }
+
+      if (kind === 'review') setupReview();
+      if (kind === 'note') setupNote();
+      sync();
+    })();
+  </script>
+  <script id="pager-ui">
+    (function () {
+      const root = document.documentElement;
+      const main = document.querySelector('main');
+      const hero = main.querySelector('.hero');
+      const screens = [hero].concat(Array.from(main.querySelectorAll(document.body.dataset.screens)));
+      if (screens.length < 2) { root.classList.remove('js'); return; }
+      screens.forEach((s) => s.classList.add('screen'));
+
+      const last = screens.length - 1;
+      const prevBtn = document.getElementById('pager-prev');
+      const nextBtn = document.getElementById('pager-next');
+      const count = document.getElementById('pager-count');
+      const bar = document.getElementById('pager-bar');
+      const status = document.getElementById('pager-status');
+      const toc = document.querySelector('#panel-left .toc');
+      const scroller = document.querySelector('.content');
+      const titleOf = (s) => ((s.querySelector('h3') || s.querySelector('h1') || {}).textContent || '').trim();
+      let cur = -1;
+
+      // 목차: 섹션 링크 아래에 화면(토픽·카드) 목록을 붙인다
+      const tocLinks = [];
+      Array.from(toc.querySelectorAll(':scope > a')).forEach((a) => {
+        const sec = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        const group = document.createElement('div');
+        group.className = 'toc-group';
+        a.replaceWith(group);
+        group.appendChild(a);
+        if (!sec) return;
+        const list = document.createElement('ol');
+        list.className = 'toc-list';
+        screens.forEach((s, i) => {
+          if (!sec.contains(s)) return;
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + s.id;
+          link.innerHTML = '<span class="toc-title"></span>';
+          link.firstChild.textContent = titleOf(s);
+          li.appendChild(link);
+          list.appendChild(li);
+          tocLinks[i] = link;
+        });
+        group.appendChild(list);
+      });
+
+      function indexFor(hash) {
+        const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+        const el = id && document.getElementById(id);
+        if (!el || !main.contains(el)) return { i: 0 };
+        const i = screens.findIndex((s) => s.contains(el) || el.contains(s));
+        return { i: Math.max(i, 0), target: i >= 0 && screens[i].contains(el) && screens[i] !== el ? el : null };
+      }
+
+      function render(i, target) {
+        const dir = cur < 0 ? '' : i > cur ? 'enter-next' : 'enter-prev';
+        if (i !== cur) {
+          if (cur >= 0) screens[cur].classList.remove('is-current', 'enter-next', 'enter-prev');
+          main.querySelectorAll(':scope > section.is-on').forEach((sec) => sec.classList.remove('is-on'));
+          const s = screens[i];
+          const sec = s.closest('section');
+          if (sec) sec.classList.add('is-on');
+          s.classList.add('is-current');
+          if (dir) { s.classList.remove('enter-next', 'enter-prev'); void s.offsetWidth; s.classList.add(dir); }
+          cur = i;
+          document.body.classList.toggle('at-end', i === last);
+          prevBtn.disabled = i === 0;
+          nextBtn.textContent = i === 0 ? '시작하기' : i === last ? '처음으로' : '다음';
+          count.textContent = i === 0 ? '' : i + ' / ' + last;
+          bar.style.transform = 'scaleX(' + (i / last) + ')';
+          status.textContent = i === 0 ? titleOf(s) : i + ' / ' + last + ', ' + titleOf(s);
+          tocLinks.forEach((link, k) => link && link.setAttribute('aria-current', String(k === i)));
+          document.dispatchEvent(new CustomEvent('od:screen', { detail: { index: i, screen: s } }));
+        }
+        if (target) target.scrollIntoView({ block: 'start' });
+        else scroller.scrollTo(0, 0);
+      }
+
+      function go(i) {
+        i = Math.min(Math.max(i, 0), last);
+        if (i === cur) return;
+        const url = i === 0 ? location.pathname + location.search : '#' + screens[i].id;
+        history.pushState(null, '', url);
+        render(i);
+      }
+
+      prevBtn.addEventListener('click', () => go(cur - 1));
+      nextBtn.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+      const fromUrl = () => { const r = indexFor(location.hash); render(r.i, r.target); };
+      window.addEventListener('hashchange', fromUrl);
+      window.addEventListener('popstate', fromUrl);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || document.body.classList.contains('drawer-open')) return;
+        if (e.target.closest('input, select, textarea, [contenteditable="true"]')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      });
+
+      // 좌우로 밀어서 넘기기 (가로로 스크롤되는 영역은 제외)
+      let sx = 0, sy = 0, skip = true;
+      main.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        sx = t.clientX; sy = t.clientY;
+        skip = e.touches.length > 1 || Boolean(e.target.closest('.widget, .katex-display, .table-wrap, svg, input, details'));
+      }, { passive: true });
+      main.addEventListener('touchend', (e) => {
+        if (skip) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      fromUrl();
+    })();
+  </script>
+  <script id="note-stage-navigation">
+    (() => {
+      const scroller = document.querySelector('.content');
+      const topics = Array.from(document.querySelectorAll('article.topic')).filter(t => t.querySelector('.note-stage-nav'));
+      if (!scroller || !topics.length) return;
+      let pending = false;
+      function paint() {
+        pending = false;
+        topics.forEach(topic => {
+          if (!topic.getClientRects().length) return;
+          const nav = topic.querySelector('.note-stage-nav');
+          const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+          const boundary = nav.getBoundingClientRect().bottom + 48;
+          let current = 0;
+          links.forEach((link, i) => {
+            const heading = document.getElementById(link.hash.slice(1));
+            if (heading && heading.getBoundingClientRect().top <= boundary) current = i;
+          });
+          // 짧은 마지막 단계는 제목이 기준선에 닿기 전에 스크롤이 끝날 수 있다.
+          if (scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= 1) current = links.length - 1;
+          const changed = links[current] && links[current].getAttribute('aria-current') !== 'step';
+          links.forEach((link, i) => {
+            if (i === current) link.setAttribute('aria-current', 'step');
+            else link.removeAttribute('aria-current');
+          });
+          if (changed) {
+            const bounds = nav.getBoundingClientRect();
+            const active = links[current].getBoundingClientRect();
+            if (active.right > bounds.right) nav.scrollLeft += active.right - bounds.right + 8;
+            else if (active.left < bounds.left) nav.scrollLeft += active.left - bounds.left - 8;
+          }
+        });
+      }
+      function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+      scroller.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      document.addEventListener('od:screen', schedule);
+      window.addEventListener('hashchange', schedule);
+      window.addEventListener('load', schedule);
+      schedule();
+    })();
+  </script>
+  <script id="deriv-fit">
+    (() => {
+      // 식이 주석 칸 옆에 다 들어가지 않으면 그 줄만 주석을 식 아래로 내린다.
+      function fit(list) {
+        const rows = Array.from(list.children);
+        rows.forEach(li => li.classList.remove('is-wide'));
+        const wide = rows.map(li => {
+          const k = li.querySelector('.katex-display');
+          return Boolean(k) && k.scrollWidth > k.clientWidth + 1;
+        });
+        rows.forEach((li, i) => li.classList.toggle('is-wide', wide[i]));
+      }
+      function start() {
+        const lists = Array.from(document.querySelectorAll('ol.deriv'));
+        if (!lists.length) return;
+        if (!('ResizeObserver' in window)) { lists.forEach(fit); return; }
+        const widths = new WeakMap();
+        const ro = new ResizeObserver(entries => entries.forEach(en => {
+          const w = Math.round(en.contentRect.width);
+          // 숨은 토픽(폭 0)은 기록을 지워, 다시 보일 때 같은 폭이어도 새로 잰다.
+          if (!w) { widths.delete(en.target); return; }
+          if (widths.get(en.target) !== w) { widths.set(en.target, w); fit(en.target); }
+        }));
+        lists.forEach(l => ro.observe(l));
+        // KaTeX 글꼴은 그 식이 처음 보일 때 늦게 불러와 폭이 바뀌므로, 글꼴 로드 뒤에도 다시 잰다.
+        const refitVisible = () => lists.forEach(l => { if (l.clientWidth) fit(l); });
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refitVisible);
+          if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refitVisible);
+        }
+      }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+    })();
+  </script>
+</body>
+</html>
