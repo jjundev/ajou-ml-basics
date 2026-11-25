@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys,os,json,shutil,re,argparse,uuid,html
 from exam_config import config_for_output
-from exam_adapter import verify_baseline,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source,resolve,explanation_resources
+from exam_adapter import tool_hashes,require_same_tools,resolve_reference,assemble_cards,read_cards,normalize_cards,parse,outer,sha,load_exam_source,resolve,explanation_resources
 from check_vector_derivatives import check_text
 from review_pdf_payload import to_workbook
 
@@ -40,8 +40,7 @@ def build_base(repo,output,run):
  from review_pdf_publish import publish_files
  repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve();run.mkdir(parents=True,exist_ok=True)
  config=config_for_output(repo,output)
- errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
- if errors:raise ValueError('; '.join(errors))
+ tools=tool_hashes(repo)
  stage=run/('base-'+uuid.uuid4().hex);stage.mkdir()
  assets=repo/'.agents/skills/ml-review-pack/assets';provenance=json.loads((assets/'pdf-template-provenance.json').read_text(encoding='utf-8'))
  for v in provenance['templates'].values():
@@ -59,6 +58,7 @@ def build_base(repo,output,run):
  mapping[output/snapshot.relative_to(stage)]=snapshot
  for p in snapshot.parent.rglob('*'):
   if p.is_file():mapping[output/p.relative_to(stage)]=p
+ require_same_tools(repo,tools)
  publish_files(mapping,run/('base-backup-'+uuid.uuid4().hex))
  from pdf_binding import binding_record
  binding=output/'.pack/evidence/korean-pdf-binding.json'
@@ -109,8 +109,7 @@ def build_explain(repo,output,run):
  from mpe_types import Artifacts
  repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve()
  config=config_for_output(repo,output)
- errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
- if errors:raise ValueError('; '.join(errors))
+ tools=tool_hashes(repo)
  pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
  fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text(encoding='utf-8') for p in pack.problems}
  errors=[f'{pid}: {e}' for pid,text in fragments.items() for e in check_text(text)]
@@ -125,13 +124,11 @@ def build_explain(repo,output,run):
  manifest=json.loads(art.manifest.read_text(encoding='utf-8'));files=tuple(sorted(p for p in stage.rglob('*') if p.is_file() and p!=art.manifest));manifest['files']={p.relative_to(stage).as_posix():sha(p) for p in files};dump(art.manifest,manifest)
  art=Artifacts(art.html,art.md,art.manifest,files+(art.manifest,));review=initial_reviews(pack,fragments);review['artifact_hashes']=artifact_hashes(art)
  bp=json.loads((output/'.pack/blueprint.json').read_text(encoding='utf-8'));refs=[resolve(repo,x['path']) for x in bp['sources']]+[(output/'.pack/blueprint.json').resolve()]
- pins=json.loads((Path(__file__).resolve().parents[1]/'references/baseline.json').read_text(encoding='utf-8'))
- refs+= [resolve(repo,rel) for rel in pins['files']]
  resources=explanation_resources(pack,fragments,repo)
  refs+=[Path(path) for path in resources]
  refs=list(dict.fromkeys(refs))
- review['references']=[{'path':str(p),'sha256':sha(p)} for p in refs];review_path=run/'review.json';dump(review_path,review)
- dump(run/'explanation-result.json',{'stage':str(stage),'html':str(art.html),'md':str(art.md),'manifest':str(art.manifest),'files':[str(p) for p in art.files],'review_path':str(review_path),'source_sha256':pack.sha256,'fragments':{k:__import__('hashlib').sha256(v.encode()).hexdigest() for k,v in fragments.items()},'resources':resources,'output':str(output)})
+ review['references']=[{'path':p.resolve().relative_to(repo).as_posix(),'sha256':sha(p)} for p in refs];review_path=run/'review.json';dump(review_path,review)
+ dump(run/'explanation-result.json',{'stage':str(stage),'html':str(art.html),'md':str(art.md),'manifest':str(art.manifest),'files':[str(p) for p in art.files],'review_path':str(review_path),'source_sha256':pack.sha256,'fragments':{k:__import__('hashlib').sha256(v.encode()).hexdigest() for k,v in fragments.items()},'resources':resources,'tools':tools,'output':str(output)})
  return {'pack':pack,'artifacts':art,'review_path':review_path}
 
 def publish_explain(repo,output,run):
@@ -141,9 +138,8 @@ def publish_explain(repo,output,run):
  import hashlib
  repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve()
  config=config_for_output(repo,output)
- errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
- if errors:raise ValueError('; '.join(errors))
  index=json.loads((run/'explanation-result.json').read_text(encoding='utf-8'))
+ require_same_tools(repo,index.get('tools',{}))
  if Path(index['output']).resolve()!=output:raise ValueError('run output mismatch')
  stage=resolve(repo,index['stage'])
  if not stage.is_relative_to(run):raise ValueError('stage outside run')
@@ -160,7 +156,7 @@ def publish_explain(repo,output,run):
  review_path=resolve(repo,index['review_path'])
  if not review_path.is_relative_to(run):raise ValueError('review outside run')
  reviews=json.loads(review_path.read_text(encoding='utf-8'))
- recorded={str(resolve(repo,x['path'])):x['sha256'] for x in reviews.get('references',[])}
+ recorded={str(resolve_reference(repo,x['path'],x['sha256'])):x['sha256'] for x in reviews.get('references',[])}
  if any(recorded.get(path)!=digest for path,digest in resources.items()):raise ValueError('image reference approval missing')
  published=publish_explanation(pack,art,fragments,reviews,output,run/('explanation-backup-'+uuid.uuid4().hex))
  dump(run/'publish-result.json',{'status':'explanation_published','files':[str(p) for p in published]})

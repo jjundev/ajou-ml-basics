@@ -26,7 +26,7 @@ description: 머신러닝기초 중간고사 예상문제·모의고사의 새 �
    회차 생략은 `--round`를 뺀다. 반환된 `out`이 OUT이다. init은 RUN 메타데이터만 만든다. 명시한 회차가 이미 있으면 충돌을 알리고 기존 파일을 보존한다. 번호를 임의로 바꾸지 않으며, 다른 회차 선택이나 기존 회차 수정은 사용자가 명시한 범위를 따른다.
 3. OUT의 `.pack/blueprint.json`, `cards/p1.html`~`p10.html`, `explanations/p1.html`~`p10.html`을 저작한다. 시작~1019 직교투영, 10대문항, 과제 변형 5+모델 분석 5를 지킨다. 소문항 수와 PDF 페이지 수는 고정하지 않는다. 영어 본문과 한국어 조건/질문의 요구가 같아야 한다. 원자료·1회차를 수정하지 않는다.
 4. 답과 가정을 별도 계산으로 확인하고, 답·해설을 보지 않은 별도 검산자가 먼저 검산한다. 실제 근거를 `.pack/evidence/`에 남긴다. 출처 미확인·수학 충돌은 보류한다. 구조 검사 결과로 수학 pass를 만들지 않는다.
-5. 같은 `--repo . --out <OUT> --run <RUN>`으로 `base`, `english`, `explain`을 순서대로 실행한다. base는 한영 HTML과 영어 original만 비운 한국어 PDF 입력 snapshot을 보존한다. 영어 PDF와 상세 해설은 stage에 생성된다. 공통 HTML/CSS/script/PDF 템플릿을 바꾸지 않는다. [baseline.json](references/baseline.json) 변경 진단은 기준을 자동 갱신해 우회하지 말고 변경 이유와 영향을 확인한다.
+5. 같은 `--repo . --out <OUT> --run <RUN>`으로 `base`, `english`, `explain`을 순서대로 실행한다. base는 한영 HTML과 영어 original만 비운 한국어 PDF 입력 snapshot을 보존한다. 영어 PDF와 상세 해설은 stage에 생성된다. 공통 HTML/CSS/script/PDF 템플릿을 바꾸지 않는다. 빌드 때 사용한 공통 코드·템플릿의 해시를 RUN에 기록하며, 게시 전에 달라졌으면 다시 빌드하고 검토한다.
 6. [검토·발행 절차](references/explanation-rules.md#검토와-발행)를 수행한다. 새 review의 네 상태는 not_run이다. 실제 원문·내용·독립 검산·브라우저 검토 후 해설을 `publish`하고, 검수한 영어 PDF를 별도로 발행한다. 전체 산출물에 `check`가 pass일 때만 완료로 보고한다.
 
 산출물은 OUT의 원본 HTML, 한국어 문제/답안 PDF, 영어 문제 PDF, 문제설명 HTML과 `.pack/`의 MD·자원·조각·근거다. 최종 HTML/PDF 링크, 실제 검증 결과, 백업 위치나 보류 이유를 전달한다. 실패 후 `base_ready`나 `explanation_published`를 전체 완료로 해석하지 않는다. 중간 단계 실패는 RUN의 failure.json·백업으로 진단하며 파일 교체는 복구 가능하지만 전체 회차를 한 번에 원자적으로 교체하지는 않는다.

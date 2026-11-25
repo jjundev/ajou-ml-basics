@@ -57,10 +57,20 @@ def test_unicode_worktree_and_paths(tmp_path, repo, baseline):
     else:
         with pytest.raises(ValueError, match='ambiguous'): resolve(tmp_path, a)
 
-def test_baseline_change_is_reported(tmp_path):
-    from exam_adapter import verify_baseline, sha
-    p = tmp_path / 'template'; p.write_text('fixed', encoding='utf-8')
-    pin = tmp_path / 'baseline.json'; pin.write_text(json.dumps({'files': {'template': sha(p)}}), encoding='utf-8')
-    assert verify_baseline(tmp_path, pin) == []
+def test_tool_change_is_reported(tmp_path):
+    from exam_adapter import tool_hashes, require_same_tools
+    for rel in ('assets/vendor/provenance.json', '.claude/skills/ml-review-pack/assets/template.html'):
+        p = tmp_path / rel; p.parent.mkdir(parents=True); p.write_text('fixed', encoding='utf-8')
+    before = tool_hashes(tmp_path)
+    require_same_tools(tmp_path, before)
     p.write_text('changed', encoding='utf-8')
-    assert 'template' in ' '.join(verify_baseline(tmp_path, pin))
+    with pytest.raises(ValueError, match='template.html'): require_same_tools(tmp_path, before)
+    with pytest.raises(ValueError, match='tools changed'): require_same_tools(tmp_path, {})
+
+@pytest.mark.parametrize('old', ['C:\\Users\\someone\\ml\\교과서\\book.md', '/Users/someone/머신러닝기초/교과서/book.md'])
+def test_references_from_another_checkout_need_the_recorded_hash(tmp_path, old):
+    from exam_adapter import resolve_reference, sha
+    p = tmp_path / '교과서/book.md'; p.parent.mkdir(); p.write_text('text', encoding='utf-8')
+    assert resolve_reference(tmp_path, old, sha(p)).samefile(p)
+    assert resolve_reference(tmp_path, '교과서/book.md', sha(p)).samefile(p)
+    with pytest.raises(ValueError, match='reference'): resolve_reference(tmp_path, old, '0' * 64)

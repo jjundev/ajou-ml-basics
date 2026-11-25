@@ -33,7 +33,7 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
         if not isinstance(references, list):
             raise ExplainError('참조 자료 hash 목록 필요')
         for reference in references:
-            path = inside(Path(reference['path']), repo)
+            path = inside(repo / reference['path'], repo)
             if not path.is_file() or sha256(path) != reference['sha256']:
                 raise ExplainError('참조 자료 변경: ' + str(path))
         if not verified_references(references,repo,repo)[1]:
@@ -56,7 +56,9 @@ def publish_explanation(pack, artifacts, fragments, reviews, destination, backup
             mapping[dst] = src
         # Report is deliberately outside the reviewed hash set (avoids self-hashing).
         report = stage_root / data_name / 'validation.json'
-        dump(report, reviews)
+        # Committed records must not depend on where this checkout lives.
+        portable = [{**r, 'path': inside(repo / r['path'], repo).resolve().relative_to(repo.resolve()).as_posix()} for r in references]
+        dump(report, {**reviews, 'references': portable})
         mapping[inside(destination / report.relative_to(stage_root), repo)] = report
         publish_files(mapping, Path(backup_dir))
         return tuple(mapping)

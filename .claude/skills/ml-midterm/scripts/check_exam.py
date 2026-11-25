@@ -1,7 +1,7 @@
 """Validate authored inputs, provenance, review gates and final delivery."""
 from pathlib import Path
 import json,sys,argparse
-from exam_adapter import load_exam_source,verify_baseline,sha,resolve,parse
+from exam_adapter import load_exam_source,resolve_reference,sha,resolve,parse
 from exam_config import config_for_output
 from check_vector_derivatives import check_text
 
@@ -66,7 +66,7 @@ def check_file_hashes(output,files,repo):
  return errors
 
 def check_delivery(output,repo):
- output=Path(output);errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
+ output=Path(output);errors=[]
  try:
   config=config_for_output(repo,output)
   pack=load_exam_source(output/(config.stem+'.html'),output/'.pack/blueprint.json',repo,config)
@@ -95,7 +95,12 @@ def check_delivery(output,repo):
   reviews=json.loads((output/data/'validation.json').read_text(encoding='utf-8'));fragments={p.id:(output/f'.pack/explanations/{p.id}.html').read_text(encoding='utf-8') for p in pack.problems}
   from exam_adapter import explanation_resources
   resources=explanation_resources(pack,fragments,repo)
-  recorded={str(resolve(repo,x['path'])):x['sha256'] for x in reviews.get('references',[])}
+  recorded={}
+  for ref in reviews.get('references',[]):
+   try:found=resolve_reference(repo,ref['path'],ref['sha256'])
+   except (OSError,ValueError) as e:errors.append(str(e));continue
+   recorded[str(found)]=ref['sha256']
+   if sha(found)!=ref['sha256']:errors.append('stale reference: '+ref['path'])
   if any(recorded.get(path)!=digest for path,digest in resources.items()):errors.append('stale or missing image resource approval')
   required={config.stem+'.html',stem+'.html',md_name(pack),data+'/manifest.json',data+'/validation.json',
             '.pack/blueprint.json','.pack/evidence/answer-checks.json','.pack/evidence/browser-check.json',
@@ -108,10 +113,7 @@ def check_delivery(output,repo):
   errors+=['delivery missing: '+name for name in sorted(required-set(delivery['files']))]
   errors+=check_artifacts(pack,artifacts)+validate_reviews(pack,fragments,reviews)
   if reviews.get('artifact_hashes')!=artifact_hashes(artifacts):errors.append('stale artifact approval')
-  for ref in reviews.get('references',[]):
-   p=resolve(repo,ref['path'])
-   if sha(p)!=ref['sha256']:errors.append('stale reference: '+ref['path'])
-  if str((output/'.pack/blueprint.json').resolve()) not in {x['path'] for x in reviews['references']}:errors.append('blueprint not bound')
+  if str(resolve(repo,output/'.pack/blueprint.json')) not in recorded:errors.append('blueprint not bound')
   if delivery.get('logical_count')!=10 or delivery.get('subpart_count')!=sum(len(p.subparts) for p in pack.problems):errors.append('invalid delivery counts')
  except (OSError,ValueError,KeyError,TypeError) as e:errors.append(str(e))
  return errors

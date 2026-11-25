@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import asdict
 import json,re,uuid
 from exam_config import config_for_output
-from exam_adapter import sha,verify_baseline,resolve
+from exam_adapter import sha,tool_hashes,require_same_tools,resolve
 from english_source import load_english_problems,english_payload,english_digests,INSTRUCTIONS,KOREAN
 from review_pdf_layout import load_template,Layout,Typography
 from review_pdf_types import RenderReport,LayoutIssue,ReviewPdfError
@@ -78,11 +78,11 @@ def build_problems(repo,problems,stage,config):
 def build_english_pdf(repo:Path,output:Path,run:Path):
  repo=Path(repo).resolve();output=Path(output).resolve();run=Path(run).resolve()
  config=config_for_output(repo,output)
- errors=verify_baseline(repo,Path(__file__).resolve().parents[1]/'references/baseline.json')
- if errors:raise ValueError('; '.join(errors))
+ tools=tool_hashes(repo)
  source=resolve(repo,output/(config.stem+'.html'));source_hash=sha(source)
  ps=load_english_problems(source,output/'.pack/blueprint.json',repo,config)
  pdf,report=build_problems(repo,ps,run/('english-'+uuid.uuid4().hex),config)
+ require_same_tools(repo,tools)
  if sha(source)!=source_hash:raise ValueError('source changed during English build')
  report.update(status='awaiting_visual_review',source_sha256=source_hash,english_digests=english_digests(ps),pdf_sha256=sha(pdf),logical_count=len(ps),subpart_count=sum(len(p.card.id) and len(__import__('mpe_source').subparts(p.ask_html,'')) for p in ps))
  path=pdf.parent/'english-pdf-validation.json';path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

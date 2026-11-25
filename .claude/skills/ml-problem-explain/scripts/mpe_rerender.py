@@ -126,7 +126,7 @@ def verified_references(references, old_repo, repo):
     for ref in references:
         if not isinstance(ref,dict) or not isinstance(ref.get('path'),str) or not isinstance(ref.get('sha256'),str):
             return [],False
-        path=Path(ref['path'])
+        path=Path(old_repo)/ref['path']
         if path.is_relative_to(old_repo):
             path=repo/path.relative_to(old_repo)
         current=relocated(path,repo)

@@ -26,7 +26,7 @@ uv run python .claude/skills/ml-midterm/scripts/midterm_cli.py explain --repo . 
 
 ## 검토와 발행
 
-explain은 RUN/explanation-result.json의 stage HTML/MD/manifest와 review.json을 만든다. source/fragment/reference/resource/artifact hash와 현재 정책에 묶인다. 네 검토는 매번 not_run이며 이전 pass에 새 hash만 넣지 않는다. baseline 템플릿/코드 변경은 자동 승인하지 않는다.
+explain은 RUN/explanation-result.json의 stage HTML/MD/manifest와 review.json을 만든다. source/fragment/reference/resource/artifact hash와 현재 정책에 묶인다. 네 검토는 매번 not_run이며 이전 pass에 새 hash만 넣지 않는다. 빌드 후 공통 템플릿·코드가 바뀌면 게시를 거부하므로 다시 빌드하고 검토한다.
 
 source_visual/content/independent/browser와 모든 실제 소문항을 MPE verification 계약에 맞춰 검토한다. 독립 검산자는 답·해설을 보기 전에 조건·질문·그림·필요 이론만으로 계산/논증한다. 답 대조 후 불일치는 disputed로 보류한다. 구조·수식 검사만으로 수학 검토를 통과시키지 않는다. 새 출제 검산 결과는 OUT/.pack/evidence/answer-checks.json의 items에 `pN:a` 등 실제 항목을 키로 두고 status/method/conclusion/evidence를 기록한다.
 

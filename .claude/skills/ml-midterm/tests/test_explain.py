@@ -48,7 +48,7 @@ def test_build_resets_reviews_and_preserves_problem_files(repo,exam,tmp_path):
     from urllib.parse import unquote
     assert exam.stem+'.html' in unquote(text)
 
-@pytest.mark.parametrize('change',['unreviewed','source','fragment','reference','artifact','policy'])
+@pytest.mark.parametrize('change',['unreviewed','source','fragment','reference','artifact','policy','tool'])
 def test_publish_rejects_stale_or_unreviewed(repo,exam,tmp_path,change):
     from build_exam import build_explain,publish_explain
     prepare(exam); run=tmp_path/'run'; result=build_explain(repo,exam.output,run)
@@ -65,7 +65,11 @@ def test_publish_rejects_stale_or_unreviewed(repo,exam,tmp_path,change):
     if change=='policy':
         v=json.loads(result['review_path'].read_text(encoding='utf-8'));v['review_policy_version']='old'
         result['review_path'].write_text(json.dumps(v), encoding='utf-8')
-    with pytest.raises(ValueError): publish_explain(repo,exam.output,run)
+    if change=='tool':
+        index=run/'explanation-result.json';v=json.loads(index.read_text(encoding='utf-8'))
+        v['tools']['.claude/skills/ml-review-pack/assets/note-template.html']='0'*64
+        index.write_text(json.dumps(v), encoding='utf-8')
+    with pytest.raises(ValueError,match='tools changed' if change=='tool' else None): publish_explain(repo,exam.output,run)
 
 def test_publish_only_owns_explanation_files(repo,exam,tmp_path):
     from build_exam import build_explain,publish_explain
@@ -73,4 +77,6 @@ def test_publish_only_owns_explanation_files(repo,exam,tmp_path):
     result=build_explain(repo,exam.output,run);approved_test_review(result)
     published=publish_explain(repo,exam.output,run)
     assert all('문제설명' in p.name or '.pack' in p.parts for p in published)
+    saved=json.loads(next(p for p in published if p.name=='validation.json').read_text(encoding='utf-8'))
+    assert saved['references'] and all(not Path(r['path']).is_absolute() and (Path(repo)/r['path']).is_file() for r in saved['references'])
     assert all(non_owned(exam)[k]==v for k,v in before.items())
