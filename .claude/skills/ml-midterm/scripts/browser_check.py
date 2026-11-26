@@ -140,6 +140,8 @@ def run_check(path,evidence,shots):
   behaviors=['all 10 topics; six viewport-theme combinations; full English title/conditions/tasks match','summary; mobile expand/collapse; no-original hidden/fallback fixture','previous/next; keyboard Home/End/Arrows; saved original preference','left/right/float dock; keyboard move/resize; floating viewport bounds','1023→1024; print Korean and English preservation']
   browser.close()
  report={'html_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'status':'fail' if errors else 'pass','topic_ids':topic_ids,'original_topic_ids':list(expected),'tab_order':['problem','original','provenance','terms'],'original_checks':original_checks,'print_checks':print_checks,'viewports':['1280x900','1024x900','375x812'],'themes':['light','dark'],'screens':screens,'behaviors':behaviors,'errors':errors}
- evidence.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'status':report['status'],'screens':len(screens),'errors':errors},ensure_ascii=False,indent=2));return report
+ evidence.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8');print(json.dumps({'status':report['status'],'screens':len(screens),'errors':errors},ensure_ascii=False,indent=2));return report
 if __name__=='__main__':
+ for stream in (sys.stdout, sys.stderr):
+  stream.reconfigure(encoding='utf-8')
  ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('--evidence',type=Path,required=True);ap.add_argument('--shots',type=Path,required=True);a=ap.parse_args();sys.exit(run_check(a.html,a.evidence,a.shots)['status']!='pass')

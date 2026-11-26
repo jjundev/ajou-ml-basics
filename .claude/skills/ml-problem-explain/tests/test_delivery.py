@@ -25,7 +25,7 @@ def audit_delivery(source, root):
     data = folder / '.pack' / ('자료_' + name)
     if not data.is_dir():
         data = folder / ('자료_' + name)
-    manifest = json.loads((data / 'manifest.json').read_text())
+    manifest = json.loads((data / 'manifest.json').read_text(encoding='utf-8'))
     md = next((p for p in (folder / '.pack' / (name + '.md'), folder / (name + '.md')) if p.is_file()))
     historic_name = unicodedata.normalize('NFC', Path(manifest['source']).name)
     assert historic_name in (html_name(source), unicodedata.normalize('NFC', source.name))
@@ -42,7 +42,7 @@ def audit_delivery(source, root):
             content = content.replace(viewport_height, archived_height, 1)
         assert hashlib.sha256(content).hexdigest() == expected
     pdf = source_pdf(source, '문제')
-    links = [urlsplit(node.attrs['href']) for node in parse(html.read_text()).find_all(
+    links = [urlsplit(node.attrs['href']) for node in parse(html.read_text(encoding='utf-8')).find_all(
         lambda n: n.tag == 'a' and n.text().strip() == '원 문제 보기')]
     assert len(links) == len(pack.problems)
     with fitz.open(pdf) as doc:
@@ -51,7 +51,7 @@ def audit_delivery(source, root):
             page_no = int(url.fragment.removeprefix('page='))
             header = doc[page_no - 1].get_text(clip=fitz.Rect(0, 0, doc[page_no - 1].rect.width, 55))
             assert problem.id.upper() in header and problem.source in header
-    assert manifest['input_hash'] == json.loads((data / 'validation.json').read_text())['input_hash']
+    assert manifest['input_hash'] == json.loads((data / 'validation.json').read_text(encoding='utf-8'))['input_hash']
 
 
 @pytest.mark.parametrize('source', SOURCES, ids=lambda p: review_dir(p).name)

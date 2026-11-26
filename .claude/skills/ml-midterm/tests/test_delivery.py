@@ -23,11 +23,11 @@ def test_explain_target_resolution(repo,exam,baseline):
     from exam_config import resolve_exam_target
     from test_build import source_for
     source=source_for(exam)
-    explanation=exam.output/f'문제설명_{exam.range_}_{exam.slug}.html';explanation.write_text('test')
+    explanation=exam.output/f'문제설명_{exam.range_}_{exam.slug}.html';explanation.write_text('test', encoding='utf-8')
     for target in (str(source),str(explanation)):
         assert resolve_exam_target(repo,target)==exam
     assert resolve_exam_target(repo,'중간고사 1회').round_number==1
-    (exam.output/'중간고사예상_duplicate.html').write_text('')
+    (exam.output/'중간고사예상_duplicate.html').write_text('', encoding='utf-8')
     with pytest.raises(ValueError,match='ambiguous'):resolve_exam_target(repo,str(source))
     with pytest.raises(ValueError):resolve_exam_target(repo,'../outside.html')
 
@@ -56,7 +56,7 @@ def test_publication_failure_restores_existing_files(repo,exam,tmp_path,monkeypa
     import review_pdf_publish
     prepare(exam);before=non_owned(exam);run=tmp_path/'run'
     result=build_explain(repo,exam.output,run);approved_test_review(result)
-    target=exam.output/result['artifacts'].html.name;target.write_text('previous valid explanation')
+    target=exam.output/result['artifacts'].html.name;target.write_text('previous valid explanation', encoding='utf-8')
     original=review_pdf_publish._replace_copy;calls=0
     def fail_second(src,dst):
         nonlocal calls
@@ -65,7 +65,7 @@ def test_publication_failure_restores_existing_files(repo,exam,tmp_path,monkeypa
         return original(src,dst)
     monkeypatch.setattr(review_pdf_publish,'_replace_copy',fail_second)
     with pytest.raises(ValueError):publish_explain(repo,exam.output,run)
-    assert target.read_text()=='previous valid explanation'
+    assert target.read_text(encoding='utf-8')=='previous valid explanation'
     assert all(non_owned(exam)[k]==v for k,v in before.items())
     assert not (run/'publish-result.json').exists()
 
@@ -73,11 +73,11 @@ def test_check_rejects_wrong_round_and_incomplete_browser(baseline,repo):
     from check_exam import validate_browser_report
     from exam_adapter import sha
     path=baseline/'문제설명_0909-1019_Midterm_Practice_01.html'
-    report=json.loads((baseline/'.pack/evidence/browser-check.json').read_text())
+    report=json.loads((baseline/'.pack/evidence/browser-check.json').read_text(encoding='utf-8'))
     assert validate_browser_report(report,path)==[]
     report['original_checks'].pop()
     assert validate_browser_report(report,path)
-    report=json.loads((baseline/'.pack/evidence/browser-check.json').read_text())
+    report=json.loads((baseline/'.pack/evidence/browser-check.json').read_text(encoding='utf-8'))
     report['html_sha256']='0'*64
     assert validate_browser_report(report,path)
 
@@ -85,6 +85,6 @@ def test_source_round_and_repository_must_match(repo,exam,tmp_path):
     from test_build import source_for
     from exam_adapter import load_exam_source
     p=source_for(exam);bp=exam.output/'.pack/blueprint.json'
-    wrong=p.with_name(p.name.replace('_02','_03'));wrong.write_text(p.read_text())
+    wrong=p.with_name(p.name.replace('_02','_03'));wrong.write_text(p.read_text(encoding='utf-8'), encoding='utf-8')
     with pytest.raises(ValueError,match='identity'):load_exam_source(wrong,bp,repo,exam)
     with pytest.raises(ValueError):load_exam_source(p,bp,tmp_path,exam)

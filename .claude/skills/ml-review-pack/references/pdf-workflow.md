@@ -5,7 +5,7 @@
 미분 수식이 있으면 `vector-derivative-convention.md`를 전체 읽고 조건·Hint·풀이·생성기 소개·원천 카드/JSON까지 관례를 확인한다. 변경된 원천에서 문제/답안 PDF를 모두 재생성하고 실제 전체 페이지에서 행벡터 식과 양변 전치 단계를 대조한다. HTML 본문만 수정했거나 수치 답만 같은 상태는 동기화 완료가 아니다. 원문 보존 분기는 해당 레퍼런스를 따른다.
 
 ```bash
-python3 "$SKILL/scripts/build_review_pdf.py" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html" --build-dir "$RUN/work/pdf" --stage-only --layout video-16x9 --report "$RUN/work/pdf-validation.json"
+uv run python "$SKILL/scripts/build_review_pdf.py" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html" --build-dir "$RUN/work/pdf" --stage-only --layout video-16x9 --report "$RUN/work/pdf-validation.json"
 ```
 
 기본 규격은 `video-16x9`: 1920×1080 CSS px, PDF 1440×810pt다. 하단 180px(마지막 135pt)은 완전히 흰 자막 여백이다. 같은 후보의 A4 fitting을 측정해 본문·풀이·display 수식·Hint 수식의 화면 배율을 보존하며, 분할 후보는 다시 측정한다. 임의 추가 축소는 하지 않는다. 명시적인 `--layout a4`는 기존 A4 가로 출력을 유지한다. `validation.json`의 layout·page_size_pt·caption_height_px·typography와 페이지 대응을 확인한다.
@@ -49,8 +49,8 @@ for href in pdf_names(m['range'], m['slug']):
 ```
 
 ```bash
-python3 "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
-python3 "$SKILL/scripts/html2md.py" "$RUN/work/stage/복습노트/<range>/<정리노트>.html" "$RUN/work/stage/복습노트/<range>/<복습문제>.html" --check
+uv run python "$SKILL/scripts/check_html.py" --manifest "$RUN/manifest.json" --note "$RUN/work/stage/복습노트/<range>/<정리노트>.html" --review "$RUN/work/stage/복습노트/<range>/<복습문제>.html"
+uv run python "$SKILL/scripts/html2md.py" "$RUN/work/stage/복습노트/<range>/<정리노트>.html" "$RUN/work/stage/복습노트/<range>/<복습문제>.html" --check
 ```
 
 마지막으로 PyMuPDF/pdftoppm으로 두 PDF의 **모든 페이지**를 PNG로 렌더링해서 검사한다. `validation.json`의 DOM 검사와 PDF 페이지 크기/텍스트 검사만으로 시각 검수를 대신하지 않는다. 기존 팩의 PDF 쌍을 같은 경로에 재발행하면 원고에 대응하는 이전 PDF와 새 페이지 목록을 대조한다. 정리노트·문제설명 HTML·MD에서 새 쪽 번호가 필요한 문제지 링크를 PDF 쌍과 함께 교체한다. 이전 쪽에 대응하는 문항을 확인할 수 없으면 PDF 첫 화면에 연결한다. DOM 자막 경계와 PDF의 마지막 135pt에 텍스트·이미지·비백색 도형이 없는지 검증하고 전체 페이지에서 표·방향 그래프·행렬·긴 증명·Hint·필기 공간을 확인한다.

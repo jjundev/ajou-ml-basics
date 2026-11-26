@@ -41,4 +41,5 @@ class TestSkillFiles(unittest.TestCase):
     def test_agents_symlink(self):
         link = REPO / ".agents" / "skills" / "ml-preview-note"
         self.assertTrue(link.is_symlink())
-        self.assertEqual(os.readlink(link), "../../.claude/skills/ml-preview-note")
+        self.assertEqual(os.readlink(link).replace(os.sep, "/"), "../../.claude/skills/ml-preview-note")
+        self.assertEqual(link.resolve(), (REPO / ".claude" / "skills" / "ml-preview-note").resolve())

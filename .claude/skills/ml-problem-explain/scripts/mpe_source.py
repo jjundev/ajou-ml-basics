@@ -27,6 +27,11 @@ def inside(path: Path, repo: Path) -> Path:
         try:
             if not path.exists():
                 path = existing_path(path)
+            # macOS: another Unicode spelling may name this very repository directory.
+            for parent in path.parents:
+                if not parent.is_symlink() and parent.exists() and parent.samefile(repo):
+                    path = repo / path.relative_to(parent)
+                    break
             path.resolve().relative_to(repo.resolve())
         except (ValueError, OSError) as exc:
             raise ExplainError(f'저장소 밖 경로: {path}') from exc

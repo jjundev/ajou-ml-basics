@@ -24,33 +24,33 @@ description: 머신러닝기초의 기존 복습문제·과제·중간고사 예
 
 ## 실행
 
-저장소 루트에서 `python --version`으로 Python 3.10 이상을 확인한다. 복습팩의 PDF 문항 링크 검사에는 PyMuPDF가 필요하다. 설치 작업 자체에서는 실제 수업 자료를 생성하지 않는다.
+저장소 루트에서 `uv sync`로 의존성을 맞추고 `uv run python --version`을 확인한다. 설치 작업 자체에서는 실제 수업 자료를 생성하지 않는다.
 
 중간고사 대상은 위 EXAM 분기의 `midterm_cli.py explain → 실제 검토 → publish → check`로 처리한다. 다음 일반 절차는 날짜·기간·과제·인자 없음·all에 그대로 적용하며, 중간고사를 자동 선택하거나 all에 추가하지 않는다.
 
 1. 새 고유 RUN을 `tmp/ml-problem-explain/<실행ID>` 아래 정하고 extract한다.
 
    ```powershell
-   python .claude/skills/ml-problem-explain/scripts/mpe_cli.py extract --repo . --target 과제1 --run tmp/ml-problem-explain/hw1-first
+   uv run python .claude/skills/ml-problem-explain/scripts/mpe_cli.py extract --repo . --target 과제1 --run tmp/ml-problem-explain/hw1-first
    ```
 
 2. 출력 대상 디렉터리의 `source.json`을 읽는다. 문항 ID·조건·질문·모든 subparts·그림·참고 풀이를 확인한다. MML·교안·과제 원 PDF·기존 정리노트의 관련 페이지를 실제로 읽는다. 원문과 그림은 PDF 페이지로 대조한다. 필요할 때만 STT를 보조로 쓴다.
 3. [저작 규칙](references/authoring.md)을 읽고 각 `explanations/pN.html`을 작성한다. `understand → recall → start → solve → verify → pitfall → retry` 순서의 일곱 구역, 모든 소문항별 solve/verify 표지, 펼친 답과 우측 요약이 필요하다. understand는 기호 직결로 주어진 것과 구할 것을 압축하고, recall은 **이 문제를 봤을 때 떠올릴 개념과 공식**을 입문형으로 설명하며 공식의 역할 주석을 붙인다. start는 첫 식·표 뼈대와 한 줄 로드맵을 적는다. solve는 각 소문항 첫 줄에 최종 답 구조·결론 요약을 먼저 밝힌 뒤, 유도·증명형은 `ol.deriv`(수식 1개 + 한 줄 근거), 수치 반복형은 `table-wrap` 표(대표 1항 예시 + 표 + 해석), 단답·판별형은 간결한 2~3줄로 분기 전개한다(본문 및 `ol.deriv` 내 `details` 금지). 우측 요약에도 핵심 개념·공식·결론을 짧게 넣는다. 설명은 에이전트가 저작한다. CLI만 실행하면 풀이가 자동 작성되지는 않는다.
 4. 별도 계산·상징 계산·증명 검토로 답을 검증한다. 스크립트와 결과·근거 자료를 `evidence/`에 남긴다. 단순 구조 검사를 수학 검증으로 기록하지 않는다. 충돌·모호함은 disputed로 보고하고 해당 팩을 보류한다.
 4b. 형제 스킬 [ml-note-audit](../ml-note-audit/SKILL.md)의 "생성 절차에서 부를 때"로 설명 감사를 한다(백필 포함). `<대상>`은 `explanations/*.html`, `<형제 자료>`는 같은 날짜의 정리노트·복습문제·인터렉티브다. 결과는 `<RUN>/audit.md`에 두고 Critical·Important는 build 전에 조각에서 고친다. 남은 항목은 보고의 미해결에 적는다.
-   미분은 변수/결과 차원·곱 순서·0으로 놓기·양변 전치와 원문 관례 처리 근거를 남긴다. 행 관례로 저작한 설명 조각·HTML·MD에 `python .claude/skills/ml-review-pack/scripts/check_vector_derivatives.py <경로...>`도 실행한다. 보존할 다른 관례 원문은 분리하여 수동 대조하고 이유를 기록한다. 기계 검사는 수학 검산을 대체하지 않는다.
+   미분은 변수/결과 차원·곱 순서·0으로 놓기·양변 전치와 원문 관례 처리 근거를 남긴다. 행 관례로 저작한 설명 조각·HTML·MD에 `uv run python .claude/skills/ml-review-pack/scripts/check_vector_derivatives.py <경로...>`도 실행한다. 보존할 다른 관례 원문은 분리하여 수동 대조하고 이유를 기록한다. 기계 검사는 수학 검산을 대체하지 않는다.
 5. build와 check를 실행한다. build는 새 stage와 `review.json`을 만들며 모든 검토 상태를 not_run으로 초기화한다. 재build 시 기존 승인도 다시 검토한다.
 
    ```powershell
-   python .claude/skills/ml-problem-explain/scripts/mpe_cli.py build --run tmp/ml-problem-explain/hw1-first
-   python .claude/skills/ml-problem-explain/scripts/mpe_cli.py check --run tmp/ml-problem-explain/hw1-first
+   uv run python .claude/skills/ml-problem-explain/scripts/mpe_cli.py build --run tmp/ml-problem-explain/hw1-first
+   uv run python .claude/skills/ml-problem-explain/scripts/mpe_cli.py check --run tmp/ml-problem-explain/hw1-first
    ```
 
 6. [검토 기록](references/verification.md)을 읽고 실제 내용·답·원문 대조 결과를 `review.json`에 기록한다. 읽은 저장소 자료의 path/hash를 references에 기록한다. 로컬 브라우저에서 1280×900/375×812, 두 테마, 목차·이전/다음·요약·수식·그림·링크를 확인한다. 콘솔·KaTeX 오류, 누락 자원, 문서 가로 넘침은 0이어야 한다. 자원은 동봉된 로컬 KaTeX/Pretendard를 쓰며 외부 요청이 없어야 한다. stage의 원 문제/개념 링크는 최종 발행 디렉터리 기준이므로 대상 원 파일의 실제 anchor도 별도로 확인한다.
 7. 승인된 review.json과 현재 해시가 일치하면 발행한다. 추가 확인 요청 없이 사용자 호출 범위에서 실행한다. 입력·참조·산출 파일 변경, 미검토, 실패는 발행을 막는다. 파일 교체 실패는 백업으로 복구한다.
 
    ```powershell
-   python .claude/skills/ml-problem-explain/scripts/mpe_cli.py publish --run tmp/ml-problem-explain/hw1-first
+   uv run python .claude/skills/ml-problem-explain/scripts/mpe_cli.py publish --run tmp/ml-problem-explain/hw1-first
    ```
 
 팩별로 독립 성공/실패를 보고한다. 완성 HTML·MD 링크와 백업 경로, 보류 이유를 알려 준다. 결과가 유용하면 HTML을 Codex 패널로 연다.
@@ -74,7 +74,7 @@ description: 머신러닝기초의 기존 복습문제·과제·중간고사 예
 발행 자료 `.pack/자료_문제설명_<range>_<slug>/ (과제는 기존 HTML 옆 자료 폴더)`의 fragments·evidence를 새 RUN으로 복사하고 stage만 조립한다. CLI의 rerender는 자동 발행하지 않는다.
 
 ```sh
-python3 ".claude/skills/ml-problem-explain/scripts/mpe_cli.py" rerender --repo "<저장소 절대경로>" --target 1007 --run "<비어 있는 새 RUN 절대경로>"
+uv run python ".claude/skills/ml-problem-explain/scripts/mpe_cli.py" rerender --repo "<저장소 절대경로>" --target 1007 --run "<비어 있는 새 RUN 절대경로>"
 ```
 
 입력·설명 조각·입력 그림·검산 자료·참조 파일이 검증되고 검토 기준도 현재와 같을 때만 content·independent를 재사용한다. 전자회로2는 problems.txt뿐 아니라 문제 MD·그림 전체의 합성 해시가 같아야 한다. 참조 누락·내용 변경·기준 누락/변경이면 content·independent도 not_run으로 되돌리고 실제 검토를 다시 한다. 경로 이전은 실제 대상과 바이트/링크 동등성을 입증할 때만 허용하며, 입증하지 못하면 재검토한다. 원본 HTML의 스타일·실행 스크립트만 바뀐 경우는 과거 입력을 확인할 수 있을 때만 동일 문항으로 인정하고 JSON 정답 데이터는 내용으로 취급한다.

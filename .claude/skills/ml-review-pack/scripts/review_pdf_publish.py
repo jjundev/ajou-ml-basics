@@ -35,7 +35,7 @@ def publication_lock(destinations):
     with ExitStack() as stack:
         for parent in parents:
             name=hashlib.sha256(parent.encode()).hexdigest()+'.lock'
-            stream=stack.enter_context((lock_root/name).open('a+'))
+            stream=stack.enter_context((lock_root/name).open('a+', encoding='utf-8'))
             try:_try_lock(stream)
             except BlockingIOError as e:raise ReviewPdfError(f'publication locked: {parent}') from e
         yield

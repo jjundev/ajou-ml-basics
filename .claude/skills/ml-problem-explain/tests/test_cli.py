@@ -52,10 +52,10 @@ def test_cli_round_trip_and_unreviewed_publish(tmp_path):
 def test_extract_refuses_nonempty_run(tmp_path):
     run = tmp_path / 'run'
     run.mkdir()
-    (run / 'keep.txt').write_text('keep')
+    (run / 'keep.txt').write_text('keep', encoding='utf-8')
     result = call('extract', '--repo', ROOT, '--target', '1007', '--run', run)
     assert result.returncode == 1
-    assert (run / 'keep.txt').read_text() == 'keep'
+    assert (run / 'keep.txt').read_text(encoding='utf-8') == 'keep'
 
 def test_forged_serialized_problem_is_rejected(tmp_path):
     run = tmp_path / 'run'
@@ -126,11 +126,11 @@ def test_cli_explicit_review_path_ignores_newer_and_other_slug(tmp_path):
     item, = load_run(run)
     expected = load_source(source, repo)
     assert item['pack'] == expected
-    value = json.loads((item['folder'] / 'source.json').read_text())
+    value = json.loads((item['folder'] / 'source.json').read_text(encoding='utf-8'))
     assert value['path'] == str(source) and value['sha256'] == expected.sha256
     assert [p['id'] for p in value['problems']] == [p.id for p in expected.problems]
     for p in expected.problems:
-        (item['folder'] / 'explanations' / f'{p.id}.html').write_text(fragment(p))
+        (item['folder'] / 'explanations' / f'{p.id}.html').write_text(fragment(p), encoding='utf-8')
     for command in ('build', 'check'):
         result = call(command, '--run', run)
         assert result.returncode == 0, result.stderr

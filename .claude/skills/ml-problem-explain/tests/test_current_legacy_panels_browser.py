@@ -11,6 +11,7 @@ from urllib.parse import quote
 
 import pytest
 from playwright.sync_api import sync_playwright, expect
+from helpers import local_server
 
 ROOT = Path(__file__).resolve().parents[4]
 AUTHORED_SUMMARY_TEXT = '(el)=>{const copy=el.cloneNode(true);copy.querySelectorAll(".math-pan-hint").forEach(hint=>hint.remove());return copy.textContent}'
@@ -22,7 +23,7 @@ LEGACY_PAGES = ['과제/과제1/과제1_문제설명_Homework1.html', '복습노
 def current_server():
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self, *args): pass
-    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(ROOT)))
+    server = local_server(functools.partial(Quiet, directory=str(ROOT)))
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:

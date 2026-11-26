@@ -57,7 +57,7 @@ def fall_dates(text: str) -> list[str]:
 def pdf_pages(pdf: Path) -> list[str]:
     try:
         txt = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True,
-                             text=True, check=True).stdout
+                             text=True, encoding='utf-8', check=True).stdout
     except (subprocess.CalledProcessError, FileNotFoundError):
         return []
     return txt.split("\f")
@@ -139,4 +139,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding='utf-8')
     raise SystemExit(main())

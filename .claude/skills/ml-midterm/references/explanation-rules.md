@@ -19,21 +19,21 @@
 예를 들어 기존 2회 해설 요청은 새 고유 RUN과 다음을 사용한다.
 
 ```powershell
-python .claude/skills/ml-midterm/scripts/midterm_cli.py explain --repo . --out 중간고사대비/예상문제_2회 --run tmp/ml-midterm/explain02-first
+uv run python .claude/skills/ml-midterm/scripts/midterm_cli.py explain --repo . --out 중간고사대비/예상문제_2회 --run tmp/ml-midterm/explain02-first
 ```
 
 기존 최신 조각을 읽고 요청한 부분만 보강한 뒤 다시 explain한다. 원 문제 HTML·cards·참고 답·영어 본문·PDF를 수정하지 않는다. base/english는 호출하지 않는다. 대상이 일반 날짜/기간/과제/인자 없음/all이면 기존 MPE 경로를 그대로 사용하며 예상문제를 자동 선택에 추가하지 않는다.
 
 ## 검토와 발행
 
-explain은 RUN/explanation-result.json의 stage HTML/MD/manifest와 review.json을 만든다. source/fragment/reference/resource/artifact hash와 현재 정책에 묶인다. 네 검토는 매번 not_run이며 이전 pass에 새 hash만 넣지 않는다. baseline 템플릿/코드 변경은 자동 승인하지 않는다.
+explain은 RUN/explanation-result.json의 stage HTML/MD/manifest와 review.json을 만든다. source/fragment/reference/resource/artifact hash와 현재 정책에 묶인다. 네 검토는 매번 not_run이며 이전 pass에 새 hash만 넣지 않는다. 빌드 후 공통 템플릿·코드가 바뀌면 게시를 거부하므로 다시 빌드하고 검토한다.
 
 source_visual/content/independent/browser와 모든 실제 소문항을 MPE verification 계약에 맞춰 검토한다. 독립 검산자는 답·해설을 보기 전에 조건·질문·그림·필요 이론만으로 계산/논증한다. 답 대조 후 불일치는 disputed로 보류한다. 구조·수식 검사만으로 수학 검토를 통과시키지 않는다. 새 출제 검산 결과는 OUT/.pack/evidence/answer-checks.json의 items에 `pN:a` 등 실제 항목을 키로 두고 status/method/conclusion/evidence를 기록한다.
 
 브라우저는 실제 stage 파일을 검사한다.
 
 ```powershell
-python .claude/skills/ml-midterm/scripts/browser_check.py <stage-HTML> --evidence <OUT>/.pack/evidence/browser-check.json --shots <RUN>/shots
+uv run python .claude/skills/ml-midterm/scripts/browser_check.py <stage-HTML> --evidence <OUT>/.pack/evidence/browser-check.json --shots <RUN>/shots
 ```
 
 1280×900·1024×900·375×812, 두 테마의 60문항 조합과 모든 영어 본문, 1023→1024, 닫힘 저장, 도킹·이동·크기, 목차·이전/다음·요약·키보드·reload·원문 없음 fallback·인쇄 한영 보존을 검토한다. 외부 요청·콘솔/KaTeX·누락 자원·가로 넘침은 0이다. 실제 스크린샷도 읽는다. source_visual과 수학 검산은 이 리포트로 대체하지 않는다.
@@ -45,7 +45,7 @@ python .claude/skills/ml-midterm/scripts/browser_check.py <stage-HTML> --evidenc
 전체 완료 전 `.pack/delivery.json`을 작성한다: logical_count=10, subpart_count=현재 실제 수, files=발행한 파일의 OUT 상대경로→SHA-256. 현재 원본 HTML·PDF 3개·문제설명 HTML/MD·manifest/그 manifest의 files·validation.json·이번 검토 근거를 포함한다. delivery.json 자체나 비소유 파일을 해시 집합에 무조건 넣지 않는다. 브라우저 리포트는 최종 발행 HTML hash와 같아야 한다. 검토 중 evidence를 stage에 추가하면 artifact hash가 달라지므로 다시 build·검토한다. 외부 evidence는 실제 위치와 hash를 references에 기록한다.
 
 ```powershell
-python .claude/skills/ml-midterm/scripts/midterm_cli.py check --repo . --out 중간고사대비/예상문제_2회
+uv run python .claude/skills/ml-midterm/scripts/midterm_cli.py check --repo . --out 중간고사대비/예상문제_2회
 ```
 
 status=pass/errors=[]/exit0이어야 전체 완료다. `check`는 검증만 하며 missing 파일·승인·delivery를 만들어 주지 않는다. 해설만 작업에서는 원래 PDF 검토와 해시도 확인하되 PDF를 다시 생성하지 않는다. 실패하면 RUN/failure.json과 백업 위치, 미완료 단계를 보고한다.

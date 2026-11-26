@@ -14,7 +14,7 @@ def test_prepare_real_pack_without_manifest(tmp_path):
     result = subprocess.run(
         [sys.executable, str(SKILL / "scripts/quiz.py"), "--repo", str(REPO),
          "prepare", "1111", "--run", str(tmp_path)],
-        text=True, capture_output=True,
+        text=True, encoding='utf-8', capture_output=True,
     )
     assert result.returncode == 0, result.stderr
     scope = json.loads(result.stdout)
@@ -27,7 +27,7 @@ def test_prepare_real_pack_without_manifest(tmp_path):
 
 
 def test_new_pack_calls_concept_check_after_publication():
-    skill = (REPO / ".claude/skills/ml-review-pack/SKILL.md").read_text()
+    skill = (REPO / ".claude/skills/ml-review-pack/SKILL.md").read_text(encoding='utf-8')
     publish = skill.index("publish_pack", skill.index("### 8. PDF"))
     followup = skill.index("### 확인문제 자동 생성", publish)
     report = skill.index("### 9. 보고", followup)
@@ -66,7 +66,7 @@ def test_publish_without_browser_evidence_keeps_existing_quiz(tmp_path):
     run = tmp_path / "run"
     stage = prepare("1111", run, repo)
     original = repo / "복습노트/1111" / Path(stage["html"]).name
-    original.write_text("previous quiz")
+    original.write_text("previous quiz", encoding='utf-8')
     src = Path(stage["src"])
     dump(src / "objectives.json", {"range": stage["range"], "slug": stage["slug"], "objectives": [
         {"id": "o1", "topic_id": "s2-responsibility", "concept": "비율",
@@ -92,17 +92,17 @@ def test_publish_without_browser_evidence_keeps_existing_quiz(tmp_path):
     assert any("20자 이상 연속" in issue for issue in check(src, stage))
     candidate.write_bytes(original_items)
     answers = run / "answers.md"
-    answers.write_text("| q1 | 1/4 | s2-responsibility | |\n")
+    answers.write_text("| q1 | 1/4 | s2-responsibility | |\n", encoding='utf-8')
     blind.record(src, answers, src / "blind-ledger.json", 1)
     with pytest.raises(QuizError, match="browser.json"):
         publish(run, repo)
-    assert original.read_text() == "previous quiz"
+    assert original.read_text(encoding='utf-8') == "previous quiz"
     assert not (repo / "복습노트/1111/.pack" / src.name).exists()
 
 
 def test_template_and_interaction_assets_match_documented_digests():
     from quiz_sources import digest
 
-    provenance = (SKILL / "assets/SOURCE.md").read_text()
+    provenance = (SKILL / "assets/SOURCE.md").read_text(encoding='utf-8')
     for name in ("review-template.html", "review-interaction.css", "review-interaction.js", "review-prompt.js"):
         assert f"`{name}` | `{digest(SKILL / 'assets' / name)}`" in provenance

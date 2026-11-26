@@ -49,10 +49,10 @@ def load_exam_source(cards_path,blueprint_path,repo,config):
  if Path(repo).resolve()!=config.repo:raise ValueError('repository/config mismatch')
  cards_path=resolve(repo,cards_path);blueprint_path=resolve(repo,blueprint_path)
  if unicodedata.normalize('NFC',cards_path.name)!=config.stem+'.html':raise ValueError('source identity mismatch')
- b=json.loads(Path(blueprint_path).read_text());errors=validate_blueprint(b,repo,config)
+ b=json.loads(Path(blueprint_path).read_text(encoding='utf-8'));errors=validate_blueprint(b,repo,config)
  if errors:raise ValueError('; '.join(errors))
  pack=read_cards(cards_path,config.profile);norm=normalize_cards(pack,None,cards_path)
- nodes=list(parse(Path(cards_path).read_text()).find_all(lambda n:n.tag=='article' and 'card' in n.classes))
+ nodes=list(parse(Path(cards_path).read_text(encoding='utf-8')).find_all(lambda n:n.tag=='article' and 'card' in n.classes))
  if [n.attrs.get('id') for n in nodes]!=[x['id'] for x in b['questions']]:raise ValueError('card ID mismatch')
  problems=[]
  for n,x,q in zip(nodes,b['questions'],norm):
@@ -63,18 +63,38 @@ def load_exam_source(cards_path,blueprint_path,repo,config):
  return SourcePack('exam',pack.range,pack.slug,Path(cards_path).resolve(),sha(cards_path),tuple(problems))
 
 def assemble_cards(card_dir,target,config):
- cards='\n'.join((Path(card_dir)/f'p{i}.html').read_text() for i in range(1,11))
+ cards='\n'.join((Path(card_dir)/f'p{i}.html').read_text(encoding='utf-8') for i in range(1,11))
  Path(target).parent.mkdir(parents=True,exist_ok=True)
- Path(target).write_text(f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{html.escape(config.title_ko)}</title></head><body><section id="exam">'+cards+'</section></body></html>')
+ Path(target).write_text(f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{html.escape(config.title_ko)}</title></head><body><section id="exam">'+cards+'</section></body></html>', encoding='utf-8')
  return Path(target)
 
-def verify_baseline(repo,baseline_path):
- errors=[]
- for rel,digest in json.loads(Path(baseline_path).read_text(encoding='utf-8'))['files'].items():
-  try:
-   if sha(resolve(repo,rel))!=digest:errors.append('baseline changed: '+rel)
-  except (OSError,ValueError) as e:errors.append('baseline '+rel+': '+str(e))
- return errors
+def tool_hashes(repo):
+ """Hash the shared code and templates one run depends on, keyed by repository path."""
+ repo=Path(repo).resolve();files=[repo/'assets/vendor/provenance.json']
+ for skill in ('ml-midterm','ml-problem-explain','ml-review-pack'):
+  for folder in ('scripts','assets'):
+   files+=[p for p in (repo/'.claude/skills'/skill/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ return {p.relative_to(repo).as_posix():sha(p) for p in sorted(files)}
+
+def require_same_tools(repo,recorded):
+ current=tool_hashes(repo)
+ changed=sorted(k for k in current.keys()|recorded.keys() if current.get(k)!=recorded.get(k))
+ if changed:raise ValueError('tools changed since build: rebuild and review: '+', '.join(changed[:5]))
+
+def resolve_reference(repo,path,digest):
+ """Find a recorded reference; older records hold absolute paths from another checkout.
+
+ Such a path is accepted only where a file below this repository has the recorded hash.
+ """
+ text=str(path);drive=len(text)>2 and text[1]==':' and text[2] in '/\\'
+ if not drive and not text.startswith('/'):return resolve(repo,text)
+ if Path(text).is_absolute() and Path(text).resolve().is_relative_to(Path(repo).resolve()):return resolve(repo,text)
+ parts=[x for x in text.replace('\\','/').split('/') if x]
+ for i in range(1,len(parts)):
+  try:found=resolve(repo,'/'.join(parts[i:]))
+  except (OSError,ValueError):continue
+  if found.is_file() and sha(found)==digest:return found
+ raise ValueError('stale or missing reference: '+text)
 
 def markup_resources(markups,base,repo):
  """Hash image dependencies, including local dependencies of referenced SVGs."""

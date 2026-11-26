@@ -7,6 +7,7 @@ import json
 import os
 import re
 import shutil
+import unicodedata
 from collections import Counter
 from pathlib import Path
 from urllib.parse import unquote, urlsplit, quote
@@ -222,21 +223,44 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
     manifest_path = data_dir / 'manifest.json'
     files = tuple(sorted(p for p in stage.rglob('*') if p.is_file()))
     dump(manifest_path, {'version': 1, 'profile': pack.profile, 'range': pack.range, 'slug': pack.slug,
-                         'source': pack.path.as_posix(), 'source_sha256': pack.sha256,
+                         'source': pack.path.resolve().relative_to(repo.resolve()).as_posix(), 'source_sha256': pack.sha256,
                          'review_policy_version': POLICY_VERSION, 'source_resources': source_resources(pack,repo),
                          'input_hash': payload_hash(pack, fragments), 'reading_key': values['RANGE'],
-                         'destination': pack.directory.as_posix(), 'repo': repo.resolve().as_posix(),
+                         'destination': pack.directory.resolve().relative_to(repo.resolve()).as_posix(),
                          'shared_vendor_provenance_sha256': vendor_provenance_sha,
                          'problems': [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems],
                          'files': {p.relative_to(stage).as_posix(): sha256(p) for p in files}})
     return Artifacts(html_path, md_path, manifest_path, tuple(sorted((*files, manifest_path))))
+
+def manifest_location(manifest, pack):
+    """Repository and source of a manifest, located from where the pack is now.
+
+    Older manifests hold absolute paths of the checkout (and OS) that built them;
+    newer ones hold paths relative to the repository and have no 'repo'.
+    """
+    def relative(key):
+        value = unicodedata.normalize('NFC', manifest[key])
+        old = unicodedata.normalize('NFC', manifest.get('repo', '')).rstrip('/')
+        if not old:
+            return [x for x in value.split('/') if x not in ('', '.')]
+        if value != old and not value.startswith(old + '/'):
+            raise ExplainError('manifest 저장소 밖 경로: ' + manifest[key])
+        return [x for x in value[len(old):].split('/') if x]
+    destination, source = relative('destination'), relative('source')
+    here = pack.directory.resolve()
+    parts = [unicodedata.normalize('NFC', x) for x in here.parts]
+    if '..' in destination + source or destination != parts[len(parts) - len(destination):]:
+        raise ExplainError('manifest 발행 위치 불일치: ' + manifest['destination'])
+    repo = here.parents[len(destination) - 1] if destination else here
+    return repo, '/'.join(source)
 
 def check_artifacts(pack, artifacts):
     errors = []
     try:
         root = artifacts.html.parent.resolve()
         manifest = json.loads(artifacts.manifest.read_text(encoding='utf-8'))
-        if manifest['source_sha256'] != pack.sha256 or Path(manifest['source']) != pack.path:
+        repo_root, source = manifest_location(manifest, pack)
+        if manifest['source_sha256'] != pack.sha256 or source != unicodedata.normalize('NFC', pack.path.resolve().relative_to(repo_root).as_posix()):
             errors.append('manifest 입력 불일치')
         if manifest['problems'] != [{'id': p.id, 'subparts': list(p.subparts)} for p in pack.problems]:
             errors.append('manifest 문항 집합 불일치')
@@ -275,7 +299,6 @@ def check_artifacts(pack, artifacts):
                 original = list(document.find_all(lambda n: n.attrs.get('data-original-problem') == p.id))
                 if len(original) != 1 or compact(p.original_html) not in compact(original[0].text()):
                     errors.append(f'{p.id}: 영어 원문 보존 실패')
-        repo_root = Path(manifest.get('repo') or pack.directory).resolve()
         vendor_dir = resolve_vendor_dir(repo_root)
         vendor_provenance_sha = verify_shared_vendor(vendor_dir)
         if manifest.get('shared_vendor_provenance_sha256') and manifest['shared_vendor_provenance_sha256'] != vendor_provenance_sha:
@@ -294,13 +317,13 @@ def check_artifacts(pack, artifacts):
                     errors.append('링크 앵커 없음: ' + href)
                 continue
             if node.tag in ('link', 'script'):
-                dest_target = (Path(manifest['destination']) / unquote(url.path)).resolve()
+                dest_target = (pack.directory / unquote(url.path)).resolve()
                 if dest_target.is_relative_to(expected_vendor_root):
                     path = vendor_dir / dest_target.relative_to(expected_vendor_root)
                 else:
                     path = root / unquote(url.path)
             elif node.tag == 'a':
-                path = Path(manifest['destination']) / unquote(url.path)
+                path = pack.directory / unquote(url.path)
             else:
                 path = root / unquote(url.path)
             if not path.is_file():

@@ -16,7 +16,7 @@ description: 머신러닝기초 수업과 관련된 영상 링크(YouTube 등)�
 
 ## 필요한 것
 
-- `yt-dlp`, `ffmpeg`/`ffprobe`, `pdftotext`, Python 3.10+ (표준 라이브러리만 사용)
+- `yt-dlp`, `ffmpeg`/`ffprobe`, `pdftotext`, `uv` (Python은 표준 라이브러리만 사용)
 - 저장소 `.env`의 `GOOGLE_API_KEY` (Vertex AI API 키). AI Studio 엔드포인트(`generativelanguage.googleapis.com`)는 이 키로 403이므로 쓰지 않는다.
 - 이미지 파일을 열어 볼 수 있는 도구 (화면 읽기용)
 
@@ -40,7 +40,7 @@ description: 머신러닝기초 수업과 관련된 영상 링크(YouTube 등)�
 ### 1. 다운로드·오디오 분할
 
 ```bash
-python3 $S/fetch.py "<URL>"
+uv run python $S/fetch.py "<URL>"
 ```
 
 마지막 줄의 `meta.json` 경로를 이후 단계에 쓴다 (`M=...`). 이미 받은 영상이 `~/Downloads`에 있으면 다시 받지 않는다.
@@ -48,7 +48,7 @@ python3 $S/fetch.py "<URL>"
 ### 2. 전사 (Gemini API)
 
 ```bash
-python3 $S/transcribe.py "$M" --repo . --hints "<영상 주제 용어 10~20개, 쉼표 구분>"
+uv run python $S/transcribe.py "$M" --repo . --hints "<영상 주제 용어 10~20개, 쉼표 구분>"
 ```
 
 - 기본 모델은 `gemini-3.5-flash`이고, 404·빈 응답이면 `gemini-3.1-pro-preview` → `gemini-2.5-flash` 순으로 넘어간다. 실제 사용한 모델이 전사본 머리에 적힌다.
@@ -60,7 +60,7 @@ python3 $S/transcribe.py "$M" --repo . --hints "<영상 주제 용어 10~20개, 
 ### 3. 저장 날짜 고르기
 
 ```bash
-python3 $S/pick_date.py "$M" --repo . [--date MMDD]
+uv run python $S/pick_date.py "$M" --repo . [--date MMDD]
 ```
 
 - 판단 순서: ① 인자로 준 날짜 → ② 강의노트 PDF에서 영상 id를 찾아 그 쪽의 슬라이드 날짜 → ③ 영상·전사 키워드와 각 날짜 정리노트의 겹침 점수
@@ -70,7 +70,7 @@ python3 $S/pick_date.py "$M" --repo . [--date MMDD]
 ### 4. 화면 직접 읽기
 
 ```bash
-python3 $S/sheets.py sheets "$M"
+uv run python $S/sheets.py sheets "$M"
 ```
 
 - 프레임을 일정 간격(기본 6초, 긴 영상은 시트가 40장 이하가 되도록 자동으로 늘림)으로 뽑아 3x3 시트로 묶는다. 각 칸의 시각은 `sheets/sheets.json`에 있다 (행 우선, 왼→오, 위→아래).
@@ -84,7 +84,7 @@ python3 $S/sheets.py sheets "$M"
 ### 5. 핵심 장면 그림
 
 ```bash
-python3 $S/sheets.py frame "$M" --at 93,144,... --names 01_hard_vs_soft,02_...,... --out "<pack_dir>/figures"
+uv run python $S/sheets.py frame "$M" --at 93,144,... --names 01_hard_vs_soft,02_...,... --out "<pack_dir>/figures"
 ```
 
 - 노트의 섹션마다 6~10장을 고른다. 시각은 `sheets.json`의 칸 시각을 쓰고, 애니메이션 중간이면 ±3초 조정한다.

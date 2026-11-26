@@ -148,4 +148,7 @@ def main(argv=None):
         args.report.parent.mkdir(parents=True,exist_ok=True)
         args.report.write_text(json.dumps({'status':'failed','source_path':str(args.review.resolve()),'errors':[str(e)]},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         print(f'review PDF failed: {e}',file=sys.stderr);return 1
-if __name__=='__main__':sys.exit(main())
+if __name__=='__main__':
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding='utf-8')
+    sys.exit(main())

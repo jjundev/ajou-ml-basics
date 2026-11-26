@@ -1,3 +1,6 @@
+import http.server
+import random
+import shutil
 from pathlib import Path
 from mpe_types import Problem, SourcePack
 
@@ -23,6 +26,12 @@ def fragment(p=None):
             '<div class="layer formal" data-explanation="retry"><ul><li>다시 계산해요.</li></ul></div>'
             '<div class="sum" hidden><p>시작·판단·검산</p></div>' + TERMS)
 
+def course_stage(tmp_path):
+    """Stage folder at the published depth, with the shared vendor where its HTML looks for it."""
+    vendor = Path(__file__).resolve().parents[4] / 'assets' / 'vendor'
+    shutil.copytree(vendor, tmp_path / 'assets' / 'vendor')
+    return tmp_path / '과제' / '과제1'
+
 def pack(path=Path('과제1_Homework1.html')):
     return SourcePack('homework', '1', 'Homework1', path, '0'*64, (problem(),))
 
@@ -40,3 +49,17 @@ def approved(pack, fragments, artifacts=None):
     if artifacts:
         result['artifact_hashes'] = artifact_hashes(artifacts)
     return result
+
+
+class _Server(http.server.ThreadingHTTPServer):
+    allow_reuse_address = False  # on Windows reuse would let two servers share one port
+
+
+def local_server(handler):
+    """Serve on a free port that Chrome accepts; it blocks several ports up to 10080."""
+    for port in random.sample(range(20000, 60000), 50):
+        try:
+            return _Server(('127.0.0.1', port), handler)
+        except OSError:
+            continue
+    raise RuntimeError('no free local port')

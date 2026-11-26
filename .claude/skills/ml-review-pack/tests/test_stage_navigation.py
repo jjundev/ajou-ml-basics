@@ -13,7 +13,7 @@ class TestStageNavigation(unittest.TestCase):
     def active_stage(self, scroll_top, heading_tops):
         script = re.search(
             r'<script id="note-stage-navigation">(.*?)</script>',
-            TEMPLATE.read_text(), re.S,
+            TEMPLATE.read_text(encoding='utf-8'), re.S,
         ).group(1)
         # No browser dependency: geometry inputs reproduce the observed short final
         # stage at the end of a scroll container. Execute production JS unchanged.
@@ -57,7 +57,7 @@ console.log(JSON.stringify(links.findIndex(link => link.attrs['aria-current'] ==
         result = subprocess.run(
             ["node", "-e", harness],
             input=json.dumps({"script": script, "scrollTop": scroll_top, "tops": heading_tops}),
-            text=True, capture_output=True, check=True,
+            text=True, encoding='utf-8', capture_output=True, check=True,
         )
         return json.loads(result.stdout)
 

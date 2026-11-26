@@ -20,7 +20,7 @@
 2. 문제마다 `RUN/blueprint.json`에 태그를 적는다. 형식은 `scripts/check_blueprint.py` 머리말에 있다.
    - `asks`: 카드 `.ask`가 구하라는 항목 수. `last_ask`: 끝 항목의 종류(계산 / 읽기 / 판정 / 설명 / 지정 꼴). `chained`: (b)가 (a)의 결과를 쓰면 `true`.
    - 맞는 MML 문제가 없어 목표를 못 채우면 억지로 끼우지 않는다. `gaps`에 같은 키(`levels`, `multi_ask`, `non_calc_last`, `chained`, `dates`)로 이유를 적는다.
-3. 검증: `python3 "$SKILL/scripts/check_blueprint.py" "$RUN/manifest.json" "$RUN/blueprint.json" "$REPO/시험결과/출제명세표.json"` 결과가 `OK`. 자작 문제가 있으면 `--self-checks "$RUN/self-checks.json"`을 붙인다.
+3. 검증: `uv run python "$SKILL/scripts/check_blueprint.py" "$RUN/manifest.json" "$RUN/blueprint.json" "$REPO/시험결과/출제명세표.json"` 결과가 `OK`. 자작 문제가 있으면 `--self-checks "$RUN/self-checks.json"`을 붙인다.
 4. 명세표 파일이 없으면 이 절차를 건너뛰고 보고서에 적는다.
 
 ### 덧붙이는 요구
@@ -56,7 +56,7 @@ MML 후보를 모두 본 뒤에도 명세표 목표가 비면, 그 빈칸에만 
 - MML 목차의 `Exercises` 항목(PDF 1-기준 쪽): 2장 70, 3장 102, 4장 143, 5장 176, 6장 228, 7장 253. **책 쪽 = PDF 쪽 − 6.**
 - 스니펫:
   ```bash
-  REPO=… python3 - <<'EOF'
+  REPO=… uv run python - <<'EOF'
   import fitz, os, re
   d = fitz.open(os.path.join(os.environ["REPO"], "교과서/Mathematics_for_Machine_Learning.pdf"))
   print([(t, p) for lvl, t, p in d.get_toc() if t == "Exercises"])

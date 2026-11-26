@@ -11,7 +11,7 @@ TEMPLATE = Path(__file__).resolve().parents[1] / "assets/note-template.html"
 
 class TestDerivFit(unittest.TestCase):
     def wide_flags(self, sizes):
-        script = re.search(r'<script id="deriv-fit">(.*?)</script>', TEMPLATE.read_text(), re.S).group(1)
+        script = re.search(r'<script id="deriv-fit">(.*?)</script>', TEMPLATE.read_text(encoding='utf-8'), re.S).group(1)
         harness = r"""
 const vm = require('node:vm');
 const sizes = JSON.parse(require('node:fs').readFileSync(0, 'utf8'));
@@ -31,7 +31,7 @@ vm.runInContext(process.argv[1], ctx);
 process.stdout.write(JSON.stringify(rows.map(r => r.classList.has('is-wide'))));
 """
         out = subprocess.run(["node", "-e", harness, script], input=json.dumps(sizes),
-                             capture_output=True, text=True, check=True)
+                             capture_output=True, text=True, encoding='utf-8', check=True)
         return json.loads(out.stdout)
 
     def test_only_overflowing_rows_become_wide(self):
@@ -39,7 +39,7 @@ process.stdout.write(JSON.stringify(rows.map(r => r.classList.has('is-wide'))));
                          [False, True, False, False])
 
     def test_css_contract_present(self):
-        src = TEMPLATE.read_text()
+        src = TEMPLATE.read_text(encoding='utf-8')
         for needle in (".deriv-body", ".deriv > li.is-wide", ".deriv > li.deriv-gen",
                        '.deriv .katex [style*="color:#"]', "@container (max-width: 620px)"):
             self.assertIn(needle, src)

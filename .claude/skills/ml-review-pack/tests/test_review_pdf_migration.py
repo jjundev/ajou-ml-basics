@@ -18,7 +18,7 @@ class TestMigration(unittest.TestCase):
             pack=read_cards(source);counts[date]=len(pack.cards);names.extend(pdf_names(pack.range,pack.slug))
             layout_path=REPO/f'workbook/layouts/{date}_{pack.slug}.json'
             self.assertTrue(layout_path.exists(),f'{date}: missing layout')
-            normalized=normalize_cards(pack,json.loads(layout_path.read_text()),source)
+            normalized=normalize_cards(pack,json.loads(layout_path.read_text(encoding='utf-8')),source)
             self.assertEqual(len(normalized),COUNTS[date])
         self.assertEqual(counts,COUNTS);self.assertEqual(sum(counts.values()),47);self.assertEqual(len(set(names)),14)
 
@@ -27,15 +27,15 @@ class TestMigration(unittest.TestCase):
         for date,count in COUNTS.items():
             folder=notes/date;pack_dir=folder/PACK_DIR
             source, = discover_reviews(folder)
-            pack=read_cards(source);layout=json.loads((REPO/f'workbook/layouts/{date}_{pack.slug}.json').read_text())
+            pack=read_cards(source);layout=json.loads((REPO/f'workbook/layouts/{date}_{pack.slug}.json').read_text(encoding='utf-8'))
             self.assertEqual(legacy_digest(source),layout['source_sha256'])
             self.assertEqual(hashlib.sha256(source_markdown(source).read_bytes()).hexdigest(),layout['review_md_sha256'])
             for rel,sha in layout['figures_sha256'].items():self.assertEqual(hashlib.sha256((pack_dir/rel).read_bytes()).hexdigest(),sha)
             for name in pdf_names(date,pack.slug):
                 self.assertTrue((folder/name).is_file(),name)
                 self.assertFalse((pack_dir/name).exists(),name)
-                self.assertIn(f'href="{name}"',next(folder.glob('정리노트*html')).read_text())
-                self.assertIn(f'(../{name})',next(pack_dir.glob('정리노트*md')).read_text())
+                self.assertIn(f'href="{name}"',next(folder.glob('정리노트*html')).read_text(encoding='utf-8'))
+                self.assertIn(f'(../{name})',next(pack_dir.glob('정리노트*md')).read_text(encoding='utf-8'))
 
     def test_published_pairs_are_widescreen_and_caption_safe(self):
         import fitz

@@ -4,11 +4,11 @@
 file:// 미리보기에서는 스크립트가 돌지 않는다. 빈 포트로 서버를 띄운다. 셸 상태는 Bash 호출 사이에 이어지지 않으므로 포트 번호를 먼저 출력해 두고, 이후 명령과 URL에는 그 숫자를 직접 쓴다.
 1. 빈 포트 찾기(출력된 숫자가 `<port>`):
    ```bash
-   python3 -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1])"
+   uv run python -c "import random,socket; p=random.randrange(20000,60000); socket.socket().bind(('127.0.0.1',p)); print(p)"
    ```
 2. 서버 띄우기: Bash 도구의 `run_in_background: true`로 실행한다(명령 끝에 `&`를 붙이지 않는다).
    ```bash
-   python3 -m http.server <port> --directory "<RUN>/work/stage"
+   uv run python -m http.server <port> --directory "<RUN>/work/stage"
    ```
 3. URL: `http://localhost:<port>/복습노트/<range>/<파일명>` (한글 그대로).
 4. 끝나면 서버를 종료한다: 그 백그라운드 작업을 멈추거나(TaskStop 등), `pkill -f "http.server <port>"`.

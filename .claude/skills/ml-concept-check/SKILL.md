@@ -14,7 +14,7 @@ description: 머신러닝기초에서 특정 수업의 새 개념을 확인하�
 ## 1. 범위와 문항 작성
 
 ```bash
-python3 "$S/scripts/quiz.py" prepare <range> --run "$RUN"
+uv run python "$S/scripts/quiz.py" prepare <range> --run "$RUN"
 ```
 
 - 신규 팩에서 호출할 때는 `--manifest <복습팩 RUN>/manifest.json`을 덧붙이고 복습팩 요약도 함께 읽는다. 단독 호출에서는 날짜 폴더에 보존된 manifest를 자동으로 찾으며, 없는 날짜는 STT와 정리노트의 HTML·MD로 범위를 잡는다. `scope.json`의 `src` 경로를 `SRC`로 사용한다.
@@ -22,15 +22,15 @@ python3 "$S/scripts/quiz.py" prepare <range> --run "$RUN"
 - 단답 정답과 풀이의 중간 계산은 정확한 유리수로 검산한다. ML 복습팩의 [벡터 미분 관례](../ml-review-pack/references/vector-derivative-convention.md)는 미분이 등장하는 문항·힌트·해설에 적용한다.
 
 ```bash
-python3 "$S/scripts/quiz.py" check --run "$RUN"
+uv run python "$S/scripts/quiz.py" check --run "$RUN"
 ```
 
 ## 2. 독립 블라인드 풀이
 
 ```bash
-python3 "$S/scripts/blind.py" make "$SRC" "$RUN/blind-r1.md"
-python3 "$S/scripts/blind.py" record "$SRC" "$RUN/blind-answers-r1.md" "$SRC/blind-ledger.json" --round 1
-python3 "$S/scripts/blind.py" status "$SRC" "$SRC/blind-ledger.json"
+uv run python "$S/scripts/blind.py" make "$SRC" "$RUN/blind-r1.md"
+uv run python "$S/scripts/blind.py" record "$SRC" "$RUN/blind-answers-r1.md" "$SRC/blind-ledger.json" --round 1
+uv run python "$S/scripts/blind.py" status "$SRC" "$SRC/blind-ledger.json"
 ```
 
 - `make` 후 [풀이자 브리프](references/blind-brief.md)에 따라 정답을 모르는 **새 서브에이전트**에게 사본과 정리노트 MD를 넘긴다. 대화 상속을 끄고 정답·힌트·원본 경로는 전달하지 않는다. 답안표를 받은 뒤 `record`와 `status`를 실행한다.
@@ -39,13 +39,13 @@ python3 "$S/scripts/blind.py" status "$SRC" "$SRC/blind-ledger.json"
 ## 3. 오프라인 검증과 발행
 
 ```bash
-python3 "$S/scripts/quiz.py" verify --run "$RUN" --shots "$RUN/shots"
+uv run python "$S/scripts/quiz.py" verify --run "$RUN" --shots "$RUN/shots"
 ```
 
 - `verify`는 규칙과 블라인드 결과를 확인하고 RUN에서 HTML을 빌드한다. Playwright Chromium에서 1280×900·375×812 × 라이트·다크 네 가지를 오프라인으로 조작한다. 힌트, 오답과 재시도, 단답 채점, 정리노트 링크를 따라갔다가 뒤로 가기 뒤 풀이 복원, 복기창, 새로고침 뒤 초기화, 글꼴·KaTeX·가로 넘침을 검사한다. 스크린샷을 열어 가독성과 겹침을 확인한 뒤 아래 명령으로 발행한다.
 
 ```bash
-python3 "$S/scripts/quiz.py" publish --run "$RUN"
+uv run python "$S/scripts/quiz.py" publish --run "$RUN"
 ```
 - 목표·문항·장부·HTML을 바꾸면 `verify`를 다시 실행한다. 근거 노트나 STT가 바뀌면 새 RUN에서 시작한다. 규칙, 블라인드 또는 브라우저 검증이 실패하면 RUN 경로와 실패 항목을 남기고 발행을 보류한다.
 - 발행 경로, 문항 수와 형식, 블라인드 풀이 결과, 브라우저 통과 여부, RUN과 백업 위치를 보고한다. 기존 파일을 갱신할 때도 같은 절차를 거친다.

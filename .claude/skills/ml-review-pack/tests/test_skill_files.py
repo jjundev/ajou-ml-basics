@@ -86,7 +86,7 @@ class TestBackupSnippet(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         text = SKILL_MD.read_text(encoding="utf-8")
-        m = re.search(r"```bash\nRANGE=<range> REPO=… RUN=… python3 - <<'EOF'\n(.*?)\nEOF\n```", text, re.S)
+        m = re.search(r"```bash\nRANGE=<range> REPO=… RUN=… uv run python - <<'EOF'\n(.*?)\nEOF\n```", text, re.S)
         assert m, "SKILL.md 4단계 백업 스니펫을 찾지 못함"
         cls.code = m.group(1)
 
@@ -102,8 +102,8 @@ class TestBackupSnippet(unittest.TestCase):
         self._tmp.cleanup()
 
     def backup(self, range_):
-        env = dict(os.environ, RANGE=range_, REPO=str(self.tmp / "repo"), RUN=str(self.run_dir))
-        return subprocess.run([sys.executable, "-"], input=self.code, env=env, capture_output=True, text=True)
+        env = dict(os.environ, RANGE=range_, REPO=str(self.tmp / "repo"), RUN=str(self.run_dir), PYTHONIOENCODING='utf-8')
+        return subprocess.run([sys.executable, "-"], input=self.code, env=env, capture_output=True, text=True, encoding='utf-8')
 
     def backups(self):
         return sorted(p for p in self.run_dir.iterdir() if p.name.startswith("previous-"))

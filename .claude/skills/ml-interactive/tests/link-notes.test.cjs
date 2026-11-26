@@ -164,3 +164,13 @@ test('recognizes an existing link when the target path is spelled in the other U
   assert.equal(r.results[0].status, 'unchanged');
   assert.equal((fs.readFileSync(f.note, 'utf8').match(/interactive-note/g) || []).length, 1);
 });
+
+test('refuses to choose between two files whose names differ only by Unicode form', t => {
+  const f = fixture(t);
+  fs.writeFileSync(f.html.normalize('NFC'), '<title>다른 파일</title>');
+  const spellings = fs.readdirSync(f.dir).filter(n => n.normalize('NFC') === path.basename(f.html).normalize('NFC'));
+  const r = linkNotes({ note: f.note, links: [f.link] }).results[0];
+  // macOS folds both spellings into one file, so there is nothing to choose between.
+  if (spellings.length === 1) assert.equal(r.status, 'added');
+  else assert.deepEqual([r.status, r.reason], ['skipped', 'TARGET_AMBIGUOUS']);
+});

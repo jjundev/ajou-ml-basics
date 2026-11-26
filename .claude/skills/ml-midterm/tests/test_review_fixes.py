@@ -36,9 +36,9 @@ def add_image(exam,fragment=False):
     Image.new('RGB',(120,60),'blue').save(image)
     if fragment:
         p=exam.output/'.pack/explanations/p1.html'
-        p.write_text(p.read_text().replace('</p>','</p><figure><img src=".pack/figures/diagram.png" alt="test"></figure>',1))
+        p.write_text(p.read_text(encoding='utf-8').replace('</p>','</p><figure><img src=".pack/figures/diagram.png" alt="test"></figure>',1), encoding='utf-8')
     else:
-        source.write_text(source.read_text().replace('<div class="ask">','<figure><img src=".pack/figures/diagram.png" alt="test"></figure><div class="ask">',1))
+        source.write_text(source.read_text(encoding='utf-8').replace('<div class="ask">','<figure><img src=".pack/figures/diagram.png" alt="test"></figure><div class="ask">',1), encoding='utf-8')
     return source,image
 
 @pytest.mark.pdf
@@ -82,5 +82,5 @@ def test_actual_nfd_english_workflow(repo,exam,tmp_path):
     from english_pdf import build_english_pdf
     source=source_for(exam);nfd=source.with_name(unicodedata.normalize('NFD',source.name));source.rename(nfd)
     result=build_english_pdf(repo,exam.output,tmp_path/'run')
-    report=json.loads(result['report'].read_text())
+    report=json.loads(result['report'].read_text(encoding='utf-8'))
     assert report['logical_count']==10 and report['subpart_count']==42

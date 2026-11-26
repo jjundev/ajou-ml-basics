@@ -1,0 +1,20 @@
+[project]
+name = "ajou-ml-basics"
+version = "0.0.0"
+description = "Tooling and tests for the machine learning course notes"
+requires-python = "==3.14.*"
+dependencies = [
+    "pillow==12.3.0",
+    "playwright==1.63.0",
+    "pymupdf==1.28.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "pyyaml==6.0.3",
+]
+
+[tool.uv]
+package = false
+environments = ["sys_platform == 'win32'", "sys_platform == 'darwin'", "sys_platform == 'linux'"]
