@@ -416,9 +416,9 @@
     <div class="table-wrap"><table>
       <thead><tr><th scope="col">중간고사에서 한 계산</th><th scope="col">실습에서 읽는 결과</th></tr></thead>
       <tbody>
-        <tr><th scope="row">6번 · 최대우도(ML)와 최대사후(MAP)</th><td>데이터를 잘 맞추는 계수 한 벌을 골라 곡선을 그려요. MAP에서는 사전분포도 선택에 반영해요.</td></tr>
-        <tr><th scope="row">9번 · 계수의 사후분포</th><td>데이터를 보고 계수의 평균과 공분산을 계산해요. 평균으로 대표 곡선을 그리고 공분산을 예측에 넘겨요.</td></tr>
-        <tr><th scope="row">10번 · 새 입력의 예측분포</th><td>계수의 불확실성을 새 함수값에 옮겨요. 새 관측값을 예측할 때는 관측 잡음까지 더해 예측구간을 그려요.</td></tr>
+        <tr><th scope="row">6번 · <a href="#s0-line">최대우도(ML)</a>와 <a href="#s1-ridge">최대사후(MAP)</a></th><td>데이터를 잘 맞추는 계수 한 벌을 골라 곡선을 그려요. MAP에서는 사전분포도 선택에 반영해요.</td></tr>
+        <tr><th scope="row">9번 · <a href="#s2-posterior">계수의 사후분포</a></th><td>데이터를 보고 계수의 평균과 공분산을 계산해요. 평균으로 대표 곡선을 그리고 공분산을 예측에 넘겨요.</td></tr>
+        <tr><th scope="row">10번 · <a href="#s2-prediction">새 입력의 예측분포</a></th><td>계수의 불확실성을 새 함수값에 옮겨요. 새 관측값을 예측할 때는 관측 잡음까지 더해 예측구간을 그려요.</td></tr>
       </tbody>
     </table></div>
     <p data-map="result">6번의 답은 계수 한 벌, 9번의 답은 계수의 분포, 10번의 답은 새 입력에서 출력의 분포예요.</p>
@@ -487,7 +487,6 @@
         </ol>
       </div>
       <p>실습의 $x_n$ 중 서로 다른 값이 있으므로 $1$로 채운 열과 $x_n$을 모은 열이 독립이에요. 해는 $(\hat b,\hat a)\approx(-0.5324,-0.1281)$이고, 이 직선의 잔차제곱합이 약 1.62예요. <code>np.column_stack((np.ones(N), x))</code>는 두 열을 이 순서로 놓아요. <code>np.polyfit(x, y, 1)</code>도 같은 최소제곱 직선을 구하며, 출력은 높은 차수부터 $[a,b]$ 순서예요. <code>np.polyval</code>은 이 순서로 주어진 계수를 새 입력에 대입해요.</p>
-      <p>중간고사 6(a)도 같은 순서로 풀어요. 그 문항에서는 $N=3$, $\sigma^2=1$을 우도에 넣어요. 세 점으로 만든 $\Phi^\top\Phi$의 대각선은 $(3,2)$이고 나머지 원소는 0이에요. 우변이 $(4,3)^\top$이라 최대우도 해는 $(4/3,3/2)^\top$이에요. 여기의 행 미분을 전치하면 시험에서 지정한 미분 방향과 같아요. <a href="../../%EC%8B%9C%ED%97%98%EA%B2%B0%EA%B3%BC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC_1021_%EB%AC%B8%EC%A0%9C%EC%84%A4%EB%AA%85_Midterm.html#p6">중간고사 6번 풀이</a></p>
       <p>직선을 가장 잘 골랐는데도 점들의 굽은 흐름까지 따라가기는 어려워요. 같은 점에 다항식의 차수를 높여 맞추면 어떻게 될까요?</p>
     </div>
   </div>
@@ -726,7 +725,6 @@
       </div>
       <p class="note-stage-result">어떤 0이 아닌 열벡터 $\mathbf u$로 확인해도 이 행렬의 이차식은 $\|\Phi\mathbf u\|^2+\lambda\|\mathbf u\|^2\gt0$이에요. 이 실습의 $\lambda I$는 $\theta_0$에도 비용을 붙여요. $\|\boldsymbol{\theta}\|^2$의 합이 $k=0$에서 시작하고, $I$의 첫 대각 원소도 1이기 때문이에요.</p>
     </div>
-    <div class="calc-box"><p class="calc-label">계산 확인</p><p>$\sigma^2=1$인 중간고사 6(b)는 사전공분산이 $I_2$라 $\gamma^2=1$이에요. 그래서 $\lambda=1$이에요. 6(a)에서 구한 $\Phi^\top\Phi$에 $I_2$를 더해 대각선이 $(4,3)$이 돼요. 같은 우변 $(4,3)^\top$을 쓰면 MAP 해는 $(1,1)^\top$이에요.</p></div>
     <p>입력 스케일링과 정규화의 역할도 나눠서 기억해요. $z=x/5$는 거듭제곱 열의 숫자 크기를 줄여 계산을 다루기 쉽게 해요. $x^k$의 계수에 $5^k$를 곱하면 같은 곡선을 $z^k$로 표현할 수 있어요. 정규화는 그 $z$ 기저에서 계수가 작도록 해를 골라요. 따라서 $x$ 기저에 같은 $\lambda$를 쓰면 같은 곡선에 매기는 비용이 달라질 수 있어요.</p>
     <p>그럼 같은 설계행렬에서 <a href="#s1-lambda">정규화 강도만 바꾸면</a>, 계수 크기와 훈련 오차가 어떻게 움직일까요?</p>
   </div>
@@ -986,10 +984,6 @@ y_fit = Phi_plot @ theta</code></pre>
       </ol>
       <p>마지막 식은 같은 특성·관측·사전분포를 쓴 $\hat{\boldsymbol{\theta}}_{\mathrm{MAP}}$의 식이에요. 가우시안 사후분포의 평균은 밀도가 가장 높은 최빈값(mode)이므로, 일반적인 가우시안 사전 $\mathcal N(\mathbf m_0,S_0)$를 써도 같은 모형의 MAP과 사후평균이 일치해요. 위 식의 $\lambda I_5$ 형태는 이번 실습의 $\mathbf m_0=\mathbf 0$, $S_0=\gamma^2I_5$를 적용한 결과예요.</p>
     </div>
-    <div class="calc-box">
-      <p class="calc-label">계산 확인</p>
-      <p><a href="../../%EC%8B%9C%ED%97%98%EA%B2%B0%EA%B3%BC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC_1021_%EB%AC%B8%EC%A0%9C%EC%84%A4%EB%AA%85_Midterm.html#p9">중간고사 9번</a>은 점 두 개 $(-1,1)$, $(1,3)$로 이 계산을 줄여 보여 줘요. 특성 행 $(1,-1)$, $(1,1)$을 쌓으면 $\Phi^\top\Phi=2I_2$와 $\Phi^\top\mathbf y=(4,2)^\top$를 얻어요. 시험 조건 $S_0=I_2$, $\mathbf m_0=\mathbf 0$, $\sigma^2=1$을 넣으면 $S_N=(I_2+2I_2)^{-1}=I_2/3$, $\mathbf m_N=(I_2/3)(4,2)^\top=(4/3,2/3)^\top$예요.</p>
-    </div>
     <p>평균 계수로는 곡선의 중심을 그릴 수 있어요. 새 입력에서 그 주변의 범위를 알려면 $S_N$이 출력에 만드는 퍼짐도 계산해야 해요.</p>
   </div>
   <div class="sum" hidden>
@@ -1023,7 +1017,6 @@ y_fit = Phi_plot @ theta</code></pre>
     <div class="calc-box">
       <p class="calc-label">계산 확인</p>
       <p>정규분포의 중앙 약 95%를 잡으려면 표준편차의 $1.96$배를 평균의 양옆에 놓아요. $s_*=\sqrt{v_f+\sigma^2}$일 때 예측구간은 $\mu_*\pm1.96s_*$예요. 실습의 $x_*=0$에 넣으면 $0.078\pm1.96\sqrt{0.027+0.04}$, 약 $[-0.429,0.585]$예요.</p>
-      <p><a href="../../%EC%8B%9C%ED%97%98%EA%B2%B0%EA%B3%BC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC/%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC_1021_%EB%AC%B8%EC%A0%9C%EC%84%A4%EB%AA%85_Midterm.html#p10">중간고사 10번</a>은 9번에서 구한 2계수 사후분포를 이어 써요. $x_*=2$에서 특성이 $(1,2)^\top$이므로 평균은 $4/3+2(2/3)=8/3$이에요. $S_N=I_2/3$이라 함수값의 분산은 $1^2/3+2^2/3=5/3$이고, 관측값의 분산은 새 잡음 분산 $1$을 더한 $8/3$이에요.</p>
     </div>
     <p>여기서는 새 입력을 지정해 분포를 읽었어요. 같은 입력에서 $y_*$까지 실제로 얻어 학습에 포함하면 계수의 사후분포부터 바뀌어요.</p>
   </div>
@@ -1192,7 +1185,7 @@ y_fit = Phi_plot @ theta</code></pre>
   <h3>실습 자료와 다시 볼 정리노트</h3>
   <ul>
     <li><a href="../../%EA%B0%95%EC%9D%98%EB%85%B8%ED%8A%B8/TA_Lecture_Introduction_to_Machine_Learning_Practice_1.pdf">이영석 조교 실습자료 · Linear Regression</a></li>
-    <li><a href="../../%EA%B5%90%EA%B3%BC%EC%84%9C/Mathematics_for_Machine_Learning.pdf#page=297">교과서 · MML 9장 선형회귀</a></li>
+    <li><a href="https://mml-book.github.io/book/mml-book.pdf#page=295">교과서 · MML 9장 선형회귀</a></li>
     <li><a href="../0928/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_0928_Linear_Regression.html#s1-theta-ml">기존 정리노트 · 최대우도 정규방정식 (0928)</a></li>
     <li><a href="../1014/%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1014_Bayesian_Posterior_Prediction.html#s2-uncertainty">기존 정리노트 · 함수값과 새 관측값의 불확실성 (1014)</a></li>
   </ul>
