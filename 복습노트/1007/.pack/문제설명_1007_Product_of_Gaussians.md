@@ -735,142 +735,94 @@ $$
 \mathbf{c} = \mathbf{C}(\mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b})
 $$
 
-#### 무엇을 구하는 문제인가요?
+#### 풀이 목표
 
-두 가우시안 밀도의 곱: 완전제곱식으로 유도하기를 주어진 조건에서 차례로 구해요. 원문 아래의 각 소문항이 모두 풀이 대상이에요.
+두 가우시안 밀도를 곱한 뒤 완전제곱으로 정리해 평균 $c$와 공분산 $C$를 구해요.
 
-#### 이 문제를 봤을 때 떠올릴 개념과 공식
+#### 풀이 단서
 
-두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요. A,B는 양의 정부호이고 계수 순서를 지켜요.
+밀도를 곱하면 지수는 더해져요. 합친 지수에서 이차항과 일차항을 모아 완전제곱을 만들어요.
 
-#### 종이에 적을 첫 줄
+#### 첫 단계
 
-$\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$예요.
+곱에서 지수 함수 안의 두 이차형식을 모아 $-Q/2$로 써요.
 
-#### 왜 이렇게 푸는지 함께 따라가요
+$$
+\begin{aligned}Q={}&(x-a)^\top A^{-1}(x-a)\\ &+(x-b)^\top B^{-1}(x-b).\end{aligned}
+$$
+
+계수를 모은 뒤 완전제곱의 중심을 구해요.
+
+#### 핵심 풀이
 
 #### 풀이
 
-두 이차형식을 따로 이름 붙여요.
+공분산은 이차항 계수 행렬의 역행렬이고, 평균은 완전제곱의 중심이에요.
+
+여기서 $\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$이고, $K$는 $x$와 무관해요.
 
 $$
-Q_A=(\mathbf{x}-\mathbf{a})^\top\mathbf{A}^{-1}(\mathbf{x}-\mathbf{a})
+Q=x^\top\Lambda x-2\eta^\top x+K
 $$
 
-$$
-Q_B=(\mathbf{x}-\mathbf{b})^\top\mathbf{B}^{-1}(\mathbf{x}-\mathbf{b})
-$$
-
-두 밀도의 곱을 $P(\mathbf{x})$라고 하면, 입력과 무관한 정규화 상수를 제외하고
+↳ 대칭성으로 같은 교차항을 합쳐요.
 
 $$
-P(\mathbf{x})\propto\exp\left(-\frac12(Q_A+Q_B)\right)
+\Lambda c=\eta
 $$
 
-예요. 곱의 지수를 더한다는 뜻이에요.
-
-첫째 이차형식을 펼쳐요. $\mathbf{A}^{-1}$이 대칭이라 $\mathbf{x}^\top\mathbf{A}^{-1}\mathbf{a} = \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{x}$예요.
+↳ 완전제곱의 일차항 $-2c^\top\Lambda x$를 맞춰요.
 
 $$
-(\mathbf{x} - \mathbf{a})^\top\mathbf{A}^{-1}(\mathbf{x} - \mathbf{a}) = \mathbf{x}^\top\mathbf{A}^{-1}\mathbf{x} - 2(\mathbf{A}^{-1}\mathbf{a})^\top\mathbf{x} + \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{a}
+\begin{aligned}Q={}&(x-c)^\top\Lambda(x-c)\\ &+K-c^\top\Lambda c.\end{aligned}
 $$
 
-둘째도 같은 꼴이에요.
+↳ 완전제곱에 포함된 상수를 빼요.
 
 $$
-(\mathbf{x} - \mathbf{b})^\top\mathbf{B}^{-1}(\mathbf{x} - \mathbf{b}) = \mathbf{x}^\top\mathbf{B}^{-1}\mathbf{x} - 2(\mathbf{B}^{-1}\mathbf{b})^\top\mathbf{x} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}
+\begin{aligned}C&=(A^{-1}+B^{-1})^{-1}\\ c&=C(A^{-1}a+B^{-1}b).\end{aligned}
 $$
 
-더해서 묶어요. $\boldsymbol{\Lambda} = \mathbf{A}^{-1} + \mathbf{B}^{-1}$, $\boldsymbol{\eta} = \mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b}$로 두면
+↳ 가우시안 지수에서 $C^{-1}=\Lambda$를 읽어요.
 
-$$
-[\cdots] = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \gamma
-$$
+#### 최종 답
 
-이고, 상수항은
+$C=(A^{-1}+B^{-1})^{-1}$, $c=C(A^{-1}a+B^{-1}b)$예요.
 
-$$
-\gamma = \mathbf{a}^\top\mathbf{A}^{-1}\mathbf{a} + \mathbf{b}^\top\mathbf{B}^{-1}\mathbf{b}
-$$
-
-스칼라 렘마의 $\alpha$ 자리에 $\boldsymbol{\Lambda}$, $\beta$ 자리에 $\boldsymbol{\eta}$가 왔어요.
-
-완전제곱식을 만들어요. $\mathbf{m} = \boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}$로 두고 펼쳐 봐요. $\boldsymbol{\Lambda}$가 대칭이라 $\mathbf{m}^\top\boldsymbol{\Lambda} = \boldsymbol{\eta}^\top$이에요.
-
-$$
-(\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m}) = \mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \boldsymbol{\eta}^\top\boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}
-$$
-
-그래서 같은 수를 더하고 빼면
-
-$$
-\mathbf{x}^\top\boldsymbol{\Lambda}\mathbf{x} - 2\boldsymbol{\eta}^\top\mathbf{x} + \gamma = (\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m}) + \left(\gamma - \boldsymbol{\eta}^\top\boldsymbol{\Lambda}^{-1}\boldsymbol{\eta}\right)
-$$
-
-괄호 안 상수는 $\mathbf{x}$와 무관하니 앞쪽 상수로 넘겨요.
-
-$$
-\mathcal{N}(\mathbf{x} \mid \mathbf{a}, \mathbf{A})\,\mathcal{N}(\mathbf{x} \mid \mathbf{b}, \mathbf{B}) \propto \exp\left(-\frac{1}{2}(\mathbf{x} - \mathbf{m})^\top\boldsymbol{\Lambda}(\mathbf{x} - \mathbf{m})\right)
-$$
-
-가우시안 PDF의 지수 $-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top\Sigma^{-1}(\mathbf{x} - \boldsymbol{\mu})$와 맞춰 보면 $\Sigma^{-1} = \boldsymbol{\Lambda}$, $\boldsymbol{\mu} = \mathbf{m}$이에요. 그러니
-
-$$
-\mathbf{C} = \boldsymbol{\Lambda}^{-1} = (\mathbf{A}^{-1} + \mathbf{B}^{-1})^{-1}
-$$
-
-$$
-\mathbf{c} = \mathbf{m} = \boldsymbol{\Lambda}^{-1}\boldsymbol{\eta} = \mathbf{C}(\mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b})
-$$
-
-1차원으로 확인해요. $\mathbf{A} = \nu_0$, $\mathbf{B} = \nu_1$, $\mathbf{a} = \mu_0$, $\mathbf{b} = \mu_1$을 넣으면
-
-$$
-C = \left(\frac{1}{\nu_0} + \frac{1}{\nu_1}\right)^{-1} = \frac{\nu_0\nu_1}{\nu_0 + \nu_1}
-$$
-
-$$
-c = \frac{\nu_0\nu_1}{\nu_0 + \nu_1}\left(\frac{\mu_0}{\nu_0} + \frac{\mu_1}{\nu_1}\right) = \frac{\nu_1\mu_0 + \nu_0\mu_1}{\nu_0 + \nu_1}
-$$
-
-스칼라 곱 공식과 같은 결과가 나와요.
-
-#### 완성 답과 검산
+#### 답 확인
 
 #### 검산
 
-m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.
+$c=C\eta$를 넣으면 $\Lambda c=\Lambda C\eta=\eta$라서 일차항이 맞아요. $\Lambda$가 양의 정부호라 $C$도 유효한 공분산이에요.
 
-정답: $\mathbf{C} = (\mathbf{A}^{-1} + \mathbf{B}^{-1})^{-1}$, $\mathbf{c} = \mathbf{C}(\mathbf{A}^{-1}\mathbf{a} + \mathbf{B}^{-1}\mathbf{b})$
+#### 주의할 점
 
-#### 여기서 주의해요
-
-밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.
-
-#### 설명을 닫고 다시 해요
-
-1. $\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$예요.
-2. 각 소문항의 계산과 이유를 직접 적어요.
-3. 밀도의 곱은 일반적으로 적분1이 아니에요. ∝를=로 바꾸거나 공분산을A+B로 쓰지 않아요.
+$x$와 무관한 지수 항은 밀도 앞의 상수 배가 돼요. 두 밀도의 곱과 결과 가우시안 사이는 $\propto$로 써요.
 
 **페이지 요약**
 
 #### 떠올릴 개념·공식
 
-두 밀도의 곱(product of Gaussians)은 지수의 이차형식을 더해요. 정밀도(precision) Λ=A⁻¹+B⁻¹와 η=A⁻¹a+B⁻¹b를 정의하면 완전제곱식의 중심은 Λ⁻¹η예요.
+두 지수를 합쳐 이차항의 행렬 $\Lambda=A^{-1}+B^{-1}$와 일차항의 벡터 $\eta=A^{-1}a+B^{-1}b$를 모아요.
 
 #### 첫 줄
 
-$\Lambda=A^{-1}+B^{-1}$, $\eta=A^{-1}a+B^{-1}b$예요.
+두 이차형식을 더한 $Q$를 놓고 완전제곱의 일차항을 맞춰요.
+
+#### 핵심 답
+
+$\Lambda c=\eta$이므로 $C=\Lambda^{-1}$, $c=C\eta$예요.
 
 #### 검산
 
-m=Λ⁻¹η이면 Λm=η예요. (x−m)ᵀΛ(x−m)을 전개하면 xᵀΛx−2ηᵀx+ηᵀΛ⁻¹η예요. 원 식과 차이는 x와 무관한 상수라 C=Λ⁻¹,c=m이 정확히 나와요. 이는 일반 대칭 정부호 행렬에 대한 증명이에요.
+$\Lambda C\eta=\eta$이고 $C$는 양의 정부호예요.
 
 #### 조건·구분
 
-양의 정부호 공분산과 정밀도 합의 역행렬 조건을 써요. 밀도 곱은 일반적으로 적분 $1$이 아니므로 $\propto$를 $=$로 바꾸지 않아요. 공분산은 $A+B$가 아니라 정밀도 합의 역행렬이에요.
+$x$와 무관한 상수 배를 포함하므로 $\propto$로 써요.
+
+#### 용어
+
+- **정밀도(precision)** — 공분산의 역행렬이에요. 이 문제에서는 $C^{-1}=\Lambda$예요.
 
 ---
-
-원 문제·정리노트·PDF는 보존해요.

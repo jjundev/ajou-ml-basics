@@ -87,6 +87,7 @@
     .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
     .layer li + li { margin-top: var(--s3); }
     .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
+    .sum > [data-summary-terms], .layer > .final-answer { margin-top: var(--s5); }
     .sum h4 { margin: 0 0 var(--s3); font-size: inherit; line-height: 1.5; }
     .sum .summary-group > p { margin: 0; }
     .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
@@ -598,7 +599,6 @@
     </div>
 {{SECTIONS}}
   </main>
-  <footer>{{FOOTER}}</footer>
     </div>
     <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
       <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
@@ -1106,7 +1106,13 @@
         topics.forEach((t) => {
           // 조각의 <div class="sum" hidden> 을 요약 패널로 옮긴다. 없으면 안내 문구만 보인다.
           const el = t.querySelector(':scope > .sum');
-          if (el) { el.hidden = true; box.appendChild(el); sums[t.id] = el; }
+          if (el) {
+            const terms = t.querySelector(':scope > [data-problem-panel="terms"][data-summary-terms]');
+            if (terms) el.appendChild(terms);
+            el.hidden = true;
+            box.appendChild(el);
+            sums[t.id] = el;
+          }
           const pane = t.querySelector(':scope > .problem-pane');
           if (!pane) return;
           pane.id = 'problem-' + t.id;

@@ -1,7 +1,7 @@
 """Validate authored inputs, provenance, review gates and final delivery."""
 from pathlib import Path
 import json,sys,argparse
-from exam_adapter import load_exam_source,resolve_reference,sha,resolve,parse
+from exam_adapter import explanation_tabs,load_exam_source,resolve_reference,sha,resolve,parse
 from exam_config import config_for_output
 from check_vector_derivatives import check_text
 
@@ -11,7 +11,9 @@ def validate_browser_report(report,path):
  ids=[f'p{i}' for i in range(1,11)]
  views=['1280x900','1024x900','375x812'];themes=['light','dark']
  if report.get('status')!='pass' or report.get('errors')!=[] or report.get('html_sha256')!=sha(path):errors.append('stale browser review')
- if report.get('topic_ids')!=ids or report.get('original_topic_ids')!=ids or report.get('tab_order')!=['problem','original','provenance','terms']:errors.append('browser topic/tab mismatch')
+ doc=parse(Path(path).read_text(encoding='utf-8'))
+ topic=next(doc.find_all(lambda node:node.tag=='article' and node.attrs.get('id')=='p8'),None)
+ if report.get('topic_ids')!=ids or report.get('original_topic_ids')!=ids or topic is None or report.get('tab_order')!=explanation_tabs(topic):errors.append('browser topic/tab mismatch')
  expected=set(product(views,themes,ids))
  for key in ('screens','original_checks'):
   rows=report.get(key,[])

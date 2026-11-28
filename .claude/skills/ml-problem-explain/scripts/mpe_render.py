@@ -208,7 +208,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
               'TOC': '<ul class="toc-list">' + ''.join(toc) + '</ul>', 'TITLE': html.escape(title),
               'SUBTITLE': '주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.',
               'SECTIONS': '<section id="problems"><h2>문항별 설명</h2>' + ''.join(articles) + '</section>',
-              'FOOTER': '원 문제·정리노트·PDF는 보존해요.', 'SCRIPTS': '<script type="application/json" id="explain-choice-model">'+json.dumps({p.id:{'answer':p.choice.answer,'mode':p.choice.mode,'options':list(p.choice.option_ids)} for p in pack.problems if p.choice},ensure_ascii=False).replace('</','<\\/')+'</script>',
+              'SCRIPTS': '<script type="application/json" id="explain-choice-model">'+json.dumps({p.id:{'answer':p.choice.answer,'mode':p.choice.mode,'options':list(p.choice.option_ids)} for p in pack.problems if p.choice},ensure_ascii=False).replace('</','<\\/')+'</script>',
               'RANGE': f'ml-problem-explain-{pack.profile}-{pack.range}-{pack.slug}', 'VENDOR': vendor_relpath(pack, repo)}
     text = (ASSETS / 'note-template.html').read_text(encoding='utf-8')
     for key, value in values.items():

@@ -81,6 +81,24 @@ def test_check_rejects_wrong_round_and_incomplete_browser(baseline,repo):
     report['html_sha256']='0'*64
     assert validate_browser_report(report,path)
 
+def test_browser_report_uses_summary_terms_placement(baseline, tmp_path):
+    from check_exam import validate_browser_report
+    from exam_adapter import sha
+
+    source = baseline/'문제설명_0909-1019_Midterm_Practice_01.html'
+    html = source.read_text(encoding='utf-8')
+    before, p8 = html.split('<article class="topic" id="p8">', 1)
+    article, after = p8.split('</article>', 1)
+    article = article.replace('data-problem-panel="terms"', 'data-problem-panel="terms" data-summary-terms=""', 1)
+    path = tmp_path/'summary-terms.html'
+    path.write_text(before+'<article class="topic" id="p8">'+article+'</article>'+after, encoding='utf-8')
+
+    report = json.loads((baseline/'.pack/evidence/browser-check.json').read_text(encoding='utf-8'))
+    report['html_sha256'] = sha(path)
+    assert 'browser topic/tab mismatch' in validate_browser_report(report, path)
+    report['tab_order'].remove('terms')
+    assert validate_browser_report(report, path) == []
+
 def test_source_round_and_repository_must_match(repo,exam,tmp_path):
     from test_build import source_for
     from exam_adapter import load_exam_source

@@ -53,10 +53,13 @@ def validate_fragment(problem, fragment):
         errors.append('용어 패널(data-problem-panel="terms")을 한 번 작성하세요')
     sections = list(root.find_all(lambda n: 'data-explanation' in n.attrs))
     counts = Counter(n.attrs['data-explanation'] for n in sections)
-    if counts != Counter(KEYS):
-        errors.append('일곱 설명 구역(understand/recall/start/solve/verify/pitfall/retry)을 각각 한 번 작성하세요')
-    if tuple(n.attrs['data-explanation'] for n in sections) != KEYS:
-        errors.append('설명 구역 순서는 understand/recall/start/solve/verify/pitfall/retry여야 해요')
+    omit_retry = any(node.parent is root and node.attrs['data-explanation'] == 'pitfall'
+                     and 'data-omit-retry' in node.attrs for node in sections)
+    expected_sections = KEYS[:-1] if omit_retry else KEYS
+    if counts != Counter(expected_sections):
+        errors.append('설명 구역을 각각 한 번 작성하세요. 필요 구역: ' + '/'.join(expected_sections))
+    if tuple(n.attrs['data-explanation'] for n in sections) != expected_sections:
+        errors.append('설명 구역 순서는 ' + '/'.join(expected_sections) + '여야 해요')
     for node in sections:
         if node.attrs['data-explanation'] == 'recall':
             body = _body_text(node)

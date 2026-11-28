@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,sys,argparse,hashlib,re,html,uuid
 from playwright.sync_api import sync_playwright
-from exam_adapter import parse,inner
+from exam_adapter import explanation_tabs,parse,inner
 
 def normalized(text):
  # The fixed reader moves/drops sentence punctuation beside reflowed display math.
@@ -30,8 +30,15 @@ def run_check(path,evidence,shots):
  evidence=Path(evidence);shots=Path(shots);shots.mkdir(parents=True,exist_ok=True)
  evidence.parent.mkdir(parents=True,exist_ok=True)
  root=parse(Path(path).read_text(encoding='utf-8'))
- topic_ids=[n.attrs['id'] for n in root.find_all(lambda n:n.tag=='article' and 'topic' in n.classes)]
+ topics={n.attrs['id']:n for n in root.find_all(lambda n:n.tag=='article' and 'topic' in n.classes)}
+ topic_ids=list(topics)
  if topic_ids!=[f'p{i}' for i in range(1,11)]:raise ValueError('expected p1-p10')
+ tabs_by_topic={pid:explanation_tabs(topic) for pid,topic in topics.items()}
+ summary_terms={
+  pid for pid,topic in topics.items()
+  if any(topic.find_all(lambda n:n.parent is topic and n.attrs.get('data-problem-panel')=='terms' and 'data-summary-terms' in n.attrs))
+ }
+ tab_order=tabs_by_topic['p8']
  errors=[];screens=[];behaviors=[];original_checks=[];print_checks=[];expected=original_expectations(path)
  with sync_playwright() as pw:
   browser=pw.chromium.launch(channel='chrome',headless=True)
@@ -67,6 +74,12 @@ def run_check(path,evidence,shots):
      page.wait_for_timeout(40)
      summary=page.locator('.sums > .sum:not([hidden])')
      if summary.count()!=1 or not summary.inner_text().strip():errors.append(f'empty summary p{n}')
+     visible_tabs=page.locator('#problem-workspace [role=tab]:visible').evaluate_all("(nodes)=>nodes.map(node=>node.dataset.tab)")
+     if visible_tabs!=tabs_by_topic[f'p{n}']:errors.append(f'problem tabs p{n}')
+     terms=summary.locator(':scope > [data-summary-terms]')
+     if f'p{n}' in summary_terms:
+      if terms.count()!=1 or not terms.is_visible() or not terms.evaluate('(node)=>node===node.parentElement.lastElementChild'):errors.append(f'summary terms p{n}')
+     elif terms.count():errors.append(f'unexpected summary terms p{n}')
      if width<1024:page.locator('#panel-right [data-panel-close]').click()
      else:
       # Keep main readable at 1024, then reopen as part of each iteration above.
@@ -85,7 +98,10 @@ def run_check(path,evidence,shots):
     if page.locator('#tab-original').get_attribute('aria-selected')!='true':errors.append('tab lost on navigation')
     if width<1024:page.locator('#p8 .problem-toggle').click()
     # Keyboard order is the same as the visible tab sequence.
-    for key,target in [('Home','problem'),('ArrowRight','original'),('ArrowRight','provenance'),('ArrowRight','terms'),('ArrowLeft','provenance'),('End','terms'),('Home','problem')]:
+    keyboard_steps=[('Home',tab_order[0])]
+    keyboard_steps.extend(('ArrowRight',tab) for tab in tab_order[1:])
+    keyboard_steps.extend([('ArrowLeft',tab_order[-2]),('End',tab_order[-1]),('Home',tab_order[0])])
+    for key,target in keyboard_steps:
      page.locator('[role=tab][aria-selected=true]').focus();page.keyboard.press(key)
      if page.locator('#tab-'+target).get_attribute('aria-selected')!='true':errors.append('keyboard tab order '+key)
     page.locator('#tab-original').click();page.reload(wait_until='networkidle')
@@ -139,7 +155,7 @@ def run_check(path,evidence,shots):
   finally:fixture.unlink()
   behaviors=['all 10 topics; six viewport-theme combinations; full English title/conditions/tasks match','summary; mobile expand/collapse; no-original hidden/fallback fixture','previous/next; keyboard Home/End/Arrows; saved original preference','left/right/float dock; keyboard move/resize; floating viewport bounds','1023→1024; print Korean and English preservation']
   browser.close()
- report={'html_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'status':'fail' if errors else 'pass','topic_ids':topic_ids,'original_topic_ids':list(expected),'tab_order':['problem','original','provenance','terms'],'original_checks':original_checks,'print_checks':print_checks,'viewports':['1280x900','1024x900','375x812'],'themes':['light','dark'],'screens':screens,'behaviors':behaviors,'errors':errors}
+ report={'html_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'status':'fail' if errors else 'pass','topic_ids':topic_ids,'original_topic_ids':list(expected),'tab_order':tab_order,'original_checks':original_checks,'print_checks':print_checks,'viewports':['1280x900','1024x900','375x812'],'themes':['light','dark'],'screens':screens,'behaviors':behaviors,'errors':errors}
  evidence.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8');print(json.dumps({'status':report['status'],'screens':len(screens),'errors':errors},ensure_ascii=False,indent=2));return report
 if __name__=='__main__':
  for stream in (sys.stdout, sys.stderr):

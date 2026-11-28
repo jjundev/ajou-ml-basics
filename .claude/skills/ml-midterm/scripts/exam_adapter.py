@@ -6,6 +6,17 @@ from exam_config import ExamConfig, config_for_output
 from review_pdf_cards import read_cards,normalize_cards,parse,inner,outer
 from mpe_source import subparts,existing_path
 from mpe_types import Problem,SourcePack
+
+def explanation_tabs(topic):
+    tabs = ['problem', 'original']
+    panels = {
+        node.attrs['data-problem-panel']
+        for node in topic.find_all(lambda n: n.parent is topic and 'data-problem-panel' in n.attrs)
+        if 'data-summary-terms' not in node.attrs
+    }
+    tabs.extend(kind for kind in ('provenance', 'terms') if kind in panels)
+    return tabs
+
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def resolve(repo,path):
  p=Path(path);p=p if p.is_absolute() else Path(repo)/p
