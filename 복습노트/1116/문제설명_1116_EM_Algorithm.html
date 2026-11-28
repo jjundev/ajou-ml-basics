@@ -82,11 +82,14 @@
     .layer > :last-child { margin-bottom: 0; }
     .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
     .layer [data-source-field] + h4 { margin-top: var(--s5); }
-    .layer p { margin: var(--s3) 0; }
+    .layer p { margin: 14px 0; }
+    .layer p:has(.katex) { line-height: 1.9; }
     .verdict-card { padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: 28px; }
+    .layer [data-subpart] > h4 { font-size: var(--fs-body); }
     .layer li + li { margin-top: var(--s3); }
     .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
+    .sum > [data-summary-terms], .layer > .final-answer { margin-top: var(--s5); }
     .sum h4 { margin: 0 0 var(--s3); font-size: inherit; line-height: 1.5; }
     .sum .summary-group > p { margin: 0; }
     .layer-title { display: block; font-size: var(--fs-layer); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin-bottom: var(--s3); }
@@ -114,9 +117,13 @@
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
     .katex-display { padding: var(--s2) 0; }
     pre { max-width: 100%; overflow-x: auto; tab-size: 4; }
-    .table-wrap { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
-    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    .table-wrap { position: relative; overflow-x: auto; max-width: 100%; margin: var(--s5) 0; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); border-top: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); }
+    .table-wrap > table { display: table; width: 100%; }
+    th, td { border-bottom: 1px solid var(--line); padding: 11px 10px; text-align: left; vertical-align: top; }
+    thead th { border-bottom: 1.5px solid var(--line); }
+    tbody tr:last-child td { border-bottom: 0; }
+    tr:has(.katex) th, tr:has(.katex) td { padding-block: 12px; }
     th { color: var(--ink-2); font-weight: 600; }
     td:first-child, th:first-child { min-width: 6em; }
 
@@ -606,31 +613,22 @@
       <li>(a) 세 성분의 새 가중치 $\pi_k^{\text{new}}$를 소수점 아래 셋째 자리까지 구해 보세요.</li>
       <li>(b) (a)의 세 값을 더하면 $1$이 되는지 확인하고, 갱신 전 $\frac{1}{3}$보다 커진 성분을 골라 보세요.</li>
     </ol></div></div><details class="original" data-original-problem="p1"><summary>원문 보기</summary><p>“Here we see that the third component gets more weight/importance, while the other components become slightly less important.” — Example 11.5</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 관측 수 $N=7$, 성분 $3$개의 총 책임도 $N_1=2.058$, $N_2=2.008$, $N_3=2.934$, 갱신 전 가중치 $\pi_k=\frac{1}{3}$, 그리고 M-step 식 $\pi_k^{\text{new}}=\frac{N_k}{N}$이에요.</p>
-  <p>구할 것: (a) 세 $\pi_k^{\text{new}}$를 소수점 아래 셋째 자리까지, (b) 세 값의 합이 $1$인지와 $\frac{1}{3}$보다 커진 성분이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 총 책임도 $N_k$와 관측 수 $N=7$로 새 혼합 가중치 $\pi_k^{\text{new}}$를 셋째 자리까지 구해요. (b) 세 값의 합이 $1$인지 확인하고 갱신 전 $\frac{1}{3}$보다 커진 성분을 골라요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘총 책임도 $N_k$’와 ‘혼합 가중치 갱신’이라는 단서에서 M-step의 <b>혼합 가중치(mixing weight) 갱신식</b>을 떠올려요. 이 문제에서는 식이 주어져 있으니 대입만 하면 돼요.</p>
-  $$\pi_k^{\text{new}}=\frac{\overbrace{N_k}^{\text{성분 }k\text{가 맡은 몫}}}{\underbrace{N}_{\text{전체 관측 수}}}$$
-  <ul>
-    <li>$N_k=\sum_{n=1}^{N} r_{nk}$는 책임도 표의 열 $k$를 더한 값이에요. 확률을 여러 개 더한 값이라 정수가 아니어도 되고 $1$보다 클 수 있어요.</li>
-    <li>책임도 표의 각 행은 합이 $1$이라서, 표 전체를 더하면 $\sum_{k}N_k=N$이에요. 그래서 새 가중치의 합은 저절로 $1$이 돼요.</li>
-  </ul>
-  <p>E-step의 책임도 표에서 열 합이 $N_k$, 전체 합이 $N$이라는 구조는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>에서, 비율의 뜻은 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-pi">비율: 전체 몫 중 성분 k의 몫</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>주어진 M-step 식 $\pi_k^{\text{new}}=\frac{N_k}{N}$에 대입해요. 책임도 표의 각 행 합이 $1$이므로 열 합을 모두 더하면 $\sum_{k=1}^3 N_k=N$이고, 새 가중치 합은 항상 $1$이에요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-pi">비율: 전체 몫 중 성분 k의 몫</a>).</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>$N=7$을 먼저 적고, 첫 성분부터 $\pi_1^{\text{new}}=\frac{2.058}{7}$로 시작해요.</p>
-  <p>풀이 로드맵: 1. $N_k$를 $7$로 나눠 세 가중치 계산 → 2. 분자 합 $\sum_k N_k$로 합이 $1$인지 확인 → 3. 세 값을 $\frac{1}{3}\approx0.333$과 비교해요.</p>
+  <h4>첫 단계</h4>
+  <p>$N=7$을 분모에 두고 첫 성분부터 $\pi_1^{\text{new}}=\frac{2.058}{7}$을 계산해요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $(\pi_1^{\text{new}},\pi_2^{\text{new}},\pi_3^{\text{new}})=(0.294,\,0.287,\,0.419)$예요.</p>
-    <p>대표로 성분 $1$은 $\pi_1^{\text{new}}=\frac{2.058}{7}=0.294$예요. 세 성분을 같은 방법으로 표에 정리해요.</p>
+    <h4>(a) 새 혼합 가중치 계산</h4>
+    <p>성분 $1$은 $\pi_1^{\text{new}}=\frac{2.058}{7}=0.294$예요. 같은 방법으로 세 성분을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$N_k$</th> <th scope="col">$N_k/7$</th> <th scope="col">셋째 자리 반올림</th></tr></thead>
@@ -641,64 +639,54 @@
         </tbody>
       </table>
     </div>
-    <p>모든 성분을 같은 $N=7$로 나누므로, 총 책임도가 큰 성분일수록 새 가중치도 커요.</p>
+    <p>모든 성분을 같은 $N=7$로 나누므로 $N_k$가 클수록 새 가중치도 커요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 합은 정확히 $1$이고, $\frac{1}{3}$보다 커진 성분은 성분 $3$뿐이에요.</p>
-    <p>반올림 전 값으로 더하면 분자끼리 먼저 더할 수 있어요. $\frac{2.058+2.008+2.934}{7}=\frac{7}{7}=1$이에요. 반올림한 값도 $0.294+0.287+0.419=1.000$이에요.</p>
-    <p>$\frac{1}{3}\approx0.333$과 비교하면 $0.294$와 $0.287$은 작고 $0.419$만 커요. 같은 말로 $N_k\gt\frac{7}{3}\approx2.333$인 성분은 $N_3=2.934$뿐이에요.</p>
+    <h4>(b) 합 확인과 증가 성분 판정</h4>
+    <p>반올림 전 분자를 먼저 더하면 $\frac{2.058+2.008+2.934}{7}=\frac{7}{7}=1$이고, 반올림한 세 값도 $0.294+0.287+0.419=1.000$이에요.</p>
+    <p>갱신 전 $\frac{1}{3}\approx0.333$보다 큰 값은 $0.419$뿐이라 성분 $3$만 커졌어요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $(\pi_1^{\text{new}},\,\pi_2^{\text{new}},\,\pi_3^{\text{new}})=(0.294,\,0.287,\,0.419)$예요.</p>
+    <p>(b) 합은 정확히 $1$이고, $\frac{1}{3}$보다 커진 성분은 성분 $3$이에요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>거꾸로 곱해 봐요. $0.294\times7=2.058$, $0.287\times7=2.009$, $0.419\times7=2.933$으로 주어진 $N_k$와 반올림 오차 안에서 맞아요.</p>
+    <p>$0.294\times7=2.058$, $0.287\times7=2.009$, $0.419\times7=2.933$으로 주어진 $N_k$와 반올림 오차 안에서 맞아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>$\sum_k N_k=7=N$이 성립하므로 합 $1$은 반올림과 무관한 정확한 값이에요.</p>
+    <h4>(b) 확인</h4>
+    <p>$\sum_k N_k=7=N$이고 $N_3=2.934\gt\frac{7}{3}\approx2.333$이라 반올림과 무관하게 결론이 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>분모는 성분 개수 $K=3$이 아니라 관측 수 $N=7$이에요. $N_k$를 $3$으로 나누면 합이 $\frac{7}{3}$이 되어 확률이 될 수 없어요.</p>
-  <p>(b)의 합 확인을 반올림한 값으로만 하면 $1.000$이 우연처럼 보여요. 분자 합 $\sum_kN_k=N$에서 정확히 $1$임을 설명해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>분모에 들어갈 $N$이 관측 수인지 확인하고 $\pi_k^{\text{new}}=N_k/N$을 적어요.</li>
-    <li>$\sum_k N_k=N$으로 새 가중치 합이 $1$임을 한 줄로 보여요.</li>
-    <li>$N_k$와 $N/K=\frac{7}{3}$을 비교해 커진 성분을 골라요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>분모는 성분 개수 $K=3$이 아니라 관측 수 $N=7$이에요. $3$으로 나누면 합이 $\frac{7}{3}$이 되어 확률이 되지 않아요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>주어진 M-step 식 $\pi_k^{\text{new}}=N_k/N$에서 $N$은 관측 수 $7$이에요. $N_k$는 책임도 표의 열 합이고, 열 합을 모두 더하면 $N$이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>새 가중치는 $(0.294,\,0.287,\,0.419)$이고, 분자 합이 $7$이라 합은 정확히 $1$이에요. $\frac{1}{3}$보다 커진 것은 성분 $3$뿐이에요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\pi_k^{\text{new}}=N_k/N$에서 $N$은 관측 수 $7$이에요. 표 전체의 열 합 $\sum_k N_k=N$이라 합은 항상 $1$이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$N=7$을 놓고 $\pi_1^{\text{new}}=2.058/7$부터 나눠요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $(0.294,\,0.287,\,0.419)$, (b) 합은 $1$이고 $\frac{1}{3}$보다 커진 것은 성분 $3$이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>각 값에 $7$을 곱하면 주어진 $N_k$가 반올림 오차 안에서 복원돼요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>분모에 $K=3$이 아닌 관측 수 $N=7$을 써야 해요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>혼합 가중치(mixing weight) $\pi_k$</dt>
-    <dd>GMM에서 성분 $k$를 고를 확률이에요. $\pi_k\ge0$이고 $\sum_k\pi_k=1$이에요.</dd>
-    <dt>총 책임도(total responsibility) $N_k$</dt>
-    <dd>$N_k=\sum_{n=1}^{N}r_{nk}$로, 책임도 표의 열 $k$의 합이에요. 성분 $k$가 데이터 전체에서 맡은 관측 수 분량이고 정수가 아니어도 돼요.</dd>
-    <dt>M-step</dt>
-    <dd>E-step에서 구한 책임도를 고정하고 $\boldsymbol{\mu}_k$, $\Sigma_k$, $\pi_k$를 다시 계산하는 단계예요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.5(혼합 가중치 갱신), 교과서 360쪽(PDF 366쪽)과 Example 11.2의 $N_1=2.058$, $N_2=2.008$, $N_3=2.934$(교과서 353쪽, PDF 359쪽).</p>
-  <p>수업: 1116 L07 s12의 M-step 식. 관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-pi">비율: 전체 몫 중 성분 k의 몫</a></p>
+  <p>수업: 1116 L07 s12. 관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-pi">비율: 전체 몫 중 성분 k의 몫</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>혼합 가중치(mixing weight) $\pi_k$</dt>
+    <dd>GMM에서 성분 $k$가 차지하는 비율이에요. $\pi_k\ge0$이고 $\sum_k\pi_k=1$이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_{n=1}^{N}r_{nk}$로, 성분 $k$가 전체 데이터에서 맡은 관측 수 분량이에요.</dd>
+  </dl>
 </section>
 </article><article class="topic" id="p2"><h3>P2. 책임도 표로 평균 갱신하기</h3><p class="panel-meta">MML Example 11.3 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=2">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p2"><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>1차원 관측 $x_1,\dots,x_7$에 성분 $3$개짜리 GMM을 맞추고 있어요. E-step에서 구한 책임도 $r_{nk}$가 아래 표에 있어요. 행은 관측 $x_n$, 열은 성분 $k=1,2,3$이에요.</p>
@@ -720,31 +708,22 @@
           <tr><th scope="row">$6$</th> <td>$0$</td> <td>$0$</td> <td>$1$</td></tr>
         </tbody>
       </table></div><details class="original" data-original-problem="p2"><summary>원문 보기</summary><p>“In our example from Figure 11.3, the mean values are updated as follows” — Example 11.3</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 관측 $x_n\in\{-4,-2,-1,0,2,4,6\}$과 $7\times3$ 책임도 표 $r_{nk}$(행 $n$은 관측, 열 $k$는 성분), 평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_n r_{nk}x_n$이에요.</p>
-  <p>구할 것: (a) 열 합 $N_k=\sum_n r_{nk}$, (b) 그 $N_k$로 나눈 새 평균 $\mu_k^{\text{new}}$예요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) $7\times3$ 책임도 표에서 세 성분의 총 책임도 $N_k=\sum_{n=1}^{7} r_{nk}$를 구해요. (b) 이 $N_k$로 세 성분의 새 평균 $\mu_k^{\text{new}}$를 구해요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘책임도 표’와 ‘평균 갱신’이라는 단서에서 E-step이 만든 $N\times K$ 표를 M-step이 <b>열 단위로</b> 쓴다는 점을 떠올려요.</p>
-  <ul>
-    <li><b>총 책임도</b> $N_k$: 표의 열 $k$를 위에서 아래로 더한 값이에요. 각 행의 합은 $1$이므로 세 $N_k$를 모두 더하면 관측 수 $7$이에요.</li>
-    <li><b>가중 평균(weighted average)</b>: 평균 갱신식은 가중치 $r_{nk}/N_k$로 관측을 평균한 값이에요.</li>
-  </ul>
-  $$\mu_k^{\text{new}}=\frac{\overbrace{\sum_{n} r_{nk}x_n}^{\text{열 }k\text{로 가중한 관측의 합}}}{\underbrace{N_k}_{\text{열 }k\text{의 합}}}=\sum_n\frac{r_{nk}}{N_k}x_n,\qquad\sum_n\frac{r_{nk}}{N_k}=1$$
-  <p>$N$이 아니라 $N_k$로 나눠야 가중치 합이 $1$이 되고, 그래서 새 평균은 그 성분이 맡은 관측들 사이에 놓여요. 표의 구조는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>, 가중 평균의 뜻은 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>$N_k$는 책임도 표의 <b>열 합</b>이에요. 평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^{7} r_{nk}x_n$은 합이 $1$인 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>).</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>표 아래에 열 합 줄을 하나 더 그리고, 첫 칸에 $N_1=1+1+\frac{1}{2}+0+0+0+0$을 적어요.</p>
-  <p>풀이 로드맵: 1. 세 열의 합 $N_k$ → 2. 열마다 $\sum_n r_{nk}x_n$ 계산 → 3. 그 합을 $N_k$로 나눠 $\mu_k^{\text{new}}$를 구해요.</p>
+  <h4>첫 단계</h4>
+  <p>열 $1$의 $0$이 아닌 칸만 골라 $N_1=1+1+\frac{1}{2}$을 적고, 같은 칸으로 $\sum_n r_{n1}x_n$을 구해요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $(N_1,N_2,N_3)=\left(\frac{5}{2},\,2,\,\frac{5}{2}\right)$예요.</p>
-    <p>대표로 열 $1$은 $0$이 아닌 칸만 더해 $N_1=1+1+\frac{1}{2}=\frac{5}{2}$예요. 세 열을 표로 정리해요.</p>
+    <h4>(a) 총 책임도 계산</h4>
+    <p>열 $1$은 $0$이 아닌 칸만 더해 $N_1=1+1+\frac{1}{2}=\frac{5}{2}$예요. 세 열을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$0$이 아닌 칸 ($x_n$: $r_{nk}$)</th> <th scope="col">$N_k$</th></tr></thead>
@@ -755,12 +734,11 @@
         </tbody>
       </table>
     </div>
-    <p>세 값의 합은 $\frac{5}{2}+2+\frac{5}{2}=7$로 관측 수와 같아요. 관측 $-1$과 $2$는 두 성분이 반씩 나눠 맡아서 $N_k$가 정수가 아닐 수 있어요.</p>
+    <p>세 값의 합은 $\frac{5}{2}+2+\frac{5}{2}=7$로 관측 수와 같아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 구조:</b> $(\mu_1^{\text{new}},\mu_2^{\text{new}},\mu_3^{\text{new}})=(-2.6,\,0.25,\,4.4)$, 분수로는 $\left(-\frac{13}{5},\,\frac{1}{4},\,\frac{22}{5}\right)$예요.</p>
-    <p>대표로 성분 $1$은 $\sum_n r_{n1}x_n=1\cdot(-4)+1\cdot(-2)+\frac{1}{2}\cdot(-1)=-\frac{13}{2}$이고, $\mu_1^{\text{new}}=\frac{-13/2}{5/2}=-\frac{13}{5}=-2.6$이에요.</p>
+    <h4>(b) 새 평균 계산</h4>
+    <p>성분 $1$은 $\sum_n r_{n1}x_n=1\cdot(-4)+1\cdot(-2)+\frac{1}{2}\cdot(-1)=-\frac{13}{2}$이라 $\mu_1^{\text{new}}=\frac{-13/2}{5/2}=-\frac{13}{5}=-2.6$이에요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$\sum_n r_{nk}x_n$</th> <th scope="col">$N_k$</th> <th scope="col">$\mu_k^{\text{new}}$</th></tr></thead>
@@ -771,58 +749,51 @@
         </tbody>
       </table>
     </div>
-    <p>각 평균은 그 성분이 맡은 관측들 사이에 놓여요. 성분 $1$은 $[-4,-1]$, 성분 $2$는 $[-1,2]$, 성분 $3$은 $[2,6]$ 안에 있어요.</p>
+    <p>각 평균이 맡은 관측 구간($[-4,-1]$, $[-1,2]$, $[2,6]$) 안에 놓여요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $(N_1,\,N_2,\,N_3)=\left(\frac{5}{2},\,2,\,\frac{5}{2}\right)$예요.</p>
+    <p>(b) $(\mu_1^{\text{new}},\,\mu_2^{\text{new}},\,\mu_3^{\text{new}})=(-2.6,\,0.25,\,4.4)$이고, 분수로는 $\left(-\frac{13}{5},\,\frac{1}{4},\,\frac{22}{5}\right)$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>행마다 합이 $1$인지 보면 일곱 행 모두 $1$이에요. 그러면 표 전체 합은 $7$이어야 하고, 실제로 $\sum_kN_k=7$이에요.</p>
+    <p>일곱 행의 합이 모두 $1$이므로 세 열 합의 합 $\sum_k N_k=7$과 맞아요.</p>
   </div>
   <div data-subpart="b">
     <h4>(b) 검산</h4>
-    <p>가중 편차의 합이 $0$인지 확인해요. 성분 $2$는 $\frac{1}{2}\left(-1-\frac{1}{4}\right)+1\left(0-\frac{1}{4}\right)+\frac{1}{2}\left(2-\frac{1}{4}\right)=-\frac{5}{8}-\frac{2}{8}+\frac{7}{8}=0$이에요. 가중 평균이면 $\sum_n r_{nk}(x_n-\mu_k^{\text{new}})=0$이 성립해야 해요.</p>
+    <p>가중 평균은 $\sum_n r_{nk}(x_n-\mu_k^{\text{new}})=0$을 만족해요. 성분 $2$는 $\frac{1}{2}\left(-1-\frac{1}{4}\right)+1\left(0-\frac{1}{4}\right)+\frac{1}{2}\left(2-\frac{1}{4}\right)=0$이에요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$N_k$는 행 합이 아니라 <b>열 합</b>이에요. 행 합은 언제나 $1$이라 새 정보를 주지 않아요.</p>
-  <p>나눌 때 관측 수 $7$이나 그 성분의 $0$이 아닌 칸 수 $3$을 쓰면 안 돼요. 반씩 맡은 관측은 $\frac{1}{2}$개로 세야 하므로 분모는 $N_k$예요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>표 아래에 열 합 줄을 그리고 $\sum_kN_k=7$을 확인해요.</li>
-    <li>같은 열의 $r_{nk}$를 $x_n$에 곱해 더한 뒤 $N_k$로 나눠요.</li>
-    <li>결과가 그 성분이 맡은 관측들 사이에 있는지 봐요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$N_k$는 행 합이 아니라 <b>열 합</b>이에요. 또 평균을 낼 때 관측 수 $7$이나 $0$이 아닌 칸 수 $3$이 아니라 $N_k$로 나눠야 가중치 합이 $1$이에요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>$N_k$는 책임도 표의 열 합이에요. $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$은 합이 $1$인 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>$N_k=\left(\frac{5}{2},2,\frac{5}{2}\right)$로 합이 $7$이에요. 새 평균은 $(-2.6,\,0.25,\,4.4)$이고, 가중 편차의 합이 $0$인지로 확인해요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$N_k$는 표의 열 합이고, $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_n r_{nk}x_n$은 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>열 $1$의 $0$이 아닌 칸으로 $N_1=1+1+\frac{1}{2}$부터 더해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $N_k=\left(\frac{5}{2},2,\frac{5}{2}\right)$, (b) $\mu_k^{\text{new}}=(-2.6,\,0.25,\,4.4)=\left(-\frac{13}{5},\frac{1}{4},\frac{22}{5}\right)$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>열 합의 합이 $7$이고, 가중 편차 합 $\sum_n r_{nk}(x_n-\mu_k^{\text{new}})=0$이 성립해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>분모는 칸 수 $3$이나 전체 $7$이 아니라 열 합 $N_k$예요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>책임도(responsibility) $r_{nk}$</dt>
-    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 한 행의 합은 $\sum_kr_{nk}=1$이에요.</dd>
-    <dt>총 책임도 $N_k$</dt>
-    <dd>$N_k=\sum_nr_{nk}$, 책임도 표의 열 합이에요. 모두 더하면 관측 수 $N$이에요.</dd>
-    <dt>가중 평균(weighted average)</dt>
-    <dd>합이 $1$인 가중치 $r_{nk}/N_k$로 관측을 평균한 값이에요. 많이 맡은 관측일수록 평균을 세게 끌어요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.3(평균 갱신), 교과서 355쪽(PDF 361쪽)의 계산 구조를 분수로 끝나는 책임도 표로 바꾼 문항이에요.</p>
   <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>책임도(responsibility) $r_{nk}$</dt>
+    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 각 행의 합은 $\sum_k r_{nk}=1$이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_n r_{nk}$로, 책임도 표의 열 합이에요.</dd>
+    <dt>가중 평균(weighted average)</dt>
+    <dd>합이 $1$인 가중치 $r_{nk}/N_k$로 관측을 평균한 값이에요.</dd>
+  </dl>
 </section>
 </article><article class="topic" id="p3"><h3>P3. 교과서 책임도 표로 평균 갱신하기</h3><p class="panel-meta">MML Example 11.3 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=3">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p3"><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>관측값은 $-3,-2.5,-1,0,2,4,5$예요. 성분 $3$개짜리 GMM의 갱신 전 평균은 $\mu_1=-4$, $\mu_2=0$, $\mu_3=8$이에요. E-step에서 구한 책임도 $r_{nk}$가 반올림되어 아래 표에 있어요. 행은 관측 $x_n$, 열은 성분 $k=1,2,3$이에요. 표에 적힌 수로 계산해요.</p>
@@ -844,34 +815,25 @@
           <tr><th scope="row">$5$</th> <td>$0.0$</td> <td>$0.0$</td> <td>$1.0$</td></tr>
         </tbody>
       </table></div><details class="original" data-original-problem="p3"><summary>원문 보기</summary><p>“Here we see that the means of the first and third mixture component move toward the regime of the data” — Example 11.3</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 관측 $-3,-2.5,-1,0,2,4,5$, 갱신 전 평균 $(\mu_1,\mu_2,\mu_3)=(-4,0,8)$, 반올림된 $7\times3$ 책임도 표, 평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$이에요. 표에 적힌 수로 계산해요.</p>
-  <p>구할 것: (a) 세 $\mu_k^{\text{new}}$를 소수점 아래 둘째 자리까지, (b) 이동 거리 $|\mu_k^{\text{new}}-\mu_k|$와 가장 많이 움직인 성분이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 반올림된 책임도 표의 수를 그대로 써서 세 성분의 새 평균 $\mu_k^{\text{new}}$를 둘째 자리까지 구해요. (b) 이동 거리 $|\mu_k^{\text{new}}-\mu_k|$와 가장 많이 움직인 성분을 골라요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘책임도 표로 평균 갱신’이라는 단서에서 M-step의 <b>책임도 가중 평균</b>을 떠올려요. 표의 열 $k$ 하나만 써요.</p>
-  $$\mu_k^{\text{new}}=\frac{\overbrace{\sum_{n=1}^{7} r_{nk}x_n}^{\text{열 }k\text{로 가중한 합}}}{\underbrace{N_k=\sum_{n=1}^{7} r_{nk}}_{\text{열 }k\text{의 합}}}$$
-  <ul>
-    <li>분자와 분모 모두 같은 열 $k$의 책임도를 써요. 분모 $N_k$로 나누므로 가중치 $r_{nk}/N_k$의 합이 $1$이에요.</li>
-    <li>새 평균에는 갱신 전 평균 $\mu_k$가 직접 들어가지 않아요. $\mu_k$는 E-step에서 책임도를 만들 때 이미 쓰였고, (b)에서 비교 기준으로만 다시 써요.</li>
-  </ul>
-  <p>가중 평균의 뜻은 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^{7} r_{nk}x_n$에서 분자와 분모 모두 같은 열 $k$의 책임도를 써요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>). 갱신 전 평균 $\mu_k$는 (b)의 이동 거리 비교에만 써요.</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>열마다 $0$이 아닌 칸만 골라 $N_1=1.0+1.0+0.057+0.001$을 먼저 적어요.</p>
-  <p>풀이 로드맵: 1. 열 합 $N_k$ → 2. 가중합 $\sum_nr_{nk}x_n$ → 3. 나눠서 반올림한 $\mu_k^{\text{new}}$와 갱신 전 평균의 차이를 비교해요.</p>
+  <h4>첫 단계</h4>
+  <p>열 $1$에서 $0$이 아닌 칸($x_n=-3,-2.5,-1,0$)으로 $N_1=1.0+1.0+0.057+0.001$부터 계산해요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $(\mu_1^{\text{new}},\mu_2^{\text{new}},\mu_3^{\text{new}})\approx(-2.70,\,-0.40,\,3.70)$이에요.</p>
-    <p>대표로 성분 $1$은 $N_1=2.058$, $\sum_nr_{n1}x_n=-3-2.5+0.057\cdot(-1)+0.001\cdot0=-5.557$이라서 $\mu_1^{\text{new}}=\frac{-5.557}{2.058}\approx-2.70$이에요. 같은 방법으로 성분 $2$는 $N_2=0.943+0.999+0.066$, $\sum_nr_{n2}x_n=-0.943+0+0.132$, 성분 $3$은 $N_3=0.934+1.0+1.0$, $\sum_nr_{n3}x_n=1.868+4+5$예요.</p>
+    <h4>(a) 새 평균 계산</h4>
+    <p>성분 $1$은 $N_1=2.058$, $\sum_n r_{n1}x_n=-3-2.5+0.057\cdot(-1)+0.001\cdot0=-5.557$이므로 $\mu_1^{\text{new}}=\frac{-5.557}{2.058}\approx-2.70$이에요. 세 성분을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$N_k$</th> <th scope="col">$\sum_nr_{nk}x_n$</th> <th scope="col">$\mu_k^{\text{new}}$ (반올림 전)</th></tr></thead>
+        <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$N_k$</th> <th scope="col">$\sum_n r_{nk}x_n$</th> <th scope="col">$\mu_k^{\text{new}}$ (반올림 전)</th></tr></thead>
         <tbody>
           <tr><th scope="row">$1$</th> <td>$2.058$</td> <td>$-5.557$</td> <td>$-2.70$ ($-2.7002$)</td></tr>
           <tr><th scope="row">$2$</th> <td>$2.008$</td> <td>$-0.811$</td> <td>$-0.40$ ($-0.4039$)</td></tr>
@@ -879,64 +841,53 @@
         </tbody>
       </table>
     </div>
-    <p>교과서 Example 11.3의 $-4\to-2.7$, $0\to-0.4$, $8\to3.7$과 같은 값이에요.</p>
+    <p>교과서 Example 11.3의 $(-2.7,-0.4,3.7)$과 같아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 이동 거리는 $(1.30,\,0.40,\,4.30)$이고, 가장 많이 움직인 성분은 성분 $3$이에요.</p>
-    <p>$|-2.70-(-4)|=1.30$, $|-0.40-0|=0.40$, $|3.70-8|=4.30$이에요.</p>
-    <p>성분 $3$은 갱신 전 평균 $8$이 데이터 오른쪽 끝 $5$보다 바깥에 있었는데, 맡은 관측 $2,4,5$의 가중 평균으로 옮겨 가서 가장 많이 움직였어요.</p>
+    <h4>(b) 이동 거리와 최대 이동 성분</h4>
+    <p>갱신 전후 평균의 거리는 $|-2.70-(-4)|=1.30$, $|-0.40-0|=0.40$, $|3.70-8|=4.30$이에요. 성분 $3$의 갱신 전 평균 $8$이 관측 범위 밖에 있어 가장 크게($4.30$) 움직여요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $(\mu_1^{\text{new}},\,\mu_2^{\text{new}},\,\mu_3^{\text{new}})\approx(-2.70,\,-0.40,\,3.70)$이에요.</p>
+    <p>(b) 이동 거리는 $(1.30,\,0.40,\,4.30)$이고, 가장 많이 움직인 성분은 성분 $3$이에요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>세 $N_k$의 합은 $2.058+2.008+2.934=7$이고, 표의 각 행 합도 $1$이에요. 또 각 평균은 그 성분이 맡은 관측 범위 안에 있어요. 성분 $1$은 $[-3,0]$, 성분 $2$는 $[-1,2]$, 성분 $3$은 $[2,5]$ 안이에요.</p>
+    <p>$2.058+2.008+2.934=7$이고, 각 평균이 맡은 관측 구간($[-3,0]$, $[-1,2]$, $[2,5]$) 안에 있어요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>반올림 전 값으로 재도 $1.2998$, $0.4039$, $4.2958$로 순서가 같아서 결론이 바뀌지 않아요.</p>
+    <h4>(b) 확인</h4>
+    <p>반올림 전 값으로 계산해도 $(1.300,\,0.404,\,4.296)$이라 크기 순서가 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$0.001$이나 $0.066$처럼 작은 칸도 표에 적힌 대로 $N_k$와 가중합에 넣어요. 분자에만 넣고 분모에서 빠뜨리면 가중치 합이 $1$이 아니게 돼요.</p>
-  <p>(b)의 이동 거리는 부호 없는 거리예요. 성분 $1$은 오른쪽으로, 성분 $2$와 $3$은 왼쪽으로 움직였지만 크기만 비교해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>열마다 $N_k$와 $\sum_nr_{nk}x_n$을 같은 칸들로 계산해요.</li>
-    <li>나눈 값을 둘째 자리까지 반올림하고 맡은 관측 범위 안에 있는지 봐요.</li>
-    <li>갱신 전 평균과의 차이의 절댓값으로 가장 큰 이동을 골라요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$0.001$이나 $0.066$처럼 작은 책임도도 한쪽에만 빼면 가중치 합이 $1$이 깨지고, 양쪽에서 모두 빼면 관측이 누락되어 $\sum_k N_k=N$과 새 평균이 달라져요. (b)의 이동 거리는 방향 부호 없는 절댓값이에요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>$\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$, 분자와 분모 모두 열 $k$의 책임도를 써요. 갱신 전 평균은 (b)의 비교 기준이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>$N_k=(2.058,2.008,2.934)$, 새 평균 $(-2.70,-0.40,3.70)$이에요. 이동 거리 $(1.30,0.40,4.30)$으로 성분 $3$이 가장 많이 움직였어요. 반올림 전 값으로도 순서가 같아요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mu_k^{\text{new}}=\frac{1}{N_k}\sum_n r_{nk}x_n$에서 분자와 분모 모두 열 $k$의 책임도를 써요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>열 $1$의 $0$이 아닌 칸으로 $N_1=1.0+1.0+0.057+0.001$을 먼저 구해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $(-2.70,\,-0.40,\,3.70)$, (b) 이동 거리는 $(1.30,\,0.40,\,4.30)$으로 성분 $3$이 최대예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\sum_k N_k=7$이고, 반올림 전 값으로도 이동 거리 순서가 같아요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>작은 책임도($0.001$, $0.066$)도 분자·분모에 모두 포함해야 해요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>책임도(responsibility) $r_{nk}$</dt>
-    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 이 표는 교과서 값을 반올림한 것이고 각 행의 합은 $1$이에요.</dd>
-    <dt>총 책임도 $N_k$</dt>
-    <dd>$N_k=\sum_nr_{nk}$, 열 $k$의 합이에요.</dd>
-    <dt>평균 갱신(mean update)</dt>
-    <dd>책임도를 고정하고 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$으로 평균을 다시 계산하는 M-step의 한 식이에요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.2의 책임도 표(교과서 353쪽, PDF 359쪽)와 Example 11.3(평균 갱신, 교과서 355쪽, PDF 361쪽)이에요.</p>
   <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>책임도(responsibility) $r_{nk}$</dt>
+    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 이 표는 교과서 값을 반올림한 것이고 각 행 합이 $1$이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_n r_{nk}$로, 책임도 표의 열 합이에요.</dd>
+  </dl>
 </section>
 </article><article class="topic" id="p4"><h3>P4. 갱신된 평균으로 분산 갱신하기</h3><p class="panel-meta">MML Example 11.4 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=4">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p4"><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>관측값 $-3,-2.5,-1,0,2,4,5$에 성분 $3$개짜리 1차원 GMM을 맞추고 있어요. E-step에서 구한 책임도 $r_{nk}$가 반올림되어 아래 표에 있어요. 행은 관측 $x_n$, 열은 성분 $k=1,2,3$이에요.</p>
@@ -958,32 +909,22 @@
           <tr><th scope="row">$5$</th> <td>$0.0$</td> <td>$0.0$</td> <td>$1.0$</td></tr>
         </tbody>
       </table></div><details class="original" data-original-problem="p4"><summary>원문 보기</summary><p>“Here we see that the variances of the first and third component shrink significantly” — Example 11.4</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 관측 $-3,-2.5,-1,0,2,4,5$, 반올림된 책임도 표 $r_{nk}$, $(N_1,N_2,N_3)=(2.058,2.008,2.934)$, 이미 갱신된 평균 $(\mu_1^{\text{new}},\mu_2^{\text{new}},\mu_3^{\text{new}})=(-2.7,-0.4,3.7)$, 갱신 전 분산 $(1,0.2,3)$이에요.</p>
-  <p>구할 것: (a) $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$을 둘째 자리까지, (b) 갱신 전보다 줄어든 성분과 커진 성분이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 주어진 $N_k$, 새 평균 $\mu_k^{\text{new}}=(-2.7,-0.4,3.7)$, 반올림된 책임도 표로 새 분산 $(\sigma_k^{\text{new}})^2$을 둘째 자리까지 구해요. (b) 갱신 전 분산 $(1,0.2,3)$ 대비 증감을 판정해요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘1차원 GMM의 분산 갱신’이라는 단서에서 공분산 갱신식의 1차원 형태인 <b>가중 분산(weighted variance)</b>을 떠올려요.</p>
-  $$(\sigma_k^{\text{new}})^2=\frac{1}{\underbrace{N_k}_{\text{열 }k\text{의 합}}}\sum_{n=1}^{7}\underbrace{r_{nk}}_{\text{가중치}}\,\underbrace{(x_n-\mu_k^{\text{new}})^2}_{\text{새 평균에서 잰 편차 제곱}}$$
-  <ul>
-    <li>가중치는 평균을 낼 때와 같은 $r_{nk}/N_k$예요. 그래서 분산도 그 성분이 맡은 관측들의 퍼짐만 재요.</li>
-    <li>편차의 기준은 같은 M-step에서 방금 구한 $\mu_k^{\text{new}}$예요. 갱신 전 평균 $\mu_k$나 갱신 전 분산 $\sigma_k^2$는 식에 들어가지 않고, $\sigma_k^2$는 (b)의 비교 기준이에요.</li>
-  </ul>
-  <p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a>의 ‘1차원에서는 가중 분산이에요’에서 같은 식을 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>1차원 가중 분산 $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^7 r_{nk}(x_n-\mu_k^{\text{new}})^2$에서 편차는 방금 구한 $\mu_k^{\text{new}}$에서 재요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a>). 갱신 전 분산 $\sigma_k^2$는 (b)의 비교 기준이에요.</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>성분 $1$의 편차부터 적어요. $x_n+2.7$은 $-0.3,\ 0.2,\ 1.7,\ 2.7$이고, 제곱은 $0.09,\ 0.04,\ 2.89,\ 7.29$예요.</p>
-  <p>풀이 로드맵: 1. 성분별로 $0$이 아닌 칸의 편차 제곱 → 2. $r_{nk}$를 곱해 더하기 → 3. $N_k$로 나눠 반올림하고 갱신 전 분산과 비교해요.</p>
+  <h4>첫 단계</h4>
+  <p>성분 $1$($\mu_1^{\text{new}}=-2.7$)에서 $r_{n1}\neq0$인 $x_n=-3,-2.5,-1,0$의 편차 $-0.3,\,0.2,\,1.7,\,2.7$과 제곱 $0.09,\,0.04,\,2.89,\,7.29$를 먼저 적어요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $\bigl((\sigma_1^{\text{new}})^2,(\sigma_2^{\text{new}})^2,(\sigma_3^{\text{new}})^2\bigr)\approx(0.15,\,0.44,\,1.53)$이에요.</p>
-    <p>대표로 성분 $1$은 $1.0\cdot0.09+1.0\cdot0.04+0.057\cdot2.89+0.001\cdot7.29=0.30202$이고, $(\sigma_1^{\text{new}})^2=\frac{0.30202}{2.058}\approx0.1468\approx0.15$예요.</p>
-    <p>성분 $2$($\mu_2^{\text{new}}=-0.4$)는 $0.943\cdot0.36+0.999\cdot0.16+0.066\cdot5.76$, 성분 $3$($\mu_3^{\text{new}}=3.7$)은 $0.934\cdot2.89+1.0\cdot0.09+1.0\cdot1.69$를 더해요. 결과를 표로 정리해요.</p>
+    <h4>(a) 새 분산 계산</h4>
+    <p>성분 $1$은 $1.0\cdot0.09+1.0\cdot0.04+0.057\cdot2.89+0.001\cdot7.29=0.30202$이고, $(\sigma_1^{\text{new}})^2=\frac{0.30202}{2.058}\approx0.15$예요. 세 성분을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">가중합</th> <th scope="col">$\div N_k$</th> <th scope="col">$(\sigma_k^{\text{new}})^2$</th></tr></thead>
@@ -994,69 +935,53 @@
         </tbody>
       </table>
     </div>
-    <p>성분 $2$의 가중합에서는 멀리 떨어진 관측 $2$가 책임도 $0.066$만 받는데도 편차 제곱 $5.76$이 커서 $0.380$이나 보태요.</p>
-    <p>교과서 Example 11.4는 성분 $1$을 $0.14$로 적었어요. 교과서는 반올림 전 책임도로 계산했어요. 이 문제에 주어진 책임도는 반올림된 표뿐이라 그 수로 계산하면 $0.15$예요.</p>
+    <p>표에 적힌 수로 계산하면 성분 $1$은 $0.15$예요. 교과서 Example 11.4의 $0.14$는 반올림 전 책임도(예: $r_{41}\approx0.00015$)를 쓴 결과예요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 성분 $1$과 성분 $3$은 분산이 줄었고, 성분 $2$는 커졌어요.</p>
-    <p>$1\to0.15$, $3\to1.53$은 줄었고, $0.2\to0.44$는 커졌어요. 성분 $2$는 갱신 전 분산 $0.2$보다 맡은 관측들($-1$, $0$, 그리고 일부의 $2$)이 더 넓게 퍼져 있었어요.</p>
+    <h4>(b) 갱신 전후 분산 비교</h4>
+    <p>$1\to0.15$, $3\to1.53$은 줄었고, $0.2\to0.44$는 커졌어요. 성분 $2$는 $r_{52}=0.066$인 관측 $2$의 편차 제곱 $5.76$이 커서($0.066\cdot5.76\approx0.380$) 분산이 커졌어요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\bigl((\sigma_1^{\text{new}})^2,\,(\sigma_2^{\text{new}})^2,\,(\sigma_3^{\text{new}})^2\bigr)\approx(0.15,\,0.44,\,1.53)$이에요.</p>
+    <p>(b) 성분 $1$·$3$은 줄었고, 성분 $2$는 커졌어요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>성분 $3$이 맡은 관측 $2,4,5$는 새 평균 $3.7$에서 최대 $1.7$ 떨어져 있어요. 가중 분산은 가장 큰 편차 제곱 $2.89$보다 작아야 하는데 $1.53$이라 범위가 맞아요. 성분 $1$, $2$도 같은 방법으로 $0.15\lt7.29$, $0.44\lt5.76$이에요.</p>
-    <p>교과서 값 $0.14$와의 차이는 대부분 $x=0$ 칸($r_{41}=0.001$)의 반올림에서 나와요.</p>
+    <p>각 가중 분산은 해당 성분이 맡은 관측의 최대 편차 제곱($7.29$, $5.76$, $2.89$)보다 작아 범위가 맞아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>반올림 전 값 $0.1468$, $0.4380$, $1.5267$로 비교해도 $1$, $0.2$, $3$ 대비 증감 방향이 같아요.</p>
+    <h4>(b) 확인</h4>
+    <p>반올림 전 값 $(0.1468,\,0.4380,\,1.5267)$으로 비교해도 증감 방향이 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>편차를 갱신 전 평균 $(-4,0,8)$에서 재면 다른 값이 나와요. 분산 갱신식의 편차 기준은 같은 M-step에서 구한 $\mu_k^{\text{new}}$예요.</p>
-  <p>책임도 $r_{nk}$는 제곱하지 않아요. 제곱하는 것은 편차 $(x_n-\mu_k^{\text{new}})$뿐이고 $r_{nk}$는 한 번만 곱해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>성분별로 $0$이 아닌 칸의 $x_n-\mu_k^{\text{new}}$를 먼저 적어요.</li>
-    <li>편차 제곱에 $r_{nk}$를 곱해 더하고 $N_k$로 나눠요.</li>
-    <li>결과를 갱신 전 분산과 비교해 증감을 판정해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>편차를 갱신 전 평균 $(-4,0,8)$이 아니라 새 평균 $\mu_k^{\text{new}}$에서 재야 해요. 또 $r_{nk}$는 제곱하지 않고 편차 제곱에만 한 번 곱해요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>1차원 가중 분산 $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$이에요. 편차는 새 평균에서 재고, 가중치는 평균과 같은 $r_{nk}/N_k$예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>가중합 $(0.30202,\,0.87948,\,4.47926)$을 $N_k$로 나누면 새 분산은 $(0.15,\,0.44,\,1.53)$이에요. 성분 $1$·$3$은 줄고 성분 $2$는 커졌어요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>교과서와의 차이</h4>
-    <p>교과서의 성분 $1$ 값 $0.14$는 반올림 전 책임도로 계산한 값이에요. 반올림한 표의 $r_{41}=0.001$로 계산하면 $0.15$예요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>1차원 가중 분산 $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_n r_{nk}(x_n-\mu_k^{\text{new}})^2$이에요. 편차는 새 평균에서 재요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>성분 $1$의 $0$이 아닌 칸 편차 $-0.3,\,0.2,\,1.7,\,2.7$을 제곱해 $r_{n1}$과 곱해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 새 분산 $(0.15,\,0.44,\,1.53)$, (b) 성분 $1$·$3$은 줄고 성분 $2$는 커졌어요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>각 분산이 해당 성분의 최대 편차 제곱보다 작고, 반올림 전 값으로도 증감이 같아요.</p></div>
+  <div class="summary-group"><h4>교과서와의 차이</h4><p>교과서의 성분 $1$ 값 $0.14$는 반올림 전 책임도 기준이고, 표의 $r_{41}=0.001$로 계산하면 $0.15$예요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>가중 분산(weighted variance)</dt>
-    <dd>$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$이에요. $D$차원 공분산 갱신식에서 $D=1$인 경우예요.</dd>
-    <dt>새 평균 $\mu_k^{\text{new}}$</dt>
-    <dd>같은 M-step에서 먼저 구한 평균이에요. 분산 갱신의 편차 기준이에요.</dd>
-    <dt>총 책임도 $N_k$</dt>
-    <dd>$N_k=\sum_nr_{nk}$, 책임도 표의 열 합이에요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.2의 책임도 표(교과서 353쪽, PDF 359쪽)와 Example 11.4(분산 갱신, 교과서 357–358쪽, PDF 363–364쪽)예요. 교과서는 $\sigma_1^2:1\to0.14$로 적었어요.</p>
   <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>가중 분산(weighted variance)</dt>
+    <dd>$(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_n r_{nk}(x_n-\mu_k^{\text{new}})^2$로, $D=1$일 때의 공분산 갱신식이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_n r_{nk}$로, 책임도 표의 열 합이에요.</dd>
+  </dl>
 </section>
 </article><article class="topic" id="p5"><h3>P5. 수렴한 GMM을 초기값과 비교하기</h3><p class="panel-meta">MML Example 11.6 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=5">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p5"><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>관측값 $-3,-2.5,-1,0,2,4,5$에 성분 $3$개짜리 1차원 GMM을 EM으로 맞췄어요. 반복이 수렴해 얻은 GMM은 다음과 같아요.</p>
@@ -1069,31 +994,22 @@
       <li>(a) 수렴한 GMM의 세 혼합 가중치를 더하면 $1$이 되는지 확인하고, 각 성분의 표준편차 $\sigma_k$를 소수점 아래 둘째 자리까지 구해 보세요.</li>
       <li>(b) 수렴한 GMM을 초기값과 비교해, 평균이 가장 많이 이동한 성분과 분산이 커진 성분을 골라 보세요.</li>
     </ol></div></div><details class="original" data-original-problem="p5"><summary>원문 보기</summary><p>“When we run EM on our example from Figure 11.3, we obtain the final result” — Example 11.6</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 수렴한 GMM $p(x)=\sum_k\pi_k\,\mathcal{N}(x\mid\mu_k,\sigma_k^2)$의 계수 $(0.29,0.28,0.43)$, 평균 $(-2.75,-0.50,3.64)$, 분산 $(0.06,0.25,1.63)$과 초기값 평균 $(-4,0,8)$, 분산 $(1,0.2,3)$, 가중치 $\frac{1}{3}$이에요.</p>
-  <p>구할 것: (a) 가중치 합이 $1$인지와 표준편차 $\sigma_k$, (b) 평균이 가장 많이 이동한 성분과 분산이 커진 성분이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 수렴한 GMM 식의 세 혼합 가중치 합이 $1$인지 확인하고 표준편차 $\sigma_k$를 둘째 자리까지 구해요. (b) 초기값 대비 평균이 가장 많이 이동한 성분과 분산이 커진 성분을 골라요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘$\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 세로선 뒤 두 값’이라는 단서에서 <b>가우시안 혼합 밀도의 표기</b>를 읽는 법을 떠올려요.</p>
-  $$p(x)=\sum_{k=1}^{3}\underbrace{\pi_k}_{\text{앞의 계수}}\,\mathcal{N}\bigl(x\mid\underbrace{\mu_k}_{\text{평균}},\underbrace{\sigma_k^2}_{\text{분산}}\bigr),\qquad\sigma_k=\sqrt{\sigma_k^2}$$
-  <ul>
-    <li>각 성분 앞의 계수가 혼합 가중치 $\pi_k$예요. $p(x)$가 확률밀도이려면 $\sum_k\pi_k=1$이어야 해요.</li>
-    <li>세로선 뒤 둘째 값은 분산이라서 표준편차(standard deviation)는 그 제곱근이에요. 표준편차는 평균에서 데이터가 퍼진 폭을 $x$와 같은 단위로 나타내요.</li>
-  </ul>
-  <p>이 GMM은 E-step과 M-step을 되풀이해 파라미터가 더 바뀌지 않을 때까지 간 결과예요. 반복 절차는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>$p(x)=\sum_{k=1}^3 \pi_k\,\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 앞 계수가 가중치 $\pi_k$, 세로선 뒤 둘째 값이 <b>분산</b> $\sigma_k^2$이므로 표준편차는 $\sigma_k=\sqrt{\sigma_k^2}$예요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>).</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>초기값과 수렴값을 나란히 적는 비교표의 뼈대부터 그려요. 행은 성분 $1,2,3$, 열은 $\mu_k$(초기→수렴), $|\Delta\mu_k|$, $\sigma_k^2$(초기→수렴), 증감이에요.</p>
-  <p>풀이 로드맵: 1. $0.29+0.28+0.43$ 확인 → 2. 분산의 제곱근으로 $\sigma_k$ → 3. 표의 열을 채워 이동 거리와 분산 증감을 판정해요.</p>
+  <h4>첫 단계</h4>
+  <p>가중치 합 $0.29+0.28+0.43$부터 확인하고, 성분 $1,2,3$의 초기값과 수렴값을 나란히 적는 비교표를 만들어요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> 가중치 합은 $1$이고, $(\sigma_1,\sigma_2,\sigma_3)\approx(0.24,\,0.50,\,1.28)$이에요.</p>
-    <p>세 계수의 합은 $0.29+0.28+0.43=1$이에요. 대표로 성분 $1$의 표준편차는 $\sigma_1=\sqrt{0.06}=0.2449\ldots\approx0.24$예요.</p>
+    <h4>(a) 가중치 합과 표준편차</h4>
+    <p>세 가중치의 합은 $0.29+0.28+0.43=1$이에요. 성분 $1$의 표준편차는 $\sigma_1=\sqrt{0.06}=0.2449\ldots\approx0.24$이고, 세 성분을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">분산 $\sigma_k^2$</th> <th scope="col">$\sqrt{\sigma_k^2}$</th> <th scope="col">$\sigma_k$</th></tr></thead>
@@ -1104,12 +1020,11 @@
         </tbody>
       </table>
     </div>
-    <p>분산이 $1$보다 작으면 표준편차는 분산보다 크고($0.06\to0.24$), $1$보다 크면 표준편차가 더 작아요($1.63\to1.28$).</p>
+    <p>분산이 $1$보다 작으면 $\sigma_k\gt\sigma_k^2$이고, $1$보다 크면 $\sigma_k\lt\sigma_k^2$예요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 평균이 가장 많이 이동한 성분은 성분 $3$(이동 거리 $4.36$), 분산이 커진 성분은 성분 $2$예요.</p>
-    <p>대표로 성분 $3$은 $|3.64-8|=4.36$이에요. 세 성분을 표로 비교해요.</p>
+    <h4>(b) 초기값 대비 평균 이동과 분산 증감</h4>
+    <p>성분 $3$의 이동 거리는 $|3.64-8|=4.36$이에요. 세 성분을 표로 비교해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$\mu_k$: 초기 $\to$ 수렴</th> <th scope="col">$|\Delta\mu_k|$</th> <th scope="col">$\sigma_k^2$: 초기 $\to$ 수렴</th> <th scope="col">분산 증감</th></tr></thead>
@@ -1120,59 +1035,49 @@
         </tbody>
       </table>
     </div>
-    <p>$4.36$이 가장 커서 성분 $3$이 가장 많이 이동했고, 분산이 커진 것은 $0.2\to0.25$인 성분 $2$뿐이에요.</p>
+    <p>이동 거리는 성분 $3$($4.36$)이 가장 크고, 분산이 커진 성분은 성분 $2$($0.2\to0.25$)뿐이에요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 가중치 합은 $1$이고, 표준편차는 $(\sigma_1,\,\sigma_2,\,\sigma_3)\approx(0.24,\,0.50,\,1.28)$이에요.</p>
+    <p>(b) 평균이 가장 많이 이동한 성분은 성분 $3$(이동 거리 $4.36$), 분산이 커진 성분은 성분 $2$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>표준편차를 다시 제곱해 봐요. $0.24^2=0.0576\approx0.06$, $0.50^2=0.25$, $1.28^2=1.6384$로 반올림한 $\sigma_3$의 오차 범위 안에서 $1.63$과 맞아요.</p>
+    <p>$0.24^2=0.0576\approx0.06$, $0.50^2=0.25$, $1.28^2=1.6384\approx1.63$으로 반올림 오차 안에서 맞아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>$|\Delta\mu_k|$는 $1.25\lt4.36$, $0.50\lt4.36$이라 성분 $3$이 최대예요. 분산 쌍은 $0.06\lt1$, $0.25\gt0.2$, $1.63\lt3$이라 커진 것은 성분 $2$뿐이에요.</p>
-    <p>한 번 갱신한 값(3·4번 문제)과 결론은 같지만, 수렴값이 첫 갱신 방향으로 계속 가지는 않아요(예: 성분 $2$ 분산 $0.2\to0.44\to0.25$).</p>
+    <h4>(b) 확인</h4>
+    <p>$|\Delta\mu_1|=1.25$와 $|\Delta\mu_2|=0.50$ 모두 $4.36$보다 작고, 분산 비교는 $0.06\lt1$, $0.25\gt0.2$, $1.63\lt3$이에요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$\mathcal{N}(x\mid-2.75,\,0.06)$의 $0.06$을 표준편차로 읽으면 안 돼요. 이 문제의 표기에서 둘째 값은 분산이라서 표준편차는 $\sqrt{0.06}\approx0.24$예요.</p>
-  <p>(b)의 분산 비교는 분산끼리 해요. 수렴한 표준편차 $0.50$을 초기 분산 $0.2$와 비교하는 식으로 단위를 섞지 않아요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>$\mathcal{N}(x\mid\cdot,\cdot)$의 두 값이 평균과 분산인지 확인해요.</li>
-    <li>계수 합 $1$과 분산의 제곱근을 계산해요.</li>
-    <li>초기값과 수렴값을 같은 종류끼리 나란히 놓고 이동 거리와 증감을 판정해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathcal{N}(x\mid-2.75,\,0.06)$의 $0.06$은 표준편차가 아니라 분산이에요. (b)의 분산 비교도 표준편차가 아니라 분산끼리 비교해야 해요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 앞 계수는 가중치, 세로선 뒤는 평균과 분산이에요. 표준편차는 $\sigma_k=\sqrt{\sigma_k^2}$예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>가중치 합 $1$, 표준편차 $(0.24,0.50,1.28)$이에요. 평균 이동 $(1.25,0.50,4.36)$으로 성분 $3$이 가장 많이 이동했고, 분산이 커진 성분은 성분 $2$뿐이에요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 앞 계수가 가중치, 세로선 뒤 둘째 값이 분산이라 $\sigma_k=\sqrt{\sigma_k^2}$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$0.29+0.28+0.43$과 성분별 초기→수렴 비교표를 먼저 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 합 $1$, $\sigma_k\approx(0.24,\,0.50,\,1.28)$, (b) 평균 최대 이동은 성분 $3$($4.36$), 분산 증가는 성분 $2$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>구한 표준편차를 제곱하면 반올림 오차 범위에서 주어진 분산과 일치해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>둘째 값이 분산이므로 표준편차를 구할 때 제곱근을 취하고, 비교는 분산끼리 해요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>가우시안 혼합 모형(Gaussian mixture model, GMM)</dt>
-    <dd>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$처럼 가우시안 여러 개를 가중치 $\pi_k$로 섞은 밀도예요. $\sum_k\pi_k=1$이에요.</dd>
-    <dt>표준편차(standard deviation) $\sigma_k$</dt>
-    <dd>분산 $\sigma_k^2$의 제곱근이에요. $x$와 같은 단위의 퍼짐 폭이에요.</dd>
-    <dt>수렴(convergence)</dt>
-    <dd>E-step과 M-step을 되풀이해도 파라미터나 로그우도가 거의 변하지 않는 상태예요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.6(GMM Fit), 교과서 361–362쪽(PDF 367–368쪽)의 최종 GMM 식 (11.57)과 Example 11.3–11.5의 초기값이에요.</p>
   <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>가우시안 혼합 모형(Gaussian mixture model, GMM)</dt>
+    <dd>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$처럼 가우시안 여러 개를 $\sum_k\pi_k=1$인 가중치로 섞은 밀도예요.</dd>
+    <dt>표준편차(standard deviation) $\sigma_k$</dt>
+    <dd>분산 $\sigma_k^2$의 제곱근이에요. $x$와 같은 단위의 퍼짐 폭이에요.</dd>
+  </dl>
 </section>
 </article><article class="topic" id="p6"><h3>P6. 최소제곱 손실의 기울기와 차원</h3><p class="panel-meta">MML Example 5.11 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=6">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p6"><div class="layer formal" data-source-problem="p6"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>선형모형 ${\mathbf{y}=\boldsymbol{\Phi}\boldsymbol{\theta}}$를 생각해요. 파라미터 $\boldsymbol{\theta}\in\mathbb{R}^{D}$와 관측 $\mathbf{y}\in\mathbb{R}^{N}$은 열벡터이고, 입력 특징 행렬은 $\boldsymbol{\Phi}\in\mathbb{R}^{N\times D}$예요. 두 함수를 다음처럼 정의해요.</p>
@@ -1183,132 +1088,99 @@
       <li>(a) 연쇄법칙 ${\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}}$를 써서 $\frac{\partial L}{\partial\boldsymbol{\theta}}$를 $\mathbf{e}$와 $\boldsymbol{\Phi}$로 나타내 보세요.</li>
       <li>(b) (a)에서 구한 $\frac{\partial L}{\partial\mathbf{e}}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}$의 차원을 각각 읽어 보세요.</li>
     </ol></div></div><details class="original" data-original-problem="p6"><summary>원문 보기</summary><p>“We seek ∂L/∂θ, and we will use the chain rule for this purpose.” — Example 5.11</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 열벡터 $\boldsymbol{\theta}\in\mathbb{R}^{D}$, $\mathbf{y}\in\mathbb{R}^{N}$, 행렬 $\boldsymbol{\Phi}\in\mathbb{R}^{N\times D}$, 스칼라 손실 $L(\mathbf{e})=\|\mathbf{e}\|^2$와 $\mathbf{e}(\boldsymbol{\theta})=\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}$예요. 미분은 수업의 행벡터 관례를 따르고, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$의 $(i,j)$ 성분은 $\partial e_i/\partial\theta_j$예요.</p>
-  <p>구할 것: (a) 연쇄법칙으로 $\frac{\partial L}{\partial\boldsymbol{\theta}}$를 $\mathbf{e}$, $\boldsymbol{\Phi}$로, (b) 세 미분 $\frac{\partial L}{\partial\mathbf{e}}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}$의 차원이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 연쇄법칙 $\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$로 $\frac{\partial L}{\partial\boldsymbol{\theta}}$를 $\mathbf{e}$, $\boldsymbol{\Phi}$로 나타내요. (b) 세 미분의 차원을 각각 읽어요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘$L$이 $\mathbf{e}$의 함수이고 $\mathbf{e}$가 $\boldsymbol{\theta}$의 함수’라는 구조에서 <b>다변수 연쇄법칙(chain rule)</b>을 떠올려요. 두 미분을 각각 구해 문제에 적힌 순서대로 곱해요.</p>
-  $$\underbrace{\frac{\partial L}{\partial\boldsymbol{\theta}}}_{1\times D}=\underbrace{\frac{\partial L}{\partial\mathbf{e}}}_{1\times N}\;\underbrace{\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}}_{N\times D}$$
-  <ul>
-    <li><b>스칼라를 열벡터로 미분</b>하면 편미분을 가로로 놓은 <b>행벡터</b>예요. 변수 $\boldsymbol{\theta}$, $\mathbf{e}$ 자체는 열벡터 그대로예요.</li>
-    <li><b>벡터를 벡터로 미분</b>한 야코비안(Jacobian)은 <b>출력×입력</b> 모양이에요. 행은 출력 $e_1,\dots,e_N$, 열은 입력 $\theta_1,\dots,\theta_D$라서 $N\times D$예요.</li>
-    <li>안쪽 차원 $N$이 맞아야 곱이 정의돼요. 그래서 곱 순서를 바꾸지 않아요.</li>
-  </ul>
-  <p>행벡터 관례와 그 이유는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>에서, 같은 구조($\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$의 미분이 $-\mathbf{I}$)의 연쇄법칙은 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>수업의 행벡터 관례(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로</a>)로 스칼라 $L$을 열벡터 $\mathbf{e}$로 미분하면 <b>행벡터</b>이고, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$는 $(i,j)$ 성분이 $\partial e_i/\partial\theta_j$인 <b>출력×입력</b> 야코비안이에요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a>). 안쪽 차원 $N$을 맞추려면 $\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$ 순서를 지켜요.</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>스칼라 $L$을 성분으로 펼친 $L=\mathbf{e}^\top\mathbf{e}=\sum_{n=1}^{N}e_n^2$을 먼저 적어요.</p>
-  <p>풀이 로드맵: 1. $\frac{\partial L}{\partial\mathbf{e}}$를 성분 편미분으로 → 2. $e_n$을 펼쳐 $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$ → 3. 순서대로 곱하고 차원을 읽어요.</p>
+  <h4>첫 단계</h4>
+  <p>성분별로 미분하려고 $L=\mathbf{e}^\top\mathbf{e}=\sum_{n=1}^{N}e_n^2$와 $e_n=y_n-\sum_{d=1}^{D}\Phi_{nd}\theta_d$를 적어요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $\frac{\partial L}{\partial\boldsymbol{\theta}}=-2\mathbf{e}^\top\boldsymbol{\Phi}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$, $1\times D$ 행벡터예요.</p>
+    <h4>(a) 연쇄법칙으로 기울기 구하기</h4>
     <div class="deriv-body">
       <ol class="deriv">
         <li>
-          <div class="deriv-eq">$$L=\mathbf{e}^\top\mathbf{e}=\sum_{n=1}^{N}e_n^2$$</div>
+          <div class="deriv-eq">$$L=\sum_{n=1}^{N}e_n^2$$</div>
           <div class="deriv-why"><p>제곱 노름을 성분 합으로 펼쳐요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\frac{\partial L}{\partial e_n}=2e_n$$</div>
-          <div class="deriv-why"><p>$e_n$이 든 항 $e_n^2$만 남아요</p></div>
-        </li>
-        <li>
           <div class="deriv-eq">$$\frac{\partial L}{\partial\mathbf{e}}=\begin{bmatrix}2e_1&amp;\cdots&amp;2e_N\end{bmatrix}=2\mathbf{e}^\top$$</div>
-          <div class="deriv-why"><p>편미분을 가로로 모아 행벡터로 써요</p></div>
+          <div class="deriv-why"><p>$\partial L/\partial e_n=2e_n$을 가로로 모아요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$e_n=y_n-\sum_{d=1}^{D}\Phi_{nd}\theta_d$$</div>
           <div class="deriv-why"><p>$\boldsymbol{\Phi}\boldsymbol{\theta}$의 $n$번째 성분을 펼쳐요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\frac{\partial e_n}{\partial\theta_d}=-\Phi_{nd}$$</div>
-          <div class="deriv-why"><p>$y_n$은 상수, $\theta_d$ 앞 계수만 남아요</p></div>
-        </li>
-        <li>
           <div class="deriv-eq">$$\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}=-\boldsymbol{\Phi}$$</div>
-          <div class="deriv-why"><p>$(n,d)$ 자리에 $-\Phi_{nd}$를 둔 출력×입력 행렬</p></div>
+          <div class="deriv-why"><p>$(n,d)$ 성분이 $\partial e_n/\partial\theta_d=-\Phi_{nd}$예요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$\frac{\partial L}{\partial\boldsymbol{\theta}}=2\mathbf{e}^\top(-\boldsymbol{\Phi})=-2\mathbf{e}^\top\boldsymbol{\Phi}$$</div>
           <div class="deriv-why"><p>연쇄법칙 순서대로 곱해요</p></div>
         </li>
         <li class="deriv-gen">
-          <div class="deriv-eq">$$\frac{\partial L}{\partial\boldsymbol{\theta}}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$$</div>
+          <div class="deriv-eq">$$\hphantom{\frac{\partial L}{\partial\boldsymbol{\theta}}}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$$</div>
           <div class="deriv-why"><p>$\mathbf{e}=\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}$를 대입해요</p></div>
         </li>
       </ol>
     </div>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> $\frac{\partial L}{\partial\mathbf{e}}\in\mathbb{R}^{1\times N}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{N\times D}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$예요.</p>
-    <p>$\mathbf{e}$는 $N\times1$ 열벡터라 $2\mathbf{e}^\top$은 $1\times N$이에요. $-\boldsymbol{\Phi}$는 행이 $e_1,\dots,e_N$, 열이 $\theta_1,\dots,\theta_D$에 대응해 $N\times D$예요.</p>
+    <h4>(b) 세 미분의 차원 읽기</h4>
+    <p>$\mathbf{e}\in\mathbb{R}^{N\times1}$이라 $2\mathbf{e}^\top\in\mathbb{R}^{1\times N}$이고, 야코비안 $-\boldsymbol{\Phi}$는 행이 출력($N$), 열이 입력($D$)이라 $\mathbb{R}^{N\times D}$예요.</p>
     $$\underbrace{2\mathbf{e}^\top}_{1\times N}\;\underbrace{(-\boldsymbol{\Phi})}_{N\times D}\in\mathbb{R}^{1\times D}$$
-    <p>$\boldsymbol{\theta}$는 $D\times1$ 열벡터이지만, 스칼라 $L$을 $\boldsymbol{\theta}$로 미분한 결과는 $\theta_1,\dots,\theta_D$에 대한 편미분 $D$개를 가로로 놓은 $1\times D$ 행벡터예요.</p>
+    <p>따라서 $\frac{\partial L}{\partial\boldsymbol{\theta}}$는 $\mathbb{R}^{1\times D}$ 행벡터예요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\frac{\partial L}{\partial\boldsymbol{\theta}}=-2\mathbf{e}^\top\boldsymbol{\Phi}$ ($=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$)예요.</p>
+    <p>(b) $\frac{\partial L}{\partial\mathbf{e}}\in\mathbb{R}^{1\times N}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{N\times D}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>$N=D=1$로 줄여 봐요. $L=(y-\phi\theta)^2$을 1변수로 미분하면 $-2(y-\phi\theta)\phi$이고, $-2\mathbf{e}^\top\boldsymbol{\Phi}$에 $\mathbf{e}=y-\phi\theta$, $\boldsymbol{\Phi}=\phi$를 넣은 값과 같아요.</p>
-    <p>성분으로도 맞아요. $d$번째 칸은 $\sum_n\frac{\partial L}{\partial e_n}\frac{\partial e_n}{\partial\theta_d}=\sum_n2e_n(-\Phi_{nd})$이고, 이것이 $-2\mathbf{e}^\top\boldsymbol{\Phi}$의 $d$번째 성분이에요.</p>
+    <p>$N=D=1$이면 $L=(y-\phi\theta)^2$의 1변수 미분 $-2(y-\phi\theta)\phi$와 일치해요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>곱 $(1\times N)(N\times D)$의 안쪽 $N$이 맞고 결과는 $1\times D$예요. 미분 대상 $\boldsymbol{\theta}$의 성분 수 $D$와 결과의 칸 수 $D$도 같아요.</p>
+    <h4>(b) 확인</h4>
+    <p>곱 $(1\times N)(N\times D)$의 안쪽 $N$이 맞고, 결과 칸 수 $D$가 $\boldsymbol{\theta}$의 성분 수와 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$를 $-\boldsymbol{\Phi}^\top$($D\times N$)로 쓰면 $N\neq D$일 때 $2\mathbf{e}^\top$($1\times N$)과 곱이 정의되지 않고, $N=D$여도 $(n,d)$ 성분이 $-\Phi_{dn}$이 되어 정의와 달라요. 문제의 정의대로 행은 출력 $e_i$, 열은 입력 $\theta_j$예요.</p>
-  <p>$-2\boldsymbol{\Phi}^\top\mathbf{e}$는 답을 전치한 $D\times1$ 모양이에요. 이 문제는 행벡터 관례라 답은 $-2\mathbf{e}^\top\boldsymbol{\Phi}$예요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>$L=\sum_ne_n^2$, $e_n=y_n-\sum_d\Phi_{nd}\theta_d$로 성분을 펼쳐요.</li>
-    <li>스칼라 미분은 가로로, 벡터 미분은 출력×입력으로 모아요.</li>
-    <li>$(1\times N)(N\times D)$ 곱의 차원으로 순서를 확인해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$를 $-\boldsymbol{\Phi}^\top$($D\times N$)로 쓰면 $2\mathbf{e}^\top$($1\times N$)과 곱할 수 없고 성분 정의 $\partial e_i/\partial\theta_j$와도 어긋나요. $-2\boldsymbol{\Phi}^\top\mathbf{e}$는 답을 전치한 $D\times1$ 열벡터예요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>연쇄법칙 $\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$예요. 스칼라를 열벡터로 미분하면 행벡터, 벡터를 벡터로 미분하면 출력×입력 행렬이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론</h4>
-    <p>$\frac{\partial L}{\partial\mathbf{e}}=2\mathbf{e}^\top$($1\times N$), $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}=-\boldsymbol{\Phi}$($N\times D$)라서 $\frac{\partial L}{\partial\boldsymbol{\theta}}=-2\mathbf{e}^\top\boldsymbol{\Phi}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$($1\times D$)예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>검산</h4>
-    <p>$N=D=1$이면 $-2(y-\phi\theta)\phi$로 1변수 미분과 같아요. 안쪽 차원 $N$이 맞아야 곱이 정의돼요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>연쇄법칙 $\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$에서 스칼라 미분은 행벡터($1\times N$), 야코비안은 출력×입력($N\times D$)이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$L=\sum_n e_n^2$와 $e_n=y_n-\sum_d\Phi_{nd}\theta_d$를 성분으로 펼쳐요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $-2\mathbf{e}^\top\boldsymbol{\Phi}$, (b) 차원은 차례로 $1\times N$, $N\times D$, $1\times D$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$N=D=1$이면 $-2(y-\phi\theta)\phi$가 되고, 곱 $(1\times N)(N\times D)$의 안쪽 $N$이 맞아요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>행벡터 관례이므로 전치된 열벡터 $-2\boldsymbol{\Phi}^\top\mathbf{e}$($D\times1$)와 구분해요.</p></div>
 </div>
-<section data-problem-panel="terms">
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 5.11(Gradient of a Least-Squares Loss in a Linear Model), 교과서 154쪽(PDF 160쪽), 식 (5.75)–(5.83)이에요. 교과서도 $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$인 행벡터로 적었어요.</p>
+  <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
   <h4>용어</h4>
   <dl class="terms">
-    <dt>최소제곱 손실(least-squares loss)</dt>
-    <dd>$L=\|\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}\|^2$, 잔차 $\mathbf{e}$의 제곱 노름이에요. 값은 스칼라예요.</dd>
     <dt>행벡터 미분</dt>
     <dd>스칼라를 $D\times1$ 열벡터로 미분한 결과예요. 편미분 $D$개를 가로로 놓은 $1\times D$ 행벡터예요.</dd>
     <dt>야코비안(Jacobian)</dt>
     <dd>벡터 $\mathbf{e}\in\mathbb{R}^N$을 $\boldsymbol{\theta}\in\mathbb{R}^D$로 미분한 $N\times D$ 행렬이에요. $(i,j)$ 성분은 $\partial e_i/\partial\theta_j$예요.</dd>
     <dt>연쇄법칙(chain rule)</dt>
-    <dd>합성함수의 미분을 각 단계 미분의 곱으로 구하는 규칙이에요. 행렬곱이라 순서를 지켜요.</dd>
+    <dd>합성함수의 미분을 각 단계 미분의 곱으로 구하는 규칙이에요. 행렬곱 순서를 지켜요.</dd>
   </dl>
-</section>
-<section data-problem-panel="provenance">
-  <h4>출제 근거</h4>
-  <p>MML Example 5.11(Gradient of a Least-Squares Loss in a Linear Model), 교과서 154쪽(PDF 160쪽), 식 (5.75)–(5.83)이에요. 교과서도 $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$인 행벡터로 적었어요.</p>
-  <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a></p>
 </section>
 </article><article class="topic" id="p7"><h3>P7. 분수로 분산 갱신하기</h3><p class="panel-meta">MML Example 11.4 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=7">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p7"><div class="layer formal" data-source-problem="p7"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>1차원 관측 $x_1,\dots,x_7$에 성분 $3$개짜리 GMM을 맞추고 있어요. E-step에서 구한 책임도 $r_{nk}$가 아래 표에 있어요. 행은 관측 $x_n$, 열은 성분 $k=1,2,3$이에요.</p>
@@ -1330,31 +1202,22 @@
           <tr><th scope="row">$6$</th> <td>$0$</td> <td>$0$</td> <td>$1$</td></tr>
         </tbody>
       </table></div><details class="original" data-original-problem="p7"><summary>원문 보기</summary><p>“In our example from Figure 11.3, the variances are updated as follows” — Example 11.4</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 관측 $-4,-2,-1,0,2,4,6$과 분수 책임도 표 $r_{nk}$, $(N_1,N_2,N_3)=\left(\frac{5}{2},2,\frac{5}{2}\right)$, 새 평균 $\left(-\frac{13}{5},\frac{1}{4},\frac{22}{5}\right)$, 갱신 전 분산 $\left(2,\frac{1}{2},3\right)$이에요.</p>
-  <p>구할 것: (a) $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$을 기약분수로, (b) 갱신 전보다 줄어든 성분과 커진 성분이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 분수 책임도 표와 주어진 $N_k$, $\mu_k^{\text{new}}$로 새 분산 $(\sigma_k^{\text{new}})^2$을 기약분수로 구해요. (b) 갱신 전 분산 $\left(2,\frac{1}{2},3\right)$ 대비 증감을 판정해요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘분산 갱신식’과 ‘이미 갱신된 평균’이라는 단서에서 1차원 <b>가중 분산(weighted variance)</b>을 떠올려요. 평균을 낼 때와 같은 가중치로 새 평균 주위의 퍼짐을 재요.</p>
-  $$(\sigma_k^{\text{new}})^2=\frac{1}{\underbrace{N_k}_{\text{열 }k\text{의 합}}}\sum_{n=1}^{7}\underbrace{r_{nk}}_{\text{가중치}}\,\underbrace{(x_n-\mu_k^{\text{new}})^2}_{\text{새 평균 기준 편차 제곱}}$$
-  <ul>
-    <li>$r_{nk}=0$인 관측은 항이 $0$이라 빼고 계산해요. 성분마다 관측 세 개만 남아요.</li>
-    <li>편차를 분수로 먼저 구하면 분모가 같아져서 제곱해 더하기 쉬워요. 갱신 전 분산은 식에 들어가지 않고 (b)의 비교 기준이에요.</li>
-  </ul>
-  <p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a>의 1차원 가중 분산과 같은 식이에요.</p>
+  <h4>풀이 단서</h4>
+  <p>1차원 가중 분산 $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_{n=1}^{7} r_{nk}(x_n-\mu_k^{\text{new}})^2$를 계산해요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a>). $r_{nk}=0$인 칸을 빼면 성분마다 $3$개 관측만 남고, 편차를 분수로 통분해 더한 뒤 $N_k$로 나눠요.</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>성분 $1$의 편차부터 적어요. $\mu_1^{\text{new}}=-\frac{13}{5}$에서 $x_n=-4,-2,-1$의 편차는 $-\frac{7}{5},\ \frac{3}{5},\ \frac{8}{5}$이에요.</p>
-  <p>풀이 로드맵: 1. 성분별 편차를 분수로 → 2. $r_{nk}\times$편차 제곱을 더해 가중합 → 3. $N_k$로 나눠 약분하고 갱신 전 분산과 비교해요.</p>
+  <h4>첫 단계</h4>
+  <p>성분 $1$($\mu_1^{\text{new}}=-\frac{13}{5}$)에서 $r_{n1}\neq0$인 $x_n=-4,-2,-1$의 편차 $-\frac{7}{5},\,\frac{3}{5},\,\frac{8}{5}$부터 구해요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $\bigl((\sigma_1^{\text{new}})^2,(\sigma_2^{\text{new}})^2,(\sigma_3^{\text{new}})^2\bigr)=\left(\frac{36}{25},\,\frac{19}{16},\,\frac{56}{25}\right)$이에요.</p>
-    <p>대표로 성분 $1$은 $1\cdot\frac{49}{25}+1\cdot\frac{9}{25}+\frac{1}{2}\cdot\frac{64}{25}=\frac{90}{25}=\frac{18}{5}$이고, $\frac{18/5}{5/2}=\frac{36}{25}$이에요.</p>
+    <h4>(a) 기약분수로 새 분산 구하기</h4>
+    <p>성분 $1$은 $1\cdot\frac{49}{25}+1\cdot\frac{9}{25}+\frac{1}{2}\cdot\frac{64}{25}=\frac{90}{25}=\frac{18}{5}$이고, $\frac{18/5}{5/2}=\frac{36}{25}$예요. 세 성분을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">편차 $x_n-\mu_k^{\text{new}}$</th> <th scope="col">$r_{nk}\times$편차 제곱</th> <th scope="col">가중합</th> <th scope="col">$\div N_k$</th></tr></thead>
@@ -1365,63 +1228,53 @@
         </tbody>
       </table>
     </div>
-    <p>성분 $2$의 가중합은 $\frac{25}{32}+\frac{2}{32}+\frac{49}{32}=\frac{76}{32}=\frac{19}{8}$이에요. 세 결과 모두 분자와 분모의 공약수가 $1$이라 기약분수예요.</p>
+    <p>세 분수 모두 분자·분모가 서로소라 기약분수예요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 성분 $1$과 성분 $3$은 분산이 줄었고, 성분 $2$는 커졌어요.</p>
-    <p>소수로 바꾸면 $\frac{36}{25}=1.44\lt2$, $\frac{19}{16}=1.1875\gt\frac{1}{2}$, $\frac{56}{25}=2.24\lt3$이에요.</p>
+    <h4>(b) 갱신 전후 분산 비교</h4>
+    <p>$\frac{36}{25}=1.44\lt2$, $\frac{19}{16}=1.1875\gt\frac{1}{2}$, $\frac{56}{25}=2.24\lt3$이므로 성분 $1$·$3$은 줄었고, 성분 $2$는 커졌어요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\bigl((\sigma_1^{\text{new}})^2,\,(\sigma_2^{\text{new}})^2,\,(\sigma_3^{\text{new}})^2\bigr)=\left(\frac{36}{25},\,\frac{19}{16},\,\frac{56}{25}\right)$예요.</p>
+    <p>(b) 성분 $1$·$3$은 줄었고, 성분 $2$는 커졌어요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>$\mu_k^{\text{new}}$가 같은 가중치 $r_{nk}/N_k$로 낸 평균이라서, 같은 가중치로 ‘제곱의 평균 − 평균의 제곱’을 계산해도 같아야 해요. 성분 $2$는 $\frac{1}{2}\left(\frac{1}{2}\cdot1+1\cdot0+\frac{1}{2}\cdot4\right)=\frac{5}{4}$이고, $\frac{5}{4}-\left(\frac{1}{4}\right)^2=\frac{20}{16}-\frac{1}{16}=\frac{19}{16}$이에요.</p>
+    <p>$\mu_k^{\text{new}}$가 같은 가중치 평균이라 ‘제곱의 평균 − 평균의 제곱’과 같아야 해요. 성분 $2$는 $\frac{1}{2}\left(\frac{1}{2}\cdot1+1\cdot0+\frac{1}{2}\cdot4\right)-\left(\frac{1}{4}\right)^2=\frac{5}{4}-\frac{1}{16}=\frac{19}{16}$이에요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>분수끼리 비교해도 $\frac{36}{25}\lt\frac{50}{25}$, $\frac{19}{16}\gt\frac{8}{16}$, $\frac{56}{25}\lt\frac{75}{25}$로 같은 결론이에요.</p>
+    <h4>(b) 확인</h4>
+    <p>분수로 통분해도 $\frac{36}{25}\lt\frac{50}{25}$, $\frac{19}{16}\gt\frac{8}{16}$, $\frac{56}{25}\lt\frac{75}{25}$로 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>반씩 맡은 관측($-1$, $2$)은 편차 제곱에 $\frac{1}{2}$을 곱해요. 이 가중치를 빼먹고 세 항을 그대로 더하면 성분 $1$의 가중합이 $\frac{122}{25}$가 되어 답이 달라져요.</p>
-  <p>나누는 수는 맡은 관측 개수 $3$이 아니라 $N_k$예요. 성분 $1$·$3$은 $\frac{5}{2}$, 성분 $2$는 $2$로 나눠요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>$r_{nk}\neq0$인 관측만 골라 새 평균 기준 편차를 분수로 적어요.</li>
-    <li>편차 제곱에 $r_{nk}$를 곱해 더하고 $N_k$로 나눠 약분해요.</li>
-    <li>새 평균이 같은 가중치의 평균이니 ‘제곱의 평균 − 평균의 제곱’으로 한 성분을 검산해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>반씩 맡은 관측($-1,2$)의 편차 제곱에는 $\frac{1}{2}$을 곱해야 해요. 또 나누는 분모는 $0$이 아닌 칸 수 $3$이 아니라 $N_k$예요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>1차원 가중 분산 $(\sigma_k^{\text{new}})^2=\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$이에요. 편차는 새 평균에서 재고, 반씩 맡은 관측은 $\frac{1}{2}$로 가중해요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>가중합 $\left(\frac{18}{5},\frac{19}{8},\frac{28}{5}\right)$을 $N_k$로 나누면 $\left(\frac{36}{25},\frac{19}{16},\frac{56}{25}\right)$이에요. 성분 $1$·$3$은 줄고 성분 $2$는 커졌어요. 새 평균이 같은 가중치의 평균이라 ‘제곱의 평균 − 평균의 제곱’으로도 같은 값이 나와요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>1차원 가중 분산 $\frac{1}{N_k}\sum_n r_{nk}(x_n-\mu_k^{\text{new}})^2$에서 $r_{nk}\neq0$인 $3$개 관측만 남겨 분수로 계산해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>성분 $1$($\mu_1^{\text{new}}=-\frac{13}{5}$)의 편차 $-\frac{7}{5},\,\frac{3}{5},\,\frac{8}{5}$부터 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\left(\frac{36}{25},\,\frac{19}{16},\,\frac{56}{25}\right)$, (b) 성분 $1$·$3$은 줄고 성분 $2$는 커졌어요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>같은 가중치의 제곱의 평균 − 평균의 제곱으로도 성분 $2$가 $\frac{19}{16}$으로 일치해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>반만 맡은 관측에 $\frac{1}{2}$을 곱하고, 분모는 칸 수 $3$이 아니라 $N_k$로 나눠요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>가중 분산(weighted variance)</dt>
-    <dd>$\frac{1}{N_k}\sum_nr_{nk}(x_n-\mu_k^{\text{new}})^2$, 책임도로 가중한 편차 제곱의 평균이에요. $D=1$일 때의 공분산 갱신식이에요.</dd>
-    <dt>새 평균 $\mu_k^{\text{new}}$</dt>
-    <dd>같은 M-step에서 먼저 구한 가중 평균이에요. 분산 갱신의 편차 기준이에요.</dd>
-    <dt>기약분수</dt>
-    <dd>분자와 분모의 최대공약수가 $1$인 분수예요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.4(분산 갱신), 교과서 357–358쪽(PDF 363–364쪽)의 계산 구조를 분수로 끝나는 책임도 표로 바꾼 문항이에요. 표와 새 평균은 복습문제 2번과 같아요.</p>
   <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s1-meaning-cov">공분산: 같은 가중치로 낸 편차 외적의 평균</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>가중 분산(weighted variance)</dt>
+    <dd>$\frac{1}{N_k}\sum_n r_{nk}(x_n-\mu_k^{\text{new}})^2$로, 책임도로 가중한 편차 제곱의 평균이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_n r_{nk}$로, 책임도 표의 열 합이에요.</dd>
+  </dl>
 </section>
 </article><article class="topic" id="p8"><h3>P8. 벡터와 행렬로 스칼라 함수 미분하기</h3><p class="panel-meta">MML Exercise 5.6 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1116_EM_Algorithm-%EB%AC%B8%EC%A0%9C.pdf#page=8">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p8"><div class="layer formal" data-source-problem="p8"><h4>주어진 조건</h4><div data-source-field="conditions">
       <p>두 스칼라 함수를 생각해요.</p>
@@ -1435,154 +1288,129 @@
       <li>(b) $g$를 $\mathbf{X}$로 미분한 $\frac{dg}{d\mathbf{X}}$를 $\mathbf{A}$와 $\mathbf{B}$로 나타내 보세요.</li>
       <li>(c) (a)와 (b)에서 구한 두 미분의 차원을 각각 읽어 보세요.</li>
     </ol></div></div><details class="original" data-original-problem="p8"><summary>원문 보기</summary><p>“Differentiate f with respect to t and g with respect to X” — Exercise 5.6</p></details></div><div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 스칼라 함수 $f(\mathbf{t})=\sin\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)$($\mathbf{t}\in\mathbb{R}^{D}$, 영벡터 아닌 열벡터)와 $g(\mathbf{X})=\operatorname{tr}(\mathbf{A}\mathbf{X}\mathbf{B})$($\mathbf{A}\in\mathbb{R}^{D\times E}$, $\mathbf{X}\in\mathbb{R}^{E\times F}$, $\mathbf{B}\in\mathbb{R}^{F\times D}$)예요. 열벡터로 미분하면 행벡터, 행렬 $\mathbf{X}$로 미분하면 $\partial g/\partial X_{pq}$를 같은 $(p,q)$ 자리에 둔 행렬이에요.</p>
-  <p>구할 것: (a) $\frac{df}{d\mathbf{t}}$, (b) $\frac{dg}{d\mathbf{X}}$를 $\mathbf{A}$, $\mathbf{B}$로, (c) 두 미분의 차원이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) $f(\mathbf{t})=\sin\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)$의 행벡터 미분 $\frac{df}{d\mathbf{t}}$를 구해요. (b) $g(\mathbf{X})=\operatorname{tr}(\mathbf{A}\mathbf{X}\mathbf{B})$의 행렬 미분 $\frac{dg}{d\mathbf{X}}$를 구해요. (c) 두 미분의 차원을 각각 읽어요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>(a) ‘$\sin$ 안에 $\log$, 그 안에 $\mathbf{t}^\top\mathbf{t}$’라는 겹친 구조에서 <b>연쇄법칙(chain rule)</b>을 떠올려요. 안쪽 스칼라에 $u=\mathbf{t}^\top\mathbf{t}$라는 이름을 붙이면 1변수 미분과 벡터 미분이 나뉘어요.</p>
-  $$\frac{df}{d\mathbf{t}}=\underbrace{\frac{df}{du}}_{\text{스칼라}}\;\underbrace{\frac{du}{d\mathbf{t}}}_{1\times D\text{ 행벡터}},\qquad\frac{d(\mathbf{t}^\top\mathbf{t})}{d\mathbf{t}}=2\mathbf{t}^\top$$
-  <ul>
-    <li>$\mathbf{t}^\top\mathbf{t}=\sum_dt_d^2$를 $t_d$로 편미분하면 $2t_d$이고, 이것을 가로로 모으면 $2\mathbf{t}^\top$이에요.</li>
-    <li>$\mathbf{t}\neq\mathbf{0}$이라 $u\gt0$이고, 그래서 $\log u$와 $\frac{1}{u}$이 정의돼요.</li>
-  </ul>
-  <p>(b) ‘스칼라를 행렬로 미분’이라는 단서에서 <b>칸마다 편미분해 같은 자리에 두는 정의</b>를 떠올려요. 대각합(trace)을 성분 합으로 펼친 뒤 $X_{pq}$ 하나로 편미분해요.</p>
-  $$\left[\frac{dg}{d\mathbf{X}}\right]_{pq}=\frac{\partial g}{\partial X_{pq}},\qquad\operatorname{tr}(\mathbf{M})=\sum_iM_{ii},\qquad(\mathbf{A}\mathbf{X})_{il}=\sum_jA_{ij}X_{jl}$$
-  <p>행렬 미분의 정의는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s3-matrix-deriv-def">칸마다 미분하는 정의</a>, 열벡터로 미분하면 행벡터가 되는 관례는 <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>(a) 안쪽 스칼라 $u=\mathbf{t}^\top\mathbf{t}$($\gt0$, $\mathbf{t}\neq\mathbf{0}$)로 치환해 연쇄법칙 $\frac{df}{d\mathbf{t}}=\frac{df}{du}\frac{du}{d\mathbf{t}}$와 행벡터 미분 $\frac{d(\mathbf{t}^\top\mathbf{t})}{d\mathbf{t}}=2\mathbf{t}^\top$을 써요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로</a>). (b) 대각합 $g=\sum_{i=1}^{D}(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}$를 성분 삼중합으로 펼쳐 $\left[\frac{dg}{d\mathbf{X}}\right]_{pq}=\frac{\partial g}{\partial X_{pq}}$로 모아요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s3-matrix-deriv-def">칸마다 미분하는 정의</a>).</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>(a)는 $u=\mathbf{t}^\top\mathbf{t}=\sum_{d=1}^{D}t_d^2$, (b)는 $g=\sum_{i=1}^{D}(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}$를 먼저 적어요.</p>
-  <p>풀이 로드맵: 1. (a) $\frac{du}{d\mathbf{t}}$와 $\frac{df}{du}$를 곱하기 → 2. (b) 삼중합으로 펼쳐 $X_{pq}$로 편미분하고 행렬곱 꼴로 묶기 → 3. (c) 결과의 행·열 수 읽기예요.</p>
+  <h4>첫 단계</h4>
+  <p>(a)는 $u=\mathbf{t}^\top\mathbf{t}=\sum_{d=1}^{D}t_d^2$, (b)는 $g=\sum_{i=1}^{D}(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}$를 적어요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $\frac{df}{d\mathbf{t}}=\frac{2\cos\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)}{\mathbf{t}^\top\mathbf{t}}\,\mathbf{t}^\top$, 스칼라 × $1\times D$ 행벡터예요.</p>
+    <h4>(a) 벡터 함수 f의 미분</h4>
     <div class="deriv-body">
       <ol class="deriv">
         <li>
           <div class="deriv-eq">$$u=\mathbf{t}^\top\mathbf{t}=\sum_{d=1}^{D}t_d^2$$</div>
-          <div class="deriv-why"><p>안쪽 스칼라에 이름을 붙여요</p></div>
+          <div class="deriv-why"><p>안쪽 스칼라를 $u$로 둬요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\frac{du}{d\mathbf{t}}=\begin{bmatrix}2t_1&amp;\cdots&amp;2t_D\end{bmatrix}=2\mathbf{t}^\top$$</div>
-          <div class="deriv-why"><p>$\partial u/\partial t_d=2t_d$를 가로로 모아요</p></div>
+          <div class="deriv-eq">$$\frac{du}{d\mathbf{t}}=2\mathbf{t}^\top$$</div>
+          <div class="deriv-why"><p>$\partial u/\partial t_d=2t_d$를 행벡터로 모아요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$\frac{df}{du}=\cos(\log u)\cdot\frac{1}{u}$$</div>
-          <div class="deriv-why"><p>$\sin$의 미분 × $\log$의 미분이에요</p></div>
+          <div class="deriv-why"><p>$\sin$과 $\log$를 차례로 미분해요</p></div>
         </li>
         <li class="deriv-gen">
-          <div class="deriv-eq">$$\frac{df}{d\mathbf{t}}=\frac{df}{du}\frac{du}{d\mathbf{t}}=\frac{2\cos\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)}{\mathbf{t}^\top\mathbf{t}}\,\mathbf{t}^\top$$</div>
-          <div class="deriv-why"><p>연쇄법칙으로 곱하고 $u$를 되돌려요</p></div>
+          <div class="deriv-eq">$$\frac{df}{d\mathbf{t}}=\frac{2\cos\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)}{\mathbf{t}^\top\mathbf{t}}\,\mathbf{t}^\top$$</div>
+          <div class="deriv-why"><p>$\frac{df}{du}\frac{du}{d\mathbf{t}}$에 $u$를 되돌려요</p></div>
         </li>
       </ol>
     </div>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 구조:</b> $\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top$이에요. 첨자 $i=1,\dots,D$, $j=1,\dots,E$, $l=1,\dots,F$로 펼쳐요.</p>
+    <h4>(b) 대각합 g의 행렬 미분</h4>
+    <p>첨자 $i=1,\dots,D$, $j=1,\dots,E$, $l=1,\dots,F$로 펼쳐 $(p,q)$ 성분을 편미분해요.</p>
     <div class="deriv-body">
       <ol class="deriv">
         <li>
           <div class="deriv-eq">$$(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}=\sum_{l=1}^{F}(\mathbf{A}\mathbf{X})_{il}B_{li}$$</div>
-          <div class="deriv-why"><p>$(\mathbf{A}\mathbf{X})\mathbf{B}$의 행×열 곱이에요</p></div>
+          <div class="deriv-why"><p>$(\mathbf{A}\mathbf{X})\mathbf{B}$의 대각 성분을 펼쳐요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}=\sum_{j=1}^{E}\sum_{l=1}^{F}A_{ij}X_{jl}B_{li}$$</div>
-          <div class="deriv-why"><p>$(\mathbf{A}\mathbf{X})_{il}$도 행×열로 펼쳐요</p></div>
+          <div class="deriv-eq">$$\hphantom{(\mathbf{A}\mathbf{X}\mathbf{B})_{ii}}=\sum_{j=1}^{E}\sum_{l=1}^{F}A_{ij}X_{jl}B_{li}$$</div>
+          <div class="deriv-why"><p>$(\mathbf{A}\mathbf{X})_{il}=\sum_{j=1}^E A_{ij}X_{jl}$을 넣어요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$g=\sum_{i=1}^{D}\sum_{j=1}^{E}\sum_{l=1}^{F}A_{ij}X_{jl}B_{li}$$</div>
-          <div class="deriv-why"><p>대각합은 대각 성분을 $i$로 더한 값</p></div>
+          <div class="deriv-why"><p>대각합은 $i=1,\dots,D$의 합이에요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$\frac{\partial g}{\partial X_{pq}}=\sum_{i=1}^{D}A_{ip}B_{qi}$$</div>
           <div class="deriv-why"><p>$j=p$, $l=q$인 항만 $X_{pq}$를 포함해요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\frac{\partial g}{\partial X_{pq}}=\sum_{i=1}^{D}(\mathbf{A}^\top)_{pi}(\mathbf{B}^\top)_{iq}=(\mathbf{A}^\top\mathbf{B}^\top)_{pq}$$</div>
-          <div class="deriv-why"><p>전치로 첨자를 행×열 순서로 맞춰요</p></div>
+          <div class="deriv-eq">$$\hphantom{\frac{\partial g}{\partial X_{pq}}}=\sum_{i=1}^{D}(\mathbf{A}^\top)_{pi}(\mathbf{B}^\top)_{iq}=(\mathbf{A}^\top\mathbf{B}^\top)_{pq}$$</div>
+          <div class="deriv-why"><p>전치로 행×열 곱 첨자를 맞춰요</p></div>
         </li>
         <li class="deriv-gen">
           <div class="deriv-eq">$$\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top$$</div>
-          <div class="deriv-why"><p>$(p,q)$ 자리에 같은 값을 두면 전체 행렬</p></div>
+          <div class="deriv-why"><p>$(p,q)$ 자리에 모아 행렬을 만들어요</p></div>
         </li>
       </ol>
     </div>
   </div>
   <div data-subpart="c">
-    <h4>(c)</h4>
-    <p><b>최종 답 요약:</b> $\frac{df}{d\mathbf{t}}\in\mathbb{R}^{1\times D}$, $\frac{dg}{d\mathbf{X}}\in\mathbb{R}^{E\times F}$예요.</p>
-    <p>(a)는 스칼라 $\frac{2\cos(\log(\mathbf{t}^\top\mathbf{t}))}{\mathbf{t}^\top\mathbf{t}}$에 $1\times D$ 행벡터 $\mathbf{t}^\top$을 곱했으니 $1\times D$예요. (b)는 $\mathbf{A}^\top$($E\times D$)과 $\mathbf{B}^\top$($D\times F$)의 곱이라 $E\times F$이고, $\mathbf{X}$와 모양이 같아요.</p>
+    <h4>(c) 두 미분의 차원 읽기</h4>
+    <p>$\frac{df}{d\mathbf{t}}$는 스칼라 배와 $1\times D$ 행벡터 $\mathbf{t}^\top$의 곱이라 $\mathbb{R}^{1\times D}$예요. $\frac{dg}{d\mathbf{X}}$는 $\mathbf{A}^\top$($E\times D$)과 $\mathbf{B}^\top$($D\times F$)의 곱이라 $\mathbf{X}$와 같은 $\mathbb{R}^{E\times F}$예요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\frac{df}{d\mathbf{t}}=\frac{2\cos\bigl(\log(\mathbf{t}^\top\mathbf{t})\bigr)}{\mathbf{t}^\top\mathbf{t}}\,\mathbf{t}^\top$예요.</p>
+    <p>(b) $\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top$예요.</p>
+    <p>(c) $\frac{df}{d\mathbf{t}}\in\mathbb{R}^{1\times D}$, $\frac{dg}{d\mathbf{X}}\in\mathbb{R}^{E\times F}$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>$D=1$, $t\gt0$이면 $f=\sin(\log t^2)=\sin(2\log t)$이고 1변수 미분은 $\frac{2\cos(2\log t)}{t}$예요. 답에 넣으면 $\frac{2\cos(\log t^2)}{t^2}\cdot t=\frac{2\cos(2\log t)}{t}$로 같아요.</p>
+    <p>$D=1$, $t\gt0$이면 $f=\sin(2\log t)$의 1변수 미분 $\frac{2\cos(2\log t)}{t}$와 같아요.</p>
   </div>
   <div data-subpart="b">
     <h4>(b) 검산</h4>
-    <p>$D=E=F=1$이면 $g=aXb$이고 $\frac{dg}{dX}=ab$예요. 답 $\mathbf{A}^\top\mathbf{B}^\top$도 $ab$예요. 또 $\mathbf{A}^\top\mathbf{B}^\top=(\mathbf{B}\mathbf{A})^\top$이고 $\mathbf{B}\mathbf{A}$는 $F\times E$라서 전치하면 $E\times F$로 정의와 맞아요.</p>
+    <p>$D=E=F=1$이면 $g=aXb$의 미분 $ab$와 같고, $\mathbf{A}^\top\mathbf{B}^\top=(\mathbf{B}\mathbf{A})^\top$의 크기도 $(F\times E)^\top=E\times F$예요.</p>
   </div>
   <div data-subpart="c">
-    <h4>(c) 검산</h4>
-    <p>열벡터로 미분한 결과의 칸 수는 $\mathbf{t}$의 성분 수 $D$, 행렬로 미분한 결과의 칸 수는 $\mathbf{X}$의 원소 수 $EF$여야 해요. $1\times D$와 $E\times F$가 둘 다 맞아요.</p>
+    <h4>(c) 확인</h4>
+    <p>미분 결과의 칸 수가 각각 $\mathbf{t}$($D$개)와 $\mathbf{X}$($E\times F$)의 원소 수와 맞아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>(a)에서 $\frac{du}{d\mathbf{t}}$를 열벡터 $2\mathbf{t}$로 쓰면 수업 관례와 달라요. 스칼라를 열벡터로 미분했으니 $2\mathbf{t}^\top$이고, 최종 답도 $\mathbf{t}^\top$으로 끝나요.</p>
-  <p>(b)에서 $\mathbf{B}\mathbf{A}$($F\times E$)를 답으로 쓰면 $E\neq F$일 때는 $\mathbf{X}$($E\times F$)와 모양이 달라 바로 걸러지고, $E=F$여도 $(p,q)$ 성분이 $\sum_iA_{ip}B_{qi}$와 달라요. 답은 첨자 계산에서 나오고 모양은 점검용이에요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>(a) $u=\mathbf{t}^\top\mathbf{t}$로 두고 $\frac{df}{du}\cdot2\mathbf{t}^\top$을 적어요.</li>
-    <li>(b) $g=\sum_{i,j,l}A_{ij}X_{jl}B_{li}$로 펼친 뒤 $j=p$, $l=q$ 항만 남겨요.</li>
-    <li>(c) 결과의 모양을 미분 대상($\mathbf{t}$의 성분 수, $\mathbf{X}$의 모양)과 맞춰 봐요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>(a)에서 $\frac{du}{d\mathbf{t}}$를 열벡터 $2\mathbf{t}$로 쓰면 수업 관례와 달라요. (b)에서 전치 없는 $\mathbf{B}\mathbf{A}$($F\times E$)는 $E\neq F$일 때 차원부터 다르고 $E=F$여도 성분이 $\sum_i A_{ip}B_{qi}$와 어긋나요.</p>
 </div>
 <div class="sum" hidden="">
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>(a) $u=\mathbf{t}^\top\mathbf{t}$로 두는 연쇄법칙, $\frac{du}{d\mathbf{t}}=2\mathbf{t}^\top$(행벡터). (b) 칸마다 미분해 같은 자리에 두는 정의와 $\operatorname{tr}$의 삼중합 전개예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론</h4>
-    <p>$\frac{df}{d\mathbf{t}}=\frac{2\cos(\log(\mathbf{t}^\top\mathbf{t}))}{\mathbf{t}^\top\mathbf{t}}\mathbf{t}^\top\in\mathbb{R}^{1\times D}$, $\frac{dg}{d\mathbf{X}}=\mathbf{A}^\top\mathbf{B}^\top\in\mathbb{R}^{E\times F}$예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>검산</h4>
-    <p>모두 1차원으로 줄이면 1변수 미분과 같아요. 행렬 미분 결과는 $\mathbf{X}$와 같은 $E\times F$예요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>(a) $u=\mathbf{t}^\top\mathbf{t}$ 연쇄법칙과 행벡터 미분 $2\mathbf{t}^\top$, (b) $\operatorname{tr}(\mathbf{A}\mathbf{X}\mathbf{B})$를 삼중합으로 펼쳐 $X_{pq}$로 편미분해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>(a)는 $u=\sum_d t_d^2$, (b)는 $g=\sum_i (\mathbf{A}\mathbf{X}\mathbf{B})_{ii}$를 먼저 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\frac{2\cos(\log(\mathbf{t}^\top\mathbf{t}))}{\mathbf{t}^\top\mathbf{t}}\mathbf{t}^\top$($1\times D$), (b) $\mathbf{A}^\top\mathbf{B}^\top$($E\times F$)이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>1차원으로 줄이면 1변수 미분과 일치하고, 행렬 미분은 $\mathbf{X}$와 같은 $E\times F$ 모양이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>행벡터 미분이므로 $\mathbf{t}^\top$로 끝나고, 행렬 미분은 $\mathbf{B}\mathbf{A}$가 아닌 $\mathbf{A}^\top\mathbf{B}^\top$이에요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>대각합(trace) $\operatorname{tr}$</dt>
-    <dd>정사각행렬의 대각 성분 합 $\operatorname{tr}(\mathbf{M})=\sum_iM_{ii}$예요. 여기서 $\mathbf{A}\mathbf{X}\mathbf{B}$는 $D\times D$라 정의돼요.</dd>
-    <dt>행벡터 미분</dt>
-    <dd>스칼라를 $D\times1$ 열벡터 $\mathbf{t}$로 미분한 결과예요. 편미분을 가로로 놓은 $1\times D$ 행벡터예요.</dd>
-    <dt>스칼라의 행렬 미분</dt>
-    <dd>$\partial g/\partial X_{pq}$를 $(p,q)$ 자리에 둔 행렬이에요. 결과는 $\mathbf{X}$와 같은 $E\times F$ 모양이에요.</dd>
-    <dt>연쇄법칙(chain rule)</dt>
-    <dd>합성함수의 미분을 바깥 함수의 미분과 안쪽 함수의 미분의 곱으로 구하는 규칙이에요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Exercise 5.6, 교과서 171쪽(PDF 177쪽)이에요. 미분 방향은 수업 관례(열벡터 변수에 대한 스칼라 미분은 행벡터, 행렬 미분은 원소별 같은 자리)를 문제 조건에 명시했어요.</p>
   <p>관련 정리노트: <a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1116_EM_Algorithm.html#s3-matrix-deriv-def">칸마다 미분하는 정의</a></p>
 </section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>행벡터 미분</dt>
+    <dd>스칼라를 $D\times1$ 열벡터로 미분한 결과예요. 편미분을 가로로 놓은 $1\times D$ 행벡터예요.</dd>
+    <dt>스칼라의 행렬 미분</dt>
+    <dd>$\partial g/\partial X_{pq}$를 $(p,q)$ 자리에 둔 행렬이에요. 결과는 $\mathbf{X}$와 같은 $E\times F$ 모양이에요.</dd>
+    <dt>대각합(trace) $\operatorname{tr}$</dt>
+    <dd>정사각행렬의 대각 성분 합 $\operatorname{tr}(\mathbf{M})=\sum_i M_{ii}$예요.</dd>
+  </dl>
+</section>
 </article></section>
   </main>
-  <footer>원 문제·정리노트·PDF는 보존해요.</footer>
     </div>
     <aside class="panel panel-right" id="panel-right" aria-labelledby="panel-right-title">
       <div class="panel-resize" data-side="right" role="separator" aria-orientation="vertical" aria-controls="panel-right" aria-label="오른쪽 패널 너비 조절. 좌우 화살표로 조절, Home으로 자동 너비" tabindex="0"></div>
@@ -2090,7 +1918,13 @@
         topics.forEach((t) => {
           // 조각의 <div class="sum" hidden> 을 요약 패널로 옮긴다. 없으면 안내 문구만 보인다.
           const el = t.querySelector(':scope > .sum');
-          if (el) { el.hidden = true; box.appendChild(el); sums[t.id] = el; }
+          if (el) {
+            const terms = t.querySelector(':scope > [data-problem-panel="terms"][data-summary-terms]');
+            if (terms) el.appendChild(terms);
+            el.hidden = true;
+            box.appendChild(el);
+            sums[t.id] = el;
+          }
           const pane = t.querySelector(':scope > .problem-pane');
           if (!pane) return;
           pane.id = 'problem-' + t.id;

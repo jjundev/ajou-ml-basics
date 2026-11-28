@@ -82,9 +82,11 @@
     .layer > :last-child { margin-bottom: 0; }
     .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
     .layer [data-source-field] + h4 { margin-top: var(--s5); }
-    .layer p { margin: var(--s3) 0; }
+    .layer p { margin: 14px 0; }
+    .layer p:has(.katex) { line-height: 1.9; }
     .verdict-card { padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: 28px; }
+    .layer [data-subpart] > h4 { font-size: var(--fs-body); }
     .layer li + li { margin-top: var(--s3); }
     .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
     .sum > [data-summary-terms], .layer > .final-answer { margin-top: var(--s5); }
@@ -115,9 +117,13 @@
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
     .katex-display { padding: var(--s2) 0; }
     pre { max-width: 100%; overflow-x: auto; tab-size: 4; }
-    .table-wrap { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
-    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    .table-wrap { position: relative; overflow-x: auto; max-width: 100%; margin: var(--s5) 0; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); border-top: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); }
+    .table-wrap > table { display: table; width: 100%; }
+    th, td { border-bottom: 1px solid var(--line); padding: 11px 10px; text-align: left; vertical-align: top; }
+    thead th { border-bottom: 1.5px solid var(--line); }
+    tbody tr:last-child td { border-bottom: 0; }
+    tr:has(.katex) th, tr:has(.katex) td { padding-block: 12px; }
     th { color: var(--ink-2); font-weight: 600; }
     td:first-child, th:first-child { min-width: 6em; }
 

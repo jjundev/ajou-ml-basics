@@ -1,10 +1,101 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $4\times 3$ 영화 평점 행렬 $\mathbf A$(행: Star Wars, Blade Runner, Amelie, Delicatessen / 열: Ali, Beatrix, Chandra), 특잇값 $\sigma_1=9.6438, \sigma_2=6.3639, \sigma_3=0.7056$, 그리고 $\mathbf u_1, \mathbf u_2$ 및 $\mathbf v_1, \mathbf v_2$의 표가 주어졌어요.</p><p><b>구할 것:</b> (a) 첫째 층의 Chandra 열 4개 값, (b) 랭크 2 근사 $\hat{\mathbf A}(2)$의 Chandra 열과 실제 평점 $(1,0,5,4)^\top$ 비교, (c) 셋째 층을 버려도 되는지 Frobenius 제곱오차 비율로 판정해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘층 $\sigma_i\mathbf u_i\mathbf v_i^\top$의 합’이라는 단서에서 SVD의 <b>외적 층 전개</b>를 떠올려요.</p>$$\mathbf A=\sigma_1\mathbf u_1\mathbf v_1^\top+\sigma_2\mathbf u_2\mathbf v_2^\top+\sigma_3\mathbf u_3\mathbf v_3^\top$$<p>‘Chandra 열’이라는 단서에서 <b>외적 행렬의 열 벡터 추출</b>을 떠올려요. $\mathbf u\mathbf v^\top$의 $j$번째 열은 스칼라 $v_j$가 곱해진 $v_j\mathbf u$예요. Chandra는 셋째 관객($j=3$)이므로 $i$번째 층의 Chandra 열은 $\sigma_i v_{i,3}\mathbf u_i$예요.</p><p>‘버려도 되는지’라는 단서에서는 <b>Frobenius 제곱오차</b>를 떠올려요. 랭크 2 근사를 취할 때 버려진 오차의 총합은 버려진 특잇값 제곱합과 같아요.</p>$$\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sum_{i>2}\sigma_i^2=\sigma_3^2$$<p>에카르트–영 정리(Eckart–Young theorem)에 의해 상위 2개 층의 합이 최적 랭크 2 근사예요. <a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf v_1$의 Chandra 성분($v_{1,3}=-0.1811$)에 $\sigma_1$을 곱해 스케일링 계수를 먼저 구하는 3단계 로드맵(1. 첫째 층 계산 $\to$ 2. 둘째 층 합산 $\to$ 3. 잔여 오차율 비교)으로 시작해요.</p>$$\sigma_1 v_{1,3} = 9.6438 \times (-0.1811) \approx -1.7465$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> 첫째 층의 Chandra 열은 $(1.1719, 1.2570, 0.1640, 0.2646)^\top$이에요.</p><p>대표 1항 예시: Star Wars의 첫째 층 평점은 $(-1.74649)\times(-0.6710)\approx 1.1719$예요. 전체 영화의 계산 과정을 표로 정리해요.</p><div class="table-wrap"><table><thead><tr><th>영화</th><th>$\mathbf u_1$ 성분</th><th>계산식 ($-1.7465 \times u_{1,i}$)</th><th>첫째 층 Chandra 평점</th><th>실제 평점</th></tr></thead><tbody><tr><td>Star Wars</td><td>$-0.6710$</td><td>$(-1.74649)\times(-0.6710)$</td><td>$1.1719$</td><td>$1$</td></tr><tr><td>Blade Runner</td><td>$-0.7197$</td><td>$(-1.74649)\times(-0.7197)$</td><td>$1.2570$</td><td>$0$</td></tr><tr><td>Amelie</td><td>$-0.0939$</td><td>$(-1.74649)\times(-0.0939)$</td><td>$0.1640$</td><td>$5$</td></tr><tr><td>Delicatessen</td><td>$-0.1515$</td><td>$(-1.74649)\times(-0.1515)$</td><td>$0.2646$</td><td>$4$</td></tr></tbody></table></div><p>결과 해석: Chandra 열에서 첫째 층만 남기면 앞의 두 영화에서 값이 상대적으로 크고, Amelie와 Delicatessen의 높은 실제 평점은 거의 복원되지 않아요.</p></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 요약:</b> $\hat{\mathbf A}(2)$의 Chandra 열은 $(1.0246, -0.0250, 4.9727, 4.0280)^\top$로 실제 평점 $(1, 0, 5, 4)^\top$과 0.03 이내로 거의 완벽히 일치해요.</p><p>둘째 층 계수는 $\sigma_2 v_{2,3}=6.3639\times(-0.9807)\approx -6.2411$이에요. 대표 1항 예시: Blade Runner의 랭크 2 근사는 $1.2569504 + (-1.2819172) \approx -0.0250$이에요. 두 층의 합산과 실제 평점 비교를 표로 정리해요.</p><div class="table-wrap"><table><thead><tr><th>영화</th><th>첫째 층 평점</th><th>둘째 층 평점 ($-6.2411\times u_{2,i}$)</th><th>랭크 2 근사 합 $\hat{\mathbf A}(2)$</th><th>실제 평점</th><th>잔차 오차</th></tr></thead><tbody><tr><td>Star Wars</td><td>$1.1719$</td><td>$(-6.24107)\times 0.0236 = -0.1473$</td><td>$1.0246$</td><td>$1$</td><td>$+0.0246$</td></tr><tr><td>Blade Runner</td><td>$1.2570$</td><td>$(-6.24107)\times 0.2054 = -1.2819$</td><td>$-0.0250$</td><td>$0$</td><td>$-0.0250$</td></tr><tr><td>Amelie</td><td>$0.1640$</td><td>$(-6.24107)\times(-0.7705) = 4.8087$</td><td>$4.9727$</td><td>$5$</td><td>$-0.0273$</td></tr><tr><td>Delicatessen</td><td>$0.2646$</td><td>$(-6.24107)\times(-0.6030) = 3.7634$</td><td>$4.0280$</td><td>$4$</td><td>$+0.0280$</td></tr></tbody></table></div><p>결과 해석: 둘째 층에서 Amelie와 Delicatessen 값이 크게 늘고 Blade Runner 값이 줄어 Chandra의 실제 평점 $(1, 0, 5, 4)^\top$를 거의 그대로 되살려요.</p></div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 구조:</b> 버려진 셋째 층의 Frobenius 제곱오차는 $\sigma_3^2\approx 0.4979$로 전체 제곱합 134의 약 $0.37\%$에 불과하므로 셋째 층을 버려도 돼요.</p><p>앞의 두 층을 남기고 셋째 층을 버릴 때의 Frobenius 제곱오차를 계산해요.</p>$$\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sigma_3^2=0.7056^2\approx 0.4979$$<p>원 행렬 $\mathbf A$의 원소 제곱합(전체 에너지)은 다음과 같아요.</p>$$\|\mathbf A\|_F^2=(25+16+1)+(25+25+0)+(0+0+25)+(1+0+16)=134$$<p>전체 대비 손실 비율을 구해요.</p>$$\frac{\sigma_3^2}{\|\mathbf A\|_F^2}=\frac{0.4979}{134}\approx 0.003716 \approx 0.37\%$$<p>따라서 전체 Frobenius 제곱노름의 약 0.37%가 잔차에 남고 약 99.63%가 앞 두 층에 남아요. 이 오차 척도에서는 셋째 층을 생략해도 근사가 좋아요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>교과서 식 (4.100b)의 외적 정규화 열 $(0.1215, 0.1303, 0.0170, 0.0274)^\top$에 $\sigma_1=9.6438$을 곱하면 $(1.1717, 1.2566, 0.1639, 0.2642)^\top$으로 반올림 오차 범위 내에서 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>교과서 식 (4.102)의 랭크 2 근사 Chandra 열 $(1.0244, -0.0250, 4.9724, 4.0278)^\top$과 대조할 때 표시값 기준 최대 0.0003만큼 다르며 실제 평점과의 차이가 모두 0.03 미만이에요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>세 특잇값의 제곱합 $\sigma_1^2+\sigma_2^2+\sigma_3^2 \approx 93.003 + 40.499 + 0.498 = 134.000$으로 소수 셋째 자리까지 반올림하면 134.000이에요. 반올림 전의 특잇값을 쓰면 원 행렬 원소 제곱합 134와 같아요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>외적에서 행과 열의 역할을 뒤바꾸지 않아요.</b> $i$번째 층의 Chandra 열은 $\sigma_i v_{i,3}\mathbf u_i$예요. 같은 층의 셋째 행 $\sigma_i u_{i,3}\mathbf v_i^\top$은 Amelie의 관객별 성분이에요.</p><p><b>스케일링 인자 $\sigma_i$를 빠뜨리지 않아요.</b> 외적 $\mathbf u_i\mathbf v_i^\top$은 방향을 나타내고 $\sigma_i$를 곱해야 그 층의 크기가 반영돼요.</p><p><b>오차 비율 계산 시 노름과 제곱합 단위를 일치시켜요.</b> 오차 $\sigma_3^2$을 전체 제곱합 134로 나누어야 유효한 비율이 돼요. 제곱하지 않은 $\sigma_3=0.7056$을 134로 나누면 왜곡이 발생해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>외적 $\sigma_1\mathbf u_1\mathbf v_1^\top$의 셋째 열 공식 $\sigma_1 v_{1,3}\mathbf u_1$을 종이에 세우고 4개 영화 값을 계산해요.</li><li>둘째 층을 같은 방식으로 구해 더하고 실제 평점 $(1,0,5,4)^\top$과의 오차를 표로 확인해요.</li><li>$\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sigma_3^2$를 $\|\mathbf A\|_F^2=134$로 나누어 손실률 0.37%를 도출해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$i$번째 층 $\sigma_i\mathbf u_i\mathbf v_i^\top$의 $j$번째 열은 $\sigma_i v_{i,j}\mathbf u_i$예요. 오차는 버려진 특잇값 제곱합이에요.</p>$$\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sigma_3^2$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\sigma_1\times(-0.1811)\approx -1.7465$를 먼저 계산해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 첫째 층 평점 $(1.1719, 1.2570, 0.1640, 0.2646)^\top$이에요.</p><p>(b) 랭크 2 근사는 $(1.0246, -0.0250, 4.9727, 4.0280)^\top$로 실제 평점과 거의 같아요.</p><p>(c) 오차 $\sigma_3^2\approx 0.4979$가 전체 134의 0.37%에 불과해 셋째 층을 버려도 무방해요.</p></div><div class="summary-group"><h4>검산</h4><p>교과서 식 (4.100b), (4.102)와 부합하며, 특잇값 제곱합 $\sum\sigma_i^2=134$와 일치해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>$i$번째 층의 열에는 $\sigma_i$와 $\mathbf v_i$의 해당 성분을 $\mathbf u_i$에 곱해요. 제곱오차는 전체 제곱합과 비교해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>랭크 1 층(rank-1 matrix)</dt><dd>열벡터와 행벡터의 외적 $\sigma_i\mathbf u_i\mathbf v_i^\top$로 만들어진 랭크 1 행렬이에요.</dd><dt>랭크 2 근사(rank-2 approximation)</dt><dd>상위 2개 외적 층을 합산한 근사 행렬 $\hat{\mathbf A}(2)=\sigma_1\mathbf u_1\mathbf v_1^\top+\sigma_2\mathbf u_2\mathbf v_2^\top$이에요.</dd><dt>Frobenius 노름(Frobenius norm)</dt><dd>행렬 원소들의 제곱합의 제곱근 $\|\mathbf M\|_F=\sqrt{\sum_{ij}M_{ij}^2}$이에요.</dd><dt>에카르트–영 정리(Eckart–Young theorem)</dt><dd>SVD의 상위 $M$개 층을 합한 근사 행렬이 랭크 $M$ 이하 행렬 중 Frobenius 오차를 최소화한다는 정리예요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 4.15(그림 4.10, Example 4.14의 평점표와 SVD), 교과서 127쪽·132–133쪽(PDF 133쪽·138–139쪽), 식 (4.100)–(4.103).</p><p>수업: 1104 L06 s14(랭크 제한 복원과 Frobenius 오차, 에카르트–영 정리).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$4\times 3$ 영화 평점 행렬 $\mathbf A$의 SVD에서 (a) 첫째 층의 Chandra 열, (b) 랭크 2 근사 $\hat{\mathbf A}(2)$의 Chandra 열과 실제 평점 $(1,0,5,4)^\top$ 비교, (c) 셋째 층을 버려도 되는지 제곱오차 비율로 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>외적 $\mathbf u_i\mathbf v_i^\top$의 $j$번째 열은 $\mathbf v_i$의 $j$번째 성분을 곱한 $v_{i,j}\mathbf u_i$예요. Chandra는 셋째 열($j=3$)이므로 $i$번째 층 $\sigma_i\mathbf u_i\mathbf v_i^\top$의 Chandra 열은 $\sigma_i v_{i,3}\mathbf u_i$예요.</p>
+  <p>버린 셋째 층의 Frobenius 제곱오차는 $\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sigma_3^2$이므로, 원 행렬의 전체 제곱합 $\|\mathbf A\|_F^2$과 비교해 버릴 만한지 판정해요(<a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\sigma_1 v_{1,3}=9.6438\times(-0.1811)\approx -1.7465$$
+  <p>계산한 계수를 $\mathbf u_1$의 네 성분에 곱해 첫째 층 Chandra 열을 구한 뒤, 둘째 층을 더해 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 첫째 층의 Chandra 열</h4>
+    <p>대표 1항 대입: Star Wars는 $(-1.74649)\times(-0.6710)\approx 1.1719$예요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>영화</th><th>$u_{1,k}$</th><th>첫째 층 ($\sigma_1 v_{1,3}u_{1,k}$)</th><th>실제</th></tr></thead>
+        <tbody>
+          <tr><td>Star Wars</td><td>$-0.6710$</td><td>$1.1719$</td><td>$1$</td></tr>
+          <tr><td>Blade Runner</td><td>$-0.7197$</td><td>$1.2570$</td><td>$0$</td></tr>
+          <tr><td>Amelie</td><td>$-0.0939$</td><td>$0.1640$</td><td>$5$</td></tr>
+          <tr><td>Delicatessen</td><td>$-0.1515$</td><td>$0.2646$</td><td>$4$</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>첫째 층만으로는 앞의 SF 두 편 쪽만 $1$ 근처이고 Amelie·Delicatessen(5, 4)은 거의 못 잡아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\hat{\mathbf A}(2)$의 Chandra 열과 비교</h4>
+    <p>둘째 층 계수는 $\sigma_2 v_{2,3}=6.3639\times(-0.9807)\approx -6.2411$이에요. 대표 1항으로 Blade Runner는 $1.25695+(-1.28192)\approx -0.0250$이에요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>영화</th><th>첫째 층</th><th>둘째 층 ($\sigma_2 v_{2,3}u_{2,k}$)</th><th>$\hat{\mathbf A}(2)$</th><th>실제</th><th>차이</th></tr></thead>
+        <tbody>
+          <tr><td>Star Wars</td><td>$1.1719$</td><td>$-0.1473$</td><td>$1.0246$</td><td>$1$</td><td>$+0.0246$</td></tr>
+          <tr><td>Blade Runner</td><td>$1.2570$</td><td>$-1.2819$</td><td>$-0.0250$</td><td>$0$</td><td>$-0.0250$</td></tr>
+          <tr><td>Amelie</td><td>$0.1640$</td><td>$4.8087$</td><td>$4.9727$</td><td>$5$</td><td>$-0.0273$</td></tr>
+          <tr><td>Delicatessen</td><td>$0.2646$</td><td>$3.7634$</td><td>$4.0280$</td><td>$4$</td><td>$+0.0280$</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>모든 영화에서 실제 평점 $(1,0,5,4)^\top$과의 차이가 $0.03$ 이하로 거의 일치해요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 셋째 층 생략 판정</h4>
+    <p>버린 제곱오차는 $\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sigma_3^2=0.7056^2\approx 0.4979$이고, 원 행렬의 원소 제곱합은 행마다 $42+50+25+17=134$예요.</p>
+    $$\frac{\sigma_3^2}{\|\mathbf A\|_F^2}=\frac{0.4979}{134}\approx 0.003716\approx 0.37\%$$
+    <p>전체 제곱노름의 약 $0.37\%$만 남고 $99.63\%$가 앞 두 층에 담기므로 근사 목적에서는 셋째 층을 버려도 돼요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 첫째 층 Chandra 열은 $(1.1719,\ 1.2570,\ 0.1640,\ 0.2646)^\top$이에요.</p>
+    <p>(b) $\hat{\mathbf A}(2)$의 Chandra 열은 $(1.0246,\ -0.0250,\ 4.9727,\ 4.0280)^\top$으로 실제 평점 $(1,0,5,4)^\top$과 모든 성분이 $0.03$ 이내로 거의 같아요.</p>
+    <p>(c) $\sigma_3^2\approx 0.4979$는 전체 제곱합 $134$의 약 $0.37\%$뿐이므로 셋째 층을 버려도 돼요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>교과서 식 (4.100b)의 $\mathbf u_1\mathbf v_1^\top$ 셋째 열 $(0.1215, 0.1303, 0.0170, 0.0274)^\top$에 $\sigma_1=9.6438$을 곱한 값과 표시 넷째 자리 반올림 범위에서 맞아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>교과서 식 (4.102)의 $(1.0244,-0.0250,4.9724,4.0278)^\top$과 표의 넷째 자리 반올림 차이 $0.0003$ 이내로 일치해요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\sigma_1^2+\sigma_2^2+\sigma_3^2\approx 93.003+40.499+0.498=134.000$으로 전체 원소 제곱합 $134$와 맞아요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$i$번째 층의 $j$번째 열은 $\sigma_i v_{i,j}\mathbf u_i$예요. 행과 열($u_{i,k}\mathbf v_i^\top$)을 바꾸거나 교과서 표기 $\mathbf A_i=\mathbf u_i\mathbf v_i^\top$처럼 $\sigma_i$를 빼뜨리면 값이 달라져요. 비율을 낼 때는 $\sigma_3$가 아니라 $\sigma_3^2$을 $134$로 나눠요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$i$번째 층 $\sigma_i\mathbf u_i\mathbf v_i^\top$의 $j$번째 열은 $\sigma_i v_{i,j}\mathbf u_i$이고, 오차는 $\|\mathbf A-\hat{\mathbf A}(2)\|_F^2=\sigma_3^2$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\sigma_1 v_{1,3}=9.6438\times(-0.1811)\approx -1.7465$를 구해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $(1.1719,1.2570,0.1640,0.2646)^\top$. (b) $(1.0246,-0.0250,4.9727,4.0280)^\top$으로 $(1,0,5,4)^\top$과 거의 같음. (c) $\sigma_3^2/134\approx 0.37\%$라 버려도 돼요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>교과서 (4.100b)·(4.102)와 반올림 범위 내 일치하고 $\sum\sigma_i^2\approx 134.000$이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>열 추출에 $\sigma_i$와 $\mathbf v_i$의 성분을 곱하고, 오차 비율은 제곱노름 $\sigma_3^2$과 $134$로 계산해요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 4.15(그림 4.10, Example 4.14의 평점표와 SVD), 교과서 127쪽·132–133쪽(PDF 133쪽·138–139쪽), 식 (4.100)–(4.103).</p>
+  <p>수업: 1104 L06 s14(랭크 제한 복원과 Frobenius 오차).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>외적(outer product)</dt><dd>열벡터와 행벡터의 곱 $\mathbf u\mathbf v^\top$으로 $(k,j)$ 원소가 $u_k v_j$인 행렬이에요.</dd>
+    <dt>랭크 2 근사(rank-2 approximation)</dt><dd>상위 두 외적 층을 더한 행렬 $\hat{\mathbf A}(2)=\sigma_1\mathbf u_1\mathbf v_1^\top+\sigma_2\mathbf u_2\mathbf v_2^\top$이에요.</dd>
+    <dt>Frobenius 노름(Frobenius norm)</dt><dd>행렬 원소 제곱합의 제곱근 $\|\mathbf M\|_F=\sqrt{\sum_{k,j}M_{kj}^2}$예요.</dd>
+  </dl>
+</section>

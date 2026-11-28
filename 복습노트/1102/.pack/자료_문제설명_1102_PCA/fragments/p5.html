@@ -1,8 +1,68 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>주어진 것은 $3\times 3$ 행렬 $\mathbf{A}=\begin{bmatrix}1 & 3 & 5\\2 & 4 & 6\\0 & 2 & 4\end{bmatrix}$이에요.</p><p>구할 것은 두 가지예요: (a) 첫째 행을 따른 여인수 전개(cofactor expansion)로 행렬식 $\det(\mathbf{A})$ 계산하기, (b) 그 결과로 $\mathbf{A}$의 세 열벡터의 일차독립 여부를 판정해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘첫째 행을 따라 여인수 전개’와 ‘열의 일차독립’이라는 단서에서 라플라스 전개식과 가역성 동치 사슬을 떠올려요.</p><ul><li>$3\times 3$ 행렬식의 1행 여인수 전개 공식:$$\det(\mathbf{A}) = \underbrace{+a_{11}\det(\mathbf{A}_{11})}_{\text{1행 1열 소행렬식}} \underbrace{- a_{12}\det(\mathbf{A}_{12})}_{\text{1행 2열 (부호 주의)}} \underbrace{+ a_{13}\det(\mathbf{A}_{13})}_{\text{1행 3열 소행렬식}}$$여기서 $\mathbf{A}_{1j}$는 첫째 행과 $j$번째 열을 지운 행렬이고, 부호는 $(-1)^{1+j}$로 $+,-,+$ 순서예요.</li><li>정방행렬의 가역성 및 일차독립 동치 사슬:$$\det(\mathbf{A})\neq 0 \iff \mathbf{A}\text{ 가역} \iff \operatorname{rank}(\mathbf{A})=n \iff \mathbf{A}\mathbf{x}=\mathbf{0}\text{의 해는 }\mathbf{x}=\mathbf{0}\text{뿐} \iff \text{열벡터 일차독립}$$따라서 $\det(\mathbf{A})=0$이면 열벡터들은 일차독립이 아니며(일차종속), 0 아닌 계수의 선형결합으로 $\mathbf{0}$을 만들 수 있어요.</li></ul><p><a href="정리노트_1102_PCA.html#s2-eigen-characteristic">2.1의 특성방정식과 rank-deficient</a>, <a href="정리노트_1102_PCA.html#s3-example-eigenvalues">3.2 예제의 3x3 행렬식 전개</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>첫째 행 원소 $1, 3, 5$와 해당 행·열을 소거한 $2\times 2$ 소행렬식들을 부호 $+,-,+$와 함께 배치해요.</p>$$\det(\mathbf{A})=1\cdot\det\begin{bmatrix}4 & 6\\2 & 4\end{bmatrix}-3\cdot\det\begin{bmatrix}2 & 6\\0 & 4\end{bmatrix}+5\cdot\det\begin{bmatrix}2 & 4\\0 & 2\end{bmatrix}$$<p><b>풀이 로드맵:</b> 1. 세 개의 $2\times 2$ 소행렬식 계산 → 2. 부호 적용 및 합산으로 $\det(\mathbf{A})=0$ 도출 → 3. $\det=0 \implies$ 일차종속 판정 및 구체적 선형결합 계수 $[1, -2, 1]^\top$ 제시.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) 첫째 행 여인수 전개</h4><p><b>최종 답 요약:</b> 첫째 행 여인수 전개 결과 $\det(\mathbf{A})=4 - 24 + 20 = 0$이에요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A})=1\cdot\det\begin{bmatrix}4 & 6\\2 & 4\end{bmatrix}-3\cdot\det\begin{bmatrix}2 & 6\\0 & 4\end{bmatrix}+5\cdot\det\begin{bmatrix}2 & 4\\0 & 2\end{bmatrix}$$</div><div class="deriv-why"><p>1행 원소와 소행렬식으로 전개해요 (+,-,+)</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A})}=1\cdot(4\cdot 4-6\cdot 2)-3\cdot(2\cdot 4-6\cdot 0)+5\cdot(2\cdot 2-4\cdot 0)$$</div><div class="deriv-why"><p>각 2x2 소행렬식을 ad-bc로 계산해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A})}=1\cdot(16-12)-3\cdot(8-0)+5\cdot(4-0)$$</div><div class="deriv-why"><p>각 소행렬식 값 4, 8, 4를 대입해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\det(\mathbf{A})=4-24+20=0$$</div><div class="deriv-why"><p>최종 합산 결과 행렬식은 0이에요</p></div></li></ol></div></div><div data-subpart="b"><h4>(b) 세 열의 일차독립 판정</h4><p><b>최종 답 요약:</b> $\det(\mathbf{A})=0$이므로 $\mathbf{A}$의 세 열은 일차독립이 아니에요 (일차종속). 계수 $[1, -2, 1]^\top$로 선형결합하면 $\mathbf{0}$이 돼요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A})=0\iff\operatorname{rank}(\mathbf{A})<3\iff\exists\mathbf{x}\neq\mathbf{0}\ \text{s.t.}\ \mathbf{A}\mathbf{x}=\mathbf{0}$$</div><div class="deriv-why"><p>행렬식 0과 자명하지 않은 해의 동치 조건이에요</p></div></li><li><div class="deriv-eq">$$\mathbf{A}\begin{bmatrix}1\\-2\\1\end{bmatrix}=\begin{bmatrix}1\cdot 1+3(-2)+5\cdot 1\\2\cdot 1+4(-2)+6\cdot 1\\0\cdot 1+2(-2)+4\cdot 1\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$</div><div class="deriv-why"><p>x=[1,-2,1]^T 대입 시 Ax=0이 정확히 성립해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$1\begin{bmatrix}1\\2\\0\end{bmatrix}-2\begin{bmatrix}3\\4\\2\end{bmatrix}+1\begin{bmatrix}5\\6\\4\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>0 아닌 계수의 선형결합이 0이므로 일차종속이에요</p></div></li></ol></div><p>따라서 셋째 열 $\mathbf{a}_3$은 앞선 두 열의 선형결합 $\mathbf{a}_3 = -\mathbf{a}_1 + 2\mathbf{a}_2$로 표현되므로 세 열은 일차독립이 아니에요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>기본 행연산으로 삼각화를 검산해요. 2행에서 1행의 2배를 빼면 $\begin{bmatrix}1&3&5\\0&-2&-4\\0&2&4\end{bmatrix}$가 되고, 3행에 2행을 더하면 3행 전체가 $\begin{bmatrix}0&0&0\end{bmatrix}$이 돼요. 두 행연산은 행렬식을 보존해요. 0으로만 이루어진 행이 나타나므로 $\det(\mathbf{A})=0$이 확실해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>선형결합 $-\mathbf{a}_1 + 2\mathbf{a}_2$를 성분별로 계산해 셋째 열과 일치하는지 검산해요: $$-[1,2,0]^\top + 2[3,4,2]^\top = [-1+6, -2+8, 0+4]^\top = [5,6,4]^\top = \mathbf{a}_3$$<p>정확히 일치하므로 세 열의 종속 관계가 엄밀히 확인돼요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>여인수 전개 시 둘째 항의 부호를 $+$로 잘못 써서 $4 + 24 + 20 = 48$로 계산하면 안 돼요. 1행 2열의 부호는 $(-1)^{1+2}=-1$이므로 반드시 마이너스 부호를 적용해요.</p><p>‘두 열끼리 서로 상수배가 아니므로 일차독립이다’라고 섣불리 판단하면 안 돼요. 두 개씩은 평행하지 않더라도, 세 벡터 전체로서 한 벡터가 나머지 둘의 선형결합으로 만들어지면 일차독립이 아니에요.</p><p>$\det(\mathbf{A})=0$의 결론을 거꾸로 '가역'이나 '일차독립'으로 잘못 쓰는 실수를 주의해요. 0이면 역행렬이 없고 일차종속이에요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>첫째 행을 따라 여인수 부호 $+,-,+$를 명시하고 세 소행렬식을 계산해 $\det(\mathbf{A})=0$을 도출해요.</li><li>행렬식 0과 동차방정식 비영해의 존재를 연결해 세 열이 일차독립이 아님을 증명해요.</li><li>$\mathbf{a}_3 = -\mathbf{a}_1 + 2\mathbf{a}_2$의 선형결합을 성분별로 직접 확인해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>첫째 행 여인수 전개에서 $M_{1j}$는 첫째 행과 $j$번째 열을 지운 행렬의 행렬식이에요. $\det(\mathbf{A})=a_{11}M_{11}-a_{12}M_{12}+a_{13}M_{13}$. $\det(\mathbf{A})=0$이면 열벡터는 일차독립이 아니에요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A})=1\det\begin{bmatrix}4&6\\2&4\end{bmatrix}-3\det\begin{bmatrix}2&6\\0&4\end{bmatrix}+5\det\begin{bmatrix}2&4\\0&2\end{bmatrix}$</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\det(\mathbf{A})=4-24+20=0$.</p><p>(b) $\mathbf{a}_1 - 2\mathbf{a}_2 + \mathbf{a}_3 = \mathbf{0}$이므로 세 열은 일차독립이 아님(일차종속).</p></div><div class="summary-group"><h4>검산</h4><p>행연산 시 3행이 영행 $[0,0,0]$이 됨. $-\mathbf{a}_1+2\mathbf{a}_2 = [5,6,4]^\top = \mathbf{a}_3$.</p></div><div class="summary-group"><h4>조건·구분</h4><p>둘째 여인수 부호는 음수예요. 둘씩 상수배가 아니어도 셋은 종속일 수 있어요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.1. 교과서 137쪽(PDF 143쪽). 원문은 다른 계산법도 함께 요구하지만, 복습문제는 첫째 행 여인수 전개와 열의 일차독립 판정으로 바꿨어요.</p><p>수업: 1102 L05 s16 (rank-deficient와 행렬식 0), L05 s19 예제의 $3\times3$ 행렬식 전개.</p><p>관련 정리노트: 1102 2.1 고윳값과 고유벡터, 3.2 예제: 3×3 대칭행렬(행렬식 계산).</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>행렬식(determinant)</dt><dd>정방행렬을 스칼라값으로 대응시키는 함수 $\det(\mathbf{A})$로, 값이 0이 아니면 가역이고 0이면 특이행렬(singular)이에요.</dd><dt>여인수 전개(cofactor expansion)</dt><dd>특정 행 또는 열의 원소와 부호 붙은 소행렬식(여인수)의 곱들의 합으로 행렬식을 계산하는 라플라스 전개법이에요.</dd><dt>일차독립(linearly independent)</dt><dd>벡터들의 선형결합 $c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{0}$을 만족하는 계수가 $c_1=\dots=c_k=0$뿐인 상태예요.</dd><dt>일차종속(linearly dependent)</dt><dd>어느 하나 이상의 벡터가 나머지 벡터들의 선형결합으로 표현될 수 있는 상태예요.</dd><dt>소행렬식(minor)</dt><dd>원 행렬에서 특정 행과 열을 제외하고 남은 부분행렬의 행렬식이에요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>행렬 $\mathbf{A}=\begin{bmatrix}1 & 3 & 5\\2 & 4 & 6\\0 & 2 & 4\end{bmatrix}$의 (a) 첫째 행 여인수 전개로 $\det(\mathbf{A})$를 구하고, (b) 그 값으로 세 열이 일차독립인지 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>첫째 행 여인수 전개는 첫째 행 원소 $a_{1j}$에 그 행과 열을 지운 $2\times 2$ 소행렬식 $\det(\mathbf{A}_{1j})$와 부호 $(-1)^{1+j}$($+,-,+$)를 곱해 더해요(<a href="정리노트_1102_PCA.html#s3-example-eigenvalues">3.2 행렬식 전개</a>). 정방행렬에서 $\det(\mathbf{A})=0$이면 비가역(rank-deficient)이므로 $\mathbf{A}\mathbf{x}=\mathbf{0}$에 $\mathbf{x}\neq\mathbf{0}$인 해가 존재하고, 열들은 일차독립이 아니에요(<a href="정리노트_1102_PCA.html#s2-eigen-characteristic">2.1 동치 조건</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\det(\mathbf{A})=1\cdot\det\begin{bmatrix}4 & 6\\2 & 4\end{bmatrix}-3\cdot\det\begin{bmatrix}2 & 6\\0 & 4\end{bmatrix}+5\cdot\det\begin{bmatrix}2 & 4\\0 & 2\end{bmatrix}$$
+  <p>각 $2\times 2$ 소행렬식을 $ad-bc$로 계산해 합친 뒤, 행렬식 값으로 열의 일차독립 여부를 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 첫째 행 여인수 전개</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\det(\mathbf{A})=1(4\cdot 4-6\cdot 2)-3(2\cdot 4-6\cdot 0)+5(2\cdot 2-4\cdot 0)$$</div>
+          <div class="deriv-why"><p>세 소행렬식을 $ad-bc$로 계산해요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\hphantom{\det(\mathbf{A})}=1\cdot 4-3\cdot 8+5\cdot 4$$</div>
+          <div class="deriv-why"><p>부호 $+,-,+$를 유지해 곱해요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\det(\mathbf{A})=4-24+20=0$$</div>
+          <div class="deriv-why"><p>합산 결과 행렬식은 0이에요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 세 열의 일차독립 판정</h4>
+    <p>정방행렬에서 $\det(\mathbf{A})=0$이면 $\mathbf{A}$는 rank-deficient라서 $\mathbf{A}\mathbf{x}=\mathbf{0}$을 만족하는 $\mathbf{x}\neq\mathbf{0}$이 존재해요. $\mathbf{A}\mathbf{x}$는 세 열 $\mathbf{a}_1,\mathbf{a}_2,\mathbf{a}_3$의 선형결합 $x_1\mathbf{a}_1+x_2\mathbf{a}_2+x_3\mathbf{a}_3$이므로, 영 아닌 계수의 결합이 $\mathbf{0}$이 되어 세 열은 일차독립이 아니에요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\det(\mathbf{A})=0$이에요.</p>
+    <p>(b) $\det(\mathbf{A})=0$이므로 $\mathbf{A}$의 세 열은 일차독립이 아니에요(일차종속).</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>행렬식을 보존하는 기본 행연산(2행−2×1행, 이어서 3행+2행)을 적용하면 $\begin{bmatrix}1&3&5\\0&-2&-4\\0&0&0\end{bmatrix}$이 되어 영행이 나오므로 $\det(\mathbf{A})=0$이 맞아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 확인</h4>
+    <p>실제로 $\mathbf{x}=[1,-2,1]^\top$을 넣으면 $1\begin{bmatrix}1\\2\\0\end{bmatrix}-2\begin{bmatrix}3\\4\\2\end{bmatrix}+1\begin{bmatrix}5\\6\\4\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$이라 비영 선형결합이 $\mathbf{0}$이 돼요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>1행 2열 여인수의 부호는 $(-1)^{1+2}=-1$이라 둘째 항 앞에 반드시 마이너스를 붙여야 해요($+$로 쓰면 $4+24+20=48$로 틀려요). 또 두 열씩은 상수배가 아니어도 세 열 전체는 선형결합으로 종속일 수 있어요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>1행 여인수 전개 부호는 $+,-,+$예요. 정방행렬에서 $\det(\mathbf{A})=0$이면 열들은 일차독립이 아니에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$1\det\begin{bmatrix}4&6\\2&4\end{bmatrix}-3\det\begin{bmatrix}2&6\\0&4\end{bmatrix}+5\det\begin{bmatrix}2&4\\0&2\end{bmatrix}$를 세워요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\det(\mathbf{A})=0$. (b) $\det(\mathbf{A})=0$이므로 세 열은 일차독립이 아니에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>행연산 시 3행이 $\mathbf{0}$이 되고, $\mathbf{a}_1-2\mathbf{a}_2+\mathbf{a}_3=\mathbf{0}$이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>둘째 여인수 부호는 음수이고, 쌍별로 비례하지 않아도 셋은 종속일 수 있어요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.1. 교과서 137쪽(PDF 143쪽). 원문은 다른 계산법도 함께 요구하지만, 복습문제는 첫째 행 여인수 전개와 열의 일차독립 판정으로 바꿨어요.</p><p>수업: 1102 L05 s16 (rank-deficient와 행렬식 0), L05 s19 예제의 $3\times 3$ 행렬식 전개.</p><p>관련 정리노트: 1102 2.1 고윳값과 고유벡터, 3.2 예제: 3×3 대칭행렬(행렬식 계산).</p></section>
+<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>여인수 전개(cofactor expansion)</dt><dd>한 행의 성분과 부호 $(-1)^{i+j}$를 붙인 소행렬식의 곱을 더해 행렬식을 구하는 방법이에요.</dd><dt>소행렬식(minor)</dt><dd>특정 행과 열을 지우고 남은 부분행렬의 행렬식이에요.</dd><dt>rank-deficient</dt><dd>정방행렬의 랭크가 크기 $n$보다 작아 $\det(\mathbf{A})=0$이고 비영 해 $\mathbf{A}\mathbf{x}=\mathbf{0}$이 존재하는 상태예요.</dd><dt>일차독립(linearly independent)</dt><dd>열들의 선형결합이 $\mathbf{0}$이 되는 계수가 모두 0뿐인 성질이에요.</dd></dl></section>

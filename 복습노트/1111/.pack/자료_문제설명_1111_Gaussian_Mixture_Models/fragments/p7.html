@@ -1,142 +1,95 @@
 <div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>두 관측값 $x=-1,2$와 세 가우시안 성분이 주어져요. 조건 표의 (평균, 분산)은 $(-4,1),(0,0.2),(8,3)$이고 사전확률은 각각 $\frac{1}{3}$이에요.</p><p>문제 PDF 7쪽에는 평균·분산 표가 빠져 있어요. 위 값은 원래 카드의 조건 표에 있어요.</p>
-  <p>각 관측값마다 세 성분의 책임도 $(r_1(x), r_2(x), r_3(x))$를 소수점 셋째 자리까지 계산하고, 관측값별로 책임도가 가장 큰 성분을 골라요.</p>
+  <h4>풀이 목표</h4>
+  <p>사전확률이 모두 $\pi_k=\frac{1}{3}$이고 표의 $(\mu_k,\sigma_k^2)$가 $(-4,1),(0,0.2),(8,3)$인 세 성분에서 관측값 $x=-1, 2$마다 (a) 책임도 $(r_1(x),r_2(x),r_3(x))$를 소수점 아래 셋째 자리까지 구하고 (b) 책임도가 가장 큰 성분을 고르세요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘관측값을 관측한 뒤 성분에서 나왔을 확률’이라는 조건에서 <b>베이즈 정리(Bayes’ rule)</b>와 <b>책임도(responsibility)</b>를 떠올려요.</p>
-  <p>성분 $k$의 사전확률을 $\pi_k=\frac{1}{3}$, 정규밀도를 $p_k(x)=\mathcal{N}(x\mid\mu_k,\sigma_k^2)$라고 써요. 책임도는 $x$를 관측한 뒤 성분 $k$에 속할 사후확률이에요.</p>
-  <p>$$r_k(x) = \frac{\overbrace{\pi_k p_k(x)}^{\text{성분 } k\text{의 가중 밀도 } q_k(x)}}{\underbrace{\sum_{j=1}^3 \pi_j p_j(x)}_{\text{해당 } x\text{에서의 전체 혼합 밀도 } p(x)}}$$</p>
-  <p>분자는 성분 $k$의 사전확률과 정규밀도의 곱인 가중 밀도 $q_k(x)$이고, 분모는 같은 관측값 $x$에서 세 성분의 가중 밀도를 모두 더한 주변우도예요. 각 관측값의 책임도 벡터는 행 합이 1이 되는 이산확률분포예요.</p>
+  <h4>풀이 단서</h4>
+  <p>책임도는 $x$를 관측한 뒤 성분 $k$에서 나왔을 사후확률이에요. 가중 밀도 $q_k(x)=\frac{1}{3}\mathcal{N}(x\mid\mu_k,\sigma_k^2)$를 구해 같은 $x$의 전체 혼합 밀도 $p(x)=\sum_{j=1}^3 q_j(x)$로 정규화해요.</p>
+  $$q_k(x)=\frac{1}{3\sqrt{2\pi\sigma_k^2}}\exp\left(-\frac{(x-\mu_k)^2}{2\sigma_k^2}\right)$$
+  $$r_k(x)=\frac{q_k(x)}{q_1(x)+q_2(x)+q_3(x)}$$
   <p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s2-responsibility">책임도의 분자와 분모</a></p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>관측값 $x=-1$과 $x=2$에 대해 성분별 가중 밀도 $q_k(x) = \frac{1}{3}\mathcal{N}(x\mid\mu_k,\sigma_k^2)$를 채울 빈 표의 뼈대를 잡아요.</p>
-  <p>풀이 로드맵: 1. 가중 밀도 표 작성 (q1, q2, q3 및 행 합 p(x)) → 2. 행 정규화 표 작성 (qk / 행 합) → 3. 소수점 셋째 자리 반올림 및 최대 성분 판정.</p>
+  <h4>첫 단계</h4>
+  <p>관측값 $x=-1$과 $x=2$ 각각에 대해 세 성분의 가중 밀도 $q_k(x)$와 합 $p(x)$를 구한 뒤 $p(x)$로 나눠요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> 두 관측값의 책임도 벡터는 다음과 같아요:</p>
-    <p>$$x=-1: (0.057, 0.943, 0.000), \qquad x=2: (0.000, 0.066, 0.934)$$</p>
-    <p>대표 1항으로 $x=-1$에서 성분 2의 가중 밀도는 $q_2(-1) = \frac{1}{3}\frac{\exp(-(-1-0)^2/(2\times 0.2))}{\sqrt{0.4\pi}} \approx 0.0244083$예요. 표에 적힌 밀도는 표시용 근삿값이에요. 책임도를 계산한 뒤 마지막에 반올림해요.</p>
-    <p><b>1단계: 가중 밀도와 행 합 표</b></p>
+    <h4>(a) 책임도 계산</h4>
+    <p>대표 항으로 $x=-1$의 성분 2를 계산하면 다음과 같아요.</p>
+    $$\begin{aligned}q_2(-1)&amp;=\frac{1}{3}\frac{\exp(-(-1-0)^2/0.4)}{\sqrt{0.4\pi}}\\ &amp;\approx 0.0244083\end{aligned}$$
+    <p>관측 $x=-1$의 전체 밀도 $p(-1)\approx 0.0258857$로 나누면 $r_2(-1)\approx 0.94293\to 0.943$이에요.</p>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th scope="col">관측값 $x$</th>
-            <th scope="col">$q_1(x) = \frac{1}{3}\mathcal{N}_1$</th>
-            <th scope="col">$q_2(x) = \frac{1}{3}\mathcal{N}_2$</th>
-            <th scope="col">$q_3(x) = \frac{1}{3}\mathcal{N}_3$</th>
-            <th scope="col">행 합 $p(x) = \sum_j q_j$</th>
-          </tr>
+          <tr><th scope="col">성분 $k$</th> <th scope="col">$q_k(-1)$</th> <th scope="col">$q_k(2)$</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">$-1$</th>
-            <td>$1.47728 \times 10^{-3}$</td>
-            <td>$2.44083 \times 10^{-2}$</td>
-            <td>$1.05257 \times 10^{-7}$</td>
-            <td>$2.588569 \times 10^{-2}$</td>
-          </tr>
-          <tr>
-            <th scope="row">$2$</th>
-            <td>$2.02529 \times 10^{-9}$</td>
-            <td>$1.34999 \times 10^{-5}$</td>
-            <td>$1.90310 \times 10^{-4}$</td>
-            <td>$2.038117 \times 10^{-4}$</td>
-          </tr>
+          <tr><th scope="row">1</th> <td>$1.47728\times 10^{-3}$</td> <td>$2.02529\times 10^{-9}$</td></tr>
+          <tr><th scope="row">2</th> <td>$2.44083\times 10^{-2}$</td> <td>$1.34999\times 10^{-5}$</td></tr>
+          <tr><th scope="row">3</th> <td>$1.05257\times 10^{-7}$</td> <td>$1.90310\times 10^{-4}$</td></tr>
+          <tr><th scope="row">합 $p(x)$</th> <td>$2.58857\times 10^{-2}$</td> <td>$2.03812\times 10^{-4}$</td></tr>
         </tbody>
       </table>
     </div>
-    <p><b>2단계: 행 정규화와 책임도 표</b></p>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th scope="col">관측값 $x$</th>
-            <th scope="col">$r_1(x) = \frac{q_1}{p(x)}$</th>
-            <th scope="col">$r_2(x) = \frac{q_2}{p(x)}$</th>
-            <th scope="col">$r_3(x) = \frac{q_3}{p(x)}$</th>
-            <th scope="col">행 합</th>
-            <th scope="col">책임도 (소수 3자리)</th>
-          </tr>
+          <tr><th scope="col">성분 $k$</th> <th scope="col">$r_k(-1)=q_k/p$</th> <th scope="col">$r_k(2)=q_k/p$</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">$-1$</th>
-            <td>$\frac{0.0014772828}{0.0258856923} \approx 0.05707$</td>
-            <td>$\frac{0.0244083043}{0.0258856923} \approx 0.94293$</td>
-            <td>$\frac{1.0525741 \times 10^{-7}}{0.0258856923} \approx 0.000004$</td>
-            <td>$1.000$</td>
-            <td>$(0.057, 0.943, 0.000)$</td>
-          </tr>
-          <tr>
-            <th scope="row">$2$</th>
-            <td>$\frac{2.0252943 \times 10^{-9}}{0.000203811738} \approx 0.00001$</td>
-            <td>$\frac{0.000013499852}{0.000203811738} \approx 0.06624$</td>
-            <td>$\frac{0.000190309861}{0.000203811738} \approx 0.93375$</td>
-            <td>$1.000$</td>
-            <td>$(0.000, 0.066, 0.934)$</td>
-          </tr>
+          <tr><th scope="row">1</th> <td>$0.05707\to 0.057$</td> <td>$0.00001\to 0.000$</td></tr>
+          <tr><th scope="row">2</th> <td>$0.94293\to 0.943$</td> <td>$0.06624\to 0.066$</td></tr>
+          <tr><th scope="row">3</th> <td>$0.000004\to 0.000$</td> <td>$0.93375\to 0.934$</td></tr>
+          <tr><th scope="row">합계</th> <td>$1.000$</td> <td>$1.000$</td></tr>
         </tbody>
       </table>
     </div>
-    <p>표시된 $0.000$은 $0.0005$보다 작은 양의 확률을 소수점 셋째 자리까지 반올림한 값이에요.</p>
+    <p>표시된 $0.000$은 $0.0005$보다 작은 양수를 소수점 아래 셋째 자리에서 반올림한 값이에요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 관측값 $-1$에서는 성분 2, 관측값 $2$에서는 성분 3의 책임도가 가장 커요.</p>
-    <p>$x=-1$에서는 성분 2의 책임도가 $0.943$으로 가장 크고, $x=2$에서는 성분 3의 책임도가 $0.934$로 가장 커요. $x=2$는 성분 2의 평균 0에 더 가까워요. 분산이 더 큰 성분 3의 가중 밀도가 이 위치에서 더 높아 책임도도 더 커요.</p>
+    <h4>(b) 최대 책임도 성분</h4>
+    <p>$x=-1$에서는 성분 2($0.943$), $x=2$에서는 성분 3($0.934$)의 책임도가 가장 커요. $x=2$는 평균 거리로 성분 2($\mu_2=0$)에 더 가깝지만, 분산이 큰 성분 3($\sigma_3^2=3$)의 꼬리 밀도가 더 높아 책임도가 커져요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $x=-1$에서 $(0.057, 0.943, 0.000)$, $x=2$에서 $(0.000, 0.066, 0.934)$예요.</p>
+    <p>(b) $x=-1$은 성분 2, $x=2$는 성분 3이에요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>반올림 전에는 분자의 행 합이 분모 $p(x)$와 같아 책임도 합이 1이에요. 이 문제에서는 소수점 셋째 자리까지 표시한 값으로도 $0.057 + 0.943 + 0.000 = 1.000$, $0.000 + 0.066 + 0.934 = 1.000$이에요.</p>
+    <p>반올림 전 분자의 합이 분모 $p(x)$와 같아 각 관측값의 책임도 합이 $1$이고, 셋째 자리 반올림 벡터도 $0.057+0.943+0.000=1.000$, $0.000+0.066+0.934=1.000$이에요.</p>
   </div>
   <div data-subpart="b">
     <h4>(b) 검산</h4>
-    <p>한 행 안에서는 분모 $p(x)$가 공통이므로, 가중 밀도 $q_k(x)$의 대소만 비교해도 $x=-1$에서 $q_2 > q_1 \gg q_3$, $x=2$에서 $q_3 \gg q_2 \gg q_1$로 책임도 순위와 정확히 일치해요.</p>
+    <p>같은 관측값에서 분모 $p(x)$가 공통이므로 가중 밀도 순위($x=-1$: $q_2\gt q_1\gg q_3$, $x=2$: $q_3\gg q_2\gg q_1$)가 책임도 순위와 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>책임도의 분모를 구할 때 다른 관측값의 밀도까지 합산하면 안 돼요. 분모는 "해당 관측값"에서의 전체 혼합 밀도이므로, 반드시 같은 행에 속한 성분들의 가중 밀도만 더해야 해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p>
-  <ol>
-    <li>관측값별로 세 성분의 가중 밀도를 먼저 구하고 행 합을 계산해요.</li>
-    <li>각 가중 밀도를 행 합으로 나누어 행 합이 1인 책임도 벡터를 완성해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>책임도의 분모는 해당 관측값 $x$ 하나에서의 혼합 밀도 $p(x)$예요. 다른 관측값의 밀도까지 합치면 합 $1$이 깨져요.</p>
 </div>
 <div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>책임도 $r_k(x)$는 관측값 $x$에서의 가중 밀도 $q_k(x)$를 해당 행의 혼합 밀도 $p(x)$로 나눈 사후확률이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>첫 줄과 검산</h4>
-    <p>$x=-1$은 성분 2($0.943$), $x=2$는 성분 3($0.934$)이 가장 커요. 각 행의 합은 1이에요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>책임도 $r_k(x)=\frac{q_k(x)}{\sum_{j=1}^3 q_j(x)}$는 가중 밀도를 같은 $x$의 혼합 밀도 $p(x)$로 나눈 사후확률이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$x=-1, 2$별로 세 가중 밀도 $q_k(x)$와 합 $p(x)$를 구해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $-1$: $(0.057,0.943,0.000)$, $2$: $(0.000,0.066,0.934)$. (b) 차례로 성분 2, 성분 3이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>두 관측값 모두 반올림 합이 $1.000$이고 가중 밀도 $q_k$ 순위와 일치해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>분모는 같은 관측값의 합만 쓰고, 평균 거리만 보지 말고 분산도 함께 반영해요.</p></div>
 </div>
-<section data-problem-panel="terms">
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 11.2 · 책 p. 353 (모형 모수는 Example 11.1, pp. 350–351) · 관련 정리노트: <a href="정리노트_1111_Gaussian_Mixture_Models.html#s2-responsibility">어느 성분에서 왔을 확률인가</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
   <h4>용어</h4>
   <dl class="terms">
     <dt>책임도(responsibility)</dt>
-    <dd>관측값 $x$를 만든 성분의 번호를 $z$라고 하면, 성분 $k$가 그 값을 만들었을 사후확률 $P(z=k\mid x)$예요.</dd>
+    <dd>관측값 $x$를 본 뒤 성분 번호 $Z$가 $k$일 사후확률 $P(Z=k\mid x)$예요.</dd>
     <dt>베이즈 정리(Bayes’ rule)</dt>
-    <dd>사전확률과 우도를 결합하여 관측 데이터 이후의 사후확률을 계산하는 확률 공식이에요.</dd>
+    <dd>사전확률 $\pi_k$와 성분 밀도 $\mathcal{N}(x\mid\mu_k,\sigma_k^2)$를 곱한 뒤 전체 혼합 밀도로 나눠 사후확률을 구하는 공식이에요.</dd>
   </dl>
-</section>
-<section data-problem-panel="provenance">
-  <h4>출제 근거</h4>
-  <p>MML Example 11.2 · 책 p. 353 · Example 11.1의 모형 값은 pp. 350–351</p>
 </section>

@@ -1,10 +1,103 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $2\times 3$ 행렬 $\mathbf A=\begin{bmatrix}3&2&2\\2&3&-2\end{bmatrix}$이 주어졌어요.</p><p><b>구할 것:</b> 크기가 작은 쪽인 $\mathbf A\mathbf A^\top$($2\times 2$)에서 출발해 (a) $\sigma_1, \sigma_2$와 $\mathbf u_1, \mathbf u_2$를 구하고, (b) $\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$로 $\mathbf v_1, \mathbf v_2$를 구하며, (c) 직교 조건으로 $\mathbf v_3$를 채워 $\mathbf V$를 완성하고, (d) $\mathbf A\mathbf v_3=\mathbf 0$과 $\mathbf\Sigma$의 셋째 열(0열)의 정합성을 판정해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘$\mathbf A\mathbf A^\top$의 고유벡터로 $\mathbf u_i$’라는 단서에서 SVD 분해식을 $\mathbf A\mathbf A^\top$에 대입해요($\mathbf V^\top\mathbf V=\mathbf I$).</p>$$\mathbf A\mathbf A^\top=\mathbf U\mathbf\Sigma\mathbf V^\top\mathbf V\mathbf\Sigma^\top\mathbf U^\top=\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top$$<p>$\mathbf\Sigma\mathbf\Sigma^\top$는 대각이 $\sigma_1^2, \sigma_2^2$인 대각행렬이므로 <b>$\mathbf U$의 열 $\mathbf u_i$는 $\mathbf A\mathbf A^\top$의 단위 고유벡터이고 고윳값은 $\sigma_i^2$</b>예요.</p><p>전치 관계식 $\mathbf A^\top\mathbf U=\mathbf V\mathbf\Sigma^\top$의 양의 특잇값에 대응하는 열을 읽으면 $\mathbf A^\top\mathbf u_i=\sigma_i\mathbf v_i$예요. $\sigma_i>0$인 열을 $\sigma_i$로 나누어요.</p><p>‘모두 수직인 단위벡터 $\mathbf v_3$’는 $\mathbf V\in\mathbb R^{3\times 3}$가 정규직교행렬이어야 하므로 내적 0 조건($\mathbf v_1^\top\mathbf v_3=0, \mathbf v_2^\top\mathbf v_3=0, \|\mathbf v_3\|=1$)으로 결정돼요. <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf A$의 두 행끼리 내적하여 대칭행렬 $\mathbf A\mathbf A^\top$를 적고 특성방정식을 세우는 4단계 로드맵(1. $\mathbf U,\mathbf\Sigma$ $\to$ 2. $\mathbf v_1,\mathbf v_2$ $\to$ 3. $\mathbf v_3$ $\to$ 4. 영공간 점검)으로 시작해요.</p>$$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix},\qquad\det(\mathbf A\mathbf A^\top-\lambda\mathbf I)=0$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> 특잇값은 $\sigma_1=5, \sigma_2=3$이고 $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top, \mathbf u_2=\frac{1}{\sqrt2}(1,-1)^\top$이에요.</p><p>특성다항식을 세우고 인수분해해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf A\mathbf A^\top-\lambda\mathbf I)=(17-\lambda)^2-8^2=0$$</div><div class="deriv-why"><p>행렬식 $ad-bc$를 계산해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf A\mathbf A^\top-\lambda\mathbf I)}=(17-\lambda-8)(17-\lambda+8)=(9-\lambda)(25-\lambda)=0$$</div><div class="deriv-why"><p>합차 공식으로 인수분해해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\lambda_1=25 \implies \sigma_1=5, \qquad \lambda_2=9 \implies \sigma_2=3$$</div><div class="deriv-why"><p>양의 제곱근으로 특잇값을 구해요</p></div></li></ol></div><p>고유벡터의 후보를 $\mathbf w=(x,y)^\top$로 두고 $(\mathbf A\mathbf A^\top-\lambda\mathbf I)\mathbf w=\mathbf 0$을 풀어요. $\lambda_1=25$를 대입한 첫째 행은 $(17-25)x+8y=0$이어서 $y=x$예요. $\lambda_2=9$에서는 $(17-9)x+8y=0$이어서 $y=-x$예요. 두 방향 벡터를 길이 $\sqrt2$로 나누어요.</p>$$\mathbf u_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix},\qquad\mathbf u_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}$$</div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top, \mathbf v_2=\frac{1}{3\sqrt2}(1,-1,4)^\top$이에요.</p><p>공식 $\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$로 유도해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A^\top\mathbf u_1=\begin{bmatrix}3&2\\2&3\\2&-2\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}5\\5\\0\end{bmatrix}$$</div><div class="deriv-why"><p>$\mathbf A^\top$와 $\mathbf u_1$을 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf v_1=\frac{\mathbf A^\top\mathbf u_1}{\sigma_1}=\frac{1}{5\sqrt2}\begin{bmatrix}5\\5\\0\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\\0\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 5로 나누어 확정해요</p></div></li><li><div class="deriv-eq">$$\mathbf A^\top\mathbf u_2=\begin{bmatrix}3&2\\2&3\\2&-2\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\\4\end{bmatrix}$$</div><div class="deriv-why"><p>$\mathbf A^\top$와 $\mathbf u_2$를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf v_2=\frac{\mathbf A^\top\mathbf u_2}{\sigma_2}=\frac{1}{3\sqrt2}\begin{bmatrix}1\\-1\\4\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 3으로 나누어 확정해요</p></div></li></ol></div><p>$\mathbf v_1^\top\mathbf v_2 \propto 1-1+0=0$으로 직교성을 만족해요.</p></div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 구조:</b> $\mathbf v_3=\frac13(2,-2,-1)^\top$이며 완성된 $\mathbf V$는 $3\times 3$ 정규직교행렬이에요.</p><p>$\mathbf v_3\propto (a,b,c)^\top$로 두고 직교 조건을 세워요.</p>$$(1,1,0)\cdot(a,b,c)=a+b=0,\qquad(1,-1,4)\cdot(a,b,c)=a-b+4c=0$$<p>$b=-a$를 둘째 식에 대입하면 $2a+4c=0 \implies c=-a/2$예요. 정수비로 $a=2$로 두면 $(2,-2,-1)^\top$이고 길이는 $\sqrt{4+4+1}=3$이에요.</p>$$\mathbf v_3=\frac13\begin{bmatrix}2\\-2\\-1\end{bmatrix},\qquad\mathbf V=\begin{bmatrix}\frac{1}{\sqrt2}&\frac{1}{3\sqrt2}&\frac23\\\frac{1}{\sqrt2}&-\frac{1}{3\sqrt2}&-\frac23\\0&\frac{4}{3\sqrt2}&-\frac13\end{bmatrix}$$</div><div data-subpart="d"><h4>(d)</h4><p><b>최종 답 요약:</b> $\mathbf A\mathbf v_3=\mathbf 0$이며 이는 $\mathbf\Sigma$의 셋째 열 $\mathbf 0$과 정확히 부합해요.</p><p>$\mathbf A\mathbf v_3$의 행렬곱을 직접 계산해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A\mathbf v_3=\begin{bmatrix}3&2&2\\2&3&-2\end{bmatrix}\frac13\begin{bmatrix}2\\-2\\-1\end{bmatrix}=\frac13\begin{bmatrix}6-4-2\\4-6+2\end{bmatrix}$$</div><div class="deriv-why"><p>행렬과 셋째 특이벡터를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\mathbf A\mathbf v_3}=\begin{bmatrix}0\\0\end{bmatrix}=\mathbf 0$$</div><div class="deriv-why"><p>계산 결과 영벡터가 돼요</p></div></li></ol></div><p>$\mathbf\Sigma=\begin{bmatrix}5&0&0\\0&3&0\end{bmatrix}$의 셋째 열은 $\mathbf 0$이에요. SVD 관계식 $\mathbf A\mathbf V=\mathbf U\mathbf\Sigma$의 셋째 열을 읽으면 $\mathbf A\mathbf v_3=\mathbf U\cdot\mathbf 0=\mathbf 0$이므로 <b>$\mathbf A\mathbf v_3=\mathbf 0$은 $\mathbf\Sigma$의 셋째 열이 0인 구조와 정확히 일치해요.</b></p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\mathbf A\mathbf A^\top\mathbf u_1 = \begin{bmatrix}17&8\\8&17\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}25\\25\end{bmatrix}=25\mathbf u_1$, $\mathbf A\mathbf A^\top\mathbf u_2 = \begin{bmatrix}17&8\\8&17\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}9\\-9\end{bmatrix}=9\mathbf u_2$로 고윳값 $25, 9$가 정확해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$\mathbf A\mathbf v_1=\frac{1}{\sqrt2}(3+2, 2+3)^\top=\frac{5}{\sqrt2}(1,1)^\top=5\mathbf u_1$, $\mathbf A\mathbf v_2=\frac{1}{3\sqrt2}(3-2+8, 2-3-8)^\top=\frac{1}{3\sqrt2}(9,-9)^\top=3\mathbf u_2$로 $\mathbf A\mathbf v_i=\sigma_i\mathbf u_i$가 성립해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>$\mathbf v_1^\top\mathbf v_3\propto 2-2+0=0$, $\mathbf v_2^\top\mathbf v_3\propto 2+2-4=0$, $\|\mathbf v_3\|^2=(4+4+1)/9=1$로 $\mathbf V$가 정규직교행렬이에요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>외적 층의 합으로 $\mathbf A$를 복원해요. $5\mathbf u_1\mathbf v_1^\top+3\mathbf u_2\mathbf v_2^\top=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}+\frac12\begin{bmatrix}1&-1&4\\-1&1&-4\end{bmatrix}=\begin{bmatrix}3&2&2\\2&3&-2\end{bmatrix}=\mathbf A$로 일치해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>같은 양의 특잇값에 대응하는 두 벡터의 부호를 맞춰요.</b> 왼쪽과 오른쪽 벡터를 따로 구하면 부호가 어긋날 수 있어요. 여기서는 $i=1,2$에 $\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$를 적용해 맞춰요.</p><p><b>$\mathbf v_3$는 $\mathbf A^\top\mathbf u_3/\sigma_3$로 구할 수 없어요.</b> 특잇값은 2개뿐이므로 $\mathbf v_3$는 영공간/직교 조건으로만 정해져요.</p><p>$\mathbf\Sigma$는 $\mathbf A$와 동일한 $2\times 3$ 크기예요. 셋째 열이 0인 것을 놓치지 않아요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix}$을 구하고 $(17-\lambda)^2-64=0$을 풀어 $\sigma_1, \sigma_2$와 $\mathbf u_1, \mathbf u_2$를 구해요.</li><li>$\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$로 $\mathbf v_1, \mathbf v_2$를 산출해요.</li><li>내적 0 조건으로 $\mathbf v_3$를 채워 $\mathbf V$를 완성하고 $\mathbf A\mathbf v_3=\mathbf 0$과 $\mathbf\Sigma$의 0열을 연결해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf U$의 각 열은 $\mathbf A\mathbf A^\top$의 고유벡터예요. $\sigma_i>0$이면 $\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$예요.</p>$$\mathbf A\mathbf A^\top=\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix}$을 적고 시작해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\sigma_1=5, \sigma_2=3$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top, \mathbf u_2=\frac{1}{\sqrt2}(1,-1)^\top$이에요.</p><p>(b) $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top, \mathbf v_2=\frac{1}{3\sqrt2}(1,-1,4)^\top$이에요.</p><p>(c) $\mathbf v_3=\frac13(2,-2,-1)^\top$이에요.</p><p>(d) $\mathbf A\mathbf v_3=\mathbf 0$으로 $\mathbf\Sigma$의 셋째 열(0열)과 일치해요.</p></div><div class="summary-group"><h4>검산</h4><p>외적 층의 합 $\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}+\frac12\begin{bmatrix}1&-1&4\\-1&1&-4\end{bmatrix}=\mathbf A$로 일치해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>$\mathbf v_i$ 부호는 $\mathbf u_i$와 연동해요. $\mathbf v_3$는 직교성으로 구해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>왼쪽 특이벡터(left-singular vector)</dt><dd>$\mathbf A\mathbf A^\top$의 단위 고유벡터들로 $\mathbf U$의 열을 이뤄요.</dd><dt>오른쪽 특이벡터(right-singular vector)</dt><dd>양의 특잇값에 대응하는 열은 $\mathbf A^\top\mathbf u_i/\sigma_i$로 구해요. 나머지 열은 $\mathbf A$의 영공간에서 정규직교기저를 골라 채워요.</dd><dt>특잇값(singular value)</dt><dd>양의 특잇값은 $\mathbf A\mathbf A^\top$의 양의 고윳값 제곱근이에요.</dd><dt>정규직교행렬(orthogonal matrix)</dt><dd>열들이 단위 길이를 갖고 상호 직교하는 정사각행렬이에요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.8, 교과서 138쪽(PDF 144쪽). 원문은 ‘SVD를 구하라’는 한 문장이고, 이 문항은 ${\mathbf A\mathbf A^\top}$에서 시작하는 (a)–(d) 단계로 나눴어요.</p><p>수업: 1104 L06 s13(데이터 행렬의 SVD), 1102 특성다항식.</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$2\times 3$ 행렬 $\mathbf A$의 SVD $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$를 작은 $2\times 2$ 행렬 $\mathbf A\mathbf A^\top$에서 시작해 (a) $\sigma_i,\mathbf u_i$, (b) $\mathbf v_1,\mathbf v_2$, (c) $\mathbf v_3$와 $\mathbf V$, (d) $\mathbf A\mathbf v_3=\mathbf 0$ 판정 순으로 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>$\mathbf A\mathbf A^\top=\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top$($\mathbf V^\top\mathbf V=\mathbf I_3$)이므로 $\mathbf U$의 열 $\mathbf u_i$는 $\mathbf A\mathbf A^\top$의 단위 고유벡터, 대각값 $\sigma_1^2,\sigma_2^2$이 고윳값이에요(<a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>).</p>
+  <p>$\mathbf A^\top\mathbf U=\mathbf V\mathbf\Sigma^\top$에서 $\sigma_i&gt;0$ 열은 $\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$로 구하고, 나머지 열 $\mathbf v_3$은 $\mathbf v_1,\mathbf v_2$에 모두 직교인 단위벡터로 채워요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix},\qquad\det(\mathbf A\mathbf A^\top-\lambda\mathbf I)=0$$
+  <p>고윳값·고유벡터로 $\mathbf u_1,\mathbf u_2$를 먼저 구한 뒤 $\mathbf v_1,\mathbf v_2,\mathbf v_3$를 차례로 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\sigma_1,\sigma_2$와 $\mathbf u_1,\mathbf u_2$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$(17-\lambda)^2-8^2=(9-\lambda)(25-\lambda)=0$$</div><div class="deriv-why"><p>합차 공식으로 특성다항식을 풀어요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\begin{aligned}\lambda_1&amp;=25\implies\sigma_1=5,\\\lambda_2&amp;=9\implies\sigma_2=3\end{aligned}$$</div><div class="deriv-why"><p>양의 제곱근이 특잇값이에요</p></div></li>
+      </ol>
+    </div>
+    <p>$(\mathbf A\mathbf A^\top-\lambda\mathbf I)(x,y)^\top=\mathbf 0$의 첫째 행에 $\lambda_1=25$를 넣으면 $-8x+8y=0$($y=x$), $\lambda_2=9$를 넣으면 $8x+8y=0$($y=-x$)이에요. 길이 $\sqrt2$로 나눠요.</p>
+    $$\mathbf u_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix},\qquad\mathbf u_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}$$
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 오른쪽 특이벡터 $\mathbf v_1,\mathbf v_2$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\mathbf A^\top\mathbf u_1&amp;=\frac{1}{\sqrt2}\begin{bmatrix}5\\5\\0\end{bmatrix},\\\mathbf v_1&amp;=\frac{\mathbf A^\top\mathbf u_1}{5}=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\\0\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A^\top\mathbf u_1$을 $\sigma_1=5$로 나눠요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\begin{aligned}\mathbf A^\top\mathbf u_2&amp;=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\\4\end{bmatrix},\\\mathbf v_2&amp;=\frac{\mathbf A^\top\mathbf u_2}{3}=\frac{1}{3\sqrt2}\begin{bmatrix}1\\-1\\4\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A^\top\mathbf u_2$를 $\sigma_2=3$으로 나눠요</p></div></li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 셋째 열 $\mathbf v_3$과 행렬 $\mathbf V$</h4>
+    <p>$\mathbf v_3\propto (a,b,c)^\top$가 $\mathbf v_1,\mathbf v_2$에 직교하려면 $a+b=0$, $a-b+4c=0$이에요. $b=-a$를 넣으면 $c=-a/2$이므로 $a=2$를 택해 $(2,-2,-1)^\top$을 길이 $\sqrt{4+4+1}=3$으로 나눠요.</p>
+    $$\mathbf v_3=\frac13\begin{bmatrix}2\\-2\\-1\end{bmatrix},\qquad\mathbf V=\begin{bmatrix}\frac{1}{\sqrt2}&\frac{1}{3\sqrt2}&\frac23\\\frac{1}{\sqrt2}&-\frac{1}{3\sqrt2}&-\frac23\\0&\frac{4}{3\sqrt2}&-\frac13\end{bmatrix}$$
+  </div>
+  <div data-subpart="d">
+    <h4>(d) $\mathbf A\mathbf v_3=\mathbf 0$과 $\mathbf\Sigma$의 셋째 열 판정</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\mathbf A\mathbf v_3&amp;=\begin{bmatrix}3&amp;2&amp;2\\2&amp;3&amp;-2\end{bmatrix}\frac13\begin{bmatrix}2\\-2\\-1\end{bmatrix}\\&amp;=\frac13\begin{bmatrix}6-4-2\\4-6+2\end{bmatrix}=\mathbf 0\end{aligned}$$</div><div class="deriv-why"><p>행렬곱을 직접 계산해요</p></div></li>
+      </ol>
+    </div>
+    <p>$\mathbf\Sigma=\begin{bmatrix}5&0&0\\0&3&0\end{bmatrix}$의 셋째 열이 $\mathbf 0$이므로 $\mathbf A\mathbf V=\mathbf U\mathbf\Sigma$의 셋째 열 $\mathbf A\mathbf v_3=\mathbf U\cdot\mathbf 0=\mathbf 0$과 정확히 맞아요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\sigma_1=5,\ \sigma_2=3$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top$, $\mathbf u_2=\frac{1}{\sqrt2}(1,-1)^\top$이에요.</p>
+    <p>(b) $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top$, $\mathbf v_2=\frac{1}{3\sqrt2}(1,-1,4)^\top$이에요.</p>
+    <p>(c) $\mathbf v_3=\frac13(2,-2,-1)^\top$, $\mathbf V=[\mathbf v_1\ \mathbf v_2\ \mathbf v_3]$예요(반대 부호 $-\mathbf v_3$도 가능).</p>
+    <p>(d) $\mathbf A\mathbf v_3=\mathbf 0$이며, $\mathbf\Sigma$의 셋째 열이 0인 것과 정확히 일치해요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf A\mathbf A^\top\mathbf u_1=25\mathbf u_1$, $\mathbf A\mathbf A^\top\mathbf u_2=9\mathbf u_2$이고 $\mathbf u_1^\top\mathbf u_2=0$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\mathbf A\mathbf v_1=5\mathbf u_1$, $\mathbf A\mathbf v_2=3\mathbf u_2$이고 $\mathbf v_1^\top\mathbf v_2=0$, $\|\mathbf v_2\|_2^2=(1+1+16)/18=1$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$(1,1,0)\cdot(2,-2,-1)=0$, $(1,-1,4)\cdot(2,-2,-1)=0$이고 $\|(2,-2,-1)\|_2=3$이라 $\mathbf V$가 정규직교행렬이에요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 검산</h4>
+    <p>$5\mathbf u_1\mathbf v_1^\top+3\mathbf u_2\mathbf v_2^\top=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}+\frac12\begin{bmatrix}1&-1&4\\-1&1&-4\end{bmatrix}=\begin{bmatrix}3&2&2\\2&3&-2\end{bmatrix}=\mathbf A$예요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathbf v_1,\mathbf v_2$는 $\mathbf A^\top\mathbf u_i/\sigma_i$로 $\mathbf u_i$와 부호 짝을 맞춰 구해야 해요. 또 양의 특잇값이 2개뿐이라 $\mathbf v_3$는 나눗셈이 아니라 직교 조건으로 구해요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf A\mathbf A^\top=\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top$이고 $\sigma_i&gt;0$이면 $\mathbf v_i=\mathbf A^\top\mathbf u_i/\sigma_i$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix}$의 특성방정식을 세워요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\sigma_1=5,\sigma_2=3$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top$, $\mathbf u_2=\frac{1}{\sqrt2}(1,-1)^\top$. (b) $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top$, $\mathbf v_2=\frac{1}{3\sqrt2}(1,-1,4)^\top$. (c) $\mathbf v_3=\frac13(2,-2,-1)^\top$. (d) $\mathbf A\mathbf v_3=\mathbf 0$으로 $\mathbf\Sigma$의 0열과 일치해요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$5\mathbf u_1\mathbf v_1^\top+3\mathbf u_2\mathbf v_2^\top=\mathbf A$이고 $\mathbf V$가 정규직교행렬이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf v_1,\mathbf v_2$는 $\mathbf u_i$와 부호를 맞추고, $\mathbf v_3$는 직교 조건으로 구해요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Exercise 4.8, 교과서 138쪽(PDF 144쪽). 원문은 SVD를 구하라는 한 문장이고 $\mathbf A\mathbf A^\top$부터 구하는 (a)–(d)로 나눴어요.</p>
+  <p>수업: 1104 L06 s13(데이터 행렬의 SVD), 1102 특성다항식.</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>왼쪽 특이벡터(left-singular vector)</dt><dd>$\mathbf A\mathbf A^\top$의 단위 고유벡터들로 $\mathbf U$의 열을 이뤄요.</dd>
+    <dt>오른쪽 특이벡터(right-singular vector)</dt><dd>양의 특잇값에 대응하는 열은 $\mathbf A^\top\mathbf u_i/\sigma_i$로 구하고, 나머지 열은 직교·단위 조건으로 채워요.</dd>
+    <dt>특잇값(singular value)</dt><dd>양의 특잇값은 $\mathbf A\mathbf A^\top$의 양의 고윳값의 제곱근이에요.</dd>
+    <dt>정규직교행렬(orthogonal matrix)</dt><dd>열들이 단위 길이를 갖고 서로 직교하는 정사각행렬이에요.</dd>
+  </dl>
+</section>

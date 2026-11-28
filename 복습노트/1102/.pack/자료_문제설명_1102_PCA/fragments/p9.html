@@ -1,8 +1,98 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>주어진 것은 두 개의 정방행렬이에요:</p>$$\mathbf{A}_1=\begin{bmatrix}0 & 1\\-8 & 4\end{bmatrix}\in\mathbb{R}^{2\times 2},\quad\mathbf{A}_2=\begin{bmatrix}5 & -6 & -6\\-1 & 4 & 2\\3 & -6 & -4\end{bmatrix}\in\mathbb{R}^{3\times 3}$$<p>구할 것은 세 가지예요: (a) $\mathbf{A}_1$이 실수 가역행렬 $\mathbf{P}$로 대각화 가능한지 판정하고 판별식을 통한 이유 설명, (b) $\mathbf{A}_2$의 고윳값과 고유공간 $E_1, E_2$, (c) 고유공간 차원으로부터 $\mathbf{A}_2$의 대각화 가능성을 판정하고 대각행렬 $\mathbf{D}$와 기저($\mathbf{P}$의 열)를 제시하는 것이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘실수 행렬 $\mathbf{P}$로 대각화’와 ‘고유공간 기저’라는 단서에서 고윳값 분해의 성립 조건을 떠올려요.</p><ul><li>실수 대각화 조건: $\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$가 실수 행렬 공간 $\mathbb{R}^{n\times n}$에서 성립하려면 모든 고윳값이 실수($\lambda_i\in\mathbb{R}$)여야 해요. 2차 특성방정식의 판별식 $D=b^2-4ac < 0$이면 허수 근만 존재하므로 실수 $\mathbf{P}$로 대각화할 수 없어요.</li><li>3차 특성다항식의 전개와 공통 인수: $3\times 3$ 행렬식을 1행으로 전개할 때 각 항에 공통 인수 $(\lambda-c)$가 보이면 곱을 모두 펼치지 않고 바로 묶어내면 인수분해가 훨씬 간결해져요.</li><li>기저와 가역성: 각 고유공간의 기저 벡터들을 열로 모은 행렬 $\mathbf{P}=[\mathbf{p}_1, \dots, \mathbf{p}_n]$이 $\det(\mathbf{P})\neq 0$을 만족하면 $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}$가 완성돼요.</li></ul><p><a href="정리노트_1102_PCA.html#s2-evd-columns">2.3 벡터 하나의 관계를 행렬 식으로 묶기</a>와 <a href="정리노트_1102_PCA.html#s2-evd-condition">분해 가능 조건</a>에서 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf{A}_1$의 특성방정식을 $ad-bc$로 세워요.</p>$$\det(\mathbf{A}_1-\lambda\mathbf{I})=\det\begin{bmatrix}-\lambda & 1\\-8 & 4-\lambda\end{bmatrix}=(-\lambda)(4-\lambda)-1\cdot(-8)=\lambda^2-4\lambda+8=0$$<p><b>풀이 로드맵:</b> 1. $\mathbf{A}_1$의 판별식 $D=-16 < 0$으로 실수 대각화 불가 증명 → 2. $\mathbf{A}_2$ 여인수 전개로 $-(\lambda-1)(\lambda-2)^2=0$ 도출 및 $E_1, E_2$ 계산 → 3. $\dim E_1+\dim E_2=3$과 $\det(\mathbf{P})=-1\neq 0$으로 $\mathbf{D}$와 기저 확정.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{A}_1$의 판정</h4><p><b>최종 답 요약:</b> $\mathbf{A}_1$은 특성다항식의 판별식이 $D=-16 < 0$으로 실수 고윳값이 존재하지 않으므로 실수 행렬 $\mathbf{P}$로 대각화할 수 없어요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A}_1-\lambda\mathbf{I})=\lambda^2-4\lambda+8=0$$</div><div class="deriv-why"><p>A1의 특성방정식을 정리해요</p></div></li><li><div class="deriv-eq">$$D=b^2-4ac=(-4)^2-4\cdot 1\cdot 8=16-32=-16<0$$</div><div class="deriv-why"><p>2차식 판별식이 음수이므로 실근이 없어요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{A}_1\mathbf{p}_i=d_i\mathbf{p}_i\quad(\mathbf{p}_i\ne\mathbf{0})$$</div><div class="deriv-why"><p>실수 $\mathbf{P}$로 대각화할 수 있다면 $d_i$는 실수 대각행렬 $\mathbf{P}^{-1}\mathbf{A}_1\mathbf{P}$의 $i$번째 대각 원소여서 실수 고윳값이어야 해요. 실근이 없으므로 모순이에요.</p></div></li></ol></div></div><div data-subpart="b"><h4>(b) $\mathbf{A}_2$의 고윳값과 고유공간</h4><p><b>최종 답 요약:</b> 고윳값은 $\lambda=1, \lambda=2$(중복도 2)이고, 고유공간은 $E_1=\operatorname{span}\left(\begin{bmatrix}3\\-1\\3\end{bmatrix}\right)$, $E_2=\operatorname{span}\left(\begin{bmatrix}2\\1\\0\end{bmatrix}, \begin{bmatrix}2\\0\\1\end{bmatrix}\right)$이에요.</p><p>$\mathbf{A}_2$의 특성다항식을 여인수 전개하고 공통 인수 $(\lambda-2)$로 묶어요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A}_2-\lambda\mathbf{I})=(5-\lambda)(\lambda^2-4)+6(\lambda-2)-6(3\lambda-6)$$</div><div class="deriv-why"><p>1행 전개 후 세 소행렬식을 계산해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A}_2-\lambda\mathbf{I})}=(\lambda-2)\bigl[(5-\lambda)(\lambda+2)+6-18\bigr]$$</div><div class="deriv-why"><p>세 항의 공통 인수 (람다-2)로 묶어내요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A}_2-\lambda\mathbf{I})}=(\lambda-2)(-\lambda^2+3\lambda-2)$$</div><div class="deriv-why"><p>괄호 안의 식을 전개하고 정리해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$p_{\mathbf{A}_2}(\lambda)=-(\lambda-1)(\lambda-2)^2=0\iff\lambda_1=1,\ \lambda_2=\lambda_3=2$$</div><div class="deriv-why"><p>인수분해하여 람다=1과 2(중복도 2)를 얻어요</p></div></li></ol></div><p>$\lambda=1$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}_2-\mathbf{I})\mathbf{x}=\begin{bmatrix}4 & -6 & -6\\-1 & 3 & 2\\3 & -6 & -5\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>람다=1 대입 후 동차 연립방정식이에요</p></div></li><li><div class="deriv-eq">$$-x_1+3x_2+2x_3=0\implies x_1=3x_2+2x_3$$</div><div class="deriv-why"><p>둘째 행에서 x1을 구해요</p></div></li><li><div class="deriv-eq">$$4(3x_2+2x_3)-6x_2-6x_3=6x_2+2x_3=0$$</div><div class="deriv-why"><p>첫째 행에 x1을 대입해요</p></div></li><li><div class="deriv-eq">$$x_3=-3x_2,\qquad x_1=3x_2+2(-3x_2)=-3x_2$$</div><div class="deriv-why"><p>$x_3=-3x_2$를 둘째 식에 대입해 $x_1=-3x_2$를 구해요. 셋째 식의 좌변도 $3(-3x_2)-6x_2-5(-3x_2)=0$이에요.</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}3\\-1\\3\end{bmatrix}\right]\quad(\dim E_1=1)$$</div><div class="deriv-why"><p>x2=-1로 둔 정수 기저의 1차원 생성공간이에요</p></div></li></ol></div><p>$\lambda=2$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}_2-2\mathbf{I})\mathbf{x}=\begin{bmatrix}3 & -6 & -6\\-1 & 2 & 2\\3 & -6 & -6\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>람다=2 대입 후 동차 연립방정식이에요</p></div></li><li><div class="deriv-eq">$$x_1-2x_2-2x_3=0\iff x_1=2x_2+2x_3$$</div><div class="deriv-why"><p>세 행이 모두 동일한 평면 제약조건이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_2=\operatorname{span}\left[\begin{bmatrix}2\\1\\0\end{bmatrix},\ \begin{bmatrix}2\\0\\1\end{bmatrix}\right]\quad(\dim E_2=2)$$</div><div class="deriv-why"><p>자유변수 2개로 생성되는 2차원 고유공간이에요</p></div></li></ol></div></div><div data-subpart="c"><h4>(c) $\mathbf{A}_2$의 대각화와 대각 꼴</h4><p><b>최종 답 요약:</b> $\dim E_1+\dim E_2=1+2=3=n$으로 대각화 가능하며, $\mathbf{D}=\begin{bmatrix}1&0&0\\0&2&0\\0&0&2\end{bmatrix}$, 기저는 $\left\{[3,-1,3]^\top, [2,1,0]^\top, [2,0,1]^\top\right\}$이에요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{P}=\begin{bmatrix}3 & 2 & 2\\-1 & 1 & 0\\3 & 0 & 1\end{bmatrix}$$</div><div class="deriv-why"><p>구한 세 고유벡터를 열로 모아 P를 구성해요</p></div></li><li><div class="deriv-eq">$$\det(\mathbf{P})=3(1)-2(-1)+2(-3)=3+2-6=-1\neq 0$$</div><div class="deriv-why"><p>P의 행렬식이 0이 아니므로 가역성이 확인돼요</p></div></li><li><div class="deriv-eq">$$\mathbf{A}_2\mathbf{P}=[\mathbf{A}_2\mathbf{p}_1,\mathbf{A}_2\mathbf{p}_2,\mathbf{A}_2\mathbf{p}_3]$$</div><div class="deriv-why"><p>$\mathbf{A}_2$를 $\mathbf{P}$의 각 열에 곱해요.</p></div></li><li><div class="deriv-eq">$$\mathbf{A}_2\mathbf{P}=[1\mathbf{p}_1,2\mathbf{p}_2,2\mathbf{p}_3]=\mathbf{P}\mathbf{D}$$</div><div class="deriv-why"><p>각 열의 고윳값 1, 2, 2를 넣어요.</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{P}^{-1}\mathbf{A}_2\mathbf{P}=\mathbf{D}=\operatorname{diag}(1,2,2)=\begin{bmatrix}1 & 0 & 0\\0 & 2 & 0\\0 & 0 & 2\end{bmatrix}$$</div><div class="deriv-why"><p>양변의 왼쪽에 $\mathbf{P}^{-1}$를 곱해요.</p></div></li></ol></div></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>완전제곱식 표현 $\lambda^2-4\lambda+8=(\lambda-2)^2+4$을 보면 모든 실수 $\lambda\in\mathbb{R}$에 대해 항상 $(\lambda-2)^2+4 \ge 4 > 0$이므로 식이 0이 되는 실수 근이 전혀 존재하지 않음을 재확인해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$\mathbf{A}_2$의 각 고유벡터에 행렬 곱을 검산해요:$$\mathbf{A}_2\begin{bmatrix}3\\-1\\3\end{bmatrix}=\begin{bmatrix}15+6-18\\-3-4+6\\9+6-12\end{bmatrix}=\begin{bmatrix}3\\-1\\3\end{bmatrix}=1\begin{bmatrix}3\\-1\\3\end{bmatrix}$$$$\mathbf{A}_2\begin{bmatrix}2\\1\\0\end{bmatrix}=\begin{bmatrix}10-6\\-2+4\\6-6\end{bmatrix}=\begin{bmatrix}4\\2\\0\end{bmatrix}=2\begin{bmatrix}2\\1\\0\end{bmatrix},\quad\mathbf{A}_2\begin{bmatrix}2\\0\\1\end{bmatrix}=\begin{bmatrix}10-6\\-2+2\\6-4\end{bmatrix}=\begin{bmatrix}4\\0\\2\end{bmatrix}=2\begin{bmatrix}2\\0\\1\end{bmatrix}$$<p>정확히 고윳값 1과 2의 고유벡터예요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>대각합과 행렬식을 검산해요: $\operatorname{tr}(\mathbf{A}_2)=5+4-4=5 = 1+2+2 = \operatorname{tr}(\mathbf{D})$, $\det(\mathbf{A}_2)=1\cdot 2\cdot 2 = 4 = \det(\mathbf{D})$로 불변량이 완벽히 일치해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>(a)에서 판별식을 구할 때 $ad-bc = (-\lambda)(4-\lambda) - 1\cdot(-8) = \lambda^2-4\lambda+8$의 부호를 실수하여 $\lambda^2-4\lambda-8$로 쓰면 $D=48>0$이 되어 실수 고윳값이 존재한다고 오답을 내게 돼요. 마이너스 곱셈의 부호에 주의해요.</p><p>(b)에서 고윳값 2가 중근(대수적 중복도 2)이라고 해서 대각화가 안 된다고 속단하면 안 돼요. 이 행렬처럼 $E_2$가 2차원이면 기하적 중복도가 대수적 중복도와 일치하여 대각화가 완벽히 가능해요.</p><p>(c)에서 $\mathbf{D}$의 대각 원소 순서는 반드시 $\mathbf{P}$의 열벡터 순서와 일치해야 해요. 예를 들어 $\mathbf{P}$의 열 순서를 $[2,1,0]^\top,\ [2,0,1]^\top,\ [3,-1,3]^\top$로 두면 $\mathbf{D}=\operatorname{diag}(2,2,1)$이에요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf{A}_1$의 특성방정식을 세우고 판별식 $D=-16 < 0$으로 실수 대각화 불가를 설명해요.</li><li>$\mathbf{A}_2$를 1행 전개하고 $(\lambda-2)$를 묶어내어 $E_1, E_2$를 구해요.</li><li>$\det(\mathbf{P})=-1\neq 0$으로 가역성을 보이고 대각행렬 $\mathbf{D}=\operatorname{diag}(1,2,2)$와 기저를 제시해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>실수 대각화는 실수 고윳값과 일차독립인 고유벡터 $n$개가 필요해요. 판별식 $D<0$이면 실수 대각화 불가예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A}_1-\lambda\mathbf{I})=\lambda^2-4\lambda+8=0$을 세워요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 판별식 $D=-16<0$이므로 실수 $\mathbf{P}$로 대각화 불가.</p><p>(b) $\lambda=1, \lambda=2$ (중복도 2), $E_1=\operatorname{span}\left(\begin{bmatrix}3\\-1\\3\end{bmatrix}\right)$, $E_2=\operatorname{span}\left(\begin{bmatrix}2\\1\\0\end{bmatrix}, \begin{bmatrix}2\\0\\1\end{bmatrix}\right)$.</p><p>(c) 대각화 가능, $\mathbf{D}=\operatorname{diag}(1,2,2)$, 기저 $\{[3,-1,3]^\top, [2,1,0]^\top, [2,0,1]^\top\}$.</p></div><div class="summary-group"><h4>검산</h4><p>$\operatorname{tr}(\mathbf{A}_2)=5=1+2+2$, $\det(\mathbf{A}_2)=4=1\cdot 2\cdot 2$, $\det(\mathbf{P})=-1\neq 0$.</p></div><div class="summary-group"><h4>조건·구분</h4><p>이 문제의 $\mathbf{A}_2$는 고유공간의 차원 합이 $1+2=3$이므로 고윳값 2가 겹쳐도 대각화할 수 있어요. $\mathbf{P}$의 열 순서와 $\mathbf{D}$의 대각 순서를 맞춰요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.7 (a), (d). 교과서 138쪽(PDF 144쪽). 복습문제는 (d)의 행렬을 고유공간과 대각화 판정 두 소문항으로 나눴어요.</p><p>수업: 1102 L05 s16 (특성방정식), L05 s17–s18 (대각화와 고윳값 분해).</p><p>관련 정리노트: 1102 2.2 대각행렬과 대각화, 2.3 고윳값 분해(EVD).</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>대각화 가능(diagonalizable)</dt><dd>가역인 실수 행렬 $\mathbf{P}$와 대각행렬 $\mathbf{D}$에 대해 $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}$가 성립하는 성질이에요.</dd><dt>판별식(discriminant)</dt><dd>이차방정식 $a\lambda^2+b\lambda+c=0$의 $b^2-4ac$로, 근의 실수 여부를 판정해요.</dd><dt>기저(basis)</dt><dd>부분공간 또는 전체 공간을 일차결합으로 생성할 수 있는 일차독립인 최소 벡터 묶음이에요.</dd><dt>동차 연립방정식(homogeneous linear system)</dt><dd>우변이 모두 $\mathbf{0}$인 연립방정식 $(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$이에요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$\mathbf{A}_1=\begin{bmatrix}0 & 1\\-8 & 4\end{bmatrix}$와 $\mathbf{A}_2=\begin{bmatrix}5 & -6 & -6\\-1 & 4 & 2\\3 & -6 & -4\end{bmatrix}$에 대해 (a) $\mathbf{A}_1$의 실수 행렬 $\mathbf{P}$ 대각화 가능 여부, (b) $\mathbf{A}_2$의 고윳값과 고유공간, (c) $\mathbf{A}_2$의 대각화 판정과 $\mathbf{D}$, 기저($\mathbf{P}$의 열)를 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>실수 $\mathbf{P},\mathbf{D}$로 $\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$가 되려면 가역 $\mathbf{P}$의 각 열 $\mathbf{p}_i\neq\mathbf{0}$에 대해 $\mathbf{A}\mathbf{p}_i=d_i\mathbf{p}_i$이므로 대각 성분 $d_i\in\mathbb{R}$가 실수 고윳값이어야 해요(<a href="정리노트_1102_PCA.html#s2-evd-columns">2.3 행렬 식 묶기</a>, <a href="정리노트_1102_PCA.html#s2-evd-condition">분해 가능 조건</a>). 2차 특성다항식은 판별식 $b^2-4ac\lt 0$이면 실근이 없고, $\mathbf{A}_2$는 1행 여인수 전개에서 공통인수 $(\lambda-2)$를 묶어 인수분해해요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\det(\mathbf{A}_1-\lambda\mathbf{I})=\det\begin{bmatrix}-\lambda & 1\\-8 & 4-\lambda\end{bmatrix}=\lambda^2-4\lambda+8=0$$
+  <p>$\mathbf{A}_1$의 실근 유무를 먼저 판별한 뒤, $\mathbf{A}_2$의 특성다항식·고유공간·가역 $\mathbf{P}$를 차례로 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{A}_1$의 실수 대각화 판정</h4>
+    <p>특성방정식 $\lambda^2-4\lambda+8=0$의 판별식은 $(-4)^2-4\cdot 1\cdot 8=-16\lt 0$이라 실수 고윳값이 없어요. 만약 실수 가역행렬 $\mathbf{P}$와 실수 대각행렬 $\mathbf{D}$로 $\mathbf{D}=\mathbf{P}^{-1}\mathbf{A}_1\mathbf{P}$가 성립한다면 $\mathbf{A}_1\mathbf{p}_i=d_i\mathbf{p}_i$ ($\mathbf{p}_i\neq\mathbf{0}$)에서 실수 $d_i$가 고윳값이 되어 모순이에요. 따라서 $\mathbf{A}_1$은 실수 $\mathbf{P}$로 대각화할 수 없어요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\mathbf{A}_2$의 고윳값과 고유공간</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\det(\mathbf{A}_2-\lambda\mathbf{I})=(5-\lambda)(\lambda^2-4)+6(\lambda-2)-6(3\lambda-6)$$</div>
+          <div class="deriv-why"><p>1행 여인수 전개로 소행렬식을 계산해요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\hphantom{\det(\mathbf{A}_2-\lambda\mathbf{I})}=(\lambda-2)\bigl[(5-\lambda)(\lambda+2)-12\bigr]$$</div>
+          <div class="deriv-why"><p>공통인수 $(\lambda-2)$를 묶어내요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$p_{\mathbf{A}_2}(\lambda)=-(\lambda-1)(\lambda-2)^2=0\implies\lambda=1,\ 2$$</div>
+          <div class="deriv-why"><p>2차식을 정리해 고윳값 1과 2(중근)를 얻어요.</p></div>
+        </li>
+      </ol>
+    </div>
+    <p>각 고윳값의 동차 연립방정식을 풀어요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}_2-\mathbf{I})\mathbf{x}=\begin{bmatrix}4 & -6 & -6\\-1 & 3 & 2\\3 & -6 & -5\end{bmatrix}\mathbf{x}=\mathbf{0}$$</div>
+          <div class="deriv-why"><p>$\lambda=1$: 2행 $x_1=3x_2+2x_3$을 1행에 넣어요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$6x_2+2x_3=0\implies x_3=-3x_2,\ x_1=-3x_2$$</div>
+          <div class="deriv-why"><p>3행 $3(-3x_2)-6x_2-5(-3x_2)=0$도 맞아요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}_2-2\mathbf{I})\mathbf{x}=\begin{bmatrix}3 & -6 & -6\\-1 & 2 & 2\\3 & -6 & -6\end{bmatrix}\mathbf{x}=\mathbf{0}\iff x_1=2x_2+2x_3$$</div>
+          <div class="deriv-why"><p>$\lambda=2$: 세 행이 모두 같은 식이에요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}3\\-1\\3\end{bmatrix}\right],\qquad E_2=\operatorname{span}\left[\begin{bmatrix}2\\1\\0\end{bmatrix},\begin{bmatrix}2\\0\\1\end{bmatrix}\right]$$</div>
+          <div class="deriv-why"><p>$E_1$은 $x_2=-1$, $E_2$는 자유변수 둘로 적어요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\mathbf{A}_2$의 대각화 판정과 $\mathbf{D}$, 기저</h4>
+    <p>고유공간 차원 합이 $\dim E_1+\dim E_2=1+2=3$이에요. 세 기저 벡터를 열로 모은 $\mathbf{P}=\begin{bmatrix}3 & 2 & 2\\-1 & 1 & 0\\3 & 0 & 1\end{bmatrix}$의 행렬식은 $\det(\mathbf{P})=3(1)-2(-1)+2(-3)=-1\neq 0$이라 가역이에요. 열별 고유방정식 $\mathbf{A}_2\mathbf{P}=\mathbf{P}\mathbf{D}$에서 $\mathbf{P}^{-1}\mathbf{A}_2\mathbf{P}=\mathbf{D}=\operatorname{diag}(1,2,2)$예요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 판별식이 $-16\lt 0$으로 실수 고윳값이 없으므로 실수 $\mathbf{P}$로 대각화할 수 없어요.</p>
+    <p>(b) 고윳값은 $\lambda=1, 2$이고, $E_1=\operatorname{span}\left[\begin{bmatrix}3\\-1\\3\end{bmatrix}\right]$, $E_2=\operatorname{span}\left[\begin{bmatrix}2\\1\\0\end{bmatrix},\begin{bmatrix}2\\0\\1\end{bmatrix}\right]$이에요.</p>
+    <p>(c) 대각화 가능해요. $\mathbf{D}=\begin{bmatrix}1 & 0 & 0\\0 & 2 & 0\\0 & 0 & 2\end{bmatrix}$이고, 기저는 $[3,-1,3]^\top$, $[2,1,0]^\top$, $[2,0,1]^\top$이에요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 확인</h4>
+    <p>$\lambda^2-4\lambda+8=(\lambda-2)^2+4\ge 4\gt 0$이므로 어떤 실수 $\lambda$에서도 0이 되지 않아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\mathbf{A}_2\begin{bmatrix}3\\-1\\3\end{bmatrix}=\begin{bmatrix}3\\-1\\3\end{bmatrix}$, $\mathbf{A}_2\begin{bmatrix}2\\1\\0\end{bmatrix}=\begin{bmatrix}4\\2\\0\end{bmatrix}=2\begin{bmatrix}2\\1\\0\end{bmatrix}$, $\mathbf{A}_2\begin{bmatrix}2\\0\\1\end{bmatrix}=\begin{bmatrix}4\\0\\2\end{bmatrix}=2\begin{bmatrix}2\\0\\1\end{bmatrix}$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>불변량 $\operatorname{tr}(\mathbf{A}_2)=5+4-4=5=1+2+2$, $\det(\mathbf{A}_2)=4=1\cdot 2\cdot 2$가 $\mathbf{D}$와 일치해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>(a)의 특성다항식에서 $-1\cdot(-8)=+8$의 부호를 $-8$로 잘못 쓰면 실근이 생겨 오답이 돼요. (c)에서는 $\mathbf{P}$의 열 순서와 $\mathbf{D}$의 대각 원소 순서를 반드시 맞춰야 해요(예: $[2,1,0]^\top,[2,0,1]^\top,[3,-1,3]^\top$ 순서면 $\mathbf{D}=\operatorname{diag}(2,2,1)$).</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>실수 대각화에는 실수 고윳값과 $\sum\dim E_\lambda=n$이 필요해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A}_1-\lambda\mathbf{I})=\lambda^2-4\lambda+8=0$을 세워요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 판별식 $-16\lt 0$이라 실수 대각화 불가. (b) $E_1=\operatorname{span}[[3,-1,3]^\top]$, $E_2=\operatorname{span}[[2,1,0]^\top,[2,0,1]^\top]$. (c) 가능, $\mathbf{D}=\operatorname{diag}(1,2,2)$, 기저 $[3,-1,3]^\top,[2,1,0]^\top,[2,0,1]^\top$.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\mathbf{A}_2$ 곱으로 세 고유벡터 확인, $\operatorname{tr}(\mathbf{A}_2)=5=1+2+2$, $\det(\mathbf{P})=-1\neq 0$.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>고윳값 2가 중근이어도 $\dim E_2=2$이면 대각화돼요. $\mathbf{P}$의 열 순서와 $\mathbf{D}$의 대각 순서를 일치시켜요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.7 (a), (d). 교과서 138쪽(PDF 144쪽). 복습문제는 (d)의 행렬을 고유공간과 대각화 판정 두 소문항으로 나눴어요.</p><p>수업: 1102 L05 s16 (특성방정식), L05 s17–s18 (대각화와 고윳값 분해).</p><p>관련 정리노트: 1102 2.2 대각행렬과 대각화, 2.3 고윳값 분해(EVD).</p></section>
+<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>대각화 가능(diagonalizable)</dt><dd>실수 가역행렬 $\mathbf{P}$와 실수 대각행렬 $\mathbf{D}$로 $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}$를 만족하는 성질이에요.</dd><dt>판별식(discriminant)</dt><dd>이차식 $a\lambda^2+b\lambda+c=0$에서 실근 유무를 판별하는 $b^2-4ac$예요.</dd><dt>기저(basis)</dt><dd>공간을 생성하는 일차독립인 벡터 묶음으로, 여기서는 $\mathbf{P}$의 세 열이에요.</dd></dl></section>

@@ -1,23 +1,21 @@
-# 독립 검산 기록 — 1028 PCA 재선정 5문항
+# 독립 검산 대조 (review-1028-PCA)
 
-1. 블라인드 검산: 서브에이전트가 evidence/problem-data-only.json(조건·질문·소문항만, 참고 풀이·정답·조각 없음)만 보고 풀이. 산출 evidence/blind/blind_check.py, blind_results.txt (sympy 정확 계산, 판정 문항은 기호 전개+논증 주석).
-2. 저작자 검산: evidence/independent_1028.py → independent_results.json. 조각의 모든 수치 주장(검산 점, 함정 수치 포함)을 sympy로 assert.
-3. 컨트롤러 대조(카드 참고 답 = source.json reference_answer, 복습팩 RUN answers.py):
+## 1. 독립 검산 실행 파일
+- `evidence/independent_1028.py` → `evidence/independent_results.json` (SymPy 정확 연산)
+- `evidence/blind/blind_check.py` → `evidence/blind/blind_results.txt` (별도 SymPy 블라인드 검산)
+- `evidence/independent/blind_solve.py` → `evidence/independent/blind_solve.txt`
 
-| 항목 | 블라인드 | 저작자 검산 | 카드 참고 답 | 결과 |
-|---|---|---|---|---|
-| p1:a | x=4e1-7e2 | 동일 | 4e1-7e2 | 일치 |
-| p1:b | 0e1+ze2, z 하나 | e2^Te2=1, z=e2^T x~ | 동일 | 일치 |
-| p1:c | U=span[e2] (양방향 포함) | 동일 | span[e2] | 일치 |
-| p1:d | dim 1 (rank 1) | 동일 | 1 | 일치 |
-| p2:a | B^TB=I | 동일, 1/25 인수 | I | 일치 |
-| p2:b | ONB (B^TB=I, rank 2) | 동일 | ONB | 일치 |
-| p3:a | [2,3] | (B^TB)^-1B^Tx=[2,3] | [2,3] | 일치 |
-| p3:b | √2, 정규화 아님(직교) | B^Tx=[4,6]=2×좌표 | √2, 아님 | 일치 |
-| p4:a | (2x1+x2)^2+2x2^2, PD | 동일, 전개 항등식 | 동일 | 일치 |
-| p4:b | (2x1+x2)^2-x2^2, [-1,2]→-4 | [1,-2]→-4 | [1,-2]→-4 | 일치(블라인드 반례는 -1배, 이차형식이라 값 동일) |
-| p5:a | [1,-5,-1,-2,3] | λ=(-3,4,1), 4열 pinv 사영과 동일 | 동일 | 일치 |
-| p5:b | 2√15 | |r|^2=60, 100=40+60 | 2√15 | 일치 |
-| p5:c | 네 점곱 0 | 동일 + r·π=0 | 모두 직교 | 일치 |
-
-충돌·모호함: 없음. 블라인드가 지적한 비유일성(완전제곱 표현, 반례 선택, p5 계수의 기저 의존)은 답의 정오에 영향 없음. p4 블라인드의 고윳값 교차 확인은 evidence 전용이며 설명 본문에는 쓰지 않음(1028 범위).
+## 2. 축약된 최종 답 및 핵심 중간식 대조
+- `p1:a`: `x=4e1-7e2` — SymPy 일치.
+- `p1:b`: `x~=0e1+ze2`, `e2^T e2=1`, `z=e2^T x~`, `e2 z=x~` — SymPy 일치.
+- `p1:c`: `U=span[e2]` — 양방향 포함 및 닫힘·`e1∉U` 확인.
+- `p1:d`: `dim(U)=1` — `rank([e2])=1` 일치.
+- `p2:a`: `B^T B = I` — 분수 정확 연산 일치.
+- `p2:b`: `B^T B == I`, `rank(B)=2` → 정규직교 기저 일치.
+- `p3:a`: 좌표 `[2,3]^T` — `B3.solve(x3)=[2,3]`, `(B^TB)^{-1}B^Tx=[2,3]` 일치.
+- `p3:b`: `||b1||=||b2||=sqrt(2)` → 정규화 아님 일치.
+- `p4:a`: `x^T A1 x = (2x1+x2)^2 + 2x2^2`, 제곱합=0 ⇔ `x=0` → 양의 정부호 일치.
+- `p4:b`: `x^T A2 x = (2x1+x2)^2 - x2^2`, `x=[1,-2]^T`에서 `-4<0` (블라인드 `[-1,2]^T`도 이차형식 대칭으로 `-4`) → 양의 정부호 아님 일치.
+- `p5:a`: `u4=u1+2u2+u3`, `rank=3`, `λ=(-3,4,1)`, `π_U(x)=[1,-5,-1,-2,3]^T` (4열 pinv 사영자와 동일) — 일치.
+- `p5:b`: `r=[-2,-4,0,6,-2]^T`, `||r||^2=60`, `d=2*sqrt(15)`, `100=40+60` — 일치.
+- `p5:c`: `r·u_i = 0` (`i=1..4`) — 일치.

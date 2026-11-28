@@ -1,10 +1,101 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> 가로로 긴 $2\times 3$ 행렬 $\mathbf A=\begin{bmatrix}1&1&0\\0&1&1\end{bmatrix}$이 주어졌어요.</p><p><b>구할 것:</b> (a) $\mathbf A^\top\mathbf A$의 고윳값과 단위 고유벡터로 $\mathbf V$를 구하고, (b) 양의 고윳값 제곱근으로 특잇값과 $\mathbf\Sigma$를 조립하며, (c) $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$ 관계식으로 $\mathbf U$를 산출하고, (d) 완성된 세 행렬의 크기(차원)를 명시해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘특잇값 분해(SVD)’라는 단서에서 행렬의 직교 분해 $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$를 떠올려요($\mathbf U\in\mathbb R^{m\times m}$, $\mathbf V\in\mathbb R^{n\times n}$은 정사각 직교행렬, $\mathbf\Sigma\in\mathbb R^{m\times n}$).</p><p>‘$\mathbf A^\top\mathbf A$의 고유벡터로 $\mathbf V$’라는 관계는 $\mathbf U^\top\mathbf U=\mathbf I$ 성질에서 가운데가 소거되며 유도돼요.</p>$$\mathbf A^\top\mathbf A=\mathbf V\mathbf\Sigma^\top\mathbf U^\top\mathbf U\mathbf\Sigma\mathbf V^\top=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$$<p>$\mathbf V$의 열 $\mathbf v_i$를 대입하면 $\mathbf V^\top\mathbf v_i$는 $i$번째 위치만 1인 벡터예요. 따라서 <b>$\mathbf v_i$는 $\mathbf A^\top\mathbf A$의 고유벡터</b>이고 고윳값은 $\mathbf\Sigma^\top\mathbf\Sigma$의 $i$번째 대각값이에요. 이 문항의 대각값은 순서대로 $\sigma_1^2,\sigma_2^2,0$이에요.</p><p>SVD의 $\mathbf A\mathbf V=\mathbf U\mathbf\Sigma$에서 양의 특잇값에 대응하는 열은 $\mathbf A\mathbf v_i=\sigma_i\mathbf u_i$예요. $\sigma_i>0$인 열에서 이 식을 $\sigma_i$로 나누어요. <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf A$의 열끼리 내적하여 대칭행렬 $\mathbf A^\top\mathbf A$를 계산하고 특성다항식을 세우는 3단계 로드맵(1. $\mathbf V$ $\to$ 2. $\mathbf\Sigma$ $\to$ 3. $\mathbf U$)으로 시작해요.</p>$$\mathbf A^\top\mathbf A=\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix},\qquad\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=0$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> 고윳값은 $3, 1, 0$이며 직교 정규화된 $\mathbf V$는 $3\times 3$ 행렬이에요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=(1-\lambda)\big[(2-\lambda)(1-\lambda)-1\big]-1\cdot(1-\lambda)$$</div><div class="deriv-why"><p>첫째 행으로 여인수 전개해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)}=(1-\lambda)(\lambda^2-3\lambda)$$</div><div class="deriv-why"><p>공통인수 $(1-\lambda)$로 묶은 뒤, 괄호 안의 $(2-\lambda)(1-\lambda)-2$를 전개해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)}=-\lambda(\lambda-1)(\lambda-3)=0$$</div><div class="deriv-why"><p>인수분해로 세 고윳값을 구해요</p></div></li></ol></div><p>고윳값은 큰 순서대로 $\lambda_1=3, \lambda_2=1, \lambda_3=0$이에요. 고유벡터의 성분을 $(x,y,z)^\top$로 놓고 $(\mathbf A^\top\mathbf A-\lambda\mathbf I)(x,y,z)^\top=\mathbf 0$에 각 고윳값을 대입해요.</p><p>$\lambda_1=3$을 넣으면 첫째 행과 벡터의 곱은 $(1-3)x+1\cdot y+0\cdot z=-2x+y=0$이에요. 셋째 행의 $y-2z=0$과 함께 풀면 $(1,2,1)^\top$ 방향이에요. 길이 $\sqrt6$으로 나눠요.</p>$$\mathbf v_1=\frac{1}{\sqrt6}\begin{bmatrix}1\\2\\1\end{bmatrix}$$<p>$\lambda_2=1$: $y=0$, $x+y+z=0$에서 $(1,0,-1)^\top$ 방향이에요. 길이 $\sqrt2$로 나눠요.</p>$$\mathbf v_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\0\\-1\end{bmatrix}$$<p>$\lambda_3=0$: $x+y=0$, $y+z=0$에서 $(1,-1,1)^\top$ 방향이에요. 길이 $\sqrt3$으로 나눠요.</p>$$\mathbf v_3=\frac{1}{\sqrt3}\begin{bmatrix}1\\-1\\1\end{bmatrix},\qquad\mathbf V=\begin{bmatrix}\frac{1}{\sqrt6}&\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\\\frac{2}{\sqrt6}&0&-\frac{1}{\sqrt3}\\\frac{1}{\sqrt6}&-\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\end{bmatrix}$$</div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> 특잇값은 양의 고윳값의 제곱근인 $\sigma_1=\sqrt3, \sigma_2=1$이며 $\mathbf\Sigma$는 $2\times 3$ 크기예요.</p>$$\sigma_1=\sqrt{\lambda_1}=\sqrt3,\qquad\sigma_2=\sqrt{\lambda_2}=1$$<p>$\mathbf\Sigma$는 원 행렬 $\mathbf A$와 동일한 $2\times 3$ 크기로 대각 자리에 $\sigma_1, \sigma_2$를 배치하고 나머지를 0으로 채워요.</p>$$\mathbf\Sigma=\begin{bmatrix}\sqrt3&0&0\\0&1&0\end{bmatrix}$$</div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 구조:</b> $\mathbf U$는 단위 정규직교 벡터들로 이루어진 $2\times 2$ 정사각행렬이에요.</p><p>$\mathbf u_1, \mathbf u_2$를 공식 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$에 대입해 유도해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A\mathbf v_1=\begin{bmatrix}1&1&0\\0&1&1\end{bmatrix}\frac{1}{\sqrt6}\begin{bmatrix}1\\2\\1\end{bmatrix}=\frac{1}{\sqrt6}\begin{bmatrix}3\\3\end{bmatrix}$$</div><div class="deriv-why"><p>행렬과 첫 고유벡터를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf u_1=\frac{\mathbf A\mathbf v_1}{\sigma_1}=\frac{1}{\sqrt3}\cdot\frac{3}{\sqrt6}\begin{bmatrix}1\\1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 $\sqrt3$으로 나누어 정규화해요</p></div></li><li><div class="deriv-eq">$$\mathbf A\mathbf v_2=\begin{bmatrix}1&1&0\\0&1&1\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\0\\-1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}$$</div><div class="deriv-why"><p>행렬과 둘째 고유벡터를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf u_2=\frac{\mathbf A\mathbf v_2}{\sigma_2}=\frac{1}{1}\cdot\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 1로 나누어 확정해요</p></div></li></ol></div><p>두 열을 모아 $\mathbf U$를 완성해요($\mathbf u_1^\top\mathbf u_2=0$으로 직교성 만족).</p>$$\mathbf U=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$$</div><div data-subpart="d"><h4>(d)</h4><p><b>최종 답 요약:</b> $\mathbf U\in\mathbb R^{2\times 2}$, $\mathbf\Sigma\in\mathbb R^{2\times 3}$, $\mathbf V\in\mathbb R^{3\times 3}$이에요.</p><p>$\mathbf A$가 $2\times 3$($m=2, n=3$)이므로 출력 공간 기저 $\mathbf U$는 $2\times 2$, 대각 스케일링 $\mathbf\Sigma$는 $2\times 3$, 입력 공간 기저 $\mathbf V$는 $3\times 3$이에요.</p><p>행렬곱 크기 정합성은 $(2\times 2)(2\times 3)(3\times 3)=2\times 3$으로 $\mathbf A$의 차원과 정확히 일치해요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>고유벡터 방정식 $(\mathbf A^\top\mathbf A)\mathbf v_i=\lambda_i\mathbf v_i$를 확인해요. $\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix}\begin{bmatrix}1\\2\\1\end{bmatrix}=\begin{bmatrix}3\\6\\3\end{bmatrix}=3\begin{bmatrix}1\\2\\1\end{bmatrix}$, $\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix}\begin{bmatrix}1\\0\\-1\end{bmatrix}=\begin{bmatrix}1\\0\\-1\end{bmatrix}=1\begin{bmatrix}1\\0\\-1\end{bmatrix}$, $\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix}\begin{bmatrix}1\\-1\\1\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}=0\begin{bmatrix}1\\-1\\1\end{bmatrix}$으로 고윳값 $3, 1, 0$이 정확해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>출력 공간 행렬 $\mathbf A\mathbf A^\top=\begin{bmatrix}2&1\\1&2\end{bmatrix}$의 특성방정식 $(2-\lambda)^2-1=0$의 근도 $\lambda=3, 1$로 $\mathbf A^\top\mathbf A$의 양의 고윳값과 일치해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>외적 층의 합으로 $\mathbf A$를 직접 복원해요.</p>$$\sigma_1\mathbf u_1\mathbf v_1^\top+\sigma_2\mathbf u_2\mathbf v_2^\top=\frac12\begin{bmatrix}1&2&1\\1&2&1\end{bmatrix}+\frac12\begin{bmatrix}1&0&-1\\-1&0&1\end{bmatrix}=\begin{bmatrix}1&1&0\\0&1&1\end{bmatrix}=\mathbf A$$<p>원래 행렬 $\mathbf A$와 정확히 일치해요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>정규직교성 $\mathbf U^\top\mathbf U=\mathbf I_2$, $\mathbf V^\top\mathbf V=\mathbf I_3$ 및 유효 랭크 $\operatorname{rank}(\mathbf A)=2$가 특잇값 개수와 완전히 부합해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>같은 양의 특잇값에 대응하는 두 벡터의 부호를 맞춰요.</b> 왼쪽과 오른쪽 벡터를 따로 구하면 부호가 어긋날 수 있어요. 여기서는 $\sigma_i>0$인 두 열에 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$를 적용해 맞춰요. 셋째 오른쪽 벡터는 $\mathbf A\mathbf v_3=\mathbf 0$의 방향이에요.</p><p><b>특잇값은 고윳값의 제곱근이에요.</b> $\sigma_1=3$으로 착각하면 안 돼요. 고윳값 $\lambda_1=3$의 제곱근인 $\sigma_1=\sqrt3$이에요.</p><p>$\mathbf\Sigma$는 정사각이 아닌 $\mathbf A$와 같은 $2\times 3$ 행렬이에요. 0열을 빠뜨리지 않도록 주의해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf A^\top\mathbf A$를 계산하고 첫째 행 여인수 전개로 특성방정식을 풀어 고윳값 $3, 1, 0$과 단위 고유벡터들을 구해요.</li><li>양의 고윳값 제곱근으로 $\sigma_1, \sigma_2$를 구하고 $2\times 3$ $\mathbf\Sigma$를 조립해요.</li><li>$\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf u_1, \mathbf u_2$를 산출하고 외적 층 합으로 $\mathbf A$ 복원을 검산해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf V$의 각 열은 $\mathbf A^\top\mathbf A$의 고유벡터이고, 고윳값은 $\mathbf\Sigma^\top\mathbf\Sigma$의 대응 대각값이에요. $\sigma_i>0$이면 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$예요.</p>$$\mathbf A^\top\mathbf A=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A^\top\mathbf A=\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix}$을 적고 특성방정식을 세워요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 고윳값 $3, 1, 0$, $\mathbf v_1=\frac{1}{\sqrt6}(1,2,1)^\top, \mathbf v_2=\frac{1}{\sqrt2}(1,0,-1)^\top, \mathbf v_3=\frac{1}{\sqrt3}(1,-1,1)^\top$이에요.</p><p>(b) $\sigma_1=\sqrt3, \sigma_2=1$, $\mathbf\Sigma=\begin{bmatrix}\sqrt3&0&0\\0&1&0\end{bmatrix}$이에요.</p><p>(c) $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top, \mathbf u_2=\frac{1}{\sqrt2}(1,-1)^\top$, $\mathbf U=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$이에요.</p><p>(d) $\mathbf U$는 $2\times 2$, $\mathbf\Sigma$는 $2\times 3$, $\mathbf V$는 $3\times 3$이에요.</p></div><div class="summary-group"><h4>검산</h4><p>외적 층의 합 $\frac12\begin{bmatrix}1&2&1\\1&2&1\end{bmatrix}+\frac12\begin{bmatrix}1&0&-1\\-1&0&1\end{bmatrix}=\mathbf A$로 일치해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>$\mathbf u_i$ 부호는 $\mathbf v_i$에 의해 결정돼요. $\mathbf\Sigma$의 차원은 $\mathbf A$와 동일해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>특잇값 분해(singular value decomposition, SVD)</dt><dd>임의의 행렬을 $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$ 형태로 직교 분해하는 기법이에요.</dd><dt>특잇값(singular value)</dt><dd>양의 특잇값은 $\mathbf A^\top\mathbf A$와 $\mathbf A\mathbf A^\top$의 공통 양의 고윳값의 제곱근이에요.</dd><dt>오른쪽 특이벡터(right-singular vector)</dt><dd>$\mathbf A^\top\mathbf A$의 단위 고유벡터들로 $\mathbf V$의 열을 구성해요.</dd><dt>왼쪽 특이벡터(left-singular vector)</dt><dd>$\mathbf A\mathbf A^\top$의 단위 고유벡터들로, 양의 특잇값에 해당하는 열은 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 구해요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 4.13(수치를 바꾼 변형), 교과서 125–126쪽(PDF 131–132쪽).</p><p>수업: 1104 L06 s13(데이터 행렬의 SVD), 1102 특성다항식·스펙트럼 정리.</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$2\times 3$ 행렬 $\mathbf A$의 SVD $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$를 (a) $\mathbf A^\top\mathbf A$에서 $\mathbf V$, (b) $\mathbf\Sigma$, (c) $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf U$, (d) 세 행렬의 크기 순으로 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>$\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$($\mathbf U^\top\mathbf U=\mathbf I_2$)를 $\mathbf A^\top\mathbf A$에 넣으면 $\mathbf A^\top\mathbf A=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$이므로 $\mathbf V$의 열은 $\mathbf A^\top\mathbf A$의 단위 고유벡터, 대각값 $\sigma_1^2,\sigma_2^2,0$이 고윳값이에요(<a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>).</p>
+  <p>또 $\mathbf A\mathbf V=\mathbf U\mathbf\Sigma$의 양의 특잇값($\sigma_i&gt;0$) 열에서 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf U$의 열을 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf A^\top\mathbf A=\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix},\qquad\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=0$$
+  <p>특성방정식으로 고윳값과 단위 고유벡터를 먼저 구한 뒤 $\mathbf\Sigma$와 $\mathbf U$를 차례로 만들어요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf A^\top\mathbf A$의 고윳값과 $\mathbf V$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)&amp;=(1-\lambda)\big[(2-\lambda)(1-\lambda)-1\big]\\&amp;\quad-(1-\lambda)\end{aligned}$$</div><div class="deriv-why"><p>첫째 행으로 여인수 전개해요</p></div></li>
+        <li><div class="deriv-eq">$$=(1-\lambda)(\lambda^2-3\lambda)$$</div><div class="deriv-why"><p>$(1-\lambda)$로 묶고 안쪽을 전개해요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$=-\lambda(\lambda-1)(\lambda-3)=0$$</div><div class="deriv-why"><p>큰 순서로 고윳값 $3,1,0$을 얻어요</p></div></li>
+      </ol>
+    </div>
+    <p>고유벡터 후보 $(x,y,z)^\top$에 $(\mathbf A^\top\mathbf A-\lambda\mathbf I)(x,y,z)^\top=\mathbf 0$을 풀고 길이로 나눠요.</p>
+    <p>$\lambda_1=3$: $-2x+y=0$, $y-2z=0$에서 $(1,2,1)^\top$, $\lambda_2=1$: $y=0$, $x+y+z=0$에서 $(1,0,-1)^\top$, $\lambda_3=0$: $x+y=0$, $y+z=0$에서 $(1,-1,1)^\top$이에요.</p>
+    $$\mathbf v_1=\frac{1}{\sqrt6}\begin{bmatrix}1\\2\\1\end{bmatrix},\quad\mathbf v_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\0\\-1\end{bmatrix},\quad\mathbf v_3=\frac{1}{\sqrt3}\begin{bmatrix}1\\-1\\1\end{bmatrix},\quad\mathbf V=\begin{bmatrix}\frac{1}{\sqrt6}&\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\\\frac{2}{\sqrt6}&0&-\frac{1}{\sqrt3}\\\frac{1}{\sqrt6}&-\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\end{bmatrix}$$
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 특잇값과 행렬 $\mathbf\Sigma$</h4>
+    <p>양의 고윳값의 제곱근이 특잇값 $\sigma_1=\sqrt3$, $\sigma_2=1$이고, $\mathbf\Sigma$는 $\mathbf A$와 같은 $2\times 3$ 크기예요.</p>
+    $$\mathbf\Sigma=\begin{bmatrix}\sqrt3&0&0\\0&1&0\end{bmatrix}$$
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 왼쪽 특이벡터 행렬 $\mathbf U$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\mathbf A\mathbf v_1&amp;=\frac{1}{\sqrt6}\begin{bmatrix}3\\3\end{bmatrix},\\\mathbf u_1&amp;=\frac{\mathbf A\mathbf v_1}{\sqrt3}=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A\mathbf v_1$을 $\sigma_1=\sqrt3$으로 나눠요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\begin{aligned}\mathbf A\mathbf v_2&amp;=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix},\\\mathbf u_2&amp;=\frac{\mathbf A\mathbf v_2}{1}=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A\mathbf v_2$를 $\sigma_2=1$로 나눠요</p></div></li>
+      </ol>
+    </div>
+    <p>두 열을 모으면 $\mathbf U=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$이에요($\mathbf u_1^\top\mathbf u_2=0$).</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 세 행렬의 크기</h4>
+    <p>$\mathbf A$가 $2\times 3$이므로 $\mathbf U$는 $2\times 2$, $\mathbf\Sigma$는 $2\times 3$, $\mathbf V$는 $3\times 3$이에요($(2\times 2)(2\times 3)(3\times 3)=2\times 3$).</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 고윳값은 $3,1,0$이고 $\mathbf V=\begin{bmatrix}\frac{1}{\sqrt6}&\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\\\frac{2}{\sqrt6}&0&-\frac{1}{\sqrt3}\\\frac{1}{\sqrt6}&-\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\end{bmatrix}$이에요.</p>
+    <p>(b) $\sigma_1=\sqrt3$, $\sigma_2=1$이고 $\mathbf\Sigma=\begin{bmatrix}\sqrt3&0&0\\0&1&0\end{bmatrix}$이에요.</p>
+    <p>(c) $\mathbf U=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$이에요.</p>
+    <p>(d) $\mathbf U\in\mathbb R^{2\times 2}$, $\mathbf\Sigma\in\mathbb R^{2\times 3}$, $\mathbf V\in\mathbb R^{3\times 3}$이에요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf A^\top\mathbf A(1,2,1)^\top=(3,6,3)^\top$, $\mathbf A^\top\mathbf A(1,0,-1)^\top=(1,0,-1)^\top$, $\mathbf A^\top\mathbf A(1,-1,1)^\top=(0,0,0)^\top$이고 세 벡터의 쌍별 내적은 모두 $0$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\mathbf A\mathbf A^\top=\begin{bmatrix}2&1\\1&2\end{bmatrix}$의 고윳값도 $3,1$이고 $\|\mathbf A\mathbf v_1\|_2=\sqrt3=\sigma_1$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\sigma_1\mathbf u_1\mathbf v_1^\top+\sigma_2\mathbf u_2\mathbf v_2^\top=\frac12\begin{bmatrix}1&2&1\\1&2&1\end{bmatrix}+\frac12\begin{bmatrix}1&0&-1\\-1&0&1\end{bmatrix}=\begin{bmatrix}1&1&0\\0&1&1\end{bmatrix}=\mathbf A$예요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 검산</h4>
+    <p>$\mathbf U^\top\mathbf U=\mathbf I_2$, $\mathbf V^\top\mathbf V=\mathbf I_3$이고 $\mathbf A\mathbf v_3=\mathbf 0$이라 $\mathbf\Sigma$의 셋째 0열과 맞아요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathbf u_i$와 $\mathbf v_i$를 따로 구하면 부호가 어긋날 수 있으니 $\sigma_i&gt;0$ 열에는 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 짝을 맞춰요. 특잇값은 고윳값이 아니라 제곱근($\sqrt3$, $1$)이고, $\mathbf\Sigma$는 $\mathbf A$와 같은 $2\times 3$이라 0열을 빠뜨리지 않아요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf A^\top\mathbf A=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$이고 $\sigma_i&gt;0$일 때 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A^\top\mathbf A=\begin{bmatrix}1&1&0\\1&2&1\\0&1&1\end{bmatrix}$과 $\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=0$으로 시작해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 고윳값 $3,1,0$, $\mathbf v_1=\frac{1}{\sqrt6}(1,2,1)^\top$, $\mathbf v_2=\frac{1}{\sqrt2}(1,0,-1)^\top$, $\mathbf v_3=\frac{1}{\sqrt3}(1,-1,1)^\top$. (b) $\sigma_1=\sqrt3,\sigma_2=1$, $\mathbf\Sigma=\begin{bmatrix}\sqrt3&0&0\\0&1&0\end{bmatrix}$. (c) $\mathbf U=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$. (d) $2\times2$, $2\times3$, $3\times3$이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\sigma_1\mathbf u_1\mathbf v_1^\top+\sigma_2\mathbf u_2\mathbf v_2^\top=\mathbf A$이고 두 군 모두 정규직교예요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\sigma_i=\sqrt{\lambda_i}$($\lambda_i&gt;0$), $\mathbf u_i$ 부호는 $\mathbf v_i$에 연동하고 $\mathbf\Sigma$의 0열을 보존해요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 4.13(수치를 바꾼 변형), 교과서 125–126쪽(PDF 131–132쪽).</p>
+  <p>수업: 1104 L06 s13(데이터 행렬의 SVD), 1102 특성다항식·스펙트럼 정리.</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>특잇값 분해(singular value decomposition, SVD)</dt><dd>임의의 $m\times n$ 행렬을 $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$로 분해하는 식이에요.</dd>
+    <dt>특잇값(singular value)</dt><dd>양의 특잇값은 $\mathbf A^\top\mathbf A$와 $\mathbf A\mathbf A^\top$의 양의 고윳값의 제곱근이에요.</dd>
+    <dt>오른쪽 특이벡터(right-singular vector)</dt><dd>$\mathbf A^\top\mathbf A$의 단위 고유벡터들로 $\mathbf V$의 열을 이뤄요.</dd>
+    <dt>왼쪽 특이벡터(left-singular vector)</dt><dd>양의 특잇값에 대응하는 $\mathbf U$의 열은 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 구해요.</dd>
+  </dl>
+</section>

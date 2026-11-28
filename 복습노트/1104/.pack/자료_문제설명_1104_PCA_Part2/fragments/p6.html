@@ -1,10 +1,75 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> 벡터공간 $V$, 선형사상 $\pi:V\to V$, 항등사상 $\mathrm{id}_V$, 그리고 사영(projection)의 정의 $\rho\circ\rho=\rho$(멱등성, idempotence)가 주어졌어요.</p><p><b>구할 것:</b> (a) $\pi$가 사영이면 $\mathrm{id}_V-\pi$ 역시 사영임을 증명하고, (b) 반대로 $\mathrm{id}_V-\pi$가 사영이면 $\pi$도 사영임을 (a)의 결과를 재사용하여 증명해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘사영(projection)’이라는 단서에서 <b>두 번 적용해도 결과가 불변인 멱등성</b>을 떠올려요.</p>$$\rho\ \text{가 사영} \iff \rho\circ\rho = \rho \iff \rho(\rho(\mathbf x)) = \rho(\mathbf x)\quad (\forall \mathbf x\in V)$$<p>‘선형사상’이라는 단서에서 덧셈과 스칼라배를 보존하는 성질 $\pi(\mathbf a - \mathbf b) = \pi(\mathbf a) - \pi(\mathbf b)$를 떠올려요. 이 성질이 있어야 사상의 합성 괄호를 자유롭게 풀 수 있어요.</p><p>‘사상의 상등’은 임의의 벡터 $\mathbf x\in V$에 대해 출력이 일치함을 보이는 방식으로 증명해요. PCA에서 투영 $\mathbf P=\mathbf B\mathbf B^\top$과 버려진 여공간 투영 $\mathbf I - \mathbf B\mathbf B^\top$이 이에 대응돼요. <a href="정리노트_1104_PCA_Part2.html#s1-projection">기저를 고정하고 좌표 구하기</a>와 <a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a>에서 같은 구조를 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$I=\mathrm{id}_V$로 표기하고 임의의 $\mathbf x\in V$에 $(I-\pi)$를 연속 2회 적용하는 합성식을 적는 2단계 로드맵(1. 선형성 전개 $\to$ 2. $\pi^2=\pi$ 대입)으로 시작해요.</p>$$(I-\pi)\big((I-\pi)(\mathbf x)\big)=(I-\pi)\big(\mathbf x-\pi(\mathbf x)\big)$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> $(I-\pi)\circ(I-\pi)=I-\pi$가 모든 벡터에 대해 성립하므로 $\mathrm{id}_V-\pi$는 사영이에요.</p><p>임의의 $\mathbf x\in V$에 대해 등호 연쇄를 전개해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(I-\pi)\big((I-\pi)(\mathbf x)\big)=(I-\pi)\big(\mathbf x-\pi(\mathbf x)\big)$$</div><div class="deriv-why"><p>안쪽 사상 $(I-\pi)$를 적용해요</p></div></li><li><div class="deriv-eq">$$\hphantom{(I-\pi)\big((I-\pi)(\mathbf x)\big)}=\big(\mathbf x-\pi(\mathbf x)\big)-\pi\big(\mathbf x-\pi(\mathbf x)\big)$$</div><div class="deriv-why"><p>바깥쪽 사상 $(I-\pi)$를 전개해요</p></div></li><li><div class="deriv-eq">$$\hphantom{(I-\pi)\big((I-\pi)(\mathbf x)\big)}=\mathbf x-\pi(\mathbf x)-\pi(\mathbf x)+\pi(\pi(\mathbf x))$$</div><div class="deriv-why"><p>사상 $\pi$의 선형성으로 전개해요</p></div></li><li><div class="deriv-eq">$$\hphantom{(I-\pi)\big((I-\pi)(\mathbf x)\big)}=\mathbf x-2\pi(\mathbf x)+\pi(\mathbf x)$$</div><div class="deriv-why"><p>가정인 멱등성 $\pi^2=\pi$를 대입해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\hphantom{(I-\pi)\big((I-\pi)(\mathbf x)\big)}=\mathbf x-\pi(\mathbf x)=(I-\pi)(\mathbf x)$$</div><div class="deriv-why"><p>동류항을 정리해 멱등성을 얻어요</p></div></li></ol></div><p>모든 $\mathbf x\in V$에서 $(I-\pi)^2(\mathbf x)=(I-\pi)(\mathbf x)$이므로 <b>$\mathrm{id}_V-\pi$는 사영이에요.</b></p></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> $\rho=\mathrm{id}_V-\pi$로 두고 (a)의 명제를 이 사상에 적용하면 $\mathrm{id}_V-\rho=\pi$ 역시 사영이에요.</p><p>새로운 선형사상 $\rho = \mathrm{id}_V-\pi$를 정의해요. 가정에 따라 $\rho$는 사영이에요. (a)에서 증명한 일반 원리 ‘임의의 선형사상 $T$가 사영이면 $\mathrm{id}_V-T$도 사영이다’에 $T=\rho$를 대입해요. 두 단계의 대응 관계를 표로 정리해요.</p><div class="table-wrap"><table><thead><tr><th>단계 / 구성 요소</th><th>(a)의 증명 논리</th><th>(b)에서 대입할 대상 ($\rho=\mathrm{id}_V-\pi$)</th><th>대응 결과</th></tr></thead><tbody><tr><td>출발 사상</td> <td>$\pi$ (선형사상)</td> <td>$\rho = \mathrm{id}_V-\pi$ (두 선형사상의 차)</td> <td>$\rho$ 역시 $V\to V$ 선형사상임</td></tr><tr><td>가정 조건</td> <td>$\pi$가 사영임</td> <td>$\rho$가 사영임 ((b)의 전제 조건)</td> <td>(a)의 적용 전제 완벽 충족</td></tr><tr><td>(a)의 정리 적용</td> <td>$\mathrm{id}_V-\pi$가 사영임</td> <td>$\mathrm{id}_V-\rho$가 사영임</td> <td>(a)의 논리에 의해 즉시 성립</td></tr><tr><td>원래 기호 환원</td> <td>—</td> <td>$\mathrm{id}_V-(\mathrm{id}_V-\pi)=\pi$</td> <td><b>$\pi$는 사영임</b> 도출 완료</td></tr></tbody></table></div><p>따라서 (a)를 그대로 적용해 식을 정리하면 $\mathrm{id}_V-\rho = \mathrm{id}_V-(\mathrm{id}_V-\pi) = \pi$가 되므로 <b>$\pi$ 역시 사영이에요.</b> (a)와 (b)가 합쳐져 $\pi$가 사영인 것과 $\mathrm{id}_V-\pi$가 사영인 것은 동치(필요충분조건)예요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>증명의 각 단계를 검토해요. 3번째 줄은 오직 $\pi$의 선형성만, 4번째 줄은 $\pi(\pi(\mathbf x))=\pi(\mathbf x)$만 사용했어요. 특정 차원이나 기저에 의존하지 않는 일반 연산자 대수 증명이므로 완벽해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>순환 논리 없이 (a)의 보편 명제($\forall T, T^2=T \implies (I-T)^2=I-T$)에 $T=\rho$를 대입했으므로 논리적 비약 없이 정확해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>교차항 $-2\pi(\mathbf x)$를 빠뜨리지 않아요.</b> $(I-\pi)^2$을 단순 전개할 때 $I^2-\pi^2$처럼 잘못 전개하면 안 돼요. 사상의 합성은 분배법칙을 통해 $-2\pi$ 교차항이 반드시 등장해요.</p><p><b>한쪽 방향 증명만으로 동치를 주장할 수 없어요.</b> (a)는 ‘$\pi \implies I-\pi$’만을 보였으므로, 반대 방향인 (b) ‘$I-\pi \implies \pi$’를 반드시 치환을 통해 별도로 입증해야 해요.</p><p>특정 행렬이나 수치 예시는 보조적 직관일 뿐 일반 증명을 대체할 수 없어요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$(I-\pi)((I-\pi)(\mathbf x))$에 선형성을 적용해 $\mathbf x-2\pi(\mathbf x)+\pi(\pi(\mathbf x))$로 전개해요.</li><li>$\pi(\pi(\mathbf x))=\pi(\mathbf x)$를 대입해 $(I-\pi)(\mathbf x)$가 됨을 보여요.</li><li>$\rho=\mathrm{id}_V-\pi$로 두고 (a)의 정리를 이 사상에 적용하여 $\pi$가 사영임을 마무리해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>사영의 정의는 멱등성 $\rho\circ\rho=\rho$예요. 선형성 분배로 합성식을 전개해요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$(I-\pi)\big((I-\pi)(\mathbf x)\big)=(I-\pi)\big(\mathbf x-\pi(\mathbf x)\big)$로 시작해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 선형성 전개와 $\pi^2=\pi$ 대입으로 $(I-\pi)^2=I-\pi$를 얻어 사영이에요.</p><p>(b) $\rho=\mathrm{id}_V-\pi$에 (a)를 적용하면 $\mathrm{id}_V-\rho=\pi$가 사영이에요.</p></div><div class="summary-group"><h4>검산</h4><p>연산자 분배 및 멱등성 조건만 사용해 임의의 공간에서 엄밀히 성립해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>교차항 $-2\pi$를 정확히 보존해요. (a)와 (b) 양방향을 분리 증명해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>선형사상(linear map)</dt><dd>벡터 덧셈과 스칼라 곱을 보존하는 사상 $\pi(c\mathbf a+\mathbf b)=c\pi(\mathbf a)+\pi(\mathbf b)$예요.</dd><dt>항등사상(identity map)</dt><dd>모든 벡터를 자기 자신으로 보내는 사상 $\mathrm{id}_V(\mathbf x)=\mathbf x$예요.</dd><dt>사영(projection)</dt><dd>두 번 합성해도 결과가 같은 멱등 사상 $\rho\circ\rho=\rho$예요.</dd><dt>멱등성(idempotence)</dt><dd>연산을 여러 번 거듭 적용해도 최초 1회 적용한 결과와 동일한 대수적 성질이에요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 3.7, 교과서 97쪽(PDF 103쪽). 원문 (a)의 ‘필요충분’ 주장을 두 방향 (a), (b)로 나눴어요. 원문 (b)는 이 문항에 들어 있지 않아요.</p><p>수업: 1019 사영행렬 $\mathbf P^2=\mathbf P$, 1104 L06 s5–10(사영과 버린 부분).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s1-projection">기저를 고정하고 좌표 구하기</a>, <a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>벡터공간 $V$의 선형사상 $\pi:V\to V$에 대해 (a) $\pi$가 사영($\pi\circ\pi=\pi$)이면 $\mathrm{id}_V-\pi$도 사영임을 증명하고, (b) 그 역도 (a)를 $\rho=\mathrm{id}_V-\pi$에 적용해 증명해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>사영의 정의 $\rho^2=\rho$를 보이려면 임의의 $\mathbf x\in V$에 두 번 적용한 결과가 한 번 적용한 결과와 같아야 해요. 두 선형사상의 차 $\mathrm{id}_V-\pi$도 선형이며, 선형사상 $\pi$는 $\pi(\mathbf a-\mathbf b)=\pi(\mathbf a)-\pi(\mathbf b)$로 전개돼요(<a href="정리노트_1104_PCA_Part2.html#s1-projection">기저를 고정하고 좌표 구하기</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  <p>$I=\mathrm{id}_V$라 두고 임의의 $\mathbf x\in V$에 $(I-\pi)$를 두 번 적용한 식을 전개해요.</p>
+  $$(I-\pi)\big((I-\pi)(\mathbf x)\big)=(I-\pi)\big(\mathbf x-\pi(\mathbf x)\big)$$
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\pi$가 사영 $\implies \mathrm{id}_V-\pi$도 사영</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$(I-\pi)^2(\mathbf x)=(I-\pi)\big(\mathbf x-\pi(\mathbf x)\big)$$</div><div class="deriv-why"><p>안쪽 사상 $I-\pi$를 적용해요</p></div></li>
+        <li><div class="deriv-eq">$$=\big(\mathbf x-\pi(\mathbf x)\big)-\pi\big(\mathbf x-\pi(\mathbf x)\big)$$</div><div class="deriv-why"><p>바깥쪽 사상 $I-\pi$를 적용해요</p></div></li>
+        <li><div class="deriv-eq">$$=\mathbf x-\pi(\mathbf x)-\pi(\mathbf x)+\pi(\pi(\mathbf x))$$</div><div class="deriv-why"><p>$\pi$의 선형성으로 전개해요</p></div></li>
+        <li><div class="deriv-eq">$$=\mathbf x-2\pi(\mathbf x)+\pi(\mathbf x)$$</div><div class="deriv-why"><p>가정 $\pi\circ\pi=\pi$를 대입해요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$=\mathbf x-\pi(\mathbf x)=(I-\pi)(\mathbf x)$$</div><div class="deriv-why"><p>동류항을 정리해요</p></div></li>
+      </ol>
+    </div>
+    <p>모든 $\mathbf x\in V$에서 $(I-\pi)^2(\mathbf x)=(I-\pi)(\mathbf x)$이므로 $\mathrm{id}_V-\pi$는 사영이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\mathrm{id}_V-\pi$가 사영 $\implies \pi$도 사영</h4>
+    <p>$\rho=\mathrm{id}_V-\pi$라 두면 두 선형사상의 차이므로 $\rho:V\to V$는 선형사상이고, (b)의 가정에 따라 사영이에요.</p>
+    <p>(a)는 임의의 사영에 성립하므로 (a)를 이 사상 $\rho$에 그대로 적용하면 $\mathrm{id}_V-\rho$도 사영이에요. 그런데 $\mathrm{id}_V-\rho=\mathrm{id}_V-(\mathrm{id}_V-\pi)=\pi$이므로 $\pi$는 사영이에요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 모든 $\mathbf x\in V$에서 $(\mathrm{id}_V-\pi)^2(\mathbf x)=\mathbf x-2\pi(\mathbf x)+\pi(\pi(\mathbf x))=(\mathrm{id}_V-\pi)(\mathbf x)$이므로 $\mathrm{id}_V-\pi$는 사영이에요.</p>
+    <p>(b) 선형사상 $\rho=\mathrm{id}_V-\pi$에 (a)를 적용하면 $\mathrm{id}_V-\rho=\pi$도 사영이에요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>전개에는 $\pi$의 선형성만, 정리에는 $\pi^2=\pi$만 썼고 좌표·기저 가정 없이 임의의 $\mathbf x\in V$에서 성립해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>(a)의 일반 명제(사영 $T\implies \mathrm{id}_V-T$도 사영)에 $T=\rho$를 대입한 것이라 순환 논리가 아니에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$(I-\pi)^2$을 $I^2-\pi^2$로 잘못 풀지 않아요. 교차항 $-2\pi$가 나와야 $\pi^2=\pi$와 합쳐져 $I-\pi$가 돼요. 또 (a)만으로는 한쪽 방향만 보이므로 (b)에서 치환을 꼭 거쳐야 해요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>사영은 $\rho\circ\rho=\rho$를 만족하는 선형사상이에요. 선형성으로 합성 괄호를 전개해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$(I-\pi)\big((I-\pi)(\mathbf x)\big)=(I-\pi)\big(\mathbf x-\pi(\mathbf x)\big)$를 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 선형성과 $\pi^2=\pi$로 $(\mathrm{id}_V-\pi)^2=\mathrm{id}_V-\pi$. (b) $\rho=\mathrm{id}_V-\pi$에 (a)를 적용해 $\mathrm{id}_V-\rho=\pi$도 사영이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>기저 없이 선형성·멱등성만 썼고, (b)는 (a)에 새 사영 $\rho$를 대입한 것이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>교차항 $-2\pi$를 빼먹지 않고, 양방향을 분리해 보여요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Exercise 3.7, 교과서 97쪽(PDF 103쪽). 원문 (a)의 필요충분을 (a), (b) 두 방향으로 나눴어요.</p>
+  <p>수업: 1019 사영행렬 $\mathbf P^2=\mathbf P$, 1104 L06 s5–10(사영과 버린 부분).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s1-projection">기저를 고정하고 좌표 구하기</a>, <a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>선형사상(linear map)</dt><dd>덧셈과 스칼라배를 보존하는 사상 $\pi(c\mathbf a+\mathbf b)=c\pi(\mathbf a)+\pi(\mathbf b)$예요.</dd>
+    <dt>항등사상(identity map)</dt><dd>모든 벡터를 자기 자신으로 보내는 사상 $\mathrm{id}_V(\mathbf x)=\mathbf x$예요.</dd>
+    <dt>사영(projection)</dt><dd>$\rho\circ\rho=\rho$를 만족하는 선형사상이에요.</dd>
+  </dl>
+</section>

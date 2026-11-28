@@ -1,8 +1,55 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>두 화살표 $\mathbf{b}_1=\frac15[3,4]^T$, $\mathbf{b}_2=\frac15[4,-3]^T$가 있어요. 이 둘이 “서로 직각이고, 각각 길이가 1이며, 평면 전체를 만들 수 있는 한 쌍”인지 알아보는 문제예요.</p><p>(a)는 두 벡터를 열로 모은 $\mathbf{B}=[\mathbf{b}_1,\mathbf{b}_2]$에 대해 $2\times2$ 행렬 $\mathbf{B}^T\mathbf{B}$를 실제로 계산하라는 문제예요. (b)는 그 계산 결과를 읽어 정규직교 기저(orthonormal basis)인지 판정하라는 문제예요. 내적은 점곱(dot product)으로 주어졌어요. MML Example 3.8의 벡터 $\frac{1}{\sqrt2}[1,\pm1]^T$ 대신 정수 비율 벡터를 쓴 변형이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘$\mathbf{B}^T\mathbf{B}$’라는 표현에서 행렬 곱의 한 칸이 “왼쪽 행렬의 행 × 오른쪽 행렬의 열”이라는 규칙을 떠올려요. $\mathbf{B}^T$의 $i$번째 행은 $\mathbf{b}_i^T$, $\mathbf{B}$의 $j$번째 열은 $\mathbf{b}_j$라서 $(i,j)$ 칸은 점곱 $\mathbf{b}_i^T\mathbf{b}_j$예요. 크기는 $(2\times2)(2\times2)=2\times2$예요.</p>$$\bigl(\mathbf{B}^T\mathbf{B}\bigr)_{ij}=\mathbf{b}_i^T\mathbf{b}_j$$<p>‘정규직교 기저’라는 이름에서는 MML Definition 3.9의 두 조건을 떠올려요. 서로 다른 기저 벡터끼리의 내적은 0이고(직교, orthogonal), 같은 벡터끼리의 내적은 1이어야 해요(정규화, normalized). 내적이 점곱이니 길이(norm)는 $\|\mathbf{u}\|=\sqrt{\mathbf{u}^T\mathbf{u}}$이고, “길이 1”은 “자기 자신과의 점곱이 1”과 같은 말이에요.</p>$$\mathbf{b}_i^T\mathbf{b}_j=0\ (i\ne j),\qquad\mathbf{b}_i^T\mathbf{b}_i=1$$<p>두 조건은 $\mathbf{B}^T\mathbf{B}$의 비대각 칸과 대각 칸에 각각 대응하므로, 한 줄로 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$라고 쓸 수 있어요. PCA에서 code $\mathbf{z}=\mathbf{B}^T\mathbf{x}$를 쓰려면 바로 이 조건이 필요해요(<a href="정리노트_1028_PCA.html#s4-code">code: 정규직교 기저의 좌표</a>).</p><p>정의가 “기저 $\{\mathbf{b}_1,\dots,\mathbf{b}_n\}$에 대해”로 시작하므로, 두 벡터가 $\mathbb{R}^2$의 기저라는 점도 따로 확인해야 해요. 기저는 공간을 생성하는 일차독립(linearly independent) 벡터 묶음이고, $\mathbb{R}^2$는 2차원이라 일차독립인 벡터 두 개면 기저예요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4>$$\mathbf{B}^T\mathbf{B}=\begin{bmatrix}\mathbf{b}_1^T\mathbf{b}_1 &amp; \mathbf{b}_1^T\mathbf{b}_2\\\mathbf{b}_2^T\mathbf{b}_1 &amp; \mathbf{b}_2^T\mathbf{b}_2\end{bmatrix}$$<p>숫자를 넣기 전에 네 칸이 각각 어떤 점곱인지 먼저 적어요. 그다음 칸마다 $\frac15\cdot\frac15=\frac1{25}$을 앞으로 빼고 괄호 안에는 정수만 남겨 계산해요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{B}^T\mathbf{B}$ 계산</h4><p>대각 칸부터 구해요. 자기 자신과의 점곱이에요.</p>$$\mathbf{b}_1^T\mathbf{b}_1=\frac{1}{25}\bigl(3\cdot3+4\cdot4\bigr)=\frac{25}{25}=1$$$$\mathbf{b}_2^T\mathbf{b}_2=\frac{1}{25}\bigl(4\cdot4+(-3)\cdot(-3)\bigr)=\frac{25}{25}=1$$<p>비대각 칸을 구해요. 점곱은 순서를 바꿔도 값이 같아서 $\mathbf{b}_2^T\mathbf{b}_1=\mathbf{b}_1^T\mathbf{b}_2$이므로 한 번만 계산하면 돼요.</p>$$\mathbf{b}_1^T\mathbf{b}_2=\frac{1}{25}\bigl(3\cdot4+4\cdot(-3)\bigr)=\frac{1}{25}(12-12)=0$$<p>네 칸을 첫 줄의 자리에 모아요.</p>$$\boxed{\mathbf{B}^T\mathbf{B}=\begin{bmatrix}1 &amp; 0\\0 &amp; 1\end{bmatrix}=\mathbf{I}}$$</div><div data-subpart="b"><h4>(b) 정규직교 기저 판정</h4><p>(a)의 칸을 정의의 조건에 하나씩 대응시켜요. 비대각 칸이 0이니 $\mathbf{b}_1^T\mathbf{b}_2=0$, 곧 두 벡터는 서로 직교해요. 대각 칸이 1이니 $\|\mathbf{b}_1\|^2=\|\mathbf{b}_2\|^2=1$이고, 길이는 0 이상이므로 $\|\mathbf{b}_1\|=\|\mathbf{b}_2\|=1$이에요. 앞의 $\frac15$는 길이 5인 벡터 $[3,4]^T$를 길이 1로 줄이는 정규화(normalization) 역할이에요.</p><p>남은 것은 기저인지예요. $\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$이라고 두고, 양변 앞에 $\mathbf{b}_1^T$를 곱해요. 점곱은 괄호 안의 덧셈과 스칼라배를 나눠 계산할 수 있어서(선형성) (a)의 칸 값이 그대로 들어가요.</p>$$\mathbf{b}_1^T(\alpha\mathbf{b}_1+\beta\mathbf{b}_2)=\alpha\,\mathbf{b}_1^T\mathbf{b}_1+\beta\,\mathbf{b}_1^T\mathbf{b}_2=\alpha\cdot1+\beta\cdot0=\alpha$$<p>오른쪽은 $\mathbf{b}_1^T\mathbf{0}=0$이므로 $\alpha=0$이에요. 같은 방식으로 $\mathbf{b}_2^T$를 곱하면 $\alpha\cdot0+\beta\cdot1=0$이라 $\beta=0$이에요. 계수가 모두 0일 때만 영벡터가 되므로 두 벡터는 일차독립이고, $\dim\mathbb{R}^2=2$이니 $\mathbb{R}^2$의 기저예요.</p><p>기저이고, 서로 직교하며, 길이가 모두 1이므로 결론은 다음과 같아요.</p><p><strong>결론:</strong> $\{\mathbf{b}_1,\mathbf{b}_2\}$는 $\mathbb{R}^2$의 정규직교 기저예요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\frac15$를 행렬 밖으로 빼서 정수 행렬 곱으로 다시 계산해요. 아래처럼 쓰고, 이 정수 행렬은 전치해도 같아요.</p>$$\mathbf{B}=\frac15\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}$$$$\mathbf{B}^T\mathbf{B}=\frac{1}{25}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}=\frac{1}{25}\begin{bmatrix}25 &amp; 0\\0 &amp; 25\end{bmatrix}=\mathbf{I}$$<p>칸별로 따로 구한 값과 같아요. 비대각 두 칸이 같은 것도 점곱의 순서 대칭과 맞아요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$\mathbf{B}^T\mathbf{B}=\mathbf{I}$이면 code 공식이 실제로 좌표를 돌려주는지 한 점으로 확인해요. $\mathbf{x}=\mathbf{b}_1+2\mathbf{b}_2=\frac15[11,-2]^T$로 만들면 $\mathbf{B}^T\mathbf{x}$는 만들 때 쓴 계수 $[1,2]^T$와 같아야 해요.</p>$$\mathbf{b}_1^T\mathbf{x}=\frac{1}{25}\bigl(3\cdot11+4\cdot(-2)\bigr)=1,\qquad\mathbf{b}_2^T\mathbf{x}=\frac{1}{25}\bigl(4\cdot11+(-3)(-2)\bigr)=2$$<p>계수가 그대로 나와요. 이 확인은 판정의 근거가 아니라 결과를 다시 보는 것이고, 판정 자체는 (b)에서 정의의 모든 조건을 직접 계산해서 끝냈어요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>직교만 확인하고 끝내면 직교 기저(orthogonal basis)까지만 보인 것이에요. $[3,4]^T$와 $[4,-3]^T$도 서로 직교하지만 길이가 5라서 정규직교가 아니에요. 앞의 $\frac15$를 빠뜨리지 않아요.</p><p>$\frac15$를 한 번만 곱하는 실수가 흔해요. 점곱에는 두 벡터의 $\frac15$가 하나씩 들어가 $\frac1{25}$이 돼요. 비대각 칸은 괄호가 0이라 차이가 안 보이지만, 대각 칸에서 $\frac15$만 곱하면 $\frac{25}{5}=5$가 되어 틀려요.</p><p>$\mathbf{B}^T\mathbf{B}$의 성분이 모두 1이 되는 것이 아니라 단위행렬 $\mathbf{I}$(대각 1, 나머지 0)가 되어야 해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><ol><li>$\mathbf{B}^T\mathbf{B}$의 네 칸이 각각 어떤 점곱인지 기호로 먼저 적어요.</li><li>$\frac1{25}$을 앞으로 빼고 대각 칸과 비대각 칸을 계산해 $\mathbf{I}$가 되는지 확인해요.</li><li>대각 칸 → 길이 1, 비대각 칸 → 직교, 일차독립 → 기저를 차례로 말하고 판정해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf{B}^T\mathbf{B}$의 $(i,j)$ 칸은 점곱 $\mathbf{b}_i^T\mathbf{b}_j$예요. 정규직교 기저는 기저이면서 서로 직교하고 각자 길이가 1이에요.</p>$$\mathbf{b}_i^T\mathbf{b}_j=0\ (i\ne j),\qquad\mathbf{b}_i^T\mathbf{b}_i=1\iff\mathbf{B}^T\mathbf{B}=\mathbf{I}$$</div><div class="summary-group"><h4>첫 줄</h4><p>네 칸을 점곱 기호로 먼저 적고, $\frac1{25}$을 앞으로 빼 정수로 계산해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{B}^T\mathbf{B}=\mathbf{I}$예요. (b) 비대각 0으로 직교, 대각 1로 길이 1, 직교성으로 일차독립이라 $\mathbb{R}^2$의 기저예요. 그래서 정규직교 기저예요.</p></div><div class="summary-group"><h4>검산</h4><p>정수 행렬 곱 $\frac{1}{25}\cdot25\mathbf{I}=\mathbf{I}$로 다시 계산해요. $\mathbf{x}=\mathbf{b}_1+2\mathbf{b}_2$에서 $\mathbf{B}^T\mathbf{x}=[1,2]^T$로 계수가 돌아와요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>직교만 보이면 직교 기저까지예요. $\frac15$가 정규화를 맡고, 점곱에서는 $\frac1{25}$이 돼요. 교과서 Example 3.8의 벡터를 바꾼 변형이에요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 3.8 (벡터를 바꾼 변형). 교과서 79쪽(PDF 85쪽), Definition 3.9와 식 (3.35).</p><p>관련 정리노트: 1028 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>내적(inner product)·점곱(dot product)</dt><dd>이 문제의 내적은 점곱 $\mathbf{u}^T\mathbf{v}$, 곧 성분끼리 곱해 더한 스칼라예요.</dd><dt>길이(norm)</dt><dd>$\|\mathbf{u}\|=\sqrt{\mathbf{u}^T\mathbf{u}}$예요. 길이 1은 $\mathbf{u}^T\mathbf{u}=1$과 같아요.</dd><dt>직교(orthogonal)</dt><dd>두 벡터의 내적이 0인 관계예요. $\mathbf{b}_1^T\mathbf{b}_2=0$이면 $\mathbf{b}_1\perp\mathbf{b}_2$예요.</dd><dt>일차독립(linear independence)</dt><dd>$\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$의 해가 $\alpha=\beta=0$뿐인 성질이에요. 영벡터가 아닌 서로 직교하는 벡터들은 일차독립이에요.</dd><dt>정규직교 기저(orthonormal basis)</dt><dd>서로 직교하고 각 길이가 1인 기저예요(MML Definition 3.9). 열로 모은 $\mathbf{B}$에 대해 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$로 한 줄에 쓸 수 있어요.</dd><dt>단위행렬(identity matrix) $\mathbf{I}$</dt><dd>대각 칸이 1이고 나머지가 0인 정사각행렬이에요. 여기서는 $2\times2$예요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>(a) 두 벡터를 열로 모은 $\mathbf{B}=[\mathbf{b}_1,\mathbf{b}_2]$에 대해 $\mathbf{B}^\top\mathbf{B}$를 계산하고, (b) 그 결과로 $\{\mathbf{b}_1,\mathbf{b}_2\}$가 $\mathbb{R}^2$의 정규직교 기저(orthonormal basis)인지 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>$\mathbf{B}^\top\mathbf{B}$의 $(i,j)$ 성분은 점곱 $\mathbf{b}_i^\top\mathbf{b}_j$예요. 정규직교 기저는 $\mathbb{R}^2$의 기저이면서 서로 직교($\mathbf{b}_i^\top\mathbf{b}_j=0,\ i\ne j$)하고 각 길이가 $1$($\mathbf{b}_i^\top\mathbf{b}_i=1$), 곧 $\mathbf{B}^\top\mathbf{B}=\mathbf{I}$인 묶음이에요(<a href="정리노트_1028_PCA.html#s4-code">4.2 code: 정규직교 기저의 좌표</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf{B}^\top\mathbf{B}=\begin{bmatrix}\mathbf{b}_1^\top\mathbf{b}_1 &amp; \mathbf{b}_1^\top\mathbf{b}_2\\\mathbf{b}_2^\top\mathbf{b}_1 &amp; \mathbf{b}_2^\top\mathbf{b}_2\end{bmatrix}$$
+  <p>각 칸에서 $\frac{1}{5}\cdot\frac{1}{5}=\frac{1}{25}$을 먼저 앞으로 빼고 정수 점곱을 계산해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{B}^\top\mathbf{B}$ 계산</h4>
+    $$\mathbf{b}_1^\top\mathbf{b}_1=\frac{1}{25}(3^2+4^2)=1,\qquad\mathbf{b}_2^\top\mathbf{b}_2=\frac{1}{25}\bigl(4^2+(-3)^2\bigr)=1$$
+    $$\mathbf{b}_1^\top\mathbf{b}_2=\mathbf{b}_2^\top\mathbf{b}_1=\frac{1}{25}\bigl(3\cdot4+4\cdot(-3)\bigr)=0$$
+    <p>따라서 $\mathbf{B}^\top\mathbf{B}=\begin{bmatrix}1 &amp; 0\\0 &amp; 1\end{bmatrix}=\mathbf{I}$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 정규직교 기저 판정</h4>
+    <p>비대각 칸이 $0$이므로 $\mathbf{b}_1\perp\mathbf{b}_2$이고, 대각 칸이 $1$이므로 $\|\mathbf{b}_1\|=\|\mathbf{b}_2\|=1$이에요.</p>
+    <p>기저인지 보려면 $\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$에 $\mathbf{b}_1^\top$, $\mathbf{b}_2^\top$를 차례로 곱해요. $\alpha\cdot1+\beta\cdot0=0$, $\alpha\cdot0+\beta\cdot1=0$에서 $\alpha=\beta=0$이므로 두 벡터는 일차독립이고, $\dim\mathbb{R}^2=2$라 $\mathbb{R}^2$의 기저예요. 직교·길이 $1$ 조건까지 만족하므로 정규직교 기저예요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf{B}^\top\mathbf{B}=\mathbf{I}=\begin{bmatrix}1 &amp; 0\\0 &amp; 1\end{bmatrix}$이에요.</p>
+    <p>(b) $\mathbf{b}_1,\mathbf{b}_2$는 $\mathbb{R}^2$의 정규직교 기저예요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf{B}=\frac{1}{5}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}$는 대칭이므로 $\mathbf{B}^\top\mathbf{B}=\frac{1}{25}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}=\frac{1}{25}\begin{bmatrix}25 &amp; 0\\0 &amp; 25\end{bmatrix}=\mathbf{I}$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>일차독립인 $2$개 벡터($\mathbb{R}^2$의 기저), 직교($\mathbf{b}_1^\top\mathbf{b}_2=0$), 정규화($\|\mathbf{b}_1\|=\|\mathbf{b}_2\|=1$) 세 조건이 모두 성립해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>직교만 확인하고 $\frac{1}{5}$을 빼면 길이가 $5$인 직교 기저에 그쳐 정규직교 기저가 아니에요. 또 점곱 $\mathbf{b}_i^\top\mathbf{b}_i$에는 두 벡터의 $\frac{1}{5}$이 한 번씩 곱해져 $\frac{1}{25}$이 돼요($\frac{1}{5}$만 곱하면 $5$로 틀려요).</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf{B}^\top\mathbf{B}$의 $(i,j)$ 칸은 $\mathbf{b}_i^\top\mathbf{b}_j$이고, 정규직교 기저는 기저이면서 $\mathbf{B}^\top\mathbf{B}=\mathbf{I}$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>네 칸을 $\mathbf{b}_i^\top\mathbf{b}_j$로 적고 $\frac{1}{25}$을 묶어 정수로 계산해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{B}^\top\mathbf{B}=\mathbf{I}$ (b) 직교($0$), 길이 $1$, 일차독립($\dim\mathbb{R}^2=2$)이라 정규직교 기저예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\frac{1}{25}\begin{bmatrix}3&amp;4\\4&amp;-3\end{bmatrix}^2=\mathbf{I}$이고 기저·직교·정규화 조건이 모두 맞아요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>직교 기저와 달리 길이 $1$($\frac{1}{5}$ 정규화)이 필요하며, 내적 시 계수는 $\frac{1}{25}$이 돼요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 3.8 (벡터를 바꾼 변형). 교과서 79쪽(PDF 85쪽), Definition 3.9와 식 (3.35).</p><p>관련 정리노트: 1028 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>점곱(dot product)</dt><dd>이 문제의 내적 $\mathbf{u}^\top\mathbf{v}$로, 성분끼리 곱해 더한 스칼라예요.</dd><dt>길이(norm)</dt><dd>$\|\mathbf{u}\|=\sqrt{\mathbf{u}^\top\mathbf{u}}$예요. 길이 $1$은 $\mathbf{u}^\top\mathbf{u}=1$과 같아요.</dd><dt>직교(orthogonal)</dt><dd>내적이 $0$인 관계($\mathbf{b}_1^\top\mathbf{b}_2=0$)예요.</dd><dt>일차독립(linear independence)</dt><dd>$\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$의 해가 $\alpha=\beta=0$뿐인 성질이에요.</dd><dt>정규직교 기저(orthonormal basis)</dt><dd>서로 직교하고 각 길이가 $1$인 기저예요($\mathbf{B}^\top\mathbf{B}=\mathbf{I}$).</dd></dl></section>

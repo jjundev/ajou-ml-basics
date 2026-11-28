@@ -82,9 +82,11 @@
     .layer > :last-child { margin-bottom: 0; }
     .layer h4 { margin: 0 0 var(--s3); font-size: var(--fs-layer); line-height: 1.5; }
     .layer [data-source-field] + h4 { margin-top: var(--s5); }
-    .layer p { margin: var(--s3) 0; }
+    .layer p { margin: 14px 0; }
+    .layer p:has(.katex) { line-height: 1.9; }
     .verdict-card { padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: var(--s4); }
+    .layer .part, .layer [data-subpart] + [data-subpart] { margin-top: 28px; }
+    .layer [data-subpart] > h4 { font-size: var(--fs-body); }
     .layer li + li { margin-top: var(--s3); }
     .sum > p + p, .sum > .summary-group + .summary-group { margin-top: var(--s5); }
     .sum > [data-summary-terms], .layer > .final-answer { margin-top: var(--s5); }
@@ -115,11 +117,43 @@
     .figure figcaption { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--s1); }
     .katex-display { padding: var(--s2) 0; }
     pre { max-width: 100%; overflow-x: auto; tab-size: 4; }
-    .table-wrap { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); }
-    th, td { border-bottom: 1px solid var(--line); padding: var(--s2); text-align: left; vertical-align: top; }
+    .table-wrap { position: relative; overflow-x: auto; max-width: 100%; margin: var(--s5) 0; }
+    table { border-collapse: collapse; width: 100%; font-size: var(--fs-small); border-top: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); }
+    .table-wrap > table { display: table; width: 100%; }
+    th, td { border-bottom: 1px solid var(--line); padding: 11px 10px; text-align: left; vertical-align: top; }
+    thead th { border-bottom: 1.5px solid var(--line); }
+    tbody tr:last-child td { border-bottom: 0; }
+    tr:has(.katex) th, tr:has(.katex) td { padding-block: 12px; }
     th { color: var(--ink-2); font-weight: 600; }
     td:first-child, th:first-child { min-width: 6em; }
+
+    /* 식 줄 + 주석: 유도는 식이 본문, 연산·이유는 옆 한 줄 주석 (staged-body.md) */
+    /* 간격 규칙: 덩어리 사이 24px · 짝을 이루는 줄 사이 8px · 식 줄 안쪽 12px */
+    .deriv-body { container-type: inline-size; --d-block: var(--s5); --d-pair: var(--s2); --d-row: var(--s3); }
+    .topic .deriv-body > * { margin: 0; }
+    .topic .deriv-body > * + * { margin-top: var(--d-block); }
+    .topic .deriv-body > .deriv-legend + .deriv,
+    .topic .deriv-body > .note-stage-result + .deriv-check { margin-top: var(--d-pair); }
+    .topic .deriv-body > .note-subheading { margin-top: var(--s6); }
+    .topic .deriv-body > .note-subheading + * { margin-top: var(--s3); }
+    .topic .deriv-legend { font-size: var(--fs-small); color: var(--ink-2); }
+    .topic .deriv-check { font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
+    .deriv { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+    .deriv > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5em); gap: var(--d-pair) var(--s5); align-items: center; padding: var(--d-row) 0; border-bottom: 1px solid var(--line); }
+    .deriv > li.deriv-gen { margin: var(--s4) calc(-1 * var(--s4)) 0; padding: var(--s4); border-bottom: 0; border-radius: var(--radius); background: var(--surface); }
+    .deriv > li.is-wide { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .deriv-eq { min-width: 0; }
+    .deriv-eq .math-row { margin: 0; padding: 0; }
+    .deriv .katex-display { margin: 0; padding: 2px 0; text-align: left; }
+    .deriv .katex-display > .katex { text-align: left; }
+    .deriv .katex-display > .katex > .katex-html { white-space: nowrap; }
+    .deriv .katex [style*="color:#"] { color: var(--accent-ink) !important; }
+    .deriv-why { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+    .topic .deriv-why p { margin: 0; }
+    @container (max-width: 620px) {
+      .deriv > li { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .deriv > li.deriv-gen { margin-inline: 0; padding-inline: var(--s3); }
+    }
 
     /* 위젯 */
     .widget { background: var(--surface); border-radius: var(--radius); padding: var(--s4); margin: var(--s5) 0; }
@@ -327,6 +361,7 @@
     .orig-tab details.original { margin-top: 0; padding-top: 0; border-top: 0; }
     .orig-tab details.original > summary { display: none; }
     .problem-pane > .layer:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .problem-pane .lettered-subparts { list-style: none; padding-left: 0; }
     .problem-pane details.original { margin-top: var(--s4); padding-top: var(--s2); border-top: 1px solid var(--line); }
     .problem-pane details.original > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-weight: 600; color: var(--ink-2); }
     .problem-pane img { max-width: 100%; height: auto; }
@@ -568,22 +603,132 @@
       <h1>머신러닝기초 복습 1028 문제설명</h1>
       <p>주어진 조건을 읽고, 첫 줄을 쓰고, 이유를 따라가며 답을 확인해요.</p>
     </div>
-<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 좌표 하나만 기억하기</h3><p class="panel-meta">MML Example 10.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=1">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p1"><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions"><p>$\mathbb{R}^2$와 표준기저(canonical basis) $\mathbf{e}_1=[1,0]^T$, $\mathbf{e}_2=[0,1]^T$를 생각해요. 벡터 $\mathbf{x}$와, 첫 성분이 늘 0인 벡터 $\tilde{\mathbf{x}}$가 있어요.</p>$${\mathbf{x}=\begin{bmatrix}4\\-7\end{bmatrix}},\qquad{\tilde{\mathbf{x}}=\begin{bmatrix}0\\z\end{bmatrix}\in\mathbb{R}^2},\quad{ z\in\mathbb{R}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $\mathbf{x}$를 $\mathbf{e}_1$, $\mathbf{e}_2$의 선형결합으로 써 보세요.</li><li>(b) $\tilde{\mathbf{x}}$를 $\mathbf{e}_1$, $\mathbf{e}_2$의 선형결합으로 쓰고, 이 벡터를 나타내려면 어떤 수만 저장하면 되는지 말해 보세요.</li><li>(c) $\tilde{\mathbf{x}}$ 꼴 벡터 전체의 집합 $U$는 어떤 벡터가 생성(span)하는 부분공간인지 구해 보세요.</li><li>(d) $U$의 차원을 읽어 보세요.</li></ol></div></div><details class="original" data-original-problem="p1"><summary>원문 보기</summary>“it is sufficient to remember/store the coordinate/code z of $\tilde{\mathbf{x}}$ with respect to the $\mathbf{e}_2$ vector.” — Example 10.1</details></div><div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>평면의 점은 보통 숫자 두 개로 적어요. 그런데 첫 칸이 늘 0인 점만 다룬다면, 그 0을 매번 적을 필요가 있을까요? 이 문제는 그 질문을 네 단계로 나눠 물어요.</p><p>(a)는 보통 점 $\mathbf{x}=[4,-7]^T$를 두 기본 방향 $\mathbf{e}_1$, $\mathbf{e}_2$의 몇 배씩으로 만드는지 적는 문제예요. (b)는 첫 칸이 0인 점 $\tilde{\mathbf{x}}=[0,z]^T$를 같은 방식으로 적고, 그 점을 기억하려면 어떤 수만 남기면 되는지 묻는 문제예요. (c)는 이런 점을 모두 모은 집합 $U$가 어떤 벡터 하나로 만들어지는지(span), (d)는 그 $U$가 몇 차원인지 묻는 문제예요. MML Example 10.1의 수치를 바꾼 변형이에요(교과서는 $[5,3]^T$).</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘$\mathbf{e}_1$, $\mathbf{e}_2$의 선형결합으로 써 보세요’라는 표현에서 선형결합(linear combination)과 표준기저(canonical basis)를 떠올려요. 선형결합은 벡터마다 숫자를 곱해 더한 것이에요. 표준기저 $\mathbf{e}_1=[1,0]^T$, $\mathbf{e}_2=[0,1]^T$는 한 칸만 1인 벡터라서, 아무 벡터 $[a,b]^T$의 계수가 바로 성분이에요.</p>$$\begin{bmatrix}a\\b\end{bmatrix}=a\,\mathbf{e}_1+b\,\mathbf{e}_2$$<p>이 계수 $a$, $b$를 그 기저에 대한 좌표(coordinate)라고 불러요. PCA 수업에서는 정규직교 기저에 대한 좌표를 code라고 불렀어요. 정규직교 기저를 열로 모은 $\mathbf{B}$에 대해 code는 $\mathbf{z}=\mathbf{B}^T\mathbf{x}$로 읽어요. 이 공식은 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$일 때만 쓸 수 있는데, $\mathbf{B}=\mathbf{e}_2$ 하나라면 $\mathbf{e}_2^T\mathbf{e}_2=0\cdot0+1\cdot1=1$이라 조건을 만족해요.</p><p>(c)의 ‘집합’, ‘생성(span)’이라는 말에서는 span의 정의를 떠올려요. 벡터들의 span은 그 벡터들의 모든 선형결합을 모은 집합이고, 늘 부분공간(subspace)이에요. 그래서 “$U$의 원소가 모두 어떤 벡터의 배수이고, 그 배수가 모두 $U$에 들어가는가”를 두 방향으로 보이면 돼요.</p><p>(d)의 ‘차원’은 기저(basis), 곧 그 공간을 만드는 일차독립 벡터 묶음에 든 벡터의 개수예요. (c)에서 찾은 생성 벡터가 일차독립인지 확인하고 개수를 세요.</p><p><a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s4-code">code: 정규직교 기저의 좌표</a>에서 같은 교과서 예를 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4>$$\begin{bmatrix}4\\-7\end{bmatrix}=c_1\begin{bmatrix}1\\0\end{bmatrix}+c_2\begin{bmatrix}0\\1\end{bmatrix}$$<p>모르는 계수 $c_1$, $c_2$를 두고 오른쪽을 한 벡터로 합치면 $[c_1,c_2]^T$예요. 성분끼리 맞추는 것이 다음 줄이에요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{x}$의 선형결합</h4><p>오른쪽을 합치면 $[c_1,c_2]^T$이므로 성분끼리 비교해 $c_1=4$, $c_2=-7$이에요. 표준기저에서는 성분이 곧 계수라는 점을 실제로 확인한 셈이에요.</p>$$\boxed{\mathbf{x}=4\mathbf{e}_1-7\mathbf{e}_2}$$</div><div data-subpart="b"><h4>(b) $\tilde{\mathbf{x}}$의 선형결합과 저장할 수</h4><p>같은 방법으로 $\tilde{\mathbf{x}}=[0,z]^T$의 계수를 읽으면 첫 계수는 0, 둘째 계수는 $z$예요.</p>$$\boxed{\tilde{\mathbf{x}}=0\,\mathbf{e}_1+z\,\mathbf{e}_2}$$<p>여기서 $\mathbf{e}_1$의 계수는 어떤 $\tilde{\mathbf{x}}$에서도 0으로 정해져 있으니 따로 적을 정보가 없어요. 달라지는 것은 $\mathbf{e}_2$의 계수 $z$뿐이라서, 이 숫자 하나만 저장하면 돼요. 이 $z$가 $\mathbf{e}_2$에 대한 좌표, 곧 code예요.</p><p>수업 기호로 $\mathbf{B}=\mathbf{e}_2$($D=2$, $M=1$)로 두면 줄이기와 되살리기를 이렇게 써요. 앞에서 $\mathbf{e}_2^T\mathbf{e}_2=1$을 확인했으니 code 공식을 쓸 수 있어요.</p>$$z=\mathbf{e}_2^T\tilde{\mathbf{x}}=0\cdot0+1\cdot z=z$$$$\tilde{\mathbf{x}}=\mathbf{e}_2\,z$$<p>크기를 보면 $\mathbf{e}_2^T$는 $1\times2$, $\tilde{\mathbf{x}}$는 $2\times1$이라 code는 $1\times1$인 숫자 하나예요.</p></div><div data-subpart="c"><h4>(c) $U$를 생성하는 벡터</h4><p>$U$는 $[0,z]^T$ 꼴 벡터를 모두 모은 집합이에요. 두 방향의 포함을 차례로 보여요.</p><p>먼저 $U$의 원소는 모두 $\mathbf{e}_2$의 배수예요. (b)에서 $[0,z]^T=z\,\mathbf{e}_2$였기 때문이에요. 반대로 $\mathbf{e}_2$의 배수 $t\,\mathbf{e}_2=[0,t]^T$는 첫 성분이 0이므로 $U$에 들어가요. 두 방향이 모두 성립하므로 두 집합은 같아요.</p>$$\boxed{U=\operatorname{span}[\mathbf{e}_2]}$$<p>부분공간의 조건도 직접 볼 수 있어요. $[0,s]^T+[0,t]^T=[0,s+t]^T$이고 $c[0,t]^T=[0,ct]^T$라서 더하거나 스칼라배해도 첫 성분이 0으로 남아요. $z=0$이면 영벡터 $[0,0]^T$도 들어 있어요.</p></div><div data-subpart="d"><h4>(d) $U$의 차원</h4><p>$\{\mathbf{e}_2\}$가 $U$의 기저인지 확인해요. (c)에서 $\mathbf{e}_2$가 $U$를 생성한다는 것은 이미 보였어요. 일차독립은 $c\,\mathbf{e}_2=\mathbf{0}$에서 $[0,c]^T=[0,0]^T$, 곧 $c=0$뿐이라서 성립해요. 그래서 $\{\mathbf{e}_2\}$는 $U$의 기저예요.</p><p>차원은 기저에 든 벡터의 개수이고, 여기서는 하나예요.</p>$$\boxed{\dim(U)=1}$$</div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>계수를 다시 넣어 더해 보면 원래 벡터가 나와요.</p>$$4\begin{bmatrix}1\\0\end{bmatrix}-7\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}4\\-7\end{bmatrix}=\mathbf{x}$$</div><div data-subpart="b"><h4>(b) 검산</h4><p>저장한 $z$ 하나로 $\tilde{\mathbf{x}}$를 되살릴 수 있는지 확인해요. $\mathbf{e}_2z=[0,z]^T=\tilde{\mathbf{x}}$이므로 사라지는 정보가 없어요. 예를 들어 $z=3$이면 저장한 수는 $3$ 하나이고, 되살린 벡터는 $[0,3]^T$예요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>$\mathbf{e}_1$이 $U$에 들어가지 않는지 봐요. $\mathbf{e}_1=[1,0]^T$는 첫 성분이 1이라 $U$ 밖에 있어요. 그래서 $U$는 $\mathbb{R}^2$ 전체가 아니고, 생성 벡터로 $\mathbf{e}_1$이 필요 없다는 결론과 맞아요. 반대로 $\mathbf{e}_2$의 아무 배수 $[0,t]^T$를 골라도 첫 성분이 0이라 $U$에 들어가요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>$U$의 원소는 자유로운 수 $z$ 하나로 모두 정해지므로 필요한 방향은 하나예요. $\mathbb{R}^2$ 안의 2차원 부분공간은 $\mathbb{R}^2$ 전체뿐인데 (c)의 검산처럼 $U\ne\mathbb{R}^2$라서 차원은 2가 아니고, 영벡터가 아닌 $\mathbf{e}_2$가 들어 있어 $\{\mathbf{0}\}$도 아니므로 차원은 0도 아니에요. 그래서 $\dim(U)=1$이 맞아요. (b)에서 저장할 수가 하나였던 것과도 같은 이야기예요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>$\tilde{\mathbf{x}}$가 $\mathbb{R}^2$의 벡터라서 숫자 두 개를 저장해야 한다고 생각하기 쉬워요. 벡터가 사는 공간의 차원(2)과, 그 벡터가 실제로 움직일 수 있는 부분공간의 차원(1)은 달라요. 압축은 바로 이 차이를 이용해요.</p><p>(a)의 $\mathbf{x}=[4,-7]^T$는 첫 성분이 0이 아니므로 $U$에 속하지 않아요. (a)의 계수 $-7$을 (b)의 code로 그대로 가져오면 안 돼요. code $z$는 $\tilde{\mathbf{x}}$ 꼴 벡터의 둘째 성분이에요.</p><p>$\operatorname{span}[\mathbf{e}_2]$를 “$\mathbf{e}_2$ 한 개”로 읽지 않아요. $\mathbf{e}_2$의 모든 실수배를 모은 직선(세로축) 전체예요. (d)에서 차원을 셀 때는 $U$에 든 벡터 수(무한히 많아요)가 아니라 기저 벡터 수를 세요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><ol><li>표준기저에서 계수가 곧 성분인 이유를 말하고 $\mathbf{x}$를 선형결합으로 다시 써요.</li><li>$\tilde{\mathbf{x}}$를 저장할 때 왜 $z$ 하나면 되는지, $\mathbf{e}_2^T\tilde{\mathbf{x}}$로 code를 계산해 보며 설명해요.</li><li>$U=\operatorname{span}[\mathbf{e}_2]$를 두 방향의 포함으로 보이고, $\{\mathbf{e}_2\}$가 기저인 이유로 차원을 세요.</li></ol></div>
-<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>표준기저에서는 성분이 곧 계수(좌표)예요. 정규직교 기저 $\mathbf{B}$에 대한 좌표가 code이고 $\mathbf{z}=\mathbf{B}^T\mathbf{x}$로 읽어요. span은 모든 선형결합의 집합이고, 차원은 기저 벡터의 개수예요.</p>$$\begin{bmatrix}a\\b\end{bmatrix}=a\,\mathbf{e}_1+b\,\mathbf{e}_2$$</div><div class="summary-group"><h4>첫 줄</h4><p>모르는 계수 $c_1$, $c_2$를 두고 성분끼리 비교해요.</p></div><div class="summary-group"><h4>핵심 답</h4>$$\mathbf{x}=4\mathbf{e}_1-7\mathbf{e}_2$$$$\tilde{\mathbf{x}}=0\,\mathbf{e}_1+z\,\mathbf{e}_2$$<p>code $z=\mathbf{e}_2^T\tilde{\mathbf{x}}$ 하나만 저장해요. 두 방향의 포함으로 $U=\operatorname{span}[\mathbf{e}_2]$, 기저 $\{\mathbf{e}_2\}$로 $\dim(U)=1$이에요.</p></div><div class="summary-group"><h4>검산</h4><p>계수를 넣어 원래 벡터가 나오는지, $\mathbf{e}_2z$로 $\tilde{\mathbf{x}}$가 되살아나는지, $\mathbf{e}_1\notin U$라 차원이 2가 아닌지 확인해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>벡터가 사는 공간의 차원 2와 부분공간 $U$의 차원 1을 구별해요. $\mathbf{x}=[4,-7]^T$는 $U$에 속하지 않아요. 교과서 Example 10.1의 수치를 바꾼 변형이에요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.1 (수치를 바꾼 변형). 교과서 318–319쪽(PDF 324–325쪽), 식 (10.4)–(10.5).</p><p>관련 정리노트: 1028 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>선형결합(linear combination)</dt><dd>벡터마다 스칼라를 곱해 더한 것이에요. $a\,\mathbf{e}_1+b\,\mathbf{e}_2$처럼 써요.</dd><dt>표준기저(canonical basis)</dt><dd>한 성분만 1이고 나머지가 0인 벡터 $\mathbf{e}_1=[1,0]^T$, $\mathbf{e}_2=[0,1]^T$예요. 이 기저에서는 계수가 곧 성분이에요.</dd><dt>좌표(coordinate)·code</dt><dd>기저 벡터에 곱하는 계수예요. 정규직교 기저를 열로 모은 $\mathbf{B}$($D\times M$)에 대해 $\mathbf{z}=\mathbf{B}^T\mathbf{x}$($M\times1$)이고, PCA에서는 이를 code라고 불러요.</dd><dt>생성(span)</dt><dd>주어진 벡터들의 모든 선형결합을 모은 집합이에요. $\operatorname{span}[\mathbf{e}_2]$는 $\mathbf{e}_2$의 실수배 전체예요.</dd><dt>부분공간(subspace)</dt><dd>영벡터를 포함하고 덧셈·스칼라배에 닫힌 부분집합이에요. span은 항상 부분공간이에요.</dd><dt>기저(basis)·차원(dimension)</dt><dd>기저는 공간을 생성하는 일차독립 벡터 묶음이고, 차원은 기저에 든 벡터의 개수예요. $\mathbb{R}^2$의 차원 2와 $U$의 차원 1을 구별해요.</dd></dl></section>
-</article><article class="topic" id="p2"><h3>P2. 서로 수직이고 길이가 1인 두 벡터</h3><p class="panel-meta">MML Example 3.8 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=2">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p2"><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions"><p>$\mathbb{R}^2$에서 내적은 벡터의 점곱(dot product)이에요. 두 벡터가 주어져요.</p>$${\mathbf{b}_1=\frac{1}{5}\begin{bmatrix}3\\4\end{bmatrix}},\qquad{\mathbf{b}_2=\frac{1}{5}\begin{bmatrix}4\\-3\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) ${\mathbf{B}=[\mathbf{b}_1,\mathbf{b}_2]}$로 두고 $\mathbf{B}^T\mathbf{B}$를 계산해 보세요.</li><li>(b) (a)의 결과로 $\mathbf{b}_1$, $\mathbf{b}_2$가 $\mathbb{R}^2$의 정규직교 기저(orthonormal basis)인지 판정해 보세요.</li></ol></div></div><details class="original" data-original-problem="p2"><summary>원문 보기</summary>“form an orthonormal basis since $\mathbf{b}_1^T\mathbf{b}_2=0$ and $\|\mathbf{b}_1\|=1=\|\mathbf{b}_2\|$.” — Example 3.8</details></div><div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>두 화살표 $\mathbf{b}_1=\frac15[3,4]^T$, $\mathbf{b}_2=\frac15[4,-3]^T$가 있어요. 이 둘이 “서로 직각이고, 각각 길이가 1이며, 평면 전체를 만들 수 있는 한 쌍”인지 알아보는 문제예요.</p><p>(a)는 두 벡터를 열로 모은 $\mathbf{B}=[\mathbf{b}_1,\mathbf{b}_2]$에 대해 $2\times2$ 행렬 $\mathbf{B}^T\mathbf{B}$를 실제로 계산하라는 문제예요. (b)는 그 계산 결과를 읽어 정규직교 기저(orthonormal basis)인지 판정하라는 문제예요. 내적은 점곱(dot product)으로 주어졌어요. MML Example 3.8의 벡터 $\frac{1}{\sqrt2}[1,\pm1]^T$ 대신 정수 비율 벡터를 쓴 변형이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘$\mathbf{B}^T\mathbf{B}$’라는 표현에서 행렬 곱의 한 칸이 “왼쪽 행렬의 행 × 오른쪽 행렬의 열”이라는 규칙을 떠올려요. $\mathbf{B}^T$의 $i$번째 행은 $\mathbf{b}_i^T$, $\mathbf{B}$의 $j$번째 열은 $\mathbf{b}_j$라서 $(i,j)$ 칸은 점곱 $\mathbf{b}_i^T\mathbf{b}_j$예요. 크기는 $(2\times2)(2\times2)=2\times2$예요.</p>$$\bigl(\mathbf{B}^T\mathbf{B}\bigr)_{ij}=\mathbf{b}_i^T\mathbf{b}_j$$<p>‘정규직교 기저’라는 이름에서는 MML Definition 3.9의 두 조건을 떠올려요. 서로 다른 기저 벡터끼리의 내적은 0이고(직교, orthogonal), 같은 벡터끼리의 내적은 1이어야 해요(정규화, normalized). 내적이 점곱이니 길이(norm)는 $\|\mathbf{u}\|=\sqrt{\mathbf{u}^T\mathbf{u}}$이고, “길이 1”은 “자기 자신과의 점곱이 1”과 같은 말이에요.</p>$$\mathbf{b}_i^T\mathbf{b}_j=0\ (i\ne j),\qquad\mathbf{b}_i^T\mathbf{b}_i=1$$<p>두 조건은 $\mathbf{B}^T\mathbf{B}$의 비대각 칸과 대각 칸에 각각 대응하므로, 한 줄로 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$라고 쓸 수 있어요. PCA에서 code $\mathbf{z}=\mathbf{B}^T\mathbf{x}$를 쓰려면 바로 이 조건이 필요해요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s4-code">code: 정규직교 기저의 좌표</a>).</p><p>정의가 “기저 $\{\mathbf{b}_1,\dots,\mathbf{b}_n\}$에 대해”로 시작하므로, 두 벡터가 $\mathbb{R}^2$의 기저라는 점도 따로 확인해야 해요. 기저는 공간을 생성하는 일차독립(linearly independent) 벡터 묶음이고, $\mathbb{R}^2$는 2차원이라 일차독립인 벡터 두 개면 기저예요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4>$$\mathbf{B}^T\mathbf{B}=\begin{bmatrix}\mathbf{b}_1^T\mathbf{b}_1 &amp; \mathbf{b}_1^T\mathbf{b}_2\\\mathbf{b}_2^T\mathbf{b}_1 &amp; \mathbf{b}_2^T\mathbf{b}_2\end{bmatrix}$$<p>숫자를 넣기 전에 네 칸이 각각 어떤 점곱인지 먼저 적어요. 그다음 칸마다 $\frac15\cdot\frac15=\frac1{25}$을 앞으로 빼고 괄호 안에는 정수만 남겨 계산해요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{B}^T\mathbf{B}$ 계산</h4><p>대각 칸부터 구해요. 자기 자신과의 점곱이에요.</p>$$\mathbf{b}_1^T\mathbf{b}_1=\frac{1}{25}\bigl(3\cdot3+4\cdot4\bigr)=\frac{25}{25}=1$$$$\mathbf{b}_2^T\mathbf{b}_2=\frac{1}{25}\bigl(4\cdot4+(-3)\cdot(-3)\bigr)=\frac{25}{25}=1$$<p>비대각 칸을 구해요. 점곱은 순서를 바꿔도 값이 같아서 $\mathbf{b}_2^T\mathbf{b}_1=\mathbf{b}_1^T\mathbf{b}_2$이므로 한 번만 계산하면 돼요.</p>$$\mathbf{b}_1^T\mathbf{b}_2=\frac{1}{25}\bigl(3\cdot4+4\cdot(-3)\bigr)=\frac{1}{25}(12-12)=0$$<p>네 칸을 첫 줄의 자리에 모아요.</p>$$\boxed{\mathbf{B}^T\mathbf{B}=\begin{bmatrix}1 &amp; 0\\0 &amp; 1\end{bmatrix}=\mathbf{I}}$$</div><div data-subpart="b"><h4>(b) 정규직교 기저 판정</h4><p>(a)의 칸을 정의의 조건에 하나씩 대응시켜요. 비대각 칸이 0이니 $\mathbf{b}_1^T\mathbf{b}_2=0$, 곧 두 벡터는 서로 직교해요. 대각 칸이 1이니 $\|\mathbf{b}_1\|^2=\|\mathbf{b}_2\|^2=1$이고, 길이는 0 이상이므로 $\|\mathbf{b}_1\|=\|\mathbf{b}_2\|=1$이에요. 앞의 $\frac15$는 길이 5인 벡터 $[3,4]^T$를 길이 1로 줄이는 정규화(normalization) 역할이에요.</p><p>남은 것은 기저인지예요. $\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$이라고 두고, 양변 앞에 $\mathbf{b}_1^T$를 곱해요. 점곱은 괄호 안의 덧셈과 스칼라배를 나눠 계산할 수 있어서(선형성) (a)의 칸 값이 그대로 들어가요.</p>$$\mathbf{b}_1^T(\alpha\mathbf{b}_1+\beta\mathbf{b}_2)=\alpha\,\mathbf{b}_1^T\mathbf{b}_1+\beta\,\mathbf{b}_1^T\mathbf{b}_2=\alpha\cdot1+\beta\cdot0=\alpha$$<p>오른쪽은 $\mathbf{b}_1^T\mathbf{0}=0$이므로 $\alpha=0$이에요. 같은 방식으로 $\mathbf{b}_2^T$를 곱하면 $\alpha\cdot0+\beta\cdot1=0$이라 $\beta=0$이에요. 계수가 모두 0일 때만 영벡터가 되므로 두 벡터는 일차독립이고, $\dim\mathbb{R}^2=2$이니 $\mathbb{R}^2$의 기저예요.</p><p>기저이고, 서로 직교하며, 길이가 모두 1이므로 결론은 다음과 같아요.</p><p><strong>결론:</strong> $\{\mathbf{b}_1,\mathbf{b}_2\}$는 $\mathbb{R}^2$의 정규직교 기저예요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\frac15$를 행렬 밖으로 빼서 정수 행렬 곱으로 다시 계산해요. 아래처럼 쓰고, 이 정수 행렬은 전치해도 같아요.</p>$$\mathbf{B}=\frac15\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}$$$$\mathbf{B}^T\mathbf{B}=\frac{1}{25}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}=\frac{1}{25}\begin{bmatrix}25 &amp; 0\\0 &amp; 25\end{bmatrix}=\mathbf{I}$$<p>칸별로 따로 구한 값과 같아요. 비대각 두 칸이 같은 것도 점곱의 순서 대칭과 맞아요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$\mathbf{B}^T\mathbf{B}=\mathbf{I}$이면 code 공식이 실제로 좌표를 돌려주는지 한 점으로 확인해요. $\mathbf{x}=\mathbf{b}_1+2\mathbf{b}_2=\frac15[11,-2]^T$로 만들면 $\mathbf{B}^T\mathbf{x}$는 만들 때 쓴 계수 $[1,2]^T$와 같아야 해요.</p>$$\mathbf{b}_1^T\mathbf{x}=\frac{1}{25}\bigl(3\cdot11+4\cdot(-2)\bigr)=1,\qquad\mathbf{b}_2^T\mathbf{x}=\frac{1}{25}\bigl(4\cdot11+(-3)(-2)\bigr)=2$$<p>계수가 그대로 나와요. 이 확인은 판정의 근거가 아니라 결과를 다시 보는 것이고, 판정 자체는 (b)에서 정의의 모든 조건을 직접 계산해서 끝냈어요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>직교만 확인하고 끝내면 직교 기저(orthogonal basis)까지만 보인 것이에요. $[3,4]^T$와 $[4,-3]^T$도 서로 직교하지만 길이가 5라서 정규직교가 아니에요. 앞의 $\frac15$를 빠뜨리지 않아요.</p><p>$\frac15$를 한 번만 곱하는 실수가 흔해요. 점곱에는 두 벡터의 $\frac15$가 하나씩 들어가 $\frac1{25}$이 돼요. 비대각 칸은 괄호가 0이라 차이가 안 보이지만, 대각 칸에서 $\frac15$만 곱하면 $\frac{25}{5}=5$가 되어 틀려요.</p><p>$\mathbf{B}^T\mathbf{B}$의 성분이 모두 1이 되는 것이 아니라 단위행렬 $\mathbf{I}$(대각 1, 나머지 0)가 되어야 해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><ol><li>$\mathbf{B}^T\mathbf{B}$의 네 칸이 각각 어떤 점곱인지 기호로 먼저 적어요.</li><li>$\frac1{25}$을 앞으로 빼고 대각 칸과 비대각 칸을 계산해 $\mathbf{I}$가 되는지 확인해요.</li><li>대각 칸 → 길이 1, 비대각 칸 → 직교, 일차독립 → 기저를 차례로 말하고 판정해요.</li></ol></div>
-<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf{B}^T\mathbf{B}$의 $(i,j)$ 칸은 점곱 $\mathbf{b}_i^T\mathbf{b}_j$예요. 정규직교 기저는 기저이면서 서로 직교하고 각자 길이가 1이에요.</p>$$\mathbf{b}_i^T\mathbf{b}_j=0\ (i\ne j),\qquad\mathbf{b}_i^T\mathbf{b}_i=1\iff\mathbf{B}^T\mathbf{B}=\mathbf{I}$$</div><div class="summary-group"><h4>첫 줄</h4><p>네 칸을 점곱 기호로 먼저 적고, $\frac1{25}$을 앞으로 빼 정수로 계산해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{B}^T\mathbf{B}=\mathbf{I}$예요. (b) 비대각 0으로 직교, 대각 1로 길이 1, 직교성으로 일차독립이라 $\mathbb{R}^2$의 기저예요. 그래서 정규직교 기저예요.</p></div><div class="summary-group"><h4>검산</h4><p>정수 행렬 곱 $\frac{1}{25}\cdot25\mathbf{I}=\mathbf{I}$로 다시 계산해요. $\mathbf{x}=\mathbf{b}_1+2\mathbf{b}_2$에서 $\mathbf{B}^T\mathbf{x}=[1,2]^T$로 계수가 돌아와요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>직교만 보이면 직교 기저까지예요. $\frac15$가 정규화를 맡고, 점곱에서는 $\frac1{25}$이 돼요. 교과서 Example 3.8의 벡터를 바꾼 변형이에요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 3.8 (벡터를 바꾼 변형). 교과서 79쪽(PDF 85쪽), Definition 3.9와 식 (3.35).</p><p>관련 정리노트: 1028 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>내적(inner product)·점곱(dot product)</dt><dd>이 문제의 내적은 점곱 $\mathbf{u}^T\mathbf{v}$, 곧 성분끼리 곱해 더한 스칼라예요.</dd><dt>길이(norm)</dt><dd>$\|\mathbf{u}\|=\sqrt{\mathbf{u}^T\mathbf{u}}$예요. 길이 1은 $\mathbf{u}^T\mathbf{u}=1$과 같아요.</dd><dt>직교(orthogonal)</dt><dd>두 벡터의 내적이 0인 관계예요. $\mathbf{b}_1^T\mathbf{b}_2=0$이면 $\mathbf{b}_1\perp\mathbf{b}_2$예요.</dd><dt>일차독립(linear independence)</dt><dd>$\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$의 해가 $\alpha=\beta=0$뿐인 성질이에요. 영벡터가 아닌 서로 직교하는 벡터들은 일차독립이에요.</dd><dt>정규직교 기저(orthonormal basis)</dt><dd>서로 직교하고 각 길이가 1인 기저예요(MML Definition 3.9). 열로 모은 $\mathbf{B}$에 대해 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$로 한 줄에 쓸 수 있어요.</dd><dt>단위행렬(identity matrix) $\mathbf{I}$</dt><dd>대각 칸이 1이고 나머지가 0인 정사각행렬이에요. 여기서는 $2\times2$예요.</dd></dl></section>
+<section id="problems"><h2>문항별 설명</h2><article class="topic" id="p1"><h3>P1. 좌표 하나만 기억하기</h3><p class="panel-meta">MML Example 10.1 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=1">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p1"><div class="layer formal" data-source-problem="p1"><h4>주어진 조건</h4><div data-source-field="conditions"><p>$\mathbb{R}^2$와 표준기저(canonical basis) $\mathbf{e}_1=[1,0]^T$, $\mathbf{e}_2=[0,1]^T$를 생각해요. 벡터 $\mathbf{x}$와, 첫 성분이 늘 0인 벡터 $\tilde{\mathbf{x}}$가 있어요.</p>$${\mathbf{x}=\begin{bmatrix}4\\-7\end{bmatrix}},\qquad{\tilde{\mathbf{x}}=\begin{bmatrix}0\\z\end{bmatrix}\in\mathbb{R}^2},\quad{ z\in\mathbb{R}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $\mathbf{x}$를 $\mathbf{e}_1$, $\mathbf{e}_2$의 선형결합으로 써 보세요.</li><li>(b) $\tilde{\mathbf{x}}$를 $\mathbf{e}_1$, $\mathbf{e}_2$의 선형결합으로 쓰고, 이 벡터를 나타내려면 어떤 수만 저장하면 되는지 말해 보세요.</li><li>(c) $\tilde{\mathbf{x}}$ 꼴 벡터 전체의 집합 $U$는 어떤 벡터가 생성(span)하는 부분공간인지 구해 보세요.</li><li>(d) $U$의 차원을 읽어 보세요.</li></ol></div></div><details class="original" data-original-problem="p1"><summary>원문 보기</summary>“it is sufficient to remember/store the coordinate/code z of $\tilde{\mathbf{x}}$ with respect to the $\mathbf{e}_2$ vector.” — Example 10.1</details></div><div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>(a) $\mathbf{x}=[4,-7]^\top$와 (b) $\tilde{\mathbf{x}}=[0,z]^\top$를 표준기저 $(\mathbf{e}_1,\mathbf{e}_2)$의 선형결합으로 쓰고, $\tilde{\mathbf{x}}$를 기억할 때 저장할 수 하나를 고르며, (c) 이런 벡터 전체의 집합 $U$를 생성하는 벡터와 (d) $\dim(U)$를 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>표준기저 $\mathbf{e}_1=[1,0]^\top$, $\mathbf{e}_2=[0,1]^\top$에서는 벡터의 성분이 곧 선형결합의 계수(좌표)예요. 정규직교 기저 $\mathbf{B}$($\mathbf{B}^\top\mathbf{B}=\mathbf{I}$)에 대해 code는 $\mathbf{z}=\mathbf{B}^\top\tilde{\mathbf{x}}$로 읽어요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s4-code">4.2 code: 정규직교 기저의 좌표</a>). $U=\operatorname{span}[\mathbf{v}]$는 양방향 포함으로 보이고, 차원은 기저(일차독립인 생성 벡터 묶음)의 벡터 개수예요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\begin{bmatrix}4\\-7\end{bmatrix}=c_1\begin{bmatrix}1\\0\end{bmatrix}+c_2\begin{bmatrix}0\\1\end{bmatrix}$$
+  <p>성분을 비교해 $c_1,c_2$를 구하고, $\tilde{\mathbf{x}}=[0,z]^\top$에서 항상 $0$인 계수와 변하는 계수를 나눠요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{x}$의 선형결합</h4>
+    <p>오른쪽을 합치면 $[c_1,c_2]^\top$이므로 성분 비교로 $c_1=4$, $c_2=-7$, 곧 $\mathbf{x}=4\mathbf{e}_1-7\mathbf{e}_2$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\tilde{\mathbf{x}}$의 선형결합과 저장할 수</h4>
+    <p>같은 방식으로 $\tilde{\mathbf{x}}=0\,\mathbf{e}_1+z\,\mathbf{e}_2$예요. $\mathbf{e}_1$의 계수는 어떤 $\tilde{\mathbf{x}}$든 $0$이므로 변하는 계수 $z$ 하나만 저장하면 돼요.</p>
+    <p>수업 표기로 $\mathbf{B}=\mathbf{e}_2$($D=2$, $M=1$)라 두면 $\mathbf{e}_2^\top\mathbf{e}_2=1$이므로 code $z=\mathbf{e}_2^\top\tilde{\mathbf{x}}$($1\times1$)로 줄이고 $\tilde{\mathbf{x}}=\mathbf{e}_2 z$로 되살려요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $U$를 생성하는 벡터</h4>
+    <p>(b)에 의해 $U$의 모든 원소 $[0,z]^\top$는 $z\,\mathbf{e}_2$이고, 반대로 임의의 배수 $t\,\mathbf{e}_2=[0,t]^\top$도 첫 성분이 $0$이라 $U$에 속해요. 따라서 $U=\operatorname{span}[\mathbf{e}_2]$예요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) $U$의 차원</h4>
+    <p>(c)에서 $\mathbf{e}_2$가 $U$를 생성하고, $c\,\mathbf{e}_2=[0,c]^\top=\mathbf{0}\Rightarrow c=0$이라 일차독립이에요. 즉 $\{\mathbf{e}_2\}$가 $U$의 기저이므로 $\dim(U)=1$이에요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf{x}=4\mathbf{e}_1-7\mathbf{e}_2$예요.</p>
+    <p>(b) $\tilde{\mathbf{x}}=0\,\mathbf{e}_1+z\,\mathbf{e}_2$이며, $\mathbf{e}_2$의 좌표(code) $z$ 하나만 저장하면 돼요.</p>
+    <p>(c) $U=\operatorname{span}[\mathbf{e}_2]$예요.</p>
+    <p>(d) $\dim(U)=1$이에요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$4[1,0]^\top-7[0,1]^\top=[4,-7]^\top=\mathbf{x}$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\mathbf{e}_2 z=[0,z]^\top=\tilde{\mathbf{x}}$로 빠지는 정보 없이 복원돼요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>덧셈 $[0,s]^\top+[0,t]^\top=[0,s+t]^\top$과 스칼라배 $c[0,t]^\top=[0,ct]^\top$이 $U$에 닫혀 있고, $\mathbf{e}_1=[1,0]^\top\notin U$이므로 $U$는 $\mathbf{e}_2$가 생성하는 부분공간이에요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 검산</h4>
+    <p>$\mathbf{e}_2\in U$라 $U\ne\{\mathbf{0}\}$이고 $\mathbf{e}_1\notin U$라 $U\ne\mathbb{R}^2$이므로 $\mathbb{R}^2$ 안에서 차원은 $0$도 $2$도 아닌 $1$이에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\tilde{\mathbf{x}}\in\mathbb{R}^2$라고 숫자 두 개를 저장해야 하는 것은 아니에요. 벡터가 놓인 공간 차원($2$)과 부분공간 차원($1$)은 달라요. 또 $\mathbf{x}=[4,-7]^\top\notin U$이므로 (a)의 계수 $-7$을 (b)의 code $z$로 쓰면 틀려요.</p>
+</div>
+<div class="sum" hidden="">
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>표준기저에서는 성분이 곧 계수예요. 정규직교 기저 $\mathbf{B}$에 대한 code는 $\mathbf{z}=\mathbf{B}^\top\mathbf{x}$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$[4,-7]^\top=c_1\mathbf{e}_1+c_2\mathbf{e}_2$의 성분을 맞춰 계수를 읽어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{x}=4\mathbf{e}_1-7\mathbf{e}_2$ (b) $\tilde{\mathbf{x}}=0\,\mathbf{e}_1+z\,\mathbf{e}_2$, $z=\mathbf{e}_2^\top\tilde{\mathbf{x}}$만 저장 (c) $U=\operatorname{span}[\mathbf{e}_2]$ (d) $\dim(U)=1$.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$4\mathbf{e}_1-7\mathbf{e}_2=\mathbf{x}$, $\mathbf{e}_2 z=\tilde{\mathbf{x}}$이고 $\mathbf{e}_1\notin U$, $\mathbf{e}_2\in U$예요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>주변 공간 차원($2$)과 부분공간 차원($1$)을 구별하고, $\mathbf{x}\notin U$이므로 $-7$을 code로 쓰지 않아요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.1 (수치를 바꾼 변형). 교과서 318–319쪽(PDF 324–325쪽), 식 (10.4)–(10.5).</p><p>관련 정리노트: 1028 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>표준기저(canonical basis)</dt><dd>한 성분만 $1$이고 나머지가 $0$인 벡터 $\mathbf{e}_1=[1,0]^\top$, $\mathbf{e}_2=[0,1]^\top$예요. 이 기저에서는 성분이 곧 계수예요.</dd><dt>좌표(coordinate)·code</dt><dd>기저 벡터에 곱하는 계수예요. 정규직교 기저 $\mathbf{B}$에 대해 $\mathbf{z}=\mathbf{B}^\top\mathbf{x}$를 PCA에서 code라고 불러요.</dd><dt>생성(span)</dt><dd>주어진 벡터들의 모든 선형결합을 모은 부분공간이에요. 여기서는 $\operatorname{span}[\mathbf{e}_2]$예요.</dd><dt>기저(basis)·차원(dimension)</dt><dd>기저는 공간을 생성하는 일차독립 벡터 묶음이고, 차원은 기저 벡터의 개수예요.</dd></dl></section>
+</article><article class="topic" id="p2"><h3>P2. 서로 수직이고 길이가 1인 두 벡터</h3><p class="panel-meta">MML Example 3.8 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=2">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p2"><div class="layer formal" data-source-problem="p2"><h4>주어진 조건</h4><div data-source-field="conditions"><p>$\mathbb{R}^2$에서 내적은 벡터의 점곱(dot product)이에요. 두 벡터가 주어져요.</p>$${\mathbf{b}_1=\frac{1}{5}\begin{bmatrix}3\\4\end{bmatrix}},\qquad{\mathbf{b}_2=\frac{1}{5}\begin{bmatrix}4\\-3\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) ${\mathbf{B}=[\mathbf{b}_1,\mathbf{b}_2]}$로 두고 $\mathbf{B}^T\mathbf{B}$를 계산해 보세요.</li><li>(b) (a)의 결과로 $\mathbf{b}_1$, $\mathbf{b}_2$가 $\mathbb{R}^2$의 정규직교 기저(orthonormal basis)인지 판정해 보세요.</li></ol></div></div><details class="original" data-original-problem="p2"><summary>원문 보기</summary>“form an orthonormal basis since $\mathbf{b}_1^T\mathbf{b}_2=0$ and $\|\mathbf{b}_1\|=1=\|\mathbf{b}_2\|$.” — Example 3.8</details></div><div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>(a) 두 벡터를 열로 모은 $\mathbf{B}=[\mathbf{b}_1,\mathbf{b}_2]$에 대해 $\mathbf{B}^\top\mathbf{B}$를 계산하고, (b) 그 결과로 $\{\mathbf{b}_1,\mathbf{b}_2\}$가 $\mathbb{R}^2$의 정규직교 기저(orthonormal basis)인지 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>$\mathbf{B}^\top\mathbf{B}$의 $(i,j)$ 성분은 점곱 $\mathbf{b}_i^\top\mathbf{b}_j$예요. 정규직교 기저는 $\mathbb{R}^2$의 기저이면서 서로 직교($\mathbf{b}_i^\top\mathbf{b}_j=0,\ i\ne j$)하고 각 길이가 $1$($\mathbf{b}_i^\top\mathbf{b}_i=1$), 곧 $\mathbf{B}^\top\mathbf{B}=\mathbf{I}$인 묶음이에요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s4-code">4.2 code: 정규직교 기저의 좌표</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf{B}^\top\mathbf{B}=\begin{bmatrix}\mathbf{b}_1^\top\mathbf{b}_1 &amp; \mathbf{b}_1^\top\mathbf{b}_2\\\mathbf{b}_2^\top\mathbf{b}_1 &amp; \mathbf{b}_2^\top\mathbf{b}_2\end{bmatrix}$$
+  <p>각 칸에서 $\frac{1}{5}\cdot\frac{1}{5}=\frac{1}{25}$을 먼저 앞으로 빼고 정수 점곱을 계산해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{B}^\top\mathbf{B}$ 계산</h4>
+    $$\mathbf{b}_1^\top\mathbf{b}_1=\frac{1}{25}(3^2+4^2)=1,\qquad\mathbf{b}_2^\top\mathbf{b}_2=\frac{1}{25}\bigl(4^2+(-3)^2\bigr)=1$$
+    $$\mathbf{b}_1^\top\mathbf{b}_2=\mathbf{b}_2^\top\mathbf{b}_1=\frac{1}{25}\bigl(3\cdot4+4\cdot(-3)\bigr)=0$$
+    <p>따라서 $\mathbf{B}^\top\mathbf{B}=\begin{bmatrix}1 &amp; 0\\0 &amp; 1\end{bmatrix}=\mathbf{I}$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 정규직교 기저 판정</h4>
+    <p>비대각 칸이 $0$이므로 $\mathbf{b}_1\perp\mathbf{b}_2$이고, 대각 칸이 $1$이므로 $\|\mathbf{b}_1\|=\|\mathbf{b}_2\|=1$이에요.</p>
+    <p>기저인지 보려면 $\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$에 $\mathbf{b}_1^\top$, $\mathbf{b}_2^\top$를 차례로 곱해요. $\alpha\cdot1+\beta\cdot0=0$, $\alpha\cdot0+\beta\cdot1=0$에서 $\alpha=\beta=0$이므로 두 벡터는 일차독립이고, $\dim\mathbb{R}^2=2$라 $\mathbb{R}^2$의 기저예요. 직교·길이 $1$ 조건까지 만족하므로 정규직교 기저예요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf{B}^\top\mathbf{B}=\mathbf{I}=\begin{bmatrix}1 &amp; 0\\0 &amp; 1\end{bmatrix}$이에요.</p>
+    <p>(b) $\mathbf{b}_1,\mathbf{b}_2$는 $\mathbb{R}^2$의 정규직교 기저예요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf{B}=\frac{1}{5}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}$는 대칭이므로 $\mathbf{B}^\top\mathbf{B}=\frac{1}{25}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}\begin{bmatrix}3 &amp; 4\\4 &amp; -3\end{bmatrix}=\frac{1}{25}\begin{bmatrix}25 &amp; 0\\0 &amp; 25\end{bmatrix}=\mathbf{I}$예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>일차독립인 $2$개 벡터($\mathbb{R}^2$의 기저), 직교($\mathbf{b}_1^\top\mathbf{b}_2=0$), 정규화($\|\mathbf{b}_1\|=\|\mathbf{b}_2\|=1$) 세 조건이 모두 성립해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>직교만 확인하고 $\frac{1}{5}$을 빼면 길이가 $5$인 직교 기저에 그쳐 정규직교 기저가 아니에요. 또 점곱 $\mathbf{b}_i^\top\mathbf{b}_i$에는 두 벡터의 $\frac{1}{5}$이 한 번씩 곱해져 $\frac{1}{25}$이 돼요($\frac{1}{5}$만 곱하면 $5$로 틀려요).</p>
+</div>
+<div class="sum" hidden="">
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf{B}^\top\mathbf{B}$의 $(i,j)$ 칸은 $\mathbf{b}_i^\top\mathbf{b}_j$이고, 정규직교 기저는 기저이면서 $\mathbf{B}^\top\mathbf{B}=\mathbf{I}$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>네 칸을 $\mathbf{b}_i^\top\mathbf{b}_j$로 적고 $\frac{1}{25}$을 묶어 정수로 계산해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{B}^\top\mathbf{B}=\mathbf{I}$ (b) 직교($0$), 길이 $1$, 일차독립($\dim\mathbb{R}^2=2$)이라 정규직교 기저예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\frac{1}{25}\begin{bmatrix}3&amp;4\\4&amp;-3\end{bmatrix}^2=\mathbf{I}$이고 기저·직교·정규화 조건이 모두 맞아요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>직교 기저와 달리 길이 $1$($\frac{1}{5}$ 정규화)이 필요하며, 내적 시 계수는 $\frac{1}{25}$이 돼요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 3.8 (벡터를 바꾼 변형). 교과서 79쪽(PDF 85쪽), Definition 3.9와 식 (3.35).</p><p>관련 정리노트: 1028 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>점곱(dot product)</dt><dd>이 문제의 내적 $\mathbf{u}^\top\mathbf{v}$로, 성분끼리 곱해 더한 스칼라예요.</dd><dt>길이(norm)</dt><dd>$\|\mathbf{u}\|=\sqrt{\mathbf{u}^\top\mathbf{u}}$예요. 길이 $1$은 $\mathbf{u}^\top\mathbf{u}=1$과 같아요.</dd><dt>직교(orthogonal)</dt><dd>내적이 $0$인 관계($\mathbf{b}_1^\top\mathbf{b}_2=0$)예요.</dd><dt>일차독립(linear independence)</dt><dd>$\alpha\mathbf{b}_1+\beta\mathbf{b}_2=\mathbf{0}$의 해가 $\alpha=\beta=0$뿐인 성질이에요.</dd><dt>정규직교 기저(orthonormal basis)</dt><dd>서로 직교하고 각 길이가 $1$인 기저예요($\mathbf{B}^\top\mathbf{B}=\mathbf{I}$).</dd></dl></section>
 </article><article class="topic" id="p3"><h3>P3. 길이가 1이 아닌 기저로 읽는 좌표</h3><p class="panel-meta">MML Example 2.20 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=3">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p3"><div class="layer formal" data-source-problem="p3"><h4>주어진 조건</h4><div data-source-field="conditions"><p>$\mathbb{R}^2$의 벡터 $\mathbf{x}$는 표준기저 $(\mathbf{e}_1,\mathbf{e}_2)$로 ${\mathbf{x}=5\mathbf{e}_1+\mathbf{e}_2}$예요. 같은 벡터를 다른 기저 $(\mathbf{b}_1,\mathbf{b}_2)$로 나타내려 해요. 내적은 점곱이에요.</p>$${\mathbf{x}=\begin{bmatrix}5\\1\end{bmatrix}},\qquad{\mathbf{b}_1=\begin{bmatrix}1\\-1\end{bmatrix}},\qquad{\mathbf{b}_2=\begin{bmatrix}1\\1\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) 기저 $(\mathbf{b}_1,\mathbf{b}_2)$에 대한 $\mathbf{x}$의 좌표를 구해 보세요.</li><li>(b) $\mathbf{b}_1$, $\mathbf{b}_2$가 정규화돼 있는지(길이가 1인지) 판정해 보세요.</li></ol></div></div><details class="original" data-original-problem="p3"><summary>원문 보기</summary>“If we use the basis vectors $\mathbf{b}_1=[1,-1]^T$, $\mathbf{b}_2=[1,1]^T$ we will obtain the coordinates $\frac{1}{2}[-1,5]^T$” — Example 2.20<br>(원문의 $\mathbf{x}$는 $[2,3]^T$이고, 이 문제는 ${\mathbf{x}=[5,1]^T}$로 바꿨어요.)</details></div><div class="layer eli5" data-explanation="understand">
   <h4>풀이 목표</h4>
   <p>(a) $\mathbf{x}$를 기저 $(\mathbf{b}_1,\mathbf{b}_2)$의 좌표로 나타내요. (b) 두 기저 벡터의 길이가 각각 1인지 판정해요.</p>
@@ -635,22 +780,132 @@
   <div class="summary-group"><h4>조건·구분</h4><p>직교해도 길이가 1이 아니면 $\mathbf{B}^\top\mathbf{x}$로 좌표를 바로 읽을 수 없어요.</p></div>
 </div>
 <section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 2.20 ($\mathbf{x}$를 $[2,3]^T$에서 $[5,1]^T$로 바꾼 변형). 교과서 51쪽(PDF 57쪽), Figure 2.9.</p><p>관련 정리노트: 1028 4.1 직교 원리로 다시 보는 사영, 4.2 code: 정규직교 기저의 좌표.</p></section><section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>기저(basis)</dt><dd>공간을 생성하는 일차독립 벡터 묶음이에요. 여기서는 $(\mathbf{b}_1,\mathbf{b}_2)$가 $\mathbb{R}^2$의 기저예요.</dd><dt>좌표(coordinate)</dt><dd>기저 벡터에 곱해 더하면 그 벡터가 되는 계수예요. 같은 벡터라도 기저가 바뀌면 좌표가 달라져요.</dd><dt>표준기저(canonical basis)</dt><dd>$\mathbf{e}_1=[1,0]^T$, $\mathbf{e}_2=[0,1]^T$예요. 이 기저에서는 성분이 곧 좌표예요.</dd><dt>길이(norm)·정규화(normalization)</dt><dd>$\|\mathbf{b}\|=\sqrt{\mathbf{b}^T\mathbf{b}}$예요. 길이가 1이면 정규화돼 있다고 해요.</dd><dt>사영 계수(projection coefficients)</dt><dd>$\boldsymbol{\lambda}=(\mathbf{B}^T\mathbf{B})^{-1}\mathbf{B}^T\mathbf{x}$예요. $\mathbf{B}$는 기저 벡터를 열로 모은 $2\times2$ 행렬이고, $\mathbf{x}$가 열공간 안에 있으면 좌표와 같아요.</dd><dt>정규직교 기저(orthonormal basis)</dt><dd>서로 직교하고 각 길이가 1인 기저예요. 이때만 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$라서 code $\mathbf{B}^T\mathbf{x}$가 좌표와 같아요.</dd></dl></section>
-</article><article class="topic" id="p4"><h3>P4. 완전제곱으로 보는 양의 정부호</h3><p class="panel-meta">MML Example 3.4 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=4">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p4"><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions"><p>대칭행렬 $\mathbf{A}\in\mathbb{R}^{2\times2}$가 $\mathbf{0}$이 아닌 모든 $\mathbf{x}$에서 ${\mathbf{x}^T\mathbf{A}\mathbf{x}\gt 0}$이면 양의 정부호(positive definite)라고 해요. 두 대칭행렬과 벡터 $\mathbf{x}$가 주어져요.</p>$${\mathbf{A}_1=\begin{bmatrix}4 &amp; 2\\2 &amp; 3\end{bmatrix}},\qquad{\mathbf{A}_2=\begin{bmatrix}4 &amp; 2\\2 &amp; 0\end{bmatrix}},\qquad{\mathbf{x}=\begin{bmatrix}x_1\\x_2\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $\mathbf{x}^T\mathbf{A}_1\mathbf{x}$를 완전제곱 꼴로 정리하고, $\mathbf{A}_1$이 양의 정부호인지 판정해 보세요.</li><li>(b) $\mathbf{x}^T\mathbf{A}_2\mathbf{x}$를 같은 방법으로 정리하고, $\mathbf{A}_2$가 양의 정부호인지 판정해 보세요. 아니라면 ${\mathbf{x}^T\mathbf{A}_2\mathbf{x}\lt 0}$인 $\mathbf{x}$를 하나 들어 보세요.</li></ol></div></div><details class="original" data-original-problem="p4"><summary>원문 보기</summary>“In contrast, $\mathbf{A}_2$ is symmetric but not positive definite because $\mathbf{x}^T\mathbf{A}_2\mathbf{x}$ … can be less than 0” — Example 3.4</details></div><div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>행렬 $\mathbf{A}$와 벡터 $\mathbf{x}$로 숫자 하나 $\mathbf{x}^T\mathbf{A}\mathbf{x}$를 만들 수 있어요. 영벡터가 아닌 어떤 $\mathbf{x}$를 넣어도 이 숫자가 늘 0보다 크면, 문제 조건에 따라 $\mathbf{A}$를 양의 정부호(positive definite)라고 불러요.</p><p>(a)는 $\mathbf{A}_1$로 만든 식을 “제곱 + 제곱” 꼴로 바꿔, 0이 아닌 $\mathbf{x}$에서 늘 양수인지 판정하라는 문제예요. (b)는 $\mathbf{A}_2$로 같은 일을 하고, 양의 정부호가 아니라면 값이 음수가 되는 $\mathbf{x}$를 실제로 하나 찾으라는 문제예요. 두 행렬 모두 대칭이라는 점은 주어져 있어요. MML Example 3.4의 두 행렬을 바꾼 변형이에요. 교과서의 행렬은 다음과 같아요.</p>$$\begin{bmatrix}9 &amp; 6\\6 &amp; 5\end{bmatrix},\qquad\begin{bmatrix}9 &amp; 6\\6 &amp; 3\end{bmatrix}$$</div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘양의 정부호’라는 말에서 문제에 주어진 정의를 그대로 떠올려요. 대칭행렬 $\mathbf{A}$가 다음을 만족하는지가 판정 기준이에요(MML Definition 3.4).</p>$$\mathbf{x}^T\mathbf{A}\mathbf{x}\gt 0\quad\text{for all }\mathbf{x}\ne\mathbf{0}$$<p>‘모든 $\mathbf{x}$’라는 말 때문에 몇 개의 $\mathbf{x}$를 넣어 보는 것으로는 “그렇다”를 보일 수 없어요. 그래서 $\mathbf{x}^T\mathbf{A}\mathbf{x}$를 $x_1$, $x_2$의 식으로 펼친 뒤, 부호가 한눈에 보이는 꼴로 바꿔요. 반대로 “아니다”를 보이려면 조건을 어기는 $\mathbf{x}$ 하나면 충분해요.</p><p>‘완전제곱 꼴’이라는 말에서는 $(p+q)^2=p^2+2pq+q^2$를 떠올려요. 실수의 제곱은 늘 0 이상이고, 0 이상인 수들의 합이 0이려면 각 수가 모두 0이어야 해요. 이 두 사실로 부호를 판정해요.</p><p>$\mathbf{x}^T\mathbf{A}\mathbf{x}$는 $(1\times2)(2\times2)(2\times1)=1\times1$, 곧 숫자 하나예요. 먼저 $\mathbf{A}\mathbf{x}$($2\times1$)를 구하고 $\mathbf{x}^T$를 곱하면 계산이 깔끔해요.</p><p>정리노트 3.2에서 표본 공분산 행렬 $\mathbf{S}$가 positive semi-definite라는 성질을 들었어요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s3-data-cov">데이터 행렬과 표본 공분산 행렬</a>). 정의 식에서 $\gt$ 대신 $\ge$가 성립하는 경우가 semi-definite이고, 이 문제는 그 이름의 바탕인 $\mathbf{x}^T\mathbf{A}\mathbf{x}$의 부호를 직접 다뤄요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4>$$\mathbf{A}_1\mathbf{x}=\begin{bmatrix}4 &amp; 2\\2 &amp; 3\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}4x_1+2x_2\\2x_1+3x_2\end{bmatrix}$$<p>각 행과 $\mathbf{x}$의 점곱으로 $\mathbf{A}_1\mathbf{x}$를 먼저 구해요. 다음 줄에서 여기에 $\mathbf{x}^T=[x_1,x_2]$를 곱해 숫자 하나로 만들어요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{x}^T\mathbf{A}_1\mathbf{x}$와 판정</h4><p>$\mathbf{x}^T$와 첫 줄의 결과를 곱하면, 첫 성분에 $x_1$, 둘째 성분에 $x_2$를 곱해 더하는 점곱이에요.</p>$$\mathbf{x}^T\mathbf{A}_1\mathbf{x}=x_1(4x_1+2x_2)+x_2(2x_1+3x_2)$$<p>괄호를 풀면 $x_1x_2$ 항이 두 번 나와요. 비대각 칸 2가 위아래로 두 번 있기 때문이에요.</p>$$\mathbf{x}^T\mathbf{A}_1\mathbf{x}=4x_1^2+2x_1x_2+2x_1x_2+3x_2^2=4x_1^2+4x_1x_2+3x_2^2$$<p>이제 완전제곱을 만들어요. $4x_1^2=(2x_1)^2$이고 $4x_1x_2=2\cdot(2x_1)\cdot x_2$이므로 $(2x_1+x_2)^2$의 앞 두 항과 같아요.</p>$$(2x_1+x_2)^2=4x_1^2+4x_1x_2+x_2^2$$<p>원래 식의 $3x_2^2$ 중 $x_2^2$ 하나를 이 제곱에 쓰고, 남은 $2x_2^2$를 따로 적어요.</p>$$\boxed{\mathbf{x}^T\mathbf{A}_1\mathbf{x}=(2x_1+x_2)^2+2x_2^2}$$<p>두 항은 모두 0 이상이에요. 합이 0이 되려면 두 항이 모두 0이어야 하므로 $x_2=0$이고 $2x_1+x_2=0$, 곧 $x_1=0$이에요. 즉 합이 0인 것은 $\mathbf{x}=\mathbf{0}$일 때뿐이고, $\mathbf{x}\ne\mathbf{0}$이면 합은 0보다 커요.</p>$$\mathbf{x}^T\mathbf{A}_1\mathbf{x}\gt 0\quad(\mathbf{x}\ne\mathbf{0})$$<p>또 $\mathbf{A}_1$은 비대각 칸이 둘 다 2라 대칭이고 위 조건을 만족해요.</p><p><strong>결론:</strong> $\mathbf{A}_1$은 양의 정부호예요.</p></div><div data-subpart="b"><h4>(b) $\mathbf{x}^T\mathbf{A}_2\mathbf{x}$와 반례</h4><p>같은 순서로 $\mathbf{A}_2\mathbf{x}$부터 구해요. $(2,2)$ 칸이 0이라 둘째 성분에 $x_2$ 항이 없어요.</p>$$\mathbf{A}_2\mathbf{x}=\begin{bmatrix}4x_1+2x_2\\2x_1\end{bmatrix}$$$$\mathbf{x}^T\mathbf{A}_2\mathbf{x}=x_1(4x_1+2x_2)+x_2\cdot2x_1=4x_1^2+4x_1x_2$$<p>앞 두 항은 (a)와 같으니 같은 제곱 $(2x_1+x_2)^2$을 써요. 이번에는 남는 $x_2^2$이 없으므로, 제곱에 들어간 $x_2^2$을 다시 빼야 해요.</p>$$\boxed{\mathbf{x}^T\mathbf{A}_2\mathbf{x}=(2x_1+x_2)^2-x_2^2}$$<p>빼는 항 $-x_2^2$이 있으니 음수가 될 수 있어요. 괄호 안을 0으로 만들고 $x_2\ne0$으로 고르면 $-x_2^2$만 남아요. $2x_1+x_2=0$이 되게 $x_1=1$, $x_2=-2$로 골라요.</p>$$\mathbf{x}=\begin{bmatrix}1\\-2\end{bmatrix}:\quad(2\cdot1-2)^2-(-2)^2=0-4=-4$$<p>영벡터가 아닌 $\mathbf{x}$에서 값이 $-4\lt0$이라 정의의 조건을 어겨요.</p>$$\boxed{\mathbf{x}=\begin{bmatrix}1\\-2\end{bmatrix},\qquad\mathbf{x}^T\mathbf{A}_2\mathbf{x}=-4\lt0}$$<p><strong>결론:</strong> $\mathbf{A}_2$는 대칭이지만 양의 정부호가 아니에요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>완전제곱 꼴을 다시 펼쳐 원래 식이 나오는지 봐요.</p>$$(2x_1+x_2)^2+2x_2^2=4x_1^2+4x_1x_2+x_2^2+2x_2^2=4x_1^2+4x_1x_2+3x_2^2$$<p>한 점으로도 두 꼴이 같은 값을 주는지 확인해요. $\mathbf{x}=[1,-2]^T$에서 $\mathbf{A}_1\mathbf{x}=[4-4,\ 2-6]^T=[0,-4]^T$이고 $\mathbf{x}^T\mathbf{A}_1\mathbf{x}=1\cdot0+(-2)(-4)=8$이에요. 완전제곱 꼴로는 $0^2+2\cdot4=8$이에요. (b)의 반례가 $\mathbf{A}_1$에서는 양수라는 점도 함께 보여요. 이 점 하나는 펼친 식이 맞는지 보는 확인이고, 양의 정부호라는 판정의 근거는 위의 완전제곱 논증이에요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>완전제곱 꼴을 펼치면 $(2x_1+x_2)^2-x_2^2=4x_1^2+4x_1x_2+x_2^2-x_2^2=4x_1^2+4x_1x_2$로 원래 식과 같아요.</p><p>반례는 행렬 곱으로 직접 다시 계산해요.</p>$$\mathbf{A}_2\begin{bmatrix}1\\-2\end{bmatrix}=\begin{bmatrix}4-4\\2+0\end{bmatrix}=\begin{bmatrix}0\\2\end{bmatrix},\qquad\mathbf{x}^T\mathbf{A}_2\mathbf{x}=1\cdot0+(-2)\cdot2=-4$$<p>완전제곱 꼴에서 얻은 $-4$와 같아요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>$\mathbf{x}^T\mathbf{A}\mathbf{x}$를 펼칠 때 $x_1x_2$ 항을 한 번만 세면 $4x_1^2+2x_1x_2+3x_2^2$이 되어 틀려요. 비대각 칸 2가 $(1,2)$와 $(2,1)$ 두 자리에 있으니 교차항 $x_1x_2$의 계수는 $2+2=4$예요.</p><p>몇 개의 $\mathbf{x}$에서 양수가 나왔다고 양의 정부호라고 결론 내면 안 돼요. $\mathbf{A}_2$도 $\mathbf{x}=[1,0]^T$에서 4, $[1,1]^T$에서 8로 양수지만 양의 정부호가 아니에요. “모든 $\mathbf{x}\ne\mathbf{0}$”는 점 몇 개가 아니라 식 전체에 대한 논증(여기서는 완전제곱)으로 보여야 해요.</p><p>성분이 모두 0 이상이라고 양의 정부호인 것도 아니에요. $\mathbf{A}_2$의 성분은 4, 2, 2, 0으로 음수가 없지만 $[1,-2]^T$에서 음수가 나와요.</p><p>$\mathbf{x}=[0,1]^T$을 넣으면 $\mathbf{x}^T\mathbf{A}_2\mathbf{x}=0$이에요. 이것만으로도 “$\gt 0$” 조건은 깨지지만, (b)는 값이 0보다 작은 $\mathbf{x}$를 요구하므로 답으로는 부족해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><ol><li>$\mathbf{A}_1\mathbf{x}$를 먼저 구하고 $\mathbf{x}^T$를 곱해 $4x_1^2+4x_1x_2+3x_2^2$를 얻어요.</li><li>$(2x_1+x_2)^2$을 만들고 남는 항을 정리해, 0이 아닌 $\mathbf{x}$에서 늘 양수인 이유를 말해요.</li><li>$\mathbf{A}_2$에서는 괄호를 0으로 만드는 $\mathbf{x}$를 골라 음수를 만들고, 행렬 곱으로 다시 확인해요.</li></ol></div>
-<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>대칭행렬 $\mathbf{A}$가 모든 $\mathbf{x}\ne\mathbf{0}$에서 $\mathbf{x}^T\mathbf{A}\mathbf{x}\gt0$이면 양의 정부호예요. 식을 완전제곱 꼴로 바꿔 부호를 읽어요.</p>$$(p+q)^2=p^2+2pq+q^2$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\mathbf{A}\mathbf{x}$를 먼저 구하고 $\mathbf{x}^T$를 곱해요. 교차항은 비대각 칸의 두 배예요.</p></div><div class="summary-group"><h4>핵심 답</h4>$$\mathbf{x}^T\mathbf{A}_1\mathbf{x}=(2x_1+x_2)^2+2x_2^2$$<p>(a) 0이 되는 것은 $\mathbf{x}=\mathbf{0}$뿐이라 $\mathbf{A}_1$은 양의 정부호예요.</p>$$\mathbf{x}^T\mathbf{A}_2\mathbf{x}=(2x_1+x_2)^2-x_2^2$$<p>(b) $\mathbf{x}=[1,-2]^T$에서 $-4$라 $\mathbf{A}_2$는 양의 정부호가 아니에요.</p></div><div class="summary-group"><h4>검산</h4><p>완전제곱을 다시 펼쳐 원래 식과 비교하고, $\mathbf{A}_2[1,-2]^T=[0,2]^T$로 $-4$를 직접 확인해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>몇 점에서 양수라는 것, 성분이 모두 0 이상이라는 것은 양의 정부호의 근거가 아니에요. “아니다”는 반례 하나로, “그렇다”는 모든 $\mathbf{x}$에 대한 논증으로 보여요. 교과서 Example 3.4의 행렬을 바꾼 변형이에요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 3.4 (행렬을 바꾼 변형). 교과서 74쪽(PDF 80쪽), Definition 3.4와 식 (3.11)–(3.13).</p><p>관련 정리노트: 1028 3.2 데이터 행렬과 표본 공분산 행렬(성질: 대칭이고 positive semi-definite).</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{A}^T=\mathbf{A}$인 정사각행렬이에요. $2\times2$에서는 두 비대각 칸이 같아요.</dd><dt>이차형식(quadratic form) $\mathbf{x}^T\mathbf{A}\mathbf{x}$</dt><dd>크기가 $(1\times2)(2\times2)(2\times1)$인 곱이라 숫자 하나예요. 대칭인 $2\times2$ 행렬에서는 $a_{11}x_1^2+2a_{12}x_1x_2+a_{22}x_2^2$이에요.</dd><dt>양의 정부호(positive definite)</dt><dd>대칭행렬 $\mathbf{A}$가 모든 $\mathbf{x}\ne\mathbf{0}$에서 $\mathbf{x}^T\mathbf{A}\mathbf{x}\gt0$을 만족하는 성질이에요(MML Definition 3.4).</dd><dt>양의 준정부호(positive semi-definite)</dt><dd>정의의 $\gt$를 $\ge$로 바꾼 성질이에요. 정리노트 3.2의 표본 공분산 행렬 $\mathbf{S}$가 이 성질을 가져요.</dd><dt>완전제곱(completing the square)</dt><dd>$4x_1^2+4x_1x_2=(2x_1+x_2)^2-x_2^2$처럼 제곱을 만들어 식을 다시 쓰는 방법이에요. 제곱이 0 이상이라는 사실로 부호를 판정해요.</dd><dt>반례(counterexample)</dt><dd>“모든 $\mathbf{x}$에서 성립한다”를 깨는 구체적인 $\mathbf{x}$ 하나예요. 여기서는 $[1,-2]^T$예요.</dd></dl></section>
-</article><article class="topic" id="p5"><h3>P5. $\mathbb{R}^5$ 속 3차원 부분공간으로 내린 그림자</h3><p class="panel-meta">MML Exercise 3.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=5">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p5"><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions"><p>점곱을 내적으로 쓰는 유클리드 벡터공간 $\mathbb{R}^5$를 생각해요. 부분공간 $U\subseteq\mathbb{R}^5$와 $\mathbf{x}\in\mathbb{R}^5$가 주어져요.</p>$${U=\operatorname{span}\left[\begin{bmatrix}0\\-1\\2\\0\\2\end{bmatrix},\begin{bmatrix}1\\-3\\1\\-1\\2\end{bmatrix},\begin{bmatrix}-3\\4\\1\\2\\1\end{bmatrix},\begin{bmatrix}-1\\-3\\5\\0\\7\end{bmatrix}\right]},\qquad{\mathbf{x}=\begin{bmatrix}-1\\-9\\-1\\4\\1\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $\mathbf{x}$를 $U$로 내린 직교사영 $\pi_U(\mathbf{x})$를 구해 보세요.</li><li>(b) (a)의 결과로 거리 $d(\mathbf{x},U)$를 구해 보세요.</li><li>(c) 잔차 $\mathbf{x}-\pi_U(\mathbf{x})$가 $U$를 생성하는 네 벡터와 모두 직교하는지 확인해 보세요.</li></ol></div></div><details class="original" data-original-problem="p5"><summary>원문 보기</summary>“Determine the orthogonal projection $\pi_U(\mathbf{x})$ of $\mathbf{x}$ onto $U$ … Determine the distance $d(\mathbf{x},U)$” — Exercise 3.5</details></div><div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>5차원 공간에 벡터 네 개가 만드는 부분공간 $U$와 점 $\mathbf{x}=[-1,-9,-1,4,1]^T$가 있어요. (a)는 $U$ 안에서 $\mathbf{x}$에 가장 가까운 점, 곧 $\mathbf{x}$를 $U$에 곧게 내린 그림자 $\pi_U(\mathbf{x})$를 구하는 문제예요. (b)는 $\mathbf{x}$에서 그 그림자까지의 길이 $d(\mathbf{x},U)$를 구하는 문제예요. (c)는 남은 차이, 곧 잔차 $\mathbf{x}-\pi_U(\mathbf{x})$가 $U$를 만드는 네 벡터와 모두 직각인지 직접 확인하는 문제예요.</p><p>내적은 점곱이에요. 생성 벡터가 네 개라고 해서 $U$가 4차원이라는 보장은 없으니, 먼저 진짜 기저가 몇 개인지 정리해야 해요. 문제 제목이 말하듯 실제로는 3차원 부분공간이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘직교사영(orthogonal projection)’과 ‘거리’라는 말에서 직교 원리(orthogonal principle)를 떠올려요. $U$ 안에서 $\mathbf{x}$에 가장 가까운 점은 잔차(residual) $\mathbf{x}-\pi_U(\mathbf{x})$가 $U$의 모든 기저 벡터와 수직이 되는 점이에요. 수업에서는 이 원리를 미분 없이 썼어요.</p><p>$U$의 기저 벡터를 열로 모은 행렬을 $\mathbf{B}$, 각 기저 벡터에 곱할 계수를 모은 벡터를 $\boldsymbol{\lambda}$라 해요. 그러면 $U$ 안의 점은 가중합 $\mathbf{B}\boldsymbol{\lambda}$로 쓰이고, “잔차가 모든 열과 수직”을 한 줄로 모으면 정규방정식(normal equation)이 돼요.</p>$$\mathbf{B}^T(\mathbf{x}-\mathbf{B}\boldsymbol{\lambda})=\mathbf{0}\ \Rightarrow\ \mathbf{B}^T\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^T\mathbf{x}$$$$\pi_U(\mathbf{x})=\mathbf{B}\boldsymbol{\lambda}$$<p>여기서 $\mathbf{B}^T$의 $i$번째 행이 $i$번째 기저 벡터의 전치라서, 첫 식의 $i$번째 성분이 곧 $i$번째 직교 조건이에요. 계수가 하나로 정해지려면 $\mathbf{B}$의 열이 일차독립이어야 해요(그때 $(\mathbf{B}^T\mathbf{B})^{-1}$이 있어요). 그래서 생성 벡터 중 다른 벡터들의 선형결합인 것은 빼고 기저만 남겨요. 이 기저는 정규직교가 아니므로 $\mathbf{B}^T\mathbf{B}\ne\mathbf{I}$이고, 계수를 code처럼 $\mathbf{B}^T\mathbf{x}$로 바로 읽을 수 없어요.</p><p>거리는 잔차의 길이 $d(\mathbf{x},U)=\|\mathbf{x}-\pi_U(\mathbf{x})\|$예요. 잔차가 $U$와 수직이므로 $U$의 다른 점까지의 거리는 피타고라스 정리에 의해 이보다 길어요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s4-projection-recall">직교 원리로 다시 보는 사영</a>).</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4>$$a\,\mathbf{u}_1+b\,\mathbf{u}_2+c\,\mathbf{u}_3=\mathbf{u}_4$$<p>네 생성 벡터를 차례로 $\mathbf{u}_1,\dots,\mathbf{u}_4$라 하고, 넷째가 앞의 셋으로 만들어지는지부터 적어요. $\mathbf{u}_1$의 첫째·넷째 성분이 0이라, 그 두 성분 식에는 $b$, $c$만 남아서 먼저 풀기 좋아요.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) 직교사영 $\pi_U(\mathbf{x})$</h4><p><strong>기저 고르기.</strong> 첫 줄의 넷째 성분은 $-b+2c=0$, 첫째 성분은 $b-3c=-1$이에요. 넷째 성분 식에서 $b=2c$이고, 이것을 첫째 성분 식에 넣으면 $-c=-1$이라 $c=1$, $b=2$예요. 셋째 성분 $2a+b+c=5$에 넣으면 $2a+3=5$라 $a=1$이에요. 남은 둘째·다섯째 성분도 맞는지 확인해요.</p>$$-a-3b+4c=-1-6+4=-3,\qquad2a+2b+c=2+4+1=7$$$$\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3=\mathbf{u}_4$$<p>그래서 $\mathbf{u}_4$의 배수는 앞의 셋으로 만들 수 있고, $\mathbf{u}_4$를 빼도 $U$는 그대로예요. 남은 셋이 일차독립인지 같은 성분으로 확인해요. $a\mathbf{u}_1+b\mathbf{u}_2+c\mathbf{u}_3=\mathbf{0}$이면 첫째 성분 $b-3c=0$과 넷째 성분 $-b+2c=0$을 더해 $-c=0$, 곧 $c=0$, $b=0$이에요. 둘째 성분 $-a-3b+4c=0$에서 $a=0$이에요. 계수가 모두 0뿐이므로 일차독립이고, $\mathbf{u}_1,\mathbf{u}_2,\mathbf{u}_3$가 $U$의 기저예요($\dim U=3$).</p><p><strong>정규방정식 세우기.</strong> 기저를 열로 모아 $\mathbf{B}=[\mathbf{u}_1,\mathbf{u}_2,\mathbf{u}_3]\in\mathbb{R}^{5\times3}$로 둬요. $\mathbf{B}^T\mathbf{B}$($3\times3$)의 $(i,j)$ 칸은 $\mathbf{u}_i^T\mathbf{u}_j$, $\mathbf{B}^T\mathbf{x}$($3\times1$)의 $i$번째 성분은 $\mathbf{u}_i^T\mathbf{x}$예요. 예를 들어 $\mathbf{u}_2^T\mathbf{u}_2=1+9+1+1+4=16$, $\mathbf{u}_1^T\mathbf{x}=0+9-2+0+2=9$예요.</p>$$\mathbf{B}^T\mathbf{B}=\begin{bmatrix}9 &amp; 9 &amp; 0\\9 &amp; 16 &amp; -14\\0 &amp; -14 &amp; 31\end{bmatrix},\qquad\mathbf{B}^T\mathbf{x}=\begin{bmatrix}9\\23\\-25\end{bmatrix}$$<p>정규방정식 $\mathbf{B}^T\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^T\mathbf{x}$를 세 식으로 풀어 써요.</p>$$\begin{aligned}9\lambda_1+9\lambda_2&amp;=9\\9\lambda_1+16\lambda_2-14\lambda_3&amp;=23\\-14\lambda_2+31\lambda_3&amp;=-25\end{aligned}$$<p><strong>계수 구하기.</strong> 역행렬을 직접 구하는 것보다 대입이 빨라요. 둘째 식에서 첫째 식을 빼면 $\lambda_1$이 사라져 $7\lambda_2-14\lambda_3=14$, 곧 $\lambda_2=2+2\lambda_3$이에요. 셋째 식에 넣어요.</p>$$-14(2+2\lambda_3)+31\lambda_3=-25$$<p>괄호를 풀면 $-28-28\lambda_3+31\lambda_3=-25$, 곧 $-28+3\lambda_3=-25$예요. 양변에 28을 더해요.</p>$$3\lambda_3=3\ \Rightarrow\ \lambda_3=1$$<p>거꾸로 대입하면 $\lambda_2=2+2\cdot1=4$이고, 첫째 식 $9\lambda_1=9-9\cdot4=-27$에서 $\lambda_1=-3$이에요.</p>$$\boldsymbol{\lambda}=\begin{bmatrix}-3\\4\\1\end{bmatrix}$$<p><strong>사영 만들기.</strong> 사영은 기저 벡터의 가중합(weighted sum)이에요. 성분별로 더해요.</p>$$\pi_U(\mathbf{x})=\mathbf{B}\boldsymbol{\lambda}=-3\mathbf{u}_1+4\mathbf{u}_2+\mathbf{u}_3=\begin{bmatrix}0+4-3\\3-12+4\\-6+4+1\\0-4+2\\-6+8+1\end{bmatrix}$$$$\boxed{\pi_U(\mathbf{x})=\begin{bmatrix}1\\-5\\-1\\-2\\3\end{bmatrix}}$$</div><div data-subpart="b"><h4>(b) 거리 $d(\mathbf{x},U)$</h4><p>원래 점에서 그림자를 빼 잔차를 구해요.</p>$$\mathbf{r}=\mathbf{x}-\pi_U(\mathbf{x})=\begin{bmatrix}-1-1\\-9+5\\-1+1\\4+2\\1-3\end{bmatrix}=\begin{bmatrix}-2\\-4\\0\\6\\-2\end{bmatrix}$$<p>거리는 이 잔차의 길이예요. 성분을 제곱해 더하고 제곱근을 씌워요.</p>$$d(\mathbf{x},U)=\|\mathbf{r}\|=\sqrt{4+16+0+36+4}=\sqrt{60}$$$$\boxed{d(\mathbf{x},U)=2\sqrt{15}}$$</div><div data-subpart="c"><h4>(c) 잔차와 네 생성 벡터의 직교</h4><p>(b)의 잔차 $\mathbf{r}=[-2,-4,0,6,-2]^T$와 네 생성 벡터의 점곱을 하나씩 구해요. 성분끼리 곱해 더해요.</p>$$\mathbf{r}^T\mathbf{u}_1=0+4+0+0-4=0,\qquad\mathbf{r}^T\mathbf{u}_2=-2+12+0-6-4=0$$$$\mathbf{r}^T\mathbf{u}_3=6-16+0+12-2=0,\qquad\mathbf{r}^T\mathbf{u}_4=2+12+0+0-14=0$$<p>네 점곱이 모두 0이에요.</p><p><strong>결론:</strong> 잔차는 $U$를 생성하는 네 벡터와 모두 직교해요.</p><p>(a)에서 뺀 $\mathbf{u}_4$와의 직교는 따로 계산하지 않아도 예상할 수 있어요. $\mathbf{u}_4=\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3$이므로 점곱을 나눠 계산하면 다음과 같아요.</p>$$\mathbf{r}^T\mathbf{u}_4=\mathbf{r}^T\mathbf{u}_1+2\,\mathbf{r}^T\mathbf{u}_2+\mathbf{r}^T\mathbf{u}_3=0+0+0=0$$<p>직접 계산한 값과 같아요. 잔차가 생성 벡터 모두와 직교하니, 그 선형결합인 $U$의 모든 벡터와도 직교해요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>구한 $\boldsymbol{\lambda}=[-3,4,1]^T$를 정규방정식 세 식에 다시 넣어요.</p>$$9(-3)+9(4)=9,\qquad9(-3)+16(4)-14(1)=23,\qquad-14(4)+31(1)=-25$$<p>세 식이 모두 맞아요. 또 $\pi_U(\mathbf{x})$는 $-3\mathbf{u}_1+4\mathbf{u}_2+\mathbf{u}_3$로 만들었으니 $U$ 안에 있어요. 가장 가까운 점이라는 조건, 곧 잔차가 $U$와 직교한다는 조건은 (c)에서 직접 확인했어요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>피타고라스 관계로 거리를 다시 확인해요. $\|\mathbf{x}\|^2=1+81+1+16+1=100$, $\|\pi_U(\mathbf{x})\|^2=1+25+1+4+9=40$이에요. 잔차가 그림자와 수직이므로 $\|\mathbf{x}\|^2=\|\pi_U(\mathbf{x})\|^2+\|\mathbf{r}\|^2$, 곧 $100=40+\|\mathbf{r}\|^2$이어야 하고, 실제로 $\|\mathbf{r}\|^2=60$이에요. 그래서 $d=\sqrt{60}=2\sqrt{15}\approx7.75$예요. $\sqrt{60}=\sqrt{4\cdot15}=2\sqrt{15}$로 간단히 했어요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>$\mathbf{r}^T\mathbf{u}_1$, $\mathbf{r}^T\mathbf{u}_2$, $\mathbf{r}^T\mathbf{u}_3$이 0이라는 것은 $\mathbf{B}^T(\mathbf{x}-\mathbf{B}\boldsymbol{\lambda})=\mathbf{0}$, 곧 (a)에서 푼 정규방정식 그 자체예요. 그래서 (a)의 계산이 맞다면 반드시 0이어야 하고, 실제로 0이 나와 (a)를 거꾸로 확인한 셈이에요. 그림자와 잔차의 점곱도 $1(-2)+(-5)(-4)+(-1)0+(-2)6+3(-2)=-2+20+0-12-6=0$이라 수직이에요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>네 생성 벡터를 모두 $\mathbf{B}$에 넣으면 계수가 하나로 정해지지 않아요. $\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3-\mathbf{u}_4=\mathbf{0}$이라 $\mathbf{v}=[1,2,1,-1]^T$에서 $\mathbf{B}\mathbf{v}=\mathbf{0}$이고, 그러면 $\mathbf{B}^T\mathbf{B}\mathbf{v}=\mathbf{0}$이라 $(\mathbf{B}^T\mathbf{B})^{-1}$이 없어요. 먼저 일차종속인 벡터를 빼요.</p><p>이 기저는 정규직교가 아니므로 $\boldsymbol{\lambda}=\mathbf{B}^T\mathbf{x}=[9,23,-25]^T$로 쓰면 틀려요. code 공식 $\mathbf{z}=\mathbf{B}^T\mathbf{x}$는 $\mathbf{B}^T\mathbf{B}=\mathbf{I}$일 때만 사영 계수예요.</p><p>답으로 계수 $\boldsymbol{\lambda}=[-3,4,1]^T$를 내면 안 돼요. 물은 것은 5차원 벡터 $\mathbf{B}\boldsymbol{\lambda}$예요. (b)의 거리도 제곱 $60$이 아니라 길이 $\sqrt{60}$이에요. (c)에서 기저로 고른 세 벡터만 확인하고 끝내면 질문의 “네 벡터”를 다 답하지 않은 것이에요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><ol><li>첫째·넷째 성분으로 $\mathbf{u}_4=\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3$을 찾고, 남은 셋이 일차독립인 이유를 말해요.</li><li>직교 원리에서 정규방정식을 쓰고 $\mathbf{B}^T\mathbf{B}$, $\mathbf{B}^T\mathbf{x}$를 계산해 대입으로 $\boldsymbol{\lambda}$를 구한 뒤 $\mathbf{B}\boldsymbol{\lambda}$를 만들어요.</li><li>잔차의 길이로 거리를 구하고, 잔차와 네 생성 벡터의 점곱이 모두 0인지, $100=40+60$인지 확인해요.</li></ol></div>
-<div class="sum" hidden=""><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>가장 가까운 점은 잔차가 모든 기저 벡터와 수직인 점이에요. 계수가 하나로 정해지려면 기저가 일차독립이어야 해요.</p>$$\mathbf{B}^T(\mathbf{x}-\mathbf{B}\boldsymbol{\lambda})=\mathbf{0}\Rightarrow\mathbf{B}^T\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^T\mathbf{x}$$<p>거리는 잔차의 길이 $\|\mathbf{x}-\pi_U(\mathbf{x})\|$예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$a\mathbf{u}_1+b\mathbf{u}_2+c\mathbf{u}_3=\mathbf{u}_4$를 첫째·넷째 성분부터 풀어 $\mathbf{u}_4=\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3$을 찾아요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\boldsymbol{\lambda}=[-3,4,1]^T$에서</p>$$\pi_U(\mathbf{x})=\begin{bmatrix}1\\-5\\-1\\-2\\3\end{bmatrix}$$<p>(b) $d(\mathbf{x},U)=\sqrt{60}=2\sqrt{15}$예요. (c) 잔차 $[-2,-4,0,6,-2]^T$와 네 생성 벡터의 점곱이 모두 0이라 모두 직교해요.</p></div><div class="summary-group"><h4>검산</h4><p>$\boldsymbol{\lambda}$를 정규방정식에 다시 넣고, $100=40+60$으로 피타고라스 관계를 확인해요. $\mathbf{r}^T\mathbf{u}_4$는 $\mathbf{u}_4$의 선형결합 관계로도 0이에요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>정규직교가 아닌 기저라 $\mathbf{B}^T\mathbf{x}$는 계수가 아니에요. 계수가 아니라 5차원 사영벡터를, 거리 제곱이 아니라 거리를 답해요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 3.5 ((c)는 추가 소문항). 교과서 96쪽(PDF 102쪽).</p><p>관련 정리노트: 1028 4.1 직교 원리로 다시 보는 사영.</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>직교사영(orthogonal projection)</dt><dd>$\pi_U(\mathbf{x})$는 부분공간 $U$ 안에서 $\mathbf{x}$에 가장 가까운 점이에요. 잔차가 $U$와 직교해요.</dd><dt>잔차(residual)</dt><dd>$\mathbf{r}=\mathbf{x}-\pi_U(\mathbf{x})$, 원래 벡터와 사영의 차이예요. 길이가 곧 거리 $d(\mathbf{x},U)$예요.</dd><dt>직교 원리(orthogonal principle)</dt><dd>가장 가까운 점에서는 잔차가 $U$의 모든 기저 벡터와 수직이에요. 수업에서는 미분 없이 이 원리로 사영을 구했어요.</dd><dt>일차독립(linear independence)·기저(basis)</dt><dd>$a\mathbf{u}_1+b\mathbf{u}_2+c\mathbf{u}_3=\mathbf{0}$의 해가 $a=b=c=0$뿐이면 일차독립이에요. $U$를 생성하는 일차독립 묶음이 기저예요.</dd><dt>정규방정식(normal equation)</dt><dd>직교 조건을 모은 $\mathbf{B}^T\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^T\mathbf{x}$예요. $\mathbf{B}$는 $5\times3$, $\boldsymbol{\lambda}$는 $3\times1$, $\mathbf{B}^T\mathbf{B}$는 $3\times3$이에요.</dd><dt>거리(distance)</dt><dd>$d(\mathbf{x},U)=\|\mathbf{x}-\pi_U(\mathbf{x})\|$, 잔차의 길이예요.</dd></dl></section>
+</article><article class="topic" id="p4"><h3>P4. 완전제곱으로 보는 양의 정부호</h3><p class="panel-meta">MML Example 3.4 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=4">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p4"><div class="layer formal" data-source-problem="p4"><h4>주어진 조건</h4><div data-source-field="conditions"><p>대칭행렬 $\mathbf{A}\in\mathbb{R}^{2\times2}$가 $\mathbf{0}$이 아닌 모든 $\mathbf{x}$에서 ${\mathbf{x}^T\mathbf{A}\mathbf{x}\gt 0}$이면 양의 정부호(positive definite)라고 해요. 두 대칭행렬과 벡터 $\mathbf{x}$가 주어져요.</p>$${\mathbf{A}_1=\begin{bmatrix}4 &amp; 2\\2 &amp; 3\end{bmatrix}},\qquad{\mathbf{A}_2=\begin{bmatrix}4 &amp; 2\\2 &amp; 0\end{bmatrix}},\qquad{\mathbf{x}=\begin{bmatrix}x_1\\x_2\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $\mathbf{x}^T\mathbf{A}_1\mathbf{x}$를 완전제곱 꼴로 정리하고, $\mathbf{A}_1$이 양의 정부호인지 판정해 보세요.</li><li>(b) $\mathbf{x}^T\mathbf{A}_2\mathbf{x}$를 같은 방법으로 정리하고, $\mathbf{A}_2$가 양의 정부호인지 판정해 보세요. 아니라면 ${\mathbf{x}^T\mathbf{A}_2\mathbf{x}\lt 0}$인 $\mathbf{x}$를 하나 들어 보세요.</li></ol></div></div><details class="original" data-original-problem="p4"><summary>원문 보기</summary>“In contrast, $\mathbf{A}_2$ is symmetric but not positive definite because $\mathbf{x}^T\mathbf{A}_2\mathbf{x}$ … can be less than 0” — Example 3.4</details></div><div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>(a) $\mathbf{x}^\top\mathbf{A}_1\mathbf{x}$와 (b) $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}$를 완전제곱 꼴로 바꿔 두 대칭행렬이 모든 $\mathbf{x}\ne\mathbf{0}$에서 $\mathbf{x}^\top\mathbf{A}\mathbf{x}&gt;0$(양의 정부호)인지 판정하고, 아니라면 $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}&lt;0$인 반례 $\mathbf{x}$를 하나 찾아요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>대칭행렬의 이차형식 $\mathbf{x}^\top\mathbf{A}\mathbf{x}=a_{11}x_1^2+2a_{12}x_1x_2+a_{22}x_2^2$를 제곱의 합·차로 바꾸면 모든 $\mathbf{x}\ne\mathbf{0}$에서의 부호를 판정할 수 있어요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s3-data-cov">3.2 데이터 행렬과 표본 공분산 행렬</a>). 실수 제곱은 항상 $0$ 이상이고, 제곱의 합이 $0$이려면 각 항이 모두 $0$이어야 해요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf{A}_1\mathbf{x}=\begin{bmatrix}4 &amp; 2\\2 &amp; 3\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}4x_1+2x_2\\2x_1+3x_2\end{bmatrix}$$
+  <p>왼쪽에서 $\mathbf{x}^\top=[x_1,x_2]$를 곱해 이차식을 펼친 뒤 $(2x_1+x_2)^2$ 꼴로 묶어요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{x}^\top\mathbf{A}_1\mathbf{x}$와 판정</h4>
+    $$\mathbf{x}^\top\mathbf{A}_1\mathbf{x}=x_1(4x_1+2x_2)+x_2(2x_1+3x_2)=4x_1^2+4x_1x_2+3x_2^2$$
+    <p>$(2x_1+x_2)^2=4x_1^2+4x_1x_2+x_2^2$를 분리하면 $2x_2^2$가 남아요.</p>
+    $$\mathbf{x}^\top\mathbf{A}_1\mathbf{x}=(2x_1+x_2)^2+2x_2^2$$
+    <p>두 항 모두 $0$ 이상이고, 합이 $0$이려면 $x_2=0$과 $2x_1+x_2=0$, 곧 $x_1=x_2=0$이어야 해요. 따라서 모든 $\mathbf{x}\ne\mathbf{0}$에서 $\mathbf{x}^\top\mathbf{A}_1\mathbf{x}&gt;0$이고 $\mathbf{A}_1$은 대칭이므로 양의 정부호예요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}$와 반례</h4>
+    <p>$\mathbf{A}_2$는 $(2,2)$ 성분이 $0$이므로 $x_2^2$ 항이 빠져 $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}=4x_1^2+4x_1x_2$예요. 같은 제곱 $(2x_1+x_2)^2$을 만들면 $x_2^2$을 빼야 해요.</p>
+    $$\mathbf{x}^\top\mathbf{A}_2\mathbf{x}=(2x_1+x_2)^2-x_2^2$$
+    <p>$2x_1+x_2=0$이고 $x_2\ne0$이 되도록 $\mathbf{x}=[1,-2]^\top$를 택하면 $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}=0-(-2)^2=-4&lt;0$이에요. 따라서 $\mathbf{A}_2$는 양의 정부호가 아니에요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf{x}^\top\mathbf{A}_1\mathbf{x}=(2x_1+x_2)^2+2x_2^2$이며, $\mathbf{A}_1$은 양의 정부호예요.</p>
+    <p>(b) $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}=(2x_1+x_2)^2-x_2^2$이며, $\mathbf{A}_2$는 양의 정부호가 아니에요(예: $\mathbf{x}=[1,-2]^\top$에서 $\mathbf{x}^\top\mathbf{A}_2\mathbf{x}=-4&lt;0$).</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$(2x_1+x_2)^2+2x_2^2=4x_1^2+4x_1x_2+3x_2^2$로 원식과 같아요. 제곱합은 각 항이 $0$일 때만 $0$이므로 $\mathbf{x}\ne\mathbf{0}$에 대한 양수 판정이 성립해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$(2x_1+x_2)^2-x_2^2=4x_1^2+4x_1x_2$로 원식과 같고, $\mathbf{A}_2[1,-2]^\top=[0,2]^\top$이므로 $[1,-2][0,2]^\top=-4&lt;0$이에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>비대각 성분 $2$가 $(1,2)$와 $(2,1)$ 두 곳에 있으므로 교차항 계수는 $2+2=4$예요. 또 행렬 성분이 모두 $0$ 이상이거나 몇 점에서 양수여도 양의 정부호가 아니며, $\mathbf{x}=[0,1]^\top$은 값이 $0$이지만 문제는 음수가 되는 $\mathbf{x}$를 요구해요.</p>
+</div>
+<div class="sum" hidden="">
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>대칭행렬의 이차형식 $\mathbf{x}^\top\mathbf{A}\mathbf{x}$를 완전제곱으로 바꿔 모든 $\mathbf{x}\ne\mathbf{0}$에서 양수인지 판정해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\mathbf{A}_1\mathbf{x}$를 구한 뒤 $\mathbf{x}^\top$를 곱해 펼치고 $(2x_1+x_2)^2$으로 묶어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $(2x_1+x_2)^2+2x_2^2$, 양의 정부호 (b) $(2x_1+x_2)^2-x_2^2$, $\mathbf{x}=[1,-2]^\top$에서 $-4&lt;0$이라 양의 정부호 아님.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>두 식을 다시 펼치면 원식과 같고 $\mathbf{A}_2[1,-2]^\top=[0,2]^\top$에서 점곱이 $-4$예요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>교차항은 비대각 성분의 $2$배($4x_1x_2$)이며, 비음수 성분이나 표본점 양수로 양의 정부호를 판정하지 않아요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 3.4 (행렬을 바꾼 변형). 교과서 74쪽(PDF 80쪽), Definition 3.4와 식 (3.11)–(3.13).</p><p>관련 정리노트: 1028 3.2 데이터 행렬과 표본 공분산 행렬(성질: 대칭이고 positive semi-definite).</p></section><section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{A}^\top=\mathbf{A}$인 정사각행렬로, $2\times2$에서는 두 비대각 성분이 같아요.</dd><dt>이차형식(quadratic form)</dt><dd>$\mathbf{x}^\top\mathbf{A}\mathbf{x}=a_{11}x_1^2+2a_{12}x_1x_2+a_{22}x_2^2$인 스칼라 식이에요.</dd><dt>양의 정부호(positive definite)</dt><dd>대칭행렬이 모든 $\mathbf{x}\ne\mathbf{0}$에서 $\mathbf{x}^\top\mathbf{A}\mathbf{x}&gt;0$을 만족하는 성질이에요.</dd><dt>양의 준정부호(positive semi-definite)</dt><dd>모든 $\mathbf{x}$에서 $\mathbf{x}^\top\mathbf{A}\mathbf{x}\ge0$인 성질이에요. 표본 공분산 행렬 $\mathbf{S}$가 이 성질을 가져요.</dd><dt>완전제곱(completing the square)</dt><dd>제곱의 합·차로 식을 묶어 부호를 판정하는 변형이에요.</dd><dt>반례(counterexample)</dt><dd>보편 조건을 깨는 구체적인 벡터로, 여기서는 $[1,-2]^\top$예요.</dd></dl></section>
+</article><article class="topic" id="p5"><h3>P5. $\mathbb{R}^5$ 속 3차원 부분공간으로 내린 그림자</h3><p class="panel-meta">MML Exercise 3.5 · <a href="%EB%B3%B5%EC%8A%B5%EB%AC%B8%EC%A0%9C_1028_PCA-%EB%AC%B8%EC%A0%9C.pdf#page=5">원 문제 보기</a></p><div class="problem-pane" data-problem-for="p5"><div class="layer formal" data-source-problem="p5"><h4>주어진 조건</h4><div data-source-field="conditions"><p>점곱을 내적으로 쓰는 유클리드 벡터공간 $\mathbb{R}^5$를 생각해요. 부분공간 $U\subseteq\mathbb{R}^5$와 $\mathbf{x}\in\mathbb{R}^5$가 주어져요.</p>$${U=\operatorname{span}\left[\begin{bmatrix}0\\-1\\2\\0\\2\end{bmatrix},\begin{bmatrix}1\\-3\\1\\-1\\2\end{bmatrix},\begin{bmatrix}-3\\4\\1\\2\\1\end{bmatrix},\begin{bmatrix}-1\\-3\\5\\0\\7\end{bmatrix}\right]},\qquad{\mathbf{x}=\begin{bmatrix}-1\\-9\\-1\\4\\1\end{bmatrix}}$$</div><h4>구할 것</h4><div data-source-field="ask"><ol><li>(a) $\mathbf{x}$를 $U$로 내린 직교사영 $\pi_U(\mathbf{x})$를 구해 보세요.</li><li>(b) (a)의 결과로 거리 $d(\mathbf{x},U)$를 구해 보세요.</li><li>(c) 잔차 $\mathbf{x}-\pi_U(\mathbf{x})$가 $U$를 생성하는 네 벡터와 모두 직교하는지 확인해 보세요.</li></ol></div></div><details class="original" data-original-problem="p5"><summary>원문 보기</summary>“Determine the orthogonal projection $\pi_U(\mathbf{x})$ of $\mathbf{x}$ onto $U$ … Determine the distance $d(\mathbf{x},U)$” — Exercise 3.5</details></div><div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>네 벡터가 생성하는 부분공간 $U\subseteq\mathbb{R}^5$에 대해 (a) $\mathbf{x}$의 직교사영 $\pi_U(\mathbf{x})$, (b) 거리 $d(\mathbf{x},U)$를 구하고, (c) 잔차 $\mathbf{x}-\pi_U(\mathbf{x})$가 네 생성 벡터와 모두 직교하는지 확인해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>일차독립인 기저 벡터를 열로 모은 $\mathbf{B}$에 대해 잔차 $\mathbf{x}-\mathbf{B}\boldsymbol{\lambda}$가 $U$와 직교한다는 직교 원리로부터 정규방정식 $\mathbf{B}^\top\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^\top\mathbf{x}$를 얻고, $\pi_U(\mathbf{x})=\mathbf{B}\boldsymbol{\lambda}$, $d(\mathbf{x},U)=\|\mathbf{x}-\pi_U(\mathbf{x})\|$를 구해요(<a href="%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8_1028_PCA.html#s4-projection-recall">4.1 직교 원리로 다시 보는 사영</a>). $\mathbf{B}^\top\mathbf{B}$가 가역이려면 먼저 종속인 생성 벡터를 빼야 해요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$a\,\mathbf{u}_1+b\,\mathbf{u}_2+c\,\mathbf{u}_3=\mathbf{u}_4$$
+  <p>네 생성 벡터를 $\mathbf{u}_1,\dots,\mathbf{u}_4$라 하고, $\mathbf{u}_1$의 첫째·넷째 성분이 $0$인 점을 이용해 종속 관계부터 가려요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 직교사영 $\pi_U(\mathbf{x})$</h4>
+    <p><strong>기저 고르기.</strong> 첫 줄의 넷째 성분 $-b+2c=0$에서 $b=2c$, 첫째 성분 $b-3c=-1$에 넣으면 $c=1$, $b=2$예요. 셋째 성분 $2a+b+c=5$에서 $a=1$이고, 둘째·다섯째 성분($-1-6+4=-3$, $2+4+1=7$)도 맞으므로 $\mathbf{u}_4=\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3$예요.</p>
+    <p>$a\mathbf{u}_1+b\mathbf{u}_2+c\mathbf{u}_3=\mathbf{0}$이면 첫째·넷째 성분 $b-3c=0$, $-b+2c=0$에서 $c=b=0$, 둘째 성분 $-a-3b+4c=0$에서 $a=0$이에요. 따라서 $\mathbf{B}=[\mathbf{u}_1,\mathbf{u}_2,\mathbf{u}_3]\in\mathbb{R}^{5\times3}$이 $U$의 기저이고, 계수 벡터를 $\boldsymbol{\lambda}=[\lambda_1,\lambda_2,\lambda_3]^\top$라 둬요.</p>
+    <p><strong>정규방정식 풀기.</strong> $\mathbf{B}^\top\mathbf{B}$의 $(i,j)$ 칸은 $\mathbf{u}_i^\top\mathbf{u}_j$, $\mathbf{B}^\top\mathbf{x}$의 $i$번째 성분은 $\mathbf{u}_i^\top\mathbf{x}$예요.</p>
+    $$\mathbf{B}^\top\mathbf{B}=\begin{bmatrix}9 &amp; 9 &amp; 0\\9 &amp; 16 &amp; -14\\0 &amp; -14 &amp; 31\end{bmatrix},\qquad\mathbf{B}^\top\mathbf{x}=\begin{bmatrix}9\\23\\-25\end{bmatrix}$$
+    <p>$\mathbf{B}^\top\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^\top\mathbf{x}$에서 둘째 식에서 첫째 식을 빼면 $7\lambda_2-14\lambda_3=14$, 곧 $\lambda_2=2+2\lambda_3$이에요. 셋째 식 $-14(2+2\lambda_3)+31\lambda_3=-25$에서 $3\lambda_3=3$, 곧 $\lambda_3=1$이고, 차례로 $\lambda_2=4$, $9\lambda_1=9-36\Rightarrow\lambda_1=-3$이에요.</p>
+    $$\pi_U(\mathbf{x})=\mathbf{B}\boldsymbol{\lambda}=-3\mathbf{u}_1+4\mathbf{u}_2+\mathbf{u}_3=\begin{bmatrix}1\\-5\\-1\\-2\\3\end{bmatrix}$$
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 거리 $d(\mathbf{x},U)$</h4>
+    $$\mathbf{r}=\mathbf{x}-\pi_U(\mathbf{x})=\begin{bmatrix}-1-1\\-9+5\\-1+1\\4+2\\1-3\end{bmatrix}=\begin{bmatrix}-2\\-4\\0\\6\\-2\end{bmatrix}$$
+    $$d(\mathbf{x},U)=\|\mathbf{r}\|=\sqrt{(-2)^2+(-4)^2+0^2+6^2+(-2)^2}=\sqrt{60}=2\sqrt{15}$$
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 잔차와 네 생성 벡터의 직교</h4>
+    $$\mathbf{r}^\top\mathbf{u}_1=0+4+0+0-4=0,\qquad\mathbf{r}^\top\mathbf{u}_2=-2+12+0-6-4=0$$
+    $$\mathbf{r}^\top\mathbf{u}_3=6-16+0+12-2=0,\qquad\mathbf{r}^\top\mathbf{u}_4=2+12+0+0-14=0$$
+    <p>네 점곱이 모두 $0$이므로 잔차 $\mathbf{r}$은 네 생성 벡터와 모두 직교해요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\pi_U(\mathbf{x})=[1,-5,-1,-2,3]^\top$이에요.</p>
+    <p>(b) $d(\mathbf{x},U)=\sqrt{60}=2\sqrt{15}$예요.</p>
+    <p>(c) 잔차 $\mathbf{r}=[-2,-4,0,6,-2]^\top$는 $\mathbf{u}_1,\mathbf{u}_2,\mathbf{u}_3,\mathbf{u}_4$와 모두 직교해요($\mathbf{r}^\top\mathbf{u}_i=0$).</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\boldsymbol{\lambda}=[-3,4,1]^\top$를 정규방정식에 넣으면 $9(-3)+9(4)=9$, $9(-3)+16(4)-14(1)=23$, $-14(4)+31(1)=-25$로 세 식이 모두 맞아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\|\mathbf{x}\|^2=100$, $\|\pi_U(\mathbf{x})\|^2=40$, $\|\mathbf{r}\|^2=60$이므로 직교 피타고라스 관계 $100=40+60$이 성립해요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\mathbf{r}^\top\mathbf{u}_{1,2,3}=0$은 정규방정식 $\mathbf{B}^\top(\mathbf{x}-\mathbf{B}\boldsymbol{\lambda})=\mathbf{0}$ 그 자체이고, $\mathbf{r}^\top\mathbf{u}_4=\mathbf{r}^\top\mathbf{u}_1+2\mathbf{r}^\top\mathbf{u}_2+\mathbf{r}^\top\mathbf{u}_3=0$과도 일치해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>종속인 $\mathbf{u}_4$까지 포함한 $4$열 행렬로 $\mathbf{B}$를 세우면 $\mathbf{B}^\top\mathbf{B}$의 역행렬이 없어요. 또 기저가 정규직교가 아니므로 $\mathbf{B}^\top\mathbf{x}$를 곧바로 $\boldsymbol{\lambda}$로 쓰면 틀리며, (a)의 답은 계수 $\boldsymbol{\lambda}$가 아니라 사영 $\mathbf{B}\boldsymbol{\lambda}$, (b)의 답은 제곱 $60$이 아니라 $\sqrt{60}$이에요.</p>
+</div>
+<div class="sum" hidden="">
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>일차독립 기저 $\mathbf{B}$에서 정규방정식 $\mathbf{B}^\top\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^\top\mathbf{x}$로 사영 $\pi_U(\mathbf{x})=\mathbf{B}\boldsymbol{\lambda}$와 거리 $\|\mathbf{x}-\pi_U(\mathbf{x})\|$를 구해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$a\mathbf{u}_1+b\mathbf{u}_2+c\mathbf{u}_3=\mathbf{u}_4$로 종속 벡터를 가려 $\mathbf{u}_4=\mathbf{u}_1+2\mathbf{u}_2+\mathbf{u}_3$을 빼요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\boldsymbol{\lambda}=[-3,4,1]^\top$, $\pi_U(\mathbf{x})=[1,-5,-1,-2,3]^\top$ (b) $d(\mathbf{x},U)=2\sqrt{15}$ (c) 잔차 $\mathbf{r}=[-2,-4,0,6,-2]^\top$는 $\mathbf{u}_1\text{–}\mathbf{u}_4$와 모두 직교.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\boldsymbol{\lambda}$가 정규방정식을 만족하고, $100=40+60$ 피타고라스 관계와 $\mathbf{r}^\top\mathbf{u}_4=0$이 성립해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>종속 열 포함 시 $\mathbf{B}^\top\mathbf{B}$가 특이행렬이고, 비정규직교 기저라 $\boldsymbol{\lambda}\ne\mathbf{B}^\top\mathbf{x}$이며 계수와 사영벡터·거리 제곱을 구별해요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 3.5 ((c)는 추가 소문항). 교과서 96쪽(PDF 102쪽).</p><p>관련 정리노트: 1028 4.1 직교 원리로 다시 보는 사영.</p></section><section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>직교사영(orthogonal projection)</dt><dd>$U$ 안에서 $\mathbf{x}$에 가장 가까운 점 $\pi_U(\mathbf{x})=\mathbf{B}\boldsymbol{\lambda}$예요.</dd><dt>잔차(residual)</dt><dd>$\mathbf{r}=\mathbf{x}-\pi_U(\mathbf{x})$로, $U$와 직교하며 그 길이가 거리 $d(\mathbf{x},U)$예요.</dd><dt>직교 원리(orthogonal principle)</dt><dd>최적 근사의 잔차는 $U$의 모든 기저 벡터와 수직이라는 원리예요.</dd><dt>일차독립(linear independence)·기저(basis)</dt><dd>종속 벡터를 제외한 일차독립 생성 벡터 묶음으로, 여기서는 $\mathbf{u}_1,\mathbf{u}_2,\mathbf{u}_3$이에요.</dd><dt>정규방정식(normal equation)</dt><dd>직교 조건을 모은 $\mathbf{B}^\top\mathbf{B}\boldsymbol{\lambda}=\mathbf{B}^\top\mathbf{x}$예요($\mathbf{B}$는 $5\times3$).</dd></dl></section>
 </article></section>
   </main>
     </div>
@@ -1689,6 +1944,41 @@
       new MutationObserver(schedule).observe(document.querySelector('.probs'), {subtree:true, attributes:true, attributeFilter:['hidden']});
       document.fonts.ready.then(schedule);
       schedule();
+    })();
+  </script>
+  <script id="deriv-fit">
+    (() => {
+      // 식이 주석 칸 옆에 다 들어가지 않으면 그 줄만 주석을 식 아래로 내린다.
+      function fit(list) {
+        const rows = Array.from(list.children);
+        rows.forEach(li => li.classList.remove('is-wide'));
+        const wide = rows.map(li => {
+          const k = li.querySelector('.katex-display');
+          return Boolean(k) && k.scrollWidth > k.clientWidth + 1;
+        });
+        rows.forEach((li, i) => li.classList.toggle('is-wide', wide[i]));
+      }
+      function start() {
+        const lists = Array.from(document.querySelectorAll('ol.deriv'));
+        if (!lists.length) return;
+        if (!('ResizeObserver' in window)) { lists.forEach(fit); return; }
+        const widths = new WeakMap();
+        const ro = new ResizeObserver(entries => entries.forEach(en => {
+          const w = Math.round(en.contentRect.width);
+          // 숨은 토픽(폭 0)은 기록을 지워, 다시 보일 때 같은 폭이어도 새로 잰다.
+          if (!w) { widths.delete(en.target); return; }
+          if (widths.get(en.target) !== w) { widths.set(en.target, w); fit(en.target); }
+        }));
+        lists.forEach(l => ro.observe(l));
+        // KaTeX 글꼴은 그 식이 처음 보일 때 늦게 불러와 폭이 바뀌므로, 글꼴 로드 뒤에도 다시 잰다.
+        const refitVisible = () => lists.forEach(l => { if (l.clientWidth) fit(l); });
+        document.addEventListener('od:screen', refitVisible);
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refitVisible);
+          if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refitVisible);
+        }
+      }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
     })();
   </script>
 </body>

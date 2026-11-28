@@ -1,10 +1,69 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> 누적 설명 분산 공식 $V_M=\sum_{m=1}^{M}\lambda_m$과 두 그래프(왼쪽: 고윳값 순서별 크기 $\lambda_m$, 오른쪽: 주성분 개수별 누적 분산 $V_M$)가 주어졌어요.</p><p><b>구할 것:</b> (a) 이웃한 두 누적값의 차이 $V_M-V_{M-1}$을 고윳값으로 나타내고, (b) 두 그래프를 연결해 주성분을 앞쪽과 뒤쪽에서 추가할 때의 증가 폭을 비교해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘주성분을 하나 추가할 때 늘어나는 양’이라는 단서에서 <b>누적합의 이웃 차이</b>와 <b>고윳값의 분산 의미</b>를 떠올려요.</p><p>공분산 행렬 $\mathbf S$의 단위 고유벡터 $\mathbf p_m$ 방향으로 사영한 좌표의 분산은 $\mathbf p_m^\top\mathbf S\mathbf p_m=\lambda_m$이에요. 즉, 고윳값 $\lambda_m$은 <b>$m$번째 주성분 축 하나에 담긴 분산</b>이에요.</p><p>상위 $M$개 주성분을 축으로 고를 때 서로 직교하는 축들의 분산을 더한 누적 설명 분산(captured variance)은 다음과 같아요($\lambda_1\ge\lambda_2\ge\cdots$).</p>$$V_M=\sum_{m=1}^{M}\lambda_m=\underbrace{\sum_{m=1}^{M-1}\lambda_m}_{V_{M-1}}+\lambda_M$$<p>따라서 왼쪽 그래프의 개별 점 높이($\lambda_M$)는 오른쪽 곡선에서 한 칸 전진할 때 오르는 <b>상승 폭(증분)</b>과 같아요. <a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a>에서 같은 식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>두 누적합을 마지막 항 $\lambda_M$만 분리해 나란히 적고 빼는 2단계 로드맵(1. 두 식 차분 $\to$ 2. 그래프 좌표 대조)으로 시작해요.</p>$$V_M=\sum_{m=1}^{M}\lambda_m=V_{M-1}+\lambda_M,\qquad V_{M-1}=\sum_{m=1}^{M-1}\lambda_m$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> 이웃한 두 누적 설명 분산의 차이는 $M$번째 고윳값인 $V_M-V_{M-1}=\lambda_M$이에요.</p><p>첫 줄의 두 식을 직접 차분해요. 공통인 앞의 $M-1$개 고윳값 합이 모두 소거돼요.</p>$$V_M-V_{M-1}=\sum_{m=1}^{M}\lambda_m-\sum_{m=1}^{M-1}\lambda_m=\lambda_M$$<p>따라서 $M$번째 주성분을 추가하면 누적 설명 분산은 정확히 그 주성분 축의 고유 분산인 <b>$\lambda_M$만큼</b> 늘어나요.</p></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 요약:</b> 초반 주성분(1~5번째) 추가 시에는 $\lambda_M$이 커서 가파르게 증가하고, 뒤쪽으로 갈수록 $\lambda_M$이 급감하여 완만하게 증가해요.</p><p>(a)에 따라 오른쪽 곡선의 $M$번째 증분은 왼쪽 그래프의 $M$번째 점 높이 $\lambda_M$이에요. 주요 지점별 수치를 표로 비교해요.</p><div class="table-wrap"><table><thead><tr><th>구간 / 순서 ($m$)</th><th>왼쪽 고윳값 ($\lambda_m$, 증분)</th><th>오른쪽 누적 분산 ($V_M$, 곡선 형태)</th><th>해석</th></tr></thead><tbody><tr><td>$m=1, 2$</td><td>약 46, 약 32 (매우 큼)</td><td>0에서 약 78로 급상승</td><td>첫 몇 개 축이 나중의 축보다 하나당 더 많은 분산을 담음</td></tr><tr><td>$m=3 \sim 5$</td><td>약 21 $\to$ 약 15 (급격히 감소)</td><td>기울기가 빠르게 완만해짐</td><td>개별 축이 더하는 분산이 빠르게 줄어듦</td></tr><tr><td>$m \approx 50$</td><td>약 2 ~ 3 (작음)</td><td>$V_{50}\approx 370$ 도달 후 완만</td><td>그림의 200개까지 누적한 분산 중 약 7할에 도달</td></tr><tr><td>$m \approx 150 \sim 200$</td><td>1 미만 (매우 작으나 양수)</td><td>약 505에서 약 525로 완만히 증가</td><td>미세 잔차 영역이지만 계속 소폭 증가</td></tr></tbody></table></div><p>따라서 <b>주성분을 처음 몇 개 추가할 때 누적 설명 분산이 크게 늘고, 뒤에서 추가할 때는 완만하게 늘어요.</b></p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$M=1$을 넣으면 $V_1-V_0=\lambda_1$이에요($V_0=0$). 오른쪽 곡선의 시작점 높이(약 46)가 왼쪽 첫 점 $\lambda_1\approx 46$과 일치해요. $M=2$에서도 $V_2\approx 46+32=78$로 둘째 칸 높이와 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>오른쪽 곡선에서 50단위 구간 증가량을 대조해요. 구간 $[0, 50]$의 증가는 $\Delta V\approx 370$인 반면, 구간 $[150, 200]$의 증가는 $\Delta V\approx 20$이에요. 초반 증가 폭이 후반의 약 18배로 읽혀 왼쪽 고윳값의 감소와 일치해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>곡선의 높이와 기울기(점 높이)를 혼동하지 않아요.</b> 오른쪽 곡선의 높이는 누적합 $V_M$이고, 왼쪽 그래프 점의 높이는 한 칸의 증가량 $\lambda_M$이에요. 오른쪽 곡선에서 $M=100$의 높이(약 460)를 $\lambda_{100}$으로 읽으면 안 돼요.</p><p><b>뒤쪽 고윳값이 작다고 0으로 단정하지 않아요.</b> 50개에서 200개까지 곡선이 약 370에서 약 525로 약 155 더 올라요. 이 구간에 양의 고윳값이 남아 있어 작은 증가량이 쌓여요.</p><p>$V_M$은 분산의 합이지 비율(%)이 아니에요. 비율을 구하려면 전체 분산으로 나눠야 해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$V_M$과 $V_{M-1}$을 나란히 적고 빼서 $V_M-V_{M-1}=\lambda_M$을 다시 유도해요.</li><li>두 그래프의 세로축 의미(개별 축 분산 vs 누적 보존 분산)를 구별해요.</li><li>왼쪽 그래프의 초반 점과 후반 점 높이를 읽어 오른쪽 곡선의 기울기 변화와 연결해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\lambda_m$은 $m$번째 주성분 방향의 분산이에요. 누적 설명 분산은 $V_M=\sum_{m=1}^{M}\lambda_m$이에요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$V_M$과 $V_{M-1}$을 마지막 항만 떼어 나란히 적어요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $V_M-V_{M-1}=\lambda_M$이에요.</p><p>(b) 앞쪽 고윳값(약 46, 32)이 크고 빠르게 감소하므로, 처음 몇 개를 추가할 때 급격히 늘고 뒤로 갈수록 완만하게 늘어요. 곡선은 200개까지 계속 소폭 상승해요.</p></div><div class="summary-group"><h4>검산</h4><p>오른쪽 시작점 높이 약 46이 $\lambda_1$과 같아요. 구간 증가량은 $[0, 50]$이 약 370, $[150, 200]$이 약 20이에요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>오른쪽 높이는 누적값, 왼쪽 점은 한 칸의 상승 폭이에요. 그림의 후반에도 누적합은 소폭 증가해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>고윳값(eigenvalue)</dt><dd>공분산 행렬 $\mathbf S$에서 $\mathbf S\mathbf p_m=\lambda_m\mathbf p_m$을 만족하는 수예요. 단위 고유벡터 $\mathbf p_m$ 방향의 분산과 같아요.</dd><dt>주성분(principal component)</dt><dd>큰 고윳값부터 고른 공분산 행렬의 단위 고유벡터 방향이에요. 서로 직교해요.</dd><dt>누적 설명 분산(captured variance)</dt><dd>상위 $M$개 주성분이 보존하는 분산의 총합 $V_M=\sum_{m=1}^{M}\lambda_m$이에요. 비율이 아니라 분산의 합이에요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.2와 그림 10.5, 교과서 324–325쪽(PDF 330–331쪽), 식 (10.24).</p><p>수업: 1104 L05 s27–28(상위 $M$개 방향과 보존 분산).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>(a) 누적 설명 분산 $V_M$의 차분 $V_M-V_{M-1}$을 고윳값으로 나타내고, (b) 주성분을 앞쪽과 뒤쪽에서 추가할 때 증가 폭을 왼쪽 그래프로 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>고윳값 $\lambda_m$은 공분산 행렬 $\mathbf S$의 $m$번째 단위 고유벡터 $\mathbf p_m$ 방향 분산($\mathbf p_m^\top\mathbf S\mathbf p_m=\lambda_m$)이에요. 내림차순($\lambda_1\ge\lambda_2\ge\cdots$) 고윳값의 합 $V_M=\sum_{m=1}^{M}\lambda_m$이 상위 $M$개 주성분의 누적 설명 분산이에요(<a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a>).</p>
+  <p>따라서 $V_M$과 $V_{M-1}$의 차이는 마지막 항 $\lambda_M$뿐이고, 왼쪽 그래프의 점 높이가 오른쪽 곡선의 한 칸 상승 폭이에요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$V_M=\sum_{m=1}^{M}\lambda_m=V_{M-1}+\lambda_M,\qquad V_{M-1}=\sum_{m=1}^{M-1}\lambda_m$$
+  <p>두 합을 빼서 한 칸 증가량을 구한 뒤, 왼쪽 그래프의 초반·후반 점 높이를 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 한 개 추가 시 증가량</h4>
+    <p>$V_M$에서 $V_{M-1}$을 빼면 앞의 공통인 $M-1$개 항이 모두 상쇄돼요.</p>
+    $$V_M-V_{M-1}=\sum_{m=1}^{M}\lambda_m-\sum_{m=1}^{M-1}\lambda_m=\lambda_M$$
+    <p>$M$번째 주성분을 추가하면 누적 설명 분산은 그 축의 고윳값 $\lambda_M$만큼 늘어요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 초반과 후반의 증가 폭 비교</h4>
+    <p>(a)에 따라 오른쪽 곡선의 한 칸 상승 폭은 왼쪽 그래프의 점 높이 $\lambda_M$이에요. 왼쪽 그래프에서 $m=1,2$일 때 고윳값이 약 $46$, 약 $32$로 크고 $m=3\sim 5$에서도 빠르게 작아진 뒤, $m\approx 50$에서는 약 $2\sim 3$, $m\approx 150\sim 200$에서는 $1$ 미만(양수)으로 낮아져요.</p>
+    <p>그래서 주성분을 처음 몇 개 추가할 때 누적 설명 분산이 크게 늘고, 뒤에서 추가할 때는 완만하게 늘어요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $V_M-V_{M-1}=\lambda_M$이에요.</p>
+    <p>(b) 앞쪽 몇 개 고윳값(약 46, 32)이 크고 뒤로 갈수록 빠르게 작아지므로, 처음 몇 개를 추가할 때 누적 설명 분산이 크게 늘고 뒤에서는 완만하게 늘어요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>빈 합 $V_0=0$을 쓰면 $M=1$에서 $V_1-V_0=\lambda_1$이고, 오른쪽 곡선의 시작 높이(약 46)가 왼쪽 첫 점 $\lambda_1\approx 46$과 맞아요. $M=2$도 $V_2\approx 46+32=78$로 일치해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>오른쪽 그래프의 50칸 증가량은 $[0,50]$에서 약 $370$, $[150,200]$에서 약 $20$($\approx 525-505$)이에요. 초반 증가가 후반의 약 18배로 왼쪽 점 높이 감소와 맞아요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>오른쪽 곡선의 높이($V_M$)와 한 칸 증가량($\lambda_M$)을 혼동하지 않아요. 또 $m=150\sim 200$에서 $\lambda_m$이 작아도 양수여서 곡선은 200개까지 계속 조금씩 올라요. $V_M$은 비율(%)이 아니라 분산의 합이에요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\lambda_m$은 $m$번째 주성분 방향의 분산이고 $V_M=\sum_{m=1}^{M}\lambda_m$이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$V_M=V_{M-1}+\lambda_M$으로 마지막 항만 분리해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $V_M-V_{M-1}=\lambda_M$이에요. (b) 앞쪽 고윳값이 크고 빠르게 감소해 처음 몇 개를 추가할 때 크게 늘고 뒤에서는 완만하게 늘어요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>시작 높이 약 46이 $\lambda_1$과 같고, 50칸 증가량도 $[0,50]$ 약 370 vs $[150,200]$ 약 20이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>오른쪽 높이는 누적합, 왼쪽 점 높이는 한 칸 증분이에요. $V_M$은 비율이 아니라 분산의 합이에요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 10.2와 그림 10.5, 교과서 324–325쪽(PDF 330–331쪽), 식 (10.24).</p>
+  <p>수업: 1104 L05 s27–28(상위 $M$개 방향과 보존 분산).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>고윳값(eigenvalue)</dt><dd>공분산 행렬 $\mathbf S$에서 $\mathbf S\mathbf p_m=\lambda_m\mathbf p_m$을 만족하는 수로, 단위 고유벡터 $\mathbf p_m$ 방향의 분산이에요.</dd>
+    <dt>주성분(principal component)</dt><dd>큰 고윳값 순서대로 고른 공분산 행렬의 서로 직교하는 단위 고유벡터 방향이에요.</dd>
+    <dt>누적 설명 분산(captured variance)</dt><dd>상위 $M$개 주성분이 담는 분산의 총합 $V_M=\sum_{m=1}^{M}\lambda_m$이에요.</dd>
+  </dl>
+</section>

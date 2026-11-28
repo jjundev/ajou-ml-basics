@@ -1,10 +1,93 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $2\times 3$ 행렬 $\mathbf A=\begin{bmatrix}3&2&2\\2&3&-2\end{bmatrix}$과 Frobenius 제곱노름 정의 $\|\mathbf M\|_F^2=\sum_{ij}M_{ij}^2$이 주어졌어요.</p><p><b>구할 것:</b> (a) 가장 큰 특잇값 $\sigma_1$과 대응하는 단위 특이벡터 $\mathbf u_1, \mathbf v_1$을 구하고, (b) 랭크 1 근사 행렬 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$을 계산하며, (c) 잔차 행렬 $\mathbf A-\mathbf A_1$의 Frobenius 제곱오차가 버려진 특잇값 제곱 $\sigma_2^2$와 일치하는지 판정해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘랭크 1 근사’라는 단서에서 SVD 외적 층 전개의 <b>첫째 주성분 층</b>을 떠올려요.</p>$$\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$$<p>에카르트–영 정리(Eckart–Young theorem)에 의해 이 행렬이 랭크 1 이하의 모든 행렬 중 원래 행렬과의 원소 제곱오차를 최소화해요.</p><p>‘$\mathbf A-\mathbf A_1$의 원소 제곱합’이라는 단서에서는 <b>버려진 특잇값들의 제곱합 공식</b>을 떠올려요.</p>$$\|\mathbf A-\mathbf A_1\|_F^2=\sum_{i>1}\sigma_i^2=\sigma_2^2$$<p>$\mathbf u_1$은 $\mathbf A\mathbf A^\top$의 가장 큰 고윳값에 대응하는 단위 고유벡터, $\mathbf v_1$은 $\mathbf A^\top\mathbf u_1/\sigma_1$로 결정돼요. <a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf A\mathbf A^\top$의 특성방정식을 세워 $\sigma_1, \mathbf u_1, \mathbf v_1$을 구하고 외적을 취하는 3단계 로드맵(1. 첫째 층 특이벡터 $\to$ 2. 외적 $\mathbf A_1$ $\to$ 3. 잔차 제곱합 대조)으로 시작해요.</p>$$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix},\qquad(17-\lambda)^2-64=0$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> $\sigma_1=5$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top$, $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top$이에요.</p><p>$\mathbf A\mathbf A^\top$의 고윳값과 고유벡터를 유도해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf A\mathbf A^\top-\lambda\mathbf I)=(17-\lambda)^2-8^2=0$$</div><div class="deriv-why"><p>특성방정식을 세워요</p></div></li><li><div class="deriv-eq">$$17-\lambda=\pm8\implies\lambda_1=25,\quad\lambda_2=9$$</div><div class="deriv-why"><p>특성방정식에서 두 근을 구해요</p></div></li><li><div class="deriv-eq">$$\lambda_1=25\implies \sigma_1=\sqrt{25}=5$$</div><div class="deriv-why"><p>큰 고윳값의 제곱근이 최대 특잇값이에요</p></div></li><li><div class="deriv-eq">$$(17-25)x+8y=0\implies x=y$$</div><div class="deriv-why"><p>후보 $\mathbf w=(x,y)^\top$를 놓고 $(\mathbf A\mathbf A^\top-25\mathbf I)\mathbf w=\mathbf 0$의 첫째 행을 써요</p></div></li><li><div class="deriv-eq">$$\mathbf u_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$$</div><div class="deriv-why"><p>방향 벡터를 단위 길이로 정규화해요</p></div></li><li><div class="deriv-eq">$$\mathbf A^\top\mathbf u_1=\begin{bmatrix}3&2\\2&3\\2&-2\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}5\\5\\0\end{bmatrix}$$</div><div class="deriv-why"><p>$\mathbf A^\top$와 $\mathbf u_1$을 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf v_1=\frac{\mathbf A^\top\mathbf u_1}{\sigma_1}=\frac{1}{5\sqrt2}\begin{bmatrix}5\\5\\0\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\\0\end{bmatrix}$$</div><div class="deriv-why"><p>$\sigma_1=5$로 나누어 확정해요</p></div></li></ol></div></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> 랭크 1 근사 행렬은 $\mathbf A_1=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$이에요.</p><p>외적 $\sigma_1\mathbf u_1\mathbf v_1^\top$을 계산해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf u_1\mathbf v_1^\top=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1&1&0\end{bmatrix}=\frac12\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$$</div><div class="deriv-why"><p>두 특이벡터의 외적을 계산해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top=5\cdot\frac12\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 5를 곱해 랭크 1 행렬을 완성해요</p></div></li></ol></div><p>두 행이 서로 같고 0이 아니므로 $\operatorname{rank}(\mathbf A_1)=1$이에요.</p></div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 구조:</b> $\|\mathbf A-\mathbf A_1\|_F^2=9=\sigma_2^2$로 버려진 특잇값 제곱과 정확히 일치해요.</p><p>원 행렬에서 $\mathbf A_1$을 빼고 둘째 행은 첫째 행의 부호를 바꾼 벡터이므로 두 행의 제곱합이 같아요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A-\mathbf A_1=\begin{bmatrix}3&2&2\\2&3&-2\end{bmatrix}-\begin{bmatrix}2.5&2.5&0\\2.5&2.5&0\end{bmatrix}=\begin{bmatrix}0.5&-0.5&2\\-0.5&0.5&-2\end{bmatrix}$$</div><div class="deriv-why"><p>원 행렬에서 근사 행렬을 빼요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\|\mathbf A-\mathbf A_1\|_F^2=2\cdot\big(0.5^2+(-0.5)^2+2^2\big)=2\cdot(0.25+0.25+4)=9$$</div><div class="deriv-why"><p>둘째 행은 첫째 행의 부호를 바꾼 벡터이므로 두 행의 제곱합이 같아요</p></div></li></ol></div><p>둘째 특잇값은 $\sigma_2=\sqrt{\lambda_2}=\sqrt9=3$이므로 $\sigma_2^2=3^2=9$예요. 따라서 <b>$\|\mathbf A-\mathbf A_1\|_F^2=9=\sigma_2^2$로 정확히 같아요.</b></p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\mathbf A\mathbf v_1=\frac{1}{\sqrt2}\begin{bmatrix}3+2\\2+3\end{bmatrix}=\frac{5}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}=5\mathbf u_1$로 $\mathbf A\mathbf v_1=\sigma_1\mathbf u_1$이 완벽히 성립해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$\mathbf A_1$의 Frobenius 제곱노름은 $4\times(2.5)^2=4\times 6.25=25=5^2=\sigma_1^2$으로 첫 층의 보존 에너지와 일치해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>원 행렬의 전체 제곱합은 $\|\mathbf A\|_F^2=9+4+4+4+9+4=34$이고, $\sigma_1^2+\sigma_2^2=25+9=34$이므로 에너지 보존 정리 $\|\mathbf A\|_F^2=\|\mathbf A_1\|_F^2+\|\mathbf A-\mathbf A_1\|_F^2$가 정확히 성립해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>$\sigma_1$ 곱하기를 빠뜨리지 않아요.</b> $\mathbf u_1\mathbf v_1^\top$만 적으면 첫 층의 원소 크기가 달라져 Frobenius 제곱오차가 커져요.</p><p><b>노름과 제곱오차의 단위를 구별해요.</b> 문제에서 묻는 것은 원소 <b>제곱합</b> $\|\mathbf A-\mathbf A_1\|_F^2=9$이며 이는 $\sigma_2^2=9$와 비교해요. 제곱근을 취한 Frobenius 노름 $\|\mathbf A-\mathbf A_1\|_F=3$은 $\sigma_2=3$과 대응돼요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf A\mathbf A^\top$에서 $\sigma_1=5, \mathbf u_1, \mathbf v_1$을 구해요.</li><li>외적 $\sigma_1\mathbf u_1\mathbf v_1^\top$을 계산해 $\mathbf A_1$을 만들어요.</li><li>$\mathbf A-\mathbf A_1$을 구하고 원소 제곱합 9가 $\sigma_2^2$와 일치함을 보여요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>랭크 1 근사는 첫 층 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$이며, 오차는 버려진 특잇값 제곱합이에요.</p>$$\|\mathbf A-\mathbf A_1\|_F^2=\sigma_2^2$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix}$을 적고 시작해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\sigma_1=5$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top$, $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top$이에요.</p><p>(b) $\mathbf A_1=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$이에요.</p><p>(c) $\|\mathbf A-\mathbf A_1\|_F^2=9=\sigma_2^2$로 일치해요.</p></div><div class="summary-group"><h4>검산</h4><p>전체 제곱합 $\|\mathbf A\|_F^2=34 = 25+9 = \sigma_1^2+\sigma_2^2$로 일치해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>층에 $\sigma_1$을 곱해요. 제곱합은 $\sigma_2^2$, 노름은 $\sigma_2$와 비교해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>랭크 1 근사(rank-1 approximation)</dt><dd>가장 큰 특잇값에 대응하는 첫 외적 층 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$이에요.</dd><dt>외적(outer product)</dt><dd>열벡터와 행벡터의 곱 $\mathbf u\mathbf v^\top$으로 각 칸은 $u_iv_j$예요.</dd><dt>Frobenius 노름(Frobenius norm)</dt><dd>행렬 원소들의 제곱합의 제곱근이에요.</dd><dt>에카르트–영 정리(Eckart–Young theorem)</dt><dd>상위 $M$개 층의 합이 랭크 $M$ 이하 행렬 중 Frobenius 오차를 최소화한다는 정리예요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.10, 교과서 138쪽(PDF 144쪽). 원문은 ‘랭크 1 근사를 구하라’는 한 문장이고, 이 문항은 (a), (b)와 Frobenius 오차 판정 (c)로 나눴어요.</p><p>수업: 1104 L06 s14(랭크 제한 복원, Frobenius 오차, 에카르트–영 정리).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$2\times 3$ 행렬 $\mathbf A$에서 (a) 최대 특잇값 $\sigma_1$과 $\mathbf u_1,\mathbf v_1$, (b) 랭크 1 근사 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$를 구하고, (c) $\|\mathbf A-\mathbf A_1\|_F^2$가 $\sigma_2^2$와 같은지 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>랭크 1 근사는 SVD의 첫 외적 층 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$이에요. $\mathbf u_1$은 $\mathbf A\mathbf A^\top$의 가장 큰 고윳값에 대응하는 단위 고유벡터, $\mathbf v_1=\mathbf A^\top\mathbf u_1/\sigma_1$이에요.</p>
+  <p>$2\times 3$ 행렬의 특잇값은 2개뿐이므로 첫 층을 빼고 남는 오차는 버린 특잇값 제곱합 $\|\mathbf A-\mathbf A_1\|_F^2=\sigma_2^2$와 비교해요(<a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix},\qquad(17-\lambda)^2-64=0$$
+  <p>큰 고윳값에서 $\sigma_1,\mathbf u_1,\mathbf v_1$을 구한 뒤 외적 $\mathbf A_1$과 잔차 $\mathbf A-\mathbf A_1$을 계산해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\sigma_1$과 단위 특이벡터 $\mathbf u_1,\mathbf v_1$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}17-\lambda&amp;=\pm8\implies\lambda_1=25,\ \lambda_2=9,\\\sigma_1&amp;=\sqrt{25}=5\end{aligned}$$</div><div class="deriv-why"><p>특성방정식으로 최대 특잇값을 구해요</p></div></li>
+        <li><div class="deriv-eq">$$\begin{aligned}(17-25)x+8y&amp;=0\implies x=y,\\\mathbf u_1&amp;=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>첫째 행으로 고유벡터를 구해 정규화해요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\begin{aligned}\mathbf v_1&amp;=\frac{\mathbf A^\top\mathbf u_1}{\sigma_1}=\frac{1}{5\sqrt2}\begin{bmatrix}5\\5\\0\end{bmatrix}\\&amp;=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\\0\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A^\top\mathbf u_1$을 $\sigma_1=5$로 나눠요</p></div></li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 랭크 1 근사 $\mathbf A_1$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\mathbf u_1\mathbf v_1^\top&amp;=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1&amp;1&amp;0\end{bmatrix}\\&amp;=\frac12\begin{bmatrix}1&amp;1&amp;0\\1&amp;1&amp;0\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>두 단위 특이벡터의 외적을 구해요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\mathbf A_1=5\mathbf u_1\mathbf v_1^\top=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$$</div><div class="deriv-why"><p>$\sigma_1=5$를 곱해 $\mathbf A_1$을 얻어요</p></div></li>
+      </ol>
+    </div>
+    <p>두 행이 같고 0이 아니므로 $\operatorname{rank}(\mathbf A_1)=1$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\|\mathbf A-\mathbf A_1\|_F^2$와 $\sigma_2^2$ 비교</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\mathbf A-\mathbf A_1&amp;=\begin{bmatrix}3&amp;2&amp;2\\2&amp;3&amp;-2\end{bmatrix}-\begin{bmatrix}\frac52&amp;\frac52&amp;0\\\frac52&amp;\frac52&amp;0\end{bmatrix}\\&amp;=\begin{bmatrix}\frac12&amp;-\frac12&amp;2\\-\frac12&amp;\frac12&amp;-2\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>원 행렬에서 근사 행렬을 빼요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\|\mathbf A-\mathbf A_1\|_F^2=2\cdot\left(\frac14+\frac14+4\right)=9$$</div><div class="deriv-why"><p>둘째 행은 부호만 반대라 2배해요</p></div></li>
+      </ol>
+    </div>
+    <p>둘째 특잇값은 $\sigma_2=\sqrt{\lambda_2}=\sqrt9=3$이므로 $\sigma_2^2=9=\|\mathbf A-\mathbf A_1\|_F^2$로 정확히 같아요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\sigma_1=5$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top$, $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top$이에요.</p>
+    <p>(b) $\mathbf A_1=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$이에요.</p>
+    <p>(c) $\|\mathbf A-\mathbf A_1\|_F^2=9$로 $\sigma_2^2=3^2=9$와 같아요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf A\mathbf v_1=\frac{1}{\sqrt2}(5,5)^\top=5\mathbf u_1$로 $\mathbf A\mathbf v_1=\sigma_1\mathbf u_1$이 성립해요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\|\mathbf A_1\|_F^2=4\times(5/2)^2=25=\sigma_1^2$로 첫 층의 제곱노름과 맞아요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\|\mathbf A\|_F^2=9+4+4+4+9+4=34$이고 $\|\mathbf A_1\|_F^2+\|\mathbf A-\mathbf A_1\|_F^2=25+9=34$로 일치해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$에서 $\sigma_1=5$를 빠뜨리면 제곱오차가 9가 아니라 25로 커져요. 또 문제에서 묻는 것은 노름 $3$이 아니라 제곱합 $9=\sigma_2^2$예요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>랭크 1 근사는 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$이고 오차는 $\|\mathbf A-\mathbf A_1\|_F^2=\sigma_2^2$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A\mathbf A^\top=\begin{bmatrix}17&8\\8&17\end{bmatrix}$의 특성방정식 $(17-\lambda)^2-64=0$을 풀어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\sigma_1=5$, $\mathbf u_1=\frac{1}{\sqrt2}(1,1)^\top$, $\mathbf v_1=\frac{1}{\sqrt2}(1,1,0)^\top$. (b) $\mathbf A_1=\frac52\begin{bmatrix}1&1&0\\1&1&0\end{bmatrix}$. (c) $\|\mathbf A-\mathbf A_1\|_F^2=9=\sigma_2^2$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\|\mathbf A\|_F^2=34=25+9=\|\mathbf A_1\|_F^2+\|\mathbf A-\mathbf A_1\|_F^2$예요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\sigma_1$을 꼭 곱하고, 제곱합 $9$를 $\sigma_2^2$과 비교해요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Exercise 4.10, 교과서 138쪽(PDF 144쪽). 원문은 랭크 1 근사를 구하라는 한 문장이고 (a), (b)와 오차 판정 (c)로 나눴어요.</p>
+  <p>수업: 1104 L06 s14(랭크 제한 복원, Frobenius 오차).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-low-rank">작은 행렬 두 개로 데이터 복원하기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>랭크 1 근사(rank-1 approximation)</dt><dd>가장 큰 특잇값에 대응하는 첫 외적 층 $\mathbf A_1=\sigma_1\mathbf u_1\mathbf v_1^\top$이에요.</dd>
+    <dt>외적(outer product)</dt><dd>열벡터와 행벡터의 곱 $\mathbf u\mathbf v^\top$으로 각 성분이 $u_iv_j$인 행렬이에요.</dd>
+    <dt>Frobenius 노름(Frobenius norm)</dt><dd>행렬 원소 제곱합의 제곱근 $\|\mathbf M\|_F=\sqrt{\sum_{i,j}M_{ij}^2}$예요.</dd>
+  </dl>
+</section>

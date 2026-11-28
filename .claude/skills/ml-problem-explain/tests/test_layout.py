@@ -80,3 +80,77 @@ def test_long_likelihood_overflow_is_accessible_after_layout(tmp_path):
                 row.focus();row.press('ArrowRight')
                 assert page.locator('#p15').is_visible()
         browser.close()
+
+@pytest.mark.parametrize('width', [375, 1280])
+def test_math_row_and_table_spacing(tmp_path, width):
+    pw = pytest.importorskip('playwright.sync_api')
+    pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
+    p = pack.problems[0]
+    pack = replace(pack, problems=(p,))
+    body = (
+        '<div class="layer eli5" data-explanation="understand"><h4>풀이 목표</h4><p>평문 목표입니다.</p></div>'
+        '<div class="layer formal" data-explanation="recall"><h4>풀이 단서</h4><p>공식을 떠올려요.</p></div>'
+        '<div class="layer formal" data-explanation="start"><h4>첫 단계</h4><p>값을 대입해요.</p></div>'
+        '<div class="layer formal" data-explanation="solve"><h4>핵심 풀이</h4>'
+        '<div data-subpart="main"><h4>(a) 계산</h4>'
+        '<p class="plain-row">평문으로 쓴 문단입니다.</p>'
+        '<p class="math-text-row">수식이 들어간 행 $\\frac{\\sigma_1^2}{N_k}=0.15$입니다.</p>'
+        '<div class="table-wrap"><table>'
+        '<thead><tr><th>성분</th><th>$\\sigma_k^2$</th></tr></thead>'
+        '<tbody><tr><td>1</td><td>$0.15$</td></tr><tr><td>2</td><td>0.44</td></tr></tbody>'
+        '</table></div>'
+        '<p>표 다음 문단입니다.</p>'
+        '</div>'
+        '<div data-subpart="next"><h4>(b) 비교</h4><p>다음 소문항입니다.</p></div>'
+        '<section class="final-answer"><h4>최종 답</h4><p>$0.15$</p></section>'
+        '</div>'
+        '<div class="layer formal" data-explanation="verify"><h4>답 확인</h4><div data-subpart="main"><p>확인됨.</p></div><div data-subpart="next"><p>확인됨.</p></div></div>'
+        '<div class="layer warn" data-explanation="pitfall" data-omit-retry=""><h4>주의할 점</h4><p>주의.</p></div>'
+        '<div class="sum" hidden><div class="summary-group"><h4>요약</h4><p>핵심 요약</p></div></div>'
+        '<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>분산</dt><dd>퍼진 정도</dd></dl></section>'
+    )
+    # Use a 2-subpart problem or main subpart matching pack.problems[0]
+    p = replace(p, subparts=('main', 'next'))
+    pack = replace(pack, problems=(p,))
+    artifact = build_explanation(pack, {p.id: body}, course_stage(tmp_path), ROOT)
+    with pw.sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        page = browser.new_page(viewport={'width': width, 'height': 900})
+        page.goto(artifact.html.as_uri(), wait_until='networkidle')
+        page.locator('#pager-next').click()
+        page.wait_for_timeout(150)
+        metrics = page.evaluate('''() => {
+            const plain = document.querySelector('#p1 .plain-row');
+            const mathP = document.querySelector('#p1 .math-text-row');
+            const wrap = document.querySelector('#p1 .table-wrap');
+            const th = document.querySelector('#p1 .table-wrap thead th');
+            const tdMath = document.querySelector('#p1 .table-wrap tbody tr:first-child td');
+            const tdPlain = document.querySelector('#p1 .table-wrap tbody tr:last-child td');
+            const sub2 = document.querySelector('#p1 [data-explanation="solve"] [data-subpart="next"]');
+            const outerH4 = document.querySelector('#p1 [data-explanation="solve"] > h4');
+            const subH4 = document.querySelector('#p1 [data-explanation="solve"] [data-subpart="main"] > h4');
+            return {
+                plainLH: parseFloat(getComputedStyle(plain).lineHeight),
+                mathLH: parseFloat(getComputedStyle(mathP).lineHeight),
+                wrapMT: parseFloat(getComputedStyle(wrap).marginTop),
+                wrapMB: parseFloat(getComputedStyle(wrap).marginBottom),
+                thPT: parseFloat(getComputedStyle(th).paddingTop),
+                thPB: parseFloat(getComputedStyle(th).paddingBottom),
+                tdMathPT: parseFloat(getComputedStyle(tdMath).paddingTop),
+                tdPlainPT: parseFloat(getComputedStyle(tdPlain).paddingTop),
+                sub2MT: parseFloat(getComputedStyle(sub2).marginTop),
+                outerH4FS: parseFloat(getComputedStyle(outerH4).fontSize),
+                subH4FS: parseFloat(getComputedStyle(subH4).fontSize),
+                overflowX: document.documentElement.scrollWidth > window.innerWidth,
+                katexErrors: document.querySelectorAll('.katex-error').length,
+            };
+        }''')
+        assert metrics['mathLH'] > metrics['plainLH']
+        assert metrics['wrapMT'] >= 24 and metrics['wrapMB'] >= 24
+        assert metrics['thPT'] >= 11 and metrics['thPB'] >= 11
+        assert metrics['tdMathPT'] >= 12 and metrics['tdPlainPT'] >= 11
+        assert metrics['sub2MT'] >= 28
+        assert metrics['subH4FS'] < metrics['outerH4FS']
+        assert not metrics['overflowX']
+        assert metrics['katexErrors'] == 0
+        browser.close()

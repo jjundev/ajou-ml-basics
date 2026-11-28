@@ -1,29 +1,20 @@
 <div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 수렴한 GMM $p(x)=\sum_k\pi_k\,\mathcal{N}(x\mid\mu_k,\sigma_k^2)$의 계수 $(0.29,0.28,0.43)$, 평균 $(-2.75,-0.50,3.64)$, 분산 $(0.06,0.25,1.63)$과 초기값 평균 $(-4,0,8)$, 분산 $(1,0.2,3)$, 가중치 $\frac{1}{3}$이에요.</p>
-  <p>구할 것: (a) 가중치 합이 $1$인지와 표준편차 $\sigma_k$, (b) 평균이 가장 많이 이동한 성분과 분산이 커진 성분이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 수렴한 GMM 식의 세 혼합 가중치 합이 $1$인지 확인하고 표준편차 $\sigma_k$를 둘째 자리까지 구해요. (b) 초기값 대비 평균이 가장 많이 이동한 성분과 분산이 커진 성분을 골라요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘$\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 세로선 뒤 두 값’이라는 단서에서 <b>가우시안 혼합 밀도의 표기</b>를 읽는 법을 떠올려요.</p>
-  $$p(x)=\sum_{k=1}^{3}\underbrace{\pi_k}_{\text{앞의 계수}}\,\mathcal{N}\bigl(x\mid\underbrace{\mu_k}_{\text{평균}},\underbrace{\sigma_k^2}_{\text{분산}}\bigr),\qquad\sigma_k=\sqrt{\sigma_k^2}$$
-  <ul>
-    <li>각 성분 앞의 계수가 혼합 가중치 $\pi_k$예요. $p(x)$가 확률밀도이려면 $\sum_k\pi_k=1$이어야 해요.</li>
-    <li>세로선 뒤 둘째 값은 분산이라서 표준편차(standard deviation)는 그 제곱근이에요. 표준편차는 평균에서 데이터가 퍼진 폭을 $x$와 같은 단위로 나타내요.</li>
-  </ul>
-  <p>이 GMM은 E-step과 M-step을 되풀이해 파라미터가 더 바뀌지 않을 때까지 간 결과예요. 반복 절차는 <a href="정리노트_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>$p(x)=\sum_{k=1}^3 \pi_k\,\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 앞 계수가 가중치 $\pi_k$, 세로선 뒤 둘째 값이 <b>분산</b> $\sigma_k^2$이므로 표준편차는 $\sigma_k=\sqrt{\sigma_k^2}$예요(<a href="정리노트_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>).</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>초기값과 수렴값을 나란히 적는 비교표의 뼈대부터 그려요. 행은 성분 $1,2,3$, 열은 $\mu_k$(초기→수렴), $|\Delta\mu_k|$, $\sigma_k^2$(초기→수렴), 증감이에요.</p>
-  <p>풀이 로드맵: 1. $0.29+0.28+0.43$ 확인 → 2. 분산의 제곱근으로 $\sigma_k$ → 3. 표의 열을 채워 이동 거리와 분산 증감을 판정해요.</p>
+  <h4>첫 단계</h4>
+  <p>가중치 합 $0.29+0.28+0.43$부터 확인하고, 성분 $1,2,3$의 초기값과 수렴값을 나란히 적는 비교표를 만들어요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> 가중치 합은 $1$이고, $(\sigma_1,\sigma_2,\sigma_3)\approx(0.24,\,0.50,\,1.28)$이에요.</p>
-    <p>세 계수의 합은 $0.29+0.28+0.43=1$이에요. 대표로 성분 $1$의 표준편차는 $\sigma_1=\sqrt{0.06}=0.2449\ldots\approx0.24$예요.</p>
+    <h4>(a) 가중치 합과 표준편차</h4>
+    <p>세 가중치의 합은 $0.29+0.28+0.43=1$이에요. 성분 $1$의 표준편차는 $\sigma_1=\sqrt{0.06}=0.2449\ldots\approx0.24$이고, 세 성분을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">분산 $\sigma_k^2$</th> <th scope="col">$\sqrt{\sigma_k^2}$</th> <th scope="col">$\sigma_k$</th></tr></thead>
@@ -34,12 +25,11 @@
         </tbody>
       </table>
     </div>
-    <p>분산이 $1$보다 작으면 표준편차는 분산보다 크고($0.06\to0.24$), $1$보다 크면 표준편차가 더 작아요($1.63\to1.28$).</p>
+    <p>분산이 $1$보다 작으면 $\sigma_k\gt\sigma_k^2$이고, $1$보다 크면 $\sigma_k\lt\sigma_k^2$예요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 평균이 가장 많이 이동한 성분은 성분 $3$(이동 거리 $4.36$), 분산이 커진 성분은 성분 $2$예요.</p>
-    <p>대표로 성분 $3$은 $|3.64-8|=4.36$이에요. 세 성분을 표로 비교해요.</p>
+    <h4>(b) 초기값 대비 평균 이동과 분산 증감</h4>
+    <p>성분 $3$의 이동 거리는 $|3.64-8|=4.36$이에요. 세 성분을 표로 비교해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$\mu_k$: 초기 $\to$ 수렴</th> <th scope="col">$|\Delta\mu_k|$</th> <th scope="col">$\sigma_k^2$: 초기 $\to$ 수렴</th> <th scope="col">분산 증감</th></tr></thead>
@@ -50,57 +40,47 @@
         </tbody>
       </table>
     </div>
-    <p>$4.36$이 가장 커서 성분 $3$이 가장 많이 이동했고, 분산이 커진 것은 $0.2\to0.25$인 성분 $2$뿐이에요.</p>
+    <p>이동 거리는 성분 $3$($4.36$)이 가장 크고, 분산이 커진 성분은 성분 $2$($0.2\to0.25$)뿐이에요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 가중치 합은 $1$이고, 표준편차는 $(\sigma_1,\,\sigma_2,\,\sigma_3)\approx(0.24,\,0.50,\,1.28)$이에요.</p>
+    <p>(b) 평균이 가장 많이 이동한 성분은 성분 $3$(이동 거리 $4.36$), 분산이 커진 성분은 성분 $2$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>표준편차를 다시 제곱해 봐요. $0.24^2=0.0576\approx0.06$, $0.50^2=0.25$, $1.28^2=1.6384$로 반올림한 $\sigma_3$의 오차 범위 안에서 $1.63$과 맞아요.</p>
+    <p>$0.24^2=0.0576\approx0.06$, $0.50^2=0.25$, $1.28^2=1.6384\approx1.63$으로 반올림 오차 안에서 맞아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>$|\Delta\mu_k|$는 $1.25\lt4.36$, $0.50\lt4.36$이라 성분 $3$이 최대예요. 분산 쌍은 $0.06\lt1$, $0.25\gt0.2$, $1.63\lt3$이라 커진 것은 성분 $2$뿐이에요.</p>
-    <p>한 번 갱신한 값(3·4번 문제)과 결론은 같지만, 수렴값이 첫 갱신 방향으로 계속 가지는 않아요(예: 성분 $2$ 분산 $0.2\to0.44\to0.25$).</p>
+    <h4>(b) 확인</h4>
+    <p>$|\Delta\mu_1|=1.25$와 $|\Delta\mu_2|=0.50$ 모두 $4.36$보다 작고, 분산 비교는 $0.06\lt1$, $0.25\gt0.2$, $1.63\lt3$이에요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$\mathcal{N}(x\mid-2.75,\,0.06)$의 $0.06$을 표준편차로 읽으면 안 돼요. 이 문제의 표기에서 둘째 값은 분산이라서 표준편차는 $\sqrt{0.06}\approx0.24$예요.</p>
-  <p>(b)의 분산 비교는 분산끼리 해요. 수렴한 표준편차 $0.50$을 초기 분산 $0.2$와 비교하는 식으로 단위를 섞지 않아요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>$\mathcal{N}(x\mid\cdot,\cdot)$의 두 값이 평균과 분산인지 확인해요.</li>
-    <li>계수 합 $1$과 분산의 제곱근을 계산해요.</li>
-    <li>초기값과 수렴값을 같은 종류끼리 나란히 놓고 이동 거리와 증감을 판정해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathcal{N}(x\mid-2.75,\,0.06)$의 $0.06$은 표준편차가 아니라 분산이에요. (b)의 분산 비교도 표준편차가 아니라 분산끼리 비교해야 해요.</p>
 </div>
 <div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 앞 계수는 가중치, 세로선 뒤는 평균과 분산이에요. 표준편차는 $\sigma_k=\sqrt{\sigma_k^2}$예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>가중치 합 $1$, 표준편차 $(0.24,0.50,1.28)$이에요. 평균 이동 $(1.25,0.50,4.36)$으로 성분 $3$이 가장 많이 이동했고, 분산이 커진 성분은 성분 $2$뿐이에요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에서 앞 계수가 가중치, 세로선 뒤 둘째 값이 분산이라 $\sigma_k=\sqrt{\sigma_k^2}$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$0.29+0.28+0.43$과 성분별 초기→수렴 비교표를 먼저 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 합 $1$, $\sigma_k\approx(0.24,\,0.50,\,1.28)$, (b) 평균 최대 이동은 성분 $3$($4.36$), 분산 증가는 성분 $2$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>구한 표준편차를 제곱하면 반올림 오차 범위에서 주어진 분산과 일치해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>둘째 값이 분산이므로 표준편차를 구할 때 제곱근을 취하고, 비교는 분산끼리 해요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>가우시안 혼합 모형(Gaussian mixture model, GMM)</dt>
-    <dd>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$처럼 가우시안 여러 개를 가중치 $\pi_k$로 섞은 밀도예요. $\sum_k\pi_k=1$이에요.</dd>
-    <dt>표준편차(standard deviation) $\sigma_k$</dt>
-    <dd>분산 $\sigma_k^2$의 제곱근이에요. $x$와 같은 단위의 퍼짐 폭이에요.</dd>
-    <dt>수렴(convergence)</dt>
-    <dd>E-step과 M-step을 되풀이해도 파라미터나 로그우도가 거의 변하지 않는 상태예요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.6(GMM Fit), 교과서 361–362쪽(PDF 367–368쪽)의 최종 GMM 식 (11.57)과 Example 11.3–11.5의 초기값이에요.</p>
   <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>가우시안 혼합 모형(Gaussian mixture model, GMM)</dt>
+    <dd>$p(x)=\sum_k\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$처럼 가우시안 여러 개를 $\sum_k\pi_k=1$인 가중치로 섞은 밀도예요.</dd>
+    <dt>표준편차(standard deviation) $\sigma_k$</dt>
+    <dd>분산 $\sigma_k^2$의 제곱근이에요. $x$와 같은 단위의 퍼짐 폭이에요.</dd>
+  </dl>
 </section>

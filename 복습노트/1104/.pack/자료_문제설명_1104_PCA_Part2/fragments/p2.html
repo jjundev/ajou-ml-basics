@@ -1,10 +1,67 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $28\times28$ 손글씨 이미지(784차원)를 첫 두 주성분 평면($\mathbb R^2$)에 투영한 산점도(파란 점: 숫자 0, 주황 점: 숫자 1, 빨간 선: 대표 이미지 안내선)가 주어졌어요.</p><p><b>구할 것:</b> (a) 두 숫자 무리가 2차원 평면에서 분리되는 정도, (b) 각 숫자 집단 내부의 분산(퍼짐) 크기를 산점도를 근거로 판별해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘첫 두 주성분이 만드는 평면’이라는 단서에서 <b>사영 좌표(projection coordinates)</b>와 <b>2차원 축소</b>를 떠올려요.</p><p>평균을 뺀 이미지 $\mathbf x_n \in \mathbb R^{784}$을 상위 두 주성분 기저 $\mathbf B = [\mathbf b_1, \mathbf b_2] \in \mathbb R^{784\times 2}$에 투영하면 2차원 좌표 벡터를 얻어요.</p>$$\mathbf z_n = \mathbf B^\top \mathbf x_n = \begin{bmatrix} \mathbf b_1^\top \mathbf x_n \\ \mathbf b_2^\top \mathbf x_n \end{bmatrix} \in \mathbb R^2$$<p>‘분리 정도’는 두 집단 중심 간 거리 대비 경계의 중첩 유무를 보며, ‘집단 내 분산(within-class variance)’은 각 색상의 점에서 자기 집단 중심까지의 <b>제곱 거리의 평균</b>이에요. 그림에서는 외곽점 하나보다 점들이 중심을 둘러싸고 얼마나 넓게 퍼져 있는지를 봐요. <a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a>에서 같은 그림을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>산점도의 색상과 숫자를 매핑하고 2단계 판별 기준(1. 경계 중첩 여부로 분리도 $\to$ 2. 중심에서 떨어진 거리의 산포로 집단 내 분산)을 적어요.</p><p>‘파란 점 = 숫자 0, 주황 점 = 숫자 1. (a)는 두 군집 경계의 겹침 판정, (b)는 군집별 가로·세로 확산 범위 비교.’</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 요약:</b> 경계부에서 일부 점이 중첩되지만 두 숫자(0과 1) 군집은 2차원 평면에서 비교적 뚜렷하게 분리돼요.</p><p>주황색 점(숫자 1)은 왼쪽 좁은 영역에 밀집되어 있고, 파란색 점(숫자 0)은 그보다 오른쪽에 중심을 두고 아래까지 넓게 퍼져 두 군집의 중심이 확실히 떨어져 있어요.</p><p>두 무리가 맞닿는 경계에서 주황 점 일부가 파란 무리 쪽으로 흩어져 경미한 겹침이 관찰되지만, 전체 데이터의 대다수는 자기 영역 내에 위치해요. 따라서 784차원을 단 2차원으로 축소했음에도 두 클래스가 비교적 뚜렷이 분리돼요.</p></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 요약:</b> 숫자 0 집단이 산점도에서 차지하는 가로·세로 영역이 훨씬 넓어 집단 내 분산이 숫자 1보다 훨씬 커요.</p><p>산점도에서 관찰되는 두 집단의 기하학적 분포 특성을 표로 비교해요.</p><div class="table-wrap"><table><thead><tr><th>비교 항목</th><th>숫자 1 군집 (주황 점)</th><th>숫자 0 군집 (파란 점)</th><th>판별 근거</th></tr></thead><tbody><tr><td>분포 위치</td><td>좌상단 국소 영역</td><td>중앙에서 우하단까지 광범위</td><td>군집 중심 간 확실한 거리 확보</td></tr><tr><td>확산 영역 (범위)</td><td>가로·세로 모두 좁음</td><td>상하·좌우로 더 넓게 확산</td><td>중심으로부터의 거리 제곱 평균(분산)이 0이 훨씬 큼</td></tr><tr><td>밀집도 및 형태 다양성</td><td>조밀하게 뭉침 (획 변형 적음)</td><td>넓게 퍼짐 (기울기·두께·형태 다양)</td><td>파란 무리의 중심 주변부터 외곽까지 넓게 점이 분포함</td></tr><tr><td>집단 내 분산 결론</td><td>상대적으로 작음</td><td><b>상대적으로 훨씬 큼</b></td><td>각 중심으로부터 퍼져 있는 점들의 가로·세로 폭 차이</td></tr></tbody></table></div><p>따라서 <b>숫자 0 집단이 주성분 평면에서 더 넓게 퍼져 있어 집단 안의 분산이 더 커요.</b> 안내선에 연결된 원본 이미지에서도 1은 단순한 획 형태인 반면 0은 크기·기울기·가로세로 비율 변동이 커 이와 일치해요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>안내선이 가리키는 원본 이미지를 확인해요. 왼쪽 주황 무리에 연결된 이미지는 숫자 1이고, 오른쪽 파란 무리에 연결된 이미지는 숫자 0이에요. 영역별로 클래스가 정합하므로 두 집단이 대부분 나뉜다는 판정과 정확히 맞아요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>외곽 극단점(outlier)을 확인해요. 그림의 오른쪽과 아래쪽까지 파란 점이 퍼져 있고 점이 조밀한 부분도 주황 무리보다 넓어요. 주황 점 대부분은 자체 중심 가까이에 있어서 숫자 0의 분산이 더 크다는 결론과 일치해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>각 집단의 중심부터 점들이 얼마나 떨어져 있는지 살펴요.</b> 주황 점은 좁은 곳에 모여 있어요. 파란 무리에서는 중심과 거리가 있는 곳에도 점이 많이 분포해요.</p><p><b>(a)의 분리도와 (b)의 분산은 독립된 질문이에요.</b> 두 집단이 완벽히 분리되어도 각 집단 내부의 분산은 작을 수도, 매우 클 수도 있어요.</p><p>빨간 선과 빨간 점은 대표 이미지의 위치를 표시하는 보조선일 뿐 데이터 포인트가 아니에요.</p><p>이 비교는 첫 두 주성분 평면으로 사영된 2차원 공간에서의 관찰이에요. 784차원 픽셀 공간 전체의 분산을 단정하지 않아요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>산점도의 색상과 숫자(0: 파랑, 1: 주황) 매핑을 확인해요.</li><li>두 군집이 접하는 경계의 중첩 여부를 관찰해 분리 정도를 서술해요.</li><li>각 색상이 차지하는 평면 상의 종횡 너비를 대조해 집단 내 분산을 비교해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>점의 좌표는 첫 두 주성분 기저와의 사영 내적이에요.</p>$$\mathbf z_n=\mathbf B^\top\mathbf x_n\in\mathbb R^2$$<p>분리는 군집 간 경계 중첩 여부, 분산 비교에는 각 군집 중심에서 점들이 떨어져 있는 정도를 봐요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>파란 점 = 0, 주황 점 = 1, 빨간 선 = 대표 이미지 안내선으로 정리해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 경계에서 경미한 중첩이 있으나 비교적 뚜렷하게 나뉘어요.</p><p>(b) 숫자 0 집단이 훨씬 넓게 퍼져 집단 내 분산이 더 커요.</p></div><div class="summary-group"><h4>검산</h4><p>안내선으로 영역의 숫자를 확인할 수 있고, 파란 점은 가로·세로 양쪽으로 넓게 퍼져 있어요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>자기 집단 중심으로부터의 퍼짐으로 분산을 비교해요. 2차원 사영 공간에서의 관찰이에요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>주성분 평면(principal subspace)</dt><dd>상위 두 주성분 기저 벡터 $\mathbf b_1, \mathbf b_2$가 생성하는 2차원 부분공간이에요.</dd><dt>사영 좌표(projection coordinates)</dt><dd>평균 중심화 데이터와 주성분 기저의 내적 $\mathbf b_i^\top \mathbf x_n$으로 정의되는 저차원 좌표예요.</dd><dt>산점도(scatter plot)</dt><dd>고차원 이미지를 2차원 사영 좌표의 점으로 시각화한 분포도예요.</dd><dt>집단 안의 분산(within-class variance)</dt><dd>동일 클래스 내부의 데이터들이 자체 중심점으로부터 흩어진 제곱 거리의 평균이에요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.3과 그림 10.10, 교과서 332–333쪽(PDF 338–339쪽).</p><p>수업: 1104 L06 s11(MNIST 0과 1의 2차원 사영).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>첫 두 주성분 평면의 산점도(파란 점: 숫자 0, 주황 점: 숫자 1)에서 (a) 두 숫자 무리의 분리 정도와 (b) 집단 안의 분산이 더 큰 쪽을 읽어요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>각 점은 중심화한 784차원 이미지를 상위 두 주성분 기저 $\mathbf B=[\mathbf b_1,\mathbf b_2]\in\mathbb R^{784\times 2}$에 사영한 2차원 좌표 $\mathbf z_n=\mathbf B^\top\mathbf x_n\in\mathbb R^2$예요(<a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a>).</p>
+  <p>분리 정도는 두 무리의 중심 분리와 경계 겹침 여부로 읽고, 집단 안의 분산은 각 집단 중심에서 점들이 떨어진 제곱 거리의 평균이므로 외곽점 몇 개보다 중심부터 외곽까지 퍼진 폭을 비교해요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  <p>산점도에서 파란 점(0)과 주황 점(1)이 모인 위치와 경계의 겹침을 먼저 확인한 뒤, 각 무리의 가로·세로 퍼짐을 비교해요. 빨간 선은 대표 점과 원본 이미지를 잇는 안내선이에요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 두 숫자 무리의 분리 정도</h4>
+    <p>주황 점(숫자 1)은 왼쪽의 좁은 영역에 모여 있고, 파란 점(숫자 0)은 그 오른쪽에서 위아래로 넓게 자리 잡아 두 무리의 중심이 뚜렷하게 떨어져 있어요.</p>
+    <p>두 무리가 맞닿는 중앙 경계에서는 주황 점과 파란 점 일부가 섞여 완전히 분리되지는 않지만, 784차원을 2차원으로 줄였는데도 두 무리는 비교적 뚜렷하게 나뉘어요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 집단 안의 분산 비교</h4>
+    <p>주황 점(숫자 1)은 왼쪽 작은 영역 안에 조밀하게 뭉쳐 있는 반면, 파란 점(숫자 0)은 중심부부터 오른쪽과 아래쪽까지 가로·세로로 훨씬 넓게 퍼져 있어요.</p>
+    <p>따라서 각 집단 중심으로부터의 제곱 거리 평균인 집단 안의 분산은 숫자 0 쪽이 더 커요. 안내선에 연결된 이미지에서도 1은 비슷한 세로 획인 반면 0은 기울기와 너비 변화가 크게 보여요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 숫자 0과 1의 점 무리는 경계에서 일부 점이 겹치지만 비교적 뚜렷하게 나뉘어요.</p>
+    <p>(b) 숫자 0(파란 점) 집단이 주성분 평면에서 훨씬 넓게 퍼져 있어 집단 안의 분산이 더 커요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>왼쪽 안내선 4개는 모두 주황 영역에서 숫자 1 이미지로 이어지고, 오른쪽 안내선 4개는 모두 파란 영역에서 숫자 0 이미지로 이어져 두 영역의 분류와 맞아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>외곽 점 몇 개만이 아니라 점이 조밀한 중심 영역 자체의 가로·세로 폭도 파란 무리가 주황 무리보다 훨씬 넓어 숫자 0의 분산이 크다는 판정이 유지돼요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>점유 면적(가장 먼 외곽점)만 보고 분산을 단정하지 않고 중심 주변 점들의 전체 퍼짐을 함께 봐요. (a)의 분리도와 (b)의 집단 내 분산은 서로 다른 질문이며, 이 비교는 784차원 전체가 아니라 첫 두 주성분 평면(2차원)에서의 결과예요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>점의 좌표는 $\mathbf z_n=\mathbf B^\top\mathbf x_n\in\mathbb R^2$이고, 분리는 경계 겹침, 분산은 각 집단 중심에서의 퍼짐으로 읽어요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>파란 점(0)과 주황 점(1)의 위치·경계 겹침과 각 무리의 가로·세로 폭을 읽어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 경계에 일부 겹침이 있으나 비교적 뚜렷하게 나뉘어요. (b) 숫자 0 집단이 더 넓게 퍼져 집단 안의 분산이 더 커요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>빨간 안내선이 왼쪽 1·오른쪽 0 영역과 맞고, 파란 무리는 밀집 영역 자체도 훨씬 넓어요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>집단 내 분산은 중심에서의 퍼짐으로 판단하며, 2차원 사영 평면에서의 관찰이에요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 10.3과 그림 10.10, 교과서 332–333쪽(PDF 338–339쪽).</p>
+  <p>수업: 1104 L06 s11(MNIST 0과 1의 2차원 사영).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>주성분 평면(principal subspace)</dt><dd>상위 두 주성분 기저 벡터 $\mathbf b_1,\mathbf b_2$가 만드는 2차원 부분공간이에요.</dd>
+    <dt>사영 좌표(projection coordinates)</dt><dd>중심화 데이터와 주성분 기저의 내적 $\mathbf z_n=\mathbf B^\top\mathbf x_n$으로 얻은 저차원 좌표예요.</dd>
+    <dt>집단 안의 분산(within-class variance)</dt><dd>같은 집단의 점들이 자기 집단 중심으로부터 떨어진 제곱 거리의 평균이에요.</dd>
+  </dl>
+</section>

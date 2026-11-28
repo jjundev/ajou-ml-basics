@@ -1,10 +1,91 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $D=784$차원 손글씨 숫자 8 이미지, 학습 데이터로 구한 주성분 기저, 테스트 이미지 4장의 복원 그림(맨 윗행: 원본, 아래: $M=1, 10, 100, 500$), 학습 평균제곱 복원오차 식 $J_M^\star = \sum_{i=M+1}^{D}\lambda_i$, 그리고 $M$이 약 400개를 넘으면 학습 오차가 거의 0이라는 관찰이 주어졌어요.</p><p><b>구할 것:</b> (a) 주성분 수 $M$ 증가에 따른 복원 이미지 품질 변화, (b) $M=784$일 때 $J_{784}^\star$ 계산 및 수학적 완전 복원 증명, (c) 500개만으로도 충분한 이유를 설명해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘주성분 $M$개로 복원’이라는 단서에서 <b>사영과 기저 복원</b>을 떠올려요. 복원할 원본 이미지 벡터를 $\mathbf x$, 숫자 8 학습 이미지 5,389장의 평균 벡터를 $\bar{\mathbf x}$라 해요. 정규직교 고유벡터를 열로 모은 $\mathbf B \in \mathbb R^{784\times M}$로 중심화 벡터 $\mathbf x-\bar{\mathbf x}$의 좌표 $\mathbf z$를 구해요. $\mathbf B\mathbf z$는 중심화된 공간에서의 복원이므로 평균 벡터를 더해 원래 이미지 좌표로 돌아가요.</p>$$\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf z,\qquad \mathbf z=\mathbf B^\top(\mathbf x-\bar{\mathbf x})$$<p>‘평균제곱 복원오차’라는 단서에서 <b>버려진 방향의 고윳값 총합</b>을 떠올려요. 직교 기저에서 버려진 축 성분의 분산 합이 바로 최적 오차예요($\lambda_1\ge\cdots\ge\lambda_D\ge0$).</p>$$J_M^\star = \sum_{i=M+1}^{D}\lambda_i$$<p>‘$M=D=784$’라는 조건에서는 <b>정사각 직교행렬의 양방향 항등성</b>을 떠올려요. 열이 정규직교인 정사각행렬은 $\mathbf B^\top\mathbf B=\mathbf I$뿐만 아니라 $\mathbf B\mathbf B^\top=\mathbf I$도 만족해요. <a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a>와 <a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>(a)는 열별 위아래 비교 로드맵, (b)·(c)는 오차 합의 시작 번호와 끝 번호를 적는 2단계 로드맵으로 시작해요.</p>$$J_{784}^\star=\sum_{i=785}^{784}\lambda_i=0, \qquad J_{500}^\star=\sum_{i=501}^{784}\lambda_i$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 요약:</b> 주성분 수 $M$이 증가할수록 흐릿한 전체 평균 형태에서 개별 원본의 고유한 획과 기울기가 선명히 살아나는 형상으로 복원돼요.</p><p>각 열(동일 원본 이미지)의 $M$ 단계별 복원 특성을 표로 비교해요.</p><div class="table-wrap"><table><thead><tr><th>주성분 개수 ($M$)</th><th>복원 이미지 상태</th><th>보존된 정보</th><th>특징</th></tr></thead><tbody><tr><td>$M=1$</td><td>흐릿한 얼룩</td><td>공통적인 8 윤곽이 두드러짐</td><td>이미지별 기울기와 획 차이는 흐릿하게 드러남</td></tr><tr><td>$M=10$</td><td>대략적인 윤곽 형성</td><td>숫자의 대략적 기울기와 크기</td><td>세부 획이 번지고 배경에 회색 얼룩 잔존</td></tr><tr><td>$M=100$</td><td>뚜렷한 숫자 형상</td><td>개별 숫자의 고유 필체와 획 특징</td><td>원본을 충분히 식별 가능하나 미세 노이즈 존재</td></tr><tr><td>$M=500$</td><td>원본과 육안으로 매우 비슷함</td><td>세부 곡률 및 픽셀 명암 디테일</td><td>그림에서 원본과 매우 비슷한 복원</td></tr></tbody></table></div><p>따라서 주성분을 늘릴수록 흐릿하고 정형화된 형태에서 개별 원본의 세부가 살아 있는 선명한 이미지로 전환돼요.</p></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> $M=784$일 때 $\mathbf B\mathbf B^\top=\mathbf I_{784}$이므로 $\tilde{\mathbf x}=\mathbf x$이고, 버려진 항이 없는 빈 합이므로 $J_{784}^\star=0$이에요.</p><p>$M=784=D$이면 기저 행렬 $\mathbf B$는 $784\times 784$ 정사각 정규직교행렬이에요. 정규직교 정사각행렬의 전치행렬은 곧 역행렬($\mathbf B^{-1}=\mathbf B^\top$)이므로 좌우 곱셈 순서에 관계없이 항등행렬이 돼요.</p>$$\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf B^\top(\mathbf x-\bar{\mathbf x})=\bar{\mathbf x}+\mathbf I_{784}(\mathbf x-\bar{\mathbf x})=\mathbf x$$<p>복원오차 공식에서도 버려진 축이 전혀 없으므로 합의 시작 지점(785)이 끝 지점(784)을 초과하는 <b>빈 합(empty sum)</b>이 되어 정확히 0이에요.</p>$$J_{784}^\star = \sum_{i=785}^{784}\lambda_i = 0$$<p>따라서 모든 주성분을 사용하면 학습 이미지뿐 아니라 임의의 테스트 이미지까지 원본이 수학적으로 정확히 복원돼요.</p></div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 요약:</b> $J_M^\star$는 단조 감소하여 $M=500$에서 버려진 학습 분산의 합이 거의 0이에요. 테스트 이미지 네 장의 복원도 그림에서 원본과 매우 비슷해요.</p><p>고윳값은 항상 비음수($\lambda_i \ge 0$)이므로 $M$이 커질수록 오차 $J_M^\star$는 단조 감소(줄어들거나 유지)해요.</p>$$J_M^\star - J_{M+1}^\star = \lambda_{M+1} \ge 0 \implies J_{500}^\star \le J_{450}^\star$$<p>문제에 주어진 오차 곡선 설명에 따르면 약 400개를 지난 구간에서 학습 오차가 이미 0에 가깝고, 따라서 $J_{500}^\star = \sum_{i=501}^{784}\lambda_i \approx 0$이에요. 특히 학습 이미지에서 바깥쪽 픽셀처럼 항상 같은 값을 갖는 좌표는 분산이 0이어서 유효 차원이 낮아져요.</p><p>이 네 테스트 이미지에서도 버려진 방향의 성분이 작았다는 점을 그림의 원본 행과 500개 복원 행이 거의 같다는 사실로 확인해요. 학습 평균오차만으로는 개별 테스트 이미지의 오차를 알 수 없어요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>넷째 열(우측으로 기운 8)을 확인해요. $M=1$에서는 기울기와 획이 흐릿하지만, $M=10, 100$을 거치며 기울어진 필체가 살아나고 $M=500$에서는 그림에서 원본과 매우 비슷해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>복원식에서 원본을 빼면 $\tilde{\mathbf x}-\mathbf x=(\mathbf B\mathbf B^\top-\mathbf I_{784})(\mathbf x-\bar{\mathbf x})$예요. $M=784$에서는 괄호 안의 행렬이 0이므로 임의의 이미지 벡터에서 복원 차이가 0이에요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>학습 오차는 $0\le J_{550}^\star\le J_{500}^\star\le J_{450}^\star$이고, 450개는 문제에서 0에 가깝다고 설명한 구간에 있어요. 그림 10.12에서는 테스트 이미지 네 장의 $M=500$ 행과 원본 행을 열별로 비교해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>‘거의 완벽한 복원’과 ‘수학적 정확한 복원’을 구별해요.</b> 그림의 500개 복원은 시각적 오차가 작은 근사예요. 모든 벡터의 정확한 복원은 $M=784$에서 보장돼요. 더 적은 축으로도 버린 방향의 성분이 모두 0인 벡터는 정확히 복원되고, 버린 고윳값이 모두 0이면 학습 평균오차가 0이에요.</p><p><b>학습 평균오차와 테스트 이미지의 오차를 구분해요.</b> $J_M^\star$는 학습 데이터의 평균오차예요. 그림에서 제시한 테스트 사례의 실제 복원 결과는 원본과 비교해 따로 확인해요.</p><p>(b)의 복원 근거로 $J_{784}^\star=0$만 제시하면 학습 평균에 국한돼요. 임의의 벡터에 대한 복원은 $\mathbf B\mathbf B^\top=\mathbf I_{784}$ 항등식으로 보여야 해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$M=1, 10, 100, 500$에서 이미지 품질이 단계별로 어떻게 진화하는지 설명해요.</li><li>$M=784$일 때 $\mathbf B\mathbf B^\top=\mathbf I$를 이용해 $\tilde{\mathbf x}=\mathbf x$와 $J_{784}^\star=0$을 유도해요.</li><li>$J_M^\star$의 단조 감소성과 외곽 픽셀의 특성, 그림 속 테스트 이미지 비교를 연결해 500개 복원의 수준을 설명해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>복원식은 $\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf B^\top(\mathbf x-\bar{\mathbf x})$, 학습 평균제곱 복원오차는 버려진 고윳값 합 $J_M^\star=\sum_{i=M+1}^{D}\lambda_i$예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$J_{784}^\star=\sum_{i=785}^{784}\lambda_i$, $J_{500}^\star=\sum_{i=501}^{784}\lambda_i$를 적어요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 주성분이 늘수록 흐릿한 평균 형상에서 원본의 세부 획이 선명한 형상으로 복원돼요.</p><p>(b) $M=784$이면 $\mathbf B$가 정사각 직교행렬이라 $\mathbf B\mathbf B^\top=\mathbf I$, $\tilde{\mathbf x}=\mathbf x$이고 $J_{784}^\star=0$이에요.</p><p>(c) $J_M^\star$는 단조 감소하며 400개 이후 거의 0이고, 그림에서는 500개만으로 네 이미지가 원본과 매우 비슷하게 복원돼요.</p></div><div class="summary-group"><h4>검산</h4><p>784개를 모두 쓰면 $\tilde{\mathbf x}-\mathbf x=\mathbf 0$이에요. 학습 오차는 500개에서 0에 가깝고, 테스트 복원은 그림에서 확인해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>완전 복원(784)과 시각적 충분(500)을 구분해요. 학습 오차 곡선과 테스트 이미지의 실제 복원 결과를 구분해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>복원(reconstruction)</dt><dd>중심화한 이미지의 저차원 좌표 $\mathbf z=\mathbf B^\top(\mathbf x-\bar{\mathbf x})$에서 $\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf z$를 계산해 원래 이미지 좌표의 벡터를 얻는 과정이에요.</dd><dt>평균제곱 복원오차(average squared reconstruction error)</dt><dd>학습 이미지 $N$장과 복원 벡터 간의 유클리드 제곱 거리 평균 $\frac1N\sum_{n=1}^N\|\mathbf x_n-\tilde{\mathbf x}_n\|^2$이에요. 최솟값은 버려진 고윳값 합 $J_M^\star$예요.</dd><dt>정규직교기저(orthonormal basis)</dt><dd>크기가 1이고 상호 직교하는 기저예요. 전체 공간 차원만큼 모은 정사각행렬은 $\mathbf B\mathbf B^\top=\mathbf I$를 만족해요.</dd><dt>빈 합(empty sum)</dt><dd>합산 범위의 시작 인덱스가 종료 인덱스보다 커서 더할 항이 없는 합으로, 수학적으로 0으로 정의돼요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 10.4와 그림 10.12, 교과서 338–339쪽(PDF 344–345쪽). 그림 10.13과 식 (10.62)의 설명(약 550개면 학습 데이터 완전 복원, 가장자리 픽셀)은 조건에 문장으로 주어졌어요.</p><p>수업: 1104 L06 s8–11(버린 방향의 복원오차, MNIST 사영과 복원).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a>, <a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$D=784$차원 숫자 8 이미지에서 (a) 그림 10.12의 $M=1,10,100,500$ 복원 변화를 읽고, (b) $M=784$일 때 $J_{784}^\star$와 완전 복원을 보이며, (c) 500개만으로 테스트 이미지가 거의 완벽히 복원되는 이유를 설명해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>원본 이미지 벡터를 $\mathbf x$, 학습 이미지 5,389장의 평균 벡터를 $\bar{\mathbf x}$라 두면 상위 $M$개 정규직교 고유벡터 열행렬 $\mathbf B\in\mathbb R^{784\times M}$로 중심화 벡터를 사영·복원해요(<a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a>).</p>
+  $$\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf z,\qquad \mathbf z=\mathbf B^\top(\mathbf x-\bar{\mathbf x})$$
+  <p>$M=D=784$이면 $\mathbf B$가 정사각 직교행렬이라 $\mathbf B\mathbf B^\top=\mathbf I_{784}$가 되고, 학습 평균 제곱 복원오차는 버린 방향의 고윳값 합 $J_M^\star=\sum_{i=M+1}^{D}\lambda_i$예요(<a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$J_{784}^\star=\sum_{i=785}^{784}\lambda_i=0,\qquad J_{500}^\star=\sum_{i=501}^{784}\lambda_i$$
+  <p>(a)는 그림의 각 열을 위에서 아래로 읽고, (b)·(c)는 두 합식과 직교행렬 항등식으로 이어가요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 주성분 개수에 따른 복원 변화</h4>
+    <p>각 열이 같은 테스트 이미지 한 장의 복원이에요. 행을 내려갈수록 흐릿한 8에서 개별 필체의 윤곽과 획이 살아나요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>$M$</th><th>복원 상태</th><th>보존된 특징</th></tr></thead>
+        <tbody>
+          <tr><td>$1$</td><td>흐릿하고 서로 비슷한 8</td><td>전체적인 8의 윤곽만 남음</td></tr>
+          <tr><td>$10$</td><td>배경 얼룩은 남지만 윤곽 분리</td><td>개별 이미지의 기울기와 큰 형태</td></tr>
+          <tr><td>$100$</td><td>숫자 형상이 또렷함</td><td>각 필체의 획과 고리 모양</td></tr>
+          <tr><td>$500$</td><td>맨 위 원본과 거의 같음</td><td>세부 획과 명암까지 살아남</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $M=784$일 때의 $J_{784}^\star$와 완전 복원</h4>
+    <p>$M=784=D$이면 $\mathbf B$는 $784\times 784$ 정사각 정규직교행렬이므로 $\mathbf B^{-1}=\mathbf B^\top$, 곧 $\mathbf B\mathbf B^\top=\mathbf I_{784}$예요. 따라서 임의의 이미지 $\mathbf x$가 정확히 복원돼요.</p>
+    $$\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf B^\top(\mathbf x-\bar{\mathbf x})=\bar{\mathbf x}+\mathbf I_{784}(\mathbf x-\bar{\mathbf x})=\mathbf x$$
+    <p>버린 방향이 없어 $J_{784}^\star=\sum_{i=785}^{784}\lambda_i$는 더할 항이 없는 빈 합(empty sum)이므로 $J_{784}^\star=0$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 500개로 거의 완벽히 복원되는 이유</h4>
+    <p>$\lambda_i\ge 0$이므로 $M$이 늘면 $J_M^\star$는 단조 감소해요($J_{500}^\star\le J_{450}^\star$). 문제의 오차 곡선 조건에서 약 400개 이후 학습 오차가 거의 0이므로 $J_{500}^\star=\sum_{i=501}^{784}\lambda_i\approx 0$이에요.</p>
+    <p>특히 늘 검정인 가장자리 픽셀은 평균 $\bar{\mathbf x}$를 빼면 모든 학습 이미지에서 0이라 분산이 0이고, 유효 차원이 784보다 훨씬 작아요. 그림 10.12의 테스트 이미지 4장도 같은 분포를 공유하며 버린 방향 성분이 아주 작아 500개 행이 원본과 거의 같아요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 주성분이 $1\to 10\to 100\to 500$으로 늘수록 흐릿하고 비슷한 모양에서 기울기·획·세부가 살아나 500개에서는 원본과 거의 같아져요.</p>
+    <p>(b) $J_{784}^\star=0$이며, $\mathbf B\mathbf B^\top=\mathbf I_{784}$이므로 임의의 이미지가 $\tilde{\mathbf x}=\mathbf x$로 수학적으로 정확히 복원돼요.</p>
+    <p>(c) 400개 이후 버린 고윳값 합 $J_{500}^\star$가 거의 0이고(가장자리 픽셀 등 0 분산 좌표 포함) 그림의 테스트 이미지들도 버린 방향 성분이 작아 500개만으로 거의 완벽히 복원돼요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>넷째 열(오른쪽으로 기운 8)을 위에서 아래로 보면 $M=1$은 흐릿하고, $M=10, 100$에서 기울어진 두 고리가 또렷해지며, $M=500$은 맨 위 원본과 거의 구분되지 않아요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\tilde{\mathbf x}-\mathbf x=(\mathbf B\mathbf B^\top-\mathbf I_{784})(\mathbf x-\bar{\mathbf x})$에 $\mathbf B\mathbf B^\top=\mathbf I_{784}$를 넣으면 임의의 $\mathbf x$에서 차가 $\mathbf 0$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$0\le J_{550}^\star\le J_{500}^\star\le J_{450}^\star$이고, 450개는 조건에서 학습 오차가 거의 0이라 한 구간에 있어요. 테스트 4장의 실제 복원은 그림 10.12의 $M=500$ 행과 원본 행 비교로 확인해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>(b)의 완전 복원은 $J_{784}^\star=0$(학습 평균)만으로는 부족하고 $\mathbf B\mathbf B^\top=\mathbf I_{784}$로 보여야 임의의 테스트 이미지까지 성립해요. 또 500개 복원(시각적 근사)과 784개 복원(수학적 일치), 학습 평균 오차 $J_M^\star$와 개별 테스트 오차를 구별해요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>복원은 $\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf B^\top(\mathbf x-\bar{\mathbf x})$, 학습 평균 제곱 복원오차는 $J_M^\star=\sum_{i=M+1}^{D}\lambda_i$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$J_{784}^\star=\sum_{i=785}^{784}\lambda_i=0$과 $J_{500}^\star=\sum_{i=501}^{784}\lambda_i$를 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $M$이 늘수록 흐릿한 8에서 필체와 세부가 선명해져 500개에서 원본과 거의 같아요. (b) $J_{784}^\star=0$이고 $\mathbf B\mathbf B^\top=\mathbf I_{784}$로 $\tilde{\mathbf x}=\mathbf x$예요. (c) 400개 이후 $J_{500}^\star\approx 0$이고 그림의 테스트 4장도 버린 성분이 작아 거의 완벽히 복원돼요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\tilde{\mathbf x}-\mathbf x=(\mathbf B\mathbf B^\top-\mathbf I_{784})(\mathbf x-\bar{\mathbf x})=\mathbf 0$이고, $0\le J_{550}^\star\le J_{500}^\star\le J_{450}^\star$예요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>완전 복원(784)과 근사(500), 학습 평균 오차와 테스트 사례 관찰을 구별해요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 10.4와 그림 10.12, 교과서 338–339쪽(PDF 344–345쪽). 그림 10.13과 식 (10.62)의 설명은 조건에 문장으로 주어졌어요.</p>
+  <p>수업: 1104 L06 s8–11(버린 방향의 복원오차, MNIST 사영과 복원).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s1-discarded">버린 방향에서 복원오차 계산하기</a>, <a href="정리노트_1104_PCA_Part2.html#s1-mnist">MNIST에서 사영과 복원 읽기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>복원(reconstruction)</dt><dd>중심화 벡터의 저차원 좌표 $\mathbf z=\mathbf B^\top(\mathbf x-\bar{\mathbf x})$에서 $\tilde{\mathbf x}=\bar{\mathbf x}+\mathbf B\mathbf z$로 원래 차원 벡터를 되살리는 과정이에요.</dd>
+    <dt>평균제곱 복원오차(average squared reconstruction error)</dt><dd>학습 데이터에서 원본과 복원의 제곱 거리 평균이며 최솟값은 $J_M^\star=\sum_{i=M+1}^{D}\lambda_i$예요.</dd>
+    <dt>정규직교기저(orthonormal basis)</dt><dd>길이가 1이고 서로 직교하는 기저예요. $D$개 모두 모은 정사각행렬은 $\mathbf B\mathbf B^\top=\mathbf I$를 만족해요.</dd>
+    <dt>빈 합(empty sum)</dt><dd>시작 인덱스가 끝 인덱스보다 커서 더할 항이 없는 합으로 값은 0이에요.</dd>
+  </dl>
+</section>

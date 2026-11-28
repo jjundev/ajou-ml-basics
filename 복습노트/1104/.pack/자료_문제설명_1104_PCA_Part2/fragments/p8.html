@@ -1,10 +1,90 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $2\times 2$ 비대칭 행렬 $\mathbf A=\begin{bmatrix}2&2\\-1&1\end{bmatrix}$이 주어졌어요.</p><p><b>구할 것:</b> (a) $\mathbf A^\top\mathbf A$의 고윳값과 단위 고유벡터로 $\mathbf V$를 구하고, (b) 특잇값과 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf U$를 구하며, (c) $\mathbf A\mathbf A^\top$를 직접 계산해 $\mathbf u_1, \mathbf u_2$가 그 고유벡터이고 고윳값이 $\sigma_i^2$인지 판정해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘$\mathbf A^\top\mathbf A$의 고유벡터로 $\mathbf V$’라는 단서에서 SVD 분해식을 $\mathbf A^\top\mathbf A$에 대입해요($\mathbf U^\top\mathbf U=\mathbf I$).</p>$$\mathbf A^\top\mathbf A=\mathbf V\mathbf\Sigma^\top\mathbf U^\top\mathbf U\mathbf\Sigma\mathbf V^\top=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$$<p>$\mathbf\Sigma^\top\mathbf\Sigma=\operatorname{diag}(\sigma_1^2,\sigma_2^2)$이므로 <b>$\mathbf V$의 열 $\mathbf v_i$는 $\mathbf A^\top\mathbf A$의 단위 고유벡터이고 고윳값은 $\sigma_i^2$</b>예요.</p><p>$\sigma_i>0$일 때 $\mathbf A\mathbf v_i=\sigma_i\mathbf u_i$를 $\sigma_i$로 나누어 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$를 얻어요.</p><p>‘$\mathbf A\mathbf A^\top$의 고유벡터 판정’에서는 $\mathbf A\mathbf A^\top=\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top$ 관계를 통해 $\mathbf A\mathbf A^\top\mathbf u_i=\sigma_i^2\mathbf u_i$가 성립하는지 고유벡터 정의로 확인해요. <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>에서 같은 공식을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf A$의 두 열끼리 내적하여 대칭행렬 $\mathbf A^\top\mathbf A$를 적고 특성방정식을 세우는 3단계 로드맵(1. $\mathbf V$ $\to$ 2. $\mathbf\Sigma, \mathbf U$ $\to$ 3. $\mathbf A\mathbf A^\top$ 점검)으로 시작해요.</p>$$\mathbf A^\top\mathbf A=\begin{bmatrix}5&3\\3&5\end{bmatrix},\qquad\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=0$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> 고윳값은 $8, 2$이고 $\mathbf V=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$이에요.</p><p>특성방정식을 풀어요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=(5-\lambda)^2-3^2=0$$</div><div class="deriv-why"><p>$ad-bc$로 특성다항식을 세워요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)}=(5-\lambda-3)(5-\lambda+3)=(2-\lambda)(8-\lambda)=0$$</div><div class="deriv-why"><p>합차 공식으로 인수분해해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\lambda_1=8,\qquad\lambda_2=2$$</div><div class="deriv-why"><p>내림차순으로 고윳값을 구해요</p></div></li></ol></div><p>고유벡터의 후보를 $\mathbf w=(x,y)^\top$로 두고 $(\mathbf A^\top\mathbf A-\lambda\mathbf I)\mathbf w=\mathbf 0$을 풀어요. $\lambda_1=8$을 대입한 첫째 행은 $(5-8)x+3y=0$이어서 $y=x$예요. $\lambda_2=2$일 때는 $(5-2)x+3y=0$이 되어 $y=-x$예요. 두 방향 벡터를 길이 $\sqrt2$로 나누어요.</p>$$\mathbf v_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix},\qquad\mathbf v_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix},\qquad\mathbf V=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$$</div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> $\sigma_1=2\sqrt2, \sigma_2=\sqrt2$, $\mathbf U=\begin{bmatrix}1&0\\0&-1\end{bmatrix}$이에요.</p><p>특잇값은 고윳값의 양의 제곱근이에요.</p>$$\sigma_1=\sqrt8=2\sqrt2,\qquad\sigma_2=\sqrt2,\qquad\mathbf\Sigma=\begin{bmatrix}2\sqrt2&0\\0&\sqrt2\end{bmatrix}$$<p>$\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf u_1, \mathbf u_2$를 유도해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A\mathbf v_1=\begin{bmatrix}2&2\\-1&1\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}4\\0\end{bmatrix}$$</div><div class="deriv-why"><p>$\mathbf A$와 첫 고유벡터를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf u_1=\frac{\mathbf A\mathbf v_1}{\sigma_1}=\frac{1}{2\sqrt2}\cdot\frac{1}{\sqrt2}\begin{bmatrix}4\\0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 $2\sqrt2$로 나누어 확정해요</p></div></li><li><div class="deriv-eq">$$\mathbf A\mathbf v_2=\begin{bmatrix}2&2\\-1&1\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}0\\-2\end{bmatrix}$$</div><div class="deriv-why"><p>$\mathbf A$와 둘째 고유벡터를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf u_2=\frac{\mathbf A\mathbf v_2}{\sigma_2}=\frac{1}{\sqrt2}\cdot\frac{1}{\sqrt2}\begin{bmatrix}0\\-2\end{bmatrix}=\begin{bmatrix}0\\-1\end{bmatrix}$$</div><div class="deriv-why"><p>특잇값 $\sqrt2$로 나누어 확정해요</p></div></li></ol></div><p>두 열을 모아 $\mathbf U=\begin{bmatrix}1&0\\0&-1\end{bmatrix}$을 완성해요($\mathbf u_1^\top\mathbf u_2=0$ 만족).</p></div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 구조:</b> $\mathbf A\mathbf A^\top=\operatorname{diag}(8,2)$이므로 $\mathbf u_1, \mathbf u_2$는 고윳값 $\sigma_1^2=8, \sigma_2^2=2$의 고유벡터가 맞아요.</p><p>$\mathbf A$의 두 행끼리 내적하여 $\mathbf A\mathbf A^\top$를 직접 계산해요.</p>$$\mathbf A\mathbf A^\top=\begin{bmatrix}4+4&-2+2\\-2+2&1+1\end{bmatrix}=\begin{bmatrix}8&0\\0&2\end{bmatrix}$$<p>고유벡터 정의식 $(\mathbf A\mathbf A^\top)\mathbf u_i$에 대입해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A\mathbf A^\top\mathbf u_1=\begin{bmatrix}8&0\\0&2\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}=\begin{bmatrix}8\\0\end{bmatrix}=8\mathbf u_1$$</div><div class="deriv-why"><p>$\mathbf u_1$이 고윳값 8의 고유벡터예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf A\mathbf A^\top\mathbf u_2=\begin{bmatrix}8&0\\0&2\end{bmatrix}\begin{bmatrix}0\\-1\end{bmatrix}=\begin{bmatrix}0\\-2\end{bmatrix}=2\mathbf u_2$$</div><div class="deriv-why"><p>$\mathbf u_2$가 고윳값 2의 고유벡터예요</p></div></li></ol></div><p>고윳값 8과 2는 $\sigma_1^2=(2\sqrt2)^2=8$, $\sigma_2^2=(\sqrt2)^2=2$와 정확히 일치하므로 <b>(b)의 $\mathbf u_1, \mathbf u_2$는 $\mathbf A\mathbf A^\top$의 고유벡터이고 고윳값도 $\sigma_i^2$가 맞아요.</b></p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\mathbf A^\top\mathbf A\mathbf v_1=\begin{bmatrix}5&3\\3&5\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}8\\8\end{bmatrix}=8\mathbf v_1$, $\mathbf A^\top\mathbf A\mathbf v_2=\begin{bmatrix}5&3\\3&5\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}=\frac{1}{\sqrt2}\begin{bmatrix}2\\-2\end{bmatrix}=2\mathbf v_2$로 고윳값 $8, 2$가 정확해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>세 행렬 $\mathbf U\mathbf\Sigma\mathbf V^\top$을 직접 곱해요.</p>$$\mathbf U\mathbf\Sigma\mathbf V^\top=\begin{bmatrix}1&0\\0&-1\end{bmatrix}\begin{bmatrix}2\sqrt2&0\\0&\sqrt2\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}=\begin{bmatrix}2\sqrt2&0\\0&-\sqrt2\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}=\begin{bmatrix}2&2\\-1&1\end{bmatrix}=\mathbf A$$<p>원래 행렬 $\mathbf A$가 완벽히 복원돼요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>대각화 식 $\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top=\begin{bmatrix}1&0\\0&-1\end{bmatrix}\begin{bmatrix}8&0\\0&2\end{bmatrix}\begin{bmatrix}1&0\\0&-1\end{bmatrix}=\begin{bmatrix}8&0\\0&2\end{bmatrix}=\mathbf A\mathbf A^\top$으로 정확해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>$\mathbf u_i$ 부호를 $\mathbf A\mathbf A^\top$에서 임의로 선택하지 않아요.</b> $\mathbf A\mathbf A^\top$의 고유벡터로 $(0,1)^\top$을 고를 수도 있지만, $\mathbf u_2=(0,1)^\top$을 쓰면 둘째 층 부호가 반전되어 원래 $\mathbf A$와 다른 행렬이 돼요. 선택한 $\mathbf v_i$를 두고 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 짝을 맞춰요.</p><p><b>$\mathbf A$ 자체의 고윳값과 특잇값을 혼동하지 않아요.</b> 이 문항에서는 $\mathbf A^\top\mathbf A$의 고윳값에 제곱근을 취해 특잇값을 구해요. (c)에서 확인하듯 $\mathbf A\mathbf A^\top$에서도 같은 양의 고윳값을 얻어요.</p><p>특잇값은 고윳값의 제곱근이에요. $\sigma_1=8$로 쓰지 않도록 주의해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf A^\top\mathbf A=\begin{bmatrix}5&3\\3&5\end{bmatrix}$을 구하고 $(5-\lambda)^2-9=0$을 풀어 $\mathbf v_1, \mathbf v_2$를 구해요.</li><li>특잇값 $2\sqrt2, \sqrt2$를 구하고 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf U$를 완성해요.</li><li>$\mathbf A\mathbf A^\top=\operatorname{diag}(8,2)$를 계산하고 $\mathbf A\mathbf A^\top\mathbf u_i=\sigma_i^2\mathbf u_i$를 검증해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf A^\top\mathbf A=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$, $\mathbf A\mathbf A^\top=\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top$이며 고윳값은 $\sigma_i^2$예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A^\top\mathbf A=\begin{bmatrix}5&3\\3&5\end{bmatrix}$을 적고 시작해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 고윳값 $8, 2$, $\mathbf V=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$이에요.</p><p>(b) $\sigma_1=2\sqrt2, \sigma_2=\sqrt2$, $\mathbf U=\begin{bmatrix}1&0\\0&-1\end{bmatrix}$이에요.</p><p>(c) $\mathbf A\mathbf A^\top=\operatorname{diag}(8,2)$라 $\mathbf u_i$는 고윳값 $\sigma_i^2$의 고유벡터가 맞아요.</p></div><div class="summary-group"><h4>검산</h4><p>$\mathbf U\mathbf\Sigma\mathbf V^\top=\mathbf A$로 일치하며, $\mathbf A\mathbf A^\top$ 고유벡터 식도 정확해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>$\mathbf u_i$ 부호는 $\mathbf v_i$와 연동해요. $\mathbf A$ 자신의 고윳값과 구별해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>특잇값 분해(singular value decomposition, SVD)</dt><dd>정사각 행렬에서도 $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$ 분해 시 $\mathbf U$와 $\mathbf V$는 일반적으로 서로 달라요.</dd><dt>특잇값(singular value)</dt><dd>양의 특잇값은 $\mathbf A^\top\mathbf A$ 및 $\mathbf A\mathbf A^\top$의 공통 양의 고윳값 제곱근이에요.</dd><dt>고유벡터(eigenvector)</dt><dd>$\mathbf M\mathbf x=\lambda\mathbf x$를 만족하는 0이 아닌 벡터예요.</dd><dt>대각행렬(diagonal matrix)</dt><dd>비대각 성분이 0인 정사각행렬로, 표준기저 벡터들이 바로 고유벡터가 돼요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.9, 교과서 138쪽(PDF 144쪽). 원문은 ‘SVD를 구하라’는 한 문장이고, 이 문항은 (a), (b)와 ${\mathbf A\mathbf A^\top}$ 판정 (c)로 나눴어요.</p><p>수업: 1104 L06 s13(데이터 행렬의 SVD), 1102 특성다항식.</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$2\times 2$ 행렬 $\mathbf A$의 SVD에서 (a) $\mathbf A^\top\mathbf A$로 $\mathbf V$, (b) 특잇값과 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 $\mathbf U$, (c) $\mathbf A\mathbf A^\top$을 직접 구해 $\mathbf u_i$가 고윳값 $\sigma_i^2$의 고유벡터인지 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>$\mathbf A^\top\mathbf A=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$이므로 $\mathbf V$의 열이 $\mathbf A^\top\mathbf A$의 단위 고유벡터, 대각값이 $\sigma_i^2$예요. $\sigma_i&gt;0$이면 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 부호를 맞춰 $\mathbf U$를 구하고, $\mathbf A\mathbf A^\top\mathbf u_i=\sigma_i^2\mathbf u_i$를 직접 확인해요(<a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\mathbf A^\top\mathbf A=\begin{bmatrix}5&3\\3&5\end{bmatrix},\qquad\det(\mathbf A^\top\mathbf A-\lambda\mathbf I)=0$$
+  <p>$\mathbf A^\top\mathbf A$에서 $\mathbf V$와 특잇값을 구한 뒤 $\mathbf U$와 $\mathbf A\mathbf A^\top$을 순서대로 확인해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf A^\top\mathbf A$의 고윳값과 $\mathbf V$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$(5-\lambda)^2-3^2=(2-\lambda)(8-\lambda)=0$$</div><div class="deriv-why"><p>합차 공식으로 특성다항식을 풀어요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\lambda_1=8,\qquad\lambda_2=2$$</div><div class="deriv-why"><p>큰 순서로 고윳값을 정해요</p></div></li>
+      </ol>
+    </div>
+    <p>$(\mathbf A^\top\mathbf A-\lambda\mathbf I)(x,y)^\top=\mathbf 0$의 첫째 행에 $\lambda_1=8$을 넣으면 $-3x+3y=0$($y=x$), $\lambda_2=2$를 넣으면 $3x+3y=0$($y=-x$)이에요. 길이 $\sqrt2$로 나눠요.</p>
+    $$\mathbf v_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix},\qquad\mathbf v_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix},\qquad\mathbf V=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$$
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 특잇값과 $\mathbf U$</h4>
+    <p>특잇값은 $\sigma_1=\sqrt8=2\sqrt2$, $\sigma_2=\sqrt2$이고 $\mathbf\Sigma=\begin{bmatrix}2\sqrt2&0\\0&\sqrt2\end{bmatrix}$예요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\begin{aligned}\mathbf A\mathbf v_1&amp;=\frac{1}{\sqrt2}\begin{bmatrix}4\\0\end{bmatrix},\\\mathbf u_1&amp;=\frac{\mathbf A\mathbf v_1}{2\sqrt2}=\begin{bmatrix}1\\0\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A\mathbf v_1$을 $\sigma_1=2\sqrt2$로 나눠요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\begin{aligned}\mathbf A\mathbf v_2&amp;=\frac{1}{\sqrt2}\begin{bmatrix}0\\-2\end{bmatrix},\\\mathbf u_2&amp;=\frac{\mathbf A\mathbf v_2}{\sqrt2}=\begin{bmatrix}0\\-1\end{bmatrix}\end{aligned}$$</div><div class="deriv-why"><p>$\mathbf A\mathbf v_2$를 $\sigma_2=\sqrt2$로 나눠요</p></div></li>
+      </ol>
+    </div>
+    <p>두 열을 모으면 $\mathbf U=\begin{bmatrix}1&0\\0&-1\end{bmatrix}$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\mathbf A\mathbf A^\top$의 고유벡터·고윳값 판정</h4>
+    <p>$\mathbf A$의 두 행 내적으로 $\mathbf A\mathbf A^\top=\begin{bmatrix}4+4&-2+2\\-2+2&1+1\end{bmatrix}=\begin{bmatrix}8&0\\0&2\end{bmatrix}$를 얻어요.</p>
+    $$\mathbf A\mathbf A^\top\mathbf u_1=\begin{bmatrix}8\\0\end{bmatrix}=8\mathbf u_1,\qquad\mathbf A\mathbf A^\top\mathbf u_2=\begin{bmatrix}0\\-2\end{bmatrix}=2\mathbf u_2$$
+    <p>고윳값 $8=\sigma_1^2$, $2=\sigma_2^2$이므로 (b)의 $\mathbf u_1,\mathbf u_2$는 $\mathbf A\mathbf A^\top$의 고유벡터이고 고윳값도 $\sigma_i^2$가 맞아요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) 고윳값은 $8,2$이고 $\mathbf V=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$이에요.</p>
+    <p>(b) $\sigma_1=2\sqrt2,\ \sigma_2=\sqrt2$이고 $\mathbf U=\begin{bmatrix}1&0\\0&-1\end{bmatrix}$이에요.</p>
+    <p>(c) $\mathbf A\mathbf A^\top=\operatorname{diag}(8,2)$이므로 $\mathbf u_1,\mathbf u_2$는 고윳값 $\sigma_1^2=8,\ \sigma_2^2=2$의 고유벡터가 맞아요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf A^\top\mathbf A\mathbf v_1=8\mathbf v_1$, $\mathbf A^\top\mathbf A\mathbf v_2=2\mathbf v_2$이고 $\mathbf v_1^\top\mathbf v_2=0$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\mathbf U\mathbf\Sigma\mathbf V^\top=\begin{bmatrix}2\sqrt2&0\\0&-\sqrt2\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}=\begin{bmatrix}2&2\\-1&1\end{bmatrix}=\mathbf A$로 정확히 복원돼요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top=\begin{bmatrix}1&0\\0&-1\end{bmatrix}\begin{bmatrix}8&0\\0&2\end{bmatrix}\begin{bmatrix}1&0\\0&-1\end{bmatrix}=\begin{bmatrix}8&0\\0&2\end{bmatrix}=\mathbf A\mathbf A^\top$이에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathbf u_2$를 $\mathbf A\mathbf A^\top$에서 임의로 $(0,1)^\top$으로 잡으면 $\mathbf v_2$와 부호가 어긋나 $\mathbf U\mathbf\Sigma\mathbf V^\top$의 둘째 행 부호가 반전돼요. 반드시 $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$로 짝을 맞추고, 특잇값은 $\mathbf A$의 고윳값이 아니라 $\mathbf A^\top\mathbf A$ 고윳값의 제곱근이에요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf A^\top\mathbf A=\mathbf V(\mathbf\Sigma^\top\mathbf\Sigma)\mathbf V^\top$, $\mathbf u_i=\mathbf A\mathbf v_i/\sigma_i$, $\mathbf A\mathbf A^\top\mathbf u_i=\sigma_i^2\mathbf u_i$예요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\mathbf A^\top\mathbf A=\begin{bmatrix}5&3\\3&5\end{bmatrix}$의 특성방정식을 세워요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) 고윳값 $8,2$, $\mathbf V=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$. (b) $\sigma_1=2\sqrt2,\sigma_2=\sqrt2$, $\mathbf U=\begin{bmatrix}1&0\\0&-1\end{bmatrix}$. (c) $\mathbf A\mathbf A^\top=\operatorname{diag}(8,2)$라 $\mathbf u_i$는 고윳값 $\sigma_i^2$의 고유벡터가 맞아요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\mathbf U\mathbf\Sigma\mathbf V^\top=\mathbf A$이고 $\mathbf U(\mathbf\Sigma\mathbf\Sigma^\top)\mathbf U^\top=\mathbf A\mathbf A^\top$이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf u_i$ 부호는 $\mathbf v_i$와 연동하고, $\sigma_i$는 $\mathbf A$ 자체가 아니라 $\mathbf A^\top\mathbf A$ 고윳값의 제곱근이에요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Exercise 4.9, 교과서 138쪽(PDF 144쪽). 원문은 SVD를 구하라는 한 문장이고 (a), (b)와 $\mathbf A\mathbf A^\top$ 판정 (c)로 나눴어요.</p>
+  <p>수업: 1104 L06 s13(데이터 행렬의 SVD), 1102 특성다항식.</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>특잇값 분해(singular value decomposition, SVD)</dt><dd>정사각행렬에서도 $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$에서 $\mathbf U$와 $\mathbf V$가 일반적으로 서로 달라요.</dd>
+    <dt>특잇값(singular value)</dt><dd>양의 특잇값은 $\mathbf A^\top\mathbf A$ 및 $\mathbf A\mathbf A^\top$의 양의 고윳값의 제곱근이에요.</dd>
+    <dt>고유벡터(eigenvector)</dt><dd>$\mathbf M\mathbf x=\lambda\mathbf x$를 만족하는 0이 아닌 벡터예요.</dd>
+  </dl>
+</section>

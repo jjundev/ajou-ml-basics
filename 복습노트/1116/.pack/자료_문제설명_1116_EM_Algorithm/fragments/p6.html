@@ -1,128 +1,95 @@
 <div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 열벡터 $\boldsymbol{\theta}\in\mathbb{R}^{D}$, $\mathbf{y}\in\mathbb{R}^{N}$, 행렬 $\boldsymbol{\Phi}\in\mathbb{R}^{N\times D}$, 스칼라 손실 $L(\mathbf{e})=\|\mathbf{e}\|^2$와 $\mathbf{e}(\boldsymbol{\theta})=\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}$예요. 미분은 수업의 행벡터 관례를 따르고, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$의 $(i,j)$ 성분은 $\partial e_i/\partial\theta_j$예요.</p>
-  <p>구할 것: (a) 연쇄법칙으로 $\frac{\partial L}{\partial\boldsymbol{\theta}}$를 $\mathbf{e}$, $\boldsymbol{\Phi}$로, (b) 세 미분 $\frac{\partial L}{\partial\mathbf{e}}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}$의 차원이에요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) 연쇄법칙 $\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$로 $\frac{\partial L}{\partial\boldsymbol{\theta}}$를 $\mathbf{e}$, $\boldsymbol{\Phi}$로 나타내요. (b) 세 미분의 차원을 각각 읽어요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘$L$이 $\mathbf{e}$의 함수이고 $\mathbf{e}$가 $\boldsymbol{\theta}$의 함수’라는 구조에서 <b>다변수 연쇄법칙(chain rule)</b>을 떠올려요. 두 미분을 각각 구해 문제에 적힌 순서대로 곱해요.</p>
-  $$\underbrace{\frac{\partial L}{\partial\boldsymbol{\theta}}}_{1\times D}=\underbrace{\frac{\partial L}{\partial\mathbf{e}}}_{1\times N}\;\underbrace{\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}}_{N\times D}$$
-  <ul>
-    <li><b>스칼라를 열벡터로 미분</b>하면 편미분을 가로로 놓은 <b>행벡터</b>예요. 변수 $\boldsymbol{\theta}$, $\mathbf{e}$ 자체는 열벡터 그대로예요.</li>
-    <li><b>벡터를 벡터로 미분</b>한 야코비안(Jacobian)은 <b>출력×입력</b> 모양이에요. 행은 출력 $e_1,\dots,e_N$, 열은 입력 $\theta_1,\dots,\theta_D$라서 $N\times D$예요.</li>
-    <li>안쪽 차원 $N$이 맞아야 곱이 정의돼요. 그래서 곱 순서를 바꾸지 않아요.</li>
-  </ul>
-  <p>행벡터 관례와 그 이유는 <a href="정리노트_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로: 무엇을 무엇으로 미분하나</a>에서, 같은 구조($\mathbf{a}=\mathbf{x}_n-\boldsymbol{\mu}_k$의 미분이 $-\mathbf{I}$)의 연쇄법칙은 <a href="정리노트_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>수업의 행벡터 관례(<a href="정리노트_1116_EM_Algorithm.html#s2-zero-gradient">기울기를 0으로</a>)로 스칼라 $L$을 열벡터 $\mathbf{e}$로 미분하면 <b>행벡터</b>이고, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$는 $(i,j)$ 성분이 $\partial e_i/\partial\theta_j$인 <b>출력×입력</b> 야코비안이에요(<a href="정리노트_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a>). 안쪽 차원 $N$을 맞추려면 $\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$ 순서를 지켜요.</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>스칼라 $L$을 성분으로 펼친 $L=\mathbf{e}^\top\mathbf{e}=\sum_{n=1}^{N}e_n^2$을 먼저 적어요.</p>
-  <p>풀이 로드맵: 1. $\frac{\partial L}{\partial\mathbf{e}}$를 성분 편미분으로 → 2. $e_n$을 펼쳐 $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$ → 3. 순서대로 곱하고 차원을 읽어요.</p>
+  <h4>첫 단계</h4>
+  <p>성분별로 미분하려고 $L=\mathbf{e}^\top\mathbf{e}=\sum_{n=1}^{N}e_n^2$와 $e_n=y_n-\sum_{d=1}^{D}\Phi_{nd}\theta_d$를 적어요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $\frac{\partial L}{\partial\boldsymbol{\theta}}=-2\mathbf{e}^\top\boldsymbol{\Phi}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$, $1\times D$ 행벡터예요.</p>
+    <h4>(a) 연쇄법칙으로 기울기 구하기</h4>
     <div class="deriv-body">
       <ol class="deriv">
         <li>
-          <div class="deriv-eq">$$L=\mathbf{e}^\top\mathbf{e}=\sum_{n=1}^{N}e_n^2$$</div>
+          <div class="deriv-eq">$$L=\sum_{n=1}^{N}e_n^2$$</div>
           <div class="deriv-why"><p>제곱 노름을 성분 합으로 펼쳐요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\frac{\partial L}{\partial e_n}=2e_n$$</div>
-          <div class="deriv-why"><p>$e_n$이 든 항 $e_n^2$만 남아요</p></div>
-        </li>
-        <li>
           <div class="deriv-eq">$$\frac{\partial L}{\partial\mathbf{e}}=\begin{bmatrix}2e_1&\cdots&2e_N\end{bmatrix}=2\mathbf{e}^\top$$</div>
-          <div class="deriv-why"><p>편미분을 가로로 모아 행벡터로 써요</p></div>
+          <div class="deriv-why"><p>$\partial L/\partial e_n=2e_n$을 가로로 모아요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$e_n=y_n-\sum_{d=1}^{D}\Phi_{nd}\theta_d$$</div>
           <div class="deriv-why"><p>$\boldsymbol{\Phi}\boldsymbol{\theta}$의 $n$번째 성분을 펼쳐요</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\frac{\partial e_n}{\partial\theta_d}=-\Phi_{nd}$$</div>
-          <div class="deriv-why"><p>$y_n$은 상수, $\theta_d$ 앞 계수만 남아요</p></div>
-        </li>
-        <li>
           <div class="deriv-eq">$$\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}=-\boldsymbol{\Phi}$$</div>
-          <div class="deriv-why"><p>$(n,d)$ 자리에 $-\Phi_{nd}$를 둔 출력×입력 행렬</p></div>
+          <div class="deriv-why"><p>$(n,d)$ 성분이 $\partial e_n/\partial\theta_d=-\Phi_{nd}$예요</p></div>
         </li>
         <li>
           <div class="deriv-eq">$$\frac{\partial L}{\partial\boldsymbol{\theta}}=2\mathbf{e}^\top(-\boldsymbol{\Phi})=-2\mathbf{e}^\top\boldsymbol{\Phi}$$</div>
           <div class="deriv-why"><p>연쇄법칙 순서대로 곱해요</p></div>
         </li>
         <li class="deriv-gen">
-          <div class="deriv-eq">$$\frac{\partial L}{\partial\boldsymbol{\theta}}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$$</div>
+          <div class="deriv-eq">$$\hphantom{\frac{\partial L}{\partial\boldsymbol{\theta}}}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$$</div>
           <div class="deriv-why"><p>$\mathbf{e}=\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}$를 대입해요</p></div>
         </li>
       </ol>
     </div>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> $\frac{\partial L}{\partial\mathbf{e}}\in\mathbb{R}^{1\times N}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{N\times D}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$예요.</p>
-    <p>$\mathbf{e}$는 $N\times1$ 열벡터라 $2\mathbf{e}^\top$은 $1\times N$이에요. $-\boldsymbol{\Phi}$는 행이 $e_1,\dots,e_N$, 열이 $\theta_1,\dots,\theta_D$에 대응해 $N\times D$예요.</p>
+    <h4>(b) 세 미분의 차원 읽기</h4>
+    <p>$\mathbf{e}\in\mathbb{R}^{N\times1}$이라 $2\mathbf{e}^\top\in\mathbb{R}^{1\times N}$이고, 야코비안 $-\boldsymbol{\Phi}$는 행이 출력($N$), 열이 입력($D$)이라 $\mathbb{R}^{N\times D}$예요.</p>
     $$\underbrace{2\mathbf{e}^\top}_{1\times N}\;\underbrace{(-\boldsymbol{\Phi})}_{N\times D}\in\mathbb{R}^{1\times D}$$
-    <p>$\boldsymbol{\theta}$는 $D\times1$ 열벡터이지만, 스칼라 $L$을 $\boldsymbol{\theta}$로 미분한 결과는 $\theta_1,\dots,\theta_D$에 대한 편미분 $D$개를 가로로 놓은 $1\times D$ 행벡터예요.</p>
+    <p>따라서 $\frac{\partial L}{\partial\boldsymbol{\theta}}$는 $\mathbb{R}^{1\times D}$ 행벡터예요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\frac{\partial L}{\partial\boldsymbol{\theta}}=-2\mathbf{e}^\top\boldsymbol{\Phi}$ ($=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$)예요.</p>
+    <p>(b) $\frac{\partial L}{\partial\mathbf{e}}\in\mathbb{R}^{1\times N}$, $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{N\times D}$, $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>$N=D=1$로 줄여 봐요. $L=(y-\phi\theta)^2$을 1변수로 미분하면 $-2(y-\phi\theta)\phi$이고, $-2\mathbf{e}^\top\boldsymbol{\Phi}$에 $\mathbf{e}=y-\phi\theta$, $\boldsymbol{\Phi}=\phi$를 넣은 값과 같아요.</p>
-    <p>성분으로도 맞아요. $d$번째 칸은 $\sum_n\frac{\partial L}{\partial e_n}\frac{\partial e_n}{\partial\theta_d}=\sum_n2e_n(-\Phi_{nd})$이고, 이것이 $-2\mathbf{e}^\top\boldsymbol{\Phi}$의 $d$번째 성분이에요.</p>
+    <p>$N=D=1$이면 $L=(y-\phi\theta)^2$의 1변수 미분 $-2(y-\phi\theta)\phi$와 일치해요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b) 검산</h4>
-    <p>곱 $(1\times N)(N\times D)$의 안쪽 $N$이 맞고 결과는 $1\times D$예요. 미분 대상 $\boldsymbol{\theta}$의 성분 수 $D$와 결과의 칸 수 $D$도 같아요.</p>
+    <h4>(b) 확인</h4>
+    <p>곱 $(1\times N)(N\times D)$의 안쪽 $N$이 맞고, 결과 칸 수 $D$가 $\boldsymbol{\theta}$의 성분 수와 같아요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$를 $-\boldsymbol{\Phi}^\top$($D\times N$)로 쓰면 $N\neq D$일 때 $2\mathbf{e}^\top$($1\times N$)과 곱이 정의되지 않고, $N=D$여도 $(n,d)$ 성분이 $-\Phi_{dn}$이 되어 정의와 달라요. 문제의 정의대로 행은 출력 $e_i$, 열은 입력 $\theta_j$예요.</p>
-  <p>$-2\boldsymbol{\Phi}^\top\mathbf{e}$는 답을 전치한 $D\times1$ 모양이에요. 이 문제는 행벡터 관례라 답은 $-2\mathbf{e}^\top\boldsymbol{\Phi}$예요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>$L=\sum_ne_n^2$, $e_n=y_n-\sum_d\Phi_{nd}\theta_d$로 성분을 펼쳐요.</li>
-    <li>스칼라 미분은 가로로, 벡터 미분은 출력×입력으로 모아요.</li>
-    <li>$(1\times N)(N\times D)$ 곱의 차원으로 순서를 확인해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$를 $-\boldsymbol{\Phi}^\top$($D\times N$)로 쓰면 $2\mathbf{e}^\top$($1\times N$)과 곱할 수 없고 성분 정의 $\partial e_i/\partial\theta_j$와도 어긋나요. $-2\boldsymbol{\Phi}^\top\mathbf{e}$는 답을 전치한 $D\times1$ 열벡터예요.</p>
 </div>
 <div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>연쇄법칙 $\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$예요. 스칼라를 열벡터로 미분하면 행벡터, 벡터를 벡터로 미분하면 출력×입력 행렬이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론</h4>
-    <p>$\frac{\partial L}{\partial\mathbf{e}}=2\mathbf{e}^\top$($1\times N$), $\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}=-\boldsymbol{\Phi}$($N\times D$)라서 $\frac{\partial L}{\partial\boldsymbol{\theta}}=-2\mathbf{e}^\top\boldsymbol{\Phi}=-2(\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta})^\top\boldsymbol{\Phi}$($1\times D$)예요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>검산</h4>
-    <p>$N=D=1$이면 $-2(y-\phi\theta)\phi$로 1변수 미분과 같아요. 안쪽 차원 $N$이 맞아야 곱이 정의돼요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>연쇄법칙 $\frac{\partial L}{\partial\boldsymbol{\theta}}=\frac{\partial L}{\partial\mathbf{e}}\frac{\partial\mathbf{e}}{\partial\boldsymbol{\theta}}$에서 스칼라 미분은 행벡터($1\times N$), 야코비안은 출력×입력($N\times D$)이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$L=\sum_n e_n^2$와 $e_n=y_n-\sum_d\Phi_{nd}\theta_d$를 성분으로 펼쳐요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $-2\mathbf{e}^\top\boldsymbol{\Phi}$, (b) 차원은 차례로 $1\times N$, $N\times D$, $1\times D$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$N=D=1$이면 $-2(y-\phi\theta)\phi$가 되고, 곱 $(1\times N)(N\times D)$의 안쪽 $N$이 맞아요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>행벡터 관례이므로 전치된 열벡터 $-2\boldsymbol{\Phi}^\top\mathbf{e}$($D\times1$)와 구분해요.</p></div>
 </div>
-<section data-problem-panel="terms">
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 5.11(Gradient of a Least-Squares Loss in a Linear Model), 교과서 154쪽(PDF 160쪽), 식 (5.75)–(5.83)이에요. 교과서도 $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$인 행벡터로 적었어요.</p>
+  <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
   <h4>용어</h4>
   <dl class="terms">
-    <dt>최소제곱 손실(least-squares loss)</dt>
-    <dd>$L=\|\mathbf{y}-\boldsymbol{\Phi}\boldsymbol{\theta}\|^2$, 잔차 $\mathbf{e}$의 제곱 노름이에요. 값은 스칼라예요.</dd>
     <dt>행벡터 미분</dt>
     <dd>스칼라를 $D\times1$ 열벡터로 미분한 결과예요. 편미분 $D$개를 가로로 놓은 $1\times D$ 행벡터예요.</dd>
     <dt>야코비안(Jacobian)</dt>
     <dd>벡터 $\mathbf{e}\in\mathbb{R}^N$을 $\boldsymbol{\theta}\in\mathbb{R}^D$로 미분한 $N\times D$ 행렬이에요. $(i,j)$ 성분은 $\partial e_i/\partial\theta_j$예요.</dd>
     <dt>연쇄법칙(chain rule)</dt>
-    <dd>합성함수의 미분을 각 단계 미분의 곱으로 구하는 규칙이에요. 행렬곱이라 순서를 지켜요.</dd>
+    <dd>합성함수의 미분을 각 단계 미분의 곱으로 구하는 규칙이에요. 행렬곱 순서를 지켜요.</dd>
   </dl>
-</section>
-<section data-problem-panel="provenance">
-  <h4>출제 근거</h4>
-  <p>MML Example 5.11(Gradient of a Least-Squares Loss in a Linear Model), 교과서 154쪽(PDF 160쪽), 식 (5.75)–(5.83)이에요. 교과서도 $\frac{\partial L}{\partial\boldsymbol{\theta}}\in\mathbb{R}^{1\times D}$인 행벡터로 적었어요.</p>
-  <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s2-log-gauss-quad">이차식 미분</a></p>
 </section>

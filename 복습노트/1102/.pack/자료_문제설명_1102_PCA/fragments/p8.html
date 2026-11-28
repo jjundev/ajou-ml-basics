@@ -1,8 +1,109 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>주어진 것은 $3\times 3$ 행렬 $\mathbf{A}_1$과 $4\times 4$ 행렬 $\mathbf{A}_2$예요:</p>$$\mathbf{A}_1=\begin{bmatrix}2 & 3 & 0\\1 & 4 & 3\\0 & 0 & 1\end{bmatrix},\quad\mathbf{A}_2=\begin{bmatrix}1 & 1 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{bmatrix}$$<p>구할 것은 네 가지예요: (a) $\mathbf{A}_1$의 고유공간들 $E_1, E_5$ 구하기, (b) 고유공간 차원의 합으로 $\mathbf{A}_1$의 대각화 가능성 판정, (c) $\mathbf{A}_2$의 고유공간들 $E_0, E_1$ 구하기, (d) 차원의 합으로 $\mathbf{A}_2$의 대각화 가능성 판정이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘고유공간 차원의 합’과 ‘대각화 가능성 판정’이라는 단서에서 대각화 가능성의 필요충분조건을 떠올려요.</p><ul><li>대각화 가능성 판정 정리: $n\times n$ 행렬 $\mathbf{A}$가 대각화 가능할 필요충분조건은 <b>모든 고유공간의 차원(기하적 중복도)의 합이 행렬의 크기 $n$과 같은 것</b>이에요:$$\sum_{i} \dim E_{\lambda_i} = n$$차원의 합이 $n$보다 작으면 $\mathbb{R}^n$을 생성할 일차독립인 고유벡터가 부족하여 가역인 $\mathbf{P}$를 만들 수 없어요.</li><li>여인수 전개(Laplace expansion): $0$이 많이 포함된 행이나 열을 따라 전개하면 계산량이 크게 줄어들어요.</li><li>영공간(null space)과 자유변수: 고유공간 $E_\lambda = \ker(\mathbf{A}-\lambda\mathbf{I})$의 차원은 가우스 소거 후 발생하는 자유변수의 개수와 같아요.</li></ul><p><a href="정리노트_1102_PCA.html#s2-evd-condition">2.3 고윳값 분해(EVD)의 분해 가능 조건</a>에서 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf{A}_1$의 특성행렬 $\mathbf{A}_1-\lambda\mathbf{I}$를 적고 셋째 행의 처음 두 성분이 0이므로 셋째 행을 따라 전개해요.</p>$$\det(\mathbf{A}_1-\lambda\mathbf{I})=\det\begin{bmatrix}2-\lambda & 3 & 0\\1 & 4-\lambda & 3\\0 & 0 & 1-\lambda\end{bmatrix}=(1-\lambda)\det\begin{bmatrix}2-\lambda & 3\\1 & 4-\lambda\end{bmatrix}$$<p><b>풀이 로드맵:</b> 1. $\mathbf{A}_1$ 특성방정식 풀어 $E_1, E_5$ 및 차원 계산 → 2. $\dim E_1+\dim E_5=2<3$으로 대각화 불가 판정 → 3. $\mathbf{A}_2$ 특성방정식 풀어 $E_0, E_1$ 및 차원 계산 → 4. $\dim E_0+\dim E_1=4=n$으로 대각화 가능 판정.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{A}_1$의 고유공간</h4><p><b>최종 답 요약:</b> 고윳값은 $\lambda=1$(중복도 2), $\lambda=5$이고, 고유공간은 $E_1=\operatorname{span}\left(\begin{bmatrix}-3\\1\\0\end{bmatrix}\right)$, $E_5=\operatorname{span}\left(\begin{bmatrix}1\\1\\0\end{bmatrix}\right)$으로 둘 다 1차원이에요.</p><p>3행을 따라 여인수 전개하면 쉽게 인수분해돼요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A}_1-\lambda\mathbf{I})=(1-\lambda)\bigl[(2-\lambda)(4-\lambda)-3\cdot 1\bigr]$$</div><div class="deriv-why"><p>3행의 3열 원소 (1-람다)로 여인수 전개해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A}_1-\lambda\mathbf{I})}=(1-\lambda)(\lambda^2-6\lambda+8-3)=(1-\lambda)(\lambda^2-6\lambda+5)$$</div><div class="deriv-why"><p>괄호 안의 2차식을 전개하고 정리해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$p_{\mathbf{A}_1}(\lambda)=-(\lambda-1)^2(\lambda-5)=0\iff\lambda_1=\lambda_2=1,\ \lambda_3=5$$</div><div class="deriv-why"><p>인수분해하여 람다=1(중복도 2)과 5를 얻어요</p></div></li></ol></div><p>$\lambda=1$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}_1-\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 3 & 0\\1 & 3 & 3\\0 & 0 & 0\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>람다=1을 대입한 동차 연립방정식이에요</p></div></li><li><div class="deriv-eq">$$\begin{cases}x_1+3x_2=0\\x_1+3x_2+3x_3=0\end{cases}\iff x_3=0,\quad x_1=-3x_2$$</div><div class="deriv-why"><p>2행에서 1행을 빼면 x3=0이고 x1=-3x2예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}-3\\1\\0\end{bmatrix}\right]\quad(\dim E_1=1)$$</div><div class="deriv-why"><p>x2=1로 둔 기저 하나로 생성되는 1차원 공간이에요</p></div></li></ol></div><p>$\lambda=5$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}_1-5\mathbf{I})\mathbf{x}=\begin{bmatrix}-3 & 3 & 0\\1 & -1 & 3\\0 & 0 & -4\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>람다=5를 대입한 동차 연립방정식이에요</p></div></li><li><div class="deriv-eq">$$-4x_3=0\implies x_3=0,\quad -3x_1+3x_2=0\implies x_1=x_2$$</div><div class="deriv-why"><p>3행에서 x3=0이고 1행에서 x1=x2예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_5=\operatorname{span}\left[\begin{bmatrix}1\\1\\0\end{bmatrix}\right]\quad(\dim E_5=1)$$</div><div class="deriv-why"><p>x2=1로 둔 기저 하나로 생성되는 1차원 공간이에요</p></div></li></ol></div></div><div data-subpart="b"><h4>(b) $\mathbf{A}_1$의 대각화 판정</h4><p><b>최종 답 요약:</b> 고유공간 차원의 합이 $1+1=2 < 3$이므로 $\mathbf{A}_1$은 대각화할 수 없어요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\dim E_1 + \dim E_5 = 1 + 1 = 2$$</div><div class="deriv-why"><p>모든 고유공간의 차원을 합산해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\sum_{\lambda}\dim E_\lambda = 2 < 3 = n$$</div><div class="deriv-why"><p>차원 합이 크기 3에 미달하므로 대각화 불가예요</p></div></li></ol></div><p>고윳값 1이 대수적으로 2번 겹쳤지만 기하적 중복도는 1차원에 그쳐, $\mathbb{R}^3$을 생성할 일차독립인 고유벡터가 1개 부족하기 때문이에요.</p></div><div data-subpart="c"><h4>(c) $\mathbf{A}_2$의 고유공간</h4><p><b>최종 답 요약:</b> 고윳값은 $\lambda=0$(중복도 3), $\lambda=1$이고, $E_0$은 3차원, $E_1$은 1차원이에요.</p><p>특성다항식을 계산해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A}_2-\lambda\mathbf{I})=\det\begin{bmatrix}1-\lambda & 1 & 0 & 0\\0 & -\lambda & 0 & 0\\0 & 0 & -\lambda & 0\\0 & 0 & 0 & -\lambda\end{bmatrix}=(1-\lambda)(-\lambda)^3$$</div><div class="deriv-why"><p>상삼각행렬이므로 대각 성분의 곱이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$p_{\mathbf{A}_2}(\lambda)=\lambda^3(\lambda-1)=0\iff\lambda=0\ (\text{3번 겹침}),\ \lambda=1$$</div><div class="deriv-why"><p>부호를 정리해 고윳값 0(중복도 3)과 1을 얻어요</p></div></li></ol></div><p>$\lambda=0$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{A}_2\mathbf{x}=\begin{bmatrix}1 & 1 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\mathbf{0}\iff x_1+x_2=0$$</div><div class="deriv-why"><p>제약조건이 x1+x2=0 하나뿐이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_0=\operatorname{span}\left[\begin{bmatrix}1\\-1\\0\\0\end{bmatrix},\ \begin{bmatrix}0\\0\\1\\0\end{bmatrix},\ \begin{bmatrix}0\\0\\0\\1\end{bmatrix}\right]\quad(\dim E_0=3)$$</div><div class="deriv-why"><p>자유변수가 3개이므로 3차원 부분공간이에요</p></div></li></ol></div><p>$\lambda=1$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}_2-\mathbf{I})\mathbf{x}=\begin{bmatrix}0 & 1 & 0 & 0\\0 & -1 & 0 & 0\\0 & 0 & -1 & 0\\0 & 0 & 0 & -1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\mathbf{0}\iff x_2=x_3=x_4=0$$</div><div class="deriv-why"><p>x2, x3, x4가 모두 0이고 x1만 자유변수예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}1\\0\\0\\0\end{bmatrix}\right]\quad(\dim E_1=1)$$</div><div class="deriv-why"><p>자유변수 1개로 생성되는 1차원 공간이에요</p></div></li></ol></div></div><div data-subpart="d"><h4>(d) $\mathbf{A}_2$의 대각화 판정</h4><p><b>최종 답 요약:</b> 고유공간 차원의 합이 $3+1=4=n$이므로 $\mathbf{A}_2$는 대각화할 수 있어요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\dim E_0 + \dim E_1 = 3 + 1 = 4$$</div><div class="deriv-why"><p>두 고유공간의 차원을 합산해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\sum_{\lambda}\dim E_\lambda = 4 = n$$</div><div class="deriv-why"><p>차원 합이 크기 4와 일치하여 대각화 가능해요</p></div></li></ol></div><p>네 개의 일차독립인 고유벡터가 $\mathbb{R}^4$의 기저를 구성하므로, $\mathbf{P}$를 구성하여 $\mathbf{D}=\operatorname{diag}(0,0,0,1)$로 대각화할 수 있어요.</p><div class="table-wrap"><table><thead><tr><th>행렬</th><th>크기 $n$</th><th>고윳값과 대수적 중복도</th><th>고유공간 차원(기하적 중복도)</th><th>차원 합 vs $n$</th><th>대각화 가능 여부</th></tr></thead><tbody><tr><td>$\mathbf{A}_1$</td><td>$3$</td><td>$\lambda=1$ (2개), $\lambda=5$ (1개)</td><td>$\dim E_1=1$, $\dim E_5=1$</td><td>$1+1=2 < 3$</td><td><b>대각화 불가</b></td></tr><tr><td>$\mathbf{A}_2$</td><td>$4$</td><td>$\lambda=0$ (3개), $\lambda=1$ (1개)</td><td>$\dim E_0=3$, $\dim E_1=1$</td><td>$3+1=4 = 4$</td><td><b>대각화 가능</b></td></tr></tbody></table></div></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\mathbf{A}_1$의 행렬 곱을 검산해요:$$\mathbf{A}_1\begin{bmatrix}-3\\1\\0\end{bmatrix}=\begin{bmatrix}-6+3\\-3+4\\0\end{bmatrix}=\begin{bmatrix}-3\\1\\0\end{bmatrix}=1\begin{bmatrix}-3\\1\\0\end{bmatrix},\quad\mathbf{A}_1\begin{bmatrix}1\\1\\0\end{bmatrix}=\begin{bmatrix}2+3\\1+4\\0\end{bmatrix}=\begin{bmatrix}5\\5\\0\end{bmatrix}=5\begin{bmatrix}1\\1\\0\end{bmatrix}$$<p>정확히 고윳값 1과 5의 고유벡터임을 확인해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>$\operatorname{rank}(\mathbf{A}_1-\mathbf{I})$를 확인해요. 1행과 2행이 일차독립이므로 rank가 2예요. Rank-Nullity 정리에 의해 $\dim E_1 = 3 - 2 = 1$로 기하적 중복도가 1임이 엄밀해요. 따라서 차원 합 2는 3에 못 미쳐요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>(c)에서 구한 기저 벡터가 각각 고윳값 0과 1의 고유방정식을 만족하는지 확인해요.$$\mathbf{A}_2[1,-1,0,0]^\top=[1-1,0,0,0]^\top=\mathbf{0},\quad\mathbf{A}_2[0,0,1,0]^\top=\mathbf{0},\quad\mathbf{A}_2[0,0,0,1]^\top=\mathbf{0}$$$$\mathbf{A}_2[1,0,0,0]^\top=1[1,0,0,0]^\top$$<p>모두 정확한 고유벡터예요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>네 고유벡터로 구성된 $\mathbf{P}=\begin{bmatrix}1&0&0&1\\-1&0&0&0\\0&1&0&0\\0&0&1&0\end{bmatrix}$의 행렬식을 구하면 2행으로 전개 시 $-(-1)\cdot 1 = 1 \neq 0$으로 가역이에요. 따라서 $\mathbf{P}$가 역행렬을 가지므로 $\mathbf{A}_2$가 대각화 가능함이 확실해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>$\mathbf{A}_1$에서 $\lambda=1$이 2번 겹친다고 해서 $E_1$도 2차원이라고 가정하면 (b)를 틀려요. 중복도가 2라도 실제 해공간은 1차원일 수 있으므로 반드시 자유변수를 세어야 해요.</p><p>$\mathbf{A}_2$의 성분이 대부분 0이고 $\det(\mathbf{A}_2)=0$인 것을 보고 ‘대각화할 수 없다’고 오판하면 안 돼요. 대각화 가능성은 행렬식 0 여부와 무관하며, 오직 독립인 고유벡터가 $n$개 존재하는지만으로 판정해요.</p><p>(c)에서 $x_1+x_2=0$을 풀 때 $x_3, x_4$를 0으로 놓아버려 $E_0$이 1차원이라고 잘못 계산하면 안 돼요. $x_3, x_4$는 제약식이 전혀 없으므로 엄연한 자유변수예요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf{A}_1$의 3행으로 여인수 전개하여 $-(\lambda-1)^2(\lambda-5)=0$을 풀고 고유공간들을 구해요.</li><li>$\dim E_1+\dim E_5 = 2 < 3$을 제시하여 대각화 불가 근거를 기술해요.</li><li>$\mathbf{A}_2$의 자유변수 3개를 찾아 $E_0$이 3차원임을 보이고, $\dim E_0+\dim E_1=4$로 대각화 가능함을 증명해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$n\times n$ 행렬은 고유공간 차원의 합 $\sum \dim E_\lambda = n$일 때만 대각화 가능해요. 기하적 중복도는 자유변수 개수예요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A}_1-\lambda\mathbf{I})=(1-\lambda)(\lambda^2-6\lambda+5)=0$을 세워요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\dim E_1=1, \dim E_5=1$.</p><p>(b) 합 $2 < 3$이므로 $\mathbf{A}_1$ 대각화 불가.</p><p>(c) $\dim E_0=3, \dim E_1=1$.</p><p>(d) 합 $4 = 4$이므로 $\mathbf{A}_2$ 대각화 가능.</p></div><div class="summary-group"><h4>검산</h4><p>$\operatorname{rank}(\mathbf{A}_1-\mathbf{I})=2 \implies \dim E_1=1$. $\mathbf{A}_2$의 4개 고유벡터 행렬 $\mathbf{P}$의 $\det(\mathbf{P})=1\neq 0$.</p></div><div class="summary-group"><h4>조건·구분</h4><p>대수적 중복도와 기하적 중복도를 혼동하지 않아요. $\det=0$이어도 고유벡터가 충분하면 대각화돼요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.6 (a), (b). 교과서 137쪽(PDF 143쪽). 복습문제는 각 행렬을 고유공간과 대각화 판정 두 소문항으로 나눴어요.</p><p>수업: 1102 L05 s16 (고유공간), L05 s17–s18 (대각화와 분해 가능 조건).</p><p>관련 정리노트: 1102 2.3 고윳값 분해(EVD), 3.2 예제: 3×3 대칭행렬(첫째 행 전개).</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>기하적 중복도(geometric multiplicity)</dt><dd>고유공간 $E_\lambda$의 차원으로, 일차독립인 고유벡터의 개수이자 동차 연립방정식의 자유변수 개수예요.</dd><dt>대수적 중복도(algebraic multiplicity)</dt><dd>특성다항식의 근으로서 고윳값 $\lambda$가 거듭 곱해진 횟수예요.</dd><dt>대각화 가능성 판정 기준</dt><dd>실수에서 대각화하려면 서로 다른 실수 고윳값에 대한 고유공간 차원의 합이 $n$과 같아야 해요. 이 조건을 만족하면 실수에서 대각화할 수 있어요.</dd><dt>자유변수(free variable)</dt><dd>가우스 소거 후 피벗(leading 1)이 없는 열에 대응하는 미지수로, 임의의 값을 취할 수 있어요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>$\mathbf{A}_1\in\mathbb{R}^{3\times 3}$와 $\mathbf{A}_2\in\mathbb{R}^{4\times 4}$에 대해 (a), (c) 각 행렬의 고유공간을 구하고, (b), (d) 고유공간 차원의 합을 행렬 크기 $n$과 비교해 대각화 가능성을 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>$n\times n$ 실행렬이 실수에서 대각화 가능할 조건은 실수 고윳값들에 대한 고유공간 차원의 합 $\sum_\lambda \dim E_\lambda = n$이에요(<a href="정리노트_1102_PCA.html#s2-evd-condition">2.3 분해 가능한 조건</a>). $\mathbf{A}_1-\lambda\mathbf{I}$는 셋째 행의 처음 두 성분이 0이므로 셋째 행으로 전개하고, $\mathbf{A}_2$는 상삼각행렬이라 대각 성분의 곱이 특성다항식이에요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\det(\mathbf{A}_1-\lambda\mathbf{I})=(1-\lambda)\det\begin{bmatrix}2-\lambda & 3\\1 & 4-\lambda\end{bmatrix}$$
+  <p>고윳값을 구한 뒤 각 동차 연립방정식의 자유변수 개수로 고유공간과 차원을 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{A}_1$의 고유공간</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\det(\mathbf{A}_1-\lambda\mathbf{I})=(1-\lambda)(\lambda^2-6\lambda+5)=-(\lambda-1)^2(\lambda-5)$$</div>
+          <div class="deriv-why"><p>3행 전개 후 2차식을 인수분해해요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}_1-\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 3 & 0\\1 & 3 & 3\\0 & 0 & 0\end{bmatrix}\mathbf{x}=\mathbf{0}\iff x_3=0,\ x_1=-3x_2$$</div>
+          <div class="deriv-why"><p>$\lambda=1$: 2행−1행에서 $3x_3=0$이에요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}_1-5\mathbf{I})\mathbf{x}=\begin{bmatrix}-3 & 3 & 0\\1 & -1 & 3\\0 & 0 & -4\end{bmatrix}\mathbf{x}=\mathbf{0}\iff x_3=0,\ x_1=x_2$$</div>
+          <div class="deriv-why"><p>$\lambda=5$: 3행에서 $x_3=0$, 1행에서 $x_1=x_2$예요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}-3\\1\\0\end{bmatrix}\right],\qquad E_5=\operatorname{span}\left[\begin{bmatrix}1\\1\\0\end{bmatrix}\right]$$</div>
+          <div class="deriv-why"><p>두 고유공간 모두 자유변수 1개로 1차원이에요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\mathbf{A}_1$의 대각화 판정</h4>
+    <p>고유공간 차원의 합이 $\dim E_1+\dim E_5=1+1=2\lt 3$이에요. $\mathbb{R}^3$의 기저가 될 일차독립 고유벡터 3개를 모을 수 없으므로 $\mathbf{A}_1$은 대각화할 수 없어요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\mathbf{A}_2$의 고유공간</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\det(\mathbf{A}_2-\lambda\mathbf{I})=(1-\lambda)(-\lambda)^3=\lambda^3(\lambda-1)=0$$</div>
+          <div class="deriv-why"><p>상삼각행렬의 대각 성분 곱이에요 ($\lambda=0,1$).</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\mathbf{A}_2\mathbf{x}=\begin{bmatrix}x_1+x_2\\0\\0\\0\end{bmatrix}=\mathbf{0}\iff x_1=-x_2$$</div>
+          <div class="deriv-why"><p>$\lambda=0$: $x_2,x_3,x_4$ 세 개가 자유변수예요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}_2-\mathbf{I})\mathbf{x}=\begin{bmatrix}0 & 1 & 0 & 0\\0 & -1 & 0 & 0\\0 & 0 & -1 & 0\\0 & 0 & 0 & -1\end{bmatrix}\mathbf{x}=\mathbf{0}\iff x_2=x_3=x_4=0$$</div>
+          <div class="deriv-why"><p>$\lambda=1$: $x_1$ 하나만 자유변수예요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$E_0=\operatorname{span}\left[\begin{bmatrix}1\\-1\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\\0\end{bmatrix},\begin{bmatrix}0\\0\\0\\1\end{bmatrix}\right],\qquad E_1=\operatorname{span}\left[\begin{bmatrix}1\\0\\0\\0\end{bmatrix}\right]$$</div>
+          <div class="deriv-why"><p>각각 3차원, 1차원 고유공간을 얻어요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) $\mathbf{A}_2$의 대각화 판정</h4>
+    <p>고유공간 차원의 합이 $\dim E_0+\dim E_1=3+1=4$로 행렬 크기 $4$와 같아요. 네 고유벡터가 $\mathbb{R}^4$의 기저를 이루므로 $\mathbf{A}_2$는 대각화 가능해요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf{A}_1$의 고윳값은 $\lambda=1,5$이고, $E_1=\operatorname{span}\left[\begin{bmatrix}-3\\1\\0\end{bmatrix}\right]$, $E_5=\operatorname{span}\left[\begin{bmatrix}1\\1\\0\end{bmatrix}\right]$이에요.</p>
+    <p>(b) 차원의 합이 $1+1=2\lt 3$이므로 $\mathbf{A}_1$은 대각화할 수 없어요.</p>
+    <p>(c) $\mathbf{A}_2$의 고윳값은 $\lambda=0,1$이고, $E_0=\operatorname{span}\left[\begin{bmatrix}1\\-1\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\\0\end{bmatrix},\begin{bmatrix}0\\0\\0\\1\end{bmatrix}\right]$, $E_1=\operatorname{span}\left[\begin{bmatrix}1\\0\\0\\0\end{bmatrix}\right]$이에요.</p>
+    <p>(d) 차원의 합이 $3+1=4$이므로 $\mathbf{A}_2$는 대각화 가능해요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf{A}_1[-3,1,0]^\top=[-3,1,0]^\top$, $\mathbf{A}_1[1,1,0]^\top=[5,5,0]^\top=5[1,1,0]^\top$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 확인</h4>
+    <p>$\mathbf{A}_1-\mathbf{I}$의 1·2행이 일차독립이라 $\operatorname{rank}(\mathbf{A}_1-\mathbf{I})=2$, 따라서 $\dim E_1=3-2=1$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\mathbf{A}_2$에 $[1,-1,0,0]^\top,[0,0,1,0]^\top,[0,0,0,1]^\top$을 곱하면 모두 $\mathbf{0}$이고, $\mathbf{A}_2[1,0,0,0]^\top=[1,0,0,0]^\top$이에요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 확인</h4>
+    <p>네 기저 벡터를 $E_1,E_0$ 순으로 모은 $\mathbf{P}=\begin{bmatrix}1&1&0&0\\0&-1&0&0\\0&0&1&0\\0&0&0&1\end{bmatrix}$은 대각이 $1,-1,1,1$인 상삼각행렬이라 $\det(\mathbf{P})=-1\neq 0$이고 $\mathbf{P}^{-1}\mathbf{A}_2\mathbf{P}=\operatorname{diag}(1,0,0,0)$이에요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathbf{A}_1$에서 $\lambda=1$이 근으로 2번 겹쳐도 해공간 차원이 1일 수 있고, 반대로 $\mathbf{A}_2$처럼 $\det(\mathbf{A}_2)=0$이고 0이 3번 겹쳐도 자유변수 $x_2,x_3,x_4$가 모두 살아 있으면 차원 합이 4가 되어 대각화 가능해요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>실수 대각화는 실수 고윳값의 고유공간 차원 합이 행렬 크기 $n$과 같을 때 가능해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\mathbf{A}_1-\lambda\mathbf{I}$는 3행으로 전개하고, $\mathbf{A}_2-\lambda\mathbf{I}$는 상삼각 대각 곱을 써요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $E_1=\operatorname{span}[[-3,1,0]^\top]$, $E_5=\operatorname{span}[[1,1,0]^\top]$. (b) 합 $2\lt 3$으로 불가. (c) $E_0$(3차원), $E_1$(1차원). (d) 합 $4=4$로 가능.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\operatorname{rank}(\mathbf{A}_1-\mathbf{I})=2\implies\dim E_1=1$. $\mathbf{A}_2$의 네 기저로 만든 $\mathbf{P}$는 $\det\mathbf{P}=-1\neq 0$.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>근의 겹침 수 대신 자유변수 수로 차원을 구해요. $x_3,x_4$처럼 식에 없는 변수도 자유변수예요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.6 (a), (b). 교과서 137쪽(PDF 143쪽). 복습문제는 각 행렬을 고유공간과 대각화 판정 두 소문항으로 나눴어요.</p><p>수업: 1102 L05 s16 (고유공간), L05 s17–s18 (대각화와 분해 가능 조건).</p><p>관련 정리노트: 1102 2.3 고윳값 분해(EVD), 3.2 예제: 3×3 대칭행렬(첫째 행 전개).</p></section>
+<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>고유공간(eigenspace)</dt><dd>$(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$의 해 전체로, 그 차원은 자유변수 개수와 같아요.</dd><dt>대각화 가능성 판정 기준</dt><dd>실수에서 대각화하려면 서로 다른 실수 고윳값의 고유공간 차원 합이 $n$과 같아야 해요.</dd><dt>자유변수(free variable)</dt><dd>연립방정식에서 제약 없이 임의의 값을 택할 수 있는 미지수예요.</dd></dl></section>

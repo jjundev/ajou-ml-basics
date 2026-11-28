@@ -1,24 +1,15 @@
 {
- "summary": "모든 조각에서 understand→recall→start→solve→verify→pitfall→retry 일곱 구역과 소문항별 solve/verify 표지 확인(p1 a-d, p2 a-b, p3 a-b, p4 a-b, p5 a-c). recall은 문제 단서→개념→공식·기호→적용 조건 순서, start와 장문 중복 없음. 요약(sum)의 떠올릴 개념·첫 줄·핵심 답·검산·조건이 본문과 일치(본문에 없는 사실 없음). 용어 패널 기호·관례가 본문과 같음, 출제 근거는 MML PDF에서 확인한 Example/Exercise 번호·쪽만 기재. 미분 없음(check_vector_derivatives pass). 1028 범위: 점곱 외 내적·arccos·가우스 소거 기저 찾기·고윳값·행렬식·Gram-Schmidt 미사용. 설명 감사 Important 3건 수정 반영(audit.md).",
- "items": {
-  "p1:a": "recall(선형결합·표준기저: 계수=성분)→start(c1,c2 미지 계수)→solve(성분 비교 c1=4,c2=-7)→verify(재합성 [4,-7]). 참고 답 4e1-7e2와 일치.",
-  "p1:b": "0e1+ze2, e1 계수 고정 0 → code z 하나; e2^Te2=1 확인 후 z=e2^T x~, x~=e2 z, 크기 1x2·2x1. 정리노트 s4-code와 일치. pitfall: (a)의 -7을 code로 쓰는 혼동, 공간 차원 2 vs 부분공간 차원 1.",
-  "p1:c": "두 방향 포함으로 U=span[e2], 닫힘·영벡터 확인. verify e1∉U. 참고 답 span[e2]와 일치.",
-  "p1:d": "{e2} 생성(c)+일차독립(ce2=0→c=0) → 기저 → dim 1. verify: R^2의 2차원 부분공간은 R^2뿐이고 U≠R^2, U≠{0}. 참고 답 1과 일치.",
-  "p2:a": "B^TB의 (i,j)=b_i^Tb_j(행×열), 1/25 인수, 대각 1·비대각 0 → I. verify: 정수 행렬 곱 (1/25)·25I. 참고 답 I와 일치. pitfall 1/5 한 번 → 5 재계산 확인.",
-  "p2:b": "Definition 3.9 두 조건을 B^TB 칸에 대응, 길이 0 이상으로 ||b||=1, 직교성+선형성으로 α=β=0 → 일차독립 → dim R^2=2 → 기저 → ONB. 증명형: 정의 조건 전부 직접 계산, verify의 점 x=b1+2b2는 보조 확인임을 명시. 행렬식 미사용(범위).",
-  "p3:a": "좌표 정의→성분 두 식→더해 λ2=3, λ1=2. verify: 재합성 [5,1], 사영 계수 공식 (B^TB)^-1B^Tx=½[4,6]=[2,3](정리노트 s4-projection-recall). 가우스 소거 미사용. 참고 답 [2,3]과 일치.",
-  "p3:b": "||b1||=||b2||=√2≠1 → 정규화 아님(직교는 함). B^Tx=[4,6]=2×좌표 이유를 직교+길이 제곱 2로 유도. verify q_i=b_i/√2에서 점곱=좌표. pitfall [4,6] 대입 [10,2]≠x. 참고 답과 일치.",
-  "p4:a": "카드 정의 x^TAx>0; A1x→x^T 곱, 교차항 4x1x2(두 비대각), (2x1+x2)^2+2x2^2, 제곱합=0 ⇔ x=0 논증. verify 역전개+점 [1,-2]→8(판정 근거 아님 명시). 고윳값 미사용(범위). 참고 답과 일치.",
-  "p4:b": "4x1^2+4x1x2=(2x1+x2)^2-x2^2, 괄호=0·x2≠0 선택 x=[1,-2] → -4, 행렬 곱 A2x=[0,2]로 재확인. pitfall: 표본점 양수·성분 비음수 ≠ PD, [0,1]→0은 요구(<0) 불충족. 참고 답과 일치.",
-  "p5:a": "u4=u1+2u2+u3(첫째·넷째 성분부터), 성분으로 일차독립 → B 5x3, 정규방정식(직교 원리), B^TB·B^Tx 값, 대입으로 λ=(-3,4,1)(중간 줄 명시), π=[1,-5,-1,-2,3]. 행렬식·Gram-Schmidt 미사용. verify λ를 세 식에 대입. pitfall 4열 B에서 Bv=0 → 역행렬 없음, B^Tx≠λ. 참고 답과 일치.",
-  "p5:b": "r=[-2,-4,0,6,-2], d=√60=2√15. verify 100=40+60 피타고라스. pitfall 제곱 60 아님. 참고 답과 일치.",
-  "p5:c": "네 점곱 각각 0 계산, u4는 선형결합으로도 0, U 전체와 직교. verify: r^Tu1..3=0은 정규방정식 자체, r·π=0. 참고 답과 일치."
- },
- "references": [
-  "source.json",
-  "MML PDF p57,80,85,102,324-325",
-  "복습노트/1028/.pack/정리노트_1028_PCA.md s3-data-cov, s4-projection-recall, s4-code",
-  "../audit.md"
- ]
+  "p1:a": "recall(표준기저: 성분=계수)->start(c1,c2 미지 계수)->solve(c1=4,c2=-7, x=4e1-7e2)->final-answer->verify(재합성 [4,-7]).",
+  "p1:b": "0e1+ze2, e1 계수 고정 0 -> z 저장; B=e2에서 e2^Te2=1 확인 후 z=e2^T x~, x~=e2 z -> final-answer -> verify(복원).",
+  "p1:c": "양방향 포함으로 U=span[e2] -> final-answer -> verify(덧셈·스칼라배 닫힘, e1∉U).",
+  "p1:d": "{e2} 생성+일차독립(ce2=0=>c=0)->기저->dim(U)=1 -> final-answer -> verify(U≠{0}, U≠R^2).",
+  "p2:a": "B^TB의 (i,j)=b_i^Tb_j, 1/25 인수로 대각 1·비대각 0 -> B^TB=I -> final-answer -> verify(정수 행렬 곱).",
+  "p2:b": "비대각 0(직교), 대각 1(길이 1), αb1+βb2=0에 b1^T,b2^T 곱해 α=β=0(일차독립)+dim R^2=2 -> ONB -> final-answer -> verify(세 조건 확인).",
+  "p3:a": "e8ab0a28 원본 유지: 연립식 합 λ2=3, λ1=2 -> final-answer [2,3]^T -> verify(2b1+3b2=[5,1]^T).",
+  "p3:b": "e8ab0a28 원본 유지: 길이 제곱 1^2+1^2=2 -> 정규화 안 됨 -> final-answer -> verify(절댓값 1 성분 두 개).",
+  "p4:a": "A1x->x^T 곱->4x1^2+4x1x2+3x2^2->(2x1+x2)^2+2x2^2, 제곱합=0⇔x=0 -> PD -> final-answer -> verify(역전개+논증).",
+  "p4:b": "4x1^2+4x1x2=(2x1+x2)^2-x2^2, x=[1,-2]^T -> -4<0 -> PD 아님 -> final-answer -> verify(역전개+A2[1,-2]=[0,2]).",
+  "p5:a": "u4=u1+2u2+u3 제거, u1..u3 일차독립->B(5x3), 정규방정식 대입 소거 λ=(-3,4,1), π=[1,-5,-1,-2,3]^T -> final-answer -> verify(정규방정식 대입).",
+  "p5:b": "r=[-2,-4,0,6,-2]^T, d=sqrt(60)=2sqrt(15) -> final-answer -> verify(100=40+60 피타고라스).",
+  "p5:c": "네 점곱 r^Tu_i=0 계산 -> final-answer -> verify(r^Tu1..3=0은 정규방정식 자체, u4 선형결합 일치)."
 }

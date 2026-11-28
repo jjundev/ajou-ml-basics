@@ -1,127 +1,79 @@
 <div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>평균과 분산이 다른 세 정규분포를 각각 $\frac{1}{3}$의 가중치로 섞은 가우시안 혼합 모델이 주어져요.</p>
-  <p>혼합 밀도 $p(x)$의 식을 쓰고 $x=0$에서의 밀도 값 $p(0)$을 소수점 넷째 자리까지 구하며, 세 가중 성분 중 $x=0$에서 가장 큰 기여를 하는 성분을 골라요.</p>
+  <h4>풀이 목표</h4>
+  <p>표의 세 1차원 정규분포를 각각 $\pi_k=\frac{1}{3}$ 가중치로 섞은 모델에서, (a) 혼합 밀도 $p(x)$의 식과 $p(0)$의 근삿값(소수점 아래 넷째 자리)을 구하고 (b) $x=0$에서 가중 성분 밀도가 가장 큰 성분을 고르세요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘세 정규분포를 가중치로 섞는다’라는 조건에서 <b>가우시안 혼합 모델(Gaussian mixture model, GMM)</b>을 떠올려요.</p>
-  <p>성분 $k$의 평균은 $\mu_k$, 분산은 $\sigma_k^2$, 혼합 가중치는 $\pi_k=\frac{1}{3}$이에요. 이 값으로 정규밀도와 혼합 밀도를 써요.</p>
-  <p>$$\mathcal{N}(x\mid\mu_k,\sigma_k^2) = \frac{1}{\sqrt{2\pi\sigma_k^2}}\exp\left(-\frac{(x-\mu_k)^2}{2\sigma_k^2}\right)$$</p>
-  <p>$$p(x) = \sum_{k=1}^3 \pi_k \mathcal{N}(x\mid\mu_k,\sigma_k^2) = \frac{1}{3}\sum_{k=1}^3 \mathcal{N}(x\mid\mu_k,\sigma_k^2)$$</p>
-  <p>각 성분의 가중 밀도 $q_k(x) = \pi_k \mathcal{N}(x\mid\mu_k,\sigma_k^2)$를 구해 더하고 비교해요.</p>
+  <h4>풀이 단서</h4>
+  <p>가우시안 혼합 밀도는 각 성분의 정규밀도 $\mathcal{N}(x\mid\mu_k,\sigma_k^2)=\frac{1}{\sqrt{2\pi\sigma_k^2}}\exp\bigl(-\frac{(x-\mu_k)^2}{2\sigma_k^2}\bigr)$에 가중치 $\pi_k=\frac{1}{3}$을 곱해 더한 볼록 결합이에요. $q_k(x)=\frac{1}{3}\mathcal{N}(x\mid\mu_k,\sigma_k^2)$를 구해 합하고 비교해요.</p>
   <p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s1-mixture">가우시안 혼합 밀도</a></p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>$p(x) = \frac{1}{3}\left[\mathcal{N}(x\mid -4, 1) + \mathcal{N}(x\mid 0, 0.2) + \mathcal{N}(x\mid 8, 3)\right]$을 적고 $x=0$을 대입해요.</p>
-  <p>풀이 로드맵: 1. x=0에서 각 성분의 정규밀도 계산 → 2. 가중치 1/3을 곱한 가중 밀도 비교표 작성 → 3. 총합 p(0) 및 최대 성분 판정.</p>
+  <h4>첫 단계</h4>
+  $$p(x)=\frac{1}{3}\bigl(\mathcal{N}(x\mid -4,1)+\mathcal{N}(x\mid 0,0.2)+\mathcal{N}(x\mid 8,3)\bigr)$$
+  <p>여기에 $x=0$을 넣어 세 가중 성분 $q_1(0), q_2(0), q_3(0)$을 각각 계산해요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> 혼합 밀도 식은 $p(x) = \frac{1}{3}\sum_{k=1}^3 \mathcal{N}(x\mid\mu_k, \sigma_k^2)$이며, $x=0$에서의 값은 $p(0) \approx 0.2974$예요.</p>
-    <p>성분 2는 $\mu_2=0$이므로 지수항이 $\exp(0)=1$이 되어 가중 밀도는 $\frac{1}{3} \cdot \frac{1}{\sqrt{2\pi \times 0.2}} = \frac{1}{3\sqrt{0.4\pi}} \approx 0.297354$예요. 세 성분을 표로 비교해요.</p>
+    <h4>(a) 혼합 밀도 식과 $p(0)$ 계산</h4>
+    <p>성분 2는 $\mu_2=0$이므로 지수가 $0$이 되어 $q_2(0)=\frac{1}{3\sqrt{2\pi\cdot 0.2}}=\frac{1}{3\sqrt{0.4\pi}}\approx 0.297354019$예요. 세 성분의 계산을 표로 모아요.</p>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th scope="col">성분 $k$</th>
-            <th scope="col">평균 $\mu_k$</th>
-            <th scope="col">분산 $\sigma_k^2$</th>
-            <th scope="col">지수항 $\exp\left(-\frac{(0-\mu_k)^2}{2\sigma_k^2}\right)$</th>
-            <th scope="col">정규밀도 $\mathcal{N}(0\mid\mu_k,\sigma_k^2)$</th>
-            <th scope="col">가중 밀도 $q_k(0) = \frac{1}{3}\mathcal{N}$</th>
-          </tr>
+          <tr><th scope="col">성분 $k$</th> <th scope="col">$(\mu_k,\sigma_k^2)$</th> <th scope="col">지수 $\exp\bigl(-\frac{\mu_k^2}{2\sigma_k^2}\bigr)$</th> <th scope="col">가중 밀도 $q_k(0)$</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>$-4$</td>
-            <td>$1$</td>
-            <td>$\exp(-8) \approx 3.3546 \times 10^{-4}$</td>
-            <td>$1.3383 \times 10^{-4}$</td>
-            <td>$0.000044610$</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>$0$</td>
-            <td>$0.2$</td>
-            <td>$\exp(0) = 1$</td>
-            <td>$0.892062$</td>
-            <td>$0.297354019$</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>$8$</td>
-            <td>$3$</td>
-            <td>$\exp\left(-\frac{32}{3}\right) \approx 2.3308 \times 10^{-5}$</td>
-            <td>$5.3712 \times 10^{-6}$</td>
-            <td>$0.000001790$</td>
-          </tr>
-          <tr>
-            <th scope="row">합계</th>
-            <td>—</td>
-            <td>—</td>
-            <td>—</td>
-            <td>—</td>
-            <td><b>$p(0) \approx 0.297400$</b></td>
-          </tr>
+          <tr><th scope="row">1</th> <td>$(-4,1)$</td> <td>$e^{-8}\approx 3.3546\times 10^{-4}$</td> <td>$0.000044610$</td></tr>
+          <tr><th scope="row">2</th> <td>$(0,0.2)$</td> <td>$e^{0}=1$</td> <td>$0.297354019$</td></tr>
+          <tr><th scope="row">3</th> <td>$(8,3)$</td> <td>$e^{-32/3}\approx 2.3309\times 10^{-5}$</td> <td>$0.000001790$</td></tr>
+          <tr><th scope="row">합계 $p(0)$</th> <td>—</td> <td>—</td> <td><b>$0.297400419\approx 0.2974$</b></td></tr>
         </tbody>
       </table>
     </div>
-    <p>세 가중 성분 밀도의 합은 $0.000044610 + 0.297354019 + 0.000001790 = 0.297400419$이며, 소수점 넷째 자리까지 반올림하면 $p(0) \approx 0.2974$예요.</p>
+    <p>세 가중 밀도를 먼저 정밀하게 더한 뒤 소수점 아래 넷째 자리로 반올림하면 $p(0)\approx 0.2974$예요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> $x=0$에서 가중 성분 밀도가 가장 큰 성분은 성분 2예요.</p>
-    <p>성분 2의 가중 밀도는 약 $0.29735$로, 성분 1($\approx 0.000045$)이나 성분 3($\approx 0.000002$)에 비해 압도적으로 커요. $x=0$에서는 성분 2가 평균에 있어 자기 밀도의 최댓값을 가져요. 성분 2는 분산이 가장 작아 밀도의 최고 높이도 가장 크고, 세 성분의 가중치는 같아요.</p>
+    <h4>(b) 최대 가중 성분 판정</h4>
+    <p>$x=0$에서 $q_2(0)\approx 0.297354$가 $q_1(0)\approx 0.000045$와 $q_3(0)\approx 0.000002$보다 압도적으로 크므로 성분 2예요. 같은 가중치 $\frac{1}{3}$ 아래에서 $x=0$이 성분 2의 평균 $\mu_2=0$에 있고 분산 $\sigma_2^2=0.2$도 가장 작아 최고 높이가 가장 커요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $p(x)=\frac{1}{3}\sum_{k=1}^3\mathcal{N}(x\mid\mu_k,\sigma_k^2)$ (순서대로 $(-4,1),(0,0.2),(8,3)$)이고, $p(0)\approx 0.2974$예요.</p>
+    <p>(b) $x=0$에서 가중 성분 밀도가 가장 큰 성분은 성분 2예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>세 성분의 분산과 가중치가 모두 양수라 정규밀도 공식으로 계산한 세 가중 밀도도 양수예요. 가중치 합은 $\frac{1}{3} \times 3 = 1$이에요. $x=0$은 성분 1과 3의 평균에서 각각 $4\sigma_1$, 약 $4.62\sigma_3$ 떨어져 있어요. $1/3$을 곱한 두 성분의 가중 밀도는 각각 약 $4.461\times 10^{-5}$와 $1.790\times 10^{-6}$으로, 전체 혼합 밀도에 작은 양을 더해요.</p>
+    <p>성분 1·3은 $x=0$에서 각 평균과의 거리가 각각 $4\sigma_1$, 약 $4.62\sigma_3$로 모두 $4\sigma_k$ 이상이라 꼬리 값이 $10^{-4}$ 이하로 작고, 성분 2의 $\frac{1}{3\sqrt{0.4\pi}}\approx 0.297354$에 합쳐 넷째 자리 $0.2974$가 돼요.</p>
   </div>
   <div data-subpart="b">
     <h4>(b) 검산</h4>
-    <p>성분 2의 단일 정규밀도 최대 높이는 $\frac{1}{\sqrt{0.4\pi}} \approx 0.892$로 다른 성분들보다 훨씬 크며 가중치가 동일하므로 성분 2의 기여가 가장 커요.</p>
+    <p>$q_2(0)$ 혼자 전체 $p(0)$의 약 $99.98\%$를 차지해 성분 2가 가장 커요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>정규밀도 공식 분모의 제곱근 안에는 표준편차가 아니라 분산 $\sigma_k^2$이 들어가요. 또한 세 항을 각각 미리 넷째 자리로 반올림해서 더하면 오차가 누적될 수 있으므로, 먼저 정밀하게 합산한 뒤 마지막에 반올림해야 해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p>
-  <ol>
-    <li>x=0에서의 각 성분 지수항과 정규밀도를 분산에 유의해 구해요.</li>
-    <li>가중치 1/3을 곱한 값들을 표로 정리하고 더해 넷째 자리까지 나타내요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>정규밀도 분모의 제곱근 안에는 표준편차가 아니라 분산 $\sigma_k^2$($\sigma_2^2=0.2$)을 넣어요. 또 각 $q_k(0)$을 미리 넷째 자리로 반올림하고 더하지 말고 합산 후 반올림해요.</p>
 </div>
 <div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>혼합 밀도는 세 정규밀도에 혼합비 $\frac{1}{3}$을 곱해 더해요. $x=0$에서 세 가중 밀도를 비교하면 성분 2의 값이 가장 커요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>첫 줄과 검산</h4>
-    <p>$p(x)=\frac{1}{3}\sum_{k=1}^3\mathcal{N}(x\mid\mu_k,\sigma_k^2)$이고 $p(0) \approx 0.2974$예요. 가장 큰 성분은 성분 2예요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>혼합 밀도는 세 정규밀도 $\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에 가중치 $\frac{1}{3}$을 곱해 더해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$p(x)=\frac{1}{3}\sum_{k=1}^3\mathcal{N}(x\mid\mu_k,\sigma_k^2)$에 $x=0$을 대입해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $p(0)\approx 0.2974$예요. (b) $x=0$에서 가장 큰 가중 성분은 성분 2예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$q_2(0)\approx 0.297354$이고 꼬리 성분 1·3 합이 $4.64\times 10^{-5}$라 반올림하면 $0.2974$예요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>분모 $\sqrt{2\pi\sigma_k^2}$에 분산 $\sigma_k^2$을 쓰고, 합산 후 마지막에 반올림해요.</p></div>
 </div>
-<section data-problem-panel="terms">
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 11.1 · 책 pp. 350–351 · Figure 11.3 · 관련 정리노트: <a href="정리노트_1111_Gaussian_Mixture_Models.html#s1-mixture">여러 가우시안을 섞는 법</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
   <h4>용어</h4>
   <dl class="terms">
     <dt>가우시안 혼합 모델(Gaussian mixture model, GMM)</dt>
-    <dd>여러 정규밀도에 합이 1인 음이 아닌 혼합 가중치를 곱해 더한 확률밀도 모델이에요.</dd>
+    <dd>여러 정규밀도에 음이 아니고 합이 $1$인 혼합 가중치를 곱해 더한 확률밀도 모델이에요.</dd>
     <dt>가중 성분 밀도(weighted component density)</dt>
-    <dd>각 성분의 정규확률밀도에 해당 성분의 사전 혼합 가중치 $\pi_k$를 곱한 값이에요.</dd>
+    <dd>성분 $k$의 정규밀도에 사전 가중치 $\pi_k$를 곱한 $q_k(x)=\pi_k\mathcal{N}(x\mid\mu_k,\sigma_k^2)$예요.</dd>
   </dl>
-</section>
-<section data-problem-panel="provenance">
-  <h4>출제 근거</h4>
-  <p>MML Example 11.1 · 책 pp. 350–351 · Figure 11.3</p>
 </section>

@@ -1,29 +1,20 @@
 <div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>주어진 것: 관측 $x_n\in\{-4,-2,-1,0,2,4,6\}$과 $7\times3$ 책임도 표 $r_{nk}$(행 $n$은 관측, 열 $k$는 성분), 평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_n r_{nk}x_n$이에요.</p>
-  <p>구할 것: (a) 열 합 $N_k=\sum_n r_{nk}$, (b) 그 $N_k$로 나눈 새 평균 $\mu_k^{\text{new}}$예요.</p>
+  <h4>풀이 목표</h4>
+  <p>(a) $7\times3$ 책임도 표에서 세 성분의 총 책임도 $N_k=\sum_{n=1}^{7} r_{nk}$를 구해요. (b) 이 $N_k$로 세 성분의 새 평균 $\mu_k^{\text{new}}$를 구해요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘책임도 표’와 ‘평균 갱신’이라는 단서에서 E-step이 만든 $N\times K$ 표를 M-step이 <b>열 단위로</b> 쓴다는 점을 떠올려요.</p>
-  <ul>
-    <li><b>총 책임도</b> $N_k$: 표의 열 $k$를 위에서 아래로 더한 값이에요. 각 행의 합은 $1$이므로 세 $N_k$를 모두 더하면 관측 수 $7$이에요.</li>
-    <li><b>가중 평균(weighted average)</b>: 평균 갱신식은 가중치 $r_{nk}/N_k$로 관측을 평균한 값이에요.</li>
-  </ul>
-  $$\mu_k^{\text{new}}=\frac{\overbrace{\sum_{n} r_{nk}x_n}^{\text{열 }k\text{로 가중한 관측의 합}}}{\underbrace{N_k}_{\text{열 }k\text{의 합}}}=\sum_n\frac{r_{nk}}{N_k}x_n,\qquad\sum_n\frac{r_{nk}}{N_k}=1$$
-  <p>$N$이 아니라 $N_k$로 나눠야 가중치 합이 $1$이 되고, 그래서 새 평균은 그 성분이 맡은 관측들 사이에 놓여요. 표의 구조는 <a href="정리노트_1116_EM_Algorithm.html#s1-em-steps">E-step과 M-step의 순서</a>, 가중 평균의 뜻은 <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>에서 다뤘어요.</p>
+  <h4>풀이 단서</h4>
+  <p>$N_k$는 책임도 표의 <b>열 합</b>이에요. 평균 갱신식 $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_{n=1}^{7} r_{nk}x_n$은 합이 $1$인 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요(<a href="정리노트_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a>).</p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>표 아래에 열 합 줄을 하나 더 그리고, 첫 칸에 $N_1=1+1+\frac{1}{2}+0+0+0+0$을 적어요.</p>
-  <p>풀이 로드맵: 1. 세 열의 합 $N_k$ → 2. 열마다 $\sum_n r_{nk}x_n$ 계산 → 3. 그 합을 $N_k$로 나눠 $\mu_k^{\text{new}}$를 구해요.</p>
+  <h4>첫 단계</h4>
+  <p>열 $1$의 $0$이 아닌 칸만 골라 $N_1=1+1+\frac{1}{2}$을 적고, 같은 칸으로 $\sum_n r_{n1}x_n$을 구해요.</p>
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $(N_1,N_2,N_3)=\left(\frac{5}{2},\,2,\,\frac{5}{2}\right)$예요.</p>
-    <p>대표로 열 $1$은 $0$이 아닌 칸만 더해 $N_1=1+1+\frac{1}{2}=\frac{5}{2}$예요. 세 열을 표로 정리해요.</p>
+    <h4>(a) 총 책임도 계산</h4>
+    <p>열 $1$은 $0$이 아닌 칸만 더해 $N_1=1+1+\frac{1}{2}=\frac{5}{2}$예요. 세 열을 표로 정리해요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$0$이 아닌 칸 ($x_n$: $r_{nk}$)</th> <th scope="col">$N_k$</th></tr></thead>
@@ -34,12 +25,11 @@
         </tbody>
       </table>
     </div>
-    <p>세 값의 합은 $\frac{5}{2}+2+\frac{5}{2}=7$로 관측 수와 같아요. 관측 $-1$과 $2$는 두 성분이 반씩 나눠 맡아서 $N_k$가 정수가 아닐 수 있어요.</p>
+    <p>세 값의 합은 $\frac{5}{2}+2+\frac{5}{2}=7$로 관측 수와 같아요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 구조:</b> $(\mu_1^{\text{new}},\mu_2^{\text{new}},\mu_3^{\text{new}})=(-2.6,\,0.25,\,4.4)$, 분수로는 $\left(-\frac{13}{5},\,\frac{1}{4},\,\frac{22}{5}\right)$예요.</p>
-    <p>대표로 성분 $1$은 $\sum_n r_{n1}x_n=1\cdot(-4)+1\cdot(-2)+\frac{1}{2}\cdot(-1)=-\frac{13}{2}$이고, $\mu_1^{\text{new}}=\frac{-13/2}{5/2}=-\frac{13}{5}=-2.6$이에요.</p>
+    <h4>(b) 새 평균 계산</h4>
+    <p>성분 $1$은 $\sum_n r_{n1}x_n=1\cdot(-4)+1\cdot(-2)+\frac{1}{2}\cdot(-1)=-\frac{13}{2}$이라 $\mu_1^{\text{new}}=\frac{-13/2}{5/2}=-\frac{13}{5}=-2.6$이에요.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th scope="col">성분 $k$</th> <th scope="col">$\sum_n r_{nk}x_n$</th> <th scope="col">$N_k$</th> <th scope="col">$\mu_k^{\text{new}}$</th></tr></thead>
@@ -50,56 +40,49 @@
         </tbody>
       </table>
     </div>
-    <p>각 평균은 그 성분이 맡은 관측들 사이에 놓여요. 성분 $1$은 $[-4,-1]$, 성분 $2$는 $[-1,2]$, 성분 $3$은 $[2,6]$ 안에 있어요.</p>
+    <p>각 평균이 맡은 관측 구간($[-4,-1]$, $[-1,2]$, $[2,6]$) 안에 놓여요.</p>
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $(N_1,\,N_2,\,N_3)=\left(\frac{5}{2},\,2,\,\frac{5}{2}\right)$예요.</p>
+    <p>(b) $(\mu_1^{\text{new}},\,\mu_2^{\text{new}},\,\mu_3^{\text{new}})=(-2.6,\,0.25,\,4.4)$이고, 분수로는 $\left(-\frac{13}{5},\,\frac{1}{4},\,\frac{22}{5}\right)$예요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>행마다 합이 $1$인지 보면 일곱 행 모두 $1$이에요. 그러면 표 전체 합은 $7$이어야 하고, 실제로 $\sum_kN_k=7$이에요.</p>
+    <p>일곱 행의 합이 모두 $1$이므로 세 열 합의 합 $\sum_k N_k=7$과 맞아요.</p>
   </div>
   <div data-subpart="b">
     <h4>(b) 검산</h4>
-    <p>가중 편차의 합이 $0$인지 확인해요. 성분 $2$는 $\frac{1}{2}\left(-1-\frac{1}{4}\right)+1\left(0-\frac{1}{4}\right)+\frac{1}{2}\left(2-\frac{1}{4}\right)=-\frac{5}{8}-\frac{2}{8}+\frac{7}{8}=0$이에요. 가중 평균이면 $\sum_n r_{nk}(x_n-\mu_k^{\text{new}})=0$이 성립해야 해요.</p>
+    <p>가중 평균은 $\sum_n r_{nk}(x_n-\mu_k^{\text{new}})=0$을 만족해요. 성분 $2$는 $\frac{1}{2}\left(-1-\frac{1}{4}\right)+1\left(0-\frac{1}{4}\right)+\frac{1}{2}\left(2-\frac{1}{4}\right)=0$이에요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$N_k$는 행 합이 아니라 <b>열 합</b>이에요. 행 합은 언제나 $1$이라 새 정보를 주지 않아요.</p>
-  <p>나눌 때 관측 수 $7$이나 그 성분의 $0$이 아닌 칸 수 $3$을 쓰면 안 돼요. 반씩 맡은 관측은 $\frac{1}{2}$개로 세야 하므로 분모는 $N_k$예요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <ol>
-    <li>표 아래에 열 합 줄을 그리고 $\sum_kN_k=7$을 확인해요.</li>
-    <li>같은 열의 $r_{nk}$를 $x_n$에 곱해 더한 뒤 $N_k$로 나눠요.</li>
-    <li>결과가 그 성분이 맡은 관측들 사이에 있는지 봐요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$N_k$는 행 합이 아니라 <b>열 합</b>이에요. 또 평균을 낼 때 관측 수 $7$이나 $0$이 아닌 칸 수 $3$이 아니라 $N_k$로 나눠야 가중치 합이 $1$이에요.</p>
 </div>
 <div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>$N_k$는 책임도 표의 열 합이에요. $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_nr_{nk}x_n$은 합이 $1$인 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>결론과 검산</h4>
-    <p>$N_k=\left(\frac{5}{2},2,\frac{5}{2}\right)$로 합이 $7$이에요. 새 평균은 $(-2.6,\,0.25,\,4.4)$이고, 가중 편차의 합이 $0$인지로 확인해요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$N_k$는 표의 열 합이고, $\mu_k^{\text{new}}=\frac{1}{N_k}\sum_n r_{nk}x_n$은 가중치 $r_{nk}/N_k$로 낸 가중 평균이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>열 $1$의 $0$이 아닌 칸으로 $N_1=1+1+\frac{1}{2}$부터 더해요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $N_k=\left(\frac{5}{2},2,\frac{5}{2}\right)$, (b) $\mu_k^{\text{new}}=(-2.6,\,0.25,\,4.4)=\left(-\frac{13}{5},\frac{1}{4},\frac{22}{5}\right)$예요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>열 합의 합이 $7$이고, 가중 편차 합 $\sum_n r_{nk}(x_n-\mu_k^{\text{new}})=0$이 성립해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>분모는 칸 수 $3$이나 전체 $7$이 아니라 열 합 $N_k$예요.</p></div>
 </div>
-<section data-problem-panel="terms">
-  <h4>용어</h4>
-  <dl class="terms">
-    <dt>책임도(responsibility) $r_{nk}$</dt>
-    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 한 행의 합은 $\sum_kr_{nk}=1$이에요.</dd>
-    <dt>총 책임도 $N_k$</dt>
-    <dd>$N_k=\sum_nr_{nk}$, 책임도 표의 열 합이에요. 모두 더하면 관측 수 $N$이에요.</dd>
-    <dt>가중 평균(weighted average)</dt>
-    <dd>합이 $1$인 가중치 $r_{nk}/N_k$로 관측을 평균한 값이에요. 많이 맡은 관측일수록 평균을 세게 끌어요.</dd>
-  </dl>
-</section>
 <section data-problem-panel="provenance">
   <h4>출제 근거</h4>
   <p>MML Example 11.3(평균 갱신), 교과서 355쪽(PDF 361쪽)의 계산 구조를 분수로 끝나는 책임도 표로 바꾼 문항이에요.</p>
   <p>관련 정리노트: <a href="정리노트_1116_EM_Algorithm.html#s1-meaning-mean">평균: 합이 1인 가중치로 낸 평균</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>책임도(responsibility) $r_{nk}$</dt>
+    <dd>관측 $x_n$을 성분 $k$가 맡는 몫이에요. 각 행의 합은 $\sum_k r_{nk}=1$이에요.</dd>
+    <dt>총 책임도(total responsibility) $N_k$</dt>
+    <dd>$N_k=\sum_n r_{nk}$로, 책임도 표의 열 합이에요.</dd>
+    <dt>가중 평균(weighted average)</dt>
+    <dd>합이 $1$인 가중치 $r_{nk}/N_k$로 관측을 평균한 값이에요.</dd>
+  </dl>
 </section>

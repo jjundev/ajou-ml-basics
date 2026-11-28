@@ -1,8 +1,127 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>주어진 것은 $2\times 2$ 대칭행렬 $\mathbf{A}=\frac{1}{2}\begin{bmatrix}7 & -1\\-1 & 7\end{bmatrix}=\begin{bmatrix}7/2 & -1/2\\-1/2 & 7/2\end{bmatrix}$이에요.</p><p>구할 것은 네 가지예요: (a) 특성다항식으로 고윳값 $\lambda_1 > \lambda_2$ 구하기, (b) 각 고윳값의 단위 길이 정규화 고유벡터 $\mathbf{p}_1, \mathbf{p}_2$, (c) 직교행렬 $\mathbf{P}=[\mathbf{p}_1, \mathbf{p}_2]$의 $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$ 검증과 $\mathbf{P}^{-1}=\mathbf{P}^\top$ 판정, (d) 성분을 명시한 스펙트럼 분해 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 작성이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘대칭행렬의 고윳값 분해’라는 단서에서 스펙트럼 정리(spectral theorem)와 직교 대각화를 떠올려요.</p><ul><li>실대칭행렬 $\mathbf{A}=\mathbf{A}^\top$는 항상 정규직교 고유기저 $\mathbf{p}_1, \dots, \mathbf{p}_n$를 가지며, 이들을 열로 모은 행렬 $\mathbf{P}=[\mathbf{p}_1, \dots, \mathbf{p}_n]$은 직교행렬(orthogonal matrix)이 돼요.</li><li>직교행렬의 성질: $\mathbf{P}^\top\mathbf{P}$의 $(i, j)$ 성분은 $\mathbf{p}_i^\top\mathbf{p}_j$예요. 단위 길이($\|\mathbf{p}_i\|=1$)이므로 대각은 1, 상호 직교($\mathbf{p}_i\perp\mathbf{p}_j$)이므로 비대각은 0이 되어 $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$가 성립하고, $\mathbf{P}^{-1}=\mathbf{P}^\top$이 돼요.</li><li>고윳값 분해(EVD): $\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$에서 양변 우측에 $\mathbf{P}^{-1}=\mathbf{P}^\top$을 곱해 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$로 쪼개져요. 여기서 $\mathbf{D}=\operatorname{diag}(\lambda_1, \dots, \lambda_n)$은 $\mathbf{P}$의 열 순서와 일치하는 대각행렬이에요.</li><li>벡터 정규화(normalization): 고유벡터 $\mathbf{v}$를 자기 길이 $\|\mathbf{v}\|=\sqrt{\mathbf{v}^\top\mathbf{v}}$로 나누어 단위 벡터 $\mathbf{p}=\frac{\mathbf{v}}{\|\mathbf{v}\|}$를 만들어요.</li></ul><p><a href="정리노트_1102_PCA.html#s2-evd">2.3 고윳값 분해(EVD)</a>와 <a href="정리노트_1102_PCA.html#s3-spectral">3.1 스펙트럼 정리</a>에서 대칭행렬의 분해를 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>상수배 $\frac12$을 성분에 적용해 $\mathbf{A}=\begin{bmatrix}7/2 & -1/2\\-1/2 & 7/2\end{bmatrix}$로 두고 특성방정식을 세워요.</p>$$\det(\mathbf{A}-\lambda\mathbf{I})=\det\begin{bmatrix}\frac72-\lambda & -\frac12\\-\frac12 & \frac72-\lambda\end{bmatrix}=0$$<p><b>풀이 로드맵:</b> 1. $ad-bc$ 전개 및 인수분해로 $\lambda_1=4, \lambda_2=3$ 산출 → 2. 각 $\lambda$별 동차계 풀고 $\|\cdot\|$로 나누어 $\mathbf{p}_1, \mathbf{p}_2$ 정규화 → 3. $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$ 행렬곱으로 $\mathbf{P}^{-1}=\mathbf{P}^\top$ 입증 → 4. $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 조립.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) 고윳값</h4><p><b>최종 답 요약:</b> 특성다항식은 $(\lambda-4)(\lambda-3)=0$이고 고윳값은 $\lambda_1=4, \lambda_2=3$이에요 ($\lambda_1 > \lambda_2$).</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A}-\lambda\mathbf{I})=\left(\frac72-\lambda\right)^2-\left(-\frac12\right)^2$$</div><div class="deriv-why"><p>2x2 행렬식 ad-bc를 대입해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A}-\lambda\mathbf{I})}=\lambda^2-7\lambda+\frac{49}{4}-\frac{1}{4}$$</div><div class="deriv-why"><p>완전제곱을 전개하고 상수를 정리해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{A}-\lambda\mathbf{I})}=\lambda^2-7\lambda+12$$</div><div class="deriv-why"><p>48/4=12로 상수항을 정리해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$p_{\mathbf{A}}(\lambda)=(\lambda-4)(\lambda-3)=0\iff\lambda_1=4,\ \lambda_2=3$$</div><div class="deriv-why"><p>인수분해하여 두 고윳값 4와 3을 얻어요</p></div></li></ol></div></div><div data-subpart="b"><h4>(b) 정규화된 고유벡터</h4><p><b>최종 답 요약:</b> 단위 길이 고유벡터는 $\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}, \mathbf{p}_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$이에요.</p><p>$\lambda_1=4$의 고유벡터를 구하고 정규화해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\left(\mathbf{A}-4\mathbf{I}\right)\mathbf{x}=\begin{bmatrix}-\frac12 & -\frac12\\-\frac12 & -\frac12\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\mathbf{0}\iff x_1+x_2=0$$</div><div class="deriv-why"><p>람다=4 대입 후 두 행 공통 조건이에요</p></div></li><li><div class="deriv-eq">$$\mathbf{x}=\begin{bmatrix}1\\-1\end{bmatrix},\quad\|\mathbf{x}\|=\sqrt{1^2+(-1)^2}=\sqrt2$$</div><div class="deriv-why"><p>x1=1 대입 기저와 그 유클리드 노름이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}$$</div><div class="deriv-why"><p>길이로 나누어 정규화한 고유벡터예요</p></div></li></ol></div><p>$\lambda_2=3$의 고유벡터를 구하고 정규화해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\left(\mathbf{A}-3\mathbf{I}\right)\mathbf{x}=\begin{bmatrix}\frac12 & -\frac12\\-\frac12 & \frac12\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\mathbf{0}\iff x_1-x_2=0$$</div><div class="deriv-why"><p>람다=3 대입 후 두 행 공통 조건이에요</p></div></li><li><div class="deriv-eq">$$\mathbf{x}=\begin{bmatrix}1\\1\end{bmatrix},\quad\|\mathbf{x}\|=\sqrt{1^2+1^2}=\sqrt2$$</div><div class="deriv-why"><p>x1=1 대입 기저와 그 유클리드 노름이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{p}_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$$</div><div class="deriv-why"><p>길이로 나누어 정규화한 고유벡터예요</p></div></li></ol></div></div><div data-subpart="c"><h4>(c) $\mathbf{P}^\top\mathbf{P}$와 $\mathbf{P}^{-1}=\mathbf{P}^\top$ 판정</h4><p><b>최종 답 요약:</b> $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$이므로 직교행렬이고, $\mathbf{P}^{-1}=\mathbf{P}^\top$을 쓸 수 있어요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{P}=\frac{1}{\sqrt2}\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix},\quad\mathbf{P}^\top=\frac{1}{\sqrt2}\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}$$</div><div class="deriv-why"><p>정규화 고유벡터 열들을 결합하고 전치해요</p></div></li><li><div class="deriv-eq">$$\mathbf{P}^\top\mathbf{P}=\frac12\begin{bmatrix}1\cdot 1+(-1)(-1) & 1\cdot 1+(-1)\cdot 1\\1\cdot 1+1\cdot(-1) & 1\cdot 1+1\cdot 1\end{bmatrix}$$</div><div class="deriv-why"><p>앞의 스칼라 (1/sqrt2)^2=1/2을 묶어 곱해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\mathbf{P}^\top\mathbf{P}}=\frac12\begin{bmatrix}2 & 0\\0 & 2\end{bmatrix}=\begin{bmatrix}1 & 0\\0 & 1\end{bmatrix}=\mathbf{I}$$</div><div class="deriv-why"><p>대각 1(길이 1), 비대각 0(직교)으로 단위행렬이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{P}^\top\mathbf{P}=\mathbf{I}\iff\mathbf{P}^{-1}=\mathbf{P}^\top$$</div><div class="deriv-why"><p>가역이고 역행렬이 전치와 같음이 입증돼요</p></div></li></ol></div></div><div data-subpart="d"><h4>(d) $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 분해</h4><p><b>최종 답 요약:</b> $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$이며 대각행렬은 $\mathbf{D}=\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}$이에요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{A}\mathbf{P}=[\mathbf{A}\mathbf{p}_1,\ \mathbf{A}\mathbf{p}_2]=[4\mathbf{p}_1,\ 3\mathbf{p}_2]=\mathbf{P}\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}$$</div><div class="deriv-why"><p>고유벡터 관계를 행렬곱 AP=PD로 묶어요</p></div></li><li><div class="deriv-eq">$$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$$</div><div class="deriv-why"><p>양변 우측에 P^-1=P^T를 곱해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{A}=\frac{1}{\sqrt2}\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix}\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}$$</div><div class="deriv-why"><p>P, D, P^T를 성분별로 완벽히 명시한 분해예요</p></div></li></ol></div></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\operatorname{tr}(\mathbf{A})=7/2+7/2=7=\lambda_1+\lambda_2=4+3$, $\det(\mathbf{A})=(7/2)^2-(-1/2)^2=48/4=12=\lambda_1\lambda_2=4\cdot 3$으로 대각합과 행렬식이 완벽히 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>고유벡터 직교성과 노름을 검산해요: $\|\mathbf{p}_1\|^2=\frac12(1+1)=1$, $\|\mathbf{p}_2\|^2=\frac12(1+1)=1$, $\mathbf{p}_1^\top\mathbf{p}_2=\frac12(1-1)=0$으로 정규직교 조건을 정확히 만족해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>우측 곱 $\mathbf{P}\mathbf{P}^\top=\frac12\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix}\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}=\frac12\begin{bmatrix}2 & 0\\0 & 2\end{bmatrix}=\mathbf{I}$도 성립하여 전치행렬이 양방향 역행렬임을 확인해요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>우변 행렬들을 직접 곱해 원래 $\mathbf{A}$가 복원되는지 검산해요:$$\mathbf{P}\mathbf{D}=\frac{1}{\sqrt2}\begin{bmatrix}4 & 3\\-4 & 3\end{bmatrix}$$$$\mathbf{P}\mathbf{D}\mathbf{P}^\top=\frac12\begin{bmatrix}4 & 3\\-4 & 3\end{bmatrix}\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}=\frac12\begin{bmatrix}4+3 & -4+3\\-4+3 & 4+3\end{bmatrix}=\frac12\begin{bmatrix}7 & -1\\-1 & 7\end{bmatrix}=\mathbf{A}$$<p>정확히 복원돼요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>$\mathbf{P}$의 열 벡터 배치 순서와 $\mathbf{D}$의 대각 원소 배치 순서가 서로 어긋나면 안 돼요. $\mathbf{P}=[\mathbf{p}_1, \mathbf{p}_2]$로 두었다면 $\mathbf{D}=\operatorname{diag}(\lambda_1, \lambda_2)=\operatorname{diag}(4, 3)$이어야 하며, 순서가 바뀌면 $\mathbf{P}\mathbf{D}\mathbf{P}^\top = \frac12\begin{bmatrix}7 & 1\\1 & 7\end{bmatrix}\neq\mathbf{A}$가 돼요.</p><p>정규화를 빠뜨리고 비정규화 벡터 $[1,-1]^\top, [1,1]^\top$를 그대로 $\mathbf{P}$에 넣으면 $\mathbf{P}^\top\mathbf{P}=2\mathbf{I}$가 되어 $\mathbf{P}^{-1}\neq\mathbf{P}^\top$가 돼요. 직교 대각화에서는 반드시 길이 1 정규화가 필수예요.</p><p>행렬 분해 식의 순서를 $\mathbf{P}^\top\mathbf{D}\mathbf{P}$로 잘못 쓰면 안 돼요. $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$가 올바른 순서예요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>특성방정식을 전개해 고윳값 $\lambda_1=4, \lambda_2=3$을 구해요.</li><li>각 동차계를 풀고 유클리드 노름으로 나누어 단위 고유벡터 $\mathbf{p}_1, \mathbf{p}_2$를 구해요.</li><li>$\mathbf{P}^\top\mathbf{P}=\mathbf{I}$를 확인하고 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 분해식을 직접 곱해 검산해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>대칭행렬은 정규직교 고유벡터로 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 대각화돼요. $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$이므로 $\mathbf{P}^{-1}=\mathbf{P}^\top$이에요.</p>$$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A}-\lambda\mathbf{I})=(7/2-\lambda)^2-(-1/2)^2=0$을 세워요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\lambda_1=4, \lambda_2=3$.</p><p>(b) $\mathbf{p}_1=\frac{1}{\sqrt2}[1,-1]^\top, \mathbf{p}_2=\frac{1}{\sqrt2}[1,1]^\top$.</p><p>(c) $\mathbf{P}^\top\mathbf{P}=\mathbf{I} \implies \mathbf{P}^{-1}=\mathbf{P}^\top$.</p><p>(d) $\mathbf{A}=\mathbf{P}\operatorname{diag}(4,3)\mathbf{P}^\top$.</p></div><div class="summary-group"><h4>검산</h4><p>$\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 곱이 원 행렬 $\mathbf{A}=\frac12\begin{bmatrix}7 & -1\\-1 & 7\end{bmatrix}$과 일치해요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>열 순서와 대각 원소 순서를 반드시 일치시켜요. 단위 길이 정규화를 빠뜨리지 않아요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 4.11 (수치를 바꾼 변형). 교과서 117–118쪽(PDF 123–124쪽).</p><p>수업: 1102 L05 s17–s19 (대각화, 고윳값 분해, 스펙트럼 정리).</p><p>관련 정리노트: 1102 2.2 대각행렬과 대각화, 2.3 고윳값 분해(EVD), 3.1 대칭행렬은 직교 고유벡터로 쪼개져요.</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>고윳값 분해(eigendecomposition, EVD)</dt><dd>대각화 가능한 정방행렬을 고유벡터 행렬 $\mathbf{P}$와 고윳값 대각행렬 $\mathbf{D}$를 써서 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$로 분해하는 것이에요.</dd><dt>직교행렬(orthogonal matrix)</dt><dd>열벡터들이 서로 직교하고 길이가 1인 정방행렬이에요. $\mathbf{P}^\top\mathbf{P}=\mathbf{P}\mathbf{P}^\top=\mathbf{I}$이므로 $\mathbf{P}^{-1}=\mathbf{P}^\top$이에요.</dd><dt>정규직교(orthonormal)</dt><dd>벡터들의 길이가 모두 1이고 상호 점곱이 모두 0인 성질이에요.</dd><dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{A}^\top=\mathbf{A}$인 행렬로, 스펙트럼 정리에 의해 항상 직교행렬 $\mathbf{P}$로 대각화돼요.</dd><dt>스펙트럼 정리(spectral theorem)</dt><dd>실 대칭행렬은 모든 고윳값이 실수이고 정규직교 고유기저를 통해 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$로 분해된다는 핵심 정리예요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>대칭행렬 $\mathbf{A}=\frac{1}{2}\begin{bmatrix}7 & -1\\-1 & 7\end{bmatrix}$의 (a) 고윳값 $\lambda_1>\lambda_2$, (b) 정규화된 고유벡터 $\mathbf{p}_1,\mathbf{p}_2$, (c) $\mathbf{P}^\top\mathbf{P}$를 통한 $\mathbf{P}^{-1}=\mathbf{P}^\top$ 판정, (d) $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 분해를 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>고유벡터 $\mathbf{x}$를 자기 길이 $\|\mathbf{x}\|=\sqrt{\mathbf{x}^\top\mathbf{x}}$로 나누어 단위 고유벡터 $\mathbf{p}_i$를 만들어요. 정방행렬 $\mathbf{P}=[\mathbf{p}_1,\mathbf{p}_2]$에서 $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$이면 역행렬이 $\mathbf{P}^{-1}=\mathbf{P}^\top$이고, 열별 고유방정식 $\mathbf{A}\mathbf{P}=\mathbf{P}\mathbf{D}$ 양변 오른쪽에 $\mathbf{P}^\top$를 곱해 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$을 얻어요(<a href="정리노트_1102_PCA.html#s2-evd">2.3 고윳값 분해</a>, <a href="정리노트_1102_PCA.html#s3-spectral">3.1 스펙트럼 정리</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\det(\mathbf{A}-\lambda\mathbf{I})=\det\begin{bmatrix}\frac72-\lambda & -\frac12\\-\frac12 & \frac72-\lambda\end{bmatrix}=0$$
+  <p>앞의 $\frac12$을 행렬 성분에 적용한 뒤 고윳값, 단위 고유벡터, $\mathbf{P}^\top\mathbf{P}$, 대각분해 순으로 구해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 고윳값 $\lambda_1>\lambda_2$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\det(\mathbf{A}-\lambda\mathbf{I})=\left(\frac72-\lambda\right)^2-\frac14$$</div>
+          <div class="deriv-why"><p>$2\times 2$ 행렬식 $ad-bc$를 전개해요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\hphantom{\det(\mathbf{A}-\lambda\mathbf{I})}=\lambda^2-7\lambda+12$$</div>
+          <div class="deriv-why"><p>제곱을 풀고 $\frac{49}{4}-\frac{1}{4}=12$를 정리해요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$(\lambda-4)(\lambda-3)=0\implies\lambda_1=4,\ \lambda_2=3$$</div>
+          <div class="deriv-why"><p>조건 $\lambda_1>\lambda_2$에 맞춰 순서를 정해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 정규화된 고유벡터 $\mathbf{p}_1, \mathbf{p}_2$</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}-4\mathbf{I})\mathbf{x}=\begin{bmatrix}-\frac12 & -\frac12\\-\frac12 & -\frac12\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\mathbf{0}\iff x_1+x_2=0$$</div>
+          <div class="deriv-why"><p>$\lambda_1=4$를 대입하면 $[1,-1]^\top$ 방향이에요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}-3\mathbf{I})\mathbf{x}=\begin{bmatrix}\frac12 & -\frac12\\-\frac12 & \frac12\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\mathbf{0}\iff x_1-x_2=0$$</div>
+          <div class="deriv-why"><p>$\lambda_2=3$을 대입하면 $[1,1]^\top$ 방향이에요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix},\qquad\mathbf{p}_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>두 벡터를 각각 노름 $\sqrt2$로 나눠 정규화해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\mathbf{P}^\top\mathbf{P}$ 계산과 역행렬 판정</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\mathbf{P}=\frac{1}{\sqrt2}\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>단위 고유벡터를 열로 모아요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\mathbf{P}^\top\mathbf{P}=\frac12\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix}=\frac12\begin{bmatrix}2 & 0\\0 & 2\end{bmatrix}=\mathbf{I}$$</div>
+          <div class="deriv-why"><p>각 칸 $\mathbf{p}_i^\top\mathbf{p}_j$가 대각 1, 비대각 0이에요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\mathbf{P}^{-1}=\mathbf{P}^\top$$</div>
+          <div class="deriv-why"><p>정방행렬에서 $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$이므로 역행렬은 전치예요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 분해</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\mathbf{A}\mathbf{P}=[4\mathbf{p}_1,\ 3\mathbf{p}_2]=\mathbf{P}\mathbf{D},\qquad\mathbf{D}=\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>$\mathbf{P}$의 열 순서와 같은 순서로 고윳값을 놓아요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top=\frac{1}{\sqrt2}\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix}\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>양변 오른쪽에 $\mathbf{P}^{-1}=\mathbf{P}^\top$를 곱해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\lambda_1=4$, $\lambda_2=3$이에요.</p>
+    <p>(b) $\mathbf{p}_1=\frac{1}{\sqrt2}\begin{bmatrix}1\\-1\end{bmatrix}$, $\mathbf{p}_2=\frac{1}{\sqrt2}\begin{bmatrix}1\\1\end{bmatrix}$이에요.</p>
+    <p>(c) $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$이므로 $\mathbf{P}^{-1}$ 자리에 $\mathbf{P}^\top$를 쓸 수 있어요.</p>
+    <p>(d) $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$에서 $\mathbf{P}=\frac{1}{\sqrt2}\begin{bmatrix}1 & 1\\-1 & 1\end{bmatrix}$, $\mathbf{D}=\begin{bmatrix}4 & 0\\0 & 3\end{bmatrix}$이에요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\operatorname{tr}(\mathbf{A})=\frac72+\frac72=7=4+3$, $\det(\mathbf{A})=\frac{49}{4}-\frac{1}{4}=12=4\cdot 3$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 확인</h4>
+    <p>$\|\mathbf{p}_1\|^2=\|\mathbf{p}_2\|^2=\frac12(1+1)=1$이고 $\mathbf{p}_1^\top\mathbf{p}_2=\frac12(1-1)=0$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 확인</h4>
+    <p>$\mathbf{P}$가 $2\times 2$ 정방행렬이므로 한쪽 역인 $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$에서 양쪽 역행렬 $\mathbf{P}^{-1}=\mathbf{P}^\top$이 바로 따라와요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 검산</h4>
+    <p>$\mathbf{P}\mathbf{D}\mathbf{P}^\top=\frac12\begin{bmatrix}4 & 3\\-4 & 3\end{bmatrix}\begin{bmatrix}1 & -1\\1 & 1\end{bmatrix}=\frac12\begin{bmatrix}7 & -1\\-1 & 7\end{bmatrix}=\mathbf{A}$로 복원돼요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$\mathbf{P}$의 열 순서($\mathbf{p}_1,\mathbf{p}_2$)와 $\mathbf{D}$의 대각 순서($4,3$)가 어긋나거나 정규화 $\frac{1}{\sqrt2}$을 빠뜨리면 $\mathbf{P}\mathbf{D}\mathbf{P}^\top\neq\mathbf{A}$가 돼요. 또 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$에서 전치 위치가 오른쪽인지 확인해요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>실대칭행렬은 단위 고유벡터를 열로 모은 직교행렬 $\mathbf{P}$로 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 분해돼요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\det\begin{bmatrix}7/2-\lambda & -1/2\\-1/2 & 7/2-\lambda\end{bmatrix}=0$을 세워요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\lambda_1=4, \lambda_2=3$. (b) $\mathbf{p}_1=\frac{1}{\sqrt2}[1,-1]^\top$, $\mathbf{p}_2=\frac{1}{\sqrt2}[1,1]^\top$. (c) $\mathbf{P}^\top\mathbf{P}=\mathbf{I}\implies\mathbf{P}^{-1}=\mathbf{P}^\top$. (d) $\mathbf{A}=\mathbf{P}\operatorname{diag}(4,3)\mathbf{P}^\top$.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\mathbf{P}\mathbf{D}\mathbf{P}^\top=\frac12\begin{bmatrix}7 & -1\\-1 & 7\end{bmatrix}=\mathbf{A}$.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$\mathbf{P}$의 열 순서와 $\mathbf{D}$의 고윳값 순서를 맞추고, 노름 $\sqrt2$ 정규화를 빠뜨리지 않아요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 4.11 (수치를 바꾼 변형). 교과서 117–118쪽(PDF 123–124쪽).</p><p>수업: 1102 L05 s17–s19 (대각화, 고윳값 분해, 스펙트럼 정리).</p><p>관련 정리노트: 1102 2.2 대각행렬과 대각화, 2.3 고윳값 분해(EVD), 3.1 대칭행렬은 직교 고유벡터로 쪼개져요.</p></section>
+<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>고윳값 분해(eigendecomposition, EVD)</dt><dd>대각화 가능한 정방행렬을 고유벡터 행렬 $\mathbf{P}$와 대각행렬 $\mathbf{D}$로 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$처럼 쪼개는 분해예요.</dd><dt>정규화(normalization)</dt><dd>벡터를 자기 노름 $\|\mathbf{x}\|$로 나누어 길이 1인 단위벡터로 만드는 거예요.</dd><dt>직교행렬(orthogonal matrix)</dt><dd>정규직교 열벡터를 모아 $\mathbf{P}^\top\mathbf{P}=\mathbf{I}$, 곧 $\mathbf{P}^{-1}=\mathbf{P}^\top$을 만족하는 정방행렬이에요.</dd><dt>스펙트럼 정리(spectral theorem)</dt><dd>실대칭행렬이 정규직교 고유기저로 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$ 분해됨을 보장하는 정리예요.</dd></dl></section>

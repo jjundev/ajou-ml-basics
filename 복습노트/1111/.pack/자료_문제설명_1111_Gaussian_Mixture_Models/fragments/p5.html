@@ -1,105 +1,80 @@
 <div class="layer eli5" data-explanation="understand">
-  <h4>문제에서 주어진 것과 구할 것</h4>
-  <p>연속확률변수 $X$의 확률밀도함수가 $0 \le x \le 1$에서 $f_X(x)=3x^2$이고 그 밖에서는 $0$이에요.</p>
-  <p>구간 $0 \le t \le 1$에서 누적분포함수 $F_X(t)=P(X \le t)$를 적분으로 유도하고, $t=\frac{1}{2}$에서의 누적확률 $P(X \le \frac{1}{2})$를 구해요.</p>
+  <h4>풀이 목표</h4>
+  <p>$0\le x\le 1$에서 $f_X(x)=3x^2$, 그 밖에서 $0$인 확률밀도함수로부터 (a) $0\le t\le 1$ 구간의 누적분포함수 $F_X(t)$와 (b) $P(X\le \frac{1}{2})$를 구해요.</p>
 </div>
 <div class="layer formal" data-explanation="recall">
-  <h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4>
-  <p>‘밀도에서 $P(X \le t)$’라는 조건에서 <b>누적분포함수(cumulative distribution function, CDF)</b>와 정적분을 떠올려요.</p>
-  <p>연속확률변수의 누적분포함수는 밀도를 왼쪽 끝($-\infty$)부터 $t$까지 적분한 면적이에요:</p>
-  <p>$$F_X(t) = P(X \le t) = \int_{-\infty}^t f_X(u)\,du$$</p>
-  <p>$u < 0$에서 밀도가 $0$이므로 실제 적분 하한은 $0$으로 설정해요. 거듭제곱 적분 공식 $\int 3u^2\,du = u^3$을 써요.</p>
+  <h4>풀이 단서</h4>
+  <p>누적분포함수는 $F_X(t)=P(X\le t)=\int_{-\infty}^t f_X(u)\,du$예요. $u\lt 0$에서 $f_X(u)=0$이므로 적분 하한이 $0$으로 줄어들고, $3u^2$의 원시함수로 $u^3$을 써요.</p>
   <p><a href="정리노트_1111_Gaussian_Mixture_Models.html#s0-pdf">밀도의 적분과 구간 확률</a></p>
 </div>
 <div class="layer formal" data-explanation="start">
-  <h4>종이에 적을 첫 줄</h4>
-  <p>$0 \le t \le 1$에서 하한을 0으로 둔 정적분 식 $F_X(t) = \int_0^t 3u^2\,du$를 적어요.</p>
-  <p>풀이 로드맵: 1. 적분 하한 설정 및 피적분함수 대입 → 2. 부정적분 계산 및 끝값 대입으로 $F_X(t)$ 유도 → 3. $t=\frac{1}{2}$ 대입.</p>
+  <h4>첫 단계</h4>
+  $$F_X(t)=\int_0^t 3u^2\,du,\qquad 0\le t\le 1$$
 </div>
 <div class="layer formal" data-explanation="solve">
-  <h4>왜 이렇게 푸는지 함께 따라가요</h4>
+  <h4>핵심 풀이</h4>
   <div data-subpart="a">
-    <h4>(a)</h4>
-    <p><b>최종 답 구조:</b> $0 \le t \le 1$에서 누적분포함수는 $F_X(t) = t^3$이에요.</p>
+    <h4>(a) 누적분포함수 유도</h4>
     <div class="deriv-body">
       <ol class="deriv">
         <li>
-          <div class="deriv-eq">$$F_X(t) = \int_0^t 3u^2\,du$$</div>
-          <div class="deriv-why"><p>0 미만은 밀도 0이므로 하한을 0으로 잡아요</p></div>
+          <div class="deriv-eq">$$F_X(t)=\int_{-\infty}^t f_X(u)\,du=\int_0^t 3u^2\,du$$</div>
+          <div class="deriv-why"><p>$u\lt 0$은 밀도 $0$이라 하한이 $0$이에요.</p></div>
         </li>
         <li>
-          <div class="deriv-eq">$$\hphantom{F_X(t)}= [u^3]_0^t$$</div>
-          <div class="deriv-why"><p>3u^2의 부정적분 u^3을 구해요</p></div>
+          <div class="deriv-eq">$$\hphantom{F_X(t)}=[u^3]_0^t$$</div>
+          <div class="deriv-why"><p>$3u^2$의 원시함수 $u^3$을 적어요.</p></div>
         </li>
         <li class="deriv-gen">
-          <div class="deriv-eq">$$\hphantom{F_X(t)}= t^3 - 0^3 = t^3$$</div>
-          <div class="deriv-why"><p>위끝 t와 아래끝 0을 대입해 얻은 결과예요</p></div>
+          <div class="deriv-eq">$$\hphantom{F_X(t)}=t^3-0^3=t^3$$</div>
+          <div class="deriv-why"><p>위끝 $t$와 아래끝 $0$을 대입해요.</p></div>
         </li>
       </ol>
     </div>
-    <p>$t\lt0$이면 누적확률은 0이고, $t\gt1$이면 밀도 전체를 적분해 1이에요.</p>
   </div>
   <div data-subpart="b">
-    <h4>(b)</h4>
-    <p><b>최종 답 요약:</b> 누적확률은 $P\left(X \le \frac{1}{2}\right) = \frac{1}{8}$이에요.</p>
-    <div class="deriv-body">
-      <ol class="deriv">
-        <li>
-          <div class="deriv-eq">$$P\left(X \le \frac{1}{2}\right) = F_X\left(\frac{1}{2}\right)$$</div>
-          <div class="deriv-why"><p>누적분포함수의 정의에 t=1/2을 대입해요</p></div>
-        </li>
-        <li class="deriv-gen">
-          <div class="deriv-eq">$$\hphantom{P\left(X \le \frac{1}{2}\right)}= \left(\frac{1}{2}\right)^3 = \frac{1}{8}$$</div>
-          <div class="deriv-why"><p>(a)의 결과 식 t^3을 계산해요</p></div>
-        </li>
-      </ol>
-    </div>
-    <p>전체 면적 1 중 절반 지점까지의 누적확률은 $\frac{1}{8} = 0.125$로, 밀도가 $x$가 커질수록 증가하는 특성을 보여줘요.</p>
+    <h4>(b) $t=\frac{1}{2}$ 대입</h4>
+    <p>$t=\frac{1}{2}$은 구간 $0\le t\le 1$에 들어가므로 (a)의 식에 바로 대입해요.</p>
+    $$P\left(X\le\frac{1}{2}\right)=F_X\left(\frac{1}{2}\right)=\left(\frac{1}{2}\right)^3=\frac{1}{8}$$
   </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $0\le t\le 1$에서 $F_X(t)=t^3$이에요.</p>
+    <p>(b) $P\left(X\le\frac{1}{2}\right)=\frac{1}{8}$이에요.</p>
+  </section>
 </div>
 <div class="layer formal" data-explanation="verify">
-  <h4>완성 답과 검산</h4>
+  <h4>답 확인</h4>
   <div data-subpart="a">
     <h4>(a) 검산</h4>
-    <p>$0\lt t\lt1$에서 $F_X(t)=t^3$을 미분하면 $\frac{d}{dt}(t^3) = 3t^2 = f_X(t)$로 원래 밀도가 복원되고, 양 끝값 $F_X(0)=0$, $F_X(1)=1$을 만족해요.</p>
+    <p>$0\lt t\lt 1$에서 $F_X'(t)=3t^2=f_X(t)$로 밀도가 복원되고, 경계값 $F_X(0)=0$, $F_X(1)=1$이 맞아요.</p>
   </div>
   <div data-subpart="b">
     <h4>(b) 검산</h4>
-    <p>남은 구간 $[\frac{1}{2}, 1]$의 확률은 $\int_{1/2}^1 3u^2\,du = [u^3]_{1/2}^1 = 1 - \frac{1}{8} = \frac{7}{8}$이며, $\frac{1}{8} + \frac{7}{8} = 1$로 전체 확률이 보존돼요.</p>
+    <p>나머지 구간 확률 $\int_{1/2}^1 3u^2\,du=1-\frac{1}{8}=\frac{7}{8}$과 더하면 $1$이에요.</p>
   </div>
 </div>
-<div class="layer warn" data-explanation="pitfall">
-  <h4>여기서 헷갈리기 쉬워요</h4>
-  <p>$P(X \le \frac{1}{2})$를 구할 때 밀도함수에 직접 대입해 $f_X(\frac{1}{2}) = 3(\frac{1}{2})^2 = \frac{3}{4}$를 답으로 쓰지 않아야 해요. 밀도의 높이는 확률이 아니며, 확률은 반드시 적분 면적으로 구해야 해요.</p>
-</div>
-<div class="layer formal" data-explanation="retry">
-  <h4>다시 풀 때 확인할 것</h4>
-  <p>원 문제만 펼친 상태에서 풀이의 첫 줄을 적어요.</p>
-  <ol>
-    <li>밀도가 정의된 구간의 시작점(0)을 적분 하한으로 정해요.</li>
-    <li>밀도식을 정적분해 누적분포함수를 구하고 $t=\frac{1}{2}$를 대입해요.</li>
-  </ol>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>$P(X\le \frac{1}{2})$에 밀도 높이 $f_X(\frac{1}{2})=3(\frac{1}{2})^2=\frac{3}{4}$를 바로 대입하면 틀려요. 연속 확률은 밀도값이 아니라 적분 면적으로 구해요.</p>
 </div>
 <div class="sum" hidden>
-  <div class="summary-group">
-    <h4>떠올릴 개념·공식</h4>
-    <p>누적분포함수 $F_X(t)$는 밀도를 적분해 구해요. $0\le t\le1$에서는 $F_X(t)=\int_0^t 3u^2\,du=t^3$이에요. $t\lt0$이면 0이고, $t\gt1$이면 1이에요.</p>
-  </div>
-  <div class="summary-group">
-    <h4>첫 줄과 검산</h4>
-    <p>$F_X(t)=t^3$ ($0 \le t \le 1$)이고, $F_X(\frac{1}{2}) = \frac{1}{8}$이에요. 미분과 끝값으로 검산해요.</p>
-  </div>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$F_X(t)=\int_{-\infty}^t f_X(u)\,du$이며 $u\lt 0$에서 밀도가 $0$이라 하한이 $0$이에요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$0\le t\le 1$에서 $F_X(t)=\int_0^t 3u^2\,du$를 적어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $F_X(t)=t^3$ ($0\le t\le 1$), (b) $P(X\le\frac{1}{2})=\frac{1}{8}$이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$F_X'(t)=3t^2$, $F_X(0)=0$, $F_X(1)=1$이고 남은 구간 $\frac{7}{8}$과 합이 $1$이에요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>밀도 높이 $f_X(\frac{1}{2})=\frac{3}{4}$가 아니라 적분 면적 $F_X(\frac{1}{2})=\frac{1}{8}$이 확률이에요.</p></div>
 </div>
-<section data-problem-panel="terms">
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Example 6.16 · 책 p. 216 · 식 (6.128)–(6.129f) · 관련 정리노트: <a href="정리노트_1111_Gaussian_Mixture_Models.html#s0-pdf">확률밀도를 읽는 법</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
   <h4>용어</h4>
   <dl class="terms">
     <dt>확률밀도함수(probability density function, PDF)</dt>
-    <dd>연속확률변수의 특정 구간 확률을 정적분 면적으로 정의하는 함수예요.</dd>
+    <dd>연속확률변수가 특정 구간에 들어갈 확률을 정적분 면적으로 주는 비음수 함수예요.</dd>
     <dt>누적분포함수(cumulative distribution function, CDF)</dt>
-    <dd>확률변수가 주어진 값 이하일 확률 $P(X \le t)$를 나타내는 함수예요.</dd>
+    <dd>$F_X(t)=P(X\le t)$로, $-\infty$부터 $t$까지 밀도를 적분한 누적확률 함수예요.</dd>
   </dl>
-</section>
-<section data-problem-panel="provenance">
-  <h4>출제 근거</h4>
-  <p>MML Example 6.16 · 책 p. 216 · 식 (6.128), (6.129d–f)의 밀도 적분</p>
 </section>

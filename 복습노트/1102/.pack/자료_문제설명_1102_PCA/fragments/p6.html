@@ -1,8 +1,97 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>주어진 것은 두 개의 $2\times 2$ 행렬 $\mathbf{A}=\begin{bmatrix}1 & 0\\1 & 1\end{bmatrix}$ (하삼각 비대칭행렬)과 $\mathbf{B}=\begin{bmatrix}-2 & 2\\2 & 1\end{bmatrix}$ (대칭행렬)이에요.</p><p>구할 것은 세 가지예요: (a) $\mathbf{A}$의 고유공간 $E_1$, (b) $\mathbf{B}$의 두 고유공간 $E_2, E_{-3}$, (c) $\mathbf{B}$의 두 고유벡터의 점곱 계산과 직교 여부 판정이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘고유공간’과 ‘대칭 여부에 따른 직교성’이라는 단서에서 특성방정식과 스펙트럼 정리를 떠올려요. 아래에서 $\mathbf{M}$은 고유공간을 구할 행렬 $\mathbf{A}$ 또는 $\mathbf{B}$를 뜻해요.</p><ul><li>특성방정식 $p(\lambda)=\det(\mathbf{M}-\lambda\mathbf{I})=0$: $2\times 2$ 행렬식 공식 $ad-bc$로 2차 방정식을 세워 근을 구해요.</li><li>동차방정식 $(\mathbf{M}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$: 구한 $\lambda$를 대입해 비영 해벡터를 찾아 고유공간 $E_\lambda = \operatorname{span}[\cdot]$으로 기술해요.</li><li>대칭행렬과 스펙트럼 정리: $\mathbf{B}=\mathbf{B}^\top$인 대칭행렬은 서로 다른 고윳값 $\lambda_i \neq \lambda_j$에 대응하는 고유벡터가 항상 직교($\mathbf{v}_i^\top\mathbf{v}_j=0$)해요. 겹친 고윳값에서 일차독립인 고유벡터가 몇 개인지는 해당 동차방정식을 풀어 확인해요.</li></ul><p><a href="정리노트_1102_PCA.html#s2-eigen">2.1 고윳값과 고유벡터</a> 및 <a href="정리노트_1102_PCA.html#s3-spectral">3.1 스펙트럼 정리</a>에서 대칭행렬의 성질을 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>$\mathbf{A}$의 대각 성분에서 $\lambda$를 빼고 행렬식을 세워요.</p>$$\det(\mathbf{A}-\lambda\mathbf{I})=\det\begin{bmatrix}1-\lambda & 0\\1 & 1-\lambda\end{bmatrix}=(1-\lambda)^2=0$$<p><b>풀이 로드맵:</b> 1. $\mathbf{A}$의 특성방정식 풀고 $(\mathbf{A}-\mathbf{I})\mathbf{x}=\mathbf{0}$으로 $E_1$ 도출 → 2. $\mathbf{B}$의 특성방정식 $\lambda^2+\lambda-6=0$ 풀고 $E_2, E_{-3}$ 도출 → 3. 두 고유벡터의 점곱 0 확인 및 대칭성 연결.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) $\mathbf{A}$의 고유공간</h4><p><b>최종 답 요약:</b> $\mathbf{A}$의 고윳값은 $\lambda=1$(중복도 2)이고 고유공간은 1차원인 $E_1=\operatorname{span}\left(\begin{bmatrix}0\\1\end{bmatrix}\right)$이에요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{A}-\lambda\mathbf{I})=(1-\lambda)(1-\lambda)-0\cdot 1=(1-\lambda)^2=0\iff\lambda_1=\lambda_2=1$$</div><div class="deriv-why"><p>하삼각행렬의 대각성분이 모두 1이라 중근이에요</p></div></li><li><div class="deriv-eq">$$(\mathbf{A}-\mathbf{I})\mathbf{x}=\begin{bmatrix}0 & 0\\1 & 0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}0\\x_1\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$$</div><div class="deriv-why"><p>람다=1을 대입한 동차 연립방정식이에요</p></div></li><li><div class="deriv-eq">$$x_1=0,\quad x_2\in\mathbb{R}\ (\text{자유변수})$$</div><div class="deriv-why"><p>둘째 행에서 x1=0이고 x2는 자유변수예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_1=\operatorname{span}\left[\begin{bmatrix}0\\1\end{bmatrix}\right]$$</div><div class="deriv-why"><p>x2=1로 둔 기저 벡터로 생성되는 1차원 공간이에요</p></div></li></ol></div></div><div data-subpart="b"><h4>(b) $\mathbf{B}$의 고유공간</h4><p><b>최종 답 요약:</b> $\mathbf{B}$의 고윳값은 $\lambda_1=2, \lambda_2=-3$이고, 고유공간은 $E_2=\operatorname{span}\left(\begin{bmatrix}1\\2\end{bmatrix}\right), E_{-3}=\operatorname{span}\left(\begin{bmatrix}-2\\1\end{bmatrix}\right)$이에요.</p><p>특성다항식을 인수분해해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\det(\mathbf{B}-\lambda\mathbf{I})=(-2-\lambda)(1-\lambda)-2\cdot 2$$</div><div class="deriv-why"><p>2x2 공식 ad-bc를 대입해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\det(\mathbf{B}-\lambda\mathbf{I})}=\lambda^2+\lambda-2-4=\lambda^2+\lambda-6$$</div><div class="deriv-why"><p>전개 후 동류항을 정리해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$p_{\mathbf{B}}(\lambda)=(\lambda-2)(\lambda+3)=0\iff\lambda_1=2,\ \lambda_2=-3$$</div><div class="deriv-why"><p>인수분해하여 서로 다른 두 실근을 얻어요</p></div></li></ol></div><p>$\lambda=2$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{B}-2\mathbf{I})\mathbf{x}=\begin{bmatrix}-4 & 2\\2 & -1\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\mathbf{0}\iff-2x_1+x_2=0$$</div><div class="deriv-why"><p>람다=2 대입 후 두 행 공통 조건이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_2=\operatorname{span}\left[\begin{bmatrix}1\\2\end{bmatrix}\right]$$</div><div class="deriv-why"><p>x1=1 대입 시 x2=2가 되는 기저의 span이에요</p></div></li></ol></div><p>$\lambda=-3$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{B}+3\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 2\\2 & 4\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\mathbf{0}\iff x_1+2x_2=0$$</div><div class="deriv-why"><p>람다=-3 대입 후 두 행 공통 조건이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_{-3}=\operatorname{span}\left[\begin{bmatrix}-2\\1\end{bmatrix}\right]$$</div><div class="deriv-why"><p>x2=1 대입 시 x1=-2가 되는 기저의 span이에요</p></div></li></ol></div></div><div data-subpart="c"><h4>(c) $\mathbf{B}$의 두 고유벡터의 직교 판정</h4><p><b>최종 답 요약:</b> 두 고유벡터의 점곱이 0이므로 서로 직교해요. $\mathbf{B}$가 대칭행렬($\mathbf{B}^\top=\mathbf{B}$)이므로 스펙트럼 정리에 의해 직교성이 보장돼요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\begin{bmatrix}1\\2\end{bmatrix}^\top\begin{bmatrix}-2\\1\end{bmatrix}=1\cdot(-2)+2\cdot 1$$</div><div class="deriv-why"><p>두 고유벡터의 점곱을 성분별로 계산해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\begin{bmatrix}1\\2\end{bmatrix}^\top\begin{bmatrix}-2\\1\end{bmatrix}}=-2+2=0$$</div><div class="deriv-why"><p>점곱이 정확히 0이므로 두 벡터는 직교해요</p></div></li></ol></div><p>$\mathbf{B}=\begin{bmatrix}-2&2\\2&1\end{bmatrix}$는 $B_{12}=B_{21}=2$인 대칭행렬이에요. 스펙트럼 정리에 따라 대칭행렬의 서로 다른 고윳값에 대응하는 고유벡터는 항상 직교한다는 이론과 일치해요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>$\mathbf{A}[0,1]^\top=\begin{bmatrix}1&0\\1&1\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}0\\1\end{bmatrix}=1[0,1]^\top$로 고윳값 1을 만족해요. 일차독립인 고유벡터의 수는 (a)에서 구한 자유변수 $x_2$ 하나로 확인해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>대각합과 행렬식을 검산해요: $\operatorname{tr}(\mathbf{B})=-2+1=-1 = \lambda_1+\lambda_2 = 2+(-3)$, $\det(\mathbf{B})=-2\cdot 1-2\cdot 2=-6 = \lambda_1\lambda_2 = 2(-3)$으로 정확히 일치해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>고유벡터 행렬 곱을 확인해요:$$\mathbf{B}\begin{bmatrix}1\\2\end{bmatrix}=\begin{bmatrix}-2+4\\2+2\end{bmatrix}=\begin{bmatrix}2\\4\end{bmatrix}=2\begin{bmatrix}1\\2\end{bmatrix}$$$$\mathbf{B}\begin{bmatrix}-2\\1\end{bmatrix}=\begin{bmatrix}4+2\\-4+1\end{bmatrix}=\begin{bmatrix}6\\-3\end{bmatrix}=-3\begin{bmatrix}-2\\1\end{bmatrix}$$<p>두 고유벡터의 내적이 $(-2)(1)+1(2)=0$으로 직교성을 재입증해요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>(a)에서 $(\mathbf{A}-\mathbf{I})\mathbf{x}=\begin{bmatrix}0\\x_1\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$을 보고 $x_1$과 $x_2$의 위치를 혼동하여 $E_1=\operatorname{span}[[1,0]^\top]$으로 쓰면 안 돼요. 첫 성분 $x_1=0$이 제약조건이고 $x_2$가 자유변수이므로 $[0,1]^\top$ 방향이에요.</p><p>(b)에서 $(-2-\lambda)(1-\lambda)$를 전개할 때 일차항 부호를 실수하여 $\lambda^2-\lambda-6$으로 쓰면 고윳값을 $3, -2$로 잘못 구하게 돼요. 동류항 정리 시 $-2(-\lambda)-\lambda = 2\lambda-\lambda = +\lambda$임을 꼼꼼히 확인해요.</p><p>(c)에서 '고윳값이 서로 다르므로 직교한다'라고만 적으면 근거가 불완전해요. 반드시 행렬 $\mathbf{B}$가 대칭($\mathbf{B}^\top=\mathbf{B}$)이라는 조건이 전제되어야 스펙트럼 정리의 직교성이 성립해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf{A}$의 동차식에서 $x_1=0$을 도출하고 $E_1=\operatorname{span}[[0,1]^\top]$을 구해요.</li><li>$\det(\mathbf{B}-\lambda\mathbf{I})=\lambda^2+\lambda-6=0$을 풀고 두 고유공간 $E_2, E_{-3}$을 구해요.</li><li>두 기저 벡터의 내적이 0임을 계산하고, 대칭행렬의 스펙트럼 정리와 연결하여 직교성을 설명해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>고유공간은 $(\mathbf{M}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$의 해공간이에요. 대칭행렬의 서로 다른 고윳값 고유벡터는 항상 직교해요.</p></div><div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A}-\lambda\mathbf{I})=(1-\lambda)^2=0$을 세워요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\lambda=1$ (중복도 2), $E_1=\operatorname{span}\left(\begin{bmatrix}0\\1\end{bmatrix}\right)$.</p><p>(b) $\lambda_1=2, \lambda_2=-3$, $E_2=\operatorname{span}\left(\begin{bmatrix}1\\2\end{bmatrix}\right), E_{-3}=\operatorname{span}\left(\begin{bmatrix}-2\\1\end{bmatrix}\right)$.</p><p>(c) 점곱 0으로 직교함 ($\mathbf{B}$가 대칭행렬).</p></div><div class="summary-group"><h4>검산</h4><p>$\operatorname{tr}(\mathbf{B})=-1=2-3$, $\det(\mathbf{B})=-6=2(-3)$. $\mathbf{B}[1,2]^\top=2[1,2]^\top$, $\mathbf{B}[-2,1]^\top=-3[-2,1]^\top$.</p></div><div class="summary-group"><h4>조건·구분</h4><p>$\mathbf{A}$에서 고윳값 1의 고유공간은 1차원이므로 일차독립인 고유벡터는 최대 1개예요. 실대칭행렬 $\mathbf{B}$에서 고윳값 2와 $-3$에 대응하는 고유벡터는 직교해요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.3 (a), (b). 교과서 137쪽(PDF 143쪽). (c)는 복습문제에서 추가한 소문항이에요.</p><p>수업: 1102 L05 s16 (특성방정식과 고유벡터), L05 s19 (스펙트럼 정리).</p><p>관련 정리노트: 1102 2.1 고윳값과 고유벡터, 3.1 대칭행렬은 직교 고유벡터로 쪼개져요.</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>고유공간(eigenspace)</dt><dd>특정 고윳값 $\lambda$에 대응하는 고유벡터들과 영벡터로 이루어진 부분공간 $E_\lambda$예요.</dd><dt>대칭행렬(symmetric matrix)</dt><dd>전치행렬이 자기 자신과 같은 행렬($\mathbf{B}^\top=\mathbf{B}$)이에요. 실대칭행렬에서 서로 다른 고윳값에 대응하는 고유벡터는 직교해요.</dd><dt>스펙트럼 정리(spectral theorem)</dt><dd>실 대칭행렬의 모든 고윳값은 실수이며, 서로 다른 고윳값에 대응하는 고유벡터는 항상 상호 직교한다는 정리예요.</dd><dt>점곱(dot product)</dt><dd>두 벡터의 대응 성분끼리 곱하여 더한 스칼라값으로, 0이면 두 벡터가 직교해요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>두 행렬 $\mathbf{A}=\begin{bmatrix}1 & 0\\1 & 1\end{bmatrix}$, $\mathbf{B}=\begin{bmatrix}-2 & 2\\2 & 1\end{bmatrix}$의 (a), (b) 각 고유공간 $E_\lambda$를 구하고, (c) $\mathbf{B}$의 두 고유벡터가 직교하는지 점곱으로 판정해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>각 행렬 $\mathbf{M}$($\mathbf{A}$ 또는 $\mathbf{B}$)에서 특성방정식 $\det(\mathbf{M}-\lambda\mathbf{I})=0$으로 고윳값을 구한 뒤, $(\mathbf{M}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$을 풀어 고유공간 $E_\lambda$를 찾아요(<a href="정리노트_1102_PCA.html#s2-eigen">2.1 고윳값과 고유벡터</a>). $\mathbf{B}$처럼 실대칭행렬($\mathbf{B}^\top=\mathbf{B}$)이면 서로 다른 고윳값의 고유벡터가 직교하며, 점곱 $\mathbf{u}^\top\mathbf{v}=0$으로 직접 판정해요(<a href="정리노트_1102_PCA.html#s3-spectral">3.1 스펙트럼 정리</a>).</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\det(\mathbf{A}-\lambda\mathbf{I})=\det\begin{bmatrix}1-\lambda & 0\\1 & 1-\lambda\end{bmatrix}=(1-\lambda)^2=0$$
+  <p>$\mathbf{A}$의 고유공간을 먼저 구한 뒤, $\mathbf{B}$의 특성방정식과 고유공간을 풀고 점곱을 계산해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\mathbf{A}$의 고유공간</h4>
+    <p>특성방정식이 $(1-\lambda)^2=0$이므로 고윳값은 $\lambda=1$뿐이에요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}-\mathbf{I})\mathbf{x}=\begin{bmatrix}0 & 0\\1 & 0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}0\\x_1\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>$\lambda=1$을 대입해 행×열을 곱해요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$E_1(\mathbf{A})=\operatorname{span}\left[\begin{bmatrix}0\\1\end{bmatrix}\right]$$</div>
+          <div class="deriv-why"><p>$x_1=0$이고 $x_2$가 자유변수예요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) $\mathbf{B}$의 고유공간</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\det(\mathbf{B}-\lambda\mathbf{I})=(-2-\lambda)(1-\lambda)-4=\lambda^2+\lambda-6$$</div>
+          <div class="deriv-why"><p>$2\times 2$ 행렬식 $ad-bc$를 전개해요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\lambda-2)(\lambda+3)=0\implies\lambda_1=2,\ \lambda_2=-3$$</div>
+          <div class="deriv-why"><p>인수분해해 두 고윳값을 구해요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{B}-2\mathbf{I})\mathbf{x}=\begin{bmatrix}-4 & 2\\2 & -1\end{bmatrix}\mathbf{x}=\mathbf{0}\iff x_2=2x_1$$</div>
+          <div class="deriv-why"><p>$\lambda=2$를 대입한 동차방정식이에요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$(\mathbf{B}+3\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 2\\2 & 4\end{bmatrix}\mathbf{x}=\mathbf{0}\iff x_1=-2x_2$$</div>
+          <div class="deriv-why"><p>$\lambda=-3$을 대입한 동차방정식이에요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$E_2(\mathbf{B})=\operatorname{span}\left[\begin{bmatrix}1\\2\end{bmatrix}\right],\qquad E_{-3}(\mathbf{B})=\operatorname{span}\left[\begin{bmatrix}-2\\1\end{bmatrix}\right]$$</div>
+          <div class="deriv-why"><p>각 고유공간의 기저를 정해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\mathbf{B}$의 두 고유벡터 직교 판정</h4>
+    <p>두 생성 벡터의 점곱을 계산하면 $\begin{bmatrix}1\\2\end{bmatrix}^\top\begin{bmatrix}-2\\1\end{bmatrix}=1\cdot(-2)+2\cdot 1=0$이에요. 점곱이 0이므로 두 고유벡터는 서로 직교해요($\mathbf{B}^\top=\mathbf{B}$인 실대칭행렬의 서로 다른 고윳값 정리와도 일치해요).</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf{A}$의 고윳값은 $\lambda=1$이고, $E_1=\operatorname{span}\left[\begin{bmatrix}0\\1\end{bmatrix}\right]$이에요.</p>
+    <p>(b) $\mathbf{B}$의 고윳값은 $\lambda=2,-3$이고, $E_2=\operatorname{span}\left[\begin{bmatrix}1\\2\end{bmatrix}\right]$, $E_{-3}=\operatorname{span}\left[\begin{bmatrix}-2\\1\end{bmatrix}\right]$이에요.</p>
+    <p>(c) 점곱이 $0$이므로 $\mathbf{B}$의 두 고유벡터는 서로 직교해요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf{A}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}0\\1\end{bmatrix}=1\begin{bmatrix}0\\1\end{bmatrix}$이고, 자유변수가 $x_2$ 하나이므로 고유공간은 1차원이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$\operatorname{tr}(\mathbf{B})=-1=2-3$, $\det(\mathbf{B})=-6=2(-3)$이고, $\mathbf{B}\begin{bmatrix}1\\2\end{bmatrix}=\begin{bmatrix}2\\4\end{bmatrix}=2\begin{bmatrix}1\\2\end{bmatrix}$, $\mathbf{B}\begin{bmatrix}-2\\1\end{bmatrix}=\begin{bmatrix}6\\-3\end{bmatrix}=-3\begin{bmatrix}-2\\1\end{bmatrix}$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 확인</h4>
+    <p>임의의 비영 스칼라배 $c_1[1,2]^\top$, $c_2[-2,1]^\top$을 택해도 점곱이 $c_1c_2(-2+2)=0$이라 직교해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>(a)에서 $(\mathbf{A}-\mathbf{I})\mathbf{x}=[0,x_1]^\top=\mathbf{0}$의 조건은 $x_1=0$이므로 기저는 $[1,0]^\top$이 아니라 $[0,1]^\top$이에요. (b)에서는 $(-2-\lambda)(1-\lambda)$의 일차항 부호가 $+\lambda$임을 주의하고, (c)의 직교 보장은 $\mathbf{B}$가 대칭이고 고윳값이 다를 때 적용돼요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\det(\mathbf{M}-\lambda\mathbf{I})=0$과 $(\mathbf{M}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$으로 고유공간을 구하고, 직교는 점곱 0으로 판정해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\det(\mathbf{A}-\lambda\mathbf{I})=(1-\lambda)^2=0$을 세워요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $E_1(\mathbf{A})=\operatorname{span}[[0,1]^\top]$. (b) $E_2(\mathbf{B})=\operatorname{span}[[1,2]^\top]$, $E_{-3}(\mathbf{B})=\operatorname{span}[[-2,1]^\top]$. (c) 점곱 0으로 직교.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\mathbf{A}[0,1]^\top=[0,1]^\top$, $\mathbf{B}[1,2]^\top=2[1,2]^\top$, $\mathbf{B}[-2,1]^\top=-3[-2,1]^\top$.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>$x_1=0$이면 $x_2$가 자유변수예요. 실대칭행렬에서 서로 다른 고윳값의 고유벡터는 직교해요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.3 (a), (b). 교과서 137쪽(PDF 143쪽). (c)는 복습문제에서 추가한 소문항이에요.</p><p>수업: 1102 L05 s16 (특성방정식과 고유벡터), L05 s19 (스펙트럼 정리).</p><p>관련 정리노트: 1102 2.1 고윳값과 고유벡터, 3.1 대칭행렬은 직교 고유벡터로 쪼개져요.</p></section>
+<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>고유공간(eigenspace)</dt><dd>고윳값 $\lambda$에 대해 $(\mathbf{M}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$을 만족하는 해 전체 $E_\lambda$예요.</dd><dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{B}^\top=\mathbf{B}$인 정방행렬로, 실수일 때 서로 다른 고윳값의 고유벡터가 직교해요.</dd><dt>점곱(dot product)</dt><dd>두 벡터의 대응 성분 곱의 합 $\mathbf{u}^\top\mathbf{v}$로, 0이면 직교해요.</dd></dl></section>

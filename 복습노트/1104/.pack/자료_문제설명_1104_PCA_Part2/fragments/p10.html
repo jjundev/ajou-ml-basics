@@ -1,10 +1,94 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p><b>주어진 것:</b> $m\times n$ 행렬 $\mathbf A$, SVD $\mathbf A=\mathbf U\mathbf\Sigma\mathbf V^\top$, $\mathbb R^n$의 정규직교기저인 오른쪽 특이벡터 $\{\mathbf v_1,\ldots,\mathbf v_n\}$, 특잇값 순서 $\sigma_1\ge\cdots\ge\sigma_r>0$와 $i>r$에서 $\sigma_i=0$, 그리고 $\mathbf A^\top\mathbf A\mathbf v_i=\sigma_i^2\mathbf v_i$가 주어졌어요.</p><p><b>구할 것:</b> (a) $\mathbf x=\sum_i c_i\mathbf v_i$로 전개하여 $\|\mathbf A\mathbf x\|_2^2=\sum_i \sigma_i^2 c_i^2$임을 보이고, (b) 이를 통해 $\|\mathbf A\mathbf x\|_2^2\le\sigma_1^2\|\mathbf x\|_2^2$ 부등식을 유도하며, (c) $\mathbf x=\mathbf v_1$에서 등호가 성립함을 확인하고, (d) 0이 아닌 벡터에 대한 길이 신장 비율의 최댓값이 $\sigma_1$인 이유를 완결해요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘길이 신장 비율의 최댓값’이라는 단서에서 <b>상한 제시 후 도달(upper bound and attainment)</b> 논리를 떠올려요.</p><p>‘$\mathbf x=\sum_i c_i\mathbf v_i$’라는 단서에서 <b>정규직교기저 전개</b>를 떠올려요. 각 좌표는 $c_i=\mathbf v_i^\top\mathbf x$예요. 기저 벡터 간 내적은 $\mathbf v_i^\top\mathbf v_j=\delta_{ij}$($i=j$면 1, 다르면 0)이므로 벡터의 유클리드 노름 제곱은 좌표 제곱합과 같아요.</p>$$\|\mathbf x\|_2^2=\mathbf x^\top\mathbf x=\sum_{i=1}^n c_i^2$$<p>‘$\|\mathbf A\mathbf x\|_2^2$’에서는 길이 제곱을 전치 내적으로 표현하는 식을 떠올려요.</p>$$\|\mathbf A\mathbf x\|_2^2=(\mathbf A\mathbf x)^\top(\mathbf A\mathbf x)=\mathbf x^\top\mathbf A^\top\mathbf A\mathbf x$$<p>$\mathbf A^\top\mathbf A\mathbf v_i=\sigma_i^2\mathbf v_i$를 대입해 행렬곱을 스칼라 곱으로 환원해요. <a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a>와 <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a>에서 같은 논증 구조를 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>길이 제곱을 내적과 기저 전개식으로 표현하는 4단계 로드맵(1. 전개식 내적 $\to$ 2. 부등식 상한 $\to$ 3. $\mathbf v_1$ 등호 $\to$ 4. 최댓값 완결)으로 시작해요.</p>$$\|\mathbf A\mathbf x\|_2^2=\mathbf x^\top(\mathbf A^\top\mathbf A\mathbf x),\qquad\mathbf x=\sum_{j=1}^n c_j\mathbf v_j$$</div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a)</h4><p><b>최종 답 구조:</b> 직교성에 의해 교차항이 소거되어 $\|\mathbf A\mathbf x\|_2^2=\sum_{i=1}^n \sigma_i^2 c_i^2$이 성립해요.</p><p>등호 연쇄를 전개해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf A^\top\mathbf A\mathbf x=\sum_{j=1}^n c_j\mathbf A^\top\mathbf A\mathbf v_j=\sum_{j=1}^n c_j\sigma_j^2\mathbf v_j$$</div><div class="deriv-why"><p>선형성과 고유방정식을 적용해요</p></div></li><li><div class="deriv-eq">$$\|\mathbf A\mathbf x\|_2^2=\Big(\sum_{i=1}^n c_i\mathbf v_i^\top\Big)\Big(\sum_{j=1}^n c_j\sigma_j^2\mathbf v_j\Big)$$</div><div class="deriv-why"><p>전치된 $\mathbf x^\top$와 내적해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\|\mathbf A\mathbf x\|_2^2}=\sum_{i=1}^n\sum_{j=1}^n c_i c_j\sigma_j^2\,(\mathbf v_i^\top\mathbf v_j)$$</div><div class="deriv-why"><p>이중 합산으로 전개해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\|\mathbf A\mathbf x\|_2^2}=\sum_{i=1}^n \sigma_i^2 c_i^2$$</div><div class="deriv-why"><p>정규직교성으로 $i=j$ 항만 남겨요</p></div></li></ol></div><p>동일한 방식으로 $\|\mathbf x\|_2^2=\sum_{i=1}^n c_i^2$이므로 (a)가 증명돼요.</p></div><div data-subpart="b"><h4>(b)</h4><p><b>최종 답 구조:</b> 모든 $i$에 대해 $\sigma_i^2 \le \sigma_1^2$이므로 $\|\mathbf A\mathbf x\|_2^2 \le \sigma_1^2 \|\mathbf x\|_2^2$가 성립해요.</p><p>특잇값의 내림차순 정렬 조건($0\le \sigma_i^2 \le \sigma_1^2$)과 $c_i^2 \ge 0$을 적용해 부등식을 유도해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\sum_{i=1}^n \sigma_i^2 c_i^2 \le \sum_{i=1}^n \sigma_1^2 c_i^2$$</div><div class="deriv-why"><p>각 항마다 최대 특잇값 제곱으로 대체해요</p></div></li><li><div class="deriv-eq">$$\hphantom{\sum_{i=1}^n \sigma_i^2 c_i^2} = \sigma_1^2 \sum_{i=1}^n c_i^2 = \sigma_1^2 \|\mathbf x\|_2^2$$</div><div class="deriv-why"><p>공통인수를 묶고 기저 노름을 적용해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2} \le \sigma_1$$</div><div class="deriv-why"><p>$\mathbf x\ne\mathbf 0$이면 $\|\mathbf x\|_2^2>0$이므로 이 값으로 양변을 나누고 음이 아닌 제곱근을 취해요</p></div></li></ol></div><p>따라서 모든 0이 아닌 벡터 $\mathbf x$에 대해 $\|\mathbf A\mathbf x\|_2 \le \sigma_1 \|\mathbf x\|_2$가 성립해요.</p></div><div data-subpart="c"><h4>(c)</h4><p><b>최종 답 요약:</b> $\mathbf x=\mathbf v_1$일 때 좌표가 $c_1=1, c_{i>1}=0$이 되어 $\|\mathbf A\mathbf v_1\|_2^2=\sigma_1^2$, $\|\mathbf v_1\|_2^2=1$이므로 부등식의 등호가 성립해요.</p><p>$\mathbf x=\mathbf v_1$을 대입하면 $c_1=\mathbf v_1^\top\mathbf v_1=1$, 나머지 $c_i=\mathbf v_i^\top\mathbf v_1=0$이에요. (a)의 결과에 대입해요.</p>$$\|\mathbf A\mathbf v_1\|_2^2 = \sigma_1^2(1)^2 + \sum_{i=2}^n \sigma_i^2(0)^2 = \sigma_1^2,\qquad \|\mathbf v_1\|_2^2 = 1^2 = 1$$<p>양변이 $\sigma_1^2\cdot 1$로 일치하므로 (b)의 부등식에서 등호가 엄밀히 성립해요. 신장 비율은 정확히 $\frac{\|\mathbf A\mathbf v_1\|_2}{\|\mathbf v_1\|_2}=\sigma_1$이에요.</p></div><div data-subpart="d"><h4>(d)</h4><p><b>최종 답 요약:</b> (b)에 의해 비율의 상한이 $\sigma_1$이고, (c)에 의해 $\mathbf v_1$ 방향에서 상한에 도달하므로 최댓값은 $\sigma_1$이에요.</p><p>(b)에 의해 0이 아닌 모든 $\mathbf x$에 대해 신장 비율 $\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2} \le \sigma_1$이므로 $\sigma_1$은 넘을 수 없는 상한(upper bound)이에요.</p><p>(c)에 의해 첫째 오른쪽 특이벡터 $\mathbf x=\mathbf v_1$을 입력으로 선택하면 신장 비율이 정확히 상한값인 $\sigma_1$에 도달해요.</p>$$\max_{\mathbf x\ne\mathbf 0}\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2} = \sigma_1$$<p>따라서 <b>행렬 $\mathbf A$가 벡터의 길이를 늘리는 최대 비율은 $\sigma_1$이에요.</b> (이 값을 행렬 $\mathbf A$의 스펙트럼 노름(spectral norm) $\|\mathbf A\|_2$이라고 불러요.)</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>P9의 행렬 $\mathbf A$($\sigma_1=5, \sigma_2=3, \sigma_3=0$)에서 $\mathbf x=\mathbf v_1+\mathbf v_2$($c=(1,1,0)^\top$)를 대입해요. 공식 결과는 $\sigma_1^2(1)+\sigma_2^2(1)=25+9=34$예요. 실제 행렬곱 $\mathbf A\mathbf x=5\mathbf u_1+3\mathbf u_2$의 노름 제곱은 $5^2+3^2=34$로 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>위 예시에서 $\|\mathbf x\|_2^2=1+1=2$이므로 $\sigma_1^2\|\mathbf x\|_2^2=25\times 2=50$이에요. $34 \le 50$으로 부등식이 올바르게 성립해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>SVD 관계식 $\mathbf A\mathbf v_1=\sigma_1\mathbf u_1$에서 $\mathbf u_1$이 단위벡터이므로 $\|\mathbf A\mathbf v_1\|_2=\sigma_1\|\mathbf u_1\|_2=\sigma_1$로 등호가 성립함이 재확인돼요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>상한 존재성((b))과 도달성((c))의 두 요건이 완비되어 최댓값 정리가 논리적 결함 없이 완성돼요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p><b>상한만 제시하고 최댓값이라 결론 내리면 안 돼요.</b> (b)만으로는 ‘$\sigma_1$ 이하’까지만 알 수 있어요. 실제로 그 값에 도달하는 벡터 $\mathbf v_1$이 존재함을 (c)에서 보여야 ‘최댓값’이 성립해요.</p><p><b>노름에 직관적으로 $\sum \sigma_i |c_i|$를 쓰면 안 돼요.</b> 정규직교기저에서 성분들의 <b>제곱합</b>은 길이의 제곱이에요.</p><p>교차항 소거의 근거로 $\mathbf v_i^\top\mathbf v_j=\delta_{ij}$(정규직교성)를 밝혀야 해요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$\mathbf x=\sum c_i\mathbf v_i$와 $\mathbf A^\top\mathbf A\mathbf v_i=\sigma_i^2\mathbf v_i$를 이용해 $\|\mathbf A\mathbf x\|_2^2=\sum\sigma_i^2 c_i^2$을 유도해요.</li><li>$\sigma_i^2\le\sigma_1^2$로 묶어 부등식 상한 $\sigma_1$을 도출해요.</li><li>$\mathbf x=\mathbf v_1$을 넣어 등호를 확인하고 상한과 도달성으로 최댓값 결론을 완성해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>기저 전개 $\mathbf x=\sum c_i\mathbf v_i$와 $\mathbf A^\top\mathbf A\mathbf v_i=\sigma_i^2\mathbf v_i$로 길이 제곱을 계산해요.</p>$$\|\mathbf A\mathbf x\|_2^2=\sum_{i=1}^n\sigma_i^2 c_i^2$$</div><div class="summary-group"><h4>첫 줄</h4><p>$\|\mathbf A\mathbf x\|_2^2=\mathbf x^\top(\mathbf A^\top\mathbf A\mathbf x)$로 시작해요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) 직교성에 의해 교차항이 소거되어 $\sum\sigma_i^2 c_i^2$이에요.</p><p>(b) $\sigma_i^2\le\sigma_1^2$이므로 $\|\mathbf A\mathbf x\|_2^2\le\sigma_1^2\|\mathbf x\|_2^2$예요.</p><p>(c) $\mathbf x=\mathbf v_1$이면 신장 비율이 정확히 $\sigma_1$이 되어 등호가 성립해요.</p><p>(d) 상한 $\sigma_1$에 도달하는 벡터가 있으므로 최댓값은 $\sigma_1$이에요.</p></div><div class="summary-group"><h4>검산</h4><p>P9 수치 예에서 $34\le 50$으로 부등식이 성립하며 $\mathbf A\mathbf v_1=\sigma_1\mathbf u_1$로 등호가 확인돼요.</p></div><div class="summary-group"><h4>조건·구분</h4><p>상한과 도달성을 모두 확인해야 최댓값이에요. 직교 성분 길이는 제곱해서 합산해요.</p></div></div>
-<section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>유클리드 노름(Euclidean norm)</dt><dd>벡터의 2-노름 $\|\mathbf x\|_2=\sqrt{\sum x_i^2}$으로 기하학적 길이를 뜻해요.</dd><dt>정규직교기저(orthonormal basis)</dt><dd>크기가 1이고 서로 수직인 기저 벡터 집합이에요.</dd><dt>최대 특잇값(largest singular value)</dt><dd>$\sigma_1$으로 행렬의 스펙트럼 노름(spectral norm) $\|\mathbf A\|_2=\max_{\mathbf x\ne\mathbf 0}\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2}$과 같아요.</dd><dt>상한과 최댓값(upper bound & maximum)</dt><dd>상한은 넘을 수 없는 경계이며, 집합 내의 원소가 그 상한에 도달할 때 비로소 최댓값이 돼요.</dd></dl></section>
-<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Exercise 4.12(정리 4.24), 교과서 138쪽(PDF 144쪽). 원문은 ‘정리 4.24가 성립함을 보여라’이고, 이 문항은 기저 전개 방식의 (a)–(d) 네 단계로 나눴어요.</p><p>수업: 1104 L05 s27–28(상한 찾기와 도달), L06 s13(SVD).</p><p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a>, <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>정규직교기저 $\{\mathbf v_1,\dots,\mathbf v_n\}$($\mathbf A^\top\mathbf A\mathbf v_i=\sigma_i^2\mathbf v_i$, $\sigma_1\ge\cdots\ge\sigma_r&gt;0$, $i&gt;r$이면 $\sigma_i=0$)를 써서 $\mathbf x\ne\mathbf 0$일 때 $\max_{\mathbf x\ne\mathbf 0}\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2}=\sigma_1$을 (a)–(d) 네 단계로 증명해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>최댓값 증명은 상한 제시((b))와 실제 도달((c))의 두 단계로 이뤄져요. 정규직교성 $\mathbf v_i^\top\mathbf v_j=\delta_{ij}$($i=j$면 1, 다르면 0) 덕분에 $\mathbf x=\sum_{i=1}^n c_i\mathbf v_i$($c_i=\mathbf v_i^\top\mathbf x$)의 길이 제곱은 $\|\mathbf x\|_2^2=\mathbf x^\top\mathbf x=\sum_{i=1}^n c_i^2$예요(<a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a>).</p>
+  <p>여기에 $\|\mathbf A\mathbf x\|_2^2=\mathbf x^\top\mathbf A^\top\mathbf A\mathbf x$와 고유방정식 $\mathbf A^\top\mathbf A\mathbf v_j=\sigma_j^2\mathbf v_j$를 연결해요.</p>
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$\|\mathbf A\mathbf x\|_2^2=(\mathbf A\mathbf x)^\top(\mathbf A\mathbf x)=\mathbf x^\top(\mathbf A^\top\mathbf A\mathbf x),\qquad\mathbf x=\sum_{j=1}^n c_j\mathbf v_j$$
+  <p>전개식을 $\mathbf A^\top\mathbf A$에 먼저 적용한 뒤 $\mathbf x^\top$와 내적해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) $\|\mathbf A\mathbf x\|_2^2=\sum_{i=1}^n\sigma_i^2 c_i^2$ 증명</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li><div class="deriv-eq">$$\mathbf A^\top\mathbf A\mathbf x=\sum_{j=1}^n c_j\mathbf A^\top\mathbf A\mathbf v_j=\sum_{j=1}^n c_j\sigma_j^2\mathbf v_j$$</div><div class="deriv-why"><p>선형성과 고유방정식을 써요</p></div></li>
+        <li><div class="deriv-eq">$$\|\mathbf A\mathbf x\|_2^2=\Big(\sum_{i=1}^n c_i\mathbf v_i^\top\Big)\Big(\sum_{j=1}^n c_j\sigma_j^2\mathbf v_j\Big)$$</div><div class="deriv-why"><p>$\mathbf x^\top$와 $\mathbf A^\top\mathbf A\mathbf x$를 내적해요</p></div></li>
+        <li><div class="deriv-eq">$$\hphantom{\|\mathbf A\mathbf x\|_2^2}=\sum_{i=1}^n\sum_{j=1}^n c_i c_j\sigma_j^2(\mathbf v_i^\top\mathbf v_j)$$</div><div class="deriv-why"><p>이중 합으로 전개해요</p></div></li>
+        <li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\|\mathbf A\mathbf x\|_2^2}=\sum_{i=1}^n\sigma_i^2 c_i^2$$</div><div class="deriv-why"><p>$\mathbf v_i^\top\mathbf v_j=\delta_{ij}$로 대각항만 남겨요</p></div></li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 상한 부등식 $\|\mathbf A\mathbf x\|_2^2\le\sigma_1^2\|\mathbf x\|_2^2$</h4>
+    <p>모든 $i$에서 $\sigma_i^2\le\sigma_1^2$이고 $c_i^2\ge 0$이므로 각 항을 $\sigma_1^2 c_i^2$로 올려도 부등호가 유지돼요.</p>
+    $$\|\mathbf A\mathbf x\|_2^2=\sum_{i=1}^n\sigma_i^2 c_i^2\le\sum_{i=1}^n\sigma_1^2 c_i^2=\sigma_1^2\sum_{i=1}^n c_i^2=\sigma_1^2\|\mathbf x\|_2^2$$
+    <p>$\mathbf x\ne\mathbf 0$이면 $\|\mathbf x\|_2&gt;0$이므로 나누고 음이 아닌 제곱근을 취하면 $\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2}\le\sigma_1$이에요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) $\mathbf x=\mathbf v_1$에서의 등호</h4>
+    <p>$\mathbf x=\mathbf v_1$이면 정규직교성으로 $c_1=\mathbf v_1^\top\mathbf v_1=1$, $i&gt;1$에서 $c_i=\mathbf v_i^\top\mathbf v_1=0$이에요. (a)와 $\|\mathbf v_1\|_2=1$을 쓰면 $\|\mathbf A\mathbf v_1\|_2^2=\sigma_1^2$이고 $\frac{\|\mathbf A\mathbf v_1\|_2}{\|\mathbf v_1\|_2}=\sigma_1$이에요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 최댓값이 $\sigma_1$인 이유</h4>
+    <p>(b)에 따라 모든 $\mathbf x\ne\mathbf 0$의 길이 비율은 상한 $\sigma_1$ 이하이고, (c)에 따라 $\mathbf x=\mathbf v_1$($\ne\mathbf 0$)에서 실제로 $\sigma_1$에 도달하므로 최댓값은 $\sigma_1$이에요.</p>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $\mathbf v_i^\top\mathbf v_j=\delta_{ij}$로 교차항이 사라져 $\|\mathbf A\mathbf x\|_2^2=\sum_{i=1}^n\sigma_i^2 c_i^2$이에요.</p>
+    <p>(b) $\sigma_i^2\le\sigma_1^2$와 $c_i^2\ge 0$으로 $\|\mathbf A\mathbf x\|_2^2\le\sigma_1^2\|\mathbf x\|_2^2$이에요.</p>
+    <p>(c) $\mathbf x=\mathbf v_1$일 때 $c_1=1, c_{i&gt;1}=0$이라 $\|\mathbf A\mathbf v_1\|_2^2=\sigma_1^2\|\mathbf v_1\|_2^2=\sigma_1^2$로 등호가 성립해요.</p>
+    <p>(d) 모든 $\mathbf x\ne\mathbf 0$에서 비율의 상한이 $\sigma_1$이고 $\mathbf v_1$에서 도달하므로 최댓값은 $\sigma_1$이에요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf v_i^\top\mathbf v_j=\delta_{ij}$와 선형성만 써서 $m,n$ 크기에 상관없이 성립하며 $\|\mathbf x\|_2^2=\sum_{i=1}^n c_i^2$도 같은 전개로 확인돼요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 검산</h4>
+    <p>$c_i^2\ge 0$이라 부등호 방향이 보존되고, 나눗셈에서 $\mathbf x\ne\mathbf 0$ ($\|\mathbf x\|_2^2&gt;0$) 조건을 지켰어요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\mathbf A\mathbf v_1=\sigma_1\mathbf u_1$에서 $\|\mathbf u_1\|_2=1$이므로 $\|\mathbf A\mathbf v_1\|_2=\sigma_1$이 다시 확인돼요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 검산</h4>
+    <p>상한 존재((b))와 비영벡터 $\mathbf v_1$에서의 도달((c))이 모두 갖춰져 최댓값 정의를 만족해요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>(b)의 상한 $\le\sigma_1$만으로는 최댓값이 $\sigma_1$이라고 단정할 수 없고 (c)의 도달 벡터 $\mathbf v_1$이 있어야 해요. 또 직교 성분의 길이는 $\sum\sigma_i|c_i|$가 아니라 제곱합의 제곱근 $\sqrt{\sum\sigma_i^2 c_i^2}$이에요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>$\mathbf x=\sum c_i\mathbf v_i$($c_i=\mathbf v_i^\top\mathbf x$)와 $\mathbf A^\top\mathbf A\mathbf v_i=\sigma_i^2\mathbf v_i$, $\mathbf v_i^\top\mathbf v_j=\delta_{ij}$를 써요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$\|\mathbf A\mathbf x\|_2^2=\mathbf x^\top(\mathbf A^\top\mathbf A\mathbf x)$에 $\mathbf x=\sum c_j\mathbf v_j$를 넣어요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\|\mathbf A\mathbf x\|_2^2=\sum\sigma_i^2 c_i^2$. (b) $\sigma_i^2\le\sigma_1^2$로 $\le\sigma_1^2\|\mathbf x\|_2^2$. (c) $\mathbf x=\mathbf v_1$에서 등호. (d) 상한 $\sigma_1$에 $\mathbf v_1$이 도달해 최댓값은 $\sigma_1$이에요.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>정규직교성·$c_i^2\ge0$·$\|\mathbf x\|_2&gt;0$과 $\mathbf A\mathbf v_1=\sigma_1\mathbf u_1$로 상한과 도달을 확인해요.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>상한만으로는 부족하며 도달 벡터 $\mathbf v_1$이 필요해요. 직교 합은 제곱합으로 계산해요.</p></div>
+</div>
+<section data-problem-panel="provenance">
+  <h4>출제 근거</h4>
+  <p>MML Exercise 4.12(정리 4.24), 교과서 138쪽(PDF 144쪽). 원문은 정리 4.24 증명을 요구하며 기저 전개 방식의 (a)–(d)로 나눴어요.</p>
+  <p>수업: 1104 L05 s27–28(상한 찾기와 도달), L06 s13(SVD).</p>
+  <p>관련 정리노트: <a href="정리노트_1104_PCA_Part2.html#s0-top-directions">첫 번째부터 M번째까지 방향 고르기</a>, <a href="정리노트_1104_PCA_Part2.html#s2-svd">데이터의 SVD에서 주성분 찾기</a></p>
+</section>
+<section data-problem-panel="terms" data-summary-terms="">
+  <h4>용어</h4>
+  <dl class="terms">
+    <dt>유클리드 노름(Euclidean norm)</dt><dd>벡터의 길이 $\|\mathbf x\|_2=\sqrt{\sum x_i^2}=\sqrt{\mathbf x^\top\mathbf x}$예요.</dd>
+    <dt>정규직교기저(orthonormal basis)</dt><dd>단위 길이를 갖고 서로 수직($\mathbf v_i^\top\mathbf v_j=\delta_{ij}$)인 기저 벡터 묶음이에요.</dd>
+    <dt>최대 특잇값(largest singular value)</dt><dd>가장 큰 특잇값 $\sigma_1$으로, 행렬의 최대 신장 비율 $\max_{\mathbf x\ne\mathbf 0}\frac{\|\mathbf A\mathbf x\|_2}{\|\mathbf x\|_2}$과 같아요.</dd>
+    <dt>상한과 최댓값(upper bound &amp; maximum)</dt><dd>모든 원소가 넘지 않는 경계가 상한이고, 그 경계에 실제로 도달하는 원소가 있을 때 최댓값이 돼요.</dd>
+  </dl>
+</section>

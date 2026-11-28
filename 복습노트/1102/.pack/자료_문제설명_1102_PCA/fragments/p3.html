@@ -1,8 +1,123 @@
-<div class="layer eli5" data-explanation="understand"><h4>문제를 내 말로 읽어요</h4><p>주어진 것은 $3\times 3$ 대칭행렬 $\mathbf{A}=\begin{bmatrix}4 & 1 & 1\\1 & 4 & 1\\1 & 1 & 4\end{bmatrix}$와 이미 인수분해된 특성다항식 $p_{\mathbf{A}}(\lambda)=-(\lambda-3)^2(\lambda-6)$이에요.</p><p>구할 것은 네 가지예요: (a) 고윳값 3, 6의 고유공간 $E_3, E_6$과 지정된 생성 벡터 $\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3$, (b) 세 쌍의 점곱 계산으로 직교 관계 확인, (c) 같은 고유공간 내 선형결합 보존과 Gram-Schmidt 직교화로 직교 고유벡터 $\mathbf{x}_1', \mathbf{x}_2'$ 제작, (d) 새 세 벡터 $\mathbf{x}_1', \mathbf{x}_2', \mathbf{x}_3$의 상호 직교성 확인이에요.</p></div>
-<div class="layer formal" data-explanation="recall"><h4>이 문제를 봤을 때 떠올릴 개념과 공식</h4><p>‘대칭행렬’과 ‘직교 고유벡터’라는 단서에서 스펙트럼 정리(spectral theorem)와 Gram-Schmidt 직교화를 떠올려요.</p><ul><li>스펙트럼 정리: 실 대칭행렬($\mathbf{A}^\top=\mathbf{A}$)의 서로 다른 고윳값에 대응하는 고유벡터는 자동으로 직교해요. 하지만 같은 고윳값(중근)의 고유공간 $E_\lambda$ 안에서는 임의로 뽑은 기저 벡터들이 직교하지 않을 수 있어요.</li><li>고유공간의 닫힘성: $\mathbf{A}(\alpha\mathbf{u}+\beta\mathbf{v})=\alpha\mathbf{A}\mathbf{u}+\beta\mathbf{A}\mathbf{v}=\lambda(\alpha\mathbf{u}+\beta\mathbf{v})$이므로, 같은 고유공간에 속한 벡터들의 0 아닌 선형결합도 여전히 같은 고윳값의 고유벡터예요.</li><li>Gram-Schmidt 직교화: 첫 벡터를 $\mathbf{x}_1'=\mathbf{x}_1$로 유지하고, 둘째 벡터 $\mathbf{x}_2$에서 $\mathbf{x}_1'$ 방향의 정사영 성분을 제거해요:$$\mathbf{x}_2' = \mathbf{x}_2 - \underbrace{\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1}}_{\text{사영 계수 } c}\mathbf{x}_1$$</li><li>직교 판정: 두 벡터 $\mathbf{u}, \mathbf{v}$의 점곱 $\mathbf{u}^\top\mathbf{v}=\sum_i u_i v_i = 0$이면 직교예요.</li></ul><p><a href="정리노트_1102_PCA.html#s3-spectral">3.1 대칭행렬은 직교 고유벡터로 쪼개져요</a>와 <a href="정리노트_1102_PCA.html#s3-example-orthogonalize">3.2 예제의 직교화 단계</a>에서 같은 원리를 다뤘어요.</p></div>
-<div class="layer formal" data-explanation="start"><h4>종이에 쓸 첫 줄</h4><p>주어진 특성다항식에서 고윳값 $\lambda=3$(중복도 2), $\lambda=6$(중복도 1)을 확인하고, 겹친 고윳값 3의 동차방정식을 세워요.</p>$$(\mathbf{A}-3\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 1 & 1\\1 & 1 & 1\\1 & 1 & 1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}\iff x_1+x_2+x_3=0$$<p><b>풀이 로드맵:</b> 1. $E_3, E_6$ 연립방정식을 풀어 기저 $\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3$ 도출 → 2. 점곱 계산으로 $\mathbf{x}_1^\top\mathbf{x}_2=1\neq 0$ 비직교 확인 → 3. Gram-Schmidt 사영 계수 $c=\frac12$로 $\mathbf{x}_2'$ 직교화 → 4. 세 벡터 상호 직교성 검증.</p></div>
-<div class="layer formal" data-explanation="solve"><h4>왜 이렇게 푸는지 함께 따라가요</h4><div data-subpart="a"><h4>(a) 고유공간 $E_3, E_6$</h4><p><b>최종 답 요약:</b> $E_3=\operatorname{span}\left(\mathbf{x}_1, \mathbf{x}_2\right)$ (2차원 평면), $E_6=\operatorname{span}\left(\mathbf{x}_3\right)$ (1차원 직선)이며, 생성 벡터는 $\mathbf{x}_1=[-1,1,0]^\top, \mathbf{x}_2=[-1,0,1]^\top, \mathbf{x}_3=[1,1,1]^\top$이에요.</p><p>$\lambda=3$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}-3\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 1 & 1\\1 & 1 & 1\\1 & 1 & 1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>람다=3을 대입한 동차방정식이에요</p></div></li><li><div class="deriv-eq">$$x_1+x_2+x_3=0\iff x_1=-x_2-x_3$$</div><div class="deriv-why"><p>한 행과 벡터를 곱하면 $1\cdot x_1+1\cdot x_2+1\cdot x_3$이고, 세 행이 같으므로 식 하나로 충분해요.</p></div></li><li><div class="deriv-eq">$$\mathbf{x}_1=\begin{bmatrix}-1\\1\\0\end{bmatrix},\quad\mathbf{x}_2=\begin{bmatrix}-1\\0\\1\end{bmatrix}$$</div><div class="deriv-why"><p>(x2,x3)=(1,0), (0,1) 대입 결과예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_3=\operatorname{span}\left[\begin{bmatrix}-1\\1\\0\end{bmatrix},\begin{bmatrix}-1\\0\\1\end{bmatrix}\right]$$</div><div class="deriv-why"><p>자유변수 2개로 생성되는 2차원 고유공간이에요</p></div></li></ol></div><p>$\lambda=6$의 고유공간을 구해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$(\mathbf{A}-6\mathbf{I})\mathbf{x}=\begin{bmatrix}-2 & 1 & 1\\1 & -2 & 1\\1 & 1 & -2\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div><div class="deriv-why"><p>람다=6을 대입한 동차방정식이에요</p></div></li><li><div class="deriv-eq">$$\begin{cases}-2x_1+x_2+x_3=0\\x_1-2x_2+x_3=0\end{cases}\iff x_1=x_2=x_3$$</div><div class="deriv-why"><p>첫째 식에서 둘째 식을 빼면 $-3x_1+3x_2=0$이에요. $x_2=x_1$을 첫째 식에 넣으면 $x_3=x_1$이고, 이는 셋째 행의 식도 만족해요.</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$E_6=\operatorname{span}\left[\mathbf{x}_3\right]=\operatorname{span}\left[\begin{bmatrix}1\\1\\1\end{bmatrix}\right]$$</div><div class="deriv-why"><p>셋째 성분을 1로 둔 1차원 직선 고유공간이에요</p></div></li></ol></div></div><div data-subpart="b"><h4>(b) 세 점곱과 직교 여부</h4><p><b>최종 답 요약:</b> $\mathbf{x}_3^\top\mathbf{x}_1=0, \mathbf{x}_3^\top\mathbf{x}_2=0$으로 $\mathbf{x}_3$은 둘과 모두 직교하지만, $\mathbf{x}_1^\top\mathbf{x}_2=1\neq 0$으로 같은 $E_3$의 두 벡터는 직교하지 않아요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{x}_3^\top\mathbf{x}_1=1(-1)+1\cdot 1+1\cdot 0=-1+1+0=0$$</div><div class="deriv-why"><p>다른 고윳값(6과 3)이므로 점곱이 0이에요</p></div></li><li><div class="deriv-eq">$$\mathbf{x}_3^\top\mathbf{x}_2=1(-1)+1\cdot 0+1\cdot 1=-1+0+1=0$$</div><div class="deriv-why"><p>다른 고윳값(6과 3)이므로 점곱이 0이에요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{x}_1^\top\mathbf{x}_2=(-1)(-1)+1\cdot 0+0\cdot 1=1+0+0=1\neq 0$$</div><div class="deriv-why"><p>같은 고유공간 E3 내의 두 벡터는 직교하지 않아요</p></div></li></ol></div><p>스펙트럼 정리는 '서로 다른 고윳값'의 고유벡터 직교만 자동 보장하므로, 같은 고유공간 안에서는 별도의 직교화가 필요해요.</p></div><div data-subpart="c"><h4>(c) 선형결합과 Gram-Schmidt</h4><p><b>최종 답 요약:</b> $E_3$의 영벡터가 아닌 선형결합은 고윳값 3의 고유벡터이고, 사영 계수 $c=\frac12$을 적용한 Gram-Schmidt 결과는 $\mathbf{x}_1'=[-1,1,0]^\top, \mathbf{x}_2'=[-1/2,-1/2,1]^\top$이에요.</p><p>먼저 선형결합의 고유벡터 성질을 확인해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2$$</div><div class="deriv-why"><p>행렬곱의 선형성을 적용해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\hphantom{\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)}=\alpha(3\mathbf{x}_1)+\beta(3\mathbf{x}_2)=3(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$$</div><div class="deriv-why"><p>3을 묶어요. 영벡터를 제외하면 고유벡터예요</p></div></li></ol></div><p>이제 Gram-Schmidt로 $\mathbf{x}_1'$과 직교하는 $\mathbf{x}_2'$을 구성해요:</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{x}_1'=\mathbf{x}_1=\begin{bmatrix}-1\\1\\0\end{bmatrix}$$</div><div class="deriv-why"><p>첫째 기저는 그대로 유지해요</p></div></li><li><div class="deriv-eq">$$\mathbf{x}_1^\top\mathbf{x}_2=1,\quad\mathbf{x}_1^\top\mathbf{x}_1=(-1)^2+1^2+0^2=2$$</div><div class="deriv-why"><p>사영 계수에 필요한 두 점곱을 계산해요</p></div></li><li><div class="deriv-eq">$$c=\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1}=\frac{1}{2}$$</div><div class="deriv-why"><p>x1' 방향 성분을 없애는 사영 계수 c예요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{x}_2'=\mathbf{x}_2-c\mathbf{x}_1=\begin{bmatrix}-1\\0\\1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\1\\0\end{bmatrix}=\begin{bmatrix}-1/2\\-1/2\\1\end{bmatrix}$$</div><div class="deriv-why"><p>성분별로 감산하여 직교 고유벡터 x2'을 완성해요</p></div></li></ol></div></div><div data-subpart="d"><h4>(d) 세 벡터의 직교 확인</h4><p><b>최종 답 요약:</b> 세 점곱 $\mathbf{x}_1'^\top\mathbf{x}_2'=0, \mathbf{x}_1'^\top\mathbf{x}_3=0, \mathbf{x}_2'^\top\mathbf{x}_3=0$이 모두 0이므로 세 벡터 $\mathbf{x}_1', \mathbf{x}_2', \mathbf{x}_3$은 상호 직교해요.</p><div class="deriv-body"><ol class="deriv"><li><div class="deriv-eq">$$\mathbf{x}_1'^\top\mathbf{x}_2'=(-1)\left(-\frac12\right)+1\left(-\frac12\right)+0\cdot 1=\frac12-\frac12+0=0$$</div><div class="deriv-why"><p>새로 만든 x1'과 x2'이 직교함을 확인해요</p></div></li><li><div class="deriv-eq">$$\mathbf{x}_1'^\top\mathbf{x}_3=(-1)\cdot 1+1\cdot 1+0\cdot 1=-1+1+0=0$$</div><div class="deriv-why"><p>x1'과 x3의 직교성을 확인해요</p></div></li><li class="deriv-gen"><div class="deriv-eq">$$\mathbf{x}_2'^\top\mathbf{x}_3=\left(-\frac12\right)\cdot 1+\left(-\frac12\right)\cdot 1+1\cdot 1=-1+1=0$$</div><div class="deriv-why"><p>x2'과 x3의 직교성을 확인해요</p></div></li></ol></div><p>이로써 3차원 공간 전체를 생성하는 상호 직교 고유벡터 기저 $\{\mathbf{x}_1', \mathbf{x}_2', \mathbf{x}_3\}$이 완성되었어요.</p></div></div>
-<div class="layer formal" data-explanation="verify"><h4>완성 답과 검산</h4><div data-subpart="a"><h4>(a) 검산</h4><p>행렬 곱으로 고유벡터 방정식을 확인해요:$$\mathbf{A}\mathbf{x}_1=\begin{bmatrix}-4+1\\-1+4\\-1+1\end{bmatrix}=\begin{bmatrix}-3\\3\\0\end{bmatrix}=3\mathbf{x}_1,\quad\mathbf{A}\mathbf{x}_3=\begin{bmatrix}4+1+1\\1+4+1\\1+1+4\end{bmatrix}=\begin{bmatrix}6\\6\\6\end{bmatrix}=6\mathbf{x}_3$$<p>차원의 합 $\dim E_3 + \dim E_6 = 2 + 1 = 3$으로 행렬 크기 $n=3$과 정확히 일치해요.</p></div><div data-subpart="b"><h4>(b) 검산</h4><p>점곱의 교환법칙 $\mathbf{u}^\top\mathbf{v}=\mathbf{v}^\top\mathbf{u}$로 순서를 바꿔도 $\mathbf{x}_1^\top\mathbf{x}_3=0, \mathbf{x}_2^\top\mathbf{x}_1=1$로 계산 결과가 일정함을 확인해요.</p></div><div data-subpart="c"><h4>(c) 검산</h4><p>$\mathbf{x}_2'$에 $\mathbf{A}$를 직접 곱해 고윳값 3의 고유벡터임을 독립 검산해요:$$\mathbf{A}\begin{bmatrix}-1/2\\-1/2\\1\end{bmatrix}=\begin{bmatrix}-2-1/2+1\\-1/2-2+1\\-1/2-1/2+4\end{bmatrix}=\begin{bmatrix}-3/2\\-3/2\\3\end{bmatrix}=3\begin{bmatrix}-1/2\\-1/2\\1\end{bmatrix}=3\mathbf{x}_2'$$<p>정확히 3배가 되므로 $E_3$에 속함이 입증돼요.</p></div><div data-subpart="d"><h4>(d) 검산</h4><p>이론적 불변성을 점검해요. $\mathbf{x}_3^\top\mathbf{x}_2' = \mathbf{x}_3^\top(\mathbf{x}_2-c\mathbf{x}_1) = \mathbf{x}_3^\top\mathbf{x}_2 - c(\mathbf{x}_3^\top\mathbf{x}_1) = 0 - c\cdot 0 = 0$이므로, $c$의 값에 관계없이 $\mathbf{x}_3$과의 직교성은 필연적으로 보존돼요.</p></div></div>
-<div class="layer warn" data-explanation="pitfall"><h4>이 문항에서 조심할 점</h4><p>‘대칭행렬의 고유벡터는 항상 직교한다’를 모든 고유벡터 쌍이 무조건 직교한다고 오해하면 안 돼요. 스펙트럼 정리가 보장하는 직교성은 서로 다른 고윳값 사이에만 적용되며, 같은 고윳값(중근)의 고유공간 안에서는 $\mathbf{x}_1^\top\mathbf{x}_2=1\neq 0$처럼 직교하지 않을 수 있어요.</p><p>Gram-Schmidt 사영 계수에서 분모 $\mathbf{x}_1^\top\mathbf{x}_1=2$를 빠뜨리고 $\mathbf{x}_2 - (\mathbf{x}_1^\top\mathbf{x}_2)\mathbf{x}_1 = [0,-1,1]^\top$로 계산하면 안 돼요. 이 벡터는 $\mathbf{x}_1$과의 점곱이 $-1\neq 0$이어서 직교하지 않아요. 반드시 길이 제곱으로 나누어야 해요.</p><p>직교화 과정에서 다른 고유공간의 벡터(예: $\mathbf{x}_3$)를 빼면 안 돼요. 다른 고유공간 벡터가 섞이면 더 이상 고윳값 3의 고유벡터로 남지 않아요.</p></div>
-<div class="layer formal" data-explanation="retry"><h4>설명을 닫고 다시 해 봐요</h4><p>설명을 보지 않고 아래 순서대로 종이에 다시 풀어 봐요.</p><ol><li>$(\mathbf{A}-3\mathbf{I})\mathbf{x}=\mathbf{0}$과 $(\mathbf{A}-6\mathbf{I})\mathbf{x}=\mathbf{0}$을 풀어 $\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3$을 구해요.</li><li>세 점곱을 계산해 $\mathbf{x}_1^\top\mathbf{x}_2=1$로 직교하지 않음을 확인해요.</li><li>$c=\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1}=\frac12$을 구해 $\mathbf{x}_2'$을 완성하고 세 벡터의 직교성을 점곱으로 확인해요.</li></ol></div>
-<div class="sum" hidden><div class="summary-group"><h4>떠올릴 개념·공식</h4><p>스펙트럼 정리: 대칭행렬의 서로 다른 고윳값 고유벡터는 자동 직교해요. 중근 고유공간 내에서는 Gram-Schmidt로 직교화해요.</p>$$c=\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1},\quad\mathbf{x}_2'=\mathbf{x}_2-c\mathbf{x}_1$$</div><div class="summary-group"><h4>첫 줄</h4><p>$(\mathbf{A}-3\mathbf{I})\mathbf{x}=\mathbf{0}\iff x_1+x_2+x_3=0$을 세워요.</p></div><div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{x}_1=[-1,1,0]^\top, \mathbf{x}_2=[-1,0,1]^\top, \mathbf{x}_3=[1,1,1]^\top$.</p><p>(b) $\mathbf{x}_3\perp\mathbf{x}_1, \mathbf{x}_3\perp\mathbf{x}_2$, 그러나 $\mathbf{x}_1^\top\mathbf{x}_2=1\neq 0$.</p><p>(c) $\mathbf{x}_1'=[-1,1,0]^\top, \mathbf{x}_2'=[-1/2,-1/2,1]^\top$.</p><p>(d) 세 점곱이 모두 0으로 상호 직교.</p></div><div class="summary-group"><h4>검산</h4><p>$\mathbf{A}\mathbf{x}_2'=3\mathbf{x}_2'$, $\mathbf{x}_3^\top\mathbf{x}_2'=0-c\cdot 0=0$.</p></div><div class="summary-group"><h4>조건·구분</h4><p>직교화는 동일 고유공간 내에서만 수행해요. 분모 $\mathbf{x}_1^\top\mathbf{x}_1=2$를 빠뜨리지 않아요.</p></div></div><section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 4.8 (수치를 바꾼 변형). 교과서 111–112쪽(PDF 117–118쪽).</p><p>수업: 1102 L05 s19 (스펙트럼 정리, 교과서 수치의 같은 예제).</p><p>관련 정리노트: 1102 3.1 대칭행렬은 직교 고유벡터로 쪼개져요, 3.2 예제: 3×3 대칭행렬(직교화 단계).</p></section><section data-problem-panel="terms"><h4>용어</h4><dl class="terms"><dt>대칭행렬(symmetric matrix)</dt><dd>$\mathbf{A}^\top=\mathbf{A}$인 정방행렬이에요. 주대각선을 기준으로 대칭이에요.</dd><dt>스펙트럼 정리(spectral theorem)</dt><dd>대칭행렬은 고윳값이 모두 실수이고, 정규직교 고유벡터로 구성된 직교행렬 $\mathbf{P}$를 통해 $\mathbf{A}=\mathbf{P}\mathbf{D}\mathbf{P}^\top$로 대각화된다는 정리예요.</dd><dt>고유공간(eigenspace)</dt><dd>$(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$의 모든 해가 이루는 부분공간이에요.</dd><dt>Gram-Schmidt 직교화(Gram-Schmidt orthogonalization)</dt><dd>일차독립인 벡터 묶음에서 앞선 벡터들과 직교하는 성분만을 순차적으로 남겨 직교 기저를 만드는 알고리즘이에요.</dd><dt>점곱(dot product)·직교(orthogonal)</dt><dd>$\mathbf{u}^\top\mathbf{v}=\sum_i u_i v_i$이며, 값이 0이면 두 벡터가 직교해요.</dd><dt>정사영(orthogonal projection)</dt><dd>한 벡터를 다른 벡터가 정의하는 직선 또는 부분공간 위에 수직으로 내린 그림자 벡터예요.</dd></dl></section>
+<div class="layer eli5" data-explanation="understand">
+  <h4>풀이 목표</h4>
+  <p>대칭행렬 $\mathbf{A}=\begin{bmatrix}4 & 1 & 1\\1 & 4 & 1\\1 & 1 & 4\end{bmatrix}$와 $p_{\mathbf{A}}(\lambda)=-(\lambda-3)^2(\lambda-6)$을 이용해 (a) $E_3, E_6$과 지정된 생성 벡터 $\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3$, (b) 세 쌍의 점곱, (c) $E_3$ 안에서의 Gram-Schmidt 직교 벡터 $\mathbf{x}_1',\mathbf{x}_2'$, (d) 세 벡터 $\mathbf{x}_1',\mathbf{x}_2',\mathbf{x}_3$의 직교를 확인해요.</p>
+</div>
+<div class="layer formal" data-explanation="recall">
+  <h4>풀이 단서</h4>
+  <p>실대칭행렬은 서로 다른 고윳값의 고유벡터가 자동으로 직교하지만, 겹친 고윳값($\lambda=3$)의 고유공간 안에서는 임의로 고른 기저 벡터끼리 직교하지 않을 수 있어요(<a href="정리노트_1102_PCA.html#s3-spectral">3.1 스펙트럼 정리</a>). 같은 고유공간 벡터의 비영 선형결합은 여전히 같은 고윳값의 고유벡터이므로, $E_3$ 안에서 사영 성분을 빼는 Gram-Schmidt로 직교화해요(<a href="정리노트_1102_PCA.html#s3-example-orthogonalize">3.2 직교화 단계</a>):</p>
+  $$\mathbf{x}_2'=\mathbf{x}_2-\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1}\mathbf{x}_1$$
+</div>
+<div class="layer formal" data-explanation="start">
+  <h4>첫 단계</h4>
+  $$(\mathbf{A}-3\mathbf{I})\mathbf{x}=\begin{bmatrix}1 & 1 & 1\\1 & 1 & 1\\1 & 1 & 1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}\iff x_1+x_2+x_3=0$$
+  <p>자유변수 조건대로 $\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3$을 먼저 정한 뒤 점곱을 재고, 비직교인 쌍을 $E_3$ 안에서 직교화해요.</p>
+</div>
+<div class="layer formal" data-explanation="solve">
+  <h4>핵심 풀이</h4>
+  <div data-subpart="a">
+    <h4>(a) 고유공간 $E_3, E_6$</h4>
+    <p>$\lambda=3$은 세 행 모두 $1\cdot x_1+1\cdot x_2+1\cdot x_3=0$이라 조건이 $x_1=-x_2-x_3$ 하나예요. $(x_2,x_3)=(1,0),(0,1)$을 넣으면 $\mathbf{x}_1=[-1,1,0]^\top$, $\mathbf{x}_2=[-1,0,1]^\top$이고, $E_3=\operatorname{span}[\mathbf{x}_1,\mathbf{x}_2]$예요.</p>
+    <p>$\lambda=6$은 $(\mathbf{A}-6\mathbf{I})\mathbf{x}=\mathbf{0}$을 풀어요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$(\mathbf{A}-6\mathbf{I})\mathbf{x}=\begin{bmatrix}-2 & 1 & 1\\1 & -2 & 1\\1 & 1 & -2\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\mathbf{0}$$</div>
+          <div class="deriv-why"><p>$\lambda=6$을 대입한 동차 연립방정식이에요.</p></div>
+        </li>
+        <li>
+          <div class="deriv-eq">$$\begin{cases}-2x_1+x_2+x_3=0\\x_1-2x_2+x_3=0\end{cases}\iff x_1=x_2=x_3$$</div>
+          <div class="deriv-why"><p>첫째−둘째 식으로 $x_1=x_2$, 대입해 $x_3=x_1$(셋째 행도 성립)을 얻어요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$E_6=\operatorname{span}\left[\mathbf{x}_3\right],\qquad \mathbf{x}_3=\begin{bmatrix}1\\1\\1\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>셋째 성분이 1이 되도록 생성 벡터를 정해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 세 점곱과 직교 쌍</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\mathbf{x}_3^\top\mathbf{x}_1=-1+1+0=0,\qquad\mathbf{x}_3^\top\mathbf{x}_2=-1+0+1=0$$</div>
+          <div class="deriv-why"><p>서로 다른 고윳값 6과 3의 쌍은 직교해요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\mathbf{x}_1^\top\mathbf{x}_2=(-1)(-1)+0+0=1\neq 0$$</div>
+          <div class="deriv-why"><p>같은 $E_3$의 두 벡터는 직교하지 않아요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 선형결합 유지와 Gram-Schmidt 직교화</h4>
+    <p>임의의 $\alpha,\beta\in\mathbb{R}$에 대해 $\mathbf{A}(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)=\alpha\mathbf{A}\mathbf{x}_1+\beta\mathbf{A}\mathbf{x}_2=3(\alpha\mathbf{x}_1+\beta\mathbf{x}_2)$이므로, 영이 아닌 선형결합도 고윳값 3의 고유벡터예요. $\mathbf{x}_1'=\mathbf{x}_1$로 두고 $\mathbf{x}_2$에서 사영 성분을 빼요.</p>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$c=\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1}=\frac{1}{(-1)^2+1^2+0^2}=\frac{1}{2}$$</div>
+          <div class="deriv-why"><p>$\mathbf{x}_1^\top(\mathbf{x}_2-c\mathbf{x}_1)=0$이 되는 계수 $c$예요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\mathbf{x}_1'=\begin{bmatrix}-1\\1\\0\end{bmatrix},\qquad\mathbf{x}_2'=\begin{bmatrix}-1\\0\\1\end{bmatrix}-\frac{1}{2}\begin{bmatrix}-1\\1\\0\end{bmatrix}=\begin{bmatrix}-1/2\\-1/2\\1\end{bmatrix}$$</div>
+          <div class="deriv-why"><p>사영을 빼 $E_3$의 직교 고유벡터를 완성해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) $\mathbf{x}_1', \mathbf{x}_2', \mathbf{x}_3$의 직교 확인</h4>
+    <div class="deriv-body">
+      <ol class="deriv">
+        <li>
+          <div class="deriv-eq">$$\mathbf{x}_1'^\top\mathbf{x}_2'=\frac{1}{2}-\frac{1}{2}+0=0,\qquad\mathbf{x}_1'^\top\mathbf{x}_3=-1+1+0=0$$</div>
+          <div class="deriv-why"><p>새 쌍 $(\mathbf{x}_1',\mathbf{x}_2')$과 $(\mathbf{x}_1',\mathbf{x}_3)$이 직교해요.</p></div>
+        </li>
+        <li class="deriv-gen">
+          <div class="deriv-eq">$$\mathbf{x}_2'^\top\mathbf{x}_3=-\frac{1}{2}-\frac{1}{2}+1=0$$</div>
+          <div class="deriv-why"><p>세 쌍의 점곱이 모두 0이라 서로 직교해요.</p></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <section class="final-answer">
+    <h4>최종 답</h4>
+    <p>(a) $E_3=\operatorname{span}\left[\begin{bmatrix}-1\\1\\0\end{bmatrix},\begin{bmatrix}-1\\0\\1\end{bmatrix}\right]$ ($\mathbf{x}_1,\mathbf{x}_2$), $E_6=\operatorname{span}\left[\begin{bmatrix}1\\1\\1\end{bmatrix}\right]$ ($\mathbf{x}_3$)이에요.</p>
+    <p>(b) $\mathbf{x}_3^\top\mathbf{x}_1=0$, $\mathbf{x}_3^\top\mathbf{x}_2=0$으로 $\mathbf{x}_3$은 둘과 직교하고, $\mathbf{x}_1^\top\mathbf{x}_2=1\neq 0$이라 $\mathbf{x}_1,\mathbf{x}_2$는 직교하지 않아요.</p>
+    <p>(c) $\mathbf{x}_1'=[-1,1,0]^\top$, $\mathbf{x}_2'=[-1/2,-1/2,1]^\top$이에요.</p>
+    <p>(d) $\mathbf{x}_1'^\top\mathbf{x}_2'=\mathbf{x}_1'^\top\mathbf{x}_3=\mathbf{x}_2'^\top\mathbf{x}_3=0$으로 세 벡터가 서로 직교해요.</p>
+  </section>
+</div>
+<div class="layer formal" data-explanation="verify">
+  <h4>답 확인</h4>
+  <div data-subpart="a">
+    <h4>(a) 검산</h4>
+    <p>$\mathbf{A}\mathbf{x}_1=[-3,3,0]^\top=3\mathbf{x}_1$, $\mathbf{A}\mathbf{x}_2=[-3,0,3]^\top=3\mathbf{x}_2$, $\mathbf{A}\mathbf{x}_3=[6,6,6]^\top=6\mathbf{x}_3$이고 차원 합 $2+1=3$이에요.</p>
+  </div>
+  <div data-subpart="b">
+    <h4>(b) 확인</h4>
+    <p>성분이 $x_1+x_2+x_3=0$인 벡터와 $[1,1,1]^\top$의 점곱은 항상 0이라 대칭행렬의 서로 다른 고윳값 직교 정리와 일치해요.</p>
+  </div>
+  <div data-subpart="c">
+    <h4>(c) 검산</h4>
+    <p>$\mathbf{x}_2'\neq\mathbf{0}$이고 $\mathbf{A}\mathbf{x}_2'=[-3/2,-3/2,3]^\top=3\mathbf{x}_2'$로 여전히 고윳값 3의 고유벡터예요.</p>
+  </div>
+  <div data-subpart="d">
+    <h4>(d) 확인</h4>
+    <p>$\mathbf{x}_3^\top\mathbf{x}_2'=\mathbf{x}_3^\top\mathbf{x}_2-c\,\mathbf{x}_3^\top\mathbf{x}_1=0-c\cdot 0=0$이라 어떤 $c$에서도 $\mathbf{x}_3$과의 직교가 보존돼요.</p>
+  </div>
+</div>
+<div class="layer warn" data-explanation="pitfall" data-omit-retry="">
+  <h4>주의할 점</h4>
+  <p>Gram-Schmidt 계수에서 분모 $\mathbf{x}_1^\top\mathbf{x}_1=2$를 빠뜨리면 $\mathbf{x}_2-(\mathbf{x}_1^\top\mathbf{x}_2)\mathbf{x}_1=[0,-1,1]^\top$이 되어 $\mathbf{x}_1$과의 점곱이 $-1\neq 0$이 돼요. 또 직교화는 같은 고유공간($E_3$) 안에서만 해야 고유벡터 성질이 유지돼요.</p>
+</div>
+<div class="sum" hidden>
+  <div class="summary-group"><h4>떠올릴 개념·공식</h4><p>대칭행렬의 서로 다른 고윳값은 자동 직교하고, 같은 고유공간 안에서는 $c=\frac{\mathbf{x}_1^\top\mathbf{x}_2}{\mathbf{x}_1^\top\mathbf{x}_1}$로 Gram-Schmidt 직교화해요.</p></div>
+  <div class="summary-group"><h4>첫 줄</h4><p>$x_1+x_2+x_3=0$에서 자유변수 $(x_2,x_3)=(1,0),(0,1)$로 $\mathbf{x}_1,\mathbf{x}_2$를 잡아요.</p></div>
+  <div class="summary-group"><h4>핵심 답</h4><p>(a) $\mathbf{x}_1=[-1,1,0]^\top$, $\mathbf{x}_2=[-1,0,1]^\top$, $\mathbf{x}_3=[1,1,1]^\top$. (b) $\mathbf{x}_3$만 직교, $\mathbf{x}_1^\top\mathbf{x}_2=1$. (c) $\mathbf{x}_1'=[-1,1,0]^\top$, $\mathbf{x}_2'=[-1/2,-1/2,1]^\top$. (d) 세 쌍 점곱 모두 0.</p></div>
+  <div class="summary-group"><h4>검산</h4><p>$\mathbf{A}\mathbf{x}_2'=3\mathbf{x}_2'$, $\mathbf{x}_3^\top\mathbf{x}_2'=0-c\cdot 0=0$.</p></div>
+  <div class="summary-group"><h4>조건·구분</h4><p>분모 $\mathbf{x}_1^\top\mathbf{x}_1=2$를 빠뜨리지 않고, 같은 고유공간 벡터만 선형결합해요.</p></div>
+</div>
+<section data-problem-panel="provenance"><h4>출제 근거</h4><p>MML Example 4.8 (수치를 바꾼 변형). 교과서 111–112쪽(PDF 117–118쪽).</p><p>수업: 1102 L05 s19 (스펙트럼 정리, 교과서 수치의 같은 예제).</p><p>관련 정리노트: 1102 3.1 대칭행렬은 직교 고유벡터로 쪼개져요, 3.2 예제: 3×3 대칭행렬(직교화 단계).</p></section>
+<section data-problem-panel="terms" data-summary-terms=""><h4>용어</h4><dl class="terms"><dt>스펙트럼 정리(spectral theorem)</dt><dd>실대칭행렬은 서로 다른 고윳값의 고유벡터가 직교하고 정규직교 고유기저로 분해된다는 정리예요.</dd><dt>고유공간(eigenspace)</dt><dd>$(\mathbf{A}-\lambda\mathbf{I})\mathbf{x}=\mathbf{0}$의 해 전체로, 영 아닌 선형결합도 같은 $\lambda$의 고유벡터예요.</dd><dt>Gram-Schmidt 직교화</dt><dd>앞 벡터 방향의 사영 성분을 빼어 같은 공간을 유지하는 직교 기저를 만드는 절차예요.</dd><dt>점곱(dot product)·직교(orthogonal)</dt><dd>$\mathbf{u}^\top\mathbf{v}=\sum_i u_i v_i$가 0이면 두 벡터가 직교해요.</dd></dl></section>
