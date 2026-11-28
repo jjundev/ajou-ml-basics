@@ -565,7 +565,7 @@
         </div>
         <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
         <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
-        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 두 번 뽑은 동전의 확률질량</a></li><li><a href="#p2">P2. 빈도표에서 조건부확률 읽기</a></li><li><a href="#p3">P3. 혼합 밀도의 봉우리 읽기</a></li><li><a href="#p4">P4. 두 상태의 확률로 평균 구하기</a></li><li><a href="#p5">P5. 밀도에서 누적확률 구하기</a></li><li><a href="#p6">P6. 세 가우시안을 섞은 밀도</a></li><li><a href="#p7">P7. 두 관측값의 책임도 계산</a></li><li><a href="#p8">P8. 책임도 표에서 성분별 합 읽기</a></li></ul></nav>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1"><span class="toc-title">P1. 두 번 뽑은 동전의 확률질량</span></a></li><li><a href="#p2"><span class="toc-title">P2. 빈도표에서 조건부확률 읽기</span></a></li><li><a href="#p3"><span class="toc-title">P3. 혼합 밀도의 봉우리 읽기</span></a></li><li><a href="#p4"><span class="toc-title">P4. 두 상태의 확률로 평균 구하기</span></a></li><li><a href="#p5"><span class="toc-title">P5. 밀도에서 누적확률 구하기</span></a></li><li><a href="#p6"><span class="toc-title">P6. 세 가우시안을 섞은 밀도</span></a></li><li><a href="#p7"><span class="toc-title">P7. 두 관측값의 책임도 계산</span></a></li><li><a href="#p8"><span class="toc-title">P8. 책임도 표에서 성분별 합 읽기</span></a></li></ul></nav>
       </div>
     </aside>
     <aside class="panel panel-prob" id="panel-prob" aria-labelledby="panel-prob-title">
@@ -1678,6 +1678,16 @@
       function markToc(done, total, doneLabel) {
         panels.left.querySelectorAll('.toc-list a').forEach((a) => {
           const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          if (!a.querySelector('.toc-title')) {
+            const title = document.createElement('span');
+            title.className = 'toc-title';
+            Array.from(a.childNodes).forEach((node) => {
+              if (node.nodeType !== 1 || (!node.classList.contains('toc-mark') && !node.classList.contains('toc-state'))) {
+                title.appendChild(node);
+              }
+            });
+            a.prepend(title);
+          }
           let mark = a.querySelector('.toc-mark');
           if (!mark) {
             mark = document.createElement('span');
@@ -2174,6 +2184,13 @@
         });
         group.appendChild(list);
       });
+      if (!tocLinks.length) {
+        const byId = new Map(screens.map((s, i) => [s.id, i]));
+        toc.querySelectorAll('.toc-list a[href^="#"]').forEach((link) => {
+          const id = decodeURIComponent(link.getAttribute('href').slice(1));
+          if (byId.has(id)) tocLinks[byId.get(id)] = link;
+        });
+      }
 
       function indexFor(hash) {
         const id = decodeURIComponent((hash || '').replace(/^#/, ''));

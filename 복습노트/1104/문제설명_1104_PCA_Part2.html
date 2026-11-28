@@ -565,7 +565,7 @@
         </div>
         <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
         <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
-        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 숫자 8의 누적 설명 분산</a></li><li><a href="#p2">P2. 주성분 평면에 놓인 숫자 0과 1</a></li><li><a href="#p3">P3. 주성분 개수와 숫자 8의 복원</a></li><li><a href="#p4">P4. 가로로 긴 행렬의 특잇값 분해</a></li><li><a href="#p5">P5. 영화 평점 행렬의 랭크 2 근사</a></li><li><a href="#p6">P6. 사영을 뺀 나머지도 사영일까</a></li><li><a href="#p7">P7. 왼쪽 특이벡터부터 구하는 특잇값 분해</a></li><li><a href="#p8">P8. 2×2 행렬의 특잇값 분해</a></li><li><a href="#p9">P9. 가장 큰 특잇값으로 만든 랭크 1 근사</a></li><li><a href="#p10">P10. 행렬이 벡터의 길이를 가장 크게 늘리는 비율</a></li></ul></nav>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1"><span class="toc-title">P1. 숫자 8의 누적 설명 분산</span></a></li><li><a href="#p2"><span class="toc-title">P2. 주성분 평면에 놓인 숫자 0과 1</span></a></li><li><a href="#p3"><span class="toc-title">P3. 주성분 개수와 숫자 8의 복원</span></a></li><li><a href="#p4"><span class="toc-title">P4. 가로로 긴 행렬의 특잇값 분해</span></a></li><li><a href="#p5"><span class="toc-title">P5. 영화 평점 행렬의 랭크 2 근사</span></a></li><li><a href="#p6"><span class="toc-title">P6. 사영을 뺀 나머지도 사영일까</span></a></li><li><a href="#p7"><span class="toc-title">P7. 왼쪽 특이벡터부터 구하는 특잇값 분해</span></a></li><li><a href="#p8"><span class="toc-title">P8. 2×2 행렬의 특잇값 분해</span></a></li><li><a href="#p9"><span class="toc-title">P9. 가장 큰 특잇값으로 만든 랭크 1 근사</span></a></li><li><a href="#p10"><span class="toc-title">P10. 행렬이 벡터의 길이를 가장 크게 늘리는 비율</span></a></li></ul></nav>
       </div>
     </aside>
     <aside class="panel panel-prob" id="panel-prob" aria-labelledby="panel-prob-title">
@@ -1909,6 +1909,16 @@
       function markToc(done, total, doneLabel) {
         panels.left.querySelectorAll('.toc-list a').forEach((a) => {
           const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          if (!a.querySelector('.toc-title')) {
+            const title = document.createElement('span');
+            title.className = 'toc-title';
+            Array.from(a.childNodes).forEach((node) => {
+              if (node.nodeType !== 1 || (!node.classList.contains('toc-mark') && !node.classList.contains('toc-state'))) {
+                title.appendChild(node);
+              }
+            });
+            a.prepend(title);
+          }
           let mark = a.querySelector('.toc-mark');
           if (!mark) {
             mark = document.createElement('span');
@@ -2405,6 +2415,13 @@
         });
         group.appendChild(list);
       });
+      if (!tocLinks.length) {
+        const byId = new Map(screens.map((s, i) => [s.id, i]));
+        toc.querySelectorAll('.toc-list a[href^="#"]').forEach((link) => {
+          const id = decodeURIComponent(link.getAttribute('href').slice(1));
+          if (byId.has(id)) tocLinks[byId.get(id)] = link;
+        });
+      }
 
       function indexFor(hash) {
         const id = decodeURIComponent((hash || '').replace(/^#/, ''));

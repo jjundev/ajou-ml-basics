@@ -154,3 +154,66 @@ def test_math_row_and_table_spacing(tmp_path, width):
         assert not metrics['overflowX']
         assert metrics['katexErrors'] == 0
         browser.close()
+
+
+@pytest.mark.parametrize('width', [1280, 375])
+def test_toc_checkmarks_align_in_single_column_and_track_current(tmp_path, width):
+    pw = pytest.importorskip('playwright.sync_api')
+    pack = load_source(ROOT / '과제/과제1/과제1_Homework1.html', ROOT)
+    titles = [
+        'P1. 짧은 제목',
+        'P2. 중간 길이의 문제 제목 확인',
+        'P3. 좌측 목차 폭을 넘어서 두 줄 이상으로 줄바꿈되는 아주 긴 문제 제목 테스트',
+    ]
+    problems = tuple(replace(p, title=t) for p, t in zip(pack.problems[:3], titles))
+    pack = replace(pack, problems=problems)
+    artifact = build_explanation(
+        pack,
+        {p.id: fragment(p) for p in pack.problems},
+        course_stage(tmp_path),
+        ROOT,
+    )
+    with pw.sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        page = browser.new_page(viewport={'width': width, 'height': 900})
+        page.goto(artifact.html.as_uri(), wait_until='networkidle')
+        page.locator('#pager-next').click()
+        page.locator('#p1').wait_for(state='visible')
+        page.locator('#pager-next').click()
+        page.locator('#p2').wait_for(state='visible')
+        if width == 375:
+            page.locator('#toggle-left').click()
+            page.locator('#panel-left.is-open').wait_for(state='visible')
+        page.wait_for_timeout(150)
+        info = page.evaluate('''() => {
+            const links = Array.from(document.querySelectorAll('#panel-left .toc-list a'));
+            const rects = links.map((a) => {
+                const mark = a.querySelector('.toc-mark');
+                const r = mark ? mark.getBoundingClientRect() : null;
+                return {
+                    href: a.getAttribute('href'),
+                    hasTitle: Boolean(a.querySelector('.toc-title')),
+                    hasMark: Boolean(mark),
+                    ariaCurrent: a.getAttribute('aria-current'),
+                    left: r ? r.left : null,
+                    right: r ? r.right : null,
+                };
+            });
+            return {
+                rects,
+                katexErrors: document.querySelectorAll('.katex-error').length,
+                overflowX: document.documentElement.scrollWidth > window.innerWidth + 1,
+            };
+        }''')
+        assert len(info['rects']) == 3
+        assert all(r['hasTitle'] and r['hasMark'] for r in info['rects'])
+        lefts = [r['left'] for r in info['rects']]
+        rights = [r['right'] for r in info['rects']]
+        assert max(lefts) - min(lefts) <= 1.0
+        assert max(rights) - min(rights) <= 1.0
+        by_href = {r['href']: r for r in info['rects']}
+        assert by_href['#p2']['ariaCurrent'] == 'true'
+        assert by_href['#p1']['ariaCurrent'] == 'false'
+        assert info['katexErrors'] == 0
+        assert not info['overflowX']
+        browser.close()

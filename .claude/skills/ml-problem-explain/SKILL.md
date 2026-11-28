@@ -46,7 +46,7 @@ description: 머신러닝기초의 기존 복습문제·과제·중간고사 예
    uv run python .claude/skills/ml-problem-explain/scripts/mpe_cli.py check --run tmp/ml-problem-explain/hw1-first
    ```
 
-6. [검토 기록](references/verification.md)을 읽고 실제 내용·답·원문 대조 결과를 `review.json`에 기록한다. 읽은 저장소 자료의 path/hash를 references에 기록한다. 로컬 브라우저에서 1280×900/375×812, 두 테마, 목차·이전/다음·요약·수식·그림·링크를 확인한다. 콘솔·KaTeX 오류, 누락 자원, 문서 가로 넘침은 0이어야 한다. 자원은 동봉된 로컬 KaTeX/Pretendard를 쓰며 외부 요청이 없어야 한다. stage의 원 문제/개념 링크는 최종 발행 디렉터리 기준이므로 대상 원 파일의 실제 anchor도 별도로 확인한다.
+6. [검토 기록](references/verification.md)을 읽고 실제 내용·답·원문 대조 결과를 `review.json`에 기록한다. 읽은 저장소 자료의 path/hash를 references에 기록한다. 로컬 브라우저에서 1280×900/375×812, 두 테마, 목차(좌측 체크표시 `.toc-mark` 우측 단일 열 정렬 및 현재 문항 `aria-current="true"` 강조 포함)·이전/다음·요약·수식·그림·링크를 확인한다. 콘솔·KaTeX 오류, 누락 자원, 문서 가로 넘침은 0이어야 한다. 자원은 동봉된 로컬 KaTeX/Pretendard를 쓰며 외부 요청이 없어야 한다. stage의 원 문제/개념 링크는 최종 발행 디렉터리 기준이므로 대상 원 파일의 실제 anchor도 별도로 확인한다.
 7. 승인된 review.json과 현재 해시가 일치하면 발행한다. 추가 확인 요청 없이 사용자 호출 범위에서 실행한다. 입력·참조·산출 파일 변경, 미검토, 실패는 발행을 막는다. 파일 교체 실패는 백업으로 복구한다.
 
    ```powershell

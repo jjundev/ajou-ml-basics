@@ -565,7 +565,7 @@
         </div>
         <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
         <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
-        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 2×2 행렬의 고윳값과 고유공간</a></li><li><a href="#p2">P2. 겹친 고윳값과 고유공간의 차원</a></li><li><a href="#p3">P3. 대칭행렬의 직교 고유벡터 만들기</a></li><li><a href="#p4">P4. 대칭행렬의 고윳값 분해</a></li><li><a href="#p5">P5. 3×3 행렬식과 열의 일차독립</a></li><li><a href="#p6">P6. 두 행렬의 고유공간과 직교</a></li><li><a href="#p7">P7. 대각화 가능성과 가역성은 따로예요</a></li><li><a href="#p8">P8. 고유공간으로 대각화 판정하기</a></li><li><a href="#p9">P9. 대각화되는지 판정하고 대각 꼴 구하기</a></li><li><a href="#p10">P10. 두 대칭행렬이 나눠 갖는 고윳값</a></li></ul></nav>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1"><span class="toc-title">P1. 2×2 행렬의 고윳값과 고유공간</span></a></li><li><a href="#p2"><span class="toc-title">P2. 겹친 고윳값과 고유공간의 차원</span></a></li><li><a href="#p3"><span class="toc-title">P3. 대칭행렬의 직교 고유벡터 만들기</span></a></li><li><a href="#p4"><span class="toc-title">P4. 대칭행렬의 고윳값 분해</span></a></li><li><a href="#p5"><span class="toc-title">P5. 3×3 행렬식과 열의 일차독립</span></a></li><li><a href="#p6"><span class="toc-title">P6. 두 행렬의 고유공간과 직교</span></a></li><li><a href="#p7"><span class="toc-title">P7. 대각화 가능성과 가역성은 따로예요</span></a></li><li><a href="#p8"><span class="toc-title">P8. 고유공간으로 대각화 판정하기</span></a></li><li><a href="#p9"><span class="toc-title">P9. 대각화되는지 판정하고 대각 꼴 구하기</span></a></li><li><a href="#p10"><span class="toc-title">P10. 두 대칭행렬이 나눠 갖는 고윳값</span></a></li></ul></nav>
       </div>
     </aside>
     <aside class="panel panel-prob" id="panel-prob" aria-labelledby="panel-prob-title">
@@ -2005,6 +2005,16 @@
       function markToc(done, total, doneLabel) {
         panels.left.querySelectorAll('.toc-list a').forEach((a) => {
           const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          if (!a.querySelector('.toc-title')) {
+            const title = document.createElement('span');
+            title.className = 'toc-title';
+            Array.from(a.childNodes).forEach((node) => {
+              if (node.nodeType !== 1 || (!node.classList.contains('toc-mark') && !node.classList.contains('toc-state'))) {
+                title.appendChild(node);
+              }
+            });
+            a.prepend(title);
+          }
           let mark = a.querySelector('.toc-mark');
           if (!mark) {
             mark = document.createElement('span');
@@ -2501,6 +2511,13 @@
         });
         group.appendChild(list);
       });
+      if (!tocLinks.length) {
+        const byId = new Map(screens.map((s, i) => [s.id, i]));
+        toc.querySelectorAll('.toc-list a[href^="#"]').forEach((link) => {
+          const id = decodeURIComponent(link.getAttribute('href').slice(1));
+          if (byId.has(id)) tocLinks[byId.get(id)] = link;
+        });
+      }
 
       function indexFor(hash) {
         const id = decodeURIComponent((hash || '').replace(/^#/, ''));

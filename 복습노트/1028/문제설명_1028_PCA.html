@@ -565,7 +565,7 @@
         </div>
         <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
         <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
-        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 좌표 하나만 기억하기</a></li><li><a href="#p2">P2. 서로 수직이고 길이가 1인 두 벡터</a></li><li><a href="#p3">P3. 길이가 1이 아닌 기저로 읽는 좌표</a></li><li><a href="#p4">P4. 완전제곱으로 보는 양의 정부호</a></li><li><a href="#p5">P5. $\mathbb{R}^5$ 속 3차원 부분공간으로 내린 그림자</a></li></ul></nav>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1"><span class="toc-title">P1. 좌표 하나만 기억하기</span></a></li><li><a href="#p2"><span class="toc-title">P2. 서로 수직이고 길이가 1인 두 벡터</span></a></li><li><a href="#p3"><span class="toc-title">P3. 길이가 1이 아닌 기저로 읽는 좌표</span></a></li><li><a href="#p4"><span class="toc-title">P4. 완전제곱으로 보는 양의 정부호</span></a></li><li><a href="#p5"><span class="toc-title">P5. $\mathbb{R}^5$ 속 3차원 부분공간으로 내린 그림자</span></a></li></ul></nav>
       </div>
     </aside>
     <aside class="panel panel-prob" id="panel-prob" aria-labelledby="panel-prob-title">
@@ -1306,6 +1306,16 @@
       function markToc(done, total, doneLabel) {
         panels.left.querySelectorAll('.toc-list a').forEach((a) => {
           const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          if (!a.querySelector('.toc-title')) {
+            const title = document.createElement('span');
+            title.className = 'toc-title';
+            Array.from(a.childNodes).forEach((node) => {
+              if (node.nodeType !== 1 || (!node.classList.contains('toc-mark') && !node.classList.contains('toc-state'))) {
+                title.appendChild(node);
+              }
+            });
+            a.prepend(title);
+          }
           let mark = a.querySelector('.toc-mark');
           if (!mark) {
             mark = document.createElement('span');
@@ -1802,6 +1812,13 @@
         });
         group.appendChild(list);
       });
+      if (!tocLinks.length) {
+        const byId = new Map(screens.map((s, i) => [s.id, i]));
+        toc.querySelectorAll('.toc-list a[href^="#"]').forEach((link) => {
+          const id = decodeURIComponent(link.getAttribute('href').slice(1));
+          if (byId.has(id)) tocLinks[byId.get(id)] = link;
+        });
+      }
 
       function indexFor(hash) {
         const id = decodeURIComponent((hash || '').replace(/^#/, ''));

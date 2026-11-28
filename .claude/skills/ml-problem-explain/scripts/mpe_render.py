@@ -200,7 +200,7 @@ def build_explanation(pack, fragments, stage: Path, repo: Path) -> Artifacts:
         articles.append(f'<article class="topic" id="{p.id}"><h3>{html.escape(p.title)}</h3>'
                         + f'<p class="panel-meta">{html.escape(p.source)} · <a href="{original_link}">원 문제 보기</a></p>'
                         + reading + explanation + '</article>')
-        toc.append(f'<li><a href="#{p.id}">{html.escape(p.title)}</a></li>')
+        toc.append(f'<li><a href="#{p.id}"><span class="toc-title">{html.escape(p.title)}</span></a></li>')
         (data_dir / 'fragments').mkdir(exist_ok=True)
         (data_dir / 'fragments' / f'{p.id}.html').write_text(normalized, encoding='utf-8', newline='\n')
     title = f'머신러닝기초 {({"homework": "과제", "midterm": "중간고사"}).get(pack.profile, "복습")} {pack.range} 문제설명'
@@ -286,6 +286,13 @@ def check_artifacts(pack, artifacts):
         topics = list(document.find_all(lambda n: n.tag == 'article' and 'topic' in n.classes))
         if [n.attrs.get('id') for n in topics] != [p.id for p in pack.problems]:
             errors.append('문항 순서/ID 불일치')
+        toc_lists = list(document.find_all(lambda n: n.tag in ('ul', 'ol') and 'toc-list' in n.classes))
+        toc_links = [a for lst in toc_lists for a in lst.find_all(lambda n: n.tag == 'a')]
+        if len(toc_links) != len(pack.problems) or any(
+            not any(s.tag == 'span' and 'toc-title' in s.classes for s in a.find_all(lambda n: True))
+            for a in toc_links
+        ):
+            errors.append('목차 링크 .toc-title 누락')
         for p in pack.problems:
             reading = list(document.find_all(lambda n: n.attrs.get('data-source-problem') == p.id))
             if len(reading) != 1:

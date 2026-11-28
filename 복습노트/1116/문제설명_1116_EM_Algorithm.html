@@ -565,7 +565,7 @@
         </div>
         <p class="panel-meta">읽은 토픽 <b id="progress-n">0</b> / <span id="progress-total">0</span></p>
         <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
-        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1">P1. 총 책임도로 혼합 가중치 갱신하기</a></li><li><a href="#p2">P2. 책임도 표로 평균 갱신하기</a></li><li><a href="#p3">P3. 교과서 책임도 표로 평균 갱신하기</a></li><li><a href="#p4">P4. 갱신된 평균으로 분산 갱신하기</a></li><li><a href="#p5">P5. 수렴한 GMM을 초기값과 비교하기</a></li><li><a href="#p6">P6. 최소제곱 손실의 기울기와 차원</a></li><li><a href="#p7">P7. 분수로 분산 갱신하기</a></li><li><a href="#p8">P8. 벡터와 행렬로 스칼라 함수 미분하기</a></li></ul></nav>
+        <nav class="toc" aria-label="목차"><ul class="toc-list"><li><a href="#p1"><span class="toc-title">P1. 총 책임도로 혼합 가중치 갱신하기</span></a></li><li><a href="#p2"><span class="toc-title">P2. 책임도 표로 평균 갱신하기</span></a></li><li><a href="#p3"><span class="toc-title">P3. 교과서 책임도 표로 평균 갱신하기</span></a></li><li><a href="#p4"><span class="toc-title">P4. 갱신된 평균으로 분산 갱신하기</span></a></li><li><a href="#p5"><span class="toc-title">P5. 수렴한 GMM을 초기값과 비교하기</span></a></li><li><a href="#p6"><span class="toc-title">P6. 최소제곱 손실의 기울기와 차원</span></a></li><li><a href="#p7"><span class="toc-title">P7. 분수로 분산 갱신하기</span></a></li><li><a href="#p8"><span class="toc-title">P8. 벡터와 행렬로 스칼라 함수 미분하기</span></a></li></ul></nav>
       </div>
     </aside>
     <aside class="panel panel-prob" id="panel-prob" aria-labelledby="panel-prob-title">
@@ -1809,6 +1809,16 @@
       function markToc(done, total, doneLabel) {
         panels.left.querySelectorAll('.toc-list a').forEach((a) => {
           const id = decodeURIComponent(a.getAttribute('href').slice(1));
+          if (!a.querySelector('.toc-title')) {
+            const title = document.createElement('span');
+            title.className = 'toc-title';
+            Array.from(a.childNodes).forEach((node) => {
+              if (node.nodeType !== 1 || (!node.classList.contains('toc-mark') && !node.classList.contains('toc-state'))) {
+                title.appendChild(node);
+              }
+            });
+            a.prepend(title);
+          }
           let mark = a.querySelector('.toc-mark');
           if (!mark) {
             mark = document.createElement('span');
@@ -2305,6 +2315,13 @@
         });
         group.appendChild(list);
       });
+      if (!tocLinks.length) {
+        const byId = new Map(screens.map((s, i) => [s.id, i]));
+        toc.querySelectorAll('.toc-list a[href^="#"]').forEach((link) => {
+          const id = decodeURIComponent(link.getAttribute('href').slice(1));
+          if (byId.has(id)) tocLinks[byId.get(id)] = link;
+        });
+      }
 
       function indexFor(hash) {
         const id = decodeURIComponent((hash || '').replace(/^#/, ''));
